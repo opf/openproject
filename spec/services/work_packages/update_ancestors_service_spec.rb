@@ -34,16 +34,11 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
   shared_association_default(:priority) { create(:priority) }
   shared_association_default(:open_status, factory_name: :status) { create(:status, name: "Open", default_done_ratio: 0) }
   shared_let(:closed_status) { create(:closed_status, name: "Closed", default_done_ratio: 100) }
+  shared_let(:rejected_status) { create(:rejected_status, default_done_ratio: 20) }
   shared_let(:user) { create(:user) }
 
-  let(:estimated_hours) { [nil, nil, nil] }
-  let(:done_ratios) { [0, 0, 0] }
-  let(:statuses) { %i(open open open) }
-  let(:aggregate_done_ratio) { 0.0 }
-  let(:ignore_non_working_days) { [false, false, false] }
-
   # In order to have dependent values computed, this leverages
-  # the SetAttributesService to mimick how attributes are set
+  # the SetAttributesService to mimic how attributes are set
   # on work packages prior to the UpdateAncestorsService being
   # executed.
   def set_attributes_on(work_package, attributes)
@@ -54,82 +49,81 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       .call(attributes)
   end
 
-  describe "done_ratio/estimated_hours/remaining_hours propagation" do
-    context "when setting the status of a work package" do
-      context 'when using the "status-based" % complete mode',
-              with_settings: { work_package_done_ratio: "status" } do
-        def call_update_ancestors_service(work_package)
-          changed_attributes = work_package.changes.keys.map(&:to_sym)
-          described_class.new(user:, work_package:)
-                          .call(changed_attributes)
-        end
+  def call_update_ancestors_service(work_package)
+    changed_attributes = work_package.changes.keys.map(&:to_sym)
+    described_class.new(user:, work_package:)
+                    .call(changed_attributes)
+  end
 
-        context "with both parent and children having estimated hours set" do
-          shared_let(:parent) do
-            create(:work_package,
-                   subject: "parent",
-                   estimated_hours: 10.0,
-                   remaining_hours: 10.0,
-                   derived_estimated_hours: 15.0,
-                   derived_remaining_hours: 15.0,
-                   status: open_status)
-          end
-          shared_let(:child) do
-            create(:work_package,
-                   subject: "child",
-                   parent:,
-                   estimated_hours: 5.0,
-                   remaining_hours: 5.0,
-                   status: open_status)
-          end
+  describe "work, remaining work, and % complete propagation" do
+    context 'when using the "status-based" progress calculation mode',
+            with_settings: { work_package_done_ratio: "status" } do
+      context "with both parent and children having work set" do
+        shared_let_work_packages(<<~TABLE)
+          hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+          parent    | Open   |  10h |    15h |            10h |              15h |         0% |           0%
+            child   | Open   |   5h |        |             5h |                  |         0% |
+        TABLE
 
-          context "when changing child status to a status with a default done ratio" do
-            %i[status status_id].each do |field|
-              context "with the #{field} field" do
-                it "recomputes child remaining work and updates ancestors total % complete accordingly" do
-                  value =
-                    case field
-                    when :status then closed_status
-                    when :status_id then closed_status.id
-                    end
-                  set_attributes_on(child, field => value)
-                  call_update_ancestors_service(child)
+        context "when changing child status to a status with a default % complete ratio" do
+          %i[status status_id].each do |field|
+            context "with the #{field} field" do
+              it "recomputes child remaining work and updates ancestors total % complete accordingly" do
+                value =
+                  case field
+                  when :status then closed_status
+                  when :status_id then closed_status.id
+                  end
+                set_attributes_on(child, field => value)
+                call_update_ancestors_service(child)
 
-                  expect_work_packages([parent, child], <<~TABLE)
-                    | subject | work | total work | remaining work | total remaining work | % complete | total % complete |
-                    | parent  |  10h |        15h |            10h |                  10h |         0% |              33% |
-                    |   child |   5h |            |             0h |                      |       100% |                  |
-                  TABLE
-                end
+                expect_work_packages([parent, child], <<~TABLE)
+                  | subject | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete |
+                  | parent  | Open   |  10h |    15h |            10h |              10h |         0% |          33% |
+                  |   child | Closed |   5h |        |             0h |                  |       100% |              |
+                TABLE
               end
             end
           end
         end
 
-        context "with parent having nothing set, and 2 children having values set (bug #54179)" do
-          let_work_packages(<<~TABLE)
-            hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
-            parent    | Open   |      |    15h |                |              10h |         0% |          33%
-              child1  | Open   |  10h |        |            10h |                  |         0% |
-              child2  | Closed |   5h |        |             0h |                  |       100% |
-          TABLE
+        context "when changing child status to a status excluded from totals calculation" do
+          before do
+            set_attributes_on(child, status: rejected_status)
+            call_update_ancestors_service(child)
+          end
 
-          context "when changing children to all have 100% complete" do
-            before do
-              set_attributes_on(child1, status: closed_status)
-              call_update_ancestors_service(child1)
-            end
+          it "still recomputes child remaining work and updates ancestors total % complete excluding it" do
+            expect_work_packages([parent, child], <<~TABLE)
+              | subject | status   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete |
+              | parent  | Open     |  10h |    10h |            10h |              10h |         0% |           0% |
+              |   child | Rejected |   5h |        |             4h |                  |        20% |              |
+            TABLE
+          end
+        end
+      end
 
-            it "sets parent total % complete to 100% and its total remaining work to 0h, " \
-               "and computes totals for the updated children too" do
-              table_work_packages.map(&:reload)
-              expect_work_packages(table_work_packages, <<~TABLE)
-                hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
-                parent    | Open   |      |    15h |                |               0h |         0% |         100%
-                  child1  | Closed |  10h |        |             0h |                  |       100% |
-                  child2  | Closed |   5h |        |             0h |                  |       100% |
-              TABLE
-            end
+      context "with parent having nothing set, and 2 children having values set (bug #54179)" do
+        shared_let_work_packages(<<~TABLE)
+          hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+          parent    | Open   |      |    15h |                |              10h |         0% |          33%
+            child1  | Open   |  10h |        |            10h |                  |         0% |
+            child2  | Closed |   5h |        |             0h |                  |       100% |
+        TABLE
+
+        context "when changing children to all have 100% complete" do
+          before do
+            set_attributes_on(child1, status: closed_status)
+            call_update_ancestors_service(child1)
+          end
+
+          it "sets parent total % complete to 100% and its total remaining work to 0h" do
+            expect_work_packages(table_work_packages, <<~TABLE)
+              hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+              parent    | Open   |      |    15h |                |               0h |         0% |         100%
+                child1  | Closed |  10h |        |             0h |                  |       100% |
+                child2  | Closed |   5h |        |             0h |                  |       100% |
+            TABLE
           end
         end
       end
@@ -137,459 +131,228 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
     context "for the new ancestor chain" do
       shared_examples "attributes of parent having children" do
-        before do
-          children
-        end
-
         it "is a success" do
           expect(subject)
           .to be_success
         end
 
-        it "updated one work package - the parent" do
+        it "updates one work package - the parent" do
           expect(subject.dependent_results.map(&:result))
           .to contain_exactly(parent)
         end
 
-        it "has the expected derived done ratio" do
+        it "has the expected total % complete" do
           expect(subject.dependent_results.first.result.derived_done_ratio)
-          .to eq aggregate_done_ratio
+          .to eq expected_total_p_complete
         end
 
-        it "has the expected derived estimated_hours" do
+        it "has the expected total work" do
           expect(subject.dependent_results.first.result.derived_estimated_hours)
-          .to eq aggregate_estimated_hours
+          .to eq expected_total_work
         end
 
-        it "has the expected derived remaining_hours" do
+        it "has the expected total remaining work" do
           expect(subject.dependent_results.first.result.derived_remaining_hours)
-            .to eq aggregate_remaining_hours
+            .to eq expected_total_remaining_work
         end
       end
 
-      context "when on field-based mode for % complete" do
-        let(:children) do
-          (statuses.size - 1).downto(0).map do |i|
-            create(:work_package,
-                   parent:,
-                   subject: "child #{i}",
-                   estimated_hours: estimated_hours[i],
-                   remaining_hours: remaining_hours[i],
-                   ignore_non_working_days:)
+      shared_context "when work is changed" do
+        subject do
+          # On work-based mode, changing estimated_hours
+          # entails done_ratio also changing when going
+          # through the SetAttributesService
+          described_class
+            .new(user:,
+                 work_package: child1)
+            .call(%i(estimated_hours done_ratio))
+        end
+      end
+
+      shared_context "when remaining work is changed" do
+        subject do
+          # On work-based mode, changing remaining work
+          # entails % complete also changing when going
+          # through the SetAttributesService
+          described_class
+            .new(user:,
+                 work_package: child1)
+            .call(%i(remaining_hours done_ratio))
+        end
+      end
+
+      context "without any work or % complete being set" do
+        shared_let_work_packages(<<~TABLE)
+          hierarchy   | work | remaining work | % complete
+          parent      |      |                |
+            child1    |      |                |
+            child2    |      |                |
+            child3    |      |                |
+        TABLE
+
+        for_each_context "when work is changed",
+                         "when remaining work is changed" do
+          it "is a success" do
+            expect(subject)
+              .to be_success
+          end
+
+          it "does not update the parent" do
+            expect(subject.dependent_results)
+              .to be_empty
           end
         end
+      end
 
-        shared_let(:parent) { create(:work_package, subject: "parent", status: open_status) }
+      context "with all children tasks having work and remaining work set" do
+        shared_let_work_packages(<<~TABLE)
+          hierarchy   | work | remaining work | % complete
+          parent      |      |                |
+            child1    |  10h |             0h |       100%
+            child2    |  10h |             0h |       100%
+            child3    |  10h |            10h |         0%
+        TABLE
 
-        context "when estimated_hours is changed" do
-          subject do
-            # On field-based mode, changing estimated_hours
-            # entails done_ratio also changing when going
-            # through the SetAttributesService
-            described_class
-              .new(user:,
-                   work_package: children.first)
-              .call(%i(estimated_hours done_ratio))
-          end
-
-          context "with no estimated hours and no progress" do
-            let(:estimated_hours) { [nil, nil, nil] }
-            let(:remaining_hours) { [nil, nil, nil] }
-
-            it "is a success" do
-              expect(subject)
-                .to be_success
+        for_each_context "when work is changed",
+                         "when remaining work is changed" do
+          it_behaves_like "attributes of parent having children" do
+            let(:expected_total_work) do
+              30.0
             end
-
-            it "does not update the parent" do
-              expect(subject.dependent_results)
-                .to be_empty
+            let(:expected_total_remaining_work) do
+              10.0
             end
-          end
-
-          context "with all tasks having estimated hours and some having progress done already" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, 10.0, 10.0]
-              end
-              let(:remaining_hours) do
-                [0.0, 0.0, 10.0]
-              end
-
-              let(:aggregate_estimated_hours) do
-                30.0
-              end
-              let(:aggregate_remaining_hours) do
-                10.0
-              end
-              let(:aggregate_done_ratio) do
-                67
-              end
-            end
-          end
-
-          context "with all tasks having estimated hours and all having progress done already" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, 10.0, 10.0]
-              end
-              let(:remaining_hours) do
-                [2.5, 2.5, 10.0]
-              end
-
-              let(:aggregate_estimated_hours) do
-                30.0
-              end
-              let(:aggregate_remaining_hours) do
-                15.0
-              end
-              let(:aggregate_done_ratio) do
-                50
-              end
-            end
-          end
-
-          context "with all tasks having estimated hours and no tasks having any remaining hours" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, 2.0, 3.0]
-              end
-              let(:remaining_hours) do
-                [0.0, 0.0, 0.0]
-              end
-
-              let(:aggregate_estimated_hours) do
-                15.0
-              end
-              let(:aggregate_remaining_hours) do
-                0.0
-              end
-              let(:aggregate_done_ratio) do
-                100
-              end
-            end
-          end
-
-          context "with all tasks having estimated hours and no tasks having progress set" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, 2.0, 3.0]
-              end
-              let(:remaining_hours) do
-                [nil, nil, nil]
-              end
-
-              let(:aggregate_estimated_hours) do
-                15.0
-              end
-              let(:aggregate_remaining_hours) do
-                nil
-              end
-              let(:aggregate_done_ratio) do
-                nil
-              end
-            end
-          end
-
-          context "with some tasks having estimated hours and none having progress set" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, nil, nil]
-              end
-              let(:remaining_hours) do
-                [nil, nil, nil]
-              end
-
-              let(:aggregate_estimated_hours) do
-                10.0
-              end
-              let(:aggregate_remaining_hours) do
-                nil
-              end
-              let(:aggregate_done_ratio) do
-                nil
-              end
-            end
-          end
-
-          context "with some tasks having estimated hours and those that do also having progress done" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, nil, nil]
-              end
-              let(:remaining_hours) do
-                [2.5, nil, nil]
-              end
-
-              let(:aggregate_estimated_hours) do
-                10.0
-              end
-              let(:aggregate_remaining_hours) do
-                2.5
-              end
-              let(:aggregate_done_ratio) do
-                75
-              end
-            end
-          end
-
-          context "with the parent having estimated hours and progress" do
-            shared_let(:parent) do
-              create(:work_package,
-                     subject: "parent",
-                     estimated_hours: 10.0,
-                     remaining_hours: 5.0)
-            end
-
-            context "and some tasks having estimated hours and some progress" do
-              it_behaves_like "attributes of parent having children" do
-                let(:estimated_hours) do
-                  [10.0, nil, nil]
-                end
-                let(:remaining_hours) do
-                  [2.5, nil, nil]
-                end
-
-                # Parent's estimated and remaining hours are taken into account
-                let(:aggregate_estimated_hours) do
-                  20.0
-                end
-                let(:aggregate_remaining_hours) do
-                  7.5
-                end
-                let(:aggregate_done_ratio) do
-                  63
-                end
-              end
-            end
-
-            context "and no tasks having estimated hours or progress" do
-              it_behaves_like "attributes of parent having children" do
-                let(:estimated_hours) do
-                  [nil, nil, nil]
-                end
-                let(:remaining_hours) do
-                  [nil, nil, nil]
-                end
-
-                # Parent's estimated hours and remaining hours become the aggregated values
-                let(:aggregate_estimated_hours) do
-                  10.0
-                end
-                let(:aggregate_remaining_hours) do
-                  5.0
-                end
-                let(:aggregate_done_ratio) do
-                  50
-                end
-              end
+            let(:expected_total_p_complete) do
+              67
             end
           end
         end
+      end
 
-        context "when remaining_hours is changed" do
-          subject do
-            # On field-based mode, changing remaining_hours
-            # entails done_ratio also changing when going
-            # through the SetAttributesService
-            described_class
-              .new(user:,
-                   work_package: children.first)
-              .call(%i(remaining_hours done_ratio))
-          end
+      context "with all children tasks having work and remaining work set (second example)" do
+        shared_let_work_packages(<<~TABLE)
+          hierarchy   | work | remaining work | % complete
+          parent      |      |                |
+            child1    |  10h |           2.5h |        75%
+            child2    |  10h |           2.5h |        75%
+            child3    |  10h |            10h |         0%
+        TABLE
 
-          context "with no estimated hours and no progress" do
-            let(:estimated_hours) { [nil, nil, nil] }
-            let(:remaining_hours) { [nil, nil, nil] }
-            # let(:statuses) { %i(open open open) }
-
-            it "is a success" do
-              expect(subject)
-                .to be_success
+        for_each_context "when work is changed",
+                         "when remaining work is changed" do
+          it_behaves_like "attributes of parent having children" do
+            let(:expected_total_work) do
+              30.0
             end
-
-            it "does not update the parent" do
-              expect(subject.dependent_results)
-                .to be_empty
+            let(:expected_total_remaining_work) do
+              15.0
+            end
+            let(:expected_total_p_complete) do
+              50
             end
           end
+        end
+      end
 
-          context "with all tasks having estimated hours and some having progress done already" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, 10.0, 10.0]
-              end
-              let(:remaining_hours) do
-                [0.0, 0.0, 10.0]
-              end
+      context "with all children tasks having work set to positive value, and having remaining work set to 0h" do
+        shared_let_work_packages(<<~TABLE)
+          hierarchy   | work | remaining work | % complete
+          parent      |      |                |
+            child1    |  10h |             0h |       100%
+            child2    |   2h |             0h |       100%
+            child3    |   3h |             0h |       100%
+        TABLE
 
-              let(:aggregate_estimated_hours) do
-                30.0
-              end
-              let(:aggregate_remaining_hours) do
-                10.0
-              end
-              let(:aggregate_done_ratio) do
-                67
-              end
+        for_each_context "when work is changed",
+                         "when remaining work is changed" do
+          it_behaves_like "attributes of parent having children" do
+            let(:expected_total_work) do
+              15.0
+            end
+            let(:expected_total_remaining_work) do
+              0.0
+            end
+            let(:expected_total_p_complete) do
+              100
             end
           end
+        end
+      end
 
-          context "with all tasks having estimated hours and all having progress done already" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, 10.0, 10.0]
-              end
-              let(:remaining_hours) do
-                [2.5, 2.5, 10.0]
-              end
+      context "with some children tasks having work and remaining work set" do
+        shared_let_work_packages(<<~TABLE)
+          hierarchy   | work | remaining work | % complete
+          parent      |      |                |
+            child1    |  10h |           2.5h |        75%
+            child2    |      |                |
+            child3    |      |                |
+        TABLE
 
-              let(:aggregate_estimated_hours) do
-                30.0
-              end
-              let(:aggregate_remaining_hours) do
-                15.0
-              end
-              let(:aggregate_done_ratio) do
-                50
-              end
+        for_each_context "when work is changed",
+                         "when remaining work is changed" do
+          it_behaves_like "attributes of parent having children" do
+            let(:expected_total_work) do
+              10.0
+            end
+            let(:expected_total_remaining_work) do
+              2.5
+            end
+            let(:expected_total_p_complete) do
+              75
             end
           end
+        end
+      end
 
-          context "with all tasks having estimated hours and no tasks having remaining hours" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, 2.0, 3.0]
-              end
-              let(:remaining_hours) do
-                [0.0, 0.0, 0.0]
-              end
+      context "with the parent having work and % complete set " \
+              "and some children tasks having work and % complete set" do
+        shared_let_work_packages(<<~TABLE)
+          hierarchy   | work | remaining work | % complete
+          parent      |  10h |             5h |        50%
+            child1    |  10h |           2.5h |        75%
+            child2    |      |                |
+            child3    |      |                |
+        TABLE
 
-              let(:aggregate_estimated_hours) do
-                15.0
-              end
-              let(:aggregate_remaining_hours) do
-                0.0
-              end
-              let(:aggregate_done_ratio) do
-                100
-              end
+        for_each_context "when work is changed",
+                         "when remaining work is changed" do
+          it_behaves_like "attributes of parent having children" do
+            # Parent's work and remaining work are taken into account
+            let(:expected_total_work) do
+              20.0
+            end
+            let(:expected_total_remaining_work) do
+              7.5
+            end
+            let(:expected_total_p_complete) do
+              63
             end
           end
+        end
+      end
 
-          context "with all tasks having estimated hours and no tasks having progress set" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, 2.0, 3.0]
-              end
-              let(:remaining_hours) do
-                [nil, nil, nil]
-              end
+      context "with the parent having work and % complete set " \
+              "and no children tasks having work or % complete set" do
+        shared_let_work_packages(<<~TABLE)
+          hierarchy   | work | remaining work | % complete
+          parent      |  10h |             5h |        50%
+            child1    |      |                |
+            child2    |      |                |
+            child3    |      |                |
+        TABLE
 
-              let(:aggregate_estimated_hours) do
-                15.0
-              end
-              let(:aggregate_remaining_hours) do
-                nil
-              end
-              let(:aggregate_done_ratio) do
-                nil
-              end
+        for_each_context "when work is changed",
+                         "when remaining work is changed" do
+          it_behaves_like "attributes of parent having children" do
+            # Parent's work and remaining work become the total values
+            let(:expected_total_work) do
+              10.0
             end
-          end
-
-          context "with some tasks having estimated hours and none having progress set" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, nil, nil]
-              end
-              let(:remaining_hours) do
-                [nil, nil, nil]
-              end
-
-              let(:aggregate_estimated_hours) do
-                10.0
-              end
-              let(:aggregate_remaining_hours) do
-                nil
-              end
-              let(:aggregate_done_ratio) do
-                nil
-              end
+            let(:expected_total_remaining_work) do
+              5.0
             end
-          end
-
-          context "with some tasks having estimated hours and those that do also having progress done" do
-            it_behaves_like "attributes of parent having children" do
-              let(:estimated_hours) do
-                [10.0, nil, nil]
-              end
-              let(:remaining_hours) do
-                [2.5, nil, nil]
-              end
-
-              let(:aggregate_estimated_hours) do
-                10.0
-              end
-              let(:aggregate_remaining_hours) do
-                2.5
-              end
-              let(:aggregate_done_ratio) do
-                75
-              end
-            end
-          end
-
-          context "with the parent having estimated hours and progress" do
-            shared_let(:parent) do
-              create(:work_package,
-                     subject: "parent",
-                     estimated_hours: 10.0,
-                     remaining_hours: 5.0)
-            end
-
-            context "and some tasks having estimated hours and some progress" do
-              it_behaves_like "attributes of parent having children" do
-                let(:estimated_hours) do
-                  [10.0, nil, nil]
-                end
-                let(:remaining_hours) do
-                  [2.5, nil, nil]
-                end
-
-                # Parent's estimated and remaining hours are taken into account
-                let(:aggregate_estimated_hours) do
-                  20.0
-                end
-                let(:aggregate_remaining_hours) do
-                  7.5
-                end
-                let(:aggregate_done_ratio) do
-                  63
-                end
-              end
-            end
-
-            context "and no tasks having estimated hours or progress" do
-              it_behaves_like "attributes of parent having children" do
-                let(:estimated_hours) do
-                  [nil, nil, nil]
-                end
-                let(:remaining_hours) do
-                  [nil, nil, nil]
-                end
-
-                # Parent's estimated hours and remaining hours become the aggregated values
-                let(:aggregate_estimated_hours) do
-                  10.0
-                end
-                let(:aggregate_remaining_hours) do
-                  5.0
-                end
-                let(:aggregate_done_ratio) do
-                  50
-                end
-              end
+            let(:expected_total_p_complete) do
+              50
             end
           end
         end
@@ -597,37 +360,13 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     context "for the previous ancestors" do
-      shared_let(:sibling_estimated_hours) { 7.0 }
-      shared_let(:sibling_remaining_hours) { 3.5 }
-      shared_let(:parent_estimated_hours) { 3.0 }
-      shared_let(:grandparent_estimated_hours) { 3.0 }
-      shared_let(:grandparent_remaining_hours) { 1.5 }
-
-      shared_let(:grandparent) do
-        create(:work_package,
-               subject: "grandparent",
-               estimated_hours: grandparent_estimated_hours,
-               remaining_hours: grandparent_remaining_hours)
-      end
-      shared_let(:parent) do
-        create(:work_package,
-               subject: "parent",
-               estimated_hours: parent_estimated_hours,
-               parent: grandparent)
-      end
-      shared_let(:sibling) do
-        create(:work_package,
-               subject: "sibling",
-               parent:,
-               estimated_hours: sibling_estimated_hours,
-               remaining_hours: sibling_remaining_hours)
-      end
-
-      shared_let(:work_package) do
-        create(:work_package,
-               subject: "subject - loses its parent",
-               parent:)
-      end
+      shared_let_work_packages(<<~TABLE)
+        hierarchy        | work | remaining work | % complete
+        grandparent      |   3h |           1.5h |        50%
+          parent         |   3h |             0h |       100%
+            work package |      |                |
+            sibling      |   7h |           3.5h |        50%
+      TABLE
 
       subject do
         work_package.parent = nil
@@ -644,60 +383,57 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .to be_success
       end
 
+      it "updates the totals of the ancestors" do
+        subject
+        expect_work_packages([grandparent, parent, sibling, work_package], <<~TABLE)
+          hierarchy        | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+          grandparent      |   3h |           1.5h |        50% |    13h |               5h |          62%
+            parent         |   3h |             0h |       100% |    10h |             3.5h |          65%
+              sibling      |   7h |           3.5h |        50% |        |                  |
+          work package     |      |                |            |        |                  |
+        TABLE
+      end
+
       it "returns the former ancestors in the dependent results" do
         expect(subject.dependent_results.map(&:result))
           .to contain_exactly(parent, grandparent)
       end
-
-      it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the former parent" do
-        expect do
-          subject
-          parent.reload
-        end
-          .to change(parent, :derived_done_ratio).to(65) # 6.5h derived_work_done / 10.0h derived_estimated_hours
-          .and change(parent, :derived_estimated_hours).to(parent_estimated_hours + sibling_estimated_hours)
-          .and change(parent, :derived_remaining_hours).to(sibling_remaining_hours)
-      end
-
-      it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the former grandparent" do
-        expect do
-          subject
-          grandparent.reload
-        end
-          .to change(grandparent, :derived_done_ratio).to(62) # 8.0h derived_work_done / 13.0h derived_estimated_hours
-          .and change(grandparent, :derived_estimated_hours).to(grandparent_estimated_hours +
-                                                                parent_estimated_hours +
-                                                                sibling_estimated_hours)
-          .and change(grandparent, :derived_remaining_hours).to(sibling_remaining_hours +
-                                                                grandparent_remaining_hours)
-      end
     end
 
     context "for new ancestors" do
-      shared_let(:estimated_hours) { 7.0 }
-      shared_let(:remaining_hours) { 3.5 }
-      shared_let(:parent_estimated_hours) { 3.0 }
-      shared_let(:parent_remaining_hours) { 1.5 }
+      shared_context "if setting the parent" do
+        subject do
+          work_package.parent = parent
+          work_package.save!
 
-      shared_let(:grandparent) do
-        create(:work_package,
-               subject: "grandparent")
-      end
-      shared_let(:parent) do
-        create(:work_package,
-               subject: "parent",
-               estimated_hours: parent_estimated_hours,
-               remaining_hours: parent_remaining_hours,
-               parent: grandparent)
-      end
-      shared_let(:work_package) do
-        create(:work_package,
-               subject: "subject - gains a new parent and grandparent",
-               estimated_hours:,
-               remaining_hours:)
+          described_class
+            .new(user:,
+                 work_package:)
+            .call(%i(parent))
+        end
       end
 
-      shared_examples_for "updates the attributes within the new hierarchy" do
+      shared_context "if setting the parent_id" do
+        subject do
+          work_package.parent_id = parent.id
+          work_package.save!
+
+          described_class
+            .new(user:,
+                 work_package:)
+            .call(%i(parent_id))
+        end
+      end
+
+      shared_let_work_packages(<<~TABLE)
+        hierarchy    | work | remaining work | % complete
+        grandparent  |      |                |
+          parent     |   3h |           1.5h |        50%
+        work package |   7h |           3.5h |        50%
+      TABLE
+
+      for_each_context "if setting the parent",
+                       "if setting the parent_id" do
         it "is successful" do
           expect(subject)
             .to be_success
@@ -708,105 +444,40 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             .to contain_exactly(parent, grandparent)
         end
 
-        it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the new parent" do
-          expect do
-            subject
-            parent.reload
-          end
-            .to change(parent, :derived_done_ratio).to(50) # 5.0h derived_work_done / 10.0h derived_estimated_hours
-            .and change(parent, :derived_estimated_hours).to(parent_estimated_hours + estimated_hours)
-            .and change(parent, :derived_remaining_hours).to(parent_remaining_hours + remaining_hours)
+        it "updates the totals of the ancestors" do
+          subject
+          expect_work_packages([grandparent, parent, work_package], <<~TABLE)
+            hierarchy        | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            grandparent      |      |                |            |    10h |               5h |          50%
+              parent         |   3h |           1.5h |        50% |    10h |               5h |          50%
+                work package |   7h |           3.5h |        50% |        |                  |
+          TABLE
         end
-
-        it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours " \
-           "of the new grandparent" do
-          expect do
-            subject
-            grandparent.reload
-          end
-            .to change(grandparent, :derived_done_ratio).to(50) # 5.0h derived_work_done / 10.0h derived_estimated_hours
-            .and change(grandparent, :derived_estimated_hours).to(parent_estimated_hours + estimated_hours)
-            .and change(grandparent, :derived_remaining_hours).to(parent_remaining_hours + remaining_hours)
-        end
-      end
-
-      context "if setting the parent" do
-        subject do
-          work_package.parent = parent
-          work_package.save!
-
-          described_class
-            .new(user:,
-                 work_package:)
-            .call(%i(parent))
-        end
-
-        it_behaves_like "updates the attributes within the new hierarchy"
-      end
-
-      context "if setting the parent_id" do
-        subject do
-          work_package.parent_id = parent.id
-          work_package.save!
-
-          described_class
-            .new(user:,
-                 work_package:)
-            .call(%i(parent_id))
-        end
-
-        it_behaves_like "updates the attributes within the new hierarchy"
       end
     end
 
     context "with old and new parent having a common ancestor" do
-      shared_let(:estimated_hours) { 7.0 }
-      shared_let(:remaining_hours) { 3.5 }
-      shared_let(:new_estimated_hours) { 10.0 }
-      shared_let(:new_remaining_hours) { 2 }
-
-      shared_let(:grandparent) do
-        create(:work_package,
-               subject: "common grandparent",
-               derived_done_ratio: 50, # two children having [done_ratio, 0]
-               derived_estimated_hours: estimated_hours,
-               derived_remaining_hours: remaining_hours)
-      end
-      shared_let(:old_parent) do
-        create(:work_package,
-               subject: "old parent",
-               parent: grandparent,
-               derived_done_ratio: 50,
-               derived_estimated_hours: estimated_hours,
-               derived_remaining_hours: remaining_hours)
-      end
-      shared_let(:new_parent) do
-        create(:work_package,
-               subject: "new parent",
-               parent: grandparent)
-      end
-      shared_let(:work_package) do
-        create(:work_package,
-               subject: "subject - parent changes from old parent to new parent, same grandparent",
-               parent: old_parent,
-               estimated_hours:,
-               remaining_hours:)
-      end
+      # work_package's parent will change from old parent to new parent, same grandparent
+      shared_let_work_packages(<<~TABLE)
+        hierarchy        | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+        grandparent      |      |                |            |     7h |             3.5h |          50%
+          old parent     |      |                |            |     7h |             3.5h |          50%
+            work package |   7h |           3.5h |        50% |        |                  |
+          new parent     |      |                |            |        |                  |
+      TABLE
 
       subject do
-        work_package.parent = new_parent
         # In this test case, done_ratio, derived_estimated_hours, and
-        # derived_remaining_hours would not inherently change on grandparent.
-        # However, if work_package has siblings then changing its parent could
-        #  cause done_ratio, derived_estimated_hours, and/or
-        # derived_remaining_hours on grandparent to inherently change. To verify
-        # that grandparent can be properly updated in that case without making
-        # this test dependent on the implementation details of the calculations,
-        # done_ratio, derived_estimated_hours, and derived_remaining_hours are
-        # forced to change at the same time as the parent.
+        # derived_remaining_hours would not inherently change on grandparent
+        # if work package keeps the same progress values.
+        #
+        # To verify that grandparent can be properly updated in this scenario,
+        # work and remaining work are also changed on the work package to force
+        # grandparent totals to be updated.
         set_attributes_on(work_package,
-                          estimated_hours: new_estimated_hours,
-                          remaining_hours: new_remaining_hours)
+                          parent: new_parent,
+                          estimated_hours: 10,
+                          remaining_hours: 2)
         work_package.save!
 
         described_class
@@ -820,49 +491,29 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .to be_success
       end
 
+      it "updates the totals of the new parent and the former parent" do
+        subject
+        expect_work_packages([grandparent, old_parent, new_parent, work_package], <<~TABLE)
+          hierarchy        | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+          grandparent      |      |                |            |    10h |               2h |          80%
+            old parent     |      |                |            |        |                  |
+            new parent     |      |                |            |    10h |               2h |          80%
+              work package |  10h |             2h |        80% |        |                  |
+        TABLE
+      end
+
       it "returns both the former and new ancestors in the dependent results without duplicates" do
         expect(subject.dependent_results.map(&:result))
           .to contain_exactly(new_parent, grandparent, old_parent)
-      end
-
-      it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours " \
-         "of the former parent to nil" do
-        expect do
-          subject
-          old_parent.reload
-        end
-          .to change(old_parent, :derived_done_ratio).to(nil)
-          .and change(old_parent, :derived_estimated_hours).to(nil)
-          .and change(old_parent, :derived_remaining_hours).to(nil)
-      end
-
-      it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the new parent" do
-        expect do
-          subject
-          new_parent.reload
-        end
-          .to change(new_parent, :derived_done_ratio).to(80)
-          .and change(new_parent, :derived_estimated_hours).to(new_estimated_hours)
-          .and change(new_parent, :derived_remaining_hours).to(new_remaining_hours)
-      end
-
-      it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the grandparent" do
-        expect do
-          subject
-          grandparent.reload
-        end
-          .to change(grandparent, :derived_done_ratio).to(80)
-          .and change(grandparent, :derived_estimated_hours).to(new_estimated_hours)
-          .and change(grandparent, :derived_remaining_hours).to(new_remaining_hours)
       end
     end
   end
 
   describe "work propagation" do
-    shared_let(:parent) { create(:work_package, subject: "parent") }
-    shared_let(:child) { create(:work_package, subject: "child", parent:) }
-
     context "when setting work of a work package having children without any work value" do
+      shared_let(:parent) { create(:work_package, subject: "parent") }
+      shared_let(:child) { create(:work_package, subject: "child", parent:) }
+
       before do
         parent.estimated_hours = 2.0
       end
@@ -1050,7 +701,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
   end
 
-  describe "done_ratio propagation" do
+  describe "% complete propagation" do
     shared_let(:parent) { create(:work_package, subject: "parent") }
 
     context "given child with work, when remaining work being set on parent" do
@@ -1093,6 +744,52 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         expect_work_packages(updated_work_packages, <<~TABLE)
           subject | total work | total % complete
           parent  |        10h |              30%
+        TABLE
+      end
+    end
+
+    context "given child becomes excluded from totals calculation because of its status changed to rejected" do
+      shared_let_work_packages(<<~TABLE)
+        hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent    | Open   |  10h |    12h |             1h |               8h |        90% |          33%
+          child   | Open   |   2h |        |             7h |                  |        29% |
+      TABLE
+
+      subject(:call_result) do
+        set_attributes_on(child, status: rejected_status)
+        call_update_ancestors_service(child)
+      end
+
+      it "computes parent totals excluding the child from calculations accordingly" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          hierarchy | status   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+          parent    | Open     |  10h |    10h |             1h |               1h |        90% |          90%
+            child   | Rejected |   2h |        |             7h |                  |        29% |
+        TABLE
+      end
+    end
+
+    context "given child is no longer excluded from totals calculation because of its status changed from rejected" do
+      shared_let_work_packages(<<~TABLE)
+        hierarchy | status   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent    | Open     |  10h |    10h |             1h |               1h |        90% |          90%
+          child   | Rejected |   2h |        |             7h |                  |        29% |
+      TABLE
+
+      subject(:call_result) do
+        set_attributes_on(child, status: open_status)
+        call_update_ancestors_service(child)
+      end
+
+      it "computes parent totals excluding the child from calculations accordingly" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+          parent    | Open   |  10h |    12h |             1h |               8h |        90% |          33%
+            child   | Open   |   2h |        |             7h |                  |        29% |
         TABLE
       end
     end

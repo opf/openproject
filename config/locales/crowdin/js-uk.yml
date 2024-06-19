@@ -274,6 +274,11 @@ uk:
         warning: >
           Застосування змін може тривати деякий час. Ви отримаєте сповіщення, коли всі відповідні пакети робіт буде оновлено.
           Продовжити?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: "на"
@@ -360,10 +365,10 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Експорт діаграми Ґанта у форматі PDF, наприклад для друку (доповнення версії Enterprise)</li> <li>Обрані проєкти</li> <li>Розділи на сторінці «Наради»</li> <li>Показ нарад на Моїй сторінці й сторінках огляду проєкту</li> <li>Можливість приховувати вкладення на вкладці «Файли»</li> <li>Користувацькі поля типу «Посилання (URL)</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -1288,6 +1293,11 @@ uk:
           placeholder: "Прототип тепер може ввійти, щоб отримати доступ до проєкту «%{project}». Тим часом ви вже можете включати цього користувача в план і призначати йому пакети робіт."
           group: "Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт."
         next_button: "Продовжити"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "У вас немає обраних проєктів"
       no_results_subtext: "Додайте один або кілька проєктів в обране на відповідній сторінці огляду або в списку проєктів."
@@ -1348,8 +1358,12 @@ uk:
         remove: "Видалити"
       drop_modal:
         focus_grab: "Це якір фокуса для модальних вікон. Натисніть клавіші Shift + Tab, щоб повернутися до тригера модального вікна."
-        Close: "Закрити"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "Існує проблема з мережею."
         network_on: "З’єднання відновлено. Ми намагаємося."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

@@ -36,7 +36,7 @@ RSpec.describe Storages::Admin::ProjectStoragesController, "manage_storage_in_pr
   include PermissionSpecs
 
   controller_actions.each do |action|
-    check_permission_required_for("#{described_class.controller_path}##{action}", :manage_storages_in_project)
+    check_permission_required_for("#{described_class.controller_path}##{action}", :manage_files_in_project)
   end
 end
 # rubocop:enable RSpec/EmptyExampleGroup

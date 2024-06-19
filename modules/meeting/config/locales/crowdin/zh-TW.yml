@@ -57,9 +57,23 @@ zh-TW:
       meeting_agenda_item: "議程項目"
       meeting_agenda: "會議大綱"
       meeting_minutes: "會議記錄"
+      meeting_section: "區段"
   activity:
     filter:
       meeting: "會議"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "設定為 %{value}"
+          added_html: "設定為 <i>%{value}</i>"
+          removed: "已移除"
+          updated: "從 %{old_value} 更改至 %{value}"
+          updated_html: "從 <i>%{old_value}</i> 更改至 <i>%{value}</i>"
+        position:
+          updated: "重新排列"
+        work_package:
+          updated: "從 %{old_value} 更改至 %{value}"
+          updated_html: "從 <i>%{old_value}</i> 更改至 <i>%{value}</i>"
   description_attended: "出席人員"
   description_invite: "已邀請"
   events:
@@ -106,8 +120,8 @@ zh-TW:
       agenda: "複製議程"
       agenda_text: "複製舊會議之議程"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_emails: "發送電子郵件"
+      send_invitation_emails: "建立後發送邀請電子郵件"
       open_meeting_link: "打開會議連結"
       invited:
         summary: "%{actor} 已經向您發送了一個 %{title} 會議邀請"
@@ -129,7 +143,7 @@ zh-TW:
     untitled_title: "Untitled section"
     delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
     placeholder_title: "New section"
-    empty_text: "Drag items here or create a new one"
+    empty_text: "將項目拖曳至此處或建立新項目"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。
   permission_create_meetings: "建立會議"

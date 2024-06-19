@@ -32,8 +32,13 @@ RSpec.describe "Project Custom Field Mappings", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:non_admin) { create(:user) }
   shared_let(:project) { create(:project) }
+  shared_let(:archived_project) { create(:project, active: false) }
   shared_let(:project_custom_field) { create(:project_custom_field) }
   shared_let(:project_custom_field_mapping) { create(:project_custom_field_project_mapping, project_custom_field:, project:) }
+
+  shared_let(:archived_project_custom_field_mapping) do
+    create(:project_custom_field_project_mapping, project_custom_field:, project: archived_project)
+  end
 
   let(:project_custom_field_mappings_page) { Pages::Admin::Settings::ProjectCustomFields::ProjectCustomFieldMappingsIndex.new }
 
@@ -52,38 +57,97 @@ RSpec.describe "Project Custom Field Mappings", :js do
       visit project_mappings_admin_settings_project_custom_field_path(project_custom_field)
     end
 
-    it "shows a correct breadcrumb menu" do
-      within ".PageHeader-breadcrumbs" do
-        expect(page).to have_link("Administration")
-        expect(page).to have_link("Projects")
-        expect(page).to have_link("Project attributes")
-        expect(page).to have_text(project_custom_field.name)
+    it "renders a list of projects linked to the custom field" do
+      aggregate_failures "shows a correct breadcrumb menu" do
+        within ".PageHeader-breadcrumbs" do
+          expect(page).to have_link("Administration")
+          expect(page).to have_link("Projects")
+          expect(page).to have_link("Project attributes")
+          expect(page).to have_text(project_custom_field.name)
+        end
+      end
+
+      aggregate_failures "shows tab navigation" do
+        within_test_selector("project_attribute_detail_header") do
+          expect(page).to have_link("Details")
+          expect(page).to have_link("Enabled in projects")
+        end
+      end
+
+      aggregate_failures "shows the correct project mappings" do
+        within "#project-table" do
+          expect(page).to have_text(project.name)
+          expect(page).to have_text(archived_project.name)
+
+          within("tr#settings-project-custom-fields-project-custom-field-mapping-row-component-project-#{archived_project.id}") do
+            expect(page.find(".buttons")).not_to have_test_selector("project-list-row--action-menu")
+          end
+        end
       end
     end
 
-    it "shows tab navigation" do
-      within_test_selector("project_attribute_detail_header") do
-        expect(page).to have_link("Details")
-        expect(page).to have_link("Projects")
+    it "allows linking a project to a custom field" do
+      project = create(:project)
+      subproject = create(:project, parent: project)
+      click_on "Add projects"
+
+      within_test_selector("settings--new-project-custom-field-mapping-component") do
+        autocompleter = page.find(".op-project-autocompleter")
+        autocompleter.fill_in with: project.name
+
+        expect(page).to have_no_text(archived_project.name)
+
+        find(".ng-option-label", text: project.name).click
+        check "Include sub-projects"
+
+        click_on "Add"
+      end
+
+      expect(page).to have_text(project.name)
+      expect(page).to have_text(subproject.name)
+
+      aggregate_failures "pagination links maintain the correct url" do
+        within ".op-pagination" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+
+          pagination_links.each do |pagination_link|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(project_mappings_admin_settings_project_custom_field_path(project_custom_field))
+          end
+        end
       end
     end
 
-    it "shows the correct project mappings" do
-      within "#project-table" do
-        expect(page).to have_text(project.name)
-      end
-    end
+    it "allows unlinking a project from a custom field" do
+      project = create(:project)
+      create(:project_custom_field_project_mapping, project_custom_field:, project:)
 
-    it "renders more menu list item" do
-      project_custom_field_mappings_page.activate_menu_of(project) do |menu|
-        expect(menu).to have_link("Delete")
-      end
-    end
+      visit project_mappings_admin_settings_project_custom_field_path(project_custom_field)
 
-    it "allows to unlink a project" do
-      project_custom_field_mappings_page.click_menu_item_of("Delete", project)
+      project_custom_field_mappings_page.click_menu_item_of("Deactivate for this project", project)
 
       expect(page).to have_no_text(project.name)
+
+      aggregate_failures "pagination links maintain the correct url after unlinking is done" do
+        within ".op-pagination" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+
+          pagination_links.each do |pagination_link|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(project_mappings_admin_settings_project_custom_field_path(project_custom_field))
+          end
+        end
+      end
+    end
+
+    context "and the project custom field is required" do
+      shared_let(:project_custom_field) { create(:project_custom_field, is_required: true) }
+
+      it "renders a blank slate" do
+        expect(page).to have_text("Required in all projects")
+      end
     end
   end
 end

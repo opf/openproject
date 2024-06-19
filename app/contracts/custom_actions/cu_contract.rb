@@ -36,7 +36,7 @@ module CustomActions
     end
 
     def initialize(model, user = nil)
-      super(model, user)
+      super
     end
 
     attribute :name

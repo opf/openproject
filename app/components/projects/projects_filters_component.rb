@@ -28,7 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::ProjectsFiltersComponent < FiltersComponent
+# rubocop:disable OpenProject/AddPreviewForViewComponent
+class Projects::ProjectsFiltersComponent < Filter::FilterComponent
+  # rubocop:enable OpenProject/AddPreviewForViewComponent
   def allowed_filters
     super
       .select { |f| allowed_filter?(f) }

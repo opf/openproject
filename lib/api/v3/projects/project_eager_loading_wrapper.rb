@@ -37,12 +37,15 @@ module API
 
         class << self
           def wrap(projects)
-            custom_fields = projects.first.available_custom_fields if projects.present?
-            ancestors = ancestor_projects(projects) if projects.present?
+            if projects.present?
+              custom_fields_by_project_id = custom_fields_from_projects
+
+              ancestors = ancestor_projects(projects)
+            end
 
             super
               .each do |project|
-              project.available_custom_fields = custom_fields
+              project.available_custom_fields = custom_fields_by_project_id[project.id]
               project.ancestors_from_root = ancestors.select { |a| a.is_ancestor_of?(project) }.sort_by(&:lft)
             end
           end
@@ -58,6 +61,15 @@ module API
             projects_table = Project.arel_table
 
             projects_table[:lft].lt(project.lft).and(projects_table[:rgt].gt(project.rgt))
+          end
+
+          def custom_fields_from_projects
+            ProjectCustomFieldProjectMapping
+              .eager_load(:project_custom_field)
+              .merge(ProjectCustomField.visible)
+              .each_with_object(Hash.new { |h, k| h[k] = [] }) do |mapping, acc|
+                acc[mapping.project_id] << mapping.project_custom_field
+              end
           end
         end
       end

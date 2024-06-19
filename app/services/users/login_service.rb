@@ -76,12 +76,18 @@ module Users
     def successful_login
       user.log_successful_login
 
+      # Clear all previous recovery tokens as user successfully logged in
+      # We do not want to clear invitation tokens, as user might just be logging in with one
+      Users::DropTokensService
+        .new(current_user: user)
+        .call!(clear_invitation_tokens: false)
+
       context = { user:, request:, session: }
       OpenProject::Hook.call_hook(:user_logged_in, context)
     end
 
     def reset_session!
-      ::Sessions::DropAllSessionsService.call(user) if drop_old_sessions?
+      ::Sessions::DropAllSessionsService.call!(user) if drop_old_sessions?
       controller.reset_session
     end
 

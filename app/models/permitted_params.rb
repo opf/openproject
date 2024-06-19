@@ -563,6 +563,7 @@ class PermittedParams
           project_id
           custom_field_id
           custom_field_section_id
+          include_sub_projects
         ),
         query: %i(
           name
@@ -593,6 +594,7 @@ class PermittedParams
           name
           color_id
           default_done_ratio
+          excluded_from_totals
           is_closed
           is_default
           is_readonly

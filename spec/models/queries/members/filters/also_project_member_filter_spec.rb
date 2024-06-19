@@ -53,7 +53,7 @@ RSpec.describe Queries::Members::Filters::AlsoProjectMemberFilter do
 
         it "is the same as handwriting the query" do
           expected = expected_base_scope.where("EXISTS (#{exists_query})")
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
 
@@ -62,7 +62,7 @@ RSpec.describe Queries::Members::Filters::AlsoProjectMemberFilter do
 
         it "is the same as handwriting the query" do
           expected = expected_base_scope.where("NOT EXISTS (#{exists_query})")
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
     end

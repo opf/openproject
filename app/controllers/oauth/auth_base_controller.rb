@@ -37,6 +37,10 @@ module OAuth
     prepend_before_action :extend_content_security_policy
 
     skip_before_action :check_if_login_required
+    no_authorization_required! :new,
+                               :create,
+                               :show
+
     layout "only_logo"
 
     def extend_content_security_policy

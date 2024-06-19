@@ -50,10 +50,9 @@ module Queries
         nil
       end
 
-      def scope
-        scope = model
-        scope = model.joins(joins) if joins
-        group_by scope
+      def apply_to(query_scope)
+        query_scope = query_scope.joins(joins) if joins
+        group_by query_scope
       end
 
       def name

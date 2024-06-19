@@ -87,7 +87,7 @@ class Widget::Settings < Widget::Base
     @cost_types = options.delete(:cost_types)
     @selected_type_id = options.delete(:selected_type_id)
 
-    super(options, &)
+    super
   end
 
   def settings_to_render

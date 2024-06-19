@@ -115,7 +115,6 @@ module UsersHelper
   end
 
   def change_user_status_links(user)
-
     build_change_user_status_action(user) do |title, name|
       link_to title,
               change_status_user_path(user,

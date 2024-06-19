@@ -20,8 +20,21 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 de:
+  button_add_deploy_target: Deploymentziel hinzufügen
+  label_deploy_target: Deploymentziel
+  label_deploy_target_new: Neues Deploymentziel
+  label_deploy_target_plural: Deploymentziele
+  label_github_integration: GitHub Integration
+  notice_deploy_target_created: Deploymentziel erstellt
+  notice_deploy_target_destroyed: Deploymentziel gelöscht
   plugin_openproject_github_integration:
     name: "OpenProject GitHub-Integration"
     description: "Integriert OpenProject und GitHub für einen besseren Arbeitsablauf"
   project_module_github: "GitHub"
   permission_show_github_content: "Zeige weiteren Inhalt"
+  permission_introspection: Auslesen der OpenProject Core Version und Build-SHA
+  text_deploy_target_type_info: >
+    Bislang unterstützen wir nur OpenProject selbst.
+  text_deploy_target_api_key_info: >
+    Ein OpenProject [API-Schlüssel](docs_url), der einem Benutzer gehört, der die Berechtigung zur globalen Introspektion hat.
+  text_pull_request_deployed_to: "%{pr_link} wurde zu %{deploy_target_link} deployed"

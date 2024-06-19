@@ -27,6 +27,5 @@
 #++
 
 FactoryBot.define do
-  factory :backup, class: 'Backup' do
-  end
+  factory :backup, class: "Backup"
 end

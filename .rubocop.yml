@@ -8,7 +8,6 @@ require:
   - rubocop-capybara
   - rubocop-factory_bot
   - rubocop-performance
-  - rubocop-inflector
   - ./config/initializers/inflections.rb
 
 <% if File.exist?('.rubocop-local.yml') %>
@@ -236,6 +235,10 @@ RSpec/DescribeMethod:
 # to match the exact file name
 RSpec/SpecFilePathFormat:
   IgnoreMethods: true
+
+# Disable deprecated cop
+RSpec/FilePath:
+  Enabled: false
 
 # Prevent  "fit" or similar to be committed
 RSpec/Focus:

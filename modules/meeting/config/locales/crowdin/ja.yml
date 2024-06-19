@@ -57,9 +57,23 @@ ja:
       meeting_agenda_item: "Agenda item"
       meeting_agenda: "アジェンダ"
       meeting_minutes: "議事録"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "会議"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "出席した"
   description_invite: "招待済み"
   events:

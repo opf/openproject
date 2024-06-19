@@ -32,15 +32,26 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t(:label_work_package_tracking) %>
 
 <%= styled_form_tag({ action: :update }, method: :patch) do %>
-  <section class="form--section">
+  <section class="form--section"
+           data-application-target="dynamic"
+           data-controller="admin--work-packages-settings">
     <div class="form--field"><%= setting_check_box :cross_project_work_package_relations %></div>
     <div class="form--field"><%= setting_check_box :display_subprojects_work_packages %></div>
     <div class="form--field"><%= setting_check_box :work_package_startdate_is_adddate %></div>
     <div class="form--field">
       <%= setting_select :work_package_done_ratio,
                          WorkPackage::DONE_RATIO_OPTIONS.collect { |i| [t("setting_work_package_done_ratio_#{i}"), i] },
-                         container_class: "-middle" %>
+                         container_class: "-middle",
+                         data: { admin__work_packages_settings_target: "progressCalculationModeSelect",
+                                 action: "change->admin--work-packages-settings#displayWarning" } %>
       <div class="form--field-instructions"><%= t("setting_work_package_done_ratio_explanation_html") %></div>
+    </div>
+    <div class="op-toast -warning -with-bottom-spacing"
+         hidden
+         data-admin--work-packages-settings-target="warningToast">
+      <div class="op-toast--content">
+        <p data-admin--work-packages-settings-target="warningText"></p>
+      </div>
     </div>
     <div class="form--field settings--highlighting-mode">
       <%= setting_select(:work_package_list_default_highlighting_mode,

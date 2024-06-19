@@ -36,6 +36,12 @@ module Storages
           using ServiceResultRefinements
 
           class << self
+            def escape_path(path)
+              escaped_path = path.split("/").map { |i| CGI.escapeURIComponent(i) }.join("/")
+              escaped_path << "/" if path[-1] == "/"
+              escaped_path
+            end
+
             def mime_type(json)
               json.dig(:file, :mimeType) || (json.key?(:folder) ? "application/x-op-directory" : nil)
             end
@@ -63,10 +69,12 @@ module Storages
                 )
             end
 
-            def storage_error(response:, code:, source:)
-              data = StorageErrorData.new(source:, payload: response.json(symbolize_keys: true))
+            def storage_error(response:, code:, source:, log_message: nil)
+              # Some errors, like timeouts, aren't json responses so we need to adapt
+              payload = response.respond_to?(:json) ? response.json(symbolize_keys: true) : response.to_s
+              data = StorageErrorData.new(source:, payload:)
 
-              StorageError.new(code:, data:)
+              StorageError.new(code:, data:, log_message:)
             end
 
             def join_uri_path(uri, *)

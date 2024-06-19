@@ -625,8 +625,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
 
     describe "other filter types", with_ee: %i[custom_fields_in_projects_list] do
-      include ActiveSupport::Testing::TimeHelpers
-
       shared_let(:list_custom_field) { create(:list_project_custom_field) }
       shared_let(:date_custom_field) { create(:date_project_custom_field) }
       shared_let(:datetime_of_this_week) do
@@ -1143,6 +1141,13 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                child_project_m,
                                child_project_z,
                                public_project)
+    end
+
+    it "sorts projects by latest_activity_at" do
+      click_link_or_button('Sort by "Latest activity at"')
+      wait_for_reload
+
+      expect_project_at_place(project, 1)
     end
   end
 

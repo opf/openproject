@@ -35,16 +35,16 @@ module Notifications::CreateFromModelService::WorkPackageStrategy
     :view_work_packages
   end
 
-  def self.supports_ian?
+  def self.supports_ian?(_reason)
     true
   end
 
-  def self.supports_mail_digest?
+  def self.supports_mail_digest?(_reason)
     true
   end
 
-  def self.supports_mail?
-    true
+  def self.supports_mail?(reason)
+    reason == :mentioned
   end
 
   def self.watcher_users(journal)

@@ -13,19 +13,19 @@ Navigate to **Administration → Calendar and dates**.
 
 | Topic                                             | Content                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------ |
-| [Working days](#working-days)                     | Define which days of the week are considered working days for scheduling and calculation of duration. |
+| [Working days](#working-days-and-hours)           | Define which days of the week are considered working days for scheduling and calculation of duration. |
 | [Date format](#date-format)                       | Change time and date formats.                                |
 | [Calendar subscriptions](#calendar-subscriptions) | Allow users to subscribe to calendars.                       |
 
-## Working days
+## Working days and hours
 
-Administrators are able to define which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages.
+Administrators are able to define how many hours are considered a day and which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages.
 
 To change this setting, navigate to **Working days** inside of the **Calendar and dates** settings.
 
-> **Note:** By default, the five days from Monday–Friday are considered working days, and Saturday and Sunday are considered non-working days.
+> **Note:** By default, a working day is considered to have 8 hours, the five days from Monday–Friday are considered working days, and Saturday and Sunday are considered non-working days.
 
-![The 'Working days' entry in Calendar and dates settings ](admin-working-days.png)
+![The 'Working days' entry in Calendar and dates settings ](admin-working-days-hours.png)
 
 To change this setting, unselect days that you would like to define as non-working, and select ones that you would like to consider working, and click on **Save**.
 

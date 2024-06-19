@@ -53,7 +53,7 @@ RSpec.describe Queries::Relations::Filters::ToFilter do
     end
   end
 
-  describe "#scope" do
+  describe "#apply_to" do
     before do
       login_as(current_user)
     end
@@ -66,7 +66,7 @@ RSpec.describe Queries::Relations::Filters::ToFilter do
       it "is the same as handwriting the query" do
         expected = model.where("to_id IN ('1') AND from_id IN (#{visible_sql})")
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -76,7 +76,7 @@ RSpec.describe Queries::Relations::Filters::ToFilter do
       it "is the same as handwriting the query" do
         expected = model.where("to_id NOT IN ('1') AND from_id IN (#{visible_sql})")
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end

@@ -261,6 +261,7 @@ uk:
       my: "Мої проєкти"
       favored: "Обрані проєкти"
       archived: "Заархівовані проєкти"
+      public: "Public project lists"
       my_private: "Особисті списки проєктів"
       new:
         placeholder: "Новий список проєктів"
@@ -288,8 +289,17 @@ uk:
         actions:
           label_enable_single: "Увімкнено в цьому проєкті; натисніть, щоб вимкнути"
           label_disable_single: "Вимкнено в цьому проєкті; натисніть, щоб увімкнути"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Увімкнути все"
           label_disable_all: "Вимкнути все"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: Наразі немає доступних типів.
         form:
@@ -306,6 +316,12 @@ uk:
     update:
       success: "Змінений список збережено"
       failure: "Неможливо зберегти змінений список: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "Список змінено:"
     can_be_saved_as: "Зміни можна зберегти лише в новому списку:"
   members:
@@ -444,12 +460,20 @@ uk:
         Жоден атрибут не можуть бути змінені за виключенням статусу.
         <br/>
         <strong>Примітки</strong>: Будуть застосовані успадковані значення (наприклад, елементів попередників чи нащадків).
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Натисніть, щоб призначити або змінити колір цього статусу.
         Він відображається в кнопці стану і може використовуватися для виділення робочих пакетів у таблиці.
     index:
       no_results_title_text: Наразі немає статусів робочих пакетів.
       no_results_content_text: Додати новий статус
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Світла"
     light_high_contrast: "Світла, високий контраст"
@@ -621,6 +645,7 @@ uk:
       status:
         is_closed: "Робочий пакет закритий"
         is_readonly: "Пакет робіт лише для перегляду"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Нотатки"
       member:
@@ -761,6 +786,7 @@ uk:
         before_or_equal_to: "має бути до або  %{date}"
         blank: "не може бути порожнім."
         blank_nested: "– потрібно встановити властивість «%{property}»."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Робочий пакет не може бути пов'язаний з одним з підзадач."
         circular_dependency: "Це співвідношення створить кругову залежність."
         confirmation: "не збігається %{attribute}"
@@ -921,6 +947,8 @@ uk:
               nonexistent: "Стовпець «%{column}» не існує."
               format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Немає спеціального поля для фільтра."
@@ -954,6 +982,9 @@ uk:
             base:
               working_days_are_missing: "Принаймні один день тижня має бути визначено як робочий."
               previous_working_day_changes_unprocessed: "Попередні зміни конфігурації робочих днів ще не застосовано."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -1011,11 +1042,13 @@ uk:
               only_same_project_categories_allowed: "Категорія комплекс робіт повинен бути в межах одного проекту як комплексу робіт."
               does_not_exist: "Указана категорія не існує."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Має дорівнювати значенню «Залишок робіт» або перевищувати його."
               must_be_set_when_remaining_work_is_set: "Потрібно вказати, якщо визначено атрибут «Залишок робіт»."
               only_values_greater_or_equal_zeroes_allowed: "Має бути >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Не може перевищувати значення «Робота»."
               must_be_set_when_work_is_set: "Потрібно вказати, якщо визначено атрибут «Робота»."
               format: "%{message}"
@@ -1154,18 +1187,6 @@ uk:
           other: "<i>%{count} год</i>"
         updated: "змінено з %{old_value} на %{value}"
         logged_for: "Зареєстровано для"
-      meeting_agenda_item:
-        duration:
-          added: "встановлено значення %{value}"
-          added_html: "встановлено значення <i>%{value}</i>"
-          removed: "вилучено"
-          updated: "змінено %{old_value} на %{value}"
-          updated_html: "змінено з <i>%{old_value}</i> на <i>%{value}</i>"
-        position:
-          updated: "перевпорядковано"
-        work_package:
-          updated: "змінено з %{old_value} на %{value}"
-          updated_html: "змінено з <i>%{old_value}</i> на <i>%{value}</i>"
     filter:
       changeset: "Набори змін"
       message: "Форуми"
@@ -1344,6 +1365,8 @@ uk:
   button_revoke_access: "Відкликати доступ"
   button_revoke_all: "Відкликати все"
   button_revoke_only: "Відкликати лише для ролі «%{shared_role_name}»"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Я проінформований і згоден з вищесказаним.
     failure_message: Згода не отримана, продовження неможливе.
@@ -1650,6 +1673,12 @@ uk:
       pdf_gantt: "Діаграма Ґанта (PDF)"
     image:
       omitted: "Зображення не експортовано."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: г
       days: д
@@ -1703,7 +1732,7 @@ uk:
       dates_changed: "Дати змінено"
       default_attribute_written: "Атрибути лише для читання записано"
       progress_mode_changed_to_status_based: "Обчислення прогресу оновлено"
-      status_p_complete_changed: "Значення параметра «% завершення» змінено"
+      status_changed: "Status '%{status_name}'"
       system_update: "Оновлення системи OpenProject"
     cause_descriptions:
       work_package_predecessor_changed_times: внесенням змін у попередній елемент %{link}
@@ -1720,8 +1749,9 @@ uk:
           working: "%{date} – зараз робочий день"
           non_working: "%{date} – зараз неробочий день"
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
-      status_p_complete_changed: >-
-        Значення параметра «% завершення» для статусу «%{status_name}» змінилося з %{old_value} на %{new_value}
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Тепер дії, пов’язані з посиланнями на файли (файли, що зберігаються в зовнішніх сховищах), з’являтимуться на вкладці «Активність». Наявні дії, пов’язані із посиланнями:
@@ -2378,7 +2408,7 @@ uk:
   label_workflow: "Робочий процес"
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
-  label_working_days: "Робочі дні"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 закрита"
     other: "%{count} закритих"
@@ -2763,6 +2793,7 @@ uk:
   permission_save_bcf_queries: "Зберігання запитів BCF"
   permission_manage_public_bcf_queries: "Керування загальнодоступними запитами BCF"
   permission_edit_attribute_help_texts: "Редагування текстів довідки для атрибутів"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2993,6 +3024,9 @@ uk:
   setting_feeds_limit: "Обмеження вмісту каналу"
   setting_file_max_size_displayed: "Максимальний розмір текстового файлу для відображення"
   setting_host_name: "Ім'я хоста"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Повідомлення про активацію закінчується"
   setting_work_package_done_ratio: "Обчислення прогресу"
   setting_work_package_done_ratio_field: "На основі роботи"
@@ -3435,12 +3469,12 @@ uk:
         additional_privileges_project_or_group: "Може мати додаткові повноваження (як учасник проєкту або групи)"
   working_days:
     info: >
-      Під час планування пакетів робіт невибрані дні пропускаються й не включаються в кількість днів. Це налаштування можна змінити на рівні пакета робіт.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Під час планування пакетів робіт дати, додані в список нижче, вважаються неробочим днями й пропускаються.
     change_button: "Змінити робочі дні"
     warning: >
-      Змінення днів тижня, які вважаються робочими або неробочими, може вплинути на дати початку й закінчення всіх пакетів робіт в усіх проєктах цього екземпляра. <br/> Зверніть увагу: зміни застосовуються лише після натискання кнопки «Застосувати зміни».
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Робочі дні** змінено (%{changes})._
       days:

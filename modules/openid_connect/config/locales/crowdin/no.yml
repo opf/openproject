@@ -1,7 +1,7 @@
 "no":
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID tilkobling"
-    description: "Legger til OmniAuth OpenID Connect strategileverandører til Openproject."
+    description: "Legger til strategileverandører for OmniAuth OpenID Connect til OpenProject."
   logout_warning: >
     Du har blitt logget ut. Innholdet kan gå tapt. Vennligst [logg in].
   activemodel:
@@ -10,23 +10,23 @@
         name: Navn
         display_name: Visningsnavn
         identifier: Identifikator
-        secret: Hemmelig
+        secret: Hemmelig nøkkel
         scope: Omfang
         limit_self_registration: Begrens egenregistrering
   openid_connect:
-    menu_title: OpenID leverandører
+    menu_title: OpenID-leverandører
     providers:
       label_add_new: Legg til ny OpenID-leverandør
       label_edit: Rediger OpenID-leverandør %{name}
       no_results_table: Ingen leverandører har blitt definert ennå.
-      plural: OpenID leverandører
+      plural: OpenID-leverandører
       singular: OpenID-leverandør
     setting_instructions:
       azure_deprecation_warning: >
-        Den konfigurerte Asur-appen peker på et utdatert API fra Azure. Vennligst lag en ny Azure app for å sikre funksjonaliteten i fremtiden.
+        Den konfigurerte Azure-appen peker på et utdatert API fra Azure. Vennligst lag en ny Azure-app for å sikre funksjonaliteten i fremtiden.
       azure_graph_api: >
-        Bruk «graph.microsoft.com»-brukerinfo til å be om brukerdata. Dette skal være standard med mindre du har en eldre azure applikasjon.
+        Bruk «graph.microsoft.com»-brukerinfo til å be om brukerdata. Dette skal være standard med mindre du har en eldre Azure-applikasjon.
       azure_tenant_html: >
-        Sett leverandøren av ditt azure endepunkt. Dette vil kontrollere hvem som får tilgang til OpenProject instansen. For mer informasjon, se <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">vår brukerveiledning på Azure OpenID tilkobling</a>.
+        Sett leverandøren av ditt Azure-endepunkt. Dette vil kontrollere hvem som får tilgang til OpenProject-instansen. For mer informasjon, se <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">vår brukerveiledning på Azure OpenID-tilkobling</a>.
       limit_self_registration: >
         Hvis aktivert kan brukere bare registrere seg ved hjelp av denne leverandøren hvis selvregistreringsinnstillingen tillater det.

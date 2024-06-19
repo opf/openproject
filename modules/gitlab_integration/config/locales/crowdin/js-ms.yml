@@ -28,10 +28,10 @@ ms:
       tab_header_issue:
         title: "Isu-isu"
       tab_header_mr:
-        title: "Gabungkan permintaan"
+        title: "Penggabungan permintaan"
         create_mr:
-          label: Cipta MR
-          description: Cipta satu Merge Request
+          label: Cipta PP
+          description: Cipta satu Penggabungan Permintaan
         copy_menu:
           label: Potongan git
           description: Salin potongan git ke papan klip
@@ -45,6 +45,6 @@ ms:
       tab_issue:
         empty: 'Tiada isu yang dipautkan lagi. Pautkan isu-isu yang sedia ada dengan menggunakan kod <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk pautan peribadi) dalam tajuk/deskripsi isu atau cipta isu yang baru.'
       tab_mrs:
-        empty: 'Tiada permintaan gabungan yang dipautkan lagi. Pautkan MR sedia ada dengan menggunakan kod <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk pautan peribadi) dalam tajuk/deskripsi MR atau cipta MR yang baru.'
+        empty: 'Tiada penggabungan permintaan yang dipautkan lagi. Pautkan PP sedia ada dengan menggunakan kod <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk pautan peribadi) dalam tajuk/deskripsi PP atau cipta PP yang baru.'
       gitlab_pipelines: Saluran
       updated_on: Dikemas kini pada

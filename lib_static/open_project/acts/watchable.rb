@@ -114,10 +114,10 @@ module OpenProject
           active_scope = Principal.not_locked.user
 
           allowed_scope = if project.public?
-            User.allowed(self.class.acts_as_watchable_permission, project)
-          else
-            User.allowed_members_on_work_package(self.class.acts_as_watchable_permission, self)
-          end
+                            User.allowed(self.class.acts_as_watchable_permission, project)
+                          else
+                            User.allowed_members_on_work_package(self.class.acts_as_watchable_permission, self)
+                          end
 
           active_scope.where(id: allowed_scope)
         end

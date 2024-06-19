@@ -74,6 +74,33 @@ RSpec.describe "Meeting requests",
       end
     end
 
+    describe "send_notifications" do
+      let(:params) { { send_notifications: } }
+
+      context "when enabled" do
+        let(:send_notifications) { "1" }
+
+        before do
+          meeting.participants.create!(user:, invited: true)
+
+          subject
+          perform_enqueued_jobs
+        end
+
+        it "sends out emails" do
+          expect(ActionMailer::Base.deliveries.size).to eq 1
+        end
+      end
+
+      context "when disabled" do
+        let(:send_notifications) { "0" }
+
+        it "sends out no emails" do
+          expect(ActionMailer::Base.deliveries).to be_empty
+        end
+      end
+    end
+
     context "when copying without additional params" do
       it "copies the meeting, but not the agenda" do
         subject

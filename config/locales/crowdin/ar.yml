@@ -266,6 +266,7 @@ ar:
       my: "مشاريعي"
       favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -293,8 +294,17 @@ ar:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
         form:
@@ -311,6 +321,12 @@ ar:
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
@@ -461,12 +477,20 @@ ar:
         No attributes can be changed with the exception of the status.
         <br/>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: لا يوجد حالياً حالات لحزمة العمل.
       no_results_content_text: إضافة حالة جديدة
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
@@ -640,6 +664,7 @@ ar:
       status:
         is_closed: "أغلقت مجموعة العمل"
         is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "ملاحظات"
       member:
@@ -780,6 +805,7 @@ ar:
         before_or_equal_to: "يجب أن يكون قبل أو يساوي %{date}."
         blank: "لا يمكن أن يكون فارغا."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "حزمة العمل لا يمكن أن تكون مرتبطة إلى واحدة من المهام الفرعية."
         circular_dependency: "ان هذه العلاقة خلق تبعية دائرية."
         confirmation: "لا يتطابق مع %{attribute}."
@@ -940,6 +966,8 @@ ar:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "لا يوجد أي حقل مخصص لعامل التصفية."
@@ -973,6 +1001,9 @@ ar:
             base:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -1030,11 +1061,13 @@ ar:
               only_same_project_categories_allowed: "يجب أن يكون فئة مجموعة العمل ضمن نفس المشروع كمجموعة عمل."
               does_not_exist: "الفئة المحددة غير موجودة."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1189,18 +1222,6 @@ ar:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordered"
-        work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "مجموعة التغييرات"
       message: "منتديات"
@@ -1379,6 +1400,8 @@ ar:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
@@ -1721,6 +1744,12 @@ ar:
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d
@@ -1774,7 +1803,7 @@ ar:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1791,8 +1820,9 @@ ar:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -2449,7 +2479,7 @@ ar:
   label_workflow: "سير العمل"
   label_workflow_plural: "تدفقات العمل"
   label_workflow_summary: "مُلخّص"
-  label_working_days: "Working days"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 مغلقة"
     other: "%{count} مغلق"
@@ -2530,7 +2560,7 @@ ar:
         few: "There are %{count} more work packages with notifications."
         many: "There are %{count} more work packages with notifications."
         other: "There are %{count} more work packages with notifications."
-      open_in_browser: "Open in browser"
+      open_in_browser: "فتح في المتصفح"
       reason:
         watched: "Watched"
         assigned: "Assigned"
@@ -2597,8 +2627,8 @@ ar:
   mail_body_lost_password: "لتغيير كلمة المرور الخاصة بك، انقر فوق الارتباط التالي:"
   mail_password_change_not_possible:
     title: "Password change not possible"
-    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
-    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
+    body: "حسابك في %{app_title} متصل بمزود مصادقة خارجي (%{name})."
+    subtext: "لا يمكن تغيير كلمات المرور للحساب الخارجي في التطبيق. يرجى استخدام وظيفة فقدان كلمة المرور الخاصة بموفر المصادقة لديك."
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
@@ -2754,7 +2784,7 @@ ar:
   permission_add_work_package_notes: "إضافة ملاحظات"
   permission_add_work_packages: "إضافة مجموعات عمل"
   permission_add_messages: "نشر الرسائل"
-  permission_add_project: "Create projects"
+  permission_add_project: "أنشئ مشروعات"
   permission_add_work_package_attachments: "إضافة مرفقات"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archive project"
@@ -2772,7 +2802,7 @@ ar:
   permission_commit_access: "الوصول للقراءة/الكتابة إلى المستودع (الالتزام)"
   permission_copy_projects: "نسخ المشاريع"
   permission_copy_work_packages: "انسخ مجموعات العمل"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "انشيئ نسخ احتياطية"
   permission_delete_work_package_watchers: "حذف مراقبات"
   permission_delete_work_packages: "حذف مجموعات العمل"
   permission_delete_messages: "حذف الرسائل"
@@ -2789,14 +2819,14 @@ ar:
   permission_edit_own_time_entries: "تحرير سجلات الوقت الخاصة"
   permission_edit_project: "تحرير المشروع"
   permission_edit_reportings: "تحرير التقرير"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "تحرير سجلات الوقت للمستخدمين الآخرين"
   permission_edit_timelines: "تحرير الجداول الزمنية"
   permission_edit_wiki_pages: "تحرير صفحات wiki"
   permission_export_work_packages: "تصدير مجموعات العمل"
   permission_export_wiki_pages: "تصدير صفحات wiki"
   permission_list_attachments: "قائمة المرفقات"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "تسجيل الوقت الخاص بك"
+  permission_log_time: "تسجيل الوقت للمستخدمين الآخرين"
   permission_manage_forums: "إدارة منتديات"
   permission_manage_categories: "إدارة فئات مجموعة العمل"
   permission_manage_dashboards: "Manage dashboards"
@@ -2841,6 +2871,7 @@ ar:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2875,7 +2906,7 @@ ar:
   project_module_news: "الأخبار"
   project_module_repository: "مستودع البيانات"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "حزم العمل ومخططات Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2887,7 +2918,7 @@ ar:
     member_of_group: "مجموعة الموكل إليه"
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with users"
+    shared_with_user: "مشترك مع المستخدمين"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2977,7 +3008,7 @@ ar:
       oauth_application_details_link_text: "Go to settings page"
       setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
       setup_documentation_details_link_text: "File Storages setup"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      show_warning_details: "لاستخدام هذا التخزين للملفات، تذكر تفعيل الوحدة والتخزين المحدد في إعدادات المشروع لكل مشروع مرغوب."
     subversion:
       existing_title: "مستودع التخريب موجود"
       existing_introduction: "إذا كان لديك مستودع بوابة محلية القائمة، يمكنك ربطه مع open project للوصول إليها من داخل التطبيق."
@@ -3069,6 +3100,9 @@ ar:
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
   setting_host_name: "إسم المضيف"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3077,7 +3111,7 @@ ar:
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "خصائص مجموعة العمل"
   setting_work_package_startdate_is_adddate: "استخدام التاريخ الحالي كتاريخ البدء لمجموعات العمل الجديدة"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "حد تصدير حزم العمل / المشاريع"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "تسجيل الدخول تسجيل دخول المستخدم واسم وعنوان البريد لجميع الطلبات"
   setting_login_required: "مطلوب مصادقة"
@@ -3174,7 +3208,7 @@ ar:
         type: "Entire row by Type"
         priority: "Entire row by Priority"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: يتيح للمستخدمين الذين لديهم الأذونات اللازمة الاشتراك في تقاويم OpenProject والوصول إلى معلومات حزم العمل عبر عميل تقويم خارجي. <strong>ملاحظة:</strong> يرجى قراءة <a href="%{link}" target="_blank">اشتراكات iCalendar</a> لفهم المخاطر الأمنية المحتملة قبل تفعيل هذه الميزة.
     language_name_being_default: "%{language_name} (default)"
     notifications:
       events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
@@ -3242,9 +3276,9 @@ ar:
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    ستضيف النسخة المؤسسية هذه الإضافات الإضافية لحقول حالات حزم العمل: <br> <ul> <li><b>السماح بوضع حزم العمل في وضع القراءة فقط لحالات محددة</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    ستضيف النسخة المؤسسية هذه الإضافات الإضافية للحقول المخصصة للمشاريع: <br> <ul> <li><b>إضافة حقول مخصصة للمشاريع إلى قائمة مشروعك لإنشاء عرض محفظة المشاريع</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
@@ -3432,14 +3466,14 @@ ar:
   warning_user_limit_reached_admin: >
     Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    لقد وصلت إلى حد المستخدمين الخاص بك (%{current}/%{max} مستخدمين نشطين). يرجى الاتصال بـ sales@openproject.com لترقية خطة النسخة المؤسسية الخاصة بك وإضافة مستخدمين إضافيين.
   warning_protocol_mismatch_html: >
 
   warning_bar:
     https_mismatch:
-      title: "HTTPS mode setup mismatch"
+      title: "عدم تطابق إعداد وضع HTTPS\n"
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        تطبيقك يعمل بوضع HTTPS مضبوط إلى <code>%{set_protocol}</code>، ولكن الطلب هو طلب <code>%{actual_protocol}</code>. سيؤدي ذلك إلى حدوث أخطاء! ستحتاج إلى تعيين قيمة الإعداد التالية: <code>%{setting_value}</code>. يرجى الاطلاع على <a href="%{more_info_path}">وثائق التثبيت</a> لمعرفة كيفية تعيين هذا الإعداد.
     hostname_mismatch:
       title: "Hostname setting mismatch"
       text_html: >
@@ -3489,8 +3523,8 @@ ar:
         view_description: "Can view this work package."
       remove: "إزالة"
       share: "شارك"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "لا يوجد مستخدمون بالمعايير الحالية للتصفية."
+      text_empty_search_header: "لم نتمكن من العثور على أي نتائج مطابقة."
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "غير مشترك"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
@@ -3500,7 +3534,7 @@ ar:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "المستخدم %{user} مقفل ولا يمكن مشاركته"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3514,12 +3548,12 @@ ar:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
@@ -3543,7 +3577,7 @@ ar:
       code_429: "Too many requests. Please try again later."
       code_500: "حدث خطأ داخلي."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "لا يمكن معالجة الطلب بسبب أن رمز المؤسسة غير صالح أو مفقود."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3728,8 +3762,8 @@ ar:
   you: you
   link: link
   plugin_openproject_auth_plugins:
-    name: "OpenProject Auth Plugins"
+    name: "إضافات OpenProject Auth"
     description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "OmniAuth SAML / تسجيل الدخول الموحد"
+    description: "يضيف مزود OmniAuth SAML إلى OpenProject"

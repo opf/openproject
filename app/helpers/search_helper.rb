@@ -32,11 +32,11 @@ module SearchHelper
 
     return nil unless split_text.length > 1 || text_on_not_found
 
-    result = ''
+    result = ""
     split_text.each_with_index do |words, i|
       if result.length > 1200
         # maximum length of the preview reached
-        result << '...'
+        result << "..."
         break
       end
 
@@ -83,7 +83,7 @@ module SearchHelper
   def notes_anchor(event)
     version = event.version.to_i
 
-    version > 1 ? "note-#{version - 1}" : ''
+    version > 1 ? "note-#{version - 1}" : ""
   end
 
   def with_notes_anchor(event, tokens)
@@ -100,8 +100,8 @@ module SearchHelper
 
   def current_scope
     params[:scope] ||
-      ('subprojects' unless @project.nil? || @project.descendants.active.empty?) ||
-      ('current_project' unless @project.nil?)
+      ("subprojects" unless @project.nil? || @project.descendants.active.empty?) ||
+      ("current_project" unless @project.nil?)
   end
 
   def link_to_previous_search_page(pagination_previous_date)
@@ -109,7 +109,7 @@ module SearchHelper
                            @search_params.merge(previous: 1,
                                                 project_id: @project.try(:identifier),
                                                 offset: pagination_previous_date.to_r.to_s),
-                           class: 'navigate-left')
+                           class: "navigate-left")
   end
 
   def link_to_next_search_page(pagination_next_date)
@@ -117,20 +117,20 @@ module SearchHelper
                            @search_params.merge(previous: nil,
                                                 project_id: @project.try(:identifier),
                                                 offset: pagination_next_date.to_r.to_s),
-                           class: 'navigate-right')
+                           class: "navigate-right")
   end
 
   private
 
   def attachment_fulltexts(event)
     only_if_tsv_supported(event) do
-      Attachment.where(id: event.attachment_ids).pluck(:fulltext).join(' ')
+      Attachment.where(id: event.attachment_ids).pluck(:fulltext).join(" ")
     end
   end
 
   def attachment_filenames(event)
     only_if_tsv_supported(event) do
-      event.attachments&.map(&:filename)&.join(' ')
+      event.attachments&.map(&:filename)&.join(" ")
     end
   end
 
@@ -142,7 +142,7 @@ module SearchHelper
 
   def token_span(tokens, words)
     t = (tokens.index(words.downcase) || 0) % 4
-    content_tag('span', h(words), class: "search-highlight token-#{t}")
+    content_tag("span", h(words), class: "search-highlight token-#{t}")
   end
 
   def abbreviated_text(words)
@@ -154,11 +154,11 @@ module SearchHelper
                           formatted_words
                         end
 
-    if words[0] == ' '
+    if words[0] == " "
       abbreviated_words = " #{abbreviated_words}"
     end
 
-    if words[-1] == ' ' && words.length > 1
+    if words[-1] == " " && words.length > 1
       abbreviated_words = "#{abbreviated_words} "
     end
 

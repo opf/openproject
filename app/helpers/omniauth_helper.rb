@@ -42,6 +42,6 @@ module OmniauthHelper
   # If this option is active /login will lead directly to the configured omniauth provider
   # and so will a click on 'Sign in' (as opposed to opening the drop down menu).
   def direct_login_provider
-    OpenProject::Configuration["omniauth_direct_login_provider"]
+    Setting.omniauth_direct_login_provider.presence
   end
 end

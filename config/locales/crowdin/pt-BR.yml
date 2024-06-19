@@ -265,6 +265,7 @@ pt-BR:
       my: "Meus projetos"
       favored: "Projetos favoritos"
       archived: "Projetos arquivados"
+      public: "Listas públicas de projetos"
       my_private: "Minhas listas de projetos privados"
       new:
         placeholder: "Nova lista de projetos"
@@ -292,8 +293,17 @@ pt-BR:
         actions:
           label_enable_single: "Ativo neste projeto, clique para desativar"
           label_disable_single: "Inativo neste projeto, clique para ativar"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Ativar tudo"
           label_disable_all: "Desativar tudo"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: Atualmente, não há tipos disponíveis.
         form:
@@ -310,6 +320,12 @@ pt-BR:
     update:
       success: "A lista modificada foi salva"
       failure: "Não foi possível salvar a lista modificada: %{errors}"
+    publish:
+      success: "A lista foi tornada pública"
+      failure: "A lista não pode ser tornada pública: %{errors}"
+    unpublish:
+      success: "A lista foi tornada privada"
+      failure: "A lista não pode ser tornada privada: %{errors}"
     can_be_saved: "Lista modificada:"
     can_be_saved_as: "As modificações só podem ser salvas em uma nova lista:"
   members:
@@ -326,7 +342,7 @@ pt-BR:
       all: "Todos"
       invited: "Convites"
       locked: "Trancado"
-      project_roles: "Papel no projeto"
+      project_roles: "Funções do projeto"
       wp_shares: "Compartilhamento de pacote de trabalho"
       groups: "Grupos"
     delete_member_dialog:
@@ -436,12 +452,20 @@ pt-BR:
         Nenhum atributo pode ser alterado com exceção da situação.
         <br/>
         <strong>Nota</strong>: valores herdados (por exemplo, de filhos ou relações) ainda serão aplicados.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Clique para atribuir ou alterar a cor desta situação.
         É exibido no botão de situação e pode ser usado para destacar pacotes de trabalho na tabela.
     index:
       no_results_title_text: Atualmente, não há nenhuma situação de pacote de trabalho.
       no_results_content_text: Adicionar uma nova situação
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
@@ -611,6 +635,7 @@ pt-BR:
       status:
         is_closed: "Pacote de trabalho fechado"
         is_readonly: "Pacote de trabalho somente leitura"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Anotações"
       member:
@@ -751,6 +776,7 @@ pt-BR:
         before_or_equal_to: "deve ser antes ou igual a %{date}."
         blank: "não pode ficar em branco."
         blank_nested: "precisa ter a propriedade '%{property}' definida. "
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Um pacote de trabalho não pode ser vinculado a uma das suas subtarefas."
         circular_dependency: "Esta relação vai criar uma dependência circular."
         confirmation: "não coincide com %{attribute}."
@@ -911,6 +937,8 @@ pt-BR:
               nonexistent: "A coluna '%{column}' não existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
+          can_only_be_modified_by_owner: "A consulta só pode ser modificada por seu proprietário."
+          need_permission_to_modify_public_query: "Você não pode modificar uma consulta pública."
           filters:
             custom_fields:
               inexistent: "Não há nenhum campo personalizado para o filtro."
@@ -944,6 +972,9 @@ pt-BR:
             base:
               working_days_are_missing: "Pelo menos um dia da semana deve ser definido como um dia útil."
               previous_working_day_changes_unprocessed: "As alterações anteriores na configuração de dias úteis ainda não foram aplicadas."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -1001,11 +1032,13 @@ pt-BR:
               only_same_project_categories_allowed: "A categoria de um pacote de trabalho deve estar dentro do mesmo projeto do pacote de trabalho."
               does_not_exist: "Categoria especificada não existe."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Não pode ser menor do que o Trabalho restante."
               must_be_set_when_remaining_work_is_set: "Necessário quando o Trabalho restante for definido."
               only_values_greater_or_equal_zeroes_allowed: "Deve ser >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Não pode ser maior do que o Trabalho."
               must_be_set_when_work_is_set: "Necessário quando o Trabalho for definido."
               format: "%{message}"
@@ -1128,18 +1161,6 @@ pt-BR:
           other: "<i>%{count} horas</i>"
         updated: "alterado de %{old_value} para %{value}"
         logged_for: "Registrado por"
-      meeting_agenda_item:
-        duration:
-          added: "definido como %{value}"
-          added_html: "definido como <i>%{value}</i>"
-          removed: "removido"
-          updated: "alterado de %{old_value} para %{value}"
-          updated_html: "alterado de <i>%{old_value}</i> para <i>%{value}</i>"
-        position:
-          updated: "reorganizado"
-        work_package:
-          updated: "alterado de %{old_value} para %{value}"
-          updated_html: "alterado de <i>%{old_value}</i> para <i>%{value}</i>"
     filter:
       changeset: "Cj de alterações"
       message: "Fóruns"
@@ -1318,6 +1339,8 @@ pt-BR:
   button_revoke_access: "Revogar acesso"
   button_revoke_all: "Revogar todos"
   button_revoke_only: "Revogar apenas %{shared_role_name}"
+  button_publish: "Tornar público"
+  button_unpublish: "Tornar privada"
   consent:
     checkbox_label: Eu li e concordo com o exposto acima.
     failure_message: Consentimento falhou, não pode continuar.
@@ -1588,6 +1611,12 @@ pt-BR:
       pdf_gantt: "Gantt em PDF"
     image:
       omitted: "Imagem não exportada."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d
@@ -1641,7 +1670,7 @@ pt-BR:
       dates_changed: "Data modificada"
       default_attribute_written: "Atributos de somente leitura escritos"
       progress_mode_changed_to_status_based: "Cálculo de progresso atualizado"
-      status_p_complete_changed: "Estado da % de conclusão alterado"
+      status_changed: "Status '%{status_name}'"
       system_update: "Atualização do sistema OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: por alterações ao antecessor %{link}
@@ -1658,8 +1687,9 @@ pt-BR:
           working: "%{date} agora está funcionando"
           non_working: "%{date} não está funcionando agora"
       progress_mode_changed_to_status_based: Modo de cálculo de progresso definido como com base no status
-      status_p_complete_changed: >-
-        Valor da % de conclusão para o estado '%{status_name}' alterado de %{old_value}% para %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           A partir de agora, a atividade relacionada a links de arquivos (arquivos armazenados em armazenamentos externos) aparecerá aqui na guia Atividade. O seguinte representa a atividade relacionada aos links que já existiam:
@@ -2316,7 +2346,7 @@ pt-BR:
   label_workflow: "Fluxo de Trabalho"
   label_workflow_plural: "Fluxos de trabalho"
   label_workflow_summary: "Sumário"
-  label_working_days: "Dias úteis"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 fechado"
     other: "%{count} fechados"
@@ -2698,6 +2728,7 @@ pt-BR:
   permission_save_bcf_queries: "Salvar consultas a BCF"
   permission_manage_public_bcf_queries: "Gerenciar consultas públicas a BCF"
   permission_edit_attribute_help_texts: "Editar textos de ajuda do atributos"
+  permission_manage_public_project_queries: "Gerenciar listas de projetos públicos"
   placeholders:
     default: "-"
   project:
@@ -2928,6 +2959,9 @@ pt-BR:
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
   setting_host_name: "Nome do servidor"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "E-mail de ativação expira após"
   setting_work_package_done_ratio: "Cálculo de progresso"
   setting_work_package_done_ratio_field: "Com base no trabalho"
@@ -3368,12 +3402,12 @@ pt-BR:
         additional_privileges_project_or_group: "Poderá ter privilégios adicionais (como membro do projeto ou grupo)"
   working_days:
     info: >
-      Dias que não são selecionados são pulados ao agendar pacotes de trabalho (e não são incluídos na contagem do dia). Estes podem ser substituídos a nível do pacotes de trabalho.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       As datas adicionadas à lista abaixo são consideradas não úteis e ignoradas ao agendar pacotes de trabalho.
     change_button: "Alterar dias úteis"
     warning: >
-      Alterar os dias da semana considerados úteis ou não úteis pode afetar as datas de início e término de todos os pacotes de trabalho em todos os projetos desta instância. <br/> Observe que as alterações só são aplicadas após clicar no botão aplicar alterações.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Dias úteis** alterado (%{changes})._
       days:

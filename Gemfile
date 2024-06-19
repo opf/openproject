@@ -157,9 +157,11 @@ gem "structured_warnings", "~> 0.4.0"
 # don't require by default, instead load on-demand when actually configured
 gem "airbrake", "~> 13.0.0", require: false
 
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "8f14736a88ad0064d2a97be108fe7061ffbcee91"
+gem "markly", "~> 0.10" # another markdown parser like commonmarker, but with AST support used in PDF export
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "8772c791a21819751c0d111be903b3b44ef7d862"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
+
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.2"
 
@@ -180,7 +182,7 @@ gem "i18n-js", "~> 4.2.3"
 gem "rails-i18n", "~> 7.0.0"
 
 gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
-gem "sprockets-rails", "~> 3.4.2"
+gem "sprockets-rails", "~> 3.5.1"
 
 gem "puma", "~> 6.4"
 gem "puma-plugin-statsd", "~> 2.0"
@@ -213,7 +215,7 @@ gem "dry-container"
 gem "store_attribute", "~> 1.0"
 
 # Appsignal integration
-gem "appsignal", "~> 3.0", require: false
+gem "appsignal", "~> 3.8.1", require: false
 
 gem "view_component"
 # Lookbook
@@ -326,10 +328,12 @@ group :development, :test do
 
   # ruby linting
   gem "rubocop", require: false
-  gem "rubocop-inflector", require: false
+  gem "rubocop-capybara", require: false
+  gem "rubocop-factory_bot", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "rubocop-rspec_rails", require: false
 
   # erb linting
   gem "erb_lint", require: false
@@ -384,6 +388,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.12.0"
-gem "openproject-octicons_helper", "~>19.12.0"
-gem "openproject-primer_view_components", "~>0.31.0"
+gem "openproject-octicons", "~>19.14.1"
+gem "openproject-octicons_helper", "~>19.14.1"
+gem "openproject-primer_view_components", "~>0.34.0"

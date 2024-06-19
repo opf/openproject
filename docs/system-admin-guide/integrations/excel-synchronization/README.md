@@ -44,9 +44,20 @@ You will then get the relations in your Excel file.
 **Example:**
 "follows 12345, precedes 45678"
 
-Unfortunately, there is no way to create relation with translated terms via API at the moment. You have to use these terms instead: [Relation Edit Form API](../../../api/endpoints/relations/#relation-edit-form)
+Unfortunately, there is no way to create relation with translated terms via API at the moment. You have to use these
+terms instead, defined in the [relations model](https://github.com/opf/openproject/blob/f8caab74090dce26b6056857226a7e00e3b3fa09/app/models/relation.rb):
 
-![allowed values](image-20211014153150017.png)
+- relates
+- duplicates
+- duplicated
+- blocks
+- blocked
+- precedes
+- follows
+- includes
+- partof
+- requires
+- required
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Excel-Relations.mp4" type="video/mp4" controls="" style="width:100%"></video>
 

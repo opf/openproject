@@ -47,7 +47,7 @@ RSpec.describe "Working Days", :js, :with_cuprite do
   current_user { admin }
 
   before do
-    visit admin_settings_working_days_path
+    visit admin_settings_working_days_and_hours_path
   end
 
   describe "week days" do
@@ -284,7 +284,7 @@ RSpec.describe "Working Days", :js, :with_cuprite do
       # rubocop:disable RSpec/AnyInstance
       allow_any_instance_of(NonWorkingDay)
         .to receive(:errors)
-        .and_return(errors)
+              .and_return(errors)
       # rubocop:enable RSpec/AnyInstance
 
       delete_button = page.first(".op-non-working-days-list--delete-icon .icon-delete", visible: :all)
@@ -299,5 +299,16 @@ RSpec.describe "Working Days", :js, :with_cuprite do
       expect(page).to have_no_css("tr", text: non_working_days.second.date.strftime("%B %-d, %Y"))
       expect(page).to have_css("tr", text: non_working_days.last.date.strftime("%B %-d, %Y"))
     end
+  end
+
+  it "doesn't open a confirmation dialog if no working/non-working days have been modified" do
+    create(:non_working_day, date: Date.new(Date.current.year, 6, 10))
+    create(:non_working_day, date: Date.new(Date.current.year, 8, 20))
+    create(:non_working_day, date: Date.new(Date.current.year, 9, 25))
+
+    click_on "Apply changes"
+
+    # No dialog and saved successfully
+    expect(page).to have_css(".op-toast.-success")
   end
 end

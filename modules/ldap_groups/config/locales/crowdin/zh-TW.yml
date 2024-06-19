@@ -64,7 +64,7 @@ zh-TW:
       plural: '同步的 LDAP 群組'
       singular: '同步的 LDAP 群組'
       form:
-        auth_source_text: '選擇要使用的 LDAP 連接。'
+        auth_source_text: '選擇應使用的 LDAP 連接。'
         sync_users_text: >
           如果啓用此選項，找到的使用者會自動新增到OpenProject系統。如果不啓用，只有 OpenProject 現有帳戶會加到群組中。
         dn_text: '輸入 LDAP 中群組的完成 DN'

@@ -272,7 +272,7 @@ module SortHelper
   # - the optional caption explicitly specifies the displayed link text.
   # - 2 CSS classes reflect the state of the link: sort and asc or desc
   #
-  def sort_link(column, caption, default_order, html_options = {})
+  def sort_link(column, caption, default_order, allowed_params: nil, **html_options)
     order = order_string(column, inverted: true) || default_order
     caption ||= column.to_s.humanize
 
@@ -283,8 +283,10 @@ module SortHelper
 
     sort_options = { sort_key => sort_param }
 
+    allowed_params ||= %w[filters per_page expand columns]
+
     # Don't lose other params.
-    link_to_content_update(h(caption), safe_query_params(%w{filters per_page expand columns}).merge(sort_options), html_options)
+    link_to_content_update(h(caption), safe_query_params(allowed_params).merge(sort_options), html_options)
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -311,7 +313,7 @@ module SortHelper
   #       </div>
   #     </th>
   #
-  def sort_header_tag(column, options = {})
+  def sort_header_tag(column, allowed_params: nil, **options)
     caption = get_caption(column, options)
 
     default_order = options.delete(:default_order) || "asc"
@@ -321,7 +323,7 @@ module SortHelper
     options[:title] = sort_header_title(column, caption, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      sort_link(column, caption, default_order, param:, lang:, title: options[:title])
+      sort_link(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title])
     end
   end
 

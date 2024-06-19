@@ -69,8 +69,8 @@ module Storages
               ServiceResult.failure(result: :unauthorized,
                                     errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
             else
-              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(response:, code: :error, source: self.class))
             end
           end
 

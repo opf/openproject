@@ -107,30 +107,30 @@ id:
           uuid_already_taken: "Tidak dapat mengimpor masalah BCF ini karena sudah ada masalah lain dengan GUID yang sama. Mungkinkah masalah BCF ini sudah diimpor ke proyek lain?"
   ifc_models:
     label_ifc_models: 'Model IFC'
-    label_new_ifc_model: 'New IFC model'
-    label_show_defaults: 'Show defaults'
-    label_default_ifc_models: 'Default IFC models'
-    label_edit_defaults: 'Edit defaults'
+    label_new_ifc_model: 'Model IFC baru'
+    label_show_defaults: 'Tampilkan bawaan'
+    label_default_ifc_models: 'Model bawaan IFC'
+    label_edit_defaults: 'Edit pengaturan bawaan'
     no_defaults_warning:
-      title: 'No IFC model was set as default for this project.'
-      check_1: 'Check that you have uploaded at least one IFC model.'
+      title: 'Tidak ada model IFC yang ditetapkan sebagai bawaan dalam projek ini.'
+      check_1: 'Pastikan anda telah mengunggah setidaknya satu model IFC.'
       check_2: 'Check that at least one IFC model is set to "Default".'
-    no_results: "No IFC models have been uploaded in this project."
+    no_results: "Tidak ada model IFC yang diunggah dalam proyek ini."
     conversion_status:
-      label: 'Processing?'
-      pending: 'Pending'
-      processing: 'Processing'
-      completed: 'Completed'
+      label: 'Memproses?'
+      pending: 'Menunggu'
+      processing: 'Memproses'
+      completed: 'Selesai'
       error: 'Eror'
     processing_notice:
-      processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
+      processing_default: 'Model IFC bawaan berikut ini masih diproses dan belum tersedia sekarang:'
     flash_messages:
-      upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
+      upload_successful: 'Pengunggahan sukses. File akan diproses dan akan siap digunakan dalam beberapa menit.'
     conversion:
-      missing_commands: "The following IFC converter commands are missing on this system: %{names}"
+      missing_commands: "Perintah IFC converter berikut ini tidak ditemukan dalam perangkat ini: %{names}\n"
   project_module_ifc_models: "Model IFC"
-  permission_view_ifc_models: "View IFC models"
-  permission_manage_ifc_models: "Import and manage IFC models"
+  permission_view_ifc_models: "Lihat model IFC"
+  permission_manage_ifc_models: "Import dan sesuaikan model IFC"
   extraction:
     available:
       ifc_convert: "IFC conversion pipeline available"

@@ -46,7 +46,7 @@ module API
               :attachments,
               type: Boolean,
               default: true,
-              desc: 'Whether or not to include attachments (default: true)'
+              desc: "Whether or not to include attachments (default: true)"
             )
           end
           post do

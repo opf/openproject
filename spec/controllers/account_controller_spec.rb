@@ -434,6 +434,17 @@ RSpec.describe AccountController, :skip_2fa_stage do
     end
   end
 
+  describe "#login with omniauth_direct_login_provider set but empty",
+           with_config: { omniauth_direct_login_provider: "" } do
+    describe "GET" do
+      it "does not redirect to some_provider" do
+        get :login
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
   describe "Login for user with forced password change" do
     let(:admin) { create(:admin, force_password_change: true) }
 

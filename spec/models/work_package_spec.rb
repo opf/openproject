@@ -56,7 +56,7 @@ RSpec.describe WorkPackage do
                        priority:,
                        subject: "test_create",
                        description: "WorkPackage#create",
-                       estimated_hours: "1:30" }
+                       estimated_hours: "1h30" }
     end
   end
 
@@ -746,9 +746,22 @@ RSpec.describe WorkPackage do
   end
 
   describe "#remaining_hours" do
-    it "allows empty values" do
-      expect(work_package.remaining_hours).to be_nil
+    it "allows empty value" do
+      work_package.remaining_hours = ""
       expect(work_package).to be_valid
+      expect(work_package.remaining_hours).to be_nil
+    end
+
+    it "allows blank values" do
+      work_package.remaining_hours = "  "
+      expect(work_package).to be_valid
+      expect(work_package.remaining_hours).to be_nil
+    end
+
+    it "allows nil value" do
+      work_package.remaining_hours = nil
+      expect(work_package).to be_valid
+      expect(work_package.remaining_hours).to be_nil
     end
 
     it "allows values greater than or equal to 0" do
@@ -772,6 +785,24 @@ RSpec.describe WorkPackage do
     it "allows non-integers" do
       work_package.remaining_hours = "1.3"
       expect(work_package).to be_valid
+    end
+
+    it "allows hours like '1h06'" do
+      work_package.remaining_hours = "1h06"
+      expect(work_package).to be_valid
+      expect(work_package.remaining_hours).to eq(1.1)
+    end
+
+    it "allows hours like '1h 24m'" do
+      work_package.remaining_hours = "1h 24m"
+      expect(work_package).to be_valid
+      expect(work_package.remaining_hours).to eq(1.4)
+    end
+
+    it "allows hours like '3d 1.5h 30m'" do
+      work_package.remaining_hours = "3d 1h 30m"
+      expect(work_package).to be_valid
+      expect(work_package.remaining_hours).to eq((3 * 8) + 1.5)
     end
   end
 end

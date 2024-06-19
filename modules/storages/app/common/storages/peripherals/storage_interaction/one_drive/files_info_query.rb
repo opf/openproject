@@ -47,7 +47,7 @@ module Storages
             if file_ids.nil?
               return ServiceResult.failure(
                 result: :error,
-                errors: ::Storages::StorageError.new(code: :error, log_message: "File IDs can not be nil")
+                errors: StorageError.new(code: :error, log_message: "File IDs can not be nil")
               )
             end
 
