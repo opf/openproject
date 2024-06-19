@@ -29,12 +29,20 @@
 class NotificationsController < ApplicationController
   before_action :require_login
   before_action :filtered_query, only: :mark_all_read
-  no_authorization_required! :index, :mark_all_read
+  no_authorization_required! :index, :split_view, :mark_all_read
 
   def index
     # Frontend will handle rendering
     # but we will need to render with notification specific layout
     render layout: "angular/notifications"
+  end
+
+  def split_view
+    respond_to do |format|
+      format.html do
+        render :index, layout: "angular/notifications"
+      end
+    end
   end
 
   def mark_all_read

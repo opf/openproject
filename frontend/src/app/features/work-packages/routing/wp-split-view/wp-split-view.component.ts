@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, Input, OnInit, Type } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import {
   WorkPackageViewFocusService,
@@ -51,6 +51,10 @@ import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
 import { UrlParamsService } from 'core-app/core/url-params/url-params.service';
+import {
+  WorkPackageTabsService,
+} from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
+import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
 
 @Component({
   templateUrl: './wp-split-view.html',
@@ -68,6 +72,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   private baseRoute:string = this.$state.current?.data?.baseRoute;
 
   @Input() workPackageId:string;
+  @Input() showTabs = true;
   @Input() activeTab?:string;
 
   constructor(
@@ -81,6 +86,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
     readonly $state:StateService,
     readonly urlParams:UrlParamsService,
     readonly backRouting:BackRoutingService,
+    readonly wpTabs:WorkPackageTabsService,
   ) {
     super(injector, $state.params.workPackageId);
   }
@@ -122,6 +128,14 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
   get shouldFocus():boolean {
     return this.$state.params.focus === true;
+  }
+
+  get activeTabComponent():Type<TabComponent>|undefined {
+    return this
+      .wpTabs
+      .tabs
+      .find((tab) => tab.id === this.activeTab)
+      ?.component;
   }
 
   showBackButton():boolean {

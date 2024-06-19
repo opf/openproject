@@ -139,7 +139,9 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   ngOnDestroy() {
     super.ngOnDestroy();
     // Reset the style when killing this directive, otherwise the style remains
-    this.resizingElement.style[this.resizeStyle] = '';
+    if (this.resizingElement) {
+      this.resizingElement.style[this.resizeStyle] = '';
+    }
   }
 
   resizeStart() {

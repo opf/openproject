@@ -700,7 +700,12 @@ Rails.application.routes.draw do
   root to: "account#login"
 
   concern :with_split_view do |options|
-    get "details/:work_package_id(/:tab)", on: :collection, action: options.fetch(:action, :index), as: :details
+    get "details/:work_package_id(/:tab)",
+        on: :collection,
+        action: options.fetch(:action, :split_view),
+        defaults: { tab: :overview },
+        as: :details,
+        work_package_split_view: true
   end
 
   resources :notifications, only: :index do

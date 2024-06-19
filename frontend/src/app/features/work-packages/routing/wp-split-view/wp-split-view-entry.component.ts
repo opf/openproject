@@ -43,6 +43,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
     <op-wp-split-view
       [workPackageId]="workPackageId"
       [activeTab]="activeTab"
+      [showTabs]="false"
     ></op-wp-split-view>
   `,
 })

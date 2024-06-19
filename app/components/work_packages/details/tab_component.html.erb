@@ -1,0 +1,10 @@
+<%=
+  render(Primer::Alpha::UnderlineNav.new(align: :left, label: "Tabs")) do |component|
+    %i[overview activity files relations watchers github gitlab meetings].each do |tab|
+      component.with_tab(selected: @tab == tab,
+                         href: url_for(tab: tab)) do |c|
+        c.with_text { t("js.work_packages.tabs.#{tab}") }
+      end
+    end
+  end
+%>

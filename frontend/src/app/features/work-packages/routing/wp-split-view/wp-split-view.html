@@ -3,8 +3,14 @@
   data-indicator-name="wpDetails"
   *ngIf="workPackage"
 >
-  <op-wp-tabs [workPackage]="workPackage" [view]="'split'"></op-wp-tabs>
-  <div class="work-packages--details-content work-packages-tab-view--overflow" *ngIf="workPackage">
+  <op-wp-tabs
+    *ngIf="showTabs"
+    [workPackage]="workPackage"
+    [view]="'split'"
+  ></op-wp-tabs>
+  <div class="work-packages--details-content work-packages-tab-view--overflow"
+       [class.work-packages--details-content_no-tabs]="!showTabs"
+       *ngIf="workPackage">
       <span
         class="hidden-for-sighted"
         tabindex="-1"
@@ -35,11 +41,22 @@
       </div>
 
       <div
+        *ngIf="showTabs"
+        class="work-package-details-tab"
+        data-notification-selector='notification-scroll-container'
+        ui-view
+      >
+      </div>
+      <div
+        *ngIf="!showTabs && activeTab"
         class="work-package-details-tab"
         data-notification-selector='notification-scroll-container'
       >
-        <wp-overview-tab [workPackage]="workPackage"></wp-overview-tab>
+        <ndc-dynamic [ndcDynamicComponent]="activeTabComponent"
+                     [ndcDynamicInputs]="{ workPackage: workPackage }">
+        </ndc-dynamic>
       </div>
+
     </edit-form>
   </div>
 
