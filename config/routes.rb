@@ -530,7 +530,7 @@ Rails.application.routes.draw do
     get "details/*state" => "work_packages#index", on: :collection, as: :details
 
     # Rails managed sharing route
-    resources :shares, controller: "work_packages/shares", only: %i[index create update destroy] do
+    resources :members, path: :shares, controller: "work_packages/shares", only: %i[index create update destroy] do
       member do
         post "resend_invite" => "work_packages/shares#resend_invite"
       end

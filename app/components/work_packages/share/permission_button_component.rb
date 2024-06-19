@@ -45,7 +45,7 @@ module WorkPackages
       # or be passive and work like a select inside a form.
       def update_path
         if share.persisted?
-          work_package_share_path(share.entity, share)
+          url_for([share.entity, share])
         end
       end
 

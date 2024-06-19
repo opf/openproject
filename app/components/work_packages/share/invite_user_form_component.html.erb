@@ -3,7 +3,7 @@
     if sharing_manageable?
       primer_form_with(
         model: new_share,
-        url: work_package_shares_path(@work_package),
+        url: url_for([@work_package, Member]),
         data: { controller: 'user-limit ' \
                             'work-packages--share--user-selected',
                 'application-target': 'dynamic',
