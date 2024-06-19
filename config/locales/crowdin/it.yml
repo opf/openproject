@@ -301,7 +301,7 @@ it:
           add_projects: Aggiungi progetti
           include_sub_projects: Includi sottoprogetti
         project_mappings:
-          header: Enabled in projects
+          header: Abilitato nei progetti
       types:
         no_results_title_text: Al momento non sono disponibili tipi.
         form:

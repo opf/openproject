@@ -276,9 +276,9 @@ ko:
           계속하시겠습니까?
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+          진행률 계산 모드를 상태 기반에서 작업 기반으로 변경하면 <i>완료 %</i>가 편집할 수 없는 필드가 되며 해당 값은 <i>작업</i> 및 <i>남은 작업</i>에서 파생됩니다. <i>완료 %</i>의 기존 값은 유지됩니다. <i>작업</i> 및 <i>남은 작업</i>의 값이 없는 경우, <i>완료 %</i>를 변경하려면 해당 값이 필요합니다.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
-          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
+          진행률 계산 모드를 작업 기반에서 상태 기반으로 변경하면 기존의 모든 <i>완료 %</i> 값이 손실되고 각 상태와 관련된 값으로 대체됩니다. <i>남은 작업</i>의 기존 값도 이 변경 사항을 반영하기 위해 다시 계산될 수 있습니다. 이 작업은 되돌릴 수 없습니다.
     custom_actions:
       date:
         specific: "에"
@@ -368,7 +368,7 @@ ko:
           "14_2":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>작업, 남은 작업 및 작업 시간에 대한 추가적인 단위 설정</li> <li>프로젝트 특성에 대해 활성화되는 프로젝트 구성</li> <li>비공개 프로젝트 목록 이름 바꾸기</li> <li>@mentions의 경우 중복 이메일 미리 알림 방지</li> <li>이메일로 미팅 참석자 초대</li> <li>PDF 내보내기에 포함된 작업 패키지 특성 표시</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -1286,9 +1286,9 @@ ko:
         next_button: "계속"
     exclusion_info:
       modal:
-        title: "Status excluded from hierarchy totals"
+        title: "계층 합계에서 상태 제외됨"
         content: >-
-          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+          '%{status_name}' 상태는 작업, 남은 작업 및 완료 %의 계층 합계에서 제외되도록 구성되었습니다. 합계에서 이 값이 고려되지 않습니다.
     favorite_projects:
       no_results: "즐겨 찾는 프로젝트가 없습니다"
       no_results_subtext: "개요 또는 프로젝트 목록에서 하나 이상의 프로젝트를 즐겨찾기로 추가하세요."
@@ -1349,12 +1349,12 @@ ko:
         remove: "제거"
       drop_modal:
         focus_grab: "모달용 포커스 앵커입니다. 모달 트리거 요소로 돌아가려면 shift+tab을 누르세요."
-        close: "Close modal"
+        close: "모달 닫기"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "시간 제한"
       waiting_subtitle:
         network_off: "네트워크 문제가 있습니다."
         network_on: "네트워크가 복원되었습니다. 작업 중입니다."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          예상 시간 내에 OpenProject에서 프로젝트 폴더에 대한 액세스를 제공하지 못했습니다. 다시 한 번 시도해 보세요.<br><br> 문제가 지속되면 OpenProject 관리자에게 문의하여 <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">파일 저장소 설정 상태</a>를 확인하세요.
