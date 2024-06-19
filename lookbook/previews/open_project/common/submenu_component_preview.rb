@@ -21,7 +21,7 @@ module OpenProject
       def with_create_button
         render_with_template(template: "open_project/common/submenu_preview/playground",
                              locals: { sidebar_menu_items: menu_items, searchable: true,
-                                       create_btn_options: { href: "/#", text: "User" } })
+                                       create_btn_options: { href: "/#", module_key: "user" } })
       end
 
       private

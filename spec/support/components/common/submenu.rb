@@ -37,18 +37,25 @@ module Components
         selected_specifier = selected ? ".selected" : ":not(.selected)"
 
         expect(page).to have_css(".op-sidemenu--item-action#{selected_specifier}", text: name, visible:)
+        # expect(page).to have_css("[data-test-selector='op-sidemenu--item-action']#{selected_specifier}", text: name, visible:)
       end
     end
 
     def expect_no_item(name)
       within "#main-menu" do
-        expect(page).to have_no_css(".op-sidemenu--item-action", text: name)
+        expect(page).not_to have_test_selector("op-sidemenu--item-action", text: name)
       end
     end
 
     def click_item(name)
       within "#main-menu" do
         click_on text: name
+      end
+    end
+
+    def expect_no_items
+      within "#main-menu" do
+        expect(page).not_to have_test_selector("op-sidemenu--item-action")
       end
     end
 

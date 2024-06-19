@@ -144,10 +144,6 @@ import {
 } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
 import { IanMenuComponent, ianMenuSelector } from 'core-app/features/in-app-notifications/center/menu/menu.component';
 import {
-  opTeamPlannerSidemenuSelector,
-  TeamPlannerSidemenuComponent,
-} from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
-import {
   OpModalOverlayComponent,
   opModalOverlaySelector,
 } from 'core-app/shared/components/modal/modal-overlay.component';
@@ -213,7 +209,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
-  { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: backupSelector, cls: BackupComponent },
