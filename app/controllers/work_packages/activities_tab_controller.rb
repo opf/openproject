@@ -95,9 +95,13 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def create
-    call = Journals::CreateService.new(@work_package, User.current).call(
-      notes: journal_params[:notes]
-    )
+    ### taken from ActivitiesByWorkPackageAPI
+    call = AddWorkPackageNoteService
+      .new(user: User.current,
+          work_package: @work_package)
+      .call(journal_params[:notes],
+            send_notifications: !(params.has_key?(:notify) && params[:notify] == "false"))
+    ###
 
     if call.success? && call.result
       generate_time_based_update_streams(params[:last_update_timestamp], params[:filter])
