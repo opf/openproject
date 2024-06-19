@@ -31,13 +31,27 @@
 module Storages
   module Admin
     module Sidebar
-      class ConnectionValidationComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-        include OpTurbo::Streamable
+      class ValidationResultComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         include OpPrimer::ComponentHelpers
 
-        def initialize(storage:)
-          super(storage)
-          @storage = storage
+        def initialize(result:)
+          super(result)
+          @result = result
+        end
+
+        private
+
+        def status_indicator
+          case @result.type
+          when :healthy
+            { scheme: :success, label: I18n.t("storages.health.label_healthy") }
+          when :warning
+            { scheme: :attention, label: I18n.t("storages.health.label_warning") }
+          when :error
+            { scheme: :danger, label: I18n.t("storages.health.label_error") }
+          else
+            raise ArgumentError, "Unknown validation result type for status indicator: #{@result.type}"
+          end
         end
       end
     end

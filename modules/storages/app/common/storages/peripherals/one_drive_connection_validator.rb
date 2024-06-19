@@ -47,9 +47,7 @@ module Storages
           .or { drive_id_wrong }
           .or { request_failed_with_unknown_error }
           .or { drive_with_unexpected_content }
-          .value_or(ConnectionValidation.new(icon: "check-circle",
-                                             scheme: :success,
-                                             description: I18n.t("storages.connection_validation.success")))
+          .value_or(ConnectionValidation.new(type: :healthy, timestamp: Time.current, description: nil))
       end
 
       private
@@ -63,17 +61,17 @@ module Storages
       def maybe_is_not_configured
         return None() if @storage.configured?
 
-        Some(ConnectionValidation.new(icon: :alert,
-                                      scheme: :warning,
-                                      description: I18n.t("storages.connection_validation.not_configured")))
+        Some(ConnectionValidation.new(type: :none,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.not_configured")))
       end
 
       def drive_id_wrong
         return None() if query.result != :not_found
 
-        Some(ConnectionValidation.new(icon: :skip,
-                                      scheme: :danger,
-                                      description: I18n.t("storages.connection_validation.drive_id_wrong")))
+        Some(ConnectionValidation.new(type: :error,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.drive_id_wrong")))
       end
 
       def tenant_id_wrong
@@ -85,9 +83,9 @@ module Storages
         tenant_id_string = "Tenant '#{@storage.tenant_id}' not found."
         return None() unless payload["error_description"].include?(tenant_id_string)
 
-        Some(ConnectionValidation.new(icon: :skip,
-                                      scheme: :danger,
-                                      description: I18n.t("storages.connection_validation.tenant_id_wrong")))
+        Some(ConnectionValidation.new(type: :error,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.tenant_id_wrong")))
       end
 
       def client_id_wrong
@@ -96,9 +94,9 @@ module Storages
         payload = JSON.parse(query.error_payload)
         return None() if payload["error"] != "unauthorized_client"
 
-        Some(ConnectionValidation.new(icon: :skip,
-                                      scheme: :danger,
-                                      description: I18n.t("storages.connection_validation.client_id_wrong")))
+        Some(ConnectionValidation.new(type: :error,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.client_id_wrong")))
       end
 
       def client_secret_wrong
@@ -107,9 +105,9 @@ module Storages
         payload = JSON.parse(query.error_payload)
         return None() if payload["error"] != "invalid_client"
 
-        Some(ConnectionValidation.new(icon: :skip,
-                                      scheme: :danger,
-                                      description: I18n.t("storages.connection_validation.client_secret_wrong")))
+        Some(ConnectionValidation.new(type: :error,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.client_secret_wrong")))
       end
 
       # rubocop:disable Metrics/AbcSize
@@ -124,9 +122,9 @@ module Storages
         unexpected_files = query.result.files.reject { |file| expected_folder_ids.include?(file.id) }
         return None() if unexpected_files.empty?
 
-        Some(ConnectionValidation.new(icon: :alert,
-                                      scheme: :warning,
-                                      description: I18n.t("storages.connection_validation.unexpected_content")))
+        Some(ConnectionValidation.new(type: :warning,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.unexpected_content")))
       end
 
       # rubocop:enable Metrics/AbcSize
@@ -137,9 +135,9 @@ module Storages
         Rails.logger.error("Connection validation failed with unknown error:\n\t" \
                            "status: #{query.result}\n\tresponse: #{query.error_payload}")
 
-        Some(ConnectionValidation.new(icon: :skip,
-                                      scheme: :danger,
-                                      description: I18n.t("storages.connection_validation.unknown_error")))
+        Some(ConnectionValidation.new(type: :error,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.unknown_error")))
       end
 
       def root_folder

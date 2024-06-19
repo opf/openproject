@@ -102,13 +102,26 @@ en:
       redirect_uri: Redirect URI
       storage_provider: Storage provider
     health:
+      title: Health status
       checked: Last checked %{datetime}
       label_error: Error
+      label_warning: Warning
       label_healthy: Healthy
       label_pending: Pending
       since: since %{datetime}
-      subtitle: Automatically managed project folders
-      title: Health status
+      project_folders:
+        subtitle: Automatically managed project folders
+      connection_validation:
+        subtitle: Connection validation
+        placeholder: Check your connection against the server.
+        action: Recheck connection
+        not_configured: The connection could not be validated. Please finish configuration first.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        unexpected_content: Unexpected content found in the drive.
     health_email_notifications:
       description_subscribed: All administrators receive health status email notifications for this storage.
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
@@ -116,17 +129,6 @@ en:
       subscribe: Subscribe
       title: Email notifications
       unsubscribe: Unsubscribe
-    connection_validation:
-      title: Connection validation
-      action: Validate connection
-      not_configured: The connection could not be validated. Please finish configuration first.
-      drive_id_wrong: The configured drive id could not be found. Please check the configuration.
-      tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-      client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-      client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-      unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
-      unexpected_content: Unexpected content found in the drive.
-      success: The connection works as expected.
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     instructions:

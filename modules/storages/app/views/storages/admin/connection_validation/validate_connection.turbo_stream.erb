@@ -28,5 +28,5 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= turbo_stream.update :connection_validation_result do %>
-  <%= render(Primer::Alpha::Banner.new(icon: @result.icon, scheme: @result.scheme)) { @result.description } %>
+  <%= render(Storages::Admin::Sidebar::ValidationResultComponent.new(result: @result)) %>
 <% end %>

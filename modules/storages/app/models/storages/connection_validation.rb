@@ -29,5 +29,5 @@
 #++
 
 module Storages
-  ConnectionValidation = Data.define(:icon, :scheme, :description)
+  ConnectionValidation = Data.define(:type, :description, :timestamp)
 end

@@ -31,34 +31,55 @@ See COPYRIGHT and LICENSE files for more details.
   component_wrapper do
     flex_layout do |health_status_container|
       health_status_container.with_row do
-        flex_layout do |heading|
-          heading.with_row do
-            render(Primer::Beta::Heading.new(tag: :h4)) { I18n.t("storages.health.title") }
-          end
+        render(Primer::Beta::Heading.new(tag: :h4)) { I18n.t("storages.health.title") }
+      end
 
-          heading.with_row(mt: 2) do
-            render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.health.subtitle") }
+      if @storage.provider_type_one_drive?
+        health_status_container.with_row(mt: 2) do
+          render(OpTurbo::FrameComponent.new(id: :connection_validation_result)) do
+            render(Storages::Admin::Sidebar::ValidationResultComponent.new(result: validation_result_placeholder))
+          end
+        end
+
+        health_status_container.with_row(mt: 2) do
+          primer_form_with(
+            model: @storage,
+            url: validate_connection_admin_settings_storage_connection_validation_path(@storage),
+            method: :post,
+            data: { turbo: true }
+          ) do
+            render(Primer::Beta::Button.new(
+              scheme: :link,
+              color: :default,
+              font_weight: :bold,
+              type: :submit,
+            )) do |button|
+              button.with_leading_visual_icon(icon: "meter")
+              I18n.t("storages.health.connection_validation.action")
+            end
           end
         end
       end
 
-      health_status_container.with_row(mt: 2) do
-        flex_layout do |health_status_label|
-          health_status_label.with_row do
-            concat(render(Primer::Beta::Text.new(pr: 2, test_selector: "storage-health-checked-at")) do
-              I18n.t('storages.health.checked', datetime: helpers.format_time(@storage.health_checked_at))
-            end)
+      if @storage.automatic_management_enabled?
+        health_status_container.with_row(mt: 2) do
+          render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.health.project_folders.subtitle") }
+        end
 
-            concat(render(Primer::Beta::Label.new(scheme: health_status_indicator[:scheme], test_selector: "storage-health-status")) do
-              health_status_indicator[:label]
-            end)
-          end
+        health_status_container.with_row(mt: 2) do
+          concat(render(Primer::Beta::Text.new(pr: 2, test_selector: "storage-health-checked-at")) do
+            I18n.t('storages.health.checked', datetime: helpers.format_time(@storage.health_checked_at))
+          end)
 
-          if @storage.health_unhealthy?
-            health_status_label.with_row(mt: 2) do
-              render(Primer::Beta::Text.new(color: :muted, test_selector: "storage-health-error")) do
-                formatted_health_reason
-              end
+          concat(render(Primer::Beta::Label.new(scheme: health_status_indicator[:scheme], test_selector: "storage-health-status")) do
+            health_status_indicator[:label]
+          end)
+        end
+
+        if @storage.health_unhealthy?
+          health_status_container.with_row(mt: 2) do
+            render(Primer::Beta::Text.new(color: :muted, test_selector: "storage-health-error")) do
+              formatted_health_reason
             end
           end
         end
