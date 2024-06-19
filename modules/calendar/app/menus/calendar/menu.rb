@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 module Calendar
-  class Menu < Menus::Submenu
+  class Menu < Submenu
     attr_reader :view_type, :project
 
     def initialize(project: nil, params: nil)
