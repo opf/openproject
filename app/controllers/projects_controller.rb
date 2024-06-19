@@ -99,9 +99,9 @@ class ProjectsController < ApplicationController
              .call(deactivate_work_package_attachments: params[:value] != "1")
 
     if call.failure?
-      return render_403 if call.errors.map(&:type).include?(:error_unauthorized)
-
-      render_error({ message: call.errors.full_messages.join("\n") })
+      render json: call.errors.full_messages.join(" "), status: :unprocessable_entity
+    else
+      head :no_content
     end
   end
 
