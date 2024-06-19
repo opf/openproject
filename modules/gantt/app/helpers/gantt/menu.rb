@@ -26,12 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 module Gantt
-  class MenusController < ApplicationController
-    before_action :load_and_authorize_in_optional_project
+  class Menu < Menus::Submenu
+    attr_reader :view_type, :project
 
-    def show
-      @sidebar_menu_items = Gantt::Menu.new(project: @project, params:).menu_items
-      render layout: nil
+    def initialize(project: nil, params: nil)
+      @view_type = "gantt"
+      @project = project
+      @params = params
+
+      super(view_type:, project:, params:)
+    end
+
+    def default_queries
+      query_generator = Gantt::DefaultQueryGeneratorService.new(with_project: project)
+      Gantt::DefaultQueryGeneratorService::QUERY_OPTIONS.filter_map do |query_key|
+        params = query_generator.call(query_key:)
+        next if params.nil?
+
+        menu_item(
+          params,
+          I18n.t("js.queries.#{query_key}")
+        )
+      end
+    end
+
+    def query_path(query_params)
+      if project.present?
+        project_gantt_index_path(project, params.permit(query_params.keys).merge!(query_params))
+      else
+        gantt_index_path(params.permit(query_params.keys).merge!(query_params))
+      end
     end
   end
 end
