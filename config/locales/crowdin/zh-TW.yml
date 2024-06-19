@@ -67,7 +67,7 @@ zh-TW:
         text: "您確定要刪除當前使用的企業版權杖(Token)嗎？"
         title: "刪除權杖(Token)"
       replace_token: "替換當前權杖(Token)"
-      order: "訂購本地部署版的 Enterprise edition"
+      order: "升級至地端企業版"
       paste: "貼上您的企業版所需的權杖(Token)"
       required_for_feature: "此功能僅限具啟用中的企業版所需權杖(Token)的訂閱者使用。"
       enterprise_link: "如需了解詳細信息，請點擊此處。"
@@ -147,8 +147,8 @@ zh-TW:
     encryption_details: "LDAPS / STARTTLS 選項"
     system_account: "系統帳戶"
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      OpenProject 需要透過系統帳戶進行唯讀存取才能在 LDAP 樹中尋找使用者和群組。
+      請在下一節中指定該系統使用者的綁定憑證。
     ldap_details: "LDAP 詳細資料"
     user_settings: "屬性對應"
     user_settings_legend: |
@@ -265,6 +265,7 @@ zh-TW:
       my: "我的專案"
       favored: "Favorite projects"
       archived: "封存專案"
+      public: "Public project lists"
       my_private: "我的私人專案"
       new:
         placeholder: "New project list"
@@ -292,8 +293,17 @@ zh-TW:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: 目前沒有可用的類型
         form:
@@ -310,6 +320,12 @@ zh-TW:
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
@@ -329,7 +345,6 @@ zh-TW:
       project_roles: "專案角色"
       wp_shares: "共享之工作項目"
       groups: "群組"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "移除成員"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -431,12 +446,20 @@ zh-TW:
         不能更改任何屬性, 但狀態除外。
         123 _ 2 _
         <strong>筆記</strong>: 繼承的值 (例如, 來自子項或關係) 仍將適用。
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         按一下以分配或更改此優先順序的顏色。
         它可用於突出顯示表中的工作包。
     index:
       no_results_title_text: 目前沒有工作項目狀態
       no_results_content_text: 新增一個狀態
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "白色主題"
     light_high_contrast: "高對比白色主題"
@@ -605,6 +628,7 @@ zh-TW:
       status:
         is_closed: "關閉工作項目"
         is_readonly: "設定「工作項目」唯讀"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "備註"
       member:
@@ -745,6 +769,7 @@ zh-TW:
         before_or_equal_to: "必須在 %{date} 以前"
         blank: "不可空白"
         blank_nested: "需要設置屬性  '%{property}' "
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
@@ -905,6 +930,8 @@ zh-TW:
               nonexistent: "無此欄位 '%{column}'"
               format: "%{message}"
           group_by_hierarchies_exclusive: "與按照 \"%{group_by}\" 分組的群組相互排斥。不能同時啟動兩者。"
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "篩選條件無客製欄位。"
@@ -938,6 +965,9 @@ zh-TW:
             base:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -995,11 +1025,13 @@ zh-TW:
               only_same_project_categories_allowed: "工作項目的類別必須與工作項目在同一個專案中"
               does_not_exist: "指定的類別不存在"
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1114,18 +1146,6 @@ zh-TW:
           other: "<i>%{count} hours</i>"
         updated: "從 %{old_value} 更改至 %{value}"
         logged_for: "Logged for"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "從 %{old_value} 更改至 %{value}"
-          updated_html: "從 <i>%{old_value}</i> 更改至 <i>%{value}</i>"
-        position:
-          updated: "重新排列"
-        work_package:
-          updated: "從 %{old_value} 更改至 %{value}"
-          updated_html: "從 <i>%{old_value}</i> 更改至 <i>%{value}</i>"
     filter:
       changeset: "變更集"
       message: "討論區"
@@ -1304,6 +1324,8 @@ zh-TW:
   button_revoke_access: "撤銷存取權限"
   button_revoke_all: "全部撤銷"
   button_revoke_only: "僅撤銷 %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: 我已注意到並同意上述情況。
     failure_message: 同意失敗, 無法繼續。
@@ -1556,6 +1578,12 @@ zh-TW:
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "影像沒有匯出。"
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: 小時
       days: 日
@@ -1609,7 +1637,7 @@ zh-TW:
       dates_changed: "日期變更"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "更新計算後的進度"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject 系統更新："
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1626,8 +1654,9 @@ zh-TW:
           working: "%{date} 已是工作日"
           non_working: "%{date} 已非工作日"
       progress_mode_changed_to_status_based: 自動計算模式設定成「Status-based」
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1752,6 +1781,7 @@ zh-TW:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "身份驗證"
   label_available_global_roles: "可用的角色"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "可用的討論區"
   label_available_project_repositories: "可用的版本庫"
   label_available_project_versions: "可用的版本"
@@ -2145,7 +2175,7 @@ zh-TW:
   label_repository_root: "版本庫根目錄"
   label_repository_plural: "Repositories"
   label_required: "必要"
-  label_requires: "要求"
+  label_requires: "需要"
   label_result_plural: "結果"
   label_reverse_chronological_order: "由新排列至舊"
   label_revision: "修訂"
@@ -2283,7 +2313,7 @@ zh-TW:
   label_workflow: "工作流程"
   label_workflow_plural: "工作流程"
   label_workflow_summary: "總覽"
-  label_working_days: "工作日"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 已結束"
     other: "%{count} 個已結案"
@@ -2664,6 +2694,7 @@ zh-TW:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "編輯屬性說明文字"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2894,6 +2925,9 @@ zh-TW:
   setting_feeds_limit: "Feed 內容限制"
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
   setting_host_name: "主機名稱"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "啟動信件在......天後過期"
   setting_work_package_done_ratio: "進度計算"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3334,12 +3368,12 @@ zh-TW:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      安排工作項目時，未選擇的天數將被跳過（並且不包含在天數計數中）。 這些設定可以在工作項目被改寫覆蓋。
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       加到下面列表中的日期被視為非工作日，設定工作項目時程時跳過。
     change_button: "修改工作日"
     warning: >
-      更改一周中的哪幾天被視為工作日或非工作日，可能會影響所有項目中所有工作項目的開始和結束日期。 <br/> 請注意，只有在按一下「套用設定」按鈕後才會生效。
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
@@ -3440,7 +3474,7 @@ zh-TW:
         revoke:
           unauthorized: "您無權撤銷此裝置。"
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: '存取此資源需要範圍“%{oauth_scopes}”。'
   unsupported_browser:
     title: "您的瀏覽器已過時且不再支援。"
     message: "您可能會在此頁面上遇到錯誤和降級的體驗。"

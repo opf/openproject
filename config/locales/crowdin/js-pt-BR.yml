@@ -273,6 +273,11 @@ pt-BR:
         warning: >
           As alterações podem demorar algum tempo para entrar em vigor. Receberá uma notificação quando todos os pacotes de trabalho relevantes forem atualizados.
           Tem a certeza de que deseja continuar?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Alterar o modo de cálculo do progresso de "baseado em status" para "baseado em trabalho" tornará o campo <i>% de conclusão</i> não editável, com seu valor derivado de <i>Trabalho</i> e <i>Trabalho Restante</i>. Os valores existentes de <i>% de conclusão</i> serão preservados. Se os valores de <i>Trabalho</i> e <i>Trabalho Restante</i> não estiverem presentes, eles serão necessários para modificar a <i>% de conclusão</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Alterar o modo de cálculo do progresso de "baseado em trabalho" para "baseado em status" resultará na perda de todos os valores existentes de <i>% de conclusão</i>, que serão substituídos pelos valores associados a cada status. Os valores existentes de <i>Trabalho restante</i> também podem ser recalculados para refletir essa mudança. Essa ação é irreversível.
     custom_actions:
       date:
         specific: "ligado"
@@ -359,10 +364,10 @@ pt-BR:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Exportação de PDF da visualização de Gantt, por exemplo, para impressão (complemento Enterprise)</li> <li>Projetos favoritos</li> <li>Seções em Reuniões</li> <li>Exibição de reuniões na página Meu trabalho e nas páginas de visão geral do projeto</li> <li>Possibilidade de ocultar anexos na guia Arquivos</li> <li>Campos personalizados do tipo Link (URL)</li> </ul>
+                A versão inclui várias novas funcionalidades e melhorias: <br> <ul class="%{list_styling_class}"> <li>Definição de mais unidades para trabalho, trabalho restante e tempo de trabalho</li> <li>Configuração dos projetos ativados para atributos do projeto</li> <li>Renomeação de listas de projetos privados</li> <li>Evita lembretes de e-mail redundantes em caso de menções (@mentions)</li> <li>Convite de participantes de reunião por e-mail</li> <li>Exibição de atributos incorporados de pacotes de trabalho em exportações de PDF</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -1281,6 +1286,11 @@ pt-BR:
           placeholder: "O espaço reservado agora pode ser usado em %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo."
           group: "O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo."
         next_button: "Continuar"
+    exclusion_info:
+      modal:
+        title: "Status excluído dos totais da hierarquia"
+        content: >-
+          O status '%{status_name}' foi configurado para ser excluído dos totais hierárquicos de Trabalho, Trabalho Restante e % de conclusão. Os totais não levam esse valor em conta.
     favorite_projects:
       no_results: "Você não possui projetos favoritos"
       no_results_subtext: "Adicione um ou vários projetos como favoritos por meio de sua visão geral ou na lista de projetos."
@@ -1341,7 +1351,7 @@ pt-BR:
         remove: "Remover"
       drop_modal:
         focus_grab: "Esta é uma âncora de foco para modais. Pressione Shift+tab para voltar ao elemento trigger modal."
-        Close: "Fechar"
+        close: "Fechar o modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Tempo de espera"
@@ -1349,4 +1359,4 @@ pt-BR:
         network_off: "Ocorreu um problema de rede"
         network_on: "A rede voltou. Estamos tentando."
         timeout: >
-          O OpenProject não pôde fornecer acesso à pasta do projeto dentro do período de tempo esperado. Por favor, tente novamente.<br><br> Se o problema persistir, entre em contato com o administrador do OpenProject para verificar o <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status de integridade da configuração do armazenamento de arquivos</a>.
+          Não foi possível acessar a pasta do projeto no OpenProject dentro do prazo esperado. Tente novamente.<br><br> Se o problema persistir, entre em contato com seu administrador OpenProject para verificar o <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status de integridade da configuração de armazenamento de arquivos</a>.

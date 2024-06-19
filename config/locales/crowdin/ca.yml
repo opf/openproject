@@ -263,6 +263,7 @@ ca:
       my: "Els meus projectes"
       favored: "Projectes preferits"
       archived: "Projectes arxivats"
+      public: "Public project lists"
       my_private: "Les meves llistes de projectes privats"
       new:
         placeholder: "New project list"
@@ -290,8 +291,17 @@ ca:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: Actualment no hi ha cap classe disponible.
         form:
@@ -308,6 +318,12 @@ ca:
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
@@ -327,7 +343,6 @@ ca:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Grups"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -435,12 +450,20 @@ ca:
         No es poden canviar els atributs amb l'excepció de l'atribut estat-
         <br/>
         <strong>Nota</strong> : Els valors heretats (p.e., de fills o relacions) es continuaran aplicant.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Clica per a assignar o canviar el color d'aquest estat.
         Es mostra al botó d'estat i es pot fer servir per a destacar paquets de treball a la taula.
     index:
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       no_results_content_text: Afegir un nou estat
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Clar"
     light_high_contrast: "Clar alt contrast"
@@ -609,6 +632,7 @@ ca:
       status:
         is_closed: "Paquet de treball tancat"
         is_readonly: "Paquet de treball en sols lectura"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notes"
       member:
@@ -749,6 +773,7 @@ ca:
         before_or_equal_to: "ha de ser igual o abans de %{date}."
         blank: "no pot estar en blanc."
         blank_nested: "és necessari de definir la propietat  '%{property}' ."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Un paquet de treball no es pot enllaçar a una de les seves subtasques."
         circular_dependency: "Aquesta relació crearia una dependència circular."
         confirmation: "no coincideix amb el %{attribute}."
@@ -909,6 +934,8 @@ ca:
               nonexistent: "La columna '%{column}' no existeix."
               format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "No hi ha cap camp personalitzat pel filtre."
@@ -942,6 +969,9 @@ ca:
             base:
               working_days_are_missing: "Almenys un dia de la setmana s'ha de definir com a dia laborable."
               previous_working_day_changes_unprocessed: "Els canvis anteriors a la configuració de dies laborals encara no s'han aplicat."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -999,11 +1029,13 @@ ca:
               only_same_project_categories_allowed: "La categoria d'un paquet de treball ha d'estar al mateix projecte que el paquet de treball."
               does_not_exist: "La categoria especificada no existeix."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "No pot ser inferior al treball restant."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1126,18 +1158,6 @@ ca:
           other: "%{count} hores</i>"
         updated: "canviat de %{old_value} a %{value}"
         logged_for: "Registrat per"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "eliminat"
-          updated: "canviat de %{old_value} a %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordenat"
-        work_package:
-          updated: "canviat de %{old_value} a %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Conjunt de canvis"
       message: "Fòrums"
@@ -1316,6 +1336,8 @@ ca:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Ho entenc i consenteixo els termes explicats a sobre.
     failure_message: Error de concentiment, no es pot procedir.
@@ -1586,6 +1608,12 @@ ca:
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "Imatge no exportada."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d
@@ -1639,7 +1667,7 @@ ca:
       dates_changed: "Les dates han canviat"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: per canvis en el predecessor %{link}
@@ -1656,8 +1684,9 @@ ca:
           working: "%{date} és ara laboral"
           non_working: "%{date} és ara no laboral"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1782,6 +1811,7 @@ ca:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autenticació"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Fòrums disponibles"
   label_available_project_repositories: "Repositòris disponibles"
   label_available_project_versions: "Versions disponibles"
@@ -2313,7 +2343,7 @@ ca:
   label_workflow: "Flux de treball"
   label_workflow_plural: "Fluxos de treball"
   label_workflow_summary: "Resum"
-  label_working_days: "Dies laborals"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "Un tancat"
     other: "%{count} tancats"
@@ -2692,6 +2722,7 @@ ca:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2920,6 +2951,9 @@ ca:
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "L'activació de correu electrònic caduca després de"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3361,12 +3395,12 @@ ca:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Els dies que no estan seleccionats s'ometen en planificar paquets de treball (i no inclosos en contar els dies). Aquests poden ser substituïts directament als paquets de treball.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Les dates afegides a la llista de sota són considerades com a no laborals i omeses en programar paquets de treball.
     change_button: "Canvia els dies laborals"
     warning: >
-      Canviar quins dies de la setmana es consideren laborables i quins no pot afectar les dates d'inici i final de tots els paquets de treball en tots els projectes d'aquesta instància. <br/>Si us plau, tingues en compte que els canvis només s'apliquen després de fer clic al botó d'aplicar els canvis.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Dies laborals"" han canviat (%{changes})._
       days:

@@ -260,6 +260,7 @@ id:
       my: "Project saya"
       favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -287,8 +288,17 @@ id:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -305,6 +315,12 @@ id:
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
@@ -324,7 +340,6 @@ id:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Grup"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -426,12 +441,20 @@ id:
         Tidak ada atribut yang dapat diubah kecuali status.
         <br/>
         <strong>Catatan</strong>: Nilai yang diwariskan (mis., dari anak atau relasi) akan tetap berlaku.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Klik untuk ditugaskan atau mengubah warna status ini.
         Itu ditampilkan di tombol status dan dapat digunakan untuk menyorot paket kerja di tabel.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
@@ -599,6 +622,7 @@ id:
       status:
         is_closed: "Paket-Penugasan telah berakhir"
         is_readonly: "Hanya baca paket kerja"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Note"
       member:
@@ -739,6 +763,7 @@ id:
         before_or_equal_to: "harus sebelum atau maksimal %{date}."
         blank: "harus di isi."
         blank_nested: "harus menyetel properti '%{property}'."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Work package tidak dapat dihubungkan dengan subtask-nya."
         circular_dependency: "Relasi ini menyebabkan dependensi circular."
         confirmation: "tidak sesuai dengan %{attribute}."
@@ -899,6 +924,8 @@ id:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "saling ekslusif bersama kelompok dengan '%{group_by}'. Anda tidak dapat mengaktifkan keduanya."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
@@ -932,6 +959,9 @@ id:
             base:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -989,11 +1019,13 @@ id:
               only_same_project_categories_allowed: "Kategori yang dipilih harus diambil dari kategori yang berlaku pada proyek."
               does_not_exist: "Kategori yang dipilih tidak ada."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1108,18 +1140,6 @@ id:
           other: "Satu\n <i>%{count} jam</i>\n\n Lainnya\n <i>%{count} jam</i>"
         updated: "diubah dari %{old_value} menjadi %{value}"
         logged_for: "Masuk untuk"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "diubah dari %{old_value} menjadi %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordered"
-        work_package:
-          updated: "diubah dari %{old_value} menjadi %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Set perubahan"
       message: "Forum"
@@ -1298,6 +1318,8 @@ id:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Saya telah memperhatikan dan menyetujui hal di atas.
     failure_message: Persetujuan gagal, tidak bisa dilanjutkan.
@@ -1550,6 +1572,12 @@ id:
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "Gambar tidak diekspor."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: j
       days: h
@@ -1603,7 +1631,7 @@ id:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1620,8 +1648,9 @@ id:
           working: "%{date} sekarang berkerja"
           non_working: "%{date} sekarang tidak berkerja"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1746,6 +1775,7 @@ id:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Otentikasi"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Forums tersedia"
   label_available_project_repositories: "Available repositories"
   label_available_project_versions: "Available versions"
@@ -2277,7 +2307,7 @@ id:
   label_workflow: "Workflow"
   label_workflow_plural: "Alur kerja"
   label_workflow_summary: "Ringkasan"
-  label_working_days: "Hari kerja"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
     other: "%{count} tertutup"
@@ -2657,6 +2687,7 @@ id:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "Hapus nilai"
   project:
@@ -2885,6 +2916,9 @@ id:
   setting_feeds_limit: "Batasan konten feed"
   setting_file_max_size_displayed: "Ukuran maks. file teks yang ditampilkan inline"
   setting_host_name: "Nama host"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3325,12 +3359,12 @@ id:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Hari yang tidak dipilih akan dilewati saat menjadwalkan paket pekerjaan (dan tidak termasuk dalam hitungan hari). Ini dapat diganti pada tingkat paket kerja.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Tanggal yang ditambahkan ke daftar di bawah ini dianggap tidak berfungsi dan dilewati saat menjadwalkan paket pekerjaan.
     change_button: "Ubah hari kerja"
     warning: >
-      Mengubah hari mana dalam seminggu yang dianggap sebagai hari kerja atau bukan hari kerja dapat memengaruhi hari mulai dan selesai dari semua paket pekerjaan di semua proyek dalam contoh ini. <br/> Harap perhatikan bahwa perubahan hanya diterapkan setelah Anda mengeklik tombol terapkan perubahan.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Hari kerja** berubah (%{changes})._
       days:

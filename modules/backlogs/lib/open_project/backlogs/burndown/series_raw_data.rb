@@ -32,7 +32,7 @@ module OpenProject::Backlogs::Burndown
       @collect = args.pop
       @sprint = args.pop
       @project = args.pop
-      super(*args)
+      super
     end
 
     attr_reader :collect, :sprint, :project

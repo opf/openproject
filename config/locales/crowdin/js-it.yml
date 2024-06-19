@@ -274,6 +274,11 @@ it:
         warning: >
           L'applicazione delle modifiche potrebbe richiedere del tempo. Riceverai una notifica quando tutti i pacchetti di lavoro pertinenti saranno aggiornati.
           Vuoi davvero continuare?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Cambiare la modalità di calcolo dell'avanzamento da basata sullo stato a basata su lavoro renderà <i>% Completa</i> un campo non modificabile il cui valore è derivato da <i>Lavoro</i> e <i>Lavoro rimanente</i>. I valori esistenti per <i>% Complete</i> sono conservati. Se i valori per <i>Lavoro</i> e <i>Lavoro rimanente</i> non erano presenti, saranno necessari per modificare <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Cambiando la modalità di calcolo dell'avanzamento da basata sul lavoro a basata sullo stato porvocherà la perdita di tutti i valori <i>% Complete</i> esistenti e saranno sostituiti con i valori associati ad ogni stato. I valori esistenti per il lavoro <i>rimanente</i> potrebbero anche essere ricalcolati per riflettere questo cambiamento. Questa azione non è reversibile.
     custom_actions:
       date:
         specific: "il"
@@ -360,10 +365,10 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Esportazione PDF della vista Gantt, ad es. per la stampa (componente aggiuntivo Enterprise)</li> <li>Progetti preferiti</li> <li>Sezioni nelle riunioni</li> <li>Visualizzazione delle riunioni nelle pagine La mia pagina e Panoramica del progetto</li> <li>Possibilità di nascondere gli allegati nella scheda File</li> <li>Campi personalizzati di tipo Link (URL)</li> </ul>
+                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Impostazione di ulteriori unità per lavoro, lavoro rimanente e tempo di lavoro</li> <li>Indicazione di quali progetti sono attivati per gli attributi</li> <li>Possibilità di rinominare gli elenchi di progetti privati</li> <li>Possibilità di evitare promemoria email ridondanti in caso di @menzioni</li> <li>Invito dei partecipanti alla riunione via email</li> <li>Visualizzazione degli attributi del pacchetto di lavoro nelle esportazioni PDF</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -1282,6 +1287,11 @@ it:
           placeholder: "Il segnaposto è ora utilizzabile in %{project}. Nel mentre puoi ad esempio già pianificare con quell'utente e assegnare pacchetti di lavoro."
           group: "Il gruppo è ora parte di %{project}. Nel mentre puoi ad esempio già pianificare con quel gruppo e assegnare pacchetti di lavoro."
         next_button: "Continua"
+    exclusion_info:
+      modal:
+        title: "Stato escluso dai totali della gerarchia"
+        content: >-
+          Lo stato '%{status_name}' è stato configurato per essere escluso dai totali delle gerarchie di Lavoro, Lavoro Rimanente e % Completamento. I totali non tengono conto di questo valore.
     favorite_projects:
       no_results: "Non hai progetti preferiti"
       no_results_subtext: "Aggiungi uno o più progetti come preferiti dalla rispettiva panoramica o da una lista di progetti."
@@ -1342,7 +1352,7 @@ it:
         remove: "Rimuovi"
       drop_modal:
         focus_grab: "Questo è un punto focale per i modali. Premere MAIUSC+TAB per tornare all'elemento scatenante modale."
-        Close: "Chiuso"
+        close: "Chiusura modale"
     open_project_storage_modal:
       waiting_title:
         timeout: "Timeout"
@@ -1350,4 +1360,4 @@ it:
         network_off: "C'è un problema di rete."
         network_on: "La rete è tornata. Stiamo provando."
         timeout: >
-          OpenProject non è riuscito a fornirti l'accesso alla cartella del progetto entro il periodo di tempo previsto. Ti preghiamo di riprovare.<br><br> Se il problema persiste, contatta l'amministratore di OpenProject per verificare lo <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">stato di salute della configurazione di archiviazione dei file</a>.
+          OpenProject non è stato in grado di darti accesso alla cartella del progetto entro il tempo previsto. Prova di nuovo.<br><br> Se il problema persiste contatta il tuo amministratore OpenProject per controllare lo <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">stato della configurazione di archiviazione dei file</a>.

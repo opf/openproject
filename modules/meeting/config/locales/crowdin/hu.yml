@@ -58,9 +58,23 @@ hu:
       meeting_agenda_item: "Napirendi pont"
       meeting_agenda: "Napirend"
       meeting_minutes: "Jegyzőkönyv"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Megbeszélések"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "részt vett"
   description_invite: "meghívott"
   events:
@@ -107,6 +121,8 @@ hu:
       agenda: "Napirend másolása"
       agenda_text: "A régi megbeszélés napirendjének másolása"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Nyitott megbeszélés"
       invited:
         summary: "%{actor} meghívott a következő megbeszélésre: %{title}"

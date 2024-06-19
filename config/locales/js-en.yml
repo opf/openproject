@@ -303,6 +303,19 @@ en:
 
 
           Are you sure you want to continue?
+
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make
+          <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i>
+          and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved.
+          If values for <i>Work</i> and <i>Remaining work</i> were not present, they
+          will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result
+          in all existing <i>% Complete</i> values to be lost and replaced with values
+          associated with each status. Existing values for <i>Remaining work</i> may
+          also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: "on"
@@ -397,17 +410,17 @@ en:
           learn_about: "Learn more about the new features"
           # Include the version to invalidate outdated translations in other locales.
           # Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
                 The release contains various new features and improvements: <br>
                 <ul class="%{list_styling_class}">
-                  <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li>
-                  <li>Favorite projects</li>
-                  <li>Sections in Meetings</li>
-                  <li>Showing meetings on the My page and project overview pages</li>
-                  <li>Possibility to hide attachments in the Files tab</li>
-                  <li>Custom fields of the type Link (URL)</li>
+                  <li>Set more units for work, remaining work and working time</li>
+                  <li>Configure which projects are activated for project attributes</li>
+                  <li>Rename private project lists</li>
+                  <li>Avoid redundant email reminders in case of @mentions</li>
+                  <li>Invite meeting attendees via email</li>
+                  <li>Display embedded work package attributes in PDF exports</li>
                 </ul>
 
     ical_sharing_modal:
@@ -1379,6 +1392,14 @@ en:
           group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
         next_button: "Continue"
 
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy
+          totals of Work, Remaining work, and % Complete. The totals do not take
+          this value into account.
+
     favorite_projects:
       no_results: "You have no favorite projects"
       no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
@@ -1441,7 +1462,7 @@ en:
         remove: "Remove"
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        Close: "Close"
+        close: "Close modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Timeout"
@@ -1450,4 +1471,4 @@ en:
         network_on: "Network is back. We are trying."
         timeout: >
           OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br>
-          If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

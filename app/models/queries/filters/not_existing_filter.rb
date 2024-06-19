@@ -63,16 +63,9 @@ module Queries
         }
       end
 
-      def scope
-        # TODO: remove switch once the WP query is a
-        # subclass of Queries::Base
-        model = if context.respond_to?(:model)
-                  context.model
-                else
-                  WorkPackage
-                end
-
-        model.unscoped
+      def apply_to(query_scope)
+        # No change to the query scope whatsoever since the filter does not exist.
+        query_scope
       end
 
       def attributes_hash

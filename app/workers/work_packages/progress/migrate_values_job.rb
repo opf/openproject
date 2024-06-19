@@ -27,6 +27,8 @@
 #++
 
 class WorkPackages::Progress::MigrateValuesJob < WorkPackages::Progress::Job
+  include WorkPackages::Progress::SqlCommandsForMigration
+
   attr_reader :current_mode, :previous_mode
 
   def perform(current_mode:, previous_mode:)

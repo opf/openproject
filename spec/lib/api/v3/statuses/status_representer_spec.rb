@@ -30,9 +30,9 @@ require "spec_helper"
 
 RSpec.describe API::V3::Statuses::StatusRepresenter do
   let(:status) { build_stubbed(:status) }
-  let(:representer) { described_class.new(status, current_user: double("current_user")) }
+  let(:representer) { described_class.new(status, current_user: instance_double(User)) }
 
-  context "generation" do
+  describe "generation" do
     subject(:generated) { representer.to_json }
 
     it { is_expected.to include_json("Status".to_json).at_path("_type") }
@@ -43,6 +43,7 @@ RSpec.describe API::V3::Statuses::StatusRepresenter do
       it { is_expected.to have_json_path("isClosed") }
       it { is_expected.to have_json_path("isDefault") }
       it { is_expected.to have_json_path("isReadonly") }
+      it { is_expected.to have_json_path("excludedFromTotals") }
       it { is_expected.to have_json_path("position") }
       it { is_expected.to have_json_path("defaultDoneRatio") }
 
@@ -52,6 +53,7 @@ RSpec.describe API::V3::Statuses::StatusRepresenter do
         it { is_expected.to be_json_eql(status.is_closed.to_json).at_path("isClosed") }
         it { is_expected.to be_json_eql(status.is_default.to_json).at_path("isDefault") }
         it { is_expected.to be_json_eql(status.is_readonly.to_json).at_path("isReadonly") }
+        it { is_expected.to be_json_eql(status.excluded_from_totals.to_json).at_path("excludedFromTotals") }
         it { is_expected.to be_json_eql(status.position.to_json).at_path("position") }
 
         it {
@@ -74,12 +76,15 @@ RSpec.describe API::V3::Statuses::StatusRepresenter do
 
     describe "caching" do
       it "is based on the representer's cache_key" do
-        expect(OpenProject::Cache)
+        allow(OpenProject::Cache)
           .to receive(:fetch)
-          .with(representer.json_cache_key)
           .and_call_original
 
         representer.to_json
+
+        expect(OpenProject::Cache)
+          .to have_received(:fetch)
+          .with(representer.json_cache_key)
       end
 
       describe "#json_cache_key" do
@@ -98,7 +103,7 @@ RSpec.describe API::V3::Statuses::StatusRepresenter do
         end
 
         it "changes when the status is updated" do
-          status.updated_at = Time.now + 20.seconds
+          status.updated_at = 20.seconds.from_now
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

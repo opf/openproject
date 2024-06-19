@@ -77,8 +77,8 @@ module Acts::Journalized
     module ClassMethods
       # Overrides the +journaled+ method to first define the +journaled?+ class method before
       # deferring to the original +journaled+.
-      def acts_as_journalized(*args)
-        super(*args)
+      def acts_as_journalized(*)
+        super
 
         class << self
           def journaled?

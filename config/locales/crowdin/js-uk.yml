@@ -274,6 +274,11 @@ uk:
         warning: >
           Застосування змін може тривати деякий час. Ви отримаєте сповіщення, коли всі відповідні пакети робіт буде оновлено.
           Продовжити?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Якщо перейти з режиму обчислення прогресу на основі статусу на режим на основі робіт, атрибут <i>% завершення</i> стане недоступним для редагування полем, значення якого отримуватиметься зі значень атрибутів <i>Робота</i> й <i>Залишок роботи</i>. Наявні значення атрибута <i>% завершення</i> буде збережено. Якщо значення атрибутів <i>Робота</i> й <i>Залишок роботи</i> не задано, їх потрібно буде задати, щоб змінити значення атрибута <i>% завершення</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Якщо перейти з режиму обчислення прогресу на основі робіт на режим на основі статусу, усі наявні значення атрибута <i>% завершення</i> буде втрачено й замінено значеннями, пов’язаними з кожним статусом. Наявні значення атрибута <i>Залишок роботи</i> може бути також переобчислено з урахуванням цієї зміни. Цю дію не можна скасувати.
     custom_actions:
       date:
         specific: "на"
@@ -360,10 +365,10 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Експорт діаграми Ґанта у форматі PDF, наприклад для друку (доповнення версії Enterprise)</li> <li>Обрані проєкти</li> <li>Розділи на сторінці «Наради»</li> <li>Показ нарад на Моїй сторінці й сторінках огляду проєкту</li> <li>Можливість приховувати вкладення на вкладці «Файли»</li> <li>Користувацькі поля типу «Посилання (URL)</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li>Задавайте більше одиниць для атрибутів «Робота», «Залишок роботи» й «Робочий час».</li> <li>Вибирайте проєкти, які має бути активовано для його атрибутів.</li> <li>Перейменовуйте списки приватних проєктів.</li> <li>Не отримуйте непотрібні сповіщення електронною поштою про @згадки.</li> <li>Запрошуйте учасників наради електронною поштою.</li> <li>Переглядайте вбудовані атрибути пакетів робіт у PDF-файлах експорту.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -1288,6 +1293,11 @@ uk:
           placeholder: "Прототип тепер може ввійти, щоб отримати доступ до проєкту «%{project}». Тим часом ви вже можете включати цього користувача в план і призначати йому пакети робіт."
           group: "Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт."
         next_button: "Продовжити"
+    exclusion_info:
+      modal:
+        title: "Статус виключено з підсумків ієрархії"
+        content: >-
+          Статус «%{status_name}» виключено з підсумків ієрархії для атрибутів «Робота», «Залишок роботи» й «% завершення». Це значення не враховуватиметься під час обчислення підсумків.
     favorite_projects:
       no_results: "У вас немає обраних проєктів"
       no_results_subtext: "Додайте один або кілька проєктів в обране на відповідній сторінці огляду або в списку проєктів."
@@ -1348,12 +1358,12 @@ uk:
         remove: "Видалити"
       drop_modal:
         focus_grab: "Це якір фокуса для модальних вікон. Натисніть клавіші Shift + Tab, щоб повернутися до тригера модального вікна."
-        Close: "Закрити"
+        close: "Закрити модальне вікно"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "Час очікування"
       waiting_subtitle:
         network_off: "Існує проблема з мережею."
         network_on: "З’єднання відновлено. Ми намагаємося."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          Додатку OpenProject не вдалося надати вам доступ до папки проєкту протягом очікуваного періоду. Повторіть спробу.<br><br> Якщо ця проблема не зникне, зверніться до адміністратора OpenProject і попросіть його перевірити <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">стан справності конфігурації файлового сховища</a>.

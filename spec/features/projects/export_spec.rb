@@ -98,7 +98,7 @@ RSpec.describe "project export", :js, :with_cuprite do
                               "contains",
                               ["Important"])
 
-        click_on "Apply"
+        index_page.apply_filters
 
         index_page.set_columns("Name", "Description")
 

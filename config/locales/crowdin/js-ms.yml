@@ -22,7 +22,7 @@
 ms:
   js:
     ajax:
-      hide: "Sorokkan"
+      hide: "Sembunyikan"
       loading: "Memuatkan..."
       updating: "Mengemas kini..."
     attachments:
@@ -102,7 +102,7 @@ ms:
     button_save: "Simpan"
     button_settings: "Tetapan"
     button_uncheck_all: "Nyahtandakan semua"
-    button_update: "Kemaskini"
+    button_update: "Kemas kini"
     button_export-pdf: "Muat turun PDF"
     button_export-atom: "Muat Turun Atom"
     button_create: "Cipta"
@@ -146,7 +146,7 @@ ms:
         manual: "Tukar ke sumber Markdown"
         wysiwyg: "Tukar ke editor WYSIWYG"
       macro:
-        error: "Tidak dapat kembangkan macro: %{message}"
+        error: "Tidak dapat kembangkan makro: %{message}"
         attribute_reference:
           macro_help_tooltip: "Bahagian teks ini sedang dihasilkan secara dinamik oleh makro."
           not_found: "Sumber yang diminta tidak dapat ditemui"
@@ -168,7 +168,7 @@ ms:
           macros: "Makro-makro"
           chose_macro: "Pilih makro"
         toc: "Jadual kandungan"
-        toolbar_help: "Klik untuk memilih widget dan tunjuk toolbar. Klik dua kali untuk edit widget"
+        toolbar_help: "Klik untuk memilih widget dan paparkan toolbar. Klik dua kali untuk edit widget"
         wiki_page_include:
           button: "Sertakan kandungan halaman wiki lain"
           text: "[Placeholder] Termasuk halaman wiki"
@@ -205,7 +205,7 @@ ms:
         trial:
           confirmation: "Pengesahan alamat e-mel "
           confirmation_info: >
-            Kami telah menghantar satu e-mel kepada anda pada %{date} kepada %{email}. Sila semak peti masuk anda dan klik pautan pengesahan yang disediakan untuk memulakan percubaan 14 hari anda.
+            Kami telah menghantar e-mel kepada anda pada %{date} di %{email}. Sila semak peti masuk anda dan klik pautan pengesahan yang disediakan untuk memulakan percubaan 14 hari anda.
           form:
             general_consent: >
               Saya bersetuju dengan <a target="_blank" href="%{link_terms}">syarat-syarat perkhidmatan</a> dan <a target="_blank" href="%{link_privacy}">polisi privasi</a>.
@@ -247,7 +247,7 @@ ms:
             premium_features: "Tambahan Enterprise"
             premium_features_text: "Board Agile, tema tersuai dan logo, graf, aliran kerja yang cerdas dengan tindakan tersuai, carian teks penuh untuk lampiran pakej kerja dan pelbagai pilihan ruang tersuai."
             professional_support: "Sokongan profesional"
-            professional_support_text: "Dapatkan sokongan yang boleh dipercayai, sentuhan tinggi daripada jurutera sokongan kanan dengan pengetahuan pakar tentang menjalankan OpenProject dalam persekitaran perniagaan yang kritikal."
+            professional_support_text: "Dapatkan sokongan yang boleh dipercayai, sokongan peribadi yang berkualiti tinggi daripada jurutera sokongan berpengalaman dengan pengetahuan pakar tentang menjalankan OpenProject dalam persekitaran perniagaan yang kritikal."
           button_start_trial: "Mulakan percubaan percuma"
           button_upgrade: "Naik taraf sekarang"
           button_contact_us: "Hubungi kami untuk demo"
@@ -267,13 +267,18 @@ ms:
           new_date: "(baharu)"
         add_non_working_day: "Hari tidak bekerja"
         already_added_error: "Hari tidak bekerja untuk tarikh ini sudah ada. Hanya boleh mempunyai satu hari tidak bekerja dicipta untuk setiap tarikh yang unik."
-        change_button: "Simpan dan jadual semula"
+        change_button: "Simpan dan jadualkan semula"
         change_title: "Tukar hari bekerja"
         removed_title: "Anda akan mengeluarkan hari berikut dari senarai hari tidak bekerja:"
         change_description: "Mengubah hari dalam seminggu yang dianggap hari bekerja atau hari tidak bekerja akan mempengaruhi hari mula dan selesai semua pakej kerja dalam semua projek dalam kejadian ini."
         warning: >
           Perubahan mungkin mengambil sedikit masa untuk berkesan. Anda akan dimaklumkan apabila semua pakej kerja yang berkaitan telah dikemas kini.
           Adakah anda pasti anda ingin teruskan?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Mengubah mod pengiraan perkembangan daripada berdasarkan-status kepada berdasarkan-kerja akan menjadikan <i>% Selesai</i> ruang yang tidak boleh diedit yang nilainya diperoleh daripada <i>Kerja</i> dan <i>Kerja yang berbaki</i>. Nilai yang sedia ada bagi <i>% Selesai</i> dikekalkan. Jika nilai <i>Kerja</i> dan <i>Kerja yang berbaki</i> tiada, nilai tersebut akan diperlukan untuk mengubah <i>% Selesai</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Mengubah mod pengiraan perkembangan daripada berasaskan-kerja kepada berasaskan-status akan menjadikan semua nilai <i>% Selesai</i> yang sedia ada hilang dan digantikan dengan nilai yang berkaitan dengan setiap status. Nilai sedia ada bagi <i>Kerja yang berbaki</i> juga akan dikira semula untuk menggambarkan perubahan ini. Tindakan ini tidak boleh dipulihkan.
     custom_actions:
       date:
         specific: "pada"
@@ -360,14 +365,14 @@ ms:
           learn_about: "Ketahui lebih lanjut mengenai fitur-fitur baharu."
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                Keluaran tersebut mengandungi pelbagai fitur baharu dan penambahbaikan: <br> <ul class="%{list_styling_class}"> <li> eksport PDF paparan Gantt, cth. untuk mencetak (tambahan Enterprise)</li> <li>Projek kegemaran</li> <li>Bahagian dalam Mesyuarat</li> <li>Paparkan mesyuarat di Halaman Saya dan halaman gambaran keseluruhan projek</li> <li>Kemungkinan untuk sorokkan lampiran dalam tab Fail</li> <li>Ruang tersuai jenis Pautan (URL)</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
-      title: "Langgan ke kalendar"
+      title: "Langgan kalendar"
       inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."
-      description: "Anda boleh menggunakan URL (iCalendar) untuk melanggan ke kalendar ini dalam pelanggan luaran dan lihat maklumat pakej kerja terkini dari situ."
+      description: "Anda boleh menggunakan URL (iCalendar) untuk melanggan kalendar ini dalam pelanggan luaran dan lihat maklumat pakej kerja terkini dari situ."
       warning: "Sila jangan kongsi URL ini dengan pengguna lain. Sesiapa sahaja yang mempunyai pautan ini akan boleh melihat butiran pakej kerja tanpa akaun atau kata laluan."
       token_name_label: "Dimanakah anda akan menggunakan ini?"
       token_name_placeholder: 'Taip nama, cth. "Telefon"'
@@ -451,7 +456,7 @@ ms:
     label_invalid: "Tidak sah"
     label_import: "Import"
     label_latest_activity: "Aktiviti terkini"
-    label_last_updated_on: "Dikemas kini terakhir pada"
+    label_last_updated_on: "Kemas kini terakhir pada"
     label_learn_more_link: "Ketahui lebih lanjut"
     label_less_or_equal: "<="
     label_less_than_ago: "kurang dari beberapa hari yang lalu"
@@ -562,8 +567,8 @@ ms:
     label_rejected_files: "Fail-fail tersebut tidak dapat dimuat naik:"
     label_rejected_files_reason: "Fail-fail tersebut tidak boleh dimuat naik kerana saiz mereka adalah lebih besar daripada %{maximumFilesize}"
     label_wait: "Sila tunggu untuk konfigurasi..."
-    label_upload_counter: "%{done} dari %{count} fail selesai"
-    label_validation_error: "Pakej kerja tidak dapat disimpan kerana ralat berikut:"
+    label_upload_counter: "%{done} daripada %{count} fail selesai"
+    label_validation_error: "Pakej kerja tidak dapat disimpan disebabkan ralat berikut:"
     label_version_plural: "Versi-versi"
     label_view_has_changed: "Paparan ini mempunyai perubahan yang tidak disimpan. Klik untuk simpan mereka."
     help_texts:
@@ -574,12 +579,12 @@ ms:
         next: "Seterusnya"
         got_it: "Faham"
       steps:
-        help_menu: "Menu Bantuan (?) menyediakan <b>sumber bantuan tambahan</b>. Di sini anda akan menjumpai panduan pengguna, video panduan membantu dan lebih lagi. <br> Nikmati kerja anda di OpenProject!"
-        members: "Jemput <b>ahli</b> baru untuk sertai projek anda."
-        quick_add_button: "Klik pada ikon tambah (+) dalam navigasi pengepala untuk <b>cipta projek baru</b> atau untuk <b>jemput rakan sekerja</b>."
+        help_menu: "Menu Bantuan (?) menyediakan <b>sumber bantuan tambahan</b>. Di sini anda akan menjumpai panduan pengguna, video panduan dan lebih lagi. <br> Nikmati kerja anda di OpenProject!"
+        members: "Jemput <b>ahli</b> baharu untuk sertai projek anda."
+        quick_add_button: "Klik ikon tambah (+) dalam navigasi pengepala untuk <b>cipta projek baharu</b> atau untuk <b>jemput rakan sekerja</b>."
         sidebar_arrow: "Guna anak panah kembali di sudut kiri atas untuk kembali ke <b>menu utama</b> projek."
         welcome: "Ambil lawatan pengenalan 3 minit untuk belajar <b>fitur-fitur penting</b> dengan banyak. <br> Kami sarankan melengkapi langkah-langkah tersebut sehingga ke akhirnya. Anda boleh mula semula lawatan bila-bila masa."
-        wiki: "Dalam <b>wiki</b> anda boleh mendokumentasikan dan kongsi pengetahuan bersama dengan pasukan anda."
+        wiki: "Dalam <b>wiki</b> anda boleh mendokumentasikan dan kongsi pengetahuan bersama pasukan anda."
         backlogs:
           overview: "Kendalikan kerja anda dalam paparan <b>tunggakan</b>."
           sprints: "Di kanan anda mempunyai tunggakan produk dan tunggakan bug, di kiri anda mempunyai pecutan yang berkenaan. Di sini anda boleh mencipta <b>epik, cerita pengguna, dan bug</b>, utamakan dengan menarik & melepaskan dan tambah mereka ke pecutan."
@@ -590,7 +595,7 @@ ms:
           overview: "Pilih <b>board</b> untuk tukar paparan dan uruskan projek anda menggunakan paparan board agile."
           lists_kanban: "Disini anda boleh mencipta pelbagai senarai (kolum) dalam board anda. Fitur ini membenarkan anda untuk mencipta, sebagai contoh, <b>board Kanban</b>."
           lists_basic: "Disini anda boleh mencipta pelbagai senarai (kolum) dalam board agile anda."
-          add: "Klik ikon tambah (+) untuk <b>mencipta kad baru</b> atau <b>menambah kad sedia ada</b> ke senarai pada board."
+          add: "Klik ikon tambah (+) untuk <b>mencipta kad baharu</b> atau <b>menambah kad sedia ada</b> ke senarai pada board."
           drag: "Tarik dan lepaskan kad anda dalam senarai yang diberikan untuk menyusun mereka semula, atau untuk memindahkannya ke senarai lain. <br> Anda boleh klik ikon maklumat (i) di sudut kanan atas atau klik dua kali pada kad untuk membuka butirannya."
         wp:
           toggler: "Sekarang mari lihat bahagian <b>pakej kerja</b>, yang memberikan anda paparan kerja anda secara terperinci."
@@ -599,7 +604,7 @@ ms:
           back_button: "Guna anak panah kembali di sudut kiri untuk keluar dan kembali ke senarai pakej kerja."
           create_button: "Butang <b>+ Cipta</b> akan menambah pakej kerja baharu ke projek anda."
           gantt_menu: "Cipta jadual projek dan garis masa dengan mudah menggunakan modul carta Gantt."
-          timeline: "Di sini anda boleh <b>edit pelan projek anda</b>, cipta pakej kerja baru, seperti tugasan, pencapaian, fasa, dan banyak lagi, serta <b>tambah kebergantungan</b>. Semua ahli pasukan boleh lihat dan kemas kini pelan terkini pada bila-bila masa."
+          timeline: "Di sini anda boleh <b>edit pelan projek anda</b>, cipta pakej kerja baharu, seperti tugasan, pencapaian, fasa, dan banyak lagi, serta <b>tambah kebergantungan</b>. Semua ahli pasukan boleh lihat dan kemas kini pelan terkini pada bila-bila masa."
         team_planner:
           overview: "Perancang pasukan membolehkan anda memberikan tugasan secara visual kepada ahli pasukan dan dapatkan gambaran keseluruhan tentang siapa yang mengusahakan apa."
           calendar: "Board perancangan mingguan atau dua mingguan memaparkan semua pakej kerja yang ditugaskan ke ahli pasukan anda."
@@ -643,7 +648,7 @@ ms:
           other: "dan %{count} yang lain"
         no_results:
           at_all: "Pemberitahuan baharu akan muncul di sini apabila terdapat aktiviti yang berkaitan dengan anda."
-          with_current_filter: "Tiada pemberitahuan dalam paparan ini pada masa ini"
+          with_current_filter: "Tiada pemberitahuan dalam paparan ini buat masa ini"
         mark_all_read: "Tanda semua sudah dibaca"
         mark_as_read: "Tanda sudah dibaca"
         text_update_date: "%{date} oleh"
@@ -652,7 +657,7 @@ ms:
           no_notification: "Nampaknya anda telah selesaikan semuanya."
           no_notification_with_current_project_filter: "Nampaknya anda sudah selesai dengan projek yang dipilih."
           no_notification_with_current_filter: "Nampaknya anda sudah selesai untuk penyaringan %{filter}."
-          no_selection: "Klik pada pemberitahuan untuk paparkan semua butiran aktiviti."
+          no_selection: "Klik pemberitahuan untuk paparkan semua butiran aktiviti."
         new_notifications:
           message: "Terdapat pemberitahuan baharu."
           link_text: "Klik sini untuk memuatkan mereka."
@@ -692,7 +697,7 @@ ms:
           work_package_commented: "Semua komen baharu"
           work_package_created: "Pakej kerja baharu"
           work_package_processed: "Semua perubahan status"
-          work_package_prioritized: "Semua perubahan keutamaan"
+          work_package_prioritized: "Semua perubahan utama"
           work_package_scheduled: "Semua perubahan tarikh"
         global:
           immediately:
@@ -775,13 +780,13 @@ ms:
     text_user_wrote: "%{value} menulis:"
     types:
       attribute_groups:
-        error_duplicate_group_name: "Nama %{group} digunakan lebih dari sekali. Nama kumpulan mesti unik."
+        error_duplicate_group_name: "Nama %{group} digunakan lebih dari sekali. Nama kumpulan mestilah unik."
         error_no_table_configured: "Sila konfigurasi jadual untuk %{group}."
         reset_title: "Set semula konfigurasi borang"
         confirm_reset: >
           Amaran: Adakah anda pasti anda ingin set semula konfigurasi borang? Ini akan set semula atribut kumpulan asal mereka dan menyahdayakan SEMUA ruang tersuai.
         upgrade_to_ee: "Naik taraf edisi Enterprise di premis"
-        upgrade_to_ee_text: "Wah! Jika anda perlukan tambahan ini anda adalah sungguh pro! Bolehkah anda menyokong kami pemaju OpenProject dengan menjadi pelanggan edisi Enterprise?"
+        upgrade_to_ee_text: "Wah! Jika anda perlukan tambahan ini anda sungguh pro! Bolehkah anda menyokong kami, pembangun OpenProject, dengan menjadi pelanggan edisi Enterprise?"
         more_information: "Maklumat lanjut"
         nevermind: "Tidak mengapa"
       edit:
@@ -841,10 +846,10 @@ ms:
       add_existing: "Tambah sedia ada"
       add_existing_child: "Tambah anak sedia ada"
       remove_child: "Padam anak"
-      add_new_relation: "Cipta perhubungan baru"
+      add_new_relation: "Cipta perhubungan baharu"
       add_existing_relation: "Tambah perhubungan sedia ada"
       update_description: "Tetapkan atau kemas kini penerangan perhubungan ini"
-      toggle_description: "Tukar penerangan perhubungan"
+      toggle_description: "Tukar deskripsi perhubungan"
       update_relation: "Klik untuk ubah jenis perhubungan"
       add_follower: "Tambah pengikut"
       show_relations: "Paparkan perhubungan"
@@ -946,15 +951,15 @@ ms:
         column_incompatible: "Kolum ini tidak menunjukkan perubahan dalam mod asas."
       filters:
         title: "Saring pakej kerja"
-        baseline_incompatible: "Penyaring atribut ini tidak diambil kira dalam mod asas."
-        baseline_warning: "Mod asas sedang aktif tetapi beberapa penyaring aktif tidak termasuk dalam perbandingan."
+        baseline_incompatible: "Penyaring atribut ini tidak diambil kira dalam mod Asas."
+        baseline_warning: "Mod garis panduan asas sedang aktif tetapi beberapa penyaring aktif tidak termasuk dalam perbandingan."
       inline_create:
         title: "Klik di sini untuk tambah pakej kerja baharu ke senarai ini"
       create:
         title: "Pakej kerja baharu"
         header: "%{type} baharu"
         header_no_type: "Pakej kerja baharu (Jenis belum ditetapkan)"
-        header_with_parent: "%{type} baharu (Anak %{parent_type} #%{id})"
+        header_with_parent: "%{type} baharu (Anak kepada %{parent_type} #%{id})"
         button: "Cipta"
       copy:
         title: "Salin pakej kerja"
@@ -983,8 +988,8 @@ ms:
         createdAt: "Dicipta pada"
         description: "Deskripsi"
         date: "Tarikh"
-        percentComplete: "% Lengkap"
-        percentCompleteAlternative: "\nPerkembangan"
+        percentComplete: "% Selesai"
+        percentCompleteAlternative: "Perkembangan"
         dueDate: "Tarikh tamat"
         duration: "Tempoh"
         spentTime: "Masa yang dihabiskan"
@@ -1020,7 +1025,7 @@ ms:
         pagination: "Pergi ke jadual penomboran"
         label_pagination: "Klik di sini untuk langkau jadual pakej kerja dan pergi ke penomboran"
         content: "Lompat ke kandungan"
-        label_content: "Klik di sini untuk langkau ke menu dan pergi ke kandungan"
+        label_content: "Klik sini untuk langkau ke menu dan pergi ke kandungan"
       placeholders:
         default: "-"
         date: "Pilih tarikh"
@@ -1028,7 +1033,7 @@ ms:
         column_names: "Kolum-kolum"
         group_by: "Kumpulkan hasil mengikut"
         group: "Kumpulkan mengikut"
-        group_by_disabled_by_hierarchy: "Kumpulkan mengikut dinyahaktifkan kerana mod hierarki sedang aktif."
+        group_by_disabled_by_hierarchy: "Kumpulkan mengikut telah dinyahaktifkan kerana mod hierarki sedang aktif."
         hierarchy_disabled_by_group_by: "Mod hierarki dinyahaktifkan kerana hasil dikumpulkan oleh %{column}."
         sort_ascending: "Susun menaik"
         sort_descending: "Susun menurun"
@@ -1125,7 +1130,7 @@ ms:
         save_as: "Simpan sebagai"
         export: "Eksport"
         visibility_settings: "Tetapan keterlihatan"
-        share_calendar: "Langgan ke kalendar"
+        share_calendar: "Langgan kalendar"
         page_settings: "Namakan semula paparan"
         delete: "Padam"
       filter: "Saring"
@@ -1155,7 +1160,7 @@ ms:
     notice_no_results_to_display: "Tiada hasil yang boleh dilihat untuk dipaparkan."
     notice_successful_create: "Penciptaan yang berjaya."
     notice_successful_delete: "Pemadaman yang berjaya."
-    notice_successful_update: "Kemas kini yang berjaya."
+    notice_successful_update: "Kemas kini berjaya."
     notice_job_started: "kerja bermula."
     notice_bad_request: "Ralat Permintaan."
     relations:
@@ -1175,8 +1180,8 @@ ms:
       errors:
         required: "%{field} tidak boleh kosong"
         number: "%{field} bukan nombor yang sah"
-        maxlength: "%{field} tidak boleh mengandungi lebih dari %{maxLength} digit"
-        minlength: "%{field} tidak boleh mengandungi kurang dari %{minLength} digit"
+        maxlength: "%{field} tidak boleh mengandungi lebih daripada %{maxLength} digit"
+        minlength: "%{field} tidak boleh mengandungi kurang daripada %{minLength} digit"
         messages_on_field: "Ruang ini tidak sah: %{messages}"
     error_could_not_resolve_version_name: "Tidak dapat menyelesaikan nama versi"
     error_could_not_resolve_user_name: "Tidak dapat menyelesaikan nama pengguna"
@@ -1275,10 +1280,15 @@ ms:
       success:
         title: "%{principal} telah dijemput!"
         description:
-          user: "Pengguna kini boleh log masuk ke akses %{project}. Sementara itu, anda boleh merancang dengan pengguna itu dan tugaskan pakej kerja sebagai contoh."
+          user: "Pengguna kini boleh log masuk untuk mengakses %{project}. Sementara itu, anda boleh merancang dengan pengguna tersebut dan tugaskan pakej kerja sebagai contoh."
           placeholder: "Placeholder kini boleh digunakan dalam %{project}. Sementara itu anda sudah boleh merancang dengan pengguna tersebut dan tugaskan pakej kerja sebagai contoh."
           group: "Kumpulan tersebut kini sebahagian daripada %{project}. Sementara itu anda sudah boleh merancang dengan kumpulan tersebut dan menugaskan pakej kerja sebagai contoh."
         next_button: "Teruskan"
+    exclusion_info:
+      modal:
+        title: "Status dikeluarkan daripada jumlah hierarki"
+        content: >-
+          Status %{status_name} telah dikonfigurasikan untuk dikeluarkan daripada jumlah hierarki Kerja, Kerja yang berbaki, dan % Selesai. Jumlah tersebut tidak mengambil kira nilai ini.
     favorite_projects:
       no_results: "Anda tiada projek kegemaran"
       no_results_subtext: "Tambah satu atau beberapa projek sebagai kegemaran melalui gambaran keseluruhan mereka atau dalam senarai projek."
@@ -1298,14 +1308,14 @@ ms:
         does_not_match_search: "Projek tidak sepadan dengan kriteria carian."
       no_results: "Tiada projek yang sepadan dengan kriteria carian anda."
     baseline:
-      toggle_title: "Dasar"
+      toggle_title: "Garis panduan asas"
       clear: "Kosongkan"
       apply: "Gunakan"
       header_description: "Sorotkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu."
       enterprise_header_description: "Sorotkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu dengan edisi Enterprise."
       show_changes_since: "Paparkan perubahan sejak"
-      baseline_comparison: "Perbandingan asas"
-      help_description: "Zon masa rujukan untuk yang dasar."
+      baseline_comparison: "Perbandingan garis panduan asas"
+      help_description: "Zon masa rujukan untuk garis panduan asas."
       time_description: "Dalam masa tempatan anda: %{datetime}"
       time: "Masa"
       from: "Dari"
@@ -1339,7 +1349,7 @@ ms:
         remove: "Keluarkan"
       drop_modal:
         focus_grab: "Ini adalah paksi fokus untuk modul. Tekan shift+tab untuk kembali ke elemen pencetus modul."
-        Close: "Tutup"
+        close: "Tutup modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Had Masa"
@@ -1347,4 +1357,4 @@ ms:
         network_off: "Terdapat masalah rangkaian."
         network_on: "Rangkaian kembali. Kami sedang mencuba."
         timeout: >
-          OpenProject tidak dapat memberikan anda akses ke folder projek dalam tempoh masa yang dijangkakan. Sila cuba sekali lagi. <br><br> Jika masalah berlanjutan sila hubungi pentadbir OpenProject anda untuk semak <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status kesihatan persediaan storan fail</a>.
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

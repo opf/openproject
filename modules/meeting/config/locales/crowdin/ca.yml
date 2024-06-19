@@ -58,9 +58,23 @@ ca:
       meeting_agenda_item: "Element d'agenda"
       meeting_agenda: "Agenda"
       meeting_minutes: "Acta"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Reunions"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "eliminat"
+          updated: "canviat de %{old_value} a %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordenat"
+        work_package:
+          updated: "canviat de %{old_value} a %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "hi vaig assistir"
   description_invite: "convidat"
   events:
@@ -107,6 +121,8 @@ ca:
       agenda: "Copia l'agenda"
       agenda_text: "Copia l'agenda de l'antiga reunió"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Reunió oberta"
       invited:
         summary: "%{actor} us ha enviat una invitació per a la reunió %{title}"

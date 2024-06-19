@@ -30,11 +30,6 @@ class Queries::Members::Filters::GroupFilter < Queries::Members::Filters::Member
   include Queries::Filters::Shared::GroupFilter
 
   def joins
-    nil
-  end
-
-  def scope
-    scope = model.joins(:principal)
-    scope.where(where)
+    :principal
   end
 end

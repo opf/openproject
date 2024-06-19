@@ -31,7 +31,7 @@ class Admin::BackupsController < ApplicationController
   include ActionView::Helpers::TagHelper
   include BackupHelper
 
-  layout 'admin'
+  layout "admin"
 
   before_action :check_enabled
   before_action :authorize_global
@@ -65,7 +65,7 @@ class Admin::BackupsController < ApplicationController
   rescue StandardError => e
     token_reset_failed! e
   ensure
-    redirect_to action: 'show'
+    redirect_to action: "show"
   end
 
   def delete_token
@@ -73,7 +73,7 @@ class Admin::BackupsController < ApplicationController
 
     flash[:info] = t("backup.text_token_deleted")
 
-    redirect_to action: 'show'
+    redirect_to action: "show"
   end
 
   def default_breadcrumb
@@ -105,16 +105,16 @@ class Admin::BackupsController < ApplicationController
 
   def token_reset_flash_message(token)
     [
-      t('my.access_token.notice_reset_token', type: 'Backup'),
+      t("my.access_token.notice_reset_token", type: "Backup"),
       content_tag(:strong, token.plain_value),
-      t('my.access_token.token_value_warning')
+      t("my.access_token.token_value_warning")
     ]
   end
 
   def token_reset_failed!(error)
     Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup token: #{error}"
 
-    flash[:error] = t('my.access_token.failed_to_reset_token', error: error.message)
+    flash[:error] = t("my.access_token.failed_to_reset_token", error: error.message)
   end
 
   def may_include_attachments?

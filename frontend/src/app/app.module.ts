@@ -151,6 +151,9 @@ import {
 import {
   AttributeHelpTextComponent,
 } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
+import {
+  OpExclusionInfoComponent,
+} from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -334,5 +337,6 @@ export class OpenProjectModule {
     registerCustomElement('opce-ckeditor-augmented-textarea', CkeditorAugmentedTextareaComponent, { injector });
     registerCustomElement('opce-draggable-autocompleter', DraggableAutocompleteComponent, { injector });
     registerCustomElement('opce-attribute-help-text', AttributeHelpTextComponent, { injector });
+    registerCustomElement('opce-exclusion-info', OpExclusionInfoComponent, { injector });
   }
 }

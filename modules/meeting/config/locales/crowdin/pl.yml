@@ -60,9 +60,23 @@ pl:
       meeting_agenda_item: "Punkt programu"
       meeting_agenda: "Plan spotkania"
       meeting_minutes: "Protokół ze spotkania"
+      meeting_section: "Sekcja"
   activity:
     filter:
       meeting: "Spotkania"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "ustawiono na %{value}"
+          added_html: "ustawiono na <i>%{value}</i>"
+          removed: "usunięto"
+          updated: "zmieniono z %{old_value} na %{value}"
+          updated_html: "zmieniono z <i>%{old_value}</i> na <i>%{value}</i>"
+        position:
+          updated: "zmieniono kolejność"
+        work_package:
+          updated: "zmieniono z %{old_value} na %{value}"
+          updated_html: "zmieniono z <i>%{old_value}</i> na <i>%{value}</i>"
   description_attended: "Obecny"
   description_invite: "Zaproszony"
   events:
@@ -109,6 +123,8 @@ pl:
       agenda: "Kopiuj agendę spotkania"
       agenda_text: "Skopiuj agendę starego spotkania"
     email:
+      send_emails: "Wyślij wiadomości e-mail"
+      send_invitation_emails: "Wysyłanie wiadomości e-mail z zaproszeniem po utworzeniu"
       open_meeting_link: "Spotkania otwarte"
       invited:
         summary: "Użytkownik %{actor} wysłał Ci zaproszenie na spotkanie %{title}"

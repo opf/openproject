@@ -18,14 +18,17 @@ Rails.application.configure do
   ]
 
   # Show pages first, then previews
-  config.lookbook.preview_inspector.sidebar_panels = [:pages, :previews]
+  config.lookbook.preview_inspector.sidebar_panels = %i[pages previews]
   # Show notes first, all other panels next
   config.lookbook.preview_inspector.drawer_panels = [:notes, "*"]
   config.lookbook.ui_theme = "blue"
 
   SecureHeaders::Configuration.named_append(:lookbook) do
     {
-      script_src: %w('unsafe-eval' 'unsafe-inline') # rubocop:disable Lint/PercentStringArray
+      script_src: %w('unsafe-eval' 'unsafe-inline' 'self'), # rubocop:disable Lint/PercentStringArray
+      script_src_elem: %w('unsafe-eval' 'unsafe-inline' 'self'), # rubocop:disable Lint/PercentStringArray
+      style_src: %w('self' 'unsafe-inline'), # rubocop:disable Lint/PercentStringArray
+      style_src_attr: %w('self' 'unsafe-inline') # rubocop:disable Lint/PercentStringArray
     }
   end
 

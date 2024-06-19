@@ -265,6 +265,7 @@ ms:
       my: "Projek saya"
       favored: "Projek kegemaran"
       archived: "Projek yang diarkibkan"
+      public: "Senarai projek umum"
       my_private: "Senarai projek peribadi saya"
       new:
         placeholder: "Senarai projek baharu"
@@ -292,8 +293,17 @@ ms:
         actions:
           label_enable_single: "Aktif dalam projek ini, klik untuk nyahaktifkan"
           label_disable_single: "Tidak aktif dalam projek ini, klik untuk aktifkan"
+          deactivate_for_project: "Nyahaktifkan untuk projek ini"
           label_enable_all: "Aktifkan semua"
           label_disable_all: "Nyahaktifkan semua"
+        is_required_blank_slate:
+          heading: Diperlukan dalam semua projek
+          description: Atribut projek ini telah diaktifkan dalam semua projek sejak pilihan "Diperlukan dalam semua projek" telah ditandakan. Ia tidak boleh dinyahaktifkan untuk projek individu.
+        new_project_mapping_form:
+          add_projects: Tambah projek
+          include_sub_projects: Sertakan sub-projek
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
         form:
@@ -310,6 +320,12 @@ ms:
     update:
       success: "Senarai yang diubah suai telah disimpan"
       failure: "Senarai yang diubah suai tidak boleh disimpan: %{errors}"
+    publish:
+      success: "Senarai telah didedahkan menjadi umum"
+      failure: "Senarai tidak boleh didedahkan menjadi umum: %{errors}"
+    unpublish:
+      success: "Senarai telah dijadikan peribadi"
+      failure: "Senarai tidak boleh dijadikan peribadi: %{errors}"
     can_be_saved: "Senarai yang diubah suai:"
     can_be_saved_as: "Pengubah suaian tersebut hanya boleh disimpan di senarai baharu:"
   members:
@@ -329,7 +345,6 @@ ms:
       project_roles: "Peranan projek"
       wp_shares: "Kongsian pakej kerja"
       groups: "Kumpulan"
-    no_modify_on_shared: "Anda buat masa ini tidak boleh mengubahsuai atau mengeluarkan keahlian yang dikongsi melalui laman ahli. Sebaliknya, guna modal perkongsian."
     delete_member_dialog:
       title: "Keluarkan ahli"
       will_remove_the_users_role: "Ini akan membatalkan peranan pengguna dari projek ini."
@@ -414,7 +429,7 @@ ms:
     upsale:
       title: Pengguna placeholder
       description: >
-        Placeholder ialah satu cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan seseorang akses ke OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
+        Pengguna placeholder ialah satu cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan akses kepada seseorang di OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
   prioritiies:
     edit:
       priority_color_text: |
@@ -431,12 +446,19 @@ ms:
         Tiada atribut yang boleh diubah dengan pengecualian status.
         <br/>
         <strong>Perhatian</strong>: Nilai yang diwarisi (cth, dari anak-anak atau saudara) masih akan digunakan.
+      status_excluded_from_totals_text: |-
+        Tandakan pilihan ini untuk mengecualikan pakej kerja dengan status ini dari jumlah Kerja, Kerja yang berbaki, dan % Selesai dalam hierarki.
       status_color_text: |
         Klik untuk menugaskan atau menukar warna status ini.
         Ia ditunjukkan pada butang status dan boleh digunakan untuk menyoroti pakej kerja dalam jadual.
     index:
       no_results_title_text: Tiada status pakej kerja buat masa ini.
       no_results_content_text: Tambah status baharu
+      headers:
+        is_default: "Default"
+        is_closed: "Tertutup"
+        is_readonly: "Baca-sahaja"
+        excluded_from_totals: "Dikecualikan daripada jumlah"
   themes:
     light: "Terang"
     light_high_contrast: "Kontras tinggi yang terang"
@@ -605,6 +627,7 @@ ms:
       status:
         is_closed: "Pakej kerja ditutup"
         is_readonly: "Pakej kerja baca-sahaja"
+        excluded_from_totals: "Dikecualikan daripada pengiraan jumlah dalam hierarki"
       journal:
         notes: "Nota"
       member:
@@ -698,7 +721,7 @@ ms:
         begin_insertion: "Permulaan kemasukan"
         begin_deletion: "Permulaan pemadaman"
         children: "Subelemen"
-        derived_done_ratio: "Jumlah % disiapkan"
+        derived_done_ratio: "Jumlah % selesai"
         derived_remaining_hours: "Jumlah kerja berbaki"
         derived_remaining_time: "Jumlah kerja berbaki"
         done_ratio: "% Selesai"
@@ -745,6 +768,7 @@ ms:
         before_or_equal_to: "mesti sebelum atau sama dengan %{date}."
         blank: "tidak boleh dibiarkan kosong."
         blank_nested: "perlu ada ciri-ciri '%{property}' yang ditetapkan."
+        cannot_delete_mapping: "diperlukan. Tidak boleh dipadam."
         cant_link_a_work_package_with_a_descendant: "Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya."
         circular_dependency: "Hubungan ini akan mencipta kebergantungan bulat."
         confirmation: "tidak sepadan dengan %{attribute}."
@@ -905,6 +929,8 @@ ms:
               nonexistent: "Kolum '%{column}' tidak wujud."
               format: "%{message}"
           group_by_hierarchies_exclusive: "saling eksklusif dengan kumpulan oleh '%{group_by}'. Anda tidak boleh mengaktifkan kedua-duanya."
+          can_only_be_modified_by_owner: "Pertanyaan hanya boleh diubah suai oleh pemiliknya."
+          need_permission_to_modify_public_query: "Anda tidak boleh mengubah suai pertanyaan umum."
           filters:
             custom_fields:
               inexistent: "Tiada ruangan tersuai untuk penyaring tersebut."
@@ -938,6 +964,9 @@ ms:
             base:
               working_days_are_missing: "Sekurang-kurangnya sehari dalam seminggu perlu ditentukan sebagai hari bekerja."
               previous_working_day_changes_unprocessed: "Perubahan terdahulu pada konfigurasi hari bekerja belum dilaksanakan lagi."
+              hours_per_day_are_missing: "Bilangan jam dalam sehari perlu ditentukan."
+              durations_are_not_positive_numbers: "Jangka masa mestilah nombor positif."
+              hours_per_day_is_out_of_bounds: "Jam sehari tidak boleh melebihi 24"
         time_entry:
           attributes:
             hours:
@@ -995,11 +1024,13 @@ ms:
               only_same_project_categories_allowed: "Kategori pakej kerja mesti dalam projek yang sama dengan pakej kerja."
               does_not_exist: "Kategori yang ditentukan tidak wujud."
             estimated_hours:
+              not_a_number: "bukan jangka masa yang sah."
               cant_be_inferior_to_remaining_work: "Tidak boleh lebih rendah daripada kerja yang Berbaki."
               must_be_set_when_remaining_work_is_set: "Diperlukan apabila kerja yang Berbaki ditetapkan."
               only_values_greater_or_equal_zeroes_allowed: "Perlu >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "bukan jangka masa yang sah."
               cant_exceed_work: "Tidak boleh lebih tinggi daripada Kerja."
               must_be_set_when_work_is_set: "Diperlukan apabila Kerja ditetapkan."
               format: "%{message}"
@@ -1114,18 +1145,6 @@ ms:
           other: "<i>%{count} jam</i>"
         updated: "ditukar dari %{old_value} kepada %{value}"
         logged_for: "Dilog untuk"
-      meeting_agenda_item:
-        duration:
-          added: "ditetapkan kepada %{value}"
-          added_html: "ditetapkan kepada <i>%{value}</i>"
-          removed: "dikeluarkan"
-          updated: "ditukar dari %{old_value} kepada %{value}"
-          updated_html: "ditukar dari <i>%{old_value}</i> kepada <i>%{value}</i>"
-        position:
-          updated: "disusun semula"
-        work_package:
-          updated: "ditukar dari %{old_value} kepada %{value}"
-          updated_html: "ditukar dari <i>%{old_value}</i> kepada <i>%{value}</i>"
     filter:
       changeset: "Set ubah suai"
       message: "Forum-forum"
@@ -1304,6 +1323,8 @@ ms:
   button_revoke_access: "Batalkan akses"
   button_revoke_all: "Batalkan semua"
   button_revoke_only: "Batalkan %{shared_role_name} sahaja"
+  button_publish: "Jadikan umum"
+  button_unpublish: "Jadikan peribadi"
   consent:
     checkbox_label: Saya sudah menyatakan dan bersetuju dengan perkara di atas.
     failure_message: Persetujuan gagal, tidak boleh teruskan.
@@ -1468,7 +1489,7 @@ ms:
         add_groups: "Tambah kumpulan atribut baharu"
         rename_groups: "Nama semula kumpulan atribut"
       project_filters:
-        description_html: "Menyaring dan menyusun ruang tersuai ialah tambahan edisi Enterprise."
+        description_html: "Menyaring dan menyusun ruang tersuai adalah tambahan edisi Enterprise."
   enumeration_activities: "Aktiviti penjejakan masa"
   enumeration_work_package_priorities: "Keutamaan pakej kerja"
   enumeration_reported_project_statuses: "Status projek yang dilaporkan"
@@ -1556,6 +1577,12 @@ ms:
       pdf_gantt: "Gantt PDF"
     image:
       omitted: "Imej tidak dieksport."
+    macro:
+      error: "Ralat makro,%{message}"
+      attribute_not_found: "atribut tidak ditemui: %{attribute}"
+      model_not_found: "model atribut tidak sah: %{model}"
+      resource_not_found: "sumber tidak ditemui: %{resource}"
+      rich_text_unsupported: "Penyematan teks kaya tidak disokong bagi eksport buat masa ini"
     units:
       hours: j
       days: h
@@ -1609,7 +1636,7 @@ ms:
       dates_changed: "Tarikh ditukar"
       default_attribute_written: "Atribut baca-sahaja ditulis"
       progress_mode_changed_to_status_based: "Pengiraan perkembangan dikemas kini"
-      status_p_complete_changed: "Status % Selesai diubah"
+      status_changed: "Status '%{status_name}'"
       system_update: "Kemas kini sistem OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: dengan perubahan pada pendahulu %{link}
@@ -1626,8 +1653,9 @@ ms:
           working: "%{date} kini hari bekerja"
           non_working: "%{date} kini bukan hari bekerja"
       progress_mode_changed_to_status_based: Mod pengiraan perkembangan ditetapkan kepada berasaskan status
-      status_p_complete_changed: >-
-        % nilai selesai untuk status '%{status_name}' diubah dari %{old_value}% kepada %{new_value}%
+      status_excluded_from_totals_set_to_false_message: kini termasuk dalam jumlah hierarki
+      status_excluded_from_totals_set_to_true_message: kini dikeluarkan daripada jumlah hierarki
+      status_percent_complete_changed: "% selesai ditukar daripada %{old_value}% kepada %{new_value}%"
       system_update:
         file_links_journal: >
           Mulai sekarang, aktiviti berkaitan dengan pautan fail (fail-fail yang disimpan di storan luaran) akan muncul dalam tab Aktiviti. Yang berikut mewakili aktiviti berkenaan pautan yang sudah sedia ada:
@@ -1647,7 +1675,7 @@ ms:
     admin:
       mail_notification: "Pemberitahuan e-mel"
       mails_and_notifications: "E-mel dan pemberitahuan"
-      aggregation: "Pengagregatan"
+      aggregation: "Pengumpulan"
       api_and_webhooks: "API dan webhooks"
     quick_add:
       label: "Buka menu tambah cepat"
@@ -1752,6 +1780,7 @@ ms:
   label_attribute_expand_text: "Teks yang lengkap untuk '%{attribute}'"
   label_authentication: "Pengesahan"
   label_available_global_roles: "Peranan global yang tersedia"
+  label_available_project_attributes: "Atribut projek yang tersedia"
   label_available_project_forums: "Forum yang tersedia"
   label_available_project_repositories: "Repositori-repositori yang tersedia"
   label_available_project_versions: "Versi yang tersedia"
@@ -2283,7 +2312,7 @@ ms:
   label_workflow: "Aliran kerja"
   label_workflow_plural: "Aliran kerja"
   label_workflow_summary: "Ringkasan"
-  label_working_days: "Hari bekerja"
+  label_working_days_and_hours: "Hari dan jam bekerja"
   label_x_closed_work_packages_abbr:
     one: "1 ditutup"
     other: "%{count} ditutup"
@@ -2663,6 +2692,7 @@ ms:
   permission_save_bcf_queries: "Simpan pertanyaan BCF"
   permission_manage_public_bcf_queries: "Urus pertanyaan BCF awam"
   permission_edit_attribute_help_texts: "Edit atribut teks bantuan"
+  permission_manage_public_project_queries: "Uruskan senarai projek awam"
   placeholders:
     default: "-"
   project:
@@ -2893,6 +2923,9 @@ ms:
   setting_feeds_limit: "Had kandungan feed "
   setting_file_max_size_displayed: "Saiz maksimum fail teks ditampilkan sebaris "
   setting_host_name: "Nama hos"
+  setting_hours_per_day: "Jam sehari"
+  setting_hours_per_day_explanation: >-
+    Ini akan takrifkan apa yang dianggap sebagai "hari" apabila memaparkan jangka masa menggunakan cara yang lebih semula jadi (contohnya, jika sehari ialah 8 jam, 32 jam ialah 4 hari).
   setting_invitation_expiration_days: "Pengaktifan e-mel tamat tempoh selepas"
   setting_work_package_done_ratio: "Pengiraan perkembangan"
   setting_work_package_done_ratio_field: "Berasaskan kerja"
@@ -3066,7 +3099,7 @@ ms:
   text_custom_field_hint_activate_per_project_and_type: >
     Ruang tersuai perlu diaktifkan untuk setiap jenis pakej kerja dan setiap projek.
   text_wp_status_read_only_html: >
-    Edisi Enterprise akan menambahkan segala tambahan ke ruang status pakej kerja: <br> <ul> <li><b>Benarkan untuk menandakan pakej kerja untuk baca sahaja pada status tertentu </b></li> </ul>
+    Edisi Enterprise akan menambahkan segala tambahan ke ruang status pakej kerja: <br> <ul> <li><b>Benarkan untuk menandakan pakej kerja untuk baca-sahaja pada status tertentu </b></li> </ul>
   text_project_custom_field_html: >
     Edisi Enterprise akan menambahkan segala jenis tambahan ke ruang tersuai projek: <br> <ul> <li><b> Tambah ruang tersuai ke projek ke senarai Projek anda untuk ciptakan paparan portfolio project </b></li> </ul>
   text_custom_logo_instructions: >
@@ -3258,7 +3291,7 @@ ms:
     https_mismatch:
       title: "Mod penyediaan HTTPS tidak sepadan"
       text_html: >
-        Aplikasi anda sedang berjalan dengan mod HTTPS ditetapkan kepada <code>%{set_protocol}</code>, tetapi permintaannya ialah permintaan <code>%{actual_protocol}</code>. Ini akan mengakibatkan ralat! Anda perlu menetapkan nilai konfigurasi seperti yang berikut: <code>%{setting_value}</code>. Sila lihat <a href="%{more_info_path}">dokumentasi pemasangan</a> atas cara-cara untuk menetapkan konfigurasi ini.
+        Aplikasi anda sedang berjalan dengan mod HTTPS ditetapkan kepada <code>%{set_protocol}</code>, tetapi permintaannya adalah permintaan <code>%{actual_protocol}</code>. Ini akan mengakibatkan ralat! Anda perlu menetapkan nilai konfigurasi seperti yang berikut: <code>%{setting_value}</code>. Sila lihat <a href="%{more_info_path}">dokumentasi pemasangan</a> atas cara-cara untuk menetapkan konfigurasi ini.
     hostname_mismatch:
       title: "Tetapan nama hos tidak sepadan"
       text_html: >
@@ -3266,10 +3299,10 @@ ms:
   menu_item: "Item menu"
   menu_item_setting: "Keterlihatan"
   wiki_menu_item_for: 'Item menu untuk halaman wiki "%{title}"'
-  wiki_menu_item_setting: "Penglihatan"
+  wiki_menu_item_setting: "Keterlihatan"
   wiki_menu_item_new_main_item_explanation: >
-    Anda sedang memadam item menu utama wiki yang tunggal. Anda kini perlu memilih halaman wiki di mana item menu baharu akan dijanakan. Untuk memadamkan modul wiki tersebut, ianya boleh dinyahaktifkan oleh pentadbir projek.
-  wiki_menu_item_delete_not_permitted: Item menu wiki bagi halaman wiki tunggal tidak boleh dipadam.
+    Anda sedang memadam satu-satunya item menu utama wiki. Anda kini perlu memilih halaman wiki di mana item menu baharu akan dijanakan. Untuk memadamkan modul wiki tersebut, ianya boleh dinyahaktifkan oleh pentadbir projek.
+  wiki_menu_item_delete_not_permitted: Item menu wiki bagi satu-satunya halaman wiki tidak boleh dipadam.
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -3280,9 +3313,9 @@ ms:
     progress:
       label_note: "Perhatian:"
       modal:
-        work_based_help_text: "% Lengkap secara automatik diperolehi daripada Kerja dan Kerja yang berbaki."
-        status_based_help_text: "% Lengkap ditetapkan oleh status pakej kerja."
-        migration_warning_text: "Dalam mod pengiraan perkembangan berdasarkan kerja, % Lengkap tidak boleh ditetapkan secara manual dan ianya terikat dengan Kerja. Nilai sedia ada tersebut telah disimpan tetapi tidak boleh diedit. Sila input Kerja dahulu."
+        work_based_help_text: "% Selesai secara automatik diperolehi daripada Kerja dan Kerja yang berbaki."
+        status_based_help_text: "% Selesai ditetapkan oleh status pakej kerja."
+        migration_warning_text: "Dalam mod pengiraan perkembangan berdasarkan kerja, % Selesai tidak boleh ditetapkan secara manual dan ianya terikat kepada Kerja. Nilai sedia ada tersebut telah disimpan tetapi tidak boleh diedit. Sila input Kerja dahulu."
     sharing:
       count:
         zero: "0 pengguna"
@@ -3300,7 +3333,7 @@ ms:
       label_toggle_all: "Tukar semua perkongsian"
       permissions:
         comment: "Komen"
-        comment_description: "Boleh lihat dan komen tentang pakej kerja ini."
+        comment_description: "Boleh lihat dan komen berkenaan pakej kerja ini."
         denied: "Anda tidak mempunyai kebenaran untuk berkongsi pakej kerja."
         edit: "Edit"
         edit_description: "Boleh lihat, komen dan edit pakej kerja ini."
@@ -3313,7 +3346,7 @@ ms:
       text_empty_state_description: "Pakej kerja masih belum dikongsikan dengan sesiapa lagi."
       text_empty_state_header: "Tidak dikongsikan"
       text_user_limit_reached: "Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses pakej kerja ini."
-      text_user_limit_reached_admins: 'Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}"><a href="%{upgrade_url}">naik taraf pelan anda</a> untuk dapat menambah lebih banyak pengguna.'
+      text_user_limit_reached_admins: 'Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}"><a href="%{upgrade_url}">naik taraf pelan anda</a> untuk membolehkan untuk menambah lebih banyak pengguna.'
       warning_user_limit_reached: >
         Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses pakej kerja ini.
       warning_user_limit_reached_admin: >
@@ -3333,12 +3366,12 @@ ms:
         additional_privileges_project_or_group: "Mungkin mempunyai keistimewaan tambahan (sebagai ahli projek atau kumpulan)"
   working_days:
     info: >
-      Hari yang tidak dipilih akan dilangkau semasa penjadualan pakej kerja (dan tidak disertakan dalam jumlah hari). Ini boleh digantikan pada peringkat pakej kerja.
+      Hari yang tidak dipilih akan dilangkau semasa penjadualan pakej kerja (dan tidak termasuk dalam kiraan hari). Ini boleh digantikan di peringkat pakej-kerja.
     instance_wide_info: >
-      Tarikh yang ditambah ke senarai dibawah diterima sebagai tidak berfungsi dan dilangkau semasa menjadualkan pakej kerja.
+      Tarikh yang ditambah ke senarai dibawah diterima sebagai tidak berfungsi dan dilangkau semasa penjadualan pakej kerja.
     change_button: "Tukar hari bekerja"
     warning: >
-      Menukar hari mana dalam seminggu dianggap hari bekerja atau hari tidak bekerja boleh memberi kesan kepada hari mula dan tamat bagi semua pakej kerja dalam semua projek dalam kejadian ini. <br/> Sila ambil perhatian bahawa perubahan hanya dilaksanakan selepas anda klik butang terapkan perubahan.
+      Penukaran hari dalam seminggu yang dianggap sebagai hari bekerja atau hari tidak bekerja akan mempengaruhi hari mula dan akhir semua pakej kerja dalam semua projek bagi contoh ini.
     journal_note:
       changed: _**Hari bekerja** telah diubah (%{changes})._
       days:
@@ -3375,13 +3408,13 @@ ms:
       invalid_relation: "Hubungan tersebut adalah tidak sah."
       invalid_resource: "Untuk ciri-ciri '%{property}' sebuah pautan seperti '%{expected}' dijangkakan, tetapi mendapat '%{actual}'."
       invalid_signal:
-        embed: "Permintaan menyemat %{invalid} tidak disokong. Penyematan yang disokong adalah %{supported}."
+        embed: "Permintaan menyemat %{invalid} tidak disokong. Penyematan yang disokong ialah %{supported}."
         select: "Permintaan %{invalid} yang dipilih tidak disokong. Pilihan yang disokong ialah %{supported}."
       invalid_user_status_transition: "Status akaun pengguna semasa tidak membenarkan operasi ini."
       missing_content_type: "tidak ditentukan"
       missing_property: "Ciri-ciri yang hilang '%{property}'."
       missing_request_body: "Tiada badan permintaan."
-      missing_or_malformed_parameter: "Parameter pertanyaan '%{parameter}' tidak ditemui atau cacat."
+      missing_or_malformed_parameter: "Parameter pertanyaan '%{parameter}' tidak ditemui atau tidak betul."
       multipart_body_error: "Badan permintaan tidak mempunyai bahagian multipart seperti yang dijangka."
       multiple_errors: "Beberapa kekangan ruang telah dilanggar."
       unable_to_create_attachment: "Lampiran tidak boleh dicipta"
@@ -3405,31 +3438,31 @@ ms:
   doorkeeper:
     pre_authorization:
       status: "Pra-kebenaran"
-    auth_url: "Auth URL"
+    auth_url: "URL Auth"
     access_token_url: "Akses token URL"
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: "Permintaan tersebut tidak mengandungi parameter yang diperlukan, termasuk nilai parameter yang tidak disokong, atau sebaliknya telah cacat."
+          unknown: "Permintaan tersebut tidak mengandungi parameter yang diperlukan, termasuk nilai parameter yang tidak disokong, atau sebaliknya tidak betul."
           missing_param: "Parameter yang diperlukan hilang: %{value}."
           request_not_authorized: "Permintaan perlu dibenarkan. Parameter yang diperlukan untuk membenarkan permintaan tiada atau tidak sah."
         invalid_redirect_uri: "Pengubah hala URI yang diminta tidak betul atau tidak sepadan dengan pengubah hala URI pelanggan."
         unauthorized_client: "Pelanggan tersebut tidak dibenarkan untuk melaksanakan permintaan ini menggunakan kaedah ini."
         access_denied: "Pemilik sumber atau server kebenaran menafikan permintaan ini."
-        invalid_scope: "Skop yang diminta adalah tidak sah, tidak diketahui, atau salah bentuk."
+        invalid_scope: "Skop yang diminta adalah tidak sah, tidak diketahui, atau tidak betul."
         invalid_code_challenge_method: "Kaedah kod cabaran mesti biasa atau S256."
         server_error: "Server kebenaran mengalami keadaan yang tidak dijangka yang menghalangnya daripada memenuhi permintaan."
         temporarily_unavailable: "Server kebenaran pada masa ini tidak dapat mengendalikan permintaan kerana beban berlebihan sementara atau penyelenggaraan server."
         #Configuration error messages
         credential_flow_not_configured: "Aliran Kelayakan Kata Laluan Pemilik Sumber telah gagal disebabkan oleh Doorkeeper.configure.resource_owner_authenticator tidak dikonfigurasikan."
         resource_owner_authenticator_not_configured: "Carian Pemilik Sumber gagal kerana Doorkeeper.configure.resource_owner_authenticator tidak dikonfigurasikan."
-        admin_authenticator_not_configured: "Akses ke panel admin dilarang kerana Doorkeeper.configure.admin_authenticator tidak dikonfigurasi."
+        admin_authenticator_not_configured: "Akses ke panel pentadbir dilarang kerana Doorkeeper.configure.admin_authenticator tidak dikonfigurasi."
         #Access grant errors
         unsupported_response_type: "Server kebenaran tidak menyokong jenis tindak balas ini."
         unsupported_response_mode: "Server kebenaran tidak menyokong mod tindak balas ini."
         #Access token errors
-        invalid_client: "Pengesahan pelanggan gagal kerana pelanggan yang tidak diketahui, tiada pengesahan pelanggan yang disertakan, atau kaedah pengesahan yang tidak disokong."
+        invalid_client: "Pengesahan pelanggan gagal kerana pelanggan yang tidak diketahui, tiada pengesahan pelanggan yang disertakan, atau kaedah pengesahan tidak disokong."
         invalid_grant: "Pemberian kebenaran yang diberikan adalah tidak sah, luput, dibatalkan, tidak sepadan dengan pengubah hala URI yang digunakan dalam permintaan kebenaran, atau dikeluarkan kepada pelanggan lain."
         unsupported_grant_type: "Jenis pemberian kebenaran tidak disokong oleh server pengesahan."
         invalid_token:
@@ -3455,9 +3488,9 @@ ms:
       instructions:
         name: "Nama aplikasi anda. Ini akan dipaparkan ke pengguna lain selepas kebenaran."
         redirect_uri_html: >
-          URL yang dibenarkan membenarkan pengguna boleh diubah hala. Satu entri setiap baris. <br/> Jika anda mendaftar aplikasi desktop, guna URL berikut.
-        confidential: "Semak jika aplikasi akan digunakan dimana rahsia pelanggan boleh dikekalkan sulit. Mobile apps asal dan Single Page Apps dianggap sebagai tidak sulit."
-        scopes: "Tandakan skop yang anda mahu aplikasi untuk berikan akses. Jika tiada skop  ditandakan, api_v3 akan diandaikan."
+          URL yang dibenarkan membenarkan pengguna boleh diubah hala. Satu entri setiap baris. <br/> Jika anda mendaftar aplikasi desktop, gunakan URL berikut.
+        confidential: "Semak jika aplikasi akan digunakan dimana rahsia pelanggan boleh dikekalkan sulit. Aplikasi mudah alih asal dan Single Page Apps dianggap sebagai tidak sulit."
+        scopes: "Tandakan skop yang anda mahu untuk berikan akses ke aplikasi tersebut. Jika tiada skop ditandakan, api_v3 akan diandaikan."
         client_credential_user_id: "ID pengguna pilihan untuk menyamar apabila pelanggan menggunakan aplikasi ini. Tinggalkan kosong untuk benarkan akses awam sahaja."
         register_intro: "Jika anda sedang membangunkan aplikasi pelanggan API OAuth untuk OpenProject, anda boleh mendaftarkannya menggunakan borang ini untuk semua pengguna menggunakannya."
         default_scopes: ""
@@ -3490,7 +3523,7 @@ ms:
     client_credentials_impersonation_html: >
       Secara default, OpenProject menyediakan kebenaran OAuth 2.0 melalui %{authorization_code_flow_link}. Anda boleh memilih untuk mengaktifkan %{client_credentials_flow_link}, tetapi anda mesti menyediakan pengguna yang akan mewakili permintaan.
     authorization_error: "Sebuah ralat kebenaran telah berlaku."
-    revoke_my_application_confirmation: "Adakah anda benar-benar mahu keluarkan aplikasi ini? Ini akan menarik balik %{token_count} aktif darinya."
+    revoke_my_application_confirmation: "Adakah anda benar-benar mahu memadam aplikasi ini? Ini akan menarik balik %{token_count} yang aktif darinya."
     my_registered_applications: "Aplikasi OAuth berdaftar"
   oauth_client:
     urn_connection_status:
@@ -3500,11 +3533,11 @@ ms:
     labels:
       label_oauth_integration: "Integrasi OAuth2"
       label_redirect_uri: "Ubah hala URI"
-      label_request_token: "Permintaan token"
+      label_request_token: "Token permintaan"
       label_refresh_token: "Token muat semula"
     errors:
       oauth_authorization_code_grant_had_errors: "Pemberian pengesahan OAuth2 tidak berjaya"
-      oauth_reported: "Pembekal OAuth2 melaporkan"
+      oauth_reported: "Penyedia OAuth2 melaporkan"
       oauth_returned_error: "OAuth2 telah kembalikan sebuah ralat"
       oauth_returned_json_error: "OAuth2 telah kembalikan ralat JSON"
       oauth_returned_http_error: "OAuth2 telah kembalikan ralat rangkaian"
@@ -3516,13 +3549,13 @@ ms:
         Ralat dalaman: Memanggil refresh_token tanpa token yang sedia ada sebelum ini.
       refresh_token_updated_failed: "Ralat semasa kemas kini OAuthClientToken"
       oauth_client_not_found_explanation: >
-        Ralat muncul selepas anda mengemas kini client_id dan client_secret di Openproject, tetapi belum mengemas kini ruangan 'URI Kembali' dalam pembekal OAuth2.
+        Ralat muncul selepas anda mengemas kini client_id dan client_secret di Openproject, tetapi belum mengemas kini ruangan 'URI Kembali' dalam penyedia OAuth2.
       oauth_code_not_present: "'Kod' OAuth2 tidak ditemui dalam titik terakhir 'panggilan balik' (redirect_url)."
       oauth_code_not_present_explanation: >
         Ralat ini muncul jika anda telah memilih response_type yang salah dalam pembekal OAuth2. Response_type perlu 'kod' atau serupa.
       oauth_state_not_present: "'Kondisi' OAuth2 tidak ditemui dalam titik terakhir 'panggilan balik' (ubah hala_url)."
       oauth_state_not_present_explanation: >
-        'Kondisi' digunakan untuk menunjukkan ke OpenProject tempat untuk meneruskan selepas kebenaran OAuth2 berjaya. Ketiadaan 'Kondisi' adalah ralat dalaman yang mungkin muncul semasa penyediaan. Sila hubungi pentadbir sistem anda.
+        'Kondisi' digunakan untuk menunjukkan ke OpenProject tempat untuk meneruskan selepas kebenaran OAuth2 berjaya. Ketiadaan 'kondisi' adalah ralat dalaman yang mungkin muncul semasa penyediaan. Sila hubungi pentadbir sistem anda.
       rack_oauth2:
         client_secret_invalid: "Rahsia pelanggan adalah tidak sah (rahsia_pelanggan_tidak sah)"
         invalid_request: >
@@ -3536,7 +3569,7 @@ ms:
   http:
     request:
       failed_authorization: "Permintaan dari pihak server gagal mengesahkan dirinya sendiri."
-      missing_authorization: "Permintaan dari pihak server  gagal disebabkan maklumat pengesahan yang hilang."
+      missing_authorization: "Permintaan dari pihak server gagal disebabkan maklumat pengesahan yang hilang."
     response:
       unexpected: "Tindak balas yang tidak dijangka diterima."
   you: anda

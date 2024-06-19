@@ -274,6 +274,11 @@ fr:
         warning: >
           Les modifications pourraient prendre un certain temps pour être appliquées. Vous serez averti(e) lorsque tous les lots de travaux pertinents auront été mis à jour.
           Voulez-vous continuer ?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ non modifiable dont la valeur est dérivée des champs <i>Travail</i> et <i>Travail restant</i>. Les valeurs existantes pour <i>% réalisé</i> sont conservées. Des valeurs pour <i>Travail</i> et <i>Travail restant</i> sont requises pour modifier <i>% réalisé</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Passer du mode de calcul de la progression basé sur le travail au mode basé sur le statut entraînera la perte de toutes les valeurs de <i>% réalisé</i> existantes et leur remplacement par les valeurs associées à chaque statut. Les valeurs existantes pour <i>Travail restant</i> peuvent également être recalculées pour refléter ce changement. Cette action est irréversible.
     custom_actions:
       date:
         specific: "le"
@@ -360,10 +365,10 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                Cette version contient différentes nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Exportation au format PDF de la vue Gantt, par exemple pour l'impression (add-on Enterprise)</li> <li>Projets favoris</li> <li>Sections dans les réunions</li> <li>Affichage des réunions sur Ma page et les pages de vue d'ensemble des projets</li> <li>Possibilité de masquer les pièces jointes dans l'onglet Fichiers</li> <li>Champs personnalisés de type Lien (URL)</li> </ul>
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Définir plus d'unités pour le travail, le travail restant et le temps de travail</li> <li>Configurer quels projets sont activés pour les attributs de projet</li> <li>Renommer les listes de projets privés</li> <li>Éviter les rappels redondants par e-mail en cas de @mentions</li> <li>Inviter les participants à une réunion par e-mail</li> <li>Afficher les attributs de lots de travaux intégrés dans les exportations PDF</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -1282,6 +1287,11 @@ fr:
           placeholder: "Le utilisateur fictif peut maintenant être utilisé dans %{project}. En attendant, vous pouvez déjà planifier des taches avec cet utilisateur et l'assigner à des lots de travaux par exemple."
           group: "Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l'assigner des lots de travaux par exemple."
         next_button: "Continuer"
+    exclusion_info:
+      modal:
+        title: "Statut exclu des totaux de la hiérarchie"
+        content: >-
+          Le statut « %{status_name} » a été configuré pour être exclu des totaux hiérarchiques du travail, du travail restant et du % réalisé. Les totaux ne tiennent pas compte de cette valeur.
     favorite_projects:
       no_results: "Vous n'avez pas de projet favori"
       no_results_subtext: "Ajoutez un ou plusieurs projets en tant que favoris via leur vue d'ensemble ou dans une liste de projets."
@@ -1342,12 +1352,12 @@ fr:
         remove: "Supprimer"
       drop_modal:
         focus_grab: "Il s'agit d'une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l'élément de déclenchement modal."
-        Close: "Fermer"
+        close: "Fermer la fenêtre modale"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "Délai d'inactivité"
       waiting_subtitle:
         network_off: "Un problème de réseau est survenu."
         network_on: "Le réseau est à nouveau disponible. Nous essayons."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject n'a pas pu vous donner accès au dossier du projet dans le délai imparti. Veuillez réessayer.<br><br> Si ce problème persiste, veuillez contacter votre administrateur OpenProject pour vérifier le <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">statut de santé de l'espace de stockage de fichiers</a>.

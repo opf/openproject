@@ -27,13 +27,14 @@
 # ++
 module Projects
   class MenusController < ApplicationController
-    include Menus::ProjectsHelper
-
     # No authorize as every user (or logged in user)
     # is allowed to see the menu.
 
     def show
-      @sidebar_menu_items = first_level_menu_items
+      projects_menu = Menus::Projects.new(controller_path: params[:controller_path], params:, current_user:)
+
+      @sidebar_menu_items = projects_menu.first_level_menu_items
+
       render layout: nil
     end
   end

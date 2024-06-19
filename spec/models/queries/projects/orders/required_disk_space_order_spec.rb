@@ -39,7 +39,7 @@ RSpec.describe Queries::Projects::Orders::RequiredDiskSpaceOrder do
   describe "#scope" do
     context "with a valid direction" do
       it "orders by the disk space" do
-        expect(instance.scope.to_sql)
+        expect(instance.apply_to(Project).to_sql)
           .to eql(Project.order(Arel.sql(Project.required_disk_space_sum).asc).to_sql)
       end
     end
@@ -48,7 +48,7 @@ RSpec.describe Queries::Projects::Orders::RequiredDiskSpaceOrder do
       let(:direction) { "bogus" }
 
       it "raises an error" do
-        expect { instance.scope }
+        expect { instance.apply_to(Project) }
           .to raise_error(ArgumentError)
       end
     end

@@ -79,5 +79,4 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      label: nil,
                                                      order: 11,
                                                      formatter: "CustomValue::EmptyStrategy")
-
 end

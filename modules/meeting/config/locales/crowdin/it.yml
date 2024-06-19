@@ -58,9 +58,23 @@ it:
       meeting_agenda_item: "Attività"
       meeting_agenda: "Ordine del giorno"
       meeting_minutes: "Verbali"
+      meeting_section: "Sezione"
   activity:
     filter:
       meeting: "Riunioni"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "impostato a %{value}"
+          added_html: "impostato a <i>%{value}</i>"
+          removed: "rimosso"
+          updated: "modificato da %{old_value} a %{value}"
+          updated_html: "modificato da <i>%{old_value}</i> a <i>%{value}</i>"
+        position:
+          updated: "riordinato"
+        work_package:
+          updated: "modificato da %{old_value} a %{value}"
+          updated_html: "modificato da <i>%{old_value}</i> a <i>%{value}</i>"
   description_attended: "ha partecipato"
   description_invite: "invitato"
   events:
@@ -107,6 +121,8 @@ it:
       agenda: "Copia ordine del giorno"
       agenda_text: "Copia l'ordine del giorno della vecchia riunione"
     email:
+      send_emails: "Invia email"
+      send_invitation_emails: "Invia e-mail d'invito al momento della creazione"
       open_meeting_link: "Apri riunione"
       invited:
         summary: "%{actor} ti ha inviato un invito per la riunione %{title}"

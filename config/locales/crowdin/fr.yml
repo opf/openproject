@@ -266,6 +266,7 @@ fr:
       my: "Mes projets"
       favored: "Projets favoris"
       archived: "Projets archivés"
+      public: "Listes de projets publics"
       my_private: "Mes listes de projets privés"
       new:
         placeholder: "Nouvelle liste de projets"
@@ -293,8 +294,17 @@ fr:
         actions:
           label_enable_single: "Actif dans ce projet, cliquez pour le désactiver"
           label_disable_single: "Inactif dans ce projet, cliquez pour l'activer"
+          deactivate_for_project: "Désactiver pour ce projet"
           label_enable_all: "Activer tout"
           label_disable_all: "Désactiver tout"
+        is_required_blank_slate:
+          heading: Requis dans tous les projets
+          description: Cet attribut de projet est activé dans tous les projets, car l'option « Requis dans tous les projets » est cochée. Il ne peut pas être désactivé pour des projets individuels.
+        new_project_mapping_form:
+          add_projects: Ajouter des projets
+          include_sub_projects: Inclure les sous-projets
+        project_mappings:
+          header: Activé dans les projets
       types:
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         form:
@@ -311,6 +321,12 @@ fr:
     update:
       success: "La liste modifiée a été enregistrée"
       failure: "La liste modifiée ne peut pas être enregistrée : %{errors}"
+    publish:
+      success: "La liste a été rendue publique"
+      failure: "La liste ne peut pas être rendue publique : %{errors}"
+    unpublish:
+      success: "La liste a été rendue privée"
+      failure: "La liste ne peut pas être rendue privée : %{errors}"
     can_be_saved: "Liste modifiée :"
     can_be_saved_as: "Les modifications ne peuvent être enregistrées que dans une nouvelle liste :"
   members:
@@ -330,7 +346,6 @@ fr:
       project_roles: "Rôle du projet"
       wp_shares: "Partages du lot des travaux"
       groups: "Groupes"
-    no_modify_on_shared: "Actuellement, vous ne pouvez pas modifier ou supprimer les adhésions partagées depuis la page des membres. Utilisez plutôt la fenêtre modale de partage."
     delete_member_dialog:
       title: "Supprimer le membre"
       will_remove_the_users_role: "Cela supprimera le rôle de l'utilisateur dans ce projet."
@@ -438,12 +453,19 @@ fr:
         Aucuns attributs ne peut être changés à l’exception de l’État.
         <br/>
         <strong>Note</strong>: les valeurs héritées (ex: des enfants ou relations) continueront de s’appliquer.
+      status_excluded_from_totals_text: |-
+        Cochez cette option pour exclure les lots de travaux ayant ce statut des totaux de Travail, Travail restant et % réalisé dans une hiérarchie.
       status_color_text: |
         Cliquez pour assigner ou modifier la couleur de ce statut.
         Elle peut être utilisée pour mettre en évidence les lots de travaux dans le tableau.
     index:
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
       no_results_content_text: Ajouter un nouveau statut
+      headers:
+        is_default: "Défaut"
+        is_closed: "Fermé"
+        is_readonly: "Lecture seule"
+        excluded_from_totals: "Exclus des totaux"
   themes:
     light: "Clair"
     light_high_contrast: "Clair avec contraste élevé"
@@ -613,6 +635,7 @@ fr:
       status:
         is_closed: "Lot de travaux clôturé"
         is_readonly: "Paquet de travail en lecture seule"
+        excluded_from_totals: "Exclure du calcul des totaux dans la hiérarchie"
       journal:
         notes: "Notes"
       member:
@@ -753,6 +776,7 @@ fr:
         before_or_equal_to: "doit être antérieur(e) ou égal(e) à %{date}."
         blank: "ne peut pas être vide."
         blank_nested: "doit avoir la propriété « %{property} » définie."
+        cannot_delete_mapping: "est requis. Ne peut être supprimé."
         cant_link_a_work_package_with_a_descendant: "Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches."
         circular_dependency: "Cette relation créerait une dépendance circulaire."
         confirmation: "ne correspond pas à %{attribute}."
@@ -913,6 +937,8 @@ fr:
               nonexistent: "La colonne '%{column}' n'existe pas."
               format: "%{message}"
           group_by_hierarchies_exclusive: "est mutuellement exclusif avec grouper par '%{group_by}'. Vous ne pouvez pas activer les deux."
+          can_only_be_modified_by_owner: "La requête ne peut être modifiée que par son propriétaire."
+          need_permission_to_modify_public_query: "Vous ne pouvez pas modifier une requête publique."
           filters:
             custom_fields:
               inexistent: "Il n’y a pas de champ personnalisé pour le filtre."
@@ -946,6 +972,9 @@ fr:
             base:
               working_days_are_missing: "Au moins un jour de la semaine doit être défini comme jour de travail."
               previous_working_day_changes_unprocessed: "Les modifications précédentes de la configuration des jours ouvrables n'ont pas encore été appliquées."
+              hours_per_day_are_missing: "Le nombre d'heures par jour doit être défini."
+              durations_are_not_positive_numbers: "Les durées doivent être des nombres positifs."
+              hours_per_day_is_out_of_bounds: "Le nombre d'heures par jour ne peut être supérieur à 24."
         time_entry:
           attributes:
             hours:
@@ -1003,11 +1032,13 @@ fr:
               only_same_project_categories_allowed: "La catégorie du lot de travaux doit faire partie du même projet que le lot de travaux."
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
+              not_a_number: "n'est pas une durée valide."
               cant_be_inferior_to_remaining_work: "Ne peut être inférieur au Travail restant."
               must_be_set_when_remaining_work_is_set: "Requis lorsque le Travail restant est défini."
               only_values_greater_or_equal_zeroes_allowed: "Doit être >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "n'est pas une durée valide."
               cant_exceed_work: "Ne peut être supérieur au Travail."
               must_be_set_when_work_is_set: "Requis lorsque le Travail est défini."
               format: "%{message}"
@@ -1130,18 +1161,6 @@ fr:
           other: "<i>%{count} heures</i>"
         updated: "modifié de %{old_value} à %{value}"
         logged_for: "Connecté(e) pendant"
-      meeting_agenda_item:
-        duration:
-          added: "défini sur %{value}"
-          added_html: "défini sur <i>%{value}</i>"
-          removed: "supprimé"
-          updated: "modifié de %{old_value} à %{value}"
-          updated_html: "modifié de <i>%{old_value}</i> à <i>%{value}</i>"
-        position:
-          updated: "réorganisé"
-        work_package:
-          updated: "modifié de %{old_value} à %{value}"
-          updated_html: "modifié de <i>%{old_value}</i> à <i>%{value}</i>"
     filter:
       changeset: "Révisions"
       message: "Forums"
@@ -1320,6 +1339,8 @@ fr:
   button_revoke_access: "Révoquer l'accès"
   button_revoke_all: "Révoquer tout"
   button_revoke_only: "Révoquer uniquement %{shared_role_name}"
+  button_publish: "Passer en public"
+  button_unpublish: "Passer en privé"
   consent:
     checkbox_label: J'ai pris note de ce qui précède et je l'accepte.
     failure_message: Échec de l'accord, impossible de continuer.
@@ -1590,6 +1611,12 @@ fr:
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image non exportée."
+    macro:
+      error: "Erreur de macro, %{message}"
+      attribute_not_found: "attribut non trouvé : %{attribute}"
+      model_not_found: "modèle d'attribut non valide : %{model}"
+      resource_not_found: "ressource non trouvée : %{resource}"
+      rich_text_unsupported: "L'intégration de texte enrichi n'est actuellement pas prise en charge dans l'exportation"
     units:
       hours: h
       days: j
@@ -1643,7 +1670,7 @@ fr:
       dates_changed: "Dates modifiées"
       default_attribute_written: "Attributs en lecture seule écrits"
       progress_mode_changed_to_status_based: "Mise à jour du calcul de la progression"
-      status_p_complete_changed: "Statut du % réalisé modifié"
+      status_changed: "Statut  « %{status_name} »"
       system_update: "Mise à jour du système OpenProject :"
     cause_descriptions:
       work_package_predecessor_changed_times: par changement vers le prédécesseur %{link}
@@ -1660,8 +1687,9 @@ fr:
           working: "%{date} est maintenant un jour ouvrable"
           non_working: "%{date} est maintenant un jour non ouvrable"
       progress_mode_changed_to_status_based: Le calcul de la progression est désormais basé sur le statut
-      status_p_complete_changed: >-
-        La valeur du % réalisation du statut « %{status_name} » est passée de %{old_value} à %{new_value}%
+      status_excluded_from_totals_set_to_false_message: désormais inclus dans les totaux de la hiérarchie
+      status_excluded_from_totals_set_to_true_message: désormais exclus des totaux de la hiérarchie
+      status_percent_complete_changed: "% réalisé passé de %{old_value} % à %{new_value} %"
       system_update:
         file_links_journal: >
           À partir de maintenant, l'activité liée aux liens de fichiers (fichiers stockés sur des supports externes) apparaîtra ici dans l'onglet Activité. Les activités suivantes concernent des liens déjà existants :
@@ -1786,6 +1814,7 @@ fr:
   label_attribute_expand_text: "Le texte complet pour « %{attribute} »."
   label_authentication: "Authentification"
   label_available_global_roles: "Rôles globaux disponibles"
+  label_available_project_attributes: "Attributs de projet disponibles"
   label_available_project_forums: "Forums disponibles"
   label_available_project_repositories: "Dépôts disponibles"
   label_available_project_versions: "Versions disponibles"
@@ -2317,7 +2346,7 @@ fr:
   label_workflow: "Flux de travail"
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
-  label_working_days: "Journées de travail"
+  label_working_days_and_hours: "Jours et heures travaillés"
   label_x_closed_work_packages_abbr:
     one: "1 fermée"
     other: "%{count} fermées"
@@ -2701,6 +2730,7 @@ fr:
   permission_save_bcf_queries: "Enregistrer les requêtes BCF"
   permission_manage_public_bcf_queries: "Gérer les requêtes publiques BCF"
   permission_edit_attribute_help_texts: "Modifier les textes d'aide des attributs"
+  permission_manage_public_project_queries: "Gérer les listes de projets publics"
   placeholders:
     default: "-"
   project:
@@ -2931,6 +2961,9 @@ fr:
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
+  setting_hours_per_day: "Heures par jour"
+  setting_hours_per_day_explanation: >-
+    Ceci permettra de définir ce qui est considéré comme un « jour » lors de l'affichage de la durée d'une manière plus naturelle (par exemple, si un jour est de 8 heures, 32 heures équivalent à 4 jours).
   setting_invitation_expiration_days: "L'émail d’activation expire après"
   setting_work_package_done_ratio: "Calcul de la progression"
   setting_work_package_done_ratio_field: "Basé sur le travail"
@@ -3376,7 +3409,7 @@ fr:
       Les dates ajoutées à la liste ci-dessous sont considérées comme non fonctionnelles et ignorées lors de la planification des lots de travaux.
     change_button: "Changer les jours ouvrables"
     warning: >
-      La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas. <br/> Veuillez noter que les modifications ne sont appliquées qu'après que vous ayez cliqué sur le bouton appliquer les modifications.
+      La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas.
     journal_note:
       changed: _**Jours ouvrables** modifiés (%{changes})._
       days:

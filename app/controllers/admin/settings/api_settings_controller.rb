@@ -39,5 +39,11 @@ module Admin::Settings
         settings["apiv3_cors_origins"] = settings["apiv3_cors_origins"].split(/\r?\n/)
       end
     end
+
+    def extra_permitted_filters
+      # attachment_whitelist is normally permitted as an array parameter.
+      # Explicitly permit it as a string here.
+      [:apiv3_cors_origins]
+    end
   end
 end

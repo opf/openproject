@@ -189,7 +189,7 @@ RSpec.describe WorkPackages::Shared::WorkingDays do
     end
 
     context "with lag" do
-      it "returns the soonest working day from the given day, after a configurable  lag of working days" do
+      it "returns the soonest working day from the given day, after a configurable lag of working days" do
         expect(subject.soonest_working_day(sunday_2022_07_31, lag: nil)).to eq(sunday_2022_07_31)
         expect(subject.soonest_working_day(sunday_2022_07_31, lag: 0)).to eq(sunday_2022_07_31)
         expect(subject.soonest_working_day(sunday_2022_07_31, lag: 1)).to eq(monday_2022_08_01)

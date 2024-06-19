@@ -60,9 +60,23 @@ uk:
       meeting_agenda_item: "Порядок денний"
       meeting_agenda: "Порядок денний"
       meeting_minutes: "Хвилини"
+      meeting_section: "Розділ"
   activity:
     filter:
       meeting: "Наради"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "встановлено значення %{value}"
+          added_html: "встановлено значення <i>%{value}</i>"
+          removed: "вилучено"
+          updated: "змінено %{old_value} на %{value}"
+          updated_html: "змінено з <i>%{old_value}</i> на <i>%{value}</i>"
+        position:
+          updated: "перевпорядковано"
+        work_package:
+          updated: "змінено з %{old_value} на %{value}"
+          updated_html: "змінено з <i>%{old_value}</i> на <i>%{value}</i>"
   description_attended: "Участь"
   description_invite: "Запрошені"
   events:
@@ -109,6 +123,8 @@ uk:
       agenda: "Копіювати порядок денний"
       agenda_text: "Копіювати порядок денний старої наради"
     email:
+      send_emails: "Надсилати листи"
+      send_invitation_emails: "Надсилайте електронні листи зі створеними запрошеннями"
       open_meeting_link: "Відкрити зустріч"
       invited:
         summary: "%{actor} надіслав запрошення на зустріч %{title}"

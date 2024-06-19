@@ -58,9 +58,23 @@ tr:
       meeting_agenda_item: "Ajanda öğesi"
       meeting_agenda: "Ajanda"
       meeting_minutes: "Dakika"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Toplantılar"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "katıldı"
   description_invite: "davet et"
   events:
@@ -107,6 +121,8 @@ tr:
       agenda: "Gündemi kopyala"
       agenda_text: "Eski toplantının gündemini kopyalayın"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Açık toplantı"
       invited:
         summary: "%{actor} size toplantı için bir davetiye gönderdi %{title}"

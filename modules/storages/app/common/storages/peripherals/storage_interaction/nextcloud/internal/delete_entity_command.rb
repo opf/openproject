@@ -26,51 +26,56 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
-  class DeleteEntityCommand
-    Util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
-    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        module Internal
+          class DeleteEntityCommand
+            def self.call(storage:, auth_strategy:, location:)
+              new(storage).call(auth_strategy:, location:)
+            end
 
-    def self.call(storage:, auth_strategy:, location:)
-      new(storage).call(auth_strategy:, location:)
-    end
+            def initialize(storage)
+              @storage = storage
+            end
 
-    def initialize(storage)
-      @storage = storage
-    end
+            def call(auth_strategy:, location:)
+              origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+              if origin_user_id.failure?
+                return origin_user_id
+              end
 
-    def call(auth_strategy:, location:)
-      origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
-      if origin_user_id.failure?
-        return origin_user_id
-      end
+              Authentication[auth_strategy].call(storage: @storage) do |http|
+                handle_response http.delete(Util.join_uri_path(@storage.uri,
+                                                               "remote.php/dav/files",
+                                                               CGI.escapeURIComponent(origin_user_id.result),
+                                                               Util.escape_path(location)))
+              end
+            end
 
-      Auth[auth_strategy].call(storage: @storage) do |http|
-        handle_response http.delete(Util.join_uri_path(@storage.uri,
-                                                       "remote.php/dav/files",
-                                                       CGI.escapeURIComponent(origin_user_id.result),
-                                                       Util.escape_path(location)))
-      end
-    end
+            private
 
-    private
-
-    def handle_response(response)
-      case response
-      in { status: 200..299 }
-        ServiceResult.success
-      in { status: 404 }
-        Util.failure(code: :not_found,
-                     data: Util.error_data_from_response(caller: self.class, response:),
-                     log_message: "Outbound request destination not found!")
-      in { status: 401 }
-        Util.failure(code: :unauthorized,
-                     data: Util.error_data_from_response(caller: self.class, response:),
-                     log_message: "Outbound request not authorized!")
-      else
-        Util.failure(code: :error,
-                     data: Util.error_data_from_response(caller: self.class, response:),
-                     log_message: "Outbound request failed with unknown error!")
+            def handle_response(response)
+              case response
+              in { status: 200..299 }
+                ServiceResult.success
+              in { status: 404 }
+                Util.failure(code: :not_found,
+                             data: Util.error_data_from_response(caller: self.class, response:),
+                             log_message: "Outbound request destination not found!")
+              in { status: 401 }
+                Util.failure(code: :unauthorized,
+                             data: Util.error_data_from_response(caller: self.class, response:),
+                             log_message: "Outbound request not authorized!")
+              else
+                Util.failure(code: :error,
+                             data: Util.error_data_from_response(caller: self.class, response:),
+                             log_message: "Outbound request failed with unknown error!")
+              end
+            end
+          end
+        end
       end
     end
   end

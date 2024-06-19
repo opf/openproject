@@ -74,6 +74,8 @@ class UsersController < ApplicationController
                         .where.not(project_id: nil)
                         .where(id: Member.visible(current_user))
 
+    @groups = @user.groups.visible
+
     if can_show_user?
       @events = events
       render layout: (can_manage_or_create_users? ? "admin" : "no_menu")

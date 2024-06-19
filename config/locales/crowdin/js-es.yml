@@ -274,6 +274,11 @@ es:
         warning: >
           Los cambios pueden tardar algún tiempo en surtir efecto. Se le notificará cuando todos los paquetes de trabajo relevantes hayan sido actualizados.
           ¿Está seguro de que desea continuar?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Cambiar el modo de cálculo del progreso de basado en el estado a basado en el trabajo hará que <i>% completado</i> sea un campo no editable cuyo valor se deriva de <i>Trabajo</i> y <i>Trabajo restante</i>. Los valores existentes para <i>% completado</i> se conservan. Si los valores para <i>Trabajo</i> y <i>Trabajo restante</i> no estaban presentes, serán necesarios para cambiar <i>% completado</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          El cambio del modo de cálculo del progreso de basado en el trabajo a basado en el estado hará que todos los valores existentes de <i>% completado</i> se pierdan y se sustituyan por valores asociados a cada estado. Los valores existentes para <i>Trabajo restante</i> también pueden recalcularse para reflejar este cambio. Esta acción no es reversible.
     custom_actions:
       date:
         specific: "en"
@@ -360,10 +365,10 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                La versión contiene varias novedades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Exportación a PDF de la vista Gantt, por ejemplo para imprimir (complemento Enterprise)</li> <li>Proyectos favoritos</li> <li>Secciones en reuniones</li> <li>Visualización de reuniones en las páginas Mi página y Resumen del proyecto</li> <li>Posibilidad de ocultar los archivos adjuntos en la pestaña Archivos</li> <li>Campos personalizados del tipo Enlace (URL)</li> </ul>
+                La versión contiene varias novedades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Establecer más unidades para el trabajo, el trabajo restante y el tiempo de trabajo</li> <li>Configurar qué proyectos se activan para los atributos de proyecto</li> <li>Cambiar el nombre de las listas de proyectos privadas</li> <li>Evitar los recordatorios redundantes por correo electrónico en caso de @menciones</li> <li>Invitar a los asistentes a reuniones por correo electrónico</li> <li>Mostrar los atributos del paquete de trabajo incrustados en las exportaciones de PDF</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -1282,6 +1287,11 @@ es:
           placeholder: "El marcador de posición ya puede usarse en %{project}. Mientras tanto, puede crear planes con ese usuario y asignarle paquetes de trabajo."
           group: "El grupo ya forma parte de %{project}. Mientras tanto, puede crear planes con ese grupo y asignar paquetes de trabajo a este."
         next_button: "Continuar"
+    exclusion_info:
+      modal:
+        title: "Estado excluido de los totales de jerarquía"
+        content: >-
+          El estado «%{status_name}» se ha configurado para que se excluya de los totales de jerarquía de Trabajo, Trabajo restante y % completado. Los totales no tienen en cuenta este valor.
     favorite_projects:
       no_results: "No tiene proyectos favoritos"
       no_results_subtext: "Añada uno o varios proyectos como favoritos a través del resumen del proyecto o en una lista de proyectos."
@@ -1342,12 +1352,12 @@ es:
         remove: "Eliminar"
       drop_modal:
         focus_grab: "Este es una ancla de enfoque para modales. Presione shift+tab para volver al elemento que activa el modal."
-        Close: "Cerrar"
+        close: "Cerrar ventana modal"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "Tiempo de espera superado"
       waiting_subtitle:
         network_off: "Hay un problema de red."
         network_on: "La red ha vuelto. Lo estamos intentando."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject no ha podido proporcionarle acceso a la carpeta del proyecto en el periodo de tiempo esperado. Inténtelo de nuevo.<br><br> Si el problema persiste, contacte con su administrador de OpenProject para comprobar el <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">estado de salud de la configuración de almacenamiento de archivos</a>.

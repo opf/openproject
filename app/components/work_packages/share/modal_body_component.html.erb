@@ -79,7 +79,11 @@
                     form_with(url: work_package_shares_bulk_path(@work_package),
                               method: :delete,
                               data: { 'work-packages--share--bulk-selection-target': 'bulkForm' }) do
-                      render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+                      render(Primer::Beta::IconButton.new(icon: "trash",
+                                                          type: :submit,
+                                                          scheme: :danger,
+                                                          "aria-label": I18n.t('work_package.sharing.remove'),
+                                                          test_selector: 'op-share-wp--bulk-remove'))
                     end
                   )
                 end

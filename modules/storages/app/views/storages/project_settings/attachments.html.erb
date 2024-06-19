@@ -44,15 +44,13 @@ See COPYRIGHT and LICENSE files for more details.
     button.with_leading_visual_icon(icon: :plus)
     t(:'storages.label_storage')
   end
-end
-%>
-
-<%= render(Primer::Alpha::TabNav.new(label: nil)) do |component|
-  component.with_tab(selected: false, href: external_file_storages_project_settings_project_storages_path) do |tab|
-    tab.with_text { t(:"external_file_storages") }
-  end
-  component.with_tab(selected: true, href: attachments_project_settings_project_storages_path) do |tab|
-    tab.with_text { t(:"attributes.attachments") }
+  header.with_tab_nav(label: nil) do |tab_nav|
+    tab_nav.with_tab(selected: false, href: external_file_storages_project_settings_project_storages_path) do |tab|
+      tab.with_text { t(:"external_file_storages") }
+    end
+    tab_nav.with_tab(selected: true, href: attachments_project_settings_project_storages_path) do |tab|
+      tab.with_text { t(:"attributes.attachments") }
+    end
   end
 end
 %>

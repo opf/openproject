@@ -145,5 +145,69 @@ module TableHelpers
           .not_to raise_error
       end
     end
+
+    describe "#order_like" do
+      it "orders the table data like the given table" do
+        table_representation = <<~TABLE
+          | subject      | remaining work |
+          | work package |             3h |
+          | another one  |                |
+        TABLE
+        table_data = described_class.for(table_representation)
+
+        other_table_representation = <<~TABLE
+          | subject      | remaining work |
+          | another one  |                |
+          | work package |             3h |
+        TABLE
+        other_table_data = described_class.for(other_table_representation)
+        expect(table_data.work_package_identifiers).to eq(%i[work_package another_one])
+
+        table_data.order_like!(other_table_data)
+        expect(table_data.work_package_identifiers).to eq(%i[another_one work_package])
+      end
+
+      it "ignores unknown rows from the given table" do
+        table_representation = <<~TABLE
+          | subject      | remaining work |
+          | work package |             3h |
+          | another one  |                |
+        TABLE
+        table_data = described_class.for(table_representation)
+
+        other_table_representation = <<~TABLE
+          | subject      | remaining work |
+          | another one  |                |
+          | work package |             3h |
+          | unknown one  |                |
+        TABLE
+        other_table_data = described_class.for(other_table_representation)
+        expect(table_data.work_package_identifiers).to eq(%i[work_package another_one])
+
+        table_data.order_like!(other_table_data)
+        expect(table_data.work_package_identifiers).to eq(%i[another_one work_package])
+      end
+
+      it "appends to the bottom the rows missing in the given table" do
+        table_representation = <<~TABLE
+          | subject      | remaining work |
+          | work package |             3h |
+          | extra one    |                |
+          | another one  |                |
+        TABLE
+        table_data = described_class.for(table_representation)
+
+        other_table_representation = <<~TABLE
+          | subject           | remaining work |
+          | another one       |                |
+          | work package      |             3h |
+        TABLE
+        other_table_data = described_class.for(other_table_representation)
+        expect(table_data.work_package_identifiers).to eq(%i[work_package extra_one another_one])
+
+        table_data.order_like!(other_table_data)
+        expect(table_data.work_package_identifiers).to eq(%i[another_one work_package extra_one])
+      end
+    end
   end
 end

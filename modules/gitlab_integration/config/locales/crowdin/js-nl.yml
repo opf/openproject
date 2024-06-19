@@ -28,10 +28,10 @@ nl:
       tab_header_issue:
         title: "Problemen"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Samenvoegverzoeken"
         create_mr:
           label: Create MR
-          description: Create a Merge Request
+          description: Maak samenvoegingsverzoek aan
         copy_menu:
           label: Git snippets
           description: Git snippets kopiëren naar klembord

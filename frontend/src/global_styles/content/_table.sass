@@ -196,9 +196,9 @@ table.generic-table
           width: 100%
           max-width: 500px
 
-      &.-min-150
+      &.-min-200
         @media screen
-          min-width: 150px
+          min-width: 200px
 
       // The avatar image is not taken into the width calculation of the table cell by the browser.
       // That is why we add the space manually.
@@ -220,6 +220,9 @@ table.generic-table
         background-color: var(--body-background)
 
       // fixed column width helpers
+      &.-w-abs-45
+        width: 45px
+
       &.-w-rel-20
         width: 20%
 
@@ -259,7 +262,6 @@ thead.-sticky th
 
 .generic-table--header-outer,
 .generic-table--sort-header-outer
-  padding:      0 12px 0 6px
   line-height:  var(--generic-table--header-height)
   height:  var(--generic-table--header-height)
   z-index:      1
@@ -274,8 +276,14 @@ thead.-sticky th
     &.hover
       background: initial
 
+.generic-table--sort-header-outer
+  padding:      0 12px 0 6px
+
+.generic-table--header-outer,
 .generic-table--empty-header
-  padding:       0 6px
+  padding: 0 6px
+
+.generic-table--empty-header
   height:        var(--generic-table--header-height)
   line-height:   var(--generic-table--header-height)
   border-bottom: 1px solid var(--table-border-color)
@@ -303,6 +311,11 @@ thead.-sticky th
   min-width: 40px
   max-width: 300px
   display: flex
+
+  &_no-min-width
+    min-width: initial
+  &_centered
+    justify-content: center
 
   & > a
     flex: 1 1

@@ -58,9 +58,23 @@ fr:
       meeting_agenda_item: ""
       meeting_agenda: "Ordre du jour"
       meeting_minutes: "Compte-rendu"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Réunions"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "défini sur %{value}"
+          added_html: "défini sur <i>%{value}</i>"
+          removed: "supprimé"
+          updated: "modifié de %{old_value} à %{value}"
+          updated_html: "modifié de <i>%{old_value}</i> à <i>%{value}</i>"
+        position:
+          updated: "réorganisé"
+        work_package:
+          updated: "modifié de %{old_value} à %{value}"
+          updated_html: "modifié de <i>%{old_value}</i> à <i>%{value}</i>"
   description_attended: "ont participé"
   description_invite: "invité"
   events:
@@ -107,6 +121,8 @@ fr:
       agenda: "Copier l'ordre du jour"
       agenda_text: "Copier l'ordre du jour de l'ancienne réunion"
     email:
+      send_emails: "Envoyer des e-mails"
+      send_invitation_emails: "Envoyez des e-mails d'invitation lors de la création"
       open_meeting_link: "Ouvrir la réunion"
       invited:
         summary: "%{actor} vous a envoyé une invitation pour la réunion %{title}"

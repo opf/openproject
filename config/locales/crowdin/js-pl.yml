@@ -274,6 +274,11 @@ pl:
         warning: >
           Zmiany mogą wejść w życie po pewnym czasie. Gdy wszystkie odpowiednie pakiety robocze zostaną zaktualizowane, otrzymasz powiadomienie.
           Czy na pewno chcesz kontynuować?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Zmiana trybu obliczania postępu z opartego na statusie na oparty na pracy sprawi, że atrybut <i>%  ukończenia</i> będzie nieedytowalnym polem, którego wartość pochodzi z atrybutów <i>Praca</i> i <i>Pozostała praca</i>. Istniejące wartości atrybutu <i>% ukończenia</i> zostaną zachowane. Jeśli wartości atrybutów <i>Praca</i> i <i>Pozostała praca</i> nie były obecne, będą one wymagane w celu zmiany wartości <i>%  ukończenia</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Zmiana trybu obliczania postępu z opartego na pracy na oparty na statusie spowoduje, że wszystkie istniejące wartości <i>% ukończenia</i> zostaną utracone i zastąpione wartościami powiązanymi z poszczególnymi statusami. Istniejące wartości <i>Pozostała praca</i> mogą również zostać obliczone ponownie w celu odzwierciedlenia tej zmiany. Działanie to jest nieodwracalne.
     custom_actions:
       date:
         specific: "wł"
@@ -360,10 +365,10 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Eksport widoku wykresu Gantta w formacie PDF, np. w celu wydrukowania (dodatek wersji Enterprise)</li> <li>Ulubione projekty</li> <li>Sekcje w spotkaniach</li> <li>Pokazywanie spotkań w obszarze Moja strona i na stronach przeglądu projektów</li> <li>Możliwość ukrywania załączników na karcie Pliki</li> <li>Niestandardowe pola typu Link (adres URL)</li> </ul>
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Ustawianie większej liczby jednostek pracy, pozostałej pracy i czasu pracy</li> <li>Konfiguracja, które projekty są aktywowane dla atrybutów projektu</li> <li>Zmiana nazwy list projektów prywatnych</li> <li>Unikanie zbędnych przypomnień e-mail w przypadku @wzmianek</li> <li>Zapraszanie uczestników spotkań pocztą elektroniczną</li> <li>Wyświetlanie osadzonych atrybutów pakietu roboczego w eksportach PDF</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -1288,6 +1293,11 @@ pl:
           placeholder: "Symbolu zastępczego można teraz użyć w %{project}. Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze."
           group: "Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze."
         next_button: "Kontynuuj"
+    exclusion_info:
+      modal:
+        title: "Status wyłączono z sum hierarchii"
+        content: >-
+          Status „%{status_name}” został skonfigurowany tak, aby był wyłączony z sum hierarchii Praca, Pozostała praca i % ukończenia. Sumy nie uwzględniają tej wartości.
     favorite_projects:
       no_results: "Nie masz żadnych ulubionych projektów"
       no_results_subtext: "Dodaj jeden lub wiele projektów jako ulubione w ich przeglądzie lub na liście projektów."
@@ -1348,12 +1358,12 @@ pl:
         remove: "Usuń"
       drop_modal:
         focus_grab: "To jest kotwica fokusu okien modalnych. Naciśnij klawisze Shift+Tab, aby wrócić do elementu wyzwalającego okna modalne."
-        Close: "Zamknij"
+        close: "Zamknij okno modalne"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "Limit czasu"
       waiting_subtitle:
         network_off: "Występuje problem z siecią."
         network_on: "Sieć znów działa. Staramy się."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject nie mógł Ci zapewnić dostępu do folderu projektu w oczekiwanym czasie. Spróbuj ponownie.<br><br> Jeśli problem nie ustąpi, skontaktuj się z administratorem OpenProject w celu sprawdzenia <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">stanu konfiguracji magazynu plików</a>.

@@ -60,9 +60,10 @@ module Statuses
         [:name, { caption: Status.human_attribute_name(:name) }],
         [:color, { caption: Status.human_attribute_name(:color) }],
         [:done_ratio, { caption: WorkPackage.human_attribute_name(:done_ratio) }],
-        [:default?, { caption: Status.human_attribute_name(:is_default) }],
-        [:closed?, { caption: Status.human_attribute_name(:is_closed) }],
-        [:readonly?, { caption: Status.human_attribute_name(:is_readonly) }],
+        [:default?, { caption: I18n.t("statuses.index.headers.is_default") }],
+        [:closed?, { caption: I18n.t("statuses.index.headers.is_closed") }],
+        [:readonly?, { caption: I18n.t("statuses.index.headers.is_readonly") }],
+        [:excluded_from_totals?, { caption: I18n.t("statuses.index.headers.excluded_from_totals") }],
         [:sort, { caption: I18n.t(:label_sort) }]
       ]
     end

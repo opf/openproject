@@ -238,9 +238,9 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :users,
             { controller: "/users" },
             if: Proc.new {
-                  !User.current.admin? &&
-                  (User.current.allowed_globally?(:manage_user) || User.current.allowed_globally?(:create_user))
-                },
+              !User.current.admin? &&
+                (User.current.allowed_globally?(:manage_user) || User.current.allowed_globally?(:create_user))
+            },
             caption: :label_user_plural,
             icon: "group"
 
@@ -380,15 +380,15 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "enumerations"
 
   menu.push :calendars_and_dates,
-            { controller: "/admin/settings/working_days_settings", action: :show },
+            { controller: "/admin/settings/working_days_and_hours_settings", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_calendars_and_dates,
             icon: "calendar"
 
-  menu.push :working_days,
-            { controller: "/admin/settings/working_days_settings", action: :show },
+  menu.push :working_days_and_hours,
+            { controller: "/admin/settings/working_days_and_hours_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_working_days,
+            caption: :label_working_days_and_hours,
             parent: :calendars_and_dates
 
   menu.push :date_format,

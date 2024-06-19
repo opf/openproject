@@ -57,9 +57,23 @@ ko:
       meeting_agenda_item: "의제 항목"
       meeting_agenda: "의제"
       meeting_minutes: "의사록"
+      meeting_section: "섹션"
   activity:
     filter:
       meeting: "미팅"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "%{value}(으)로 설정됨"
+          added_html: "<i>%{value}</i>(으)로 설정됨"
+          removed: "제거됨"
+          updated: "%{old_value}에서 %{value}(으)로 변경됨"
+          updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
+        position:
+          updated: "재정렬됨"
+        work_package:
+          updated: "%{old_value}에서 %{value}(으)로 변경됨"
+          updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
   description_attended: "참석함"
   description_invite: "초대됨"
   events:
@@ -106,6 +120,8 @@ ko:
       agenda: "의제 복사"
       agenda_text: "이전 미팅의 의제 복사"
     email:
+      send_emails: "이메일 보내기"
+      send_invitation_emails: "생성 시 초대 이메일 보내기"
       open_meeting_link: "미팅 열기"
       invited:
         summary: "%{actor} 님이 %{title} 미팅 초대장을 귀하에게 보냈습니다"

@@ -98,7 +98,7 @@ nl:
                 In this module you can communicate project news to your team members.
               description: Het actuele nieuws
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categorie 1 (te wijzigen in Projectinstellingen)
           queries:
             item_0:
               name: Project abonnement
@@ -160,7 +160,7 @@ nl:
                 In this module you can communicate project news to your team members.
               description: Het actuele nieuws
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categorie 1 (te wijzigen in Projectinstellingen)
           queries:
             item_0:
               name: Project abonnement

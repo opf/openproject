@@ -207,7 +207,10 @@ export class SpotDropModalComponent implements OnDestroy {
   private onGlobalClick = this.close.bind(this) as () => void;
 
   ngOnDestroy():void {
-    this.teleportationService.clear();
+    if (this.opened) {
+      this.teleportationService.clear();
+    }
+
     document.body.removeEventListener('click', this.onGlobalClick);
     document.body.removeEventListener('keydown', this.onEscape);
     window.removeEventListener('resize', this.onResize);

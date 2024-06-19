@@ -58,9 +58,23 @@ es:
       meeting_agenda_item: "Puntos de Agenda"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutas"
+      meeting_section: "Sección"
   activity:
     filter:
       meeting: "Reuniones"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "fijado en %{value}"
+          added_html: "fijado en <i>%{value}</i>"
+          removed: "eliminado"
+          updated: "cambiado de %{old_value} a %{value}"
+          updated_html: "cambiado de <i>%{old_value}</i> a <i>%{value}</i>"
+        position:
+          updated: "reordenado"
+        work_package:
+          updated: "cambiado de %{old_value} a %{value}"
+          updated_html: "cambiado de <i>%{old_value}</i> a <i>%{value}</i>"
   description_attended: "ha asistido"
   description_invite: "invitado"
   events:
@@ -107,6 +121,8 @@ es:
       agenda: "Copiar agenda"
       agenda_text: "Copiar la agenda de la reunión anterior"
     email:
+      send_emails: "Enviar correos electrónicos"
+      send_invitation_emails: "Envíe correos electrónicos de invitación en el momento de la creación"
       open_meeting_link: "Abrir reunión"
       invited:
         summary: "%{actor} te ha enviado una invitación para la reunión %{title}"

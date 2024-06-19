@@ -27,8 +27,6 @@
 #++
 
 class Queries::Projects::Filters::LatestActivityAtFilter < Queries::Projects::Filters::ProjectFilter
-  self.model = Project.with_latest_activity
-
   def type
     :datetime_past
   end
@@ -47,6 +45,10 @@ class Queries::Projects::Filters::LatestActivityAtFilter < Queries::Projects::Fi
 
   def human_name
     I18n.t("activerecord.attributes.project.latest_activity_at")
+  end
+
+  def apply_to(query_scope)
+    super.with_latest_activity
   end
 
   def where

@@ -36,6 +36,12 @@ module Storages
           using ServiceResultRefinements
 
           class << self
+            def escape_path(path)
+              escaped_path = path.split("/").map { |i| CGI.escapeURIComponent(i) }.join("/")
+              escaped_path << "/" if path[-1] == "/"
+              escaped_path
+            end
+
             def mime_type(json)
               json.dig(:file, :mimeType) || (json.key?(:folder) ? "application/x-op-directory" : nil)
             end
