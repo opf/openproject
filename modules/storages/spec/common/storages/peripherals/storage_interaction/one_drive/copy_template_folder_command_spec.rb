@@ -50,8 +50,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
   shared_let(:source_path) { base_template_folder.id }
 
-  it "is registered under commands.one_drive.copy_template_folder",
-     skip: "Skipped while we decide on what to do with the copy project folder" do
+  it "is registered under commands.one_drive.copy_template_folder" do
     expect(Storages::Peripherals::Registry.resolve("one_drive.commands.copy_template_folder")).to eq(described_class)
   end
 
@@ -62,13 +61,14 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
   it ".call takes 3 required parameters: storage, source_path, destination_path" do
     method = described_class.method(:call)
 
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq source_path], %i[keyreq destination_path])
+    expect(method.parameters)
+      .to contain_exactly(%i[keyreq auth_strategy], %i[keyreq storage], %i[keyreq source_path], %i[keyreq destination_path])
   end
 
   it "destination_path and source_path can't be empty" do
-    missing_source = described_class.call(storage:, source_path: "", destination_path: "Path")
-    missing_path = described_class.call(storage:, source_path: "Path", destination_path: nil)
-    missing_both = described_class.call(storage:, source_path: nil, destination_path: "")
+    missing_source = described_class.call(auth_strategy:, storage:, source_path: "", destination_path: "Path")
+    missing_path = described_class.call(auth_strategy:, storage:, source_path: "Path", destination_path: nil)
+    missing_both = described_class.call(auth_strategy:, storage:, source_path: nil, destination_path: "")
 
     expect([missing_both, missing_path, missing_source]).to all(be_failure)
   end
@@ -92,7 +92,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
     it "copies origin folder and all underlying files and folders to the destination_path",
        vcr: "one_drive/copy_template_folder_copy_successful" do
-      command_result = described_class.call(storage:, source_path:, destination_path: "My New Folder")
+      command_result = described_class.call(auth_strategy:, storage:, source_path:, destination_path: "My New Folder")
 
       expect(command_result).to be_success
       expect(command_result.result).to be_requires_polling
@@ -104,36 +104,32 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     describe "error handling" do
       context "when the source_path does not exist" do
         it "fails", vcr: "one_drive/copy_template_source_not_found" do
-          result = described_class.call(storage:, source_path: "TheCakeIsALie", destination_path: "Not Happening")
+          result = described_class.call(auth_strategy:, storage:, source_path: "TheCakeIsALie", destination_path: "Not Happening")
 
           expect(result).to be_failure
         end
 
         it "explains the nature of the error", vcr: "one_drive/copy_template_source_not_found" do
-          result = described_class.call(storage:, source_path: "TheCakeIsALie", destination_path: "Not Happening")
+          result = described_class.call(auth_strategy:, storage:, source_path: "TheCakeIsALie", destination_path: "Not Happening")
 
-          expect(result.message).to eq("Template folder not found")
+          expect(result.errors.to_s).to match(/not_found \| Template folder not found/)
         end
-
-        it "logs the occurrence"
       end
 
       context "when it would overwrite an already existing folder" do
         it "fails", vcr: "one_drive/copy_template_folder_no_overwrite" do
           existing_folder = original_folders.first[:name]
-          result = described_class.call(storage:, source_path:, destination_path: existing_folder)
+          result = described_class.call(auth_strategy:, storage:, source_path:, destination_path: existing_folder)
 
           expect(result).to be_failure
         end
 
         it "explains the nature of the error", vcr: "one_drive/copy_template_folder_no_overwrite" do
           existing_folder = original_folders.first[:name]
-          result = described_class.call(storage:, source_path:, destination_path: existing_folder)
+          result = described_class.call(auth_strategy:, storage:, source_path:, destination_path: existing_folder)
 
-          expect(result.message).to eq("The copy would overwrite an already existing folder")
+          expect(result.errors.to_s).to match(/conflict \| The copy would overwrite an already existing folder/)
         end
-
-        it "logs the occurrence"
       end
     end
   end

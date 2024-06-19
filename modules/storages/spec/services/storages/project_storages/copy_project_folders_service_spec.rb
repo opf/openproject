@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
@@ -42,35 +42,39 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
   context "with automatically managed project folders" do
     let(:source) { create(:project_storage, :as_automatically_managed, storage:) }
 
-    it 'if polling is required, returns a nil id and an url' do
+    it "if polling is required, returns a nil id and an url" do
       Storages::Peripherals::Registry
         .stub("#{source.storage.short_provider_type}.commands.copy_template_folder",
-              ->(storage:, source_path:, destination_path:) do
+              ->(auth_strategy:, storage:, source_path:, destination_path:) do
+                strategy = Storages::Peripherals::Registry
+                  .resolve("#{source.storage.short_provider_type}.authentication.userless").call
+
+                expect(auth_strategy.class).to eq(strategy.class)
                 expect(storage).to eq(source.storage)
                 expect(source_path).to eq(source.project_folder_location)
                 expect(destination_path).to eq(target.managed_project_folder_path)
 
                 # Return a success for the provider copy with no polling required
-                ServiceResult.success(result: result_data.with(polling_url: 'https://polling.url.de/cool/subresources'))
+                ServiceResult.success(result: result_data.with(polling_url: "https://polling.url.de/cool/subresources"))
               end)
 
       result = service.call(source:, target:)
 
       expect(result).to be_success
-      expect(result.result.to_h).to eq({ id: nil, polling_url: 'https://polling.url.de/cool/subresources',
+      expect(result.result.to_h).to eq({ id: nil, polling_url: "https://polling.url.de/cool/subresources",
                                          requires_polling: false })
     end
   end
 
   context "with manually managed project folders" do
-    let(:source) { create(:project_storage, project_folder_id: 'this_is_a_unique_id', project_folder_mode: 'manual') }
+    let(:source) { create(:project_storage, project_folder_id: "this_is_a_unique_id", project_folder_mode: "manual") }
 
     it "succeeds" do
       result = service.call(source:, target:)
       expect(result).to be_success
     end
 
-    it 'returns the source folder id' do
+    it "returns the source folder id" do
       result = service.call(source:, target:)
 
       expect(result.result.id).to eq(source.project_folder_id)
@@ -78,13 +82,13 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
   end
 
   context "with non-managed project folders" do
-    let(:source) { create(:project_storage, project_folder_id: nil, project_folder_mode: 'inactive') }
+    let(:source) { create(:project_storage, project_folder_id: nil, project_folder_mode: "inactive") }
 
     it "succeeds" do
       expect(service.call(source:, target:)).to be_success
     end
 
-    it 'returns the origin folder id (nil)' do
+    it "returns the origin folder id (nil)" do
       result = service.call(source:, target:)
 
       expect(result.result.id).to eq(source.project_folder_id)

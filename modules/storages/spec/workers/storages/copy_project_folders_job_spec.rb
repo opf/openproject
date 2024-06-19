@@ -133,9 +133,10 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
         })
 
       Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.commands.copy_template_folder", ->(storage:, source_path:, destination_path:) {
-          ServiceResult.success(result: copy_result.with(id: "copied-folder", polling_url:))
-        })
+        .stub("#{storage.short_provider_type}.commands.copy_template_folder",
+              ->(auth_strategy:, storage:, source_path:, destination_path:) {
+                ServiceResult.success(result: copy_result.with(id: "copied-folder", polling_url:))
+              })
     end
 
     it "copies the folders from source to target" do
@@ -159,79 +160,114 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
         expect(file_link.origin_id).to eq(target_deep_file_ids["/#{target.managed_project_folder_path}#{file_link.name}"].id)
       end
     end
-  end
 
-  context "when the storage requires polling" do
-    let(:copy_incomplete_response) do
-      { operation: "ItemCopy", percentageComplete: 27.8, status: "inProgress" }.to_json
-    end
-
-    let(:copy_complete_response) do
-      { percentageComplete: 100.0, resourceId: "01MOWKYVJML57KN2ANMBA3JZJS2MBGC7KM", status: "completed" }.to_json
-    end
-
-    before do
-      Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.commands.copy_template_folder", ->(storage:, source_path:, destination_path:) {
-          ServiceResult.success(result: copy_result.with(polling_url:, requires_polling: true))
-        })
-
-      Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.queries.file_path_to_id_map", ->(storage:, auth_strategy:, folder:) {
-          ServiceResult.success(result: target_deep_file_ids)
-        })
-
-      Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.queries.files_info", ->(storage:, auth_strategy:, file_ids:) {
-          ServiceResult.success(result: source_file_infos)
-        })
-
-      stub_request(:get, polling_url)
-        .and_return(status: 202, body: copy_complete_response, headers: { "Content-Type" => "application/json" })
-    end
-
-    it "stores the polling url on the batch properties" do
-      batch = GoodJob::Batch.enqueue(user:) do
-        described_class.perform_later(source:, target:, work_packages_map:)
+    context "when the storage requires polling" do
+      let(:copy_incomplete_response) do
+        { operation: "ItemCopy", percentageComplete: 27.8, status: "inProgress" }.to_json
       end
-      GoodJob.perform_inline
-      batch.reload
 
-      expect(batch.properties.dig(:polling, source.id.to_s, :polling_url)).to eq(polling_url)
-      expect(batch.properties.dig(:polling, source.id.to_s, :polling_state)).to eq(:ongoing)
-    end
+      let(:copy_complete_response) do
+        { percentageComplete: 100.0, resourceId: "01MOWKYVJML57KN2ANMBA3JZJS2MBGC7KM", status: "completed" }.to_json
+      end
 
-    context "when the polling completes" do
       before do
+        Storages::Peripherals::Registry
+          .stub("#{storage.short_provider_type}.commands.copy_template_folder",
+                ->(auth_strategy:, storage:, source_path:, destination_path:) {
+                  ServiceResult.success(result: copy_result.with(polling_url:, requires_polling: true))
+                })
+
+        Storages::Peripherals::Registry
+          .stub("#{storage.short_provider_type}.queries.file_path_to_id_map", ->(storage:, auth_strategy:, folder:) {
+            ServiceResult.success(result: target_deep_file_ids)
+          })
+
+        Storages::Peripherals::Registry
+          .stub("#{storage.short_provider_type}.queries.files_info", ->(storage:, auth_strategy:, file_ids:) {
+            ServiceResult.success(result: source_file_infos)
+          })
+
         stub_request(:get, polling_url)
-          .and_return(
-            { status: 202, body: copy_incomplete_response, headers: { "Content-Type" => "application/json" } },
-            { status: 202, body: copy_complete_response, headers: { "Content-Type" => "application/json" } }
-          )
+          .and_return(status: 202, body: copy_complete_response, headers: { "Content-Type" => "application/json" })
       end
 
-      it "updates the storages" do
-        GoodJob::Batch.enqueue(user:) do
+      it "stores the polling url on the batch properties" do
+        batch = GoodJob::Batch.enqueue(user:) do
           described_class.perform_later(source:, target:, work_packages_map:)
         end
         GoodJob.perform_inline
+        batch.reload
 
-        target.reload
-        expect(target.project_folder_mode).to eq(source.project_folder_mode)
-        expect(target.project_folder_id).to eq("01MOWKYVJML57KN2ANMBA3JZJS2MBGC7KM")
+        expect(batch.properties.dig(:polling, source.id.to_s, :polling_url)).to eq(polling_url)
+        expect(batch.properties.dig(:polling, source.id.to_s, :polling_state)).to eq(:ongoing)
       end
 
-      it "handles re-enqueues and polling" do
-        GoodJob::Batch.enqueue(user:) do
-          described_class.perform_later(source:, target:, work_packages_map:)
+      context "when the polling completes" do
+        before do
+          stub_request(:get, polling_url)
+            .and_return(
+              { status: 202, body: copy_incomplete_response, headers: { "Content-Type" => "application/json" } },
+              { status: 202, body: copy_complete_response, headers: { "Content-Type" => "application/json" } }
+            )
         end
-        GoodJob.perform_inline
-        job = GoodJob::Job.order(:created_at).last
 
-        expect(job.executions_count).to eq(3)
-        expect(job.serialized_params["exception_executions"]["[Storages::Errors::PollingRequired]"]).to eq(2)
+        it "updates the storages" do
+          GoodJob::Batch.enqueue(user:) do
+            described_class.perform_later(source:, target:, work_packages_map:)
+          end
+          GoodJob.perform_inline
+
+          target.reload
+          expect(target.project_folder_mode).to eq(source.project_folder_mode)
+          expect(target.project_folder_id).to eq("01MOWKYVJML57KN2ANMBA3JZJS2MBGC7KM")
+        end
+
+        it "handles re-enqueues and polling" do
+          GoodJob::Batch.enqueue(user:) do
+            described_class.perform_later(source:, target:, work_packages_map:)
+          end
+          GoodJob.perform_inline
+          job = GoodJob::Job.order(:created_at).last
+
+          expect(job.executions_count).to eq(3)
+          expect(job.serialized_params["exception_executions"]["[Storages::Errors::PollingRequired]"]).to eq(2)
+        end
       end
     end
+
+    context "when an error occurs" do
+      before do
+        Storages::Peripherals::Registry
+          .stub("#{storage.short_provider_type}.commands.copy_template_folder",
+                ->(auth_strategy:, storage:, source_path:, destination_path:) {
+                  ServiceResult.failure(
+                    result: :error,
+                    errors: Storages::StorageError.new(code: :error, log_message: "General Failure reporting for duty")
+                  )
+                })
+      end
+
+      it "records the error on batch" do
+        batch = GoodJob::Batch.enqueue(user:, errors: []) do
+          described_class.perform_later(source:, target:, work_packages_map:)
+        end
+
+        GoodJob.perform_inline
+        batch.reload
+
+        expect(batch.properties[:errors]).not_to be_empty
+      end
+
+      it "logs the error" do
+        allow(OpenProject.logger).to receive(:warn)
+        GoodJob::Batch.enqueue(user:, errors: []) { described_class.perform_later(source:, target:, work_packages_map:) }
+
+        GoodJob.perform_inline
+        expect(OpenProject.logger).to have_received(:warn)
+                                        .with("error | General Failure reporting for duty")
+                                        .once
+      end
+    end
+    # rubocop:enable Lint/UnusedBlockArgument
   end
-  # rubocop:enable Lint/UnusedBlockArgument
 end
