@@ -10,7 +10,7 @@
       ) do |f|
         flex_layout do |form_container|
           form_container.with_row do
-            render(WorkPackages::ActivitiesTab::Journals::NotesForm.new(f, journal:))
+            render(WorkPackages::ActivitiesTab::Journals::NotesForm.new(f))
           end
           form_container.with_row(flex_layout: true, mt: 3, justify_content: :flex_end) do |submit_container|
             submit_container.with_column(mr: 2) do

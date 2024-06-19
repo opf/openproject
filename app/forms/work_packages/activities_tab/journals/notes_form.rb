@@ -27,6 +27,8 @@
 #++
 module WorkPackages::ActivitiesTab::Journals
   class NotesForm < ApplicationForm
+    delegate :object, to: :@builder
+
     form do |notes_form|
       notes_form.rich_text_area(
         name: :notes,
@@ -34,21 +36,18 @@ module WorkPackages::ActivitiesTab::Journals
         rich_text_options: {
           showAttachments: false,
           macros: "none",
-          resource:,
-          editorType: "constrained"
+          resource:
         }
       )
-    end
-
-    def initialize(journal:)
-      @journal = journal
     end
 
     private
 
     def resource
+      return unless object
+
       API::V3::Activities::ActivityRepresenter
-        .new(@journal, current_user: User.current, embed_links: false)
+        .new(object, current_user: User.current, embed_links: false)
     end
   end
 end
