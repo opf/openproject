@@ -1,0 +1,5 @@
+  <%= turbo_frame_tag "calendar_sidemenu",
+                      src: @project ? menu_project_calendars_path(@project) : calendars_menu_path(),
+                      target: '_top',
+                      data: { turbo: false },
+                      loading: :lazy %>

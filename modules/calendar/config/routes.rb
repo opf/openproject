@@ -4,6 +4,9 @@ Rails.application.routes.draw do
               controller: "calendar/calendars",
               only: %i[index destroy],
               as: :calendars do
+      collection do
+        get "menu" => "calendar/menus#show"
+      end
       get "/new" => "calendar/calendars#show", on: :collection, as: "new"
       get "/ical" => "calendar/ical#show", on: :member, as: "ical"
       get "(/*state)" => "calendar/calendars#show", on: :member, as: ""
@@ -11,4 +14,8 @@ Rails.application.routes.draw do
   end
 
   resources :calendars, only: %i[index new create], controller: "calendar/calendars"
+
+  namespace :calendars do
+    resource :menu, only: %[show]
+  end
 end
