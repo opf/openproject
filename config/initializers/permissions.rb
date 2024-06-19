@@ -331,8 +331,8 @@ Rails.application.reloader.to_prepare do
       map.permission :share_work_packages,
                      {
                        members: %i[destroy_by_principal],
-                       "work_packages/shares": %i[index create destroy update resend_invite],
-                       "work_packages/shares/bulk": %i[update destroy]
+                       shares: %i[index create destroy update resend_invite],
+                       "shares/bulk": %i[update destroy]
                      },
                      permissible_on: :project,
                      dependencies: %i[edit_work_packages view_shared_work_packages],
@@ -340,7 +340,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :view_shared_work_packages,
                      {
-                       "work_packages/shares": %i[index]
+                       shares: %i[index]
                      },
                      permissible_on: :project,
                      require: :member,
