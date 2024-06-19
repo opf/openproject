@@ -14,8 +14,4 @@ Rails.application.routes.draw do
   end
 
   resources :calendars, only: %i[index new create], controller: "calendar/calendars"
-
-  namespace :calendars do
-    resource :menu, only: %[show]
-  end
 end

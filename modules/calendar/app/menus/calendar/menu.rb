@@ -41,6 +41,10 @@ module Calendar
       []
     end
 
+    def selected?(query_params)
+      query_params[:id].to_s == params[:id]
+    end
+
     def query_params(id)
       { id: }
     end

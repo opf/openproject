@@ -431,6 +431,7 @@ export class WorkPackagesListService {
   }
 
   private navigateToDefaultQuery(query:QueryResource):void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const sideMenuOptions = this.$state.$current.data?.sideMenuOptions as { hardReloadOnBaseRoute?:boolean, defaultQuery?:string };
     const hardReloadOnBaseRoute = sideMenuOptions?.hardReloadOnBaseRoute;
 
@@ -461,6 +462,7 @@ export class WorkPackagesListService {
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
     const menuIdentifier:string|undefined = this.$state.current.data.sideMenuOptions?.sidemenuId;
 
     if (menuIdentifier) {
