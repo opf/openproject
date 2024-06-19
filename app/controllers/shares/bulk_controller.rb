@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class WorkPackages::Shares::BulkController < ApplicationController
+class Shares::BulkController < ApplicationController
   include OpTurbo::ComponentStream
   include MemberHelper
 
