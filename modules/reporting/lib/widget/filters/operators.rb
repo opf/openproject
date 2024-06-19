@@ -27,6 +27,7 @@
 #++
 
 class Widget::Filters::Operators < Widget::Filters::Base
+  # rubocop:disable Metrics/AbcSize
   def render
     write(content_tag(:div, class: "advanced-filters--filter-operator") do
       hide_select_box = filter_class.available_operators.count == 1 || filter_class.heavy?
@@ -34,15 +35,16 @@ class Widget::Filters::Operators < Widget::Filters::Base
                   id: "operators[#{filter_class.underscore_name}]",
                   name: "operators[#{filter_class.underscore_name}]",
                   "data-filter-name": filter_class.underscore_name }
-      options.merge! style: "display: none" if hide_select_box
+      options[:style] = "display: none" if hide_select_box
 
       select_box = content_tag :select, options do
-        filter_class.available_operators.map do |o|
+        operators = filter_class.available_operators.map do |o|
           opts = { value: h(o.to_s), "data-arity": o.arity }
           opts.reverse_merge! "data-forced": o.forced if o.forced?
           opts[:selected] = "selected" if filter.operator.to_s == o.to_s
           content_tag(:option, opts) { h(I18n.t(o.label)) }
-        end.join.html_safe
+        end
+        safe_join(operators)
       end
       label1 = content_tag :label,
                            hidden_for_sighted_label,
@@ -56,8 +58,9 @@ class Widget::Filters::Operators < Widget::Filters::Base
       hide_select_box ? label1 + select_box + label : label1 + select_box
     end)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def hidden_for_sighted_label
-    h(filter_class.label) + " " + I18n.t(:label_operator) + " " + I18n.t("js.filter.description.text_open_filter")
+    "#{h(filter_class.label)} #{I18n.t(:label_operator)} #{I18n.t('js.filter.description.text_open_filter')}"
   end
 end

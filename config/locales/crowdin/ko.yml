@@ -461,6 +461,7 @@ ko:
         is_readonly: "읽기 전용"
         excluded_from_totals: "합계에서 제외됨"
   themes:
+    dark: "Dark"
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
   types:
@@ -2695,6 +2696,8 @@ ko:
   permission_manage_public_bcf_queries: "공용 BCF 쿼리 관리"
   permission_edit_attribute_help_texts: "특성 도움말 텍스트 편집"
   permission_manage_public_project_queries: "공개 프로젝트 목록 관리"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

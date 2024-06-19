@@ -105,8 +105,8 @@ RSpec.describe "Project storage members connection status view" do
   end
 
   def create_project_with_storage_and_members
-    role_can_read_files = create(:project_role, permissions: %i[manage_storages_in_project read_files])
-    role_cannot_read_files = create(:project_role, permissions: %i[manage_storages_in_project])
+    role_can_read_files = create(:project_role, permissions: %i[manage_files_in_project read_files])
+    role_cannot_read_files = create(:project_role, permissions: %i[manage_files_in_project])
 
     create(:project,
            members: { user => role_can_read_files,

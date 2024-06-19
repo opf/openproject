@@ -45,7 +45,9 @@ module Storages
 
           def call(auth_strategy:, file_link:)
             if file_link.nil?
-              return failure(code: :error, payload: nil, log_message: "File link can not be nil.")
+              return ServiceResult.failure(result: :error,
+                                           errors: Util.storage_error(code: :error, response: nil, source: self.class,
+                                                                      log_message: "File link can not be nil."))
             end
 
             Auth[auth_strategy].call(storage: @storage) do |http|
@@ -60,35 +62,26 @@ module Storages
             in { status: 300..399 }
               ServiceResult.success(result: response.headers["Location"])
             in { status: 404 }
-              failure(code: :not_found,
-                      payload: response.json(symbolize_keys: true),
-                      log_message: "Outbound request destination not found!")
+              ServiceResult.failure(result: :not_found,
+                                    errors: Util.storage_error(code: :not_found, response:, source: self.class,
+                                                               log_message: "Outbound request destination not found!"))
             in { status: 403 }
-              failure(code: :forbidden,
-                      payload: response.json(symbolize_keys: true),
-                      log_message: "Outbound request forbidden!")
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(code: :forbidden, response:, source: self.class,
+                                                               log_message: "Outbound request forbidden!"))
             in { status: 401 }
-              failure(code: :unauthorized,
-                      payload: response.json(symbolize_keys: true),
-                      log_message: "Outbound request not authorized!")
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: Util.storage_error(code: :unauthorized, response:, source: self.class,
+                                                               log_message: "Outbound request not authorized!"))
             else
-              failure(code: :error,
-                      payload: response.json(symbolize_keys: true),
-                      log_message: "Outbound request failed with unknown error!")
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(code: :error, response:, source: self.class,
+                                                               log_message: "Outbound request failed with unknown error!"))
             end
           end
 
           def uri_path_for(file_id)
             "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}/content"
-          end
-
-          def failure(code:, payload:, log_message:)
-            ServiceResult.failure(
-              result: code,
-              errors: ::Storages::StorageError.new(code:,
-                                                   data: StorageErrorData.new(source: self.class, payload:),
-                                                   log_message:)
-            )
           end
         end
       end

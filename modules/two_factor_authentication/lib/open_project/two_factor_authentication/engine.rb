@@ -28,7 +28,7 @@ module OpenProject::TwoFactorAuthentication
                     caption: ->(*) { I18n.t("two_factor_authentication.label_two_factor_authentication") },
                     after: :password,
                     if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.enabled? },
-                    icon: "two-factor-authentication"
+                    icon: "shield-lock"
 
                menu :admin_menu,
                     :two_factor_authentication,

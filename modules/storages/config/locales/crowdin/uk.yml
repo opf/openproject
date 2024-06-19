@@ -46,7 +46,7 @@ uk:
   permission_delete_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
   permission_header_for_project_module_storages: Папки проєкту з автоматичним керуванням
   permission_manage_file_links: Керування посиланнями на файл
-  permission_manage_storages_in_project: Керування файловими сховищами в проєкті
+  permission_manage_files_in_project: Керування файлами в проєкті
   permission_read_files: 'Папки проєкту з автоматичним керуванням: читання файлів'
   permission_share_files: 'Папки проєкту з автоматичним керуванням: надання доступу до файлів'
   permission_share_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud

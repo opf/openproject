@@ -109,7 +109,7 @@ RSpec.describe "Login" do
     end
 
     it "prevents login for a blocked user" do
-      user.lock!
+      user.locked!
 
       login_with(user.login, user.password)
 

@@ -41,6 +41,11 @@ pl:
           name: Specyfikacja
         item_2:
           name: Inne
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Edytor pakietów roboczych

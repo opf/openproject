@@ -35,9 +35,13 @@ class Queries::Projects::Orders::LatestActivityAtOrder < Queries::Orders::Base
 
   private
 
+  def joins
+    "LEFT JOIN (#{Project.latest_activity_sql}) activity_for_sort ON projects.id = activity_for_sort.project_id"
+  end
+
   def order(scope)
     with_raise_on_invalid do
-      scope.order(Arel.sql("activity.latest_activity_at").send(direction))
+      scope.order(Arel.sql("activity_for_sort.latest_activity_at").send(direction))
     end
   end
 end

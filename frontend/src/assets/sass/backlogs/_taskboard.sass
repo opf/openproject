@@ -48,10 +48,6 @@
   white-space: nowrap
   text-overflow: ellipsis
 
-
-.controller-rb_taskboards.action-show #main
-  overflow: visible
-
 #rb .task
   color: #484848
   line-height: inherit
@@ -69,7 +65,7 @@
     /* Must be the same as min-width */
   #board_header
     background-color: #EBEBEB
-    border: 1px solid var(--borderColor-muted)
+    border: 1px solid var(--borderColor-default)
     margin-bottom: 0
     margin-right: 10px
     td
@@ -87,8 +83,8 @@
         width: 241px
 
   .board
-    background-color: #FCFCFC
-    border: 1px solid var(--borderColor-muted)
+    background-color: var(--overlay-bgColor)
+    border: 1px solid var(--borderColor-default)
     border-top: none
     margin-right: 10px
     /* IE7 table fix */
@@ -96,7 +92,7 @@
     border-collapse: collapse
     empty-cells: show
     tr:hover
-      background-color: #ffffff
+      background-color: var(--control-transparent-bgColor-hover)
     td
       border-right: 1px dotted #CFCFCF
       border-bottom: 1px dotted #CFCFCF
@@ -116,9 +112,10 @@
       width: 30px
       &.clickable:hover
         cursor: pointer
-        background-color: #ffffcc
+        background-color: var(--highlight-neutral-bgColor)
   .story, .label_sprint_impediments
-    background-color: #F8F6A5
+    background-color: var(--color-scale-yellow-0)
+    color: var(--fgColor-muted)
     border: none
     display: block
     min-height: 100px
@@ -138,6 +135,7 @@
       text-decoration: line-through
   .work_package, .placeholder
     background-color: #AFAFAF
+    color: var(--color-scale-black)
     border: none
     cursor: move
     display: block
@@ -222,9 +220,6 @@
     background: none
     background-color: none
     border: none
-
-.ui-dialog-titlebar-close
-  overflow: hidden
 
 .dark
   #task_editor label, .subject, .assigned_to_id, div

@@ -38,7 +38,6 @@
   overflow: auto
 
   &.nomenus
-    padding-bottom: 0
     overflow: hidden
 
   &.nosidebar
@@ -56,29 +55,82 @@
   background-color: var(--body-background)
   position: relative
 
-  &.nosidebar
-    margin-left: 0
 
-  &.nomenus
-    margin:     0
-    padding:    0
+// ----------- BEGIN Content definition --------------
+
+// The content is structured as grid and should ideally look like this
+// --------------------------------------------------------
+// |                    content-header                   |
+// --------------------------------------------------------
+// |                                      |               |
+// |                                      |               |
+// |                                      |               |
+// |             content-body            |   content-     |
+// |                                      |   bodyRight   |
+// |                                      |               |
+// |                                      |               |
+// |                                      |               |
+// --------------------------------------------------------
+
+// This layout is designed to show the WP split screen on any rails page.
+// Because of that, there are three things to keep in mind
+//    1. The content-bodyRight is optional. If it is not shown, the content-body should fill the available space.
+//    2. The WP split screen requires a 100% layout, meaning that the content-bodyRight needs to be
+//       "glued" to the right side and the bottom of the screen without any additional paddings or margins.
+//    3. Not all pages already follow that desired structure. Older pages render all their content inside content-body.
+//       The design most cover that case in which the content-body needs to span the whole available height and width.
+
+// Because of those requirements, the #content element cannot take care of the paddings.
+// Instead the children elements have to do that themselves depending on which elements are present
+
+$top-space: 10px
+$right-space: 20px
+$bottom-space: 10px
+$left-space: 20px
 
 #content
-  padding: 10px 20px
+  display: grid
+  grid-template-columns: 1fr auto
+  grid-template-rows: auto 1fr
+  grid-template-areas: "header header" "body bodyRight"
+  padding: 0
   margin: 0
   width: 100%
+  height: 100%
+  overflow: auto
+  @include styled-scroll-bar
   z-index: 10
   background-color: var(--body-background)
 
-  &.api-docs
-    height: 100%
-    padding: 0
+  &.content--split
+    overflow: hidden
 
-.content-overlay
-  display: none
+#content-header
+  grid-area: header
+  padding-right: $right-space
+  padding-top: $top-space
+  padding-left: $left-space
 
-.-draggable
-  cursor: grab
+#content-body
+  grid-area: body
+  padding-bottom: $bottom-space
+  padding-left: $left-space
 
-a
-  text-decoration: var(--link-text-decoration)
+  // Special rules for pages that still follow the old layout and render everything inside the content-body
+  .accessibility-helper ~ &
+    padding-top: $top-space
+  &:last-child
+    padding-right: $right-space
+
+  .content--split &
+    overflow: auto
+    @include styled-scroll-bar
+
+#content-bodyRight
+  grid-area: bodyRight
+  padding: 0
+  width: 580px
+  overflow: auto
+  @include styled-scroll-bar
+
+// ----------- END Content definition --------------

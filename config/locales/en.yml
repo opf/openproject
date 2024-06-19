@@ -517,6 +517,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         excluded_from_totals: "Excluded from totals"
 
   themes:
+    dark: "Dark"
     light: "Light"
     light_high_contrast: "Light high contrast"
 
@@ -2863,6 +2864,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
   permission_manage_public_project_queries: "Manage public project lists"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
 
   placeholders:
     default: "-"

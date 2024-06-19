@@ -41,7 +41,7 @@ $input-elements: input, 'input.form--text-field', select, 'select.form--select',
 
 .generic-table--container
   position:     relative
-  height:       100%
+  height:       initial
   width:        100%
   overflow:
     x: hidden
@@ -52,6 +52,9 @@ $input-elements: input, 'input.form--text-field', select, 'select.form--select',
 
   &_visible-overflow
     overflow: visible
+
+  &_height-100
+    height: 100%
 
 .generic-table--results-container
   height:       100%
@@ -82,7 +85,7 @@ table.generic-table
   col
     &:hover,
     &.hover
-      background:   #f8f8f8
+      background:   var(--bgColor-muted)
 
   thead
     height: var(--generic-table--header-height)
@@ -136,8 +139,6 @@ table.generic-table
         vertical-align: text-bottom
 
   tfoot
-    tr
-      background: #f6f7f8
     td
       font-weight: var(--base-text-weight-bold)
 
@@ -269,7 +270,7 @@ thead.-sticky th
 
   &:hover,
   &.hover
-    background:   #f8f8f8
+    background:   var(--bgColor-muted)
 
   &_no-highlighting
     &:hover,
@@ -342,8 +343,8 @@ thead.-sticky th
     visibility: visible
 
 .generic-table--no-results-container
-  background:   var(--gray-light)
-  border:       1px solid var(--borderColor-muted)
+  background: var(--bgColor-neutral-muted)
+  border: 1px solid var(--borderColor-neutral-muted)
   border-radius: 4px
   padding:      14px 14px 14px 36px
   display:      block

@@ -47,7 +47,7 @@ module WorkPackage::PDFExport::Gantt
   GANTT_DAY_COLUMN_WIDTHS = [64, 32, 24, 18].freeze
   GANTT_COLUMN_WIDTHS = [128, 64, 32, 24].freeze
   GANTT_COLUMN_WIDTHS_NAMES = %w[very_wide wide medium narrow].freeze
-  GANTT_MODE_NAMES = %w[day month quarter].freeze
+  GANTT_MODE_NAMES = %w[day week month quarter].freeze
   GANTT_MODE_DEFAULT = "day".freeze
   GANTT_COLUMN_DEFAULT = "wide".freeze
 
@@ -76,6 +76,8 @@ module WorkPackage::PDFExport::Gantt
 
   def gantt_builder(mode, column_width)
     case mode
+    when :week
+      GanttBuilderWeeks.new(pdf, heading, column_width)
     when :month
       GanttBuilderMonths.new(pdf, heading, column_width)
     when :quarter

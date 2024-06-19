@@ -46,7 +46,7 @@ zh-TW:
   permission_delete_files_explanation: This permission is only available for Nextcloud storages
   permission_header_for_project_module_storages: 自動管理的專案文件夾
   permission_manage_file_links: 管理文件鏈接
-  permission_manage_storages_in_project: 管理專案中的文件儲存
+  permission_manage_files_in_project: Manage files in project
   permission_read_files: 'Automatically managed project folders: Read files'
   permission_share_files: 'Automatically managed project folders: Share files'
   permission_share_files_explanation: This permission is only available for Nextcloud storages

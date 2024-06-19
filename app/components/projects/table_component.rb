@@ -52,7 +52,7 @@ module Projects
     end
 
     def container_class
-      "generic-table--container_visible-overflow"
+      "generic-table--container_visible-overflow generic-table--container_height-100"
     end
 
     ##

@@ -53,23 +53,24 @@ module Storages
           private
 
           def handle_response(response)
-            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-
             case response
             in { status: 200..299 }
               ServiceResult.success(result: storage_file(response.json(symbolize_keys: true)))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data:))
+                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(response:, code: :forbidden, source: self.class))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data:))
+                                    errors: Util.storage_error(response:, code: :not_found, source: self.class))
             in { status: 409 }
               ServiceResult.failure(result: :conflict,
-                                    errors: ::Storages::StorageError.new(code: :conflict, data:))
+                                    errors: Util.storage_error(response:, code: :conflict, source: self.class))
             else
               ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data:))
+                                    errors: Util.storage_error(response:, code: :error, source: self.class))
             end
           end
 

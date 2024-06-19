@@ -29,7 +29,7 @@
 class SearchController < ApplicationController
   include Layout
 
-  before_action :find_optional_project,
+  before_action :load_and_authorize_in_optional_project,
                 :prepare_tokens
 
   LIMIT = 10
@@ -60,15 +60,6 @@ class SearchController < ApplicationController
     unless @tokens.any?
       @question = ""
     end
-  end
-
-  def find_optional_project
-    return true unless params[:project_id]
-
-    @project = Project.find(params[:project_id])
-    check_project_privacy
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def limit_results_first_page

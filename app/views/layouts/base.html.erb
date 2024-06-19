@@ -119,15 +119,6 @@ See COPYRIGHT and LICENSE files for more details.
     <main id="content-wrapper" class="<%= initial_classes %>">
       <%= render_primer_banner_message %>
       <%= render_streameable_primer_banner_message %>
-      <% if show_decoration %>
-        <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>">
-          <%= you_are_here_info %>
-          <div id="full_breadcrumbs">
-            <%= full_breadcrumbs %>
-          </div>
-          <%= call_hook :view_layouts_base_breadcrumb %>
-        </div>
-      <% end %>
       <%= render_flash_messages %>
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
@@ -138,14 +129,35 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
       <%= content_tag :div,
                       id: 'content',
-                      class: initial_classes,
+                      class: "#{initial_classes} #{'content--split' if content_for?(:content_body_right)}",
                       data: stimulus_content_data do %>
-        <h1 class="hidden-for-sighted"><%= t(:label_content) %></h1>
-        <%= content_for :content_body %>
-        <% unless local_assigns[:no_layout_yield] %>
-          <%= yield %>
+        <h1 class="hidden-for-sighted accessibility-helper"><%= t(:label_content) %></h1>
+        <% if content_for?(:content_header) %>
+          <div id="content-header">
+            <%= content_for :content_header %>
+          </div>
         <% end %>
-        <%= call_hook :view_layouts_base_content %>
+
+        <div id="content-body">
+          <% if show_decoration %>
+            <div id="breadcrumb" class="<%= show_breadcrumb ? ' -show' : '' %>">
+              <%= you_are_here_info %>
+              <div id="full_breadcrumbs">
+                <%= full_breadcrumbs %>
+              </div>
+              <%= call_hook :view_layouts_base_breadcrumb %>
+            </div>
+          <% end %>
+          <%= content_for :content_body %>
+          <% unless local_assigns[:no_layout_yield] %>
+            <%= yield %>
+          <% end %>
+        </div>
+        <% if content_for?(:content_body_right) %>
+          <div id="content-bodyRight">
+            <%= content_for :content_body_right %>
+          </div>
+        <% end %>
       <% end %>
     </main>
   </div>

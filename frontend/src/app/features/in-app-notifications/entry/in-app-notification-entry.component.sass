@@ -1,11 +1,11 @@
 @import "helpers"
 
-$ian-bg-color: #FFFFFF
-$ian-bg-hover-color: var(--gray-light)
-$ian-bg-read-color: #F3F3F3
-$ian-bg-read-hover-color: darken($ian-bg-read-color, 2)
-$ian-bg-selected-color: #D1E5F5
-$ian-bg-selected-hover-color: darken($ian-bg-selected-color, 2)
+$ian-bg-color: var(--body-background)
+$ian-bg-hover-color: var(--bgColor-neutral-muted)
+$ian-bg-read-color: var(--bgColor-muted)
+$ian-bg-read-hover-color: hsl(from $ian-bg-read-color h s calc(l - 0.07))
+$ian-bg-selected-color: var(--selection-bgColor)
+$ian-bg-selected-hover-color: hsl(from $ian-bg-selected-color calc(h - 7) s l)
 // This needs to be set in the itemSize of
 // the virtual scroller
 $ian-height: 100px
@@ -17,7 +17,7 @@ $subject-font-size: 14px
   margin: 0
   padding: 15px 10px
   font-size: 0.9rem
-  border-top: 1px solid var(--borderColor-muted)
+  border-top: 1px solid var(--borderColor-default)
   border-radius: 2px
   height: $ian-height
 
@@ -25,7 +25,7 @@ $subject-font-size: 14px
     background: $ian-bg-hover-color
 
   &:last-of-type
-    border-bottom: 1px solid var(--borderColor-muted)
+    border-bottom: 1px solid var(--borderColor-default)
 
   &_selected
     background: $ian-bg-selected-color
@@ -83,7 +83,7 @@ $subject-font-size: 14px
 
   &--project-link,
   &--work-package-id-link
-    color: ar(--fgColor-muted)
+    color: var(--fgColor-muted)
     font-weight: var(--base-text-weight-bold)
 
   &--reason-count

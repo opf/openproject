@@ -41,6 +41,11 @@ ja:
           name: 仕様
         item_2:
           name: その他
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Work package editor
