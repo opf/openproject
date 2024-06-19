@@ -459,6 +459,7 @@ zh-CN:
         is_readonly: "只读"
         excluded_from_totals: "不包括在总计中"
   themes:
+    dark: "Dark"
     light: "浅色"
     light_high_contrast: "浅色高对比度"
   types:
@@ -2689,6 +2690,8 @@ zh-CN:
   permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
   permission_edit_attribute_help_texts: "编辑属性帮助文本"
   permission_manage_public_project_queries: "管理公开项目列表"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

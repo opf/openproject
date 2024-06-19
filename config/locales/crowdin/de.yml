@@ -301,7 +301,7 @@ de:
           add_projects: Projekte erstellen
           include_sub_projects: Andere Projekte einbeziehen
         project_mappings:
-          header: Enabled in projects
+          header: Verwendung in Projekten
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -462,6 +462,7 @@ de:
         is_readonly: "Schreibgeschützt"
         excluded_from_totals: "Von Gesamtsumme auschließen"
   themes:
+    dark: "Dark"
     light: "Hell"
     light_high_contrast: "Hell (hoher Kontrast)"
   types:
@@ -2726,6 +2727,8 @@ de:
   permission_manage_public_bcf_queries: "Öffentliche BCF-Abfragen verwalten"
   permission_edit_attribute_help_texts: "Attribut-Hilfetxt bearbeiten"
   permission_manage_public_project_queries: "Öffentliche Projektlisten verwalten"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

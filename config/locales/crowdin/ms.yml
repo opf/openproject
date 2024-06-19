@@ -460,6 +460,7 @@ ms:
         is_readonly: "Baca-sahaja"
         excluded_from_totals: "Dikecualikan daripada jumlah"
   themes:
+    dark: "Dark"
     light: "Terang"
     light_high_contrast: "Kontras tinggi yang terang"
   types:
@@ -2693,6 +2694,8 @@ ms:
   permission_manage_public_bcf_queries: "Urus pertanyaan BCF awam"
   permission_edit_attribute_help_texts: "Edit atribut teks bantuan"
   permission_manage_public_project_queries: "Uruskan senarai projek awam"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

@@ -480,6 +480,7 @@ cs:
         is_readonly: "Pouze pro čtení"
         excluded_from_totals: "Excluded from totals"
   themes:
+    dark: "Dark"
     light: "Světlý"
     light_high_contrast: "Světlý kontrast"
   types:
@@ -2801,6 +2802,8 @@ cs:
   permission_manage_public_bcf_queries: "Spravovat veřejné dotazy BCF."
   permission_edit_attribute_help_texts: "Upravit text nápovědy atributu"
   permission_manage_public_project_queries: "Manage public project lists"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

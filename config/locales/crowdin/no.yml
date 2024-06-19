@@ -467,6 +467,7 @@
         is_readonly: "Kun lesetilgang"
         excluded_from_totals: "Unntatt fra totaler"
   themes:
+    dark: "Dark"
     light: "Lyst"
     light_high_contrast: "Lys høy kontrast"
   types:
@@ -2731,6 +2732,8 @@
   permission_manage_public_bcf_queries: "Administrere offentlige BCF-spørringer"
   permission_edit_attribute_help_texts: "Rediger hjelpetekster for egenskap"
   permission_manage_public_project_queries: "Administrere offentlige prosjektlister"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

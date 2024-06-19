@@ -41,6 +41,11 @@ sv:
           name: Specifikation
         item_2:
           name: Andra
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Work package editor

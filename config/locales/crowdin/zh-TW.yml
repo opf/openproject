@@ -461,6 +461,7 @@ zh-TW:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
+    dark: "Dark"
     light: "白色主題"
     light_high_contrast: "高對比白色主題"
   types:
@@ -2695,6 +2696,8 @@ zh-TW:
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "編輯屬性說明文字"
   permission_manage_public_project_queries: "Manage public project lists"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

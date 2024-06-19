@@ -57,7 +57,7 @@ ko:
       meeting_agenda_item: "의제 항목"
       meeting_agenda: "의제"
       meeting_minutes: "의사록"
-      meeting_section: "Section"
+      meeting_section: "섹션"
   activity:
     filter:
       meeting: "미팅"
@@ -120,8 +120,8 @@ ko:
       agenda: "의제 복사"
       agenda_text: "이전 미팅의 의제 복사"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_emails: "이메일 보내기"
+      send_invitation_emails: "생성 시 초대 이메일 보내기"
       open_meeting_link: "미팅 열기"
       invited:
         summary: "%{actor} 님이 %{title} 미팅 초대장을 귀하에게 보냈습니다"
