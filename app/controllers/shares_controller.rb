@@ -30,22 +30,18 @@ class SharesController < ApplicationController
   include OpTurbo::ComponentStream
   include MemberHelper
 
-  before_action :find_work_package, only: %i[index create destroy update resend_invite]
-  before_action :find_share, only: %i[destroy update resend_invite]
-  before_action :find_project
+  before_action :load_entity
+  before_action :load_shares, only: %i[index]
+  before_action :load_share, only: %i[destroy update resend_invite]
   before_action :authorize
   before_action :enterprise_check, only: %i[index]
 
   def index
-    query = load_query
-
-    unless query.valid?
+    unless @query.valid?
       flash.now[:error] = query.errors.full_messages
     end
 
-    @shares = load_shares query
-
-    render Shares::ModalBodyComponent.new(work_package: @work_package, shares: @shares, errors: @errors), layout: nil
+    render Shares::ModalBodyComponent.new(work_package: @entity, shares: @shares, errors: @errors), layout: nil
   end
 
   def create
@@ -59,7 +55,7 @@ class SharesController < ApplicationController
       else
         service_call = WorkPackageMembers::CreateOrUpdateService
                          .new(user: current_user)
-                         .call(entity: @work_package,
+                         .call(entity: @entity,
                                user_id: member_params[:user_id],
                                role_ids: find_role_ids(params[:member][:role_id]))
 
@@ -87,7 +83,7 @@ class SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call(role_ids: find_role_ids(params[:role_ids]))
 
-    find_shares
+    load_shares
 
     if @shares.empty?
       respond_with_replace_modal
@@ -128,9 +124,9 @@ class SharesController < ApplicationController
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: Shares::ModalBodyComponent.new(work_package: @work_package,
-                                                             shares: @new_shares || find_shares,
-                                                             errors: @errors)
+      component: Shares::ModalBodyComponent.new(work_package: @entity,
+                                                shares: @new_shares || load_shares,
+                                                errors: @errors)
     )
 
     respond_with_turbo_streams
@@ -138,19 +134,19 @@ class SharesController < ApplicationController
 
   def respond_with_prepend_shares
     replace_via_turbo_stream(
-      component: Shares::InviteUserFormComponent.new(work_package: @work_package, errors: @errors)
+      component: Shares::InviteUserFormComponent.new(work_package: @entity, errors: @errors)
     )
 
     update_via_turbo_stream(
-      component: Shares::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
+      component: Shares::CounterComponent.new(work_package: @entity, count: current_visible_member_count)
     )
 
     @new_shares.each do |share|
       prepend_via_turbo_stream(
         component: Shares::ShareRowComponent.new(share:),
-        target_component: Shares::ModalBodyComponent.new(work_package: @work_package,
-                                                                      shares: find_shares,
-                                                                      errors: @errors)
+        target_component: Shares::ModalBodyComponent.new(work_package: @entity,
+                                                         shares: load_shares,
+                                                         errors: @errors)
       )
     end
 
@@ -158,81 +154,78 @@ class SharesController < ApplicationController
   end
 
   def respond_with_new_invite_form
-    replace_via_turbo_stream(
-      component: Shares::InviteUserFormComponent.new(work_package: @work_package, errors: @errors)
-    )
+    replace_via_turbo_stream(component: Shares::InviteUserFormComponent.new(work_package: @entity, errors: @errors))
 
     respond_with_turbo_streams
   end
 
   def respond_with_update_permission_button
-    replace_via_turbo_stream(
-      component: Shares::PermissionButtonComponent.new(share: @share,
-                                                                    data: { "test-selector": "op-share-wp-update-role" })
-    )
+    replace_via_turbo_stream(component: Shares::PermissionButtonComponent.new(share: @share,
+                                                                              data: { "test-selector": "op-share-wp-update-role" }))
 
     respond_with_turbo_streams
   end
 
   def respond_with_remove_share
-    remove_via_turbo_stream(
-      component: Shares::ShareRowComponent.new(share: @share)
-    )
-
-    update_via_turbo_stream(
-      component: Shares::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
-    )
+    remove_via_turbo_stream(component: Shares::ShareRowComponent.new(share: @share))
+    update_via_turbo_stream(component: Shares::CounterComponent.new(work_package: @entity, count: current_visible_member_count))
 
     respond_with_turbo_streams
   end
 
   def respond_with_update_user_details
-    update_via_turbo_stream(
-      component: Shares::UserDetailsComponent.new(share: @share,
-                                                               invite_resent: true)
-    )
+    update_via_turbo_stream(component: Shares::UserDetailsComponent.new(share: @share, invite_resent: true))
 
     respond_with_turbo_streams
   end
 
-  def find_work_package
-    @work_package = WorkPackage.find(params[:work_package_id])
+  def load_entity
+    puts "*" * 100, "Loading Entity", params.to_unsafe_h, "*" * 100
+    @entity = if params["work_package_id"]
+                WorkPackage.visible.find(params["work_package_id"])
+              # TODO: Add support for other entities
+              else
+                raise ArgumentError, <<~ERROR
+                  Nested the SharesController under an entity controller that is not yet configured to support sharing.
+                  Edit the SharesController#load_entity method to load the entity from the correct parent.
+                ERROR
+              end
+
+    puts "**** Entity: #{@entity} ****"
+    if @entity.respond_to?(:project)
+      @project = @entity.project
+    end
   end
 
-  def find_share
-    @share = @work_package.members.find(params[:id])
-  end
-
-  def find_shares
-    @shares = load_shares(load_query)
-  end
-
-  def find_project
-    @project = @work_package.project
+  def load_share
+    @share = @entity.members.find(params[:id])
   end
 
   def current_visible_member_count
-    @current_visible_member_count ||= load_shares(load_query).size
+    @current_visible_member_count ||= load_shares.size
   end
 
   def load_query
+    return @query if defined?(@query)
+
     @query = ParamsToQueryService.new(Member,
                                       current_user,
                                       query_class: Queries::Members::EntityMemberQuery)
                                  .call(params)
 
     # Set default filter on the entity
-    @query.where("entity_id", "=", @work_package.id)
-    @query.where("entity_type", "=", WorkPackage.name)
-    @query.where("project_id", "=", @project.id)
+    @query.where("entity_id", "=", @entity.id)
+    @query.where("entity_type", "=", @entity.class.name)
+    if @project
+      @query.where("project_id", "=", @project.id)
+    end
 
     @query.order(name: :asc) unless params[:sortBy]
 
     @query
   end
 
-  def load_shares(query)
-    query
-      .results
+  def load_shares
+    @shares = load_query.results
   end
 end
