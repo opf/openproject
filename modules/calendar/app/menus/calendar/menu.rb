@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,30 +25,32 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-#
-module OpenProject
-  module Common
-    class SubmenuComponent < ApplicationComponent
-      def initialize(sidebar_menu_items: nil, searchable: false, create_btn_options: nil)
-        super()
-        @sidebar_menu_items = sidebar_menu_items
-        @searchable = searchable
-        @create_btn_options = create_btn_options
-      end
+module Calendar
+  class Menu < Submenu
+    attr_reader :view_type, :project
 
-      def render?
-        @sidebar_menu_items.present?
-      end
+    def initialize(project: nil, params: nil)
+      @view_type = "work_packages_calendar"
+      @project = project
+      @params = params
 
-      def top_level_sidebar_menu_items
-        @sidebar_menu_items
-          .filter { |menu_item| menu_item.header.nil? }
-      end
+      super(view_type:, project:, params:)
+    end
 
-      def nested_sidebar_menu_items
-        @sidebar_menu_items
-          .filter { |menu_item| menu_item.header.present? && menu_item.children.any? }
-      end
+    def default_queries
+      []
+    end
+
+    def selected?(query_params)
+      query_params[:id].to_s == params[:id]
+    end
+
+    def query_params(id)
+      { id: }
+    end
+
+    def query_path(query_params)
+      project_calendar_path(project, query_params)
     end
   end
 end

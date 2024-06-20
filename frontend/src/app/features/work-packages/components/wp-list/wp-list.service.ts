@@ -431,10 +431,21 @@ export class WorkPackagesListService {
   }
 
   private navigateToDefaultQuery(query:QueryResource):void {
-    const { hardReloadOnBaseRoute } = this.$state.$current.data as { hardReloadOnBaseRoute?:boolean };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const sideMenuOptions = this.$state.$current.data?.sideMenuOptions as { hardReloadOnBaseRoute?:boolean, defaultQuery?:string };
+    const hardReloadOnBaseRoute = sideMenuOptions?.hardReloadOnBaseRoute;
 
     if (hardReloadOnBaseRoute) {
       const url = new URL(window.location.href);
+      const defaultQuery = sideMenuOptions.defaultQuery;
+
+      // If there is a default query passed, we replace the hard coded ids with the default query
+      // e.g. calendars/:id, team_planner/:id, ...
+      // Otherwise, we will just delete the search params
+      if (defaultQuery) {
+        url.pathname = url.pathname.replace(/\d+$/, defaultQuery);
+      }
+
       url.search = '';
       window.location.href = url.href;
     } else {
@@ -451,7 +462,8 @@ export class WorkPackagesListService {
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {
-    const menuIdentifier:string|undefined = this.$state.current.data.sidemenuId;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+    const menuIdentifier:string|undefined = this.$state.current.data.sideMenuOptions?.sidemenuId;
 
     if (menuIdentifier) {
       const menu = (document.getElementById(menuIdentifier) as HTMLElement&TurboElement);

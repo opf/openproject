@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,30 +25,18 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-#
-module OpenProject
-  module Common
-    class SubmenuComponent < ApplicationComponent
-      def initialize(sidebar_menu_items: nil, searchable: false, create_btn_options: nil)
-        super()
-        @sidebar_menu_items = sidebar_menu_items
-        @searchable = searchable
-        @create_btn_options = create_btn_options
-      end
+module ::Calendar
+  class MenusController < ApplicationController
+    before_action :find_project_by_project_id,
+                  :authorize
 
-      def render?
-        @sidebar_menu_items.present?
-      end
+    def show
+      @submenu_menu_items = ::Calendar::Menu.new(project: @project, params:).menu_items
+      @create_btn_options = if User.current.allowed_in_project?(:manage_calendars, @project)
+                              { href: new_project_calendars_path(@project), text: I18n.t("label_calendar") }
+                            end
 
-      def top_level_sidebar_menu_items
-        @sidebar_menu_items
-          .filter { |menu_item| menu_item.header.nil? }
-      end
-
-      def nested_sidebar_menu_items
-        @sidebar_menu_items
-          .filter { |menu_item| menu_item.header.present? && menu_item.children.any? }
-      end
+      render layout: nil
     end
   end
 end
