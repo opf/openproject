@@ -101,7 +101,7 @@ af:
   error_intro_singular: "Die volgende fout was teegekom:"
   error_outro: "Korrigeer asseblief die bogenoemde foute voordat u weer indien."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: "%{type}: %{summary}"
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideale"
   inclusion: "is nie by die lys ingesluit nie"
   label_back_to_project: "Terug na projekbladsy"
