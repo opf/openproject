@@ -29,19 +29,21 @@
 # ++
 
 module Shares
-  class ShareRowComponent < ApplicationComponent
+  class ShareRowComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
     include Shares::Concerns::Authorization
 
     def initialize(share:,
+                   available_roles:,
                    container: nil)
       super
 
       @share = share
-      @work_package = share.entity
+      @entity = share.entity
       @principal = share.principal
+      @available_roles = available_roles
       @container = container
     end
 
@@ -51,7 +53,7 @@ module Shares
 
     private
 
-    attr_reader :share, :work_package, :principal, :container
+    attr_reader :share, :entity, :principal, :container, :available_roles
 
     def share_editable?
       @share_editable ||= User.current != share.principal && sharing_manageable?

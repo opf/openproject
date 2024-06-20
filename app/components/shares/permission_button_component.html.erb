@@ -6,21 +6,25 @@
                                              color: :subtle }.deep_merge(@system_arguments))) do |menu|
       menu.with_show_button(data: { 'work-packages--share--bulk-selection-target': 'userRowRole',
                                     'share-id': share.id,
-                                    'active-role-name': permission_name(active_role.builtin)}) do |button|
+                                    'active-role-name': permission_name(active_role.id)}) do |button|
         button.with_trailing_action_icon(icon: :"triangle-down")
-        permission_name(active_role.builtin)
+        permission_name(active_role.id)
       end
-      options.each do |option|
-        menu.with_item(label: option[:label],
+
+      puts "*"*100, @available_roles, "*"*100
+
+      @available_roles.each do |role_hash|
+      puts "### role_hash: #{role_hash} ###"
+        menu.with_item(label: role_hash[:label],
                        href: update_path,
                        method: :patch,
-                       active: option_active?(option),
-                       data: { value: option[:value] },
+                       active: role_active?(role_hash),
+                       data: { value: role_hash[:value] },
                        form_arguments: {
                          method: :patch,
-                         inputs: form_inputs(option[:value])
+                         inputs: form_inputs(role_hash[:value])
                        }) do |item|
-          item.with_description.with_content(option[:description])
+          item.with_description.with_content(role_hash[:description])
         end
       end
     end

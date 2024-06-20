@@ -41,7 +41,7 @@ class SharesController < ApplicationController
       flash.now[:error] = query.errors.full_messages
     end
 
-    render Shares::ModalBodyComponent.new(work_package: @entity, shares: @shares, errors: @errors), layout: nil
+    render Shares::ModalBodyComponent.new(entity: @entity, shares: @shares, errors: @errors, available_roles:), layout: nil
   end
 
   def create
@@ -57,7 +57,7 @@ class SharesController < ApplicationController
                          .new(user: current_user)
                          .call(entity: @entity,
                                user_id: member_params[:user_id],
-                               role_ids: find_role_ids(params[:member][:role_id]))
+                               role_ids: [params[:member][:role_id]])
 
         overall_result.push(service_call)
       end
@@ -81,7 +81,7 @@ class SharesController < ApplicationController
   def update
     WorkPackageMembers::UpdateService
       .new(user: current_user, model: @share)
-      .call(role_ids: find_role_ids(params[:role_ids]))
+      .call(role_ids: params[:role_ids])
 
     load_shares
 
@@ -124,7 +124,8 @@ class SharesController < ApplicationController
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: Shares::ModalBodyComponent.new(work_package: @entity,
+      component: Shares::ModalBodyComponent.new(entity: @entity,
+                                                available_roles:,
                                                 shares: @new_shares || load_shares,
                                                 errors: @errors)
     )
@@ -134,17 +135,18 @@ class SharesController < ApplicationController
 
   def respond_with_prepend_shares
     replace_via_turbo_stream(
-      component: Shares::InviteUserFormComponent.new(work_package: @entity, errors: @errors)
+      component: Shares::InviteUserFormComponent.new(entity: @entity, available_roles:, errors: @errors)
     )
 
     update_via_turbo_stream(
-      component: Shares::CounterComponent.new(work_package: @entity, count: current_visible_member_count)
+      component: Shares::CounterComponent.new(entity: @entity, count: current_visible_member_count)
     )
 
     @new_shares.each do |share|
       prepend_via_turbo_stream(
-        component: Shares::ShareRowComponent.new(share:),
-        target_component: Shares::ModalBodyComponent.new(work_package: @entity,
+        component: Shares::ShareRowComponent.new(share:, available_roles:),
+        target_component: Shares::ModalBodyComponent.new(entity: @entity,
+                                                         available_roles:,
                                                          shares: load_shares,
                                                          errors: @errors)
       )
@@ -154,21 +156,24 @@ class SharesController < ApplicationController
   end
 
   def respond_with_new_invite_form
-    replace_via_turbo_stream(component: Shares::InviteUserFormComponent.new(work_package: @entity, errors: @errors))
+    replace_via_turbo_stream(component: Shares::InviteUserFormComponent.new(entity: @entity,
+                                                                            available_roles:,
+                                                                            errors: @errors))
 
     respond_with_turbo_streams
   end
 
   def respond_with_update_permission_button
     replace_via_turbo_stream(component: Shares::PermissionButtonComponent.new(share: @share,
+                                                                              available_roles:,
                                                                               data: { "test-selector": "op-share-wp-update-role" }))
 
     respond_with_turbo_streams
   end
 
   def respond_with_remove_share
-    remove_via_turbo_stream(component: Shares::ShareRowComponent.new(share: @share))
-    update_via_turbo_stream(component: Shares::CounterComponent.new(work_package: @entity, count: current_visible_member_count))
+    remove_via_turbo_stream(component: Shares::ShareRowComponent.new(share: @share, available_roles:))
+    update_via_turbo_stream(component: Shares::CounterComponent.new(entity: @entity, count: current_visible_member_count))
 
     respond_with_turbo_streams
   end
@@ -227,5 +232,31 @@ class SharesController < ApplicationController
 
   def load_shares
     @shares = load_query.results
+  end
+
+  def load_selected_shares
+    @selected_shares = Member.includes(:principal)
+                             .of_entity(@entity)
+                             .where(id: params[:share_ids])
+  end
+
+  def available_roles
+    # TODO: Optimize loading of roles
+    if @entity.is_a?(WorkPackage)
+      [
+        { label: I18n.t("work_package.sharing.permissions.edit"),
+          value: WorkPackageRole.find_by(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR).id,
+          description: I18n.t("work_package.sharing.permissions.edit_description") },
+        { label: I18n.t("work_package.sharing.permissions.comment"),
+          value: WorkPackageRole.find_by(builtin: Role::BUILTIN_WORK_PACKAGE_COMMENTER).id,
+          description: I18n.t("work_package.sharing.permissions.comment_description") },
+        { label: I18n.t("work_package.sharing.permissions.view"),
+          value: WorkPackageRole.find_by(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER).id,
+          description: I18n.t("work_package.sharing.permissions.view_description"),
+          default: true }
+      ]
+    else
+      []
+    end
   end
 end

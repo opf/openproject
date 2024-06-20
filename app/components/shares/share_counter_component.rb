@@ -29,7 +29,7 @@
 # ++
 
 module Shares
-  class ShareCounterComponent < ApplicationComponent
+  class ShareCounterComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     def initialize(count:)
       super
 

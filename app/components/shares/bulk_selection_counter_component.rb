@@ -29,7 +29,7 @@
 # ++
 
 module Shares
-  class BulkSelectionCounterComponent < ApplicationComponent
+  class BulkSelectionCounterComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     def initialize(count:)
       super
 

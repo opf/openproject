@@ -32,7 +32,6 @@ module Shares
   class UserDetailsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
-    include Shares::Concerns::DisplayableRoles
 
     def initialize(share:,
                    manager_mode: User.current.allowed_in_project?(:share_work_packages, share.project),
@@ -59,7 +58,7 @@ module Shares
 
     def authoritative_work_package_role_name
       @authoritative_work_package_role_name = options.find do |option|
-        option[:value] == share.roles.first.builtin
+        option[:value] == share.roles.first.id
       end[:label]
     end
 

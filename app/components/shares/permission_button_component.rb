@@ -27,15 +27,15 @@
 #++
 
 module Shares
-  class PermissionButtonComponent < ApplicationComponent
+  class PermissionButtonComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
-    include Shares::Concerns::DisplayableRoles
 
-    def initialize(share:, **system_arguments)
+    def initialize(share:, available_roles:, **system_arguments)
       super
 
+      @available_roles = available_roles
       @share = share
       @system_arguments = system_arguments
     end
@@ -48,8 +48,8 @@ module Shares
       end
     end
 
-    def option_active?(option)
-      option[:value] == active_role.builtin
+    def role_active?(role_hash)
+      role_hash[:value] == active_role.id
     end
 
     def wrapper_uniq_by
@@ -58,7 +58,7 @@ module Shares
 
     private
 
-    attr_reader :share
+    attr_reader :share, :available_roles
 
     def active_role
       if share.persisted?
@@ -71,7 +71,7 @@ module Shares
     end
 
     def permission_name(value)
-      options.find { |option| option[:value] == value }[:label]
+      available_roles.find { |role_hash| role_hash[:value] == value }[:label]
     end
 
     def form_inputs(role_id)

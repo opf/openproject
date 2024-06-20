@@ -35,7 +35,8 @@ module Shares
 
       included do
         def sharing_manageable?
-          User.current.allowed_in_project?(:share_work_packages, @work_package.project)
+          # TODO: Fix this to check based on the entity
+          User.current.allowed_in_project?(:share_work_packages, @entity.project)
         end
       end
     end

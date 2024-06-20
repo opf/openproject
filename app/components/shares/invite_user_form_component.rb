@@ -27,21 +27,28 @@
 #++
 
 module Shares
-  class InviteUserFormComponent < ApplicationComponent
+  class InviteUserFormComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
     include Shares::Concerns::Authorization
 
-    def initialize(work_package:, errors: nil)
+    def initialize(entity:, available_roles:, errors: nil)
       super
 
-      @work_package = work_package
+      @entity = entity
       @errors = errors
+      @available_roles = available_roles
     end
 
     def new_share
-      @new_share ||= Member.new(entity: @work_package, roles: [Role.new(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER)])
+      @new_share ||= Member.new(entity: @entity, roles: [Role.new(id: default_role[:value])])
+    end
+
+    private
+
+    def default_role
+      @available_roles.find { |role_hash| role_hash[:default] } || @available_roles.first
     end
   end
 end

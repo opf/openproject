@@ -9,20 +9,20 @@
       'Placeholder'
     end
 
-    options.each do |option|
-      menu.with_item(label: option[:label],
+    @available_roles.each do |role_hash|
+      menu.with_item(label: role_hash[:label],
                      href: update_path,
                      method: :patch,
                      active: false,
                      form_arguments: {
                        method: :patch,
                        name: 'role_ids[]',
-                       value: option[:value],
+                       value: role_hash[:value],
                        data: { 'work-packages--share--bulk-selection-target': 'bulkForm bulkUpdateRoleForm',
-                               'role-name': option[:label],
-                               'test-selector': "op-share-wp-bulk-update-role-permission-#{option[:label]}" }
+                               'role-name': role_hash[:label],
+                               'test-selector': "op-share-wp-bulk-update-role-permission-#{role_hash[:label]}" }
                      }) do |item|
-        item.with_description.with_content(option[:description])
+        item.with_description.with_content(role_hash[:description])
       end
     end
   end

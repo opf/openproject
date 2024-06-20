@@ -23,11 +23,12 @@
       if share_editable?
         user_row_grid.with_area(:button, tag: :div, color: :subtle) do
           render(Shares::PermissionButtonComponent.new(share:,
-                                                                    data: { 'test-selector': 'op-share-wp-update-role' }))
+                                                       available_roles: @available_roles,
+                                                       data: { 'test-selector': 'op-share-wp-update-role' }))
         end
 
         user_row_grid.with_area(:remove, tag: :div) do
-          form_with url: url_for([work_package, share]), method: :delete do
+          form_with url: url_for([entity, share]), method: :delete do
             render(Primer::Beta::IconButton.new(icon: "trash",
                                                 type: :submit,
                                                 scheme: :danger,

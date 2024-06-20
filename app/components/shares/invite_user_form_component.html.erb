@@ -3,7 +3,7 @@
     if sharing_manageable?
       primer_form_with(
         model: new_share,
-        url: url_for([@work_package, Member]),
+        url: url_for([@entity, Member]),
         data: { controller: 'user-limit ' \
                             'work-packages--share--user-selected',
                 'application-target': 'dynamic',
@@ -19,6 +19,7 @@
           invite_form.with_area('permission') do
             render(Shares::PermissionButtonComponent.new(
               share: new_share,
+              available_roles: @available_roles,
               form_arguments: { builder: form, name: "role_id" },
               data: { 'test-selector': 'op-share-wp-invite-role' })
             )

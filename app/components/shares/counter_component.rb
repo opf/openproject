@@ -35,19 +35,19 @@ module Shares
     include OpPrimer::ComponentHelpers
     include Shares::Concerns::Authorization
 
-    def initialize(work_package:, count:)
+    def initialize(entity:, count:)
       super
 
-      @work_package = work_package
+      @entity = entity
       @count = count
     end
 
     private
 
-    attr_reader :work_package, :count
+    attr_reader :entity, :count
 
     def shared_with_anyone_else_other_than_myself?
-      Member.of_work_package(@work_package)
+      Member.of_entity(@entity)
             .where.not(principal: User.current)
             .any?
     end

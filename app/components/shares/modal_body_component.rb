@@ -27,20 +27,22 @@
 #++
 
 module Shares
-  class ModalBodyComponent < ApplicationComponent
+  class ModalBodyComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
     include MemberHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
     include Shares::Concerns::Authorization
-    include Shares::Concerns::DisplayableRoles
 
-    def initialize(work_package:, shares:, errors: nil)
+    attr_reader :entity, :shares, :errors, :available_roles
+
+    def initialize(entity:, shares:, available_roles:, errors: nil)
       super
 
-      @work_package = work_package
+      @entity = entity
       @shares = shares
       @errors = errors
+      @available_roles = available_roles
     end
 
     def self.wrapper_key
@@ -48,6 +50,10 @@ module Shares
     end
 
     private
+
+    def project_scoped_entity?
+      entity.respond_to?(:project)
+    end
 
     def insert_target_modified?
       true
@@ -72,16 +78,24 @@ module Shares
     end
 
     def type_filter_options
-      [
-        { label: I18n.t("work_package.sharing.filter.project_member"),
-          value: { principal_type: "User", project_member: true } },
-        { label: I18n.t("work_package.sharing.filter.not_project_member"),
-          value: { principal_type: "User", project_member: false } },
-        { label: I18n.t("work_package.sharing.filter.project_group"),
-          value: { principal_type: "Group", project_member: true } },
-        { label: I18n.t("work_package.sharing.filter.not_project_group"),
-          value: { principal_type: "Group", project_member: false } }
-      ]
+      if project_scoped_entity?
+        [
+          { label: I18n.t("work_package.sharing.filter.project_member"),
+            value: { principal_type: "User", project_member: true } },
+          { label: I18n.t("work_package.sharing.filter.not_project_member"),
+            value: { principal_type: "User", project_member: false } },
+          { label: I18n.t("work_package.sharing.filter.project_group"),
+            value: { principal_type: "Group", project_member: true } },
+          { label: I18n.t("work_package.sharing.filter.not_project_group"),
+            value: { principal_type: "Group", project_member: false } }
+        ]
+      else
+        [
+          { label: "User", value: { principal_type: "User" } },
+          { label: "Group", value: { principal_type: "Group" } }
+        ]
+
+      end
     end
 
     def type_filter_option_active?(_option)
@@ -107,7 +121,7 @@ module Shares
     end
 
     def filter_url(type_option: nil, role_option: nil)
-      return url_for([@work_package, Member]) if type_option.nil? && role_option.nil?
+      return url_for([@entity, Member]) if type_option.nil? && role_option.nil?
 
       args = {}
       filter = []
@@ -117,26 +131,28 @@ module Shares
 
       args[:filters] = filter.to_json unless filter.empty?
 
-      url_for([@work_package, Member, **args])
+      url_for([@entity, Member, args])
     end
 
-    def apply_role_filter(_option)
+    def apply_role_filter(option)
       current_role_filter_value = current_filter_value(params[:filters], "role_id")
       filter = []
 
-      if _option.nil? && current_role_filter_value.present?
+      if option.nil? && current_role_filter_value.present?
         # When there is already a role filter set and no new value passed, we want to keep that filter
-        filter = role_filter_for({ value: current_role_filter_value }, builtin_role: false)
-      elsif _option.present? && !role_filter_option_active?(_option)
+        filter = role_filter_for({ value: current_role_filter_value })
+      elsif option.present? && !role_filter_option_active?(option)
         # Only when the passed filter option is not the currently selected one, we apply the filter
-        filter = role_filter_for(_option)
+        filter = role_filter_for(option)
       end
 
       filter
     end
 
-    def role_filter_for(_option, builtin_role: true)
-      [{ role_id: { operator: "=", values: builtin_role ? find_role_ids(_option[:value]) : [_option[:value]] } }]
+    def role_filter_for(option)
+      [
+        { role_id: { operator: "=", values: [option[:value]] } }
+      ]
     end
 
     def apply_type_filter(_option)

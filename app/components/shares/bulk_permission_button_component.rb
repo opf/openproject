@@ -29,17 +29,16 @@
 # ++
 
 module Shares
-  class BulkPermissionButtonComponent < ApplicationComponent
-    include Shares::Concerns::DisplayableRoles
-
-    def initialize(work_package:)
+  class BulkPermissionButtonComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    def initialize(entity:, available_roles:)
       super
 
-      @work_package = work_package
+      @entity = entity
+      @available_roles = available_roles
     end
 
     def update_path
-      url_for([:bulk, @work_package, Member])
+      url_for([:bulk, @entity, Member])
     end
   end
 end
