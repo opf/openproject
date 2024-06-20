@@ -30,6 +30,9 @@
 
 import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
+import {
+  ICKEditorInstance,
+} from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 
 export default class IndexController extends Controller {
   static values = {
@@ -193,6 +196,37 @@ export default class IndexController extends Controller {
           ckEditorElement.focus();
         }
       }, 10);
+    }
+  }
+
+  quote(event:Event) {
+    event.preventDefault();
+    const userName = (event.currentTarget as HTMLElement).dataset.userNameParam as string;
+    const content = (event.currentTarget as HTMLElement).dataset.contentParam as string;
+
+    this.openEditorWithQuotedText(this.quotedText(content, userName));
+  }
+
+  quotedText(rawComment:string, userName:string) {
+    const quoted = rawComment.split('\n')
+      .map((line:string) => `\n> ${line}`)
+      .join('');
+
+    return `${userName}\n${quoted}`;
+  }
+
+  openEditorWithQuotedText(quotedText:string) {
+    this.showForm();
+    const AngularCkEditorElement = this.element.querySelector('opce-ckeditor-augmented-textarea');
+    if (AngularCkEditorElement) {
+      const ckeditorInstance = jQuery(AngularCkEditorElement).data('editor') as ICKEditorInstance;
+      if (ckeditorInstance) {
+        const currentData = ckeditorInstance.getData({ trim: false });
+        // only quote if the editor is empty
+        if (currentData.length === 0) {
+          ckeditorInstance.setData(quotedText);
+        }
+      }
     }
   }
 

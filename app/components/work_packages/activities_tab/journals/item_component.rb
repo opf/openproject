@@ -105,12 +105,26 @@ module WorkPackages
         end
 
         def edit_action_item(menu)
-          menu.with_item(label: t("label_edit"),
+          menu.with_item(label: t("js.label_edit_comment"),
                          href: edit_work_package_activity_path(journal.journable, journal),
                          content_arguments: {
                            data: { "turbo-stream": true }
                          }) do |item|
             item.with_leading_visual_icon(icon: :pencil)
+          end
+        end
+
+        def quote_action_item(menu)
+          menu.with_item(label: t("js.label_quote_comment"),
+                         tag: :button,
+                         content_arguments: {
+                           data: {
+                             action: "click->work-packages--activities-tab--index#quote",
+                             "content-param": journal.notes,
+                             "user-name-param": I18n.t(:text_user_wrote, value: ERB::Util.html_escape(journal.user))
+                           }
+                         }) do |item|
+            item.with_leading_visual_icon(icon: :quote)
           end
         end
 

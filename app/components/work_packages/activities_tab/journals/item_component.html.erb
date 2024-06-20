@@ -59,6 +59,7 @@
                                       scheme: :invisible)
                 copy_url_action_item(menu)
                 edit_action_item(menu) if editable?
+                quote_action_item(menu) if journal.notes.present?
               end
             end
           end
