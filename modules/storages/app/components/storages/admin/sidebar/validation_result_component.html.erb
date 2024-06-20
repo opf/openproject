@@ -30,14 +30,16 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   flex_layout do |container|
     container.with_row do
-      render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.health.connection_validation.subtitle") }
+      render(Primer::Beta::Text.new(font_weight: :bold, test_selector: "validation-result--subtitle")) do
+        I18n.t("storages.health.connection_validation.subtitle")
+      end
     end
 
     if @result.type != :none
       container.with_row(mt: 2) do
         status = status_indicator
 
-        concat(render(Primer::Beta::Text.new(pr: 2)) do
+        concat(render(Primer::Beta::Text.new(pr: 2, test_selector: "validation-result--timestamp")) do
           I18n.t('storages.health.checked', datetime: helpers.format_time(@result.timestamp))
         end)
         concat(render(Primer::Beta::Label.new(scheme: status[:scheme])) { status[:label] })
@@ -46,7 +48,9 @@ See COPYRIGHT and LICENSE files for more details.
 
     if @result.description.present?
       container.with_row(mt: 2) do
-        render(Primer::Beta::Text.new(color: :muted)) { @result.description }
+        render(Primer::Beta::Text.new(color: :muted, test_selector: "validation-result--description")) do
+          @result.description
+        end
       end
     end
   end
