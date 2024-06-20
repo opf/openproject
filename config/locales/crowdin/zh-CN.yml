@@ -459,8 +459,8 @@ zh-CN:
         is_readonly: "只读"
         excluded_from_totals: "不包括在总计中"
   themes:
-    light: "浅色"
-    light_high_contrast: "浅色高对比度"
+    light: "浅色模式"
+    light_high_contrast: "高对比度模式"
   types:
     index:
       no_results_title_text: 目前没有类型。
