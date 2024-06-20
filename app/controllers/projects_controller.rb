@@ -36,6 +36,8 @@ class ProjectsController < ApplicationController
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[destroy destroy_info]
 
+  no_authorization_required! :index
+
   include SortHelper
   include PaginationHelper
   include QueriesHelper
@@ -92,23 +94,21 @@ class ProjectsController < ApplicationController
   end
 
   def deactivate_work_package_attachments
-    @project.deactivate_work_package_attachments = params[:value] != "1"
-    @project.save
+    call = Projects::UpdateService
+             .new(user: current_user, model: @project, contract_class: Projects::SettingsContract)
+             .call(deactivate_work_package_attachments: params[:value] != "1")
+
+    if call.failure?
+      render json: call.errors.full_messages.join(" "), status: :unprocessable_entity
+    else
+      head :no_content
+    end
   end
 
   private
 
   def has_managed_project_folders?(project)
     project.project_storages.any?(&:project_folder_automatic?)
-  end
-
-  def find_optional_project
-    return true unless params[:id]
-
-    @project = Project.find(params[:id])
-    authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def hide_project_in_layout

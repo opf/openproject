@@ -41,6 +41,11 @@ af:
           name: Spesifikasie
         item_2:
           name: Ander
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Work package editor

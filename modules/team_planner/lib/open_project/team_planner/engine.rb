@@ -64,7 +64,7 @@ module OpenProject::TeamPlanner
            caption: :"team_planner.label_team_planner_plural",
            before: :boards,
            after: :calendar_view,
-           icon: "team-planner",
+           icon: "op-team-planner",
            if: should_render_global_menu_item,
            enterprise_feature: "team_planner_view"
 
@@ -73,7 +73,7 @@ module OpenProject::TeamPlanner
            { controller: "/team_planner/team_planner", action: :index },
            caption: :"team_planner.label_team_planner_plural",
            after: :work_packages,
-           icon: "team-planner",
+           icon: "op-team-planner",
            enterprise_feature: "team_planner_view"
 
       menu :project_menu,
@@ -90,7 +90,7 @@ module OpenProject::TeamPlanner
            caption: :"team_planner.label_team_planner_plural",
            before: :boards,
            after: :calendar_view,
-           icon: "team-planner",
+           icon: "op-team-planner",
            if: should_render_global_menu_item,
            enterprise_feature: "team_planner_view"
     end

@@ -49,7 +49,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                                   title: I18n.t(:label_help),
                                   class: "op-app-menu--item-action",
                                   aria: { haspopup: "true" } do
-      spot_icon("help", size: "1_25", classnames: "op-app-help--icon")
+      render(Primer::Beta::Octicon.new(icon: "question", size: :medium))
     end
 
     render_menu_dropdown(

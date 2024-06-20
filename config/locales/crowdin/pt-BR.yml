@@ -466,6 +466,7 @@ pt-BR:
         is_readonly: "Somente leitura"
         excluded_from_totals: "Excluído dos totais"
   themes:
+    dark: "Dark"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -2728,6 +2729,8 @@ pt-BR:
   permission_manage_public_bcf_queries: "Gerenciar consultas públicas a BCF"
   permission_edit_attribute_help_texts: "Editar textos de ajuda do atributos"
   permission_manage_public_project_queries: "Gerenciar listas de projetos públicos"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

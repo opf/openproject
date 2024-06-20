@@ -27,16 +27,16 @@
 #++
 
 class WatchersController < ApplicationController
-  before_action :find_watched_by_object
-  before_action :find_project
-  before_action :require_login, :check_project_privacy, only: %i[watch unwatch]
+  before_action :find_watched_by_object,
+                :find_project,
+                :require_login,
+                :deny_access_unless_visible
+
+  authorization_checked! :watch,
+                         :unwatch
 
   def watch
-    if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)
-      render_403
-    else
-      set_watcher(User.current, true)
-    end
+    set_watcher(User.current, true)
   end
 
   def unwatch
@@ -59,5 +59,9 @@ class WatchersController < ApplicationController
   def set_watcher(user, watching)
     @watched.set_watcher(user, watching)
     redirect_back(fallback_location: home_url)
+  end
+
+  def deny_access_unless_visible
+    deny_access unless @watched.visible?(User.current)
   end
 end

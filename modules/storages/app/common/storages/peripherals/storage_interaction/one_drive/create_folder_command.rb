@@ -62,24 +62,22 @@ module Storages
           end
 
           def handle_response(response)
-            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-
             case response
             in { status: 200..299 }
               ServiceResult.success(result: file_info_for(MultiJson.load(response.body, symbolize_keys: true)),
                                     message: "Folder was successfully created.")
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data:))
+                                    errors: Util.storage_error(code: :not_found, response:, source: self.class))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data:))
+                                    errors: Util.storage_error(code: :unauthorized, response:, source: self.class))
             in { status: 409 }
               ServiceResult.failure(result: :already_exists,
-                                    errors: ::Storages::StorageError.new(code: :conflict, data:))
+                                    errors: Util.storage_error(code: :conflict, response:, source: self.class))
             else
               ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data:))
+                                    errors: Util.storage_error(code: :error, response:, source: self.class))
             end
           end
 

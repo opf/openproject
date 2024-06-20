@@ -58,7 +58,7 @@ RSpec.describe AdminController do
                :"#{name}_settings",
                { controller: "/admin/settings", action: :show_plugin, id: :"openproject_#{name}" },
                caption: name.capitalize,
-               icon: "arrow",
+               icon: "book",
                if: ->(*) { show }
         end
 

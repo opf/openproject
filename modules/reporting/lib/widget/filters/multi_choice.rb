@@ -27,28 +27,30 @@
 #++
 
 class Widget::Filters::MultiChoice < Widget::Filters::Base
+  # rubocop:disable Metrics/AbcSize
   def render
-    filterName = filter_class.underscore_name
-    result = content_tag :div, id: "#{filterName}_arg_1", class: "advanced-filters--filter-value" do
+    filter_name = filter_class.underscore_name
+    result = content_tag :div, id: "#{filter_name}_arg_1", class: "advanced-filters--filter-value" do
       choices = filter_class.available_values.each_with_index.map do |(label, value), i|
         opts = {
           type: "radio",
-          name: "values[#{filterName}][]",
-          id: "#{filterName}_radio_option_#{i}",
+          name: "values[#{filter_name}][]",
+          id: "#{filter_name}_radio_option_#{i}",
           value:
         }
         opts[:checked] = "checked" if filter.values == [value].flatten
         radio_button = tag :input, opts
         content_tag :label, radio_button + translate(label),
-                    for: "#{filterName}_radio_option_#{i}",
+                    for: "#{filter_name}_radio_option_#{i}",
                     "data-filter-name": filter_class.underscore_name,
-                    class: "#{filterName}_radio_option filter_radio_option"
+                    class: "#{filter_name}_radio_option filter_radio_option"
       end
-      content_tag :div, choices.join.html_safe,
+      content_tag :div, safe_join(choices),
                   id: "#{filter_class.underscore_name}_arg_1_val"
     end
     write result
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 

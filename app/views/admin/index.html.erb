@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
 <div class="menu-blocks--container" data-test-selector="menu-blocks--container">
   <% @menu_nodes.each do |menu_node| -%>
     <%= link_to menu_node.url, { class: 'menu-block', 'data-test-selector': 'menu-block' } do %>
-      <%= spot_icon("#{(menu_node.icon || '')}", classnames: "menu-block--icon icon3") %>
+      <%= render(Primer::Beta::Octicon.new(icon: menu_node.icon, height: 32,  classes: "menu-block--icon", "aria-label": menu_node.caption)) %>
       <span class="menu-block--title"> <%= menu_node.caption %> </span>
     <% end %>
   <% end %>

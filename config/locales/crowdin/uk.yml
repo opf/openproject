@@ -474,6 +474,7 @@ uk:
         is_readonly: "Лише для перегляду"
         excluded_from_totals: "Виключено з підсумків"
   themes:
+    dark: "Dark"
     light: "Світла"
     light_high_contrast: "Світла, високий контраст"
   types:
@@ -2064,7 +2065,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції із встановлення"
+  label_installation_guides: "Інструкції зі встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -2793,6 +2794,8 @@ uk:
   permission_manage_public_bcf_queries: "Керування загальнодоступними запитами BCF"
   permission_edit_attribute_help_texts: "Редагування текстів довідки для атрибутів"
   permission_manage_public_project_queries: "Керування списками загальнодоступних проєктів"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

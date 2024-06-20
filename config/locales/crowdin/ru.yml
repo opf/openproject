@@ -479,6 +479,7 @@ ru:
         is_readonly: "Только для чтения"
         excluded_from_totals: "Исключен из итогов"
   themes:
+    dark: "Тёмная"
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
   types:
@@ -2800,6 +2801,8 @@ ru:
   permission_manage_public_bcf_queries: "Управление публичными BCF запросами"
   permission_edit_attribute_help_texts: "Редактировать атрибут справки"
   permission_manage_public_project_queries: "Управление списками общедоступных проектов"
+  permission_view_project_query: "Просмотр запроса проекта"
+  permission_edit_project_query: "Редактирование запроса проекта"
   placeholders:
     default: "-"
   project:

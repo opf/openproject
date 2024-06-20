@@ -115,22 +115,6 @@ class CostlogController < ApplicationController
     render_404
   end
 
-  def find_optional_project
-    if params[:work_package_id].present?
-      @work_package = WorkPackage.find(params[:work_package_id])
-      @project = @work_package.project
-    elsif params[:work_package_id].present?
-      @work_package = WorkPackage.find(params[:work_package_id])
-      @project = @work_package.project
-    elsif params[:project_id].present?
-      @project = Project.find(params[:project_id])
-    end
-
-    if params[:cost_type_id].present?
-      @cost_type = CostType.find(params[:cost_type_id])
-    end
-  end
-
   def find_associated_objects
     user_id = cost_entry_params.delete(:user_id)
     @user = if @cost_entry.present? && @cost_entry.user_id == user_id

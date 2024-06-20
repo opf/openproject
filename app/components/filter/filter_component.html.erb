@@ -2,14 +2,14 @@
              method: :get,
              class: "op-filters-form op-filters-form_top-margin #{show_filters_section? ? "-expanded" : ""}",
              data: {
-               'filters-target': 'filterForm',
-               action: 'submit->filters#sendForm:prevent'
+               'filter--filters-form-target': 'filterForm',
+               action: 'submit->filter--filters-form#sendForm:prevent'
              }) do %>
   <% operators_without_values = %w[* !* t w] %>
   <fieldset class="advanced-filters--container">
     <a title="<%= t('js.close_form_title') %>"
        class="advanced-filters--close icon-context icon-close"
-       data-action="filters#toggleDisplayFilters"></a>
+       data-action="filter--filters-form#toggleDisplayFilters"></a>
     <legend><%= t(:label_filter_plural) %></legend>
     <ul class="advanced-filters--filters">
       <% each_filter do |filter, filter_active, additional_options| %>
@@ -19,7 +19,7 @@
         <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"
             filter-name="<%= filter.name %>"
             filter-type="<%= filter.type %>"
-            data-filters-target="filter">
+            data-filter--filters-form-target="filter">
           <label class='advanced-filters--filter-name' for="<%= filter.name %>">
             <%= filter.human_name %>
           </label>
@@ -33,9 +33,9 @@
                              selected_operator),
                            class: 'advanced-filters--select',
                            data: {
-                             action: 'change->filters#setValueVisibility',
-                             'filters-filter-name-param': filter.name,
-                             'filters-target': 'operator',
+                             action: 'change->filter--filters-form#setValueVisibility',
+                             'filter--filters-form-filter-name-param': filter.name,
+                             'filter--filters-form-target': 'operator',
                              'filter-name': filter.name
                            } %>
           <% end %>
@@ -68,8 +68,8 @@
           <div class="advanced-filters--remove-filter">
             <a href="#"
                class="filter_rem"
-               data-action="click->filters#removeFilter"
-               data-filters-filter-name-param="<%= filter.name %>">
+               data-action="click->filter--filters-form#removeFilter"
+               data-filter--filters-form-filter-name-param="<%= filter.name %>">
               <%= helpers.op_icon("icon-close advanced-filters--remove-filter-icon", title: I18n.t('js.button_delete')) %>
             </a>
           </div>
@@ -77,7 +77,7 @@
       <% end %>
 
       <li class="advanced-filters--spacer <%= query.filters.blank? ? 'hidden' : '' %>"
-          data-filters-target="spacer"></li>
+          data-filter--filters-form-target="spacer"></li>
 
       <li class="advanced-filters--add-filter">
         <!-- Add filters -->
@@ -104,8 +104,8 @@
                          focus: "false",
                          'aria-invalid': "false",
                          data: {
-                           'filters-target': 'addFilterSelect',
-                           action: 'change->filters#addFilter:prevent'
+                           'filter--filters-form-target': 'addFilterSelect',
+                           action: 'change->filter--filters-form#addFilter:prevent'
                          } %>
         </div>
       </li>

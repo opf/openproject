@@ -48,12 +48,14 @@ RSpec.describe User, "permission check methods" do
 
   Member::ALLOWED_ENTITIES.each do |entity_model_name|
     context "for #{entity_model_name}" do
+      let(:model_name_part) { entity_model_name.constantize.model_name.element }
+
       it "defines allowed_in_#{entity_model_name.underscore}?" do
-        expect(subject).to respond_to("allowed_in_#{entity_model_name.underscore}?")
+        expect(subject).to respond_to("allowed_in_#{model_name_part}?")
       end
 
       it "defines allowed_in_any_#{entity_model_name.underscore}?" do
-        expect(subject).to respond_to("allowed_in_any_#{entity_model_name.underscore}?")
+        expect(subject).to respond_to("allowed_in_any_#{model_name_part}?")
       end
     end
   end

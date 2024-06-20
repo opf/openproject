@@ -91,10 +91,6 @@ import {
   triggerActionsEntryComponentSelector,
 } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
 import {
-  BacklogsPageComponent,
-  backlogsPageComponentSelector,
-} from 'core-app/features/backlogs/backlogs-page/backlogs-page.component';
-import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector,
 } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
@@ -224,7 +220,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
   { selector: opCalendarSidemenuSelector, cls: CalendarSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
-  { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },

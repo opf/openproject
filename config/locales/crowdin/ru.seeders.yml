@@ -41,6 +41,11 @@ ru:
           name: Спецификация
         item_2:
           name: Другие
+      project_query_roles:
+        item_0:
+          name: Средство просмотра запроса проекта
+        item_1:
+          name: Редактор запроса проекта
       work_package_roles:
         item_0:
           name: Редактор пакета работ

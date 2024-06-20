@@ -65,5 +65,8 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 <p class="footnote">
   <%= t(:text_costs_are_rounded_note) %>
-  <%= "<br />#{t(:information_restricted_depending_on_permission)}".html_safe unless User.current.admin?%>
+  <% unless User.current.admin? %>
+    <br/>
+    <%= t(:information_restricted_depending_on_permission) %>
+  <% end %>
 </p>

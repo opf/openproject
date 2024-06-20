@@ -31,9 +31,10 @@
 module OpenProject
   module Common
     class SubmenuComponent < ApplicationComponent
-      def initialize(sidebar_menu_items: nil)
+      def initialize(sidebar_menu_items: nil, searchable: false)
         super()
         @sidebar_menu_items = sidebar_menu_items
+        @searchable = searchable
       end
 
       def render?

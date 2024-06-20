@@ -28,107 +28,122 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class FileInfoQuery
-    using Storages::Peripherals::ServiceResultRefinements
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class FileInfoQuery
+          using ServiceResultRefinements
 
-    FILE_INFO_PATH = "ocs/v1.php/apps/integration_openproject/fileinfo"
-    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+          FILE_INFO_PATH = "ocs/v1.php/apps/integration_openproject/fileinfo"
 
-    def self.call(storage:, auth_strategy:, file_id:)
-      new(storage).call(auth_strategy:, file_id:)
-    end
+          def self.call(storage:, auth_strategy:, file_id:)
+            new(storage).call(auth_strategy:, file_id:)
+          end
 
-    def initialize(storage)
-      @storage = storage
-    end
+          def initialize(storage)
+            @storage = storage
+          end
 
-    def call(auth_strategy:, file_id:)
-      http_options = Util.ocs_api_request.deep_merge(Util.accept_json)
-      Auth[auth_strategy].call(storage: @storage, http_options:) do |http|
-        file_info(http, file_id).map(&parse_json) >> handle_failure >> create_storage_file_info
-      end
-    end
+          def call(auth_strategy:, file_id:)
+            validation = validate_input(file_id)
+            return validation if validation.failure?
 
-    private
+            http_options = Util.ocs_api_request.deep_merge(Util.accept_json)
+            Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
+              file_info(http, file_id).map(&parse_json) >> handle_failure >> create_storage_file_info
+            end
+          end
 
-    def file_info(http, file_id)
-      response = http.get(Util.join_uri_path(@storage.uri, FILE_INFO_PATH, file_id))
-      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+          private
 
-      case response
-      in { status: 200..299 }
-        ServiceResult.success(result: response.body)
-      in { status: 404 }
-        Util.error(:not_found, "Outbound request destination not found!", error_data)
-      in { status: 401 }
-        Util.error(:unauthorized, "Outbound request not authorized!", error_data)
-      else
-        Util.error(:error, "Outbound request failed!", error_data)
-      end
-    end
+          def validate_input(file_id)
+            if file_id.nil?
+              ServiceResult.failure(
+                result: :error,
+                errors: StorageError.new(code: :error,
+                                         data: StorageErrorData.new(source: self.class),
+                                         log_message: "File ID can not be nil")
+              )
+            else
+              ServiceResult.success
+            end
+          end
 
-    def parse_json
-      ->(response_body) do
-        # rubocop:disable Style/OpenStructUse
-        JSON.parse(response_body, object_class: OpenStruct)
-        # rubocop:enable Style/OpenStructUse
-      end
-    end
+          def file_info(http, file_id)
+            response = http.get(Util.join_uri_path(@storage.uri, FILE_INFO_PATH, file_id))
+            error_data = StorageErrorData.new(source: self.class, payload: response)
 
-    def handle_failure
-      ->(response_object) do
-        error_data = Storages::StorageErrorData.new(source: self.class, payload: response_object)
+            case response
+            in { status: 200..299 }
+              ServiceResult.success(result: response.body)
+            in { status: 404 }
+              Util.error(:not_found, "Outbound request destination not found!", error_data)
+            in { status: 401 }
+              Util.error(:unauthorized, "Outbound request not authorized!", error_data)
+            else
+              Util.error(:error, "Outbound request failed!", error_data)
+            end
+          end
 
-        case response_object.ocs.data.statuscode
-        when 200..299
-          ServiceResult.success(result: response_object)
-        when 403
-          Util.error(:forbidden, "Access to storage file forbidden!", error_data)
-        when 404
-          Util.error(:not_found, "Storage file not found!", error_data)
-        else
-          Util.error(:error, "Outbound request failed!", error_data)
+          def parse_json
+            ->(response_body) do
+              JSON.parse(response_body, object_class: OpenStruct) # rubocop:disable Style/OpenStructUse
+            end
+          end
+
+          def handle_failure
+            ->(response_object) do
+              error_data = StorageErrorData.new(source: self.class, payload: response_object)
+
+              case response_object.ocs.data.statuscode
+              when 200..299
+                ServiceResult.success(result: response_object)
+              when 403
+                Util.error(:forbidden, "Access to storage file forbidden!", error_data)
+              when 404
+                Util.error(:not_found, "Storage file not found!", error_data)
+              else
+                Util.error(:error, "Outbound request failed!", error_data)
+              end
+            end
+          end
+
+          def create_storage_file_info # rubocop:disable Metrics/AbcSize
+            ->(response_object) do
+              data = response_object.ocs.data
+              ServiceResult.success(
+                result: StorageFileInfo.new(
+                  status: data.status.downcase,
+                  status_code: data.statuscode,
+                  id: data.id.to_s,
+                  name: data.name,
+                  last_modified_at: Time.zone.at(data.mtime),
+                  created_at: Time.zone.at(data.ctime),
+                  mime_type: data.mimetype,
+                  size: data.size,
+                  owner_name: data.owner_name,
+                  owner_id: data.owner_id,
+                  last_modified_by_name: data.modifier_name,
+                  last_modified_by_id: data.modifier_id,
+                  permissions: data.dav_permissions,
+                  location: location(data.path)
+                )
+              )
+            end
+          end
+
+          def location(file_path)
+            prefix = "files/"
+            idx = file_path.rindex(prefix)
+            return "/" if idx == nil
+
+            idx += prefix.length - 1
+
+            Util.escape_path(file_path[idx..]).chomp("/")
+          end
         end
       end
-    end
-
-    # rubocop:disable Metrics/AbcSize
-    def create_storage_file_info
-      ->(response_object) do
-        data = response_object.ocs.data
-        ServiceResult.success(
-          result: ::Storages::StorageFileInfo.new(
-            status: data.status,
-            status_code: data.statuscode,
-            id: data.id.to_s,
-            name: data.name,
-            last_modified_at: Time.zone.at(data.mtime),
-            created_at: Time.zone.at(data.ctime),
-            mime_type: data.mimetype,
-            size: data.size,
-            owner_name: data.owner_name,
-            owner_id: data.owner_id,
-            trashed: data.trashed,
-            last_modified_by_name: data.modifier_name,
-            last_modified_by_id: data.modifier_id,
-            permissions: data.dav_permissions,
-            location: location(data.path)
-          )
-        )
-      end
-    end
-
-    # rubocop:enable Metrics/AbcSize
-
-    def location(file_path)
-      prefix = "files/"
-      idx = file_path.rindex(prefix)
-      return "/" if idx == nil
-
-      idx += prefix.length - 1
-
-      Util.escape_path(file_path[idx..])
     end
   end
 end

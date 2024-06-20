@@ -243,6 +243,8 @@ module WorkPackage::PDFExport::Gantt
           build_header_cells_quarters(top, height, columns)
         when :months
           build_header_cells_months(top, height, columns)
+        when :weeks
+          build_header_cells_weeks(top, height, columns)
         when :days
           build_header_cells_days(top, height, columns)
         else
@@ -316,6 +318,13 @@ module WorkPackage::PDFExport::Gantt
                                ->(date) { [date.year, date.month] },
                                ->(date, month_tuple) { date.year == month_tuple[0] && date.month == month_tuple[1] },
                                ->(month_tuple) { Date.new(month_tuple[0], month_tuple[1], 1).strftime("%b") })
+    end
+
+    def build_header_cells_weeks(top, height, columns)
+      build_header_cells_parts(columns, top, height,
+                               ->(date) { [date.year, date.cweek] },
+                               ->(date, week_tuple) { date.year == week_tuple[0] && date.cweek == week_tuple[1] },
+                               ->(week_tuple) { "W#{week_tuple[1]}" })
     end
 
     # Builds the day row header cells for the given columns
