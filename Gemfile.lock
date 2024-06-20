@@ -720,7 +720,7 @@ GEM
     mime-types (3.5.2)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2024.0604)
-    mini_magick (4.12.0)
+    mini_magick (4.13.1)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
     minitest (5.24.0)
@@ -1231,7 +1231,7 @@ DEPENDENCIES
   matrix (~> 0.4.2)
   md_to_pdf!
   meta-tags (~> 2.21.0)
-  mini_magick (~> 4.12.0)
+  mini_magick (~> 4.13.0)
   multi_json (~> 1.15.0)
   my_page!
   net-ldap (~> 0.19.0)
