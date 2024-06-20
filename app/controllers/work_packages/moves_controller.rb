@@ -117,10 +117,24 @@ class WorkPackages::MovesController < ApplicationController
     @target_project ||= @project
     @types = @target_project.types.order(:position)
     @target_type = @types.find { |t| t.id.to_s == params[:new_type_id].to_s }
-    @unavailable_type_in_target_project = @types.exclude?(@target_type)
+    @unavailable_type_in_target_project = set_unavailable_type_in_target_project
     @available_versions = @target_project.assignable_versions
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes] || ""
+  end
+
+  def set_unavailable_type_in_target_project
+    if @target_project == @project
+      false
+    elsif @target_type.nil?
+      Type.where(id: @work_packages.select(:type_id))
+          .select("distinct id")
+          .pluck(:id)
+          .difference(@types.pluck(:id))
+          .any?
+    else
+      @types.exclude?(@target_type)
+    end
   end
 
   def attributes_for_create
