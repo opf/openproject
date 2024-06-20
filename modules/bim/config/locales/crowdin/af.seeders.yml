@@ -13,14 +13,14 @@ af:
         item_2:
           name: Hoog
         item_3:
-          name: Critical
+          name: Krities
       statuses:
         item_0:
           name: Nuut
         item_1:
           name: In-vordering
         item_2:
-          name: Resolved
+          name: Opgelos
         item_3:
           name: Gesluit
       time_entry_activities:
@@ -40,22 +40,22 @@ af:
         item_3:
           name: Kwessie
         item_4:
-          name: Remark
+          name: Opmerkings
         item_5:
-          name: Request
+          name: Versoek
         item_6:
-          name: Clash
+          name: Botsing
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: 'Ingebedde tafel: Kinders'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: Children
+              group_name: Kinders
       groups:
         item_0:
-          name: Architects
+          name: Argitekte
         item_1:
           name: BIM Coordinators
         item_2:
@@ -67,9 +67,9 @@ af:
         item_5:
           name: MEP Engineers
         item_6:
-          name: Planners
+          name: Beplanners
         item_7:
-          name: Structural Engineers
+          name: Struktuuringenieurs
       welcome:
         title: Welcome to OpenProject BIM edition!
         text: |
@@ -87,35 +87,35 @@ af:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          name: "(Demo) Konstruksieprojek"
+          status_explanation: Alle take en die subprojekte is op skedule. Die betrokke mense ken hul take. Die stelsel is heeltemal opgestel.
+          description: Dit is 'n kort opsomming van die doelwitte van hierdie demo-konstruksieprojek.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Welkom by jou demo-projek
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ons is bly jy het aangesluit.
+                In hierdie module kan jy projeknuus aan jou spanlede kommunikeer.
+              description: Die werklike nuus
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorie 1 (moet verander word in Projek-instellings)
           queries:
             item_0:
-              name: Project plan
+              name: Projek plan
             item_1:
-              name: Milestones
+              name: Mylpaal
             item_2:
-              name: Tasks
+              name: Take
             item_3:
-              name: Team planner
+              name: Spanbeplanner
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Eenvoudige sleep-en-los-werkvloei
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Welkom
               item_1:
                 options:
                   name: Om te begin
@@ -147,34 +147,34 @@ af:
                   name: Werkspakkete
               item_6:
                 options:
-                  name: Milestones
+                  name: Mylpaal
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          name: "(Demo) Beplanning en konstruksie"
+          status_explanation: Alle take en die subprojekte is op skedule. Die betrokke mense ken hul take. Die stelsel is heeltemal opgestel.
+          description: Dit is 'n kort opsomming van die doelwitte van hierdie demo-konstruksieprojek.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Welkom by jou demo-projek
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ons is bly jy het aangesluit.
+                In hierdie module kan jy projeknuus aan jou spanlede kommunikeer.
+              description: Die werklike nuus
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorie 1 (moet verander word in Projek-instellings)
           queries:
             item_0:
-              name: Project plan
+              name: Projek plan
             item_1:
-              name: Milestones
+              name: Mylpaal
             item_2:
-              name: Tasks
+              name: Take
             item_3:
-              name: Team planner
+              name: Spanbeplanner
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Welkom
               item_1:
                 options:
                   name: Om te begin
@@ -202,7 +202,7 @@ af:
                   name: Werkspakkete
               item_6:
                 options:
-                  name: Milestones
+                  name: Mylpaal
           work_packages:
             item_0:
               subject: Project kick off construction project
@@ -211,24 +211,24 @@ af:
 
                 The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Basic evaluation
+              subject: Basiese evaluering
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Versamel eerste projekinligting
                   description: |-
-                    ## Goal
+                    ## Doelwit
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    * Definieer take gebaseer op die kliënt se behoeftes
+                    * Tydraamwerk en kosteberaming sal gedefinieer word
 
-                    ## Description
+                    ## Beskrywing
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    * Identifiseer die kliënt se behoeftes deur 'n werkswinkel saam met hom/haar te hou
+                    * Elke behoefte sal 'n taak met sy ooreenstemmende werkpakkette verteenwoordig
+                    * Lei die kosteberaming en tydraamwerk af
                 item_1:
-                  subject: Summarize the results
+                  subject: Som die resultate op
                   description: |-
                     ## Goal
 
@@ -243,14 +243,14 @@ af:
                     *   This overview informs all participants about the decisions made
                     *   ...
                 item_2:
-                  subject: End of basic evaluation
+                  subject: Einde van basiese evaluering
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
-              subject: Preliminary planning
+              subject: Voorlopige beplanning
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Developing first draft
+                  subject: Ontwikkel eerste konsep
                   description: |-
                     ## Goal
 
@@ -265,7 +265,7 @@ af:
                     *   This overview informs all participants about the decisions made
                     *   ...
                 item_1:
-                  subject: Summarize results
+                  subject: Som die resultate op
                   description: |-
                     ## Goal
 
@@ -283,11 +283,11 @@ af:
               subject: Passing of preliminary planning
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
-              subject: Design planning
+              subject: Ontwerpbeplanning
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Finishing design
+                  subject: Afwerking ontwerp
                   description: |-
                     ## Goal
 
@@ -301,13 +301,13 @@ af:
                     *   The owner is happy with the results
                     *   ...
                 item_1:
-                  subject: Design freeze
+                  subject: Ontwerp vries
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_5:
-              subject: Construction phase
+              subject: Konstruksie fase
               children:
                 item_0:
-                  subject: Start constructing
+                  subject: Begin konstruksie
                   description: |-
                     ## Goal
 
@@ -321,7 +321,7 @@ af:
                     *   Get the team together
                     *   ...
                 item_1:
-                  subject: Foundation
+                  subject: Fondament
                   description: |-
                     ## Goal
 
@@ -334,7 +334,7 @@ af:
                     *   Setting up the supply chain for the concrete
                     *   ...
                 item_2:
-                  subject: Building construction
+                  subject: Gebou konstruksie
                   description: |-
                     ## Goal
 
@@ -349,7 +349,7 @@ af:
                     *   Finishing the roof structure
                     *   ...
                 item_3:
-                  subject: Finishing the facade
+                  subject: Afwerking van die fasade
                   description: |-
                     ## Goal
 
@@ -363,7 +363,7 @@ af:
                     *   Finish the roof
                     *   ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: Die installering van die gebou diens stelsels
                   description: |-
                     ## Goal
 
@@ -391,7 +391,7 @@ af:
                     *   Finishing the facade
                     *   ...
                 item_6:
-                  subject: House warming party
+                  subject: Huisverwarming partytjie
                   description: |-
                     ## Goal
 
@@ -404,7 +404,7 @@ af:
                     *   Bring some drinks, snacks and your smile
         demo-bim-project:
           name: "(Demo) BIM project"
-          status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: "Alle take en die subprojekte is op skedule. Die betrokke mense ken hul take. Die stelsel is heeltemal opgestel.\n"
           description: This is a short summary of the goals of this demo BIM project.
           news:
             item_0:
