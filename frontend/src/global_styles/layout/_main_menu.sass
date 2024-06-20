@@ -71,7 +71,7 @@ $arrow-left-width: 40px
       overflow: auto
       @include styled-scroll-bar
 
-  a:focus
+  a:not(.Button):focus
     color: var(--main-menu-font-color)
 
   ul
@@ -105,11 +105,11 @@ $arrow-left-width: 40px
         // explicitly reset to zero to avoid selector precedence problems
         padding-left: 0
 
-    .main-menu--children li a
+    .main-menu--children li a:not(.Button)
       // children have no icon so we need to push them right.
       padding-left: 24px
 
-  a
+  a:not(.Button)
     text-decoration: none
     line-height: var(--main-menu-item-height)
     position: relative
@@ -143,7 +143,7 @@ $arrow-left-width: 40px
   .toggler:hover
     @include main-menu-hover
 
-  a
+  a:not(.Button)
     border: 1px solid transparent
 
     &.selected, &.selected + a
@@ -158,10 +158,10 @@ $arrow-left-width: 40px
       & ~ .toggler
         @include main-menu-hover
 
-  a:not(.toggler)
+  a:not(.Button):not(.toggler)
     @extend .small-12
 
-  a:not(:only-child):first-of-type
+  a:not(.Button):not(:only-child):first-of-type
     flex: 0 0 calc(100% - 40px)
     max-width: calc(100% - 40px)
 
@@ -259,7 +259,7 @@ a.main-menu--parent-node
       &.menu_root
         > li
           .main-item-wrapper
-            a:not(:only-child)
+            a:not(.Button):not(:only-child)
               @extend .small-12
 
           .ellipsis
@@ -284,7 +284,7 @@ a.main-menu--parent-node
   font-family: var(--body-font-family)
   font-style: normal
 
-  a, a:link
+  a:not(.Button), a:not(.Button):link
     &:not(.searchable-menu--item-link):not(.searchable-menu--category-icon)
       color: var(--main-menu-font-color)
       display: inline

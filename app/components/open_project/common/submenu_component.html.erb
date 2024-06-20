@@ -3,6 +3,7 @@
     <div class="op-sidebar--search">
       <%= render Primer::Alpha::TextField.new(name: "search",
                                               label: I18n.t("label_search"),
+                                              placeholder: I18n.t("label_search"),
                                               leading_visual: { icon: :search },
                                               visually_hide_label: true,
                                               classes: "op-sidebar--search-input",
@@ -68,4 +69,16 @@
       </div>
     <% end %>
   </div>
+
+  <% if @create_btn_options.present? %>
+    <div class="op-sidebar--footer">
+      <%= render Primer::Beta::Button.new(scheme: :primary,
+                                          tag: :a,
+                                          href: @create_btn_options[:href],
+                                          classes: "op-sidebar--footer-action") do |button|
+        button.with_leading_visual_icon(icon: "plus")
+        @create_btn_options[:text]
+      end %>
+    </div>
+  <% end %>
 </div>

@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +24,24 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
-module OpenProject
-  module Common
-    class SubmenuComponent < ApplicationComponent
-      def initialize(sidebar_menu_items: nil, searchable: false, create_btn_options: nil)
-        super()
-        @sidebar_menu_items = sidebar_menu_items
-        @searchable = searchable
-        @create_btn_options = create_btn_options
-      end
+#++
 
-      def render?
-        @sidebar_menu_items.present?
-      end
+module Projects::WorkPackageCustomFields
+  extend ActiveSupport::Concern
 
-      def top_level_sidebar_menu_items
-        @sidebar_menu_items
-          .filter { |menu_item| menu_item.header.nil? }
-      end
+  included do
+    # Custom field for the project's work_packages
+    has_and_belongs_to_many :work_package_custom_fields, # rubocop:disable Rails/HasAndBelongsToMany
+                            -> { order("#{CustomField.table_name}.position") },
+                            join_table: :custom_fields_projects,
+                            association_foreign_key: "custom_field_id"
 
-      def nested_sidebar_menu_items
-        @sidebar_menu_items
-          .filter { |menu_item| menu_item.header.present? && menu_item.children.any? }
-      end
+    # Returns an AR scope of all custom fields enabled for project's work packages
+    # (explicitly associated custom fields and custom fields enabled for all projects)
+    def all_work_package_custom_fields
+      WorkPackageCustomField
+        .for_all
+        .or(WorkPackageCustomField.where(id: work_package_custom_fields))
     end
   end
 end

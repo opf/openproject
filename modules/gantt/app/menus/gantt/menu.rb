@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,29 +25,36 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-#
-module OpenProject
-  module Common
-    class SubmenuComponent < ApplicationComponent
-      def initialize(sidebar_menu_items: nil, searchable: false, create_btn_options: nil)
-        super()
-        @sidebar_menu_items = sidebar_menu_items
-        @searchable = searchable
-        @create_btn_options = create_btn_options
-      end
+module Gantt
+  class Menu < Submenu
+    attr_reader :view_type, :project
 
-      def render?
-        @sidebar_menu_items.present?
-      end
+    def initialize(project: nil, params: nil)
+      @view_type = "gantt"
+      @project = project
+      @params = params
 
-      def top_level_sidebar_menu_items
-        @sidebar_menu_items
-          .filter { |menu_item| menu_item.header.nil? }
-      end
+      super(view_type:, project:, params:)
+    end
 
-      def nested_sidebar_menu_items
-        @sidebar_menu_items
-          .filter { |menu_item| menu_item.header.present? && menu_item.children.any? }
+    def default_queries
+      query_generator = Gantt::DefaultQueryGeneratorService.new(with_project: project)
+      Gantt::DefaultQueryGeneratorService::QUERY_OPTIONS.filter_map do |query_key|
+        params = query_generator.call(query_key:)
+        next if params.nil?
+
+        menu_item(
+          params,
+          I18n.t("js.queries.#{query_key}")
+        )
+      end
+    end
+
+    def query_path(query_params)
+      if project.present?
+        project_gantt_index_path(project, params.permit(query_params.keys).merge!(query_params))
+      else
+        gantt_index_path(params.permit(query_params.keys).merge!(query_params))
       end
     end
   end

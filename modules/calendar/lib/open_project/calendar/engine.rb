@@ -28,7 +28,8 @@ module OpenProject::Calendar
              settings: {} do
       project_module :calendar_view, dependencies: :work_package_tracking do
         permission :view_calendar,
-                   { "calendar/calendars": %i[index show] },
+                   { "calendar/calendars": %i[index show],
+                     "calendar/menus": %i[show] },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages],
                    contract_actions: { calendar: %i[read] }
@@ -76,7 +77,7 @@ module OpenProject::Calendar
            :calendar_menu,
            { controller: "/calendar/calendars", action: "index" },
            parent: :calendar_view,
-           partial: "calendar/calendars/menu",
+           partial: "calendar/menus/menu",
            last: true,
            caption: :label_calendar_plural
     end

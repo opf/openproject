@@ -59,7 +59,7 @@ gem "will_paginate", "~> 4.0.0"
 
 gem "friendly_id", "~> 5.5.0"
 
-gem "acts_as_list", "~> 1.1.0"
+gem "acts_as_list", "~> 1.2.0"
 gem "acts_as_tree", "~> 2.9.0"
 gem "awesome_nested_set", "~> 3.6.0"
 gem "closure_tree", "~> 7.4.0"
@@ -93,7 +93,7 @@ gem "deckar01-task_list", "~> 2.3.1"
 # Requires escape-utils for faster escaping
 gem "escape_utils", "~> 1.3"
 # Syntax highlighting used in html-pipeline with rouge
-gem "rouge", "~> 4.2.0"
+gem "rouge", "~> 4.3.0"
 # HTML sanitization used for html-pipeline
 gem "sanitize", "~> 6.1.0"
 # HTML autolinking for mails and urls (replaces autolink)
@@ -107,7 +107,7 @@ gem "svg-graph", "~> 2.2.0"
 
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
-gem "json_schemer", "~> 2.2.0"
+gem "json_schemer", "~> 2.3.0"
 gem "ruby-duration", "~> 3.2.0"
 
 # `config/initializers/mail_starttls_patch.rb` has also been patched to
@@ -118,7 +118,7 @@ gem "mail", "= 2.8.1"
 gem "csv", "~> 3.3"
 
 # provide compatible filesystem information for available storage
-gem "sys-filesystem", "~> 1.4.0", require: false
+gem "sys-filesystem", "~> 1.5.0", require: false
 
 gem "bcrypt", "~> 3.1.6"
 
@@ -204,7 +204,7 @@ gem "plaintext", "~> 0.3.2"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 4.12.0", require: false
+gem "mini_magick", "~> 4.13.0", require: false
 
 gem "validate_url"
 

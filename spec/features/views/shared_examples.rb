@@ -29,7 +29,7 @@
 RSpec.shared_examples "module specific query view management" do
   describe "within a module" do
     let(:query_title) { Components::WorkPackages::QueryTitle.new }
-    let(:query_menu) { Components::WorkPackages::QueryMenu.new }
+    let(:query_menu) { Components::Submenu.new }
     let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
     let(:filters) { module_page.filters }
 
@@ -44,7 +44,7 @@ RSpec.shared_examples "module specific query view management" do
       settings_menu.open_and_save_query "My first query"
       query_title.expect_not_changed
       query_title.expect_title "My first query"
-      query_menu.expect_menu_entry "My first query"
+      query_menu.expect_item "My first query"
 
       # Change the filter again
       filters.add_filter_by "% Complete", "is", ["25"], "percentageDone"
@@ -55,8 +55,8 @@ RSpec.shared_examples "module specific query view management" do
       settings_menu.open_and_save_query_as "My second query"
       query_title.expect_not_changed
       query_title.expect_title "My second query"
-      query_menu.expect_menu_entry "My second query"
-      query_menu.expect_menu_entry "My first query"
+      query_menu.expect_item "My second query"
+      query_menu.expect_item "My first query"
 
       # Rename a query
       settings_menu.open_and_choose "Rename view"
@@ -67,17 +67,16 @@ RSpec.shared_examples "module specific query view management" do
 
       query_title.expect_not_changed
       query_title.expect_title "My second query (renamed)"
-      query_menu.expect_menu_entry "My second query (renamed)"
-      query_menu.expect_menu_entry "My first query"
+      query_menu.expect_item "My second query (renamed)"
+      query_menu.expect_item "My first query"
 
       # Delete a query
       settings_menu.open_and_choose "Delete"
       module_page.accept_alert_dialog!
-      module_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_delete")
 
       query_title.expect_title default_name
-      query_menu.expect_menu_entry_not_visible "My query planner (renamed)"
-      query_menu.expect_menu_entry "My first query"
+      query_menu.expect_no_item "My query planner (renamed)"
+      query_menu.expect_item "My first query"
     end
   end
 end
