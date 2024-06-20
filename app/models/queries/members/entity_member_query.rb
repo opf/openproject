@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Members::WorkPackageMemberQuery < Queries::Members::MemberQuery
+class Queries::Members::EntityMemberQuery < Queries::Members::MemberQuery
   def default_scope
     Member.joins(:member_roles).merge(MemberRole.only_non_inherited)
   end

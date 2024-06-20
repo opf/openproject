@@ -50,7 +50,7 @@ module Queries::Members
     order Orders::StatusOrder
   end
 
-  ::Queries::Register.register(WorkPackageMemberQuery) do
+  ::Queries::Register.register(EntityMemberQuery) do
     filter Filters::NameFilter
     filter Filters::AnyNameAttributeFilter
     filter Filters::ProjectFilter

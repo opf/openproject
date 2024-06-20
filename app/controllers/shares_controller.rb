@@ -218,7 +218,7 @@ class SharesController < ApplicationController
   def load_query
     @query = ParamsToQueryService.new(Member,
                                       current_user,
-                                      query_class: Queries::Members::WorkPackageMemberQuery)
+                                      query_class: Queries::Members::EntityMemberQuery)
                                  .call(params)
 
     # Set default filter on the entity
