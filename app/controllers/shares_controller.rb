@@ -32,6 +32,7 @@ class SharesController < ApplicationController
 
   before_action :load_entity
   before_action :load_shares, only: %i[index]
+  before_action :load_selected_shares, only: %i[bulk_update bulk_destroy]
   before_action :load_share, only: %i[destroy update resend_invite]
   before_action :authorize
   before_action :enterprise_check, only: %i[index]
@@ -114,6 +115,32 @@ class SharesController < ApplicationController
     respond_with_update_user_details
   end
 
+  def bulk_update
+    @selected_shares.each do |share|
+      WorkPackageMembers::CreateOrUpdateService
+        .new(user: current_user)
+        .call(entity: @entity,
+              user_id: share.principal.id,
+              role_ids: params[:role_ids]).result
+    end
+
+    respond_with_bulk_updated_permission_buttons
+  end
+
+  def bulk_destroy
+    @selected_shares.each do |share|
+      WorkPackageMembers::DeleteService
+        .new(user: current_user, model: share)
+        .call
+    end
+
+    if current_visible_member_count.zero?
+      respond_with_replace_modal
+    else
+      respond_with_bulk_removed_shares
+    end
+  end
+
   private
 
   def enterprise_check
@@ -184,8 +211,33 @@ class SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def respond_with_bulk_updated_permission_buttons
+    @selected_shares.each do |share|
+      replace_via_turbo_stream(
+        component: Shares::PermissionButtonComponent.new(share:,
+                                                         available_roles:,
+                                                         data: { "test-selector": "op-share-wp-update-role" })
+      )
+    end
+
+    respond_with_turbo_streams
+  end
+
+  def respond_with_bulk_removed_shares
+    @selected_shares.each do |share|
+      remove_via_turbo_stream(
+        component: Shares::ShareRowComponent.new(share:, available_roles:)
+      )
+    end
+
+    update_via_turbo_stream(
+      component: Shares::CounterComponent.new(entity: @entity, count: current_visible_member_count)
+    )
+
+    respond_with_turbo_streams
+  end
+
   def load_entity
-    puts "*" * 100, "Loading Entity", params.to_unsafe_h, "*" * 100
     @entity = if params["work_package_id"]
                 WorkPackage.visible.find(params["work_package_id"])
               # TODO: Add support for other entities
@@ -196,7 +248,6 @@ class SharesController < ApplicationController
                 ERROR
               end
 
-    puts "**** Entity: #{@entity} ****"
     if @entity.respond_to?(:project)
       @project = @entity.project
     end

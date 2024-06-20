@@ -85,9 +85,9 @@ Rails.application.routes.draw do
       end
 
       collection do
-        patch :bulk, to: "shares/bulk#update"
-        put :bulk, to: "shares/bulk#update"
-        delete :bulk, to: "shares/bulk#destroy"
+        patch :bulk, to: "shares#bulk_update"
+        put :bulk, to: "shares#bulk_update"
+        delete :bulk, to: "shares#bulk_destroy"
       end
     end
   end
