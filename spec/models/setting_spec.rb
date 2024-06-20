@@ -478,7 +478,8 @@ RSpec.describe Setting do
            smtp_port: 25,
            smtp_user_name: "username",
            smtp_enable_starttls_auto: 1,
-           smtp_ssl: 0
+           smtp_ssl: 0,
+           smtp_timeout: 1234
          } do
         described_class.reload_mailer_settings!
         expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
@@ -489,6 +490,8 @@ RSpec.describe Setting do
                                                        domain: "example.com",
                                                        enable_starttls_auto: true,
                                                        openssl_verify_mode: "peer",
+                                                       read_timeout: 1234,
+                                                       open_timeout: 1234,
                                                        ssl: false)
       end
     end
@@ -515,6 +518,8 @@ RSpec.describe Setting do
                                                        domain: "example.com",
                                                        enable_starttls_auto: false,
                                                        openssl_verify_mode: "peer",
+                                                       open_timeout: 5,
+                                                       read_timeout: 5,
                                                        ssl: true)
       end
     end
@@ -543,6 +548,8 @@ RSpec.describe Setting do
                                                        password: "p4ssw0rd",
                                                        enable_starttls_auto: true,
                                                        openssl_verify_mode: "peer",
+                                                       open_timeout: 5,
+                                                       read_timeout: 5,
                                                        ssl: false)
       end
     end
@@ -571,6 +578,8 @@ RSpec.describe Setting do
                                                        password: "p4ssw0rd",
                                                        enable_starttls_auto: false,
                                                        openssl_verify_mode: "peer",
+                                                       open_timeout: 5,
+                                                       read_timeout: 5,
                                                        ssl: true)
       end
     end

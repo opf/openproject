@@ -1030,6 +1030,10 @@ module Settings
         default: "",
         env_alias: "SMTP_PASSWORD"
       },
+      smtp_timeout: {
+        format: :integer,
+        default: 5,
+      },
       software_name: {
         description: "Override software application name",
         default: "OpenProject"
