@@ -29,13 +29,17 @@
 class Project < ApplicationRecord
   extend FriendlyId
 
-  include Projects::Storage
   include Projects::Activity
-  include Projects::Hierarchy
   include Projects::AncestorsFromRoot
+  include Projects::CustomFields
+  include Projects::Hierarchy
+  include Projects::Storage
+  include Projects::Types
+  include Projects::Versions
+  include Projects::WorkPackageCustomFields
+
   include ::Scopes::Scoped
 
-  include Projects::ActsAsCustomizablePatches
 
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
@@ -79,11 +83,6 @@ class Project < ApplicationRecord
   has_one :repository, dependent: :destroy
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
-  # Custom field for the project's work_packages
-  has_and_belongs_to_many :work_package_custom_fields,
-                          -> { order("#{CustomField.table_name}.position") },
-                          join_table: :custom_fields_projects,
-                          association_foreign_key: "custom_field_id"
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
   has_many :project_storages, dependent: :destroy, class_name: "Storages::ProjectStorage"
@@ -93,8 +92,8 @@ class Project < ApplicationRecord
 
   acts_as_favorable
 
-  acts_as_customizable # partially overridden via Projects::ActsAsCustomizablePatches in order to support sections and
-  # project-leval activation of custom fields
+  acts_as_customizable # extended in Projects::CustomFields in order to support sections
+  # and project-level activation of custom fields
 
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
                      date_column: "#{table_name}.created_at",
@@ -206,90 +205,6 @@ class Project < ApplicationRecord
     Project.visible.select { |p| User.current.member_of? p }.sort_by(&:to_s)
   end
 
-  # Returns a :conditions SQL string that can be used to find the issues associated with this project.
-  #
-  # Examples:
-  #   project.project_condition(true)  => "(projects.id = 1 OR (projects.lft > 1 AND projects.rgt < 10))"
-  #   project.project_condition(false) => "projects.id = 1"
-  def project_condition(with_subprojects)
-    projects_table = Project.arel_table
-
-    stmt = projects_table[:id].eq(id)
-    if with_subprojects && has_subprojects?
-      stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt)))
-    end
-    stmt
-  end
-
-  def has_subprojects?
-    !leaf?
-  end
-
-  def types_used_by_work_packages
-    ::Type.where(id: WorkPackage.where(project_id: project.id)
-                                .select(:type_id)
-                                .distinct)
-  end
-
-  # Returns a scope of the types used by the project and its active sub projects
-  def rolled_up_types
-    ::Type
-      .joins(:projects)
-      .select("DISTINCT #{::Type.table_name}.*")
-      .where(projects: { id: self_and_descendants.select(:id) })
-      .merge(Project.active)
-      .order("#{::Type.table_name}.position")
-  end
-
-  # Closes open and locked project versions that are completed
-  def close_completed_versions
-    Version.transaction do
-      versions.where(status: %w(open locked)).find_each do |version|
-        if version.completed?
-          version.update_attribute(:status, "closed")
-        end
-      end
-    end
-  end
-
-  # Returns a scope of the Versions on subprojects
-  def rolled_up_versions
-    Version.rolled_up(self)
-  end
-
-  # Returns a scope of the Versions used by the project
-  def shared_versions
-    Version.shared_with(self)
-  end
-
-  # Returns all versions a work package can be assigned to.  Opposed to
-  # #shared_versions this returns an array of Versions, not a scope.
-  #
-  # The main benefit is in scenarios where work packages' projects are eager
-  # loaded.  Because eager loading the project e.g. via
-  # WorkPackage.includes(:project).where(type: 5) will assign the same instance
-  # (same object_id) for every work package having the same project this will
-  # reduce the number of db queries when performing operations including the
-  # project's versions.
-  #
-  # For custom fields configured with "Allow non-open versions" this can be called
-  # with only_open: false, in which case locked and closed versions are returned as well.
-  def assignable_versions(only_open: true)
-    if only_open
-      @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
-    else
-      @assignable_versions_including_non_open ||= shared_versions.references(:project).order_by_semver_name.to_a
-    end
-  end
-
-  # Returns an AR scope of all custom fields enabled for project's work packages
-  # (explicitly associated custom fields and custom fields enabled for all projects)
-  def all_work_package_custom_fields
-    WorkPackageCustomField
-      .for_all
-      .or(WorkPackageCustomField.where(id: work_package_custom_fields))
-  end
-
   def project
     self
   end
@@ -335,89 +250,6 @@ class Project < ApplicationRecord
   # Returns an array of the enabled modules names
   def enabled_module_names
     enabled_modules.map(&:name)
-  end
-
-  # Returns an array of projects that are in this project's hierarchy
-  #
-  # Example: parents, children, siblings
-  def hierarchy
-    parents = project.self_and_ancestors || []
-    descendants = project.descendants || []
-    parents | descendants # Set union
-  end
-
-  # Returns an array of active subprojects.
-  def active_subprojects
-    project.descendants.where(active: true)
-  end
-
-  class << self
-    # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
-    #
-    # it expects a simple list of projects with a #lft column (awesome_nested_set)
-    # and returns a hierarchy based on #lft
-    #
-    # the result is a nested list of root level projects that contain their child projects
-    # but, each entry is actually a ruby hash wrapping the project and child projects
-    # the keys are :project and :children where :children is in the same format again
-    #
-    #   result = [ root_level_project_info_1, root_level_project_info_2, ... ]
-    #
-    # where each entry has the form
-    #
-    #   project_info = { project: the_project, children: [ child_info_1, child_info_2, ... ] }
-    #
-    # if a project has no children the :children array is just empty
-    #
-    def build_projects_hierarchy(projects)
-      ancestors = []
-      result = []
-
-      projects.sort_by(&:lft).each do |project|
-        while ancestors.any? && !project.is_descendant_of?(ancestors.last[:project])
-          # before we pop back one level, we sort the child projects by name
-          ancestors.last[:children] = sort_by_name(ancestors.last[:children])
-          ancestors.pop
-        end
-
-        current_hierarchy = { project:, children: [] }
-        current_tree = ancestors.any? ? ancestors.last[:children] : result
-
-        current_tree << current_hierarchy
-        ancestors << current_hierarchy
-      end
-
-      # When the last project is deeply nested, we need to sort
-      # all layers we are in.
-      ancestors.each do |level|
-        level[:children] = sort_by_name(level[:children])
-      end
-      # we need one extra element to ensure sorting at the end
-      # at the end the root level must be sorted as well
-      sort_by_name(result)
-    end
-
-    def project_tree_from_hierarchy(projects_hierarchy, level, &)
-      projects_hierarchy.each do |hierarchy|
-        project = hierarchy[:project]
-        children = hierarchy[:children]
-        yield project, level
-        # recursively show children
-        project_tree_from_hierarchy(children, level + 1, &) if children.any?
-      end
-    end
-
-    # Yields the given block for each project with its level in the tree
-    def project_tree(projects, &)
-      projects_hierarchy = build_projects_hierarchy(projects)
-      project_tree_from_hierarchy(projects_hierarchy, 0, &)
-    end
-
-    private
-
-    def sort_by_name(project_hashes)
-      project_hashes.sort_by { |h| h[:project].name&.downcase }
-    end
   end
 
   def allowed_permissions
