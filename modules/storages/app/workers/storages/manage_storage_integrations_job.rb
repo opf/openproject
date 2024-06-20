@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -29,17 +31,8 @@
 module Storages
   class ManageStorageIntegrationsJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Concurrency
-    using ::Storages::Peripherals::ServiceResultRefinements
 
-    retry_on ::Storages::Errors::IntegrationJobError, attempts: 5 do |job, errors|
-      if job.executions >= 5
-        OpenProject::Notifications.send(
-          OpenProject::Events::STORAGE_TURNED_UNHEALTHY,
-          storage: errors.storage,
-          reason: errors.errors.to_s
-        )
-      end
-    end
+    retry_on ::Storages::Errors::IntegrationJobError, attempts: 5
 
     good_job_control_concurrency_with(
       total_limit: 2,
@@ -94,33 +87,45 @@ module Storages
     end
 
     def perform
-      find_storages do |storage|
+      failed_sync = []
+      storage_scope.find_each do |storage|
         next unless storage.configured?
 
-        result = service_for(storage).call(storage)
-        result.match(
-          on_success: ->(_) { OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_HEALTHY, storage:) },
-          on_failure: ->(errors) do
-            raise ::Storages::Errors::IntegrationJobError.new(storage:, errors:)
-          end
-        )
+        result = sync_service_result_for(storage)
+        result.on_success { OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_HEALTHY, storage:) }
+        result.on_failure { |failed| failed_sync << { storage:, errors: failed.errors } }
       end
+
+      return emit_error_events(failed_sync) if executions >= 5
+
+      raise Errors::IntegrationJobError, failed_sync.first[:errors].to_s if failed_sync.any?
     end
 
     private
 
-    def find_storages(&)
-      ::Storages::Storage
-        .automatic_management_enabled
-        .includes(:oauth_client)
-        .find_each(&)
+    def emit_error_events(failed_sync)
+      failed_sync.each do |hash|
+        OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_UNHEALTHY,
+                                        storage: hash[:storage], reason: hash[:errors].to_s)
+      end
     end
 
-    def service_for(storage)
-      return NextcloudGroupFolderPropertiesSyncService if storage.provider_type_nextcloud?
-      return OneDriveManagedFolderSyncService if storage.provider_type_one_drive?
+    def storage_scope
+      ::Storages::Storage.automatic_management_enabled.includes(:oauth_client)
+    end
 
-      raise "Unknown Storage"
+    def sync_service_result_for(storage)
+      # For the sake of making this easier to expand, we should register these and
+      # use the registry to figure out which one to use
+
+      case storage.short_provider_type
+      when "nextcloud"
+        NextcloudGroupFolderPropertiesSyncService.call(storage)
+      when "one_drive"
+        OneDriveManagedFolderSyncService.call(storage)
+      else
+        raise "Unknown Storage Type"
+      end
     end
   end
 end

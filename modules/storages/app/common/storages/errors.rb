@@ -48,25 +48,17 @@ module Storages
       end
     end
 
-    class IntegrationJobError < BaseError
-      attr_reader :errors, :storage
-
-      def initialize(storage:, errors:)
-        super(errors.log_message)
-        @storage = storage
-        @errors = errors
-      end
-    end
+    class IntegrationJobError < BaseError; end
 
     def self.registry_error_for(key)
-      case key.split('.')
-      in [storage, 'contracts', model]
+      case key.split(".")
+      in [storage, "contracts", model]
         MissingContract.new("No #{model} contract defined for provider: #{storage.camelize}")
-      in [storage, 'commands' | 'queries' => type, operation]
+      in [storage, "commands" | "queries" => type, operation]
         OperationNotSupported.new(
           "#{type.singularize.capitalize} #{operation} not supported by provider: #{storage.camelize}"
         )
-      in [storage, 'models', object]
+      in [storage, "models", object]
         MissingModel.new("Model #{object} not registered for provider: #{storage.camelize}")
       else
         ResolverStandardError.new("Cannot resolve key #{key}.")
