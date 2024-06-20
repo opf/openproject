@@ -107,7 +107,7 @@ gem "svg-graph", "~> 2.2.0"
 
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
-gem "json_schemer", "~> 2.2.0"
+gem "json_schemer", "~> 2.3.0"
 gem "ruby-duration", "~> 3.2.0"
 
 # `config/initializers/mail_starttls_patch.rb` has also been patched to
