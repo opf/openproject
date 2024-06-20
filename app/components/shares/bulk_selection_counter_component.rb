@@ -28,53 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module WorkPackages
-  module Share
-    class ShareRowComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
-      include WorkPackages::Share::Concerns::Authorization
+module Shares
+  class BulkSelectionCounterComponent < ApplicationComponent
+    def initialize(count:)
+      super
 
-      def initialize(share:,
-                     container: nil)
-        super
-
-        @share = share
-        @work_package = share.entity
-        @principal = share.principal
-        @container = container
-      end
-
-      def wrapper_uniq_by
-        share.id
-      end
-
-      private
-
-      attr_reader :share, :work_package, :principal, :container
-
-      def share_editable?
-        @share_editable ||= User.current != share.principal && sharing_manageable?
-      end
-
-      def grid_css_classes
-        if sharing_manageable?
-          "op-share-wp-modal-body--user-row_manageable"
-        else
-          "op-share-wp-modal-body--user-row"
-        end
-      end
-
-      def select_share_checkbox_options
-        {
-          name: "share_ids",
-          value: share.id,
-          scheme: :array,
-          label: principal.name,
-          visually_hide_label: true
-        }
-      end
+      @count = count
     end
+
+    private
+
+    attr_reader :count
   end
 end

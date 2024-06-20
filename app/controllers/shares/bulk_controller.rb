@@ -69,8 +69,8 @@ class Shares::BulkController < ApplicationController
   def respond_with_update_permission_buttons
     @selected_shares.each do |share|
       replace_via_turbo_stream(
-        component: WorkPackages::Share::PermissionButtonComponent.new(share:,
-                                                                      data: { "test-selector": "op-share-wp-update-role" })
+        component: Shares::PermissionButtonComponent.new(share:,
+                                                         data: { "test-selector": "op-share-wp-update-role" })
       )
     end
 
@@ -79,7 +79,7 @@ class Shares::BulkController < ApplicationController
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: find_shares)
+      component: Shares::ModalBodyComponent.new(work_package: @work_package, shares: find_shares)
     )
 
     respond_with_turbo_streams
@@ -88,12 +88,12 @@ class Shares::BulkController < ApplicationController
   def respond_with_remove_shares
     @selected_shares.each do |share|
       remove_via_turbo_stream(
-        component: WorkPackages::Share::ShareRowComponent.new(share:)
+        component: Shares::ShareRowComponent.new(share:)
       )
     end
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
+      component: Shares::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
     respond_with_turbo_streams

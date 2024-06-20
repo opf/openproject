@@ -28,18 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module WorkPackages
-  module Share
-    module Concerns
-      module Authorization
-        extend ActiveSupport::Concern
+module Shares
+  class CounterComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
+    include Shares::Concerns::Authorization
 
-        included do
-          def sharing_manageable?
-            User.current.allowed_in_project?(:share_work_packages, @work_package.project)
-          end
-        end
-      end
+    def initialize(work_package:, count:)
+      super
+
+      @work_package = work_package
+      @count = count
+    end
+
+    private
+
+    attr_reader :work_package, :count
+
+    def shared_with_anyone_else_other_than_myself?
+      Member.of_work_package(@work_package)
+            .where.not(principal: User.current)
+            .any?
     end
   end
 end

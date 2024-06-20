@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module WorkPackages::Share
+module Shares
   class Invitee < ApplicationForm
     form do |user_invite_form|
       user_invite_form.autocompleter(

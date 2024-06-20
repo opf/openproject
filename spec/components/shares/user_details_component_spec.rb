@@ -29,7 +29,7 @@
 # ++
 require "spec_helper"
 
-RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
+RSpec.describe Shares::UserDetailsComponent, type: :component do
   subject { render_inline(described_class.new(share:, manager_mode:, invite_resent:)) }
 
   shared_let(:project)      { create(:project) }

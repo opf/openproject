@@ -17,12 +17,12 @@
       end
 
       user_row_grid.with_area(:user_details, tag: :div, classes: 'ellipsis') do
-        render(WorkPackages::Share::UserDetailsComponent.new(share:, manager_mode: share_editable?))
+        render(Shares::UserDetailsComponent.new(share:, manager_mode: share_editable?))
       end
 
       if share_editable?
         user_row_grid.with_area(:button, tag: :div, color: :subtle) do
-          render(WorkPackages::Share::PermissionButtonComponent.new(share:,
+          render(Shares::PermissionButtonComponent.new(share:,
                                                                     data: { 'test-selector': 'op-share-wp-update-role' }))
         end
 

@@ -13,11 +13,11 @@
         grid_layout('invite-user-form',
                     tag: :div) do |invite_form|
           invite_form.with_area('invitee') do
-            render(WorkPackages::Share::Invitee.new(form))
+            render(Shares::Invitee.new(form))
           end
 
           invite_form.with_area('permission') do
-            render(WorkPackages::Share::PermissionButtonComponent.new(
+            render(Shares::PermissionButtonComponent.new(
               share: new_share,
               form_arguments: { builder: form, name: "role_id" },
               data: { 'test-selector': 'op-share-wp-invite-role' })

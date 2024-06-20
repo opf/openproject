@@ -28,19 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module WorkPackages
-  module Share
-    class BulkPermissionButtonComponent < ApplicationComponent
-      include WorkPackages::Share::Concerns::DisplayableRoles
-
-      def initialize(work_package:)
-        super
-
-        @work_package = work_package
-      end
-
-      def update_path
-        work_package_shares_bulk_path(@work_package)
+module Shares
+  module Concerns
+    module DisplayableRoles
+      def options
+        [
+          { label: I18n.t("work_package.sharing.permissions.edit"),
+            value: Role::BUILTIN_WORK_PACKAGE_EDITOR,
+            description: I18n.t("work_package.sharing.permissions.edit_description") },
+          { label: I18n.t("work_package.sharing.permissions.comment"),
+            value: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
+            description: I18n.t("work_package.sharing.permissions.comment_description") },
+          { label: I18n.t("work_package.sharing.permissions.view"),
+            value: Role::BUILTIN_WORK_PACKAGE_VIEWER,
+            description: I18n.t("work_package.sharing.permissions.view_description") }
+        ]
       end
     end
   end

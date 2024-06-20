@@ -2,7 +2,7 @@
   component_wrapper(tag: 'turbo-frame') do
     flex_layout(data: { turbo: true }) do |modal_content|
       modal_content.with_row do
-        render(WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package, errors: @errors))
+        render(Shares::InviteUserFormComponent.new(work_package: @work_package, errors: @errors))
       end
 
       modal_content.with_row(mt: 3,
@@ -13,7 +13,7 @@
           border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-wp-header' }) do
             grid_layout('op-share-wp-modal-body--header', tag: :div, align_items: :center) do |header_grid|
               header_grid.with_area(:counter, tag: :div) do
-                render(WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: @shares.size))
+                render(Shares::CounterComponent.new(work_package: @work_package, count: @shares.size))
               end
 
               header_grid.with_area(:actions,
@@ -72,11 +72,11 @@
                                     data: { 'work-packages--share--bulk-selection-target': 'bulkActions' }) do
                 if sharing_manageable?
                   concat(
-                    render(WorkPackages::Share::BulkPermissionButtonComponent.new(work_package: @work_package))
+                    render(Shares::BulkPermissionButtonComponent.new(work_package: @work_package))
                   )
 
                   concat(
-                    form_with(url: work_package_shares_bulk_path(@work_package),
+                    form_with(url: url_for([:bulk, @work_package, Member]),
                               method: :delete,
                               data: { 'work-packages--share--bulk-selection-target': 'bulkForm' }) do
                       render(Primer::Beta::IconButton.new(icon: "trash",
@@ -107,7 +107,7 @@
             end
           else
             @shares.each do |share|
-              render(WorkPackages::Share::ShareRowComponent.new(share: share, container: border_box))
+              render(Shares::ShareRowComponent.new(share: share, container: border_box))
             end
           end
         end

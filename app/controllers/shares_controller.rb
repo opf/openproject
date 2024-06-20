@@ -45,7 +45,7 @@ class SharesController < ApplicationController
 
     @shares = load_shares query
 
-    render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares, errors: @errors), layout: nil
+    render Shares::ModalBodyComponent.new(work_package: @work_package, shares: @shares, errors: @errors), layout: nil
   end
 
   def create
@@ -123,12 +123,12 @@ class SharesController < ApplicationController
   def enterprise_check
     return if EnterpriseToken.allows_to?(:work_package_sharing)
 
-    render WorkPackages::Share::ModalUpsaleComponent.new
+    render Shares::ModalUpsaleComponent.new
   end
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package,
+      component: Shares::ModalBodyComponent.new(work_package: @work_package,
                                                              shares: @new_shares || find_shares,
                                                              errors: @errors)
     )
@@ -138,17 +138,17 @@ class SharesController < ApplicationController
 
   def respond_with_prepend_shares
     replace_via_turbo_stream(
-      component: WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package, errors: @errors)
+      component: Shares::InviteUserFormComponent.new(work_package: @work_package, errors: @errors)
     )
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
+      component: Shares::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
     @new_shares.each do |share|
       prepend_via_turbo_stream(
-        component: WorkPackages::Share::ShareRowComponent.new(share:),
-        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package,
+        component: Shares::ShareRowComponent.new(share:),
+        target_component: Shares::ModalBodyComponent.new(work_package: @work_package,
                                                                       shares: find_shares,
                                                                       errors: @errors)
       )
@@ -159,7 +159,7 @@ class SharesController < ApplicationController
 
   def respond_with_new_invite_form
     replace_via_turbo_stream(
-      component: WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package, errors: @errors)
+      component: Shares::InviteUserFormComponent.new(work_package: @work_package, errors: @errors)
     )
 
     respond_with_turbo_streams
@@ -167,7 +167,7 @@ class SharesController < ApplicationController
 
   def respond_with_update_permission_button
     replace_via_turbo_stream(
-      component: WorkPackages::Share::PermissionButtonComponent.new(share: @share,
+      component: Shares::PermissionButtonComponent.new(share: @share,
                                                                     data: { "test-selector": "op-share-wp-update-role" })
     )
 
@@ -176,11 +176,11 @@ class SharesController < ApplicationController
 
   def respond_with_remove_share
     remove_via_turbo_stream(
-      component: WorkPackages::Share::ShareRowComponent.new(share: @share)
+      component: Shares::ShareRowComponent.new(share: @share)
     )
 
     update_via_turbo_stream(
-      component: WorkPackages::Share::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
+      component: Shares::CounterComponent.new(work_package: @work_package, count: current_visible_member_count)
     )
 
     respond_with_turbo_streams
@@ -188,7 +188,7 @@ class SharesController < ApplicationController
 
   def respond_with_update_user_details
     update_via_turbo_stream(
-      component: WorkPackages::Share::UserDetailsComponent.new(share: @share,
+      component: Shares::UserDetailsComponent.new(share: @share,
                                                                invite_resent: true)
     )
 
