@@ -72,15 +72,15 @@ RSpec.describe "work package share routes" do
   context "on bulk actions" do
     it "routes DELETE /work_packages/:work_package_id/shares/bulk to shares/bulk#destroy" do
       expect(delete("/work_packages/1/shares/bulk"))
-        .to route_to(controller: "shares/bulk",
-                     action: "destroy",
+        .to route_to(controller: "shares",
+                     action: "bulk_destroy",
                      work_package_id: "1")
     end
 
     it "routes PATCH /work_packages/:work_package_id/shares/bulk to shares/bulk#update" do
       expect(patch("/work_packages/1/shares/bulk"))
-        .to route_to(controller: "shares/bulk",
-                     action: "update",
+        .to route_to(controller: "shares",
+                     action: "bulk_update",
                      work_package_id: "1")
     end
   end
