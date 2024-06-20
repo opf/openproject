@@ -40,6 +40,7 @@ import {
   Observable,
   of,
 } from 'rxjs';
+import { SubmenuService } from 'core-app/core/main-menu/submenu.service';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
@@ -152,6 +153,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     readonly boardFilters:BoardFiltersService,
     readonly Boards:BoardService,
     readonly titleService:OpTitleService,
+    readonly submenuService:SubmenuService,
   ) {
     super();
   }
@@ -217,6 +219,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
             }),
             finalize(() => {
               this.toolbarDisabled = false;
+              this.reloadSidemenu();
               this.cdRef.detectChanges();
             }),
           ).subscribe(() => {
@@ -243,5 +246,9 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
    */
   protected setPartition(state:Ng2StateDeclaration) {
     this.currentPartition = (state.data && state.data.partition) ? state.data.partition : '-split';
+  }
+
+  private reloadSidemenu():void {
+    this.submenuService.reloadSubmenu();
   }
 }

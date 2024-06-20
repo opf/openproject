@@ -78,7 +78,11 @@
                                           test_selector: "#{@create_btn_options[:module_key]}--create-button",
                                           classes: "op-sidebar--footer-action") do |button|
         button.with_leading_visual_icon(icon: "plus")
-        I18n.t("label_#{@create_btn_options[:module_key]}")
+        if @create_btn_options[:btn_text].present?
+          @create_btn_options[:btn_text]
+        else
+          I18n.t("label_#{@create_btn_options[:module_key]}")
+        end
       end %>
     </div>
   <% end %>

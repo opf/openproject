@@ -20,7 +20,6 @@ import {
   CustomDateActionAdminComponent,
   customDateActionAdminSelector,
 } from 'core-app/features/work-packages/components/wp-custom-actions/date-action/custom-date-action-admin.component';
-import { BoardsMenuComponent, boardsMenuSelector } from 'core-app/features/boards/boards-sidebar/boards-menu.component';
 import {
   GlobalSearchWorkPackagesEntryComponent,
   globalSearchWorkPackagesSelectorEntry,
@@ -183,7 +182,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent },
   { selector: homescreenNewFeaturesBlockSelector, cls: HomescreenNewFeaturesBlockComponent },
   { selector: customDateActionAdminSelector, cls: CustomDateActionAdminComponent },
-  { selector: boardsMenuSelector, cls: BoardsMenuComponent },
   { selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent },
   { selector: toastsContainerSelector, cls: ToastsContainerComponent },
   { selector: sidemenuSelector, cls: OpSidemenuComponent },
