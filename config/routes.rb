@@ -85,7 +85,9 @@ Rails.application.routes.draw do
       end
 
       collection do
-        resource :bulk, controller: "shares/bulk", only: %i[update destroy], as: :shares_bulk
+        patch :bulk, to: "shares/bulk#update"
+        put :bulk, to: "shares/bulk#update"
+        delete :bulk, to: "shares/bulk#destroy"
       end
     end
   end
