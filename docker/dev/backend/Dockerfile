@@ -8,7 +8,7 @@ ENV USER=dev
 ENV RAILS_ENV=development
 ENV NODE_MAJOR=20
 
-ENV BUNDLER_VERSION "2.5.11"
+ENV BUNDLER_VERSION "2.5.13"
 
 # `--no-log-init` is required as a workaround to avoid disk exhaustion.
 #

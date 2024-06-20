@@ -137,7 +137,7 @@ $ ruby --version
 ruby 3.3.3 (2024-06-12 revision f1c7b6f435) [arm64-darwin23]
 
 $ bundler --version
-Bundler version 2.5.11
+Bundler version 2.5.13
 
 node --version
 v20.9.0
