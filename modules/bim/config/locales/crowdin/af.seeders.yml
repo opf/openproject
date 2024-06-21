@@ -57,13 +57,13 @@ af:
         item_0:
           name: Argitekte
         item_1:
-          name: BIM Coordinators
+          name: BIM koördineerders
         item_2:
-          name: BIM Managers
+          name: BIM Bestuurders
         item_3:
           name: BIM Modellers
         item_4:
-          name: Lead BIM Coordinators
+          name: Hoof BIM koördineerders
         item_5:
           name: MEP Engineers
         item_6:
@@ -71,7 +71,7 @@ af:
         item_7:
           name: Struktuuringenieurs
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Welkom by OpenProject BIM-uitgawe!
         text: |
           Checkout the demo projects to get started with some examples.
 
@@ -280,7 +280,7 @@ af:
                     *   This overview informs all participants about the decisions made
                     *   ...
             item_3:
-              subject: Passing of preliminary planning
+              subject: Aanvaaring van voorlopige beplanning
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
               subject: Ontwerpbeplanning
@@ -403,32 +403,32 @@ af:
                     *   Invite your friends
                     *   Bring some drinks, snacks and your smile
         demo-bim-project:
-          name: "(Demo) BIM project"
+          name: "(Demo) BIM-projek"
           status_explanation: "Alle take en die subprojekte is op skedule. Die betrokke mense ken hul take. Die stelsel is heeltemal opgestel.\n"
-          description: This is a short summary of the goals of this demo BIM project.
+          description: Dit is 'n kort opsomming van die doelwitte van hierdie demo-Gebou inligtingsmodellering konstruksieprojek.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Welkom by jou demo-projek
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Ons is bly jy het aangesluit.
+                In hierdie module kan jy projeknuus aan jou spanlede kommunikeer.
+              description: Die werklike nuus
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorie 1 (moet verander word in Projek-instellings)
           queries:
             item_0:
-              name: Project plan
+              name: Projek plan
             item_1:
-              name: Milestones
+              name: Mylpaal
             item_2:
-              name: Tasks
+              name: Take
             item_3:
-              name: Team planner
+              name: Spanbeplanner
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Welkom
               item_1:
                 options:
                   name: Om te begin
@@ -459,20 +459,20 @@ af:
                   name: Werkspakkete
               item_6:
                 options:
-                  name: Milestones
+                  name: Mylpaal
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: Projek begin met die skepping van n BIM-model
               description: |-
                 The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
 
                 The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Project preparation
+              subject: Projek voorbereiding
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Versamel die projekspesifieke data en inligting vir die BIM-model
                   description: |-
                     ## Goal
 
@@ -488,7 +488,7 @@ af:
                     *   A strategy for the delivery phase
                     *   ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: Besig om die BIM uitvoeringsplan te skep
                   description: |-
                     # Goal
 
@@ -501,17 +501,17 @@ af:
                     *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
                     *   ...
                 item_2:
-                  subject: Completion of the BIM execution plan
+                  subject: Voltooiing van die BIM uitvoeringsplan
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
-              subject: End of preparation phase
+              subject: Einde van voorbereidingsfase
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_3:
-              subject: Creating initial BIM model
+              subject: Skepping van aanvanklike BIM-model
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Modelling van aanvanklike BIM-model
                   description: |-
                     # Goal
 
@@ -524,7 +524,7 @@ af:
                     *   The model shall be modelled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Aanvanklike, interne model nagaan en hersiening
                   description: |-
                     # Goal
 
@@ -535,10 +535,10 @@ af:
                     *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
                     *   ...
                 item_2:
-                  subject: Submitting initial BIM model
+                  subject: Indiening van aanvanklike BIM-model
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
-              subject: Modelling, first cycle
+              subject: Modellering, eerste siklus
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -602,25 +602,25 @@ af:
                   subject: Finishing coordination, first cycle
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_6:
-              subject: Modelling & coordinating, second cycle
+              subject: Modellering en koördinering, tweede siklus
               description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
+              subject: Modellering en koördinering, ... siklus
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
+              subject: Modellering en koördinering, (n-de minus 1) siklus
               description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
+              subject: Modellering en koördinering van n-de siklus
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
+              subject: Afronding van modellering en koördinering, n-de siklus
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_11:
-              subject: Use model for construction phase
+              subject: Gebruik model vir konstruksiefase
               children:
                 item_0:
-                  subject: Handover model for construction crew
+                  subject: Oorhandigingsmodel vir konstruksiepersoneel
                   description: |-
                     ## Goal
 
@@ -634,7 +634,7 @@ af:
                     *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
                     *   ...
                 item_1:
-                  subject: Construct the building
+                  subject: Bou die gebou
                   description: |-
                     ## Goal
 
@@ -647,11 +647,11 @@ af:
                     *   The BCF files will be used to assign, track and correct issues
                     *   ...
                 item_2:
-                  subject: Finish construction
+                  subject: Voltooi konstruksie
             item_12:
-              subject: Issue management, construction phase
+              subject: Kwessiebestuur, konstruksiefase
             item_13:
-              subject: Handover for Facility Management
+              subject: Oorhandiging vir Fasiliteitsbestuur
               description: |-
                 ## Goal
 
@@ -665,11 +665,11 @@ af:
                 *   The model can be used for the operating system of the building
                 *   ...
             item_14:
-              subject: Asset Management
-              description: Enjoy your building :)
+              subject: Batebestuur
+              description: Geniet jou gebou :)
         demo-bcf-management-project:
           name: "(Demo) BCF management"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Alle take is op skedule. Die betrokke mense ken hul take. Die stelsel is heeltemal opgestel.
           description: This is a short summary of the goals of this demo BCF management project.
           ifc_models:
             item_0:
@@ -682,21 +682,21 @@ af:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Issues
+              name: Kwessie
             item_1:
-              name: Clashes
+              name: Botsings
             item_2:
-              name: Requests
+              name: Versoek
             item_3:
-              name: Remarks
+              name: Opmerkings
             item_4:
-              name: Project plan
+              name: Projek plan
             item_5:
-              name: Milestones
+              name: Mylpaal
             item_6:
-              name: Tasks
+              name: Take
             item_7:
-              name: Team planner
+              name: Spanbeplanner
           boards:
             bcf:
               name: BCF issues
@@ -704,7 +704,7 @@ af:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Welkom
               item_1:
                 options:
                   name: Om te begin
