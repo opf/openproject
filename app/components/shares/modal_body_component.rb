@@ -117,7 +117,9 @@ module Shares
 
       return false if role_filter_value.nil?
 
-      find_role_ids(_option[:value]).first == role_filter_value.to_i
+      selected_role = @available_roles.find { _1[:value] == _option[:value] }
+
+      selected_role[:value] == role_filter_value.to_i
     end
 
     def filter_url(type_option: nil, role_option: nil)
