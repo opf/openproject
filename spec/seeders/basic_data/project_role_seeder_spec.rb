@@ -119,6 +119,11 @@ RSpec.describe BasicData::ProjectRoleSeeder do
       expect(Role.find_by(name: "Project admin").permissions)
         .to match_array(Roles::CreateContract.new(Role.new, nil).assignable_permissions(keep_public: true).map { _1.name.to_sym })
     end
+
+    it "includes the project attributes permissions to the role" do
+      expect(Role.find_by(name: "Project admin").permissions)
+        .to include(:view_project_attributes, :edit_project_attributes)
+    end
   end
 
   context "with some permissions added and removed by modules in a modules_permissions section" do
