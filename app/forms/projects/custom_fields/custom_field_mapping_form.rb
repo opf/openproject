@@ -31,7 +31,7 @@ module Projects::CustomFields
     include OpPrimer::ComponentHelpers
 
     form do |form|
-      form.group(layout: :horizontal) do |group|
+      form.group(layout: :vertical) do |group|
         group.project_autocompleter(
           name: :id,
           label: Project.model_name.human,
