@@ -1,0 +1,5 @@
+  <%= turbo_frame_tag "meeting_sidemenu",
+                      src: @project.present? ? menu_project_meetings_path(@project) : meetings_menu_path(),
+                      target: '_top',
+                      data: { turbo: false },
+                      loading: :lazy %>
