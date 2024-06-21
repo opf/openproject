@@ -32,9 +32,8 @@ module Projects
     no_authorization_required! :show
 
     def show
-      projects_menu = Menus::Projects.new(controller_path: params[:controller_path], params:, current_user:)
-
-      @sidebar_menu_items = projects_menu.first_level_menu_items
+      projects_menu = Projects::Menu.new(controller_path: params[:controller_path], params:, current_user:)
+      @sidebar_menu_items = projects_menu.menu_items
 
       render layout: nil
     end
