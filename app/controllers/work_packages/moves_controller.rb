@@ -127,7 +127,8 @@ class WorkPackages::MovesController < ApplicationController
     if @target_project == @project
       false
     elsif @target_type.nil?
-      Type.where(id: @work_packages.select(:type_id))
+      work_packages_and_descendants = WorkPackageHierarchy.where(ancestor_id: @work_packages.select(:id))
+      Type.where(id: work_packages_and_descendants.select(:id))
           .select("distinct id")
           .pluck(:id)
           .difference(@types.pluck(:id))
