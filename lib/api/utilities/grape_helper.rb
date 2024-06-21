@@ -38,6 +38,10 @@ module API
           @env = env
           @options = {}
         end
+
+        def error!(message, status = nil, headers = nil, backtrace = nil, original_exception = nil)
+          super
+        end
       end
 
       def grape_error_for(env, api)
@@ -75,7 +79,7 @@ module API
             log.call(original_exception)
           end
 
-          error_response status: e.code, message: representer.to_json, headers: resp_headers
+          error!(representer.to_json, e.code, resp_headers)
         }
       end
     end
