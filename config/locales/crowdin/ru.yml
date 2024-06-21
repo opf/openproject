@@ -1507,9 +1507,9 @@ ru:
         other: "%{count} минут"
       x_minutes_abbreviated:
         one: "1 мин"
-        few: "%{count} минут"
-        many: "%{count} минут"
-        other: "%{count} минут"
+        few: "%{count} мин"
+        many: "%{count} мин"
+        other: "%{count} мин"
       x_hours:
         one: "1 час"
         few: "%{count} часов"

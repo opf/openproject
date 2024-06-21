@@ -472,7 +472,7 @@ ru:
     label_no_color: "Без цвета"
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "нет даты окончания"
-    label_no_start_date: "без даты начала"
+    label_no_start_date: "нет даты начала"
     label_no_date: "нет даты"
     label_no_value: "Нет значения"
     label_none: "Ничего"
