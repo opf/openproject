@@ -115,6 +115,8 @@ $left-space: 20px
   grid-area: body
   padding-bottom: $bottom-space
   padding-left: $left-space
+  // Limit the width of the body to the container around it
+  overflow-x: hidden
 
   // Special rules for pages that still follow the old layout and render everything inside the content-body
   .accessibility-helper ~ &
