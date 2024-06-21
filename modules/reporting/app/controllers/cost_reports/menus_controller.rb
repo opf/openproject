@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,40 +24,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+module ::CostReports
+  class MenusController < ApplicationController
+    before_action :load_and_authorize_in_optional_project
 
-Rails.application.routes.draw do
-  scope "projects/:project_id" do
-    resources :cost_reports, except: :create do
-      collection do
-        match :index, via: %i[get post]
-        get "menu" => "cost_reports/menus#show", as: :menu_project
-      end
+    def show
+      @submenu_menu_items = ::CostReports::Menu.new(project: @project, params:).menu_items
 
-      member do
-        get :index, as: :project
-        post :update
-        post :rename
-      end
-    end
-  end
-
-  namespace :cost_reports do
-    resource :menu, only: %[show]
-  end
-
-  resources :cost_reports, except: :create do
-    collection do
-      match :index, via: %i[get post]
-      post :save_as, action: :create
-      get :drill_down
-      match :available_values, via: %i[get post]
-    end
-
-    member do
-      get :index, as: :global
-      post :update
-      post :rename
+      render layout: nil
     end
   end
 end
