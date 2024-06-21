@@ -111,13 +111,13 @@ Rails.application.reloader.to_prepare do
 
       map.permission :view_project_attributes,
                      {},
-                     permissible_on: :project,
-                     require: :member # Should it be public: true just as the :view_project?
+                     permissible_on: :project
 
       map.permission :edit_project_attributes,
                      {},
                      permissible_on: :project,
                      require: :member,
+                     dependencies: :view_project_attributes,
                      contract_actions: { projects: %i[update] }
 
       map.permission :select_project_custom_fields,
