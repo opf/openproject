@@ -37,16 +37,18 @@ import { GridAreaService } from 'core-app/shared/components/grids/grid/area.serv
 export abstract class WidgetAbstractMenuComponent {
   @Input() resource:GridWidgetResource;
 
-  protected menuItemList:OpContextMenuItem[] = [this.removeItem];
-
   constructor(readonly injector:Injector,
     readonly i18n:I18nService,
     protected readonly remove:GridRemoveWidgetService,
     protected readonly layout:GridAreaService) {
   }
 
-  public get menuItems() {
-    return async () => this.menuItemList;
+  public get menuItemsFactory():() => Promise<OpContextMenuItem[]> {
+    return this.buildItems.bind(this);
+  }
+
+  protected async buildItems():Promise<OpContextMenuItem[]> {
+    return [this.removeItem];
   }
 
   protected get removeItem():OpContextMenuItem {
