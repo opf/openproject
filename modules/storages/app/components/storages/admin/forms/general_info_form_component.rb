@@ -31,6 +31,8 @@
 module Storages::Admin::Forms
   class GeneralInfoFormComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
     alias_method :storage, :model
 
     options form_method: :post,

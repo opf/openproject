@@ -104,9 +104,11 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      respond_to do |format|
-        format.turbo_stream { render :new }
-      end
+      update_via_turbo_stream(
+        component: Storages::Admin::Forms::GeneralInfoFormComponent.new(@storage)
+      )
+
+      respond_with_turbo_streams
     end
 
     service_result.on_success do
