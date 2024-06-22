@@ -1,0 +1,15 @@
+#English strings go here
+ms:
+  js:
+    label_preview: 'Previu'
+    button_update: 'Kemas kini'
+    avatars:
+      label_choose_avatar: "Pilih Avatar dari fail"
+      uploading_avatar: "Memuat naik avatar anda."
+      text_upload_instructions: |
+        Muat naik avatar tersuai anda sendiri bersaiz 128 x 128 piksel. Fail lebih besar akan disaizkan dan dipotong untuk disesuaikan.
+        Previu avatar anda akan ditunjukkan sebelum muat naik, sebaik sahaja anda memilih imej.
+      error_image_too_large: "Imej terlalu besar."
+      wrong_file_format: "Format yang dibenarkan adalah jpg, png, gif"
+      empty_file_error: "Sila muat naik imej yang sah (jpg, png, gif)"
+

@@ -46,9 +46,9 @@ module OpenProject
         attribute = args.shift
         text = object.send(attribute).to_s
       else
-        raise ArgumentError, 'invalid arguments to format_text'
+        raise ArgumentError, "invalid arguments to format_text"
       end
-      return '' if text.blank?
+      return "" if text.blank?
 
       project = options.delete(:project) { @project || object.try(:project) }
       only_path = options.delete(:only_path) != false

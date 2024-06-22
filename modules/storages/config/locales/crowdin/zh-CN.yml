@@ -39,21 +39,27 @@ zh-CN:
   api_v3:
     errors:
       too_many_elements_created_at_once: 一次创建的元素过多。最多应为 %{max} 个，实际为 %{actual} 个。
-  permission_create_files: 创建文件
-  permission_delete_files: 删除文件
+  external_file_storages: 外部文件存储
+  permission_create_files: '自动管理项目文件夹：创建文件'
+  permission_create_files_explanation: 此权限仅适用于 Nextcloud 存储器
+  permission_delete_files: '自动管理项目文件夹：删除文件'
+  permission_delete_files_explanation: 此权限仅适用于 Nextcloud 存储器
+  permission_header_for_project_module_storages: 自动托管项目文件夹
   permission_manage_file_links: 管理文件链接
-  permission_manage_storages_in_project: 管理项目中的文件存储
-  permission_read_files: 读取文件
-  permission_share_files: 共享文件（夹）
+  permission_manage_files_in_project: 管理项目中的文件存储
+  permission_read_files: '自动管理项目文件夹：读取文件'
+  permission_share_files: '自动管理项目文件夹：共享文件'
+  permission_share_files_explanation: 此权限仅适用于 Nextcloud 存储器
   permission_view_file_links: 查看文件链接
-  permission_write_files: 写文件
-  project_module_storages: 文件存储
+  permission_write_files: '自动管理项目文件夹：写入文件'
+  project_module_storages: 文件
   storages:
     buttons:
       complete_without_setup: 没有它就完成
       done_complete_setup: 完成，完成设置
       done_continue: 完成, 继续
-      replace_provider_type_oauth: 替换 %{provider_type} OAuth
+      replace_oauth_application: 替换 OpenProject OAuth
+      replace_oauth_client: 替换 %{provider_type} OAuth
       save_and_continue: 保存并继续
       select_folder: 选择文件夹
     configuration_checks:
@@ -62,8 +68,8 @@ zh-CN:
         one_drive: 允许 OpenProject 使用 OAuth 访问Azure 数据来连接 OneDrive/SharePoint。
       redirect_uri_incomplete:
         one_drive: 使用正确的 URI 重定向完成设置。
-    confirm_replace_oauth_application: 确定吗？所有用户都必须再次针对 OpenProject 授权。
-    confirm_replace_oauth_client: 确定吗？所有用户都必须再次针对存储授权。
+    confirm_replace_oauth_application: 此操作将重置当前的 OAuth 凭据。确认后，您必须在存储提供商处重新输入凭据，并且所有远程用户都必须再次针对 OpenProject 进行授权。您确定要继续吗？
+    confirm_replace_oauth_client: 此操作将重置当前的 OAuth 凭据。确认后，您必须输入存储提供商的新凭据，并且所有用户都必须再次针对 %{provider_type} 进行授权。您确定要继续吗？
     delete_warning:
       input_delete_confirmation: 输入文件存储区名称 %{file_storage} 以确认删除。
       irreversible_notice: 删除文件存储区是不可逆转的操作。
@@ -76,6 +82,15 @@ zh-CN:
       storage_delete_result_3: 如果此存储具有自动托管的项目文件夹，这些文件夹及其包含的文件将被永久删除。
     error_invalid_provider_type: 请选择一个有效的存储源。
     file_storage_view:
+      access_management:
+        automatic_management: 自动管理访问和文件夹
+        automatic_management_description: 让 OpenProject 自动为每个项目创建文件夹，并管理其用户访问权限。建议这样做，因为这样可以确保每个团队成员始终拥有正确的访问权限。
+        description: 选择用户访问和文件夹创建的管理类型。我们建议使用 "自动管理访问"，以获得更有组织的结构，并确保所有相关用户都能访问。
+        manual_management: 手动管理访问和文件夹
+        manual_management_description: 自己手动创建和管理每个项目的文件夹。您需要手动确保相关用户拥有访问权限。
+        setup_incomplete: 选择用户访问和文件夹创建的管理类型。
+        subtitle: 访问管理
+        title: 访问和项目文件夹
       automatically_managed_folders: 自动托管的文件夹
       general_information: 一般信息
       nextcloud_oauth: Nextcloud OAuth
@@ -91,8 +106,15 @@ zh-CN:
       label_healthy: 健康
       label_pending: 待处理
       since: 自从 %{datetime}
-      subtitle: Automatic managed project folders
-      title: Health status
+      subtitle: 自动托管项目文件夹
+      title: 健康状态
+    health_email_notifications:
+      description_subscribed: 所有管理员都会收到该存储的健康状态电子邮件通知。
+      description_unsubscribed: 所有管理员都已关闭此存储的健康状态电子邮件通知。
+      error_could_not_be_saved: 无法保存电子邮件通知设置。请重试。
+      subscribe: 订阅
+      title: 电子邮件通知
+      unsubscribe: 取消订阅
     help_texts:
       project_folder: 项目文件夹是此项目上传文件的默认文件夹。用户仍然可以上传文件到其他位置。
     instructions:
@@ -142,9 +164,9 @@ zh-CN:
     label_creator: 创建者
     label_delete_storage: 删除存储
     label_edit_storage: 编辑存储
+    label_edit_storage_access_management: 编辑存储访问管理
     label_edit_storage_automatically_managed_folders: 编辑存储自动管理的文件夹
     label_edit_storage_host: 编辑存储主机
-    label_edit_storage_oauth_client: 编辑存储 OAuth 客户端
     label_existing_manual_folder: 具有手动管理权限的现有文件夹
     label_file_storage: 文件存储
     label_host: 主机 URL
@@ -175,46 +197,42 @@ zh-CN:
     members_no_results: 没有要显示的成员。
     no_results: 尚未设置存储设备。
     notice_successful_storage_connection: |-
-      Storage connected successfully! Remember to activate the module and the specific storage in the project settings
-      of each desired project to use it.
+      存储连接成功！请记住，在每个所需项目的项目设置中激活模块和特定存储，以进行使用。
     oauth_grant_nudge_modal:
-      access_granted: Access granted
-      body: To get access to the project folder you need to login to %{storage}.
-      cancel_button_label: I will do it later
-      confirm_button_label: Login
-      storage_ready: You are now ready to use %{storage}
-      title: One more step...
+      access_granted: 已授予访问权限
+      access_granted_screen_reader: 已经授予访问权限。您现在可以使用%{storage}了。
+      body: 要获取对项目文件夹的访问权限，您需要登录 %{storage}。
+      cancel_button_label: 稍后再操作
+      confirm_button_aria_label: 登录到 %{storage}
+      confirm_button_label: 登录
+      requesting_access_to: 请求访问 %{storage}
+      storage_ready: 您现在已准备就绪，可以使用 %{storage} 了
+      title: 还有一步…
     open_project_storage_modal:
       success:
-        subtitle: You are being redirected
-        title: Integration setup completed
+        subtitle: 正在将您重定向
+        title: 集成设置已完成
       waiting:
-        subtitle: One moment please, this might take some time...
-        title: We are setting up your permissions on the project folder.
+        subtitle: 请稍候，此操作可能需要一些时间…
+        title: 我们正在设置您对项目文件夹的权限。
     page_titles:
       file_storages:
         delete: 删除文件存储
         subtitle: 添加外部文件存储以便在工作包中上传、链接和管理文件。
       managed_project_folders:
-        one_drive_information: |-
-          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
-          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
-          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
-          to the %{drive_id_link_text}.
         subtitle: |-
-          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
-          member always has the correct access permissions.
+          让 OpenProject 自动为每个项目创建文件夹。建议使用此方法，因为这样可以确保每个团队成员始终具有正确的访问权限。
         subtitle_short: 允许 OpenProject 自动创建每个项目的文件夹。
         title: 自动托管的项目文件夹
       project_settings:
         delete: 删除文件存储区
         edit: 编辑文件存储到此项目
-        index: 文件存储在此项目中可用
         members_connection_status: 成员连接状态
         new: 将文件存储添加到此项目
       project_storage_members:
         subtitle: 检查所有项目成员的存储区 %{storage_name_link} 的连接状态。
         title: 成员连接状态
+    permission_header_explanation: '外部存储器上的文件权限仅适用于自动管理的项目文件夹内的文件夹和文件。请注意，并非所有存储提供商都支持所有文件权限。更多信息请查看<a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>文件存储权限</a>文档。'
     provider_types:
       label: 提供商类型
       nextcloud:
@@ -227,11 +245,13 @@ zh-CN:
         label_oauth_client_secret: Azure OAuth 客户端密钥值
         name: OneDrive/SharePoint
         name_placeholder: 例如OneDrive
+    show_attachments_toggle:
+      description: '禁用此选项将会为新项目隐藏工作包文件标签上的附件列表。 工作包描述中的文件仍将上传到内部附件存储。'
+      label: 在工作包文件选项卡中显示附件
     storage_list_blank_slate:
       description: 在这里添加一个存储以查看它们。
       heading: 您还没有任何存储。
     upsale:
       description: |-
-        Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
-        work packages in a project.
+        将 OneDrive/SharePoint 作为文件存储与 OpenProject 集成。上传文件并直接将其链接到项目中的工作包。
       title: OneDrive/SharePoint 集成

@@ -72,13 +72,25 @@ module Redmine
           self.class.available_custom_fields(self)
         end
 
+        # Note:
+        #
+        # The role of this method is to provide flexibility on enabling just a subset of
+        # available_custom_fields on the UI while enabling all_available_custom_fields via the api.
+        # A good example is the Project's attributes, the UI allows the enabled attributes only,
+        # and the Projects API still provides the old behaviour where all the custom fields are available.
+        # Once the api behaviour is aligned to the UI behaviour, this method can be removed in favor of
+        # the available_custom_fields method.
+        def all_available_custom_fields
+          @all_available_custom_fields ||= available_custom_fields
+        end
+
         # Sets the values of the object's custom fields
         # values is an array like [{'id' => 1, 'value' => 'foo'}, {'id' => 2, 'value' => 'bar'}]
         def custom_fields=(values)
           values_to_hash = values.inject({}) do |hash, v|
             v = v.stringify_keys
-            if v['id'] && v.has_key?('value')
-              hash[v['id']] = v['value']
+            if v["id"] && v.has_key?("value")
+              hash[v["id"]] = v["value"]
             end
             hash
           end
@@ -94,7 +106,7 @@ module Redmine
           return unless values.is_a?(Hash) && values.any?
 
           values.with_indifferent_access.each do |custom_field_id, val|
-            existing_cv_by_value = custom_values_for_custom_field(id: custom_field_id)
+            existing_cv_by_value = custom_values_for_custom_field(id: custom_field_id, all: true)
                                      .group_by(&:value)
                                      .transform_values(&:first)
             new_values = Array(val).map { |v| v.respond_to?(:id) ? v.id.to_s : v.to_s }
@@ -107,13 +119,14 @@ module Redmine
           end
         end
 
-        def custom_values_for_custom_field(id:)
-          custom_field_values.select { |cv| cv.custom_field_id == id.to_i }
+        def custom_values_for_custom_field(id:, all: false)
+          custom_field_values(all:).select { |cv| cv.custom_field_id == id.to_i }
         end
 
-        def custom_field_values
-          custom_field_values_cache[custom_field_cache_key] ||=
-            available_custom_fields.flat_map do |custom_field|
+        def custom_field_values(all: false)
+          custom_field_values_cache[custom_field_cache_key] ||= begin
+            current_custom_fields = all ? all_available_custom_fields : available_custom_fields
+            current_custom_fields.flat_map do |custom_field|
               existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
 
               if existing_cvs.empty?
@@ -122,13 +135,14 @@ module Redmine
                 existing_cvs
               end
             end
+          end
         end
 
-        # Returns the cache key for caching @custom_field_values_cache.
+        # Override to extend the cache key for caching @custom_field_values_cache.
         #
-        # In certain cases, the implementing models have a changing list of custom field values
-        # depending on certain attributes. By overriding this method, we can include the
-        # dependent attributes in the cache key, providing a more flexible key caching mechanism.
+        # In some cases, the implementing class has a changing list of custom field values
+        # depending on certain attributes. When those attributes are changed, the cache can
+        # be kept up to date by including them in the overriden custom_field_cache_key method.
         #
         # i.e.: The work package custom field values are changing based on the project_id and type_id.
         # The only way to keep the cache updated is to include those ids in the cache key.
@@ -208,6 +222,7 @@ module Redmine
 
         def reset_custom_values_change_tracker
           @custom_field_values_cache = nil
+          @all_available_custom_fields = nil
           self.custom_value_destroyed = false
         end
 
@@ -233,10 +248,13 @@ module Redmine
           self.custom_field_values = new_values
         end
 
+        def custom_field_values_to_validate
+          custom_field_values
+        end
+
         def validate_custom_values
           set_default_values! if new_record?
-
-          custom_field_values
+          custom_field_values_to_validate
             .reject(&:marked_for_destruction?)
             .select(&:invalid?)
             .each { |custom_value| add_custom_value_errors! custom_value }
@@ -330,7 +348,7 @@ module Redmine
         def for_custom_field_accessor(method_symbol)
           match = /\Acustom_field_(?<id>\d+)=?\z/.match(method_symbol.to_s)
           if match
-            custom_field = available_custom_fields.find { |cf| cf.id.to_s == match[:id] }
+            custom_field = all_available_custom_fields.find { |cf| cf.id.to_s == match[:id] }
             if custom_field
               yield custom_field
             end

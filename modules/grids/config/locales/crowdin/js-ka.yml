@@ -8,6 +8,7 @@ ka:
         text: "ზოგიერთი ვიჯეტი, როგორიცაა სამუშაო პაკეტის გრაფიკის ვიჯეტი, ხელმისაწვდომია, მხოლოდ, საწარმოო ვერსიაში."
         link: 'საწარმოო რელიზი.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'მომხმარებლის ტექსტი'
         documents:
@@ -41,6 +42,9 @@ ka:
         subprojects:
           title: 'ქვეპროექტები'
           no_results: 'No subprojects.'
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'ჩემი დახარჯული დრო'
           displayed_days: 'Days displayed in the widget:'

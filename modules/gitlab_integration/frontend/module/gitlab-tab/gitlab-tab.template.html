@@ -1,0 +1,37 @@
+<tab-header-issue class="gitlab-header" [workPackage]="workPackage"></tab-header-issue>
+<tab-issue [workPackage]="workPackage"></tab-issue>
+<tab-header-mr class="gitlab-header" [workPackage]="workPackage"></tab-header-mr>
+<tab-mrs [workPackage]="workPackage"></tab-mrs>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Your Intersection Observer code and any other JavaScript/TypeScript logic
+  const sectionHeaders = document.querySelectorAll('gitlab-header');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const sectionHeader = entry.target;
+
+      if (entry.isIntersecting) {
+        sectionHeader.classList.add('sticky');
+      } else {
+        sectionHeader.classList.remove('sticky');
+      }
+    });
+  }, { threshold: 1 });
+
+  sectionHeaders.forEach(sectionHeader => {
+    observer.observe(sectionHeader);
+  });
+
+  const initialIssueLabelsElements = document.querySelectorAll('.op-issue--labels');
+  initialIssueLabelsElements.forEach(function (element) {
+    element.style.display = 'none';
+  });
+
+  const initialMRLabelsElements = document.querySelectorAll('.op-merge-request--labels');
+  initialMRLabelsElements.forEach(function (element) {
+    element.style.display = 'none';
+  });
+});
+</script>

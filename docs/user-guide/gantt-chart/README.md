@@ -9,7 +9,7 @@ keywords: gantt chart, timeline, project plan
 # Gantt charts
 
 <div class="glossary">
-The **Gantt chart** in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan. Have your project timelines available for all team members and share up-to-date information with stakeholders. You can add start and finish dates and adapt it with drag and drop in the Gantt chart. Also, you can add dependencies, predecessor or follower within the Gantt chart.
+The **Gantt charts** module in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan, have your project timelines available to all team members and share up-to-date information with stakeholders. You can add start and finish dates and adapt it via drag and drop directly in the Gantt chart. Also, you can add dependencies, predecessors or followers within the Gantt chart.
 </div>
 
 | Topic                                                                                                           | Content                                                                   |
@@ -23,38 +23,58 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Multi project views](#multi-project-views)                                                                     | Create project overarching timelines.                                     |
 | [Aggregation by project](#aggregation-by-project)                                                               | How to display an aggregated view of all milestones of multiple projects. |
 
-
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Activate the Gantt chart
 
-A Gantt chart can be activated in any work package table, to display the work packages in a timeline view.
+A Gantt chart view can be activated either for a specific project, or on the project overarching level if you need to view the timeline for multiple projects.
 
-To activate the Gantt chart, select the **Gantt** icon at the top right corner of the work package table.
+For a specific project, select the **Gantt charts** module from the project module menu on the left side.
 
-![activate-gantt](activate-gantt.gif)
+![activate-gantt](openproject-user-guide-select-gantt-charts.png)
 
+To view multiple projects in a single timeline, select **Gantt charts** from the **Global Modules** menu.
+
+![Select Gantt charts from the global modules menu in OpenProject](openproject-user-guide-select-gantt-charts-global.png)
+
+Alternatively, you can also use the **Include projects** filter.
+
+## Gantt charts views
+
+Once you opened the Gantt charts module, the default view will show all open work packages. You can adjust the view using the filters or  select one the following view options:
+
+![View options in OpenProject Gantt charts](openproject-user-guide-gantt-charts-views.png)
+
+**Favorite**: lists all saved Gantt charts view that are marked as favorite
+
+**Default**: lists pre-defined Gantt charts views and includes the following:
+
+- **All open**: shows all work packages with the status open
+- **Milestones**: shows all work packages with the work package type Milestones (or other types that are set to be recognized as milestones)
+
+**Public**: lists all Gantt charts views set to be public
+
+**Private***: lists all your personal saved Gantt charts views
 
 ## Quick context menu in Gantt chart view
 
-Once you have selected the Gantt chart view, you can use the quick context menu. To do that, right-click on any of the work packages in the table. 
-> **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package-table-view), the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
-
+Once you have selected the Gantt chart view, you can use the quick context menu. To do that, right-click on any of the work packages.
+> **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package-table-view) in the **Work packages** module, the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
 
 ![Quick context menu in OpenProject Gantt chart work packages view](gantt-context-menu.png)
 
-You can use any of the following options. 
+You can use any of the following options.
 
 - **Open details view** - opens the details view of a work package on the right side of the screen.
 - **Open fullscreen view** - opens the detailed view of a work package across the entire screen.
 - **Change project** - allows moving the selected work package to a different project.
-- **Copy link to clipboard** - copies a short link to the selected work package to your clipboard. 
+- **Copy link to clipboard** - copies a short link to the selected work package to your clipboard.
 - **Delete** - deletes a work package. You will need to confirm the deletion.
 - **Indent hierarchy** - creates a child-parent relationship with the work package directly above. The work package you selected become the child work package. The work package directly above becomes the parent work package.
 - **Add predecessor** - adds a predecessor (it will prompt you to select a work package in Gantt view).
 - **Add follower** - adds a follower (it will prompt you to select a work package in Gantt view).
 - **Show relations** - open the details view of a work package and displays the **Relations** tab.
-- **Create new child** - opens a new work package on the right side of the screen. This new work package already has a child relationship to the work package you selected.  **This option will not be available if the work package type is a milestone**. 
+- **Create new child** - opens a new work package on the right side of the screen. This new work package already has a child relationship to the work package you selected.  **This option will not be available if the work package type is a milestone**.
 
 ## Create a new element in the Gantt chart
 
@@ -88,7 +108,6 @@ Select the item to which you want to create a dependency. The precede and follow
 
 The quickest way to remove a relation is to select **Show relations** from the quick context menu and removing the relation in the work package details view.
 
-
 ![dependencies-gantt-chart](gantt-chart.gif)
 
 When work packages have a precedes/follows relationship:
@@ -105,13 +124,11 @@ Scheduling modes can also affect work package relations. Read about [automatic a
 
 - A **blue line** connects two work packages, they are predecessor and follower.
 - The **vertical red dotted line** indicates today's date.
-- A **black clamp** indicates the duration from the start date of a work packages earliest starting child until the end date of a work packages latest ending child.
+- A **black clamp** indicates the duration from the start date of a work packages earliest starting child until the finish date of a work packages latest ending child.
 - A **red clamp** indicates the same as the black clamp, with an important difference: The clamp turns red if the dates derived from the children are before or after the manually scheduled dates (of this parent work package).
   The clamps are black in case the derived dates are within the set dates (of this parent).
 - A **diamond symbol** stands for a milestone.
 - A **bar** stands for work packages like phases and tasks.
-
-
 
 ## Gantt chart configuration
 
@@ -124,7 +141,7 @@ Also, you have **Label Configuration** for your Gantt chart. You can add up to t
 
 Click the **Apply** button to save your changes.
 
-![configure-gantt-chart](configure-gantt-chart.gif)
+![configure-gantt-chart](openproject-user-guide-configure-gantt-chart.gif)
 
 ### How to export data from a Gantt diagram
 
@@ -152,11 +169,29 @@ In the settings, enable the **Background graphics** for printing.
 
 Press the **Print** button.
 
-![print-gantt-chart](print-gantt-chart.gif)
+![How to print a Gantt chart in OpenProject](openproject-user-guide-print-gantt-chart.gif)
 
 For other browsers, please simply follow the browser's printing instruction to optimize results.
 
 To synchronize your work package data between OpenProject and Excel (two-way synchronization) please have a look at [this instruction](../../system-admin-guide/integrations/excel-synchronization/).
+
+### Gantt chart PDF Export (Enterprise add-on)
+
+> **Note**: Gantt chart PDF export is an Enterprise add-on and can only be used with [Enterprise cloud](https://www.openproject.org/docs/enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](https://www.openproject.org/docs/enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easy and helps support OpenProject.
+
+To export a Gantt chart in a PDF format click the **More** (three dots) icon in the top right corner and select *Export*.
+
+![Export Gantt chart option in OptionProject](openproject-user-guide-gantt-charts-export.png)
+
+Then select the **PDF Gantt** option. 
+
+![Gantt chart export options in OpenProject](openproject-user-guide-gantt-pdf-gantt-icon.png)
+
+Configure the parameters of the PDF export, such as zoom level for the dates, column width and paper size. Then click the green **Export** button.
+
+![Configure PDF Gantt export in OpenProject](openproject-user-guide-gantt-pdf-gantt-options.png)
+
+You can now save the Gantt chart in PDF form to share with your project stakeholders or print it directly. 
 
 ## Gantt chart views
 
@@ -164,24 +199,21 @@ To synchronize your work package data between OpenProject and Excel (two-way syn
 
 To zoom in and zoom out in the Gantt chart view, click on the button with the **+** and **- icon** on top of the chart.
 
-![zoom-in-Gantt-chart](image-20210204173135173.png)
-
-
+![Zooming into a Gantt chart in OpenProject](openproject-user-guide-gantt-charts-zoom.png)
 
 ### Auto zoom
 
 Select the **auto zoom button** on top of the Gantt chart to have the best view of your Gantt chart.
 
-![auto-zoom-Gantt](image-20210204173248266.png)
+Please note that the **auto zoom button** may not be selectable if it has been pre-selected in the [Gantt charts configuration](#gantt-chart-configuration)
 
-
+![auto-zoom-Gantt](openproject-user-guide-gantt-charts-auto-zoom.png)
 
 ### Zen mode
 
 The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit press the *Esc* key or click on the **zen mode** symbol again.
 
-![zen-mode-Gantt-chart](image-20210204173420592.png)
-
+![zen-mode-Gantt-chart](openproject-user-guide-gantt-charts-zen-mode.png)
 
 ## Multi project views
 
@@ -199,23 +231,21 @@ If you want to adjust your work package table and filter, sort or order your wor
 
 ## Aggregation by project
 
-You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Work packages module of a project or the [project overarching work package table](../projects/#project-overarching-reports).
+You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Gantt charts module of a project or the [project overarching Gantt charts module](../projects/project-lists/#project-overarching-reports).
 
 **Group the work packages** by project by using the [work packages table configuration](../work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by) (accessible in the upper right corner) or by clicking on the small triangle next to "Project" in the table header.
  ![group-by-project](image-20201211020614221.png)
 
-**Display the Gantt chart** by clicking on the button in the upper right corner.
-![insert-gantt-chart-button](image-20201211020748715.png)
-
 Use the minus next to the project's name or the **collapse button** in the upper right corner to collapse some or all projects.
 
-![collapse-button](collapse-all-expand-all.png)
+![collapse-button](openproject-user-guide-gantt-charts-collapse-all.png)
 
-This will give you an **aggregated view of the projects' milestones**.
+This will give you an **aggregated view of the projects' work packages**. You can further adjust this view by using the Filter functionality, for example display work package type Bugs.
 
-![aggregated-projects-milestones](image-20201211131511543.png)
+![Filtering project aggregated projects Gantt chart view in OpenProject](openproject-user-guide-gantt-charts-filters.png)
 
-**Please note**: If you want to make use of this feature, it is necessary to add milestones for the most important dates to your projects. At the moment this feature is not available for other [work package types](../../getting-started/work-packages-introduction/#what-is-a-work-package). 
+**Please note**: If you want the work packages to be displayed when the projects are folded, it is necessary to set the selected work package type to be recognized as a milestone under  [work package type settings](../../system-admin-guide/manage-work-packages/work-package-types/). Otherwise you will need to unfold the projects to view all of the work packages.
+
 Apart from the set filters the list of displayed projects depends on your [permissions](../../system-admin-guide/users-permissions/roles-permissions/). You can only see private projects that you are a member of and public projects.
 In some cases (many work packages per project) you will have to increase the objects per page in bottom right corner to display multiple projects. Change the available options in the [system settings](../../system-admin-guide/system-settings/general-settings/) if necessary.
  ![image-20201211131803961](image-20201211131803961.png)

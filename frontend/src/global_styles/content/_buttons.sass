@@ -48,7 +48,7 @@ $button--text-icon-spacing: 0.65em
 a.button
   @extend %button
   @include button-style(var(--button--background-color), var(--button--background-hover-color), var(--button--font-color))
-  border: 1px solid var(--button--border-color)
+  border: 1px solid var(--button-default-borderColor-rest)
 
   position: relative
   transition-property: background, border
@@ -73,30 +73,21 @@ a.button
       color: var(--content-form-danger-zone-font-color)
       padding-left: 0px
 
-  &.-highlight
-    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), var(--button--highlight-font-color))
-    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), var(--button--highlight-font-color))
-    border-color: var(--button--highlight-background-color)
+  &.-primary
+    @include button-style(var(--button--primary-background-color), var(--button--primary-background-hover-color), var(--button--primary-font-color))
+    @include button-style(var(--button--primary-background-color), var(--button--primary-background-hover-color), var(--button--primary-font-color))
+    border-color: var(--button--primary-background-color)
 
     &:hover, &:focus
-      border-color: var(--button--highlight-background-hover-color)
+      border-color: var(--button--primary-background-hover-color)
 
   &.-highlight-inverted
-    @include button-style(#fff, #f2f2f2, var(--content-link-color))
-    @include button-style(#fff, #f2f2f2, var(--content-link-color))
-    border-color: var(--content-link-color)
-
-
-  &.-alt-highlight
-    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), var(--button--alt-highlight-font-color))
-    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), var(--button--alt-highlight-font-color))
-    border-color: var(--button--alt-highlight-background-color)
-
-    &:hover, &:focus
-      border-color: var(--button--alt-highlight-background-hover-color)
+    @include button-style(var(--button-default-bgColor-rest), var(--button-default-bgColor-hover), var(--button-default-fgColor-rest))
+    @include button-style(var(--button-default-bgColor-rest), var(--button-default-bgColor-hover), var(--button-default-fgColor-rest))
+    border-color: var(--button-default-borderColor-rest)
 
   &.-active
-    @include button-style(var(--button--active-background-color), var(--button--active-background-color), var(--button--active-font-color))
+    @include button-style(var(--button-default-bgColor-active), var(--button-default-bgColor-active), var(--button-default-fgColor-rest))
     border-color: var(--button--active-border-color)
     box-shadow: 0 0 3px var(--button--active-border-color) inset
 
@@ -181,7 +172,7 @@ html.-browser-windows.-browser-chrome
 
 // Button class to use as a link-like submit button
 .button--link
-  color: var(--content-link-color)
+  color: var(--accent-color)
   background: none
   border: none
   padding: 0 1px
@@ -190,7 +181,7 @@ html.-browser-windows.-browser-chrome
     @include button-expand
 
   &:visited, &:active
-    color: var(--content-link-color)
+    color: var(--accent-color)
 
   &:hover
     text-decoration: underline
@@ -198,4 +189,4 @@ html.-browser-windows.-browser-chrome
   &[disabled], &[disabled]:hover
     cursor: not-allowed
     background: none
-    color: var(--color-fg-muted)
+    color: var(--fgColor-muted)

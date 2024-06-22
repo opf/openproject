@@ -26,35 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 String Objects resource' do
+RSpec.describe "API v3 String Objects resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  describe 'string_objects' do
+  describe "string_objects" do
     subject(:response) { last_response }
 
-    let(:path) { api_v3_paths.string_object 'foo bar' }
+    let(:path) { api_v3_paths.string_object "foo bar" }
 
     before do
       get path
     end
 
-    context 'when login_required', with_settings: { login_required: true } do
-      it_behaves_like 'unauthenticated access'
+    context "when login_required", with_settings: { login_required: true } do
+      it_behaves_like "unauthenticated access"
     end
 
-    context 'when not login_required', with_settings: { login_required: false } do
-      it 'return 410 GONE' do
+    context "when not login_required", with_settings: { login_required: false } do
+      it "return 410 GONE" do
         expect(subject.status).to be(410)
       end
 
-      context 'nil string' do
-        let(:path) { '/api/v3/string_objects?value' }
+      context "nil string" do
+        let(:path) { "/api/v3/string_objects?value" }
 
-        it 'return 410 GONE' do
+        it "return 410 GONE" do
           expect(subject.status).to be(410)
         end
       end

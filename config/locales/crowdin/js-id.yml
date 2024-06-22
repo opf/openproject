@@ -31,6 +31,7 @@ id:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Drag pada kotak editor untuk memasukan gambar atau referensikan lampiran. kotak editor akan tetap terbuka saat anda masih melakukan drag.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
@@ -39,8 +40,8 @@ id:
       type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
-        multi: "Tambah \"%{name}\""
-        single: "Pilih \"%{name}\""
+        multi: 'Tambah "%{name}"'
+        single: 'Pilih "%{name}"'
       remove: "Hapus %{name}"
       active: "Aktif %{label} %{name}"
     backup:
@@ -106,99 +107,98 @@ id:
     button_export-atom: "Download Atom"
     button_create: "Buat baru"
     card:
-      add_new: 'Add new card'
+      add_new: "Add new card"
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+        inline: "Highlight inline:"
+        entire_card_by: "Entire card by"
+      remove_from_list: "Remove card from list"
     caption_rate_history: "Histori rate"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: "Chart type"
+      axis_criteria: "Axis criteria"
+      modal_title: "Work package graph configuration"
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: "Line"
+        horizontal_bar: "Horizontal bar"
+        bar: "Bar"
+        pie: "Pie"
+        doughnut: "Doughnut"
+        radar: "Radar"
+        polar_area: "Polar area"
       tabs:
-        graph_settings: 'Umum'
-        dataset: 'Dataset %{number}'
+        graph_settings: "Umum"
+        dataset: "Dataset %{number}"
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: "The data to display the graph could not be loaded. The necessary permissions may be lacking."
     description_available_columns: "Kolom tersedia"
     description_current_position: "Kamu di sini:"
     description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "Kolom dipilih"
     description_subwork_package: "Child of work package #%{id}"
     editor:
-      preview: 'Beralih ke mode preview'
-      source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      preview: "Beralih ke mode preview"
+      source_code: "Toggle Markdown source mode"
+      error_saving_failed: "Saving the document failed with the following error: %{error}"
+      ckeditor_error: "An error occurred within CKEditor"
       mode:
-        manual: 'Switch to Markdown source'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        manual: "Switch to Markdown source"
+        wysiwyg: "Switch to WYSIWYG editor"
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: "Cannot expand macro: %{message}"
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
+          macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
+          not_found: "Requested resource could not be found"
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
-          button: 'Tautkan ke anak halaman'
-          include_parent: 'Sertakan induk'
-          text: '[Placeholder] Tertaut pada anak halaman ke'
-          page: 'Halaman Wiki'
-          this_page: 'halaman ini'
+          button: "Tautkan ke anak halaman"
+          include_parent: "Sertakan induk"
+          text: "[Placeholder] Tertaut pada anak halaman ke"
+          page: "Halaman Wiki"
+          this_page: "halaman ini"
           hint: |
             Kosongkan kolom ini untuk mencantumkan semua anak halaman dari halaman ini. jika anda ingin mereferensikan halaman berbeda, tambahkan judul atau hal terkait.
         code_block:
-          button: 'Sisipkan cuplikan koda'
-          title: 'Sisipkan / edit cuplikan kode'
-          language: 'Memformat bahasa'
-          language_hint: 'Masukan format bahasa yang akan digunakan untuk menyorot(jika didukung).'
+          button: "Sisipkan cuplikan koda"
+          title: "Sisipkan / edit cuplikan kode"
+          language: "Memformat bahasa"
+          language_hint: "Masukan format bahasa yang akan digunakan untuk menyorot(jika didukung)."
         dropdown:
-          macros: 'Makro'
-          chose_macro: 'Choose macro'
-        toc: 'Daftar isi'
-        toolbar_help: 'Klik untuk memilih widget dan menampilkan toolbar. klik dua kali untuk mengedit widget'
+          macros: "Makro"
+          chose_macro: "Choose macro"
+        toc: "Daftar isi"
+        toolbar_help: "Klik untuk memilih widget dan menampilkan toolbar. klik dua kali untuk mengedit widget"
         wiki_page_include:
-          button: 'Sertakan isi dari wiki halaman lain'
-          text: '[Placeholder] termasuk halaman wiki dari'
-          page: 'Halaman Wiki'
-          not_set: '(Halaman belum diatur)'
+          button: "Sertakan isi dari wiki halaman lain"
+          text: "[Placeholder] termasuk halaman wiki dari"
+          page: "Halaman Wiki"
+          not_set: "(Halaman belum diatur)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
         work_package_button:
-          button: 'Insert create work package button'
-          type: 'Work package type'
-          button_style: 'Use button style'
-          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
-          without_type: 'Create work package'
-          with_type: 'Create work package (Type: %{typename})'
+          button: "Insert create work package button"
+          type: "Work package type"
+          button_style: "Use button style"
+          button_style_hint: "Optional: Check to make macro appear as a button, not as a link."
+          without_type: "Create work package"
+          with_type: "Create work package (Type: %{typename})"
         embedded_table:
-          button: 'Embed work package table'
-          text: '[Placeholder] Embedded work package table'
+          button: "Embed work package table"
+          text: "[Placeholder] Embedded work package table"
         embedded_calendar:
-          text: '[Placeholder] Embedded calendar'
+          text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
-        custom_field: 'Isian kustom'
-        inactive: 'Tidak aktif'
+        custom_field: "Isian kustom"
+        inactive: "Tidak aktif"
         drag_to_activate: "Tarik field dari sini untuk mengaktifkkannya"
         add_group: "Add attribute group"
         add_table: "Add table of related work packages"
-        edit_query: 'Edit query'
-        new_group: 'Grup baru'
-        reset_to_defaults: 'Disetel ulang ke kondisi bawaan'
+        edit_query: "Edit query"
+        new_group: "Grup baru"
+        reset_to_defaults: "Disetel ulang ke kondisi bawaan"
       enterprise:
         text_reprieve_days_left: "%{days} days until end of grace period"
         text_expired: "expired"
@@ -264,7 +264,7 @@ id:
         calendar:
           empty_state_header: "Non-working days"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
-          new_date: '(new)'
+          new_date: "(new)"
         add_non_working_day: "Non-working day"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
@@ -274,10 +274,15 @@ id:
         warning: >
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
-        specific: 'pada'
-        current_date: 'Tanggal sekarang'
+        specific: "pada"
+        current_date: "Tanggal sekarang"
     error:
       internal: "An internal error has occurred."
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
@@ -303,22 +308,22 @@ id:
           two: "Kriteria penyortiran kedua"
           three: "Kriteria penyortiran ketiga"
     gantt_chart:
-      label: 'Bagan Gantt'
-      quarter_label: 'Q%{quarter_number}'
+      label: "Bagan Gantt"
+      quarter_label: "Q%{quarter_number}"
       labels:
-        title: 'Label configuration'
-        bar: 'Label batang'
-        left: 'Kiri'
-        right: 'Kanan'
-        farRight: 'Jauh sekali'
+        title: "Label configuration"
+        bar: "Label batang"
+        left: "Kiri"
+        right: "Kanan"
+        farRight: "Jauh sekali"
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: "Show Gantt chart"
+      button_deactivate: "Hide Gantt chart"
       filter:
         noneSelection: "(kosong)"
       selection_mode:
-        notification: 'Klik pada bagian terang paket kerja untuk membuat relasi. Tekan escape untuk membatalkan.'
+        notification: "Klik pada bagian terang paket kerja untuk membuat relasi. Tekan escape untuk membatalkan."
       zoom:
         in: "Zoom in"
         out: "Zoom out"
@@ -330,6 +335,18 @@ id:
         years: "Tahun"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -348,24 +365,23 @@ id:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
       token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
-      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      token_name_placeholder: 'Type a name, e.g. "Phone"'
+      token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="my/access_token", target="_blank">access tokens</a> list.'
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
+      success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
     label_activate: "Aktifkan"
-    label_assignee: 'Pelimpahan'
+    label_assignee: "Pelimpahan"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Tambah kolom"
@@ -375,9 +391,10 @@ id:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Tambahkan kolom terpilih"
     label_added_by: "ditambahkan oleh"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "hari yang lalu"
     label_all: "semua"
+    label_all_uppercase: "Semua"
     label_all_work_packages: "Semua paket kerja"
     label_and: "dan"
     label_ascending: "Askending"
@@ -419,12 +436,13 @@ id:
     label_expand_project_menu: "Expand project menu"
     label_export: "Ekspor"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_favorites: "Favorites"
     label_filename: "File"
     label_filesize: "Size"
     label_general: "Umum"
     label_global_roles: "Global roles"
     label_greater_or_equal: ">="
-    label_group: 'Grup'
+    label_group: "Grup"
     label_group_by: "Grup oleh"
     label_group_plural: "Grup"
     label_hide_attributes: "Show less"
@@ -444,6 +462,7 @@ id:
     label_less_than_ago: "kemarin lusa"
     label_loading: "Loading..."
     label_mail_notification: "Notifikasi email"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "saya"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Laporan"
@@ -482,6 +501,7 @@ id:
     label_report: "Laporan"
     label_repository_plural: "Repositori"
     label_save_as: "Simpan sebagai"
+    label_search_columns: "Search a column"
     label_select_project: "Memilih sebuah proyek"
     label_select_watcher: "Pilih pemantau..."
     label_selected_filter_list: "Filter terpilih"
@@ -552,85 +572,85 @@ id:
     label_version_plural: "Versi"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
-      show_modal: 'Tampilkan atribut-atribut teks bantuan yang dimasukkan'
+      show_modal: "Tampilkan atribut-atribut teks bantuan yang dimasukkan"
     onboarding:
       buttons:
-        skip: 'Skip'
-        next: 'Lanjut'
-        got_it: 'Got it'
+        skip: "Skip"
+        next: "Lanjut"
+        got_it: "Got it"
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
-        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        help_menu: "The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!"
+        members: "Invite new <b>members</b> to join your project."
+        quick_add_button: "Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>."
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
-        welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
-        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        welcome: "Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time."
+        wiki: "Within the <b>wiki</b> you can document and share knowledge together with your team."
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
           sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
-          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board_arrow: "To see your <b>task board</b>, open the sprint drop-down..."
+          task_board_select: "...and select the <b>task board</b> entry."
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
-          lists_kanban: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
-          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
-          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+          overview: "Select <b>boards</b> to shift the view and manage your project using the agile boards view."
+          lists_kanban: "Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example."
+          lists_basic: "Here you can create multiple lists (columns) within your agile board."
+          add: "Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board."
+          drag: "Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details."
         wp:
           toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
-          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
-          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
-          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
-          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
-          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+          list: "This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row."
+          full_view: "The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments."
+          back_button: "Use the return arrow in the top left corner to exit and return to the work package list."
+          create_button: "The <b>+ Create</b> button will add a new work package to your project."
+          gantt_menu: "Create project schedules and timelines effortlessly using the Gantt chart module."
+          timeline: "Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time."
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: "The team planner lets you visually assign tasks to team members and get an overview of who is working on what."
+          calendar: "The weekly or biweekly planning board displays all work packages assigned to your team members."
+          add_assignee: "To get started, add assignees to the team planner."
+          add_existing: "Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates."
+          card: "Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member."
     notifications:
       title: "Notifications"
       no_unread: "No unread notifications"
       reasons:
-        mentioned: 'mentioned'
-        watched: 'watcher'
-        assigned: 'assignee'
-        responsible: 'accountable'
-        created: 'created'
-        scheduled: 'dijadwalkan'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
-        dateAlert: 'Peringatan tanggal'
-        shared: 'shared'
+        mentioned: "mentioned"
+        watched: "watcher"
+        assigned: "assignee"
+        responsible: "accountable"
+        created: "created"
+        scheduled: "dijadwalkan"
+        commented: "commented"
+        processed: "processed"
+        prioritized: "prioritized"
+        dateAlert: "Peringatan tanggal"
+        shared: "shared"
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        milestone_date: "Milestone date"
+        overdue: "Overdue"
+        overdue_since: "since %{difference_in_days}"
+        property_today: "is today"
+        property_is: "is in %{difference_in_days}"
+        property_was: "was %{difference_in_days} ago"
+        property_is_deleted: "is deleted"
         upsale:
-          title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          title: "Date alerts"
+          description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
       facets:
-        unread: 'Unread'
-        unread_title: 'Show unread'
-        all: 'Semua'
-        all_title: 'Tampilkan semua'
+        unread: "Unread"
+        unread_title: "Show unread"
+        all: "Semua"
+        all_title: "Tampilkan semua"
       center:
-        label_actor_and: 'dan'
+        label_actor_and: "dan"
         and_more_users:
-          other: 'and %{count} others'
+          other: "and %{count} others"
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
-          with_current_filter: 'There are no notifications in this view at the moment'
-        mark_all_read: 'Mark all as read'
-        mark_as_read: 'Mark as read'
+          at_all: "New notifications will appear here when there is activity that concerns you."
+          with_current_filter: "There are no notifications in this view at the moment"
+        mark_all_read: "Mark all as read"
+        mark_as_read: "Mark as read"
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
@@ -639,17 +659,17 @@ id:
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: "There are new notifications."
+          link_text: "Click here to load them."
       menu:
-        accountable: 'Akuntabel'
-        by_project: 'Unread by project'
-        by_reason: 'Reason'
-        inbox: 'Inbox'
-        mentioned: 'Mentioned'
-        watched: 'Pemantau'
-        date_alert: 'Peringatan tanggal'
-        shared: 'Shared'
+        accountable: "Akuntabel"
+        by_project: "Unread by project"
+        by_reason: "Reason"
+        inbox: "Inbox"
+        mentioned: "Mentioned"
+        watched: "Pemantau"
+        date_alert: "Peringatan tanggal"
+        shared: "Shared"
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -668,93 +688,93 @@ id:
               P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Pelimpahan'
-          responsible: 'Akuntabel'
-          shared: 'Shared'
-          watched: 'Pemantau'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+            title: "Mentioned"
+            description: "Receive a notification every time someone mentions me anywhere"
+          assignee: "Pelimpahan"
+          responsible: "Akuntabel"
+          shared: "Shared"
+          watched: "Pemantau"
+          work_package_commented: "All new comments"
+          work_package_created: "New work packages"
+          work_package_processed: "All status changes"
+          work_package_prioritized: "All priority changes"
+          work_package_scheduled: "All date changes"
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            title: "Participating"
+            description: "Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)."
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects.'
+            title: "Non-participating"
+            description: "Additional notifications for activities in all projects."
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+            title: "Date alerts"
+            description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
+            teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
           overdue: When overdue
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above.'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
-          remove: 'Remove project settings'
+          title: "Project-specific notification settings"
+          description: "These project-specific settings override default settings above."
+          add: "Add setting for project"
+          already_selected: "This project is already selected"
+          remove: "Remove project settings"
     password_confirmation:
-      field_description: 'Anda harus mengisi kata sandi akun untuk mengkonfirmasi perubahan.'
-      title: 'Konfirmasi kata sandi anda untuk melanjutkan'
+      field_description: "Anda harus mengisi kata sandi akun untuk mengkonfirmasi perubahan."
+      title: "Konfirmasi kata sandi anda untuk melanjutkan"
     pagination:
       no_other_page: "You are on the only page."
       pages:
         next: "Forward to the next page"
         previous: "Back to the previous page"
     placeholders:
-      default: 'Hapus nilai'
-      subject: 'Masukkan subjek di sini'
-      selection: 'Silakan pilih'
-      description: 'Description: Click to edit...'
-      relation_description: 'Click to add description for this relation'
+      default: "Hapus nilai"
+      subject: "Masukkan subjek di sini"
+      selection: "Silakan pilih"
+      description: "Description: Click to edit..."
+      relation_description: "Click to add description for this relation"
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
-      details_activity: 'Project details activity'
-      context: 'Konteks proyek'
-      click_to_switch_to_project: 'Project: %{projectname}'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      details_activity: "Project details activity"
+      context: "Konteks proyek"
+      click_to_switch_to_project: "Project: %{projectname}"
+      confirm_template_load: "Switching the template will reload the page and you will lose all input to this form. Continue?"
       use_template: "Gunakan templat"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
-        label: 'Penyelesaian Proyek secara otomatis'
+        label: "Penyelesaian Proyek secara otomatis"
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
-          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: "Add time"
+          enable: "Enable daily email reminders"
+          explanation: "You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}"
+          no_time_zone: "Until you configure a time zone for your account, the times will be interpreted to be in UTC."
+          time_label: "Time %{counter}:"
+          title: "Send me daily email reminders for unread notifications"
         workdays:
-          title: 'Receive email reminders on these days'
+          title: "Receive email reminders on these days"
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
+          title: "Send me an email reminder"
+          mentioned: "Immediately when someone @mentions me"
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: "Email alerts for other items (that are not work packages)"
           explanation: >
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
-          news_added: 'News ditambahkan'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
-          wiki_page_added: 'Halaman Wiki ditambahkan'
-          wiki_page_updated: 'Halaman Wiki diupdate'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
-        title: 'Email reminders'
+          news_added: "News ditambahkan"
+          news_commented: "Comment on a news item"
+          document_added: "Documents added"
+          forum_messages: "New forum messages"
+          wiki_page_added: "Halaman Wiki ditambahkan"
+          wiki_page_updated: "Halaman Wiki diupdate"
+          membership_added: "Membership added"
+          membership_updated: "Membership updated"
+        title: "Email reminders"
         pause:
-          label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          label: "Temporarily pause daily email reminders"
+          first_day: "First day"
+          last_day: "Last day"
     text_are_you_sure: "Apakah anda yakin?"
     text_data_lost: "All entered data will be lost."
     text_user_wrote: "%{value} wrote:"
@@ -774,18 +794,18 @@ id:
         projects: "Project"
         settings: "Pengaturan"
     time_entry:
-      work_package_required: 'Requires selecting a work package first.'
-      title: 'Catatan waktu'
-      tracking: 'Time tracking'
-      stop: 'Stop'
+      work_package_required: "Requires selecting a work package first."
+      title: "Catatan waktu"
+      tracking: "Time tracking"
+      stop: "Stop"
     timer:
-      start_new_timer: 'Start new timer'
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
-      button_stop: 'Stop current timer'
+      start_new_timer: "Start new timer"
+      timer_already_running: "To start a new timer, you must first stop the current timer:"
+      timer_already_stopped: "No active timer for this work package, have you stopped it in another window?"
+      tracking_time: "Tracking time"
+      button_stop: "Stop current timer"
     two_factor_authentication:
-      label_two_factor_authentication: 'Autentikasi dua faktor'
+      label_two_factor_authentication: "Autentikasi dua faktor"
     watchers:
       label_loading: memuat pengamat...
       label_error_loading: An error occurred while loading the watchers
@@ -846,27 +866,27 @@ id:
       project:
         placeholder: "Select project"
     repositories:
-      select_tag: 'Pilih tag'
-      select_branch: 'Pilih cabang'
+      select_tag: "Pilih tag"
+      select_branch: "Pilih cabang"
     field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
     project_menu_details: "Detil"
     scheduling:
-      manual: 'Penjadwalan manual'
+      manual: "Penjadwalan manual"
     sort:
-      sorted_asc: 'Urutan menaik diterapkan, '
-      sorted_dsc: 'Urutan menurun diterapkan, '
-      sorted_no: 'Tidak urut diterapkan, '
-      sorting_disabled: 'pengurutan dinonaktifkan'
-      activate_asc: 'aktifkan untuk penerapan urutan menaik'
-      activate_dsc: 'aktifkan untuk penerapan urutan menurun'
-      activate_no: 'aktifkan untuk menghapus urutan'
+      sorted_asc: "Urutan menaik diterapkan, "
+      sorted_dsc: "Urutan menurun diterapkan, "
+      sorted_no: "Tidak urut diterapkan, "
+      sorting_disabled: "pengurutan dinonaktifkan"
+      activate_asc: "aktifkan untuk penerapan urutan menaik"
+      activate_dsc: "aktifkan untuk penerapan urutan menurun"
+      activate_no: "aktifkan untuk menghapus urutan"
     text_work_packages_destroy_confirmation: "Yakin akan menghapus?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: "Enterprise edition add-on"
     wiki_formatting:
       strong: "Tebal"
       italic: "Miring"
@@ -885,10 +905,10 @@ id:
       image: "Gambar"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
-        edit: 'Edit massal'
-        copy: 'Penggandaan massal'
-        delete: 'Penghapusan massal'
+        move: "Bulk change of project"
+        edit: "Edit massal"
+        copy: "Penggandaan massal"
+        delete: "Penghapusan massal"
       button_clear: "Clear"
       comment_added: "The comment was successfully added."
       comment_send_failed: "An error has occurred. Could not submit the comment."
@@ -900,9 +920,9 @@ id:
         start_date_limited_by_relations: "Available start and finish dates are limited by relations."
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        show_relations: "Show relations"
         ignore_non_working_days:
-          title: 'Working days only'
+          title: "Working days only"
       description_filter: "Filter"
       description_enter_text: "Masukkan teks"
       description_options_hide: "Sembunyikan opsi"
@@ -922,32 +942,34 @@ id:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
-        addition_label: 'Added to view within the comparison time period'
-        removal_label: 'Removed from view within the comparison time period'
-        modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This column does not show changes in Baseline mode.'
+        addition_label: "Added to view within the comparison time period"
+        removal_label: "Removed from view within the comparison time period"
+        modification_label: "Modified within the comparison time period"
+        column_incompatible: "This column does not show changes in Baseline mode."
       filters:
-        title: 'Filter Paket-Penugasan'
-        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
-        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+        title: "Filter Paket-Penugasan"
+        baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
+        baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
       inline_create:
-        title: 'Click here to add a new work package to this list'
+        title: "Click here to add a new work package to this list"
       create:
-        title: 'Paket-Penugasan baru'
-        header: 'New %{type}'
-        header_no_type: 'New work package (Type not yet set)'
-        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
-        button: 'Buat baru'
+        title: "Paket-Penugasan baru"
+        header: "New %{type}"
+        header_no_type: "New work package (Type not yet set)"
+        header_with_parent: "New %{type} (Child of %{parent_type} #%{id})"
+        button: "Buat baru"
       copy:
-        title: 'Copy work package'
+        title: "Copy work package"
       hierarchy:
         show: "Menampilkan modus hiraki"
         hide: "Sembunyikan modus hirarki"
-        toggle_button: 'Klik untuk beralih ke mode hirarki.'
-        leaf: 'Lapisan Paket kerja pada tingkatan %{level}.'
-        children_collapsed: 'Hirarki tingkat %{level}, ditutup. Klik untuk menampilkan turunan yang telah dipilah'
-        children_expanded: 'Hirarki tingkat %{level}, telah diperluas. Klik untuk menjabarkan anak anak yang telah disaring'
+        toggle_button: "Klik untuk beralih ke mode hirarki."
+        leaf: "Lapisan Paket kerja pada tingkatan %{level}."
+        children_collapsed: "Hirarki tingkat %{level}, ditutup. Klik untuk menampilkan turunan yang telah dipilah"
+        children_expanded: "Hirarki tingkat %{level}, telah diperluas. Klik untuk menjabarkan anak anak yang telah disaring"
       faulty_query:
         title: Paket kerja tidak dapat dimuat.
         description: Your view is erroneous and could not be processed.
@@ -975,8 +997,8 @@ id:
         percentageDone: "Persentase selesai"
         priority: "Prioritas"
         projectName: "Project"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Pekerjaan yang tersisa"
+        remainingWorkAlternative: "Jam tersisa"
         responsible: "Penanggung jawab"
         startDate: "Tanggal start"
         status: "Status"
@@ -988,8 +1010,8 @@ id:
         versionName: "Versi"
         version: "Versi"
         work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        workAlternative: "Estimasi Waktu"
+        remainingTime: "Pekerjaan yang tersisa"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
@@ -998,6 +1020,7 @@ id:
         all_open: "Semua terbuka"
         summary: "Ringkasan"
         shared_with_users: "Shared with users"
+        shared_with_me: "Shared with me"
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"
@@ -1035,54 +1058,54 @@ id:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: "Share"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:
-        configure_button: 'Configure work package table'
+        configure_button: "Configure work package table"
         summary: "Table with rows of work package and columns of work package attributes."
         text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
         text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
         text_select_hint: "Pilih kotak yang seharusnya terbuka dengan 'ALT' dan tanda kursor."
       table_configuration:
-        button: 'Configure this work package table'
-        choose_display_mode: 'Display work packages as'
-        modal_title: 'Work package table configuration'
+        button: "Configure this work package table"
+        choose_display_mode: "Display work packages as"
+        modal_title: "Work package table configuration"
         embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "default"
-        display_settings: 'Display settings'
+        display_settings: "Display settings"
         default_mode: "Flat list"
         hierarchy_mode: "Hierarchy"
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
         display_sums_hint: "Display sums of all summable attributes in a row below the table results."
         show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
-        highlighting: 'Highlighting'
+        highlighting: "Highlighting"
         highlighting_mode:
           description: "Highlight with color"
           none: "No highlighting"
-          inline: 'Highlighted attribute(s)'
-          inline_all: 'All attributes'
-          entire_row_by: 'Entire row by'
-          status: 'Status'
-          priority: 'Prioritas'
-          type: 'Tipe'
+          inline: "Highlighted attribute(s)"
+          inline_all: "All attributes"
+          entire_row_by: "Entire row by"
+          status: "Status"
+          priority: "Prioritas"
+          type: "Tipe"
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: "Chose the mode to sort your Work packages:"
+          automatic: "Automatic"
+          manually: "Manually"
+          warning: "You will lose your previous sorting when activating the automatic sorting mode."
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
-          attribute_highlighting: 'Need certain work packages to stand out from the mass?'
-          relation_columns: 'Apakah perlu untuk melihat hubungan dalam daftar paker kerja?'
-          check_out_link: 'Check out the Enterprise edition.'
+          attribute_highlighting: "Need certain work packages to stand out from the mass?"
+          relation_columns: "Apakah perlu untuk melihat hubungan dalam daftar paker kerja?"
+          check_out_link: "Check out the Enterprise edition."
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: "Filter work packages by relation type"
       tabs:
         overview: Tinjauan
         activity: Activity
@@ -1122,8 +1145,8 @@ id:
       button_cancel: "Batal"
       button_delete: "Hapus"
       form_submit:
-        title: 'Konfirmasi untuk melanjutkan'
-        text: 'Apakah Anda yakin untuk melakukan tindakan ini?'
+        title: "Konfirmasi untuk melanjutkan"
+        text: "Apakah Anda yakin untuk melakukan tindakan ini?"
       destroy_work_package:
         title: "Mengkonfirmasi penghapusan %{label}"
         single_text: "Are you sure you want to delete the work package"
@@ -1155,11 +1178,11 @@ id:
       null_value_label: "Kosongkan"
       clear_value_label: "Hapus nilai"
       errors:
-        required: '%{field} tidak boleh kosong'
-        number: '%{field} harus berupa angka'
-        maxlength: '%{field} cannot contain more than %{maxLength} digit(s)'
-        minlength: '%{field} cannot contain less than %{minLength} digit(s)'
-        messages_on_field: 'This field is invalid: %{messages}'
+        required: "%{field} tidak boleh kosong"
+        number: "%{field} harus berupa angka"
+        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
+        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
+        messages_on_field: "This field is invalid: %{messages}"
     error_could_not_resolve_version_name: "Tidak bisa menyelesaikan versi nama"
     error_could_not_resolve_user_name: "User name tidak ditemukan"
     error_attachment_upload: "File failed to upload: %{error}"
@@ -1178,8 +1201,8 @@ id:
         other: "%{count} hari"
         zero: "0 days"
     zen_mode:
-      button_activate: 'Mengaktifkan modus zen'
-      button_deactivate: 'Menonaktifkan modus zen'
+      button_activate: "Mengaktifkan modus zen"
+      button_deactivate: "Menonaktifkan modus zen"
     global_search:
       all_projects: "In all projects"
       close_search: "Close search"
@@ -1192,129 +1215,146 @@ id:
         project_and_subprojects: "and all subprojects"
         search_for: "Search for"
     views:
-      card: 'Cards'
-      list: 'Table'
-      timeline: 'Gantt'
+      card: "Cards"
+      list: "Table"
+      timeline: "Gantt"
     invite_user_modal:
-      back: 'Kembali'
-      invite: 'Invite'
+      back: "Kembali"
+      invite: "Invite"
       title:
-        invite: 'Invite user'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite: "Invite user"
+        invite_to_project: "Invite %{type} to %{project}"
+        User: "user"
+        Group: "group"
+        PlaceholderUser: "placeholder user"
+        invite_principal_to_project: "Invite %{principal} to %{project}"
       project:
-        label: 'Project'
-        required: 'Please select a project'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
-        next_button: 'Lanjut'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        label: "Project"
+        required: "Please select a project"
+        lacking_permission: "Please select a different project since you lack permissions to assign users to the currently selected."
+        lacking_permission_info: "You lack the permission to assign users to the project you are currently in. You need to select a different one."
+        next_button: "Lanjut"
+        no_results: "No projects were found"
+        no_invite_rights: "You are not allowed to invite members to this project"
       type:
-        required: 'Please select the type to be invited'
+        required: "Please select the type to be invited"
         user:
-          title: 'User'
-          description: 'Permissions based on the assigned role in the selected project'
+          title: "User"
+          description: "Permissions based on the assigned role in the selected project"
         group:
-          title: 'Grup'
-          description: 'Permissions based on the assigned role in the selected project'
+          title: "Grup"
+          description: "Permissions based on the assigned role in the selected project"
         placeholder:
-          title: 'Pengguna placeholder'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
-          description: 'Has no access to the project and no emails are sent out.'
+          title: "Pengguna placeholder"
+          title_no_ee: "Placeholder user (Enterprise edition only add-on)"
+          description: "Has no access to the project and no emails are sent out."
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
-          name: 'Nama'
-        already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
-        no_results_placeholder: 'No placeholders were found'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
-        next_button: 'Lanjut'
+          name_or_email: "Name or email address"
+          name: "Nama"
+        already_member_message: "Already a member of %{project}"
+        no_results_user: "No users were found"
+        invite_user: "Invite:"
+        no_results_placeholder: "No placeholders were found"
+        create_new_placeholder: "Create new placeholder:"
+        no_results_group: "No groups were found"
+        next_button: "Lanjut"
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          user: "Please select a user"
+          placeholder: "Please select a placeholder"
+          group: "Please select a group"
       role:
-        label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
-        next_button: 'Lanjut'
+        label: "Role in %{project}"
+        no_roles_found: "No roles were found"
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
+        required: "Please select a role"
+        next_button: "Lanjut"
       message:
-        label: 'Invitation message'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Lanjut'
+        label: "Invitation message"
+        description: "We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started."
+        next_button: "Lanjut"
       summary:
-        next_button: 'Kirim undangan'
+        next_button: "Kirim undangan"
       success:
-        title: '%{principal} was invited!'
+        title: "%{principal} was invited!"
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
-        next_button: 'Lanjut'
+          user: "The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+          placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+          group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
+        next_button: "Lanjut"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
-      toggle_title: 'Include projects'
-      title: 'Project'
-      clear_selection: 'Clear selection'
-      apply: 'Apply'
+      toggle_title: "Include projects"
+      title: "Project"
+      clear_selection: "Clear selection"
+      apply: "Apply"
       selected_filter:
-        all: 'Semua proyek'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+        all: "Semua proyek"
+        selected: "Only selected"
+      search_placeholder: "Search project..."
+      include_subprojects: "Include all sub-projects"
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
-        current_project: 'This is the current project you are in.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        include_all_selected: "Project already included since Include all sub-projects is enabled."
+        current_project: "This is the current project you are in."
+        does_not_match_search: "Project does not match the search criteria."
+      no_results: "No project matches your search criteria."
     baseline:
-      toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'Highlight changes made to this list since any point in the past.'
-      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
-      show_changes_since: 'Show changes since'
-      baseline_comparison: 'Baseline comparison'
-      help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
-      time: 'Waktu'
-      from: 'Dari'
-      to: 'Ke'
+      toggle_title: "Baseline"
+      clear: "Clear"
+      apply: "Apply"
+      header_description: "Highlight changes made to this list since any point in the past."
+      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
+      show_changes_since: "Show changes since"
+      baseline_comparison: "Baseline comparison"
+      help_description: "Reference time zone for the baseline."
+      time_description: "In your local time: %{datetime}"
+      time: "Waktu"
+      from: "Dari"
+      to: "Ke"
       drop_down:
-        none: 'Hapus nilai'
-        yesterday: 'kemarin'
-        last_working_day: 'last working day'
-        last_week: 'minggu lalu'
-        last_month: 'bulan lalu'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        none: "Hapus nilai"
+        yesterday: "kemarin"
+        last_working_day: "last working day"
+        last_week: "minggu lalu"
+        last_month: "bulan lalu"
+        a_specific_date: "a specific date"
+        between_two_specific_dates: "between two specific dates"
       legends:
-        changes_since: 'Changes since'
-        changes_between: 'Changes between'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        changes_since: "Changes since"
+        changes_between: "Changes between"
+        now_meets_filter_criteria: "Now meets filter criteria"
+        no_longer_meets_filter_criteria: "No longer meets filter criteria"
+        maintained_with_changes: "Maintained with changes"
+        in_your_timezone: "In your local timezone:"
       icon_tooltip:
-        added: 'Added to view within the comparison time period'
-        removed: 'Removed from view within the comparison time period'
-        changed: 'Maintained with modifications'
+        added: "Added to view within the comparison time period"
+        removed: "Removed from view within the comparison time period"
+        changed: "Maintained with modifications"
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
-      advanced_settings: 'Advanced settings'
+      submit_success_message: "The form was successfully submitted"
+      load_error_message: "There was an error loading the form"
+      validation_error_message: "Please fix the errors present in the form"
+      advanced_settings: "Advanced settings"
     spot:
       filter_chip:
-        remove: 'Remove'
+        remove: "Remove"
       drop_modal:
-        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
-        Close: 'Tutup'
+        focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
+        close: "Close modal"
+    open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/calendar'
-require_relative '../../../../spec/features/views/shared_examples'
+require "spec_helper"
+require_relative "../support/pages/calendar"
+require_relative "../../../../spec/features/views/shared_examples"
 
-RSpec.describe 'Calendar query handling', :js do
+RSpec.describe "Calendar query handling", :js do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
@@ -57,7 +57,7 @@ RSpec.describe 'Calendar query handling', :js do
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
            due_date: Time.zone.today + 1.day,
-           subject: 'A task for the user')
+           subject: "A task for the user")
   end
   shared_let(:bug) do
     create(:work_package,
@@ -66,7 +66,7 @@ RSpec.describe 'Calendar query handling', :js do
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
            due_date: Time.zone.today + 1.day,
-           subject: 'A bug for the user')
+           subject: "A bug for the user")
   end
 
   shared_let(:saved_query) do
@@ -78,17 +78,17 @@ RSpec.describe 'Calendar query handling', :js do
   let(:calendar_page) { Pages::Calendar.new project }
   let(:work_package_page) { Pages::WorkPackagesTable.new project }
   let(:query_title) { Components::WorkPackages::QueryTitle.new }
-  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
+  let(:query_menu) { Components::Submenu.new }
   let(:filters) { calendar_page.filters }
 
   current_user { user }
 
-  it 'shows that query on the index page' do
+  it "shows that query on the index page" do
     visit project_calendars_path(project)
 
     expect(page).to have_text saved_query.name
 
-    within '#content' do
+    within "#content" do
       click_link saved_query.name
     end
 
@@ -98,7 +98,7 @@ RSpec.describe 'Calendar query handling', :js do
     calendar_page.expect_event bug
   end
 
-  context 'when on the show page of the calendar' do
+  context "when on the show page of the calendar" do
     before do
       login_as user
       calendar_page.visit!
@@ -109,11 +109,11 @@ RSpec.describe 'Calendar query handling', :js do
       calendar_page.expect_event bug
     end
 
-    it 'allows saving the calendar' do
+    it "allows saving the calendar" do
       filters.expect_filter_count("1")
       filters.open
 
-      filters.add_filter_by('Type', 'is (OR)', [type_bug.name])
+      filters.add_filter_by("Type", "is (OR)", [type_bug.name])
 
       filters.expect_filter_count("2")
 
@@ -123,35 +123,35 @@ RSpec.describe 'Calendar query handling', :js do
       query_title.expect_changed
       query_title.press_save_button
 
-      calendar_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+      calendar_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_create"))
     end
 
-    it 'shows only calendar queries' do
+    it "shows only calendar queries" do
       # Go to calendar where a query is already shown
-      query_menu.expect_menu_entry saved_query.name
+      query_menu.expect_item saved_query.name
 
       # Change filter
       filters.open
-      filters.add_filter_by('Type', 'is (OR)', [type_bug.name])
+      filters.add_filter_by("Type", "is (OR)", [type_bug.name])
       filters.expect_filter_count("2")
 
       # Save current filters
       query_title.expect_changed
-      query_title.rename 'I am your Query'
-      calendar_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+      query_title.rename "I am your Query"
+      calendar_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_create"))
 
       # The saved query appears in the side menu...
-      query_menu.expect_menu_entry 'I am your Query'
-      query_menu.expect_menu_entry saved_query.name
+      query_menu.expect_item "I am your Query"
+      query_menu.expect_item saved_query.name
 
       # .. but not in the work packages module
       work_package_page.visit!
-      query_menu.expect_menu_entry_not_visible 'I am your Query'
+      query_menu.expect_no_item "I am your Query"
     end
 
-    it_behaves_like 'module specific query view management' do
+    it_behaves_like "module specific query view management" do
       let(:module_page) { calendar_page }
-      let(:default_name) { 'Unnamed calendar' }
+      let(:default_name) { "Unnamed calendar" }
       let(:initial_filter_count) { 1 }
     end
   end

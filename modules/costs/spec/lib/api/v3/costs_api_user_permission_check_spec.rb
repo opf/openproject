@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::CostsApiUserPermissionCheck do
   class CostsApiUserPermissionCheckTestClass
@@ -69,188 +69,188 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
 
   subject { CostsApiUserPermissionCheckTestClass.new }
 
-  describe '#overall_costs_visible?' do
+  describe "#overall_costs_visible?" do
     describe :overall_costs_visible? do
-      shared_examples_for 'not visible' do
-        it 'is not visible' do
+      shared_examples_for "not visible" do
+        it "is not visible" do
           expect(subject).not_to be_overall_costs_visible
         end
       end
 
-      shared_examples_for 'is visible' do
-        it 'is not visible' do
+      shared_examples_for "is visible" do
+        it "is not visible" do
           expect(subject).to be_overall_costs_visible
         end
       end
 
-      context 'lacks permissions' do
-        it_behaves_like 'not visible'
+      context "lacks permissions" do
+        it_behaves_like "not visible"
       end
 
-      context 'has view_time_entries and view_hourly_rates' do
+      context "has view_time_entries and view_hourly_rates" do
         let(:view_time_entries) { true }
         let(:view_hourly_rates) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
 
-      context 'has view_time_entries and view_own_hourly_rate' do
+      context "has view_time_entries and view_own_hourly_rate" do
         let(:view_time_entries) { true }
         let(:view_own_hourly_rate) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
 
-      context 'has view_own_time_entries and view_own_hourly_rate' do
+      context "has view_own_time_entries and view_own_hourly_rate" do
         let(:view_own_time_entries) { true }
         let(:view_own_hourly_rate) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
 
-      context 'has view_own_time_entries and view_hourly_rates' do
+      context "has view_own_time_entries and view_hourly_rates" do
         let(:view_own_time_entries) { true }
         let(:view_hourly_rates) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
 
-      context 'has view_cost_entries and view_cost_rates' do
+      context "has view_cost_entries and view_cost_rates" do
         let(:view_cost_entries) { true }
         let(:view_cost_rates) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
 
-      context 'has view_own_cost_entries and view_cost_rates' do
+      context "has view_own_cost_entries and view_cost_rates" do
         let(:view_cost_entries) { true }
         let(:view_cost_rates) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
     end
 
     describe :labor_costs_visible? do
-      shared_examples_for 'not visible' do
-        it 'is not visible' do
+      shared_examples_for "not visible" do
+        it "is not visible" do
           expect(subject).not_to be_labor_costs_visible
         end
       end
 
-      shared_examples_for 'is visible' do
-        it 'is not visible' do
+      shared_examples_for "is visible" do
+        it "is not visible" do
           expect(subject).to be_labor_costs_visible
         end
       end
 
-      context 'lacks permissions' do
-        it_behaves_like 'not visible'
+      context "lacks permissions" do
+        it_behaves_like "not visible"
       end
 
-      context 'has view_time_entries and view_hourly_rates' do
+      context "has view_time_entries and view_hourly_rates" do
         let(:view_time_entries) { true }
         let(:view_hourly_rates) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
 
-      context 'has view_own_time_entries and view_hourly_rates' do
+      context "has view_own_time_entries and view_hourly_rates" do
         let(:view_own_time_entries) { true }
         let(:view_hourly_rates) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
     end
 
     describe :material_costs_visible? do
-      shared_examples_for 'not visible' do
-        it 'is not visible' do
+      shared_examples_for "not visible" do
+        it "is not visible" do
           expect(subject).not_to be_material_costs_visible
         end
       end
 
-      shared_examples_for 'is visible' do
-        it 'is not visible' do
+      shared_examples_for "is visible" do
+        it "is not visible" do
           expect(subject).to be_material_costs_visible
         end
       end
 
-      context 'lacks permissions' do
-        it_behaves_like 'not visible'
+      context "lacks permissions" do
+        it_behaves_like "not visible"
       end
 
-      context 'has view_cost_entries and view_cost_rates' do
+      context "has view_cost_entries and view_cost_rates" do
         let(:view_cost_entries) { true }
         let(:view_cost_rates) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
 
-      context 'has view_own_cost_entries and view_own_cost_rates' do
+      context "has view_own_cost_entries and view_own_cost_rates" do
         let(:view_own_cost_entries) { true }
         let(:view_cost_rates) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
     end
 
     describe :costs_by_type_visible? do
-      shared_examples_for 'not visible' do
-        it 'is not visible' do
+      shared_examples_for "not visible" do
+        it "is not visible" do
           expect(subject).not_to be_costs_by_type_visible
         end
       end
 
-      shared_examples_for 'is visible' do
-        it 'is not visible' do
+      shared_examples_for "is visible" do
+        it "is not visible" do
           expect(subject).to be_costs_by_type_visible
         end
       end
 
-      context 'lacks permissions' do
-        it_behaves_like 'not visible'
+      context "lacks permissions" do
+        it_behaves_like "not visible"
       end
 
-      context 'has view_costs_entries' do
+      context "has view_costs_entries" do
         let(:view_cost_entries) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
 
-      context 'has view_own_time_entries' do
+      context "has view_own_time_entries" do
         let(:view_own_cost_entries) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
     end
 
     context :spent_time_visible do
-      shared_examples_for 'not visible' do
-        it 'is not visible' do
+      shared_examples_for "not visible" do
+        it "is not visible" do
           expect(subject).not_to be_spent_time_visible
         end
       end
 
-      shared_examples_for 'is visible' do
-        it 'is not visible' do
+      shared_examples_for "is visible" do
+        it "is not visible" do
           expect(subject).to be_spent_time_visible
         end
       end
 
-      context 'lacks permissions' do
-        it_behaves_like 'not visible'
+      context "lacks permissions" do
+        it_behaves_like "not visible"
       end
 
-      context 'has view_costs_entries' do
+      context "has view_costs_entries" do
         let(:view_time_entries) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
 
-      context 'has view_own_time_entries' do
+      context "has view_own_time_entries" do
         let(:view_own_time_entries) { true }
 
-        it_behaves_like 'is visible'
+        it_behaves_like "is visible"
       end
     end
   end

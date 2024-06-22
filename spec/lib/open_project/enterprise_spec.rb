@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'open_project/passwords'
+require "spec_helper"
+require "open_project/passwords"
 
 RSpec.describe OpenProject::Enterprise do
   # create 3 built-in users, only 2 of which are active

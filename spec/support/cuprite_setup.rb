@@ -29,10 +29,10 @@
 # ++
 #
 
-require 'capybara/cuprite'
+require "capybara/cuprite"
 
 def headful_mode?
-  ActiveRecord::Type::Boolean.new.cast(ENV.fetch('OPENPROJECT_TESTING_NO_HEADLESS', nil))
+  ActiveRecord::Type::Boolean.new.cast(ENV.fetch("OPENPROJECT_TESTING_NO_HEADLESS", nil))
 end
 
 def headless_mode?
@@ -40,7 +40,7 @@ def headless_mode?
 end
 
 module WindowResolutionManagement
-  DIMENSION_SEPARATOR = 'x'
+  DIMENSION_SEPARATOR = "x"
 
   class << self
     # @param [String] resolution, "1920x1080"
@@ -74,30 +74,30 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       window_size: [1920, 1080]
     }
 
-    if headful_mode? && ENV['CAPYBARA_WINDOW_RESOLUTION']
-      window_size = WindowResolutionManagement.extract_dimensions(ENV['CAPYBARA_WINDOW_RESOLUTION'])
+    if headful_mode? && ENV["CAPYBARA_WINDOW_RESOLUTION"]
+      window_size = WindowResolutionManagement.extract_dimensions(ENV["CAPYBARA_WINDOW_RESOLUTION"])
       options = options.merge(window_size:)
     end
 
-    if headful_mode? && ENV['OPENPROJECT_TESTING_SLOWDOWN_FACTOR']
-      options = options.merge(slowmo: ENV['OPENPROJECT_TESTING_SLOWDOWN_FACTOR'])
+    if headful_mode? && ENV["OPENPROJECT_TESTING_SLOWDOWN_FACTOR"]
+      options = options.merge(slowmo: ENV["OPENPROJECT_TESTING_SLOWDOWN_FACTOR"])
     end
 
-    if ENV['CHROME_URL'].present?
-      options = options.merge(url: ENV['CHROME_URL'])
+    if ENV["CHROME_URL"].present?
+      options = options.merge(url: ENV["CHROME_URL"])
     end
 
     browser_options = {
-      'disable-dev-shm-usage': nil,
-      'disable-gpu': nil,
-      'disable-popup-blocking': nil,
+      "disable-dev-shm-usage": nil,
+      "disable-gpu": nil,
+      "disable-popup-blocking": nil,
       lang: language,
-      'no-sandbox': nil,
-      'disable-smooth-scrolling': true
+      "no-sandbox": nil,
+      "disable-smooth-scrolling": true
     }
 
-    if ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'].present?
-      browser_options = browser_options.merge('auto-open-devtools-for-tabs': nil)
+    if ENV["OPENPROJECT_TESTING_AUTO_DEVTOOLS"].present?
+      browser_options = browser_options.merge("auto-open-devtools-for-tabs": nil)
     end
 
     driver_options = options.merge(browser_options:)
@@ -110,7 +110,7 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
   end
 end
 
-register_better_cuprite 'en'
+register_better_cuprite "en"
 
 MODULES_WITH_CUPRITE_ENABLED = %w[
   avatars

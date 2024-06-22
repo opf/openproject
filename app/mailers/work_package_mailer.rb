@@ -42,12 +42,11 @@ class WorkPackageMailer < ApplicationMailer
       message_id journal, recipient
       references journal
 
-      with_locale_for(recipient) do
-        mail to: recipient.mail,
-             subject: I18n.t(:'mail.mention.subject',
-                             user_name: author.name,
-                             id: @work_package.id,
-                             subject: @work_package.subject)
+      send_localized_mail(recipient) do
+        I18n.t(:"mail.mention.subject",
+               user_name: author.name,
+               id: @work_package.id,
+               subject: @work_package.subject)
       end
     end
   end
@@ -62,8 +61,8 @@ class WorkPackageMailer < ApplicationMailer
       message_id work_package, user
       references work_package
 
-      with_locale_for(user) do
-        mail to: user.mail, subject: subject_for_work_package(work_package)
+      send_localized_mail(user) do
+        subject_for_work_package(work_package)
       end
     end
   end
@@ -76,13 +75,13 @@ class WorkPackageMailer < ApplicationMailer
   end
 
   def set_work_package_headers(work_package)
-    open_project_headers 'Project' => work_package.project.identifier,
-                         'WorkPackage-Id' => work_package.id,
-                         'WorkPackage-Author' => work_package.author.login,
-                         'Type' => 'WorkPackage'
+    open_project_headers "Project" => work_package.project.identifier,
+                         "WorkPackage-Id" => work_package.id,
+                         "WorkPackage-Author" => work_package.author.login,
+                         "Type" => "WorkPackage"
 
     if work_package.assigned_to
-      open_project_headers 'WorkPackage-Assignee' => work_package.assigned_to.login
+      open_project_headers "WorkPackage-Assignee" => work_package.assigned_to.login
     end
   end
 end

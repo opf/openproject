@@ -43,75 +43,75 @@ class ToV710AggregatedCostsMigrations < ActiveRecord::Migration[5.1]
 
   def up
     Migration::MigrationSquasher.squash(migrations) do
-      create_table 'cost_entries', id: :integer do |t|
-        t.integer 'user_id',                                                            null: false
-        t.integer 'project_id',                                                         null: false
-        t.integer 'work_package_id',                                                    null: false
-        t.integer 'cost_type_id',                                                       null: false
-        t.float 'units', null: false
-        t.date 'spent_on', null: false
-        t.datetime 'created_on',                                                         null: false
-        t.datetime 'updated_on',                                                         null: false
-        t.string 'comments', null: false
-        t.boolean 'blocked', default: false, null: false
-        t.decimal 'overridden_costs', precision: 15, scale: 4
-        t.decimal 'costs',            precision: 15, scale: 4
-        t.integer 'rate_id'
-        t.integer 'tyear',                                                              null: false
-        t.integer 'tmonth',                                                             null: false
-        t.integer 'tweek',                                                              null: false
+      create_table "cost_entries", id: :integer do |t|
+        t.integer "user_id",                                                            null: false
+        t.integer "project_id",                                                         null: false
+        t.integer "work_package_id",                                                    null: false
+        t.integer "cost_type_id",                                                       null: false
+        t.float "units", null: false
+        t.date "spent_on", null: false
+        t.datetime "created_on",                                                         null: false
+        t.datetime "updated_on",                                                         null: false
+        t.string "comments", null: false
+        t.boolean "blocked", default: false, null: false
+        t.decimal "overridden_costs", precision: 15, scale: 4
+        t.decimal "costs",            precision: 15, scale: 4
+        t.integer "rate_id"
+        t.integer "tyear",                                                              null: false
+        t.integer "tmonth",                                                             null: false
+        t.integer "tweek",                                                              null: false
       end
 
-      create_table 'cost_objects', id: :integer do |t|
-        t.integer 'project_id',                                 null: false
-        t.integer 'author_id',                                  null: false
-        t.string 'subject', null: false
-        t.text 'description', null: false
-        t.string 'type', null: false
-        t.date 'fixed_date', null: false
-        t.datetime 'created_on'
-        t.datetime 'updated_on'
+      create_table "cost_objects", id: :integer do |t|
+        t.integer "project_id",                                 null: false
+        t.integer "author_id",                                  null: false
+        t.string "subject", null: false
+        t.text "description", null: false
+        t.string "type", null: false
+        t.date "fixed_date", null: false
+        t.datetime "created_on"
+        t.datetime "updated_on"
       end
 
       add_index :cost_objects, %i[project_id updated_on]
 
-      create_table 'cost_types', id: :integer do |t|
-        t.string 'name',                           null: false
-        t.string 'unit',                           null: false
-        t.string 'unit_plural',                    null: false
-        t.boolean 'default', default: false, null: false
-        t.datetime 'deleted_at'
+      create_table "cost_types", id: :integer do |t|
+        t.string "name",                           null: false
+        t.string "unit",                           null: false
+        t.string "unit_plural",                    null: false
+        t.boolean "default", default: false, null: false
+        t.datetime "deleted_at"
       end
 
-      create_table 'labor_budget_items', id: :integer do |t|
-        t.integer 'cost_object_id', null: false
-        t.float 'hours', null: false
-        t.integer 'user_id'
-        t.string 'comments', default: '', null: false
-        t.decimal 'budget', precision: 15, scale: 4
+      create_table "labor_budget_items", id: :integer do |t|
+        t.integer "cost_object_id", null: false
+        t.float "hours", null: false
+        t.integer "user_id"
+        t.string "comments", default: "", null: false
+        t.decimal "budget", precision: 15, scale: 4
       end
 
-      create_table 'material_budget_items', id: :integer do |t|
-        t.integer 'cost_object_id', null: false
-        t.float 'units', null: false
-        t.integer 'cost_type_id'
-        t.string 'comments', default: '', null: false
-        t.decimal 'budget', precision: 15, scale: 4
+      create_table "material_budget_items", id: :integer do |t|
+        t.integer "cost_object_id", null: false
+        t.float "units", null: false
+        t.integer "cost_type_id"
+        t.string "comments", default: "", null: false
+        t.decimal "budget", precision: 15, scale: 4
       end
 
-      create_table 'rates', id: :integer do |t|
-        t.date 'valid_from', null: false
-        t.decimal 'rate', precision: 15, scale: 4, null: false
-        t.string 'type', null: false
-        t.integer 'project_id'
-        t.integer 'user_id'
-        t.integer 'cost_type_id'
+      create_table "rates", id: :integer do |t|
+        t.date "valid_from", null: false
+        t.decimal "rate", precision: 15, scale: 4, null: false
+        t.string "type", null: false
+        t.integer "project_id"
+        t.integer "user_id"
+        t.integer "cost_type_id"
       end
 
-      change_table 'time_entries', id: :integer do |t|
-        t.decimal 'overridden_costs', precision: 15, scale: 4
-        t.decimal 'costs',            precision: 15, scale: 4
-        t.integer 'rate_id'
+      change_table "time_entries", id: :integer do |t|
+        t.decimal "overridden_costs", precision: 15, scale: 4
+        t.decimal "costs",            precision: 15, scale: 4
+        t.integer "rate_id"
       end
 
       create_table :cost_object_journals, id: :integer do |t|
@@ -136,18 +136,18 @@ class ToV710AggregatedCostsMigrations < ActiveRecord::Migration[5.1]
   end
 
   def down
-    drop_table 'cost_entries'
-    drop_table 'cost_objects'
-    drop_table 'cost_types'
-    drop_table 'labor_budget_items'
-    drop_table 'material_budget_items'
-    drop_table 'rates'
-    drop_table 'cost_object_journals'
+    drop_table "cost_entries"
+    drop_table "cost_objects"
+    drop_table "cost_types"
+    drop_table "labor_budget_items"
+    drop_table "material_budget_items"
+    drop_table "rates"
+    drop_table "cost_object_journals"
 
-    change_table 'time_entries' do |t|
-      t.remove_column 'overridden_costs'
-      t.remove_column 'costs'
-      t.remove_column 'rate_id'
+    change_table "time_entries" do |t|
+      t.remove_column "overridden_costs"
+      t.remove_column "costs"
+      t.remove_column "rate_id"
     end
 
     remove_column :work_packages, :cost_object_id
@@ -162,7 +162,7 @@ class ToV710AggregatedCostsMigrations < ActiveRecord::Migration[5.1]
 
   def migrations
     MIGRATION_FILES.split.map do |m|
-      m.gsub(/_.*\z/, '')
+      m.gsub(/_.*\z/, "")
     end
   end
 end

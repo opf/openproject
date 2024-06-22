@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-RSpec.describe 'Members widget on dashboard', :js do
+RSpec.describe "Members widget on dashboard", :js do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
 
@@ -99,11 +99,11 @@ RSpec.describe 'Members widget on dashboard', :js do
     end
   end
 
-  it 'can add the widget and see the members if the permissions suffice' do
+  it "can add the widget and see the members if the permissions suffice" do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 1, :within, 'Members')
+    dashboard.add_widget(1, 1, :within, "Members")
 
-    members_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    members_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
     expect_all_members_visible(members_area.area)
 
@@ -112,7 +112,7 @@ RSpec.describe 'Members widget on dashboard', :js do
 
     within members_area.area do
       expect(page)
-        .to have_link('Member')
+        .to have_link("Member")
     end
 
     # A user without edit permission will see the members but cannot add one
@@ -125,7 +125,7 @@ RSpec.describe 'Members widget on dashboard', :js do
 
     within members_area.area do
       expect(page)
-        .to have_no_link('Member')
+        .to have_no_link("Member")
     end
 
     # A user without view permission will not see any members
@@ -140,13 +140,13 @@ RSpec.describe 'Members widget on dashboard', :js do
         .to have_no_content manager_user.name
 
       expect(page)
-        .to have_content('No visible members')
+        .to have_content("No visible members")
 
       expect(page)
-        .to have_no_link('Member')
+        .to have_no_link("Member")
 
       expect(page)
-        .to have_no_link('View all members')
+        .to have_no_link("View all members")
     end
   end
 end

@@ -69,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 
   if (updated_on = OpenProject::VERSION.updated_on).present?
-    component.with_attribute(key: t(:label_last_change_on), value: format_date(updated_on))
+    component.with_attribute(key: t(:label_last_change_on), value: format_time(updated_on))
   end
 end %>
 

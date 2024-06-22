@@ -26,130 +26,130 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'user deletion:', :js, :with_cuprite do
+RSpec.describe "user deletion:", :js, :with_cuprite do
   let(:dialog) { Components::PasswordConfirmationDialog.new }
 
   before do
     page.set_rack_session(user_id: current_user.id, updated_at: Time.now)
   end
 
-  context 'regular user' do
-    let(:user_password) { 'bob!' * 4 }
+  context "regular user" do
+    let(:user_password) { "bob!" * 4 }
     let(:current_user) do
       create(:user,
              password: user_password,
              password_confirmation: user_password)
     end
 
-    it 'can delete their own account', :signout_via_visit do
+    it "can delete their own account", :signout_via_visit do
       Setting.users_deletable_by_self = 1
       visit delete_my_account_info_path
 
-      fill_in 'login_verification', with: current_user.login
-      click_on 'Delete'
+      fill_in "login_verification", with: current_user.login
+      click_on "Delete"
 
       dialog.confirm_flow_with user_password
 
-      expect(page).to have_content 'Account has been locked and was scheduled for deletion'
-      expect(page).to have_current_path '/login'
+      expect(page).to have_content "Account has been locked and was scheduled for deletion"
+      expect(page).to have_current_path "/login"
     end
 
-    it 'cannot delete their own account if the settings forbid it' do
+    it "cannot delete their own account if the settings forbid it" do
       Setting.users_deletable_by_self = 0
       visit my_account_path
 
-      within '#main-menu' do
-        expect(page).to have_no_content 'Delete account'
+      within "#main-menu" do
+        expect(page).to have_no_content "Delete account"
       end
     end
   end
 
-  context 'user with global add role' do
+  context "user with global add role" do
     let!(:user) { create(:user) }
     let(:current_user) { create(:user, global_permissions: [:manage_user]) }
 
-    it 'can not delete even if settings allow it' do
+    it "can not delete even if settings allow it" do
       Setting.users_deletable_by_admins = 1
       visit edit_user_path(user)
 
       expect(page).to have_content "#{user.firstname} #{user.lastname}"
-      expect(page).to have_no_content 'Delete account'
+      expect(page).to have_no_content "Delete account"
 
       visit deletion_info_user_path(user)
-      expect(page).to have_text 'Error 404'
+      expect(page).to have_text "Error 404"
     end
   end
 
-  context 'admin user' do
+  context "admin user" do
     let!(:user) { create(:user) }
-    let(:user_password) { 'admin! * 4' }
+    let(:user_password) { "admin! * 4" }
     let(:current_user) do
       create(:admin,
              password: user_password,
              password_confirmation: user_password)
     end
 
-    it 'can delete other users if the setting permits it' do
+    it "can delete other users if the setting permits it" do
       Setting.users_deletable_by_admins = 1
       visit edit_user_path(user)
 
       expect(page).to have_content "#{user.firstname} #{user.lastname}"
 
-      click_on 'Delete'
+      click_on "Delete"
 
       SeleniumHubWaiter.wait
-      fill_in 'login_verification', with: user.login
-      click_on 'Delete'
+      fill_in "login_verification", with: user.login
+      click_on "Delete"
 
-      dialog.confirm_flow_with 'wrong', should_fail: true
+      dialog.confirm_flow_with "wrong", should_fail: true
 
       SeleniumHubWaiter.wait
-      fill_in 'login_verification', with: user.login
-      click_on 'Delete'
+      fill_in "login_verification", with: user.login
+      click_on "Delete"
 
       dialog.confirm_flow_with user_password, should_fail: false
 
-      expect(page).to have_content 'Account has been locked and was scheduled for deletion'
-      expect(page).to have_current_path '/users'
+      expect(page).to have_content "Account has been locked and was scheduled for deletion"
+      expect(page).to have_current_path "/users"
     end
 
-    it 'can delete and confirm with keyboard (Regression #44499)' do
+    it "can delete and confirm with keyboard (Regression #44499)" do
       Setting.users_deletable_by_admins = 1
       visit edit_user_path(user)
 
       expect(page).to have_content "#{user.firstname} #{user.lastname}"
 
-      click_on 'Delete'
+      click_on "Delete"
 
       SeleniumHubWaiter.wait
-      fill_in 'login_verification', with: user.login
-      click_on 'Delete'
+      fill_in "login_verification", with: user.login
+      click_on "Delete"
 
       dialog.confirm_flow_with user_password, with_keyboard: true, should_fail: false
 
-      expect(page).to have_content 'Account has been locked and was scheduled for deletion'
-      expect(page).to have_current_path '/users'
+      expect(page).to have_content "Account has been locked and was scheduled for deletion"
+      expect(page).to have_current_path "/users"
     end
 
-    it 'cannot delete other users if the settings forbid it' do
+    it "cannot delete other users if the settings forbid it" do
       Setting.users_deletable_by_admins = 0
       visit edit_user_path(user)
 
-      expect(page).to have_no_content 'Delete account'
+      expect(page).to have_no_content "Delete account"
     end
 
-    it 'can change the deletablilty settings' do
+    it "can change the deletablilty settings" do
       Setting.users_deletable_by_admins = 0
       Setting.users_deletable_by_self = 0
 
       visit admin_settings_users_path
 
-      find_by_id('settings_users_deletable_by_admins').set(true)
-      find_by_id('settings_users_deletable_by_self').set(true)
+      find_by_id("settings_users_deletable_by_admins").set(true)
+      find_by_id("settings_users_deletable_by_self").set(true)
 
-      click_on 'Save'
+      click_on "Save"
 
       expect(Setting.users_deletable_by_admins?).to be true
       expect(Setting.users_deletable_by_self?).to be true

@@ -34,8 +34,8 @@ module Projects
     options :current_user # adds this option to those of the base class
     options :query
 
-    def initialize(**options)
-      super(rows: [], **options)
+    def initialize(**)
+      super(rows: [], **)
     end
 
     def before_render
@@ -48,21 +48,25 @@ module Projects
     end
 
     def table_id
-      'project-table'
+      "project-table"
+    end
+
+    def container_class
+      "generic-table--container_visible-overflow generic-table--container_height-100"
     end
 
     ##
     # The project sort by is handled differently
     def build_sort_header(column, options)
-      helpers.projects_sort_header_tag(column, options.merge(param: :json))
+      helpers.projects_sort_header_tag(column, **options, param: :json)
     end
 
     # We don't return the project row
     # but the [project, level] array from the helper
     def rows
       @rows ||= begin
-        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a } # rubocop:disable Lint/ToEnumArguments
-        helpers.instance_exec(model, &projects_enumerator)
+        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a }
+        instance_exec(model, &projects_enumerator)
       end
     end
 
@@ -78,72 +82,51 @@ module Projects
       true
     end
 
+    def pagination_options
+      default_pagination_options.merge(optional_pagination_options)
+    end
+
+    def default_pagination_options
+      { allowed_params: %i[query_id filters columns sortBy] }
+    end
+
+    def optional_pagination_options
+      {}
+    end
+
     def deactivate_class_on_lft_sort
-      if helpers.sorted_by_lft?
-        'spot-link_inactive'
+      if sorted_by_lft?
+        "spot-link_inactive"
       end
     end
 
     def href_only_when_not_sort_lft
-      unless helpers.sorted_by_lft?
-        projects_path(sortBy: JSON::dump([['lft', 'asc']]))
+      unless sorted_by_lft?
+        projects_path(
+          sortBy: JSON.dump([%w[lft asc]]),
+          **helpers.projects_query_params.slice(*helpers.projects_query_param_names_for_sort)
+        )
       end
     end
 
-    def all_columns
-      @all_columns ||= [
-        [:hierarchy, { builtin: true }],
-        [:name, { builtin: true, caption: Project.human_attribute_name(:name) }],
-        [:project_status, { caption: Project.human_attribute_name(:status) }],
-        [:status_explanation, { caption: Project.human_attribute_name(:status_explanation) }],
-        [:public, { caption: Project.human_attribute_name(:public) }],
-        *custom_field_columns,
-        *admin_columns
-      ]
+    def order_options(select)
+      {
+        caption: select.caption
+      }
     end
 
-    def headers
-      all_columns
-        .select do |name, options|
-        options[:builtin] || Setting.enabled_projects_columns.include?(name.to_s)
-      end
-    end
-
-    def sortable_column?(_column)
-      true
+    def sortable_column?(select)
+      sortable? && query.known_order?(select.attribute)
     end
 
     def columns
-      @columns ||= headers.map(&:first)
-    end
+      @columns ||= begin
+        columns = query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
 
-    def admin_columns
-      return [] unless current_user.admin?
+        index = columns.index { |column| column.attribute == :name }
+        columns.insert(index, ::Queries::Projects::Selects::Default.new(:hierarchy)) if index
 
-      [
-        [:created_at, { caption: Project.human_attribute_name(:created_at) }],
-        [:latest_activity_at, { caption: Project.human_attribute_name(:latest_activity_at) }],
-        [:required_disk_space, { caption: I18n.t(:label_required_disk_storage) }]
-      ]
-    end
-
-    def custom_field_columns
-      project_custom_fields.values.map do |custom_field|
-        [custom_field.column_name.to_sym, { caption: custom_field.name, custom_field: true }]
-      end
-    end
-
-    def project_custom_fields
-      @project_custom_fields ||= begin
-        fields =
-          if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-            ProjectCustomField.visible(current_user).order(:position)
-          else
-            ProjectCustomField.none
-          end
-
-        fields
-          .index_by { |cf| cf.column_name.to_sym }
+        columns
       end
     end
 
@@ -154,6 +137,36 @@ module Projects
         .with_latest_activity
         .includes(:custom_values, :enabled_modules)
         .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+    end
+
+    def projects_with_levels_order_sensitive(projects, &)
+      if sorted_by_lft?
+        Project.project_tree(projects, &)
+      else
+        projects_with_level(projects, &)
+      end
+    end
+
+    def projects_with_level(projects, &)
+      ancestors = []
+
+      projects.each do |project|
+        while !ancestors.empty? && !project.is_descendant_of?(ancestors.last)
+          ancestors.pop
+        end
+
+        yield project, ancestors.count
+
+        ancestors << project
+      end
+    end
+
+    def favored_project_ids
+      @favored_project_ids ||= Favorite.where(user: current_user, favored_type: "Project").pluck(:favored_id)
+    end
+
+    def sorted_by_lft?
+      query.orders.first&.attribute == :lft
     end
   end
 end

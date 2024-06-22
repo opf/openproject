@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
   let(:user) { build_stubbed(:user) }
@@ -35,19 +35,19 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
   let(:project) { build_stubbed(:project) }
   let(:instance) { described_class.new(project) }
 
-  context 'with a project' do
+  context "with a project" do
     before do
       allow(project)
         .to receive(:principals)
         .and_return([user, group, placeholder_user])
     end
 
-    describe '#user_values' do
-      it 'returns a user array' do
+    describe "#user_values" do
+      it "returns a user array" do
         expect(instance.user_values).to contain_exactly([nil, user.id.to_s])
       end
 
-      it 'is empty if no user exists' do
+      it "is empty if no user exists" do
         allow(project)
           .to receive(:principals)
           .and_return([])
@@ -56,12 +56,12 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
       end
     end
 
-    describe '#group_values' do
-      it 'returns a group array' do
+    describe "#group_values" do
+      it "returns a group array" do
         expect(instance.group_values).to contain_exactly([nil, group.id.to_s])
       end
 
-      it 'is empty if no group exists' do
+      it "is empty if no group exists" do
         allow(project)
           .to receive(:principals)
           .and_return([])
@@ -70,13 +70,13 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
       end
     end
 
-    describe '#principal_values' do
-      it 'returns an array of principals as [name, id]' do
+    describe "#principal_values" do
+      it "returns an array of principals as [name, id]" do
         expect(instance.principal_values)
           .to contain_exactly([nil, group.id.to_s], [nil, user.id.to_s], [nil, placeholder_user.id.to_s])
       end
 
-      it 'is empty if no principal exists' do
+      it "is empty if no principal exists" do
         allow(project)
           .to receive(:principals)
           .and_return([])
@@ -86,7 +86,7 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
     end
   end
 
-  context 'without a project' do
+  context "without a project" do
     let(:project) { nil }
     let(:visible_projects) { [build_stubbed(:project)] }
     let(:matching_principals) { [user, group, placeholder_user] }
@@ -101,44 +101,44 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
               .and_return(matching_principals)
     end
 
-    describe '#user_values' do
-      it 'returns a user array' do
+    describe "#user_values" do
+      it "returns a user array" do
         expect(instance.user_values).to contain_exactly([nil, user.id.to_s])
       end
 
-      context 'if no user exists' do
+      context "if no user exists" do
         let(:matching_principals) { [group] }
 
-        it 'is empty' do
+        it "is empty" do
           expect(instance.user_values).to be_empty
         end
       end
     end
 
-    describe '#group_values' do
-      it 'returns a group array' do
+    describe "#group_values" do
+      it "returns a group array" do
         expect(instance.group_values).to contain_exactly([nil, group.id.to_s])
       end
 
-      context 'if no group exists' do
+      context "if no group exists" do
         let(:matching_principals) { [user] }
 
-        it 'is empty' do
+        it "is empty" do
           expect(instance.group_values).to be_empty
         end
       end
     end
 
-    describe '#principal_values' do
-      it 'returns an array of principals as [name, id]' do
+    describe "#principal_values" do
+      it "returns an array of principals as [name, id]" do
         expect(instance.principal_values)
           .to contain_exactly([nil, group.id.to_s], [nil, user.id.to_s], [nil, placeholder_user.id.to_s])
       end
 
-      context 'if no principals exist' do
+      context "if no principals exist" do
         let(:matching_principals) { [] }
 
-        it 'is empty' do
+        it "is empty" do
           expect(instance.principal_values).to be_empty
         end
       end

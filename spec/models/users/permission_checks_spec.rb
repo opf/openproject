@@ -33,8 +33,8 @@ RSpec.describe User, "permission check methods" do
 
   let(:project) { build_stubbed(:project) }
 
-  describe '.allowed' do
-    it 'calls the Authorization.users method' do
+  describe ".allowed" do
+    it "calls the Authorization.users method" do
       expect(Authorization).to receive(:users).with(:view_work_packages, project)
       described_class.allowed(:view_work_packages, project)
     end
@@ -48,120 +48,122 @@ RSpec.describe User, "permission check methods" do
 
   Member::ALLOWED_ENTITIES.each do |entity_model_name|
     context "for #{entity_model_name}" do
+      let(:model_name_part) { entity_model_name.constantize.model_name.element }
+
       it "defines allowed_in_#{entity_model_name.underscore}?" do
-        expect(subject).to respond_to("allowed_in_#{entity_model_name.underscore}?")
+        expect(subject).to respond_to("allowed_in_#{model_name_part}?")
       end
 
       it "defines allowed_in_any_#{entity_model_name.underscore}?" do
-        expect(subject).to respond_to("allowed_in_any_#{entity_model_name.underscore}?")
+        expect(subject).to respond_to("allowed_in_any_#{model_name_part}?")
       end
     end
   end
 
-  describe '#allowed_based_on_permission_context?' do
+  describe "#allowed_based_on_permission_context?" do
     let(:project) { nil }
     let(:entity) { nil }
     let(:result) { subject.allowed_based_on_permission_context?(permission, project:, entity:) }
     let(:permission_object) { OpenProject::AccessControl.permission(permission) }
 
-    context 'with a global permission' do
+    context "with a global permission" do
       let(:permission) { :create_user }
 
-      it 'uses the #allowed_globally? method' do
+      it "uses the #allowed_globally? method" do
         expect(subject).to receive(:allowed_globally?).with(permission_object)
         result
       end
     end
 
-    context 'with a project permission' do
+    context "with a project permission" do
       let(:permission) { :manage_members }
 
-      context 'without a project or entity' do
+      context "without a project or entity" do
         let(:entity) { nil }
         let(:project) { nil }
 
-        it 'uses the #allowed_in_any_project? method' do
+        it "uses the #allowed_in_any_project? method" do
           expect(subject).to receive(:allowed_in_any_project?).with(permission_object)
           result
         end
       end
 
-      context 'with a project' do
+      context "with a project" do
         let(:project) { build_stubbed(:project) }
 
-        it 'uses the #allowed_in_project? method' do
+        it "uses the #allowed_in_project? method" do
           expect(subject).to receive(:allowed_in_project?).with(permission_object, project)
           result
         end
       end
 
-      context 'with an entity that responds to #project' do
+      context "with an entity that responds to #project" do
         let(:permission) { :manage_members }
         let(:entity) { build_stubbed(:meeting) }
 
-        it 'uses the #allowed_in_project? method' do
+        it "uses the #allowed_in_project? method" do
           expect(subject).to receive(:allowed_in_project?).with(permission_object, entity.project)
           result
         end
 
-        context 'with the project being nil' do
+        context "with the project being nil" do
           let(:entity) { build_stubbed(:meeting, project: nil) }
 
-          it 'uses the #allowed_in_any_project? method' do
+          it "uses the #allowed_in_any_project? method" do
             expect(subject).to receive(:allowed_in_any_project?).with(permission_object)
             result
           end
         end
       end
 
-      context 'and an entity that does not respond to #project' do
+      context "and an entity that does not respond to #project" do
         let(:entity) { build_stubbed(:user) }
 
-        it 'uses the #allowed_in_any_project? method' do
+        it "uses the #allowed_in_any_project? method" do
           expect(subject).to receive(:allowed_in_any_project?).with(permission_object)
           result
         end
       end
     end
 
-    context 'with a work package (and a project) permission' do
+    context "with a work package (and a project) permission" do
       let(:permission) { :log_own_time }
 
-      context 'with a work package as the entity' do
+      context "with a work package as the entity" do
         let(:entity) { build_stubbed(:work_package) }
 
-        it 'uses the #allowed_in_work_package? method' do
+        it "uses the #allowed_in_work_package? method" do
           expect(subject).to receive(:allowed_in_work_package?).with(permission_object, entity)
           result
         end
       end
 
-      context 'with a not-persisted work package as the entity' do
-        context 'with a project' do
+      context "with a not-persisted work package as the entity" do
+        context "with a project" do
           let(:entity) { build(:work_package) }
 
-          it 'uses the #allowed_in_any_work_package? method with in_project: param' do
+          it "uses the #allowed_in_any_work_package? method with in_project: param" do
             expect(subject).to receive(:allowed_in_any_work_package?).with(permission_object, in_project: entity.project)
             result
           end
         end
       end
 
-      context 'with a project and no entity' do
+      context "with a project and no entity" do
         let(:project) { build_stubbed(:project) }
 
-        it 'uses the #allowed_in_any_work_package? method with in_project: param' do
+        it "uses the #allowed_in_any_work_package? method with in_project: param" do
           expect(subject).to receive(:allowed_in_any_work_package?).with(permission_object, in_project: project)
           result
         end
       end
 
-      context 'with a work package and a project' do
+      context "with a work package and a project" do
         let(:permission) { :log_own_time }
         let(:entity) { build_stubbed(:work_package) }
         let(:project) { build_stubbed(:project) }
 
-        it 'uses the #allowed_in_work_package? method' do
+        it "uses the #allowed_in_work_package? method" do
           expect(subject).to receive(:allowed_in_work_package?).with(permission_object, entity)
           result
         end
@@ -169,7 +171,7 @@ RSpec.describe User, "permission check methods" do
     end
   end
 
-  describe '#all_permissions_for' do
+  describe "#all_permissions_for" do
     let(:project) { create(:project) }
     let!(:other_project) { create(:project, public: true) }
 
@@ -182,67 +184,67 @@ RSpec.describe User, "permission check methods" do
                     member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
     end
 
-    it 'returns all permissions given on the project' do
+    it "returns all permissions given on the project" do
       expect(subject.all_permissions_for(project)).to match_array(%i[view_work_packages edit_work_packages] + public_permissions)
     end
 
-    it 'returns non-member permissions given on the project the user is not a member of' do
+    it "returns non-member permissions given on the project the user is not a member of" do
       expect(subject.all_permissions_for(other_project)).to match_array(%i[view_work_packages
                                                                            manage_members] + public_permissions)
     end
 
-    it 'returns all global permissions' do
-      skip 'Current implementation of the Authorization.roles query returns ALL permissions the user has, not only global ones. ' \
-           'We should change this in the fututre, thats why this test is already in here.'
+    it "returns all global permissions" do
+      skip "Current implementation of the Authorization.roles query returns ALL permissions the user has, not only global ones. " \
+           "We should change this in the fututre, thats why this test is already in here."
 
       expect(subject.all_permissions_for(nil)).to match_array(%i[create_user])
     end
 
-    it 'returns all permissions the user has (with project and global permissions)' do
+    it "returns all permissions the user has (with project and global permissions)" do
       expect(subject.all_permissions_for(nil)).to match_array(%i[create_user
                                                                  view_work_packages edit_work_packages
                                                                  manage_members] + public_permissions)
     end
   end
 
-  describe '#access_to?' do
+  describe "#access_to?" do
     let(:project) { create(:project) }
     let(:another_project) { create(:project) }
 
-    context 'when the user is a member of the project' do
+    context "when the user is a member of the project" do
       subject { create(:user, member_with_permissions: { project => [:view_project] }) }
 
-      it 'returns true' do
+      it "returns true" do
         expect(subject.access_to?(project)).to be true
       end
 
-      it 'returns false for another project' do
+      it "returns false for another project" do
         expect(subject.access_to?(another_project)).to be false
       end
     end
 
-    context 'when the user is not a member of the project' do
+    context "when the user is not a member of the project" do
       subject { create(:user, member_with_permissions: { another_project => [:view_work_packages] }) }
 
-      it 'returns false' do
+      it "returns false" do
         expect(subject.access_to?(project)).to be false
       end
     end
 
-    context 'when the user is member of a work package within the project' do
+    context "when the user is member of a work package within the project" do
       let(:work_package) { create(:work_package, project:) }
 
       subject { create(:user, member_with_permissions: { work_package => [:view_work_packages] }) }
 
-      it 'returns false' do
+      it "returns false" do
         expect(subject.access_to?(project)).to be true
       end
     end
 
-    context 'when the user is an admin' do
+    context "when the user is an admin" do
       subject { create(:admin) }
 
-      it 'returns true' do
+      it "returns true" do
         expect(subject.access_to?(project)).to be true
       end
     end

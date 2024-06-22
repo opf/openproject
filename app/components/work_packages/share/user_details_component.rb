@@ -78,7 +78,7 @@ module WorkPackages
       end
 
       def resend_invite_path
-        resend_invite_work_package_share_path(share.entity, share)
+        url_for([:resend_invite, share.entity, share])
       end
 
       def user_is_a_group?

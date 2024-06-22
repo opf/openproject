@@ -44,29 +44,24 @@ require('expose-loader?dragula!dragula/dist/dragula.min.js');
 require('@uirouter/angular');
 
 // Jquery UI
-require('jquery-ui/ui/core.js');
-require('jquery-ui/ui/position.js');
-require('jquery-ui/ui/disable-selection.js');
-require('jquery-ui/ui/widgets/sortable.js');
-require('jquery-ui/ui/widgets/dialog.js');
-require('jquery-ui/ui/widgets/tooltip.js');
+require('jquery-ui/ui/core');
+require('jquery-ui/ui/position');
+require('jquery-ui/ui/disable-selection');
+require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui/ui/widgets/dialog');
+require('jquery-ui/ui/widgets/tooltip');
 
 require('expose-loader?moment!moment');
-require('moment/locale/en-gb.js');
-require('moment/locale/de.js');
+require('moment/locale/de');
+require('moment/locale/en-gb');
 
 require('jquery.caret');
 // Text highlight for autocompleter
-require('mark.js/dist/jquery.mark.min.js');
-// Micro Text fuzzy search library
-require('fuse.js');
+require('mark.js/dist/jquery.mark.min');
 
-require('moment-timezone/builds/moment-timezone-with-data.min.js');
+require('moment-timezone/builds/moment-timezone-with-data.min');
 // eslint-disable-next-line import/extensions,import/no-extraneous-dependencies
 require('@openproject/primer-view-components/app/assets/javascripts/primer_view_components.js');
 
 require('expose-loader?URI!urijs');
 require('urijs/src/URITemplate');
-
-// Localization for fullcalendar
-require('@fullcalendar/core/locales-all');

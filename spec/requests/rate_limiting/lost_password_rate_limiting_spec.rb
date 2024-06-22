@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Rate limiting lost_password',
+RSpec.describe "Rate limiting lost_password",
                :with_rack_attack,
                type: :rails_request do
   before do
@@ -37,35 +37,35 @@ RSpec.describe 'Rate limiting lost_password',
       .and_return(false)
   end
 
-  it 'blocks the request on the fourth try to the same address' do
+  it "blocks the request on the fourth try to the same address" do
     3.times do
       post account_lost_password_path,
-           params: { mail: 'foo@example.com' },
-           headers: { 'Content-Type': 'multipart/form-data' }
+           params: { mail: "foo@example.com" },
+           headers: { "Content-Type": "multipart/form-data" }
       expect(response).to be_successful
     end
 
     post account_lost_password_path,
-         params: { mail: 'foo@example.com' },
-         headers: { 'Content-Type': 'multipart/form-data' }
+         params: { mail: "foo@example.com" },
+         headers: { "Content-Type": "multipart/form-data" }
     expect(response).to have_http_status :too_many_requests
     expect(response.body).to include "Your request has been throttled"
 
     post account_lost_password_path,
-         params: { mail: 'corrected@example.com' },
-         headers: { 'Content-Type': 'multipart/form-data' }
+         params: { mail: "corrected@example.com" },
+         headers: { "Content-Type": "multipart/form-data" }
     expect(response).to be_successful
   end
 
-  context 'when disabled', with_config: { rate_limiting: { lost_password: false } } do
-    it 'does not block post request to any form' do
+  context "when disabled", with_config: { rate_limiting: { lost_password: false } } do
+    it "does not block post request to any form" do
       # Need to reload rules again after config change
       OpenProject::RateLimiting.set_defaults!
 
       4.times do
         post account_lost_password_path,
-             params: { mail: 'foo@example.com' },
-             headers: { 'Content-Type': 'multipart/form-data' }
+             params: { mail: "foo@example.com" },
+             headers: { "Content-Type": "multipart/form-data" }
         expect(response).to be_successful
       end
     end

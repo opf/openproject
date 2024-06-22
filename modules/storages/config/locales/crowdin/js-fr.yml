@@ -78,7 +78,7 @@ fr:
         link_uploaded_file_error: >
           Une erreur s'est produite lors de la liaison du fichier '%{fileName}' récemment téléversé au lot de travaux %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to the storage to access this file."
+          not_logged_in: "Veuillez vous connecter au stockage pour accéder à ce fichier."
           view_not_allowed: "Vous n'avez pas la permission de voir ce fichier."
           not_found: "Impossible de trouver ce fichier."
         already_linked_file: "Ce fichier est déjà lié à ce lot de travaux."

@@ -8,6 +8,7 @@ ro:
         text: "Unele widgeturi, cum ar fi widgetul grafic al pachetului de lucru, sunt disponibile numai în ediția Enterprise."
         link: 'Ediția Enterprise.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'Text customizat'
         documents:
@@ -41,6 +42,9 @@ ro:
         subprojects:
           title: 'Subproiecte'
           no_results: 'Cu subproiecte'
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Timpul meu petrecut'
           displayed_days: 'Zile afișate în lista de activități a proiectului'

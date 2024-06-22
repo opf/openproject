@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'support/components/common/modal'
-require 'support/components/autocompleter/ng_select_autocomplete_helpers'
+require "support/components/common/modal"
+require "support/components/autocompleter/ng_select_autocomplete_helpers"
 
 module Components
   module WorkPackages
@@ -40,7 +40,7 @@ module Components
         super()
 
         @work_package = work_package
-        @title = I18n.t('js.work_packages.sharing.title')
+        @title = I18n.t("js.work_packages.sharing.title")
       end
 
       def expect_open
@@ -76,10 +76,10 @@ module Components
 
       def toggle_select_all
         within shares_header do
-          if page.find_field('toggle_all').checked?
-            uncheck 'toggle_all'
+          if page.find_field("toggle_all").checked?
+            uncheck "toggle_all"
           else
-            check 'toggle_all'
+            check "toggle_all"
           end
         end
       end
@@ -107,43 +107,43 @@ module Components
 
       def expect_select_all_available
         expect(shares_header)
-          .to have_field('toggle_all')
+          .to have_field("toggle_all")
       end
 
       def expect_select_all_not_available
         expect(shares_header)
-          .to have_no_field('toggle_all', wait: 0)
+          .to have_no_field("toggle_all", wait: 0)
       end
 
       def expect_select_all_toggled
         within shares_header do
-          expect(page).to have_checked_field('toggle_all')
+          expect(page).to have_checked_field("toggle_all")
         end
       end
 
       def expect_select_all_untoggled
         within shares_header do
-          expect(page).to have_unchecked_field('toggle_all')
+          expect(page).to have_unchecked_field("toggle_all")
         end
       end
 
       def expect_bulk_actions_available
         within shares_header do
-          expect(page).to have_button 'Remove'
-          expect(page).to have_test_selector('op-share-wp-bulk-update-role')
+          expect(page).to have_test_selector("op-share-wp--bulk-remove")
+          expect(page).to have_test_selector("op-share-wp-bulk-update-role")
         end
       end
 
       def expect_bulk_actions_not_available
         within shares_header do
-          expect(page).to have_no_button('Remove', wait: 0)
-          expect(page).not_to have_test_selector('op-share-wp-bulk-update-role', wait: 0)
+          expect(page).not_to have_test_selector("op-share-wp--bulk-remove", wait: 0)
+          expect(page).not_to have_test_selector("op-share-wp-bulk-update-role", wait: 0)
         end
       end
 
       def bulk_remove
         within shares_header do
-          click_button 'Remove'
+          page.find_test_selector("op-share-wp--bulk-remove").click
         end
       end
 
@@ -151,7 +151,7 @@ module Components
         within shares_header do
           find('[data-test-selector="op-share-wp-bulk-update-role"]').click
 
-          find('.ActionListContent', text: role_name).click
+          find(".ActionListContent", text: role_name).click
         end
       end
 
@@ -160,7 +160,7 @@ module Components
           expect(page)
             .to have_css('[data-test-selector="op-share-wp-bulk-update-role"] .Button-label',
                          text: label_text)
-          if label_text == 'Mixed'
+          if label_text == "Mixed"
             %w[View Comment Edit].each do |permission_name|
               within bulk_update_form(permission_name) do
                 expect(page)
@@ -181,7 +181,7 @@ module Components
       end
 
       def checked_permission
-        'button[type=submit][aria-checked=true]'
+        "button[type=submit][aria-checked=true]"
       end
 
       def unchecked_permission
@@ -190,13 +190,13 @@ module Components
 
       def expect_blankslate
         within_modal do
-          expect(page).to have_text(I18n.t('work_package.sharing.text_empty_state_description'))
+          expect(page).to have_text(I18n.t("work_package.sharing.text_empty_state_description"))
         end
       end
 
       def expect_empty_search_blankslate
         within_modal do
-          expect(page).to have_text(I18n.t('work_package.sharing.text_empty_search_description'))
+          expect(page).to have_text(I18n.t("work_package.sharing.text_empty_search_description"))
         end
       end
 
@@ -213,7 +213,7 @@ module Components
         select_invite_role(role_name)
 
         within_modal do
-          click_button 'Share'
+          click_button "Share"
         end
       end
 
@@ -233,21 +233,21 @@ module Components
       def search_user(search_string)
         search_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
                             query: search_string,
-                            results_selector: 'body'
+                            results_selector: "body"
       end
 
       def remove_user(user)
         within user_row(user) do
-          click_button 'Remove'
+          page.find_test_selector("op-share-wp--remove").click
         end
       end
 
       def select_invite_role(role_name)
         within modal_element.find('[data-test-selector="op-share-wp-invite-role"]') do
           # Open the ActionMenu
-          click_button 'View'
+          click_button "View"
 
-          find('.ActionListContent', text: role_name).click
+          find(".ActionListContent", text: role_name).click
         end
       end
 
@@ -255,7 +255,7 @@ module Components
         within user_row(user) do
           find('[data-test-selector="op-share-wp-update-role"]').click
 
-          within '.ActionListWrap' do
+          within ".ActionListWrap" do
             click_button role_name
           end
         end
@@ -270,7 +270,7 @@ module Components
             find("[data-test-selector='op-share-wp-filter-#{filter_name}-button']").click
 
             # Open the ActionMenu
-            find('.ActionListContent', text: value).click
+            find(".ActionListContent", text: value).click
           end
         end
 
@@ -285,7 +285,7 @@ module Components
 
       def click_share
         within_modal do
-          click_button 'Share'
+          click_button "Share"
         end
       end
 
@@ -318,13 +318,13 @@ module Components
 
       def expect_shared_count_of(count)
         expect(shares_header)
-          .to have_text(I18n.t('work_package.sharing.count', count:))
+          .to have_text(I18n.t("work_package.sharing.count", count:))
       end
 
       def expect_no_invite_option
         within_modal do
           expect(page)
-            .to have_text(I18n.t('work_package.sharing.permissions.denied'))
+            .to have_text(I18n.t("work_package.sharing.permissions.denied"))
         end
       end
 
@@ -361,21 +361,21 @@ module Components
       end
 
       def shares_list
-        find_by_id('op-share-wp-active-shares')
+        find_by_id("op-share-wp-active-shares")
       end
 
       def select_existing_user(user)
         select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
                             query: user.firstname,
                             select_text: user.name,
-                            results_selector: 'body'
+                            results_selector: "body"
       end
 
       def select_not_existing_user_option(email)
         select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
                             query: email,
                             select_text: "Send invite to\"#{email}\"",
-                            results_selector: 'body'
+                            results_selector: "body"
       end
 
       def expect_upsale_banner
@@ -388,14 +388,14 @@ module Components
       def expect_no_user_limit_warning
         within modal_element do
           expect(page)
-            .to have_no_text(I18n.t('work_package.sharing.warning_user_limit_reached'), wait: 0)
+            .to have_no_text(I18n.t("work_package.sharing.warning_user_limit_reached"), wait: 0)
         end
       end
 
       def expect_user_limit_warning
         within modal_element do
           expect(page)
-            .to have_text(I18n.t('work_package.sharing.warning_user_limit_reached'))
+            .to have_text(I18n.t("work_package.sharing.warning_user_limit_reached"))
         end
       end
 

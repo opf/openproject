@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require Rails.root.join("spec/requests/api/v3/attachments/attachment_resource_shared_examples").to_s
 
 RSpec.describe "grid attachments" do

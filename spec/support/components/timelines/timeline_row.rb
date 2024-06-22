@@ -40,7 +40,7 @@ module Components
       end
 
       def hover!
-        @container.find('.timeline-element').hover
+        @container.find(".timeline-element").hover
       end
 
       def expect_hovered_labels(left:, right:)
@@ -93,7 +93,7 @@ module Components
       def expect_bar(duration: 1)
         loading_indicator_saveguard
         expected_length = duration * 30
-        expect(container).to have_css('.timeline-element', style: { width: "#{expected_length}px" })
+        expect(container).to have_css(".timeline-element", style: { width: "#{expected_length}px" })
       end
 
       def expect_no_hovered_bar
@@ -102,7 +102,7 @@ module Components
 
       def expect_no_bar
         loading_indicator_saveguard
-        expect(container).to have_no_css('.timeline-element')
+        expect(container).to have_no_css(".timeline-element")
       end
 
       def drag_and_drop(offset_days: 0, days: 1)
@@ -119,7 +119,7 @@ module Components
         # The timeline element and the mouse handlers are lazily loaded and can
         # be hidden if no dates are set. Finding it waits until the lazy loading
         # has completed.
-        container.find('.timeline-element', visible: :all)
+        container.find(".timeline-element", visible: :all)
       end
 
       private

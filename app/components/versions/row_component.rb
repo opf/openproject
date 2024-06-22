@@ -75,11 +75,11 @@ module Versions
     end
 
     def wiki_page
-      return '' if wiki_page_title.blank? || version.project.wiki.nil?
+      return "" if wiki_page_title.blank? || version.project.wiki.nil?
 
       helpers.link_to_if_authorized(wiki_page_title,
-                                    controller: '/wiki',
-                                    action: 'show',
+                                    controller: "/wiki",
+                                    action: "show",
                                     project_id: version.project,
                                     id: wiki_page_title) || h(wiki_page_title)
     end
@@ -97,20 +97,20 @@ module Versions
     def edit_link
       return unless version.project == table.project
 
-      helpers.link_to_if_authorized '',
-                                    { controller: '/versions', action: 'edit', id: version },
-                                    class: 'icon icon-edit',
+      helpers.link_to_if_authorized "",
+                                    { controller: "/versions", action: "edit", id: version },
+                                    class: "icon icon-edit",
                                     title: t(:button_edit)
     end
 
     def delete_link
       return unless version.project == table.project
 
-      helpers.link_to_if_authorized '',
-                                    { controller: '/versions', action: 'destroy', id: version },
+      helpers.link_to_if_authorized "",
+                                    { controller: "/versions", action: "destroy", id: version },
                                     data: { confirm: t(:text_are_you_sure) },
                                     method: :delete,
-                                    class: 'icon icon-delete',
+                                    class: "icon icon-delete",
                                     title: t(:button_delete)
     end
 

@@ -27,14 +27,17 @@
 #++
 
 priorities:
-  - t_name: Low
+  - reference: :default_priority_low
+    t_name: Low
     color_name: cyan-1
     position: 1
-  - t_name: Normal
+  - reference: :default_priority_normal
+    t_name: Normal
     color_name: blue-3
     is_default: true
     position: 2
-  - t_name: High
+  - reference: :default_priority_high
+    t_name: High
     color_name: yellow-7
     position: 3
   - reference: :default_priority_immediate
@@ -46,60 +49,74 @@ statuses:
 - reference: :default_status_new
   t_name: New
   color_name: cyan-7
+  default_done_ratio: 0
   is_default: true
   position: 1
 - reference: :default_status_in_specification
   t_name: In specification
   color_name: blue-2
+  default_done_ratio: 10
   position: 2
 - reference: :default_status_specified
   t_name: Specified
   color_name: blue-2
+  default_done_ratio: 20
   position: 3
 - reference: :default_status_confirmed
   t_name: Confirmed
   color_name: violet-2
+  default_done_ratio: 20
   position: 4
 - reference: :default_status_to_be_scheduled
   t_name: To be scheduled
   color_name: yellow-2
+  default_done_ratio: 20
   position: 5
 - reference: :default_status_scheduled
   t_name: Scheduled
   color_name: lime-2
+  default_done_ratio: 20
   position: 6
 - reference: :default_status_in_progress
   t_name: In progress
   color_name: grape-5
+  default_done_ratio: 40
   position: 7
 - reference: :default_status_developed
   t_name: Developed
   color_name: green-3
+  default_done_ratio: 70
   position: 8
 - reference: :default_status_in_testing
   t_name: In testing
   color_name: cyan-5
+  default_done_ratio: 80
   position: 9
 - reference: :default_status_tested
   t_name: Tested
   color_name: teal-6
+  default_done_ratio: 90
   position: 10
 - reference: :default_status_test_failed
   t_name: Test failed
   color_name: red-5
+  default_done_ratio: 70
   position: 11
 - reference: :default_status_closed
   t_name: Closed
   color_name: gray-3
+  default_done_ratio: 100
   is_closed: true
   position: 12
 - reference: :default_status_on_hold
   t_name: On hold
   color_name: orange-3
+  default_done_ratio: 0
   position: 13
 - reference: :default_status_rejected
   t_name: Rejected
   color_name: red-3
+  default_done_ratio: 0
   is_closed: true
   position: 14
 
@@ -288,6 +305,7 @@ projects:
         sort_by: id
         hierarchy: true
         starred: true
+        module: gantt
         columns:
           - id
           - type
@@ -534,6 +552,21 @@ projects:
           - to: :follow_up_tasks
             type: follows
         schedule_manually: false
+    t_wiki: |
+      _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+
+      **You can:**
+
+      * Insert text and images, also with copy and paste from other documents
+      * Create a page hierarchy with parent pages
+      * Include wiki pages to the project menu
+      * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
+      * Include wiki pages in other text fields, e.g. project overview page
+      * Include links to other documents
+      * View the change history
+      * View as Markdown
+
+      More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
   scrum-project:
     t_name: Scrum project
     identifier: your-scrum-project
@@ -631,6 +664,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         reference: :scrum_project__query__project_plan
         status: open
         sort_by: id

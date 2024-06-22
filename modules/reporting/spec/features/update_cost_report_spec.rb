@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
-require_relative 'support/pages/cost_report_page'
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
+require_relative "support/pages/cost_report_page"
 
 RSpec.describe "updating a cost report's cost type", :js do
   let(:project) { create(:project_with_types, members: { user => create(:project_role) }) }
@@ -36,7 +36,7 @@ RSpec.describe "updating a cost report's cost type", :js do
   end
 
   let(:cost_type) do
-    create(:cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps')
+    create(:cost_type, name: "Post-war", unit: "cap", unit_plural: "caps")
   end
 
   let!(:cost_entry) do
@@ -49,16 +49,16 @@ RSpec.describe "updating a cost report's cost type", :js do
     login_as(user)
   end
 
-  it 'works' do
+  it "works" do
     report_page.visit!
 
-    report_page.save(as: 'My Query', public: true)
+    report_page.save(as: "My Query", public: true)
     report_page.wait_for_page_to_reload
 
-    cost_query = CostQuery.find_by!(name: 'My Query')
+    cost_query = CostQuery.find_by!(name: "My Query")
     expect(page).to have_current_path("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
 
-    expect(page).to have_field('Labor', checked: true)
+    expect(page).to have_field("Labor", checked: true)
 
     report_page.switch_to_type cost_type.name
     expect(page).to have_field(cost_type.name, checked: true, wait: 10)

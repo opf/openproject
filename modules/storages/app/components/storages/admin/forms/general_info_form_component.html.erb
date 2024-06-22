@@ -33,25 +33,6 @@
 
         if storage.provider_type_one_drive?
           general_info_row.with_row(mb: 3) do
-            render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t(:'storages.label_managed_project_folders.automatically_managed_folders') }
-          end
-
-          general_info_row.with_row(mb: 3) do
-            render(Primer::Beta::Text.new) { I18n.t("storages.page_titles.managed_project_folders.subtitle") }
-          end
-
-          general_info_row.with_row(mb: 3) do
-            render(Storages::Admin::ManagedProjectFolders::AutomaticManagementCheckbox.new(form, storage:))
-          end
-
-          general_info_row.with_row(mb: 3,
-                                    data: {
-                                      'storages--automatically-managed-project-folders-form-target': "oneDriveInformationText"
-                                    }) do
-            render(Primer::Beta::Text.new) { information_for_one_drive_automatic_management }
-          end
-
-          general_info_row.with_row(mb: 3) do
             render(Storages::Admin::ProviderDriveIdInputForm.new(form))
           end
 

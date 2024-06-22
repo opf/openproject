@@ -25,8 +25,8 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe API::V3::Users::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
@@ -43,90 +43,90 @@ RSpec.describe API::V3::Users::CreateFormAPI, content_type: :json do
 
   subject(:response) { last_response }
 
-  context 'with authorized user' do
+  context "with authorized user" do
     shared_let(:current_user) { create(:user, global_permissions: [:create_user]) }
 
-    describe 'empty params' do
+    describe "empty params" do
       let(:payload) do
         {}
       end
 
       # rubocop:disable RSpec/ExampleLength
-      it 'returns a payload with validation errors',
+      it "returns a payload with validation errors",
          :aggregate_failures,
          with_settings: { default_language: :es } do
         expect(response.status).to eq(200)
-        expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
+        expect(response.body).to be_json_eql("Form".to_json).at_path("_type")
 
         expect(body)
-          .to be_json_eql(''.to_json)
-                .at_path('_embedded/payload/login')
+          .to be_json_eql("".to_json)
+                .at_path("_embedded/payload/login")
         expect(body)
-          .to be_json_eql(''.to_json)
-                .at_path('_embedded/payload/email')
+          .to be_json_eql("".to_json)
+                .at_path("_embedded/payload/email")
         expect(body)
-          .to be_json_eql('es'.to_json)
-                .at_path('_embedded/payload/language')
+          .to be_json_eql("es".to_json)
+                .at_path("_embedded/payload/language")
         expect(body)
-          .to be_json_eql('active'.to_json)
-                .at_path('_embedded/payload/status')
+          .to be_json_eql("active".to_json)
+                .at_path("_embedded/payload/status")
 
         expect(body)
           .to have_json_size(5)
-                .at_path('_embedded/validationErrors')
+                .at_path("_embedded/validationErrors")
 
         expect(body)
-          .to have_json_path('_embedded/validationErrors/password')
+          .to have_json_path("_embedded/validationErrors/password")
         expect(body)
-          .to have_json_path('_embedded/validationErrors/login')
+          .to have_json_path("_embedded/validationErrors/login")
         expect(body)
-          .to have_json_path('_embedded/validationErrors/email')
+          .to have_json_path("_embedded/validationErrors/email")
         expect(body)
-          .to have_json_path('_embedded/validationErrors/firstName')
+          .to have_json_path("_embedded/validationErrors/firstName")
         expect(body)
-          .to have_json_path('_embedded/validationErrors/lastName')
+          .to have_json_path("_embedded/validationErrors/lastName")
 
         expect(body)
-          .not_to have_json_path('_links/commit')
+          .not_to have_json_path("_links/commit")
       end
       # rubocop:enable RSpec/ExampleLength
     end
 
-    describe 'inviting a user' do
+    describe "inviting a user" do
       let(:payload) do
         {
-          email: 'foo@example.com',
-          status: 'invited'
+          email: "foo@example.com",
+          status: "invited"
         }
       end
 
-      it 'returns a valid payload', :aggregate_failures do
+      it "returns a valid payload", :aggregate_failures do
         expect(response.status).to eq(200)
-        expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
+        expect(response.body).to be_json_eql("Form".to_json).at_path("_type")
 
         expect(body)
-          .to be_json_eql('invited'.to_json)
-                .at_path('_embedded/payload/status')
+          .to be_json_eql("invited".to_json)
+                .at_path("_embedded/payload/status")
 
         expect(body)
-          .to be_json_eql('foo@example.com'.to_json)
-                .at_path('_embedded/payload/email')
+          .to be_json_eql("foo@example.com".to_json)
+                .at_path("_embedded/payload/email")
 
         expect(body)
-          .to be_json_eql('foo'.to_json)
-                .at_path('_embedded/payload/firstName')
+          .to be_json_eql("foo".to_json)
+                .at_path("_embedded/payload/firstName")
 
         expect(body)
-          .to be_json_eql('@example.com'.to_json)
-                .at_path('_embedded/payload/lastName')
+          .to be_json_eql("@example.com".to_json)
+                .at_path("_embedded/payload/lastName")
 
         expect(body)
           .to have_json_size(0)
-                .at_path('_embedded/validationErrors')
+                .at_path("_embedded/validationErrors")
       end
     end
 
-    describe 'with custom fields' do
+    describe "with custom fields" do
       let!(:custom_field) do
         create(:user_custom_field, :string)
       end
@@ -137,8 +137,8 @@ RSpec.describe API::V3::Users::CreateFormAPI, content_type: :json do
 
       let(:payload) do
         {
-          email: 'cfuser@example.com',
-          status: 'invited',
+          email: "cfuser@example.com",
+          status: "invited",
           custom_field.attribute_name(:camel_case) => "A custom value",
           _links: {
             list_custom_field.attribute_name(:camel_case) => {
@@ -148,28 +148,28 @@ RSpec.describe API::V3::Users::CreateFormAPI, content_type: :json do
         }
       end
 
-      it 'returns a valid form response' do
+      it "returns a valid form response" do
         expect(response.status).to eq(200)
-        expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
+        expect(response.body).to be_json_eql("Form".to_json).at_path("_type")
 
         expect(body)
-          .to be_json_eql('invited'.to_json)
-                .at_path('_embedded/payload/status')
+          .to be_json_eql("invited".to_json)
+                .at_path("_embedded/payload/status")
 
         expect(body)
-          .to be_json_eql('cfuser@example.com'.to_json)
-                .at_path('_embedded/payload/email')
+          .to be_json_eql("cfuser@example.com".to_json)
+                .at_path("_embedded/payload/email")
 
         expect(body)
-          .to be_json_eql('cfuser'.to_json)
-                .at_path('_embedded/payload/firstName')
+          .to be_json_eql("cfuser".to_json)
+                .at_path("_embedded/payload/firstName")
 
         expect(body)
-          .to be_json_eql('@example.com'.to_json)
-                .at_path('_embedded/payload/lastName')
+          .to be_json_eql("@example.com".to_json)
+                .at_path("_embedded/payload/lastName")
 
         expect(body)
-          .to be_json_eql('A custom value'.to_json)
+          .to be_json_eql("A custom value".to_json)
                 .at_path("_embedded/payload/customField#{custom_field.id}")
 
         expect(body)
@@ -178,17 +178,17 @@ RSpec.describe API::V3::Users::CreateFormAPI, content_type: :json do
 
         expect(body)
           .to have_json_size(0)
-                .at_path('_embedded/validationErrors')
+                .at_path("_embedded/validationErrors")
       end
     end
   end
 
-  context 'with unauthorized user' do
+  context "with unauthorized user" do
     shared_let(:current_user) { create(:user) }
     let(:payload) do
       {}
     end
 
-    it_behaves_like 'unauthorized access'
+    it_behaves_like "unauthorized access"
   end
 end

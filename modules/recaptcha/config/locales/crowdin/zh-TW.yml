@@ -5,20 +5,22 @@ zh-TW:
     description: "This module provides recaptcha checks during login."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Please wait ...'
-    verify_account: "Verify your account"
-    error_captcha: "Your account could not be verified. Please contact an administrator."
+    button_please_wait: '請稍候......'
+    verify_account: "驗證您的帳戶"
+    error_captcha: "您的帳號無法驗證，請洽管理員。"
     settings:
-      website_key: 'Website key'
-      response_limit: 'Response limit for HCaptcha'
-      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
-      secret_key: 'Secret key'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
+      website_key: '網站金鑰'
+      response_limit: 'HCaptcha回應限制'
+      response_limit_text: '將 HCAPTCHA 回應視為有效的最大字元數。'
+      website_key_text: '輸入您在 reCAPTCHA 管理控制台上為此網域建立的網站金鑰。'
+      secret_key: '密鑰'
+      secret_key_text: '輸入您在 reCAPTCHA 管理控制台上建立的金鑰。'
       type: '使用 reCAPTCHA'
       type_disabled: '停用 reCAPTCHA'
       type_v2: 'reCAPTCHA 第2版'
       type_v3: 'reCAPTCHA 第3版'
       type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}
+        reCAPTCHA 是一項由 Google 提供的免費服務，可用於您的 OpenProject 系統。啟用後，所有尚未驗證驗證碼的使用者在登入時都會看到一個驗證碼。
+        有關 reCAPTCHA 及其版本以及如何建立網站金鑰和密鑰的更多詳細資訊，請參閱以下連結：%{recaptcha_link} <br/>
+        如果您不想使用 reCAPTCHA，可以選擇使用 HCaptcha，它是個不依賴 Google 的替代方案。有關更多資訊，請參閱此連結：%{hcaptcha_link}

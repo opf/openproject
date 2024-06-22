@@ -124,7 +124,7 @@ class WorkPackage
     def wp_table_descendants
       # Relies on a table called descendants to exist in the scope
       # which is provided by left_join_self_and_descendants
-      wp_table.alias 'descendants'
+      wp_table.alias "descendants"
     end
 
     def ce_table

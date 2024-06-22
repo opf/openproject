@@ -1,0 +1,67 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+uk:
+  activerecord:
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: "має бути масивом гешів із ключами: color, title"
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: "має бути масивом гешів із ключами: color, title"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "Показати контент Gitlab"
+  gitlab_integration:
+    merge_request_opened_comment: >
+      **Відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_closed_comment: >
+      **Закрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_merged_comment: >
+      **Об’єднано MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) об’єднано користувачем [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_reopened_comment: >
+      **Повторно відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).
+    note_commit_referenced_comment: >
+      **Додано посилання в коміті:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у примітці до коміта [%{commit_id}](%{commit_url}) у [%{repository}](%{repository_url}): %{commit_note}
+    note_mr_referenced_comment: >
+      **Додано посилання в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}): %{mr_note}
+    note_mr_commented_comment: >
+      **Додано коментар у MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP в запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}): %{mr_note}
+    note_issue_referenced_comment: >
+      **Додано посилання на задачу:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP в задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}): %{issue_note}
+    note_issue_commented_comment: >
+      **Додано посилання в задачі:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP у задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}): %{issue_note}
+    note_snippet_referenced_comment: >
+      **Додано посилання у фрагменті:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у фрагменті %{snippet_number} [%{snippet_title}](%{snippet_url}) у [%{repository}](%{repository_url}): %{snippet_note}
+    issue_opened_referenced_comment: >
+      **Відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).
+    issue_closed_referenced_comment: >
+      **Закрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{gitlab_user}](%{gitlab_user_url}).
+    issue_reopened_referenced_comment: >
+      **Повторно відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).
+    push_single_commit_comment: >
+      **Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}
+    push_multiple_commits_comment: >
+      **Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс кілька комітів [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}

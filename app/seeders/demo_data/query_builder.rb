@@ -37,7 +37,7 @@ module DemoData
 
     def create!
       create_query.tap do |query|
-        seed_data.store_reference(config['reference'], query)
+        seed_data.store_reference(config["reference"], query)
       end
     end
 
@@ -73,7 +73,7 @@ module DemoData
     end
 
     def create_view(query)
-      type = config.fetch(:module, 'work_packages_table')
+      type = config.fetch(:module, "work_packages_table")
       View.create!(
         type:,
         query:
@@ -81,7 +81,7 @@ module DemoData
 
       # Save information that a view has been seeded.
       # This information can be used for example in the onboarding tour
-      Setting["demo_view_of_type_#{type}_seeded"] = 'true'
+      Setting["demo_view_of_type_#{type}_seeded"] = "true"
     end
 
     def set_project!(attr)

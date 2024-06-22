@@ -28,44 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe API::V3::StorageFiles::StorageUploadLinkRepresenter, 'rendering' do
+RSpec.describe API::V3::StorageFiles::StorageUploadLinkRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   let(:user) { build_stubbed(:user) }
-  let(:token) { 'xyz123' }
+  let(:token) { "xyz123" }
   let(:destination) { "https://example.com/upload/#{token}" }
   let(:upload_link) do
-    Storages::UploadLink.new("https://example.com/upload/#{token}")
+    Storages::UploadLink.new("https://example.com/upload/#{token}", :post)
   end
   let(:representer) { described_class.new(upload_link, current_user: user) }
 
   subject { representer.to_json }
 
-  describe 'links' do
-    it { is_expected.to have_json_type(Object).at_path('_links') }
+  describe "links" do
+    it { is_expected.to have_json_type(Object).at_path("_links") }
 
-    describe 'to self' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'self' }
+    describe "to self" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { "self" }
         let(:href) { "#{API::V3::URN_PREFIX}storages:upload_link:no_link_provided" }
       end
     end
 
-    describe 'without finalize link' do
-      describe 'to destination' do
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'destination' }
+    describe "without finalize link" do
+      describe "to destination" do
+        it_behaves_like "has a titled link" do
+          let(:link) { "destination" }
           let(:href) { destination }
-          let(:title) { 'Upload File' }
+          let(:title) { "Upload File" }
         end
       end
 
-      describe 'not to finalize' do
-        it_behaves_like 'has no link' do
-          let(:link) { 'finalize' }
+      describe "not to finalize" do
+        it_behaves_like "has no link" do
+          let(:link) { "finalize" }
         end
       end
     end

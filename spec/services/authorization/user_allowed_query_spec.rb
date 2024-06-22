@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Authorization::UserAllowedQuery do
-  describe '.query' do
+  describe ".query" do
     let(:user) { member.principal }
     let(:anonymous) { build(:anonymous) }
     let(:project) { build(:project, public: false) }
@@ -54,7 +54,7 @@ RSpec.describe Authorization::UserAllowedQuery do
       non_member_role.save!
     end
 
-    it 'is an AR relation' do
+    it "is an AR relation" do
       expect(described_class.query(action, project)).to be_a ActiveRecord::Relation
     end
 
@@ -68,7 +68,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'returns the user' do
+      it "returns the user" do
         expect(described_class.query(action, project)).to contain_exactly(user)
       end
     end
@@ -80,7 +80,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         user.update_attribute(:admin, true)
       end
 
-      it 'returns the user' do
+      it "returns the user" do
         expect(described_class.query(action, project)).to contain_exactly(user)
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -106,7 +106,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         role.save!
       end
 
-      it 'returns the user' do
+      it "returns the user" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -123,7 +123,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -143,7 +143,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -161,7 +161,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         project.save!
       end
 
-      it 'returns the user' do
+      it "returns the user" do
         expect(described_class.query(action, project)).to contain_exactly(user)
       end
     end
@@ -179,7 +179,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         project.save!
       end
 
-      it 'returns the anonymous user' do
+      it "returns the anonymous user" do
         expect(described_class.query(action, project)).to contain_exactly(anonymous)
       end
     end
@@ -197,7 +197,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         project.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -213,7 +213,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         project.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -234,7 +234,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         non_member.save
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -247,7 +247,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'returns the user' do
+      it "returns the user" do
         expect(described_class.query(public_action, project)).to contain_exactly(user)
       end
     end
@@ -261,7 +261,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         project.save
       end
 
-      it 'returns the user and anonymous' do
+      it "returns the user and anonymous" do
         expect(described_class.query(public_action, project)).to contain_exactly(user, anonymous)
       end
     end
@@ -281,7 +281,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(permission.name, project)).to eq []
       end
     end
@@ -301,7 +301,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'returns the user' do
+      it "returns the user" do
         expect(described_class.query(permission.name, project)).to eq [user]
       end
     end
@@ -317,7 +317,7 @@ RSpec.describe Authorization::UserAllowedQuery do
         project.update(active: false)
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to eq []
       end
     end

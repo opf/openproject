@@ -31,12 +31,12 @@
 module DevelopmentData
   class SharedWorkPackagesSeeder < Seeder
     def seed_data!
-      print_status ' ↳ Creating development work packages...'
+      print_status " ↳ Creating development work packages..."
 
-      print_status '   -Creating/Resetting development work packages'
+      print_status "   -Creating/Resetting development work packages"
       reset_work_packages
 
-      print_status '   -Sharing work packages'
+      print_status "   -Sharing work packages"
       share_work_packages
     end
 
@@ -49,7 +49,7 @@ module DevelopmentData
     private
 
     def work_package_subjects
-      ['[dev] Save Gotham', '[dev] Defeat Bane', '[dev] Find Waldo', '[dev] Organize game night']
+      ["[dev] Save Gotham", "[dev] Defeat Bane", "[dev] Find Waldo", "[dev] Organize game night"]
     end
 
     def reset_work_packages
@@ -77,39 +77,39 @@ module DevelopmentData
         {
           project:,
           author:,
-          subject: '[dev] Save Gotham',
+          subject: "[dev] Save Gotham",
           reference: :save_gotham,
           description: "Gotham is in trouble. It's your job to save it!",
           status: seed_data.find_reference(:default_status_new),
-          type: seed_data.find_reference(:default_type_epic),
-          priority: seed_data.find_reference(:default_priority_immediate)
+          type: seed_data.find_reference(:default_type_epic, :default_type_phase),
+          priority: seed_data.find_reference(:default_priority_immediate, :default_priority_high)
         },
         {
           project:,
           author:,
-          subject: '[dev] Defeat Bane',
+          subject: "[dev] Defeat Bane",
           reference: :defeat_bane,
-          description: 'Must be stopped before Gotham is doomed.',
+          description: "Must be stopped before Gotham is doomed.",
           status: seed_data.find_reference(:default_status_new),
           type: seed_data.find_reference(:default_type_task),
-          priority: seed_data.find_reference(:default_priority_immediate)
+          priority: seed_data.find_reference(:default_priority_immediate, :default_priority_high)
         },
         {
           project:,
           author:,
-          subject: '[dev] Find Waldo',
+          subject: "[dev] Find Waldo",
           reference: :find_waldo,
           status: seed_data.find_reference(:default_status_new),
           type: seed_data.find_reference(:default_type_task),
-          description: 'This one is tricky!',
+          description: "This one is tricky!",
           priority: IssuePriority.default
         },
         {
           project:,
           author:,
-          subject: '[dev] Organize game night',
+          subject: "[dev] Organize game night",
           reference: :organize_game_night,
-          description: 'Find a time that suits everyone.',
+          description: "Find a time that suits everyone.",
           status: seed_data.find_reference(:default_status_in_progress),
           type: seed_data.find_reference(:default_type_task),
           priority: IssuePriority.default

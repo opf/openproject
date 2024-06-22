@@ -7,13 +7,13 @@ RSpec.describe "support for non-open version values in version custom field", :j
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:cf_edit_field) do
     field = wp_page.edit_field custom_field.attribute_name(:camel_case)
-    field.field_type = 'create-autocompleter'
+    field.field_type = "create-autocompleter"
     field
   end
   let(:work_package) { create(:work_package, project:, type:) }
-  let!(:version_closed) { create(:version, project:, name: 'Version Closed', status: 'closed') }
-  let!(:version_locked) { create(:version, project:, name: 'Version Locked', status: 'locked') }
-  let!(:version_open) { create(:version, project:, name: 'Version Open', status: 'open') }
+  let!(:version_closed) { create(:version, project:, name: "Version Closed", status: "closed") }
+  let!(:version_locked) { create(:version, project:, name: "Version Locked", status: "locked") }
+  let!(:version_open) { create(:version, project:, name: "Version Open", status: "open") }
 
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }

@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::OpenIDConnect::SessionMapper do
   let(:mock_session) do
@@ -39,34 +39,34 @@ RSpec.describe OpenProject::OpenIDConnect::SessionMapper do
     end
   end
 
-  describe 'handle_login' do
-    let(:session) { mock_session.new('foo') }
+  describe "handle_login" do
+    let(:session) { mock_session.new("foo") }
     let!(:plain_session) { create(:user_session, session_id: session.id.private_id) }
     let!(:user_session) { Sessions::UserSession.find_by(session_id: plain_session.session_id) }
 
-    subject { described_class.handle_login 'oidc_sid_foo', session }
+    subject { described_class.handle_login "oidc_sid_foo", session }
 
-    it 'creates a user link object' do
+    it "creates a user link object" do
       expect { subject }.to change(OpenIDConnect::UserSessionLink, :count).by(1)
       link = OpenIDConnect::UserSessionLink.find_by(session_id: user_session.id)
 
       expect(link).to be_present
       expect(link.session).to eq user_session
-      expect(link.oidc_session).to eq 'oidc_sid_foo'
+      expect(link.oidc_session).to eq "oidc_sid_foo"
     end
   end
 
-  describe 'handle_logout' do
-    let(:token) { instance_double(OmniAuth::OpenIDConnect::LogoutToken, sid: 'oidc_foobar') }
+  describe "handle_logout" do
+    let(:token) { instance_double(OmniAuth::OpenIDConnect::LogoutToken, sid: "oidc_foobar") }
 
     subject { described_class.handle_logout token }
 
-    context 'when an unrelated session exists' do
-      let!(:plain_session) { create(:user_session, session_id: 'internal_foobar') }
-      let!(:user_session) { Sessions::UserSession.find_by(session_id: 'internal_foobar') }
-      let!(:link) { create(:user_session_link, oidc_session: 'other_oidc_sid', session: user_session) }
+    context "when an unrelated session exists" do
+      let!(:plain_session) { create(:user_session, session_id: "internal_foobar") }
+      let!(:user_session) { Sessions::UserSession.find_by(session_id: "internal_foobar") }
+      let!(:link) { create(:user_session_link, oidc_session: "other_oidc_sid", session: user_session) }
 
-      it 'does not delete it' do
+      it "does not delete it" do
         expect { subject }.not_to change(OpenIDConnect::UserSessionLink, :count)
 
         expect { link.reload }.not_to raise_error
@@ -74,12 +74,12 @@ RSpec.describe OpenProject::OpenIDConnect::SessionMapper do
       end
     end
 
-    context 'when a linked session exists' do
-      let!(:plain_session) { create(:user_session, session_id: 'internal_foobar') }
-      let!(:user_session) { Sessions::UserSession.find_by(session_id: 'internal_foobar') }
-      let!(:link) { create(:user_session_link, oidc_session: 'oidc_foobar', session: user_session) }
+    context "when a linked session exists" do
+      let!(:plain_session) { create(:user_session, session_id: "internal_foobar") }
+      let!(:user_session) { Sessions::UserSession.find_by(session_id: "internal_foobar") }
+      let!(:link) { create(:user_session_link, oidc_session: "oidc_foobar", session: user_session) }
 
-      it 'deletes the linked session' do
+      it "deletes the linked session" do
         expect { subject }.to change(OpenIDConnect::UserSessionLink, :count).by(-1)
 
         expect { link.reload }.to raise_error(ActiveRecord::RecordNotFound)

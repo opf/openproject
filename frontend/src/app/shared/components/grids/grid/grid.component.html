@@ -35,17 +35,17 @@
                    [ndcDynamicOutputs]="widgetComponentOutput(area)">
       </ndc-dynamic>
     </div>
-    <resizer *ngIf="resize.isResizable"
+    <op-resizer *ngIf="resize.isResizable"
              [customHandler]="true"
-             (end)="resize.end(area)"
-             (start)="resize.start(area)"
+             (resizeFinished)="resize.end(area)"
+             (resizeStarted)="resize.start(area)"
              (move)="resize.moving()">
       <div class="grid--resizer">
         <i class="icon-resizer-bottom-right hidden-for-mobile"
            aria-hidden="true">
         </i>
       </div>
-    </resizer>
+    </op-resizer>
   </div>
 
   <!-- One grid area per cell (row x columns) -->
@@ -68,7 +68,7 @@
     <div class="grid--widget-add"
          *ngIf="add.isAllowed"
          [title]="add.addText"
-         (click)="add.widget(area)">
+         (click)="addWidget(area)">
     </div>
   </div>
 
@@ -87,7 +87,7 @@
     <div class="grid--widget-add -gap"
          *ngIf="add.isAllowed"
          [title]="add.addText"
-         (click)="add.widget(gap)">
+         (click)="addWidget(gap)">
     </div>
   </div>
 

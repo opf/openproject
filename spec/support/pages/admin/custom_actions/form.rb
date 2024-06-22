@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require 'support/components/autocompleter/ng_select_autocomplete_helpers'
+require "support/pages/page"
+require "support/components/autocompleter/ng_select_autocomplete_helpers"
 
 module Pages
   module Admin
@@ -36,39 +36,39 @@ module Pages
         include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
         def set_name(name)
-          fill_in 'Name', with: name
+          fill_in "Name", with: name
         end
 
         def set_description(description)
-          fill_in 'Description', with: description
+          fill_in "Description", with: description
         end
 
         def add_action(name, value)
           ignore_ferrum_javascript_error do
-            select name, from: 'Add action'
+            select name, from: "Add action"
           end
           set_action_value(name, value)
-          within '#custom-actions-form--active-actions' do
-            expect(page).to have_css('.form--label', text: name)
+          within "#custom-actions-form--active-actions" do
+            expect(page).to have_css(".form--label", text: name)
           end
         end
 
         def remove_action(name)
-          within '#custom-actions-form--active-actions' do
-            find('.form--field', text: name)
-              .find('.icon-close')
+          within "#custom-actions-form--active-actions" do
+            find(".form--field", text: name)
+              .find(".icon-close")
               .click
           end
         end
 
         def expect_selected_option(value)
-          expect(page).to have_css('.ng-value-label', text: value)
+          expect(page).to have_css(".ng-value-label", text: value)
         end
 
         def expect_action(name, value)
-          value = 'null' if value.nil?
+          value = "null" if value.nil?
 
-          within '#custom-actions-form--actions' do
+          within "#custom-actions-form--actions" do
             if value.is_a?(Array)
               value.each { |name| expect_selected_option(name.to_s) }
             else
@@ -89,7 +89,7 @@ module Pages
             retry_block do
               set_condition_value(name, val)
 
-              within '#custom-actions-form--conditions' do
+              within "#custom-actions-form--conditions" do
                 expect_selected_option val
               end
             end
@@ -99,13 +99,13 @@ module Pages
         private
 
         def set_action_value(name, value)
-          field = find('#custom-actions-form--active-actions .form--field', text: name, wait: 5)
+          field = find("#custom-actions-form--active-actions .form--field", text: name, wait: 5)
 
           set_field_value(field, name, value)
         end
 
         def set_condition_value(name, value)
-          field = find('#custom-actions-form--conditions .form--field', text: name, wait: 5)
+          field = find("#custom-actions-form--conditions .form--field", text: name, wait: 5)
 
           set_field_value(field, name, value)
         end
@@ -115,21 +115,21 @@ module Pages
 
           Array(value).each do |val|
             within field do
-              if has_selector?('.form--selected-value--container', wait: 0)
-                find('.form--selected-value--container').click
+              if has_selector?(".form--selected-value--container", wait: 0)
+                find(".form--selected-value--container").click
                 autocomplete = true
-              elsif has_selector?('.autocomplete-select-decoration--wrapper', wait: 0)
+              elsif has_selector?(".autocomplete-select-decoration--wrapper", wait: 0)
                 autocomplete = true
               end
 
               target = page.find_field(name)
-              has_no_css?('.ng-spinner-loader') # wait for possible async loading of options for ng-select
+              has_no_css?(".ng-spinner-loader") # wait for possible async loading of options for ng-select
               target.send_keys val
             end
 
             if autocomplete
-              has_no_css?('.ng-spinner-loader') # wait for possible async loading of options for ng-select
-              dropdown_el = find('.ng-option', text: val, wait: 5)
+              has_no_css?(".ng-spinner-loader") # wait for possible async loading of options for ng-select
+              dropdown_el = find(".ng-option", text: val, wait: 5)
               scroll_to_and_click(dropdown_el)
             end
           end

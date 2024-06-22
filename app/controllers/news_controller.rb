@@ -36,7 +36,7 @@ class NewsController < ApplicationController
   before_action :find_project_from_association, except: %i[new create index]
   before_action :find_project, only: %i[new create]
   before_action :authorize, except: [:index]
-  before_action :find_optional_project, only: [:index]
+  before_action :load_and_authorize_in_optional_project, only: [:index]
   accept_key_auth :index
 
   def index
@@ -77,9 +77,9 @@ class NewsController < ApplicationController
     @news.attributes = permitted_params.news
     if @news.save
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to controller: '/news', action: 'index', project_id: @project
+      redirect_to controller: "/news", action: "index", project_id: @project
     else
-      render action: 'new'
+      render action: "new"
     end
   end
 
@@ -87,16 +87,16 @@ class NewsController < ApplicationController
     @news.attributes = permitted_params.news
     if @news.save
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'show', id: @news
+      redirect_to action: "show", id: @news
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
   def destroy
     @news.destroy
     flash[:notice] = I18n.t(:notice_successful_delete)
-    redirect_to action: 'index', project_id: @project
+    redirect_to action: "index", project_id: @project
   end
 
   private
@@ -109,15 +109,6 @@ class NewsController < ApplicationController
 
   def find_project
     @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def find_optional_project
-    return true unless params[:project_id]
-
-    @project = Project.find(params[:project_id])
-    authorize
   rescue ActiveRecord::RecordNotFound
     render_404
   end

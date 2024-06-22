@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
   create_shared_association_defaults_for_work_package_factory
 
-  describe '#scope' do
+  describe "#apply_to" do
     shared_let(:work_package_role) { create(:work_package_role, permissions: %i[blurgh]) }
 
     shared_let(:shared_with_user) { create(:user) }
@@ -73,32 +73,32 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
       end
     end
 
-    subject { instance.scope }
+    subject { instance.apply_to(WorkPackage) }
 
     current_user { user }
 
     context 'with a "=" operator' do
-      let(:operator) { '=' }
+      let(:operator) { "=" }
 
-      context 'for a list of users when none were shared a work package' do
+      context "for a list of users when none were shared a work package" do
         let(:values) { [non_shared_with_user.id.to_s, user.id.to_s] }
 
-        it 'does not return any work package' do
+        it "does not return any work package" do
           expect(subject)
             .to be_empty
         end
       end
 
-      context 'for a list of users where at least one was shared a work package' do
+      context "for a list of users where at least one was shared a work package" do
         let(:values) { [shared_with_user.id.to_s, non_shared_with_user.id.to_s] }
 
-        it 'returns the shared work package' do
+        it "returns the shared work package" do
           expect(subject)
             .to contain_exactly(shared_work_package)
         end
       end
 
-      context 'for a list of users where all were shared the same work package' do
+      context "for a list of users where all were shared the same work package" do
         before do
           user.memberships << create(:member,
                                      user:,
@@ -110,13 +110,13 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
 
         let(:values) { [shared_with_user.id.to_s, user.id.to_s] }
 
-        it 'returns the shared work package' do
+        it "returns the shared work package" do
           expect(subject)
             .to contain_exactly(shared_work_package)
         end
       end
 
-      context 'for a list of users where each was shared a different work package' do
+      context "for a list of users where each was shared a different work package" do
         shared_let(:other_shared_work_package) do
           create(:work_package) do |wp|
             create(:member,
@@ -129,35 +129,65 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
 
         let(:values) { [shared_with_user.id.to_s, user.id.to_s] }
 
-        it 'returns each shared work package' do
+        it "returns each shared work package" do
           expect(subject)
             .to contain_exactly(shared_work_package, other_shared_work_package)
+        end
+      end
+
+      context "when the user does not have the :view_shared_work_packages permission" do
+        before do
+          # Remove all permissions
+          user.members.destroy_all
+
+          user.memberships << create(:member,
+                                     user:,
+                                     entity: shared_work_package,
+                                     project: project_with_types,
+                                     roles: [work_package_role])
+          user.save!
+        end
+
+        context "and using `me` as the filter value" do
+          let(:values) { ["me"] }
+
+          it "returns the work package shared with me" do
+            expect(subject).to contain_exactly(shared_work_package)
+          end
+        end
+
+        context "and filtering for other users" do
+          let(:values) { [non_shared_with_user.id, shared_with_user.id] }
+
+          it "returns the work package shared with me" do
+            expect(subject).to be_empty
+          end
         end
       end
     end
 
     context 'with a "&=" operator' do
-      let(:operator) { '&=' }
+      let(:operator) { "&=" }
 
-      context 'for a list of users where none were shared the work package' do
+      context "for a list of users where none were shared the work package" do
         let(:values) { [non_shared_with_user.id.to_s, user.id.to_s] }
 
-        it 'does not return any work package' do
+        it "does not return any work package" do
           expect(subject)
             .to be_empty
         end
       end
 
-      context 'for a list of users where some were shared the work package' do
+      context "for a list of users where some were shared the work package" do
         let(:values) { [shared_with_user.id.to_s, non_shared_with_user.id.to_s] }
 
-        it 'does not return any work package' do
+        it "does not return any work package" do
           expect(subject)
             .to be_empty
         end
       end
 
-      context 'for a list of users where all were shared the work package' do
+      context "for a list of users where all were shared the work package" do
         before do
           other_shared_with_user.memberships << create(:member,
                                                        user: other_shared_with_user,
@@ -169,7 +199,7 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
 
         let(:values) { [shared_with_user.id.to_s, other_shared_with_user.id.to_s] }
 
-        it 'returns the commonly shared work package' do
+        it "returns the commonly shared work package" do
           expect(subject)
             .to contain_exactly(shared_work_package)
         end
@@ -177,22 +207,22 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
     end
 
     context 'with a "*" operator' do
-      let(:operator) { '*' }
+      let(:operator) { "*" }
       let(:values) { [] }
 
-      it 'returns the shared work package' do
+      it "returns the shared work package" do
         expect(subject)
           .to contain_exactly(shared_work_package, other_shared_work_package)
       end
     end
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :shared_with_user_list_optional }
     let(:class_key) { :shared_with_user }
-    let(:human_name) { I18n.t('query_fields.shared_with_user') }
+    let(:human_name) { I18n.t("query_fields.shared_with_user") }
 
-    describe '#available?' do
+    describe "#available?" do
       context "when I'm logged in" do
         before do
           login_as user

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenIDConnect::Provider do
   let(:params) do
@@ -40,19 +40,19 @@ RSpec.describe OpenIDConnect::Provider do
     OpenProject::Plugins::AuthPlugin
   end
 
-  describe 'limit_self_registration' do
+  describe "limit_self_registration" do
     before do
       # required so that the auth plugin sees any providers (ee feature)
       allow(EnterpriseToken).to receive(:show_banners?).and_return false
     end
 
-    context 'with no limited providers' do
+    context "with no limited providers" do
       it "shows the provider as limited" do
         provider.save
         expect(auth_plugin).to be_limit_self_registration provider: provider.name
       end
 
-      context 'when set to true' do
+      context "when set to true" do
         let(:params) do
           { limit_self_registration: true }
         end
@@ -64,7 +64,7 @@ RSpec.describe OpenIDConnect::Provider do
         end
       end
 
-      context 'when set to false' do
+      context "when set to false" do
         let(:params) do
           { limit_self_registration: false }
         end
@@ -78,7 +78,7 @@ RSpec.describe OpenIDConnect::Provider do
     end
 
     context(
-      'with a limited provider',
+      "with a limited provider",
       with_settings: {
         plugin_openproject_openid_connect: {
           "providers" => {

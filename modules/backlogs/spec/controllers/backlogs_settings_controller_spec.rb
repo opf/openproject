@@ -26,29 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe BacklogsSettingsController do
   current_user { build_stubbed(:admin) }
 
-  describe 'GET show' do
-    it 'performs that request' do
+  describe "GET show" do
+    it "performs that request" do
       get :show
       expect(response).to be_successful
       expect(response).to render_template :show
     end
 
-    context 'as regular user' do
+    context "as regular user" do
       current_user { build_stubbed(:user) }
 
-      it 'fails' do
+      it "fails" do
         get :show
         expect(response.status).to eq 403
       end
     end
   end
 
-  describe 'PUT update' do
+  describe "PUT update" do
     subject do
       put :update,
           params: {
@@ -59,14 +59,14 @@ RSpec.describe BacklogsSettingsController do
           }
     end
 
-    context 'with invalid settings (Regression test #35157)' do
-      let(:task_type) { '1234' }
-      let(:story_types) { ['1234'] }
+    context "with invalid settings (Regression test #35157)" do
+      let(:task_type) { "1234" }
+      let(:story_types) { ["1234"] }
 
-      it 'does not update the settings' do
+      it "does not update the settings" do
         expect(Setting)
           .not_to(receive(:[]=))
-          .with('plugin_openproject_backlogs')
+          .with("plugin_openproject_backlogs")
 
         subject
 
@@ -75,14 +75,14 @@ RSpec.describe BacklogsSettingsController do
       end
     end
 
-    context 'with valid settings' do
-      let(:task_type) { '1234' }
-      let(:story_types) { ['5555'] }
+    context "with valid settings" do
+      let(:task_type) { "1234" }
+      let(:story_types) { ["5555"] }
 
-      it 'does update the settings' do
+      it "does update the settings" do
         expect(Setting)
           .to(receive(:[]=))
-          .with('plugin_openproject_backlogs', { story_types: ['5555'], task_type: '1234' })
+          .with("plugin_openproject_backlogs", { story_types: ["5555"], task_type: "1234" })
 
         subject
 
@@ -91,13 +91,13 @@ RSpec.describe BacklogsSettingsController do
         expect(flash[:error]).to be_nil
       end
 
-      context 'with a non-admin' do
+      context "with a non-admin" do
         current_user { build_stubbed(:user) }
 
-        it 'does not update the settings' do
+        it "does not update the settings" do
           expect(Setting)
             .not_to(receive(:[]=))
-            .with('plugin_openproject_backlogs')
+            .with("plugin_openproject_backlogs")
 
           subject
 

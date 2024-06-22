@@ -25,9 +25,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.shared_context 'with CreateFromJournalJob context' do
+RSpec.shared_context "with CreateFromJournalJob context" do
   shared_let(:project) { create(:project_with_types) }
   let(:permissions) { [] }
   let(:recipient) do
@@ -64,7 +64,7 @@ RSpec.shared_context 'with CreateFromJournalJob context' do
   end
   let(:send_notifications) { true }
 
-  shared_examples_for 'creates notification' do
+  shared_examples_for "creates notification" do
     let(:sender) { author }
     let(:notification_channel_reasons) do
       {
@@ -75,7 +75,7 @@ RSpec.shared_context 'with CreateFromJournalJob context' do
     end
     let(:notification) { build_stubbed(:notification) }
 
-    it 'creates a notification and returns it' do
+    it "creates a notification and returns it" do
       notifications_service = instance_double(Notifications::CreateService)
 
       allow(Notifications::CreateService)
@@ -99,8 +99,8 @@ RSpec.shared_context 'with CreateFromJournalJob context' do
     end
   end
 
-  shared_examples_for 'creates no notification' do
-    it 'creates no notification' do
+  shared_examples_for "creates no notification" do
+    it "creates no notification" do
       allow(Notifications::CreateService)
         .to receive(:new)
               .and_call_original

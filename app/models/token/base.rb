@@ -18,7 +18,7 @@
 
 module Token
   class Base < ApplicationRecord
-    self.table_name = 'tokens'
+    self.table_name = "tokens"
     serialize :data, coder: ::Serializers::IndifferentHashSerializer
 
     # Hashed tokens belong to a user and are unique per type

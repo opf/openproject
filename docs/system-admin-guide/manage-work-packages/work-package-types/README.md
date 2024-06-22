@@ -15,7 +15,7 @@ In the **Administration -> Work packages -> Types** you can add or edit the work
 You will see a list of all work package types in the system.
 
 1. Click the work package type name to **edit an existing work package type**.
-2. Click the arrows (up or down) to change the order how work package types should be displayed, e.g. in the list when creating new work packages or when changing the type. 
+2. Click the arrows (up or down) to change the order how work package types should be displayed, e.g. in the list when creating new work packages or when changing the type.
    The work package type you moved to the top of the list is the current default type and will be selected when you create a new work package.
 3. Delete work package types.
 
@@ -40,7 +40,7 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 You can freely **configure the attributes shown** for each work package type to decide which attributes are shown in the form and how they are grouped.
 
-> **Note**: Some parts of the Work package form configuration are an Enterprise add-on and only available for the [OpenProject Enterprise cloud](https://www.openproject.org/hosting/) and the [Enterprise On-premises edition](https://www.openproject.org/enterprise-edition/).
+> **Note**: Some parts of the Work package form configuration are an Enterprise add-on and only available for the [OpenProject Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) and the [Enterprise On-premises edition](https://www.openproject.org/enterprise-edition/).
 > The Enterprise edition allows you to customize form configuration with these additional features:
 >
 > - **Add new attribute groups**
@@ -54,7 +54,7 @@ You can then decide for each attribute which group it should be assigned to (usi
 
 Inactive attributes shown in the grey color on the right. Attributes which have been removed are shown in the **Inactive** column on the right *(3)*. This column also includes [custom fields](../../custom-fields) which have been created. The custom fields also can be added with drag and drop to the active form (the blue part on the left) to be displayed in the form.
 
-To add additional group, click the **+ Group** button *(4)* and select **Add attribute group**. Give the new group a name. You can then assign attributes (e.g. custom fields) via drag and drop. Note that adding attribute groups is only possible with the [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and the [OpenProject Enterprise cloud](https://www.openproject.org/hosting/).
+To add additional group, click the **+ Group** button *(4)* and select **Add attribute group**. Give the new group a name. You can then assign attributes (e.g. custom fields) via drag and drop. Note that adding attribute groups is only possible with the [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and the [OpenProject Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options).
 
 In case you made a mistake, click the **Reset to defaults (5)** button to reset all settings to the original state.
 
@@ -86,15 +86,15 @@ Click the blue **Apply** button to add this work package list to your form.
 
 ![Sys-admin-work-package-table-config](op_sys_admin_filter_wp.png)
 
-The embedded related work package table in the work package form will look like this. Here, the work packages with the chosen relation will be shown automatically (based on the filtered criteria in the embedded list) or new work packages with this relation can be added. 
+The embedded related work package table in the work package form will look like this. Here, the work packages with the chosen relation will be shown automatically (based on the filtered criteria in the embedded list) or new work packages with this relation can be added.
 
 ![Sys-admin-related-work-package-table](open_project_admin_related_wp_table.png)
 
 ## Activate work package types for projects
 
-Under **Administration -> Work packages -> Types** on the tab **Projects** you can select for which projects this work package type should be activated. 
+Under **Administration -> Work packages -> Types** on the tab **Projects** you can select for which projects this work package type should be activated.
 
-The **Activated for new projects by default** setting in the Types will only activate this type for new projects. For existing projects, the type needs to be activated manually. 
+The **Activated for new projects by default** setting in the Types will only activate this type for new projects. For existing projects, the type needs to be activated manually.
 This can be also configured in the [project settings](../../../user-guide/projects/project-settings).
 
 ![activate projects for work package types](image-20200116150513323.png)

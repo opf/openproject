@@ -40,7 +40,7 @@ class CostReportsController < ApplicationController
 
   before_action :check_cache
   before_action :load_all
-  before_action :find_optional_project
+  before_action :load_and_authorize_in_optional_project
   before_action :find_optional_user
 
   include Layout
@@ -65,7 +65,7 @@ class CostReportsController < ApplicationController
 
   before_action :set_cost_types # has to be set AFTER the Report::Controller filters run
 
-  layout 'angular/angular'
+  layout "angular/angular"
 
   # Checks if custom fields have been updated, added or removed since we
   # last saw them, to rebuild the filters and group bys.
@@ -120,7 +120,7 @@ class CostReportsController < ApplicationController
     @query.send(:"#{user_key}=", current_user.id)
     @query.save!
 
-    redirect_params = { action: 'show', id: @query.id }
+    redirect_params = { action: "show", id: @query.id }
     redirect_params[:project_id] = @project.identifier if @project
 
     if request.xhr? # Update via AJAX - return url for redirect
@@ -137,7 +137,7 @@ class CostReportsController < ApplicationController
     if @query
       store_query(@query)
       table
-      render action: 'index', locals: { menu_name: project_or_global_menu } unless performed?
+      render action: "index", locals: { menu_name: project_or_global_menu } unless performed?
     else
       raise ActiveRecord::RecordNotFound
     end
@@ -152,7 +152,7 @@ class CostReportsController < ApplicationController
     else
       raise ActiveRecord::RecordNotFound
     end
-    redirect_to action: 'index', default: 1
+    redirect_to action: "index", default: 1
   end
 
   ##
@@ -169,7 +169,7 @@ class CostReportsController < ApplicationController
     if request.xhr?
       table
     else
-      redirect_to action: 'show', id: @query.id
+      redirect_to action: "show", id: @query.id
     end
   end
 
@@ -184,7 +184,7 @@ class CostReportsController < ApplicationController
     if request.xhr?
       render plain: @query.name
     else
-      redirect_to action: 'show', id: @query.id
+      redirect_to action: "show", id: @query.id
     end
   end
 
@@ -202,7 +202,7 @@ class CostReportsController < ApplicationController
     filter = f_cls.new.tap do |f|
       f.values = JSON.parse(params[:values].tr("'", '"')) if params[:values].present? && params[:values]
     end
-    render_widget Widget::Filters::Option, filter, to: canvas = ''
+    render_widget Widget::Filters::Option, filter, to: canvas = ""
 
     render plain: canvas, layout: !request.xhr?
   end
@@ -224,8 +224,8 @@ class CostReportsController < ApplicationController
   # Set a default query to cut down initial load time
   def default_filter_parameters
     {
-      operators: { spent_on: '>d' },
-      values: { spent_on: [30.days.ago.strftime('%Y-%m-%d')] }
+      operators: { spent_on: ">d" },
+      values: { spent_on: [30.days.ago.strftime("%Y-%m-%d")] }
     }.tap do |hash|
       if @project
         set_project_filter(hash, @project.id)
@@ -281,12 +281,12 @@ class CostReportsController < ApplicationController
 
   def set_project_filter(filters, project_id)
     filters[:project_context] = project_id
-    filters[:operators].merge! project_id: '='
+    filters[:operators].merge! project_id: "="
     filters[:values].merge! project_id: [project_id]
   end
 
   def set_me_filter(filters)
-    filters[:operators].merge! user_id: '='
+    filters[:operators].merge! user_id: "="
     filters[:values].merge! user_id: [CostQuery::Filter::UserId.me_value]
   end
 
@@ -329,14 +329,14 @@ class CostReportsController < ApplicationController
   def set_cost_type
     return unless @query
 
-    @query.filter :cost_type_id, operator: '=', value: @unit_id.to_s, display: false
+    @query.filter :cost_type_id, operator: "=", value: @unit_id.to_s, display: false
     @cost_type = CostType.find(@unit_id) if @unit_id > 0
   end
 
   #   set the @cost_types -> this is used to determine which tabs to display
   def set_active_cost_types
     unless session[:report] && (@cost_types = session[:report][:filters][:values][:cost_type_id].try(:collect, &:to_i))
-      relevant_cost_types = CostType.select(:id).order(Arel.sql('id ASC')).select do |t|
+      relevant_cost_types = CostType.select(:id).order(Arel.sql("id ASC")).select do |t|
         t.cost_entries.count > 0
       end.collect(&:id)
       @cost_types = [-1, 0, *relevant_cost_types]
@@ -411,7 +411,7 @@ class CostReportsController < ApplicationController
   # Determine the available values for the specified filter and return them as
   # json, if that was requested. This will be executed INSTEAD of the actual action
   def possibly_only_narrow_values
-    if params[:narrow_values] == '1'
+    if params[:narrow_values] == "1"
       sources = params[:sources]
       dependent = params[:dependent]
 
@@ -422,9 +422,9 @@ class CostReportsController < ApplicationController
                      values: params[:values][dependency])
       end
       query.column(dependent)
-      values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.map { |r| r.fields[query.group_bys.first.field] }
+      values = [[::I18n.t(:label_inactive), "<<inactive>>"]] + query.result.map { |r| r.fields[query.group_bys.first.field] }
       # replace null-values with corresponding placeholder
-      values = values.map { |value| value.nil? ? [::I18n.t(:label_none), '<<null>>'] : value }
+      values = values.map { |value| value.nil? ? [::I18n.t(:label_none), "<<null>>"] : value }
       # try to find corresponding labels to the given values
       values = values.map do |value|
         filter = get_filter_class(dependent)
@@ -463,8 +463,8 @@ class CostReportsController < ApplicationController
   # Extract active group bys from the http params
   def http_group_parameters
     if params[:groups]
-      rows = params[:groups]['rows']
-      columns = params[:groups]['columns']
+      rows = params[:groups]["rows"]
+      columns = params[:groups]["columns"]
     end
     { rows: rows || [], columns: columns || [] }
   end
@@ -507,8 +507,8 @@ class CostReportsController < ApplicationController
     query = report_engine.new project: @project
     query.tap do |q|
       filters[:operators].each do |filter, operator|
-        unless filters[:values][filter] == ['<<inactive>>']
-          values = Array(filters[:values][filter]).map { |v| v == '<<null>>' ? nil : v }
+        unless filters[:values][filter] == ["<<inactive>>"]
+          values = Array(filters[:values][filter]).map { |v| v == "<<null>>" ? nil : v }
           q.filter(filter.to_sym,
                    operator:,
                    values:)
@@ -539,7 +539,7 @@ class CostReportsController < ApplicationController
   ##
   # Override in subclass if user key
   def user_key
-    'user_id'
+    "user_id"
   end
 
   ##
@@ -557,7 +557,7 @@ class CostReportsController < ApplicationController
   # Raises RecordNotFound if an invalid :id was passed.
   #
   # @param query An optional query added to the disjunction qualifiying reports to be returned.
-  def find_optional_report(query = '1=0')
+  def find_optional_report(query = "1=0")
     if params[:id]
       @query = report_engine
                  .where(["#{is_public_sql} OR (#{user_key} = ?) OR (#{query})", current_user.id])

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/work_packages/work_packages_table'
+require "support/pages/page"
+require "support/pages/work_packages/work_packages_table"
 
 module Pages
   class WorkPackagesTimeline < WorkPackagesTable
@@ -40,17 +40,17 @@ module Pages
     end
 
     def timeline_container
-      '.work-packages-tabletimeline--timeline-side'
+      ".work-packages-tabletimeline--timeline-side"
     end
 
     def expect_row_count(num)
       within(timeline_container) do
-        expect(page).to have_css('.wp-timeline-cell', count: num)
+        expect(page).to have_css(".wp-timeline-cell", count: num)
       end
     end
 
     def expect_work_package_listed(*work_packages)
-      super(*work_packages)
+      super
 
       within(timeline_container) do
         work_packages.each do |wp|
@@ -69,9 +69,9 @@ module Pages
 
     def expect_work_package_order(*ids)
       retry_block do
-        rows = page.all('.wp-table-timeline--body .wp--row')
+        rows = page.all(".wp-table-timeline--body .wp--row")
         expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
-        found = rows.map { |el| el['data-work-package-id'] }
+        found = rows.map { |el| el["data-work-package-id"] }
 
         raise "Order is incorrect: #{found.inspect} != #{expected.inspect}" unless found == expected
       end
@@ -79,9 +79,9 @@ module Pages
 
     def expect_timeline!(open: true)
       if open
-        expect(page).to have_css('.wp-table-timeline--container .wp-timeline-cell')
+        expect(page).to have_css(".wp-table-timeline--container .wp-timeline-cell")
       else
-        expect(page).to have_no_css('.wp-table-timeline--container .wp-timeline-cell', visible: true)
+        expect(page).to have_no_css(".wp-table-timeline--container .wp-timeline-cell", visible: true)
       end
     end
 
@@ -90,7 +90,7 @@ module Pages
     end
 
     def zoom_in_button
-      page.find_by_id('work-packages-timeline-zoom-in-button')
+      page.find_by_id("work-packages-timeline-zoom-in-button")
     end
 
     def zoom_in
@@ -102,11 +102,11 @@ module Pages
     end
 
     def zoom_out_button
-      page.find_by_id('work-packages-timeline-zoom-out-button')
+      page.find_by_id("work-packages-timeline-zoom-out-button")
     end
 
     def autozoom
-      page.find_by_id('work-packages-timeline-zoom-auto-button').click
+      page.find_by_id("work-packages-timeline-zoom-auto-button").click
     end
 
     def expect_zoom_at(value)

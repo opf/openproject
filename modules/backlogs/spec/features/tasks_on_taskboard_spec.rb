@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/taskboard'
+require "spec_helper"
+require_relative "../support/pages/taskboard"
 
-RSpec.describe 'Tasks on taskboard', :js,
+RSpec.describe "Tasks on taskboard", :js,
                with_cuprite: false do
   let!(:project) do
     create(:project,
@@ -141,11 +141,11 @@ RSpec.describe 'Tasks on taskboard', :js,
     login_as current_user
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-            .and_return('story_types' => [story.id.to_s, other_story.id.to_s],
-                        'task_type' => task.id.to_s)
+            .and_return("story_types" => [story.id.to_s, other_story.id.to_s],
+                        "task_type" => task.id.to_s)
   end
 
-  it 'displays stories which are editable' do
+  it "displays stories which are editable" do
     taskboard_page.visit!
 
     # All stories of the sprint are visible
@@ -235,18 +235,18 @@ RSpec.describe 'Tasks on taskboard', :js,
     # There is a button to the burndown chart
     expect(page)
       .to have_css("a[href='#{backlogs_project_sprint_burndown_chart_path(project, sprint)}']",
-                   text: 'Burndown Chart')
+                   text: "Burndown Chart")
 
     # Tasks can get a color per assigned user
     visit my_settings_path
 
-    fill_in 'Task color', with: '#FBC4B3'
+    fill_in "Task color", with: "#FBC4B3"
 
-    click_button 'Save'
+    click_button "Save"
 
     taskboard_page.visit!
 
     taskboard_page
-      .expect_color_for_task('#FBC4B3', story1_task)
+      .expect_color_for_task("#FBC4B3", story1_task)
   end
 end

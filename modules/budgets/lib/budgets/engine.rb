@@ -2,8 +2,8 @@ module Budgets
   class Engine < ::Rails::Engine
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'budgets',
-             author_url: 'https://www.openproject.org',
+    register "budgets",
+             author_url: "https://www.openproject.org",
              bundled: true do
       project_module :budgets do
         permission :view_budgets,
@@ -16,11 +16,11 @@ module Budgets
 
       menu :project_menu,
            :budgets,
-           { controller: '/budgets', action: 'index' },
+           { controller: "/budgets", action: "index" },
            if: ->(project) { project.module_enabled?(:budgets) },
            after: :costs,
            caption: :budgets_title,
-           icon: 'budget'
+           icon: "op-budget"
     end
 
     add_api_path :budget do |id|
@@ -35,11 +35,11 @@ module Budgets
       "#{budget(id)}/attachments"
     end
 
-    add_api_endpoint 'API::V3::Root' do
+    add_api_endpoint "API::V3::Root" do
       mount ::API::V3::Budgets::BudgetsAPI
     end
 
-    add_api_endpoint 'API::V3::Projects::ProjectsAPI', :id do
+    add_api_endpoint "API::V3::Projects::ProjectsAPI", :id do
       mount ::API::V3::Budgets::BudgetsByProjectAPI
     end
 
@@ -48,7 +48,7 @@ module Budgets
     end
 
     config.to_prepare do
-      OpenProject::ProjectLatestActivity.register on: 'Budget'
+      OpenProject::ProjectLatestActivity.register on: "Budget"
 
       # Add to the budget to the costs group
       ::Type.add_default_mapping(:costs, :budget)

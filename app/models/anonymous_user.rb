@@ -31,7 +31,7 @@ class AnonymousUser < User
 
   # There should be only one AnonymousUser in the database
   def validate_unique_anonymous_user
-    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.any?
+    errors.add :base, "An anonymous user already exists." if AnonymousUser.any?
   end
 
   def available_custom_fields

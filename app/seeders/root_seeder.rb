@@ -29,10 +29,13 @@
 # Seeds the minimum data required to run OpenProject (BasicDataSeeder, AdminUserSeeder)
 # as well as optional demo data (DemoDataSeeder) to give a user some orientation.
 class RootSeeder < Seeder
-  def initialize(seed_development_data: Rails.env.development?)
+  attr_reader :raise_on_unknown_language
+
+  def initialize(seed_development_data: Rails.env.development?, raise_on_unknown_language: false)
     super()
 
     @seed_development_data = seed_development_data
+    @raise_on_unknown_language = raise_on_unknown_language
 
     load_available_seeders
   end
@@ -40,15 +43,21 @@ class RootSeeder < Seeder
   # Returns the demo data in the default language.
   def seed_data
     @seed_data ||= begin
-      raise 'cannot generate demo seed data without setting locale first' unless @locale_set
+      raise "cannot generate demo seed data without setting locale first" unless @locale_set
 
       Source::SeedDataLoader.get_data
     end
   end
 
-  def seed_data!
-    reset_active_record!
+  def translated_seed_data_for(*keys)
     set_locale! do
+      Source::SeedDataLoader.get_data(only: keys)
+    end
+  end
+
+  def seed_data!
+    set_locale! do
+      print_status "*** Seeding for locale: '#{I18n.locale}'"
       prepare_seed! do
         ActiveRecord::Base.transaction do
           block_given? ? (yield self) : do_seed!
@@ -81,7 +90,7 @@ class RootSeeder < Seeder
   end
 
   def load_engine_seeders(engine)
-    engine.root.glob('app/seeders/**/*.rb')
+    engine.root.glob("app/seeders/**/*.rb")
       .each { |file| require file }
   end
 
@@ -89,21 +98,8 @@ class RootSeeder < Seeder
     ::Rails::Engine.subclasses.map(&:instance)
   end
 
-  ##
-  # Clears some schema caches and column information.
-  def reset_active_record!
-    ActiveRecord::Base
-      .descendants
-      .reject(&:abstract_class?)
-      .each do |klass|
-      klass.connection.schema_cache.clear!
-      klass.reset_column_information
-    end
-  end
-
   def set_locale!
     I18n.with_locale(desired_lang) do
-      print_status "*** Seeding for locale: '#{I18n.locale}'"
       @locale_set = true
       yield
     end
@@ -117,13 +113,13 @@ class RootSeeder < Seeder
     ActionMailer::Base.perform_deliveries = false
 
     # Avoid asynchronous DeliverWorkPackageCreatedJob
-    previous_delay_jobs = Delayed::Worker.delay_jobs
-    Delayed::Worker.delay_jobs = false
+    previous_execution_mode = Rails.configuration.good_job.execution_mode
+    Rails.configuration.good_job.execution_mode = :inline
 
     yield
   ensure
     ActionMailer::Base.perform_deliveries = previous_perform_deliveries
-    Delayed::Worker.delay_jobs = previous_delay_jobs
+    Rails.configuration.good_job.execution_mode = previous_execution_mode
   end
 
   def seed_basic_data
@@ -132,23 +128,23 @@ class RootSeeder < Seeder
   end
 
   def seed_admin_user
-    print_status '*** Seeding admin user'
+    print_status "*** Seeding admin user"
     AdminUserSeeder.new(seed_data).seed!
   end
 
   def seed_demo_data
-    print_status '*** Seeding demo data'
+    print_status "*** Seeding demo data"
     DemoDataSeeder.new(seed_data).seed!
   end
 
   def seed_env_data
-    print_status '*** Seeding data from environment variables'
+    print_status "*** Seeding data from environment variables"
     EnvDataSeeder.new(seed_data).seed!
   end
 
   def seed_development_data
-    print_status '*** Seeding development data'
-    require 'factory_bot'
+    print_status "*** Seeding development data"
+    require "factory_bot"
     # Load FactoryBot factories
     begin
       ::FactoryBot.find_definitions
@@ -167,8 +163,15 @@ class RootSeeder < Seeder
   end
 
   def desired_lang
-    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', Setting.default_language)
-    raise "Locale #{desired_lang} is not supported" if Redmine::I18n.all_languages.exclude?(desired_lang)
+    desired_lang = ENV.fetch("OPENPROJECT_SEED_LOCALE", Setting.default_language)
+
+    if Redmine::I18n.all_languages.exclude?(desired_lang)
+      if raise_on_unknown_language
+        raise "Locale #{desired_lang} is not supported"
+      else
+        desired_lang = :en
+      end
+    end
 
     desired_lang
   end

@@ -28,31 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Roles::Filters::AllowsBecomingAssigneeFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :allows_becoming_assignee }
     let(:type) { :list }
     let(:model) { Role }
   end
 
-  it_behaves_like 'boolean query filter', scope: false do
+  it_behaves_like "boolean query filter", scope: false do
     let(:model) { Role }
     let(:attribute) { :type }
-    let(:permission_name) { 'work_package_assigned' }
+    let(:permission_name) { "work_package_assigned" }
   end
 
-  describe '#scope' do
+  describe "#apply_to" do
     shared_let(:assignable_role) do
       create(:project_role,
-             name: 'assignable_role',
+             name: "assignable_role",
              permissions: %i[work_package_assigned],
              add_public_permissions: false)
     end
     shared_let(:unassignable_role) do
       create(:project_role,
-             name: 'unassignable_role',
+             name: "unassignable_role",
              permissions: %i[wrong],
              add_public_permissions: false)
     end
@@ -64,10 +64,10 @@ RSpec.describe Queries::Roles::Filters::AllowsBecomingAssigneeFilter do
       end
     end
 
-    subject { instance.scope.map(&:name) }
+    subject { instance.apply_to(Role).map(&:name) }
 
     context 'with a "=" operator' do
-      let(:operator) { '=' }
+      let(:operator) { "=" }
 
       context 'with a "true" value' do
         let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
@@ -83,7 +83,7 @@ RSpec.describe Queries::Roles::Filters::AllowsBecomingAssigneeFilter do
     end
 
     context 'with a "!" operator' do
-      let(:operator) { '!' }
+      let(:operator) { "!" }
 
       context 'with a "true" value' do
         let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }

@@ -1,51 +1,55 @@
 id:
   js:
     grid:
-      add_widget: 'Add widget'
+      add_widget: 'Tambahkan widget'
       remove: 'Hapus widget'
-      configure: 'Configure widget'
+      configure: 'Konfigurasi Widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'Teks bebas'
         documents:
           title: 'Dokumen'
-          no_results: 'No documents yet.'
+          no_results: 'Belum ada dokumen.'
         members:
           title: 'Member'
-          no_results: 'No visible members.'
+          no_results: 'Tidak ada anggota yang terlihat.'
           view_all_members: 'View all members'
           add: 'Member'
-          too_many: 'Displaying %{count} of %{total} members.'
+          too_many: 'Menampilkan %{count} dari %{total} anggota.'
         news:
           title: 'News'
           at: 'di'
           no_results: 'Nothing new to report.'
         project_description:
           title: 'Deskripsi Proyek'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          no_results: "Belum ada deskripsi yang ditulis. Deskripsi dapat disediakan dalam 'Pengaturan proyek'."
         project_details:
           title: 'Rincian proyek'
-          no_results: 'No custom fields have been defined for projects.'
+          no_results: 'Tidak ada bidang khusus yang ditentukan untuk proyek.'
         project_status:
           title: 'Project status'
           not_started: 'Belum mulai'
           on_track: 'Di jalur'
           off_track: 'Keluar dari jalur'
           at_risk: 'Berisiko'
-          not_set: 'Not set'
+          not_set: 'Belum diatur'
           finished: 'Selesai'
           discontinued: 'Dihentikan'
         subprojects:
           title: 'Sub Project'
-          no_results: 'No subprojects.'
+          no_results: 'Tidak ada subproyek.'
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
-          title: 'My spent time'
-          displayed_days: 'Days displayed in the widget:'
+          title: 'Waktu yang saya habiskan'
+          displayed_days: 'Hari yang ditampilkan di widget:'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
+          title: 'Waktu yang dihabiskan (7 hari terakhir)'
           no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:
           title: "Work packages I am accountable for"

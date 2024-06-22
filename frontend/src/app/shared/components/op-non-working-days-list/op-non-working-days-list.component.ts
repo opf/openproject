@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -16,11 +17,7 @@ import { OpModalService } from '../modal/modal.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import {
-  EventInput,
-  CalendarOptions,
-  EventSourceFuncArg,
-} from '@fullcalendar/core';
+import { CalendarOptions, EventInput, EventSourceFuncArg } from '@fullcalendar/core';
 import listPlugin from '@fullcalendar/list';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
@@ -31,6 +28,7 @@ import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-
 import { ConfirmDialogOptions } from '../modals/confirm-dialog/confirm-dialog.modal';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import * as moment from 'moment-timezone';
+import allLocales from '@fullcalendar/core/locales-all';
 
 export const nonWorkingDaysListSelector = 'op-non-working-days-list';
 
@@ -48,7 +46,7 @@ export interface INonWorkingDay {
   styleUrls: ['./op-non-working-days-list.component.sass'],
   templateUrl: './op-non-working-days-list.component.html',
 })
-export class OpNonWorkingDaysListComponent implements OnInit {
+export class OpNonWorkingDaysListComponent implements OnInit, AfterViewInit {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @HostBinding('class.op-non-working-days-list') className = true;
@@ -72,13 +70,18 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
   form_submitted = false;
 
+  originalNonWorkingDays:INonWorkingDay[] = [];
   nonWorkingDays:INonWorkingDay[] = [];
+
+  originalWorkingDays:string[] = [];
 
   datepickerOpened = false;
 
-  selectedNonWorkingDayName= '';
+  selectedNonWorkingDayName = '';
 
   calendarOptions:CalendarOptions = {
+    locales: allLocales,
+    locale: this.I18n.locale,
     plugins: [listPlugin],
     initialView: 'listYear',
     contentHeight: 'auto',
@@ -136,7 +139,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   private listenToFormSubmit() {
     const form = this.elementRef.nativeElement.closest('form') as HTMLFormElement;
     form.addEventListener('submit', (evt:Event) => {
-      if (!this.form_submitted) {
+      if (!this.form_submitted
+        && (this.nonWorkingDaysModified() || this.workingDaysModified())) {
         this.form_submitted = true;
         const target = evt.target as HTMLFormElement;
         const options:ConfirmDialogOptions = {
@@ -170,6 +174,16 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       });
   }
 
+  ngAfterViewInit():void {
+    const form = this.elementRef.nativeElement.closest('form') as HTMLFormElement;
+    const workingDayCheckboxes = Array.from(form.querySelectorAll('input[name="settings[working_days][]"]'));
+    workingDayCheckboxes.forEach((checkbox:HTMLInputElement) => {
+      if (checkbox.checked) {
+        this.originalWorkingDays.push(checkbox.value);
+      }
+    });
+  }
+
   public get removedNonWorkingDays():string[] {
     return this
       .nonWorkingDays
@@ -177,6 +191,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       .map((el) => moment(el.date).format('MMMM DD, YYYY'));
   }
 
+  // Initializes nonWorkingDays from the API
   public calendarEventsFunction(
     fetchInfo:EventSourceFuncArg,
     successCallback:(events:EventInput[]) => void,
@@ -188,7 +203,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
           this.nonWorkingDays = _
             .uniqBy([...this.nonWorkingDays, ...days], (el) => el.date)
             .filter((el:INonWorkingDay) => !this.nonWorkingDays.find((existing) => existing.id === el.id && existing._destroy));
-
+          this.originalNonWorkingDays = [...this.nonWorkingDays];
           const events = this.mapToCalendarEvents(this.nonWorkingDays);
           successCallback(events);
           this.cdRef.detectChanges();
@@ -232,5 +247,30 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
     this.nonWorkingDays = [...this.nonWorkingDays, day];
     api.addEvent({ ...day, id: date });
+  }
+
+  private get workingDays():string[] {
+    const workingDays:string[] = [];
+
+    const form = this.elementRef.nativeElement.closest('form') as HTMLFormElement;
+    const workingDayCheckboxes = Array.from(form.querySelectorAll('input[name="settings[working_days][]"]'));
+    workingDayCheckboxes.forEach((checkbox:HTMLInputElement) => {
+      if (checkbox.checked) {
+        workingDays.push(checkbox.value);
+      }
+    });
+
+    return workingDays;
+  }
+
+  private nonWorkingDaysModified():boolean {
+    return this.removedNonWorkingDays.length > 0
+      || this.modifiedNonWorkingDays.length > 0
+      || this.nonWorkingDays.length > this.originalNonWorkingDays.length;
+  }
+
+  private workingDaysModified():boolean {
+    return _.difference(this.workingDays, this.originalWorkingDays).length > 0
+      || _.difference(this.originalWorkingDays, this.workingDays).length > 0;
   }
 }

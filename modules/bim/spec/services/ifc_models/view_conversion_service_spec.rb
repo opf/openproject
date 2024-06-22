@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Bim::IfcModels::ViewConverterService do
   let(:model) { build(:ifc_model) }
@@ -9,12 +9,12 @@ RSpec.describe Bim::IfcModels::ViewConverterService do
     described_class.instance_variable_set(:@available_commands, nil)
   end
 
-  shared_context 'with available pipeline commands' do |available|
+  shared_context "with available pipeline commands" do |available|
     before do
       # Mock the call to Open3 to test available commands
       allow(Open3)
         .to(receive(:capture2e))
-        .with('which', any_args)
+        .with("which", any_args)
         .and_wrap_original do |_, *args|
         matches = if available.is_a?(Array)
                     available.include?(args[1])
@@ -28,47 +28,47 @@ RSpec.describe Bim::IfcModels::ViewConverterService do
     end
   end
 
-  describe '#available_commands' do
+  describe "#available_commands" do
     subject { described_class }
 
-    context 'with only one available command' do
-      include_context 'with available pipeline commands', %w[IfcConvert]
+    context "with only one available command" do
+      include_context "with available pipeline commands", %w[IfcConvert]
 
-      it 'is not available' do
+      it "is not available" do
         expect(subject).not_to be_available
       end
     end
 
-    context 'with all available commands' do
-      include_context 'with available pipeline commands', described_class::PIPELINE_COMMANDS
+    context "with all available commands" do
+      include_context "with available pipeline commands", described_class::PIPELINE_COMMANDS
 
-      it 'is available' do
+      it "is available" do
         expect(subject).to be_available
       end
     end
   end
 
-  describe '#call' do
+  describe "#call" do
     before do
       allow(model).to receive(:processing!).and_call_original
     end
 
-    context 'if not available?' do
-      include_context 'with available pipeline commands', false
+    context "if not available?" do
+      include_context "with available pipeline commands", false
 
-      it 'returns an error' do
+      it "returns an error" do
         expect(model).to receive(:processing!).and_call_original
         expect(described_class).not_to be_available
         result = subject.call
-        expect(result.errors[:base].first).to include 'The following IFC converter commands are missing'
+        expect(result.errors[:base].first).to include "The following IFC converter commands are missing"
 
         # Expect that the model's conversion status gets updated
         expect(model).to be_error
-        expect(model.conversion_error_message).to include('The following IFC converter commands are missing')
+        expect(model.conversion_error_message).to include("The following IFC converter commands are missing")
       end
     end
 
-    context 'if available' do
+    context "if available" do
       let(:working_directory) { Dir.mktmpdir }
       let(:ifc_model_file_name) { "büro.ifc" }
       let(:ifc_model_path) { File.join working_directory, ifc_model_file_name }
@@ -90,7 +90,7 @@ RSpec.describe Bim::IfcModels::ViewConverterService do
         FileUtils.remove_entry working_directory
       end
 
-      it 'performs the conversion and returns the save result' do
+      it "performs the conversion and returns the save result" do
         allow(model).to receive(:processing!).and_call_original
 
         # mocking all convert! calls so they do nothing but create an empty dummy result file
@@ -144,7 +144,7 @@ RSpec.describe Bim::IfcModels::ViewConverterService do
         expect(model.conversion_error_message).to be_nil
       end
 
-      it 'calls the conversion and returns error' do
+      it "calls the conversion and returns error" do
         expect(subject)
           .to(receive(:perform_conversion!))
 
@@ -157,7 +157,7 @@ RSpec.describe Bim::IfcModels::ViewConverterService do
     end
   end
 
-  describe '#change_basename' do
+  describe "#change_basename" do
     it "returns the new basename" do
       path = "/tmp/file.xml"
       new_path = subject.send(:change_basename, path, "/home/model.xml", ".json")

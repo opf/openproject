@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.shared_examples_for 'message contract' do
+RSpec.shared_examples_for "message contract" do
   let(:current_user) { build_stubbed(:user) }
 
   before do
@@ -60,11 +60,11 @@ RSpec.shared_examples_for 'message contract' do
     end
   end
 
-  shared_examples 'is valid' do
-    it 'is valid' do
+  shared_examples "is valid" do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  it_behaves_like 'is valid'
+  it_behaves_like "is valid"
 end

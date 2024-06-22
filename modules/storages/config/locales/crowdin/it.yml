@@ -5,7 +5,7 @@ it:
         origin_id: ID origine
       storages/storage:
         creator: Autore
-        drive: Drive ID
+        drive: ID Drive
         host: Host
         name: Nome
         provider_type: Tipo di fonte
@@ -39,21 +39,27 @@ it:
   api_v3:
     errors:
       too_many_elements_created_at_once: 'Troppi elementi creati contemporaneamente. Massimo atteso: %{max}, effettivi: %{actual}.'
-  permission_create_files: Crea file
-  permission_delete_files: Elimina file
+  external_file_storages: Archivi di file esterni
+  permission_create_files: 'Cartelle di progetto gestite automaticamente: Creare file'
+  permission_create_files_explanation: Questa autorizzazione è disponibile solo per gli archivi Nextcloud.
+  permission_delete_files: 'Cartelle di progetto gestite automaticamente: Eliminare file'
+  permission_delete_files_explanation: Questa autorizzazione è disponibile solo per gli archivi Nextcloud.
+  permission_header_for_project_module_storages: Cartelle di progetto gestite automaticamente
   permission_manage_file_links: Gestire link ai file
-  permission_manage_storages_in_project: Gestisci archivi di file nel progetto
-  permission_read_files: Leggi file
-  permission_share_files: Condividi file
+  permission_manage_files_in_project: Gestisci i file del progetto
+  permission_read_files: 'Cartelle di progetto gestite automaticamente: Leggere file'
+  permission_share_files: 'Cartelle di progetto gestite automaticamente: Condividere file'
+  permission_share_files_explanation: Questa autorizzazione è disponibile solo per gli archivi Nextcloud.
   permission_view_file_links: Visualizza link ai file
-  permission_write_files: Scrivi file
-  project_module_storages: Archivi file
+  permission_write_files: 'Cartelle di progetto gestite automaticamente: Scrivere file'
+  project_module_storages: File
   storages:
     buttons:
       complete_without_setup: Completa senza
       done_complete_setup: Fatto, configurazione completa
       done_continue: Fatto, continua
-      replace_provider_type_oauth: Sostituisci %{provider_type} OAuth
+      replace_oauth_application: Sostituisci OpenProject OAuth
+      replace_oauth_client: Sostituisci %{provider_type} OAuth
       save_and_continue: Salva e continua
       select_folder: Seleziona cartella
     configuration_checks:
@@ -62,8 +68,8 @@ it:
         one_drive: Consenti a OpenProject di accedere ai dati Azure utilizzando OAuth per collegare OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Completa la configurazione con il corretto reindirizzamento URI.
-    confirm_replace_oauth_application: Procedere? Tutti gli utenti dovranno autorizzarsi nuovamente con OpenProject.
-    confirm_replace_oauth_client: Procedere? Tutti gli utenti dovranno autorizzarsi nuovamente con l'archivio.
+    confirm_replace_oauth_application: Questa azione reimposterà le credenziali OAuth correnti. Dopo la conferma sarà necessario reinserire le credenziali presso il provider di archiviazione e tutti gli utenti remoti dovranno autorizzarsi nuovamente nei confronti di OpenProject. Vuoi davvero procedere?
+    confirm_replace_oauth_client: Questa azione reimposterà le credenziali OAuth correnti. Dopo la conferma dovrai inserire nuove credenziali dal provider di archiviazione e tutti gli utenti dovranno autorizzare nuovamente %{provider_type}. Vuoi davvero procedere?
     delete_warning:
       input_delete_confirmation: Inserisci il nome del file di archiviazione %{file_storage} per confermare l'eliminazione.
       irreversible_notice: L'eliminazione di un file di archiviazione è un'azione irreversibile.
@@ -76,6 +82,15 @@ it:
       storage_delete_result_3: Nel caso in cui questo archivio gestisca automaticamente le cartelle di progetto, quelle e i file in esse contenuti verranno eliminati per sempre.
     error_invalid_provider_type: Seleziona un fornitore di archiviazione valido.
     file_storage_view:
+      access_management:
+        automatic_management: Accesso e cartelle gestiti automaticamente
+        automatic_management_description: Consenti a OpenProject di creare automaticamente cartelle per progetto e di gestirne l'accesso da parte degli utenti. Questa impostazione è consigliata in quanto garantisce che ogni membro del team abbia sempre le autorizzazioni di accesso corrette.
+        description: Seleziona il tipo di gestione dell'accesso degli utenti e della creazione di cartelle. Si consiglia di utilizzare l'accesso gestito automaticamente per avere una struttura più organizzata e garantire l'accesso a tutti gli utenti interessati.
+        manual_management: Accesso e cartelle gestiti manualmente
+        manual_management_description: Crea e gestisci manualmente le cartelle per progetto. Dovrai assicurarti manualmente che gli utenti interessati abbiano accesso.
+        setup_incomplete: Seleziona il tipo di gestione dell'accesso degli utenti e della creazione di cartelle.
+        subtitle: Gestione degli accessi
+        title: Accesso e cartelle di progetto
       automatically_managed_folders: Cartelle gestite automaticamente
       general_information: Informazioni generali
       nextcloud_oauth: Nextcloud OAuth
@@ -91,8 +106,15 @@ it:
       label_healthy: Tutto ok
       label_pending: In sospeso
       since: dal giorno %{datetime}
-      subtitle: Automatic managed project folders
-      title: Health status
+      subtitle: Cartelle di progetto gestite automaticamente
+      title: Stato di salute
+    health_email_notifications:
+      description_subscribed: Tutti gli amministratori ricevono notifiche e-mail sullo stato di salute di questo archivio.
+      description_unsubscribed: Le notifiche via e-mail sullo stato di salute di questo archivio sono state disattivate per tutti gli amministratori.
+      error_could_not_be_saved: Impossibile salvare le impostazioni di notifica via e-mail. Riprova.
+      subscribe: Iscriviti
+      title: Notifiche e-mail
+      unsubscribe: Disiscriviti
     help_texts:
       project_folder: La cartella del progetto è la cartella predefinita per il caricamento dei file per questo progetto. Gli utenti possono, comunque, caricare i file in altre posizioni.
     instructions:
@@ -142,9 +164,9 @@ it:
     label_creator: Autore
     label_delete_storage: Elimina archivio
     label_edit_storage: Modifica archivio
+    label_edit_storage_access_management: Modifica gestione degli accessi all'archivio
     label_edit_storage_automatically_managed_folders: Modifica cartelle gestite automaticamente dall'archivio
     label_edit_storage_host: Modifica host dell'archivio
-    label_edit_storage_oauth_client: Modifica client OAuth di archiviazione
     label_existing_manual_folder: Cartella esistente con autorizzazioni gestite manualmente
     label_file_storage: Archiviazione file
     label_host: URL dell'host
@@ -175,46 +197,44 @@ it:
     members_no_results: Nessun membro da visualizzare.
     no_results: Ancora nessun'archiviazione configurata.
     notice_successful_storage_connection: |-
-      Storage connected successfully! Remember to activate the module and the specific storage in the project settings
-      of each desired project to use it.
+      Spazio di archiviazione connesso correttamente! Ricordati di attivare il modulo e lo spazio di archiviazione specifico nelle impostazioni di progetto
+      di ciascun progetto desiderato per utilizzarlo.
     oauth_grant_nudge_modal:
-      access_granted: Access granted
-      body: To get access to the project folder you need to login to %{storage}.
-      cancel_button_label: I will do it later
-      confirm_button_label: Login
-      storage_ready: You are now ready to use %{storage}
-      title: One more step...
+      access_granted: Accesso autorizzato
+      access_granted_screen_reader: Accesso consentito. Ora puoi utilizzare %{storage}.
+      body: Per accedere alla cartella del progetto è necessario accedere a %{storage}.
+      cancel_button_label: Lo farò più tardi
+      confirm_button_aria_label: Accedi a %{storage}
+      confirm_button_label: Accedi
+      requesting_access_to: Richiesta di accesso a %{storage}
+      storage_ready: Ora è possibile usare %{storage}
+      title: Ancora un passo...
     open_project_storage_modal:
       success:
-        subtitle: You are being redirected
-        title: Integration setup completed
+        subtitle: Stai per essere reindirizzato
+        title: Configurazione dell'integrazione completata
       waiting:
-        subtitle: One moment please, this might take some time...
-        title: We are setting up your permissions on the project folder.
+        subtitle: Aspetta un attimo, potrebbe volerci un po' di tempo...
+        title: Stiamo configurando le tue autorizzazioni sulla cartella del progetto.
     page_titles:
       file_storages:
         delete: Elimina archivio file
         subtitle: Aggiungi un archivio file esterno per caricare, collegare e gestire i file nelle macro-attività.
       managed_project_folders:
-        one_drive_information: |-
-          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
-          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
-          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
-          to the %{drive_id_link_text}.
         subtitle: |-
-          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
-          member always has the correct access permissions.
+          Consenti a OpenProject di creare automaticamente cartelle per progetto. Questa impostazione è consigliata in quanto garantisce che ogni
+          membro del team abbia sempre le autorizzazioni di accesso corrette.
         subtitle_short: Consenti a OpenProject di creare cartelle per progetto automaticamente.
         title: Cartelle di progetto gestite automaticamente
       project_settings:
         delete: Elimina archivio file
         edit: Modifica l'archiviazione dei file per questo progetto
-        index: File di archiviazione disponibili in questo progetto
         members_connection_status: Stato della connessione dei membri
         new: Aggiungi un archivio file al progetto
       project_storage_members:
         subtitle: Controlla lo stato della connessione per lo spazio di archiviazione %{storage_name_link} di tutti i membri del progetto.
         title: Stato della connessione dei membri
+    permission_header_explanation: 'Le autorizzazioni dei file sugli archivi esterni vengono applicate solo alle cartelle e ai file all''interno delle cartelle di progetto gestite automaticamente. Tieni presente che non tutte le autorizzazioni sui file sono supportate da tutti i provider di archiviazione. Controlla la documentazione sulle <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>autorizzazioni per gli archivi di file</a> per ulteriori informazioni.'
     provider_types:
       label: Tipo di fonte
       nextcloud:
@@ -227,11 +247,14 @@ it:
         label_oauth_client_secret: Valore segreto client Azure OAuth
         name: OneDrive/SharePoint
         name_placeholder: es. OneDrive
+    show_attachments_toggle:
+      description: 'La disattivazione di questa opzione nasconderà l''elenco degli allegati nella scheda dei file delle macro-attività. I file allegati nella descrizione di una macro-attività verranno comunque caricati nell''archivio interno degli allegati. '
+      label: Mostra gli allegati nella scheda File delle macro-attività
     storage_list_blank_slate:
       description: Aggiungi un archivio per vederli qui.
       heading: Non hai ancora archivi.
     upsale:
       description: |-
-        Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
-        work packages in a project.
+        Integra il tuo OneDrive/SharePoint come archivio file con OpenProject. Carica i file e collegali direttamente
+        a macro-attività in un progetto.
       title: Integrazione OneDrive/SharePoint

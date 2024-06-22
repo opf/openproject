@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe UpdateProjectsTypesService do
   let(:project) { instance_double(Project, types_used_by_work_packages: []) }
@@ -37,81 +37,81 @@ RSpec.describe UpdateProjectsTypesService do
     allow(Type).to receive(:standard_type).and_return standard_type
   end
 
-  describe '.call' do
+  describe ".call" do
     subject { instance.call(ids) }
 
     before do
       allow(project).to receive(:type_ids=)
     end
 
-    shared_examples 'activating custom fields' do
+    shared_examples "activating custom fields" do
       let(:project) { create(:project, no_types: true) }
       let!(:custom_field) { create(:text_wp_custom_field, types:) }
 
-      it 'updates the active custom fields' do
+      it "updates the active custom fields" do
         expect { subject }
           .to change { project.reload.work_package_custom_field_ids }
           .from([])
           .to([custom_field.id])
       end
 
-      it 'does not activates the same custom field twice' do
+      it "does not activates the same custom field twice" do
         expect { subject }.to change { project.reload.work_package_custom_field_ids }
         expect { subject }.not_to change { project.reload.work_package_custom_field_ids }
       end
 
-      context 'for a project with already existing types' do
+      context "for a project with already existing types" do
         let(:project) { create(:project, types:, work_package_custom_fields: [create(:text_wp_custom_field)]) }
 
-        it 'does not change custom fields' do
+        it "does not change custom fields" do
           expect { subject }.not_to change { project.reload.work_package_custom_field_ids }
         end
       end
     end
 
-    context 'with ids provided' do
+    context "with ids provided" do
       let(:ids) { [1, 2, 3] }
 
-      it 'returns true and updates the ids' do
+      it "returns true and updates the ids" do
         expect(subject).to be_truthy
         expect(project).to have_received(:type_ids=).with(ids)
       end
 
-      include_examples 'activating custom fields' do
+      include_examples "activating custom fields" do
         let(:types) { create_list(:type, 2) }
         let(:ids) { types.collect(&:id) }
       end
     end
 
-    context 'with no id passed' do
+    context "with no id passed" do
       let(:ids) { [] }
 
-      it 'adds the id of the default type and returns true' do
+      it "adds the id of the default type and returns true" do
         expect(subject).to be_truthy
         expect(project).to have_received(:type_ids=).with([standard_type.id])
       end
 
-      include_examples 'activating custom fields' do
+      include_examples "activating custom fields" do
         let(:standard_type) { create(:type_standard) }
         let(:types) { [standard_type] }
       end
     end
 
-    context 'with nil passed' do
+    context "with nil passed" do
       let(:ids) { nil }
 
-      it 'adds the id of the default type and returns true' do
+      it "adds the id of the default type and returns true" do
         expect(subject).to be_truthy
         expect(project).to have_received(:type_ids=).with([standard_type.id])
       end
 
-      include_examples 'activating custom fields' do
+      include_examples "activating custom fields" do
         let(:standard_type) { create(:type_standard) }
         let(:types) { [standard_type] }
       end
     end
 
-    context 'when the id of a type in use is not provided' do
+    context "when the id of a type in use is not provided" do
       let(:type) { build_stubbed(:type) }
       let(:ids) { [1] }
 
@@ -120,7 +120,7 @@ RSpec.describe UpdateProjectsTypesService do
         allow(project).to receive(:work_package_custom_field_ids=).and_return([type])
       end
 
-      it 'returns false and sets an error message' do
+      it "returns false and sets an error message" do
         errors = instance_double(ActiveModel::Errors)
         allow(errors).to receive(:add)
         allow(project).to receive(:errors).and_return(errors)

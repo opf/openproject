@@ -29,10 +29,10 @@
 module Queries::Operators
   module CustomFields
     class EqualsAll < ::Queries::Operators::Base
-      label 'operator_equals_all'
-      set_symbol '&='
+      label "operator_equals_all"
+      set_symbol "&="
 
-      def self.sql_for_customized(values, customized_type, customized_id_join_field)
+      def self.sql_for_customized(values, custom_field_id, customized_type, customized_id_join_field)
         # code expects strings (e.g. for quoting), but ints would work as well: unify them here
         values = values.map(&:to_s)
         cv_table = CustomValue.table_name
@@ -40,14 +40,15 @@ module Queries::Operators
         if values.present?
           sql = values.map do |val|
             "EXISTS (SELECT 1 FROM #{cv_table} WHERE customized_type = '#{connection.quote_string(customized_type)}' " \
+              "AND custom_field_id = #{custom_field_id} " \
               "AND customized_id = #{customized_id_join_field} " \
               "AND value ='#{connection.quote_string(val)}')"
           end
 
-          sql.join(' AND ')
+          sql.join(" AND ")
         else
           # empty set of allowed values produces no result
-          '0=1'
+          "0=1"
         end
       end
     end

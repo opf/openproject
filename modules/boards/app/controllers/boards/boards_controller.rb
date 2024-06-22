@@ -2,10 +2,7 @@ module ::Boards
   class BoardsController < BaseController
     include Layout
 
-    before_action :find_optional_project
-
-    before_action :authorize_global, if: -> { @project.nil? }
-    before_action :authorize, if: -> { @project.present? }
+    before_action :load_and_authorize_in_optional_project
 
     # The boards permission alone does not suffice
     # to view work packages
@@ -19,11 +16,11 @@ module ::Boards
     menu_item :boards
 
     def index
-      render 'index', locals: { menu_name: project_or_global_menu }
+      render "index", locals: { menu_name: project_or_global_menu }
     end
 
     def show
-      render layout: 'angular/angular'
+      render layout: "angular/angular"
     end
 
     def new; end
@@ -51,7 +48,7 @@ module ::Boards
           render json: { redirect_url: project_work_package_boards_path(@project) }
         end
         format.html do
-          redirect_to action: 'index', project_id: @project
+          redirect_to action: "index", project_id: @project
         end
       end
     end
@@ -94,7 +91,7 @@ module ::Boards
     end
 
     def restricted_board_type?
-      !EnterpriseToken.allows_to?(:board_view) && board_grid_params[:attribute] != 'basic'
+      !EnterpriseToken.allows_to?(:board_view) && board_grid_params[:attribute] != "basic"
     end
 
     def service_call
@@ -108,12 +105,12 @@ module ::Boards
 
     def service_class
       {
-        'basic' => Boards::BasicBoardCreateService,
-        'status' => Boards::StatusBoardCreateService,
-        'assignee' => Boards::AssigneeBoardCreateService,
-        'version' => Boards::VersionBoardCreateService,
-        'subproject' => Boards::SubprojectBoardCreateService,
-        'subtasks' => Boards::SubtasksBoardCreateService
+        "basic" => Boards::BasicBoardCreateService,
+        "status" => Boards::StatusBoardCreateService,
+        "assignee" => Boards::AssigneeBoardCreateService,
+        "version" => Boards::VersionBoardCreateService,
+        "subproject" => Boards::SubprojectBoardCreateService,
+        "subtasks" => Boards::SubtasksBoardCreateService
       }.fetch(board_grid_params[:attribute])
     end
 

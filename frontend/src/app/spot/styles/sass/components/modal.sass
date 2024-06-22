@@ -7,7 +7,8 @@
   flex-direction: column
   overflow: hidden
   align-items: stretch
-  background: white
+  background: var(--overlay-bgColor)
+  box-shadow: var(--shadow-floating-small)
   pointer-events: all
 
   border-radius: $spot-spacing-0-75
@@ -49,7 +50,8 @@
     &-close-button
       border-radius: 6px
       border-color: transparent
-      margin-right: -$spot-spacing-0-5
+      margin: -$spot-spacing-0-5
+      margin-left: 0
 
       &:hover
         cursor: pointer

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Grids::Query, type: :model do
   include OpenProject::StaticRouting::UrlHelpers
@@ -53,28 +53,28 @@ RSpec.describe Grids::Query, type: :model do
     login_as(current_user)
   end
 
-  context 'without a filter' do
-    describe '#results' do
-      it 'is the same as getting all the boards visible to the user' do
+  context "without a filter" do
+    describe "#results" do
+      it "is the same as getting all the boards visible to the user" do
         expect(instance.results).to contain_exactly(board_grid)
       end
     end
   end
 
-  context 'with a scope filter' do
-    context 'filtering for a projects/:project_id/boards' do
+  context "with a scope filter" do
+    context "filtering for a projects/:project_id/boards" do
       before do
-        instance.where('scope', '=', [project_work_package_boards_path(project)])
+        instance.where("scope", "=", [project_work_package_boards_path(project)])
       end
 
-      describe '#results' do
-        it 'yields boards assigned to the project' do
+      describe "#results" do
+        it "yields boards assigned to the project" do
           expect(instance.results).to contain_exactly(board_grid)
         end
       end
 
-      describe '#valid?' do
-        it 'is true' do
+      describe "#valid?" do
+        it "is true" do
           expect(instance).to be_valid
         end
       end

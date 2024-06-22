@@ -29,8 +29,8 @@
 #++
 
 module Source::Translate
-  I18N_PREFIX = 'seeds'
-  TRANSLATABLE_PREFIX = 't_'
+  I18N_PREFIX = "seeds"
+  TRANSLATABLE_PREFIX = "t_"
   TRANSLATABLE_PREFIX_PATTERN = /^#{TRANSLATABLE_PREFIX}/
 
   def translate(hash, i18n_key)
@@ -45,7 +45,7 @@ module Source::Translate
   module_function :translatable?
 
   def remove_translatable_prefix(key)
-    key.gsub(TRANSLATABLE_PREFIX_PATTERN, '')
+    key.gsub(TRANSLATABLE_PREFIX_PATTERN, "")
   end
   module_function :remove_translatable_prefix
 
@@ -72,7 +72,7 @@ module Source::Translate
   def translate_value(value, i18n_key)
     case value
     when String
-      I18n.t(i18n_key, locale:, default: value)
+      I18n.t(i18n_key, locale:, fallback: false, default: value)
     when Array
       value.map.with_index { |v, i| translate_value(v, "#{i18n_key}.#{array_key(i)}") }
     end

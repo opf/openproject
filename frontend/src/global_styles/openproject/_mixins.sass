@@ -83,7 +83,7 @@
 @mixin widget-box--style
   background: var(--body-background)
   margin: 10px
-  border: 1px solid var(--color-border-muted)
+  border: 1px solid var(--borderColor-default)
   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1)
 
 @mixin widget-box--hover-style
@@ -243,16 +243,13 @@ $scrollbar-size: 10px
   bottom: 0
   z-index: 900
 
-@mixin extended-content--top
-  #content
-    padding-top: 0
-
 @mixin extended-content--bottom
-  #content
+  #content-body
     padding-bottom: 0
 
 @mixin extended-content--left
-  #content
+  #content-body,
+  #content-header
     padding-left: 0
 
     .toolbar-container
@@ -261,7 +258,8 @@ $scrollbar-size: 10px
       margin-left: 20px
 
 @mixin extended-content--right
-  #content
+  #content-body,
+  #content-header
     padding-right: 0
 
     .toolbar-container
@@ -270,7 +268,7 @@ $scrollbar-size: 10px
       margin-right: 15px
 
 @mixin modifying--placeholder
-  border: 1px dashed var(--primary-color)
+  border: 1px dashed var(--accent-color)
   pointer-events: none
   *
     visibility: hidden
@@ -280,15 +278,14 @@ $scrollbar-size: 10px
 
 @mixin macro--text-style
   @media screen
-    // Ensure width of contents is wrapped
-    display: inline-block
+    display: inline
     background: rgba(218,223,225,0.19)
     border: 1px solid transparent
     padding: 2px
 
     &:hover
       cursor: default
-      border-color: var(--color-fg-muted)
+      border-color: var(--fgColor-muted)
       background: rgba(218,223,225,0.75)
 
 @mixin unset-button-styles
@@ -308,7 +305,6 @@ $scrollbar-size: 10px
   line-height: 36px !important
 
 @mixin global-breadcrumb-styles
-  margin-top: 10px
   display: none
   @include default-transition
   overflow: hidden

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Projects::CopyService, 'integration', type: :model do
+RSpec.describe Projects::CopyService, "integration", type: :model do
   let(:current_user) do
     create(:user,
            member_with_roles: { source => role })
@@ -44,7 +44,7 @@ RSpec.describe Projects::CopyService, 'integration', type: :model do
   end
   let(:only_args) { %w[work_packages boards] }
   let(:target_project_params) do
-    { name: 'Some name', identifier: 'some-identifier' }
+    { name: "Some name", identifier: "some-identifier" }
   end
   let(:params) do
     { target_project_params:, only: only_args }
@@ -52,7 +52,7 @@ RSpec.describe Projects::CopyService, 'integration', type: :model do
 
   subject { instance.call(params) }
 
-  describe 'for a subproject board' do
+  describe "for a subproject board" do
     let(:current_user) do
       create(:user, member_with_roles: { source => role, child_project => role })
     end
@@ -63,7 +63,7 @@ RSpec.describe Projects::CopyService, 'integration', type: :model do
     let!(:board_view) do
       create(:board_grid_with_query,
              project: source,
-             name: 'Subproject board',
+             name: "Subproject board",
              options: { "type" => "action", "attribute" => "subproject" })
     end
 
@@ -72,45 +72,45 @@ RSpec.describe Projects::CopyService, 'integration', type: :model do
 
       # Modify the actual saved query to contain the subproject filter
       query = board_view.contained_queries.first
-      query.add_filter('only_subproject_id', '=', child_project.id)
+      query.add_filter("only_subproject_id", "=", child_project.id)
       query.save!
     end
 
-    it 'succeeds to copy, but add an error for the missing subproject column (Regression #34550)' do
+    it "succeeds to copy, but add an error for the missing subproject column (Regression #34550)" do
       # Expect to have created to board, but with error
       expect(subject).to be_success
       expect(subject.errors.full_messages).to eq([expected_error])
       expect(board_copies.count).to eq 1
 
       # Expect board name to match
-      expect(board_copy.name).to eq 'Subproject board'
+      expect(board_copy.name).to eq "Subproject board"
 
       # Expect the widget to be lost during save
       expect(board_copy.widgets).to be_empty
     end
   end
 
-  describe 'for ordered work packages' do
-    let!(:board_view) { create(:board_grid_with_query, project: source, name: 'My Board') }
-    let!(:wp_1) { create(:work_package, project: source, subject: 'Second') }
-    let!(:wp_2) { create(:work_package, project: source, subject: 'First') }
+  describe "for ordered work packages" do
+    let!(:board_view) { create(:board_grid_with_query, project: source, name: "My Board") }
+    let!(:wp_1) { create(:work_package, project: source, subject: "Second") }
+    let!(:wp_2) { create(:work_package, project: source, subject: "First") }
 
     before do
       OrderedWorkPackage.create(query:, work_package: wp_1, position: 1234)
       OrderedWorkPackage.create(query:, work_package: wp_2, position: -1000)
     end
 
-    describe 'call' do
-      it 'copies the boards with the order correct' do
+    describe "call" do
+      it "copies the boards with the order correct" do
         expect(subject).to be_success
 
         expect(board_copies.count).to eq 1
 
         # Expect board name to match
-        expect(board_copy.name).to eq 'My Board'
+        expect(board_copy.name).to eq "My Board"
 
         # Expect query to differ
-        query_id = board_copy.widgets.first.options['queryId']
+        query_id = board_copy.widgets.first.options["queryId"]
         expect(query_id.to_i).not_to eq(query.id)
 
         # Expect query to be in correct project
@@ -132,11 +132,11 @@ RSpec.describe Projects::CopyService, 'integration', type: :model do
         wps = query.ordered_work_packages
         expect(wps.count).to eq 2
 
-        expect(wps[0].work_package.subject).to eq 'First'
+        expect(wps[0].work_package.subject).to eq "First"
         expect(wps[0].position).to eq -1000
         expect(wps[0].work_package.id).not_to eq wp_2.id
 
-        expect(wps[1].work_package.subject).to eq 'Second'
+        expect(wps[1].work_package.subject).to eq "Second"
         expect(wps[1].position).to eq 1234
         expect(wps[1].work_package.id).not_to eq wp_1.id
       end

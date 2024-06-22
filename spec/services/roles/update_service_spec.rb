@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_update_service'
+require "spec_helper"
+require "services/base_services/behaves_like_update_service"
 
 RSpec.describe Roles::UpdateService, type: :model do
-  it_behaves_like 'BaseServices update service' do
+  it_behaves_like "BaseServices update service" do
     let(:factory) { :project_role }
   end
 
-  it 'sends an update notification' do
+  it "sends an update notification" do
     allow(OpenProject::Notifications).to receive(:send)
 
     existing_permissions = %i[view_files view_work_packages

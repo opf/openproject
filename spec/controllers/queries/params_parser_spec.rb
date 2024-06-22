@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::ParamsParser, type: :model do
   let(:params) do
@@ -37,65 +37,65 @@ RSpec.describe Queries::ParamsParser, type: :model do
 
   subject { described_class.parse(params.with_indifferent_access) }
 
-  describe '.parse' do
-    context 'without any params' do
-      it 'returns an empty array' do
+  describe ".parse" do
+    context "without any params" do
+      it "returns an empty array" do
         expect(subject)
           .to be_empty
       end
     end
 
-    context 'with a single filter with a single value' do
+    context "with a single filter with a single value" do
       let(:params) do
         {
           filters: "active = t"
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: ['t'] })
+          .to contain_exactly({ attribute: "active", operator: "=", values: ["t"] })
       end
     end
 
-    context 'with a single filter with multiple values having single quotes' do
+    context "with a single filter with multiple values having single quotes" do
       let(:params) do
         {
           filters: "active = ['t', 'f']"
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: %w[t f] })
+          .to contain_exactly({ attribute: "active", operator: "=", values: %w[t f] })
       end
     end
 
-    context 'with a single filter with multiple values having double quotes' do
+    context "with a single filter with multiple values having double quotes" do
       let(:params) do
         {
           filters: "active = [\"t\", \"f\"]"
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: %w[t f] })
+          .to contain_exactly({ attribute: "active", operator: "=", values: %w[t f] })
       end
     end
 
-    context 'with a single filter with a single value with , and &' do
+    context "with a single filter with a single value with , and &" do
       let(:params) do
         {
-          filters: 'active = something, or another thing & something else'
+          filters: "active = something, or another thing & something else"
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         # This returns invalid filters but they will then be marked as invalid
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: ["something, or another thing "] },
-                              { attribute: 'something', operator: 'else', values: [''] })
+          .to contain_exactly({ attribute: "active", operator: "=", values: ["something, or another thing "] },
+                              { attribute: "something", operator: "else", values: [""] })
       end
     end
 
@@ -106,154 +106,185 @@ RSpec.describe Queries::ParamsParser, type: :model do
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: ["something, or another thing \" something else"] })
+          .to contain_exactly({ attribute: "active", operator: "=", values: ["something, or another thing \" something else"] })
       end
     end
 
-    context 'with a single filter with a single value with \' (escaped)' do
+    context "with a single filter with a single value with ' (escaped)" do
       let(:params) do
         {
           filters: "active = 'something, or another thing \\' something else'"
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: ["something, or another thing ' something else"] })
+          .to contain_exactly({ attribute: "active", operator: "=", values: ["something, or another thing ' something else"] })
       end
     end
 
-    context 'with a single filter with no value' do
+    context "with a single filter with no value" do
       let(:params) do
         {
-          filters: 'cf_512 !* '
+          filters: "cf_512 !* "
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'cf_512', operator: '!*', values: [''] })
+          .to contain_exactly({ attribute: "cf_512", operator: "!*", values: [""] })
       end
     end
 
-    context 'with multiple filters with the first having no value' do
+    context "with multiple filters with the first having no value" do
       let(:params) do
         {
           filters: "active !* & id = \"1\""
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '!*', values: [] },
-                              { attribute: 'id', operator: '=', values: ["1"] })
+          .to contain_exactly({ attribute: "active", operator: "!*", values: [] },
+                              { attribute: "id", operator: "=", values: ["1"] })
       end
     end
 
-    context 'with multiple filters with ampersand as a filter value' do
+    context "with multiple filters with ampersand as a filter value" do
       let(:params) do
         {
           filters: "active = \"t\" & name_and_identifier ~ \"abc & def\""
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: ["t"] },
-                              { attribute: 'name_and_identifier', operator: '~', values: ["abc & def"] })
+          .to contain_exactly({ attribute: "active", operator: "=", values: ["t"] },
+                              { attribute: "name_and_identifier", operator: "~", values: ["abc & def"] })
       end
     end
 
-    context 'with a corrupt filter only having a key' do
+    context "with a corrupt filter only having a key" do
       let(:params) do
         {
           filters: "active"
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '', values: [""] })
+          .to contain_exactly({ attribute: "active", operator: "", values: [""] })
       end
     end
 
-    context 'with a corrupt filter having opening braces but no closing ones' do
+    context "with a corrupt filter having opening braces but no closing ones" do
       let(:params) do
         {
           filters: "active = [\"t\", \"f\""
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: %w[t f] })
+          .to contain_exactly({ attribute: "active", operator: "=", values: %w[t f] })
       end
     end
 
-    context 'with a corrupt filter having opening double quotes but no closing ones' do
+    context "with a corrupt filter having opening double quotes but no closing ones" do
       let(:params) do
         {
           filters: 'active = "t'
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: %w[t] })
+          .to contain_exactly({ attribute: "active", operator: "=", values: %w[t] })
       end
     end
 
-    context 'with a corrupt filter having opening single quotes but no closing ones' do
+    context "with a corrupt filter having opening single quotes but no closing ones" do
       let(:params) do
         {
           filters: "active = 't"
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: %w[t] })
+          .to contain_exactly({ attribute: "active", operator: "=", values: %w[t] })
       end
     end
 
-    context 'with sortBy with a single value' do
+    context "with an old (APIv3) style filter" do
+      let(:params) do
+        {
+
+          filters: JSON.dump([{ active: { operator: "=", values: ["f"] } },
+                              { cf_32: { operator: "=", values: ["63"] } }, # rubocop:disable Naming/VariableNumber
+                              { cf_34: { operator: "=", values: ["2006"] } }]) # rubocop:disable Naming/VariableNumber
+        }
+      end
+
+      it "returns the parsed filter" do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: "active", operator: "=", values: %w[f] },
+                              { attribute: "cf_32", operator: "=", values: %w[63] },
+                              { attribute: "cf_34", operator: "=", values: %w[2006] })
+      end
+    end
+
+    context "with sortBy with a single value" do
       let(:params) do
         {
           sortBy: JSON.dump([%w[name asc]])
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:orders])
-          .to eql [{ attribute: 'name', direction: 'asc' }]
+          .to eql [{ attribute: "name", direction: "asc" }]
       end
     end
 
-    context 'with sortBy with a multiple value' do
+    context "with sortBy with a multiple value" do
       let(:params) do
         {
           sortBy: JSON.dump([%w[name asc], %w[created_at desc]])
         }
       end
 
-      it 'returns the parsed filter' do
+      it "returns the parsed filter" do
         expect(subject[:orders])
-          .to eql [{ attribute: 'name', direction: 'asc' }, { attribute: 'created_at', direction: 'desc' }]
+          .to eql [{ attribute: "name", direction: "asc" }, { attribute: "created_at", direction: "desc" }]
       end
     end
 
-    context 'with an invalid sortBy' do
+    context "with an invalid sortBy" do
       let(:params) do
         {
           sortBy: "[sjfkdsjfkd}"
         }
       end
 
-      it 'returns an invalid sort order' do
+      it "returns an invalid sort order" do
         expect(subject[:orders])
-          .to eql [{ attribute: 'invalid', direction: 'asc' }]
+          .to eql [{ attribute: "invalid", direction: "asc" }]
+      end
+    end
+
+    context "with multiple columns" do
+      let(:params) do
+        {
+          columns: "name cf_1 project_status"
+        }
+      end
+
+      it "returns an invalid sort order" do
+        expect(subject[:selects])
+          .to eql %w[name cf_1 project_status]
       end
     end
   end

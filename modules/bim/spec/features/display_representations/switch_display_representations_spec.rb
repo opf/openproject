@@ -26,22 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../../support/pages/ifc_models/show_default'
+require "spec_helper"
+require_relative "../../support/pages/ifc_models/show_default"
 
-RSpec.describe 'Switching work package view',
-               :js,
-               with_ee: %i[conditional_highlighting],
-               with_config: { edition: 'bim' } do
+RSpec.describe "Switching work package view",
+               :js, with_config: { edition: "bim" }, with_ee: %i[conditional_highlighting] do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:wp_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:highlighting) { Components::WorkPackages::Highlighting.new }
   let(:cards) { Pages::WorkPackageCards.new(project) }
 
-  let(:priority1) { create(:issue_priority, color: create(:color, hexcode: '#123456')) }
-  let(:priority2) { create(:issue_priority, color: create(:color, hexcode: '#332211')) }
-  let(:status) { create(:status, color: create(:color, hexcode: '#654321')) }
+  let(:priority1) { create(:issue_priority, color: create(:color, hexcode: "#123456")) }
+  let(:priority2) { create(:issue_priority, color: create(:color, hexcode: "#332211")) }
+  let(:status) { create(:status, color: create(:color, hexcode: "#654321")) }
 
   let(:wp_1) do
     create(:work_package,
@@ -67,15 +65,15 @@ RSpec.describe 'Switching work package view',
     wp_page.expect_work_package_listed wp_1, wp_2
   end
 
-  context 'switching to card view' do
+  context "switching to card view" do
     before do
       # Enable card representation
-      wp_page.switch_view 'Cards'
+      wp_page.switch_view "Cards"
       loading_indicator_saveguard
       cards.expect_work_package_listed wp_1, wp_2
     end
 
-    it 'saves the representation in the query' do
+    it "saves the representation in the query" do
       # After refresh the WP are still displayed as cards
       page.driver.browser.navigate.refresh
       cards.expect_work_package_listed wp_1, wp_2

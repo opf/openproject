@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Projects::Activity, 'core' do
+RSpec.describe Projects::Activity, "core" do
   shared_let(:project) do
     create(:project, :updated_a_long_time_ago)
   end
@@ -115,71 +115,71 @@ RSpec.describe Projects::Activity, 'core' do
     Project.with_latest_activity.find(project.id).latest_activity_at
   end
 
-  describe '.with_latest_activity' do
-    it 'is the latest work_package update' do
+  describe ".with_latest_activity" do
+    it "is the latest work_package update" do
       work_package.update(updated_at: initial_time - 10.seconds)
       work_package2.update(updated_at: initial_time - 20.seconds)
       work_package.reload
       work_package2.reload
 
       # there is a loss of precision for timestamps stored in database
-      expect(latest_activity).to be_within(0.00001).of(work_package.updated_at)
+      expect(latest_activity).to equal_time_without_usec(work_package.updated_at)
     end
 
-    it 'is the latest wiki_pages update' do
+    it "is the latest wiki_pages update" do
       wiki_page.update(updated_at: initial_time - 10.seconds)
       wiki_page2.update(updated_at: initial_time - 20.seconds)
       wiki_page.reload
       wiki_page2.reload
 
-      expect(latest_activity).to be_within(0.00001).of(wiki_page.updated_at)
+      expect(latest_activity).to equal_time_without_usec(wiki_page.updated_at)
     end
 
-    it 'is the latest news update' do
+    it "is the latest news update" do
       news.update(updated_at: initial_time - 10.seconds)
       news2.update(updated_at: initial_time - 20.seconds)
       news.reload
       news2.reload
 
-      expect(latest_activity).to be_within(0.00001).of(news.updated_at)
+      expect(latest_activity).to equal_time_without_usec(news.updated_at)
     end
 
-    it 'is the latest changeset update' do
+    it "is the latest changeset update" do
       changeset.update(committed_on: initial_time - 10.seconds)
       changeset2.update(committed_on: initial_time - 20.seconds)
       changeset.reload
       changeset2.reload
 
-      expect(latest_activity).to be_within(0.00001).of(changeset.committed_on)
+      expect(latest_activity).to equal_time_without_usec(changeset.committed_on)
     end
 
-    it 'is the latest message update' do
+    it "is the latest message update" do
       message.update(updated_at: initial_time - 10.seconds)
       message2.update(updated_at: initial_time - 20.seconds)
       message.reload
       message2.reload
 
-      expect(latest_activity).to be_within(0.00001).of(message.updated_at)
+      expect(latest_activity).to equal_time_without_usec(message.updated_at)
     end
 
-    it 'is the latest time_entry update' do
+    it "is the latest time_entry update" do
       work_package.update(updated_at: initial_time - 60.seconds)
       time_entry.update(updated_at: initial_time - 10.seconds)
       time_entry2.update(updated_at: initial_time - 20.seconds)
       time_entry.reload
       time_entry2.reload
 
-      expect(latest_activity).to be_within(0.00001).of(time_entry.updated_at)
+      expect(latest_activity).to equal_time_without_usec(time_entry.updated_at)
     end
 
-    it 'is the latest project update' do
+    it "is the latest project update" do
       work_package.update(updated_at: initial_time - 60.seconds)
       project.update(updated_at: initial_time - 10.seconds)
 
-      expect(latest_activity).to be_within(0.00001).of(project.updated_at)
+      expect(latest_activity).to equal_time_without_usec(project.updated_at)
     end
 
-    it 'takes the time stamp of the latest activity across models' do
+    it "takes the time stamp of the latest activity across models" do
       work_package.update(updated_at: initial_time - 10.seconds)
       wiki_page.update(updated_at: initial_time - 20.seconds)
       news.update(updated_at: initial_time - 30.seconds)
@@ -201,7 +201,7 @@ RSpec.describe Projects::Activity, 'core' do
       # message
       # project
 
-      expect(latest_activity).to be_within(0.00001).of(work_package.updated_at)
+      expect(latest_activity).to equal_time_without_usec(work_package.updated_at)
 
       work_package.update(updated_at: project.updated_at - 10.seconds)
 
@@ -213,7 +213,7 @@ RSpec.describe Projects::Activity, 'core' do
       # project
       # work_package
 
-      expect(latest_activity).to be_within(0.00001).of(wiki_page.updated_at)
+      expect(latest_activity).to equal_time_without_usec(wiki_page.updated_at)
 
       wiki_page.update(updated_at: work_package.updated_at - 10.seconds)
 
@@ -225,7 +225,7 @@ RSpec.describe Projects::Activity, 'core' do
       # work_package
       # wiki_page
 
-      expect(latest_activity).to be_within(0.00001).of(news.updated_at)
+      expect(latest_activity).to equal_time_without_usec(news.updated_at)
 
       news.update(updated_at: wiki_page.updated_at - 10.seconds)
 
@@ -237,7 +237,7 @@ RSpec.describe Projects::Activity, 'core' do
       # wiki_page
       # news
 
-      expect(latest_activity).to be_within(0.00001).of(changeset.committed_on)
+      expect(latest_activity).to equal_time_without_usec(changeset.committed_on)
 
       changeset.update(committed_on: news.updated_at - 10.seconds)
 
@@ -249,7 +249,7 @@ RSpec.describe Projects::Activity, 'core' do
       # news
       # changeset
 
-      expect(latest_activity).to be_within(0.00001).of(message.updated_at)
+      expect(latest_activity).to equal_time_without_usec(message.updated_at)
 
       message.update(updated_at: changeset.committed_on - 10.seconds)
 
@@ -261,7 +261,7 @@ RSpec.describe Projects::Activity, 'core' do
       # changeset
       # message
 
-      expect(latest_activity).to be_within(0.00001).of(project.updated_at)
+      expect(latest_activity).to equal_time_without_usec(project.updated_at)
     end
   end
 end

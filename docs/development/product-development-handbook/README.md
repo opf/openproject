@@ -8,8 +8,6 @@ keywords: product development, requirement process, RICE score
 
 # OpenProject product development
 
-
-
 ## 1. Overview & objectives
 
 OpenProject aims to connect distributed teams and organizations and make project management intuitive and fun. The application is continuously developed and maintained by an active international community to provide a powerful feature set and yet intuitive user interface. The overall purpose is to create customer benefit. To achieve this, OpenProject follows a requirements and product development process that empathizes identifying and building the functionality which most aligns with OpenProject’s product vision and delivers customer value.
@@ -19,6 +17,7 @@ This guide is an evolving description of the steps taken from collecting require
 ## 2. Process overview
 
 The product development process involves various roles during the different phases:
+
 * Product Manager (PM)
 * Designer
 * QA/Tester
@@ -103,13 +102,11 @@ Product Managers and UX prepare the work together at least one version (~ 2 mont
 
 The specification phase may not be necessary for bug fixes, minor design changes, minor improvements of smaller code maintenance topics.
 
-
 ### 3.1.1 Evaluation phase 1: Collection
 
 | Involved                                                                                                                   | Output                                                     |
 |----------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------|
 | - Entire team (incl. PMs, UX researcher, developers, etc.)  <br/> - Customers <br/> - Community <br/> - Other stakeholders | - Feature request in Wish List <br/> - Bugs in Bug backlog |
-
 
 The [OpenProject Wish List](https://community.openproject.org/projects/openproject/work_packages?query_id=180) is used to collect a backlog of potential validation opportunities. Requirements may come from customers, internal usage, support messages, community forums or through other communication channels.
 
@@ -150,14 +147,13 @@ Those features judged positively by the PM:
 
 For internal or customer requirements requirements may directly be created, evaluated based on the [RICE framework](#42-rice-score) and assigned to the product backlog.
 
-
 ### 3.1.4 Evaluation phase 4: Requirement specification
 
 | Involved                                                                   | Output                                                               |
 |----------------------------------------------------------------------------|:---------------------------------------------------------------------|
 | - Product Manager <br/> - UX Researcher <br/> - Developer <br/> - Designer | Specified feature (status “Specified”) in Product Backlog or version |
 
-Based on the Product Managers judgement (taking among other things the RICE score and customer backing into account) validated and prioritized features (status: “In specification”) are specified in more detail: 
+Based on the Product Managers judgement (taking among other things the RICE score and customer backing into account) validated and prioritized features (status: “In specification”) are specified in more detail:
 
 1. PM specifies the solution and creates mockups (e.g. PowerPoint, Google Docs, …).
 
@@ -198,6 +194,7 @@ During the building phase we develop, improve and test the validated solutions.
 | - Developer <br/> - QA <br/> - Product Manager <br/> - Designer | Technical work packages ("Implementation") ready for implementation <br/> Test cases for quality assurance |
 
 The preparations the development team conducts consists of two parts:
+
 * Preparing for the implementation
 * Preparing for the quality assurance
 
@@ -209,7 +206,7 @@ For the implementation, prior to working on a new feature, the development team 
 
 For the quality assurance, prior to testing the feature, QA analyzes the feature from a testing viewpoint:
 
-1. A tester responsible for the quality assurance of the feature is selected. 
+1. A tester responsible for the quality assurance of the feature is selected.
 2. The tester generates test cases out of the specification. Open topics (i.e. unclear specification and omissions in the specification) are clarified together with the PM/Designer.
 
 Ideally the preparation of both QA and development happen at the same time so that the specification can be adjusted as early as possible. At the same time, there isn't an explicit need for it to be synchronized.
@@ -247,7 +244,7 @@ Changes to the technical documentation, e.g API documentation, are done in paral
 
 1. Tester adapts test plan if acceptance criteria was altered since the original creation of the test plan.
 2. Tester performs and verifies additional tests according to the  [Writing and Running Tests guide](../../development/running-tests/) to ensure the application has been tested according to specifications and requirements.
-3. Tester tests feature (based on test plan) 
+3. Tester tests feature (based on test plan)
    1. Tester adjusts status when no errors in feature (status: “tested”).
    2. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 2 - Implementation)
 
@@ -272,7 +269,7 @@ If required changes are identified or predefined acceptance criteria is not met,
 |------------------------------------|:-------------------|
 | - Product manager <br/> - Designer | Documented feature |
 
-1. PM/Designer writes the user documentation for the developed feature. 
+1. PM/Designer writes the user documentation for the developed feature.
 
 ### 3.3.5 Building phase 5: Stabilization
 
@@ -287,8 +284,10 @@ Developed features are bundled into a version that is released to the public via
 3. QA identifies important bugs to be fixed in the release.
 4. Developer fixes bugs from regression testing as well as bugs from former versions.
 5. Tester retests bugs
+
   * Tester adjusts status on errors (status: “test failed").
   * Tester adjusts status when no errors are found (status: “closed").
+
 6. Developer fixes bugs that were not fixed successfully.
 7. DevOps deploys release candidate on community.openproject.org.
 8. DevOps monitors for failures.
@@ -361,14 +360,10 @@ A helpful guideline with further information on the RICE framework is provided b
 
 The RICE scoring model aims to objectively evaluate requirements (new products, features, add-ons, …) based on four different criteria to determine the RICE Score:
 
-
-
 > RICE Score = **R**each x **I**mpact x **C**onfidence / **E**ffort
-
 
 The RICE framework is used especially in the early phases of evaluating requirements and provides an easy and fast way to prioritize feature requests.
 For complex requirements with a low level of confidence (80% or lower) and / or high effort (more than 1 week), an opportunity canvas should be used in addition to the RICE score.
-
 
 **Reach**
 
@@ -379,8 +374,6 @@ The reach ranges from 0.5 for minimal reach (less than 5% of users) to 10.0 for 
 
 Data sources to estimate this may include queries and user data of an associated feature (e.g. number of users using the “Work packages” module on community.openproject.org to determine the value for a new work package requirement), qualitative customer interviews, customer requests, comments on work packages, surveys, etc..
 
-
-
 **Impact**
 
 The second numerator is Impact which refers to the benefits for users and customers. Impact can refer to quantitative measures, such as conversion improvements, increased revenue, decreased risk or decreased cost or to qualitative measures, such as increasing customer delight.
@@ -389,8 +382,6 @@ This makes it possible to compare revenue generating opportunities to non-revenu
 Impact ranges from “Minimal” (0.25) to “Massive” (3.0).
 
 The higher the impact, the higher the RICE score.
-
-
 
 **Confidence**
 
@@ -402,8 +393,6 @@ The confidence score ranges from 50% for low confidence to 100% for high confide
 
 If you arrive at a confidence level below 50%, consider this requirement a “Moonshot” and focus your energy on other requirements.
 
-
-
 **Effort**
 
 The three aforementioned factors (Reach, Impact, Confidence) represent the numerators of the RICE score. The effort score refers to the estimated resources (product, design, engineering, quality assurance, etc.) in person-months needed to implement a feature.
@@ -412,23 +401,15 @@ The effort estimate is an approximate measure which uses shirt sizing.
 
 The effort score ranges from 0.03 (XS = less than a day of effort) to 20 (XXXL = more than 12 months of effort).
 
-
-
 ### 4.3 Opportunity Canvas
 
 One of the main artifacts used in the evaluation phase is the Opportunity Canvas. The Opportunity Canvas - [slightly adapted from GitLab](https://about.gitlab.com/handbook/product-development-flow) - provides a quick overview of a requirement and includes four main sections as well as two supplemental sections:
 
-
-
 **<u>Main sections:</u>**
-
-
 
 **1. Problem**
 
 States the problem that the feature request is addressing. This includes the **Customer** information (the affected persona or persona segment that experiences the problem most acutely), a **Problem** description and a description of the customer **Pain**.
-
-
 
 **2. Business Case**
 
@@ -436,31 +417,21 @@ The business case is closely aligned with the RICE score. The business case sect
 
 Additionally, the **Urgency and Priority** section provides information about the relative importance of the requirement compared to other opportunities, deadlines and other time-related information.
 
-
-
 **3. Solution**
 The solution to the problem can be laid out in this section. Define the **Minimal Viable Change** in a first version, what is **Out of scope** and the **Differentiation** from the current experience and competing solutions.
 As an outlook, also provide some information on the **Next iteration**.
-
-
 
 **4. Launch and Growth**
 To get a complete picture of the requirement and its impact, it is essential to consider its marketing message early on.Define how you **Measure** if you solved the problem by specifying important metrics. Additionally, you can formulate a marketing **message** to identify the value proposition as early as possible.
 Last but not least, briefly outline the **Go to Market** strategy.
 
-
-
 **<u>Supplemental sections:</u>**
-
-
 
 **1. Learnings**
 
 The Opportunity Canvas is an iterative work document. As such it is often helpful to collect some assumptions early on and validate them when conducting customer interviews and learning more about the problem and solution.
 
 The Learning section provides space to collect assumptions and validate them over time.
-
-
 
 **2. Learning Goals**
 
@@ -470,9 +441,6 @@ The Opportunity Canvas is intended to quickly validate or invalidate ideas and t
 
 An Opportunity Canvas may not always be required - especially when a problem is well understood or small in scope.
 
-
-
 **References:**
 
 - [Opportunity Canvas Template](https://docs.google.com/document/d/1sgNrEx_PRCwewI9-46mN0qnyzz2AWq_SwFc6gLOcrbI/edit)
-

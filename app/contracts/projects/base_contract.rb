@@ -35,6 +35,7 @@ module Projects
     attribute :identifier
     attribute :description
     attribute :public
+    attribute :settings
     attribute :active do
       validate_active_present
       validate_changing_active
@@ -49,6 +50,10 @@ module Projects
     attribute :templated do
       validate_templated_set_by_admin
     end
+
+    attribute :_limit_custom_fields_validation_to_section_id
+    # `_limit_custom_fields_validation_to_section_id` used in Projects::ActsAsCustomizablePatches in order to
+    # only validate custom fields of the touched section
 
     validate :validate_user_allowed_to_manage
 

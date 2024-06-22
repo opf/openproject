@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Journals::CompletedJob, type: :model do
   let(:send_mail) { true }
@@ -35,17 +35,17 @@ RSpec.describe Journals::CompletedJob, type: :model do
     build_stubbed(:journal, journable:)
   end
 
-  describe '.schedule' do
+  describe ".schedule" do
     subject { described_class.schedule(journal, send_mail) }
 
-    shared_examples_for 'enqueues a JournalCompletedJob' do
+    shared_examples_for "enqueues a JournalCompletedJob" do
       before do
         allow(Time)
           .to receive(:current)
                 .and_return(Time.current)
       end
 
-      it 'enqueues a JournalCompletedJob' do
+      it "enqueues a JournalCompletedJob" do
         expect { subject }
           .to have_enqueued_job(described_class)
                 .at(Setting.journal_aggregation_time_minutes.to_i.minutes.from_now)
@@ -55,33 +55,33 @@ RSpec.describe Journals::CompletedJob, type: :model do
       end
     end
 
-    shared_examples_for 'enqueues no job' do
-      it 'enqueues no JournalCompletedJob' do
+    shared_examples_for "enqueues no job" do
+      it "enqueues no JournalCompletedJob" do
         expect { subject }
           .not_to have_enqueued_job(described_class)
       end
     end
 
-    context 'with a work_package' do
+    context "with a work_package" do
       let(:journable) { build_stubbed(:work_package) }
 
-      it_behaves_like 'enqueues a JournalCompletedJob'
+      it_behaves_like "enqueues a JournalCompletedJob"
     end
 
-    context 'with a wiki page' do
+    context "with a wiki page" do
       let(:journable) { build_stubbed(:wiki_page) }
 
-      it_behaves_like 'enqueues a JournalCompletedJob'
+      it_behaves_like "enqueues a JournalCompletedJob"
     end
 
-    context 'with a news' do
+    context "with a news" do
       let(:journable) { build_stubbed(:news) }
 
-      it_behaves_like 'enqueues a JournalCompletedJob'
+      it_behaves_like "enqueues a JournalCompletedJob"
     end
   end
 
-  describe '#perform' do
+  describe "#perform" do
     subject { described_class.new.perform(journal.id, journal.updated_at, send_mail) }
 
     let(:find_by_journal) { journal }
@@ -93,8 +93,8 @@ RSpec.describe Journals::CompletedJob, type: :model do
               .and_return(find_by_journal)
     end
 
-    shared_examples_for 'sends a notification' do |event|
-      it 'sends a notification' do
+    shared_examples_for "sends a notification" do |event|
+      it "sends a notification" do
         allow(OpenProject::Notifications)
           .to receive(:send)
 
@@ -108,32 +108,32 @@ RSpec.describe Journals::CompletedJob, type: :model do
       end
     end
 
-    context 'with a work packages' do
+    context "with a work packages" do
       let(:journable) { build_stubbed(:work_package) }
 
-      it_behaves_like 'sends a notification',
+      it_behaves_like "sends a notification",
                       OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY
     end
 
-    context 'with wiki page content' do
+    context "with wiki page content" do
       let(:journable) { build_stubbed(:wiki_page) }
 
-      it_behaves_like 'sends a notification',
+      it_behaves_like "sends a notification",
                       OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY
     end
 
-    context 'with a news' do
+    context "with a news" do
       let(:journable) { build_stubbed(:news) }
 
-      it_behaves_like 'sends a notification',
+      it_behaves_like "sends a notification",
                       OpenProject::Events::AGGREGATED_NEWS_JOURNAL_READY
     end
 
-    context 'with a non non-existent journal (either because the journable was deleted or the journal updated)' do
+    context "with a non non-existent journal (either because the journable was deleted or the journal updated)" do
       let(:journable) { build_stubbed(:work_package) }
       let(:find_by_journal) { nil }
 
-      it 'sends no notification' do
+      it "sends no notification" do
         allow(OpenProject::Notifications)
           .to receive(:send)
 

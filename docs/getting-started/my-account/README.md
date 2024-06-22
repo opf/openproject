@@ -33,12 +33,12 @@ Choose **My account**.
 ![my account profile information](openproject_open_my_account_page.png)
 
 ## Edit your user information
+
 To change your email address or your name, navigate to **Profile** on the left side menu of **My account** page.
 
 Here you can update the information and **save** your changes. If you're changing the email address of your account, you will be requested to confirm your account password before you can continue. (Note: This applies only to internal accounts where OpenProject can verify the password).
 
 ![openproject_my_account_profile](openproject_my_account_profile.png)
-
 
 ## Profile settings
 
@@ -70,9 +70,9 @@ Pressing the blue **Save** button will save your changes.
 
 ### Select the high contrast color mode
 
-In the dropdown menu **Mode** you can pick the color mode. The default setting is the **Light mode**. You can also select the **Light high contrast mode**, which will significantly increase the contrast and override the color theme of the OpenProject instance for you. 
+In the dropdown menu **Mode** you can pick the color mode. The default setting is the **Light mode**. You can also select the **Light high contrast mode**, which will significantly increase the contrast and override the color theme of the OpenProject instance for you.
 
-This mode is recommended for users with visuals impairment. 
+This mode is recommended for users with visuals impairment.
 
 ![High contrast mode in OpenProject](openproject_my_account_high_contrast_mode.png)
 
@@ -104,21 +104,31 @@ Press the blue **Save** button in order to confirm the password changes.
 
 ## Two-factor authentication
 
-In order to activate the two-factor authentication for your OpenProject installation, navigate to your **My account** and choose the **Two-factor authentication** in the menu.
+In order to activate the two-factor authentication for your OpenProject installation, navigate to your **My account** and choose the **Two-factor authentication** in the menu. If you have not added any device yet, this list will be empty.
 
 ![OpenProject my account two_factor authentication](openproject_my_account_two_factor_authentication.png)
 
-In order to register a new device for two-factor authentication, click the green button to add a **new 2FA device**.
+If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set a a default option.
+
+![List of all registered 2FA devices in OpenProject](openproject_my_account_2fa_overview.png)
+
+In order to register a new device for two-factor authentication, click the green button to add a **new 2FA device**. You will see the screen, where you will be able to see one or multiple of the following options, depending on what your system administrator has [activated for your instance](../../system-admin-guide/authentication/two-factor-authentication/):
+
+- Mobile phone
+- App-based authenticator
+- WebAuthn
+
+![OpenProject My Account Authentication Options](openproject_my_account_authentication_options.png)
 
 To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displayed in the authentication app to your login.
 
 You can remove or approve 2FA applications by confirming your password. Note that this applies only to internally authenticated users.
 
-### Backup codes
+### Use your mobile phone
 
-If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Use the grey button **Generate backup codes** to generate a new set of backup codes.
+You can use your mobile phone as a 2FA device. The field *Identifier* will be pre-filled out, you will need to add your phone number and click the green **Continue** button.
 
-If you have created backup codes before, they will be invalidated and will no longer work.
+![Add a new mobile phone as a 2FA device in OpenProject](openproject_my_account_two_factor_authentication_mobile.png)
 
 ### Use your app-based authenticator
 
@@ -126,23 +136,41 @@ Register an application authenticator for use with OpenProject using the time-ba
 
 Click the grey **Register device** button to register an authentication app. Open your app and follow the instructions to add a new application. The easiest way is to scan the QR code. Otherwise, you can register the application manually by entering the displayed details.
 
-Click the blue **Continue** button to finish the registration.
+Click the green **Continue** button to finish the registration.
 
 ![openproject_my_account_authenticator_app](openproject_my_account_authenticator_app.png)
 
+### Use the WebAuth authentication
+
+Use Web Authentication to register a FIDO2 device (like a YubiKey) or  the secure enclave of your mobile device as a second factor. After you have chosen a name, you can click the green **Continue**  button.
+
+![OpenProject WebAuth authentication](openproject_my_account_authenticator_webauth.png)
+
+Your browser will prompt you to present your WebAuthn device (depending on your operational system and your browser, your options may vary). When you have  done so, you are done registering the device.
+
+### Backup codes
+
+If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Use the grey button **Generate backup codes** to generate a new set of backup codes.
+
+If you have created backup codes before, they will be invalidated and will no longer work.
+
 ## Access tokens
-To view and manage your OpenProject access tokens navigate to **My account** and choose **Access tokens** from the menu. 
-Access tokens allow you to grant external applications access to resources in OpenProject. 
+
+To view and manage your OpenProject access tokens navigate to **My account** and choose **Access tokens** from the menu.
+Access tokens allow you to grant external applications access to resources in OpenProject.
 
 ![openproject_my_account_access_tokens](openproject_my_account_access_tokens.png)
 
 ### API
+
 API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If you have not yet created an API token, this list will be empty. You may need admin privileges to be able to create an API.
 
 You can enable an API token under [*Administration -> API and webhooks*](../../system-admin-guide/api-and-webhooks/). Please note that you can only create a single API token.
+
 ### iCalendar
-iCalendar tokens allow users to subscribe to OpenProject calendars and view up-to-date work package information from external clients. 
-This list will be empty if you have no calendar subscriptions yet. Once you [subscribe to a calendar](../../user-guide/calendar/#subscribe-to-a-calendar), a list of all the calendars that you have subscribed to will appear here. The name of the calendar is clickable and will lead you directly to the respective calendar in OpenProject. 
+
+iCalendar tokens allow users to subscribe to OpenProject calendars and view up-to-date work package information from external clients.
+This list will be empty if you have no calendar subscriptions yet. Once you [subscribe to a calendar](../../user-guide/calendar/#subscribe-to-a-calendar), a list of all the calendars that you have subscribed to will appear here. The name of the calendar is clickable and will lead you directly to the respective calendar in OpenProject.
 
 ![OpenProject calendar list under my account](openproject_my_account_access_tokens_calendar_list.png)
 
@@ -156,38 +184,36 @@ You will then see a message informing you that the the token und the iCal URL ar
 
 ### OAUTH
 
-OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](../../user-guide/file-management/nextcloud-integration/) how to set up Nextcloud integration).  OAuth tokens can be created under [*Administration-> Authentication*](../../system-admin-guide/authentication/). 
+OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](../../user-guide/file-management/nextcloud-integration/) how to set up Nextcloud integration).  OAuth tokens can be created under [*Administration-> Authentication*](../../system-admin-guide/authentication/).
 
-If no third-party application integration has been activated yet, this list will be empty. Please contact your administrator to help you set it up. Once an integration has been set up, you will see the details here and will be able to delete any OAuth tokens by clicking on the **Delete** icon. 
+If no third-party application integration has been activated yet, this list will be empty. Please contact your administrator to help you set it up. Once an integration has been set up, you will see the details here and will be able to delete any OAuth tokens by clicking on the **Delete** icon.
 
 ![OpenProject OAuth tokens under My Account](openproject_my_account_access_tokens_oauth.png)
 
-
-
 ### RSS
 
-RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader.  You can only have one active RSS token. 
+RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader.  You can only have one active RSS token.
 
-Create a new token by clicking the **+RSS token** button. This will create your token and trigger a message showing you the access token. 
+Create a new token by clicking the **+RSS token** button. This will create your token and trigger a message showing you the access token.
 
->  **Note**: You will only be able to see the RSS access token once, directly after you create it. Make sure to copy it. 
+> **Note**: You will only be able to see the RSS access token once, directly after you create it. Make sure to copy it.
 
 ![OpenProject RSS token](openproject_my_account_access_tokens_rss.png)
 
 ## Sessions management
 
-To view and manage your OpenProject sessions navigate to **My account** and choose **Sessions management** from the menu. 
+To view and manage your OpenProject sessions navigate to **My account** and choose **Sessions management** from the menu.
 
 ![openproject_my_account_sessions_management](openproject_my_account_sessions_management.png)
 
-- **Current sessions**: here you can see all of your sessions. If for example you are logged into OpenProject from different browsers or devices, all will be shown in the list. Current session is the one you are currently using. You can terminate the sessions that are no longer in use. Inactive sessions will be removed from the list after 7 days (depending on the authentication settings they may become invalid earlier). 
+- **Current sessions**: here you can see all of your sessions. If for example you are logged into OpenProject from different browsers or devices, all will be shown in the list. Current session is the one you are currently using. You can terminate the sessions that are no longer in use. Inactive sessions will be removed from the list after 7 days (depending on the authentication settings they may become invalid earlier).
 - **Remembered devices**: here you can see a list of all devices that you are logged into using the "Stay logged in" option. You will have selected that option when [logging in](../sign-in-registration/). Whether or not that option is available and the duration of time for which you can stay logged in depends on the authentication settings of your instance.
 
-> **Note**: Closing a browser does not necessarily terminate the session. It might still be displayed in the list and will be reactivated if you open the browser. This depends on both your browser's and the OpenProject instance's settings. 
+> **Note**: Closing a browser does not necessarily terminate the session. It might still be displayed in the list and will be reactivated if you open the browser. This depends on both your browser's and the OpenProject instance's settings.
 
 ## Notifications settings
 
-To configure the notification settings which you receive from the system, navigate to **My account** and choose **Notifications settings** in the menu. 
+To configure the notification settings which you receive from the system, navigate to **My account** and choose **Notifications settings** in the menu.
 
 ![openproject_my_account_notifications](openproject_my_account_notifications.png)
 
@@ -201,11 +227,13 @@ To configure the email reminders which you receive from the system, navigate to 
 
 ![openproject_my_account_email_reminders](openproject_my_account_email_reminders.png)
 
-You can choose between several email reminders. 
+You can choose between several email reminders.
 
 Default: Enable daily email reminders: 2am, Monday - Friday.
 
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
+
+> **Note**: if you have selected the *immediately when someone mentions me* option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder. 
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
@@ -230,7 +258,7 @@ Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded fro
 
 > **Note**: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
 
-# Delete account
+## Delete account
 
 You can delete your own account in **My account**.
 

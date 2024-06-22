@@ -11,11 +11,10 @@ keywords: API FAQ, API v3, RestAPI, interface, connector
 
 ## Can I update a wiki page via API?
 
-That's not possible at the moment. You can only [retrieve](../endpoints/wiki_pages/) wiki page infos.
+That's not possible at the moment. You can only [retrieve](../endpoints/wiki-pages/) wiki page infos.
 
 ## (How) can I add work package categories to a project via API?
 
-The API v3 currently does not expose categories via the API. 
+The API v3 currently does not expose categories via the API.
 
 Please note that categories might change in the future as they have a lot of limitations, e.g. when filtering.
-

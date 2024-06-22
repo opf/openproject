@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 
           <%= angular_component_tag 'opce-members-autocompleter',
                                     inputs: {
-                                      inputName: "member[user_ids][]",
+                                      inputName: "member[user_ids]",
                                       inputBindValue: "id",
                                       url: autocomplete_for_member_project_members_path + '.json',
                                       appendTo: "body",
@@ -94,7 +94,7 @@ See COPYRIGHT and LICENSE files for more details.
         </div>
         <div id="member-add-submit-button--container">
           <%= f.button t(:button_add),
-                       class: 'button -highlight -with-icon icon-checkmark',
+                       class: 'button -primary -with-icon icon-checkmark',
                        id: 'add-member--submit-button' %>
         </div>
       </div>

@@ -5,7 +5,7 @@ uk:
         origin_id: Код джерела
       storages/storage:
         creator: Автор
-        drive: Drive ID
+        drive: ID диску
         host: Хост
         name: Назва
         provider_type: Тип постачальника
@@ -39,21 +39,27 @@ uk:
   api_v3:
     errors:
       too_many_elements_created_at_once: Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}.
-  permission_create_files: Створення файлів
-  permission_delete_files: Видалення файлів
+  external_file_storages: Зовнішні файлові сховища
+  permission_create_files: 'Папки проєкту з автоматичним керуванням: створення файлів'
+  permission_create_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
+  permission_delete_files: 'Папки проєкту з автоматичним керуванням: видалення файлів'
+  permission_delete_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
+  permission_header_for_project_module_storages: Папки проєкту з автоматичним керуванням
   permission_manage_file_links: Керування посиланнями на файл
-  permission_manage_storages_in_project: Керування файловими сховищами в проєкті
-  permission_read_files: Перегляд файлів
-  permission_share_files: Надсилання файлів
+  permission_manage_files_in_project: Керування файлами в проєкті
+  permission_read_files: 'Папки проєкту з автоматичним керуванням: читання файлів'
+  permission_share_files: 'Папки проєкту з автоматичним керуванням: надання доступу до файлів'
+  permission_share_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
   permission_view_file_links: Перегляд посилань на файл
-  permission_write_files: Редагування файлів
-  project_module_storages: Файлові сховища
+  permission_write_files: 'Папки проєкту з автоматичним керуванням: записування файлів'
+  project_module_storages: Файли
   storages:
     buttons:
       complete_without_setup: Завершити без налаштування
       done_complete_setup: Готово – завершити налаштування
       done_continue: Виконано, продовжити
-      replace_provider_type_oauth: Замінити %{provider_type} OAuth
+      replace_oauth_application: Замінити OpenProject OAuth
+      replace_oauth_client: Замінити %{provider_type} OAuth
       save_and_continue: Зберегти та продовжити
       select_folder: Вибрати папку
     configuration_checks:
@@ -62,8 +68,8 @@ uk:
         one_drive: Надайте OpenProject доступ до даних Azure із використанням OAuth для підключення OneDrive / Sharepoint.
       redirect_uri_incomplete:
         one_drive: Завершіть налаштування за допомогою правильного URI переспрямування.
-    confirm_replace_oauth_application: Ви впевнені? Усім користувачам знадобиться знову авторизуватися в OpenProject.
-    confirm_replace_oauth_client: Ви впевнені? Усім користувачам знадобиться знову авторизуватися в сховищі.
+    confirm_replace_oauth_application: Ця дія призведе до скидання поточних облікових даних OAuth. Коли ви підтвердите дію, вам потрібно буде повторно ввести облікові дані в системі постачальника сховища. У такому разі всім віддаленим користувачам знадобиться знову пройти автентифікацію в OpenProject. Продовжити?
+    confirm_replace_oauth_client: Ця дія призведе до скидання поточних облікових даних OAuth. Коли ви підтвердите дію, вам потрібно буде ввести нові облікові дані в системі постачальника сховища. У такому разі всім користувачам знадобиться знову пройти автентифікацію в %{provider_type}. Продовжити?
     delete_warning:
       input_delete_confirmation: Введіть ім’я файлового сховища %{file_storage}, щоб підтвердити видалення.
       irreversible_notice: Видалення файлового сховища не можна скасувати.
@@ -76,6 +82,15 @@ uk:
       storage_delete_result_3: Якщо це сховище містить папки проєкту з автоматичним керуванням, цю папку й усі її файли буде остаточно видалено.
     error_invalid_provider_type: Виберіть дійсного постачальника сховища.
     file_storage_view:
+      access_management:
+        automatic_management: Доступ і папки з автоматичним керуванням
+        automatic_management_description: Дозвольте OpenProject автоматично створювати папки для проєкту й керувати доступом користувачів до них. Радимо зробити це, адже в такому разі кожен учасник команди завжди матиме належні дозволи на доступ.
+        description: Виберіть тип керування доступом користувачів і створенням папок. Рекомендуємо використовувати «Автоматичне керування доступом». Це забезпечує більш організовану структуру й гарантує доступ усім відповідним користувачам.
+        manual_management: Доступ і папки з ручним керуванням
+        manual_management_description: Створюйте папки для кожного проєкту й керуйте ними самостійно. Вам знадобиться вручну надавати доступ відповідним користувачам.
+        setup_incomplete: Виберіть тип керування доступом користувачів і створенням папок.
+        subtitle: Керування доступом
+        title: Доступ і папки проєкту
       automatically_managed_folders: Папки з автоматичним керуванням
       general_information: Загальна інформація
       nextcloud_oauth: Nextcloud OAuth
@@ -91,8 +106,15 @@ uk:
       label_healthy: Справність
       label_pending: Очікування
       since: з %{datetime}
-      subtitle: Automatic managed project folders
-      title: Health status
+      subtitle: Папки проєкту з автоматичним керуванням
+      title: Стан справності
+    health_email_notifications:
+      description_subscribed: Усі адміністратори отримують сповіщення електронною поштою про стан справності цього сховища.
+      description_unsubscribed: Сповіщення про стан справності цього сховища вимкнено для всіх адміністраторів.
+      error_could_not_be_saved: Не вдалося зберегти налаштування сповіщень електронною поштою. Повторіть спробу.
+      subscribe: Підписатися
+      title: Сповіщення електронною поштою
+      unsubscribe: Відписатися
     help_texts:
       project_folder: Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
     instructions:
@@ -142,9 +164,9 @@ uk:
     label_creator: Автор
     label_delete_storage: Видалити сховище
     label_edit_storage: Редагувати сховище
+    label_edit_storage_access_management: Змінити керування доступом до сховища
     label_edit_storage_automatically_managed_folders: Редагувати папки сховища з автоматичним керуванням
     label_edit_storage_host: Редагувати хост сховища
-    label_edit_storage_oauth_client: Редагувати клієнта OAuth сховища
     label_existing_manual_folder: Наявна папка з ручним керуванням дозволами
     label_file_storage: Файлове сховище
     label_host: URL-адреса хосту
@@ -175,46 +197,44 @@ uk:
     members_no_results: Немає учасників.
     no_results: Сховища поки не створено.
     notice_successful_storage_connection: |-
-      Storage connected successfully! Remember to activate the module and the specific storage in the project settings
-      of each desired project to use it.
+      Сховище підключено. Щоб користуватися ним, активуйте модуль і визначене сховище в налаштуваннях
+      кожного потрібного проєкту.
     oauth_grant_nudge_modal:
-      access_granted: Access granted
-      body: To get access to the project folder you need to login to %{storage}.
-      cancel_button_label: I will do it later
-      confirm_button_label: Login
-      storage_ready: You are now ready to use %{storage}
-      title: One more step...
+      access_granted: Доступ надано
+      access_granted_screen_reader: Доступ надано. Тепер %{storage} готове до використання.
+      body: Щоб отримати доступ до папки проєкту, потрібно ввійти в %{storage}.
+      cancel_button_label: Я зроблю це пізніше
+      confirm_button_aria_label: Увійти в %{storage}
+      confirm_button_label: Увійти
+      requesting_access_to: Надсилаємо запит на доступ до %{storage}
+      storage_ready: Тепер ви можете використовувати сховище %{storage}
+      title: Ще один крок...
     open_project_storage_modal:
       success:
-        subtitle: You are being redirected
-        title: Integration setup completed
+        subtitle: Виконується переспрямування
+        title: Налаштування інтеграції завершено
       waiting:
-        subtitle: One moment please, this might take some time...
-        title: We are setting up your permissions on the project folder.
+        subtitle: Трохи зачекайте. Це може зайняти деякий час...
+        title: Ми налаштовуємо ваші дозволи для папки проєкту.
     page_titles:
       file_storages:
         delete: Видалити файлове сховище
         subtitle: Додайте зовнішнє файлове сховище, щоб вивантажувати файли, створювати посилання й керувати файлами в пакетах робіт.
       managed_project_folders:
-        one_drive_information: |-
-          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
-          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
-          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
-          to the %{drive_id_link_text}.
         subtitle: |-
-          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
-          member always has the correct access permissions.
+          Дозвольте OpenProject автоматично створювати папки для проєкту. Радимо зробити це, адже в такому разі кожен учасник
+          команди завжди матиме належні дозволи на доступ.
         subtitle_short: Дозвольте автоматично створювати папки для кожного проєкту в OpenProject.
         title: Папки проєкту з автоматичним керуванням
       project_settings:
         delete: Видалити файлове сховище
         edit: Редагувати файлове сховище для цього проєкту
-        index: Файлові сховища доступні в цьому проєкті
         members_connection_status: Стан підключення учасників
         new: Додайте сховище файлів до цього проєкту
       project_storage_members:
         subtitle: Перевірте стан підключення до сховища %{storage_name_link} для всіх учасників проєкту.
         title: Стан підключення учасників
+    permission_header_explanation: 'Дозволи на доступ до файлів у зовнішніх сховищах застосовуються лише до папок і файлів у межах папок проєкту з автоматичним керуванням. Зауважте, що деякі постачальники сховищ не підтримують дозволи на доступ до файлів. Щоб дізнатися більше, ознайомтеся з документацією щодо <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>дозволів для файлових сховищ</a>.'
     provider_types:
       label: Тип постачальника
       nextcloud:
@@ -227,11 +247,14 @@ uk:
         label_oauth_client_secret: Значення секрету клієнта Azure OAuth
         name: OneDrive / SharePoint
         name_placeholder: напр. OneDrive
+    show_attachments_toggle:
+      description: 'Якщо вимкнути цей параметр, список вкладень буде приховано на вкладці «Файли» пакетів робіт. Файли, вкладені в опис пакета робіт, усе одно буде додано у внутрішнє сховище вкладень. '
+      label: Показувати вкладення на вкладці «Файли» пакетів робіт
     storage_list_blank_slate:
       description: Додайте сховище, щоб воно з’явилося тут.
       heading: У вас ще немає жодного сховища.
     upsale:
       description: |-
-        Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
-        work packages in a project.
+        Інтегруйте OneDrive і/або SharePoint як файлове сховище в OpenProject. Додайте файли й прив’яжіть їх безпосередньо до
+        пакетів робіт у проєкті.
       title: Інтеграція OneDrive / SharePoint

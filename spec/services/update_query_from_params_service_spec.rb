@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe UpdateQueryFromParamsService,
                type: :model do
@@ -37,25 +37,25 @@ RSpec.describe UpdateQueryFromParamsService,
 
   let(:params) { {} }
 
-  describe '#call' do
+  describe "#call" do
     subject { instance.call(params) }
 
-    context 'group_by' do
-      context 'for an existing value' do
-        let(:params) { { group_by: 'status' } }
+    context "group_by" do
+      context "for an existing value" do
+        let(:params) { { group_by: "status" } }
 
-        it 'sets the value' do
+        it "sets the value" do
           subject
 
           expect(query.group_by)
-            .to eql('status')
+            .to eql("status")
         end
       end
 
-      context 'for an explicitly nil value' do
+      context "for an explicitly nil value" do
         let(:params) { { group_by: nil } }
 
-        it 'sets the value' do
+        it "sets the value" do
           subject
 
           expect(query.group_by)
@@ -64,13 +64,13 @@ RSpec.describe UpdateQueryFromParamsService,
       end
     end
 
-    context 'filters' do
+    context "filters" do
       let(:params) do
-        { filters: [{ field: 'status_id', operator: '=', values: ['1', '2'] }] }
+        { filters: [{ field: "status_id", operator: "=", values: ["1", "2"] }] }
       end
 
-      context 'for a valid filter' do
-        it 'sets the filter' do
+      context "for a valid filter" do
+        it "sets the filter" do
           subject
 
           expect(query.filters.length)
@@ -78,32 +78,32 @@ RSpec.describe UpdateQueryFromParamsService,
           expect(query.filters[0].name)
             .to be(:status_id)
           expect(query.filters[0].operator)
-            .to eql('=')
+            .to eql("=")
           expect(query.filters[0].values)
-            .to eql(['1', '2'])
+            .to eql(["1", "2"])
         end
       end
     end
 
-    context 'sort_by' do
+    context "sort_by" do
       let(:params) do
-        { sort_by: [['status_id', 'desc']] }
+        { sort_by: [["status_id", "desc"]] }
       end
 
-      it 'sets the order' do
+      it "sets the order" do
         subject
 
         expect(query.sort_criteria)
-          .to eql([['status_id', 'desc']])
+          .to eql([["status_id", "desc"]])
       end
     end
 
-    context 'columns' do
+    context "columns" do
       let(:params) do
-        { columns: ['assigned_to', 'author', 'category', 'subject'] }
+        { columns: ["assigned_to", "author", "category", "subject"] }
       end
 
-      it 'sets the columns' do
+      it "sets the columns" do
         subject
 
         expect(query.column_names)
@@ -111,25 +111,25 @@ RSpec.describe UpdateQueryFromParamsService,
       end
     end
 
-    context 'display representation' do
+    context "display representation" do
       let(:params) do
-        { display_representation: 'list' }
+        { display_representation: "list" }
       end
 
-      it 'sets the display_representation' do
+      it "sets the display_representation" do
         subject
 
         expect(query.display_representation)
-          .to eq('list')
+          .to eq("list")
       end
     end
 
-    context 'highlighting mode', with_ee: %i[conditional_highlighting] do
+    context "highlighting mode", with_ee: %i[conditional_highlighting] do
       let(:params) do
-        { highlighting_mode: 'status' }
+        { highlighting_mode: "status" }
       end
 
-      it 'sets the highlighting_mode' do
+      it "sets the highlighting_mode" do
         subject
 
         expect(query.highlighting_mode)
@@ -137,12 +137,12 @@ RSpec.describe UpdateQueryFromParamsService,
       end
     end
 
-    context 'default highlighting mode', with_ee: %i[conditional_highlighting] do
+    context "default highlighting mode", with_ee: %i[conditional_highlighting] do
       let(:params) do
         {}
       end
 
-      it 'sets the highlighting_mode' do
+      it "sets the highlighting_mode" do
         subject
 
         expect(query.highlighting_mode)
@@ -150,12 +150,12 @@ RSpec.describe UpdateQueryFromParamsService,
       end
     end
 
-    context 'highlighting mode without EE' do
+    context "highlighting mode without EE" do
       let(:params) do
-        { highlighting_mode: 'status' }
+        { highlighting_mode: "status" }
       end
 
-      it 'sets the highlighting_mode' do
+      it "sets the highlighting_mode" do
         subject
 
         expect(query.highlighting_mode)
@@ -163,15 +163,15 @@ RSpec.describe UpdateQueryFromParamsService,
       end
     end
 
-    context 'when using include subprojects' do
+    context "when using include subprojects" do
       let(:params) do
         { include_subprojects: }
       end
 
-      context 'when true' do
+      context "when true" do
         let(:include_subprojects) { true }
 
-        it 'sets the display_representation' do
+        it "sets the display_representation" do
           subject
 
           expect(query.include_subprojects)
@@ -179,10 +179,10 @@ RSpec.describe UpdateQueryFromParamsService,
         end
       end
 
-      context 'when false' do
+      context "when false" do
         let(:include_subprojects) { false }
 
-        it 'sets the display_representation' do
+        it "sets the display_representation" do
           subject
 
           expect(query.include_subprojects)
@@ -201,7 +201,7 @@ RSpec.describe UpdateQueryFromParamsService,
       end
       let(:params) { { timestamps: } }
 
-      it 'sets the timestamps' do
+      it "sets the timestamps" do
         subject
 
         expect(query.timestamps).to eq timestamps

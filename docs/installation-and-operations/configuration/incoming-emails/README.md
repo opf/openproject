@@ -47,35 +47,35 @@ Optional ENV variables:
 
 Available arguments for this rake task that specify the email behavior are
 
-|key | description|
-|----|------------|
-| `host` | address of the email server |
-| `username` | the name of the user that is used to connect to the email server|
-| `password` | the password of the user|
-| `port` | the port that is used to connect to the email server|
-| `ssl` | specifies if SSL should be used when connecting to the email server|
-| `folder` | the folder to fetch emails from (default: INBOX)|
-| `move_on_success` | the folder emails that were successfully parsed are moved to (instead of deleted)|
-| `move_on_failure` | the folder emails that were ignored are moved to|
+|key |Docker ENV variable | description|
+|----|------------|------------|
+| `host` | `IMAP_HOST` | address of the email server |
+| `username` | `IMAP_USERNAME` | the name of the user that is used to connect to the email server |
+| `password` | `IMAP_PASSWORD` | the password of the user |
+| `port` | `IMAP_PORT` | the port that is used to connect to the email server |
+| `ssl` | `IMAP_SSL` and ``IMAP_SSL_VERIFICATION` | specifies if SSL should be used when connecting to the email server |
+| `folder` | `IMAP_FOLDER` | the folder to fetch emails from (default: INBOX) |
+| `move_on_success` | `IMAP_MOVE_ON_SUCCESS` | the folder emails that were successfully parsed are moved to (instead of deleted, example: INBOX.success) |
+| `move_on_failure` | `IMAP_MOVE_ON_FAILURE` | the folder emails that were ignored are moved to (example: INBOX.failed) |
 
 Available arguments that change how the work packages are handled:
 
-| key | description |
-|---|---|
-| `project` | identifier of the target project |
-| `tracker` | name of the target tracker |
-| `category` | name of the target category |
-| `priority` | name of the target priority |
-| `status` | name of the target status |
-| `version` | name of the target version |
-| `type` | name of the target type |
-| `priority` | name of the target priority |
-| `unknown_user` | ignore: email is ignored (default), accept: accept as anonymous user, create: create a user account |
-| `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
+| key | Docker ENV variable | description |
+|---|---|---|
+| `project` | `IMAP_ATTR_PROJECT` | identifier of the target project |
+| `category` | `IMAP_ATTR_CATEGORY` | name of the target category |
+| `priority` | `IMAP_ATTR_PRIORITY` | name of the target priority |
+| `status` | `IMAP_ATTR_STATUS` | name of the target status |
+| `version` | `IMAP_ATTR_VERSION` | name of the target version |
+| `type` | `IMAP_ATTR_TYPE` | name of the target type |
+| `assigned_to` | `IMAP_ATTR_ASSIGNED_TO` | name of the assigned user |
+| `unknown_user` | `IMAP_UNKNOWN_USER` | ignore: email is ignored (default), accept: accept as anonymous user, create: create a user account |
+| `allow_override` | `IMAP_ALLOW_OVERRIDE` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
 
 **Gmail API**
 
 In order to use the more secure Gmail API method, some extra initial setup in google cloud is required.
+
 1. Go to https://console.cloud.google.com/
 2. Create new project
 3. Navigate to Enable APIs and Services
@@ -85,15 +85,15 @@ In order to use the more secure Gmail API method, some extra initial setup in go
 7. Give the service account editor permissions and click "Done"
 8. Click on the new service account, go to the "Keys" tab, and add a new key.
 9. Save the JSON key file
-  ***Note: Do not give anyone access to this JSON file as it contains the private key to your service account!***
+    ***Note: Do not give anyone access to this JSON file as it contains the private key to your service account!***
 10. Go to https://admin.google.com
 11. Select Security > Access and Data Control > API Controls
 12. Go to "Domain-Wide Delegation"
 13. Add new API Client
 14. Open JSON key file and copy "client_id" number
 15. Enter `https://www.googleapis.com/auth/gmail.modify` into the scopes
-  ***Note: Modify permissions are necessary here to mark emails as read***
-  ***This is so the service account can access all accounts in your Domain***
+    ***Note: Modify permissions are necessary here to mark emails as read***
+    ***This is so the service account can access all accounts in your Domain***
 
 Available arguments for the Gmail API rake task that specify the email behavior are
 
@@ -121,7 +121,7 @@ and it will be added as a comment to the work package. You can also update attri
 
 For instance with the following reply.
 
-```
+```text
 status: closed
 
 The issue is sorted then. Closing this.
@@ -141,7 +141,7 @@ there.
 
 For example if you write an email with the subject "Fixing problems" and the following body:
 
-```
+```text
 project: demo-project
 type: Task
 status: In Progress
@@ -169,8 +169,6 @@ to create work packages, set the option `no_permission_check=1` and specify with
 
 If you're used to using mail accounts with suffix support such as Google Mail, where you can specify `account+suffix@googlemail.com`, you will receive mails to that account but respond with your regular account `account@googlemail.com` . To mitigate this, OpenProject by default will expand searching for mail addresses `account@domain` to accounts `account+suffix@domain`  through regex searching the mail column. If you do not wish that behavior or want to customize the prefix, alter the setting `mail_suffix_separators` by running `bundle exec rails runner "Setting.mail_suffix_separators = ''"`
 
-
-
 #### Attributes
 
 The Attributes you can use in your email are the same whether you create or update a work package.
@@ -184,17 +182,18 @@ The subject of the work package that shall be created is derived from the subjec
 
 Other available keys for the email are:
 
-|Key|Description|Example|
-|---|---|---|
-| Project | sets the project. Use the project identifier | Project:test\_project |
-| Assignee | sets the assignee. Use the email or login of the user | Assignee:test.nutzer@example.org |
-| Type | sets the type | type:Milestone |
-| Version | sets the version | version:v4.1.0 |
-| Start date | sets the start date | start date:2015-02-28 |
-| Due date | sets the finish date |  |
-| Done ratio | sets the done ratio. Use a number | Done ratio:40 |
-| Status | sets the status | Status:closed |
-| priority | sets the priority | priority:High |
+| Key             | Description                                           | Example                          |
+|-----------------|-------------------------------------------------------|----------------------------------|
+| Project         | sets the project. Use the project identifier          | Project:test\_project            |
+| Assignee        | sets the assignee. Use the email or login of the user | Assignee:test.nutzer@example.org |
+| Type            | sets the type                                         | type:Milestone                   |
+| Version         | sets the version                                      | version:v4.1.0                   |
+| Start date      | sets the start date                                   | start date:2015-02-28            |
+| Due date        | sets the finish date                                  |                                  |
+| Estimated hours | sets the estimated hours. Use a number                | Estimated hours:10.5             |
+| Remaining hours | sets the remaining hours. Use a number                | Remaining hours:2.5              |
+| Status          | sets the status                                       | Status:closed                    |
+| priority        | sets the priority                                     | priority:High                    |
 
 If you want to set a custom field just use the name as it is displayed in your browser, e.g. `Custom field:new value`
 
@@ -212,8 +211,6 @@ If you create a work package via email and sent it to another email (to or bcc) 
 
 In the administrator's setting you can specify lines after which an email will not be parsed anymore. That is useful if you want to reply to an email automatically sent to you from OpenProject. E.g. you could set it to `--Truncate here--` and insert this line into your email below the updates you want to perform.
 
-
-
 ## Error handling
 
 In case of receiving errors, the application will try to send an email to the user with some error details. This mail will only be sent if:
@@ -223,8 +220,6 @@ In case of receiving errors, the application will try to send an email to the us
 - The user is active on the system (Note that this happens on `unknown_user=create` as well)
 
 - The configuration setting `report_incoming_email_errors` is true (which it is by default)
-
-
 
 By returning an email with error details, you can theoretically be leaking information through the error messages. As from addresses can be spoofed, please be aware of this issue and try to reduce the impact by setting up the integration appropriately.
 

@@ -145,6 +145,25 @@ import {
 import {
   CkeditorAugmentedTextareaComponent,
 } from 'core-app/shared/components/editor/components/ckeditor-augmented-textarea/ckeditor-augmented-textarea.component';
+import {
+  DraggableAutocompleteComponent,
+} from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
+import {
+  AttributeHelpTextComponent,
+} from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
+import { OpExclusionInfoComponent } from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
+import { NewProjectComponent } from 'core-app/features/projects/components/new-project/new-project.component';
+import { CopyProjectComponent } from 'core-app/features/projects/components/copy-project/copy-project.component';
+import { ProjectsComponent } from 'core-app/features/projects/components/projects/projects.component';
+import { DisplayJobPageComponent } from 'core-app/features/job-status/display-job-page/display-job-page.component';
+import { OpenProjectJobStatusModule } from 'core-app/features/job-status/openproject-job-status.module';
+import {
+  NotificationsSettingsPageComponent,
+} from 'core-app/features/user-preferences/notifications-settings/page/notifications-settings-page.component';
+import {
+  ReminderSettingsPageComponent,
+} from 'core-app/features/user-preferences/reminder-settings/page/reminder-settings-page.component';
+import { OpenProjectMyAccountModule } from 'core-app/features/user-preferences/user-preferences.module';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -180,6 +199,7 @@ export function initializeServices(injector:Injector) {
     OpenprojectRouterModule,
     // Hal Module
     OpenprojectHalModule,
+    OpenProjectJobStatusModule,
 
     // CKEditor
     OpenprojectEditorModule,
@@ -248,6 +268,9 @@ export function initializeServices(injector:Injector) {
 
     // Loading
     OpenprojectContentLoaderModule,
+
+    // My account
+    OpenProjectMyAccountModule,
   ],
   providers: [
     { provide: States, useValue: new States() },
@@ -326,5 +349,14 @@ export class OpenProjectModule {
     registerCustomElement('opce-macro-attribute-label', AttributeLabelMacroComponent, { injector });
     registerCustomElement('opce-macro-wp-quickinfo', WorkPackageQuickinfoMacroComponent, { injector });
     registerCustomElement('opce-ckeditor-augmented-textarea', CkeditorAugmentedTextareaComponent, { injector });
+    registerCustomElement('opce-draggable-autocompleter', DraggableAutocompleteComponent, { injector });
+    registerCustomElement('opce-attribute-help-text', AttributeHelpTextComponent, { injector });
+    registerCustomElement('opce-exclusion-info', OpExclusionInfoComponent, { injector });
+    registerCustomElement('opce-new-project', NewProjectComponent, { injector });
+    registerCustomElement('opce-project-settings', ProjectsComponent, { injector });
+    registerCustomElement('opce-copy-project', CopyProjectComponent, { injector });
+    registerCustomElement('opce-display-job-status-page', DisplayJobPageComponent, { injector });
+    registerCustomElement('opce-notification-settings', NotificationsSettingsPageComponent, { injector });
+    registerCustomElement('opce-reminder-settings', ReminderSettingsPageComponent, { injector });
   }
 }

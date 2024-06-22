@@ -1,14 +1,14 @@
-require 'fastimage'
+require "fastimage"
 
-RSpec.shared_examples 'avatar management' do
-  let(:image_base_path) { File.expand_path(File.dirname(__FILE__) + '/../fixtures/') }
+RSpec.shared_examples "avatar management" do
+  let(:image_base_path) { File.expand_path(File.dirname(__FILE__) + "/../fixtures/") }
 
   let(:enable_gravatars) { false }
   let(:enable_local_avatars) { false }
   let(:plugin_settings) do
     {
-      'enable_gravatars' => enable_gravatars,
-      'enable_local_avatars' => enable_local_avatars
+      "enable_gravatars" => enable_gravatars,
+      "enable_local_avatars" => enable_local_avatars
     }
   end
 
@@ -18,57 +18,57 @@ RSpec.shared_examples 'avatar management' do
       .and_return(plugin_settings)
   end
 
-  describe 'only gravatars enabled' do
+  describe "only gravatars enabled" do
     let(:enable_gravatars) { true }
 
-    it 'shows the gravatar avatar' do
+    it "shows the gravatar avatar" do
       visit avatar_management_path
 
-      expect(page).to have_css('.form--fieldset-legend', text: 'GRAVATAR')
-      expect(page).to have_css('.avatars--current-gravatar')
+      expect(page).to have_css(".form--fieldset-legend", text: "GRAVATAR")
+      expect(page).to have_css(".avatars--current-gravatar")
 
       # Local not rendered
-      expect(page).to have_no_css('.form--fieldset-legend', text: 'CUSTOM AVATAR')
-      expect(page).to have_no_css('.avatars--current-local-avatar', text: 'none')
+      expect(page).to have_no_css(".form--fieldset-legend", text: "CUSTOM AVATAR")
+      expect(page).to have_no_css(".avatars--current-local-avatar", text: "none")
     end
   end
 
-  describe 'only local avatars enabled' do
+  describe "only local avatars enabled" do
     let(:enable_local_avatars) { true }
 
-    it 'can upload a new image' do
+    it "can upload a new image" do
       visit avatar_management_path
-      expect(page).to have_css('.form--fieldset-legend', text: 'CUSTOM AVATAR')
-      expect(page).to have_css('.avatars--current-local-avatar', text: 'none')
+      expect(page).to have_css(".form--fieldset-legend", text: "CUSTOM AVATAR")
+      expect(page).to have_css(".avatars--current-local-avatar", text: "none")
 
       # Gravatars not rendered
-      expect(page).to have_no_css('.form--fieldset-legend', text: 'GRAVATAR')
+      expect(page).to have_no_css(".form--fieldset-legend", text: "GRAVATAR")
 
       # Attach a new invalid image
-      find_by_id('avatar_file_input').set UploadedFile.load_from(File.join(image_base_path, 'invalid.txt')).path
+      find_by_id("avatar_file_input").set UploadedFile.load_from(File.join(image_base_path, "invalid.txt")).path
 
       # Expect error
-      expect(page).to have_css('.form--label.-error')
-      expect(page).to have_css('.avatars--error-pane', text: 'Allowed formats are jpg, png, gif')
+      expect(page).to have_css(".form--label.-error")
+      expect(page).to have_css(".avatars--error-pane", text: "Allowed formats are jpg, png, gif")
 
       # Attach new image
       visit avatar_management_path
-      expect(page).to have_css('.avatars--current-local-avatar', text: 'none')
-      find_by_id('avatar_file_input').set UploadedFile.load_from(File.join(image_base_path, 'too_big.jpg')).path
+      expect(page).to have_css(".avatars--current-local-avatar", text: "none")
+      find_by_id("avatar_file_input").set UploadedFile.load_from(File.join(image_base_path, "too_big.jpg")).path
 
       # Expect not error, since ng-file-upload resizes the image
-      expect(page).to have_no_css('.form--label.-error')
-      expect(page).to have_no_css('.avatars--error-pane span')
+      expect(page).to have_no_css(".form--label.-error")
+      expect(page).to have_no_css(".avatars--error-pane span")
 
       # Expect preview
-      expect(page).to have_css('.preview img')
+      expect(page).to have_css(".preview img")
 
       # Click button
-      click_on 'Update'
+      click_on "Update"
 
       # Expect avatar rendered
-      expect(page).to have_css('.form--fieldset-legend', text: 'CUSTOM AVATAR')
-      avatar_tag = find('.avatars--current-local-avatar img')
+      expect(page).to have_css(".form--fieldset-legend", text: "CUSTOM AVATAR")
+      avatar_tag = find(".avatars--current-local-avatar img")
       expect(avatar_tag[:src]).to include user_avatar_path(target_user)
 
       # Expect the avatar to be resized
@@ -79,27 +79,27 @@ RSpec.shared_examples 'avatar management' do
 
       # Delete the avatar
       accept_alert do
-        find('.avatars--local-avatar-delete-link').click
+        find(".avatars--local-avatar-delete-link").click
       end
 
-      expect(page).to have_css('.avatars--current-local-avatar', text: 'none', wait: 20)
+      expect(page).to have_css(".avatars--current-local-avatar", text: "none", wait: 20)
     end
   end
 
-  describe 'both local avatars enabled' do
+  describe "both local avatars enabled" do
     let(:enable_gravatars) { true }
     let(:enable_local_avatars) { true }
 
-    it 'renders both sections' do
+    it "renders both sections" do
       visit avatar_management_path
 
       # Gravatar
-      expect(page).to have_css('.form--fieldset-legend', text: 'GRAVATAR')
-      expect(page).to have_css('.avatars--current-gravatar')
+      expect(page).to have_css(".form--fieldset-legend", text: "GRAVATAR")
+      expect(page).to have_css(".avatars--current-gravatar")
 
       # Local
-      expect(page).to have_css('.form--fieldset-legend', text: 'CUSTOM AVATAR')
-      expect(page).to have_css('.avatars--current-local-avatar', text: 'none')
+      expect(page).to have_css(".form--fieldset-legend", text: "CUSTOM AVATAR")
+      expect(page).to have_css(".avatars--current-local-avatar", text: "none")
     end
   end
 end

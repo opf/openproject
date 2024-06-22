@@ -42,8 +42,8 @@ class EnsurePostgresIndexNames < ActiveRecord::Migration[5.2]
     SQL
 
     ActiveRecord::Base.connection.execute(sql).each do |entry|
-      old_name = entry['old_name']
-      new_name = entry['new_name']
+      old_name = entry["old_name"]
+      new_name = entry["new_name"]
 
       ActiveRecord::Base.transaction do
         execute %(ALTER INDEX "#{old_name}" RENAME TO #{new_name};)

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'json'
+require "json"
 
 module WebhookFixtureHelpers
-  FIXTURES_PATH = File.join(File.dirname(__FILE__), '../fixtures/github_webhooks')
+  FIXTURES_PATH = File.join(File.dirname(__FILE__), "../fixtures/github_webhooks")
 
   # Params:
   # * replacements: A `Hash` containing replacement values for placeholders in the fixture files,

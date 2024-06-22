@@ -26,113 +26,113 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context 'filter tests' do
+RSpec.shared_context "filter tests" do
   let(:context) { nil }
-  let(:values) { ['bogus'] }
-  let(:operator) { '=' }
+  let(:values) { ["bogus"] }
+  let(:operator) { "=" }
   let(:instance_key) { described_class.key }
   let(:instance) do
     described_class.create!(name: instance_key, context:, operator:, values:)
   end
-  let(:name) { model.human_attribute_name((instance_key || expected_class_key).to_s.gsub('_id', '')) }
+  let(:name) { model.human_attribute_name((instance_key || expected_class_key).to_s.gsub("_id", "")) }
   let(:model) { WorkPackage }
 end
 
-RSpec.shared_examples_for 'basic query filter' do
-  include_context 'filter tests'
+RSpec.shared_examples_for "basic query filter" do
+  include_context "filter tests"
 
   let(:context) { build_stubbed(:query, project:) }
   let(:project) { build_stubbed(:project) }
-  let(:expected_class_key) { defined?(:class_key) ? class_key : raise('needs to be defined') }
-  let(:type) { raise 'needs to be defined' }
+  let(:expected_class_key) { defined?(:class_key) ? class_key : raise("needs to be defined") }
+  let(:type) { raise "needs to be defined" }
   let(:human_name) { nil }
 
-  describe '.key' do
-    it 'is the defined key' do
+  describe ".key" do
+    it "is the defined key" do
       expect(described_class.key).to eql(expected_class_key)
     end
   end
 
-  describe '#name' do
-    it 'is the defined key' do
+  describe "#name" do
+    it "is the defined key" do
       expect(instance.name).to eql(instance_key || expected_class_key)
     end
   end
 
-  describe '#type' do
-    it 'is the defined filter type' do
+  describe "#type" do
+    it "is the defined filter type" do
       expect(instance.type).to eql(type)
     end
   end
 
-  describe '#human_name' do
-    it 'is the l10 name for the filter' do
+  describe "#human_name" do
+    it "is the l10 name for the filter" do
       expect(instance.human_name).to eql(human_name.presence || name)
     end
   end
 end
 
-RSpec.shared_examples_for 'list query filter' do |scope: true|
-  include_context 'filter tests'
+RSpec.shared_examples_for "list query filter" do |scope: true|
+  include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
   let(:type) { :list }
 
   if scope
-    describe '#scope' do
+    describe "#apply_to" do
       context 'for "="' do
-        let(:operator) { '=' }
+        let(:operator) { "=" }
         let(:values) { valid_values }
 
-        it 'is the same as handwriting the query' do
+        it "is the same as handwriting the query" do
           expected = model.where(["#{model.table_name}.#{attribute} IN (?)", values])
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
 
       context 'for "!"' do
-        let(:operator) { '!' }
+        let(:operator) { "!" }
         let(:values) { valid_values }
 
-        it 'is the same as handwriting the query' do
+        it "is the same as handwriting the query" do
           sql = "(#{model.table_name}.#{attribute} IS NULL
                  OR #{model.table_name}.#{attribute} NOT IN (?))".squish
           expected = model.where([sql, values])
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
     end
   end
 
-  describe '#valid?' do
-    let(:operator) { '=' }
+  describe "#valid?" do
+    let(:operator) { "=" }
     let(:values) { valid_values }
 
-    it 'is valid' do
+    it "is valid" do
       expect(instance).to be_valid
     end
 
-    context 'for an invalid operator' do
-      let(:operator) { '*' }
+    context "for an invalid operator" do
+      let(:operator) { "*" }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).to be_invalid
       end
     end
 
-    context 'for an invalid value' do
-      let(:values) { ['inexistent'] }
+    context "for an invalid value" do
+      let(:values) { ["inexistent"] }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).to be_invalid
       end
     end
   end
 end
 
-RSpec.shared_examples_for 'list_optional query filter' do
-  include_context 'filter tests'
+RSpec.shared_examples_for "list_optional query filter" do
+  include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
   let(:type) { :list_optional }
   let(:joins) { nil }
@@ -147,151 +147,151 @@ RSpec.shared_examples_for 'list_optional query filter' do
     joins || model.table_name
   end
 
-  describe '#scope' do
+  describe "#apply_to" do
     let(:values) { valid_values }
     let(:db_values) { defined?(transformed_values) ? transformed_values : valid_values }
 
     context 'for "="' do
-      let(:operator) { '=' }
+      let(:operator) { "=" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         expected = expected_base_scope
                    .where(["#{expected_table_name}.#{attribute} IN (?)", db_values])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
     context 'for "!"' do
-      let(:operator) { '!' }
+      let(:operator) { "!" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         sql = "(#{expected_table_name}.#{attribute} IS NULL
                OR #{expected_table_name}.#{attribute} NOT IN (?))".squish
         expected = expected_base_scope.where([sql, db_values])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
     context 'for "*"' do
-      let(:operator) { '*' }
+      let(:operator) { "*" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         sql = "#{expected_table_name}.#{attribute} IS NOT NULL"
         expected = expected_base_scope.where([sql])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
     context 'for "!*"' do
-      let(:operator) { '!*' }
+      let(:operator) { "!*" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         sql = "#{expected_table_name}.#{attribute} IS NULL"
         expected = expected_base_scope.where([sql])
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end
 
-  describe '#valid?' do
-    let(:operator) { '=' }
+  describe "#valid?" do
+    let(:operator) { "=" }
     let(:values) { valid_values }
 
-    it 'is valid' do
+    it "is valid" do
       expect(instance).to be_valid
     end
 
-    context 'for an invalid operator' do
-      let(:operator) { '~' }
+    context "for an invalid operator" do
+      let(:operator) { "~" }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).to be_invalid
       end
     end
 
-    context 'for an invalid value' do
-      let(:values) { ['inexistent'] }
+    context "for an invalid value" do
+      let(:values) { ["inexistent"] }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).to be_invalid
       end
     end
   end
 end
 
-RSpec.shared_examples_for 'list_optional group query filter' do
-  include_context 'filter tests'
-  describe '#scope' do
+RSpec.shared_examples_for "list_optional group query filter" do
+  include_context "filter tests"
+  describe "#apply_to" do
     let(:values) { valid_values }
 
     context 'for "="' do
-      let(:operator) { '=' }
+      let(:operator) { "=" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         expected = model.where(["users.id IN (#{User.in_group(values).select(:id).to_sql})"])
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
     context 'for "!"' do
-      let(:operator) { '!' }
+      let(:operator) { "!" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         expected = model.where(["users.id NOT IN (#{User.in_group(values).select(:id).to_sql})"])
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
     context 'for "*"' do
-      let(:operator) { '*' }
+      let(:operator) { "*" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         expected = model.where(["users.id IN (#{User.within_group([]).select(:id).to_sql})"])
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
     context 'for "!*"' do
-      let(:operator) { '!*' }
+      let(:operator) { "!*" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         expected = model.where(["users.id NOT IN (#{User.within_group([]).select(:id).to_sql})"])
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end
 
-  describe '#valid?' do
-    let(:operator) { '=' }
+  describe "#valid?" do
+    let(:operator) { "=" }
     let(:values) { valid_values }
 
-    it 'is valid' do
+    it "is valid" do
       expect(instance).to be_valid
     end
 
-    context 'for an invalid operator' do
-      let(:operator) { '~' }
+    context "for an invalid operator" do
+      let(:operator) { "~" }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).to be_invalid
       end
     end
 
-    context 'for an invalid value' do
-      let(:values) { ['inexistent'] }
+    context "for an invalid value" do
+      let(:values) { ["inexistent"] }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).to be_invalid
       end
     end
   end
 end
 
-RSpec.shared_examples_for 'list_all query filter' do
-  include_context 'filter tests'
+RSpec.shared_examples_for "list_all query filter" do
+  include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
   let(:type) { :list_all }
   let(:joins) { nil }
@@ -306,72 +306,72 @@ RSpec.shared_examples_for 'list_all query filter' do
     joins || model.table_name
   end
 
-  describe '#scope' do
+  describe "#apply_to" do
     let(:values) { valid_values }
 
     context 'for "="' do
-      let(:operator) { '=' }
+      let(:operator) { "=" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         expected = expected_base_scope
                    .where(["#{expected_table_name}.#{attribute} IN (?)", values])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
     context 'for "!"' do
-      let(:operator) { '!' }
+      let(:operator) { "!" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         sql = "(#{expected_table_name}.#{attribute} IS NULL
                OR #{expected_table_name}.#{attribute} NOT IN (?))".squish
         expected = expected_base_scope.where([sql, values])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
     context 'for "*"' do
-      let(:operator) { '*' }
+      let(:operator) { "*" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         sql = "#{expected_table_name}.#{attribute} IS NOT NULL"
         expected = expected_base_scope.where([sql])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end
 
-  describe '#valid?' do
-    let(:operator) { '=' }
+  describe "#valid?" do
+    let(:operator) { "=" }
     let(:values) { valid_values }
 
-    it 'is valid' do
+    it "is valid" do
       expect(instance).to be_valid
     end
 
-    context 'for an invalid operator' do
-      let(:operator) { '~' }
+    context "for an invalid operator" do
+      let(:operator) { "~" }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).to be_invalid
       end
     end
 
-    context 'for an invalid value' do
-      let(:values) { ['inexistent'] }
+    context "for an invalid value" do
+      let(:values) { ["inexistent"] }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).to be_invalid
       end
     end
   end
 end
 
-RSpec.shared_examples_for 'boolean query filter' do |scope: true|
-  include_context 'filter tests'
+RSpec.shared_examples_for "boolean query filter" do |scope: true|
+  include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
   let(:type) { :list }
   let(:joins) { nil }
@@ -388,8 +388,8 @@ RSpec.shared_examples_for 'boolean query filter' do |scope: true|
 
   let(:valid_values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
-  describe '#allowed_values' do
-    it 'is list for a bool' do
+  describe "#allowed_values" do
+    it "is list for a bool" do
       expect(instance.allowed_values)
         .to contain_exactly([I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
                             [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE])
@@ -397,94 +397,94 @@ RSpec.shared_examples_for 'boolean query filter' do |scope: true|
   end
 
   if scope
-    describe '#scope' do
+    describe "#apply_to" do
       let(:values) { valid_values }
 
       context 'for "="' do
-        let(:operator) { '=' }
+        let(:operator) { "=" }
 
-        it 'is the same as handwriting the query' do
+        it "is the same as handwriting the query" do
           expected = expected_base_scope
                      .where(["#{expected_table_name}.#{attribute} IN (?)", values])
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
 
       context 'for "!"' do
-        let(:operator) { '!' }
+        let(:operator) { "!" }
 
-        it 'is the same as handwriting the query' do
+        it "is the same as handwriting the query" do
           sql = "#{expected_table_name}.#{attribute} IS NULL
                  OR #{expected_table_name}.#{attribute} IN (?)".squish
           expected = expected_base_scope.where([sql, [OpenProject::Database::DB_VALUE_FALSE]])
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
     end
   end
 
-  describe '#valid?' do
-    let(:operator) { '=' }
+  describe "#valid?" do
+    let(:operator) { "=" }
     let(:values) { valid_values }
 
-    it 'is valid' do
+    it "is valid" do
       expect(instance).to be_valid
     end
 
-    context 'for an invalid operator' do
-      let(:operator) { '~' }
+    context "for an invalid operator" do
+      let(:operator) { "~" }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).to be_invalid
       end
     end
 
-    context 'for an invalid value' do
-      let(:values) { ['inexistent'] }
+    context "for an invalid value" do
+      let(:values) { ["inexistent"] }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).to be_invalid
       end
     end
   end
 end
 
-RSpec.shared_examples_for 'non ar filter' do
-  describe '#ar_object_filter?' do
-    it 'is false' do
+RSpec.shared_examples_for "non ar filter" do
+  describe "#ar_object_filter?" do
+    it "is false" do
       expect(instance)
         .not_to be_ar_object_filter
     end
   end
 
-  describe '#value_objects' do
-    it 'is empty' do
+  describe "#value_objects" do
+    it "is empty" do
       expect(instance.value_objects)
         .to be_empty
     end
   end
 end
 
-RSpec.shared_examples_for 'filter by work package id' do
-  include_context 'filter tests'
+RSpec.shared_examples_for "filter by work package id" do
+  include_context "filter tests"
 
   let(:project) { build_stubbed(:project) }
   let(:query) do
     build_stubbed(:query, project:)
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :list }
 
     before do
       instance.context = query
     end
 
-    describe '#available?' do
-      context 'within a project' do
-        it 'is true if any work package exists and is visible' do
+    describe "#available?" do
+      context "within a project" do
+        it "is true if any work package exists and is visible" do
           allow(WorkPackage)
             .to receive_message_chain(:visible, :for_projects, :exists?)
             .with(no_args)
@@ -495,7 +495,7 @@ RSpec.shared_examples_for 'filter by work package id' do
           expect(instance).to be_available
         end
 
-        it 'is false if no work package exists/ is visible' do
+        it "is false if no work package exists/ is visible" do
           allow(WorkPackage)
             .to receive_message_chain(:visible, :for_projects, :exists?)
             .with(no_args)
@@ -507,10 +507,10 @@ RSpec.shared_examples_for 'filter by work package id' do
         end
       end
 
-      context 'outside of a project' do
+      context "outside of a project" do
         let(:project) { nil }
 
-        it 'is true if any work package exists and is visible' do
+        it "is true if any work package exists and is visible" do
           allow(WorkPackage)
             .to receive_message_chain(:visible, :exists?)
             .with(no_args)
@@ -519,7 +519,7 @@ RSpec.shared_examples_for 'filter by work package id' do
           expect(instance).to be_available
         end
 
-        it 'is false if no work package exists/ is visible' do
+        it "is false if no work package exists/ is visible" do
           allow(WorkPackage)
             .to receive_message_chain(:visible, :exists?)
             .with(no_args)
@@ -530,22 +530,22 @@ RSpec.shared_examples_for 'filter by work package id' do
       end
     end
 
-    describe '#ar_object_filter?' do
-      it 'is true' do
+    describe "#ar_object_filter?" do
+      it "is true" do
         expect(instance).to be_ar_object_filter
       end
     end
 
-    describe '#allowed_values' do
-      it 'raises an error' do
+    describe "#allowed_values" do
+      it "raises an error" do
         expect { instance.allowed_values }.to raise_error NotImplementedError
       end
     end
 
-    describe '#value_object' do
+    describe "#value_object" do
       let(:visible_wp) { build_stubbed(:work_package) }
 
-      it 'returns the work package for the values' do
+      it "returns the work package for the values" do
         allow(WorkPackage)
           .to receive_message_chain(:visible, :for_projects, :find)
           .with(no_args)
@@ -558,19 +558,19 @@ RSpec.shared_examples_for 'filter by work package id' do
       end
     end
 
-    describe '#allowed_objects' do
-      it 'raises an error' do
+    describe "#allowed_objects" do
+      it "raises an error" do
         expect { instance.allowed_objects }.to raise_error NotImplementedError
       end
     end
 
-    describe '#valid_values!' do
+    describe "#valid_values!" do
       let(:visible_wp) { build_stubbed(:work_package) }
       let(:invisible_wp) { build_stubbed(:work_package) }
 
-      context 'within a project' do
-        it 'removes all non existing/non visible ids' do
-          instance.values = [visible_wp.id.to_s, invisible_wp.id.to_s, '999999']
+      context "within a project" do
+        it "removes all non existing/non visible ids" do
+          instance.values = [visible_wp.id.to_s, invisible_wp.id.to_s, "999999"]
 
           allow(WorkPackage)
             .to receive_message_chain(:visible, :for_projects, :where, :pluck)
@@ -587,11 +587,11 @@ RSpec.shared_examples_for 'filter by work package id' do
         end
       end
 
-      context 'outside of a project' do
+      context "outside of a project" do
         let(:project) { nil }
 
-        it 'removes all non existing/non visible ids' do
-          instance.values = [visible_wp.id.to_s, invisible_wp.id.to_s, '999999']
+        it "removes all non existing/non visible ids" do
+          instance.values = [visible_wp.id.to_s, invisible_wp.id.to_s, "999999"]
 
           allow(WorkPackage)
             .to receive_message_chain(:visible, :where, :pluck)
@@ -608,12 +608,12 @@ RSpec.shared_examples_for 'filter by work package id' do
       end
     end
 
-    describe '#validate' do
+    describe "#validate" do
       let(:visible_wp) { build_stubbed(:work_package) }
       let(:invisible_wp) { build_stubbed(:work_package) }
 
-      context 'within a project' do
-        it 'is valid if only visible wps are values' do
+      context "within a project" do
+        it "is valid if only visible wps are values" do
           instance.values = [visible_wp.id.to_s]
 
           allow(WorkPackage)
@@ -627,7 +627,7 @@ RSpec.shared_examples_for 'filter by work package id' do
           expect(instance).to be_valid
         end
 
-        it 'is invalid if invisible wps are values' do
+        it "is invalid if invisible wps are values" do
           instance.values = [invisible_wp.id.to_s, visible_wp.id.to_s]
 
           allow(WorkPackage)
@@ -642,10 +642,10 @@ RSpec.shared_examples_for 'filter by work package id' do
         end
       end
 
-      context 'outside of a project' do
+      context "outside of a project" do
         let(:project) { nil }
 
-        it 'is valid if only visible wps are values' do
+        it "is valid if only visible wps are values" do
           instance.values = [visible_wp.id.to_s]
 
           allow(WorkPackage)
@@ -658,7 +658,7 @@ RSpec.shared_examples_for 'filter by work package id' do
           expect(instance).to be_valid
         end
 
-        it 'is invalid if invisible wps are values' do
+        it "is invalid if invisible wps are values" do
           instance.values = [invisible_wp.id.to_s, visible_wp.id.to_s]
 
           allow(WorkPackage)
@@ -675,13 +675,13 @@ RSpec.shared_examples_for 'filter by work package id' do
   end
 end
 
-RSpec.shared_examples_for 'operators for relation filters' do
+RSpec.shared_examples_for "operators for relation filters" do
   context "on '=' operator" do
     before do
-      instance.operator = '='
+      instance.operator = "="
     end
 
-    it 'returns the related work packages' do
+    it "returns the related work packages" do
       expect(WorkPackage.where(instance.where))
         .to contain_exactly(related_wp)
     end
@@ -689,20 +689,20 @@ RSpec.shared_examples_for 'operators for relation filters' do
 
   context "on '!' operator" do
     before do
-      instance.operator = '!'
+      instance.operator = "!"
     end
 
-    it 'returns the unrelated work packages' do
+    it "returns the unrelated work packages" do
       expect(WorkPackage.where(instance.where))
         .to contain_exactly(filter_value_wp, unrelated_wp)
     end
   end
 end
 
-RSpec.shared_examples_for 'filter for relation' do
-  describe '#where' do
+RSpec.shared_examples_for "filter for relation" do
+  describe "#where" do
     let!(:filter_value_wp) { create(:work_package) }
-    let(:wp_relation_type) { defined?(:relation_type) ? relation_type : raise('needs to be defined') }
+    let(:wp_relation_type) { defined?(:relation_type) ? relation_type : raise("needs to be defined") }
     let!(:related_wp) do
       create(:work_package).tap do |wp|
         if Relation.canonical_type(wp_relation_type) == wp_relation_type
@@ -725,6 +725,6 @@ RSpec.shared_examples_for 'filter for relation' do
       instance.values = [filter_value_wp.id.to_s]
     end
 
-    it_behaves_like 'operators for relation filters'
+    it_behaves_like "operators for relation filters"
   end
 end

@@ -32,52 +32,47 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesInfoQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    FILES_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/filesinfo'
+    FILES_INFO_PATH = "ocs/v1.php/apps/integration_openproject/filesinfo"
+    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+    def self.call(storage:, auth_strategy:, file_ids:)
+      new(storage).call(auth_strategy:, file_ids:)
+    end
 
     def initialize(storage)
-      @uri = storage.uri
-      @configuration = storage.oauth_configuration
+      @storage = storage
     end
 
-    def self.call(storage:, user:, file_ids: [])
-      new(storage).call(user:, file_ids:)
-    end
-
-    def call(user:, file_ids: [])
+    def call(auth_strategy:, file_ids:)
       if file_ids.nil?
-        return Util.error(:error, 'File IDs can not be nil', file_ids)
+        return Util.error(:error, "File IDs can not be nil", file_ids)
       end
 
       if file_ids.empty?
         return ServiceResult.success(result: [])
       end
 
-      Util.token(user:, configuration: @configuration) do |token|
-        files_info(file_ids, token).map(&parse_json) >> handle_failure >> create_storage_file_infos
+      http_options = Util.ocs_api_request.deep_merge(Util.accept_json)
+      Auth[auth_strategy].call(storage: @storage, http_options:) do |http|
+        files_info(http, file_ids).map(&parse_json) >> handle_failure >> create_storage_file_infos
       end
     end
 
     private
 
-    def files_info(file_ids, token)
-      response = OpenProject
-                   .httpx
-                   .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
-                                    'Accept' => 'application/json',
-                                    'Content-Type' => 'application/json',
-                                    'OCS-APIRequest' => 'true' })
-                   .post(Util.join_uri_path(@uri.to_s, FILES_INFO_PATH),
-                         json: { fileIds: file_ids })
+    def files_info(http, file_ids)
+      response = http.post(Util.join_uri_path(@storage.uri, FILES_INFO_PATH), json: { fileIds: file_ids })
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
       case response
       in { status: 200..299 }
-        ServiceResult.success(result: response.body.to_s)
+        ServiceResult.success(result: response.body)
       in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found!', response)
+        Util.error(:not_found, "Outbound request destination not found!", error_data)
       in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized!', response)
+        Util.error(:unauthorized, "Outbound request not authorized!", error_data)
       else
-        Util.error(:error, 'Outbound request failed!', response)
+        Util.error(:error, "Outbound request failed!", error_data)
       end
     end
 
@@ -91,10 +86,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def handle_failure
       ->(response_object) do
-        if response_object.ocs.meta.status == 'ok'
+        if response_object.ocs.meta.status == "ok"
           ServiceResult.success(result: response_object)
         else
-          Util.error(:error, 'Outbound request failed!', response_object)
+          error_data = Storages::StorageErrorData.new(source: self.class, payload: response_object)
+          Util.error(:error, "Outbound request failed!", error_data)
         end
       end
     end
@@ -116,7 +112,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                 size: value.size,
                 owner_name: value.owner_name,
                 owner_id: value.owner_id,
-                trashed: value.trashed,
                 last_modified_by_name: value.modifier_name,
                 last_modified_by_id: value.modifier_id,
                 permissions: value.dav_permissions,
@@ -137,14 +132,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # rubocop:enable Metrics/AbcSize
 
     def location(file_path, mimetype)
-      prefix = 'files/'
+      prefix = "files/"
       idx = file_path.rindex(prefix)
-      return '/' if idx == nil
+      return "/" if idx == nil
 
       idx += prefix.length - 1
       # Remove the following when /filesinfo starts responding with a trailing slash for directory paths
       # in all supported versions of OpenProjectIntegation Nextcloud App.
-      file_path << '/' if mimetype == 'application/x-op-directory' && file_path[-1] != '/'
+      file_path << "/" if mimetype == "application/x-op-directory" && file_path[-1] != "/"
       Util.escape_path(file_path[idx..])
     end
   end

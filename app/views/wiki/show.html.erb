@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% if @page && User.current.allowed_in_project?(:edit_wiki_pages, @project) %>
       <li class="toolbar-item">
           <%= link_to({controller: '/wiki', action: 'new_child', project_id: @project.identifier, id: @page},
-              { class: 'button -alt-highlight',
+              { class: 'button -primary',
                 aria: {label: t('wiki.index.no_results_content_text')},
                 title: t('wiki.index.no_results_content_text')}) do %>
             <%= op_icon('button--icon icon-add') %>

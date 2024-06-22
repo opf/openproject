@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), t(:label_cost_type_plural) %>
 <%= toolbar title: CostType.model_name.human(count: 2) do %>
   <li class="toolbar-item">
-    <a href="<%= new_cost_type_path %>" aria-label="<%= t(:button_add_cost_type) %>" title="<%= t(:button_add_cost_type) %>" class="button -alt-highlight">
+    <a href="<%= new_cost_type_path %>" aria-label="<%= t(:button_add_cost_type) %>" title="<%= t(:button_add_cost_type) %>" class="button -primary">
       <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= CostType.model_name.human %></span>
     </a>
@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
         </div>
       </li>
       <li class="simple-filters--controls">
-        <%= submit_tag t(:button_apply), class: 'button -highlight -small' %>
+        <%= submit_tag t(:button_apply), class: 'button -primary -small' %>
         <%= link_to t(:button_clear), cost_types_path, class: 'button -small -with-icon icon-undo' %>
       </li>
     </ul>

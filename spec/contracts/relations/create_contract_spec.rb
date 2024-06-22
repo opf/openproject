@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Relations::CreateContract do
-  it_behaves_like 'relation contract' do
+  it_behaves_like "relation contract" do
     let(:relation) do
       Relation.new from: relation_from,
                    to: relation_to,
                    relation_type:,
-                   delay: relation_delay
+                   lag: relation_lag
     end
   end
 end

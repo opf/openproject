@@ -26,25 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Date::DATE_FORMATS[:wday_date] = '%a %-d %b %Y' # Fri 5 Aug 2022
+Date::DATE_FORMATS[:wday_date] = "%a %-d %b %Y" # Fri 5 Aug 2022
 
-RSpec.shared_context 'with weekend days Saturday and Sunday' do
+RSpec.shared_context "with weekend days Saturday and Sunday" do
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
 end
 
-RSpec.shared_context 'with non working days from this and next year' do
+RSpec.shared_context "with non working days from this and next year" do
   shared_let(:first_of_may) { create(:non_working_day, date: Date.new(Date.current.year, 5, 1)) }
   shared_let(:christmas) { create(:non_working_day, date: Date.new(Date.current.year, 12, 25)) }
   shared_let(:new_year_day) { create(:non_working_day, date: Date.new(Date.current.year + 1, 1, 1)) }
 end
 
-RSpec.shared_context 'with non working days Christmas 2022 and new year 2023' do
+RSpec.shared_context "with non working days Christmas 2022 and new year 2023" do
   shared_let(:christmas) { create(:non_working_day, date: Date.new(2022, 12, 25)) }
   shared_let(:new_year_day) { create(:non_working_day, date: Date.new(2023, 1, 1)) }
 end
 
-RSpec.shared_context 'with no working days' do
-  include_context 'with weekend days Saturday and Sunday'
+RSpec.shared_context "with no working days" do
+  include_context "with weekend days Saturday and Sunday"
 
   before do
     week_with_no_working_days
@@ -52,16 +52,16 @@ RSpec.shared_context 'with no working days' do
 end
 
 RSpec.configure do |rspec|
-  rspec.include_context 'with weekend days Saturday and Sunday', :weekend_saturday_sunday
-  rspec.include_context 'with non working days Christmas 2022 and new year 2023', :christmas_2022_new_year_2023
-  rspec.include_context 'with non working days from this and next year', :non_working_days_from_this_and_next_year
-  rspec.include_context 'with no working days', :no_working_days
+  rspec.include_context "with weekend days Saturday and Sunday", :weekend_saturday_sunday
+  rspec.include_context "with non working days Christmas 2022 and new year 2023", :christmas_2022_new_year_2023
+  rspec.include_context "with non working days from this and next year", :non_working_days_from_this_and_next_year
+  rspec.include_context "with no working days", :no_working_days
 end
 
-RSpec.shared_examples 'it returns duration' do |expected_duration, start_date, due_date|
-  from_date_format = '%a %-d'
-  from_date_format += ' %b' if [start_date.month, start_date.year] != [due_date.month, due_date.year]
-  from_date_format += ' %Y' if start_date.year != due_date.year
+RSpec.shared_examples "it returns duration" do |expected_duration, start_date, due_date|
+  from_date_format = "%a %-d"
+  from_date_format += " %b" if [start_date.month, start_date.year] != [due_date.month, due_date.year]
+  from_date_format += " %Y" if start_date.year != due_date.year
 
   it "from #{start_date.strftime(from_date_format)} " \
      "to #{due_date.to_fs(:wday_date)} " \
@@ -71,26 +71,26 @@ RSpec.shared_examples 'it returns duration' do |expected_duration, start_date, d
   end
 end
 
-RSpec.shared_examples 'start_date' do |due_date:, duration:, expected:|
+RSpec.shared_examples "start_date" do |due_date:, duration:, expected:|
   it "start_date(#{due_date.to_fs(:wday_date)}, #{duration}) => #{expected.to_fs(:wday_date)}" do
     expect(subject.start_date(due_date, duration)).to eq(expected)
   end
 end
 
-RSpec.shared_examples 'due_date' do |start_date:, duration:, expected:|
+RSpec.shared_examples "due_date" do |start_date:, duration:, expected:|
   it "due_date(#{start_date.to_fs(:wday_date)}, #{duration}) => #{expected.to_fs(:wday_date)}" do
     expect(subject.due_date(start_date, duration)).to eq(expected)
   end
 end
 
-RSpec.shared_examples 'soonest working day' do |date:, expected:|
+RSpec.shared_examples "soonest working day" do |date:, expected:|
   it "soonest_working_day(#{date.to_fs(:wday_date)}) => #{expected.to_fs(:wday_date)}" do
     expect(subject.soonest_working_day(date)).to eq(expected)
   end
 end
 
-RSpec.shared_examples 'soonest working day with delay' do |date:, delay:, expected:|
-  it "soonest_working_day(#{date.to_fs(:wday_date)}, delay: #{delay.inspect}) => #{expected.to_fs(:wday_date)}" do
-    expect(subject.soonest_working_day(date, delay:)).to eq(expected)
+RSpec.shared_examples "soonest working day with lag" do |date:, lag:, expected:|
+  it "soonest_working_day(#{date.to_fs(:wday_date)}, lag: #{lag.inspect}) => #{expected.to_fs(:wday_date)}" do
+    expect(subject.soonest_working_day(date, lag:)).to eq(expected)
   end
 end

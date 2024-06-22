@@ -37,8 +37,8 @@ module API
         base.extend ClassMethods
       end
 
-      def from_hash(hash, *args)
-        return super unless hash && hash['_links']
+      def from_hash(hash, *)
+        return super unless hash && hash["_links"]
 
         copied_hash = hash.deep_dup
 
@@ -46,13 +46,13 @@ module API
           next unless dfn[:linked_resource]
 
           name = dfn[:as] ? dfn[:as].(nil) : dfn.name
-          fragment = copied_hash['_links'].delete(name)
+          fragment = copied_hash["_links"].delete(name)
           next unless fragment
 
           copied_hash[name] = fragment
         end
 
-        super(copied_hash, *args)
+        super(copied_hash, *)
       end
 
       module ClassMethods
@@ -243,7 +243,7 @@ module API
             link = ::API::Decorators::LinkObject.new(struct,
                                                      path: v3_path,
                                                      property_name: :id,
-                                                     setter: 'id=')
+                                                     setter: "id=")
 
             ids = fragment.map do |href|
               link.from_hash(href)

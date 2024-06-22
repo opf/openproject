@@ -30,7 +30,7 @@
 
 module Members
   class UserFilterComponent < ::UserFilterComponent
-    ALL_SHARED_FILTER_KEY = 'all'
+    ALL_SHARED_FILTER_KEY = "all"
 
     def initially_visible?
       false
@@ -52,12 +52,12 @@ module Members
     # Adapts the user filter counts to count members as opposed to users.
     def extra_user_status_options
       {
-        all: status_members_query('all').count,
-        blocked: status_members_query('blocked').count,
-        active: status_members_query('active').count,
-        invited: status_members_query('invited').count,
-        registered: status_members_query('registered').count,
-        locked: status_members_query('locked').count
+        all: status_members_query("all").count,
+        blocked: status_members_query("blocked").count,
+        active: status_members_query("active").count,
+        invited: status_members_query("invited").count,
+        registered: status_members_query("registered").count,
+        locked: status_members_query("locked").count
       }
     end
 
@@ -89,7 +89,7 @@ module Members
           .order(builtin: :asc)
           .map { |role| [mapped_shared_role_name(role), role.id] }
 
-        share_options.unshift([I18n.t('members.filters.all_shares'), ALL_SHARED_FILTER_KEY])
+        share_options.unshift([I18n.t("members.filters.all_shares"), ALL_SHARED_FILTER_KEY])
       end
 
       def builtin_share_roles
@@ -103,11 +103,11 @@ module Members
       def mapped_shared_role_name(role)
         case role.builtin
         when Role::BUILTIN_WORK_PACKAGE_VIEWER
-          I18n.t('work_package.sharing.permissions.view')
+          I18n.t("work_package.sharing.permissions.view")
         when Role::BUILTIN_WORK_PACKAGE_COMMENTER
-          I18n.t('work_package.sharing.permissions.comment')
+          I18n.t("work_package.sharing.permissions.comment")
         when Role::BUILTIN_WORK_PACKAGE_EDITOR
-          I18n.t('work_package.sharing.permissions.edit')
+          I18n.t("work_package.sharing.permissions.edit")
         else
           role.name
         end
@@ -121,14 +121,14 @@ module Members
                   .where(builtin: builtin_share_roles)
                   .pluck(:id)
 
-          query.where(:role_id, '=', ids.uniq)
+          query.where(:role_id, "=", ids.uniq)
         elsif role_id.to_i > 0
-          query.where(:role_id, '=', role_id.to_i)
+          query.where(:role_id, "=", role_id.to_i)
         end
       end
 
       def apply_filters(params, query)
-        super(params, query)
+        super
         filter_shares(query, params[:shared_role_id]) if params.key?(:shared_role_id)
 
         query

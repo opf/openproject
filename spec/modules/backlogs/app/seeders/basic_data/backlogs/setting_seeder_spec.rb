@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe BasicData::Backlogs::SettingSeeder do
   subject(:setting_seeder) { described_class.new(basic_seed_data) }
@@ -39,10 +39,10 @@ RSpec.describe BasicData::Backlogs::SettingSeeder do
   let(:type_bug) { basic_seed_data.find_reference(:default_type_bug) }
   let(:type_task) { basic_seed_data.find_reference(:default_type_task) }
 
-  context 'with standard edition' do
-    include_context 'with basic seed data', edition: 'standard'
+  context "with standard edition" do
+    include_context "with basic seed data", edition: "standard"
 
-    it 'configures Setting.plugin_openproject_backlogs' do
+    it "configures Setting.plugin_openproject_backlogs" do
       setting_seeder.seed!
 
       expect(Setting.plugin_openproject_backlogs).to match(
@@ -53,7 +53,7 @@ RSpec.describe BasicData::Backlogs::SettingSeeder do
       )
     end
 
-    it 'can run multiple times' do
+    it "can run multiple times" do
       # run once
       setting_seeder.seed!
       # run a second time without the references in seed_data
@@ -87,10 +87,10 @@ RSpec.describe BasicData::Backlogs::SettingSeeder do
     include_examples "sets missing setting to its default value", key: "wiki_template", expected_value: ""
   end
 
-  context 'with BIM edition' do
-    include_context 'with basic seed data', edition: 'bim'
+  context "with BIM edition" do
+    include_context "with basic seed data", edition: "bim"
 
-    it 'configures Setting.plugin_openproject_backlogs' do
+    it "configures Setting.plugin_openproject_backlogs" do
       setting_seeder.seed!
 
       expect(Setting.plugin_openproject_backlogs).to match(
@@ -101,7 +101,7 @@ RSpec.describe BasicData::Backlogs::SettingSeeder do
       )
     end
 
-    it 'can run multiple times' do
+    it "can run multiple times" do
       # run once
       setting_seeder.seed!
       # run a second time without the references in seed_data

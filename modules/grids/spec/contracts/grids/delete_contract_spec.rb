@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Grids::DeleteContract do
   let(:user) { build_stubbed(:user) }
@@ -44,29 +44,29 @@ RSpec.describe Grids::DeleteContract do
     allow(grid).to receive(:user_deletable?).and_return(user_deletable)
   end
 
-  context 'when writable' do
+  context "when writable" do
     let(:writable) { true }
     let(:user_deletable) { true }
 
-    it 'deletes the grid even if no valid widgets' do
+    it "deletes the grid even if no valid widgets" do
       expect(instance.validate).to be_truthy
     end
   end
 
-  context 'when not writable' do
+  context "when not writable" do
     let(:writable) { false }
     let(:user_deletable) { true }
 
-    it 'deletes the grid even if not valid' do
+    it "deletes the grid even if not valid" do
       expect(instance.validate).to be_falsey
     end
   end
 
-  context 'when not deletable' do
+  context "when not deletable" do
     let(:writable) { true }
     let(:user_deletable) { false }
 
-    it 'deletes the grid even if not valid' do
+    it "deletes the grid even if not valid" do
       expect(instance.validate).to be_falsey
     end
   end

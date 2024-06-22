@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::TextFormatting::Formats::Plain::Formatter do
   subject { described_class.new({}) }
 
-  it 'plains text' do
-    assert_html_output('This is some input' => 'This is some input')
+  it "plains text" do
+    assert_html_output("This is some input" => "This is some input")
   end
 
-  it 'escapings' do
+  it "escapings" do
     assert_html_output(
-      'this is a <script>' => 'this is a &lt;script&gt;'
+      "this is a <script>" => "this is a &lt;script&gt;"
     )
   end
 

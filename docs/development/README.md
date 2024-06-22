@@ -12,8 +12,6 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 Please get in touch with us using our [development forum](https://community.openproject.org/projects/openproject/forums/7) or send us an email to info@openproject.org.
 
-
-
 ## Issue tracking and coordination
 
 We eat our own ice cream so we use OpenProject for roadmap planning and team collaboration. Please have a look at the following pages:
@@ -28,33 +26,23 @@ We eat our own ice cream so we use OpenProject for roadmap planning and team col
 
 - [Submit a feature idea](submit-feature-idea)
 
-
-
 ## Development Environment
 
 Take a look at the bottom under Additional resources to see how to setup your development environment.
-
-
 
 ## Highlighting Development Environment
 
 To make it easier to distinguish a development instance, it is using a tinted website icon and modified app header.
 
-This behaviour can be disabled by setting an environment variable `OPENPROJECT_DEVELOPMENT_HIGHLIGHT_ENABLED=false` (see also [documentation on configuration](../installation-and-operations/configuration/)).
-
-
+This behavior can be disabled by setting an environment variable `OPENPROJECT_DEVELOPMENT_HIGHLIGHT_ENABLED=false` (see also [documentation on configuration](../installation-and-operations/configuration/)).
 
 ## Branching model and development flow
 
 Please see this separate guide for the [git branching model and core development](git-workflow/).
 
-
-
 ## Development concepts
 
 We prepared a set of documentation concepts for an introduction into various backend and frontend related topics of OpenProject. Please see the [concepts main page](concepts/) for more.
-
-
 
 ## Translations
 
@@ -100,16 +88,13 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be repor
 
 This code of conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 1.0.0, available at [contributor-covenant.org/version/1/0/0/](https://www.contributor-covenant.org/version/1/0/0/)
 
-
-
 ## OpenProject Contributor License Agreement (CLA)
 
 If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement first. The contributor license agreement documents the rights granted by contributors to OpenProject.
 
 [Read and accept the Contributor License Agreement here.](https://www.openproject.org/legal/contributor-license-agreement/)
 
-# Additional resources
-
+## Additional resources
 
 * [Development environment for Ubuntu 18.04](development-environment-ubuntu)
 * [Development environment for Mac OS X](development-environment-osx)

@@ -30,53 +30,111 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { renderStreamMessage } from '@hotwired/turbo';
-import { ModalDialogElement } from '@openproject/primer-view-components/app/components/primer/alpha/modal_dialog';
+import { xCircleIconData, toDOMString } from '@openproject/octicons-angular';
 
-export default class OpenProjectStorageModalController extends Controller<ModalDialogElement> {
+export default class OpenProjectStorageModalController extends Controller<HTMLDialogElement> {
   static values = {
     projectStorageOpenUrl: String,
     redirectUrl: String,
   };
 
-  interval:number;
+  loadingInterval:number;
+  timeoutInterval:number;
+  networkErrorHappened:boolean;
   projectStorageOpenUrlValue:string;
   redirectUrlValue:string;
 
   connect() {
-    this.element.open = true;
-    this.interval = 0;
+    this.element.showModal();
+    this.loadingInterval = 0;
+    this.networkErrorHappened = false;
     this.load();
+    this.timeoutInterval = window.setTimeout(
+      () => {
+        clearInterval(this.loadingInterval);
+        this.setTimeoutMessage();
+      },
+      120000,
+    );
     this.element.addEventListener('close', () => { this.disconnect(); });
     this.element.addEventListener('cancel', () => { this.disconnect(); });
   }
 
   disconnect() {
-    clearInterval(this.interval);
+    clearInterval(this.loadingInterval);
+    clearInterval(this.timeoutInterval);
   }
 
   load() {
-    this.interval = setTimeout(
+    this.loadingInterval = window.setTimeout(
       async () => {
-        const response = await fetch(
-          this.projectStorageOpenUrlValue,
-          {
-            headers: {
-              Accept: 'text/vnd.turbo-stream.html',
+        try {
+          const response = await fetch(
+            this.projectStorageOpenUrlValue,
+            {
+              headers: {
+                Accept: 'text/vnd.turbo-stream.html',
+              },
             },
-          },
-        );
-        if (response.status === 200) {
-          const streamActionHTML = await response.text();
-          renderStreamMessage(streamActionHTML);
-          setTimeout(
-            () => { window.location.href = this.redirectUrlValue; },
-            2000,
           );
-        } else {
-          this.load();
+          if (response.status === 200) {
+            const streamActionHTML = await response.text();
+            renderStreamMessage(streamActionHTML);
+            setTimeout(
+              () => { window.location.href = this.redirectUrlValue; },
+              2000,
+            );
+          } else {
+            if (this.networkErrorHappened === true) {
+              this.setNetworkErrorHappened(false);
+            }
+            this.load();
+          }
+        } catch (error:unknown) {
+          console.error('Error: ', error);
+          if (this.networkErrorHappened === false) {
+            this.setNetworkErrorHappened(true);
+          }
+          setTimeout(() => this.load(), 3000);
         }
       },
       3000,
-);
+    );
+  }
+
+  private setNetworkErrorHappened(value:boolean) {
+    const waitingSubtitle = document.getElementById('waiting_subtitle');
+    if (waitingSubtitle) {
+      waitingSubtitle.innerText = I18n.t(
+        `js.open_project_storage_modal.waiting_subtitle.network_${value ? 'off' : 'on'}`,
+      );
+    }
+    this.networkErrorHappened = value;
+  }
+
+  private setTimeoutMessage() {
+    const waitingLogo = document.getElementById('waiting_logo');
+    const waitingTitle = document.getElementById('waiting_title');
+    const waitingSubtitle = document.getElementById('waiting_subtitle');
+    if (waitingLogo) {
+      waitingLogo.innerHTML = toDOMString(
+        xCircleIconData,
+        'medium',
+        {
+          'aria-hidden': 'true',
+          class: 'octicon octicon-x-circle-icon color-fg-danger',
+        },
+      );
+    }
+    if (waitingTitle) {
+      waitingTitle.innerText = I18n.t(
+        'js.open_project_storage_modal.waiting_title.timeout',
+      );
+    }
+    if (waitingSubtitle) {
+      waitingSubtitle.innerHTML = I18n.t(
+        'js.open_project_storage_modal.waiting_subtitle.timeout',
+      );
+    }
   }
 }

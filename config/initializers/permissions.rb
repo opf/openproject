@@ -37,7 +37,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :archive_project,
                      {
-                       'projects/archive': %i[create]
+                       "projects/archive": %i[create]
                      },
                      permissible_on: :project,
                      require: :member
@@ -45,7 +45,7 @@ Rails.application.reloader.to_prepare do
       map.permission :create_backup,
                      {
                        admin: %i[index],
-                       'admin/backups': %i[delete_token perform_token_reset reset_token show]
+                       "admin/backups": %i[delete_token perform_token_reset reset_token show]
                      },
                      permissible_on: :global,
                      require: :loggedin,
@@ -54,7 +54,7 @@ Rails.application.reloader.to_prepare do
       map.permission :create_user,
                      {
                        users: %i[index show new create resend_invitation],
-                       'users/memberships': %i[create],
+                       "users/memberships": %i[create],
                        admin: %i[index]
                      },
                      permissible_on: :global,
@@ -64,7 +64,7 @@ Rails.application.reloader.to_prepare do
       map.permission :manage_user,
                      {
                        users: %i[index show edit update change_status change_status_info],
-                       'users/memberships': %i[create update destroy],
+                       "users/memberships": %i[create update destroy],
                        admin: %i[index]
                      },
                      permissible_on: :global,
@@ -74,7 +74,7 @@ Rails.application.reloader.to_prepare do
       map.permission :manage_placeholder_user,
                      {
                        placeholder_users: %i[index show new create edit update deletion_info destroy],
-                       'placeholder_users/memberships': %i[create update destroy],
+                       "placeholder_users/memberships": %i[create update destroy],
                        admin: %i[index]
                      },
                      permissible_on: :global,
@@ -93,10 +93,10 @@ Rails.application.reloader.to_prepare do
 
       map.permission :edit_project,
                      {
-                       'projects/settings/general': %i[show],
-                       'projects/settings/storage': %i[show],
-                       'projects/templated': %i[create destroy],
-                       'projects/identifier': %i[show update]
+                       "projects/settings/general": %i[show],
+                       "projects/settings/storage": %i[show],
+                       "projects/templated": %i[create destroy],
+                       "projects/identifier": %i[show update]
                      },
                      permissible_on: :project,
                      require: :member,
@@ -104,15 +104,22 @@ Rails.application.reloader.to_prepare do
 
       map.permission :select_project_modules,
                      {
-                       'projects/settings/modules': %i[show update]
+                       "projects/settings/modules": %i[show update]
+                     },
+                     permissible_on: :project,
+                     require: :member
+
+      map.permission :select_project_custom_fields,
+                     {
+                       "projects/settings/project_custom_fields": %i[show toggle enable_all_of_section disable_all_of_section]
                      },
                      permissible_on: :project,
                      require: :member
 
       map.permission :manage_members,
                      {
-                       members: %i[index new create update destroy autocomplete_for_member menu],
-                       'members/menus': %i[show]
+                       members: %i[index new create update destroy destroy_by_principal autocomplete_for_member menu],
+                       "members/menus": %i[show]
                      },
                      permissible_on: :project,
                      require: :member,
@@ -122,14 +129,14 @@ Rails.application.reloader.to_prepare do
       map.permission :view_members,
                      {
                        members: %i[index menu],
-                       'members/menus': %i[show]
+                       "members/menus": %i[show]
                      },
                      permissible_on: :project,
                      contract_actions: { members: %i[read] }
 
       map.permission :manage_versions,
                      {
-                       'projects/settings/versions': [:show],
+                       "projects/settings/versions": [:show],
                        versions: %i[new create edit update close_completed destroy]
                      },
                      permissible_on: :project,
@@ -137,14 +144,14 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_types,
                      {
-                       'projects/settings/types': %i[show update]
+                       "projects/settings/types": %i[show update]
                      },
                      permissible_on: :project,
                      require: :member
 
       map.permission :select_custom_fields,
                      {
-                       'projects/settings/custom_fields': %i[show update]
+                       "projects/settings/custom_fields": %i[show update]
                      },
                      permissible_on: :project,
                      require: :member
@@ -170,6 +177,24 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :global,
                      require: :loggedin,
                      grant_to_admin: true
+
+      map.permission :manage_public_project_queries,
+                     {
+                       "projects/queries": %i[publish unpublish]
+                     },
+                     permissible_on: :global,
+                     require: :loggedin,
+                     grant_to_admin: true
+
+      map.permission :view_project_query,
+                     {},
+                     permissible_on: :project_query,
+                     require: :loggedin
+
+      map.permission :edit_project_query,
+                     {},
+                     permissible_on: :project_query,
+                     require: :loggedin
     end
 
     map.project_module :work_package_tracking, order: 90 do |wpt|
@@ -179,7 +204,7 @@ Rails.application.reloader.to_prepare do
                        journals: %i[index],
                        work_packages: %i[show index],
                        work_packages_api: [:get],
-                       'work_packages/reports': %i[report report_details]
+                       "work_packages/reports": %i[report report_details]
                      },
                      permissible_on: %i[work_package project],
                      contract_actions: { work_packages: %i[read] }
@@ -187,11 +212,12 @@ Rails.application.reloader.to_prepare do
       wpt.permission :add_work_packages,
                      {},
                      permissible_on: :project,
+                     dependencies: :view_work_packages,
                      contract_actions: { work_packages: %i[create] }
 
       wpt.permission :edit_work_packages,
                      {
-                       'work_packages/bulk': %i[edit update]
+                       "work_packages/bulk": %i[edit update]
                      },
                      permissible_on: %i[work_package project],
                      require: :member,
@@ -199,7 +225,7 @@ Rails.application.reloader.to_prepare do
                      contract_actions: { work_packages: %i[update] }
 
       wpt.permission :move_work_packages,
-                     { 'work_packages/moves': %i[new create] },
+                     { "work_packages/moves": %i[new create] },
                      permissible_on: :project,
                      require: :loggedin,
                      dependencies: :view_work_packages,
@@ -241,7 +267,7 @@ Rails.application.reloader.to_prepare do
       # WorkPackage categories
       wpt.permission :manage_categories,
                      {
-                       'projects/settings/categories': [:show],
+                       "projects/settings/categories": [:show],
                        categories: %i[new create edit update destroy]
                      },
                      permissible_on: :project,
@@ -257,7 +283,7 @@ Rails.application.reloader.to_prepare do
       wpt.permission :delete_work_packages,
                      {
                        work_packages: :destroy,
-                       'work_packages/bulk': :destroy
+                       "work_packages/bulk": :destroy
                      },
                      permissible_on: :project,
                      require: :member,
@@ -303,8 +329,9 @@ Rails.application.reloader.to_prepare do
 
       map.permission :share_work_packages,
                      {
-                       'work_packages/shares': %i[index create destroy update resend_invite],
-                       'work_packages/shares/bulk': %i[update destroy]
+                       members: %i[destroy_by_principal],
+                       "work_packages/shares": %i[index create destroy update resend_invite],
+                       "work_packages/shares/bulk": %i[update destroy]
                      },
                      permissible_on: :project,
                      dependencies: %i[edit_work_packages view_shared_work_packages],
@@ -312,7 +339,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :view_shared_work_packages,
                      {
-                       'work_packages/shares': %i[index]
+                       "work_packages/shares": %i[index]
                      },
                      permissible_on: :project,
                      require: :member,
@@ -349,13 +376,13 @@ Rails.application.reloader.to_prepare do
       news.permission :manage_news,
                       {
                         news: %i[new create edit update destroy preview],
-                        'news/comments': [:destroy]
+                        "news/comments": [:destroy]
                       },
                       permissible_on: :project,
                       require: :member
 
       news.permission :comment_news,
-                      { 'news/comments': :create },
+                      { "news/comments": :create },
                       permissible_on: :project
     end
 
@@ -428,7 +455,7 @@ Rails.application.reloader.to_prepare do
       repo.permission :manage_repository,
                       {
                         repositories: %i[edit create update committers destroy_info destroy],
-                        'projects/settings/repository': :show
+                        "projects/settings/repository": :show
                       },
                       permissible_on: :project,
                       require: :member

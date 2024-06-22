@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe AnnouncementMailer do
-  let(:announcement_subject) { 'Some subject' }
+  let(:announcement_subject) { "Some subject" }
   let(:recipient) { build_stubbed(:user) }
-  let(:announcement_body) { 'Some body text' }
+  let(:announcement_body) { "Some body text" }
 
-  describe '#announce' do
+  describe "#announce" do
     subject(:mail) do
       described_class.announce(recipient,
                                subject: announcement_subject,
@@ -45,7 +45,7 @@ RSpec.describe AnnouncementMailer do
         .to eq announcement_subject
     end
 
-    it 'includes the body' do
+    it "includes the body" do
       expect(mail.body.encoded)
         .to include(announcement_body)
     end
@@ -55,9 +55,18 @@ RSpec.describe AnnouncementMailer do
         .to include announcement_subject
     end
 
-    it 'sends to the recipient' do
+    it "sends to the recipient" do
       expect(mail.to)
         .to contain_exactly(recipient.mail)
+    end
+
+    context "when user is locked" do
+      let(:recipient) { build_stubbed(:user, status: Principal.statuses[:locked]) }
+
+      it "does not send an email" do
+        expect(mail.subject).to be_nil
+        expect(mail.to).to be_nil
+      end
     end
   end
 end

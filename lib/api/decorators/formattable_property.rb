@@ -67,7 +67,7 @@ module API
 
         def default_formattable_setter(name)
           ->(fragment:, **) {
-            represented.send(:"#{name}=", fragment['raw'])
+            represented.send(:"#{name}=", fragment["raw"])
           }
         end
       end

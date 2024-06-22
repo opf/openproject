@@ -43,15 +43,25 @@ class Source::SeedData
     registry[reference] = record
   end
 
-  def find_reference(reference, default: :__unset__)
+  # Finds and returns the value associated with the given reference.
+  #
+  # @param reference [Symbol] The reference to search for.
+  # @param fallbacks [Array<Symbol>] Optional fallback references to search for if the primary reference is not found.
+  # @param default [Object] The default value to return if no reference or fallbacks are found.
+  # @return [Object, nil] The value associated with the reference, or nil if the reference is nil.
+  # @raise [ArgumentError] If no reference or fallbacks are found and no default value is provided.
+  def find_reference(reference, *fallbacks, default: :__unset__)
     return if reference.nil?
 
-    registry.fetch(reference) do
-      if default == :__unset__
-        raise ArgumentError, "Nothing registered with reference #{reference.inspect}"
-      end
-
+    existing_ref = [reference, *fallbacks].find { |ref| registry.key?(ref) }
+    if existing_ref
+      registry[existing_ref]
+    elsif default != :__unset__
       default
+    else
+      references = [reference, *fallbacks].map(&:inspect)
+      message = "Nothing registered with #{'reference'.pluralize(references.count)} #{references.to_sentence(locale: false)}"
+      raise ArgumentError, message
     end
   end
 
@@ -109,7 +119,7 @@ class Source::SeedData
   attr_reader :data, :registry
 
   def fetch(path)
-    keys = path.to_s.split('.')
+    keys = path.to_s.split(".")
     data.dig(*keys)
   end
 end

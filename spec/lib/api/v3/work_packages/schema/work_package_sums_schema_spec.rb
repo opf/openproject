@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSumsSchema do
-  let(:current_user) { double('current user') }
+  let(:current_user) { double("current user") }
 
   subject { described_class.new }
 
-  describe '#available_custom_fields' do
+  describe "#available_custom_fields" do
     let(:cf1) { double }
     let(:cf2) { double }
     let(:cf3) { double }
 
-    it 'returns all custom fields listed as summable' do
+    it "returns all custom fields listed as summable" do
       allow(WorkPackageCustomField)
         .to receive(:summable) { [cf1, cf2, cf3] }
 

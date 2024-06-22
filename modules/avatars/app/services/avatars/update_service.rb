@@ -1,4 +1,4 @@
-require 'fastimage'
+require "fastimage"
 
 module ::Avatars
   class UpdateService

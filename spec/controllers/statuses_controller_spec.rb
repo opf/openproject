@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe StatusesController do
   shared_let(:user) { create(:admin) }
@@ -34,7 +34,7 @@ RSpec.describe StatusesController do
 
   before { login_as(user) }
 
-  shared_examples_for 'response' do
+  shared_examples_for "responds successfully" do |template:|
     subject { response }
 
     it { is_expected.to be_successful }
@@ -42,53 +42,41 @@ RSpec.describe StatusesController do
     it { is_expected.to render_template(template) }
   end
 
-  shared_examples_for 'redirect' do
+  shared_examples_for "redirects to index page" do
     subject { response }
-
-    it { is_expected.to be_redirect }
 
     it { is_expected.to redirect_to(action: :index) }
   end
 
-  shared_examples_for 'statuses' do
-    subject { Status.find_by(name:) }
-
-    it { is_expected.not_to be_nil }
-  end
-
-  describe '#index' do
-    let(:template) { 'index' }
-
+  describe "#index" do
     before { get :index }
 
-    it_behaves_like 'response'
+    it_behaves_like "responds successfully", template: "index"
   end
 
-  describe '#new' do
-    let(:template) { 'new' }
-
+  describe "#new" do
     before { get :new }
 
-    it_behaves_like 'response'
+    it_behaves_like "responds successfully", template: "new"
   end
 
-  describe '#create' do
-    let(:name) { 'New Status' }
+  describe "#create" do
+    let(:name) { "New Status" }
 
     before do
       post :create,
            params: { status: { name: } }
     end
 
-    it_behaves_like 'statuses'
+    it "creates a new status" do
+      expect(Status.find_by(name:)).not_to be_nil
+    end
 
-    it_behaves_like 'redirect'
+    it_behaves_like "redirects to index page"
   end
 
-  describe '#edit' do
-    let(:template) { 'edit' }
-
-    context 'default' do
+  describe "#edit" do
+    context "when status is the default one" do
       let!(:status_default) do
         create(:status,
                is_default: true)
@@ -99,67 +87,221 @@ RSpec.describe StatusesController do
             params: { id: status_default.id }
       end
 
-      it_behaves_like 'response'
+      it_behaves_like "responds successfully", template: "edit"
 
-      describe '#view' do
+      describe "#view" do
         render_views
 
         it do
-          assert_select 'p',
+          assert_select "p",
                         { content: Status.human_attribute_name(:is_default) },
                         false
         end
       end
     end
 
-    context 'no_default' do
+    context "when status is not the default one" do
       before do
-        status
-
         get :edit, params: { id: status.id }
       end
 
-      it_behaves_like 'response'
+      it_behaves_like "responds successfully", template: "edit"
 
-      describe '#view' do
+      describe "#view" do
         render_views
 
         it do
-          assert_select 'div',
+          assert_select "div",
                         content: Status.human_attribute_name(:is_default)
         end
       end
     end
   end
 
-  describe '#update' do
-    let(:name) { 'Renamed Status' }
+  describe "#update" do
+    let(:name) { "Renamed Status" }
+    let(:status_params) { { name: } }
 
     before do
-      status
-
       patch :update,
             params: {
               id: status.id,
-              status: { name: }
+              status: status_params
             }
     end
 
-    it_behaves_like 'statuses'
-
-    it_behaves_like 'redirect'
-  end
-
-  describe '#destroy' do
-    let(:name) { status.name }
-
-    shared_examples_for 'destroyed' do
-      subject { Status.find_by(name:) }
-
-      it { is_expected.to be_nil }
+    it "updates the status with new values" do
+      expect(Status.find_by(name:)).not_to be_nil
     end
 
-    context 'unused' do
+    it_behaves_like "redirects to index page"
+
+    context "when in work-based mode when changing the default % complete",
+            with_settings: { work_package_done_ratio: "field" } do
+      let(:new_default_done_ratio) { 40 }
+      let(:status_params) { { default_done_ratio: new_default_done_ratio } }
+
+      it "does not start any jobs to update work packages % complete values" do
+        expect(status.reload).to have_attributes(default_done_ratio: new_default_done_ratio)
+        expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+          .not_to have_been_enqueued
+      end
+
+      context "when also marking a status as excluded from totals calculations" do
+        before_all do
+          status.update_columns(name: "Rejected",
+                                default_done_ratio: 70)
+        end
+
+        shared_let(:status_new) { create(:status, name: "New", default_done_ratio: "0") }
+        shared_let_work_packages(<<~TABLE)
+          hierarchy     | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+          parent        | New      |      |                |            |    20h |              15h |          25%
+            child       | Rejected |  10h |             5h |        50% |        |                  |
+            other child | New      |  10h |            10h |         0% |        |                  |
+        TABLE
+
+        let(:status_params) do
+          { default_done_ratio: new_default_done_ratio,
+            excluded_from_totals: true }
+        end
+
+        it "starts a job to update totals of work packages having excluded children" do
+          expect(status.reload).to have_attributes(excluded_from_totals: true)
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+            .to have_been_enqueued.with(cause_type: "status_changed",
+                                        status_name: status.name,
+                                        status_id: status.id,
+                                        changes: { "excluded_from_totals" => [false, true] })
+
+          perform_enqueued_jobs
+
+          expect_work_packages([parent, child, other_child], <<~TABLE)
+            subject       | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent        | New      |      |                |            |    10h |              10h |           0%
+              child       | Rejected |  10h |             5h |        50% |        |                  |
+              other child | New      |  10h |            10h |         0% |        |                  |
+          TABLE
+          expect(parent.last_journal.details["cause"].last).to include("type" => "status_changed")
+        end
+      end
+    end
+
+    context "when in status-based mode",
+            with_settings: { work_package_done_ratio: "status" } do
+      context "when changing the default % complete" do
+        shared_let(:work_package) { create(:work_package, status:) }
+        let(:new_default_done_ratio) { 40 }
+        let(:status_params) { { default_done_ratio: new_default_done_ratio } }
+
+        it "starts a job to update work packages % complete values" do
+          old_default_done_ratio = status.default_done_ratio
+          expect(status.reload).to have_attributes(default_done_ratio: new_default_done_ratio)
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+            .to have_been_enqueued.with(cause_type: "status_changed",
+                                        status_name: status.name,
+                                        status_id: status.id,
+                                        changes: { "default_done_ratio" => [old_default_done_ratio, new_default_done_ratio] })
+
+          perform_enqueued_jobs
+
+          expect(work_package.reload.read_attribute(:done_ratio)).to eq(new_default_done_ratio)
+          expect(work_package.last_journal.details["cause"].last).to include("type" => "status_changed")
+        end
+      end
+
+      context "when changing to the same default % complete value" do
+        let(:status_params) { { default_done_ratio: status.default_done_ratio } }
+
+        it "does not start any jobs" do
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+            .not_to have_been_enqueued
+        end
+      end
+
+      context "when marking a status as excluded from totals calculations" do
+        before_all do
+          status.update_columns(name: "Rejected",
+                                default_done_ratio: 70)
+        end
+
+        shared_let(:status_new) { create(:status, name: "New", default_done_ratio: "0") }
+        shared_let_work_packages(<<~TABLE)
+          hierarchy     | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+          parent        | New      |      |                |         0% |    20h |              16h |          20%
+            child       | Rejected |  10h |             3h |        70% |        |                  |
+            other child | New      |  10h |            10h |         0% |        |                  |
+        TABLE
+
+        let(:status_params) { { excluded_from_totals: true } }
+
+        it "starts a job to update totals of work packages having excluded children" do
+          expect(status.reload).to have_attributes(excluded_from_totals: true)
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+            .to have_been_enqueued.with(cause_type: "status_changed",
+                                        status_name: status.name,
+                                        status_id: status.id,
+                                        changes: { "excluded_from_totals" => [false, true] })
+
+          perform_enqueued_jobs
+
+          expect_work_packages([parent, child, other_child], <<~TABLE)
+            subject       | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent        | New      |      |                |         0% |    10h |              10h |           0%
+              child       | Rejected |  10h |             3h |        70% |        |                  |
+              other child | New      |  10h |            10h |         0% |        |                  |
+          TABLE
+          expect(parent.last_journal.details["cause"].last).to include("type" => "status_changed")
+        end
+
+        context "when also changing the default % complete of the status" do
+          let(:new_default_done_ratio) { 40 }
+          let(:status_params) { { excluded_from_totals: true, default_done_ratio: new_default_done_ratio } }
+
+          it "starts a job to update both total values and % complete of work packages" do
+            old_default_done_ratio = status.default_done_ratio
+            expect(status.reload).to have_attributes(default_done_ratio: new_default_done_ratio,
+                                                     excluded_from_totals: true)
+            expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+              .to have_been_enqueued.with(cause_type: "status_changed",
+                                          status_name: status.name,
+                                          status_id: status.id,
+                                          changes: { "default_done_ratio" => [old_default_done_ratio, new_default_done_ratio],
+                                                     "excluded_from_totals" => [false, true] })
+
+            perform_enqueued_jobs
+
+            expect_work_packages([parent, child, other_child], <<~TABLE)
+              subject       | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+              parent        | New      |      |                |         0% |    10h |              10h |           0%
+                child       | Rejected |  10h |             6h |        40% |        |                  |
+                other child | New      |  10h |            10h |         0% |        |                  |
+            TABLE
+
+            [parent, child].each do |work_package|
+              expect(work_package.journals.count).to eq(2)
+              expect(work_package.last_journal.details["cause"].last).to include("type" => "status_changed")
+            end
+            expect(other_child.journals.count).to eq(1) # this one should not have changed
+          end
+        end
+      end
+
+      context "when changing something else than default % complete or exclude from totals" do
+        let(:status_params) { { name: "Another status name" } }
+
+        it "does not start any jobs" do
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+            .not_to have_been_enqueued
+        end
+      end
+    end
+  end
+
+  describe "#destroy" do
+    let(:name) { status.name }
+
+    context "when destroying an unused status" do
       before do
         delete :destroy, params: { id: status.id }
       end
@@ -168,30 +310,36 @@ RSpec.describe StatusesController do
         Status.delete_all
       end
 
-      it_behaves_like 'destroyed'
+      it "is destroyed" do
+        expect(Status.find_by(name:)).to be_nil
+      end
 
-      it_behaves_like 'redirect'
+      it_behaves_like "redirects to index page"
     end
 
-    context 'used' do
-      let(:work_package) do
+    context "when destroying a status used by a work package" do
+      shared_let(:work_package) do
         create(:work_package,
                status:)
       end
 
       before do
-        work_package
-
         delete :destroy, params: { id: status.id }
       end
 
-      it_behaves_like 'statuses'
+      it "can not delete it" do
+        expect(Status.find_by(name:)).not_to be_nil
+      end
 
-      it_behaves_like 'redirect'
+      it "display a flash error message" do
+        expect(flash[:error]).to eq(I18n.t("error_unable_delete_status"))
+      end
+
+      it_behaves_like "redirects to index page"
     end
 
-    context 'default' do
-      let!(:status_default) do
+    context "when destroying the default status" do
+      shared_let(:status_default) do
         create(:status,
                is_default: true)
       end
@@ -200,39 +348,15 @@ RSpec.describe StatusesController do
         delete :destroy, params: { id: status_default.id }
       end
 
-      it_behaves_like 'statuses'
-
-      it_behaves_like 'redirect'
-
-      it 'shows the right flash message' do
-        expect(flash[:error]).to eq(I18n.t('error_unable_delete_default_status'))
-      end
-    end
-  end
-
-  describe '#update_work_package_done_ratio' do
-    context "with 'work_package_done_ratio' using 'field'" do
-      before do
-        allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
-
-        post :update_work_package_done_ratio
+      it "can not delete it" do
+        expect(Status.find_by(name:)).not_to be_nil
       end
 
-      it { is_expected.to set_flash[:error].to(I18n.t('error_work_package_done_ratios_not_updated')) }
-
-      it_behaves_like 'redirect'
-    end
-
-    context "with 'work_package_done_ratio' using 'status'" do
-      before do
-        allow(Setting).to receive(:work_package_done_ratio).and_return 'status'
-
-        post :update_work_package_done_ratio
+      it "shows the right flash message" do
+        expect(flash[:error]).to eq(I18n.t("error_unable_delete_default_status"))
       end
 
-      it { is_expected.to set_flash[:notice].to(I18n.t('notice_work_package_done_ratios_updated')) }
-
-      it_behaves_like 'redirect'
+      it_behaves_like "redirects to index page"
     end
   end
 end

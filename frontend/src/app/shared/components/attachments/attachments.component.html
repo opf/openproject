@@ -6,6 +6,7 @@
   *ngIf="(attachments$ | async).length"
   [attachments]="attachments$ | async"
   [collectionKey]="collectionKey"
+  [showTimestamp]="showTimestamp"
 ></op-attachment-list>
 
 <input
@@ -56,6 +57,7 @@
   class="op-file-section--actions"
 >
   <button
+    *ngIf="!externalUploadButton"
     type="button"
     class="spot-link"
     (click)="triggerFileInput()"

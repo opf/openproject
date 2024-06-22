@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { build(:custom_field) }
@@ -54,115 +54,115 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
   subject { representer.to_json }
 
-  describe 'overallCosts' do
-    context 'has the permissions' do
+  describe "overallCosts" do
+    context "has the permissions" do
       before do
         allow(project)
           .to receive(:costs_enabled?)
           .and_return(true)
       end
 
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'overallCosts' }
-        let(:type) { 'String' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.overall_costs') }
+      it_behaves_like "has basic schema properties" do
+        let(:path) { "overallCosts" }
+        let(:type) { "String" }
+        let(:name) { I18n.t("activerecord.attributes.work_package.overall_costs") }
         let(:required) { false }
         let(:writable) { false }
       end
     end
 
-    context 'lacks the permissions' do
+    context "lacks the permissions" do
       before do
         allow(project)
           .to receive(:costs_enabled?)
           .and_return(false)
       end
 
-      it { is_expected.not_to have_json_path('overallCosts') }
+      it { is_expected.not_to have_json_path("overallCosts") }
     end
   end
 
-  describe 'laborCosts' do
-    context 'has the permissions' do
+  describe "laborCosts" do
+    context "has the permissions" do
       before do
         allow(project)
           .to receive(:costs_enabled?)
           .and_return(true)
       end
 
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'laborCosts' }
-        let(:type) { 'String' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.labor_costs') }
+      it_behaves_like "has basic schema properties" do
+        let(:path) { "laborCosts" }
+        let(:type) { "String" }
+        let(:name) { I18n.t("activerecord.attributes.work_package.labor_costs") }
         let(:required) { false }
         let(:writable) { false }
       end
     end
 
-    context 'lacks the permissions' do
+    context "lacks the permissions" do
       before do
         allow(project)
           .to receive(:costs_enabled?)
           .and_return(false)
       end
 
-      it { is_expected.not_to have_json_path('laborCosts') }
+      it { is_expected.not_to have_json_path("laborCosts") }
     end
   end
 
-  describe 'materialCosts' do
-    context 'has the permissions' do
+  describe "materialCosts" do
+    context "has the permissions" do
       before do
         allow(project)
           .to receive(:costs_enabled?)
           .and_return(true)
       end
 
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'materialCosts' }
-        let(:type) { 'String' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.material_costs') }
+      it_behaves_like "has basic schema properties" do
+        let(:path) { "materialCosts" }
+        let(:type) { "String" }
+        let(:name) { I18n.t("activerecord.attributes.work_package.material_costs") }
         let(:required) { false }
         let(:writable) { false }
       end
     end
 
-    context 'lacks the permissions' do
+    context "lacks the permissions" do
       before do
         allow(project)
           .to receive(:costs_enabled?)
           .and_return(false)
       end
 
-      it { is_expected.not_to have_json_path('materialCosts') }
+      it { is_expected.not_to have_json_path("materialCosts") }
     end
   end
 
-  describe 'costsByType' do
-    context 'has the permissions' do
+  describe "costsByType" do
+    context "has the permissions" do
       before do
         allow(project)
           .to receive(:costs_enabled?)
           .and_return(true)
       end
 
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'costsByType' }
-        let(:type) { 'Collection' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.spent_units') }
+      it_behaves_like "has basic schema properties" do
+        let(:path) { "costsByType" }
+        let(:type) { "Collection" }
+        let(:name) { I18n.t("activerecord.attributes.work_package.spent_units") }
         let(:required) { false }
         let(:writable) { false }
       end
     end
 
-    context 'lacks the permissions' do
+    context "lacks the permissions" do
       before do
         allow(project)
           .to receive(:costs_enabled?)
           .and_return(false)
       end
 
-      it { is_expected.not_to have_json_path('costsByType') }
+      it { is_expected.not_to have_json_path("costsByType") }
     end
   end
 end

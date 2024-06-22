@@ -26,36 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Projects::Filters::LatestActivityAtFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :latest_activity_at }
     let(:type) { :datetime_past }
-    let(:model) { Project.with_latest_activity }
+    let(:model) { Project }
     let(:attribute) { :activity }
-    let(:values) { ['3'] }
+    let(:values) { ["3"] }
     let(:admin) { build_stubbed(:admin) }
     let(:user) { build_stubbed(:user) }
 
-    describe '#available?' do
-      context 'for an admin' do
+    describe "#available?" do
+      context "for an admin" do
         before do
           login_as admin
         end
 
-        it 'is true' do
+        it "is true" do
           expect(instance)
             .to be_available
         end
       end
 
-      context 'for non admin' do
+      context "for non admin" do
         before do
           login_as user
         end
 
-        it 'is false' do
+        it "is false" do
           expect(instance)
             .not_to be_available
         end

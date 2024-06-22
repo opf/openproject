@@ -28,24 +28,24 @@
         title: "Pull requests"
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: Kopier git snippets til utklippstavle
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
+          branch_name: Navn på filial
+          commit_message: Commit-melding
+          cmd: Opprett gren med tom commit
           title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Kopiert!'
+          copy_error: '❌ Kopiering mislyktes!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Det er ingen pull requests koblet til ennå. Koble til en eksisterende PR ved å benytte koden <code>OP#%{wp_id}</code> i PR-beskrivelsen eller opprette en ny PR.'
       github_actions: Handlinger
       pull_requests:
-        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
-        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        message: "Forespørsel #%{pr_number} %{pr_link} for %{repository_link} forfattet av %{github_user_link} har blitt %{pr_state}."
+        merged_message: "Forespørsel #%{pr_number} %{pr_link} for %{repository_link} er %{pr_state} av %{github_user_link}."
+        referenced_message: "Forespørsel #%{pr_number} %{pr_link} for %{repository_link} forfattet av %{github_user_link} refererte til denne arbeidspakken."
         states:
-          opened: 'opened'
+          opened: 'åpnet'
           closed: 'lukket'
-          draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+          draft: 'utkast'
+          merged: 'slått sammen'
+          ready_for_review: 'klar til gjennomsyn'

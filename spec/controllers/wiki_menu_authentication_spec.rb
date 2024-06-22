@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WikiMenuItemsController do
   before do
@@ -42,25 +42,25 @@ RSpec.describe WikiMenuItemsController do
     @params[:id] = page.title
   end
 
-  describe 'w/ valid auth' do
-    it 'renders the edit action' do
+  describe "w/ valid auth" do
+    it "renders the edit action" do
       admin_user = create(:admin)
 
       allow(User).to receive(:current).and_return admin_user
-      permission_role = create(:project_role, name: 'accessgranted', permissions: [:manage_wiki_menu])
+      permission_role = create(:project_role, name: "accessgranted", permissions: [:manage_wiki_menu])
       member = create(:member, principal: admin_user, user: admin_user, project: @project, roles: [permission_role])
 
-      get 'edit', params: @params
+      get "edit", params: @params
 
       expect(response).to be_successful
     end
   end
 
-  describe 'w/o valid auth' do
-    it 'be forbidden' do
+  describe "w/o valid auth" do
+    it "be forbidden" do
       allow(User).to receive(:current).and_return create(:user)
 
-      get 'edit', params: @params
+      get "edit", params: @params
 
       expect(response.status).to eq(403) # forbidden
     end

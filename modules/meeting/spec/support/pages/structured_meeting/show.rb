@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../meetings/show'
+require_relative "../meetings/show"
 
 module Pages::StructuredMeeting
   class Show < ::Pages::Meetings::Show
@@ -36,53 +36,76 @@ module Pages::StructuredMeeting
       expect(page).to have_no_css('[id^="meeting-agenda-items-item-component"]')
     end
 
-    def add_agenda_item(type: MeetingAgendaItem, &)
+    def add_agenda_item(type: MeetingAgendaItem, save: true, &)
       page.within("#meeting-agenda-items-new-button-component") do
-        click_button I18n.t(:button_add)
-        click_link type.model_name.human
+        click_on I18n.t(:button_add)
+        click_on type.model_name.human
       end
 
       in_agenda_form do
         yield
-        click_button 'Save'
+        click_on("Save") if save
       end
     end
 
-    def cancel_add_form
-      page.within('#meeting-agenda-items-new-component') do
-        click_link I18n.t(:button_cancel)
+    def cancel_add_form(item)
+      page.within("#meeting-agenda-items-new-component-#{item.meeting_section_id}") do
+        click_on I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
+      end
+    end
+
+    def add_agenda_item_to_section(section:, type: MeetingAgendaItem, save: true, &)
+      select_section_action(section, type.model_name.human)
+
+      within("#meeting-sections-show-component-#{section.id}") do
+        in_agenda_form do
+          yield
+          click_on("Save") if save
+        end
       end
     end
 
     def cancel_edit_form(item)
-      page.within("#meeting-agenda-items-item-component-#{item.id}") do
-        click_link I18n.t(:button_cancel)
+      in_edit_form(item) do
+        click_on I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
       end
     end
 
+    def in_edit_form(item, &)
+      page.within("#meeting-agenda-items-item-component-#{item.id}", &)
+    end
+
     def in_agenda_form(&)
-      page.within('#meeting-agenda-items-form-component', &)
+      page.within("#meeting-agenda-items-form-component", &)
     end
 
     def assert_agenda_order!(*titles)
       retry_block do
-        found = page.all(:test_id, 'op-meeting-agenda-title').map(&:text)
+        found = page.all(:test_id, "op-meeting-agenda-title").map(&:text)
         raise "Expected order of agenda items #{titles.inspect}, but found #{found.inspect}" if titles != found
       end
     end
 
     def remove_agenda_item(item)
-      accept_confirm(I18n.t('text_are_you_sure')) do
-        select_action item, I18n.t(:button_delete)
+      accept_confirm(I18n.t("text_are_you_sure")) do
+        action = item.work_package ? I18n.t(:label_agenda_item_remove) : I18n.t(:button_delete)
+        select_action(item, action)
       end
 
-      expect_no_agenda_item(title: item.title)
+      title = item.work_package ? item.work_package.subject : item.title
+      expect_no_agenda_item(title:)
     end
 
     def expect_agenda_item(title:)
-      expect(page).to have_test_selector('op-meeting-agenda-title', text: title)
+      expect(page).to have_test_selector("op-meeting-agenda-title", text: title)
+    end
+
+    def expect_agenda_item_in_section(title:, section:)
+      within("#meeting-sections-show-component-#{section.id}") do
+        expect_agenda_item(title:)
+      end
     end
 
     def expect_agenda_link(item)
@@ -94,7 +117,7 @@ module Pages::StructuredMeeting
     end
 
     def expect_agenda_author(name)
-      expect(page).to have_test_selector('op-principal', text: name)
+      expect(page).to have_test_selector("op-principal", text: name)
     end
 
     def expect_undisclosed_agenda_link(item)
@@ -103,24 +126,41 @@ module Pages::StructuredMeeting
     end
 
     def expect_no_agenda_item(title:)
-      expect(page).not_to have_test_selector('op-meeting-agenda-title', text: title)
+      expect(page).not_to have_test_selector("op-meeting-agenda-title", text: title)
     end
 
     def select_action(item, action)
       retry_block do
         page.within("#meeting-agenda-items-item-component-#{item.id}") do
-          page.find_test_selector('op-meeting-agenda-actions').click
+          page.find_test_selector("op-meeting-agenda-actions").click
         end
-        page.find('.Overlay')
+        page.find(".Overlay")
       end
 
-      page.within('.Overlay') do
+      page.within(".Overlay") do
         click_on action
       end
     end
 
+    def select_section_action(section, action)
+      retry_block do
+        click_on_section_menu(section)
+        page.find(".Overlay")
+      end
+
+      page.within(".Overlay") do
+        click_on action
+      end
+    end
+
+    def click_on_section_menu(section)
+      page.within_test_selector("meeting-section-header-container-#{section.id}") do
+        page.find_test_selector("meeting-section-action-menu").click
+      end
+    end
+
     def edit_agenda_item(item, &)
-      select_action item, 'Edit'
+      select_action item, "Edit"
       expect_item_edit_form(item)
       page.within("#meeting-agenda-items-form-component-#{item.id}", &)
     end
@@ -135,7 +175,7 @@ module Pages::StructuredMeeting
 
     def expect_item_edit_title(item, value)
       page.within("#meeting-agenda-items-form-component-#{item.id}") do
-        find_field('Title', with: value)
+        find_field("Title", with: value)
       end
     end
 
@@ -150,8 +190,13 @@ module Pages::StructuredMeeting
       expect(page).to have_css(".ng-input  ", value: nil)
     end
 
+    def open_participant_form
+      page.find_test_selector("manage-participants-button").click
+      expect(page).to have_css("#edit-participants-dialog")
+    end
+
     def in_participant_form(&)
-      page.within('#meetings-sidebar-participants-form-component form', &)
+      page.within("#edit-participants-dialog", &)
     end
 
     def expect_participant(participant, invited: false, attended: false, editable: true)
@@ -165,25 +210,66 @@ module Pages::StructuredMeeting
     end
 
     def expect_available_participants(count:)
-      expect(page).to have_link(class: 'op-principal--name', count:)
+      expect(page).to have_link(class: "op-principal--name", count:)
     end
 
     def close_meeting
-      click_button('Close meeting')
-      expect(page).to have_button('Reopen meeting')
+      click_on("Close meeting")
+      expect(page).to have_button("Reopen meeting")
     end
 
     def reopen_meeting
-      click_button('Reopen meeting')
-      expect(page).to have_button('Close meeting')
+      click_on("Reopen meeting")
+      expect(page).to have_button("Close meeting")
     end
 
     def close_dialog
-      click_button(class: 'Overlay-closeButton')
+      click_on(class: "Overlay-closeButton")
     end
 
     def meeting_details_container
-      find_by_id('meetings-sidebar-details-component')
+      find_by_id("meetings-sidebar-details-component")
+    end
+
+    def in_latest_section_form(&)
+      page.within(all(".op-meeting-section-container").last, &)
+    end
+
+    def add_section(&)
+      page.within("#meeting-agenda-items-new-button-component") do
+        click_on I18n.t(:button_add)
+        click_on "Section"
+        # wait for the disabled button, indicating the turbo streams are applied
+        expect(page).to have_css("#meeting-agenda-items-new-button-component button[disabled='disabled']")
+      end
+
+      in_latest_section_form(&)
+    end
+
+    def expect_section(title:)
+      expect(page).to have_css(".op-meeting-section-container", text: title)
+    end
+
+    def expect_no_section(title:)
+      expect(page).to have_no_css(".op-meeting-section-container", text: title)
+    end
+
+    def expect_section_duration(section:, duration_text:)
+      page.within_test_selector("meeting-section-header-container-#{section.id}") do
+        expect(page).to have_text(duration_text)
+      end
+    end
+
+    def edit_section(section, &)
+      select_section_action(section, "Edit")
+
+      page.within_test_selector("meeting-section-header-container-#{section.id}", &)
+    end
+
+    def remove_section(section)
+      accept_confirm do
+        select_section_action(section, "Delete")
+      end
     end
   end
 end

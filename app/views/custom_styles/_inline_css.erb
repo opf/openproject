@@ -37,16 +37,18 @@ See COPYRIGHT and LICENSE files for more details.
     <% if design_color.variable == "main-menu-border-color" %>
         --main-menu-border-width: 1px;
     <% end %>
-    <% if design_color.variable == "alternative-color" %>
-        --button--alt-highlight-background-hover-color: <%= design_color.darken 0.18 %>;
+    <% if design_color.variable == "primary-button-color" %>
+        --primary-button-color--major1: <%= design_color.darken 0.18 %>;
+        --primary-button-color--minor1: <%= design_color.lighten 0.8 %>;
+        --primary-button-color--minor2: <%= design_color.lighten 0.6 %>;
+        --primary-button-color--dark-mode: <%= design_color.lighten 0.4 %>;
     <% end %>
-    <% if design_color.variable == "primary-color" %>
-        --primary-color--minor1: <%= design_color.lighten 0.3 %>;
-        --primary-color--minor2: <%= design_color.lighten 0.6 %>;
-        --primary-color--minor3: <%= design_color.lighten 0.8 %>;
-        --primary-color--major1: <%= design_color.darken 0.2 %>;
-        --primary-color--major2: <%= design_color.darken 0.4 %>;
-        --primary-color--major3: <%= design_color.darken 0.6 %>;
+    <% if design_color.variable == "accent-color" %>
+        --accent-color--major1: <%= design_color.darken 0.2 %>;
+        --accent-color--major2: <%= design_color.darken 0.4 %>;
+        --accent-color--minor1: <%= design_color.lighten 0.8 %>;
+        --accent-color--minor2: <%= design_color.lighten 0.6 %>;
+        --accent-color--dark-mode: <%= design_color.lighten 0.4 %>;
     <% end %>
     <% end %>
     }

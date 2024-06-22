@@ -7,14 +7,14 @@ ca:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'Identificador'
-        default: 'Utilitza per defecte'
+        identifier: "Identificador"
+        default: "Utilitza per defecte"
       two_factor_authentication/device/sms:
         phone_number: "Telèfon"
     errors:
       models:
         two_factor_authentication/device:
-          default_already_exists: 'ja està configurat per a un altre dispositiu OTP.'
+          default_already_exists: "ja està configurat per a un altre dispositiu OTP."
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
@@ -23,12 +23,13 @@ ca:
       two_factor_authentication/device: "Dispositiu de 2FA"
       two_factor_authentication/device/sms: "Telèfon mòbil"
       two_factor_authentication/device/totp: "Aplicació d'autentificació"
+      two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "L'entrega de 2FA ha estat desactivada."
     error_no_device: "No s'ha trobat cap dispositiu 2FA registrat per a aquest usuari tot i ser necessari per a aquesta instància."
     error_no_matching_strategy: "No hi ha cap estratègia 2FA coincident disponible per aquest usuari. Si us plau, contacta el teu administrador."
-    error_is_enforced_not_active: 'Error de configuració: S''ha forçat l''autentificació en dos passos, però no existeix cap estratègia activa.'
-    error_invalid_backup_code: 'Codi de la còpia de seguretat del 2FA invàlid'
+    error_is_enforced_not_active: "Error de configuració: S'ha forçat l'autentificació en dos passos, però no existeix cap estratègia activa."
+    error_invalid_backup_code: "Codi de la còpia de seguretat del 2FA invàlid"
     channel_unavailable: "El canal d'entrega %{channel} no està disponible."
     no_valid_phone_number: "No existeix cap número de telèfon vàlid."
     label_pwd_confirmation: "Contrasenya"
@@ -37,46 +38,47 @@ ca:
     label_default_device: "Dispositiu de 2FA per defecte"
     label_device: "Dispositiu de 2FA"
     label_devices: "Dispositius de 2FA"
-    label_one_time_password: 'Contrasenya d''un sol ús'
-    label_2fa_enabled: 'Autenticació de dos passos habilitada'
-    label_2fa_disabled: 'Autentificació de dos passos no habilitada'
+    label_one_time_password: "Contrasenya d'un sol ús"
+    label_2fa_enabled: "Autenticació de dos passos habilitada"
+    label_2fa_disabled: "Autentificació de dos passos no habilitada"
     text_otp_delivery_message_sms: "La teva contrasenya d'un sol ús de %{app_title} és %{token}"
     text_otp_delivery_message_voice: "La teva contrasenya d'un sol ús de %{app_title} és: %{pause}%{token}. %{pause} Repeteixo: %{pause} %{token}"
-    text_enter_2fa: 'Si us plau, entra la contrasenya d''un sol del teu dispositiu.'
-    text_2fa_enabled: 'Després de cada inici de sessió, se''t demanarà introduir un token OTP del teu dispositiu 2FA per defecte.'
-    text_2fa_disabled: 'Per tal d''activar l''autentificació en dos passos utilitza el botó d''aquí a dalt per tal de registrar un dispositiu 2FA nou. En cas que ja tinguis un dispositiu registrat, l''hauràs de configurar com a predeterminat.'
+    text_enter_2fa: "Si us plau, entra la contrasenya d'un sol del teu dispositiu."
+    text_2fa_enabled: "Després de cada inici de sessió, se't demanarà introduir un token OTP del teu dispositiu 2FA per defecte."
+    text_2fa_disabled: "Per tal d'activar l'autentificació en dos passos utilitza el botó d'aquí a dalt per tal de registrar un dispositiu 2FA nou. En cas que ja tinguis un dispositiu registrat, l'hauràs de configurar com a predeterminat."
     login:
       enter_backup_code_title: Introduïu el codi de la còpia de seguretat
       enter_backup_code_text: Si us plau, entra un codi de còpia de seguretat de la teva llista de codis en cas que ja no tinguis accés als teus dispositius 2FA registrats.
-      other_device: 'Utilitza un altre dispositiu o codi de seguretat'
+      other_device: "Utilitza un altre dispositiu o codi de seguretat"
     settings:
-      title: 'Configuració de 2FA'
-      current_configuration: 'Configuració actual'
-      label_active_strategies: 'Activa les estratègies de 2FA'
-      label_enforced: 'Força el 2FA'
-      label_remember: 'Recorda la sessió de 2FA'
+      title: "Configuració de 2FA"
+      current_configuration: "Configuració actual"
+      label_active_strategies: "Activa les estratègies de 2FA"
+      label_enforced: "Força el 2FA"
+      label_remember: "Recorda la sessió de 2FA"
       text_configuration: |
         Nota: Aquests valors representen la configuració actual de tota l'aplicació. No es poden desactivar els paràmetres forçats per aquesta configuració o canviar les estratègies actives, ja que requeririen un reinici del servidor.
       text_configuration_guide: Per més informació, mira les guies de configuració.
-      text_enforced: 'Activa aquesta configuració per forçar tots els usuaris a registrar dispositius 2FA en el proper inici de sessió. Només podrà ser desactivada en cas que no estigui forçada en aquesta configuració.'
+      text_enforced: "Activa aquesta configuració per forçar tots els usuaris a registrar dispositius 2FA en el proper inici de sessió. Només podrà ser desactivada en cas que no estigui forçada en aquesta configuració."
       text_remember: |
         Especifica aquest valor per sobre de 0 per tal de permetre als usuaris recordar la seva autentificació 2FA per un nombre especificat de dies. No se'ls demanarà reintroduir cap codi 2FA durant aquest període. Aquest paràmetre només pot ser configurat quan s'ha forçat a través de la configuració.
-      error_invalid_settings: 'Les estratègies de 2FA seleccionades no són vàlides'
-      failed_to_save_settings: 'Error en carregar la configuració del 2FA: %{message}'
+      error_invalid_settings: "Les estratègies de 2FA seleccionades no són vàlides"
+      failed_to_save_settings: "Error en carregar la configuració del 2FA: %{message}"
     admin:
-      self_edit_path: 'Per afegir o modificar el teu propi dispositiu 2FA, si us plau, ves a %{self_edit_link}'
-      self_edit_link_name: 'Autentificació en dos passos a la pàgina del teu compte'
-      self_edit_forbidden: 'Pot ser que no puguis editar els teus propis dispositius 2FA en aquest enllaç. En comptes, ves a El meu compte > Factor de doble autentificació.'
-      no_devices_for_user: 'No s''ha registrat cap dispositiu 2FA per aquest usuari.'
-      all_devices_deleted: 'Tots els dispositius 2FA d''aquest usuari s''han eliminat.'
-      delete_all_are_you_sure: 'Estàs segur que vols eliminar tots els dispositius 2FA d''aquest usuari?'
-      button_delete_all_devices: 'Elimina els dispositius 2FA registrats'
-      button_register_mobile_phone_for_user: 'Registra el telèfon mòbil'
-      text_2fa_enabled: 'Després de cada inici de sessió, es demanarà a aquest usuari que introdueixi un token OTP del seu dispositiu 2FA per defecte.'
+      self_edit_path: "Per afegir o modificar el teu propi dispositiu 2FA, si us plau, ves a %{self_edit_link}"
+      self_edit_link_name: "Autentificació en dos passos a la pàgina del teu compte"
+      self_edit_forbidden: "Pot ser que no puguis editar els teus propis dispositius 2FA en aquest enllaç. En comptes, ves a El meu compte > Factor de doble autentificació."
+      no_devices_for_user: "No s'ha registrat cap dispositiu 2FA per aquest usuari."
+      all_devices_deleted: "Tots els dispositius 2FA d'aquest usuari s'han eliminat."
+      delete_all_are_you_sure: "Estàs segur que vols eliminar tots els dispositius 2FA d'aquest usuari?"
+      button_delete_all_devices: "Elimina els dispositius 2FA registrats"
+      button_register_mobile_phone_for_user: "Registra el telèfon mòbil"
+      text_2fa_enabled: "Després de cada inici de sessió, es demanarà a aquest usuari que introdueixi un token OTP del seu dispositiu 2FA per defecte."
       text_2fa_disabled: "L'usuari no ha configurat cap dispositiu 2FA a través de la pàgina \"El meu compte\""
+      only_sms_allowed: "Only SMS delivery can be set up for other users."
     upsale:
-      title: 'Autentificació en dos passos'
-      description: 'Enforteix la seguretat de la teva instància d''OpenProject oferint (o forçant) l''autentificació en dos passos per a tots els membres del projecte.'
+      title: "Autentificació en dos passos"
+      description: "Enforteix la seguretat de la teva instància d'OpenProject oferint (o forçant) l'autentificació en dos passos per a tots els membres del projecte."
     backup_codes:
       none_found: No existeix cap codi de còpies de seguretat per aquest compte.
       singular: Codi de còpia de seguretat
@@ -86,37 +88,42 @@ ca:
         En cas que no puguis accedir als teus dispositius 2FA, sempre pots utilitzar els codis de còpia de seguretat per poder accedir al teu compte. Utilitza el següent botó per generar un nou set de codis de còpia de seguretat.
       generate:
         title: Genera codis de còpies de seguretat
-        keep_safe_as_password: 'Important! Tracta aquest codi com si fossin contrasenyes.'
-        keep_safe_warning: 'Guarda''ls amb el teu administrador de contrasenyes o bé imprimeix aquesta pàgina i guarda-la en un lloc segur.'
-        regenerate_warning: 'Alerta: Si has creat codis de còpia de seguretat anteriorment, els anteriors seran invalidats i ja no funcionaran.'
+        keep_safe_as_password: "Important! Tracta aquest codi com si fossin contrasenyes."
+        keep_safe_warning: "Guarda'ls amb el teu administrador de contrasenyes o bé imprimeix aquesta pàgina i guarda-la en un lloc segur."
+        regenerate_warning: "Alerta: Si has creat codis de còpia de seguretat anteriorment, els anteriors seran invalidats i ja no funcionaran."
     devices:
-      add_new: 'Afegir un dispositiu 2FA nou'
-      register: 'Registra un dispositiu'
-      confirm_default: 'Confirma el canvi de dispositiu per defecte'
-      confirm_device: 'Confirmeu el dispositiu'
-      confirm_now: 'No confirmat, clica aquí per activar'
-      cannot_delete_default: 'No es pot eliminar el dispositiu per defecte'
-      make_default_are_you_sure: 'Estàs segur que vols fer aquest dispositiu 2FA el teu dispositiu per defecte?'
-      make_default_failed: 'Error en actualitzar el teu dispositiu 2FA per defecte.'
-      deletion_are_you_sure: 'Estàs segur que vols eliminar aquest dispositiu 2FA?'
-      registration_complete: 'Registre del dispositiu 2FA complet!'
-      registration_failed_token_invalid: 'El registre del dispositiu 2FA ha fallat, el token no era correcte.'
-      registration_failed_update: 'El registre del dispositiu 2FA ha fallat, el token era correcte, però no s''ha pogut actualitzar el dispositiu.'
-      confirm_send_failed: 'La confirmació del teu dispositiu 2FA ha fallat.'
-      button_complete_registration: 'Completa el registre 2FA'
+      add_new: "Afegir un dispositiu 2FA nou"
+      register: "Registra un dispositiu"
+      confirm_default: "Confirma el canvi de dispositiu per defecte"
+      confirm_device: "Confirmeu el dispositiu"
+      confirm_now: "No confirmat, clica aquí per activar"
+      cannot_delete_default: "No es pot eliminar el dispositiu per defecte"
+      make_default_are_you_sure: "Estàs segur que vols fer aquest dispositiu 2FA el teu dispositiu per defecte?"
+      make_default_failed: "Error en actualitzar el teu dispositiu 2FA per defecte."
+      deletion_are_you_sure: "Estàs segur que vols eliminar aquest dispositiu 2FA?"
+      registration_complete: "Registre del dispositiu 2FA complet!"
+      registration_failed_token_invalid: "El registre del dispositiu 2FA ha fallat, el token no era correcte."
+      registration_failed_update: "El registre del dispositiu 2FA ha fallat, el token era correcte, però no s'ha pogut actualitzar el dispositiu."
+      confirm_send_failed: "La confirmació del teu dispositiu 2FA ha fallat."
+      button_complete_registration: "Completa el registre 2FA"
       text_confirm_to_complete_html: "Si us plau, completa el registre del teu dispositiu <strong>%{identifier}</strong> entrant una contrasenya d'un sol ús del teu dispositiu per defecte."
-      text_confirm_to_change_default_html: "Si us plau, completa el registre del teu dispositiu <strong>%{identifier}</strong> entrant una contrasenya d'un sol ús del teu dispositiu per defecte actual."
-      text_identifier: 'Pots donar un identificador personalitzat al dispositiu utilitzant aquest camp.'
-      failed_to_delete: 'Error a l''eliminar dispositiu 2FA.'
-      is_default_cannot_delete: 'Aquest dispositiu està marcat per defecte i no pot ser eliminat degut a una política de seguretat activa. Marca un altre dispositiu per defecte abans d''eliminar aquest.'
-      not_existing: 'No s''ha registrat cap dispositiu 2FA amb el teu compte.'
-      request_2fa: Si us plau, entra el codi del teu %{device_name} per verificar la teva identitat.
+      text_confirm_to_change_default_html: "Si us plau, completa el registre del teu dispositiu <strong>%{new_identifier}</strong> entrant una contrasenya d'un sol ús del teu dispositiu per defecte actual."
+      text_identifier: "Pots donar un identificador personalitzat al dispositiu utilitzant aquest camp."
+      failed_to_delete: "Error a l'eliminar dispositiu 2FA."
+      is_default_cannot_delete: "Aquest dispositiu està marcat per defecte i no pot ser eliminat degut a una política de seguretat activa. Marca un altre dispositiu per defecte abans d'eliminar aquest."
+      not_existing: "No s'ha registrat cap dispositiu 2FA amb el teu compte."
+      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
+      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      webauthn:
+        title: "WebAuthn"
+        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
+        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
       totp:
-        title: 'Utilitza la teva aplicació d''autentificació'
-        provisioning_uri: 'Aprovisionant URI'
-        secret_key: 'Clau secreta'
-        time_based: 'Temporitzat'
-        account: 'Nom del compte / Emissor'
+        title: "Utilitza la teva aplicació d'autentificació"
+        provisioning_uri: "Aprovisionant URI"
+        secret_key: "Clau secreta"
+        time_based: "Temporitzat"
+        account: "Nom del compte / Emissor"
         setup: |
           Per tal de configurar l'autentificació en dos passos amb Google Authenticator, descàrrega l'aplicació de l'Apple App Store o de Google Play Store.
           Després d'obrir l'aplicació, hauràs d'escanejar el següent codi QR per tal de registrar el dispositiu.
@@ -127,31 +134,32 @@ ca:
         description: |
           Registra una aplicació d'autentificació per utilitzar amb OpenProject utilitzant com a estàndard les contrasenyes d'un sol ús amb temporitzades.
       sms:
-        title: 'Utilitza el teu telèfon mòbil'
-        redacted_identifier: 'Dispositiu mòbil (%{redacted_number})'
-        request_2fa_identifier: '%{redacted_identifier}, t''hem enviat un codi d''autentificació via %{delivery_channel}'
+        title: "Utilitza el teu telèfon mòbil"
+        redacted_identifier: "Dispositiu mòbil (%{redacted_number})"
+        request_2fa_identifier: "%{redacted_identifier}, t'hem enviat un codi d'autentificació via %{delivery_channel}"
         description: |
           Registra el teu número de telèfon mòbil per entregar les contrasenyes d'un sol ús d'OpenProject.
     sns:
-      delivery_failed: 'Error en entregar el SNS:'
+      delivery_failed: "Error en entregar el SNS:"
     message_bird:
-      sms_delivery_failed: 'Error en entregar el MessageBird SMS.'
-      voice_delivery_failed: 'Error en la trucada de veu de MessageBird.'
+      sms_delivery_failed: "Error en entregar el MessageBird SMS."
+      voice_delivery_failed: "Error en la trucada de veu de MessageBird."
     strategies:
-      totp: 'Aplicació d''autentificació'
-      sns: 'Amazon SNS'
-      resdt: 'SMS per reiniciar l''API'
+      totp: "Aplicació d'autentificació"
+      sns: "Amazon SNS"
+      resdt: "SMS per reiniciar l'API"
+      webauthn: "WebAuthn"
     mobile_transmit_notification: "Una contrasenya d'un sol ús s'ha enviat al teu telèfon mòbil."
-    label_two_factor_authentication: 'Autentificació en dos passos'
+    label_two_factor_authentication: "Autentificació en dos passos"
     forced_registration:
-      required_to_add_device: 'Una política de seguretat activa requereix que activis l''autentificació en dos passos. Si us plau, segueix el formulari següent per tal de registrar un dispositiu.'
+      required_to_add_device: "Una política de seguretat activa requereix que activis l'autentificació en dos passos. Si us plau, segueix el formulari següent per tal de registrar un dispositiu."
     remember:
       active_session_notice: >
         El teu compte té una galeta web de record activada vàlida fins al %{expires_on}. Aquesta galeta web et permet iniciar sessió sense el segon factor d'autentificació fins a la data indicada.
       other_active_session_notice: El teu compte té una galeta web de record activada d'una sessió anterior.
-      label: 'Recorda'
-      clear_cookie: 'Fes clic aquí per eliminar totes les sessions 2FA recordades.'
-      cookie_removed: 'S''han eliminat totes les sessions 2FA recordades.'
+      label: "Recorda"
+      clear_cookie: "Fes clic aquí per eliminar totes les sessions 2FA recordades."
+      cookie_removed: "S'han eliminat totes les sessions 2FA recordades."
       dont_ask_again: "Crea una galeta web per tal de recordar l'autentificació 2FA per aquest client per %{days} dies."
   field_phone: "Telèfon mòbil"
   field_otp: "Contrasenya d'un sol ús"
@@ -161,10 +169,10 @@ ca:
   notice_account_otp_send_failed: "La teva contrasenya d'un sol ús no s'ha pogut enviar."
   notice_account_has_no_phone: "No hi ha cap número de telèfon mòbil associat al teu compte."
   label_expiration_hint: "%{date} o en tancar sessió"
-  label_actions: 'Accions'
-  label_confirmed: 'Confirmat'
-  button_continue: 'Continua'
-  button_make_default: 'Marca per defecte'
+  label_actions: "Accions"
+  label_confirmed: "Confirmat"
+  button_continue: "Continua"
+  button_make_default: "Marca per defecte"
   label_unverified_phone: "Telèfon mòbil encara no verificat"
   notice_phone_number_format: "Si us plau, entra el número en el següent format: +XX XXXXXXXX."
   text_otp_not_receive: "Altres mètodes de verificació"

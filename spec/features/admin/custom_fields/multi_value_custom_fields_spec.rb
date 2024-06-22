@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Multi-value custom fields creation', :js do
+RSpec.describe "Multi-value custom fields creation", :js do
   shared_let(:admin) { create(:admin) }
 
   before do
@@ -36,41 +36,41 @@ RSpec.describe 'Multi-value custom fields creation', :js do
     visit custom_fields_path
   end
 
-  it 'can create and reorder custom field list values' do
+  it "can create and reorder custom field list values" do
     # Create CF
-    click_on 'Create a new custom field'
+    click_on "Create a new custom field"
 
     SeleniumHubWaiter.wait
-    fill_in 'custom_field_name', with: 'My List CF'
-    select 'List', from: 'custom_field_field_format'
+    fill_in "custom_field_name", with: "My List CF"
+    select "List", from: "custom_field_field_format"
 
-    expect(page).to have_css('input#custom_field_custom_options_attributes_0_value')
-    fill_in 'custom_field_custom_options_attributes_0_value', with: 'A'
+    expect(page).to have_css("input#custom_field_custom_options_attributes_0_value")
+    fill_in "custom_field_custom_options_attributes_0_value", with: "A"
 
     # Add new row
-    page.find_test_selector('add-custom-option').click
+    page.find_test_selector("add-custom-option").click
     SeleniumHubWaiter.wait
-    expect(page).to have_css('input#custom_field_custom_options_attributes_1_value')
-    fill_in 'custom_field_custom_options_attributes_1_value', with: 'B'
+    expect(page).to have_css("input#custom_field_custom_options_attributes_1_value")
+    fill_in "custom_field_custom_options_attributes_1_value", with: "B"
 
     # Add new row
-    page.find_test_selector('add-custom-option').click
+    page.find_test_selector("add-custom-option").click
     SeleniumHubWaiter.wait
-    expect(page).to have_css('input#custom_field_custom_options_attributes_2_value')
-    fill_in 'custom_field_custom_options_attributes_2_value', with: 'C'
+    expect(page).to have_css("input#custom_field_custom_options_attributes_2_value")
+    fill_in "custom_field_custom_options_attributes_2_value", with: "C"
 
-    click_on 'Save'
+    click_on "Save"
 
     # Edit again
     SeleniumHubWaiter.wait
-    page.find('a', text: 'My List CF').click
-    expect(page).to have_css('input#custom_field_custom_options_attributes_0_value[value=A]')
-    expect(page).to have_css('input#custom_field_custom_options_attributes_1_value[value=B]')
-    expect(page).to have_css('input#custom_field_custom_options_attributes_2_value[value=C]')
+    page.find("a", text: "My List CF").click
+    expect(page).to have_css("input#custom_field_custom_options_attributes_0_value[value=A]")
+    expect(page).to have_css("input#custom_field_custom_options_attributes_1_value[value=B]")
+    expect(page).to have_css("input#custom_field_custom_options_attributes_2_value[value=C]")
 
     # Expect correct values
     cf = CustomField.last
-    expect(cf.name).to eq('My List CF')
+    expect(cf.name).to eq("My List CF")
     expect(cf.possible_values.map(&:value)).to eq %w(A B C)
 
     # Drag and drop
@@ -84,9 +84,9 @@ RSpec.describe 'Multi-value custom fields creation', :js do
       container.insertAdjacentElement('beforeend', element);
     JS
 
-    rows = page.all('tr.custom-option-row')
+    rows = page.all("tr.custom-option-row")
     expect(rows.length).to eq(3)
-    drag_n_drop_element from: rows[0].find('.dragula-handle'), to: page.find('.__drag_and_drop_end_of_list')
+    drag_n_drop_element from: rows[0].find(".dragula-handle"), to: page.find(".__drag_and_drop_end_of_list")
 
     sleep 1
 
@@ -94,14 +94,14 @@ RSpec.describe 'Multi-value custom fields creation', :js do
       document.querySelector('.__drag_and_drop_end_of_list').remove();
     JS
 
-    click_on 'Save'
+    click_on "Save"
     # Edit again
-    expect(page).to have_field('custom_field_custom_options_attributes_0_value', with: 'B')
-    expect(page).to have_field('custom_field_custom_options_attributes_1_value', with: 'C')
-    expect(page).to have_field('custom_field_custom_options_attributes_2_value', with: 'A')
+    expect(page).to have_field("custom_field_custom_options_attributes_0_value", with: "B")
+    expect(page).to have_field("custom_field_custom_options_attributes_1_value", with: "C")
+    expect(page).to have_field("custom_field_custom_options_attributes_2_value", with: "A")
 
     cf.reload
-    expect(cf.name).to eq('My List CF')
+    expect(cf.name).to eq("My List CF")
     expect(cf.possible_values.map(&:value)).to eq %w(B C A)
   end
 end

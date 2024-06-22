@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
-RSpec.describe 'Only see your own rates', :js do
+RSpec.describe "Only see your own rates", :js do
   let(:project) { work_package.project }
   let(:user) do
     create(:user,
@@ -56,7 +56,7 @@ RSpec.describe 'Only see your own rates', :js do
                         hours: 1.00)
   end
   let(:cost_type) do
-    type = create(:cost_type, name: 'Translations')
+    type = create(:cost_type, name: "Translations")
     create(:cost_rate, cost_type: type,
                        rate: 7.00)
     type
@@ -107,12 +107,12 @@ RSpec.describe 'Only see your own rates', :js do
     wp_page.ensure_page_loaded
   end
 
-  it 'only displays own entries and rates' do
+  it "only displays own entries and rates" do
     # All the values do not include the entries made by the other user
-    wp_page.expect_attributes spent_time: '1 h',
-                              costs_by_type: '2 Translations',
-                              overall_costs: '24.00 EUR',
-                              labor_costs: '10.00 EUR',
-                              material_costs: '14.00 EUR'
+    wp_page.expect_attributes spent_time: "1h",
+                              costs_by_type: "2 Translations",
+                              overall_costs: "24.00 EUR",
+                              labor_costs: "10.00 EUR",
+                              material_costs: "14.00 EUR"
   end
 end

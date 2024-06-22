@@ -5,8 +5,8 @@ es:
       link_files_in_storage: "Enlace archivos en %{storageType}"
       link_existing_files: "Enlazar archivos existentes"
       upload_files: "Subir archivos"
-      drop_files: "Arrastra archivos aquí para cargarlos a %{storageType}."
-      drop_or_click_files: "Arrastra archivos o haz clic aquí para cargarlos a %{storageType}."
+      drop_files: "Arrastra archivos aquí para cargarlos a %{name}."
+      drop_or_click_files: "Arrastra archivos o haz clic aquí para cargarlos a %{name}."
       login: "%{storageType} iniciar sesión"
       login_to: "Iniciar sesión en %{storageType}"
       no_connection: "No hay conexión para %{storageType}"
@@ -15,7 +15,7 @@ es:
       choose_location: "Seleccionar ubicación"
       types:
         nextcloud: "Nextcloud"
-        one_drive: "OneDrive/SharePoint"
+        one_drive: "OneDrive/Sharepoint"
         default: "Almacén"
       information:
         connection_error: >
@@ -78,7 +78,7 @@ es:
         link_uploaded_file_error: >
           Se ha producido un error al vincular el archivo cargado recientemente "%{fileName}" al paquete de trabajo %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to the storage to access this file."
+          not_logged_in: "Inicia sesión en el almacenamiento para acceder a este archivo."
           view_not_allowed: "No tienes permisos para ver este archivo."
           not_found: "No se ha encontrado este archivo."
         already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."

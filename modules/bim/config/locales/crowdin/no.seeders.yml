@@ -47,7 +47,7 @@
           name: Konflikt
       global_queries:
         item_0:
-          name: 'Innebygd tabell: Barn'
+          name: 'Innebygd tabell: Underordnet'
       type_configuration:
         item_0:
           form_configuration:
@@ -61,7 +61,7 @@
         item_2:
           name: BIM -ledere
         item_3:
-          name: BIM-modeller
+          name: BIM utviklere
         item_4:
           name: Ledende BIM-koordinatorer
         item_5:
@@ -120,7 +120,7 @@
                 options:
                   name: Komme i gang
                   text: |
-                    Vi er glade for at du ble med!  Vi foreslå et par ting du bør prøve for å komme i gang med OpenProject.
+                    Vi er glade for at du ble med!  Vi foreslår et par ting du bør prøve for å komme i gang med OpenProject.
 
                     Men før du begynner skal du vite at dette demoprosjektet er delt inn i to forskjellige prosjekter:
 
@@ -437,24 +437,24 @@
                 options:
                   name: Komme i gang
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Vi er glad for at du ble med! Vi foreslår at du prøver et par ting for å komme i gang med OpenProject.
 
-                    This demo project offers roles, workflows and work packages that are specialized for BIM.
+                    Dette demoprosjektet tilbyr roller, arbeidsflyt og arbeidspakker som er tilpasset BIM.
 
-                    _Try the following steps:_
+                    _Prøv følgende steg:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    1.  _Inviter nye medlemmer til prosjektet:_ → Gå til Medlemmer]({{opSetting:base_url}}/projects/demo-bim-project/members) i prosjektmenyen.
+                    2.  _Last opp og se 3D-modeller i IFC format:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf)i prosjektmenyen.
+                    3.  _Opprett og administrer BCF-utfordringer koblet direkte i IFC-modellen:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Opprett.
+                    4.  _Se arbeidet i ditt prosjekt:_ → Gå til [Arbeidspakker]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i prosjektmenyen.
+                    5.  _Opprett ny arbeidspakke:_ → Gå til [Arbeidspakker → Opprett]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    6.  _Opprett og oppdater et Gantt-diagram:_ → Gå til [Gantt-diagram]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i prosjektmenyen.
+                    7.  _Aktiver flere moduler:_ → Gå til [Prosjektinnstillinger → Moduler]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
+                    8.  _Sjekk ut flisvisning for å få en oversikt over dine BCF-utfordringer:_ → Gå til [Arbeidspakker]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    9.  _Arbeide dynamisk?? Opprett en ny tavle:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Her finner du våre [Manualer](https://www.openproject.org/docs/user-guide/).
+                    Vennligst gi oss beskjed om du har spørsmål eller trenger support.  Kontakt oss: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Medlemmer
@@ -463,86 +463,86 @@
                   name: Arbeidspakker
               item_6:
                 options:
-                  name: Milestones
+                  name: Milepæler
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: Prosjekt kick-off ved å opprette BIM modell
               description: |-
-                The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
+                Prosjekt kick off innleder starten av prosjektet i ditt selskap.  Alle involverte bør inviteres til kick off'en for en tidlig briefing.
 
-                The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Det neste steget kan være å sjekke fremdriftsplanen og justere avtalene.  Dette kan du gjøre ved å se på [Gantt-diagram]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Project preparation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Forberede prosjekter
+              description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Innsamling av prosjektspesifikke data og informasjon om BIM-modellen
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Identify the information strategy for the customer (e.g. by using plain language questions)
-                    *   If provided, analyze the customer information requirements for the BIM model
-                    *   Define an information delivery strategy according to the customers needs
+                    * Identifiser informasjonsstrategien for kunden (f.eks. ved å bruke rene språk-spørsmål)
+                    * hvis det er satt, Analyser kundens krav til informasjon i BIM-modellen
+                    * Definere en strategi for informasjonslevering i henhold til kundenes behov
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Analyzing the customers needs and goals for using the BIM methodology
-                    *   Results of this tasks should be:
-                    *   The requirements for the project
-                    *   A strategy for the delivery phase
-                    *   ...
+                    * Analysere kundenes behov og mål for bruk av BIM-metoden
+                    * Resultater av disse oppgavene bør være:
+                    * Kravene for prosjektet
+                    * En strategi for leveransefase
+                    * ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: Opprette BIM-utførelsesplanen
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    * En implementeringsplan for BIM-arbeidet vil bli definert i henhold til spesifikasjonene for utvekslingskravene (ERS)
+                    * Alle teammedlemmer og partnere har en plan for hvordan man skal nå hvert av prosjektmålene
 
-                    # Description
+                    # Beskrivelse
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
-                    *   ...
+                    * Avhengig av de identifiserte brukstilfellene, blir den enkelte informasjonshåndboka definert
+                    * For å håndtere det teknologiske grensesnittet, vil en programvare-topologi bli definert og analysert og verifisert
+                    *...
                 item_2:
-                  subject: Completion of the BIM execution plan
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Fullføring av gjennomføringsplanen for BIM
+                  description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_2:
-              subject: End of preparation phase
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Avslutning av forberedelsesfasen
+              description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_3:
-              subject: Creating initial BIM model
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Opprette den innledende BIM-modellen
+              description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Modellere innledende BIM-modell
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    * Modellering av den innledende BIM-modellen
+                    * Opprette en BIM-modell for hele prosjektteamet
 
-                    # Description
+                    # Beskrivelse
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
-                    *   ...
+                    * Ifølge innsamlede data fra kunden vil den innledende modellen modelleres
+                    * Modellen skal modelleres etter LOD-matrisene og inneholde informasjonen som trengs
+                    * ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Innledende, intern modellkontroll og revisjon
                   description: |-
-                    # Goal
+                    ## Mål
 
-                    *   Submitting a BIM model according to the defined standards
+                    * Legge in en BIM-modell i henhold til de definerte standarder
 
-                    # Description
+                    ## Beskrivelse
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
-                    *   ...
+                    *  Modellen skal sjekkes i henhold til de definerte standarder (krav, lover og forskrifter,...) og revideres.
+                    *  ...
                 item_2:
-                  subject: Submitting initial BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Send innledende BIM-modell
+                  description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_4:
-              subject: Modelling, first cycle
+              subject: Modellering, første syklus
               description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
               children:
                 item_0:
@@ -698,38 +698,38 @@
             item_5:
               name: Milepæler
             item_6:
-              name: Tasks
+              name: Oppgaver
             item_7:
               name: Teamplanlegger
           boards:
             bcf:
-              name: BCF issues
+              name: BCF utfordringer
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Velkommen
               item_1:
                 options:
                   name: Komme i gang
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Vi er glad du ble med! Vi foreslår at du prøver et par ting for å komme i gang i OpenProject.
 
-                    This demo project shows BCF management functionalities.
+                    Dette demoprosjektet viser funksjonaliteter i BCF-styring.
 
-                    _Try the following steps:_
+                    _Prøv følgende steg:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the BCF files in your project:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
-                    5.  _Load your BCF files:_ → Go to [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _You love the agile approach? Create a board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    1.  _Inviter nye medlemmer til prosjektet:_ → Gåtil  [Medlemmer]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) i prosjektmenyen.
+                    2.  _Last opp og se 3D-modeller i IFC format:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
+                    3.  _Opprett og administrer BCF-utfordringer direkte koblet i IFC-modellen:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Opprett.
+                    4.  _Se BCF-filene i ditt prosjekt:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) i prosjektmenyen.
+                    5.  _Last BCF-filene dine:_ → Gå til [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
+                    6.  _Opprett og oppdater et Gantt-diagram:_ → Gå til [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) i prosjektmenyen.
+                    7.  _Aktiver flere moduler:_ → Gå til [Prosjektinstillinger  → Moduler.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
+                    8.  _Liker du en dynamisk tilnærming? Opprett en tavle:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Her finner du våre [Manualer](https://www.openproject.org/docs/user-guide/).
+                    Vennligst gi oss beksjed om du har spørsmål eller trenger support. Kontakt oss: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Medlemmer

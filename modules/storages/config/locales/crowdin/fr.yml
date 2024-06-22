@@ -5,7 +5,7 @@ fr:
         origin_id: Id d'origine
       storages/storage:
         creator: Créateur
-        drive: Drive ID
+        drive: ID du lecteur
         host: Hôte
         name: Nom
         provider_type: Type de fournisseur
@@ -39,21 +39,27 @@ fr:
   api_v3:
     errors:
       too_many_elements_created_at_once: Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}.
-  permission_create_files: Créer des fichiers
-  permission_delete_files: Supprimer des fichiers
+  external_file_storages: Stockages de fichiers externes
+  permission_create_files: 'Gestion automatique des dossiers de projet : Créer des fichiers'
+  permission_create_files_explanation: Cette permission n'est disponible que pour les espaces de stockage Nextcloud
+  permission_delete_files: 'Gestion automatique des dossiers de projet : Supprimer des fichiers'
+  permission_delete_files_explanation: Cette permission n'est disponible que pour les espaces de stockage Nextcloud
+  permission_header_for_project_module_storages: Dossiers de projets gérés automatiquement
   permission_manage_file_links: Gérer les liens de fichiers
-  permission_manage_storages_in_project: Gérer les stockages de fichiers dans le projet
-  permission_read_files: Lire les fichiers
-  permission_share_files: Partage des fichiers
+  permission_manage_files_in_project: Gérer les fichiers dans un projet
+  permission_read_files: 'Gestion automatique des dossiers de projet : Lire des fichiers'
+  permission_share_files: 'Gestion automatique des dossiers de projet : Partager des fichiers'
+  permission_share_files_explanation: Cette permission n'est disponible que pour les espaces de stockage Nextcloud
   permission_view_file_links: Voir les liens des fichiers
-  permission_write_files: Écrire des fichiers
-  project_module_storages: Stockages de fichiers
+  permission_write_files: 'Gestion automatique des dossiers de projet : Écrire des fichiers'
+  project_module_storages: Fichiers
   storages:
     buttons:
       complete_without_setup: Compléter sans
       done_complete_setup: Configuration terminée.
       done_continue: Terminé, continuer
-      replace_provider_type_oauth: Remplacer OAuth %{provider_type}
+      replace_oauth_application: Remplacer OAuth OpenProject
+      replace_oauth_client: Remplacer OAuth %{provider_type}
       save_and_continue: Sauvegarder et poursuivre
       select_folder: Sélectionner un dossier
     configuration_checks:
@@ -62,8 +68,8 @@ fr:
         one_drive: Autoriser OpenProject à accéder aux données Azure en utilisant OAuth pour connecter OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Complétez la configuration avec la redirection de l'URI correcte.
-    confirm_replace_oauth_application: Êtes-vous sûr ? Tous les utilisateurs devront réautoriser OpenProject.
-    confirm_replace_oauth_client: Êtes-vous sûr ? Tous les utilisateurs devront réautoriser sur le stockage.
+    confirm_replace_oauth_application: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir de nouvelles informations d'identification auprès du fournisseur de stockage et tous les utilisateurs devront à nouveau s'authentifier sur OpenProject. Êtes-vous sûr de vouloir continuer ?
+    confirm_replace_oauth_client: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir de nouvelles informations d'identification auprès du fournisseur de stockage et tous les utilisateurs devront à nouveau s'authentifier auprès de %{provider_type} . Êtes-vous sûr de vouloir continuer ?
     delete_warning:
       input_delete_confirmation: Saisissez le nom de l'espace de stockage des fichiers %{file_storage} pour confirmer la suppression.
       irreversible_notice: La suppression d'un espace de stockage de fichiers est une action irréversible.
@@ -76,6 +82,15 @@ fr:
       storage_delete_result_3: Si ce stockage contient des dossiers de projet gérés automatiquement, ceux-ci et les fichiers qu'ils contiennent seront supprimés définitivement.
     error_invalid_provider_type: Veuillez sélectionner un fournisseur de stockage valide.
     file_storage_view:
+      access_management:
+        automatic_management: Gestion automatique des accès et des dossiers
+        automatic_management_description: Laissez OpenProject créer automatiquement des dossiers par projet et gérer l'accès des utilisateurs. Cette méthode est recommandée pour s'assurer que chaque membre de l'équipe dispose toujours des autorisations d'accès correctes.
+        description: Sélectionnez le type de gestion de l'accès des utilisateurs et de la création des dossiers. Nous vous recommandons d'utiliser l'option Gestion automatique des accès pour disposer d'une structure plus organisée et garantir l'accès à tous les utilisateurs concernés.
+        manual_management: Gestion manuelle des accès et des dossiers
+        manual_management_description: Créez et gérez manuellement des dossiers par projet. Vous devez vous assurer manuellement que les utilisateurs concernés y ont accès.
+        setup_incomplete: Sélectionnez le type de gestion de l'accès des utilisateurs et de la création de dossiers.
+        subtitle: Gestion des accès
+        title: Dossiers d'accès et de projets
       automatically_managed_folders: Dossiers gérés automatiquement
       general_information: Informations générales
       nextcloud_oauth: OAuth Nextcloud
@@ -91,8 +106,15 @@ fr:
       label_healthy: Sain
       label_pending: En attente
       since: depuis %{datetime}
-      subtitle: Automatic managed project folders
-      title: Health status
+      subtitle: Dossiers de projets gérés automatiquement
+      title: État de santé
+    health_email_notifications:
+      description_subscribed: Tous les administrateurs reçoivent des notifications par e-mail concernant le statut de cet espace de stockage.
+      description_unsubscribed: Les notifications par e-mail du statut de santé de cet espace de stockage ont été désactivées pour tous les administrateurs.
+      error_could_not_be_saved: Les paramètres de notification par e-mail n'ont pas pu être enregistrés. Veuillez réessayer.
+      subscribe: S'abonner
+      title: Notifications par email
+      unsubscribe: Se désabonner
     help_texts:
       project_folder: Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
     instructions:
@@ -142,9 +164,9 @@ fr:
     label_creator: Créateur
     label_delete_storage: Supprimer le stockage
     label_edit_storage: Modifier le stockage
+    label_edit_storage_access_management: Modifier la gestion de l'accès à l'espace de stockage
     label_edit_storage_automatically_managed_folders: Editer les dossiers automatiquement gérés
     label_edit_storage_host: Modifier l'hôte de stockage
-    label_edit_storage_oauth_client: Modifier le client OAuth de stockage
     label_existing_manual_folder: Répertoire existant avec permissions gérées manuellement
     label_file_storage: Stockage de fichiers
     label_host: URL de l'hôte
@@ -175,46 +197,42 @@ fr:
     members_no_results: Aucun membre à afficher.
     no_results: Aucun espace de stockage n'est configuré pour le moment.
     notice_successful_storage_connection: |-
-      Storage connected successfully! Remember to activate the module and the specific storage in the project settings
-      of each desired project to use it.
+      Stockage connecté avec succès ! N'oubliez pas d'activer le module et le stockage spécifique dans les paramètres de chaque projet où vous souhaitez l'utiliser.
     oauth_grant_nudge_modal:
-      access_granted: Access granted
-      body: To get access to the project folder you need to login to %{storage}.
-      cancel_button_label: I will do it later
-      confirm_button_label: Login
-      storage_ready: You are now ready to use %{storage}
-      title: One more step...
+      access_granted: Accès accordé
+      access_granted_screen_reader: Accès accordé. Vous êtes maintenant prêt à utiliser %{storage}.
+      body: Pour accéder au dossier du projet, vous devez vous connecter à %{storage}.
+      cancel_button_label: Je le ferai plus tard
+      confirm_button_aria_label: Connexion à %{storage}
+      confirm_button_label: Connexion
+      requesting_access_to: Demande d'accès à %{storage}
+      storage_ready: Vous êtes maintenant prêt à utiliser %{storage}
+      title: Encore une étape...
     open_project_storage_modal:
       success:
-        subtitle: You are being redirected
-        title: Integration setup completed
+        subtitle: Vous allez être redirigé
+        title: Configuration de l'intégration terminée
       waiting:
-        subtitle: One moment please, this might take some time...
-        title: We are setting up your permissions on the project folder.
+        subtitle: Un instant, s'il vous plaît, cela peut prendre un peu de temps...
+        title: Nous configurons vos permissions sur le dossier du projet.
     page_titles:
       file_storages:
         delete: Supprimer l'espace de stockage de fichiers
         subtitle: Ajouter un stockage de fichiers externe pour télécharger, lier et gérer les fichiers dans les lots de travaux.
       managed_project_folders:
-        one_drive_information: |-
-          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
-          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
-          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
-          to the %{drive_id_link_text}.
         subtitle: |-
-          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
-          member always has the correct access permissions.
+          Laisser OpenProject créer automatiquement des dossiers par projet. Cette option est recommandée, car elle garantit que chaque membre de l'équipe dispose toujours des autorisations d'accès correctes.
         subtitle_short: Laisser OpenProject créer automatiquement des dossiers par projet.
         title: Répertoires de projet gérés automatiquement
       project_settings:
         delete: Supprimer l'espace de stockage de fichiers
         edit: Modifier l'espace de stockage de fichiers pour ce projet
-        index: Stockages de fichiers disponibles dans ce projet
         members_connection_status: Statut de connexion des membres
         new: Ajouter un stockage de fichiers à ce projet
       project_storage_members:
         subtitle: Vérifiez l'état de la connexion pour l'espace de stockage %{storage_name_link} de tous les membres du projet.
         title: Statut de connexion des membres
+    permission_header_explanation: Les droits d'accès aux fichiers sur les supports de stockage externes ne sont appliqués qu'aux dossiers et aux fichiers contenus dans les dossiers de projet gérés automatiquement. Notez que toutes les droits sur les fichiers ne sont pas pris en charge par tous les fournisseurs de stockage. Veuillez consulter la documentation sur <a target='_blank' href='https://www.openproject.org/fr/docs/system-admin-guide/users-permissions/roles-permissions/'>les autorisations de stockage de fichiers</a> pour plus d'informations.
     provider_types:
       label: Type de fournisseur
       nextcloud:
@@ -227,11 +245,13 @@ fr:
         label_oauth_client_secret: Valeur secrète du client OAuth Azure
         name: OneDrive/SharePoint
         name_placeholder: par exemple OneDrive
+    show_attachments_toggle:
+      description: 'Si vous désactivez cette option, la liste des pièces jointes dans l''onglet des fichiers des lots de travaux sera masquée. Les fichiers joints dans la description d''un lot de travaux seront toujours téléchargés dans l''espace de stockage interne des pièces jointes. '
+      label: Afficher les pièces jointes dans l'onglet des fichiers des lots de travaux
     storage_list_blank_slate:
       description: Ajoutez un stockage pour les voir ici.
       heading: Vous n'avez pas encore d'espace de stockage.
     upsale:
       description: |-
-        Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
-        work packages in a project.
+        Intégrez votre OneDrive/SharePoint en tant que espace de stockage de fichiers avec OpenProject. Téléchargez des fichiers et liez-les directement aux lots de travaux d'un projet.
       title: Intégration OneDrive/SharePoint

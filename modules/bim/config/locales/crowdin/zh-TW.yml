@@ -1,8 +1,8 @@
 #English strings go here for Rails i18n
 zh-TW:
   plugin_openproject_bim:
-    name: "OpenProject BIM and BCF functionality"
-    description: "This OpenProject plugin introduces BIM and BCF functionality."
+    name: "OpenProject BIM 和 BCF 功能"
+    description: "該 OpenProject 插件引入了 BIM 和 BCF 功能。"
   bim:
     label_bim: 'BIM'
   bcf:
@@ -56,8 +56,8 @@ zh-TW:
         no_status_provided: '未提供狀態'
         no_priority_provided: '未提供優先權'
         perform_description: "您想要匯入或更新列在上面的問題集嗎？"
-        replace_with_system_user: '以 "系統" 使用者取代他們'
-        import_as_system_user: '以 "系統" 使用者匯入他們。'
+        replace_with_system_user: '以 "系統" 使用者取代'
+        import_as_system_user: '以 "系統" 使用者取代'
         what_to_do: "您想要做什麼？"
         work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
         bcf_file_not_found: "指定 BCF 檔案的位置失敗。請再次開始上傳程序。"

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::FileLinkSyncService, type: :model do
@@ -47,17 +47,17 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
 
   subject(:service) { described_class.new(user:).call(file_links) }
 
-  describe '#call' do
-    context 'with one file link' do
+  describe "#call" do
+    context "with one file link" do
       let(:file_info) { build(:storage_file_info) }
       let(:file_link_one) { create(:file_link, origin_id: file_info.id, storage: storage_one, container: work_package) }
 
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
+          .stub("nextcloud.queries.files_info", ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
-      it 'updates all origin_* fields' do
+      it "updates all origin_* fields" do
         expect(service.success).to be_truthy
         expect(service.result.count).to be 1
         expect(service.result.first).to be_a Storages::FileLink
@@ -71,22 +71,22 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       end
     end
 
-    context 'without permission to read file (403)' do
+    context "without permission to read file (403)" do
       let(:file_info) { build(:storage_file_info, status_code: 403) }
       let(:file_link_one) { create(:file_link, origin_id: file_info.id, storage: storage_one, container: work_package) }
 
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
+          .stub("nextcloud.queries.files_info", ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
-      it 'returns a FileLink with #origin_status :not_allowed' do
+      it "returns a FileLink with #origin_status :not_allowed" do
         expect(service.success).to be_truthy
         expect(service.result.first.origin_status).to be :view_not_allowed
       end
     end
 
-    context 'with two file links, one updated and other not allowed' do
+    context "with two file links, one updated and other not allowed" do
       let(:file_info_one) { build(:storage_file_info) }
       let(:file_info_two) { build(:storage_file_info, status_code: 403) }
 
@@ -97,11 +97,11 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
 
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info',
+          .stub("nextcloud.queries.files_info",
                 ->(_) { ServiceResult.success(result: [file_info_one, file_info_two]) })
       end
 
-      it 'returns a successful result with two file links with different permissions' do
+      it "returns a successful result with two file links with different permissions" do
         expect(service.success).to be_truthy
         expect(service.result.count).to be 2
         expect(service.result[0].origin_id).to eql file_info_one.id
@@ -111,16 +111,16 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       end
     end
 
-    context 'when file was not found (404)' do
+    context "when file was not found (404)" do
       let(:file_info) { build(:storage_file_info, status_code: 404) }
       let(:file_link_one) { create(:file_link, origin_id: file_info.id, storage: storage_one, container: work_package) }
 
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
+          .stub("nextcloud.queries.files_info", ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
-      it 'returns the file link with a status set to :not_found' do
+      it "returns the file link with a status set to :not_found" do
         expect(service.success).to be_truthy
         expect(service.result.count).to be 1
         expect(Storages::FileLink.count).to be 1
@@ -128,16 +128,16 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       end
     end
 
-    context 'when file has a different error (555)' do
+    context "when file has a different error (555)" do
       let(:file_info) { build(:storage_file_info, status_code: 555) }
       let(:file_link_one) { create(:file_link, origin_id: file_info.id, storage: storage_one, container: work_package) }
 
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
+          .stub("nextcloud.queries.files_info", ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
-      it 'returns the file link with a status set to :error' do
+      it "returns the file link with a status set to :error" do
         expect(service.success).to be_truthy
         expect(service.result.count).to be 1
         expect(Storages::FileLink.count).to be 1
@@ -145,14 +145,14 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
       end
     end
 
-    context 'with files_info_query failing' do
+    context "with files_info_query failing" do
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info',
+          .stub("nextcloud.queries.files_info",
                 ->(_) { ServiceResult.failure(result: :error, errors: Storages::StorageError.new(code: :error)) })
       end
 
-      it 'leaves the list of file_links unchanged with permissions = :error' do
+      it "leaves the list of file_links unchanged with permissions = :error" do
         expect(service.success).to be_truthy
         expect(service.result.first.origin_status).to be :error
       end

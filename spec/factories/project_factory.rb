@@ -92,7 +92,7 @@ FactoryBot.define do
 
     trait :with_status do
       status_code { Project.status_codes.keys.sample }
-      status_explanation { 'some explanation' }
+      status_explanation { "some explanation" }
     end
 
     trait :archived do

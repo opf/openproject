@@ -32,7 +32,6 @@ module Storages
   class OneDriveManagedFolderSyncService
     using Peripherals::ServiceResultRefinements
 
-    DISALLOWED_CHARS = /[\\<>+?:"|\/]/
     OP_PERMISSIONS = %i[read_files write_files create_files delete_files share_files].freeze
 
     def self.call(storage)
@@ -69,24 +68,23 @@ module Storages
 
     def ensure_folders_exist(folder_map)
       active_project_storages_scope.includes(:project).find_each do |project_storage|
-        actual_path = project_folder_path(project_storage.project)
-        next create_folder(project_storage, actual_path) unless folder_map.key?(project_storage.project_folder_id)
+        next create_folder(project_storage) unless folder_map.key?(project_storage.project_folder_id)
 
-        if folder_map[project_storage.project_folder_id] != actual_path
-          rename_folder(project_storage.project_folder_id, actual_path)
+        if folder_map[project_storage.project_folder_id] != project_storage.managed_project_folder_path
+          rename_folder(project_storage.project_folder_id, project_storage.managed_project_folder_path)
         end
       end
 
-      ServiceResult.success(result: 'folders processed')
+      ServiceResult.success(result: "folders processed")
     end
 
     def hide_inactive_folders(folder_map)
       project_folder_ids = active_project_storages_scope.pluck(:project_folder_id).compact
       (folder_map.keys - project_folder_ids).each do |item_id|
-        Peripherals::Registry.resolve("commands.one_drive.set_permissions")
+        Peripherals::Registry.resolve("one_drive.commands.set_permissions")
                              .call(storage: @storage, path: item_id, permissions: { write: [], read: [] })
                              .on_failure do |service_result|
-          format_and_log_error(service_result.errors, folder: path, context: 'hide_folder')
+          format_and_log_error(service_result.errors, folder: path, context: "hide_folder")
         end
       end
     end
@@ -101,12 +99,8 @@ module Storages
       end
     end
 
-    def project_folder_path(project)
-      "#{project.name} (#{project.id})".gsub(DISALLOWED_CHARS, '_').squish
-    end
-
     def set_permissions(path, permissions)
-      Peripherals::Registry.resolve("commands.one_drive.set_permissions")
+      Peripherals::Registry.resolve("one_drive.commands.set_permissions")
                            .call(storage: @storage, path:, permissions:)
                            .result_or do |error|
         format_and_log_error(error, folder: path)
@@ -115,33 +109,50 @@ module Storages
 
     def rename_folder(source, target)
       Peripherals::Registry
-        .resolve('commands.one_drive.rename_file')
+        .resolve("one_drive.commands.rename_file")
         .call(storage: @storage, source:, target:)
         .result_or { |error| format_and_log_error(error, source:, target:) }
     end
 
-    def create_folder(project_storage, folder_path)
+    # rubocop:disable Metrics/AbcSize
+    def create_folder(project_storage)
+      folder_name = project_storage.managed_project_folder_path
+      parent_location = Peripherals::ParentFolder.new("/")
+
       Peripherals::Registry
-        .resolve('commands.one_drive.create_folder')
-        .call(storage: @storage, folder_path:)
-        .match(on_failure: ->(error) { format_and_log_error(error, folder_path:) },
+        .resolve("one_drive.commands.create_folder")
+        .call(storage: @storage, auth_strategy:, folder_name:, parent_location:)
+        .match(on_failure: ->(error) { format_and_log_error(error, folder_path: project_storage.managed_project_folder_path) },
                on_success: ->(folder_info) do
-                 project_storage.update(project_folder_id: folder_info.id)
-                 project_storage.reload
+                 last_project_folder = ::Storages::LastProjectFolder
+                                         .find_by(
+                                           project_storage_id: project_storage.id,
+                                           mode: project_storage.project_folder_mode
+                                         )
+                 ApplicationRecord.transaction do
+                   last_project_folder.update!(origin_folder_id: folder_info.id)
+                   project_storage.update!(project_folder_id: folder_info.id)
+                 end
                end)
     end
+
+    # rubocop:enable Metrics/AbcSize
 
     def remote_folders_map
       using_admin_token do |http|
         response = http.get("/v1.0/drives/#{@storage.drive_id}/root/children")
 
-        if response.status == 200
+        case response
+        in { status: 200 }
           ServiceResult.success(result: filter_folders_from(response.json(symbolize_keys: true)))
         else
-          errors = ::Storages::StorageError.new(code: response.status,
-                                                data: ::Storages::StorageErrorData.new(
-                                                  source: self.class, payload: response
-                                                ))
+          errors = ::Storages::StorageError.new(
+            code: response.try(:status),
+            data: ::Storages::StorageErrorData.new(
+              source: self.class,
+              payload: response
+            )
+          )
           format_and_log_error(errors)
           ServiceResult.failure(result: :error, errors:)
         end
@@ -178,6 +189,10 @@ module Storages
       OAuthClientToken.where(oauth_client: @storage.oauth_client)
     end
 
+    def auth_strategy
+      Peripherals::Registry.resolve("one_drive.authentication.userless").call
+    end
+
     def admin_client_tokens_scope
       OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
     end
@@ -185,8 +200,7 @@ module Storages
     def format_and_log_error(error, context = {})
       error_message = context.merge({ command: error.data.source,
                                       message: error.log_message,
-                                      data: { status: error.data.payload.status, body: error.data.payload.body.to_s } })
-
+                                      data: { status: error.code, body: error.data.payload.to_s } })
       OpenProject.logger.warn error_message
     end
   end

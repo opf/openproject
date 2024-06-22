@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/utilities/property_name_converter'
-require 'api/utilities/query_filters_name_converter_context'
+require "api/utilities/property_name_converter"
+require "api/utilities/query_filters_name_converter_context"
 
 module API
   module Utilities

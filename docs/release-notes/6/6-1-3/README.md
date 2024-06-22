@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 6.1.3
-  sidebar_navigation:
-      title: 6.1.3
-  release_version: 6.1.3
-  release_date: 2017-01-20
+title: OpenProject 6.1.3
+sidebar_navigation:
+  title: 6.1.3
+release_version: 6.1.3
+release_date: 2017-01-20
 ---
 
 # OpenProject 6.1.3
@@ -19,8 +19,6 @@ your OpenProject installation to this version.
     This error has been fixed.
 
 For further information on the release, please refer to the  
-[Changelog v.6.1.3](https://community.openproject.org/versions/826) 
+[Changelog v.6.1.3](https://community.openproject.org/versions/826)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v6.1.3).
-
-

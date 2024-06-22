@@ -1,3 +1,3 @@
 # Include hook code here
 
-require 'action_controller/verification'
+require "action_controller/verification"

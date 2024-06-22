@@ -33,8 +33,8 @@
 class RowComponent < ApplicationComponent
   attr_reader :table
 
-  def initialize(row:, table:, **options)
-    super(row, **options)
+  def initialize(row:, table:, **)
+    super(row, **)
     @table = table
   end
 
@@ -70,7 +70,7 @@ class RowComponent < ApplicationComponent
 
   def checkmark(condition)
     if condition
-      helpers.op_icon 'icon icon-checkmark'
+      helpers.op_icon "icon icon-checkmark"
     end
   end
 end

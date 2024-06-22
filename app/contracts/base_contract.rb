@@ -101,7 +101,7 @@ class BaseContract < Disposable::Twin
     private
 
     def add_writable(attribute, writable)
-      attribute_name = attribute.to_s.delete_suffix('_id')
+      attribute_name = attribute.to_s.delete_suffix("_id")
 
       unless writable == false
         writable_attributes << attribute_name
@@ -222,10 +222,25 @@ class BaseContract < Disposable::Twin
     end
 
     if model.respond_to?(:available_custom_fields)
-      writable += model.available_custom_fields.map(&:attribute_name)
+      writable += collect_available_custom_field_attributes
     end
 
     writable
+  end
+
+  def collect_available_custom_field_attributes
+    if model.is_a?(Project)
+      # required because project custom fields are now activated on a per-project basis
+      #
+      # if we wouldn't query available_custom field on a global level here,
+      # implicitly enabling project custom fields through this contract would fail
+      # as the disabled custom fields would be treated as not-writable
+      #
+      # relevant especially for the project API
+      model.all_available_custom_fields.map(&:attribute_name)
+    else
+      model.available_custom_fields.map(&:attribute_name)
+    end
   end
 
   def reduce_writable_attributes(attributes)
@@ -245,7 +260,7 @@ class BaseContract < Disposable::Twin
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
     attributes.reject do |attribute|
-      canonical_attribute = attribute.delete_suffix('_id')
+      canonical_attribute = attribute.delete_suffix("_id")
 
       permissions = attribute_permissions[canonical_attribute] ||
         attribute_permissions["#{canonical_attribute}_id"] ||

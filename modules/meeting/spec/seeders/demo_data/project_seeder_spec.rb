@@ -28,20 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe DemoData::ProjectSeeder do
-  include_context 'with basic seed data'
+  include_context "with basic seed data"
 
-  subject(:project_seeder) { described_class.new(seed_data.lookup('projects.my-project')) }
+  subject(:project_seeder) { described_class.new(seed_data.lookup("projects.my-project")) }
 
   let(:work_package) { create(:work_package) }
   let(:user) { create(:user) }
   let(:seed_data) do
     data = basic_seed_data.merge(
       Source::SeedData.new(
-        'projects' => {
-          'my-project' => project_data
+        "projects" => {
+          "my-project" => project_data
         }
       )
     )
@@ -81,27 +81,27 @@ RSpec.describe DemoData::ProjectSeeder do
     project_seeder.seed!
   end
 
-  it 'creates an associated meeting' do
-    meeting = Meeting.find_by(title: 'Weekly')
+  it "creates an associated meeting" do
+    meeting = Meeting.find_by(title: "Weekly")
     expect(meeting.author).to eq user
     expect(meeting.duration).to eq 0.5
 
     expect(meeting.agenda_items.count).to eq 2
 
-    first = meeting.agenda_items.find_by(title: 'First topic')
+    first = meeting.agenda_items.find_by(title: "First topic")
     expect(first.duration_in_minutes).to eq 10
     expect(first.author).to eq user
-    expect(first.notes).to eq 'Some **markdown**'
+    expect(first.notes).to eq "Some **markdown**"
 
-    second = meeting.agenda_items.find_by(title: 'Reference')
+    second = meeting.agenda_items.find_by(work_package:)
+    expect(second.title).to be_nil
     expect(second.duration_in_minutes).to eq 5
     expect(second.author).to eq user
-    expect(second.notes).to eq 'Some **markdown**'
-    expect(second.work_package).to eq work_package
+    expect(second.notes).to eq "Some **markdown**"
   end
 
-  it 'uses default duration of 1h if not specified' do
-    meeting = Meeting.find_by(title: 'Implicit 1h duration')
+  it "uses default duration of 1h if not specified" do
+    meeting = Meeting.find_by(title: "Implicit 1h duration")
     expect(meeting.duration).to eq 1
   end
 end

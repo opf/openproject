@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
+RSpec.describe API::V3::TimeEntries::TimeEntriesActivityRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   let(:activity) do
@@ -41,15 +41,15 @@ RSpec.describe API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering'
 
   subject { representer.to_json }
 
-  describe '_links' do
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'self' }
+  describe "_links" do
+    it_behaves_like "has a titled link" do
+      let(:link) { "self" }
       let(:href) { api_v3_paths.time_entries_activity activity.id }
       let(:title) { activity.name }
     end
 
     # returns the projects where it (and it's children) is active
-    it_behaves_like 'has a link collection' do
+    it_behaves_like "has a link collection" do
       let(:project1) { build_stubbed(:project) }
       let(:project2) { build_stubbed(:project) }
 
@@ -61,7 +61,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering'
                        project2])
       end
 
-      let(:link) { 'projects' }
+      let(:link) { "projects" }
       let(:hrefs) do
         [
           {
@@ -77,24 +77,24 @@ RSpec.describe API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering'
     end
   end
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'TimeEntriesActivity' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "TimeEntriesActivity" }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { activity.id }
     end
 
-    it_behaves_like 'property', :name do
+    it_behaves_like "property", :name do
       let(:value) { activity.name }
     end
 
-    it_behaves_like 'property', :position do
+    it_behaves_like "property", :position do
       let(:value) { activity.position }
     end
 
-    it_behaves_like 'property', :default do
+    it_behaves_like "property", :default do
       let(:value) { activity.is_default }
     end
   end

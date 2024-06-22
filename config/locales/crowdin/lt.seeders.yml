@@ -41,6 +41,11 @@ lt:
           name: Specifikacija
         item_2:
           name: Kita
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Darbo paketų redaktorius
@@ -251,6 +256,21 @@ lt:
                     *   [ ] Dar daugiau alaus
             item_4:
               subject: Projekto pabaiga
+          wiki: |
+            _Šioje viki jūs galite bendrai kurti ir redaguoti puslapius bei popuslapius, kad sukurtumėte projekto viki._
+
+            **Jūs galite:**
+
+            * Įterpti tekstą ir piešinius, taipogi kopijuoti ir įkelti iš kitų dokumentų
+            * Kurti puslapių hierarchiją su tėviniais puslapiais
+            * Įtraukti viki puslapius į projekto meniu
+            * Naudoti makro, kad įterptumėte pvz. turinį, darbo paketų sąrašus ar Ganto diagaramas
+            * Įtraukti viki puslapius į kitus tekstinius laukus, pavyzdžiui projekto apžvalgos puslapyje
+            * Įtraukti nuorodas į kitus dokumentus
+            * Peržiūrėti pokyčių istoriją
+            * Žiūrėti kaip Markdown
+
+            Daugiau informacijos rasite: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum projektas
           status_explanation: Visos užduotys vyksta pagal planą. Susiję žmonės žino savo užduotis. Sistema pilnai paruošta.

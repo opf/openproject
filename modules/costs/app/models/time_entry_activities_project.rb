@@ -28,5 +28,5 @@
 
 class TimeEntryActivitiesProject < ApplicationRecord
   belongs_to :project
-  belongs_to :activity, class_name: 'TimeEntryActivity'
+  belongs_to :activity, class_name: "TimeEntryActivity"
 end

@@ -85,9 +85,9 @@ export class AddAssigneeComponent {
       .apiV3Service
       .principals
       .filtered(filters)
-      .get()
+      .getPaginatedResults()
       .pipe(
-        map((collection) => collection.elements.filter(
+        map((elements) => elements.filter(
           (user) => !this.alreadySelected.find((selected) => selected === user.id),
         )),
       );

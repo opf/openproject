@@ -25,8 +25,8 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require_relative '../shared_expectations'
+require "spec_helper"
+require_relative "../shared_expectations"
 
 RSpec.describe CustomActions::Actions::Status do
   let(:key) { :status }
@@ -42,10 +42,10 @@ RSpec.describe CustomActions::Actions::Status do
      { value: statuses.last.id, label: statuses.last.name }]
   end
 
-  it_behaves_like 'base custom action'
-  it_behaves_like 'associated custom action' do
-    describe '#allowed_values' do
-      it 'is the list of all status' do
+  it_behaves_like "base custom action"
+  it_behaves_like "associated custom action" do
+    describe "#allowed_values" do
+      it "is the list of all status" do
         allowed_values
 
         expect(instance.allowed_values)

@@ -26,27 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Status do
   let(:stubbed_status) { build_stubbed(:status) }
 
-  describe 'default status' do
-    context 'when default exists' do
+  describe "default status" do
+    context "when default exists" do
       let!(:status) { create(:default_status) }
 
-      it 'returns that one' do
+      it "returns that one" do
         expect(described_class.default).to eq(status)
         expect(described_class.where_default.pluck(:id)).to eq([status.id])
       end
 
-      it 'can not be set read only (Regression #33750)', with_ee: %i[readonly_work_packages] do
+      it "can not be set read only (Regression #33750)", with_ee: %i[readonly_work_packages] do
         status.is_readonly = true
         expect(status.save).to be false
         expect(status.errors[:is_readonly]).to include(I18n.t("activerecord.errors.models.status.readonly_default_exlusive"))
       end
 
-      it 'is removed from the existing default status upon creation of a new one' do
+      it "is removed from the existing default status upon creation of a new one" do
         new_default = create(:status)
         new_default.is_default = true
         new_default.save
@@ -56,26 +56,26 @@ RSpec.describe Status do
       end
     end
 
-    it 'is not true by default' do
-      status = described_class.new name: 'Status'
+    it "is not true by default" do
+      status = described_class.new name: "Status"
 
       expect(status)
         .not_to be_is_default
     end
   end
 
-  describe '#is_readonly' do
+  describe "#is_readonly" do
     let!(:status) { build(:status, is_readonly: true) }
 
-    context 'when EE enabled', with_ee: %i[readonly_work_packages] do
-      it 'is still marked read only' do
+    context "when EE enabled", with_ee: %i[readonly_work_packages] do
+      it "is still marked read only" do
         expect(status.is_readonly).to be_truthy
         expect(status).to be_is_readonly
       end
     end
 
-    context 'when EE no longer enabled', with_ee: false do
-      it 'is still marked read only' do
+    context "when EE no longer enabled", with_ee: false do
+      it "is still marked read only" do
         expect(status.is_readonly).to be_falsey
         expect(status).not_to be_is_readonly
 
@@ -86,8 +86,8 @@ RSpec.describe Status do
     end
   end
 
-  describe '#cache_key' do
-    it 'updates when the updated_at field changes' do
+  describe "#cache_key" do
+    it "updates when the updated_at field changes" do
       old_cache_key = stubbed_status.cache_key
 
       stubbed_status.updated_at = Time.zone.now
@@ -97,39 +97,15 @@ RSpec.describe Status do
     end
   end
 
-  describe '.update_done_ratios' do
-    let(:status) { create(:status, default_done_ratio: 50) }
-    let(:work_package) { create(:work_package, status:) }
-
-    context 'with Setting.work_package_done_ratio using the field', with_settings: { work_package_done_ratio: 'field' } do
-      it 'changes nothing' do
-        done_ratio_before = work_package.done_ratio
-        described_class.update_work_package_done_ratios
-
-        expect(work_package.reload.done_ratio)
-          .to eql done_ratio_before
-      end
-    end
-
-    context 'with Setting.work_package_done_ratio using the status', with_settings: { work_package_done_ratio: 'status' } do
-      it "updates all of the work package's % Complete values to match their status" do
-        described_class.update_work_package_done_ratios
-
-        expect(work_package.reload.done_ratio)
-          .to eql status.default_done_ratio
-      end
-    end
-  end
-
-  describe '#destroy' do
-    it 'cannot be destroyed if the status is in use' do
+  describe "#destroy" do
+    it "cannot be destroyed if the status is in use" do
       work_package = create(:work_package)
 
       expect { work_package.status.destroy }
         .to raise_error(RuntimeError, "Can't delete status")
     end
 
-    it 'cleans up the workflows' do
+    it "cleans up the workflows" do
       workflow = create(:workflow)
 
       expect { workflow.old_status.destroy }

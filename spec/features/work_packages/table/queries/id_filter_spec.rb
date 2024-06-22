@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package filtering by id', :js do
+RSpec.describe "Work package filtering by id", :js do
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -52,16 +52,16 @@ RSpec.describe 'Work package filtering by id', :js do
     wp_table.expect_work_package_listed(work_package, other_work_package)
 
     filters.open
-    filters.add_filter_by('ID', 'is (OR)', [work_package.subject])
+    filters.add_filter_by("ID", "is (OR)", [work_package.subject])
   end
 
-  it 'shows the work package matching the id filter' do
+  it "shows the work package matching the id filter" do
     wp_table.ensure_work_package_not_listed!(other_work_package)
     wp_table.expect_work_package_listed(work_package)
 
-    wp_table.save_as('Id query')
+    wp_table.save_as("Id query")
 
-    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+    wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
     # Revisit query
     wp_table.visit_query Query.last
@@ -69,23 +69,23 @@ RSpec.describe 'Work package filtering by id', :js do
     wp_table.expect_work_package_listed(work_package)
 
     filters.open
-    filters.expect_filter_by('ID', 'is (OR)', ["##{work_package.id} #{work_package.subject}"])
-    filters.remove_filter 'id'
-    filters.add_filter_by('ID', 'is not', [work_package.subject, other_work_package.subject])
+    filters.expect_filter_by("ID", "is (OR)", ["##{work_package.id} #{work_package.subject}"])
+    filters.remove_filter "id"
+    filters.add_filter_by("ID", "is not", [work_package.subject, other_work_package.subject])
 
     wp_table.expect_no_work_package_listed
 
-    filters.remove_filter 'id'
-    filters.add_filter_by('ID', 'is (OR)', [work_package.id.to_s])
-    filters.expect_filter_by('ID', 'is (OR)', ["##{work_package.id} #{work_package.subject}"])
+    filters.remove_filter "id"
+    filters.add_filter_by("ID", "is (OR)", [work_package.id.to_s])
+    filters.expect_filter_by("ID", "is (OR)", ["##{work_package.id} #{work_package.subject}"])
 
     wp_table.expect_work_package_listed(work_package)
   end
 
-  it 'can still inline create a new work package (regression #41667)' do
+  it "can still inline create a new work package (regression #41667)" do
     wp_table.click_inline_create
-    expect(page).to have_css('.wp--row', count: 2)
+    expect(page).to have_css(".wp--row", count: 2)
 
-    expect(page).to have_css('.wp-inline-create-row')
+    expect(page).to have_css(".wp-inline-create-row")
   end
 end

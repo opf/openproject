@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../shared_examples'
+require_relative "../shared_examples"
 
-RSpec.describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
-  let(:type_task) { build_stubbed(:type_task, name: 'My BCF type') }
+RSpec.describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, "rendering" do
+  let(:type_task) { build_stubbed(:type_task, name: "My BCF type") }
   let(:status) { build_stubbed(:status) }
   let(:user) { build_stubbed(:user) }
   let(:project) do
@@ -41,7 +41,7 @@ RSpec.describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' 
   let(:priority) { build_stubbed(:priority) }
   let(:user) { build_stubbed(:user) }
   let(:contract) do
-    double('contract',
+    double("contract",
            user:,
            model: work_package,
            assignable_types: [type_task],
@@ -59,134 +59,134 @@ RSpec.describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' 
     end
   end
 
-  shared_examples_for 'empty when lacking manage bcf' do
+  shared_examples_for "empty when lacking manage bcf" do
     let(:permissions) { %i[edit_project] }
 
-    it_behaves_like 'attribute' do
+    it_behaves_like "attribute" do
       let(:value) { [] }
     end
   end
 
-  describe 'attributes' do
-    describe 'topic_type' do
-      let(:path) { 'topic_type' }
+  describe "attributes" do
+    describe "topic_type" do
+      let(:path) { "topic_type" }
 
-      it_behaves_like 'attribute' do
+      it_behaves_like "attribute" do
         let(:value) { [type_task.name] }
       end
 
-      it_behaves_like 'empty when lacking manage bcf'
+      it_behaves_like "empty when lacking manage bcf"
     end
 
-    describe 'topic_status' do
-      let(:path) { 'topic_status' }
+    describe "topic_status" do
+      let(:path) { "topic_status" }
 
-      it_behaves_like 'attribute' do
+      it_behaves_like "attribute" do
         let(:value) { [status.name] }
       end
 
-      it_behaves_like 'empty when lacking manage bcf'
+      it_behaves_like "empty when lacking manage bcf"
     end
 
-    describe 'topic_actions' do
-      let(:path) { 'topic_actions' }
+    describe "topic_actions" do
+      let(:path) { "topic_actions" }
 
-      it_behaves_like 'attribute' do
+      it_behaves_like "attribute" do
         let(:value) { %w[update updateRelatedTopics updateFiles createViewpoint] }
       end
 
-      it_behaves_like 'empty when lacking manage bcf'
+      it_behaves_like "empty when lacking manage bcf"
     end
 
-    describe 'priority' do
-      let(:path) { 'priority' }
+    describe "priority" do
+      let(:path) { "priority" }
 
-      it_behaves_like 'attribute' do
+      it_behaves_like "attribute" do
         let(:value) { [priority.name] }
       end
 
-      it_behaves_like 'empty when lacking manage bcf'
+      it_behaves_like "empty when lacking manage bcf"
     end
 
-    describe 'user_id_type' do
-      let(:path) { 'user_id_type' }
+    describe "user_id_type" do
+      let(:path) { "user_id_type" }
       let(:permissions) { %i[manage_bcf view_members edit_project] }
 
-      it_behaves_like 'attribute' do
+      it_behaves_like "attribute" do
         let(:value) { [user.mail] }
       end
 
-      it_behaves_like 'empty when lacking manage bcf'
+      it_behaves_like "empty when lacking manage bcf"
 
-      context 'when lacking view_members' do
+      context "when lacking view_members" do
         let(:permissions) { %i[manage_bcf edit_project] }
 
-        it_behaves_like 'attribute' do
+        it_behaves_like "attribute" do
           let(:value) { [] }
         end
       end
     end
 
-    describe 'project_actions' do
-      let(:path) { 'project_actions' }
+    describe "project_actions" do
+      let(:path) { "project_actions" }
 
-      it_behaves_like 'attribute' do
+      it_behaves_like "attribute" do
         let(:value) { %w(update viewTopic createTopic) }
       end
 
-      context 'with only view_linked_issues' do
+      context "with only view_linked_issues" do
         let(:permissions) { %i[view_linked_issues] }
 
-        it_behaves_like 'attribute' do
+        it_behaves_like "attribute" do
           let(:value) { %w[viewTopic] }
         end
       end
 
-      context 'when lacking manage_bcf' do
+      context "when lacking manage_bcf" do
         let(:permissions) { %i[edit_project] }
 
-        it_behaves_like 'attribute' do
-          let(:value) { ['update'] }
+        it_behaves_like "attribute" do
+          let(:value) { ["update"] }
         end
       end
 
-      context 'when lacking edit_project' do
+      context "when lacking edit_project" do
         let(:permissions) { %i[manage_bcf] }
 
-        it_behaves_like 'attribute' do
+        it_behaves_like "attribute" do
           let(:value) { %w[viewTopic createTopic] }
         end
       end
     end
 
-    describe 'topic_label' do
-      let(:path) { 'topic_label' }
+    describe "topic_label" do
+      let(:path) { "topic_label" }
 
-      it_behaves_like 'attribute' do
+      it_behaves_like "attribute" do
         let(:value) { [] }
       end
     end
 
-    describe 'snippet_type' do
-      let(:path) { 'snippet_type' }
+    describe "snippet_type" do
+      let(:path) { "snippet_type" }
 
-      it_behaves_like 'attribute' do
+      it_behaves_like "attribute" do
         let(:value) { [] }
       end
     end
 
-    describe 'stage' do
-      let(:path) { 'stage' }
+    describe "stage" do
+      let(:path) { "stage" }
 
-      it_behaves_like 'attribute' do
+      it_behaves_like "attribute" do
         let(:value) { [] }
       end
     end
 
-    describe 'comment_actions' do
-      let(:path) { 'comment_actions' }
+    describe "comment_actions" do
+      let(:path) { "comment_actions" }
 
-      it_behaves_like 'attribute' do
+      it_behaves_like "attribute" do
         let(:value) { [] }
       end
     end

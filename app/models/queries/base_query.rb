@@ -31,8 +31,10 @@ module Queries::BaseQuery
 
   included do
     include Queries::Filters::AvailableFilters
+    include Queries::Selects::AvailableSelects
     include Queries::Orders::AvailableOrders
     include Queries::GroupBys::AvailableGroupBys
+    include Queries::ValidSubset
     include ActiveModel::Validations
 
     validate :filters_valid,
@@ -42,11 +44,21 @@ module Queries::BaseQuery
 
   class_methods do
     def model
-      @model ||= name.demodulize.gsub('Query', '').constantize
+      @model ||= name.demodulize.gsub("Query", "").constantize
     end
 
     def i18n_scope
       :activerecord
+    end
+
+    # Use the Query class' error messages.
+    # So everything under
+    #
+    # activerecord.errors.models.query
+    #
+    # is found.
+    def lookup_ancestors
+      [Query]
     end
   end
 
@@ -63,11 +75,11 @@ module Queries::BaseQuery
     return empty_scope unless valid?
 
     apply_group_by(apply_filters(default_scope))
-      .select(group_by.name, Arel.sql('COUNT(*)'))
+      .select(group_by.name, Arel.sql("COUNT(*)"))
   end
 
   def group_values
-    groups_hash = groups.pluck(group_by.name, Arel.sql('COUNT(*)')).to_h
+    groups_hash = groups.pluck(group_by.name, Arel.sql("COUNT(*)")).to_h
     instantiate_group_keys groups_hash
   end
 
@@ -77,7 +89,25 @@ module Queries::BaseQuery
     filter.values = values
     filter.context = context
 
+    # Remove any previous instances of the same filter
+    remove_filter(filter.name)
     filters << filter
+
+    self
+  end
+
+  def remove_filter(name)
+    filters.delete(find_active_filter(name))
+  end
+
+  def select(*select_values, add_not_existing: true)
+    select_values.each do |select_value|
+      select_column = select_for(select_value)
+
+      if !select_column.is_a?(::Queries::Selects::NotExistingSelect) || add_not_existing
+        selects << select_column
+      end
+    end
 
     self
   end
@@ -157,31 +187,28 @@ module Queries::BaseQuery
     self
   end
 
-  def apply_filters(scope)
-    filters.each do |filter|
-      scope = scope.merge(filter.scope)
+  def apply_filters(query_scope)
+    filters.inject(query_scope) do |scope, filter|
+      filter.apply_to(scope)
     end
-
-    scope
   end
 
-  def apply_orders(scope)
-    build_orders.each do |order|
-      scope = scope.merge(order.scope)
+  def apply_orders(query_scope)
+    query_scope = build_orders.inject(query_scope) do |scope, order|
+      order.apply_to(scope)
     end
 
     # To get deterministic results, especially when paginating (limit + offset)
     # an order needs to be prepended that is ensured to be
     # different between all elements.
     # Without such a criteria, results can occur on multiple pages.
-    already_ordered_by_id?(scope) ? scope : scope.order(id: :desc)
+    already_ordered_by_id?(query_scope) ? query_scope : query_scope.order(id: :desc)
   end
 
-  def apply_group_by(scope)
-    return scope if group_by.nil?
+  def apply_group_by(query_scope)
+    return query_scope if group_by.nil?
 
-    scope
-      .merge(group_by.scope)
+    group_by.apply_to(query_scope)
       .order(group_by.name)
   end
 
@@ -215,7 +242,7 @@ module Queries::BaseQuery
     scope.order_values.any? do |order|
       order.respond_to?(:value) && order.value.respond_to?(:relation) &&
         order.value.relation.name == self.class.model.table_name &&
-        order.value.name == 'id'
+        order.value.name == "id"
     end
   end
 end

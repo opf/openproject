@@ -1,4 +1,4 @@
-require 'doorkeeper/grape/authorization_decorator'
+require "doorkeeper/grape/authorization_decorator"
 
 module OpenProject
   module Authentication
@@ -17,7 +17,7 @@ module OpenProject
           def authenticate!
             token = ::Doorkeeper::OAuth::Token.authenticate(decorated_request,
                                                             *Doorkeeper.configuration.access_token_methods)
-            return fail!('invalid token') unless token&.acceptable?(scope)
+            return fail!("invalid token") unless token&.acceptable?(scope)
 
             if token.resource_owner_id.nil?
               authenticate_client_credentials(token)

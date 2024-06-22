@@ -91,10 +91,6 @@ import {
   triggerActionsEntryComponentSelector,
 } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
 import {
-  BacklogsPageComponent,
-  backlogsPageComponentSelector,
-} from 'core-app/features/backlogs/backlogs-page/backlogs-page.component';
-import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector,
 } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
@@ -151,10 +147,6 @@ import {
   opTeamPlannerSidemenuSelector,
   TeamPlannerSidemenuComponent,
 } from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
-import {
-  CalendarSidemenuComponent,
-  opCalendarSidemenuSelector,
-} from 'core-app/features/calendar/sidemenu/calendar-sidemenu.component';
 import {
   OpModalOverlayComponent,
   opModalOverlaySelector,
@@ -222,9 +214,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
   { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
-  { selector: opCalendarSidemenuSelector, cls: CalendarSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
-  { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },

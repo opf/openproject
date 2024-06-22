@@ -31,11 +31,11 @@ class UserSearchService
   attr_reader :users_only, :project
 
   SEARCH_SCOPES = [
-    'project_id',
-    'ids',
-    'group_id',
-    'status',
-    'name'
+    "project_id",
+    "ids",
+    "group_id",
+    "status",
+    "name"
   ]
 
   def initialize(params, users_only: false)
@@ -58,7 +58,7 @@ class UserSearchService
   end
 
   def ids_search(scope)
-    ids = params[:ids].split(',')
+    ids = params[:ids].split(",")
 
     scope.where(id: ids)
   end
@@ -68,21 +68,21 @@ class UserSearchService
     c = ARCondition.new
 
     case params[:status]
-    when 'blocked'
+    when "blocked"
       @status = :blocked
       scope = scope.blocked
-    when 'all'
+    when "all"
       @status = :all
       # No scope change necessary
     else
       @status = params[:status] ? params[:status].to_i : User.statuses[:active]
       scope = scope.not_blocked if users_only && @status == User.statuses[:active]
-      c << ['status = ?', @status]
+      c << ["status = ?", @status]
     end
 
     if params[:name].present?
       name = "%#{params[:name].strip.downcase}%"
-      c << ['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?', name, name, name,
+      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name,
             name]
     end
 

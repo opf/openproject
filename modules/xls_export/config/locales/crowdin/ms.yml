@@ -1,0 +1,16 @@
+ms:
+  plugin_openproject_xls_export:
+    name: "Eksport XLS OpenProject"
+    description: "Eksport senarai isu sebagai hamparan Excel (.xls)."
+  export_to_excel: "Eksport XLS"
+  print_with_description: "Cetak previu serta deskripsi"
+  sentence_separator_or: "atau"
+  different_formats: Format berbeza
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS dengan deskripsi"
+      xls_with_relations: "XLS dengan hubungan"
+  xls_export:
+    child_of: anak kepada
+    parent_of: induk kepada

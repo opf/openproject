@@ -33,38 +33,43 @@ module Storages
     module StorageInteraction
       module OneDrive
         class DeleteFolderCommand
-          def self.call(storage:, location:)
-            new(storage).call(location:)
+          def self.call(storage:, auth_strategy:, location:)
+            new(storage).call(auth_strategy:, location:)
           end
 
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          def call(location:)
-            Util.using_admin_token(@storage) do |http|
-              response = http.delete("/v1.0/drives/#{@storage.drive_id}/items/#{location}")
+          def call(auth_strategy:, location:)
+            Authentication[auth_strategy].call(storage: @storage) do |http|
+              handle_response http.delete(
+                Util.join_uri_path(@storage.uri, "/v1.0/drives/#{@storage.drive_id}/items/#{location}")
+              )
+            end
+          end
 
-              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
+          private
 
-              case response
-              in { status: 200..299 }
-                # The service returns a 204 with an empty body
-                ServiceResult.success
-              in { status: 401 }
-                ServiceResult.failure(result: :unauthorized,
-                                      errors: ::Storages::StorageError.new(code: :unauthorized, data:))
-              in { status: 404 }
-                ServiceResult.failure(result: :not_found,
-                                      errors: ::Storages::StorageError.new(code: :not_found, data:))
-              in { status: 409 }
-                ServiceResult.failure(result: :conflict,
-                                      errors: ::Storages::StorageError.new(code: :conflict, data:))
-              else
-                ServiceResult.failure(result: :error,
-                                      errors: ::Storages::StorageError.new(code: :error, data:))
-              end
+          def handle_response(response)
+            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
+
+            case response
+            in { status: 200..299 }
+              # The service returns a 204 with an empty body
+              ServiceResult.success
+            in { status: 401 }
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: ::Storages::StorageError.new(code: :unauthorized, data:))
+            in { status: 404 }
+              ServiceResult.failure(result: :not_found,
+                                    errors: ::Storages::StorageError.new(code: :not_found, data:))
+            in { status: 409 }
+              ServiceResult.failure(result: :conflict,
+                                    errors: ::Storages::StorageError.new(code: :conflict, data:))
+            else
+              ServiceResult.failure(result: :error,
+                                    errors: ::Storages::StorageError.new(code: :error, data:))
             end
           end
         end

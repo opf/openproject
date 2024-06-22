@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Cost Entry resource' do
+RSpec.describe "API v3 Cost Entry resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -49,54 +49,54 @@ RSpec.describe 'API v3 Cost Entry resource' do
     get get_path
   end
 
-  describe 'cost_entries/:id' do
+  describe "cost_entries/:id" do
     let(:get_path) { api_v3_paths.cost_entry cost_entry.id }
 
-    context 'user can see cost entries' do
-      context 'valid id' do
-        it 'returns HTTP 200' do
+    context "user can see cost entries" do
+      context "valid id" do
+        it "returns HTTP 200" do
           expect(response.status).to be(200)
         end
       end
 
-      context 'invalid id' do
-        let(:get_path) { api_v3_paths.cost_type 'bogus' }
+      context "invalid id" do
+        let(:get_path) { api_v3_paths.cost_type "bogus" }
 
-        it_behaves_like 'param validation error' do
-          let(:id) { 'bogus' }
+        it_behaves_like "param validation error" do
+          let(:id) { "bogus" }
         end
       end
     end
 
-    context 'user can only see own cost entries' do
+    context "user can only see own cost entries" do
       let(:permissions) { [:view_own_cost_entries] }
 
-      context 'cost entry is not his own' do
-        it_behaves_like 'error response',
+      context "cost entry is not his own" do
+        it_behaves_like "error response",
                         403,
-                        'MissingPermission',
-                        I18n.t('api_v3.errors.code_403')
+                        "MissingPermission",
+                        I18n.t("api_v3.errors.code_403")
       end
 
-      context 'cost entry is his own' do
+      context "cost entry is his own" do
         let(:cost_entry) { create(:cost_entry, project:, user: current_user) }
 
-        it 'returns HTTP 200' do
+        it "returns HTTP 200" do
           expect(response.status).to be(200)
         end
       end
     end
 
-    context 'user has no cost entry permissions' do
+    context "user has no cost entry permissions" do
       let(:permissions) { [] }
 
-      describe 'he can\'t even see own cost entries' do
+      describe "he can't even see own cost entries" do
         let(:cost_entry) { create(:cost_entry, project:, user: current_user) }
 
-        it_behaves_like 'error response',
+        it_behaves_like "error response",
                         403,
-                        'MissingPermission',
-                        I18n.t('api_v3.errors.code_403')
+                        "MissingPermission",
+                        I18n.t("api_v3.errors.code_403")
       end
     end
   end

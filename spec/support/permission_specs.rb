@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path('shared/become_member', __dir__)
+require File.expand_path("shared/become_member", __dir__)
 
 module PermissionSpecs
   def self.included(base)
@@ -49,18 +49,22 @@ module PermissionSpecs
       end
 
       def self.check_permission_required_for(controller_action, permission)
-        controller_name, action_name = controller_action.split('#')
+        controller_name, action_name = controller_action.split("#")
 
         it "allows calling #{controller_action} when having the permission #{permission}" do
+          controller.params = { controller: controller_name, action: action_name }
+
           become_member_with_permissions(project, current_user, permission)
 
-          expect(controller.send(:authorize, controller_name, action_name)).to be_truthy
+          expect(controller.send(:authorize)).to be_truthy
         end
 
         it "prevents calling #{controller_action} when not having the permission #{permission}" do
+          controller.params = { controller: controller_name, action: action_name }
+
           become_member(project, current_user)
 
-          expect(controller.send(:authorize, controller_name, action_name)).to be_falsey
+          expect(controller.send(:authorize)).to be_falsey
         end
       end
 

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackages::BaseContract, type: :model do
   shared_let(:type_feature) { create(:type_feature) }
@@ -45,15 +45,15 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:instance) { described_class.new(work_package, user) }
-  let(:version1) { build_stubbed(:version, name: 'Version1', project: p) }
-  let(:version2) { build_stubbed(:version, name: 'Version2', project: p) }
+  let(:version1) { build_stubbed(:version, name: "Version1", project: p) }
+  let(:version2) { build_stubbed(:version, name: "Version2", project: p) }
 
   let(:issue_priority) { build(:priority) }
-  let(:status) { build_stubbed(:status, name: 'status 1', is_default: true) }
+  let(:status) { build_stubbed(:status, name: "status 1", is_default: true) }
 
   let(:story) do
     build_stubbed(:work_package,
-                  subject: 'Story',
+                  subject: "Story",
                   project:,
                   type: type_feature,
                   version: version1,
@@ -64,7 +64,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
 
   let(:story2) do
     build_stubbed(:work_package,
-                  subject: 'Story2',
+                  subject: "Story2",
                   project:,
                   type: type_feature,
                   version: version1,
@@ -75,7 +75,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
 
   let(:task) do
     build_stubbed(:work_package,
-                  subject: 'Task',
+                  subject: "Task",
                   type: type_task,
                   version: version1,
                   project:,
@@ -86,7 +86,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
 
   let(:task2) do
     build_stubbed(:work_package,
-                  subject: 'Task2',
+                  subject: "Task2",
                   type: type_task,
                   version: version1,
                   project:,
@@ -97,7 +97,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
 
   let(:bug) do
     build_stubbed(:work_package,
-                  subject: 'Bug',
+                  subject: "Bug",
                   type: type_bug,
                   version: version1,
                   project:,
@@ -108,7 +108,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
 
   let(:bug2) do
     build_stubbed(:work_package,
-                  subject: 'Bug2',
+                  subject: "Bug2",
                   type: type_bug,
                   version: version1,
                   project:,
@@ -141,122 +141,122 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
       .to receive(:relatable)
             .and_return(relatable_scope)
 
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template' => '',
-                                                                         'story_types' => [type_feature.id],
-                                                                         'task_type' => type_task.id.to_s })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "points_burn_direction" => "down",
+                                                                         "wiki_template" => "",
+                                                                         "story_types" => [type_feature.id],
+                                                                         "task_type" => type_task.id.to_s })
   end
 
-  describe 'story_points' do
+  describe "story_points" do
     let(:work_package) { task }
 
-    it 'is writable' do
+    it "is writable" do
       work_package.story_points = 5
       expect(subject).to be_truthy
     end
   end
 
-  shared_examples_for 'is valid' do
-    it 'is valid' do
+  shared_examples_for "is valid" do
+    it "is valid" do
       expect(subject).to be_truthy
     end
   end
 
-  describe 'version being restricted' do
-    shared_examples_for 'version not being restricted by the parent' do
+  describe "version being restricted" do
+    shared_examples_for "version not being restricted by the parent" do
       before do
         work_package.parent ||= parent
       end
 
-      describe 'WITHOUT a version and the parent also having no version' do
+      describe "WITHOUT a version and the parent also having no version" do
         before do
           parent.version = nil
           work_package.version = nil
         end
 
-        include_examples 'is valid'
+        include_examples "is valid"
       end
 
-      describe 'WITHOUT a version and the parent having a version' do
+      describe "WITHOUT a version and the parent having a version" do
         before do
           parent.version = version1
           work_package.version = nil
         end
 
-        include_examples 'is valid'
+        include_examples "is valid"
       end
 
-      describe 'WITH a version and the parent having a different version' do
+      describe "WITH a version and the parent having a different version" do
         before do
           parent.version = version1
           work_package.version = version2
         end
 
-        include_examples 'is valid'
+        include_examples "is valid"
       end
 
-      describe 'WITH a version and the parent having the same version' do
+      describe "WITH a version and the parent having the same version" do
         before do
           parent.version = version1
           work_package.version = version1
         end
 
-        include_examples 'is valid'
+        include_examples "is valid"
       end
 
-      describe 'WITH a version and the parent having no version' do
+      describe "WITH a version and the parent having no version" do
         before do
           parent.version = nil
           work_package.version = version1
         end
 
-        include_examples 'is valid'
+        include_examples "is valid"
       end
     end
 
-    shared_examples_for 'version without restriction' do
-      describe 'WITHOUT a version' do
+    shared_examples_for "version without restriction" do
+      describe "WITHOUT a version" do
         before do
           work_package.version = nil
         end
 
-        include_examples 'is valid'
+        include_examples "is valid"
       end
 
-      describe 'WITH a version' do
+      describe "WITH a version" do
         before do
           work_package.version = version1
         end
 
-        include_examples 'is valid'
+        include_examples "is valid"
       end
     end
 
-    describe 'WITH a story' do
+    describe "WITH a story" do
       let(:work_package) { story }
 
-      describe 'WITHOUT a parent work_package' do
-        it_behaves_like 'version without restriction'
+      describe "WITHOUT a parent work_package" do
+        it_behaves_like "version without restriction"
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story2 }
 
-        it_behaves_like 'version not being restricted by the parent'
+        it_behaves_like "version not being restricted by the parent"
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
         let(:parent) { bug }
 
-        it_behaves_like 'version not being restricted by the parent'
+        it_behaves_like "version not being restricted by the parent"
       end
     end
 
-    describe 'WITH a task' do
+    describe "WITH a task" do
       let(:work_package) { task }
 
-      describe 'WITHOUT a parent work_package (would then be an impediment)' do
-        it_behaves_like 'version without restriction'
+      describe "WITHOUT a parent work_package (would then be an impediment)" do
+        it_behaves_like "version without restriction"
       end
 
       describe "WITH a task as its parent" do
@@ -266,115 +266,115 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
 
         let(:parent) { task2 }
 
-        it_behaves_like 'version not being restricted by the parent'
+        it_behaves_like "version not being restricted by the parent"
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story }
 
-        it_behaves_like 'version not being restricted by the parent'
+        it_behaves_like "version not being restricted by the parent"
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
         let(:parent) { bug }
 
-        it_behaves_like 'version not being restricted by the parent'
+        it_behaves_like "version not being restricted by the parent"
       end
     end
 
-    describe 'WITH a non backlogs work_package' do
+    describe "WITH a non backlogs work_package" do
       let(:work_package) { bug }
 
-      describe 'WITHOUT a parent work_package' do
-        it_behaves_like 'version without restriction'
+      describe "WITHOUT a parent work_package" do
+        it_behaves_like "version without restriction"
       end
 
       describe "WITH a task as its parent" do
         let(:parent) { task2 }
 
-        it_behaves_like 'version not being restricted by the parent'
+        it_behaves_like "version not being restricted by the parent"
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story }
 
-        it_behaves_like 'version not being restricted by the parent'
+        it_behaves_like "version not being restricted by the parent"
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
         let(:parent) { bug2 }
 
-        it_behaves_like 'version not being restricted by the parent'
+        it_behaves_like "version not being restricted by the parent"
       end
     end
   end
 
-  describe 'parent has to be in same project' do
-    shared_examples_for 'project id unrestricted by parent' do
-      describe 'WITH the parent having a different project' do
+  describe "parent has to be in same project" do
+    shared_examples_for "project id unrestricted by parent" do
+      describe "WITH the parent having a different project" do
         before do
           parent.project = other_project
           work_package.parent = parent
         end
 
-        include_examples 'is valid'
+        include_examples "is valid"
       end
 
-      describe 'WITH the work_package having a different project' do
+      describe "WITH the work_package having a different project" do
         before do
           work_package.parent = parent
           work_package.project = other_project
         end
 
-        include_examples 'is valid'
+        include_examples "is valid"
       end
     end
 
-    describe 'WITH a task' do
+    describe "WITH a task" do
       let(:work_package) { task }
 
-      describe 'WITH a story as its parent' do
+      describe "WITH a story as its parent" do
         let(:parent) { story }
 
-        include_examples 'project id unrestricted by parent'
+        include_examples "project id unrestricted by parent"
       end
 
-      describe 'WITH a non backlogs work package as its parent' do
+      describe "WITH a non backlogs work package as its parent" do
         let(:parent) { bug }
 
-        include_examples 'project id unrestricted by parent'
+        include_examples "project id unrestricted by parent"
       end
     end
 
-    describe 'WITH a story' do
+    describe "WITH a story" do
       let(:work_package) { story }
 
-      describe 'WITH a story as its parent' do
+      describe "WITH a story as its parent" do
         let(:parent) { story2 }
 
-        include_examples 'project id unrestricted by parent'
+        include_examples "project id unrestricted by parent"
       end
 
-      describe 'WITH a non backlogs work package as its parent' do
+      describe "WITH a non backlogs work package as its parent" do
         let(:parent) { bug }
 
-        include_examples 'project id unrestricted by parent'
+        include_examples "project id unrestricted by parent"
       end
     end
 
-    describe 'WITH a non backlogs work package' do
+    describe "WITH a non backlogs work package" do
       let(:work_package) { bug }
 
-      describe 'WITH a story as its parent' do
+      describe "WITH a story as its parent" do
         let(:parent) { story }
 
-        include_examples 'project id unrestricted by parent'
+        include_examples "project id unrestricted by parent"
       end
 
-      describe 'WITH a non backlogs work package as its parent' do
+      describe "WITH a non backlogs work package as its parent" do
         let(:parent) { bug2 }
 
-        include_examples 'project id unrestricted by parent'
+        include_examples "project id unrestricted by parent"
       end
     end
   end

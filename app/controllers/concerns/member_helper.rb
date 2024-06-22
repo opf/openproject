@@ -59,7 +59,7 @@ module MemberHelper
 
   def invite_new_users(user_ids, send_notification: true)
     user_ids.filter_map do |id|
-      if id.to_i == 0 && id.present? # we've got an email - invite that user
+      if id.present? && (id.to_i == 0 || EmailValidator.valid?(id)) # we've got an email - invite that user
         # Only users with the create_user permission can add users.
         if current_user.allowed_globally?(:create_user) && enterprise_allow_new_users?
           # The invitation can pretty much only fail due to the user already
@@ -88,7 +88,7 @@ module MemberHelper
     return array if array.blank?
 
     each_comma_separated(array) do |elem|
-      elem.to_s.split(',')
+      elem.to_s.split(",")
     end
   end
 

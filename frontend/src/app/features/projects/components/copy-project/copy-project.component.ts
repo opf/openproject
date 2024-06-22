@@ -11,10 +11,9 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { Component, OnInit } from '@angular/core';
-import { StateService } from '@uirouter/core';
+
 
 @Component({
-  selector: 'op-copy-project',
   templateUrl: './copy-project.component.html',
 })
 export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit {
@@ -25,6 +24,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   formUrl:string;
 
   hiddenFields:string[] = [
+    'createdAt',
     'identifier',
     'active',
   ];
@@ -39,7 +39,6 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
     private currentProjectService:CurrentProjectService,
     private pathHelperService:PathHelperService,
     private modalService:OpModalService,
-    private $state:StateService,
     private I18n:I18nService,
   ) {
     super();

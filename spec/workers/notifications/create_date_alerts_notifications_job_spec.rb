@@ -26,21 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with_ee: %i[date_alerts] do
-  include ActiveSupport::Testing::TimeHelpers
-
-  shared_let(:project) { create(:project, name: 'main') }
+  shared_let(:project) { create(:project, name: "main") }
 
   shared_let(:status_open) { create(:status, name: "open", is_closed: false) }
   shared_let(:status_closed) { create(:status, name: "closed", is_closed: true) }
 
   # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
-  shared_let(:timezone_paris) { ActiveSupport::TimeZone['Europe/Paris'] }
-  shared_let(:timezone_berlin) { ActiveSupport::TimeZone['Europe/Berlin'] }
+  shared_let(:timezone_paris) { ActiveSupport::TimeZone["Europe/Paris"] }
+  shared_let(:timezone_berlin) { ActiveSupport::TimeZone["Europe/Berlin"] }
   # Kathmandu is UTC+05:45 (no DST)
-  shared_let(:timezone_kathmandu) { ActiveSupport::TimeZone['Asia/Kathmandu'] }
+  shared_let(:timezone_kathmandu) { ActiveSupport::TimeZone["Asia/Kathmandu"] }
 
   # use Paris time zone for most tests
   shared_let(:today) { timezone_paris.today }
@@ -51,7 +49,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
   shared_let(:user) do
     create(
       :user,
-      firstname: 'Paris',
+      firstname: "Paris",
       preferences: { time_zone: timezone_paris.name }
     )
   end
@@ -91,7 +89,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       formatted_pairs = object
                           .slice(*keys)
                           .map { |k, v| "#{k}: #{v.is_a?(Date) ? v.to_s : v.inspect}" }
-                          .join(', ')
+                          .join(", ")
       "#<#{formatted_pairs}>"
     end
   end
@@ -125,7 +123,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       formatted_pairs = object
                           .slice(*keys)
                           .map { |k, v| "#{k}: #{v.is_a?(Date) ? v.to_s : v.inspect}" }
-                          .join(', ')
+                          .join(", ")
       "#<#{formatted_pairs}>"
     end
   end
@@ -143,14 +141,14 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
 
   # Converts "hh:mm" into { hour: h, min: m }
   def time_hash(time)
-    %i[hour min].zip(time.split(':', 2).map(&:to_i)).to_h
+    %i[hour min].zip(time.split(":", 2).map(&:to_i)).to_h
   end
 
   def timezone_time(time, timezone)
     timezone.now.change(time_hash(time))
   end
 
-  def run_job(scheduled_at: '1:00', local_time: '1:04', timezone: timezone_paris)
+  def run_job(local_time: "1:04", timezone: timezone_paris)
     travel_to(timezone_time(local_time, timezone)) do
       job.perform_now(user)
 
@@ -158,8 +156,8 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
     end
   end
 
-  describe '#perform' do
-    it 'creates date alert notifications only for open work packages' do
+  describe "#perform" do
+    it "creates date alert notifications only for open work packages" do
       open_work_package = alertable_work_package(status: status_open)
       closed_work_package = alertable_work_package(status: status_closed)
 
@@ -169,7 +167,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       end
     end
 
-    it 'creates date alert notifications if user is assigned to the work package' do
+    it "creates date alert notifications if user is assigned to the work package" do
       work_package_assigned = alertable_work_package(assigned_to: user)
 
       run_job do
@@ -177,7 +175,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       end
     end
 
-    it 'creates date alert notifications if user is accountable of the work package' do
+    it "creates date alert notifications if user is accountable of the work package" do
       work_package_accountable = alertable_work_package(responsible: user)
 
       run_job do
@@ -185,7 +183,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       end
     end
 
-    it 'creates date alert notifications if user is watcher of the work package' do
+    it "creates date alert notifications if user is watcher of the work package" do
       work_package_watched = alertable_work_package(responsible: nil)
       build(:watcher, watchable: work_package_watched, user:).save(validate: false)
 
@@ -194,7 +192,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       end
     end
 
-    it 'creates start date alert notifications based on user notification settings' do
+    it "creates start date alert notifications based on user notification settings" do
       user.notification_settings.first.update(
         start_date: 1,
         due_date: nil
@@ -209,7 +207,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       end
     end
 
-    it 'creates due date alert notifications based on user notification settings' do
+    it "creates due date alert notifications based on user notification settings" do
       user.notification_settings.first.update(
         start_date: nil,
         due_date: 3
@@ -224,8 +222,8 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       end
     end
 
-    context 'without enterprise token', with_ee: false do
-      it 'does not create any date alerts' do
+    context "without enterprise token", with_ee: false do
+      it "does not create any date alerts" do
         work_package = alertable_work_package
 
         run_job do
@@ -234,8 +232,8 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       end
     end
 
-    context 'when project notification settings are defined for a user' do
-      it 'creates date alert notifications using these settings for work packages of the project' do
+    context "when project notification settings are defined for a user" do
+      it "creates date alert notifications using these settings for work packages of the project" do
         # global notification settings
         user.notification_settings.first.update(
           start_date: 1,
@@ -265,8 +263,8 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       end
     end
 
-    context 'with existing date alerts' do
-      it 'marks them as read when new ones are created' do
+    context "with existing date alerts" do
+      it "marks them as read when new ones are created" do
         work_package = alertable_work_package(assigned_to: user,
                                               start_date: in_1_day,
                                               due_date: in_1_day)
@@ -291,7 +289,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       end
 
       # rubocop:disable RSpec/ExampleLength
-      it 'does not mark them as read when if no new notifications are created' do
+      it "does not mark them as read when if no new notifications are created" do
         work_package_start = alertable_work_package(assigned_to: user,
                                                     start_date: in_1_day,
                                                     due_date: nil)

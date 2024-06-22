@@ -32,18 +32,18 @@ module OpenProject::TeamPlanner
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-team_planner',
-             author_url: 'https://www.openproject.org',
+    register "openproject-team_planner",
+             author_url: "https://www.openproject.org",
              bundled: true,
              settings: {} do
       project_module :team_planner_view, dependencies: :work_package_tracking, enterprise_feature: true do
         permission :view_team_planner,
-                   { 'team_planner/team_planner': %i[index show upsale overview] },
+                   { "team_planner/team_planner": %i[index show upsale overview] },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages],
                    contract_actions: { team_planner: %i[read] }
         permission :manage_team_planner,
-                   { 'team_planner/team_planner': %i[index show new create destroy upsale] },
+                   { "team_planner/team_planner": %i[index show new create destroy upsale] },
                    permissible_on: :project,
                    dependencies: %i[view_team_planner
                                     add_work_packages
@@ -60,42 +60,42 @@ module OpenProject::TeamPlanner
 
       menu :global_menu,
            :team_planners,
-           { controller: '/team_planner/team_planner', action: :overview },
-           caption: :'team_planner.label_team_planner_plural',
+           { controller: "/team_planner/team_planner", action: :overview },
+           caption: :"team_planner.label_team_planner_plural",
            before: :boards,
            after: :calendar_view,
-           icon: 'team-planner',
+           icon: "op-team-planner",
            if: should_render_global_menu_item,
-           enterprise_feature: 'team_planner_view'
+           enterprise_feature: "team_planner_view"
 
       menu :project_menu,
            :team_planner_view,
-           { controller: '/team_planner/team_planner', action: :index },
-           caption: :'team_planner.label_team_planner_plural',
+           { controller: "/team_planner/team_planner", action: :index },
+           caption: :"team_planner.label_team_planner_plural",
            after: :work_packages,
-           icon: 'team-planner',
-           enterprise_feature: 'team_planner_view'
+           icon: "op-team-planner",
+           enterprise_feature: "team_planner_view"
 
       menu :project_menu,
            :team_planner_menu,
-           { controller: '/team_planner/team_planner', action: :index },
+           { controller: "/team_planner/team_planner", action: :index },
            parent: :team_planner_view,
-           partial: 'team_planner/team_planner/menu',
+           partial: "team_planner/team_planner/menu",
            last: true,
-           caption: :'team_planner.label_team_planner_plural'
+           caption: :"team_planner.label_team_planner_plural"
 
       menu :top_menu,
-           :team_planners, { controller: '/team_planner/team_planner', action: :overview },
+           :team_planners, { controller: "/team_planner/team_planner", action: :overview },
            context: :modules,
-           caption: :'team_planner.label_team_planner_plural',
+           caption: :"team_planner.label_team_planner_plural",
            before: :boards,
            after: :calendar_view,
-           icon: 'team-planner',
+           icon: "op-team-planner",
            if: should_render_global_menu_item,
-           enterprise_feature: 'team_planner_view'
+           enterprise_feature: "team_planner_view"
     end
 
     add_view :TeamPlanner,
-             contract_strategy: 'TeamPlanner::Views::ContractStrategy'
+             contract_strategy: "TeamPlanner::Views::ContractStrategy"
   end
 end

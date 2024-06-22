@@ -30,7 +30,7 @@ module OpTurbo
   module ComponentStream
     extend ActiveSupport::Concern
 
-    def respond_to_with_turbo_streams(&format_block)
+    def respond_to_with_turbo_streams(status: turbo_status, &format_block)
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_streams, status:
@@ -54,7 +54,7 @@ module OpTurbo
     end
 
     def modify_via_turbo_stream(component:, action:, status:)
-      @status = status
+      @turbo_status = status
       turbo_streams << component.render_as_turbo_stream(
         view_context:,
         action:
@@ -77,8 +77,8 @@ module OpTurbo
       @turbo_streams ||= []
     end
 
-    def status
-      @status ||= :ok
+    def turbo_status
+      @turbo_status ||= :ok
     end
   end
 end

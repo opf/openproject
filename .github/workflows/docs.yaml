@@ -1,0 +1,23 @@
+name: "Docs"
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - release/*
+    paths:
+      - 'docs/**'
+
+permissions:
+  contents: read
+
+jobs:
+  docs-check:
+    name: Check internal links in documentation
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: bundle exec ./script/docs/check_links

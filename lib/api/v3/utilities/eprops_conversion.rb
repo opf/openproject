@@ -41,9 +41,9 @@ module API
             params.merge!(props)
           end
         rescue Zlib::DataError => e
-          raise_invalid_eprops(e, 'api_v3.errors.eprops.invalid_gzip')
+          raise_invalid_eprops(e, "api_v3.errors.eprops.invalid_gzip")
         rescue JSON::ParserError, NoMethodError => e
-          raise_invalid_eprops(e, 'api_v3.errors.eprops.invalid_json')
+          raise_invalid_eprops(e, "api_v3.errors.eprops.invalid_json")
         end
       end
     end

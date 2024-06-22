@@ -28,27 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 # Require the file for the BaseServices shared example you're keeping
 #
-# require 'services/base_services/behaves_like_create_service'
-# require 'services/base_services/behaves_like_update_service'
-# require 'services/base_services/behaves_like_delete_service'
+# require "services/base_services/behaves_like_create_service"
+# require "services/base_services/behaves_like_update_service"
+# require "services/base_services/behaves_like_delete_service"
 
 RSpec.describe <%= service_name %> do
   # Keep the BaseServices shared_example that applies from below
   #
-  # it_behaves_like 'BaseServices create service'
-  # it_behaves_like 'BaseServices update service'
-  # it_behaves_like 'BaseService delete service'
+  # it_behaves_like "BaseServices create service"
+  # it_behaves_like "BaseServices update service"
+  # it_behaves_like "BaseService delete service"
 
   # AND/OR build your own
   # Here's something to get started with
-  shared_examples 'is success' do
+  shared_examples "is success" do
     it { is_expected.to be_success }
   end
 
-  shared_examples 'is failure' do
+  shared_examples "is failure" do
     it { is_expected.to be_failure }
   end
 
@@ -57,15 +57,15 @@ RSpec.describe <%= service_name %> do
 
   subject(:service_call) { instance.call(params) }
 
-  describe '#call' do
-    context 'with valid params' do
-      let(:params) { raise 'Define me' }
+  describe "#call" do
+    context "with valid params" do
+      let(:params) { raise "Define me" }
 
-      it_behaves_like 'is success'
+      it_behaves_like "is success"
     end
 
-    context 'with invalid params' do
-      it_behaves_like 'is failure'
+    context "with invalid params" do
+      it_behaves_like "is failure"
     end
   end
 end

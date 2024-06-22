@@ -26,233 +26,238 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'my', :js, :with_cuprite do
-  let(:user_password) { 'bob' * 4 }
+RSpec.describe "my", :js, :with_cuprite do
+  let(:user_password) { "bob" * 4 }
+  let!(:string_cf) { create(:user_custom_field, :string, name: "Hobbies", is_required: false) }
   let(:user) do
     create(:user,
-           mail: 'old@mail.com',
-           login: 'bob',
+           mail: "old@mail.com",
+           login: "bob",
            password: user_password,
            password_confirmation: user_password)
   end
 
   ##
-  # Expecations for a successful account change
+  # Expectations for a successful account change
   def expect_changed!
     expect(page).to have_content I18n.t(:notice_account_updated)
     expect(page).to have_content I18n.t(:notice_account_other_session_expired)
 
     # expect session to be removed
-    expect(Sessions::UserSession.for_user(user).where(session_id: 'other').count).to eq 0
+    expect(Sessions::UserSession.for_user(user).where(session_id: "other").count).to eq 0
 
     user.reload
-    expect(user.mail).to eq 'foo@mail.com'
-    expect(user.name).to eq 'Foo Bar'
+    expect(user.mail).to eq "foo@mail.com"
+    expect(user.name).to eq "Foo Bar"
   end
 
   before do
     login_as user
 
     # Create dangling session
-    session = Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
+    session = Sessions::SqlBypass.new data: { user_id: user.id }, session_id: "other"
     session.save
 
-    expect(Sessions::UserSession.for_user(user).where(session_id: 'other').count).to eq 1
+    expect(Sessions::UserSession.for_user(user).where(session_id: "other").count).to eq 1
   end
 
-  context 'user' do
-    describe '#account' do
+  shared_examples "common tests for normal and LDAP user" do
+    describe "settings" do
+      context "with a default time zone", with_settings: { user_default_timezone: "Asia/Tokyo" } do
+        it "can override a time zone" do
+          expect(user.pref.time_zone).to eq "Asia/Tokyo"
+          visit my_settings_path
+
+          expect(page).to have_select "pref_time_zone", selected: "(UTC+09:00) Tokyo"
+          select "(UTC+01:00) Paris", from: "pref_time_zone"
+          click_on "Save"
+
+          expect(page).to have_select "pref_time_zone", selected: "(UTC+01:00) Paris"
+          expect(user.pref.time_zone).to eq "Europe/Paris"
+        end
+      end
+    end
+  end
+
+  context "user" do
+    describe "#account" do
       let(:dialog) { Components::PasswordConfirmationDialog.new }
 
       before do
         visit my_account_path
 
-        fill_in 'user[mail]', with: 'foo@mail.com'
-        fill_in 'user[firstname]', with: 'Foo'
-        fill_in 'user[lastname]', with: 'Bar'
-        click_on 'Save'
+        fill_in "user[mail]", with: "foo@mail.com"
+        fill_in "user[firstname]", with: "Foo"
+        fill_in "user[lastname]", with: "Bar"
+        click_on "Save"
       end
 
-      context 'when confirmation disabled',
+      context "when confirmation disabled",
               with_config: { internal_password_confirmation: false } do
-        it 'does not request confirmation' do
+        it "does not request confirmation" do
           expect_changed!
         end
       end
 
-      context 'when confirmation required',
+      context "when confirmation required",
               with_config: { internal_password_confirmation: true } do
-        it 'requires the password for a regular user' do
+        it "requires the password for a regular user" do
           dialog.confirm_flow_with(user_password)
           expect_changed!
         end
 
-        it 'declines the change when invalid password is given' do
-          dialog.confirm_flow_with(user_password + 'INVALID', should_fail: true)
+        it "declines the change when invalid password is given" do
+          dialog.confirm_flow_with(user_password + "INVALID", should_fail: true)
 
           user.reload
-          expect(user.mail).to eq('old@mail.com')
+          expect(user.mail).to eq("old@mail.com")
         end
 
-        context 'as admin' do
+        context "as admin" do
           shared_let(:admin) { create(:admin) }
           let(:user) { admin }
 
-          it 'requires the password' do
-            dialog.confirm_flow_with('adminADMIN!')
+          it "requires the password" do
+            dialog.confirm_flow_with("adminADMIN!")
             expect_changed!
           end
         end
       end
     end
 
-    describe 'settings' do
-      context 'with a default time zone', with_settings: { user_default_timezone: 'Asia/Tokyo' } do
-        it 'can override a time zone' do
-          expect(user.pref.time_zone).to eq 'Asia/Tokyo'
-          visit my_settings_path
-
-          expect(page).to have_select 'pref_time_zone', selected: '(UTC+09:00) Tokyo'
-          select '(UTC+01:00) Paris', from: 'pref_time_zone'
-          click_on 'Save'
-
-          expect(page).to have_select 'pref_time_zone', selected: '(UTC+01:00) Paris'
-          expect(user.pref.time_zone).to eq 'Europe/Paris'
-        end
-      end
-    end
+    include_examples "common tests for normal and LDAP user"
 
     describe "API tokens" do
-      context 'when API access is disabled via global settings', with_settings: { rest_api_enabled: false } do
-        it 'shows notice about disabled token' do
+      context "when API access is disabled via global settings", with_settings: { rest_api_enabled: false } do
+        it "shows notice about disabled token" do
           visit my_access_token_path
 
-          within '#api-token-section' do
-            expect(page).to have_content('API tokens are not enabled by the administrator.')
-            expect(page).not_to have_test_selector('api-token-add', text: 'API token')
+          within "#api-token-section" do
+            expect(page).to have_content("API tokens are not enabled by the administrator.")
+            expect(page).not_to have_test_selector("api-token-add", text: "API token")
           end
         end
       end
 
-      context 'when API access is enabled via global settings', with_settings: { rest_api_enabled: true } do
-        it 'API tokens can generated and revoked' do
+      context "when API access is enabled via global settings", with_settings: { rest_api_enabled: true } do
+        it "API tokens can generated and revoked" do
           visit my_access_token_path
 
-          expect(page).to have_no_content('API tokens are not enabled by the administrator.')
+          expect(page).to have_no_content("API tokens are not enabled by the administrator.")
 
-          within '#api-token-section' do
-            expect(page).to have_test_selector('api-token-add', text: 'API token')
+          within "#api-token-section" do
+            expect(page).to have_test_selector("api-token-add", text: "API token")
             find_test_selector("api-token-add").click
           end
 
-          expect(page).to have_content 'A new API token has been generated. Your access token is'
+          expect(page).to have_content "A new API token has been generated. Your access token is"
 
           User.current.reload
           visit my_access_token_path
 
           # only one API token can be created
-          within '#api-token-section' do
-            expect(page).not_to have_test_selector('api-token-add', text: 'API token')
+          within "#api-token-section" do
+            expect(page).not_to have_test_selector("api-token-add", text: "API token")
           end
 
           # revoke API token
-          within '#api-token-section' do
+          within "#api-token-section" do
             accept_confirm do
               find_test_selector("api-token-revoke").click
             end
           end
 
-          expect(page).to have_content 'The API token has been deleted.'
+          expect(page).to have_content "The API token has been deleted."
 
           User.current.reload
           visit my_access_token_path
 
           # API token can be created again
-          within '#api-token-section' do
-            expect(page).to have_test_selector('api-token-add', text: 'API token')
+          within "#api-token-section" do
+            expect(page).to have_test_selector("api-token-add", text: "API token")
           end
         end
       end
     end
 
     describe "RSS tokens" do
-      context 'when RSS access is disabled via global settings', with_settings: { feeds_enabled: false } do
-        it 'shows notice about disabled token' do
+      context "when RSS access is disabled via global settings", with_settings: { feeds_enabled: false } do
+        it "shows notice about disabled token" do
           visit my_access_token_path
 
-          within '#rss-token-section' do
-            expect(page).to have_content('RSS tokens are not enabled by the administrator.')
-            expect(page).not_to have_test_selector('rss-token-add', text: 'RSS token')
+          within "#rss-token-section" do
+            expect(page).to have_content("RSS tokens are not enabled by the administrator.")
+            expect(page).not_to have_test_selector("rss-token-add", text: "RSS token")
           end
         end
       end
 
-      context 'when RSS access is enabled via global settings', with_settings: { feeds_enabled: true } do
-        it 'in Access Tokens they can generate and revoke their RSS key' do
+      context "when RSS access is enabled via global settings", with_settings: { feeds_enabled: true } do
+        it "in Access Tokens they can generate and revoke their RSS key" do
           visit my_access_token_path
 
-          expect(page).to have_no_content('RSS tokens are not enabled by the administrator.')
+          expect(page).to have_no_content("RSS tokens are not enabled by the administrator.")
 
-          within '#rss-token-section' do
-            expect(page).to have_test_selector('rss-token-add', text: 'RSS token')
+          within "#rss-token-section" do
+            expect(page).to have_test_selector("rss-token-add", text: "RSS token")
             find_test_selector("rss-token-add").click
           end
 
-          expect(page).to have_content 'A new RSS token has been generated. Your access token is'
+          expect(page).to have_content "A new RSS token has been generated. Your access token is"
 
           User.current.reload
           visit my_access_token_path
 
           # only one RSS token can be created
-          within '#rss-token-section' do
-            expect(page).not_to have_test_selector('rss-token-add', text: 'RSS token')
+          within "#rss-token-section" do
+            expect(page).not_to have_test_selector("rss-token-add", text: "RSS token")
           end
 
           # revoke RSS token
-          within '#rss-token-section' do
+          within "#rss-token-section" do
             accept_confirm do
               find_test_selector("rss-token-revoke").click
             end
           end
 
-          expect(page).to have_content 'The RSS token has been deleted.'
+          expect(page).to have_content "The RSS token has been deleted."
 
           User.current.reload
           visit my_access_token_path
 
           # RSS token can be created again
-          within '#rss-token-section' do
-            expect(page).to have_test_selector('rss-token-add', text: 'RSS token')
+          within "#rss-token-section" do
+            expect(page).to have_test_selector("rss-token-add", text: "RSS token")
           end
         end
       end
     end
 
     describe "iCalendar tokens" do
-      context 'when iCalendar access is disabled via global settings', with_settings: { ical_enabled: false } do
-        it 'shows notice about disabled token' do
+      context "when iCalendar access is disabled via global settings", with_settings: { ical_enabled: false } do
+        it "shows notice about disabled token" do
           visit my_access_token_path
 
-          within '#icalendar-token-section' do
-            expect(page).to have_content('iCalendar subscriptions are not enabled by the administrator.')
+          within "#icalendar-token-section" do
+            expect(page).to have_content("iCalendar subscriptions are not enabled by the administrator.")
           end
         end
       end
 
-      context 'when iCalendar access is enable via global settings', with_settings: { ical_enabled: true } do
-        context 'when no iCalendar token exists' do
-          it 'shows notice about how to use iCalendar tokens' do
+      context "when iCalendar access is enable via global settings", with_settings: { ical_enabled: true } do
+        context "when no iCalendar token exists" do
+          it "shows notice about how to use iCalendar tokens" do
             visit my_access_token_path
 
-            within '#icalendar-token-section' do
-              expect(page).to have_content('To add an iCalendar token') # ...
+            within "#icalendar-token-section" do
+              expect(page).to have_content("To add an iCalendar token") # ...
             end
           end
         end
 
-        context 'when multiple iCalendar tokens exist' do
+        context "when multiple iCalendar tokens exist" do
           let!(:project) { create(:project) }
           let!(:query) { create(:query, project:) }
           let!(:another_query) { create(:query, project:) }
@@ -260,12 +265,12 @@ RSpec.describe 'my', :js, :with_cuprite do
           let!(:ical_token_for_another_query) { create(:ical_token, user:, query: another_query, name: "Second Token Name") }
           let!(:second_ical_token_for_query) { create(:ical_token, user:, query:, name: "Third Token Name") }
 
-          it 'shows iCalendar tokens with their calender and project info' do
+          it "shows iCalendar tokens with their calender and project info" do
             visit my_access_token_path
 
-            expect(page).to have_no_content('To add an iCalendar token') # ...
+            expect(page).to have_no_content("To add an iCalendar token") # ...
 
-            within '#icalendar-token-section' do
+            within "#icalendar-token-section" do
               [
                 ical_token_for_query,
                 ical_token_for_another_query,
@@ -282,21 +287,21 @@ RSpec.describe 'my', :js, :with_cuprite do
             end
           end
 
-          it 'single iCalendar tokens can be deleted' do
+          it "single iCalendar tokens can be deleted" do
             visit my_access_token_path
 
-            within '#icalendar-token-section' do
+            within "#icalendar-token-section" do
               accept_confirm do
                 find_test_selector("ical-token-row-#{ical_token_for_query.id}-revoke").click
               end
             end
 
-            expect(page).to have_content 'The iCalendar URL with this token is now invalid.'
+            expect(page).to have_content "The iCalendar URL with this token is now invalid."
 
             User.current.reload
             visit my_access_token_path
 
-            within '#icalendar-token-section' do
+            within "#icalendar-token-section" do
               expect(page).not_to have_test_selector('ical-token-row-#{ical_token_for_query.id}-revoke')
             end
           end
@@ -305,20 +310,20 @@ RSpec.describe 'my', :js, :with_cuprite do
     end
 
     describe "OAuth tokens" do
-      context 'when no OAuth access is configured' do
-        it 'shows notice about no existing tokens' do
+      context "when no OAuth access is configured" do
+        it "shows notice about no existing tokens" do
           visit my_access_token_path
 
-          within '#oauth-token-section' do
-            expect(page).to have_content('There is no third-party application access configured and active for you')
+          within "#oauth-token-section" do
+            expect(page).to have_content("There is no third-party application access configured and active for you")
           end
         end
       end
 
-      context 'when OAuth access is configured' do
+      context "when OAuth access is configured" do
         let!(:app) do
           create(:oauth_application,
-                 name: 'Some App',
+                 name: "Some App",
                  confidential: false)
         end
         let!(:token_for_app) do
@@ -328,8 +333,8 @@ RSpec.describe 'my', :js, :with_cuprite do
         end
         let!(:second_app) do
           create(:oauth_application,
-                 name: 'Some Second App',
-                 uid: '56789',
+                 name: "Some Second App",
+                 uid: "56789",
                  confidential: false)
         end
         let!(:token_for_second_app) do
@@ -338,23 +343,23 @@ RSpec.describe 'my', :js, :with_cuprite do
                  resource_owner: user)
         end
 
-        context 'when single OAuth token per app is configured' do
-          it 'shows token for granted applications' do
+        context "when single OAuth token per app is configured" do
+          it "shows token for granted applications" do
             visit my_access_token_path
 
             [app, second_app].each do |app|
-              within '#oauth-token-section' do
+              within "#oauth-token-section" do
                 expect(page).to have_test_selector("oauth-token-row-#{app.id}-name", text: app.name)
-                expect(page).to have_test_selector("oauth-token-row-#{app.id}-name", text: '(one active token)')
+                expect(page).to have_test_selector("oauth-token-row-#{app.id}-name", text: "(one active token)")
               end
             end
           end
 
-          it 'can revoke tokens' do
+          it "can revoke tokens" do
             visit my_access_token_path
 
             [app, second_app].each do |app|
-              within '#oauth-token-section' do
+              within "#oauth-token-section" do
                 accept_confirm do
                   find_test_selector("oauth-token-row-#{app.id}-revoke").click
                 end
@@ -365,14 +370,14 @@ RSpec.describe 'my', :js, :with_cuprite do
             visit my_access_token_path
 
             [app, second_app].each do |app|
-              within '#oauth-token-section' do
+              within "#oauth-token-section" do
                 expect(page).not_to have_test_selector("oauth-token-row-#{app.id}-revoke")
               end
             end
           end
         end
 
-        context 'when multiple OAuth tokens per app are configured' do
+        context "when multiple OAuth tokens per app are configured" do
           let!(:second_token_for_app) do
             create(:oauth_access_token,
                    application: app,
@@ -384,21 +389,21 @@ RSpec.describe 'my', :js, :with_cuprite do
                    resource_owner: user)
           end
 
-          it 'shows token for granted applications' do
+          it "shows token for granted applications" do
             visit my_access_token_path
 
             [app, second_app].each do |app|
-              within '#oauth-token-section' do
+              within "#oauth-token-section" do
                 expect(page).to have_test_selector("oauth-token-row-#{app.id}-name", text: app.name)
-                expect(page).to have_test_selector("oauth-token-row-#{app.id}-name", text: '(2 active token)')
+                expect(page).to have_test_selector("oauth-token-row-#{app.id}-name", text: "(2 active token)")
               end
             end
           end
 
-          it 'can revoke mutliple tokens per app' do
+          it "can revoke mutliple tokens per app" do
             visit my_access_token_path
 
-            within '#oauth-token-section' do
+            within "#oauth-token-section" do
               accept_confirm do
                 find_test_selector("oauth-token-row-#{app.id}-revoke").click
               end
@@ -407,12 +412,53 @@ RSpec.describe 'my', :js, :with_cuprite do
             User.current.reload
             visit my_access_token_path
 
-            within '#oauth-token-section' do
+            within "#oauth-token-section" do
               expect(page).not_to have_test_selector("oauth-token-row-#{app.id}-revoke")
             end
           end
         end
       end
     end
+  end
+
+  # Without password confirmation the test doesn't try to connect to the LDAP:
+  context "LDAP user", with_config: { internal_password_confirmation: false } do
+    let(:ldap_auth_source) { create(:ldap_auth_source) }
+    let(:user) do
+      create(:user,
+             mail: "old@mail.com",
+             login: "bob",
+             ldap_auth_source:)
+    end
+
+    describe "#account" do
+      before do
+        visit my_account_path
+      end
+
+      it "does not allow change of name and email but other fields can be changed" do
+        email_field = find_field("user[mail]", disabled: true)
+        firstname_field = find_field("user[firstname]", disabled: true)
+        lastname_field = find_field("user[lastname]", disabled: true)
+
+        expect(email_field).to be_disabled
+        expect(firstname_field).to be_disabled
+        expect(lastname_field).to be_disabled
+
+        expect(page).to have_text(I18n.t("user.text_change_disabled_for_ldap_login"), count: 3)
+
+        fill_in "Hobbies", with: "Ruby, DCS"
+        uncheck "pref[hide_mail]"
+        click_on "Save"
+
+        expect(page).to have_content I18n.t(:notice_account_updated)
+
+        user.reload
+        expect(user.custom_values.find_by(custom_field_id: string_cf).value).to eql "Ruby, DCS"
+        expect(user.pref.hide_mail).to be false
+      end
+    end
+
+    include_examples "common tests for normal and LDAP user"
   end
 end

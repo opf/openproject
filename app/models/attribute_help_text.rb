@@ -78,5 +78,5 @@ class AttributeHelpText < ApplicationRecord
   end
 end
 
-require 'attribute_help_text/work_package'
-require 'attribute_help_text/project'
+require "attribute_help_text/work_package"
+require "attribute_help_text/project"

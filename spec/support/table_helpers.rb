@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Dir[Rails.root.join('spec/support/table_helpers/*.rb')].each { |f| require f }
+Dir[Rails.root.join("spec/support/table_helpers/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
   config.extend TableHelpers::LetWorkPackages
@@ -36,6 +36,7 @@ RSpec.configure do |config|
     match do |actual_work_packages|
       expected_data = TableHelpers::TableData.for(expected)
       actual_data = TableHelpers::TableData.from_work_packages(actual_work_packages, expected_data.columns)
+      actual_data.order_like!(expected_data)
 
       representer = TableHelpers::TableRepresenter.new(tables_data: [expected_data, actual_data],
                                                        columns: expected_data.columns)

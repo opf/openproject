@@ -29,7 +29,7 @@
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FileIdsQuery
     def initialize(storage)
-      @query = ::Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQuery.new(storage)
+      @query = ::Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQueryLegacy.new(storage)
     end
 
     def self.call(storage:, path:)
@@ -38,7 +38,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def call(path:)
       query_params = {
-        depth: '1',
+        depth: "1",
         path:,
         props: %w[oc:fileid]
       }

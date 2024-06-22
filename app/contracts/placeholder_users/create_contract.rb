@@ -39,7 +39,7 @@ module PlaceholderUsers
 
     def type_is_placeholder_user
       unless model.type == PlaceholderUser.name
-        errors.add(:type, 'Type and class mismatch')
+        errors.add(:type, "Type and class mismatch")
       end
     end
   end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root + 'spec/support/file_helpers'
+require Rails.root + "spec/support/file_helpers"
 
 FactoryBot.define do
   factory :attachment do
@@ -38,7 +38,7 @@ FactoryBot.define do
       filename { nil }
     end
 
-    content_type { 'application/binary' }
+    content_type { "application/binary" }
     sequence(:file) do |n|
       FileHelpers.mock_uploaded_file name: filename || "file-#{n}.test",
                                      content_type:,
@@ -54,12 +54,11 @@ FactoryBot.define do
     end
 
     factory :attached_picture do
-      content_type { 'image/jpeg' }
+      content_type { "image/jpeg" }
     end
 
     factory :pending_direct_upload do
-      digest { "" }
-      downloads { -1 }
+      status { "prepared" }
       created_at { DateTime.now - 2.weeks }
     end
   end

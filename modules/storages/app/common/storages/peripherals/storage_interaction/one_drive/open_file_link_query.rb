@@ -34,49 +34,37 @@ module Storages
       module OneDrive
         class OpenFileLinkQuery
           using ::Storages::Peripherals::ServiceResultRefinements
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
 
-          def self.call(storage:, user:, file_id:, open_location: false)
-            new(storage).call(user:, file_id:, open_location:)
+          def self.call(storage:, auth_strategy:, file_id:, open_location: false)
+            new(storage).call(auth_strategy:, file_id:, open_location:)
           end
 
           def initialize(storage)
+            @storage = storage
             @delegate = Internal::DriveItemQuery.new(storage)
           end
 
-          def call(user:, file_id:, open_location: false)
-            @user = user
-
-            if open_location
-              request_parent_id.call(file_id) >> request_web_url
-            else
-              request_web_url.call(file_id)
+          def call(auth_strategy:, file_id:, open_location: false)
+            Auth[auth_strategy].call(storage: @storage) do |http|
+              if open_location
+                request_parent_id(http, file_id).on_success { |parent_id| return request_web_url(http, parent_id.result) }
+              else
+                request_web_url(http, file_id)
+              end
             end
           end
 
           private
 
-          def request_web_url
-            ->(file_id) do
-              @delegate.call(user: @user, drive_item_id: file_id, fields: %w[webUrl]).map(&web_url)
-            end
+          # rubocop:disable Rails/Pluck
+          def request_web_url(http, file_id)
+            @delegate.call(http:, drive_item_id: file_id, fields: %w[webUrl]).map { |json| json[:webUrl] }
           end
+          # rubocop:enable Rails/Pluck
 
-          def request_parent_id
-            ->(file_id) do
-              @delegate.call(user: @user, drive_item_id: file_id, fields: %w[parentReference]).map(&parent_id)
-            end
-          end
-
-          def web_url
-            ->(json) do
-              json[:webUrl]
-            end
-          end
-
-          def parent_id
-            ->(json) do
-              json.dig(:parentReference, :id)
-            end
+          def request_parent_id(http, file_id)
+            @delegate.call(http:, drive_item_id: file_id, fields: %w[parentReference]).map { |json| json.dig(:parentReference, :id) }
           end
         end
       end

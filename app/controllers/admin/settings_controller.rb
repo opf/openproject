@@ -28,7 +28,7 @@
 
 module Admin
   class SettingsController < ApplicationController
-    layout 'admin'
+    layout "admin"
     before_action :require_admin
     before_action :find_plugin, only: %i[show_plugin update_plugin]
 
@@ -90,7 +90,17 @@ module Admin
     end
 
     def settings_params
-      permitted_params.settings.to_h
+      permitted_params.settings(*extra_permitted_filters).to_h
+    end
+
+    # Override to allow additional permitted parameters.
+    #
+    # Useful when the format of the setting in the parameters is different from
+    # the expected format in the setting definition, for instance a setting is
+    # an array in the definition but is passed as a string to be split in the
+    # parameters.
+    def extra_permitted_filters
+      nil
     end
 
     def update_service
@@ -99,12 +109,12 @@ module Admin
 
     def success_callback(_call)
       flash[:notice] = t(:notice_successful_update)
-      redirect_to action: 'show', tab: params[:tab]
+      redirect_to action: "show", tab: params[:tab]
     end
 
     def failure_callback(call)
       flash[:error] = call.message || I18n.t(:notice_internal_server_error)
-      redirect_to action: 'show', tab: params[:tab]
+      redirect_to action: "show", tab: params[:tab]
     end
   end
 end

@@ -9,7 +9,7 @@
                              data: { 'test-selector': 'op-share-wp-active-list',
                                      controller: 'work-packages--share--bulk-selection',
                                      application_target: 'dynamic' }) do
-        render(Primer::Beta::BorderBox.new(list_id: insert_target_modifier_id)) do |border_box|
+        render(border_box_container(list_id: insert_target_modifier_id)) do |border_box|
           border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-wp-header' }) do
             grid_layout('op-share-wp-modal-body--header', tag: :div, align_items: :center) do |header_grid|
               header_grid.with_area(:counter, tag: :div) do
@@ -79,7 +79,11 @@
                     form_with(url: work_package_shares_bulk_path(@work_package),
                               method: :delete,
                               data: { 'work-packages--share--bulk-selection-target': 'bulkForm' }) do
-                      render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+                      render(Primer::Beta::IconButton.new(icon: "trash",
+                                                          type: :submit,
+                                                          scheme: :danger,
+                                                          "aria-label": I18n.t('work_package.sharing.remove'),
+                                                          test_selector: 'op-share-wp--bulk-remove'))
                     end
                   )
                 end

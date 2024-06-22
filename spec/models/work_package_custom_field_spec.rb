@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackageCustomField do
-  describe '.summable' do
+  describe ".summable" do
     let!(:list_custom_field) do
       create(:list_wp_custom_field)
     end
@@ -40,8 +40,8 @@ RSpec.describe WorkPackageCustomField do
       create(:float_wp_custom_field)
     end
 
-    context 'with a summable field' do
-      it 'contains the custom_field' do
+    context "with a summable field" do
+      it "contains the custom_field" do
         expect(described_class.summable)
           .to contain_exactly(int_custom_field, float_custom_field)
       end

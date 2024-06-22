@@ -1,4 +1,4 @@
-require_relative 'basic_datepicker'
+require_relative "basic_datepicker"
 
 module Components
   class RangeDatepicker < BasicDatepicker

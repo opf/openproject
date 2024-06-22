@@ -26,178 +26,178 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe CustomValue::BoolStrategy do
   let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
-    double('CustomValue',
+    double("CustomValue",
            value:)
   end
 
-  describe '#value_present?' do
+  describe "#value_present?" do
     subject { described_class.new(custom_value).value_present? }
 
-    context 'value is nil' do
+    context "value is nil" do
       let(:value) { nil }
 
       it { is_expected.to be false }
     end
 
-    context 'value is empty string' do
-      let(:value) { '' }
+    context "value is empty string" do
+      let(:value) { "" }
 
       it { is_expected.to be false }
     end
 
-    context 'value is present string' do
-      let(:value) { '1' }
+    context "value is present string" do
+      let(:value) { "1" }
 
       it { is_expected.to be true }
     end
 
-    context 'value is true' do
+    context "value is true" do
       let(:value) { true }
 
       it { is_expected.to be true }
     end
 
-    context 'value is false' do
+    context "value is false" do
       let(:value) { false }
 
       it { is_expected.to be true }
     end
   end
 
-  describe '#typed_value' do
+  describe "#typed_value" do
     subject { instance.typed_value }
 
-    context 'value corresponds to true' do
-      let(:value) { '1' }
+    context "value corresponds to true" do
+      let(:value) { "1" }
 
       it { is_expected.to be true }
     end
 
-    context 'value corresponds to false' do
-      let(:value) { '0' }
+    context "value corresponds to false" do
+      let(:value) { "0" }
 
       it { is_expected.to be false }
     end
 
-    context 'value is blank' do
-      let(:value) { '' }
+    context "value is blank" do
+      let(:value) { "" }
 
       it { is_expected.to be_nil }
     end
 
-    context 'value is nil' do
+    context "value is nil" do
       let(:value) { nil }
 
       it { is_expected.to be_nil }
     end
 
-    context 'value is true' do
+    context "value is true" do
       let(:value) { true }
 
       it { is_expected.to be true }
     end
 
-    context 'value is false' do
+    context "value is false" do
       let(:value) { false }
 
       it { is_expected.to be false }
     end
   end
 
-  describe '#formatted_value' do
+  describe "#formatted_value" do
     subject { instance.formatted_value }
 
-    context 'value is present string' do
-      let(:value) { '1' }
+    context "value is present string" do
+      let(:value) { "1" }
 
-      it 'is the true string' do
+      it "is the true string" do
         expect(subject).to eql I18n.t(:general_text_Yes)
       end
     end
 
-    context 'value is zero string' do
-      let(:value) { '0' }
+    context "value is zero string" do
+      let(:value) { "0" }
 
-      it 'is the false string' do
+      it "is the false string" do
         expect(subject).to eql I18n.t(:general_text_No)
       end
     end
 
-    context 'value is true' do
+    context "value is true" do
       let(:value) { true }
 
-      it 'is the true string' do
+      it "is the true string" do
         expect(subject).to eql I18n.t(:general_text_Yes)
       end
     end
 
-    context 'value is false' do
+    context "value is false" do
       let(:value) { false }
 
-      it 'is the false string' do
+      it "is the false string" do
         expect(subject).to eql I18n.t(:general_text_No)
       end
     end
 
-    context 'value is nil' do
+    context "value is nil" do
       let(:value) { nil }
 
-      it 'is the false string' do
+      it "is the false string" do
         expect(subject).to eql I18n.t(:general_text_No)
       end
     end
 
-    context 'value is blank' do
-      let(:value) { '' }
+    context "value is blank" do
+      let(:value) { "" }
 
-      it 'is the false string' do
+      it "is the false string" do
         expect(subject).to eql I18n.t(:general_text_No)
       end
     end
   end
 
-  describe '#validate_type_of_value' do
+  describe "#validate_type_of_value" do
     subject { instance.validate_type_of_value }
 
-    context 'value corresponds to true' do
-      let(:value) { '1' }
+    context "value corresponds to true" do
+      let(:value) { "1" }
 
-      it 'accepts' do
+      it "accepts" do
         expect(subject).to be_nil
       end
     end
 
-    context 'value corresponds to false' do
-      let(:value) { '0' }
+    context "value corresponds to false" do
+      let(:value) { "0" }
 
-      it 'accepts' do
+      it "accepts" do
         expect(subject).to be_nil
       end
     end
 
-    context 'value is true' do
+    context "value is true" do
       let(:value) { true }
 
-      it 'accepts' do
+      it "accepts" do
         expect(subject).to be_nil
       end
     end
 
-    context 'value is false' do
+    context "value is false" do
       let(:value) { false }
 
-      it 'accepts' do
+      it "accepts" do
         expect(subject).to be_nil
       end
     end
   end
 
-  describe '#parse_value' do
+  describe "#parse_value" do
     subject { instance.parse_value(value) }
 
     ActiveRecord::Type::Boolean::FALSE_VALUES.each do |falsey_value|
@@ -205,12 +205,12 @@ RSpec.describe CustomValue::BoolStrategy do
         let(:value) { falsey_value }
 
         it "is 'f'" do
-          expect(subject).to eql 'f'
+          expect(subject).to eql "f"
         end
       end
     end
 
-    context 'for nil' do
+    context "for nil" do
       let(:value) { nil }
 
       it "is nil" do
@@ -219,19 +219,19 @@ RSpec.describe CustomValue::BoolStrategy do
     end
 
     context "for ''" do
-      let(:value) { '' }
+      let(:value) { "" }
 
       it "is nil" do
         expect(subject).to be_nil
       end
     end
 
-    [true, '1', 1, 't', 42, 'true'].each do |truthy_value|
+    [true, "1", 1, "t", 42, "true"].each do |truthy_value|
       context "for #{truthy_value}" do
         let(:value) { truthy_value }
 
         it "is 't'" do
-          expect(subject).to eql 't'
+          expect(subject).to eql "t"
         end
       end
     end

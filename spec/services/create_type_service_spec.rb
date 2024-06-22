@@ -26,15 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/shared_type_service'
+require "spec_helper"
+require "services/shared_type_service"
 
 RSpec.describe CreateTypeService do
   let(:type) { instance.type }
   let(:user) { build_stubbed(:admin) }
 
   let(:instance) { described_class.new(user) }
-  let(:service_call) { instance.call({ name: 'foo' }.merge(params), {}) }
+  let(:service_call) { instance.call({ name: "foo" }.merge(params), {}) }
 
-  it_behaves_like 'type service'
+  it_behaves_like "type service" do
+    describe "default attribute_groups" do
+      context "for a milestone type" do
+        let(:params) { { is_milestone: true } }
+
+        it "does not include the progress attribute group" do
+          expect(service_call.result.attribute_groups.map(&:key))
+            .to eql %i[people details costs]
+        end
+      end
+
+      context "for a non milestone type" do
+        let(:params) { { is_milestone: false } }
+
+        it "does include the progress attribute group" do
+          expect(service_call.result.attribute_groups.map(&:key))
+            .to eql %i[people estimates_and_progress details costs]
+        end
+      end
+    end
+  end
 end

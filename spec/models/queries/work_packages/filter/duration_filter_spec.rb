@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::DurationFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :integer }
     let(:class_key) { :duration }
 
-    describe '#available?' do
-      it 'is true' do
+    describe "#available?" do
+      it "is true" do
         expect(instance).to be_available
       end
     end
 
-    describe '#allowed_values' do
-      it 'is nil' do
+    describe "#allowed_values" do
+      it "is nil" do
         expect(instance.allowed_values).to be_nil
       end
     end
 
-    it_behaves_like 'non ar filter'
+    it_behaves_like "non ar filter"
 
-    describe '#where' do
+    describe "#where" do
       # TODO: 0 duration should not happen in 12.x. Should we remove it?
       let!(:work_package_zero_duration) { create(:work_package, duration: 0) }
       let!(:work_package_no_duration) { create(:work_package, duration: nil) }
@@ -62,12 +62,12 @@ RSpec.describe Queries::WorkPackages::Filter::DurationFilter do
           instance.operator = Queries::Operators::None.to_sym.to_s
         end
 
-        it 'finds zero and none values also including milestones' do
+        it "finds zero and none values also including milestones" do
           expect(subject).to contain_exactly(work_package_zero_duration, work_package_no_duration, work_package_with_milestone)
         end
       end
 
-      it 'does not returns milestone work packages' do
+      it "does not returns milestone work packages" do
         expect(subject).to contain_exactly(work_package_with_duration)
       end
     end

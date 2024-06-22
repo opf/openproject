@@ -26,38 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path('../../../../spec_helper', __dir__)
+require File.expand_path("../../../../spec_helper", __dir__)
 
 RSpec.describe OpenProject::GithubIntegration::Services::UpsertGithubUser do
   subject(:upsert) { described_class.new.call(params) }
 
   let(:params) do
     {
-      'id' => 123,
-      'login' => 'test_user',
-      'html_url' => 'https://github.com/test_user',
-      'avatar_url' => 'https://github.com/test_user/avatar.jpg'
+      "id" => 123,
+      "login" => "test_user",
+      "html_url" => "https://github.com/test_user",
+      "avatar_url" => "https://github.com/test_user/avatar.jpg"
     }
   end
 
-  it 'creates a new github user' do
+  it "creates a new github user" do
     expect { upsert }.to change(GithubUser, :count).by(1)
 
     expect(GithubUser.last).to have_attributes(
       github_id: 123,
-      github_login: 'test_user',
-      github_html_url: 'https://github.com/test_user',
-      github_avatar_url: 'https://github.com/test_user/avatar.jpg'
+      github_login: "test_user",
+      github_html_url: "https://github.com/test_user",
+      github_avatar_url: "https://github.com/test_user/avatar.jpg"
     )
   end
 
-  context 'when a github user with that id already exists' do
+  context "when a github user with that id already exists" do
     let(:github_user) do
-      create(:github_user, github_id: 123, github_avatar_url: 'https://github.com/test_user/old_avatar.jpg')
+      create(:github_user, github_id: 123, github_avatar_url: "https://github.com/test_user/old_avatar.jpg")
     end
 
-    it 'updates the github user' do
-      expect { upsert }.to change { github_user.reload.github_avatar_url }.from('https://github.com/test_user/old_avatar.jpg').to('https://github.com/test_user/avatar.jpg')
+    it "updates the github user" do
+      expect { upsert }.to change { github_user.reload.github_avatar_url }
+                             .from("https://github.com/test_user/old_avatar.jpg")
+                             .to("https://github.com/test_user/avatar.jpg")
     end
   end
 end

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe TeamPlanner::Views::GlobalCreateService, with_ee: %i[team_planner_view] do
   shared_let(:project) { create(:project) }
@@ -37,27 +37,27 @@ RSpec.describe TeamPlanner::Views::GlobalCreateService, with_ee: %i[team_planner
 
   subject { instance.call(params) }
 
-  context 'with all valid params' do
+  context "with all valid params" do
     let(:params) do
       {
-        name: 'Gotham Renewal',
+        name: "Gotham Renewal",
         project_id: project.id,
         public: true,
         starred: false
       }
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject).to be_success
     end
 
-    it 'creates a team planner view and its query' do
+    it "creates a team planner view and its query" do
       view = subject.result
       query = view.query
 
-      expect(view.type).to eq 'team_planner'
+      expect(view.type).to eq "team_planner"
 
-      expect(query.name).to eq 'Gotham Renewal'
+      expect(query.name).to eq "Gotham Renewal"
       expect(query.project).to eql(project)
       expect(query).to be_public
       expect(query).not_to be_starred

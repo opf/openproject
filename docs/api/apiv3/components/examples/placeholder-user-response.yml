@@ -1,0 +1,26 @@
+# Example: PlaceholderUserResponse
+---
+value:
+  _type: PlaceholderUser
+  id: 27
+  name: Akolyth
+  createdAt: '2024-02-12T11:52:24.708Z'
+  updatedAt: '2024-02-12T11:52:24.708Z'
+  _links:
+    self:
+      href: '/api/v3/placeholder_users/27'
+      title: Akolyth
+    memberships:
+      href: '/api/v3/memberships?filters=%5B%7B%22principal%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%2227%22%5D%7D%7D%5D'
+      title: Memberships
+    updateImmediately:
+      href: '/api/v3/placeholder_users/27'
+      title: Update Akolyth
+      method: patch
+    delete:
+      href: '/api/v3/placeholder_users/27'
+      title: Delete Akolyth
+      method: delete
+    showUser:
+      href: '/placeholder_users/27'
+      type: text/html

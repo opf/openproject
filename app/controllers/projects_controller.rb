@@ -31,9 +31,12 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, only: :roadmap
 
   before_action :find_project, except: %i[index new]
-  before_action :authorize, only: %i[copy]
+  before_action :load_query_or_deny_access, only: %i[index]
+  before_action :authorize, only: %i[copy deactivate_work_package_attachments]
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[destroy destroy_info]
+
+  no_authorization_required! :index
 
   include SortHelper
   include PaginationHelper
@@ -48,23 +51,21 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    call = load_query(existing: params[:filters].blank?)
-
     respond_to do |format|
       format.html do
-        flash.now[:error] = call.errors.full_messages unless call.success?
+        flash.now[:error] = @query.errors.full_messages if @query.errors.any?
 
-        render layout: 'global', locals: { query: call.result, state: :show }
+        render layout: "global", locals: { query: @query, state: :show }
       end
 
       format.any(*supported_export_formats) do
-        export_list(call.result, request.format.symbol)
+        export_list(@query, request.format.symbol)
       end
     end
   end
 
   def new
-    render layout: 'no_menu'
+    render layout: "no_menu"
   end
 
   def copy
@@ -78,9 +79,9 @@ class ProjectsController < ApplicationController
                      .call
 
     if service_call.success?
-      flash[:notice] = I18n.t('projects.delete.scheduled')
+      flash[:notice] = I18n.t("projects.delete.scheduled")
     else
-      flash[:error] = I18n.t('projects.delete.schedule_failed', errors: service_call.errors.full_messages.join("\n"))
+      flash[:error] = I18n.t("projects.delete.schedule_failed", errors: service_call.errors.full_messages.join("\n"))
     end
 
     redirect_to projects_path
@@ -92,19 +93,22 @@ class ProjectsController < ApplicationController
     hide_project_in_layout
   end
 
+  def deactivate_work_package_attachments
+    call = Projects::UpdateService
+             .new(user: current_user, model: @project, contract_class: Projects::SettingsContract)
+             .call(deactivate_work_package_attachments: params[:value] != "1")
+
+    if call.failure?
+      render json: call.errors.full_messages.join(" "), status: :unprocessable_entity
+    else
+      head :no_content
+    end
+  end
+
   private
 
   def has_managed_project_folders?(project)
     project.project_storages.any?(&:project_folder_automatic?)
-  end
-
-  def find_optional_project
-    return true unless params[:id]
-
-    @project = Project.find(params[:id])
-    authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def hide_project_in_layout
@@ -119,7 +123,7 @@ class ProjectsController < ApplicationController
       query: query.to_hash
     )
 
-    if request.headers['Accept']&.include?('application/json')
+    if request.headers["Accept"]&.include?("application/json")
       render json: { job_id: job.job_id }
     else
       redirect_to job_status_path(job.job_id)

@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-desc 'Generates a secret token file.'
+desc "Generates a secret token file."
 
-file 'config/secret_token.yml' do
-  path = Rails.root.join('config/secret_token.yml').to_s
+file "config/secret_token.yml" do
+  path = Rails.root.join("config/secret_token.yml").to_s
   secret = SecureRandom.hex(64)
   File.write(path, <<~"EOF")
     secret_token: '#{secret}'
   EOF
 end
 
-desc 'Generates a secret token file.'
-task generate_secret_token: ['config/secret_token.yml']
+desc "Generates a secret token file."
+task generate_secret_token: ["config/secret_token.yml"]

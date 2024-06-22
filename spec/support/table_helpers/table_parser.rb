@@ -31,17 +31,19 @@
 module TableHelpers
   class TableParser
     def parse(representation)
-      headers, *rows = representation.split("\n")
-      headers = headers.split('|')
-      rows = rows.filter_map { |row| parse_row(row, headers) }
-      work_packages_data = rows.map.with_index do |row, index|
+      headers, *rows = representation.split("\n").filter_map { |line| split_line_into_cells(line) }
+      work_packages_data = rows.map.with_index do |cells, index|
+        if cells.size > headers.size
+          raise ArgumentError, "Too many cells in row #{index + 1}, have you forgotten some headers?"
+        end
+
         {
           attributes: {},
           index:,
-          row:
+          row: headers.zip(cells).to_h
         }
       end
-      headers.compact_blank.each do |header|
+      headers.each do |header|
         column = Column.for(header)
         column.read_and_update_work_packages_data(work_packages_data)
       end
@@ -50,14 +52,17 @@ module TableHelpers
 
     private
 
-    def parse_row(row, headers)
-      case row
-      when '', /^\s*#/
+    def split_line_into_cells(line)
+      case line
+      when "", /^\s*#/
         # noop
       else
-        values = row.split('|')
-        headers.zip(values).to_h.compact_blank
+        split(line)
       end
+    end
+
+    def split(line)
+      (line || "").split("|").reject(&:empty?)
     end
   end
 end

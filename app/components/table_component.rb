@@ -157,6 +157,10 @@ class TableComponent < ApplicationComponent
     self.class.row_class
   end
 
+  def container_class
+    nil
+  end
+
   def columns
     self.class.columns
   end
@@ -174,7 +178,7 @@ class TableComponent < ApplicationComponent
   end
 
   def initial_order
-    initial_sort_correlation.join(' ')
+    initial_sort_correlation.join(" ")
   end
 
   def paginated?

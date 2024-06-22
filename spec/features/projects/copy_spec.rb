@@ -26,21 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Projects copy', :js, :with_cuprite do
-  describe 'with a full copy example' do
+RSpec.describe "Projects copy", :js, :with_cuprite,
+               with_good_job_batches: [CopyProjectJob, Storages::CopyProjectFoldersJob, SendCopyProjectStatusEmailJob] do
+  describe "with a full copy example" do
     let!(:project) do
       create(:project,
              parent: parent_project,
              types: active_types,
              members: { user => role },
-             custom_field_values: { project_custom_field.id => 'some text cf' }).tap do |p|
+             # custom_fields which are not used below are not activated for this project
+             custom_field_values: {
+               project_custom_field.id => "some text cf",
+               optional_project_custom_field.id => "some optional text cf",
+               optional_project_custom_field_with_default.id => "foo"
+             }).tap do |p|
         p.work_package_custom_fields << wp_custom_field
         p.types.first.custom_fields << wp_custom_field
 
         # Enable wiki
-        p.enabled_module_names += ['wiki']
+        p.enabled_module_names += ["wiki"]
+
+        # Enable the project custom field mappings
+        p.project_custom_field_project_mappings
+         .create(custom_field_id: optional_project_custom_field_with_default.id)
       end
     end
 
@@ -53,8 +63,15 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
              roles: [role])
       project
     end
+    let!(:project_custom_field_section) { create(:project_custom_field_section, name: "Section A") }
     let!(:project_custom_field) do
-      create(:text_project_custom_field, is_required: true)
+      create(:text_project_custom_field, is_required: true, project_custom_field_section:)
+    end
+    let!(:optional_project_custom_field) do
+      create(:text_project_custom_field, is_required: false, project_custom_field_section:)
+    end
+    let!(:optional_project_custom_field_with_default) do
+      create(:text_project_custom_field, is_required: false, default_value: "foo", project_custom_field_section:)
     end
     let!(:wp_custom_field) do
       create(:text_wp_custom_field)
@@ -80,7 +97,7 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
          manage_types
          view_work_packages
          select_custom_fields
-         manage_storages_in_project
+         manage_files_in_project
          manage_file_links
          work_package_assigned)
     end
@@ -109,23 +126,26 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
              done_ratio: 20,
              category:,
              version:,
-             description: 'Some description',
-             custom_field_values: { wp_custom_field.id => 'Some wp cf text' },
-             attachments: [build(:attachment, filename: 'work_package_attachment.pdf')])
+             description: "Some description",
+             custom_field_values: { wp_custom_field.id => "Some wp cf text" },
+             attachments: [build(:attachment, filename: "work_package_attachment.pdf")])
     end
 
     let!(:wiki) { project.wiki }
     let!(:wiki_page) do
       create(:wiki_page,
-             title: 'Attached',
+             title: "Attached",
              wiki:,
-             attachments: [build(:attachment, container: nil, filename: 'wiki_page_attachment.pdf')])
+             attachments: [build(:attachment, container: nil, filename: "wiki_page_attachment.pdf")])
     end
 
     let(:parent_field) { FormFields::SelectFormField.new :parent }
 
     let(:storage) { create(:nextcloud_storage) }
-    let(:project_storage) { create(:project_storage, project:, storage:) }
+    let(:project_storage) do
+      create(:project_storage, project:, storage:)
+    end
+
     let(:file_link) { create(:file_link, container: work_package, storage:) }
 
     before do
@@ -140,32 +160,225 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       clear_performed_jobs
     end
 
-    it 'copies projects and the associated objects' do
+    context "with correct project custom field activations" do
+      before do
+        original_settings_page = Pages::Projects::Settings.new(project)
+        original_settings_page.visit!
+
+        find(".toolbar a", text: "Copy").click
+
+        expect(page).to have_text "Copy project \"#{project.name}\""
+
+        fill_in "Name", with: "Copied project"
+      end
+
+      it "enables the same project custom fields as activated on the source project if untouched" do
+        expect(project.project_custom_field_ids).to contain_exactly(
+          project_custom_field.id,
+          optional_project_custom_field.id,
+          optional_project_custom_field_with_default.id
+        )
+
+        click_button "Save"
+
+        wait_for_copy_to_finish
+
+        copied_project = Project.find_by(name: "Copied project")
+
+        expect(copied_project.project_custom_field_ids).to contain_exactly(
+          project_custom_field.id,
+          optional_project_custom_field.id,
+          optional_project_custom_field_with_default.id
+        )
+      end
+
+      it "does not disable optional project custom fields if explicitly set to blank" do
+        # Expand advanced settings
+        click_on "Advanced settings"
+
+        editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{optional_project_custom_field.id}']"
+        editor.clear
+
+        click_button "Save"
+
+        wait_for_copy_to_finish
+
+        copied_project = Project.find_by(name: "Copied project")
+
+        expect(copied_project.project_custom_field_ids).to contain_exactly(
+          project_custom_field.id,
+          optional_project_custom_field.id,
+          optional_project_custom_field_with_default.id
+        )
+
+        # the optional custom field is activated, but set to blank value
+        expect(copied_project.custom_value_for(optional_project_custom_field).typed_value).to eq("")
+      end
+
+      it "does enable project custom fields if set to blank in source project" do
+        project.update!(custom_field_values: {
+                          optional_project_custom_field.id => "",
+                          optional_project_custom_field_with_default.id => ""
+                        })
+
+        # the optional custom fields are activated, but set to blank values
+        expect(project.project_custom_field_ids).to contain_exactly(
+          project_custom_field.id,
+          optional_project_custom_field.id,
+          optional_project_custom_field_with_default.id
+        )
+
+        original_settings_page = Pages::Projects::Settings.new(project)
+        original_settings_page.visit!
+
+        find(".toolbar a", text: "Copy").click
+
+        expect(page).to have_text "Copy project \"#{project.name}\""
+
+        fill_in "Name", with: "Copied project"
+
+        click_button "Save"
+
+        wait_for_copy_to_finish
+
+        copied_project = Project.find_by(name: "Copied project")
+
+        expect(copied_project.project_custom_field_ids).to contain_exactly(
+          project_custom_field.id,
+          optional_project_custom_field.id,
+          optional_project_custom_field_with_default.id
+        )
+
+        # the optional custom fields are activated, but set to blank values as seen in source project
+        expect(copied_project.custom_value_for(optional_project_custom_field).typed_value).to eq("")
+        expect(copied_project.custom_value_for(optional_project_custom_field_with_default).typed_value).to eq("")
+      end
+
+      context "with project custom fields with default values, which are disabled in source project" do
+        let!(:optional_boolean_project_custom_field_with_default) do
+          create(:boolean_project_custom_field, is_required: false, default_value: true, project_custom_field_section:)
+        end
+        let!(:optional_boolean_project_custom_field_with_no_default) do
+          create(:boolean_project_custom_field, is_required: false, project_custom_field_section:)
+        end
+        let!(:optional_string_project_custom_field_with_default) do
+          create(:string_project_custom_field, is_required: false, default_value: "bar", project_custom_field_section:)
+        end
+
+        it "does not enable optional project custom fields with default values when not enabled in source project" do
+          # the optional boolean and string fields are not activated in the source project
+          expect(project.project_custom_field_ids).to contain_exactly(
+            project_custom_field.id,
+            optional_project_custom_field.id,
+            optional_project_custom_field_with_default.id
+          )
+
+          click_button "Save"
+
+          wait_for_copy_to_finish
+
+          copied_project = Project.find_by(name: "Copied project")
+
+          # the optional boolean and string fields are not activated in the target project, although they have a default value
+          expect(copied_project.project_custom_field_ids).to contain_exactly(
+            project_custom_field.id,
+            optional_project_custom_field.id,
+            optional_project_custom_field_with_default.id
+          )
+        end
+      end
+    end
+
+    context "with correct handling of invisible values" do
+      let!(:invisible_field) do
+        create(:string_project_custom_field, name: "Text for Admins only",
+                                             visible: false,
+                                             project_custom_field_section:,
+                                             projects: [project])
+      end
+      let!(:source_custom_value_for_invisible_field) do
+        create(:custom_value, customized: project, custom_field: invisible_field, value: "foo")
+      end
+
+      before do
+        original_settings_page = Pages::Projects::Settings.new(project)
+        original_settings_page.visit!
+
+        find(".toolbar a", text: "Copy").click
+
+        expect(page).to have_text "Copy project \"#{project.name}\""
+
+        fill_in "Name", with: "Copied project"
+        click_on "Advanced settings"
+      end
+
+      context "with an admin user" do
+        let(:user) { create(:admin) }
+
+        it "shows invisible fields in the form and allows their activation" do
+          expect(page).to have_content "Text for Admins only"
+
+          # don't touch the source value
+
+          click_button "Save"
+
+          wait_for_copy_to_finish
+
+          copied_project = Project.find_by(name: "Copied project")
+
+          expect(copied_project.project_custom_field_ids).to contain_exactly(
+            project_custom_field.id,
+            optional_project_custom_field.id,
+            optional_project_custom_field_with_default.id,
+            invisible_field.id
+          )
+
+          expect(copied_project.custom_value_for(invisible_field).typed_value).to eq("foo")
+        end
+      end
+
+      context "with non-admin user" do
+        it "does not show invisible fields in the form and but still activates them" do
+          expect(page).to have_no_content "Text for Admins only"
+
+          click_button "Save"
+
+          wait_for_copy_to_finish
+
+          copied_project = Project.find_by(name: "Copied project")
+
+          expect(copied_project.project_custom_field_ids).to contain_exactly(
+            project_custom_field.id,
+            optional_project_custom_field.id,
+            optional_project_custom_field_with_default.id,
+            invisible_field.id
+          )
+        end
+      end
+    end
+
+    it "copies projects and the associated objects" do
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
 
-      find('.toolbar a', text: 'Copy').click
+      find(".toolbar a", text: "Copy").click
 
       expect(page).to have_text "Copy project \"#{project.name}\""
 
-      fill_in 'Name', with: 'Copied project'
+      fill_in "Name", with: "Copied project"
 
       # Expand advanced settings
-      click_on 'Advanced settings'
+      click_on "Advanced settings"
 
       # the value of the custom field should be preselected
       editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
-      editor.expect_value 'some text cf'
+      editor.expect_value "some text cf"
 
-      click_button 'Save'
+      click_on "Save"
 
-      expect(page).to have_text 'The job has been queued and will be processed shortly.'
+      wait_for_copy_to_finish
 
-      # ensure all jobs are run especially emails which might be sent later on
-      while perform_enqueued_jobs > 0
-      end
-
-      copied_project = Project.find_by(name: 'Copied project')
+      copied_project = Project.find_by(name: "Copied project")
 
       expect(copied_project).to be_present
 
@@ -181,16 +394,16 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       # copies over the value of the custom field
       # has the parent of the original project
       editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
-      editor.expect_value 'some text cf'
+      editor.expect_value "some text cf"
 
       # has wp custom fields of original project active
-      copied_settings_page.visit_tab!('custom_fields')
+      copied_settings_page.visit_tab!("custom_fields")
 
       copied_settings_page.expect_wp_custom_field_active(wp_custom_field)
       copied_settings_page.expect_wp_custom_field_inactive(inactive_wp_custom_field)
 
       # has types of original project active
-      copied_settings_page.visit_tab!('types')
+      copied_settings_page.visit_tab!("types")
 
       active_types.each do |type|
         copied_settings_page.expect_type_active(type)
@@ -200,10 +413,10 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
 
       # Expect wiki was copied
       expect(copied_project.wiki.pages.count).to eq(project.wiki.pages.count)
-      copied_page = copied_project.wiki.find_page 'Attached'
+      copied_page = copied_project.wiki.find_page "Attached"
       expect(copied_page).not_to be_nil
       expect(copied_page.attachments.map(&:filename))
-        .to eq ['wiki_page_attachment.pdf']
+        .to eq ["wiki_page_attachment.pdf"]
 
       # Expect ProjectStores and their FileLinks were copied
       expect(copied_project.project_storages.count).to eq(project.project_storages.count)
@@ -226,8 +439,8 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       expect(copied_work_package.description).to eql work_package.description
       expect(copied_work_package.category).to eql copied_project.categories.find_by(name: category.name)
       expect(copied_work_package.version).to eql copied_project.versions.find_by(name: version.name)
-      expect(copied_work_package.custom_value_attributes).to eql(wp_custom_field.id => 'Some wp cf text')
-      expect(copied_work_package.attachments.map(&:filename)).to eq ['work_package_attachment.pdf']
+      expect(copied_work_package.custom_value_attributes).to eql(wp_custom_field.id => "Some wp cf text")
+      expect(copied_work_package.attachments.map(&:filename)).to eq ["work_package_attachment.pdf"]
 
       expect(ActionMailer::Base.deliveries.count).to eql(1)
       expect(ActionMailer::Base.deliveries.last.subject).to eql("Created project Copied project")
@@ -235,10 +448,10 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
     end
   end
 
-  describe 'copying a set of ordered work packages' do
+  describe "copying a set of ordered work packages" do
     let(:user) { create(:admin) }
     let(:wp_table) { Pages::WorkPackagesTable.new project }
-    let(:copied_project) { Project.find_by(name: 'Copied project') }
+    let(:copied_project) { Project.find_by(name: "Copied project") }
     let(:copy_wp_table) { Pages::WorkPackagesTable.new copied_project }
     let(:project) { create(:project, types: [type]) }
     let(:type) { create(:type) }
@@ -249,14 +462,14 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       { type:, status:, project:, priority: }
     end
 
-    let(:parent1) { create(:work_package, default_params.merge(subject: 'Initial phase')) }
-    let(:child1_1) { create(:work_package, default_params.merge(parent: parent1, subject: 'Confirmation phase')) }
-    let(:child1_2) { create(:work_package, default_params.merge(parent: parent1, subject: 'Initiation')) }
-    let(:parent2) { create(:work_package, default_params.merge(subject: 'Execution')) }
-    let(:child2_1) { create(:work_package, default_params.merge(parent: parent2, subject: 'Define goal')) }
-    let(:child2_2) { create(:work_package, default_params.merge(parent: parent2, subject: 'Specify metrics')) }
-    let(:child2_3) { create(:work_package, default_params.merge(parent: parent2, subject: 'Prepare launch')) }
-    let(:child2_4) { create(:work_package, default_params.merge(parent: parent2, subject: 'Launch')) }
+    let(:parent1) { create(:work_package, default_params.merge(subject: "Initial phase")) }
+    let(:child1_1) { create(:work_package, default_params.merge(parent: parent1, subject: "Confirmation phase")) }
+    let(:child1_2) { create(:work_package, default_params.merge(parent: parent1, subject: "Initiation")) }
+    let(:parent2) { create(:work_package, default_params.merge(subject: "Execution")) }
+    let(:child2_1) { create(:work_package, default_params.merge(parent: parent2, subject: "Define goal")) }
+    let(:child2_2) { create(:work_package, default_params.merge(parent: parent2, subject: "Specify metrics")) }
+    let(:child2_3) { create(:work_package, default_params.merge(parent: parent2, subject: "Prepare launch")) }
+    let(:child2_4) { create(:work_package, default_params.merge(parent: parent2, subject: "Launch")) }
 
     let(:order) do
       [parent1, child1_1, child1_2, parent2, child2_1, child2_2, child2_3, child2_4]
@@ -274,7 +487,7 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       login_as user
     end
 
-    it 'copies them in the same order' do
+    it "copies them in the same order" do
       wp_table.visit!
       wp_table.expect_work_package_listed *order
       wp_table.expect_work_package_order *order
@@ -282,14 +495,15 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
 
-      find('.toolbar a', text: 'Copy').click
+      find(".toolbar a", text: "Copy").click
 
-      fill_in 'Name', with: 'Copied project'
+      fill_in "Name", with: "Copied project"
 
-      click_button 'Save'
+      click_on "Save"
 
-      expect(page).to have_text 'The job has been queued and will be processed shortly.'
+      expect(page).to have_text "The job has been queued and will be processed shortly."
 
+      GoodJob.perform_inline
       perform_enqueued_jobs
 
       expect(copied_project)
@@ -298,6 +512,15 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       wp_table.visit!
       wp_table.expect_work_package_listed *order
       wp_table.expect_work_package_order *order
+    end
+  end
+
+  def wait_for_copy_to_finish
+    expect(page).to have_text "The job has been queued and will be processed shortly."
+
+    # ensure all jobs are run especially emails which might be sent later on
+    GoodJob.perform_inline
+    while perform_enqueued_jobs > 0
     end
   end
 end

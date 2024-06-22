@@ -26,9 +26,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+<% copy_from = local_assigns[:copy_from] %>
+<% if copy_from
+     page_title = t('meeting.copy.title', title: copy_from.title)
+     breadcrumb_element = t('meeting.copy.title', title: "<b>#{copy_from.title}</b>")
+   else
+     page_title = t(:label_meeting_new)
+     breadcrumb_element = t(:label_meeting_new)
+   end %>
 
-<% html_title t(:label_meeting_new) %>
-<%= toolbar title: t(:label_meeting_new) %>
+<% html_title page_title  %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { page_title }
+    header.with_breadcrumbs([@project.present? ?
+                               { href: project_overview_path(@project.id), text: @project.name } :
+                               { href: home_path, text: I18n.t(:label_home) },
+                             { href: @project.present? ? project_meetings_path(@project.id) : meetings_path,
+                               text: I18n.t(:label_meeting_plural) },
+                             breadcrumb_element.html_safe])
+  end
+%>
+
+
 <%= labelled_tabular_form_for @meeting,
                               as: :meeting,
                               url: {:controller => '/meetings', :action => 'create', :project_id => @project},
@@ -36,8 +57,8 @@ See COPYRIGHT and LICENSE files for more details.
                                         :data => { :controller => 'refresh-on-form-changes',
                                                    'refresh-on-form-changes-target': 'form',
                                                    'refresh-on-form-changes-turbo-stream-url-value': new_meeting_url }} do |f| -%>
-  <%= render :partial => 'form', :locals => { f:, copy: local_assigns[:copy] } %>
-  <%= styled_button_tag t(:button_create), class: '-highlight' %>
+  <%= render :partial => 'form', :locals => { f:, copy_from: } %>
+  <%= styled_button_tag t(:button_create), class: '-primary' %>
   <%= link_to t(:button_cancel), { :action => 'index', :project_id => @project },
         class: 'button' %>
 <% end %>

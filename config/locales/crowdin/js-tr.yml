@@ -31,6 +31,7 @@ tr:
         Bu dosyayı silmek istiyor musunuz? Bu işlem geri alınamaz.
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
@@ -39,8 +40,8 @@ tr:
       type_to_search: "Aramak için metni yazın"
     autocomplete_select:
       placeholder:
-        multi: "\"%{name}\" ekleyin"
-        single: "\"%{name}\" seçeneğini seçin"
+        multi: '"%{name}" ekleyin'
+        single: '"%{name}" seçeneğini seçin'
       remove: "%{name} öğesini kaldır"
       active: "Aktif %{label} %{name}"
     backup:
@@ -106,99 +107,98 @@ tr:
     button_export-atom: "Atom İndir"
     button_create: "Oluştur"
     card:
-      add_new: 'Yeni kart ekleyin'
+      add_new: "Yeni kart ekleyin"
       highlighting:
-        inline: 'Satır içi vurgula:'
-        entire_card_by: 'Kartın tamamı'
-      remove_from_list: 'Kartı listeden çıkar'
+        inline: "Satır içi vurgula:"
+        entire_card_by: "Kartın tamamı"
+      remove_from_list: "Kartı listeden çıkar"
     caption_rate_history: "Hız tarihi"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Panoya başarıyla kopyalandı!"
     chart:
-      type: 'Grafik tipi'
-      axis_criteria: 'Eksen kriterleri'
-      modal_title: 'İş paketi grafik konfigürasyonu'
+      type: "Grafik tipi"
+      axis_criteria: "Eksen kriterleri"
+      modal_title: "İş paketi grafik konfigürasyonu"
       types:
-        line: 'Çizgi'
-        horizontal_bar: 'Yatay çubuk'
-        bar: 'Çubuk'
-        pie: 'Turta'
-        doughnut: 'Tatlı çörek'
-        radar: 'Radar'
-        polar_area: 'kutupsal alan'
+        line: "Çizgi"
+        horizontal_bar: "Yatay çubuk"
+        bar: "Çubuk"
+        pie: "Turta"
+        doughnut: "Tatlı çörek"
+        radar: "Radar"
+        polar_area: "kutupsal alan"
       tabs:
-        graph_settings: 'Genel'
-        dataset: 'Veri Kümesi %{number}'
+        graph_settings: "Genel"
+        dataset: "Veri Kümesi %{number}"
       errors:
-        could_not_load: 'Grafiği görüntülemek için veri yüklenemedi. Gerekli izinler eksik olabilir.'
+        could_not_load: "Grafiği görüntülemek için veri yüklenemedi. Gerekli izinler eksik olabilir."
     description_available_columns: "Kullanılabilir sütunlar"
     description_current_position: "Buradasınız:"
     description_select_work_package: "#%{id} nolu iş paketini seçin"
-    description_selected_columns: "Seçili Sütunlar"
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
-      preview: 'Önizleme modunu aç/kapat'
-      source_code: 'Markdown kaynak modunu değiştir'
-      error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
-      ckeditor_error: 'CKEditor içinde bir hata oluştu'
+      preview: "Önizleme modunu aç/kapat"
+      source_code: "Markdown kaynak modunu değiştir"
+      error_saving_failed: "Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}"
+      ckeditor_error: "CKEditor içinde bir hata oluştu"
       mode:
-        manual: 'Markdown kaynağına geç'
-        wysiwyg: 'WYSIWYG düzenleyiciye geç'
+        manual: "Markdown kaynağına geç"
+        wysiwyg: "WYSIWYG düzenleyiciye geç"
       macro:
-        error: 'Makro genişletilemiyor: %{message}'
+        error: "Makro genişletilemiyor: %{message}"
         attribute_reference:
-          macro_help_tooltip: 'Bu metin parçası bir makro tarafından dinamik olarak işleniyor.'
-          not_found: 'İstenen kaynak bulunamadı'
+          macro_help_tooltip: "Bu metin parçası bir makro tarafından dinamik olarak işleniyor."
+          not_found: "İstenen kaynak bulunamadı"
           invalid_attribute: "Seçilen '%{name}' özniteliği mevcut değil."
         child_pages:
-          button: 'Alt sayfalara bağlantılar'
-          include_parent: 'Üst öğeyi dahil et'
-          text: '[Placeholder] Alt sayfalara bağlantılar'
-          page: 'Viki sayfası'
-          this_page: 'bu sayfa'
+          button: "Alt sayfalara bağlantılar"
+          include_parent: "Üst öğeyi dahil et"
+          text: "[Placeholder] Alt sayfalara bağlantılar"
+          page: "Viki sayfası"
+          this_page: "bu sayfa"
           hint: |
             Geçerli sayfanın tüm alt sayfalarını listelemek için bu alanı boş bırakın. Farklı bir sayfaya referans vermek istiyorsanız, başlığını veya fişini belirtin.
         code_block:
-          button: 'Kod parçacığı ekle'
-          title: 'Kod parçacığını ekle / düzenle'
-          language: 'Biçimlendirme dili'
-          language_hint: 'Vurgulamak için kullanılacak formatlama dilini girin (destekleniyorsa).'
+          button: "Kod parçacığı ekle"
+          title: "Kod parçacığını ekle / düzenle"
+          language: "Biçimlendirme dili"
+          language_hint: "Vurgulamak için kullanılacak formatlama dilini girin (destekleniyorsa)."
         dropdown:
-          macros: 'Makrolar'
-          chose_macro: 'Makro seçin'
-        toc: 'İçindekiler'
-        toolbar_help: 'Widget''ı seçmek ve araç çubuğunu göstermek için tıklayın. Widget''ı düzenlemek için çift tıklayın'
+          macros: "Makrolar"
+          chose_macro: "Makro seçin"
+        toc: "İçindekiler"
+        toolbar_help: "Widget'ı seçmek ve araç çubuğunu göstermek için tıklayın. Widget'ı düzenlemek için çift tıklayın"
         wiki_page_include:
-          button: 'Başka bir wiki sayfasının içeriğini ekle'
-          text: '[Placeholder] Dahil edilen wiki sayfası'
-          page: 'Viki sayfası'
-          not_set: '(Sayfa ayarlanmadı)'
+          button: "Başka bir wiki sayfasının içeriğini ekle"
+          text: "[Placeholder] Dahil edilen wiki sayfası"
+          page: "Viki sayfası"
+          not_set: "(Sayfa ayarlanmadı)"
           hint: |
             Başlığını veya sümüklü böcek belirterek başka bir wiki sayfasının içeriğini ekleyin.
             Başka bir projenin wiki sayfasını, aşağıdaki örnekte olduğu gibi iki nokta ile ayırarak ekleyebilirsiniz.
         work_package_button:
-          button: 'Çalışma paketi yarat düğmesi ekle'
-          type: 'İş paketi tipi'
-          button_style: 'Düğme biçimini kullan'
-          button_style_hint: 'İsteğe bağlı: Makronun bağlantı olarak değil, düğme olarak görünmesini sağlayın.'
-          without_type: 'İş paketini oluştur'
-          with_type: 'İş paketini oluştur (Tür %{typename})'
+          button: "Çalışma paketi yarat düğmesi ekle"
+          type: "İş paketi tipi"
+          button_style: "Düğme biçimini kullan"
+          button_style_hint: "İsteğe bağlı: Makronun bağlantı olarak değil, düğme olarak görünmesini sağlayın."
+          without_type: "İş paketini oluştur"
+          with_type: "İş paketini oluştur (Tür %{typename})"
         embedded_table:
-          button: 'Gömülü iş paketi tablosu'
-          text: '[Yer Tutucu] Gömülü iş paketi tablosu'
+          button: "Gömülü iş paketi tablosu"
+          text: "[Yer Tutucu] Gömülü iş paketi tablosu"
         embedded_calendar:
-          text: '[Placeholder] Göümülü takvim'
+          text: "[Placeholder] Göümülü takvim"
     admin:
       type_form:
-        custom_field: 'Özel alan'
-        inactive: 'Etkin değil'
+        custom_field: "Özel alan"
+        inactive: "Etkin değil"
         drag_to_activate: "Alanları buraya sürükleyerek aktifleştirebilirsiniz"
         add_group: "Özellik grubu ekle"
         add_table: "Bağlantılı iş paketlerinin tablosunu ekle"
-        edit_query: 'Sorguyu düzenle'
-        new_group: 'Yeni grup'
-        reset_to_defaults: 'Varsayılanlara geri yükle'
+        edit_query: "Sorguyu düzenle"
+        new_group: "Yeni grup"
+        reset_to_defaults: "Varsayılanlara geri yükle"
       enterprise:
         text_reprieve_days_left: "Ek sürenin sonuna %{days} gün kaldı"
         text_expired: "süresi dolmuş"
@@ -264,7 +264,7 @@ tr:
         calendar:
           empty_state_header: "Çalışılmayan günler"
           empty_state_description: 'Bu yıl için belirli bir çalışma dışı gün tanımlanmamıştır. Bir tarih eklemek için aşağıdaki "Çalışma dışı gün ekle"ye tıklayın.'
-          new_date: '(yeni)'
+          new_date: "(yeni)"
         add_non_working_day: "Çalışılmayan günler"
         already_added_error: "Bu tarih için çalışılmayan bir gün zaten var. Her benzersiz tarih için yalnızca bir çalışılmayan gün oluşturulabilir."
         change_button: "Kaydet ve yeniden planla"
@@ -273,10 +273,15 @@ tr:
         change_description: "Haftanın hangi günlerinin iş günü olarak kabul edileceğini değiştirmek, bu durumda tüm projelerdeki tüm iş paketlerinin başlangıç ve bitiş günlerini etkileyebilir."
         warning: >
           Değişikliklerin geçerlilik kazanması biraz zaman alabilir. İlgili tüm iş paketleri güncellendiğinde bilgilendirileceksiniz. Devam etmek istediğine emin misin?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
-        specific: 'açık'
-        current_date: 'Geçerli tarih'
+        specific: "açık"
+        current_date: "Geçerli tarih"
     error:
       internal: "İç hata oluştu."
       cannot_save_changes_with_message: "Değişikliklerinizin kaydedilememesine sebep olan hata: %{error}"
@@ -302,22 +307,22 @@ tr:
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
     gantt_chart:
-      label: 'Gantt görünümü'
-      quarter_label: 'Ç%{quarter_number}'
+      label: "Gantt görünümü"
+      quarter_label: "Ç%{quarter_number}"
       labels:
-        title: 'Etiket yapılandırma'
-        bar: 'Çubuk etiketleri'
-        left: 'Sol'
-        right: 'Sağ'
-        farRight: 'Uzak sağ'
+        title: "Etiket yapılandırma"
+        bar: "Çubuk etiketleri"
+        left: "Sol"
+        right: "Sağ"
+        farRight: "Uzak sağ"
         description: >
           Her zaman Gantt şemasının ilgili konumlarında gösterilmesini istediğiniz nitelikleri seçin. Bir öğenin üzerine gelindiğinde, bu nitelikler yerine tarih etiketlerinin gösterileceğini unutmayın.
-      button_activate: 'İş-Zaman çizelgesi göster'
-      button_deactivate: 'İş-Zaman çizelgesi gizle.'
+      button_activate: "İş-Zaman çizelgesi göster"
+      button_deactivate: "İş-Zaman çizelgesi gizle."
       filter:
         noneSelection: "(yok)"
       selection_mode:
-        notification: 'İlişki oluşturmak için vurgulanan bir iş paket''ine tıklayın. İptal etmek için escape tuşuna basın.'
+        notification: "İlişki oluşturmak için vurgulanan bir iş paket'ine tıklayın. İptal etmek için escape tuşuna basın."
       zoom:
         in: "Yakınlaştır"
         out: "Uzaklaştır"
@@ -329,6 +334,18 @@ tr:
         years: "Yıl"
         description: >
           Otomatik zoom mevcut olmadığında gösterilmesi gereken ilk yakınlaştırma seviyesini seçin.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "hayır"
     general_text_yes: "evet"
     general_text_No: "Hayır"
@@ -347,24 +364,23 @@ tr:
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
       token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
-      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      token_name_placeholder: 'Type a name, e.g. "Phone"'
+      token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="my/access_token", target="_blank">access tokens</a> list.'
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
+      success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
     label_activate: "Etkinleştir"
-    label_assignee: 'Atanan'
+    label_assignee: "Atanan"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
     label_add_columns: "Sütunlar ekle"
@@ -374,9 +390,10 @@ tr:
     label_add_row_before: "Öncesine satır ekle"
     label_add_selected_columns: "Seçilen sütunları ekle"
     label_added_by: "ekleyen"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "gün önce"
     label_all: "tüm"
+    label_all_uppercase: "Hepsi"
     label_all_work_packages: "tüm iş paketleri"
     label_and: "ve"
     label_ascending: "Azalan"
@@ -418,12 +435,13 @@ tr:
     label_expand_project_menu: "Proje menüsünü genişlet"
     label_export: "Dışarı aktar"
     label_export_preparing: "İhracat hazırlanıyor ve kısa süre içinde indirilecek."
+    label_favorites: "Favorites"
     label_filename: "Dosya"
     label_filesize: "Boyutu"
     label_general: "Genel"
     label_global_roles: "Global roles"
     label_greater_or_equal: ">="
-    label_group: 'Grup'
+    label_group: "Grup"
     label_group_by: "Grupla"
     label_group_plural: "Gruplar"
     label_hide_attributes: "Daha az göster"
@@ -443,6 +461,7 @@ tr:
     label_less_than_ago: "bir haftadan kısa bir süre önce"
     label_loading: "Yükleniyor..."
     label_mail_notification: "E-posta bildirimleri"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "ben"
     label_meeting_agenda: "Ajanda"
     label_meeting_minutes: "Dakika"
@@ -481,6 +500,7 @@ tr:
     label_report: "Rapor (bildiri)"
     label_repository_plural: "Depolar"
     label_save_as: "Farklı Kaydet"
+    label_search_columns: "Search a column"
     label_select_project: "Bir proje seçin"
     label_select_watcher: "Takipçi seç..."
     label_selected_filter_list: "Seçilen filtreler"
@@ -551,86 +571,86 @@ tr:
     label_version_plural: "Sürümler"
     label_view_has_changed: "Bu görünüm kaydedilmemiş değişikliklere sahip. Onları kaydetmek için tıklayın."
     help_texts:
-      show_modal: 'Metin giriş öznitelik yardımını göster'
+      show_modal: "Metin giriş öznitelik yardımını göster"
     onboarding:
       buttons:
-        skip: 'Atla'
-        next: 'Sonraki'
-        got_it: 'Anladım'
+        skip: "Atla"
+        next: "Sonraki"
+        got_it: "Anladım"
       steps:
-        help_menu: 'Yardım (?) menüsü <b>ek yardım kaynakları</b> sağlar. Burada bir kullanım kılavuzu, yararlı nasıl yapılır videoları ve daha fazlasını bulabilirsiniz. <br> OpenProject ile işinizin tadını çıkarın!'
-        members: 'Projenize katılmak için yeni <b>üyeler</b> davet edin.'
-        quick_add_button: '<b>Yeni bir proje oluşturmak</b> veya <b>iş arkadaşlarınızı davet etmek</b> için başlık bölümündeki artı (+) simgesini tıklayın.'
+        help_menu: "Yardım (?) menüsü <b>ek yardım kaynakları</b> sağlar. Burada bir kullanım kılavuzu, yararlı nasıl yapılır videoları ve daha fazlasını bulabilirsiniz. <br> OpenProject ile işinizin tadını çıkarın!"
+        members: "Projenize katılmak için yeni <b>üyeler</b> davet edin."
+        quick_add_button: "<b>Yeni bir proje oluşturmak</b> veya <b>iş arkadaşlarınızı davet etmek</b> için başlık bölümündeki artı (+) simgesini tıklayın."
         sidebar_arrow: "Projenin <b>ana menüsüne</b> dönmek için sol üst köşedeki dönüş okunu kullanın."
-        welcome: 'En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz zaman yeniden başlatabilirsiniz.'
-        wiki: '<b>wiki</b> içinde belgeleyebilir ve ekibinizle birlikte bilgi paylaşabilirsiniz.'
+        welcome: "En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz zaman yeniden başlatabilirsiniz."
+        wiki: "<b>wiki</b> içinde belgeleyebilir ve ekibinizle birlikte bilgi paylaşabilirsiniz."
         backlogs:
           overview: "İşinizi <b>birikimler</b> görünümünde yönetin."
           sprints: "Sağ tarafta ürün biriktirme listesi ve hata biriktirme listesi var, solda da ilgili sprintler var. Burada <b>epikler, kullanıcı hikayeleri ve buglar</b> oluşturabilir, sürükleyip bırakarak öncelik sırasına koyabilir ve bunları bir sprint'e ekleyebilirsiniz."
-          task_board_arrow: '<b>Görev pano</b>nuzu görmek için Sprint açılır menüsünde açın...'
-          task_board_select: '... ve <b>görev panosu</b> kaydını seçin.'
+          task_board_arrow: "<b>Görev pano</b>nuzu görmek için Sprint açılır menüsünde açın..."
+          task_board_select: "... ve <b>görev panosu</b> kaydını seçin."
           task_board: "Görev panosu, <b>bu sprint için ilerlemeyi</b> görselleştirir. Yeni görevler veya engeller eklemek için bir kullanıcı hikayesinin yanındaki artı (+) simgesine tıklayın. <br> Sürükle bırak ile durum güncellenebilir."
         boards:
-          overview: 'Görünümü değiştirmek ve çevik panolar görünümünü kullanarak projenizi yönetmek için <b>panolar</b>''ı seçin.'
-          lists_kanban: 'Burada panonuzda birden çok liste (sütun) oluşturabilirsiniz. Bu özellik, örneğin bir <b>Kanban panosu</b> oluşturmanıza olanak tanır.'
-          lists_basic: 'Burada, hızlı panonuz içinde birden fazla liste (sütun) oluşturabilirsiniz.'
-          add: 'Panodaki listeye <b>yeni bir kart oluşturmak</b> veya <b>mevcut bir kartı eklemek</b> için artı (+) simgesini tıklayın.'
-          drag: 'Yeniden sıralamak veya başka bir listeye taşımak için kartlarınızı belirli bir listeye sürükleyip bırakın. <br> Sağ üst köşedeki bilgi (i) simgesine tıklayabilir veya bir kartı çift tıklayarak ayrıntılarını açabilirsiniz.'
+          overview: "Görünümü değiştirmek ve çevik panolar görünümünü kullanarak projenizi yönetmek için <b>panolar</b>'ı seçin."
+          lists_kanban: "Burada panonuzda birden çok liste (sütun) oluşturabilirsiniz. Bu özellik, örneğin bir <b>Kanban panosu</b> oluşturmanıza olanak tanır."
+          lists_basic: "Burada, hızlı panonuz içinde birden fazla liste (sütun) oluşturabilirsiniz."
+          add: "Panodaki listeye <b>yeni bir kart oluşturmak</b> veya <b>mevcut bir kartı eklemek</b> için artı (+) simgesini tıklayın."
+          drag: "Yeniden sıralamak veya başka bir listeye taşımak için kartlarınızı belirli bir listeye sürükleyip bırakın. <br> Sağ üst köşedeki bilgi (i) simgesine tıklayabilir veya bir kartı çift tıklayarak ayrıntılarını açabilirsiniz."
         wp:
           toggler: "Şimdi, size çalışmanız hakkında daha ayrıntılı bir görünüm sağlayan <b> İş paketi </b> bölümüne göz atalım."
-          list: 'Bu <b>iş</b> paketine genel bakış, projenizdeki görevler, kilometre taşları, aşamalar ve daha fazlası gibi tüm işlerin bir listesini sağlar. <br> İş paketleri doğrudan bu görünümden oluşturulabilir ve düzenlenebilir. Belirli bir iş paketinin ayrıntılarına erişmek için satırına çift tıklamanız yeterlidir.'
-          full_view: '<b>İş paketi ayrıntıları</b> görünümü, tanımı, durumu, önceliği, etkinlikleri, bağımlılıkları ve yorumları gibi belirli bir iş paketiyle ilgili tüm ilgili bilgileri sağlar.'
-          back_button: 'Çıkmak ve iş paketi listesine geri dönmek için sol üst köşedeki dönüş okunu kullanın.'
-          create_button: '<b>+ Oluştur</b> düğmesi, projenize yeni bir çalışma paketi ekleyecektir.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
-          timeline: 'Burada <b>proje planınızı düzenleyebilir</b>, görevler, kilometre taşları, aşamalar ve daha fazlası gibi yeni iş paketleri oluşturabilir ve <b>bağımlılıklar ekleyebilirsiniz</b>. Tüm ekip üyeleri istedikleri zaman en son planı görebilir ve güncelleyebilir.'
+          list: "Bu <b>iş</b> paketine genel bakış, projenizdeki görevler, kilometre taşları, aşamalar ve daha fazlası gibi tüm işlerin bir listesini sağlar. <br> İş paketleri doğrudan bu görünümden oluşturulabilir ve düzenlenebilir. Belirli bir iş paketinin ayrıntılarına erişmek için satırına çift tıklamanız yeterlidir."
+          full_view: "<b>İş paketi ayrıntıları</b> görünümü, tanımı, durumu, önceliği, etkinlikleri, bağımlılıkları ve yorumları gibi belirli bir iş paketiyle ilgili tüm ilgili bilgileri sağlar."
+          back_button: "Çıkmak ve iş paketi listesine geri dönmek için sol üst köşedeki dönüş okunu kullanın."
+          create_button: "<b>+ Oluştur</b> düğmesi, projenize yeni bir çalışma paketi ekleyecektir."
+          gantt_menu: "Create project schedules and timelines effortlessly using the Gantt chart module."
+          timeline: "Burada <b>proje planınızı düzenleyebilir</b>, görevler, kilometre taşları, aşamalar ve daha fazlası gibi yeni iş paketleri oluşturabilir ve <b>bağımlılıklar ekleyebilirsiniz</b>. Tüm ekip üyeleri istedikleri zaman en son planı görebilir ve güncelleyebilir."
         team_planner:
-          overview: 'Takım planlayıcı, takım üyelerine görsel olarak görevler atamanıza ve kimin ne üzerinde çalıştığına dair bir genel bakış elde etmenize olanak tanır.'
-          calendar: 'Haftalık veya iki haftalık planlama panosu, ekip üyelerinize atanan tüm iş paketlerini görüntüler.'
-          add_assignee: 'Başlamak için ekip planlayıcıya atanan kişileri ekleyin.'
-          add_existing: 'Mevcut iş paketlerini arayın ve anında bir ekip üyesine atamak ve başlangıç ve bitiş tarihlerini tanımlamak için bunları ekip planlayıcıya sürükleyin.'
-          card: 'İş paketlerini zamanda geriye veya ileriye taşımak için yatay olarak sürükleyin, başlangıç ve bitiş tarihlerini değiştirmek için kenarları sürükleyin ve hatta başka bir üyeye atamak için farklı bir satıra dikey olarak sürükleyin.'
+          overview: "Takım planlayıcı, takım üyelerine görsel olarak görevler atamanıza ve kimin ne üzerinde çalıştığına dair bir genel bakış elde etmenize olanak tanır."
+          calendar: "Haftalık veya iki haftalık planlama panosu, ekip üyelerinize atanan tüm iş paketlerini görüntüler."
+          add_assignee: "Başlamak için ekip planlayıcıya atanan kişileri ekleyin."
+          add_existing: "Mevcut iş paketlerini arayın ve anında bir ekip üyesine atamak ve başlangıç ve bitiş tarihlerini tanımlamak için bunları ekip planlayıcıya sürükleyin."
+          card: "İş paketlerini zamanda geriye veya ileriye taşımak için yatay olarak sürükleyin, başlangıç ve bitiş tarihlerini değiştirmek için kenarları sürükleyin ve hatta başka bir üyeye atamak için farklı bir satıra dikey olarak sürükleyin."
     notifications:
       title: "Bildirimler"
       no_unread: "Okunmamış bildirim yok"
       reasons:
-        mentioned: 'adı geçen, bahsedilen'
-        watched: 'izleyici'
-        assigned: 'vekil'
-        responsible: 'sorumlu'
-        created: 'oluşturuldu'
-        scheduled: 'zamanlandı'
-        commented: 'yorumlandı'
-        processed: 'işlem uygulandı'
-        prioritized: 'öncelik verildi'
-        dateAlert: 'Tarih uyarısı'
-        shared: 'shared'
+        mentioned: "adı geçen, bahsedilen"
+        watched: "izleyici"
+        assigned: "vekil"
+        responsible: "sorumlu"
+        created: "oluşturuldu"
+        scheduled: "zamanlandı"
+        commented: "yorumlandı"
+        processed: "işlem uygulandı"
+        prioritized: "öncelik verildi"
+        dateAlert: "Tarih uyarısı"
+        shared: "shared"
       date_alerts:
-        milestone_date: 'Kilometre taşı tarihi'
-        overdue: 'Süresi geçmiş'
-        overdue_since: '%{difference_in_days} beri'
-        property_today: 'bugün'
-        property_is: '%{difference_in_days} içinde'
-        property_was: '%{difference_in_days} önceydi'
-        property_is_deleted: 'silindi'
+        milestone_date: "Kilometre taşı tarihi"
+        overdue: "Süresi geçmiş"
+        overdue_since: "%{difference_in_days} beri"
+        property_today: "bugün"
+        property_is: "%{difference_in_days} içinde"
+        property_was: "%{difference_in_days} önceydi"
+        property_is_deleted: "silindi"
         upsale:
-          title: 'Tarih uyarısı'
-          description: 'Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız.'
+          title: "Tarih uyarısı"
+          description: "Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız."
       facets:
-        unread: 'okunmamış'
-        unread_title: 'Okunmayanları göster'
-        all: 'Hepsi'
-        all_title: 'Tümünü göster'
+        unread: "okunmamış"
+        unread_title: "Okunmayanları göster"
+        all: "Hepsi"
+        all_title: "Tümünü göster"
       center:
-        label_actor_and: 've'
+        label_actor_and: "ve"
         and_more_users:
-          one: 've 1 diğer'
-          other: 've 1 diğer'
+          one: "ve 1 diğer"
+          other: "ve %{count} diğer"
         no_results:
-          at_all: 'Sizi ilgilendiren bir etkinlik olduğunda yeni bildirimler burada görünecektir.'
-          with_current_filter: 'Şu anda bu görünümde bildirim yok'
-        mark_all_read: 'Tümünü okundu olarak işaretle'
-        mark_as_read: 'Okundu olarak işaretle'
+          at_all: "Sizi ilgilendiren bir etkinlik olduğunda yeni bildirimler burada görünecektir."
+          with_current_filter: "Şu anda bu görünümde bildirim yok"
+        mark_all_read: "Tümünü okundu olarak işaretle"
+        mark_as_read: "Okundu olarak işaretle"
         text_update_date: "%{date} tarafından"
         total_count_warning: "En yeni %{newest_count} bildirim gösteriliyor. %{more_count} tane daha görüntülenmiyor."
         empty_state:
@@ -639,17 +659,17 @@ tr:
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Tüm etkinlik ayrıntılarını görüntülemek için bir bildirime tıklayın."
         new_notifications:
-          message: 'Yeni bildirimler var'
-          link_text: 'Yüklemek için buraya tıklayın'
+          message: "Yeni bildirimler var"
+          link_text: "Click here to load them."
       menu:
-        accountable: 'Sorumlu'
-        by_project: 'Proje tarafından okunmadı'
-        by_reason: 'Sebep'
-        inbox: 'Gelen Kutusu'
-        mentioned: 'Bahsedilen'
-        watched: 'İzleyici'
-        date_alert: 'Tarih uyarısı'
-        shared: 'Shared'
+        accountable: "Sorumlu"
+        by_project: "Proje tarafından okunmadı"
+        by_reason: "Sebep"
+        inbox: "Gelen Kutusu"
+        mentioned: "Bahsedilen"
+        watched: "İzleyici"
+        date_alert: "Tarih uyarısı"
+        shared: "Shared"
       settings:
         change_notification_settings: 'Önemli bir güncellemeyi asla kaçırmamak için <a target="_blank" href="%{url}">bildirim ayarlarınızı</a> değiştirebilirsiniz.'
         title: "Bildirim ayarları"
@@ -668,96 +688,96 @@ tr:
               P7D: her hafta
         reasons:
           mentioned:
-            title: 'Bahsedilen'
-            description: 'Birisi herhangi bir yerde benden her bahsettiğinde bir bildirim alın'
-          assignee: 'Atanan'
-          responsible: 'Sorumlu'
-          shared: 'Shared'
-          watched: 'İzleyici'
-          work_package_commented: 'Tüm yeni yorumlar'
-          work_package_created: 'Yeni iş paketleri'
-          work_package_processed: 'Tüm durum değişiklikleri'
-          work_package_prioritized: 'Tüm öncelik değişiklikleri'
-          work_package_scheduled: 'Tüm tarih değişiklikleri'
+            title: "Bahsedilen"
+            description: "Birisi herhangi bir yerde benden her bahsettiğinde bir bildirim alın"
+          assignee: "Atanan"
+          responsible: "Sorumlu"
+          shared: "Shared"
+          watched: "İzleyici"
+          work_package_commented: "Tüm yeni yorumlar"
+          work_package_created: "Yeni iş paketleri"
+          work_package_processed: "Tüm durum değişiklikleri"
+          work_package_prioritized: "Tüm öncelik değişiklikleri"
+          work_package_scheduled: "Tüm tarih değişiklikleri"
         global:
           immediately:
-            title: 'Katılım'
-            description: 'Dahil olduğunuz (vekil, sorumlu veya gözlemci) iş paketlerindeki tüm faaliyetler için bildirimler.'
+            title: "Katılım"
+            description: "Dahil olduğunuz (vekil, sorumlu veya gözlemci) iş paketlerindeki tüm faaliyetler için bildirimler."
           delayed:
-            title: 'Katılmayan'
-            description: 'Tüm projelerdeki faaliyetler için ek bildirimler.'
+            title: "Katılmayan"
+            description: "Tüm projelerdeki faaliyetler için ek bildirimler."
           date_alerts:
-            title: 'Tarih uyarısı'
-            description: 'Dahil olduğunuz (vekil, sorumlu veya gözlemci) açık iş paketleri için önemli tarihler yaklaştığında otomatik bildirimler.'
-            teaser_text: 'Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız.'
+            title: "Tarih uyarısı"
+            description: "Dahil olduğunuz (vekil, sorumlu veya gözlemci) açık iş paketleri için önemli tarihler yaklaştığında otomatik bildirimler."
+            teaser_text: "Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız."
           overdue: Süresi geçtiğinde
         project_specific:
-          title: 'Projeye özel bildirim ayarları'
-          description: 'Bu projeye özgü ayarlar, yukarıdaki varsayılan ayarları geçersiz kılar.'
-          add: 'Proje için ayar ekle'
-          already_selected: 'Bu proje zaten seçildi'
-          remove: 'Proje ayarlarını sil'
+          title: "Projeye özel bildirim ayarları"
+          description: "Bu projeye özgü ayarlar, yukarıdaki varsayılan ayarları geçersiz kılar."
+          add: "Proje için ayar ekle"
+          already_selected: "Bu proje zaten seçildi"
+          remove: "Proje ayarlarını sil"
     password_confirmation:
-      field_description: 'Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.'
-      title: 'Devam etmek için parolanızı doğrulayın'
+      field_description: "Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir."
+      title: "Devam etmek için parolanızı doğrulayın"
     pagination:
       no_other_page: "Geçerli tek sayfadasınız."
       pages:
         next: "Bir sonraki sayfaya ilerleyin"
         previous: "Önceki sayfa geri dön"
     placeholders:
-      default: '-'
-      subject: 'Buraya konuyu girin'
-      selection: 'Lütfen seçin'
-      description: 'Açıklama: Düzenlemek için tıklayın...'
-      relation_description: 'Bu ilişkiye açıklama eklemek için tıklayın'
+      default: "-"
+      subject: "Buraya konuyu girin"
+      selection: "Lütfen seçin"
+      description: "Açıklama: Düzenlemek için tıklayın..."
+      relation_description: "Bu ilişkiye açıklama eklemek için tıklayın"
     project:
       required_outside_context: >
         Lütfen tüm özellikleri görmek için çalışma paketini oluşturacak bir proje seçin. Yalnızca yukarıdaki türden etkin olan projeleri seçebilirsiniz.
-      details_activity: 'Proje ayrıntıları etkinliği'
-      context: 'Proje içeriği'
-      click_to_switch_to_project: 'Project: %{projectname}'
-      confirm_template_load: 'Şablonu değiştirmek sayfayı yeniden yükleyecek ve bu forma yaptığınız tüm girişleri kaybedeceksiniz. Devam et?'
+      details_activity: "Proje ayrıntıları etkinliği"
+      context: "Proje içeriği"
+      click_to_switch_to_project: "Project: %{projectname}"
+      confirm_template_load: "Şablonu değiştirmek sayfayı yeniden yükleyecek ve bu forma yaptığınız tüm girişleri kaybedeceksiniz. Devam et?"
       use_template: "Şablon kullan"
       no_template_selected: "(Yok)"
       copy:
         copy_options: "Ayarları kopyala"
       autocompleter:
-        label: 'Proje otomatik tamamlama'
+        label: "Proje otomatik tamamlama"
     reminders:
       settings:
         daily:
-          add_time: 'Süre ekle'
-          enable: 'Günlük email hatırlatıcılarını etkinleştir'
-          explanation: 'Bu hatırlatıcıları yalnızca okunmamış bildirimler için ve yalnızca sizin belirlediğiniz saatlerde alacaksınız. %{no_time_zone}'
-          no_time_zone: 'Hesabınız için bir saat dilimi yapılandırana kadar, saatler UTC olarak yorumlanacaktır.'
-          time_label: 'Zaman %{counter}:'
-          title: 'Okunmamış bildirimler için bana günlük e-posta hatırlatıcıları gönder'
+          add_time: "Süre ekle"
+          enable: "Günlük email hatırlatıcılarını etkinleştir"
+          explanation: "Bu hatırlatıcıları yalnızca okunmamış bildirimler için ve yalnızca sizin belirlediğiniz saatlerde alacaksınız. %{no_time_zone}"
+          no_time_zone: "Hesabınız için bir saat dilimi yapılandırana kadar, saatler UTC olarak yorumlanacaktır."
+          time_label: "Zaman %{counter}:"
+          title: "Okunmamış bildirimler için bana günlük e-posta hatırlatıcıları gönder"
         workdays:
-          title: 'Bu günlerde e-posta hatırlatıcıları alın'
+          title: "Bu günlerde e-posta hatırlatıcıları alın"
         immediate:
-          title: 'Bana email hatırlatıcısı gönder'
-          mentioned: 'Birisi benden @bahsettiğinde hemen'
+          title: "Bana email hatırlatıcısı gönder"
+          mentioned: "Birisi benden @bahsettiğinde hemen"
         alerts:
-          title: 'Diğer öğeler için e-posta uyarıları (iş paketleri olmayanlar)'
+          title: "Diğer öğeler için e-posta uyarıları (iş paketleri olmayanlar)"
           explanation: >
             Bildirimler bugün iş paketleri ile sınırlıdır. Bildirimlere eklenene kadar bu etkinlikler için e-posta uyarıları almaya devam etmeyi seçebilirsiniz:
-          news_added: 'Haberler eklendi'
-          news_commented: 'Bir habere yorum yapın'
-          document_added: 'Belgeler eklendi'
-          forum_messages: 'Yeni forum mesajları'
-          wiki_page_added: 'Viki sayfası eklendi'
-          wiki_page_updated: 'Viki sayfası güncellendi'
-          membership_added: 'Üyelik eklendi'
-          membership_updated: 'Üyelik güncellendi'
-        title: 'Email hatırlatıcıları'
+          news_added: "Haberler eklendi"
+          news_commented: "Bir habere yorum yapın"
+          document_added: "Belgeler eklendi"
+          forum_messages: "Yeni forum mesajları"
+          wiki_page_added: "Viki sayfası eklendi"
+          wiki_page_updated: "Viki sayfası güncellendi"
+          membership_added: "Üyelik eklendi"
+          membership_updated: "Üyelik güncellendi"
+        title: "Email hatırlatıcıları"
         pause:
-          label: 'Email hatırlatıcılarını geçici olarak durdur'
-          first_day: 'İlk gün'
-          last_day: 'Son gün'
+          label: "Email hatırlatıcılarını geçici olarak durdur"
+          first_day: "İlk gün"
+          last_day: "Son gün"
     text_are_you_sure: "Emin misiniz?"
     text_data_lost: "Girilen tüm veriler silinecek."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} demiş ki:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri eşsiz olmalıdır."
@@ -774,18 +794,18 @@ tr:
         projects: "Projeler"
         settings: "Ayarlar"
     time_entry:
-      work_package_required: 'Önce bir iş paketi seçilmesini gerektirir.'
-      title: 'Zaman kaydet'
-      tracking: 'Zaman takibi'
-      stop: 'Dur'
+      work_package_required: "Önce bir iş paketi seçilmesini gerektirir."
+      title: "Zaman kaydet"
+      tracking: "Zaman takibi"
+      stop: "Dur"
     timer:
-      start_new_timer: 'Start new timer'
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
-      button_stop: 'Stop current timer'
+      start_new_timer: "Start new timer"
+      timer_already_running: "To start a new timer, you must first stop the current timer:"
+      timer_already_stopped: "No active timer for this work package, have you stopped it in another window?"
+      tracking_time: "Tracking time"
+      button_stop: "Stop current timer"
     two_factor_authentication:
-      label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
+      label_two_factor_authentication: "İki faktörlü kimlik doğrulama"
     watchers:
       label_loading: takipçiler yükleniyor...
       label_error_loading: Takipçileri yüklerken bir hata oluştu
@@ -832,7 +852,7 @@ tr:
       toggle_description: "İlişki açıklamasını göster"
       update_relation: "İlişki türünü değiştirmek için tıklayın"
       add_follower: "Takipçi ekle"
-      show_relations: "Show relations"
+      show_relations: "İlişkileri göster"
       add_predecessor: "Öncelik ekle"
       remove: "İlişkiyi kaldır"
       save: "İlişkiyi kaydet"
@@ -846,27 +866,27 @@ tr:
       project:
         placeholder: "Proje seçin"
     repositories:
-      select_tag: 'Etiket seç'
-      select_branch: 'Branş seç'
+      select_tag: "Etiket seç"
+      select_branch: "Branş seç"
     field_value_enter_prompt: "'%{field}' için bir değer girin"
     project_menu_details: "Detaylar"
     scheduling:
-      manual: 'Manuel zamanlamayı etkinleştir'
+      manual: "Manuel zamanlamayı etkinleştir"
     sort:
-      sorted_asc: 'Artan sıralama, uygulandı, '
-      sorted_dsc: 'Azalan sırılama uygulandı, '
-      sorted_no: 'Sıralama uygulanmadı, '
-      sorting_disabled: 'sıralama devre dışı'
-      activate_asc: 'artan sıralamı uygulamak için etkinleştir'
-      activate_dsc: 'azalan sıralama uygulamak için etkinleştir'
-      activate_no: 'sıralamayı kaldırmak için etkinleştir'
+      sorted_asc: "Artan sıralama, uygulandı, "
+      sorted_dsc: "Azalan sırılama uygulandı, "
+      sorted_no: "Sıralama uygulanmadı, "
+      sorting_disabled: "sıralama devre dışı"
+      activate_asc: "artan sıralamı uygulamak için etkinleştir"
+      activate_dsc: "azalan sıralama uygulamak için etkinleştir"
+      activate_no: "sıralamayı kaldırmak için etkinleştir"
     text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
     text_query_destroy_confirmation: "Seçilen görünümü silmek istediğinizden emin misiniz?"
     tl_toolbar:
       zooms: "Yakınlaştırma düzeyi"
       outlines: "Hiyerarşi düzeyi"
     upsale:
-      ee_only: 'Enterprise sürümü eklentisi'
+      ee_only: "Enterprise sürümü eklentisi"
     wiki_formatting:
       strong: "Kalın"
       italic: "İtalik"
@@ -885,10 +905,10 @@ tr:
       image: "Görsel"
     work_packages:
       bulk_actions:
-        move: 'Projenin toplu değişimi'
-        edit: 'Toplu düzenle'
-        copy: 'Toplu kopyala'
-        delete: 'Toplu silme'
+        move: "Projenin toplu değişimi"
+        edit: "Toplu düzenle"
+        copy: "Toplu kopyala"
+        delete: "Toplu silme"
       button_clear: "Temizle"
       comment_added: "Yorum başarıyla eklendi."
       comment_send_failed: "Bir hata oluştu. Yorum gönderilemedi."
@@ -900,9 +920,9 @@ tr:
         start_date_limited_by_relations: "Kullanılabilir başlangıç ve bitiş tarihleri ilişkilerle sınırlıdır."
         changing_dates_affects_follow_relations: "Bu tarihlerin değiştirilmesi, ilgili iş paketlerinin tarihlerini etkileyecektir."
         click_on_show_relations_to_open_gantt: 'GANTT''ye genel bakış için "%{button_name}" üzerine tıklayın.'
-        show_relations: 'İlişkileri göster'
+        show_relations: "İlişkileri göster"
         ignore_non_working_days:
-          title: 'Sadece iş günleri'
+          title: "Sadece iş günleri"
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
@@ -922,32 +942,34 @@ tr:
       message_work_package_read_only: "İş paketi bu durum içinde kilitli. Durumu haricinde başka bir özelliği değiştirilemez."
       message_work_package_status_blocked: "İş paketi durumu, kapalı durum ve kapalı sürüm tahsis edildiğinden dolayı yazılamaz."
       placeholder_filter_by_text: "Konu, açıklama, yorumlar, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
-        addition_label: 'Added to view within the comparison time period'
-        removal_label: 'Removed from view within the comparison time period'
-        modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This column does not show changes in Baseline mode.'
+        addition_label: "Added to view within the comparison time period"
+        removal_label: "Removed from view within the comparison time period"
+        modification_label: "Modified within the comparison time period"
+        column_incompatible: "This column does not show changes in Baseline mode."
       filters:
-        title: 'İş paketlerini filtrele'
-        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
-        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+        title: "İş paketlerini filtrele"
+        baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
+        baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
       inline_create:
-        title: 'Listeden yeni bir iş paketi eklemek için buraya tıklayınız'
+        title: "Listeden yeni bir iş paketi eklemek için buraya tıklayınız"
       create:
-        title: 'Yeni iş paketi'
-        header: 'Yeni %{type}'
-        header_no_type: 'Yeni iş paketi (türü henüz ayarlanmadı)'
-        header_with_parent: 'Yeni %{type} (%{parent_type} #%{id} altında)'
-        button: 'Oluştur'
+        title: "Yeni iş paketi"
+        header: "Yeni %{type}"
+        header_no_type: "Yeni iş paketi (türü henüz ayarlanmadı)"
+        header_with_parent: "Yeni %{type} (%{parent_type} #%{id} altında)"
+        button: "Oluştur"
       copy:
-        title: 'İş paketini kopyala'
+        title: "İş paketini kopyala"
       hierarchy:
         show: "Hiyerarşiyi göster"
         hide: "Hiyerarşiyi gizle"
-        toggle_button: 'Hiyerarşi moduna geçiş yapmak için tıklatın.'
-        leaf: 'İş paketi seviyesi: %{level}.'
-        children_collapsed: 'Hiyerarşi düzeyi %{level}, gösterilmiyor. Filitreli alt bileşenleri görmek için tıklayın'
-        children_expanded: 'Hiyerarşi düzeyi %{level}, gösteriliyor. Filitreli alt bileşenleri gizlemek için tıklayın'
+        toggle_button: "Hiyerarşi moduna geçiş yapmak için tıklatın."
+        leaf: "İş paketi seviyesi: %{level}."
+        children_collapsed: "Hiyerarşi düzeyi %{level}, gösterilmiyor. Filitreli alt bileşenleri görmek için tıklayın"
+        children_expanded: "Hiyerarşi düzeyi %{level}, gösteriliyor. Filitreli alt bileşenleri gizlemek için tıklayın"
       faulty_query:
         title: İş paketleri yüklenemiyor.
         description: Görüşün hatalı ve işlenemedi.
@@ -975,8 +997,8 @@ tr:
         percentageDone: "Tamamlanan yüzde"
         priority: "Öncelik"
         projectName: "Proje"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Kalan çalışma"
+        remainingWorkAlternative: "Kalan saat"
         responsible: "Sorumlu"
         startDate: "Başlangıç tarihi"
         status: "Durum"
@@ -988,8 +1010,8 @@ tr:
         versionName: "Sürüm"
         version: "Sürüm"
         work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        workAlternative: "Tahmini süre"
+        remainingTime: "Kalan çalışma"
       default_queries:
         latest_activity: "En son etkinlik"
         created_by_me: "Benim oluşturduklarım"
@@ -998,6 +1020,7 @@ tr:
         all_open: "Tüm açık"
         summary: "Özet"
         shared_with_users: "Shared with users"
+        shared_with_me: "Shared with me"
       jump_marks:
         pagination: "Tablo numaralandırmaya yönlendir"
         label_pagination: "İş paketleri tablosuna geçiş yapmak ve numaralandırma sayfasına gitmek için buraya tıklayın"
@@ -1035,54 +1058,54 @@ tr:
         is_parent: "Bu çalışma paketinin tarihleri otomatik olarak çocuklarından çıkarılır. Tarihleri ayarlamak için 'Manuel zamanlama'yı etkinleştirin."
         is_switched_from_manual_to_automatic: "Bu çalışma paketinin tarihlerinin, diğer çalışma paketleriyle olan ilişkiler nedeniyle manuelden otomatik zamanlamaya geçtikten sonra yeniden hesaplanması gerekebilir."
       sharing:
-        share: 'Paylaş'
+        share: "Paylaş"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:
-        configure_button: 'İş paketi tablosunu kopyala'
+        configure_button: "İş paketi tablosunu kopyala"
         summary: "İş paketi satır tabloları ve iş paketi nitelik sütunları."
         text_inline_edit: "Bu tablodaki çoğu hücre o öznitelikteki satır içi düzenleme işlevselliğini etkinleşirme düğmeleridir."
         text_sort_hint: "Tablo başlığındaki bağlantılardan tablo sütunlarını sırayalabilir, gruplayabilir, yeniden düzenleyebilir, silebilir ya da ekleyebilirsiniz."
         text_select_hint: "Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır."
       table_configuration:
-        button: 'Bu iş paketi tablosunu yapılandır'
-        choose_display_mode: 'İş paketlerini farklı olarak göster'
-        modal_title: 'İş paketi tablosu yapılandırma'
+        button: "Bu iş paketi tablosunu yapılandır"
+        choose_display_mode: "İş paketlerini farklı olarak göster"
+        modal_title: "İş paketi tablosu yapılandırma"
         embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "varsayılan"
-        display_settings: 'Görünüm ayarları'
+        display_settings: "Görünüm ayarları"
         default_mode: "Düz liste"
         hierarchy_mode: "Hiyerarşi"
         hierarchy_hint: "Filtrelenen tüm tablo sonuçları atalarıyla artırılacaktır. Hiyerarşiler genişletilebilir ve daraltılabilir."
         display_sums_hint: "Tüm toplanabilir özelliklerin toplamlarını, tablonun sonuçlarının altındaki bir satırda görüntüleyin."
         show_timeline_hint: "Tablonun sağ tarafında etkileşimli bir gantt grafiği göster. Tablo ve gantt tablosu arasındaki bölücüyü sürükleyerek genişliğini değiştirebilirsiniz."
-        highlighting: 'Vurgulama'
+        highlighting: "Vurgulama"
         highlighting_mode:
           description: "Rekle vurgula"
           none: "Vurgulama"
-          inline: 'Vurgulanan öznitelik(ler)'
-          inline_all: 'Tüm öznitelikler'
-          entire_row_by: 'Tüm satır tarafından'
-          status: 'Durum'
-          priority: 'Öncelik'
-          type: 'Tür'
+          inline: "Vurgulanan öznitelik(ler)"
+          inline_all: "Tüm öznitelikler"
+          entire_row_by: "Tüm satır tarafından"
+          status: "Durum"
+          priority: "Öncelik"
+          type: "Tür"
         sorting_mode:
-          description: 'İş paketlerinizi sıralamak için modu seçin:'
-          automatic: 'Otomatik'
-          manually: 'el ile'
-          warning: 'Otomatik sıralama modunu etkinleştirirken önceki sıralamanızı kaybedeceksiniz.'
+          description: "İş paketlerinizi sıralamak için modu seçin:"
+          automatic: "Otomatik"
+          manually: "el ile"
+          warning: "Otomatik sıralama modunu etkinleştirirken önceki sıralamanızı kaybedeceksiniz."
         columns_help_text: "Tablo görünümünüze sütun eklemek için yukarıdaki giriş alanını kullanın. Sütunları yeniden sıralamak için sürükleyip bırakabilirsiniz."
         upsale:
-          attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'
-          relation_columns: 'İş paketleri listesindeki ilişkileri görmek ister misiniz?'
-          check_out_link: 'Enterprise sürümünü inceleyin.'
+          attribute_highlighting: "Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?"
+          relation_columns: "İş paketleri listesindeki ilişkileri görmek ister misiniz?"
+          check_out_link: "Enterprise sürümünü inceleyin."
         relation_filters:
-          filter_work_packages_by_relation_type: 'İş paketlerini ilişki türüne göre filtreleme'
+          filter_work_packages_by_relation_type: "İş paketlerini ilişki türüne göre filtreleme"
       tabs:
         overview: Genel Bakış
         activity: Etkinlik
@@ -1122,8 +1145,8 @@ tr:
       button_cancel: "İptal etmek"
       button_delete: "Sil"
       form_submit:
-        title: 'Devam etmek için onaylayın'
-        text: 'Bu işlemi gerçekleştirmek istediğinizden emin misiniz?'
+        title: "Devam etmek için onaylayın"
+        text: "Bu işlemi gerçekleştirmek istediğinizden emin misiniz?"
       destroy_work_package:
         title: "%{label} için silme işlimini onaylayın"
         single_text: "Bu iş paketini silmek istediğinize emin misiniz?"
@@ -1155,11 +1178,11 @@ tr:
       null_value_label: "Değer yok"
       clear_value_label: "-"
       errors:
-        required: '%{field} boş bırakılamaz'
-        number: '%{field} geçerli bir sayı değil'
-        maxlength: '%{field} %{maxLength} karakter(lerin) den fazla karakter içeremez'
-        minlength: '%{field} %{minLength} karakter(lerin) den az karakter içeremez'
-        messages_on_field: 'Bu alan geçersiz: %{messages}'
+        required: "%{field} boş bırakılamaz"
+        number: "%{field} geçerli bir sayı değil"
+        maxlength: "%{field} %{maxLength} karakter(lerin) den fazla karakter içeremez"
+        minlength: "%{field} %{minLength} karakter(lerin) den az karakter içeremez"
+        messages_on_field: "Bu alan geçersiz: %{messages}"
     error_could_not_resolve_version_name: "Sürüm adı çözümlenemedi"
     error_could_not_resolve_user_name: "Kullanıcı adı çözümlenemedi"
     error_attachment_upload: "Dosya yüklenemedi: %{error}"
@@ -1180,8 +1203,8 @@ tr:
         other: "%{count} gün"
         zero: "0 gün"
     zen_mode:
-      button_activate: 'Zen modunu etkinleştir'
-      button_deactivate: 'Zen modunu devre dışı bırak'
+      button_activate: "Zen modunu etkinleştir"
+      button_deactivate: "Zen modunu devre dışı bırak"
     global_search:
       all_projects: "Tüm projelerde"
       close_search: "Aramayı kapat"
@@ -1194,129 +1217,146 @@ tr:
         project_and_subprojects: "ve tüm alt projeler"
         search_for: "Aramak"
     views:
-      card: 'Kartlar'
-      list: 'tablo'
-      timeline: 'Gantt'
+      card: "Kartlar"
+      list: "tablo"
+      timeline: "Gantt"
     invite_user_modal:
-      back: 'Geri'
-      invite: 'Davet et'
+      back: "Geri"
+      invite: "Davet et"
       title:
-        invite: 'Kullanıcı davet et'
-        invite_to_project: '%{type} ''ı %{project} projesine davet edin'
-        User: 'Kullanıcılar'
-        Group: 'Grup'
-        PlaceholderUser: 'Yer tutucu kullanıcılar'
+        invite: "Kullanıcı davet et"
+        invite_to_project: "%{type} 'ı %{project} projesine davet edin"
+        User: "Kullanıcılar"
+        Group: "Grup"
+        PlaceholderUser: "Yer tutucu kullanıcılar"
         invite_principal_to_project: "%{principal} 'i %{project} projesine davet edin\n"
       project:
-        label: 'Proje'
-        required: 'Lütfen bir proje seçin'
-        lacking_permission: 'Şu anda seçili olan projeye kişiler atama izniniz olmadığından lütfen başka bir proje seçin.'
-        lacking_permission_info: 'Şu anda içinde olduğunuz projeye kullanıcılar atama izniniz yok. Başka bir tane seçmeniz gerekli.'
-        next_button: 'Sonraki'
-        no_results: 'Hiç proje bulunamadı'
-        no_invite_rights: 'Bu projeye üye davet etme izniniz yok'
+        label: "Proje"
+        required: "Lütfen bir proje seçin"
+        lacking_permission: "Şu anda seçili olan projeye kişiler atama izniniz olmadığından lütfen başka bir proje seçin."
+        lacking_permission_info: "Şu anda içinde olduğunuz projeye kullanıcılar atama izniniz yok. Başka bir tane seçmeniz gerekli."
+        next_button: "Sonraki"
+        no_results: "Hiç proje bulunamadı"
+        no_invite_rights: "Bu projeye üye davet etme izniniz yok"
       type:
-        required: 'Lütfen davet edilecek türü seçin'
+        required: "Lütfen davet edilecek türü seçin"
         user:
-          title: 'Kullanıcı'
-          description: 'Seçilen projede atanan role dayalı izinler'
+          title: "Kullanıcı"
+          description: "Seçilen projede atanan role dayalı izinler"
         group:
-          title: 'Grup'
-          description: 'Seçilen projede atanan role dayalı izinler'
+          title: "Grup"
+          description: "Seçilen projede atanan role dayalı izinler"
         placeholder:
-          title: 'Yer tutucu kullanıcı'
-          title_no_ee: 'Yer tutucu kullanıcı (yalnızca Enterprise sürümü eklentisi)'
-          description: 'Projeye erişimi yoktur ve e-posta gönderilmez.'
+          title: "Yer tutucu kullanıcı"
+          title_no_ee: "Yer tutucu kullanıcı (yalnızca Enterprise sürümü eklentisi)"
+          description: "Projeye erişimi yoktur ve e-posta gönderilmez."
           description_no_ee: 'Projeye erişimi yoktur ve e-posta gönderilmez. <br><a href="%{eeHref}" target="_blank">Enterprise sürümünü</a> inceleyin'
       principal:
         label:
-          name_or_email: 'İsim veya e-posta adresi'
-          name: 'İsim'
-        already_member_message: 'Zaten %{project} üyesi'
-        no_results_user: 'Hiçbir kullanıcı bulunamadı'
-        invite_user: 'Davet et'
-        no_results_placeholder: 'Hiçbir yer bulunamadı.'
-        create_new_placeholder: 'Yeni yer tutucu oluşturun:'
-        no_results_group: 'Hiç grup bulunamadı.'
-        next_button: 'Sonraki'
+          name_or_email: "İsim veya e-posta adresi"
+          name: "İsim"
+        already_member_message: "Zaten %{project} üyesi"
+        no_results_user: "Hiçbir kullanıcı bulunamadı"
+        invite_user: "Davet et"
+        no_results_placeholder: "Hiçbir yer bulunamadı."
+        create_new_placeholder: "Yeni yer tutucu oluşturun:"
+        no_results_group: "Hiç grup bulunamadı."
+        next_button: "Sonraki"
         required:
-          user: 'Lütfen bir kullanıcı seçin'
-          placeholder: 'Lütfen bir yer tutucu seçin'
-          group: 'Lütfen bir grup seçin'
+          user: "Lütfen bir kullanıcı seçin"
+          placeholder: "Lütfen bir yer tutucu seçin"
+          group: "Lütfen bir grup seçin"
       role:
-        label: 'rol %{project}'
-        no_roles_found: 'Hiç rol bulunamadı.'
-        description: 'Bu, kullanıcının projenize katıldığında alacağı roldür. Rol, hangi eylemleri yapmalarına ve hangi bilgileri görmelerine izin verildiğini tanımlar.<ahref="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/# roller-and-permissions" target="_blank"> Roller ve izinler hakkında daha fazla bilgi edinin. </a>'
-        required: 'Lütfen bir rol seçin.'
-        next_button: 'Sonraki'
+        label: "rol %{project}"
+        no_roles_found: "Hiç rol bulunamadı."
+        description: >-
+          Bu, kullanıcının projenize katıldığında alacağı roldür. Rol, hangi eylemleri yapmalarına ve hangi bilgileri görmelerine izin verildiğini tanımlar.<ahref="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/# roller-and-permissions" target="_blank"> Roller ve izinler hakkında daha fazla bilgi edinin. </a>
+        required: "Lütfen bir rol seçin."
+        next_button: "Sonraki"
       message:
-        label: 'Davet Mesajı'
-        description: 'Kullanıcıya, buradan kişisel bir mesaj ekleyebileceğiniz bir e-posta göndereceğiz. Davet için bir açıklama yararlı olabilir veya belki de başlamalarına yardımcı olacak projeyle ilgili bir parça bilgi olabilir.'
-        next_button: 'Sonraki'
+        label: "Davet Mesajı"
+        description: "Kullanıcıya, buradan kişisel bir mesaj ekleyebileceğiniz bir e-posta göndereceğiz. Davet için bir açıklama yararlı olabilir veya belki de başlamalarına yardımcı olacak projeyle ilgili bir parça bilgi olabilir."
+        next_button: "Sonraki"
       summary:
-        next_button: 'Davet gönder'
+        next_button: "Davet gönder"
       success:
-        title: '%{principal} davet edildi!'
+        title: "%{principal} davet edildi!"
         description:
-          user: 'Kullanıcı artık %{project} ''e erişmek için oturum açabilir. Bu arada, o kullanıcıyla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
-          placeholder: 'Kullanıcı artık %{project} ''e erişmek için oturum açabilir. Bu arada, o kullanıcıyla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
-          group: 'Grup artık %{project} ''nin bir parçası. Bu arada, bu grupla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
-        next_button: 'Devam et'
+          user: "Kullanıcı artık %{project} 'e erişmek için oturum açabilir. Bu arada, o kullanıcıyla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz."
+          placeholder: "Kullanıcı artık %{project} 'e erişmek için oturum açabilir. Bu arada, o kullanıcıyla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz."
+          group: "Grup artık %{project} 'nin bir parçası. Bu arada, bu grupla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz."
+        next_button: "Devam et"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
-      toggle_title: 'Projeleri dahil et'
-      title: 'Projeler'
-      clear_selection: 'Seçimi temizle'
-      apply: 'Uygula'
+      toggle_title: "Projeleri dahil et"
+      title: "Projeler"
+      clear_selection: "Seçimi temizle"
+      apply: "Uygula"
       selected_filter:
-        all: 'Tüm projeler'
-        selected: 'Sadece seçilen'
-      search_placeholder: 'Proje ara...'
-      include_subprojects: 'Tüm alt projeleri dahil et'
+        all: "Tüm projeler"
+        selected: "Sadece seçilen"
+      search_placeholder: "Proje ara..."
+      include_subprojects: "Tüm alt projeleri dahil et"
       tooltip:
-        include_all_selected: 'Tüm alt projeleri dahil et etkinleştirildiğinden, proje zaten dahil edilmiştir.'
-        current_project: 'Bu, içinde bulunduğunuz mevcut projedir.'
-        does_not_match_search: 'Proje arama kriterleriyle eşleşmiyor.'
-      no_results: 'Arama kriterleriniz ile eşleşen proje yok'
+        include_all_selected: "Tüm alt projeleri dahil et etkinleştirildiğinden, proje zaten dahil edilmiştir."
+        current_project: "Bu, içinde bulunduğunuz mevcut projedir."
+        does_not_match_search: "Proje arama kriterleriyle eşleşmiyor."
+      no_results: "Arama kriterleriniz ile eşleşen proje yok"
     baseline:
-      toggle_title: 'Baseline'
-      clear: 'Temizle'
-      apply: 'Uygula'
-      header_description: 'Highlight changes made to this list since any point in the past.'
-      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
-      show_changes_since: 'Show changes since'
-      baseline_comparison: 'Baseline comparison'
-      help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
-      time: 'Saat'
-      from: 'Başlangıç'
-      to: 'Bitiş'
+      toggle_title: "Baseline"
+      clear: "Temizle"
+      apply: "Uygula"
+      header_description: "Highlight changes made to this list since any point in the past."
+      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
+      show_changes_since: "Show changes since"
+      baseline_comparison: "Baseline comparison"
+      help_description: "Reference time zone for the baseline."
+      time_description: "In your local time: %{datetime}"
+      time: "Saat"
+      from: "Başlangıç"
+      to: "Bitiş"
       drop_down:
-        none: '-'
-        yesterday: 'dün'
-        last_working_day: 'last working day'
-        last_week: 'geçen hafta'
-        last_month: 'geçen ay'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        none: "-"
+        yesterday: "dün"
+        last_working_day: "last working day"
+        last_week: "geçen hafta"
+        last_month: "geçen ay"
+        a_specific_date: "a specific date"
+        between_two_specific_dates: "between two specific dates"
       legends:
-        changes_since: 'Changes since'
-        changes_between: 'Changes between'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        changes_since: "Changes since"
+        changes_between: "Changes between"
+        now_meets_filter_criteria: "Now meets filter criteria"
+        no_longer_meets_filter_criteria: "No longer meets filter criteria"
+        maintained_with_changes: "Maintained with changes"
+        in_your_timezone: "In your local timezone:"
       icon_tooltip:
-        added: 'Added to view within the comparison time period'
-        removed: 'Removed from view within the comparison time period'
-        changed: 'Maintained with modifications'
+        added: "Added to view within the comparison time period"
+        removed: "Removed from view within the comparison time period"
+        changed: "Maintained with modifications"
     forms:
-      submit_success_message: 'Form başarıyla gönderildi'
-      load_error_message: 'Form yüklenirken bir hata oluştu'
-      validation_error_message: 'ütfen formda bulunan hataları düzeltin'
-      advanced_settings: 'Gelişmiş ayarlar'
+      submit_success_message: "Form başarıyla gönderildi"
+      load_error_message: "Form yüklenirken bir hata oluştu"
+      validation_error_message: "ütfen formda bulunan hataları düzeltin"
+      advanced_settings: "Gelişmiş ayarlar"
     spot:
       filter_chip:
-        remove: 'Kaldır'
+        remove: "Kaldır"
       drop_modal:
-        focus_grab: 'Bu, modallar için bir odak noktasıdır. Modal tetikleme öğesine geri dönmek için shift+tab tuşlarına basın.'
-        Close: 'Kapat'
+        focus_grab: "Bu, modallar için bir odak noktasıdır. Modal tetikleme öğesine geri dönmek için shift+tab tuşlarına basın."
+        close: "Close modal"
+    open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

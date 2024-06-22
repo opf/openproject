@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Versions::Schemas::VersionSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { build_stubbed(:user) }
 
-  let(:self_link) { '/a/self/link' }
+  let(:self_link) { "/a/self/link" }
   let(:embedded) { true }
   let(:new_record) { true }
   let(:allowed_sharings) { %w(tree system) }
@@ -53,7 +53,7 @@ RSpec.describe API::V3::Versions::Schemas::VersionSchemaRepresenter do
       writable = %w(name description start_date due_date status sharing)
 
       if new_record
-        writable << 'project'
+        writable << "project"
       end
 
       writable.include?(attribute.to_s)
@@ -82,173 +82,173 @@ RSpec.describe API::V3::Versions::Schemas::VersionSchemaRepresenter do
                            current_user:)
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:generated) { representer.to_json }
 
-    describe '_type' do
-      it 'is indicated as Schema' do
-        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
+    describe "_type" do
+      it "is indicated as Schema" do
+        expect(subject).to be_json_eql("Schema".to_json).at_path("_type")
       end
     end
 
-    describe 'id' do
-      let(:path) { 'id' }
+    describe "id" do
+      let(:path) { "id" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'Integer' }
-        let(:name) { I18n.t('attributes.id') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "Integer" }
+        let(:name) { I18n.t("attributes.id") }
         let(:required) { true }
         let(:writable) { false }
       end
     end
 
-    describe 'createdAt' do
-      let(:path) { 'createdAt' }
+    describe "createdAt" do
+      let(:path) { "createdAt" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'DateTime' }
-        let(:name) { Version.human_attribute_name('created_at') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "DateTime" }
+        let(:name) { Version.human_attribute_name("created_at") }
         let(:required) { true }
         let(:writable) { false }
       end
     end
 
-    describe 'updatedAt' do
-      let(:path) { 'updatedAt' }
+    describe "updatedAt" do
+      let(:path) { "updatedAt" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'DateTime' }
-        let(:name) { Version.human_attribute_name('updated_at') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "DateTime" }
+        let(:name) { Version.human_attribute_name("updated_at") }
         let(:required) { true }
         let(:writable) { false }
       end
     end
 
-    describe 'name' do
-      let(:path) { 'name' }
+    describe "name" do
+      let(:path) { "name" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'String' }
-        let(:name) { Version.human_attribute_name('name') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "String" }
+        let(:name) { Version.human_attribute_name("name") }
         let(:required) { true }
         let(:writable) { true }
       end
 
-      it_behaves_like 'indicates length requirements' do
+      it_behaves_like "indicates length requirements" do
         let(:min_length) { 1 }
         let(:max_length) { 60 }
       end
     end
 
-    describe 'description' do
-      let(:path) { 'description' }
+    describe "description" do
+      let(:path) { "description" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'Formattable' }
-        let(:name) { Version.human_attribute_name('description') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "Formattable" }
+        let(:name) { Version.human_attribute_name("description") }
         let(:required) { false }
         let(:writable) { true }
       end
     end
 
-    describe 'int custom field' do
+    describe "int custom field" do
       let(:path) { custom_field.attribute_name(:camel_case) }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'Integer' }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "Integer" }
         let(:name) { custom_field.name }
         let(:required) { false }
         let(:writable) { false }
       end
     end
 
-    describe 'startDate' do
-      let(:path) { 'startDate' }
+    describe "startDate" do
+      let(:path) { "startDate" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'Date' }
-        let(:name) { Version.human_attribute_name('start_date') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "Date" }
+        let(:name) { Version.human_attribute_name("start_date") }
         let(:required) { false }
         let(:writable) { true }
       end
     end
 
-    describe 'endDate' do
-      let(:path) { 'endDate' }
+    describe "endDate" do
+      let(:path) { "endDate" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'Date' }
-        let(:name) { Version.human_attribute_name('due_date') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "Date" }
+        let(:name) { Version.human_attribute_name("due_date") }
         let(:required) { false }
         let(:writable) { true }
       end
     end
 
-    describe 'definingProject' do
-      let(:path) { 'definingProject' }
+    describe "definingProject" do
+      let(:path) { "definingProject" }
 
-      context 'if having a new record' do
-        it_behaves_like 'has basic schema properties' do
-          let(:type) { 'Project' }
-          let(:name) { Version.human_attribute_name('project') }
+      context "if having a new record" do
+        it_behaves_like "has basic schema properties" do
+          let(:type) { "Project" }
+          let(:name) { Version.human_attribute_name("project") }
           let(:required) { true }
           let(:writable) { true }
-          let(:location) { '_links' }
+          let(:location) { "_links" }
         end
 
-        context 'if embedding' do
+        context "if embedding" do
           let(:embedded) { true }
 
-          it_behaves_like 'links to allowed values via collection link' do
+          it_behaves_like "links to allowed values via collection link" do
             let(:href) do
               api_v3_paths.versions_available_projects
             end
           end
         end
 
-        context 'if not embedding' do
+        context "if not embedding" do
           let(:embedded) { false }
 
-          it_behaves_like 'does not link to allowed values'
+          it_behaves_like "does not link to allowed values"
         end
       end
 
-      context 'if having a persisted record' do
+      context "if having a persisted record" do
         let(:new_record) { false }
 
-        it_behaves_like 'has basic schema properties' do
-          let(:type) { 'Project' }
-          let(:name) { Version.human_attribute_name('project') }
+        it_behaves_like "has basic schema properties" do
+          let(:type) { "Project" }
+          let(:name) { Version.human_attribute_name("project") }
           let(:required) { true }
           let(:writable) { false }
-          let(:location) { '_links' }
+          let(:location) { "_links" }
         end
 
-        context 'if embedding' do
+        context "if embedding" do
           let(:embedded) { true }
 
-          it_behaves_like 'does not link to allowed values'
+          it_behaves_like "does not link to allowed values"
         end
       end
     end
 
-    describe 'status' do
-      let(:path) { 'status' }
+    describe "status" do
+      let(:path) { "status" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'String' }
-        let(:name) { Version.human_attribute_name('status') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "String" }
+        let(:name) { Version.human_attribute_name("status") }
         let(:required) { true }
         let(:writable) { true }
-        let(:location) { '_links' }
+        let(:location) { "_links" }
       end
 
-      it 'contains no link to the allowed values' do
+      it "contains no link to the allowed values" do
         expect(subject)
           .not_to have_json_path("#{path}/_links/allowedValues")
       end
 
-      it 'embeds the allowed values' do
+      it "embeds the allowed values" do
         allowed_path = "#{path}/_embedded/allowedValues"
 
         expect(subject)
@@ -257,23 +257,23 @@ RSpec.describe API::V3::Versions::Schemas::VersionSchemaRepresenter do
       end
     end
 
-    describe 'sharing' do
-      let(:path) { 'sharing' }
+    describe "sharing" do
+      let(:path) { "sharing" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'String' }
-        let(:name) { Version.human_attribute_name('sharing') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "String" }
+        let(:name) { Version.human_attribute_name("sharing") }
         let(:required) { true }
         let(:writable) { true }
-        let(:location) { '_links' }
+        let(:location) { "_links" }
       end
 
-      it 'contains no link to the allowed values' do
+      it "contains no link to the allowed values" do
         expect(subject)
           .not_to have_json_path("#{path}/_links/allowedValues")
       end
 
-      it 'embeds the allowed values' do
+      it "embeds the allowed values" do
         allowed_path = "#{path}/_embedded/allowedValues"
 
         expect(subject)
@@ -282,18 +282,18 @@ RSpec.describe API::V3::Versions::Schemas::VersionSchemaRepresenter do
       end
     end
 
-    context '_links' do
-      describe 'self link' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'self' }
+    context "_links" do
+      describe "self link" do
+        it_behaves_like "has an untitled link" do
+          let(:link) { "self" }
           let(:href) { self_link }
         end
 
-        context 'embedded in a form' do
+        context "embedded in a form" do
           let(:self_link) { nil }
 
-          it_behaves_like 'has no link' do
-            let(:link) { 'self' }
+          it_behaves_like "has no link" do
+            let(:link) { "self" }
           end
         end
       end

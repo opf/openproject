@@ -18,7 +18,7 @@ module XlsExport
           .new format: :xls,
                content:,
                title: xls_export_filename,
-               mime_type: 'application/vnd.ms-excel'
+               mime_type: "application/vnd.ms-excel"
       end
 
       def spreadsheet

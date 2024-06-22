@@ -28,13 +28,13 @@
 module BasicData
   class TimeEntryActivitySeeder < ModelSeeder
     self.model_class = TimeEntryActivity
-    self.seed_data_model_key = 'time_entry_activities'
+    self.seed_data_model_key = "time_entry_activities"
 
     def model_attributes(activity_data)
       {
-        name: activity_data['name'],
-        is_default: true?(activity_data['is_default']),
-        position: activity_data['position']
+        name: activity_data["name"],
+        is_default: true?(activity_data["is_default"]),
+        position: activity_data["position"]
       }
     end
   end

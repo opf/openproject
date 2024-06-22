@@ -1,0 +1,32 @@
+<%=
+  render(Primer::Alpha::Dialog.new(title: @project_custom_field_section.name,
+                                   size: :medium_portrait,
+                                   id: "edit-project-custom-fields-dialog-#{@project_custom_field_section.id}")) do |d|
+    d.with_header(variant: :large)
+    d.with_body(classes: "Overlay-body_autocomplete_height") do
+      render(::ProjectCustomFields::Sections::EditComponent.new(project_custom_field_section: @project_custom_field_section, project: @project))
+    end
+    d.with_footer do
+      component_collection do |footer_collection|
+        footer_collection.with_component(Primer::ButtonComponent.new(
+          data: {
+            'close-dialog-id': "edit-project-custom-fields-dialog-#{@project_custom_field_section.id}"
+          }
+        )) do
+          t("button_cancel")
+        end
+        footer_collection.with_component(Primer::ButtonComponent.new(
+          scheme: :primary,
+          type: :submit,
+          form: "project-section-edit-form",
+          data: {
+            test_selector: 'save-project-attributes-button',
+            turbo: true
+          }
+        )) do
+          t("button_save")
+        end
+      end
+    end
+  end
+%>

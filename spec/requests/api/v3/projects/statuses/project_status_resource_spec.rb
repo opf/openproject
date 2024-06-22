@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Project status resource', content_type: :json do
+RSpec.describe "API v3 Project status resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   current_user { create(:user) }
 
-  describe '#get /project_statuses/:id' do
+  describe "#get /project_statuses/:id" do
     subject(:response) do
       get get_path
 
@@ -45,28 +45,28 @@ RSpec.describe 'API v3 Project status resource', content_type: :json do
     let(:status) { Project.status_codes.keys.last }
     let(:get_path) { api_v3_paths.project_status status }
 
-    context 'logged in user' do
-      it 'responds with 200 OK' do
+    context "logged in user" do
+      it "responds with 200 OK" do
         expect(subject.status).to eq(200)
       end
 
-      it 'responds with the correct project' do
+      it "responds with the correct project" do
         expect(subject.body)
-          .to be_json_eql('ProjectStatus'.to_json)
-                .at_path('_type')
+          .to be_json_eql("ProjectStatus".to_json)
+                .at_path("_type")
         expect(subject.body)
           .to be_json_eql(status.to_json)
-                .at_path('id')
+                .at_path("id")
       end
 
-      context 'requesting nonexistent status' do
-        let(:status) { 'bogus' }
+      context "requesting nonexistent status" do
+        let(:status) { "bogus" }
 
         before do
           response
         end
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
     end
   end

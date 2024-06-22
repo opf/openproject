@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails/all'
-require 'active_support'
-require 'active_support/dependencies'
-require 'core_extensions'
+require "rails/all"
+require "active_support"
+require "active_support/dependencies"
+require "core_extensions"
 require "view_component"
 require "primer/view_components/engine"
 
@@ -39,7 +39,7 @@ require "primer/view_components/engine"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups(:opf_plugins))
 
-require_relative '../lib_static/open_project/configuration'
+require_relative "../lib_static/open_project/configuration"
 
 module OpenProject
   class Application < Rails::Application
@@ -104,8 +104,8 @@ module OpenProject
                                     if: lambda { |_env, _code, headers, _body|
                                       # Firefox fails to properly decode gzip attachments
                                       # We thus avoid deflating if sending gzip already.
-                                      content_type = headers['Content-Type']
-                                      content_type != 'application/x-gzip'
+                                      content_type = headers["Content-Type"]
+                                      content_type != "application/x-gzip"
                                     }
 
     config.middleware.use Rack::Attack
@@ -115,14 +115,22 @@ module OpenProject
 
     # Add lookbook preview paths when enabled
     if OpenProject::Configuration.lookbook_enabled?
-      config.paths.add Primer::ViewComponents::Engine.root.join('app/components').to_s, eager_load: true
+      config.paths.add Primer::ViewComponents::Engine.root.join("app/components").to_s, eager_load: true
       config.paths.add Rails.root.join("lookbook/previews").to_s, eager_load: true
-      config.paths.add Primer::ViewComponents::Engine.root.join('previews').to_s, eager_load: true
+      config.paths.add Primer::ViewComponents::Engine.root.join("previews").to_s, eager_load: true
     end
 
     # Constants in lib_static should only be loaded once and never be unloaded.
     # That directory contains configurations and patches to rails core functionality.
-    config.autoload_once_paths << Rails.root.join('lib_static').to_s
+    config.autoload_once_paths << Rails.root.join("lib_static").to_s
+
+    # Configure the relative url root to be whatever the configuration is set to.
+    # This allows for setting the root either via config file or via environment variable.
+    # It must be called early enough. In our case in should be called earlier
+    # than `config.exceptions_app = routes`. Otherwise Rails.application.routes.url_helpers
+    # will not have configured prefix.
+    # Read https://github.com/rails/rails/issues/42243 for some details.
+    config.relative_url_root = OpenProject::Configuration["rails_relative_url_root"]
 
     # Use our own error rendering for prettier error pages
     config.exceptions_app = routes
@@ -138,7 +146,6 @@ module OpenProject
     # Add locales from crowdin translations to i18n
     config.i18n.load_path += Dir[Rails.root.join("config/locales/crowdin/*.{rb,yml}").to_s]
     config.i18n.default_locale = :en
-
     # Fall back to default locale
     config.i18n.fallbacks = true
 
@@ -160,7 +167,7 @@ module OpenProject
     I18n.backend.class.send(:include, I18n::Backend::Cascade)
 
     # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = 'utf-8'
+    config.encoding = "utf-8"
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
@@ -201,25 +208,34 @@ module OpenProject
 
     # Load any local configuration that is kept out of source control
     # (e.g. patches).
-    if File.exist?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
-      instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
+    if File.exist?(File.join(File.dirname(__FILE__), "additional_environment.rb"))
+      instance_eval File.read(File.join(File.dirname(__FILE__), "additional_environment.rb"))
     end
 
     # initialize variable for register plugin tests
     config.plugins_to_test_paths = []
 
-    # Configure the relative url root to be whatever the configuration is set to.
-    # This allows for setting the root either via config file or via environment variable.
-    config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
+    config.active_job.queue_adapter = :good_job
 
-    config.active_job.queue_adapter = :delayed_job
+    config.good_job.retry_on_unhandled_error = false
+    # It has been commented out because AppSignal gem modifies ActiveJob::Base to report exceptions already.
+    # config.good_job.on_thread_error = -> (exception) { OpenProject.logger.error(exception) }
+    config.good_job.execution_mode = :external
+    config.good_job.preserve_job_records = true
+    config.good_job.cleanup_preserved_jobs_before_seconds_ago = OpenProject::Configuration[:good_job_cleanup_preserved_jobs_before_seconds_ago]
+    config.good_job.queues = OpenProject::Configuration[:good_job_queues]
+    config.good_job.max_threads = OpenProject::Configuration[:good_job_max_threads]
+    config.good_job.max_cache = OpenProject::Configuration[:good_job_max_cache]
+    config.good_job.enable_cron = OpenProject::Configuration[:good_job_enable_cron]
+    config.good_job.shutdown_timeout = 30
+    config.good_job.smaller_number_is_higher_priority = false
 
     config.action_controller.asset_host = OpenProject::Configuration::AssetHost.value
 
     # Return false instead of self when enqueuing is aborted from a callback.
     # Rails.application.config.active_job.return_false_on_aborted_enqueue = true
 
-    config.log_level = OpenProject::Configuration['log_level'].to_sym
+    config.log_level = OpenProject::Configuration["log_level"].to_sym
 
     # Enable the Rails 7 cache format
     config.active_support.cache_format_version = 7.0

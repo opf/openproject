@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'attachments' do
+RSpec.describe "attachments" do
   let(:project) { create(:valid_project) }
   let(:current_user) { create(:admin) }
   let!(:priority) { create(:default_priority) }
@@ -37,24 +37,24 @@ RSpec.describe 'attachments' do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe 'upload', :js do
-    let(:file) { create(:file, name: 'textfile.txt') }
+  describe "upload", :js do
+    let(:file) { create(:file, name: "textfile.txt") }
 
     # FIXME rework this spec after implementing fullscreen create view
-    xit 'uploading a short text file and viewing it inline' do
+    xit "uploading a short text file and viewing it inline" do
       visit new_project_work_packages_path(project)
 
-      select project.types.first.name, from: 'work_package_type_id'
-      fill_in 'Subject', with: 'attachment test'
+      select project.types.first.name, from: "work_package_type_id"
+      fill_in "Subject", with: "attachment test"
 
       # open attachment fieldset and attach file
-      attach_file 'attachments[1][file]', file.path
+      attach_file "attachments[1][file]", file.path
 
-      click_button 'Create'
+      click_button "Create"
 
       file_name = File.basename file.path
 
-      expect(page).to have_text('Successful creation.')
+      expect(page).to have_text("Successful creation.")
       expect(page).to have_text(file_name)
     end
   end

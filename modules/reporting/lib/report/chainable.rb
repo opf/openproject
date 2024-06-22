@@ -37,7 +37,7 @@ module Report
 
     # this attr. should point to a symbol useable for translations
     inherited_attribute :applies_for, default: :label_cost_entry_attributes
-    def_delegators :'self.class', :table_joins, :table_name, :field, :display?, :underscore_name
+    def_delegators :"self.class", :table_joins, :table_name, :field, :display?, :underscore_name
 
     def self.accepts_property(*list)
       engine.accepted_properties.push(*list.map(&:to_s))
@@ -72,7 +72,7 @@ module Report
 
     def self.register(label)
       available << klass
-      set_inherited_attribute 'label', label
+      set_inherited_attribute "label", label
     end
 
     def self.table_joins
@@ -117,7 +117,7 @@ module Report
     inherited_attribute :properties, list: true
 
     def self.label
-      'Translation needed'
+      "Translation needed"
     end
 
     class << self
@@ -192,7 +192,7 @@ module Report
     end
 
     def to_s
-      URI.escape to_a.map(&:join).join(',')
+      URI.escape to_a.map(&:join).join(",")
     end
 
     def serialize

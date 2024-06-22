@@ -26,32 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe CustomStylesController do
   before do
     login_as user
   end
 
-  context 'with admin' do
+  context "with admin" do
     let(:user) { build(:admin) }
 
-    describe '#show' do
+    describe "#show" do
       subject { get :show }
 
-      context 'when active token exists', with_ee: %i[define_custom_style] do
-        it 'renders show' do
+      context "when active token exists", with_ee: %i[define_custom_style] do
+        it "renders show" do
           expect(subject).to be_successful
-          expect(response).to render_template 'show'
+          expect(response).to render_template "show"
         end
       end
 
-      context 'when no active token exists' do
+      context "when no active token exists" do
         before do
           allow(EnterpriseToken).to receive(:current).and_return(nil)
         end
 
-        it 'redirects to #upsale' do
+        it "redirects to #upsale" do
           expect(subject).to redirect_to action: :upsale
         end
       end
@@ -60,9 +60,9 @@ RSpec.describe CustomStylesController do
     describe "#upsale" do
       subject { get :upsale }
 
-      it 'renders upsale' do
+      it "renders upsale" do
         expect(subject).to be_successful
-        expect(subject).to render_template 'upsale'
+        expect(subject).to render_template "upsale"
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.describe CustomStylesController do
       let(:custom_style) { CustomStyle.new }
       let(:params) do
         {
-          custom_style: { logo: 'foo', favicon: 'bar', icon_touch: 'yay' }
+          custom_style: { logo: "foo", favicon: "bar", icon_touch: "yay" }
         }
       end
 
@@ -81,20 +81,20 @@ RSpec.describe CustomStylesController do
         post :create, params:
       end
 
-      context 'with valid custom_style input' do
+      context "with valid custom_style input" do
         let(:valid) { true }
 
-        it 'redirects to show' do
+        it "redirects to show" do
           expect(response).to redirect_to action: :show
         end
       end
 
-      context 'with invalid custom_style input' do
+      context "with invalid custom_style input" do
         let(:valid) { false }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(response).not_to be_redirect
-          expect(response).to render_template 'custom_styles/show'
+          expect(response).to render_template "custom_styles/show"
         end
       end
     end
@@ -103,11 +103,11 @@ RSpec.describe CustomStylesController do
       let(:custom_style) { build(:custom_style_with_logo) }
       let(:params) do
         {
-          custom_style: { logo: 'foo', favicon: 'bar', icon_touch: 'yay' }
+          custom_style: { logo: "foo", favicon: "bar", icon_touch: "yay" }
         }
       end
 
-      context 'with an existing CustomStyle' do
+      context "with an existing CustomStyle" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
           allow(custom_style).to receive(:update).and_return(valid)
@@ -115,25 +115,25 @@ RSpec.describe CustomStylesController do
           post :update, params:
         end
 
-        context 'with valid custom_style input' do
+        context "with valid custom_style input" do
           let(:valid) { true }
 
-          it 'redirects to show' do
+          it "redirects to show" do
             expect(response).to redirect_to action: :show
           end
         end
 
-        context 'with invalid custom_style input' do
+        context "with invalid custom_style input" do
           let(:valid) { false }
 
-          it 'renders with error' do
+          it "renders with error" do
             expect(response).not_to be_redirect
-            expect(response).to render_template 'custom_styles/show'
+            expect(response).to render_template "custom_styles/show"
           end
         end
       end
 
-      context 'without an existing CustomStyle' do
+      context "without an existing CustomStyle" do
         before do
           allow(CustomStyle).to receive(:create!).and_return(custom_style)
           allow(custom_style).to receive(:update).and_return(valid)
@@ -141,20 +141,20 @@ RSpec.describe CustomStylesController do
           post :update, params:
         end
 
-        context 'with valid custom_style input' do
+        context "with valid custom_style input" do
           let(:valid) { true }
 
-          it 'redirects to show' do
+          it "redirects to show" do
             expect(response).to redirect_to action: :show
           end
         end
 
-        context 'with invalid custom_style input' do
+        context "with invalid custom_style input" do
           let(:valid) { false }
 
-          it 'renders with error' do
+          it "renders with error" do
             expect(response).not_to be_redirect
-            expect(response).to render_template 'custom_styles/show'
+            expect(response).to render_template "custom_styles/show"
           end
         end
       end
@@ -170,7 +170,7 @@ RSpec.describe CustomStylesController do
       context "when logo is present" do
         let(:custom_style) { build(:custom_style_with_logo) }
 
-        it 'sends a file' do
+        it "sends a file" do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -178,7 +178,7 @@ RSpec.describe CustomStylesController do
       context "when no custom style is present" do
         let(:custom_style) { nil }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end
@@ -187,7 +187,7 @@ RSpec.describe CustomStylesController do
       context "when no logo is present" do
         let(:custom_style) { build_stubbed(:custom_style) }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end
@@ -197,25 +197,25 @@ RSpec.describe CustomStylesController do
     describe "#logo_delete", with_ee: %i[define_custom_style] do
       let(:custom_style) { create(:custom_style_with_logo) }
 
-      context 'if it exists' do
+      context "if it exists" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
           allow(custom_style).to receive(:remove_logo).and_call_original
           delete :logo_delete
         end
 
-        it 'removes the logo from custom_style' do
+        it "removes the logo from custom_style" do
           expect(response).to redirect_to action: :show
         end
       end
 
-      context 'if it does not exist' do
+      context "if it does not exist" do
         before do
           allow(CustomStyle).to receive(:current).and_return(nil)
           delete :logo_delete
         end
 
-        it 'renders 404' do
+        it "renders 404" do
           expect(response).to have_http_status :not_found
         end
       end
@@ -231,7 +231,7 @@ RSpec.describe CustomStylesController do
       context "when export logo is present" do
         let(:custom_style) { build(:custom_style_with_export_logo) }
 
-        it 'sends a file' do
+        it "sends a file" do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -239,7 +239,7 @@ RSpec.describe CustomStylesController do
       context "when no custom style is present" do
         let(:custom_style) { nil }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end
@@ -248,7 +248,7 @@ RSpec.describe CustomStylesController do
       context "when no export logo is present" do
         let(:custom_style) { build_stubbed(:custom_style) }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end
@@ -258,25 +258,25 @@ RSpec.describe CustomStylesController do
     describe "#export_logo_delete", with_ee: %i[define_custom_style] do
       let(:custom_style) { create(:custom_style_with_export_logo) }
 
-      context 'if it exists' do
+      context "if it exists" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
           allow(custom_style).to receive(:remove_export_logo).and_call_original
           delete :export_logo_delete
         end
 
-        it 'removes the export logo from custom_style' do
+        it "removes the export logo from custom_style" do
           expect(response).to redirect_to action: :show
         end
       end
 
-      context 'if it does not exist' do
+      context "if it does not exist" do
         before do
           allow(CustomStyle).to receive(:current).and_return(nil)
           delete :export_logo_delete
         end
 
-        it 'renders 404' do
+        it "renders 404" do
           expect(response).to have_http_status :not_found
         end
       end
@@ -292,7 +292,7 @@ RSpec.describe CustomStylesController do
       context "when export cover is present" do
         let(:custom_style) { build(:custom_style_with_export_cover) }
 
-        it 'sends a file' do
+        it "sends a file" do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -300,7 +300,7 @@ RSpec.describe CustomStylesController do
       context "when no custom style is present" do
         let(:custom_style) { nil }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end
@@ -309,7 +309,7 @@ RSpec.describe CustomStylesController do
       context "when no export cover is present" do
         let(:custom_style) { build_stubbed(:custom_style) }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end
@@ -319,25 +319,25 @@ RSpec.describe CustomStylesController do
     describe "#export_cover_delete", with_ee: %i[define_custom_style] do
       let(:custom_style) { create(:custom_style_with_export_cover) }
 
-      context 'if it exists' do
+      context "if it exists" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
           allow(custom_style).to receive(:remove_cover).and_call_original
           delete :export_cover_delete
         end
 
-        it 'removes the export cover from custom_style' do
+        it "removes the export cover from custom_style" do
           expect(response).to redirect_to action: :show
         end
       end
 
-      context 'if it does not exist' do
+      context "if it does not exist" do
         before do
           allow(CustomStyle).to receive(:current).and_return(nil)
           delete :export_cover_delete
         end
 
-        it 'renders 404' do
+        it "renders 404" do
           expect(response).to have_http_status :not_found
         end
       end
@@ -353,7 +353,7 @@ RSpec.describe CustomStylesController do
       context "when favicon is present" do
         let(:custom_style) { build(:custom_style_with_favicon) }
 
-        it 'sends a file' do
+        it "sends a file" do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -361,7 +361,7 @@ RSpec.describe CustomStylesController do
       context "when no custom style is present" do
         let(:custom_style) { nil }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end
@@ -370,7 +370,7 @@ RSpec.describe CustomStylesController do
       context "when no favicon is present" do
         let(:custom_style) { build(:custom_style) }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end
@@ -380,25 +380,25 @@ RSpec.describe CustomStylesController do
     describe "#favicon_delete", with_ee: %i[define_custom_style] do
       let(:custom_style) { create(:custom_style_with_favicon) }
 
-      context 'if it exists' do
+      context "if it exists" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
           allow(custom_style).to receive(:remove_favicon).and_call_original
           delete :favicon_delete
         end
 
-        it 'removes the favicon from custom_style' do
+        it "removes the favicon from custom_style" do
           expect(response).to redirect_to action: :show
         end
       end
 
-      context 'if it does not exist' do
+      context "if it does not exist" do
         before do
           allow(CustomStyle).to receive(:current).and_return(nil)
           delete :favicon_delete
         end
 
-        it 'renders 404' do
+        it "renders 404" do
           expect(response).to have_http_status :not_found
         end
       end
@@ -414,7 +414,7 @@ RSpec.describe CustomStylesController do
       context "when touch icon is present" do
         let(:custom_style) { build(:custom_style_with_touch_icon) }
 
-        it 'sends a file' do
+        it "sends a file" do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -422,7 +422,7 @@ RSpec.describe CustomStylesController do
       context "when no custom style is present" do
         let(:custom_style) { nil }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end
@@ -431,7 +431,7 @@ RSpec.describe CustomStylesController do
       context "when no touch icon is present" do
         let(:custom_style) { build(:custom_style) }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end
@@ -441,25 +441,25 @@ RSpec.describe CustomStylesController do
     describe "#touch_icon_delete", with_ee: %i[define_custom_style] do
       let(:custom_style) { create(:custom_style_with_touch_icon) }
 
-      context 'if it exists' do
+      context "if it exists" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
           allow(custom_style).to receive(:remove_touch_icon).and_call_original
           delete :touch_icon_delete
         end
 
-        it 'removes the touch icon from custom_style' do
+        it "removes the touch icon from custom_style" do
           expect(response).to redirect_to action: :show
         end
       end
 
-      context 'if it does not exist' do
+      context "if it does not exist" do
         before do
           allow(CustomStyle).to receive(:current).and_return(nil)
           delete :touch_icon_delete
         end
 
-        it 'renders 404' do
+        it "renders 404" do
           expect(response).to have_http_status :not_found
         end
       end
@@ -470,7 +470,7 @@ RSpec.describe CustomStylesController do
         { export_cover_text_color: "#990000" }
       end
 
-      context 'if CustomStyle exists' do
+      context "if CustomStyle exists" do
         let(:custom_style) { CustomStyle.new }
 
         before do
@@ -478,7 +478,7 @@ RSpec.describe CustomStylesController do
           allow(custom_style).to receive(:export_cover_text_color).and_call_original
         end
 
-        context 'with valid parameter' do
+        context "with valid parameter" do
           before do
             post :update_export_cover_text_color, params:
           end
@@ -489,9 +489,9 @@ RSpec.describe CustomStylesController do
           end
         end
 
-        context 'with valid empty parameter' do
+        context "with valid empty parameter" do
           let(:params) do
-            { export_cover_text_color: '' }
+            { export_cover_text_color: "" }
           end
 
           before do
@@ -506,7 +506,7 @@ RSpec.describe CustomStylesController do
           end
         end
 
-        context 'with invalid parameter' do
+        context "with invalid parameter" do
           let(:params) do
             { export_cover_text_color: "red" } # we only accept hexcodes
           end
@@ -522,13 +522,13 @@ RSpec.describe CustomStylesController do
         end
       end
 
-      context 'if CustomStyle does not exist' do
+      context "if CustomStyle does not exist" do
         before do
           allow(CustomStyle).to receive(:current).and_return(nil)
           post :update_export_cover_text_color, params:
         end
 
-        it 'is created' do
+        it "is created" do
           expect(response).to redirect_to action: :show
         end
       end
@@ -537,7 +537,7 @@ RSpec.describe CustomStylesController do
     describe "#update_colors", with_ee: %i[define_custom_style] do
       let(:params) do
         {
-          design_colors: [{ "primary-color" => "#990000" }]
+          design_colors: [{ "primary-button-color" => "#990000" }]
         }
       end
 
@@ -553,7 +553,7 @@ RSpec.describe CustomStylesController do
       end
 
       it "updates DesignColor instances" do
-        post :update_colors, params: { design_colors: [{ "primary-color" => "#110000" }] }
+        post :update_colors, params: { design_colors: [{ "primary-button-color" => "#110000" }] }
         design_colors = DesignColor.all
         expect(design_colors.size).to eq(1)
         expect(design_colors.first.hexcode).to eq("#110000")
@@ -562,28 +562,28 @@ RSpec.describe CustomStylesController do
 
       it "deletes DesignColor instances for each param" do
         expect(DesignColor.count).to eq(1)
-        post :update_colors, params: { design_colors: [{ "primary-color" => "" }] }
+        post :update_colors, params: { design_colors: [{ "primary-button-color" => "" }] }
         expect(DesignColor.count).to eq(0)
         expect(response).to redirect_to action: :show
       end
     end
   end
 
-  context 'for a regular user' do
+  context "for a regular user" do
     let(:user) { build(:user) }
 
-    describe '#get' do
+    describe "#get" do
       before do
         get :show
       end
 
-      it 'requires admin' do
+      it "requires admin" do
         expect(response).to have_http_status :forbidden
       end
     end
   end
 
-  context 'for an anonymous user' do
+  context "for an anonymous user" do
     let(:user) { User.anonymous }
 
     describe "#logo_download" do
@@ -596,7 +596,7 @@ RSpec.describe CustomStylesController do
       context "when logo is present" do
         let(:custom_style) { build(:custom_style_with_logo) }
 
-        it 'sends a file' do
+        it "sends a file" do
           expect(response).to have_http_status(:ok)
         end
       end
@@ -604,7 +604,7 @@ RSpec.describe CustomStylesController do
       context "when no logo is present" do
         let(:custom_style) { nil }
 
-        it 'renders with error' do
+        it "renders with error" do
           expect(controller).not_to have_received(:send_file)
           expect(response).to have_http_status(:not_found)
         end

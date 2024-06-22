@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'base_create_service_shared_examples'
+require "spec_helper"
+require_relative "base_create_service_shared_examples"
 
 RSpec.describe Boards::VersionBoardCreateService do
   shared_let(:project) { create(:project) }
@@ -40,8 +40,8 @@ RSpec.describe Boards::VersionBoardCreateService do
   shared_let(:versions) { create_list(:version, 5, project:) }
   shared_let(:excluded_versions) do
     [
-      create(:version, project:, status: 'closed'),
-      create(:version, project: other_project, sharing: 'system')
+      create(:version, project:, status: "closed"),
+      create(:version, project: other_project, sharing: "system")
     ]
   end
 
@@ -50,16 +50,16 @@ RSpec.describe Boards::VersionBoardCreateService do
 
   subject { instance.call(params) }
 
-  context 'with all valid params' do
+  context "with all valid params" do
     let(:params) do
       {
         name: "Gotham Renewal Board",
         project:,
-        attribute: 'version'
+        attribute: "version"
       }
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject).to be_success
     end
 
@@ -67,35 +67,35 @@ RSpec.describe Boards::VersionBoardCreateService do
       board = subject.result
 
       expect(board.name).to eq("Gotham Renewal Board")
-      expect(board.options[:attribute]).to eq('version')
-      expect(board.options[:type]).to eq('action')
+      expect(board.options[:attribute]).to eq("version")
+      expect(board.options[:type]).to eq("action")
     end
 
-    describe 'column_count' do
-      it 'matches the column_count to the version count' do
+    describe "column_count" do
+      it "matches the column_count to the version count" do
         board = subject.result
 
         expect(board.column_count).to eq(versions.count)
       end
 
-      context 'when there are no versions that apply for the project' do
+      context "when there are no versions that apply for the project" do
         before do
-          versions.each { _1.update!(status: 'closed') }
+          versions.each { _1.update!(status: "closed") }
         end
 
-        it 'sets the column_count to the default value' do
+        it "sets the column_count to the default value" do
           board = subject.result
           expect(board.column_count).to eq(4)
         end
       end
     end
 
-    describe 'widgets and queries' do
+    describe "widgets and queries" do
       let(:board) { subject.result }
       let(:widgets) { board.widgets }
       let(:queries) { Query.all }
 
-      it 'creates one of each per expected version', :aggregate_failures do
+      it "creates one of each per expected version", :aggregate_failures do
         subject
 
         expect(widgets.count).to eq(versions.count)
@@ -104,16 +104,16 @@ RSpec.describe Boards::VersionBoardCreateService do
         expect(queries.map(&:name)).to match_array(versions.map(&:name))
       end
 
-      it 'sets the filters on each' do
+      it "sets the filters on each" do
         subject
 
         queries_filters = queries.flat_map(&:filters).map(&:to_hash)
-        widgets_filters = widgets.flat_map { _1.options['filters'] }
+        widgets_filters = widgets.flat_map { _1.options["filters"] }
 
         expect(queries_filters).to match_array(widgets_filters)
       end
 
-      it_behaves_like 'sets the appropriate sort_criteria on each query'
+      it_behaves_like "sets the appropriate sort_criteria on each query"
     end
   end
 end

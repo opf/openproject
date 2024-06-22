@@ -50,7 +50,7 @@ module API
                  render_nil: true
 
         def _type
-          'WorkPackage'
+          "WorkPackage"
         end
       end
     end

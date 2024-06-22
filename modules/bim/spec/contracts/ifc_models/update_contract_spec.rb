@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Bim::IfcModels::UpdateContract do
-  it_behaves_like 'ifc model contract' do
+  it_behaves_like "ifc model contract" do
     subject(:contract) { described_class.new(ifc_model, current_user) }
 
     let(:ifc_model) do
@@ -53,34 +53,34 @@ RSpec.describe Bim::IfcModels::UpdateContract do
     let(:uploader_user) { model_user }
     let(:changed_by_system) { false }
 
-    context 'if the uploader changes' do
+    context "if the uploader changes" do
       let(:model_user) { build_stubbed(:user) }
       let(:uploader_user) { other_user }
       let(:current_user) { other_user }
       let(:ifc_attachment) { build_stubbed(:attachment, author: other_user) }
 
-      it 'is invalid as not writable' do
+      it "is invalid as not writable" do
         expect_valid(false, uploader_id: %i(error_readonly))
       end
     end
 
-    context 'if the uploader changes' do
+    context "if the uploader changes" do
       let(:model_user) { build_stubbed(:user) }
       let(:uploader_user) { other_user }
       let(:current_user) { other_user }
       let(:ifc_attachment) { build_stubbed(:attachment, author: other_user) }
       let(:changed_by_system) { true }
 
-      it 'is invalid as does not match' do
+      it "is invalid as does not match" do
         expect_valid(false, uploader_id: %i(invalid))
       end
     end
 
-    context 'if the uploader does not change and the current user is different from the uploader' do
+    context "if the uploader does not change and the current user is different from the uploader" do
       let(:current_user) { other_user }
       let(:model_user) { build_stubbed(:user) }
 
-      it_behaves_like 'is valid'
+      it_behaves_like "is valid"
     end
   end
 end

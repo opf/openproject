@@ -1,0 +1,63 @@
+<% content_for :header_tags do %>
+  <meta name="sidebar_enabled" data-enabled="<%= @sidebar_enabled %>">
+<% end -%>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new(
+    data: {
+      'controller': 'overview-header',
+      'application-target': 'dynamic',
+      turbo: true
+    }
+  )) do |header|
+    header.with_title(variant: :medium) { t("overviews.label") }
+    header.with_breadcrumbs(
+      [
+        { href: project_path(@project), text: @project.name },
+        t("overviews.label")
+      ]
+    )
+    favored = @project.favored_by?(User.current)
+    header.with_action_icon_button(
+      icon: favored ? "star-fill" : "star",
+      mobile_icon: favored ? "star-fill" : "star",
+      size: :medium,
+      tag: :a,
+      href: build_favorite_path(@project, format: :html),
+      data: { method: favored ? :delete : :post },
+      classes: favored ? "op-primer--star-icon" : "",
+      label: favored ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite),
+      aria: { label: favored ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
+      test_selector: 'project-favorite-button'
+    )
+
+    header.with_action_menu(menu_arguments: { anchor_align: :end },
+                            button_arguments: { icon: "op-kebab-vertical", "aria-label": t(:label_menu) }) do |menu|
+
+      if User.current.allowed_in_project?(:select_project_custom_fields, @project)
+        menu.with_item(
+          label: t(:label_project_attribute_manage_link),
+          href: project_settings_project_custom_fields_path(@project),
+          data: { turbo: false }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+      end
+
+      if User.current.allowed_in_project?(:archive_project, @project)
+        menu.with_item(
+          label: t(:label_archive_project),
+          href: project_archive_path(@project, status: '', name: @project.name),
+          content_arguments: {
+            data: { method: :post, turbo: false, confirm: t('project.archive.are_you_sure', name: @project.name) },
+          }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :lock)
+        end
+      end
+
+    end
+  end
+%>
+
+<openproject-base></openproject-base>

@@ -34,8 +34,8 @@ module Projects::Concerns
       project = call.result
 
       # e.g. when one of the demo projects gets deleted or archived
-      if %w[your-scrum-project demo-project].include?(project.identifier)
-        Setting.demo_projects_available = !project.destroyed? && !project.archived?
+      if %w[demo-project].include?(project.identifier)
+        Setting.demo_projects_available = !project.destroyed? && !project.archived? && project.public?
       end
 
       super

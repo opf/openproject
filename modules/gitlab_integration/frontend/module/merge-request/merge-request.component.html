@@ -1,0 +1,74 @@
+<div
+  class='op-merge-request--title'
+  [textContent]="mergeRequest.title"
+></div>
+
+<span class='op-merge-request--state' [ngClass]="'op-merge-request--state_' + state">
+
+  <svg *ngIf="state === 'open'" op-gitlab-merge-request-open-icon size="small"></svg>
+  <svg *ngIf="state === 'ready'" op-gitlab-merge-request-ready-icon size="small"></svg>
+  <svg *ngIf="state === 'merged'" op-gitlab-merge-request-merged-icon size="small"></svg>
+  <svg *ngIf="state === 'closed'" op-gitlab-merge-request-closed-icon size="small"></svg>
+
+  {{state}} |
+  <a
+  [ngClass]="'op-merge-request--link_' + state"
+  [href]="mergeRequest.htmlUrl"
+  target="blank"
+  [textContent]="mergeRequest.repository + '#' + mergeRequest.number"
+  ></a>
+</span>
+
+<button *ngIf="mergeRequest.labels && mergeRequest.labels.length > 0" (click)="toggleLabels(mergeRequest.number)" class='op-merge-request--label_icon' title="Show/Hide labels">
+  <svg class="op-merge-request--label_icon_style" op-gitlab-labels-icon size="small"></svg>
+</button>
+
+<span *ngIf="mergeRequest.pipelines && mergeRequest.pipelines.length > 0" class='op-merge-request--pipeline-icon'
+  [ngClass]="'op-merge-request--pipeline-icon_bg_' + mergeRequest.pipelines[0].status">
+
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('failed')" op-gitlab-pipeline-status-failed-icon size="small"></svg>
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('canceled')" op-gitlab-pipeline-status-canceled-icon size="small"></svg>
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('created')" op-gitlab-pipeline-status-created-icon size="small"></svg>
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('manual')" op-gitlab-pipeline-status-manual-icon size="small"></svg>
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('pending')" op-gitlab-pipeline-status-pending-icon size="small"></svg>
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('preparing')" op-gitlab-pipeline-status-preparing-icon size="small"></svg>
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('running')" op-gitlab-pipeline-status-running-icon size="small"></svg>
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('scheduled')" op-gitlab-pipeline-status-scheduled-icon size="small"></svg>
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('skipped')" op-gitlab-pipeline-status-skipped-icon size="small"></svg>
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('success')" op-gitlab-pipeline-status-success-icon size="small"></svg>
+  <svg [ngClass]="pipelineIconClass" *ngIf="isCurrentPipelinestate('waiting')" op-gitlab-pipeline-status-waiting-icon size="small"></svg>
+
+  <span class='op-merge-request--pipeline-label' [ngClass]="'op-merge-request--pipeline-label_' + mergeRequest.pipelines[0].status"> {{ mergeRequest.pipelines[0].status }} </span>
+</span>
+
+<div class="op-merge-request--info_created">
+  {{ text.label_created_by }}
+  <!-- <img
+    alt='MR author avatar'
+    class='op-merge-request--avatar op-avatar op-avatar_mini'
+    [src]="mergeRequest.gitlabUser.avatarUrl"
+    *ngIf="mergeRequest.gitlabUser"
+  />&nbsp; -->
+  <span class='op-merge-request--user'>
+    <a
+      [href]="'mailto:' + mergeRequest.gitlabUser.email"
+      class='op-merge-request--username'
+      [textContent]="mergeRequest.gitlabUser.login"
+      *ngIf="mergeRequest.gitlabUser"
+    ></a>.
+  </span>
+  <span class='op-merge-request--date'>
+    {{ text.label_last_updated_on }}
+    <op-date-time [dateTimeValue]="mergeRequest.gitlabUpdatedAt"></op-date-time>
+  </span>.
+</div>
+
+<div
+  class="op-merge-request--labels"
+  [ngClass]="'op-merge-request--labels-' + mergeRequest.number" style="display: none;">
+  <span *ngFor="let label of mergeRequest.labels">
+    <span class='op-merge-request--label' [ngStyle]="{'background-color': label.color}" >
+      {{label.title}}
+    </span>
+  </span>
+</div>

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json do
+RSpec.describe "API v3 project storages resource", :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:view_permissions) { %i(view_work_packages view_file_links) }
@@ -52,16 +52,16 @@ RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json
 
   before { login_as current_user }
 
-  describe 'GET /api/v3/project_storages' do
+  describe "GET /api/v3/project_storages" do
     let(:path) { api_v3_paths.project_storages }
 
-    context 'as admin' do
+    context "as admin" do
       let(:current_user) { create(:admin) }
 
       subject { last_response.body }
 
-      describe 'gets full project storage collection' do
-        it_behaves_like 'API V3 collection response', 6, 6, 'ProjectStorage', 'Collection' do
+      describe "gets full project storage collection" do
+        it_behaves_like "API V3 collection response", 6, 6, "ProjectStorage", "Collection" do
           let(:elements) do
             [
               project_storage31,
@@ -75,99 +75,99 @@ RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json
         end
       end
 
-      context 'with project filter' do
+      context "with project filter" do
         let(:filters) { [{ projectId: { operator: "=", values: [project_id] } }] }
         let(:path) { api_v3_paths.path_for(:project_storages, filters:) }
 
-        describe 'gets all project storages of the filtered project' do
+        describe "gets all project storages of the filtered project" do
           let(:project_id) { project2.id }
 
-          it_behaves_like 'API V3 collection response', 2, 2, 'ProjectStorage', 'Collection' do
+          it_behaves_like "API V3 collection response", 2, 2, "ProjectStorage", "Collection" do
             let(:elements) { [project_storage21, project_storage23] }
           end
         end
 
-        context 'with invalid project id' do
-          let(:project_id) { '1337' }
+        context "with invalid project id" do
+          let(:project_id) { "1337" }
 
-          it_behaves_like 'invalid filters'
+          it_behaves_like "invalid filters"
         end
 
-        context 'with project id of project with no storages' do
+        context "with project id of project with no storages" do
           let(:project) { create(:project) }
           let(:project_id) { project.id }
 
-          it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+          it_behaves_like "API V3 collection response", 0, 0, "ProjectStorage", "Collection" do
             let(:elements) { [] }
           end
         end
       end
 
-      context 'with storage id filter' do
+      context "with storage id filter" do
         let(:filters) { [{ storageId: { operator: "=", values: [storage_id] } }] }
         let(:path) { api_v3_paths.path_for(:project_storages, filters:) }
 
-        describe 'gets all project storages of the filtered project' do
+        describe "gets all project storages of the filtered project" do
           let(:storage_id) { storage3.id }
 
-          it_behaves_like 'API V3 collection response', 2, 2, 'ProjectStorage', 'Collection' do
+          it_behaves_like "API V3 collection response", 2, 2, "ProjectStorage", "Collection" do
             let(:elements) { [project_storage23, project_storage13] }
           end
         end
 
-        context 'with unknown storage id' do
-          let(:storage_id) { '1337' }
+        context "with unknown storage id" do
+          let(:storage_id) { "1337" }
 
-          it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+          it_behaves_like "API V3 collection response", 0, 0, "ProjectStorage", "Collection" do
             let(:elements) { [] }
           end
         end
 
-        context 'with storage id of storage with no linked projects' do
+        context "with storage id of storage with no linked projects" do
           let(:storage) { create(:nextcloud_storage) }
           let(:storage_id) { storage.id }
 
-          it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+          it_behaves_like "API V3 collection response", 0, 0, "ProjectStorage", "Collection" do
             let(:elements) { [] }
           end
         end
       end
 
-      context 'with storage url filter' do
+      context "with storage url filter" do
         let(:filters) { [{ storageUrl: { operator: "=", values: [storage_url] } }] }
         let(:path) { api_v3_paths.path_for(:project_storages, filters:) }
 
-        describe 'gets all project storages of the filtered project' do
+        describe "gets all project storages of the filtered project" do
           let(:storage_url) { CGI.escape(storage3.host) }
 
-          it_behaves_like 'API V3 collection response', 2, 2, 'ProjectStorage', 'Collection' do
+          it_behaves_like "API V3 collection response", 2, 2, "ProjectStorage", "Collection" do
             let(:elements) { [project_storage23, project_storage13] }
           end
         end
 
-        context 'with invalid storage url' do
+        context "with invalid storage url" do
           let(:storage_url) { nil }
 
-          it_behaves_like 'invalid filters'
+          it_behaves_like "invalid filters"
         end
 
-        context 'with storage url of storage with no linked projects' do
+        context "with storage url of storage with no linked projects" do
           let(:storage) { create(:nextcloud_storage) }
           let(:storage_url) { storage.host }
 
-          it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+          it_behaves_like "API V3 collection response", 0, 0, "ProjectStorage", "Collection" do
             let(:elements) { [] }
           end
         end
       end
     end
 
-    context 'as user with permissions' do
+    context "as user with permissions" do
       let(:current_user) do
         create(:user, member_with_permissions: { project1 => view_permissions, project3 => view_permissions })
       end
 
-      it_behaves_like 'API V3 collection response', 4, 4, 'ProjectStorage', 'Collection' do
+      it_behaves_like "API V3 collection response", 4, 4, "ProjectStorage", "Collection" do
         let(:elements) do
           [
             project_storage31,
@@ -179,24 +179,24 @@ RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json
       end
     end
 
-    context 'as user without permissions' do
+    context "as user without permissions" do
       let(:current_user) do
         create(:user, member_with_permissions: { project1 => [], project2 => [], project3 => [] })
       end
 
-      it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+      it_behaves_like "API V3 collection response", 0, 0, "ProjectStorage", "Collection" do
         let(:elements) { [] }
       end
     end
   end
 
-  describe 'GET /api/v3/project_storages/:id' do
+  describe "GET /api/v3/project_storages/:id" do
     let(:project_storage) do
       create(:project_storage,
              project: project3,
              storage: storage3,
-             project_folder_id: '1337',
-             project_folder_mode: 'manual')
+             project_folder_id: "1337",
+             project_folder_mode: "manual")
     end
     let(:project_storage_id) { project_storage.id }
     let(:path) { api_v3_paths.project_storage(project_storage_id) }
@@ -206,94 +206,94 @@ RSpec.describe 'API v3 project storages resource', :webmock, content_type: :json
 
     subject { last_response.body }
 
-    it_behaves_like 'successful response'
+    it_behaves_like "successful response"
 
-    it { is_expected.to be_json_eql(api_v3_paths.storage_file(storage3.id, '1337').to_json).at_path('_links/projectFolder/href') }
+    it { is_expected.to be_json_eql(api_v3_paths.storage_file(storage3.id, "1337").to_json).at_path("_links/projectFolder/href") }
 
-    it { is_expected.to be_json_eql('manual'.to_json).at_path('projectFolderMode') }
+    it { is_expected.to be_json_eql("manual".to_json).at_path("projectFolderMode") }
 
-    context 'if user has permission to see file storages in project' do
+    context "if user has permission to see file storages in project" do
       let(:current_user) do
         create(:user, member_with_permissions: { project3 => [] })
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'if user is not member in related project' do
+    context "if user is not member in related project" do
       let(:project_storage_id) { project_storage11.id }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'if project storage does not exists' do
-      let(:project_storage_id) { '1337' }
+    context "if project storage does not exists" do
+      let(:project_storage_id) { "1337" }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 
-  describe 'GET /api/v3/project_storages/:id/open' do
+  describe "GET /api/v3/project_storages/:id/open" do
     let(:path) { api_v3_paths.project_storage_open(project_storage11.id) }
-    let(:location) { 'https://deathstar.storage.org/files' }
-    let(:location_project_folder) { 'https://deathstar.storage.org/files/data/project_destroy_alderan' }
+    let(:location) { "https://deathstar.storage.org/files" }
+    let(:location_project_folder) { "https://deathstar.storage.org/files/data/project_destroy_alderan" }
     let(:current_user) do
       create(:user, member_with_permissions: { project1 => view_permissions })
     end
 
     before do
       Storages::Peripherals::Registry.stub(
-        'queries.nextcloud.open_storage',
+        "nextcloud.queries.open_storage",
         ->(_) { ServiceResult.success(result: location) }
       )
       Storages::Peripherals::Registry.stub(
-        'queries.nextcloud.open_file_link',
+        "nextcloud.queries.open_file_link",
         ->(_) { ServiceResult.success(result: location_project_folder) }
       )
     end
 
-    context 'as admin' do
+    context "as admin" do
       let(:current_user) { create(:admin) }
 
-      it_behaves_like 'redirect response'
+      it_behaves_like "redirect response"
     end
 
-    context 'if user belongs to a project related to project storage' do
-      it_behaves_like 'redirect response'
+    context "if user belongs to a project related to project storage" do
+      it_behaves_like "redirect response"
 
-      context 'if project storage has a configured project folder' do
+      context "if project storage has a configured project folder" do
         before(:all) do
           project_storage12.update(
-            project_folder_id: '1337',
-            project_folder_mode: 'manual'
+            project_folder_id: "1337",
+            project_folder_mode: "manual"
           )
         end
 
         after(:all) do
           project_storage12.update(
             project_folder_id: nil,
-            project_folder_mode: 'inactive'
+            project_folder_mode: "inactive"
           )
         end
 
         let(:path) { api_v3_paths.project_storage_open(project_storage12.id) }
 
-        it_behaves_like 'redirect response' do
+        it_behaves_like "redirect response" do
           let(:location) { location_project_folder }
         end
       end
 
-      context 'if user is missing permission view_file_links' do
+      context "if user is missing permission view_file_links" do
         let(:view_permissions) { [] }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
     end
 
-    context 'if user is not member of the project' do
+    context "if user is not member of the project" do
       let(:path) { api_v3_paths.project_storage_open(project_storage21.id) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/work_packages/work_packages_table'
-require 'support/components/autocompleter/ng_select_autocomplete_helpers'
+require "support/pages/page"
+require "support/pages/work_packages/work_packages_table"
+require "support/components/autocompleter/ng_select_autocomplete_helpers"
 
 module Pages
   class EmbeddedWorkPackagesTable < WorkPackagesTable
@@ -42,7 +42,7 @@ module Pages
     end
 
     def table_container
-      container.find('.work-package-table')
+      container.find(".work-package-table")
     end
 
     def click_reference_inline_create
@@ -58,7 +58,7 @@ module Pages
       autocomplete_container = container.find('[data-test-selector="wp-relations-autocomplete"]')
       select_autocomplete autocomplete_container,
                           query:,
-                          results_selector: '.ng-dropdown-panel-items',
+                          results_selector: ".ng-dropdown-panel-items",
                           wait_for_fetched_options: false
 
       expect_work_package_listed work_package

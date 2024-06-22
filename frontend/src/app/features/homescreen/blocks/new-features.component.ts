@@ -35,10 +35,12 @@ import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
 
 // The key used in the I18n files to distinguish between versions.
-const OpVersionI18n = '13_2';
+const OpVersionI18n = '14_2';
+
+const OpReleaseURL = 'https://www.openproject.org/docs/release-notes/14-2-0/';
 
 /** Update the teaser image to the next version */
-const featureTeaserImage = '13_2_features.svg';
+const featureTeaserImage = `${OpVersionI18n}_features.png`;
 
 @Component({
   template: `
@@ -90,8 +92,7 @@ export class HomescreenNewFeaturesBlockComponent {
   }
 
   public get teaserWebsiteUrl() {
-    const url = this.translated('learn_about_link');
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
+    return this.domSanitizer.bypassSecurityTrustResourceUrl(OpReleaseURL);
   }
 
   public get currentNewFeatureHtml():string {

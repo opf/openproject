@@ -39,24 +39,24 @@ module DemoData
 
     def seed_data!
       # Seed only for those projects that provide a `kanban` key, i.e. 'demo-project' in standard edition.
-      if board_data = project_data.lookup('boards.kanban')
-        print_status '    ↳ Creating demo status board' do
+      if board_data = project_data.lookup("boards.kanban")
+        print_status "    ↳ Creating demo status board" do
           seed_kanban_board(board_data)
         end
-        Setting.boards_demo_data_available = 'true'
+        Setting.boards_demo_data_available = "true"
       end
 
-      if board_data = project_data.lookup('boards.basic')
-        print_status '    ↳ Creating demo basic board' do
+      if board_data = project_data.lookup("boards.basic")
+        print_status "    ↳ Creating demo basic board" do
           seed_basic_board(board_data)
         end
       end
 
-      if board_data = project_data.lookup('boards.parent_child')
-        print_status '    ↳ Creating demo parent child board' do
+      if board_data = project_data.lookup("boards.parent_child")
+        print_status "    ↳ Creating demo parent child board" do
           seed_parent_child_board(board_data)
         end
-        Setting.boards_demo_data_available = 'true'
+        Setting.boards_demo_data_available = "true"
       end
     end
 
@@ -67,8 +67,8 @@ module DemoData
       board =
         ::Boards::Grid.new(
           project:,
-          name: board_data.lookup('name'),
-          options: { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'priority' },
+          name: board_data.lookup("name"),
+          options: { "type" => "action", "attribute" => "status", "highlightingMode" => "priority" },
           widgets:,
           column_count: widgets.count,
           row_count: 1
@@ -82,20 +82,20 @@ module DemoData
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
-                                     filters: [{ status: { operator: '=', values: query.filters[0].values } }] },
-                          identifier: 'work_package_query'
+                                     filters: [{ status: { operator: "=", values: query.filters[0].values } }] },
+                          identifier: "work_package_query"
       end
     end
 
     def set_board_filters(board, board_data)
-      filters_conf = board_data.lookup('filters')
+      filters_conf = board_data.lookup("filters")
       return if filters_conf.blank?
 
       board.options[:filters] = []
       filters_conf.each do |filter|
-        if filter['type']
-          type = seed_data.find_reference(filter['type'])
-          board.options[:filters] << { type: { operator: '=', values: [type.id.to_s] } }
+        if filter["type"]
+          type = seed_data.find_reference(filter["type"])
+          board.options[:filters] << { type: { operator: "=", values: [type.id.to_s] } }
         end
       end
     end
@@ -113,10 +113,10 @@ module DemoData
 
           query.name = status.name
           # Set filter by this status
-          query.add_filter('status_id', '=', [status.id])
+          query.add_filter("status_id", "=", [status.id])
 
           # Set manual sort filter
-          query.sort_criteria = [[:manual_sorting, 'asc']]
+          query.sort_criteria = [[:manual_sorting, "asc"]]
 
           query.save!
         end
@@ -138,8 +138,8 @@ module DemoData
       board =
         ::Boards::Grid.new(
           project:,
-          name: board_data.lookup('name'),
-          options: { 'highlightingMode' => 'priority' },
+          name: board_data.lookup("name"),
+          options: { "highlightingMode" => "priority" },
           widgets:,
           column_count: widgets.count,
           row_count: 1
@@ -152,13 +152,13 @@ module DemoData
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
-                                     filters: [{ manualSort: { operator: 'ow', values: [] } }] },
-                          identifier: 'work_package_query'
+                                     filters: [{ manualSort: { operator: "ow", values: [] } }] },
+                          identifier: "work_package_query"
       end
     end
 
     def seed_basic_board_queries(board_data)
-      lists = board_data.lookup('lists')
+      lists = board_data.lookup("lists")
       lists.map do |list|
         create_basic_board_query_from_list(list)
       end
@@ -171,13 +171,13 @@ module DemoData
         # Make it public so that new members can see it too
         public: true,
         include_subprojects: true,
-        name: list['name']
+        name: list["name"]
       ).tap do |query|
         # Set manual sort filter
-        query.add_filter('manual_sort', 'ow', [])
-        query.sort_criteria = [[:manual_sorting, 'asc']]
+        query.add_filter("manual_sort", "ow", [])
+        query.sort_criteria = [[:manual_sorting, "asc"]]
 
-        list['work_packages'].each_with_index do |wp_reference, i|
+        list["work_packages"].each_with_index do |wp_reference, i|
           work_package_id = seed_data.find_reference(wp_reference).id
           query.ordered_work_packages.build(work_package_id:, position: i)
         end
@@ -191,8 +191,8 @@ module DemoData
       board =
         ::Boards::Grid.new(
           project:,
-          name: board_data.lookup('name'),
-          options: { 'type' => 'action', 'attribute' => 'subtasks' },
+          name: board_data.lookup("name"),
+          options: { "type" => "action", "attribute" => "subtasks" },
           widgets:,
           column_count: widgets.count,
           row_count: 1
@@ -205,8 +205,8 @@ module DemoData
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
-                                     filters: [{ parent: { operator: '=', values: query.filters[1].values } }] },
-                          identifier: 'work_package_query'
+                                     filters: [{ parent: { operator: "=", values: query.filters[1].values } }] },
+                          identifier: "work_package_query"
       end
     end
 
@@ -221,10 +221,10 @@ module DemoData
 
           query.name = parent.subject
           # Set filter by this status
-          query.add_filter('parent', '=', [parent.id])
+          query.add_filter("parent", "=", [parent.id])
 
           # Set manual sort filter
-          query.sort_criteria = [[:manual_sorting, 'asc']]
+          query.sort_criteria = [[:manual_sorting, "asc"]]
 
           query.save!
         end

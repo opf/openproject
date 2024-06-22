@@ -26,11 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::UploadLink
-  attr_reader :destination, :method
-
-  def initialize(destination = '', method = :post)
-    @destination = destination
-    @method = method
-  end
+module Storages
+  UploadLink = Data.define(:destination, :method)
 end

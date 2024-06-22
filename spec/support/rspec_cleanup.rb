@@ -15,7 +15,7 @@ RSpec.configure do |config|
   end
 
   # We don't want this to be reported on CI as it breaks the build
-  unless ENV['CI']
+  unless ENV["CI"]
     config.append_after(:suite) do
       [User.not_builtin, Project, WorkPackage].each do |cls|
         next if cls.count == 0

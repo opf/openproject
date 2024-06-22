@@ -5,7 +5,7 @@ sidebar_navigation:
 description: Integration to OpenProject.
 keywords: projects, integration, Jira
 ---
-# Integrations and Community plugins
+# Integrations and community plugins
 
 There are various integrations and Community plugins out there. Please [contact us](https://www.openproject.org/contact/) if you want to have your plugin to be added to this list.
 
@@ -21,10 +21,9 @@ Find out more about the [Excel synchronization with OpenProject](./excel-synchro
 
 OpenProject offers a basic GitHub integration. You will find more information about the GitHub integration in our [GitHub integration guideline](./github-integration/).
 
-## Gitlab
+## GitLab
 
-There is a Gitlab plugin from the community. You will find the README and the code [here](https://github.com/btey/openproject-gitlab-integration).
-
+OpenProject offers a GitLab integration, based on the [GitLab plugin contributed by the Community](https://github.com/btey/openproject-gitlab-integration). More information on the GitLab integration is available in our [GitLab integration guide](./gitlab-integration/).
 
 ## Jira
 
@@ -51,12 +50,19 @@ OpenProject offers an integration with OneDrive/Sharepoint for file storage and 
 
 > **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
+
+## SL2OP 
+
+SL2OP is an integration between SelectLine ERP and OpenProject. Please note that it was developed and is maintained by DAKO-IT, we do not provide any support for it. You can find more information [here](https://dako-it.com/captain-finn-software-fuer-selectline/schnittstelle-openproject-fuer-selectline/detail/80).
+
+> **Note**: it is currently only available in German. 
+
 ## Slack
 
 There is a rudimentary OpenProject Slack integration from the community. It messages a configured Slack channel, every time a Work Package or Wiki site is modified. This integration is not officially supported by OpenProject.
-To activate it in the Enterprise cloud please [get in touch](https://www.openproject.org/contact/). For the Enterprise on-premises edition and the Community edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack) 
+To activate it in the Enterprise cloud please [get in touch](https://www.openproject.org/contact/). For the Enterprise on-premises edition and the Community edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack)
 
-## Testuff 
+## Testuff
 
 There is an OpenProject integration with Testuff. Please note that it was developed directly by Testuff and we do not provide any support for it. You can find it [here](https://testuff.com/product/help/openproject/).
 
@@ -66,7 +72,7 @@ There is an OpenProject integration with Thunderbird from the Community. Please 
 
 ## TimeCamp
 
-There is an integration between OpenProject and TimeCamp. We provide a [short instruction](../../user-guide/time-and-costs/time-tracking/timecamp-integration/) how to set it up and use it. However, please note that this add-on is not officially supported and we do not take any liability when you use it. 
+There is an integration between OpenProject and TimeCamp. We provide a [short instruction](../../user-guide/time-and-costs/time-tracking/timecamp-integration/) how to set it up and use it. However, please note that this add-on is not officially supported and we do not take any liability when you use it.
 
 ## Timesheet
 
@@ -74,7 +80,7 @@ Currently, there is no direct integration between OpenProject and Timesheet. If 
 
 ## Time Tracker for OpenProject
 
-[Time Tracker](https://open-time-tracker.com/) is a mobile app that records time spent on tasks and logs it to your Open Project instance. We provide a [short instruction](../../user-guide/time-and-costs/time-tracking/time-tracker-integration/) how to set it up and use it.  Please keep in mind that it is not developed by OpenProject and is not supported by us. 
+[Time Tracker](https://open-time-tracker.com/) is a mobile app that records time spent on tasks and logs it to your OpenProject instance. We provide a [short instruction](../../user-guide/time-and-costs/time-tracking/time-tracker-integration/) how to set it up and use it.  Please keep in mind that it is not developed by OpenProject and is not supported by us.
 
 ## Toggl
 

@@ -41,8 +41,14 @@ module BasicData
       model_class.transaction do
         models_data.each do |model_data|
           model = model_class.create!(model_attributes(model_data))
-          seed_data.store_reference(model_data['reference'], model)
+          seed_data.store_reference(model_data["reference"], model)
         end
+      end
+    end
+
+    def mapped_models_data
+      models_data.each_with_object({}) do |model_data, models|
+        models[model_data["reference"]] = model_attributes(model_data)
       end
     end
 
@@ -64,7 +70,7 @@ module BasicData
       models_data.each do |model_data|
         lookup_attributes = model_attributes(model_data).slice(*attribute_names_for_lookups)
         if model = model_class.find_by(lookup_attributes)
-          seed_data.store_reference(model_data['reference'], model)
+          seed_data.store_reference(model_data["reference"], model)
         end
       end
     end

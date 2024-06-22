@@ -37,22 +37,22 @@ module Redmine
         if cipher_key.blank?
           text
         else
-          c = OpenSSL::Cipher.new('aes-256-cbc')
+          c = OpenSSL::Cipher.new("aes-256-cbc")
           iv = c.random_iv
           c.encrypt
           c.key = cipher_key
           c.iv = iv
           e = c.update(text.to_s)
           e << c.final
-          'aes-256-cbc:' + [e, iv].map { |v| Base64.encode64(v).strip }.join('--')
+          "aes-256-cbc:" + [e, iv].map { |v| Base64.encode64(v).strip }.join("--")
         end
       end
 
       def decrypt_text(text)
         if text && match = text.match(/\Aaes-256-cbc:(.+)\Z/)
           text = match[1]
-          c = OpenSSL::Cipher.new('aes-256-cbc')
-          e, iv = text.split('--').map { |s| Base64.decode64(s) }
+          c = OpenSSL::Cipher.new("aes-256-cbc")
+          e, iv = text.split("--").map { |s| Base64.decode64(s) }
           c.decrypt
           c.key = cipher_key
           c.iv = iv
@@ -64,7 +64,7 @@ module Redmine
       end
 
       def cipher_key
-        key = OpenProject::Configuration['database_cipher_key'].to_s
+        key = OpenProject::Configuration["database_cipher_key"].to_s
         # With aes-256-cbc chosen to be the cipher,
         # keys need to be 32 bytes long. Ruby < 2.4 used to silently truncate the
         # key to the desired length but with

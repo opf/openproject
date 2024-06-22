@@ -28,8 +28,8 @@
 
 module Queries::Operators
   class Today < Base
-    label 'today'
-    set_symbol 't'
+    label "today"
+    set_symbol "t"
     require_value false
 
     extend DateRangeClauses

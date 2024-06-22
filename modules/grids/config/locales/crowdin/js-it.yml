@@ -8,6 +8,7 @@ it:
         text: "Alcuni widget, come il widget del grafico del pacchetto di lavoro, sono disponibili soltanto nell'edizione per Imprese."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "Non hai i permessi necessari per visualizzare questo widget."
         custom_text:
           title: 'Testo personalizzato'
         documents:
@@ -41,6 +42,9 @@ it:
         subprojects:
           title: 'Sotto-progetti'
           no_results: 'Nessun sotto-progetto.'
+        project_favorites:
+          title: 'Progetti preferiti'
+          no_results: 'Al momento non hai progetti preferiti. Clicca sull''icona della stella nella dashboard del progetto per aggiungerne uno ai tuoi preferiti.'
         time_entries_current_user:
           title: 'Il mio tempo trascorso'
           displayed_days: 'Giorni visualizzati nel widget:'

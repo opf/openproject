@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/page_objects/notification'
-require 'features/work_packages/details/inplace_editor/shared_examples'
-require 'features/work_packages/shared_contexts'
-require 'support/edit_fields/edit_field'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/page_objects/notification"
+require "features/work_packages/details/inplace_editor/shared_examples"
+require "features/work_packages/shared_contexts"
+require "support/edit_fields/edit_field"
+require "features/work_packages/work_packages_page"
 
-RSpec.describe 'New work package datepicker',
-               :js, :with_cuprite, with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe "New work package datepicker",
+               :js, :with_cuprite, with_settings: { date_format: "%Y-%m-%d" } do
   let(:project) { create(:project_with_types, public: true) }
   let(:user) { create(:admin) }
 
@@ -48,7 +48,7 @@ RSpec.describe 'New work package datepicker',
     wait_for_reload
   end
 
-  it 'can open and select the datepicker' do
+  it "can open and select the datepicker" do
     date_field.input_element.click
     date_field.toggle_ignore_non_working_days
 

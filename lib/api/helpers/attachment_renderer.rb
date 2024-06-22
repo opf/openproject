@@ -56,6 +56,7 @@ module API
       # @param cache_seconds [integer] Time in seconds the cache headers signal the browser to cache the attachment.
       #                                Defaults to no cache headers.
       def respond_with_attachment(attachment, cache_seconds: nil)
+        validate_attachment_access!(attachment)
         prepare_cache_headers(cache_seconds) if cache_seconds
 
         if attachment.external_storage?
@@ -67,16 +68,41 @@ module API
 
       private
 
+      def validate_attachment_access!(attachment)
+        if attachment.status_quarantined?
+          raise ::API::Errors::Unauthorized.new(message: I18n.t("antivirus_scan.quarantined_message",
+                                                                filename: attachment.filename))
+        end
+
+        if attachment.author != current_user && attachment.pending_virus_scan?
+          raise ::API::Errors::Unauthorized.new(message: I18n.t("antivirus_scan.not_processed_yet_message",
+                                                                filename: attachment.filename))
+        end
+      end
+
       def redirect_to_external_attachment(attachment, cache_seconds)
         set_cache_headers!
         redirect attachment.external_url(expires_in: cache_seconds).to_s
       end
 
       def send_attachment(attachment)
-        content_type attachment.content_type
-        header['Content-Disposition'] = attachment.content_disposition
-        env['api.format'] = :binary
+        content_type attachment_content_type(attachment)
+        header["Content-Disposition"] = attachment.content_disposition
+        env["api.format"] = :binary
         sendfile attachment.diskfile.path
+      end
+
+      def attachment_content_type(attachment)
+        if attachment.is_text?
+          # Even if the text mime type might differ, always output plain text
+          # so this doesn't get interpreted as e.g., a script or html file
+          "text/plain"
+        elsif attachment.inlineable?
+          attachment.content_type
+        else
+          # For security reasons, mark all non-inlinable files as an octet-stream first
+          "application/octet-stream"
+        end
       end
 
       def set_cache_headers

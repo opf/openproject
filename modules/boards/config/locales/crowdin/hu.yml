@@ -13,7 +13,7 @@ hu:
     label_board_type: "Tábla típus"
     board_types:
       free: Alap
-      action: "Feladattábla"
+      action: "Feladattábla (%{attribute})"
     board_type_attributes:
       assignee: Felelős
       status: Állapot
@@ -35,5 +35,5 @@ hu:
       subtasks: >
         Tábla automatizált oszlopokkal az alelemekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a szülőt.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      teaser_text: 'Szeretné automatizálni a munkafolyamatait a Boards-szal? A fejlett táblák Enterprise funkció. Kérjük, frissítsen fizetős csomagra.'
       upgrade: 'Frissítés most'

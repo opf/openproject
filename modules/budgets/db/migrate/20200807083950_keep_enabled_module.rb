@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.to_s + '/db/migrate/migration_utils/module_renamer'
+require Rails.root.to_s + "/db/migrate/migration_utils/module_renamer"
 
 class KeepEnabledModule < ActiveRecord::Migration[6.0]
   def up
-    module_renamer.add_to_enabled('budgets', %w[costs_module])
-    module_renamer.add_to_default('budgets', %w[costs_module])
+    module_renamer.add_to_enabled("budgets", %w[costs_module])
+    module_renamer.add_to_default("budgets", %w[costs_module])
   end
 
   def down
-    module_renamer.remove_from_enabled('budgets')
-    module_renamer.remove_from_default('budgets')
+    module_renamer.remove_from_enabled("budgets")
+    module_renamer.remove_from_default("budgets")
   end
 
   private

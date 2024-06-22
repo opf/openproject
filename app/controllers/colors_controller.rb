@@ -28,8 +28,9 @@
 
 class ColorsController < ApplicationController
   before_action :require_admin_unless_readonly_api_request
+  authorization_checked! :index, :show, :new, :edit, :create, :update, :confirm_destroy, :destroy
 
-  layout 'admin'
+  layout "admin"
 
   menu_item :colors
 
@@ -68,7 +69,7 @@ class ColorsController < ApplicationController
       redirect_to colors_path
     else
       flash.now[:error] = I18n.t(:error_color_could_not_be_saved)
-      render action: 'new'
+      render action: "new"
     end
   end
 
@@ -80,7 +81,7 @@ class ColorsController < ApplicationController
       redirect_to colors_path
     else
       flash.now[:error] = I18n.t(:error_color_could_not_be_saved)
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
@@ -102,7 +103,7 @@ class ColorsController < ApplicationController
   protected
 
   def default_breadcrumb
-    if action_name == 'index'
+    if action_name == "index"
       t(:label_color_plural)
     else
       ActionController::Base.helpers.link_to(t(:label_color_plural), colors_path)

@@ -45,21 +45,21 @@ module WorkPackage::Journalized
 
       def self.event_name
         Proc.new do |o|
-          I18n.t(o.event_type.underscore, scope: 'events')
+          I18n.t(o.event_type.underscore, scope: "events")
         end
       end
 
       def self.event_type
         Proc.new do |o|
           journal = o.last_journal
-          t = 'work_package'
+          t = "work_package"
 
           t << if journal && journal.details.empty? && !journal.initial?
-                 '-note'
+                 "-note"
                else
                  status = Status.find_by(id: o.status_id)
 
-                 status.try(:is_closed?) ? '-closed' : '-edit'
+                 status.try(:is_closed?) ? "-closed" : "-edit"
                end
           t
         end
@@ -77,17 +77,17 @@ module WorkPackage::Journalized
                   name: JournalizedProcs.event_name,
                   url: JournalizedProcs.event_url
 
-    register_journal_formatted_fields(:id, 'parent_id')
-    register_journal_formatted_fields(:fraction,
-                                      'estimated_hours', 'derived_estimated_hours',
-                                      'remaining_hours', 'derived_remaining_hours')
-    register_journal_formatted_fields(:decimal, 'done_ratio')
-    register_journal_formatted_fields(:diff, 'description')
-    register_journal_formatted_fields(:schedule_manually, 'schedule_manually')
+    register_journal_formatted_fields(:id, "parent_id")
+    register_journal_formatted_fields(:chronic_duration,
+                                      "estimated_hours", "derived_estimated_hours",
+                                      "remaining_hours", "derived_remaining_hours")
+    register_journal_formatted_fields(:percentage, "done_ratio", "derived_done_ratio")
+    register_journal_formatted_fields(:diff, "description")
+    register_journal_formatted_fields(:schedule_manually, "schedule_manually")
     register_journal_formatted_fields(:attachment, /attachments_?\d+/)
     register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
-    register_journal_formatted_fields(:ignore_non_working_days, 'ignore_non_working_days')
-    register_journal_formatted_fields(:cause, 'cause')
+    register_journal_formatted_fields(:ignore_non_working_days, "ignore_non_working_days")
+    register_journal_formatted_fields(:cause, "cause")
     register_journal_formatted_fields(:file_link, /file_links_?\d+/)
 
     # Joined

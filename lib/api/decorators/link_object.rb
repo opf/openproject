@@ -71,7 +71,7 @@ module API
         id = if value
                ::API::Utilities::ResourceLinkParser.parse_id value,
                                                              property: @property_name,
-                                                             expected_version: '3',
+                                                             expected_version: "3",
                                                              expected_namespace: @namespace
              end
 

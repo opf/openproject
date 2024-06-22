@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
   include API::V3::Utilities::PathHelper
@@ -66,25 +66,25 @@ RSpec.describe API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
     cost_entries_B
   end
 
-  it 'has a type' do
-    expect(subject).to be_json_eql('Collection'.to_json).at_path('_type')
+  it "has a type" do
+    expect(subject).to be_json_eql("Collection".to_json).at_path("_type")
   end
 
-  it 'has one element per type' do
-    expect(subject).to have_json_size(2).at_path('_embedded/elements')
+  it "has one element per type" do
+    expect(subject).to have_json_size(2).at_path("_embedded/elements")
   end
 
-  it 'indicates the cost types' do
-    elements = JSON.parse(subject)['_embedded']['elements']
-    types = elements.map { |entry| entry['_links']['costType']['href'] }
+  it "indicates the cost types" do
+    elements = JSON.parse(subject)["_embedded"]["elements"]
+    types = elements.map { |entry| entry["_links"]["costType"]["href"] }
     expect(types).to include(api_v3_paths.cost_type(cost_type_A.id))
     expect(types).to include(api_v3_paths.cost_type(cost_type_B.id))
   end
 
-  it 'aggregates the units' do
-    elements = JSON.parse(subject)['_embedded']['elements']
+  it "aggregates the units" do
+    elements = JSON.parse(subject)["_embedded"]["elements"]
     units_by_type = elements.inject({}) do |hash, entry|
-      hash[entry['_links']['costType']['href']] = entry['spentUnits']
+      hash[entry["_links"]["costType"]["href"]] = entry["spentUnits"]
       hash
     end
 

@@ -33,6 +33,6 @@ class MeetingMinutesController < MeetingContentsController
 
   def find_content
     @content = @meeting.minutes || @meeting.build_minutes
-    @content_type = 'meeting_minutes'
+    @content_type = "meeting_minutes"
   end
 end

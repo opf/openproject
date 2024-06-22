@@ -31,12 +31,12 @@
 module DevelopmentData
   class UsersSeeder < Seeder
     def seed_data!
-      print_status 'Seeding development users ...'
+      print_status "Seeding development users ..."
       user_names.each do |login|
         user = new_user login.to_s
 
         if login == :admin_de
-          user.language = 'de'
+          user.language = "de"
           user.admin = true
         end
 
@@ -58,7 +58,7 @@ module DevelopmentData
     def seed_users_disabled?
       off_values = %w[off false no 0]
 
-      off_values.include? ENV.fetch('OP_DEV_USER_SEEDER_ENABLED', nil)
+      off_values.include? ENV.fetch("OP_DEV_USER_SEEDER_ENABLED", nil)
     end
 
     def user_names
@@ -77,7 +77,7 @@ module DevelopmentData
         user.login = login
         user.password = login
         user.firstname = login.humanize
-        user.lastname = 'DEV user'
+        user.lastname = "DEV user"
         user.mail = "#{login}@example.net"
         user.status = User.statuses[:active]
         user.language = I18n.locale.to_s

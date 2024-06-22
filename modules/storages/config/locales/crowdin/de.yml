@@ -5,7 +5,7 @@ de:
         origin_id: Ursprungs-ID
       storages/storage:
         creator: Ersteller
-        drive: Drive ID
+        drive: Laufwerk ID
         host: Host
         name: Name
         provider_type: Anbieter-Typ
@@ -39,21 +39,27 @@ de:
   api_v3:
     errors:
       too_many_elements_created_at_once: Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen.
-  permission_create_files: Dateien erstellen
-  permission_delete_files: Dateien löschen
+  external_file_storages: Externe Dateispeicher
+  permission_create_files: 'Automatisch verwaltete Projektordner: Dateien erstellen'
+  permission_create_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
+  permission_delete_files: 'Automatisch verwaltete Projektordner: Dateien löschen'
+  permission_delete_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
+  permission_header_for_project_module_storages: Automatisch verwaltete Projektordner
   permission_manage_file_links: Datei-Links verwalten
-  permission_manage_storages_in_project: Dateispeicher im Projekt verwalten
-  permission_read_files: Dateien lesen
-  permission_share_files: Dateien freigeben
+  permission_manage_files_in_project: Dateien in OpenProject verwalten.
+  permission_read_files: 'Automatisch verwaltete Projektordner: Dateien lesen'
+  permission_share_files: 'Automatisch verwaltete Projektordner: Dateien freigeben'
+  permission_share_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
   permission_view_file_links: Datei-Links anzeigen
-  permission_write_files: Dateien schreiben
-  project_module_storages: Dateispeicher
+  permission_write_files: 'Automatisch verwaltete Projektordner: Dateien schreiben'
+  project_module_storages: Dateien
   storages:
     buttons:
       complete_without_setup: Ohne fortfahren
       done_complete_setup: Fertig, Einrichtung abgeschlossen
       done_continue: Fertig, Fortfahren
-      replace_provider_type_oauth: Ersetze %{provider_type} OAuth
+      replace_oauth_application: OpenProject OAuth ersetzen
+      replace_oauth_client: '%{provider_type} OAuth ersetzen'
       save_and_continue: Speichern und fortsetzen
       select_folder: Ordner auswählen
     configuration_checks:
@@ -62,8 +68,8 @@ de:
         one_drive: Erlauben Sie OpenProject Zugriff auf Azure-Daten über OAuth, um OneDrive/Sharepoint zu verbinden.
       redirect_uri_incomplete:
         one_drive: Schließen Sie das Setup mit der korrekten Umleitungs-URI ab.
-    confirm_replace_oauth_application: Sind Sie sicher? Alle Benutzer müssen sich erneut gegen OpenProject autorisieren.
-    confirm_replace_oauth_client: Sind Sie sicher? Alle Benutzer müssen sich erneut gegen den Daten-Speicher autorisieren.
+    confirm_replace_oauth_application: Diese Aktion setzt die aktuellen OAuth-Anmeldedaten zurück. Nach der Bestätigung müssen Sie die Anmeldedaten beim Speicheranbieter erneut eingeben und alle Remote-Benutzer müssen sich erneut gegenüber OpenProject autorisieren. Sind Sie sicher, dass Sie fortfahren möchten?
+    confirm_replace_oauth_client: Diese Aktion setzt die aktuellen OAuth-Anmeldedaten zurück. Nach der Bestätigung müssen Sie neue Anmeldedaten vom Speicheranbieter eingeben und alle Benutzer müssen sich erneut für %{provider_type} autorisieren. Sind Sie sicher, dass Sie fortfahren möchten?
     delete_warning:
       input_delete_confirmation: Geben Sie den Namen %{file_storage} ein, um mit der Löschung fortzufahren.
       irreversible_notice: Die Löschung des Projekts kann nicht rückgängig gemacht werden.
@@ -76,6 +82,15 @@ de:
       storage_delete_result_3: Hat dieser Dateispeicher automatisch verwaltete Projektordner, so werden diese und die enthaltenen Dateien permanent gelöscht.
     error_invalid_provider_type: Bitte wählen Sie einen gültigen Dateispeicheranbieter aus.
     file_storage_view:
+      access_management:
+        automatic_management: Automatisch verwaltete Zugriffe und Ordner
+        automatic_management_description: Lassen Sie OpenProject Ordner pro Projekt automatisch erstellen. Dies wird empfohlen, da mit dieser Option jedes Teammitglied immer über die richtigen Zugriffsrechte verfügt.
+        description: Wählen Sie die Art der Verwaltung des Benutzerzugriffs und der Ordnererstellung. Wir empfehlen, die Option Automatisch verwalteter Zugriff zu verwenden, um eine besser organisierte Struktur zu erhalten und den Zugriff für alle relevanten Benutzer zu gewährleisten.
+        manual_management: Manuell verwaltete Zugriffe und Ordner
+        manual_management_description: Erstellen und verwalten Sie Ordner pro Projekt manuell. Sie müssen händisch sicherstellen, dass die entsprechenden Benutzer Zugriff haben.
+        setup_incomplete: Wählen Sie die Art der Verwaltung des Benutzerzugriffs und der Ordnererstellung.
+        subtitle: Zugriffsverwaltung
+        title: Zugriff und Projektordner
       automatically_managed_folders: Automatisch verwaltete Projektordner
       general_information: Allgemeine Informationen
       nextcloud_oauth: Nextcloud OAuth
@@ -91,8 +106,15 @@ de:
       label_healthy: Fehlerfrei
       label_pending: Ausstehend
       since: seit %{datetime}
-      subtitle: Automatic managed project folders
-      title: Health status
+      subtitle: Automatisch verwaltete Projektordner
+      title: Verbindungsstatus
+    health_email_notifications:
+      description_subscribed: Alle Administratoren erhalten E-Mail-Benachrichtigungen über den Zustand dieses Dateispeichers.
+      description_unsubscribed: Die E-Mail-Benachrichtigungen über den Zustand dieses Speichers wurden für alle Administratoren deaktiviert.
+      error_could_not_be_saved: E-Mail-Benachrichtigungseinstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.
+      subscribe: Abonnieren
+      title: E-Mail-Benachrichtigungen
+      unsubscribe: Abonnement beenden
     help_texts:
       project_folder: Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
     instructions:
@@ -142,9 +164,9 @@ de:
     label_creator: Ersteller
     label_delete_storage: Dateispeicher löschen
     label_edit_storage: Dateispeicher bearbeiten
+    label_edit_storage_access_management: Speicherzugriffsverwaltung bearbeiten
     label_edit_storage_automatically_managed_folders: Automatisch verwaltete Projektordner des Dateispeichers bearbeiten
     label_edit_storage_host: Dateispeicher-Host bearbeiten
-    label_edit_storage_oauth_client: Dateispeicher OAuth-Anwendung bearbeiten
     label_existing_manual_folder: Vorhandener Ordner mit manuell verwalteten Berechtigungen
     label_file_storage: Dateispeicher
     label_host: Host-URL
@@ -175,32 +197,29 @@ de:
     members_no_results: Keine Mitglieder zum Anzeigen.
     no_results: Noch keine Dateispeicher eingerichtet.
     notice_successful_storage_connection: |-
-      Storage connected successfully! Remember to activate the module and the specific storage in the project settings
-      of each desired project to use it.
+      Dateispeicher erfolgreich verbunden! Denken Sie daran, das Modul und den spezifischen Dateispeicher in den Projekteinstellungen jedes gewünschten Projekts zu aktivieren, um ihn zu benutzen.
     oauth_grant_nudge_modal:
-      access_granted: Access granted
-      body: To get access to the project folder you need to login to %{storage}.
-      cancel_button_label: I will do it later
-      confirm_button_label: Login
-      storage_ready: You are now ready to use %{storage}
-      title: One more step...
+      access_granted: Zugriff gewährt
+      access_granted_screen_reader: Zugriff gewährt. Sie können nun %{storage} verwenden.
+      body: Um Zugriff auf den Projektordner zu erhalten, müssen Sie sich bei %{storage} anmelden.
+      cancel_button_label: Das mache ich später
+      confirm_button_aria_label: Bei %{storage} anmelden
+      confirm_button_label: Anmelden
+      requesting_access_to: Zugriff auf %{storage} anfordern
+      storage_ready: '%{storage} kann jetzt verwendet werden'
+      title: Ein weiterer Schritt...
     open_project_storage_modal:
       success:
-        subtitle: You are being redirected
-        title: Integration setup completed
+        subtitle: Sie werden weitergeleitet
+        title: Einrichtung der Integration abgeschlossen
       waiting:
-        subtitle: One moment please, this might take some time...
-        title: We are setting up your permissions on the project folder.
+        subtitle: Einen Moment bitte, dies könnte etwas dauern...
+        title: Wir richten Ihre Berechtigungen für den Projektordner ein.
     page_titles:
       file_storages:
         delete: Dateispeicher löschen
         subtitle: Fügen Sie einen externen Dateispeicher hinzu, um Dateien in Arbeitspaketen hochzuladen, zu verlinken und zu verwalten.
       managed_project_folders:
-        one_drive_information: |-
-          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
-          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
-          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
-          to the %{drive_id_link_text}.
         subtitle: |-
           Lassen Sie OpenProject Ordner pro Projekt automatisch erstellen. Dies wird empfohlen, da mit dieser Option jedes Teammitglied immer über die richtigen Zugriffsrechte verfügt.
         subtitle_short: Lassen Sie OpenProject Ordner im Dateispeicher automatisch für jedes Projekt anlegen.
@@ -208,12 +227,12 @@ de:
       project_settings:
         delete: Dateispeicher löschen
         edit: Dateispeicher in diesem Projekt bearbeiten
-        index: Dateispeicher in diesem Projekt verfügbar
         members_connection_status: Verbindungsstatus der Mitglieder
         new: Einen Dateispeicher zum Projekt hinzufügen
       project_storage_members:
         subtitle: Überprüfen Sie den Verbindungsstatus für den Speicher- %{storage_name_link} aller Projektmitglieder.
         title: Verbindungsstatus der Mitglieder
+    permission_header_explanation: 'Dateiberechtigungen auf externen Speichern werden nur auf Ordner und Dateien in automatisch verwalteten Projektordnern angewendet. Beachten Sie, dass nicht alle Dateiberechtigungen von allen Speicheranbietern unterstützt werden. Weitere Informationen finden Sie in der Dokumentation zu <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>Dateispeicherberechtigungen</a>.'
     provider_types:
       label: Anbieter-Typ
       nextcloud:
@@ -226,6 +245,9 @@ de:
         label_oauth_client_secret: Azure OAuth geheimer Clientschlüssel Wert
         name: OneDrive/SharePoint
         name_placeholder: z.B. OneDrive
+    show_attachments_toggle:
+      description: 'Wenn Sie diese Option deaktivieren, wird die Liste der Anhänge auf dem Dateien Tab von Arbeitspaketen für neue Projekte ausgeblendet. Die Dateien, die in der Beschreibung eines Arbeitspakets angehängt sind, werden weiterhin in den internen Speicher für Anhänge hochgeladen.'
+      label: Anhänge auf dem Dateien-Tab der Arbeitspakete anzeigen
     storage_list_blank_slate:
       description: Fügen Sie einen Dateispeicher hinzu, um ihn hier zu sehen.
       heading: Sie haben noch keine Dateispeicher.

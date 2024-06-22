@@ -84,6 +84,10 @@ module OpenProject
         permissible_on? :global
       end
 
+      def project_query?
+        permissible_on? :project_query
+      end
+
       def permissible_on?(context_type)
         @permissible_on.include?(context_type)
       end

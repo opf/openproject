@@ -1,8 +1,11 @@
 module My
   class AutoLoginTokensController < ::ApplicationController
+    before_action :require_login
+    no_authorization_required! :destroy
+
     before_action :find_token, only: %i(destroy)
 
-    layout 'my'
+    layout "my"
     menu_item :sessions
 
     def destroy

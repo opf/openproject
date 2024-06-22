@@ -32,8 +32,8 @@ module OpenProject::Gantt
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-gantt',
-             author_url: 'https://www.openproject.org',
+    register "openproject-gantt",
+             author_url: "https://www.openproject.org",
              bundled: true,
              settings: {} do
       Rails.application.reloader.to_prepare do
@@ -42,9 +42,9 @@ module OpenProject::Gantt
         end
 
         OpenProject::AccessControl.permission(:view_work_packages).tap do |add|
-          add.controller_actions << 'gantt/gantt/index'
-          add.controller_actions << 'gantt/gantt/menu'
-          add.controller_actions << 'gantt/menus/show'
+          add.controller_actions << "gantt/gantt/index"
+          add.controller_actions << "gantt/gantt/menu"
+          add.controller_actions << "gantt/menus/show"
         end
       end
 
@@ -59,51 +59,51 @@ module OpenProject::Gantt
 
       menu :global_menu,
            :gantt,
-           { controller: '/gantt/gantt', action: 'index', project_id: nil },
+           { controller: "/gantt/gantt", action: "index", project_id: nil },
            caption: :label_gantt_chart_plural,
            after: :work_packages,
-           icon: 'view-timeline',
+           icon: "op-view-timeline",
            if: should_render_global_menu_item
 
       menu :global_menu,
            :global_gantt_query_select,
-           { controller: '/gantt/gantt', action: 'index' },
+           { controller: "/gantt/gantt", action: "index" },
            parent: :gantt,
-           partial: 'gantt/menus/menu',
+           partial: "gantt/menus/menu",
            last: true,
            caption: :label_gantt_chart_plural,
            if: should_render_global_menu_item
 
       menu :project_menu,
            :gantt,
-           { controller: '/gantt/gantt', action: 'index' },
+           { controller: "/gantt/gantt", action: "index" },
            caption: :label_gantt_chart_plural,
            after: :work_packages,
            if: ->(project) { should_render_project_menu.call(project) },
-           icon: 'view-timeline',
+           icon: "op-view-timeline",
            html: {
-             id: 'main-menu-gantt'
+             id: "main-menu-gantt"
            }
 
       menu :project_menu,
            :gantt_query_select,
-           { controller: '/gantt/gantt', action: 'index' },
+           { controller: "/gantt/gantt", action: "index" },
            parent: :gantt,
-           partial: 'gantt/menus/menu',
+           partial: "gantt/menus/menu",
            last: true,
            caption: :label_gantt_chart_plural,
            if: ->(project) { should_render_project_menu.call(project) }
 
       menu :top_menu,
            :gantt,
-           { controller: '/gantt/gantt', action: 'index', project_id: nil },
+           { controller: "/gantt/gantt", action: "index", project_id: nil },
            caption: :label_gantt_chart_plural,
            after: :work_packages,
-           icon: 'view-timeline',
+           icon: "op-view-timeline",
            if: should_render_global_menu_item
     end
 
     add_view :Gantt,
-             contract_strategy: 'Gantt::Views::ContractStrategy'
+             contract_strategy: "Gantt::Views::ContractStrategy"
   end
 end

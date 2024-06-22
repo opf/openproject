@@ -58,7 +58,7 @@ module Migration
 
         def add_to_default(new_modules, old_modules)
           # avoid creating the settings implicitly on new installations
-          setting = Setting.find_by(name: 'default_projects_modules')
+          setting = Setting.find_by(name: "default_projects_modules")
 
           return unless setting
 
@@ -80,7 +80,7 @@ module Migration
         end
 
         def comma_separated_strings(array)
-          Array(array).map { |i| "'#{i}'" }.join(', ')
+          Array(array).map { |i| "'#{i}'" }.join(", ")
         end
       end
     end

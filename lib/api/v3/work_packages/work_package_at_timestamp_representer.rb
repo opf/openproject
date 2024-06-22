@@ -61,7 +61,7 @@ module API
         ALL_SUPPORTED_PROPERTIES = (SUPPORTED_PROPERTIES + SUPPORTED_CUSTOM_PROPERTIES).freeze
 
         STATIC_NON_LINK_PROPERTIES = %w[_meta].freeze
-        STATIC_LINK_PROPERTIES = ['links', :schema, :self].freeze
+        STATIC_LINK_PROPERTIES = ["links", :schema, :self].freeze
 
         def initialize(model, current_user:)
           super(model, current_user:, embed_links:, timestamps: [model.timestamp])
@@ -77,9 +77,9 @@ module API
           Representable::Binding::Map.new(super.select { |bind| rendered_properties.include?(bind.name) })
         end
 
-        def compile_links_for(configs, *args)
+        def compile_links_for(configs, *)
           super(configs.select { |config| rendered_properties_for_links.include?(config.first[:rel]) },
-                *args)
+                *)
         end
 
         def rendered_properties
@@ -117,10 +117,10 @@ module API
             represented
               .attributes_changed_to_baseline
               .flat_map do |property|
-              if property.ends_with?('_id')
+              if property.ends_with?("_id")
                 API::Utilities::PropertyNameConverter.from_ar_name(property)
               elsif %w[start_date due_date].include?(property)
-                ['date', property]
+                ["date", property]
               else
                 property
               end

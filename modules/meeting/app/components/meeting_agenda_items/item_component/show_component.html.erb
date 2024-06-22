@@ -1,6 +1,6 @@
 <%=
   component_wrapper do
-    grid_layout('op-meeting-agenda-item', tag: :div) do |grid|
+    grid_layout('op-meeting-agenda-item', tag: :div, id: "item-#{@meeting_agenda_item.id}") do |grid|
       if drag_and_drop_enabled?
         grid.with_area(:'drag-handle', tag: :div) do
           render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
@@ -12,6 +12,7 @@
           flex_layout(align_items: :center) do |flex|
             flex.with_column(mr: 2, flex: 1, classes: 'ellipsis') do
               render(Primer::Beta::Link.new(href: work_package_path(@meeting_agenda_item.work_package), underline: false,
+                                            test_selector: 'op-meeting-agenda-title',
                                             font_size: :normal, font_weight: :bold, target: "_blank")) do
                 @meeting_agenda_item.work_package.subject
               end
@@ -30,11 +31,11 @@
             end
           end
         elsif @meeting_agenda_item.linked_work_package?
-          render(Primer::Beta::Text.new(font_size: :small, mr: 2, color: :subtle)) do
+          render(Primer::Beta::Text.new(font_size: :small, mr: 2, color: :subtle, test_selector: 'op-meeting-agenda-title')) do
             I18n.t(:label_agenda_item_undisclosed_wp, id: @meeting_agenda_item.work_package_id)
           end
         elsif @meeting_agenda_item.deleted_work_package?
-          render(Primer::Beta::Text.new(tag: :s, font_size: :small, mr: 2, color: :danger)) do
+          render(Primer::Beta::Text.new(tag: :s, font_size: :small, mr: 2, color: :danger, test_selector: 'op-meeting-agenda-title')) do
             I18n.t(:label_agenda_item_deleted_wp)
           end
         else
@@ -45,35 +46,46 @@
       end
 
       if @meeting_agenda_item.duration_in_minutes.present? && @meeting_agenda_item.duration_in_minutes > 0
-        grid.with_area(:duration, Primer::Beta::Text, color: duration_color_scheme, mr: 1) do
+        grid.with_area(:duration, Primer::Beta::Text, color: duration_color_scheme, mr: 1, font_size: :small) do
           I18n.t('datetime.distance_in_words.x_minutes_abbreviated', count: @meeting_agenda_item.duration_in_minutes)
         end
       end
 
-      grid.with_area(:author, tag: :div, classes: 'ellipsis') do
-        title = I18n.t(:label_added_time_by,
-                       author: @meeting_agenda_item.author.name,
-                       age: helpers.distance_of_time_in_words(Time.zone.now, @meeting_agenda_item.created_at))
-        flex_layout do |flex|
-          flex.with_column(classes: 'ellipsis') do
-            render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini', title:, classes: 'op-principal_flex'))
+      if @meeting_agenda_item.presenter
+        grid.with_area(:presenter, tag: :div, classes: 'ellipsis') do
+          flex_layout do |flex|
+            flex.with_column(classes: 'ellipsis') do
+              render(Users::AvatarComponent.new(user: @meeting_agenda_item.presenter, size: 'mini', title:, classes: 'op-principal_flex'))
+            end
           end
         end
       end
 
-    grid.with_area(:actions, tag: :div, justify_self: :end) do
-      render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_agenda_item_actions"), scheme: :invisible, test_selector: 'op-meeting-agenda-actions')
-        edit_action_item(menu) if @meeting_agenda_item.editable?
-        add_note_action_item(menu) if @meeting_agenda_item.editable?
-        move_actions(menu)
-        delete_action_item(menu)
-      end if edit_enabled?
-    end
+      grid.with_area(:actions, tag: :div, justify_self: :end) do
+        if edit_enabled?
+          render(Primer::Alpha::ActionMenu.new) do |menu|
+            menu.with_show_button(icon: "kebab-horizontal",
+                                  'aria-label': I18n.t(:label_agenda_item_actions),
+                                  scheme: :invisible,
+                                  ml: 2,
+                                  test_selector: 'op-meeting-agenda-actions')
+            edit_action_item(menu) if @meeting_agenda_item.editable?
+            add_note_action_item(menu) if @meeting_agenda_item.editable? && @meeting_agenda_item.notes.blank?
+            unless first? && last?
+              menu.with_divider 
+              move_actions(menu)
+            end
+            menu.with_divider
+            copy_action_item(menu)
+            menu.with_divider
+            delete_action_item(menu)
+          end
+        end
+      end
 
       grid.with_area(:notes, tag: :div) do
         if @meeting_agenda_item.notes.present?
-          render(Primer::Box.new(color: :subtle, mt: 1)) do
+          render(Primer::Box.new(mt: 1)) do
             format_text(@meeting_agenda_item, :notes)
           end
         end

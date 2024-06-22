@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title t(:label_administration), t(:label_plugins) %>
-<%= toolbar title: t(:label_modules_and_plugins) %>
+<%= toolbar title: t(:label_plugins) %>
 <% if @plugins.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
@@ -88,5 +88,6 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
 <% else %>
-  <%= no_results_box %>
+  <%= no_results_box display_action: true,
+                     action_url: OpenProject::Static::Links.url_for(:integrations) %>
 <% end %>

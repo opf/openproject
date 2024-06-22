@@ -40,9 +40,9 @@ See COPYRIGHT and LICENSE files for more details.
   <% group_permissions_by_module(@permissions).each do |mod, mod_permissions| %>
     <% module_name = mod.blank? ? "form--" + I18n.t('attributes.project') : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
     <% escaped_name = module_name.parameterize %>
-    <fieldset class="form--fieldset -collapsible" id= "<%= escaped_name %>">
-      <legend class="form--fieldset-legend" >
-        <%= mod.blank? ? I18n.t('attributes.project') : l_or_humanize(mod, prefix: 'project_module_') %>
+    <fieldset class="form--fieldset -collapsible" id="<%= escaped_name %>">
+      <legend class="form--fieldset-legend">
+        <%= permission_header_for_project_module(mod) %>
       </legend>
       <div class="form--toolbar">
         <span class="form--toolbar-item">
@@ -118,5 +118,5 @@ See COPYRIGHT and LICENSE files for more details.
     </fieldset>
   <% end %>
 
-  <p><%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %></p>
+  <p><%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %></p>
 <% end %>

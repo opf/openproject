@@ -27,7 +27,7 @@
 #++
 
 # need to define all the operators
-require 'cost_query/operator'
+require "cost_query/operator"
 
 module OpenProject::Reporting
   module QueryHelper

@@ -90,7 +90,6 @@ class User < Principal
            inverse_of: :user,
            dependent: :destroy
 
-
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
   scope :blocked, -> { create_blocked_scope(self, true) }
@@ -130,7 +129,7 @@ class User < Principal
   validates :login, uniqueness: { if: Proc.new { |user| user.login.present? }, case_sensitive: false }
   validates :mail, uniqueness: { allow_blank: true, case_sensitive: false }
   # Login must contain letters, numbers, underscores only
-  validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
+  validates :login, format: { with: /\A[\p{L}0-9_\-@.+ ]*\z/i }
   validates :login, length: { maximum: 256 }
 
   validates :firstname, :lastname, length: { maximum: 256 }
@@ -245,20 +244,10 @@ class User < Principal
   def self.try_authentication_and_create_user(login, password)
     return nil if OpenProject::Configuration.disable_password_login?
 
-    attrs = LdapAuthSource.authenticate(login, password)
-    return unless attrs
+    user = LdapAuthSource.authenticate(login, password)
 
-    call = Users::CreateService
-      .new(user: User.system)
-      .call(attrs)
-
-    user = call.result
-
-    call.on_failure do |result|
-      Rails.logger.error "Failed to auto-create user from auth-source: #{result.message}"
-
-      # TODO We have no way to pass back the contract errors in this place
-      user.errors.merge! call.errors
+    if user&.new_record?
+      Rails.logger.error "Failed to auto-create user from auth-source, as data is missing."
     end
 
     user
@@ -273,8 +262,21 @@ class User < Principal
     end
   end
 
+  # Columns required for formatting the user's name.
+  def self.columns_for_name(formatter = nil)
+    case formatter || Setting.user_format
+    when :firstname
+      [:firstname]
+    when :username
+      [:login]
+    else
+      %i[firstname lastname]
+    end
+  end
+
   # Formats the user's name.
   def name(formatter = nil)
+    # Don't forget to check columns_for_name
     case formatter || Setting.user_format
 
     when :firstname_lastname      then "#{firstname} #{lastname}"
@@ -468,6 +470,17 @@ class User < Principal
 
   def anonymous?
     !logged?
+  end
+
+  def consent_expired?
+    # Always if the user has not consented
+    return true if consented_at.blank?
+
+    # Did not expire if no consent_time set, but user has consented at some point
+    return false if Setting.consent_time.blank?
+
+    # Otherwise, expires when consent_time is newer than last consented_at
+    consented_at < Setting.consent_time
   end
 
   # Cheap version of Project.visible.count

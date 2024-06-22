@@ -1,0 +1,12 @@
+#English strings go here
+ms:
+  plugin_openproject_calendar:
+    name: "Kalendar OpenProject"
+    description: "Menyediakan paparan kalendar."
+  label_calendar: "Kalendar"
+  label_calendar_plural: "Kalendar"
+  label_new_calendar: "Kalendar baharu"
+  permission_view_calendar: "Lihat kalendar"
+  permission_manage_calendars: "Urus kalendar"
+  permission_share_calendars: "Langgan iCalendars"
+  project_module_calendar_view: "Kalendar"

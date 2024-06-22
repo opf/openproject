@@ -49,6 +49,9 @@ module TableHelpers
     #   let!(:_table) do
     #     create_table(table_representation)
     #   end
+    #   let(:table_work_packages) do
+    #     _table.work_packages
+    #   end
     #   let(:parent) do
     #     _table.work_package(:parent)
     #   end
@@ -62,8 +65,52 @@ module TableHelpers
       let!(:_table) { create_table(table_representation) }
 
       table_data = TableData.for(table_representation)
+      let(:table_work_packages) { _table.work_packages }
       table_data.work_package_identifiers.each do |identifier|
         let(identifier) { _table.work_package(identifier) }
+      end
+    end
+
+    # Declare work packages and relations from a visual chart representation.
+    #
+    # It uses +create_table+ internally and is useful to have direct access
+    # to the created work packages.
+    #
+    # To see supported columns, see +TableHelpers::Column+.
+    #
+    # For instance:
+    #
+    #   shared_let_work_packages(<<~TABLE)
+    #     hierarchy   | work |
+    #     parent      |   1h |
+    #       child     | 2.5h |
+    #     another one |      |
+    #   TABLE
+    #
+    # is equivalent to:
+    #
+    #   shared_let(:_table) do
+    #     create_table(table_representation)
+    #   end
+    #   shared_let(:table_work_packages) do
+    #     _table.work_packages
+    #   end
+    #   shared_let(:parent) do
+    #     _table.work_package(:parent)
+    #   end
+    #   shared_let(:child) do
+    #     _table.work_package(:child)
+    #   end
+    #   shared_let(:another_one) do
+    #     _table.work_package(:another_one)
+    #   end
+    def shared_let_work_packages(table_representation)
+      shared_let(:_table) { create_table(table_representation) }
+
+      table_data = TableData.for(table_representation)
+      shared_let(:table_work_packages) { _table.work_packages }
+      table_data.work_package_identifiers.each do |identifier|
+        shared_let(identifier) { _table.work_package(identifier) }
       end
     end
   end

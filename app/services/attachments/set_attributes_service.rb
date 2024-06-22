@@ -36,6 +36,10 @@ module Attachments
 
     def set_default_attributes(_params)
       model.author = user if model.author.nil?
+
+      model.change_by_system do
+        model.status = model.internal_container? ? :scanned : :uploaded
+      end
     end
   end
 end

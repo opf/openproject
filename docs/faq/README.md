@@ -19,7 +19,6 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 | [Other](#other)                                                                 | Additional questions, e.g. about contribution, training, support                                  |
 | [Topic-specific FAQ](#topic-specific-faq)                                       | Links to other FAQ sections                                                                       |
 
-
 ## Learn more about OpenProject
 
 ### How do I get access to the OpenProject Enterprise add-ons?
@@ -33,6 +32,7 @@ If you want to run OpenProject on your own server, the OpenProject Enterprise on
 Have you already installed the [OpenProject Community edition](https://www.openproject.org/download-and-installation/)? If yes, you can request a trial license for the OpenProject Enterprise on-premises edition by clicking on the button "Free trial license" [here](https://www.openproject.org/de/enterprise-edition/) and test the Enterprise on-premises edition for 14 days for free.
 
 ### Can I have some users with Enterprise add-ons and some without?
+
 As the Enterprise Enterprise add-ons affect the whole instance (e.g. with Agile Boards and project custom fields) it's not possible to upgrade only some users.
 
 ### What are the system requirements?
@@ -135,7 +135,7 @@ On a work package level you could use "Assignee" for "Responsible", "Accountable
 
 To create and print/export reports you can...
 
-- use the [global work packages list](../user-guide/projects/#global-work-package-tables): Filter for e.g. phases and milestones (which would make sense to use in your projects in this case). Then use the [export feature](../user-guide/work-packages/exporting/). This will give you an overview over all projects' work packages (or all projects' milestones and phases, respectively).
+- use the [global work packages list](../user-guide/projects/project-lists/#global-work-package-tables): Filter for e.g. phases and milestones (which would make sense to use in your projects in this case). Then use the [export feature](../user-guide/work-packages/exporting/). This will give you an overview over all projects' work packages (or all projects' milestones and phases, respectively).
 - use the [Wiki module](../user-guide/wiki) to document your project reports. The Wiki pages is optimized for being printed using your browser's print feature. You could even insert a work packages list there. If you want to use the Wiki we suggest setting it up in a (global) parent project.
 
 The projects overview is not optimized for export via PDF, yet. Nevertheless, you can try to use your browser's print feature.
@@ -195,7 +195,6 @@ For portfolio management or custom reporting, you can use either the project lis
 
 For more information on portfolio management options in OpenProject please refer to this [Use Case](../use-cases/portfolio-management).
 
-
 ### Is there an organizational chart in OpenProject?
 
 There's no such feature. However, you can use the wiki to add information regarding your departments and employees. Furthermore, you can upload existing org charts as image or e.g. PDF to the wiki or the documents module.
@@ -204,7 +203,7 @@ In many companies it makes sense to structure your project tree according to you
 
 ### Is there an architecture diagram for OpenProject?
 
-A (very rough) diagram can be found on [https://www.openproject.org/hosting/](https://www.openproject.org/hosting/).
+A (very rough) diagram can be found on [https://www.openproject.org/enterprise-edition/#hosting-options](https://www.openproject.org/enterprise-edition/#hosting-options).
 
 ### Can I set up an entity-relationship diagram in OpenProject?
 
@@ -247,7 +246,6 @@ Yes. Take a photo with your camera and save it on your phone. Then open the corr
 ### Can I use IFC while a Revit connection is not available?
 
 Yes, of course. Within the BCF module you can upload multiple IFC models and create and manage BCF issues.
-
 
 ## Migration
 
@@ -309,10 +307,6 @@ We offer our Professional Support for Enterprise on-premises users and Enterpris
 If you use the Community edition please feel free to use our [forums](https://community.openproject.org/projects/openproject/forums) for exchange with other users.
 
 To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject).
-
-### Do you support Univention users?
-
-If you're an Enterprise on-premises user you're eligible for Professional Support. However, we can't support you in all Univention-related topics (e.g. server not reachable, authentication setup, ...).
 
 ### Do you have a cyber insurance?
 

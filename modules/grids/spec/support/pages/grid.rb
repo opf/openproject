@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   class Grid < ::Pages::Page
     def add_widget(row_number, column_number, location, name)
       within_add_widget_modal(row_number, column_number, location) do
         expect(page)
-          .to have_content(I18n.t('js.grid.add_widget'))
+          .to have_content(I18n.t("js.grid.add_widget"))
 
         SeleniumHubWaiter.wait unless using_cuprite?
 
@@ -43,7 +43,7 @@ module Pages
 
     def expect_no_help_mode
       expect(page)
-        .to have_no_css('.toolbar-item .icon-add')
+        .to have_no_css(".toolbar-item .icon-add")
     end
 
     def expect_unable_to_add_widget(row_number, column_number, location, name = nil)
@@ -57,10 +57,10 @@ module Pages
     def expect_add_widget_enterprise_edition_notice(row_number, column_number, location)
       within_add_widget_modal(row_number, column_number, location) do
         expect(page)
-          .to have_content(I18n.t('js.grid.add_widget'))
+          .to have_content(I18n.t("js.grid.add_widget"))
 
         expect(page)
-          .to have_css('.op-toast.-ee-upsale', text: I18n.t('js.upsale.ee_only'))
+          .to have_css(".op-toast.-ee-upsale", text: I18n.t("js.upsale.ee_only"))
       end
     end
 
@@ -83,15 +83,10 @@ module Pages
       area = area_of(row_number, column_number, location)
       area.hover
 
-      add_widget_button = if using_cuprite?
-                            area.find('.grid--widget-add')
-                          else
-                            area.find('.grid--widget-add', visible: :all)
-                          end
-
+      add_widget_button = area.find(".grid--widget-add", visible: :all)
       add_widget_button.click
 
-      within('.spot-modal', &)
+      within(".spot-modal", &)
     end
 
     def expect_widget_adding_prohibited_generally(row_number = 1, column_number = 1)
@@ -99,13 +94,13 @@ module Pages
       area.hover
 
       expect(area)
-        .to have_no_css('.grid--widget-add')
+        .to have_no_css(".grid--widget-add")
     end
 
     def expect_specific_widget_unaddable(row_number, column_number, location, name)
       within_add_widget_modal(row_number, column_number, location) do
         expect(page)
-          .to have_content(I18n.t('js.grid.add_widget'))
+          .to have_content(I18n.t("js.grid.add_widget"))
 
         expect(page)
           .to have_no_css('[data-test-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$"))

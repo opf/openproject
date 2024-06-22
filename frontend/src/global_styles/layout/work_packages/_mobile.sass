@@ -101,9 +101,6 @@
 
 @media screen and (max-width: $breakpoint-sm)
   .router--work-packages-full-view
-    #content
-      position: relative
-
     .wp-show--header-container
       grid-template-columns: auto 1fr
       grid-template-rows: auto auto 1fr
@@ -120,8 +117,9 @@
 
   .router--work-packages-partitioned-split-view
     // Ensure the WP cards can span the complete width on mobile
-    #content
+    #content-body
       padding: 15px 0 !important
 
-      .toolbar-container
-        margin-left: 15px
+    .toolbar-container,
+    .work-packages--filters-optional-container
+      margin-left: 15px

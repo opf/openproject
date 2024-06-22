@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe JournalsController do
-  it 'connects GET /journals/ to journals#index' do
-    expect(get('/journals/')).to route_to(controller: 'journals',
-                                          action: 'index')
+  it "connects GET /journals/ to journals#index" do
+    expect(get("/journals/")).to route_to(controller: "journals",
+                                          action: "index")
   end
 
-  it 'connects GET /journals/:id/diff to journals#idff' do
-    expect(get('/journals/123/diff/description'))
-      .to route_to(controller: 'journals',
-                   action: 'diff',
-                   field: 'description',
-                   id: '123')
+  it "connects GET /journals/:id/diff to journals#idff" do
+    expect(get("/journals/123/diff/description"))
+      .to route_to(controller: "journals",
+                   action: "diff",
+                   field: "description",
+                   id: "123")
   end
 end

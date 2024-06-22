@@ -1,0 +1,70 @@
+ms:
+  js:
+    grid:
+      add_widget: 'Tambah widget'
+      remove: 'Buang widget'
+      configure: 'Konfigurasi widget'
+      upsale:
+        text: "Beberapa widget seperti widget graf pakej kerja, hanya tersedia dalam edisi Enterprise."
+        link: 'Edisi Enterprise'
+      widgets:
+        missing_permission: "Anda tidak mempunyai kebenaran yang diperlukan untuk melihat widget ini."
+        custom_text:
+          title: 'Teks tersuai'
+        documents:
+          title: 'Dokumen'
+          no_results: 'Tiada dokumen lagi.'
+        members:
+          title: 'Ahli-ahli'
+          no_results: 'Tiada ahli dipapar.'
+          view_all_members: 'Lihat semua ahli'
+          add: 'Ahli'
+          too_many: 'Memaparkan %{count} daripada %{total} ahli.'
+        news:
+          title: 'Berita'
+          at: 'pada'
+          no_results: 'Tiada perkara baharu untuk dilaporkan.'
+        project_description:
+          title: 'Deskripsi projek'
+          no_results: "Tiada deskripsi yang tertulis lagi. Deskripsi boleh diberikan di 'Tetapan Projek'."
+        project_details:
+          title: 'Butiran projek'
+          no_results: 'Tiada ruang tersuai telah ditakrifkan untuk projek.'
+        project_status:
+          title: 'Status projek'
+          not_started: 'Belum dimulakan'
+          on_track: 'Ikut jadual'
+          off_track: 'Lari jadual'
+          at_risk: 'Berisiko'
+          not_set: 'Belum ditetapkan'
+          finished: 'Selesai'
+          discontinued: 'Dihentikan'
+        subprojects:
+          title: 'Subprojek'
+          no_results: 'Tiada subprojek.'
+        project_favorites:
+          title: 'Projek-projek kegemaran'
+          no_results: 'Kini anda tiada projek kegemaran. Tekan ikon bintang di papan pemuka projek untuk tambahkan ke kegemaran anda.'
+        time_entries_current_user:
+          title: 'Masa yang saya gunakan'
+          displayed_days: 'Hari yang dipaparkan dalam widget:'
+        time_entries_list:
+          title: 'Masa yang digunakan (7 hari lepas)'
+          no_results: 'Tiada catatan masa untuk 7 hari yang lalu.'
+        work_packages_accountable:
+          title: "Pakej kerja yang saya bertanggungjawab"
+        work_packages_assigned:
+          title: 'Pakej kerja yang ditugaskan pada saya'
+        work_packages_created:
+          title: 'Pakej kerja yang saya cipta'
+        work_packages_watched:
+          title: 'Pakej kerja yang saya pantau'
+        work_packages_table:
+          title: 'Jadual pakej kerja'
+        work_packages_graph:
+          title: 'Graf pakej kerja'
+        work_packages_calendar:
+          title: 'Kalendar'
+        work_packages_overview:
+          title: 'Gambaran keseluruhan pakej kerja'
+          placeholder: 'Klik untuk edit ...'

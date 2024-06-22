@@ -18,14 +18,14 @@ For instance you could define a new proxy server like this in the `docker-compos
 
 ```yaml
 services:
-  ...
+  # ...
   proxy:
     image: nginx
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - "8080:80"
-  ...
+  # ...
 ```
 
 And the corresponding NginX configuration file would look like:
@@ -44,6 +44,31 @@ server {
             proxy_pass_header  Server;
             proxy_set_header   Host $http_host;
             proxy_redirect     off;
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_set_header   X-Scheme $scheme;
+            proxy_pass         http://web/;
+        }
+}
+```
+
+And the corresponding NginX configuration file would look like:
+
+```nginx
+# default.conf
+upstream web {
+    server web:8080;
+}
+
+server {
+        listen 80;
+        server_name _;
+
+        location / {
+            proxy_pass_header  Server;
+            proxy_set_header   Host $http_host;
+            proxy_redirect     off;
+            proxy_set_header   X-Forwarded-Host $host:$server_port;
+            proxy_set_header   X-Forwarded-Proto $scheme;
             proxy_set_header   X-Real-IP $remote_addr;
             proxy_set_header   X-Scheme $scheme;
             proxy_pass         http://web/;

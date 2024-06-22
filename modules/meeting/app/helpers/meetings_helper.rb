@@ -44,28 +44,27 @@ module MeetingsHelper
   end
 
   def menu_upcoming_meetings_item
-    path = project_or_global_meetings_path
+    path = project_or_global_meetings_path(
+      filters: [
+        { time: { operator: "=", values: ["future"] } }
+      ],
+      sort: "start_time"
+    )
 
     menu_link_element path, t(:label_upcoming_meetings)
   end
 
   def menu_past_meetings_item
     path = project_or_global_meetings_path(
-      filters: [{ time: { operator: '=', values: ['past'] } }],
-      sort: 'start_time:desc'
+      filters: [{ time: { operator: "=", values: ["past"] } }],
+      sort: "start_time:desc"
     )
 
     menu_link_element path, t(:label_past_meetings)
   end
 
   def menu_upcoming_invitations_item
-    path = project_or_global_meetings_path(
-      filters: [
-        { time: { operator: '=', values: ['future'] } },
-        { invited_user_id: { operator: '=', values: [User.current.id.to_s] } }
-      ],
-      sort: 'start_time'
-    )
+    path = project_or_global_meetings_path
 
     menu_link_element path, t(:label_upcoming_invitations)
   end
@@ -73,10 +72,10 @@ module MeetingsHelper
   def menu_past_invitations_item
     path = project_or_global_meetings_path(
       filters: [
-        { time: { operator: '=', values: ['past'] } },
-        { invited_user_id: { operator: '=', values: [User.current.id.to_s] } }
+        { time: { operator: "=", values: ["past"] } },
+        { invited_user_id: { operator: "=", values: [User.current.id.to_s] } }
       ],
-      sort: 'start_time:desc'
+      sort: "start_time:desc"
     )
 
     menu_link_element path, t(:label_past_invitations)
@@ -84,7 +83,7 @@ module MeetingsHelper
 
   def menu_attendee_item
     path = project_or_global_meetings_path(
-      filters: [{ attended_user_id: { operator: '=', values: [User.current.id.to_s] } }]
+      filters: [{ attended_user_id: { operator: "=", values: [User.current.id.to_s] } }]
     )
 
     menu_link_element path, t(:label_attendee)
@@ -92,7 +91,7 @@ module MeetingsHelper
 
   def menu_creator_item
     path = project_or_global_meetings_path(
-      filters: [{ author_id: { operator: '=', values: [User.current.id.to_s] } }]
+      filters: [{ author_id: { operator: "=", values: [User.current.id.to_s] } }]
     )
 
     menu_link_element path, t(:label_author)
@@ -111,7 +110,7 @@ module MeetingsHelper
 
   def menu_link_element(path, label)
     link_to path, class: menu_item_css_class(path), title: label do
-      content_tag(:span, class: 'op-sidemenu--item-title') do
+      content_tag(:span, class: "op-sidemenu--item-title") do
         label
       end
     end
@@ -132,17 +131,17 @@ module MeetingsHelper
         .reject { |p| p.user.nil? }
         .map { |p| link_to_user p.user }
 
-      safe_join(user_links, '; ')
+      safe_join(user_links, "; ")
     else
-      t('placeholders.default')
+      t("placeholders.default")
     end
   end
 
   def render_meeting_journal(model, journal, options = {})
-    return '' if journal.initial?
+    return "" if journal.initial?
 
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
-    content_tag 'div', journal_content, id: "change-#{journal.id}", class: 'journal'
+    content_tag "div", journal_content, id: "change-#{journal.id}", class: "journal"
   end
 
   # This renders a journal entry with a header and details
@@ -159,16 +158,16 @@ module MeetingsHelper
     HTML
 
     if journal.details.any?
-      details = content_tag 'ul', class: 'details journal-attributes' do
+      details = content_tag "ul", class: "details journal-attributes" do
         journal.details.filter_map do |detail|
           if d = journal.render_detail(detail, cache: options[:cache])
-            content_tag('li', d.html_safe)
+            content_tag("li", d.html_safe)
           end
-        end.join(' ').html_safe
+        end.join(" ").html_safe
       end
     end
 
-    content_tag('div', "#{header}#{details}".html_safe, id: "change-#{journal.id}", class: 'journal')
+    content_tag("div", "#{header}#{details}".html_safe, id: "change-#{journal.id}", class: "journal")
   end
 
   def global_meeting_create_context?

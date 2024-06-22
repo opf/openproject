@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ParseSchemaFilterParamsService do
   let(:current_user) { build_stubbed(:user) }
@@ -33,9 +33,9 @@ RSpec.describe ParseSchemaFilterParamsService do
   let(:project) { build_stubbed(:project) }
   let(:type) { build_stubbed(:type) }
 
-  describe '#call' do
+  describe "#call" do
     let(:filter) do
-      [{ 'id' => { 'values' => ["#{project.id}-#{type.id}"], 'operator' => '=' } }]
+      [{ "id" => { "values" => ["#{project.id}-#{type.id}"], "operator" => "=" } }]
     end
     let(:result) { instance.call(filter) }
 
@@ -43,7 +43,7 @@ RSpec.describe ParseSchemaFilterParamsService do
     let(:found_types) { [type] }
 
     before do
-      visible_projects = double('visible_projects')
+      visible_projects = double("visible_projects")
 
       allow(Project)
         .to receive(:visible)
@@ -61,91 +61,91 @@ RSpec.describe ParseSchemaFilterParamsService do
         .and_return(found_types)
     end
 
-    context 'valid' do
-      it 'is a success' do
+    context "valid" do
+      it "is a success" do
         expect(result).to be_success
       end
 
-      it 'returns the [project, type] pair' do
+      it "returns the [project, type] pair" do
         expect(result.result).to contain_exactly([project, type])
       end
     end
 
-    context 'for a non existing project' do
+    context "for a non existing project" do
       let(:found_projects) { [] }
 
-      it 'is a success' do
+      it "is a success" do
         expect(result).to be_success
       end
 
-      it 'returns an empty array' do
+      it "returns an empty array" do
         expect(result.result).to be_empty
       end
     end
 
-    context 'for a non existing type' do
+    context "for a non existing type" do
       let(:found_types) { [] }
 
-      it 'is a success' do
+      it "is a success" do
         expect(result).to be_success
       end
 
-      it 'returns an empty array' do
+      it "returns an empty array" do
         expect(result.result).to be_empty
       end
     end
 
     context 'without the "=" operator' do
       let(:filter) do
-        [{ 'id' => { 'values' => ["#{project.id}-#{type.id}"], 'operator' => '!' } }]
+        [{ "id" => { "values" => ["#{project.id}-#{type.id}"], "operator" => "!" } }]
       end
 
-      it 'is a failure' do
+      it "is a failure" do
         expect(result).not_to be_success
       end
 
-      it 'returns an empty array' do
+      it "returns an empty array" do
         expect(result.result).to be_nil
       end
 
-      it 'returns an error message' do
-        expect(result.errors.messages[:base]).to contain_exactly('The operator is not supported.')
+      it "returns an error message" do
+        expect(result.errors.messages[:base]).to contain_exactly("The operator is not supported.")
       end
     end
 
-    context 'with an invalid value' do
+    context "with an invalid value" do
       let(:filter) do
-        [{ 'id' => { 'values' => ["bogus-1"], 'operator' => "=" } }]
+        [{ "id" => { "values" => ["bogus-1"], "operator" => "=" } }]
       end
 
-      it 'is a failure' do
+      it "is a failure" do
         expect(result).not_to be_success
       end
 
-      it 'returns an empty array' do
+      it "returns an empty array" do
         expect(result.result).to be_nil
       end
 
-      it 'returns an error message' do
-        expect(result.errors.messages[:base]).to contain_exactly('A value is invalid.')
+      it "returns an error message" do
+        expect(result.errors.messages[:base]).to contain_exactly("A value is invalid.")
       end
     end
 
-    context 'without an id filter' do
+    context "without an id filter" do
       let(:filter) do
         [{}]
       end
 
-      it 'is a failure' do
+      it "is a failure" do
         expect(result).not_to be_success
       end
 
-      it 'returns an empty array' do
+      it "returns an empty array" do
         expect(result.result).to be_nil
       end
 
-      it 'returns an error message' do
-        expect(result.errors.messages[:base]).to contain_exactly('An \'id\' filter is required.')
+      it "returns an error message" do
+        expect(result.errors.messages[:base]).to contain_exactly("An 'id' filter is required.")
       end
     end
   end

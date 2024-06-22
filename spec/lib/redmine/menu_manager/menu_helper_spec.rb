@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
   before do
@@ -62,8 +62,8 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
 
   current_user { build_stubbed(:user) }
 
-  describe '#render_single_menu_node' do
-    let(:item) { Redmine::MenuManager::MenuItem.new(:testing, '/test', caption: 'This is a test') }
+  describe "#render_single_menu_node" do
+    let(:item) { Redmine::MenuManager::MenuItem.new(:testing, "/test", caption: "This is a test") }
     let(:expected) do
       <<~HTML
         <a class="testing-menu-item op-menu--item-action" title="This is a test" data-test-selector="op-menu--item-action" href="/test">
@@ -74,15 +74,15 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
       HTML
     end
 
-    it 'renders' do
+    it "renders" do
       expect(render_single_menu_node(item))
         .to be_html_eql(expected)
     end
   end
 
-  describe '#render_menu_node' do
-    context 'for a single item' do
-      let(:item) { Redmine::MenuManager::MenuItem.new(:single_node, '/test', {}) }
+  describe "#render_menu_node" do
+    context "for a single item" do
+      let(:item) { Redmine::MenuManager::MenuItem.new(:single_node, "/test", {}) }
 
       let(:expected) do
         <<~HTML.squish
@@ -96,19 +96,19 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
         HTML
       end
 
-      it 'renders' do
+      it "renders" do
         expect(render_menu_node(item, nil))
           .to be_html_eql(expected)
       end
     end
 
-    context 'for a node with nested items' do
+    context "for a node with nested items" do
       let(:item) do
-        node = Redmine::MenuManager::MenuItem.new(:parent_node, '/test', {})
-        node << Redmine::MenuManager::MenuItem.new(:child_one_node, '/test', {})
-        node << Redmine::MenuManager::MenuItem.new(:child_two_node, '/test', {})
-        node << Redmine::MenuManager::MenuItem.new(:child_three_node, '/test', {})
-        node << Redmine::MenuManager::MenuItem.new(:child_three_inner_node, '/test', {})
+        node = Redmine::MenuManager::MenuItem.new(:parent_node, "/test", {})
+        node << Redmine::MenuManager::MenuItem.new(:child_one_node, "/test", {})
+        node << Redmine::MenuManager::MenuItem.new(:child_two_node, "/test", {})
+        node << Redmine::MenuManager::MenuItem.new(:child_three_node, "/test", {})
+        node << Redmine::MenuManager::MenuItem.new(:child_three_inner_node, "/test", {})
 
         node
       end
@@ -123,7 +123,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                 <span class="ellipsis">Parent node</span>
                 </span>
               </a>
-              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend" data-test-selector="main-menu-toggler--parent_node">
                 <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
                   <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
                 </svg>
@@ -179,17 +179,17 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
         HTML
       end
 
-      it 'renders' do
+      it "renders" do
         expect(render_menu_node(item, nil))
           .to be_html_eql(expected)
       end
     end
 
-    context 'for a node with children' do
+    context "for a node with children" do
       let(:project) { build_stubbed(:project) }
 
       let(:allowed_projects) { [project] }
-      let(:allowed_urls) { ['/test'] }
+      let(:allowed_urls) { ["/test"] }
 
       let(:item) do
         Redmine::MenuManager::MenuItem
@@ -218,7 +218,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                   <span class="ellipsis">Parent node</span>
                 </span>
               </a>
-              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend" data-test-selector="main-menu-toggler--parent_node">
                 <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
                   <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
                 </svg>
@@ -242,17 +242,17 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
         HTML
       end
 
-      it 'renders' do
+      it "renders" do
         expect(render_menu_node(item, project))
           .to be_html_eql(expected)
       end
     end
 
-    context 'for a node with nested items and children' do
+    context "for a node with nested items and children" do
       let(:project) { build_stubbed(:project) }
 
       let(:allowed_projects) { [project] }
-      let(:allowed_urls) { ['/test'] }
+      let(:allowed_urls) { ["/test"] }
 
       let(:item) do
         parent_node = Redmine::MenuManager::MenuItem
@@ -296,7 +296,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                   <span class="ellipsis">Parent node</span>
                 </span>
               </a>
-              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend" data-test-selector="main-menu-toggler--parent_node">
                 <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
                   <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
                 </svg>
@@ -320,7 +320,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                       <span class="ellipsis">Child node</span>
                     </span>
                   </a>
-                  <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+                  <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend" data-test-selector="main-menu-toggler--child_node">
                     <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
                       <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
                     </svg>
@@ -363,40 +363,40 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
         HTML
       end
 
-      it 'renders' do
+      it "renders" do
         expect(render_menu_node(item, project))
           .to be_html_eql(expected)
       end
     end
 
-    context 'for a node with children that is not an array' do
+    context "for a node with children that is not an array" do
       let(:project) { build_stubbed(:project) }
 
       let(:allowed_projects) { [project] }
-      let(:allowed_urls) { ['/test'] }
+      let(:allowed_urls) { ["/test"] }
 
       let(:item) do
         Redmine::MenuManager::MenuItem
           .new(:parent_node,
                allowed_urls[0],
                children: Proc.new do |_p|
-                 Redmine::MenuManager::MenuItem.new('test_child',
+                 Redmine::MenuManager::MenuItem.new("test_child",
                                                     allowed_urls[0],
                                                     {})
                end)
       end
 
-      it 'causes an error' do
+      it "causes an error" do
         expect { render_menu_node(item, project) }
           .to raise_error Redmine::MenuManager::MenuError
       end
     end
   end
 
-  describe '#first_level_menu_items_for' do
+  describe "#first_level_menu_items_for" do
     let(:project) { build_stubbed(:project) }
     let(:allowed_projects) { [project] }
-    let(:allowed_urls) { ['/test'] }
+    let(:allowed_urls) { ["/test"] }
 
     let(:root_node) do
       instance_double(Redmine::MenuManager::TreeNode).tap do |root_node|
@@ -425,21 +425,21 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
               .and_return(root_node)
     end
 
-    context 'when passed a block' do
-      it 'yields three times' do
+    context "when passed a block" do
+      it "yields three times" do
         expect { |b| first_level_menu_items_for(:test_menu, project, &b) }
           .to yield_successive_args(*children)
       end
     end
 
-    context 'without a block' do
-      it 'returns the child items' do
+    context "without a block" do
+      it "returns the child items" do
         expect(first_level_menu_items_for(:test_menu, project))
           .to eq children
       end
     end
 
-    context 'with a child not being allowed' do
+    context "with a child not being allowed" do
       let(:children) do
         [Redmine::MenuManager::MenuItem.new("test_child1",
                                             allowed_urls[0],
@@ -452,13 +452,13 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                                             {})]
       end
 
-      it 'returns only the allowed child items' do
+      it "returns only the allowed child items" do
         expect(first_level_menu_items_for(:test_menu, project))
           .to eq(children.reject { |child| child == children[1] })
       end
     end
 
-    context 'with a child having an if proc returning true' do
+    context "with a child having an if proc returning true" do
       let(:children) do
         [Redmine::MenuManager::MenuItem.new("test_child1",
                                             allowed_urls[0],
@@ -471,13 +471,13 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                                             {})]
       end
 
-      it 'returns only the allowed child items' do
+      it "returns only the allowed child items" do
         expect(first_level_menu_items_for(:test_menu, project))
           .to eq children
       end
     end
 
-    context 'with a child having an if proc returning false' do
+    context "with a child having an if proc returning false" do
       let(:children) do
         [Redmine::MenuManager::MenuItem.new("test_child1",
                                             allowed_urls[0],
@@ -490,7 +490,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                                             {})]
       end
 
-      it 'returns only the allowed child items' do
+      it "returns only the allowed child items" do
         expect(first_level_menu_items_for(:test_menu, project))
           .to eq(children.reject { |child| child == children[1] })
       end

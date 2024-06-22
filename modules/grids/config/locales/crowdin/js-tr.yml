@@ -8,6 +8,7 @@ tr:
         text: "İş paketi grafiği pencere öğesi gibi bazı pencere öğeleri yalnızca Enterprise sürümünde mevcuttur."
         link: 'Enterprise sürümü.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'Özel metin'
         documents:
@@ -41,6 +42,9 @@ tr:
         subprojects:
           title: 'Alt Projeler'
           no_results: 'Alt proje yok.'
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Geçirdiğim zaman'
           displayed_days: 'Widget''te görüntülenen günler:'

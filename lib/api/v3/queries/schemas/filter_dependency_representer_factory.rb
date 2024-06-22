@@ -52,13 +52,13 @@ module API
           private
 
           @specific_conversion = {
-            CreatedAtFilter: 'DateTimeFilter',
-            UpdatedAtFilter: 'DateTimeFilter',
-            AuthorFilter: 'UserFilter',
-            ResponsibleFilter: 'ProjectMembersFilter',
-            AssignedToFilter: 'ProjectMembersFilter',
-            SharedWithUserFilter: 'AccessToProjectFilter',
-            WatcherFilter: 'UserFilter'
+            CreatedAtFilter: "DateTimeFilter",
+            UpdatedAtFilter: "DateTimeFilter",
+            AuthorFilter: "UserFilter",
+            ResponsibleFilter: "ProjectMembersFilter",
+            AssignedToFilter: "ProjectMembersFilter",
+            SharedWithUserFilter: "AccessToProjectFilter",
+            WatcherFilter: "UserFilter"
           }
 
           def representer_class(filter)
@@ -92,14 +92,14 @@ module API
             format = filter.custom_field.field_format
 
             case format
-            when 'list'
-              'API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter'
-            when 'bool'
-              'API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter'
-            when 'user', 'version', 'float'
+            when "list"
+              "API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter"
+            when "bool"
+              "API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
+            when "user", "version", "float"
               "API::V3::Queries::Schemas::#{format.camelize}FilterDependencyRepresenter"
-            when 'string'
-              'API::V3::Queries::Schemas::TextFilterDependencyRepresenter'
+            when "string", "link"
+              "API::V3::Queries::Schemas::TextFilterDependencyRepresenter"
             end
           end
 

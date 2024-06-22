@@ -3,7 +3,7 @@ name: Docker
 on:
   # build dev daily
   schedule:
-    - cron: '20 2 * * *' # Daily at 02:20
+    - cron: "20 2 * * *" # Daily at 02:20
 
   push:
     tags:
@@ -12,64 +12,153 @@ on:
     inputs:
       tag:
         description: "The tag to release. Note that this happens by default on the tag push. Only run this action when something went wrong!"
-        required: true
+        required: false
 
 permissions:
   contents: read # to fetch code (actions/checkout)
 
 env:
-  REGISTRY_IMAGE: openproject/community
+  REGISTRY_IMAGE: openproject/openproject
 
 jobs:
-  build:
-    if: github.repository == 'opf/openproject'
-    runs-on: [ self-hosted, aws, ubuntu22, x64, 2XL ]
-    strategy:
-      matrix:
-        include:
-          - platform: linux/amd64
-            target: slim
-          - platform: linux/arm64/v8
-            target: slim
-          - platform: linux/amd64
-            target: all-in-one
-          - platform: linux/ppc64le
-            bim_support: false
-            target: all-in-one
-          - platform: linux/arm64/v8
-            bim_support: false
-            target: all-in-one
+  setup:
+    runs-on: ubuntu-latest
     steps:
       - name: Extract version
         id: extract_version
         run: |
           if [[ ${{ github.event_name }} == 'push' ]]; then
             TAG_REF=${GITHUB_REF#refs/tags/}
+            CHECKOUT_REF=$GITHUB_REF
+          elif [[ ${{ github.event_name }} == 'schedule' ]]; then
+            TAG_REF=dev
+            CHECKOUT_REF=refs/heads/dev
           elif [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             TAG_REF=${{ inputs.tag }}
+            CHECKOUT_REF=${{ inputs.tag }}
+
+            if [ -z "$TAG_REF" ]; then
+              TAG_REF=dev
+              CHECKOUT_REF=dev
+            fi
+          else
+            echo "Unsupported event"
+            exit 1
           fi
-          
+
+          if [ -z "$TAG_REF" ] || [ -z "$CHECKOUT_REF" ]; then
+            echo "No TAG_REF or CHECKOUT_REF set. Aborting"
+            exit 1
+          fi
+
           VERSION=${TAG_REF#v}
           echo "Version: $VERSION"
-          echo "::set-output name=version::$VERSION"
-      - name: Checkout current release
-        if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@v3
-      - name: Checkout specific version
-        if: ${{ github.event_name != 'push' }}
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "checkout_ref=$CHECKOUT_REF" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+      - name: Cache NPM
+        uses: runs-on/cache@v4
         with:
-          ref: ${{ inputs.tag }}
-        uses: actions/checkout@v3
+          path: |
+            frontend/node_modules
+            node_modules
+          key: nodejs-x64-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: nodejs-x64-
+      - name: Cache angular
+        uses: runs-on/cache@v4
+        with:
+          path: frontend/.angular
+          key: angular-${{ github.ref }}
+          restore-keys: angular-
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+      - name: Precompile assets
+        run: |
+          ./docker/prod/setup/precompile-assets.sh
+          # public/assets will be saved as artifact, so temporarily copying config file there as well
+          cp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
+      - uses: actions/upload-artifact@v3
+        with:
+          path: public/
+          name: public-assets-${{ github.sha }}
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
+      checkout_ref: ${{ steps.extract_version.outputs.checkout_ref }}
+  build:
+    needs:
+      - setup
+    if: github.repository == 'opf/openproject'
+    runs-on:
+      labels:
+        - runs-on
+        - ssh=false
+        - run-id=${{ github.run_id }}
+        - ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          - platform: linux/amd64
+            bim_support: true
+            target: slim
+            runner: runner=4cpu-linux-x64
+          - platform: linux/arm64/v8
+            bim_support: false
+            target: slim
+            runner: runner=4cpu-linux-arm64
+          - platform: linux/amd64
+            bim_support: true
+            target: all-in-one
+            runner: runner=4cpu-linux-x64
+          - platform: linux/arm64/v8
+            bim_support: false
+            target: all-in-one
+            runner: runner=4cpu-linux-arm64
+          - platform: linux/ppc64le
+            bim_support: false
+            target: all-in-one
+            runner: runner=4cpu-linux-x64
+    steps:
+      - name: Checkout
+        with:
+          ref: ${{ needs.setup.outputs.checkout_ref }}
+        uses: actions/checkout@v4
       - name: Prepare docker files
         run: |
           cp ./docker/prod/Dockerfile ./Dockerfile
+      - name: Download precompiled public assets
+        uses: actions/download-artifact@v3
+        with:
+          name: public-assets-${{ github.sha }}
+          path: public/
+      - name: Setup precompiled assets
+        run: |
+          ls -al public/
+          mv public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json
+          ls -al config/frontend_assets.manifest.json
+          # allow precompiled assets to be injected into docker image
+          echo '' >> .dockerignore
+          echo '!/public/assets' >> .dockerignore
+          echo '!/config/frontend_assets.manifest.json' >> .dockerignore
+      - name: Add build information
+        run: |
+          echo "${{ needs.setup.outputs.checkout_ref }}" > PRODUCT_VERSION
+          echo "https://github.com/opf/openproject/commits/${{ needs.setup.outputs.checkout_ref }}" > PRODUCT_URL
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > RELEASE_DATE
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -77,11 +166,17 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          context: git
+          labels: |
+            io.artifacthub.package.readme-url=https://www.openproject.org/docs/installation-and-operations/installation/docker/
+            org.opencontainers.image.documentation=https://www.openproject.org/docs/
+            org.opencontainers.image.vendor=OpenProject GmbH
           tags: |
-            type=semver,pattern={{version}},value=${{ steps.extract_version.outputs.version }}
+            type=semver,pattern={{version}},value=${{ needs.setup.outputs.version }}
           images: |
             ${{ env.REGISTRY_IMAGE }}
       - name: Build image
+        id: build
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -93,6 +188,8 @@ jobs:
           load: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=s3,blobs_prefix=cache/${{ github.repository }}/,manifests_prefix=cache/${{ github.repository }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
+          cache-to: type=s3,blobs_prefix=cache/${{ github.repository }}/,manifests_prefix=cache/${{ github.repository }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }},mode=max
       - name: Test
         # We only test the native container. If that fails the builds for the others
         # will be cancelled as well.
@@ -104,7 +201,7 @@ jobs:
             -e SUPERVISORD_LOG_LEVEL=debug \
             -e OPENPROJECT_LOGIN__REQUIRED=false \
             -e OPENPROJECT_HTTPS=false \
-            ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+            ${{ steps.build.outputs.imageid }}
 
           sleep 60
 
@@ -121,6 +218,8 @@ jobs:
             BIM_SUPPORT=${{ matrix.bim_support }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=s3,blobs_prefix=cache/${{ github.repository }}/,manifests_prefix=cache/${{ github.repository }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
+          cache-to: type=s3,blobs_prefix=cache/${{ github.repository }}/,manifests_prefix=cache/${{ github.repository }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }},mode=max
       - name: Export digest
         run: |
           mkdir -p /tmp/digests
@@ -139,6 +238,7 @@ jobs:
       matrix:
         target: [slim, all-in-one]
     needs:
+      - setup
       - build
     steps:
       - name: Download digests
@@ -153,26 +253,26 @@ jobs:
           if [ "$suffix" = "-all-in-one" ]; then suffix="" ; fi
           echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY_IMAGE }}
           labels: |
-            io.artifacthub.package.readme-url="https://www.openproject.org/docs/installation-and-operations/installation/docker/"
-            org.opencontainers.image.documentation="https://www.openproject.org/docs/"
-            org.opencontainers.image.vendor="OpenProject GmbH"
+            io.artifacthub.package.readme-url=https://www.openproject.org/docs/installation-and-operations/installation/docker/
+            org.opencontainers.image.documentation=https://www.openproject.org/docs/
+            org.opencontainers.image.vendor=OpenProject GmbH
           flavor: |
             latest=false
             suffix=${{ steps.set_suffix.outputs.suffix }}
           tags: |
-            type=semver,pattern={{version}},value=${{ steps.extract_version.outputs.version }}
-            type=semver,pattern={{major}}.{{minor}},value=${{ steps.extract_version.outputs.version }}
-            type=semver,pattern={{major}},value=${{ steps.extract_version.outputs.version }}
+            type=semver,pattern={{version}},value=${{ needs.setup.outputs.version }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.setup.outputs.version }}
+            type=semver,pattern={{major}},value=${{ needs.setup.outputs.version }}
             type=raw,value=dev,priority=200,enable={{is_default_branch}}
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -184,3 +284,11 @@ jobs:
       - name: Inspect image
         run: |
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+  notify:
+    needs: [setup, build, merge]
+    if: ${{ always() && contains(needs.*.result, 'failure') }}
+    uses: ./.github/workflows/email-notification.yml
+    secrets: inherit
+    with:
+      subject: "Docker build failed"
+      body: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

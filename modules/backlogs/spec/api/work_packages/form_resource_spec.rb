@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Work package form resource' do
+RSpec.describe "API v3 Work package form resource" do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
@@ -42,42 +42,42 @@ RSpec.describe 'API v3 Work package form resource' do
     allow(Story).to receive(:types).and_return([work_package.type_id])
   end
 
-  describe '#post' do
-    shared_examples_for 'valid payload' do
+  describe "#post" do
+    shared_examples_for "valid payload" do
       subject { response.body }
 
       it { expect(response.status).to eq(200) }
 
-      it { is_expected.to have_json_path('_embedded/payload') }
+      it { is_expected.to have_json_path("_embedded/payload") }
 
-      it { is_expected.to have_json_path('_embedded/payload/lockVersion') }
+      it { is_expected.to have_json_path("_embedded/payload/lockVersion") }
 
-      it { is_expected.to have_json_path('_embedded/payload/subject') }
+      it { is_expected.to have_json_path("_embedded/payload/subject") }
 
-      it_behaves_like 'API V3 formattable', '_embedded/payload/description' do
-        let(:format) { 'markdown' }
+      it_behaves_like "API V3 formattable", "_embedded/payload/description" do
+        let(:format) { "markdown" }
         let(:raw) { defined?(raw_value) ? raw_value : work_package.description.to_s }
         let(:html) do
-          defined?(html_value) ? html_value : ('<p class="op-uc-p">' + work_package.description.to_s + '</p>')
+          defined?(html_value) ? html_value : ('<p class="op-uc-p">' + work_package.description.to_s + "</p>")
         end
       end
     end
 
-    shared_examples_for 'having no errors' do
+    shared_examples_for "having no errors" do
       it {
-        expect(subject.body).to be_json_eql({}.to_json).at_path('_embedded/validationErrors')
+        expect(subject.body).to be_json_eql({}.to_json).at_path("_embedded/validationErrors")
       }
     end
 
-    shared_examples_for 'having an error' do |property|
+    shared_examples_for "having an error" do |property|
       it { expect(subject.body).to have_json_path("_embedded/validationErrors/#{property}") }
 
-      describe 'error body' do
+      describe "error body" do
         let(:error_path) { "_embedded/validationErrors/#{property}" }
-        let(:error_id) { 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json }
+        let(:error_id) { "urn:openproject-org:api:v3:errors:PropertyConstraintViolation".to_json }
 
         let(:error_body) do
-          parse_json(subject.body)['_embedded']['validationErrors'][property]
+          parse_json(subject.body)["_embedded"]["validationErrors"][property]
         end
 
         it { expect(subject.body).to have_json_path(error_path) }
@@ -93,47 +93,47 @@ RSpec.describe 'API v3 Work package form resource' do
     let(:current_user) { authorized_user }
     let(:valid_params) do
       {
-        _type: 'WorkPackage',
+        _type: "WorkPackage",
         lockVersion: work_package.lock_version
       }
     end
     let(:valid_params) do
       {
-        _type: 'WorkPackage',
+        _type: "WorkPackage",
         lockVersion: work_package.lock_version
       }
     end
 
     subject(:response) { last_response }
 
-    shared_context 'post request' do
+    shared_context "post request" do
       before do
         allow(User).to receive(:current).and_return current_user
-        post post_path, (params ? params.to_json : nil), 'CONTENT_TYPE' => 'application/json'
+        post post_path, (params ? params.to_json : nil), "CONTENT_TYPE" => "application/json"
       end
     end
 
-    describe 'storyPoints' do
-      include_context 'post request'
+    describe "storyPoints" do
+      include_context "post request"
 
-      context 'valid storyPoints' do
+      context "valid storyPoints" do
         let(:params) { valid_params.merge(storyPoints: 42) }
 
-        it_behaves_like 'valid payload'
+        it_behaves_like "valid payload"
 
-        it_behaves_like 'having no errors'
+        it_behaves_like "having no errors"
 
-        it 'responds with updated story points' do
-          expect(subject.body).to be_json_eql(42.to_json).at_path('_embedded/payload/storyPoints')
+        it "responds with updated story points" do
+          expect(subject.body).to be_json_eql(42.to_json).at_path("_embedded/payload/storyPoints")
         end
       end
 
-      context 'invalid storyPoints' do
-        let(:params) { valid_params.merge(storyPoints: 'two') }
+      context "invalid storyPoints" do
+        let(:params) { valid_params.merge(storyPoints: "two") }
 
-        it_behaves_like 'valid payload'
+        it_behaves_like "valid payload"
 
-        it_behaves_like 'having an error', 'storyPoints'
+        it_behaves_like "having an error", "storyPoints"
       end
     end
   end

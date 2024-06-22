@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 4.0.5
-  sidebar_navigation:
-      title: 4.0.5
-  release_version: 4.0.5
-  release_date: 2015-01-07
+title: OpenProject 4.0.5
+sidebar_navigation:
+  title: 4.0.5
+release_version: 4.0.5
+release_date: 2015-01-07
 ---
 
 # OpenProject 4.0.5
@@ -39,8 +39,7 @@ repository):
 In the Translations plugin an error was fixed which caused translations
 in the work package table not to be displayed properly
 ([#17944](https://community.openproject.org/work_packages/17944 "Missing js files added (closed)")).  
-For a complete list of changes, please refer to the 
-[Changelog v4.0.5](https://community.openproject.org/versions/566) 
+For a complete list of changes, please refer to the
+[Changelog v4.0.5](https://community.openproject.org/versions/566)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.0.5).
-

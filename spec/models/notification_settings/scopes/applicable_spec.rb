@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe NotificationSettings::Scopes::Applicable do
-  describe '.applicable' do
+  describe ".applicable" do
     subject(:scope) { NotificationSetting.applicable(project) }
 
     let!(:user) do
@@ -40,20 +40,20 @@ RSpec.describe NotificationSettings::Scopes::Applicable do
       create(:project)
     end
 
-    context 'when only global settings exist' do
+    context "when only global settings exist" do
       let(:notification_settings) do
         [
           build(:notification_setting, project: nil)
         ]
       end
 
-      it 'returns the global settings' do
+      it "returns the global settings" do
         expect(scope)
           .to match_array(notification_settings)
       end
     end
 
-    context 'when global and project settings exist' do
+    context "when global and project settings exist" do
       let(:project_notification_settings) do
         [
           build(:notification_setting, project:)
@@ -66,13 +66,13 @@ RSpec.describe NotificationSettings::Scopes::Applicable do
       end
       let(:notification_settings) { project_notification_settings + global_notification_settings }
 
-      it 'returns the project settings' do
+      it "returns the project settings" do
         expect(scope)
           .to match_array(project_notification_settings)
       end
     end
 
-    context 'when global and project settings exist but for a different project' do
+    context "when global and project settings exist but for a different project" do
       let(:other_project) { create(:project) }
       let(:project_notification_settings) do
         [
@@ -86,7 +86,7 @@ RSpec.describe NotificationSettings::Scopes::Applicable do
       end
       let(:notification_settings) { project_notification_settings + global_notification_settings }
 
-      it 'returns the project settings' do
+      it "returns the project settings" do
         expect(scope)
           .to match_array(global_notification_settings)
       end

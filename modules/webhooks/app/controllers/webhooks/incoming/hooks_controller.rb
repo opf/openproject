@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'json'
+require "json"
 
 module Webhooks
   module Incoming
@@ -35,6 +35,9 @@ module Webhooks
 
       # Disable CSRF detection since we openly welcome POSTs here!
       skip_before_action :verify_authenticity_token
+      # Authorization cannot be applied since authentication is skipped.
+      # It is then to be ensured when handling the hook.
+      no_authorization_required! :handle_hook
 
       # Wrap the JSON body as 'payload' param
       # making it available as params[:payload]
@@ -50,7 +53,7 @@ module Webhooks
       end
 
       def handle_hook
-        hook = OpenProject::Webhooks.find(params.require('hook_name'))
+        hook = OpenProject::Webhooks.find(params.require("hook_name"))
 
         if hook
           code = hook.handle(request, params, find_current_user)

@@ -30,6 +30,15 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required" id="custom_field_name_attributes">
     <%= f.text_field :name, required: true, container_class: '-middle' %>
   </div>
+  <% if @custom_field.type == 'ProjectCustomField' %>
+    <div class="form--field -required">
+      <%= f.select :custom_field_section_id,
+                  ProjectCustomFieldSection.all.collect { |s| [s.name, s.id] },
+                  { container_class: '-slim' },
+                  required: true
+      %>
+    </div>
+  <% end %>
   <div class="form--field">
     <%= f.select :field_format,
                  custom_field_formats_for_select(@custom_field),
@@ -93,15 +102,15 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
       <div class="form--field">
         <%= render partial: "custom_fields/custom_options", locals: { custom_field: @custom_field, f: f } %>
-          <button
-            type="button"
-            class="spot-link"
-            data-test-selector="add-custom-option"
-            data-action="admin--custom-fields#addOption"
-          >
-            <span class="spot-icon spot-icon_1_25 spot-icon_add"></span>
-            <span><%= t(:button_add) %></span>
-          </button>
+        <button
+          type="button"
+          class="spot-link"
+          data-test-selector="add-custom-option"
+          data-action="admin--custom-fields#addOption"
+        >
+          <span class="spot-icon spot-icon_1_25 spot-icon_add"></span>
+          <span><%= t(:button_add) %></span>
+        </button>
       </div>
     </fieldset>
   <% end %>
@@ -142,6 +151,7 @@ See COPYRIGHT and LICENSE files for more details.
                         cols: 100,
                         rows: 20,
                         class: 'wiki-edit',
+                        macros: "none",
                         with_text_formatting: true %>
       <% end %>
     </div>

@@ -13,8 +13,7 @@ Release date: 2022-01-11
 We released [OpenProject 12.0.5](https://community.openproject.org/versions/1503).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Uploaded IFC Model can't be set as Standard Model \[[#40187](https://community.openproject.org/wp/40187)\]
 - Fixed: Git "View Differences" results in 500 error in Repository module. \[[#40191](https://community.openproject.org/wp/40191)\]
@@ -30,11 +29,10 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Unpaginated api/v3/relations end point \[[#40434](https://community.openproject.org/wp/40434)\]
 - Fixed: Header-based SSO does not allow entering missing attributes \[[#40511](https://community.openproject.org/wp/40511)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to
 
 Valentin Ege, Rene Diekstra, Jonas Plum, Frank Schmid
-
-

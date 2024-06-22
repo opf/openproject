@@ -8,7 +8,7 @@ keywords: search, find, filter, search bar
 
 # Search features
 
-There are two ways to search for work packages, documents, projects, etc. in OpenProject: The search bar and the advanced search. 
+There are two ways to search for work packages, documents, projects, etc. in OpenProject: The search bar and the advanced search.
 
 ## Search bar
 
@@ -30,7 +30,7 @@ Now, you can find the results for your search term from different categories/par
 
 ![search-result-categories](openproject_search_result_categories.png)
 
-Please note: It is not possible to find content from archived projects. You will have to un-archive them first on the [global projects overview page](../projects/#projects-list).
+Please note: It is not possible to find content from archived projects. You will have to un-archive them first on the [global projects overview page](../projects/project-lists/).
 
 ## Full text search, incl. work package attachments
 

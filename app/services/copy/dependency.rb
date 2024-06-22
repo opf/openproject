@@ -38,7 +38,7 @@ module Copy
     ##
     # Identifier of this dependency to include/exclude
     def self.identifier
-      name.demodulize.gsub('DependentService', '').underscore
+      name.demodulize.gsub("DependentService", "").underscore
     end
 
     ##

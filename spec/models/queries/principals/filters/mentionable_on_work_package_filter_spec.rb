@@ -28,15 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Principals::Filters::MentionableOnWorkPackageFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :mentionable_on_work_package }
     let(:type) { :list_optional }
 
-    describe '#scope' do
-      subject { instance.scope }
+    describe "#scope" do
+      subject { instance.apply_to(Principal) }
 
       shared_let(:project) { create(:project) }
       shared_let(:other_project) { create(:project) }
@@ -67,10 +67,10 @@ RSpec.describe Queries::Principals::Filters::MentionableOnWorkPackageFilter do
                 .and_return(user)
       end
 
-      context 'with an = operator' do
-        let(:operator) { '=' }
+      context "with an = operator" do
+        let(:operator) { "=" }
 
-        it 'returns all mentionable principals on the work package and its project' do
+        it "returns all mentionable principals on the work package and its project" do
           expect(subject)
             .to contain_exactly(user,
                                 mentionable_shared_with_user,
@@ -78,10 +78,10 @@ RSpec.describe Queries::Principals::Filters::MentionableOnWorkPackageFilter do
         end
       end
 
-      context 'with a ! operator' do
-        let(:operator) { '!' }
+      context "with a ! operator" do
+        let(:operator) { "!" }
 
-        it 'returns all non-mentionable users on the work package and its project' do
+        it "returns all non-mentionable users on the work package and its project" do
           expect(subject)
             .to contain_exactly(non_mentionable_shared_with_user)
         end

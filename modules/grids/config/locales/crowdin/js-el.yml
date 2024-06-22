@@ -8,6 +8,7 @@ el:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'Προσαρμοσμένο κείμενο'
         documents:
@@ -41,6 +42,9 @@ el:
         subprojects:
           title: 'Υποέργα'
           no_results: 'Δεν υπάρχουν υποέργα.'
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Ο δικός μου χρόνος που δαπανήθηκε'
           displayed_days: 'Ημέρες που εμφανίζονται στο widget:'

@@ -26,22 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../show'
+require_relative "../show"
 
 module Pages::StructuredMeeting::Mobile
   class Show < ::Pages::StructuredMeeting::Show
     def expect_participants(count: 1)
       within(meeting_details_container) do
         expect(page).to have_text(Meeting.human_attribute_name(:participant, count:))
-        expect(page).to have_button("Show all")
+        expect(page).to have_link("Show all")
       end
     end
 
     def open_participant_form
       within(meeting_details_container) do
-        click_button "Show all"
+        click_link_or_button "Show all"
       end
-      expect(page).to have_css('#meetings-sidebar-participants-form-component')
+      expect(page).to have_css("#edit-participants-dialog")
     end
   end
 end

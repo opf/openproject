@@ -13,14 +13,15 @@ keywords: files, attachment, Nextcloud, OneDrive, SharePoint
 | [Manual upload](#manual-upload)                                                      | How to manually upload files to work packages in OpenProject.             |
 | [Nextcloud integration](#nextcloud-integration)                                      | How to manage files using Nextcloud integration in OpenProject.           |
 | [OneDrive/SharePoint integration](#onedrivesharepoint-integration-enterprise-add-on) | How to manage files using OneDrive/Sharepoint integration in OpenProject. |
+| [File management FAQs](./file-management-faq)                                        | Frequently asked questions on file management in OpenProject.             |
 
 There are several ways of adding or linking files to work packages in OpenProject. You can manually attach files directly to work packages or use one of the integrations with file management systems.
 
-> Note: in order to use Nextcloud or OneDrive/SharePoint integrations you first need to activate the [File storages module](../projects/project-settings/file-storages/) in your project settings.
+> Note: in order to use Nextcloud or OneDrive/SharePoint integrations you first need to activate the [File storages module](../projects/project-settings/files/) in your project settings.
 
 ## Manual upload
 
-For the manual upload please refer to documentation on [attaching files to work packages](../work-packages/create-work-package/#add-attachments-to-work-packages). 
+For the manual upload please refer to documentation on [attaching files to work packages](../work-packages/create-work-package/#add-attachments-to-work-packages).
 
 ## Nextcloud integration
 
@@ -39,4 +40,3 @@ You can also use OneDrive/SharePoint integration to link OpenProject work packag
 Please refer to [OneDrive/SharePoint integration user guide](./one-drive-integration) for further instructions on using the integration.
 
 For the initial setup please refer to the [OneDrive/SharePoint integration setup guide](../../system-admin-guide/integrations/one-drive/).
-

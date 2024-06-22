@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::WikiDiff do
   include ActionView::Helpers::TagHelper
@@ -42,7 +42,7 @@ RSpec.describe OpenProject::JournalFormatter::WikiDiff do
   let(:project) { build_stubbed(:project) }
   let(:wiki) { build_stubbed(:wiki, project:) }
   let(:wiki_page) do
-    build_stubbed(:wiki_page, wiki:, slug: 'test-slug', text: '').tap do |page|
+    build_stubbed(:wiki_page, wiki:, slug: "test-slug", text: "").tap do |page|
       allow(page).to receive(:project).and_return(project)
     end
   end
@@ -52,7 +52,7 @@ RSpec.describe OpenProject::JournalFormatter::WikiDiff do
                   version: 1)
   end
   let(:wiki_instance) { klass.new(wiki_journal) }
-  let(:wiki_key) { 'text' }
+  let(:wiki_key) { "text" }
   let(:path) do # path
     url_helper.wiki_diff_compare_project_wiki_path(id: wiki_page.slug,
                                                    project_id: project.identifier,
@@ -67,18 +67,18 @@ RSpec.describe OpenProject::JournalFormatter::WikiDiff do
                                                   protocol: Setting.protocol,
                                                   host: Setting.host_name)
   end
-  let(:link) { link_to(I18n.t(:label_details), path, class: 'description-details') }
-  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: 'description-details') }
+  let(:link) { link_to(I18n.t(:label_details), path, class: "diff-details", target: "_top") }
+  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: "diff-details") }
 
-  describe '#render' do
-    describe 'a wiki diff for a wiki journal correctly' do
+  describe "#render" do
+    describe "a wiki diff for a wiki journal correctly" do
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
                label: "<strong>#{wiki_key.camelize}</strong>",
                link:)
       end
 
-      it { expect(wiki_instance.render(wiki_key, ['old value', 'new value'])).to eq(expected) }
+      it { expect(wiki_instance.render(wiki_key, ["old value", "new value"])).to be_html_eql(expected) }
     end
   end
 end

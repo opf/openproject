@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package timeline navigation',
+RSpec.describe "Work package timeline navigation",
                :js,
                :selenium do
   let(:user) { create(:admin) }
@@ -61,7 +61,7 @@ RSpec.describe 'Work package timeline navigation',
     login_as(user)
   end
 
-  describe 'with multiple queries' do
+  describe "with multiple queries" do
     let(:type) { create(:type) }
     let(:type2) { create(:type) }
     let(:project) { create(:project, enabled_module_names:, types: [type, type2]) }
@@ -80,11 +80,11 @@ RSpec.describe 'Work package timeline navigation',
 
     let!(:query) do
       query = build(:query_with_view_work_packages_table, user:, project:)
-      query.column_names = ['id', 'type', 'subject']
+      query.column_names = ["id", "type", "subject"]
       query.filters.clear
       query.timeline_visible = false
-      query.add_filter('type_id', '=', [type.id])
-      query.name = 'Query without Timeline'
+      query.add_filter("type_id", "=", [type.id])
+      query.name = "Query without Timeline"
 
       query.save!
       create(:view_work_packages_table,
@@ -95,11 +95,11 @@ RSpec.describe 'Work package timeline navigation',
 
     let!(:query_tl) do
       query = build(:query_with_view_gantt, user:, project:)
-      query.column_names = ['id', 'type', 'subject']
+      query.column_names = ["id", "type", "subject"]
       query.filters.clear
-      query.add_filter('type_id', '=', [type2.id])
+      query.add_filter("type_id", "=", [type2.id])
       query.timeline_visible = true
-      query.name = 'Query with Timeline'
+      query.name = "Query with Timeline"
 
       query.save!
       create(:view_gantt,
@@ -108,7 +108,7 @@ RSpec.describe 'Work package timeline navigation',
       query
     end
 
-    it 'can move from and to the timeline query (Regression test #26086)' do
+    it "can move from and to the timeline query (Regression test #26086)" do
       # Visit timeline query
       wp_timeline.visit_query query_tl
 
@@ -117,8 +117,8 @@ RSpec.describe 'Work package timeline navigation',
       wp_timeline.ensure_work_package_not_listed! work_package
 
       # Navigate to the WP module
-      find('.main-menu--arrow-left-to-project').click
-      find('#main-menu-work-packages-wrapper .main-menu-toggler').click
+      find(".main-menu--arrow-left-to-project").click
+      page.find_test_selector("main-menu-toggler--work_packages").click
 
       # Select other query
       query_menu.select query
@@ -127,8 +127,8 @@ RSpec.describe 'Work package timeline navigation',
       wp_table.ensure_work_package_not_listed! work_package2
 
       # Navigate to the Gantt module agin
-      find('.main-menu--arrow-left-to-project').click
-      find('#main-menu-gantt-wrapper .main-menu-toggler').click
+      find(".main-menu--arrow-left-to-project").click
+      page.find_test_selector("main-menu-toggler--gantt").click
 
       # Select first query again
       query_menu.click_item query_tl.name
@@ -138,7 +138,7 @@ RSpec.describe 'Work package timeline navigation',
       wp_timeline.ensure_work_package_not_listed! work_package
     end
 
-    it 'can open a context menu in the timeline (Regression #30761)' do
+    it "can open a context menu in the timeline (Regression #30761)" do
       # Visit timeline query
       wp_timeline.visit_query query_tl
 
@@ -148,14 +148,14 @@ RSpec.describe 'Work package timeline navigation',
 
       retry_block do
         find(".wp-row-#{work_package2.id}-timeline").right_click
-        find('.menu-item', text: 'Add predecessor')
-        find('.menu-item', text: 'Add follower')
+        find(".menu-item", text: "Add predecessor")
+        find(".menu-item", text: "Add follower")
       end
     end
   end
 
-  describe 'with the default query' do
-    let(:closed_status) { create(:closed_status, name: 'Closed') }
+  describe "with the default query" do
+    let(:closed_status) { create(:closed_status, name: "Closed") }
     let(:project) { create(:project, types: [milestone_type], enabled_module_names:) }
 
     let!(:wp_milestone) do
@@ -169,7 +169,7 @@ RSpec.describe 'Work package timeline navigation',
              status: closed_status)
     end
 
-    it 'shows the timeline open initially' do
+    it "shows the timeline open initially" do
       wp_timeline.visit!
       loading_indicator_saveguard
 
@@ -183,7 +183,7 @@ RSpec.describe 'Work package timeline navigation',
     end
   end
 
-  it 'can save the open state and zoom of timeline' do
+  it "can save the open state and zoom of timeline" do
     wp_timeline.visit_query query
     wp_timeline.expect_work_package_listed(work_package)
 
@@ -202,13 +202,13 @@ RSpec.describe 'Work package timeline navigation',
     wp_timeline.expect_zoom_at :weeks
 
     # Save the query
-    settings_menu.open_and_save_query_as 'foobar'
-    wp_timeline.expect_title 'foobar'
+    settings_menu.open_and_save_query_as "foobar"
+    wp_timeline.expect_title "foobar"
 
     # Check the query
     query = Query.last
     expect(query.timeline_visible).to be_truthy
-    expect(query.timeline_zoom_level).to eq 'weeks'
+    expect(query.timeline_zoom_level).to eq "weeks"
 
     # Revisit page
     wp_timeline.visit_query query
@@ -225,13 +225,13 @@ RSpec.describe 'Work package timeline navigation',
 
     # Save
     wp_timeline.save
-    wp_timeline.expect_and_dismiss_toaster message: 'Successful update'
+    wp_timeline.expect_and_dismiss_toaster message: "Successful update"
 
     query.reload
-    expect(query.timeline_zoom_level).to eq 'auto'
+    expect(query.timeline_zoom_level).to eq "auto"
   end
 
-  describe 'with a hierarchy being shown' do
+  describe "with a hierarchy being shown" do
     let!(:child_work_package) do
       create(:work_package,
              project:,
@@ -250,7 +250,7 @@ RSpec.describe 'Work package timeline navigation',
       query
     end
 
-    it 'toggles the hierarchy in both views' do
+    it "toggles the hierarchy in both views" do
       wp_timeline.visit_query query
       loading_indicator_saveguard
       wp_timeline.expect_work_package_listed(work_package)
@@ -273,10 +273,10 @@ RSpec.describe 'Work package timeline navigation',
     end
   end
 
-  describe 'when table is grouped' do
+  describe "when table is grouped" do
     let(:project) { create(:project) }
-    let(:category) { create(:category, project:, name: 'Foo') }
-    let(:category2) { create(:category, project:, name: 'Bar') }
+    let(:category) { create(:category, project:, name: "Foo") }
+    let(:category2) { create(:category, project:, name: "Bar") }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
     let(:relations) { Components::WorkPackages::Relations.new(wp_cat1) }
 
@@ -301,7 +301,7 @@ RSpec.describe 'Work package timeline navigation',
              type: milestone_type,
              start_date: Date.current - 10.days,
              due_date: Date.current - 10.days,
-             subject: 'My milestone')
+             subject: "My milestone")
     end
 
     let!(:wp_none) do
@@ -318,7 +318,7 @@ RSpec.describe 'Work package timeline navigation',
 
     let!(:query) do
       query = build(:query_with_view_gantt, user:, project:)
-      query.column_names = ['id', 'subject', 'category']
+      query.column_names = ["id", "subject", "category"]
       query.show_hierarchies = false
       query.timeline_visible = true
 
@@ -326,33 +326,33 @@ RSpec.describe 'Work package timeline navigation',
       query
     end
 
-    it 'mirrors group handling when grouping by category' do
+    it "mirrors group handling when grouping by category" do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
 
-      group_by.enable_via_menu 'Category'
+      group_by.enable_via_menu "Category"
 
       # Expect table to be grouped as WP created above
-      expect(page).to have_css('.group--value .count', count: 3)
+      expect(page).to have_css(".group--value .count", count: 3)
 
       # Expect timeline to have relation between first and second group
       wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
 
       # Collapse Foo section
-      header = find('.wp-table--group-header', text: 'Foo (1)')
-      header.find('.expander').click
+      header = find(".wp-table--group-header", text: "Foo (1)")
+      header.find(".expander").click
       wp_timeline.ensure_work_package_not_listed!(wp_cat1)
 
       # Relation should be hidden
       wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
     end
 
-    it 'removes the relation element when removed in split screen' do
+    it "removes the relation element when removed in split screen" do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
 
       # Expect timeline to have relation between first and second group
-      within('.work-packages-split-view--tabletimeline-side') do
+      within(".work-packages-split-view--tabletimeline-side") do
         wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
         wp_timeline.expect_timeline_element(wp_cat1)
         wp_timeline.expect_timeline_element(wp_cat2)
@@ -364,32 +364,32 @@ RSpec.describe 'Work package timeline navigation',
       relations.remove_relation(wp_cat2)
 
       # Relation should be removed in TL
-      within('.work-packages-split-view--tabletimeline-side') do
+      within(".work-packages-split-view--tabletimeline-side") do
         wp_timeline.expect_timeline_element(wp_cat1)
         wp_timeline.expect_timeline_element(wp_cat2)
         wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
       end
     end
 
-    it 'shows milestone icons on collapsed project group rows but not on expanded ones' do
+    it "shows milestone icons on collapsed project group rows but not on expanded ones" do
       wp_table.visit_query(query)
 
       # The button to fold/expand all groups is only present when grouping
       expect(page)
-        .to have_no_button('wp-fold-toggle-button')
+        .to have_no_button("wp-fold-toggle-button")
 
-      group_by.enable_via_menu 'Project'
+      group_by.enable_via_menu "Project"
 
       # Collapse Foo section
-      find('.wp-table--group-header', text: 'My Project No.')
-        .find('.expander')
+      find(".wp-table--group-header", text: "My Project No.")
+        .find(".expander")
         .click
 
       # Folding will lead to having milestones presented within the group row
-      expect(page).to have_css('.-group-row .timeline-element.milestone')
+      expect(page).to have_css(".-group-row .timeline-element.milestone")
 
       # Check hover labels (milestone)
-      milestone = find('.timeline-element.milestone')
+      milestone = find(".timeline-element.milestone")
       milestone.hover
 
       expect(milestone).to have_css(".labelHoverLeft.not-empty")
@@ -399,17 +399,17 @@ RSpec.describe 'Work package timeline navigation',
       expect(milestone).to have_css(".labelFarRight", visible: :hidden)
 
       # Unfold Group rows
-      find('.wp-table--group-header', text: 'My Project No.')
-        .find('.expander')
+      find(".wp-table--group-header", text: "My Project No.")
+        .find(".expander")
         .click
 
-      expect(page).to have_no_css('.-group-row .timeline-element')
+      expect(page).to have_no_css(".-group-row .timeline-element")
 
-      click_button('wp-fold-toggle-button')
-      click_button(I18n.t('js.button_collapse_all'))
+      click_button("wp-fold-toggle-button")
+      click_button(I18n.t("js.button_collapse_all"))
 
       # Will again fold all rows so the milestone elements should again be present
-      expect(page).to have_css('.-group-row .timeline-element.milestone')
+      expect(page).to have_css(".-group-row .timeline-element.milestone")
     end
   end
 end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Overviews::OverviewsController do
   let(:permissions) do
@@ -54,24 +54,24 @@ RSpec.describe Overviews::OverviewsController do
     login_as current_user
   end
 
-  describe '#show' do
-    context 'with jump parameter' do
-      it 'redirects to active tab' do
-        get :show, params: { project_id: project.id, jump: 'news' }
+  describe "#show" do
+    context "with jump parameter" do
+      it "redirects to active tab" do
+        get :show, params: { project_id: project.id, jump: "news" }
 
         expect(response)
           .to redirect_to main_app_routes.project_news_index_path(project)
       end
 
-      it 'ignores inactive/unpermitted module' do
-        get :show, params: { project_id: project.id, jump: 'work_packages' }
+      it "ignores inactive/unpermitted module" do
+        get :show, params: { project_id: project.id, jump: "work_packages" }
 
         expect(response)
           .to be_successful
       end
 
-      it 'ignores bogus module' do
-        get :show, params: { project_id: project.id, jump: 'foobar' }
+      it "ignores bogus module" do
+        get :show, params: { project_id: project.id, jump: "foobar" }
 
         expect(response)
           .to be_successful

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Task do
   let(:task_type) { create(:type) }
@@ -42,10 +42,10 @@ RSpec.describe Task do
   before do
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-            .and_return({ 'task_type' => task_type.id.to_s })
+            .and_return({ "task_type" => task_type.id.to_s })
   end
 
-  describe 'having custom journables', with_settings: { journal_aggregation_time_minutes: 0 } do
+  describe "having custom journables", with_settings: { journal_aggregation_time_minutes: 0 } do
     let(:user) { create(:user) }
     let(:role) do
       create(:project_role, permissions: %i[add_work_packages manage_subtasks manage_work_packages view_work_packages])
@@ -56,16 +56,16 @@ RSpec.describe Task do
       project.members << member
     end
 
-    describe 'with unchanged custom field' do
-      let(:custom_field) { create(:work_package_custom_field, name: 'TestingCustomField', field_format: 'text') }
+    describe "with unchanged custom field" do
+      let(:custom_field) { create(:work_package_custom_field, name: "TestingCustomField", field_format: "text") }
 
       before do
         project.work_package_custom_fields << custom_field
         task_type.custom_fields << custom_field
       end
 
-      it 'must have the same journal when resaved' do
-        task.custom_field_values = { custom_field.id => 'Example CF text' }
+      it "must have the same journal when resaved" do
+        task.custom_field_values = { custom_field.id => "Example CF text" }
         task.save!
 
         expect(task.journals.last.customizable_journals.count).to eq 1
@@ -81,10 +81,10 @@ RSpec.describe Task do
       end
     end
 
-    describe 'with attachment' do
+    describe "with attachment" do
       let(:attachment) { build(:attachment) }
 
-      it 'must have the same journal when resaved' do
+      it "must have the same journal when resaved" do
         task.attachments << attachment
         task.save!
 

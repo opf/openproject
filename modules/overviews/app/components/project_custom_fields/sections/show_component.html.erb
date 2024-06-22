@@ -1,0 +1,39 @@
+<%=
+  component_wrapper do
+    flex_layout(border: :bottom, pb: 2, classes: 'op-project-custom-field-section-container', data: {
+      test_selector: "project-custom-field-section-#{@project_custom_field_section.id}"
+    }) do |details_container|
+      details_container.with_row(mb: 2) do
+        flex_layout(align_items: :center, justify_content: :space_between) do |heading|
+          heading.with_column(flex: 1) do
+            render(Primer::Beta::Heading.new(tag: :h4)) { @project_custom_field_section.name }
+          end
+
+          heading.with_column do
+            render(Primer::Beta::IconButton.new(
+              icon: :pencil,
+              tag: :a,
+              href: project_custom_field_section_dialog_path(project_id: @project.id, section_id: @project_custom_field_section.id),
+              data: {
+                controller: 'async-dialog'
+              },
+              scheme: :invisible,
+              button_icon: :pencil,
+              test_selector: "project-custom-field-section-edit-button",
+              aria: { label: I18n.t(:label_edit) },
+            ))
+          end if allowed_to_edit?
+        end
+      end
+
+      @project_custom_fields.each do |project_custom_field|
+        details_container.with_row(mb: 3) do
+          render(ProjectCustomFields::Sections::ProjectCustomFields::ShowComponent.new(
+            project_custom_field:,
+            project_custom_field_values: get_eager_loaded_project_custom_field_values_for(project_custom_field.id)
+          ))
+        end
+      end
+    end
+  end
+%>

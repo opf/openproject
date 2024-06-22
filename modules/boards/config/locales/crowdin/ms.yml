@@ -1,0 +1,39 @@
+#English strings go here
+ms:
+  plugin_openproject_boards:
+    name: "Board OpenProject"
+    description: "Menyediakan paparan board."
+  permission_show_board_views: "Paparkan board"
+  permission_manage_board_views: "Urus papan"
+  project_module_board_view: "Board"
+  boards:
+    label_board: "Board"
+    label_boards: "Board"
+    label_create_new_board: "Cipta board baru"
+    label_board_type: "Jenis board"
+    board_types:
+      free: "Asas\n"
+      action: "Board tindakan (%{attribute})"
+    board_type_attributes:
+      assignee: Penerima tugasan
+      status: Status
+      version: Versi
+      subproject: Subprojek
+      subtasks: Induk-anak
+      basic: Asas
+    board_type_descriptions:
+      basic: >
+        Bermula dari awal dengan board kosong. Tambah kad dan kolum secara manual kepada board ini.
+      status: >
+        Board gaya kanban asas dengan kolum untuk status seperti Untuk Dilakukan, Dalam Pelaksanaan, Selesai.
+      assignee: >
+        Board dengan kolum automatik berdasarkan pengguna yang ditentukan. Ideal untuk penghantaran pakej kerja.
+      version: >
+        Board dengan kolum automatik berdasarkan versi atribut. Ideal untuk merancang pembangunan produk.
+      subproject: >
+        Board dengan kolum automatik untuk subprojek. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
+      subtasks: >
+        Board dengan kolum automatik untuk sub-elements. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
+    upsale:
+      teaser_text: 'Adakah anda ingin mengautomasikan aliran kerja dengan Board? Board lanjutan ada di dalam tambahan Enterprise. Sila naik taraf ke pelan berbayar.'
+      upgrade: 'Naik taraf sekarang'

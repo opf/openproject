@@ -28,7 +28,8 @@
 
 import { ID } from '@datorama/akita';
 import {
-  IFormattable, IHalMethodResourceLink,
+  IFormattable,
+  IHalMethodResourceLink,
   IHalResourceLink,
   IHalResourceLinks,
 } from 'core-app/core/state/hal-resource';
@@ -55,6 +56,7 @@ export interface IAttachmentUploadHalResourceLinks extends IAttachmentHalResourc
 export interface IAttachment {
   id:ID;
   title:string;
+  status:string;
   fileName:string;
   fileSize:number;
   description:IFormattable;

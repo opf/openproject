@@ -7,7 +7,8 @@ keywords: team planner, planning, calendar, resource management, assign, team vi
 ---
 
 # Team planner
-The team planner module helps you get a complete overview of what each member of your team is working on in weekly or biweekly view. You can use it track the current progress of work packages your team is working on, schedule new tasks, reschedule them or even reassign them to different members.
+
+The team planner module helps you get a complete overview of what each member of your team is working on. You can use it to track the current progress of work packages your team is working on, schedule new tasks, reschedule them or even reassign them to different members.
 
 ![Example team planner showing a two-week view of work packages assigned to team members](TeamPlanner-12.4-twoWeeks.png)
 
@@ -25,7 +26,7 @@ To use this module, you must have the work packages module enabled.
 | [Work package detail view](#work-package-details-view)                       | View or edit a specific work package                                 |
 | [Removing a work package](#remove-a-work-package)                            | Removing (unscheduling) visible work packages                        |
 
-<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Team-Planner.mp4" type="video/mp4" controls="" style="width:100%"></video>
+![Video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Team-Planner.mp4)
 
 ## Module overview
 
@@ -41,7 +42,6 @@ Clicking on the **Team planners** entry on the left sidebar takes you to the tea
 
 > **Info**: Both *public* and *private* team planners can be added as **favored** planners; they will then appear under the **Favorite** heading in the menu bar.
 
-
 ## Team planner basics
 
 ![A screenshot of an example team planner with different functions highlighted](TeamPlanner-12.4-oneWeek.png)
@@ -55,7 +55,7 @@ A team planner has a number of features numbered 1 to 8 in the above screenshot:
 5. Use the **Filter** feature (same as in the [work packages](../work-packages/work-package-table-configuration/#filter-work-packages) module) to display only work packages that meet certain filter criteria. You could, for example, filter such that only work packages of certain types, certain status or certain custom field values are visible.
 6. The **Fullscreen** button lets you view the team planner in fullscreen mode.
 7. The  **\[⋮\]** (more) button gives you additional options, such as saving, renaming and saving a copy (saving as), or deleting the team planner. This is also where you can modify the visibility options.
-8. By default the team planner only shows the [work week](../../system-admin-guide/calendars-and-dates/#working-days) (week excluding the weekend and non-working days). Use the drop down to toggle between work week, 1-week and 2-week views. With the arrows you can navigate the weeks back and forth. The Today button brings you to the current week.
+8. By default the team planner only shows the [work week](../../system-admin-guide/calendars-and-dates/#working-days-and-hours) (week excluding the weekend and non-working days). Use the drop down to toggle between work week, 1-week, 2-week, 4-week or 8-week views. With the arrows you can navigate the weeks back and forth. The Today button brings you to the current week.
 
 > **Note**: The team planner will highlight non-working days in the calendar with a darker background color. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the "Working days only" switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
 
@@ -92,7 +92,6 @@ You can create a new work package for a particular member of your team by clicki
 A **new work package dialog** will open. The assignee, start and finish dates will already be set based on where you clicked to create the work package. You can add any additional details, such as subject, work package type, a description and add attachments. Scrolling further down on the split screen also gives you access to other attributes such as cost and time and custom fields that might exist.
 
 ![An example of the new work package split screen view](TeamPlanner-12.4-newTask-splitScreen.png)
-
 
 #### Add an existing work package
 

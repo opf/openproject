@@ -76,21 +76,23 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
 
   def self.strategy(custom_field)
     case custom_field.field_format
-    when 'string'
+    when "string"
       CustomActions::Actions::Strategies::String
-    when 'text'
+    when "text"
       CustomActions::Actions::Strategies::Text
-    when 'int'
+    when "link"
+      CustomActions::Actions::Strategies::Link
+    when "int"
       CustomActions::Actions::Strategies::Integer
-    when 'float'
+    when "float"
       CustomActions::Actions::Strategies::Float
-    when 'date'
+    when "date"
       CustomActions::Actions::Strategies::Date
-    when 'bool'
+    when "bool"
       CustomActions::Actions::Strategies::Boolean
-    when 'user'
+    when "user"
       CustomActions::Actions::Strategies::UserCustomField
-    when 'list', 'version'
+    when "list", "version"
       CustomActions::Actions::Strategies::AssociatedCustomField
     end
   end

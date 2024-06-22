@@ -31,7 +31,7 @@ module API
     module JobStatus
       class JobStatusAPI < ::API::OpenProjectAPI
         resources :job_statuses do
-          route_param :job_id, type: String, desc: 'Job UUID' do
+          route_param :job_id, type: String, desc: "Job UUID" do
             after_validation do
               @job = ::JobStatus::Status
                 .find_by(job_id: params[:job_id], user_id: current_user.id)

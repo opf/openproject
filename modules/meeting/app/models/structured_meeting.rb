@@ -27,13 +27,18 @@
 #++
 
 class StructuredMeeting < Meeting
-  has_many :agenda_items, dependent: :destroy, foreign_key: 'meeting_id', class_name: 'MeetingAgendaItem'
+  has_many :agenda_items,
+           dependent: :destroy,
+           foreign_key: "meeting_id",
+           class_name: "MeetingAgendaItem",
+           inverse_of: :meeting
+  accepts_nested_attributes_for :agenda_items
 
   # triggered by MeetingAgendaItem#after_create/after_destroy/after_save
   def calculate_agenda_item_time_slots
     current_time = start_time
     MeetingAgendaItem.transaction do
-      changed_items = agenda_items.order(:position).map do |top|
+      changed_items = agenda_items.includes(:meeting_section).reorder("meeting_sections.position", :position).map do |top|
         start_time = current_time
         current_time += top.duration_in_minutes&.minutes || 0.minutes
         end_time = current_time

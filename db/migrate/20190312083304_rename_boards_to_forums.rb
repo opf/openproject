@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'tables/forums'
+require_relative "tables/forums"
 
 class RenameBoardsToForums < ActiveRecord::Migration[5.2]
   def up
@@ -39,9 +39,9 @@ class RenameBoardsToForums < ActiveRecord::Migration[5.2]
     rename_column :message_journals, :board_id, :forum_id
 
     # Rename string references in DB to forums
-    EnabledModule.where(name: 'boards').update_all(name: 'forums')
-    RolePermission.where(permission: 'manage_boards').update_all(permission: 'manage_forums')
-    Watcher.where(watchable_type: 'Board').update_all(watchable_type: 'Forum')
+    EnabledModule.where(name: "boards").update_all(name: "forums")
+    RolePermission.where(permission: "manage_boards").update_all(permission: "manage_forums")
+    Watcher.where(watchable_type: "Board").update_all(watchable_type: "Forum")
 
     # Finally, drop the old table
     drop_table :boards
@@ -54,8 +54,8 @@ class RenameBoardsToForums < ActiveRecord::Migration[5.2]
     rename_column :message_journals, :forum_id, :board_id
 
     # Rename back items
-    EnabledModule.where(name: 'forums').update_all(name: 'boards')
-    RolePermission.where(permission: 'manage_forums').update_all(permission: 'manage_boards')
-    Watcher.where(watchable_type: 'Forum').update_all(watchable_type: 'Board')
+    EnabledModule.where(name: "forums").update_all(name: "boards")
+    RolePermission.where(permission: "manage_forums").update_all(permission: "manage_boards")
+    Watcher.where(watchable_type: "Forum").update_all(watchable_type: "Board")
   end
 end

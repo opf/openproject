@@ -32,7 +32,7 @@ module OpenProject
       VALID_TYPES = %i[seconds minutes hours days weeks months years].freeze
       attr_reader :duration, :abbreviated, :separator
 
-      def initialize(duration, type = :seconds, separator: ', ', abbreviated: false, **args)
+      def initialize(duration, type = :seconds, separator: ", ", abbreviated: false, **args)
         super
 
         @duration = parse_duration(duration, type)
@@ -42,9 +42,11 @@ module OpenProject
       end
 
       def call
-        render(Primer::Beta::Text.new) do
-          localized_parts.join(separator)
-        end
+        render(Primer::Beta::Text.new) { text }
+      end
+
+      def text
+        localized_parts.join(separator)
       end
 
       private

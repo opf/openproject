@@ -41,6 +41,11 @@ de:
           name: Spezifikation
         item_2:
           name: Andere
+      project_query_roles:
+        item_0:
+          name: Projektabfrage-Viewer
+        item_1:
+          name: Projektabfrage-Editor
       work_package_roles:
         item_0:
           name: Arbeitspaket-Bearbeiter
@@ -251,6 +256,21 @@ de:
                     * [ ] Noch mehr Bier
             item_4:
               subject: Projektende
+          wiki: |
+            _In diesem Wiki können Sie gemeinsam Seiten und Unterseiten erstellen und bearbeiten um ein Projekt-Wiki zu erstellen.
+
+            **Sie können:**
+
+            * Text und Bilder einfügen, auch durch Kopieren und Einfügen aus anderen Dokumenten
+            * Eine Seitenhierarchie mit übergeordneten Seiten erstellen
+            * Wiki-Seiten in das Projektmenü einbinden
+            * Makros verwenden, um z. B. Inhaltsverzeichnisse, Arbeitspaketlisten oder Gliederungspläne einzubindenz.B. Inhaltsverzeichnisse, Arbeitspaketlisten oder Gantt-Diagramme
+            * Wiki-Seiten in andere Textfelder einbinden, z.B. Projektübersichtsseite
+            * Links zu anderen Dokumenten einbinden
+            * Änderungshistorie anzeigen
+            * Als Markdown anzeigen
+
+            Weitere Informationen: [https://www.openproject.org/de/docs/nutzungshandbuch/wiki/](https://www.openproject.org/de/docs/nutzungshandbuch/wiki/)
         scrum-project:
           name: Scrum-Projekt
           status_explanation: Alle Aufgaben sind im Zeitplan. Die Beteiligten kennen ihre Aufgaben. Das System ist komplett eingerichtet.

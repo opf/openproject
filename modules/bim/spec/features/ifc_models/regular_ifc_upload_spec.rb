@@ -26,11 +26,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative 'ifc_upload_shared_examples'
+require "spec_helper"
+require_relative "ifc_upload_shared_examples"
 
-RSpec.describe 'IFC upload', :js, with_config: { edition: 'bim' } do
-  it_behaves_like 'can upload an IFC file' do
-    let(:model_name) { 'minimal.ifc' }
+RSpec.describe "IFC upload", :js, with_config: { edition: "bim" } do
+  it_behaves_like "can upload an IFC file" do
+    let(:model_name) { "minimal.ifc" }
+
+    context "when the file size exceeds the allowed maximum", with_settings: { attachment_max_size: 1 } do
+      it "renders an error message" do
+        visit new_bcf_project_ifc_model_path(project_id: project.identifier)
+
+        page.attach_file("file", ifc_fixture.path, visible: :all)
+
+        click_on "Create"
+
+        expect(page).to have_content("IFC file is too large (maximum size is 1024 Bytes).")
+      end
+    end
   end
 end

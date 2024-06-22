@@ -45,7 +45,7 @@ module WorkPackages
       # or be passive and work like a select inside a form.
       def update_path
         if share.persisted?
-          work_packages_share_path(share)
+          url_for([share.entity, share])
         end
       end
 
@@ -54,7 +54,7 @@ module WorkPackages
       end
 
       def wrapper_uniq_by
-        share.id || @system_arguments.dig(:data, :'test-selector')
+        share.id || @system_arguments.dig(:data, :"test-selector")
       end
 
       private
@@ -72,13 +72,13 @@ module WorkPackages
       end
 
       def permission_name(value)
-        options.select { |option| option[:value] == value }
+        options.find { |option| option[:value] == value }[:label]
       end
 
       def form_inputs(role_id)
         [].tap do |inputs|
-          inputs << { name: 'role_ids[]', value: role_id }
-          inputs << { name: 'filters', value: params[:filters] } if params[:filters]
+          inputs << { name: "role_ids[]", value: role_id }
+          inputs << { name: "filters", value: params[:filters] } if params[:filters]
         end
       end
     end

@@ -34,7 +34,7 @@ module Queries::Storages::Projects::Filter
     private
 
     def filter_column
-      'id'
+      "id"
     end
   end
 end

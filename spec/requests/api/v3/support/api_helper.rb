@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples_for 'safeguarded API' do
+RSpec.shared_examples_for "safeguarded API" do
   it { expect(last_response.status).to eq(404) }
 end
 
-RSpec.shared_examples_for 'valid activity request' do
+RSpec.shared_examples_for "valid activity request" do
   shared_let(:admin) { create(:admin) }
   let(:status_code) { 200 }
 
@@ -40,16 +40,16 @@ RSpec.shared_examples_for 'valid activity request' do
 
   it { expect(last_response.status).to eq(status_code) }
 
-  describe 'response body' do
+  describe "response body" do
     subject { last_response.body }
 
-    it { is_expected.to be_json_eql('Activity::Comment'.to_json).at_path('_type') }
+    it { is_expected.to be_json_eql("Activity::Comment".to_json).at_path("_type") }
 
-    it { is_expected.to be_json_eql(comment.to_json).at_path('comment/raw') }
+    it { is_expected.to be_json_eql(comment.to_json).at_path("comment/raw") }
   end
 end
 
-RSpec.shared_examples_for 'invalid activity request' do
+RSpec.shared_examples_for "invalid activity request" do
   shared_let(:admin) { create(:admin) }
 
   before do

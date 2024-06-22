@@ -28,56 +28,114 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class CreateFolderCommand
-    using Storages::Peripherals::ServiceResultRefinements
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class CreateFolderCommand
+          using ServiceResultRefinements
 
-    def initialize(storage)
-      @uri = storage.uri
-      @username = storage.username
-      @password = storage.password
-    end
+          def self.call(storage:, auth_strategy:, folder_name:, parent_location:)
+            new(storage).call(auth_strategy:, folder_name:, parent_location:)
+          end
 
-    def self.call(storage:, folder_path:)
-      new(storage).call(folder_path:)
-    end
+          def initialize(storage)
+            @storage = storage
+          end
 
-    # rubocop:disable Metrics/AbcSize
-    def call(folder_path:)
-      response = OpenProject
-                   .httpx
-                   .basic_auth(@username, @password)
-                   .mkcol(
-                     Util.join_uri_path(
-                       @uri,
-                       "remote.php/dav/files",
-                       CGI.escapeURIComponent(@username),
-                       Util.escape_path(folder_path)
-                     )
-                   )
+          def call(auth_strategy:, folder_name:, parent_location:)
+            origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+            if origin_user_id.failure?
+              return origin_user_id
+            end
 
-      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+            folder_path = Util.join_uri_path(parent_location, folder_name)
+            path_prefix = URI.parse(Util.join_uri_path(base_uri, CGI.escapeURIComponent(origin_user_id.result))).path
+            request_url = Util.join_uri_path(base_uri,
+                                             CGI.escapeURIComponent(origin_user_id.result),
+                                             Util.escape_path(folder_path))
 
-      case response
-      in { status: 200..299 }
-        ServiceResult.success(message: 'Folder was successfully created.')
-      in { status: 405 }
-        if Util.error_text_from_response(response) == 'The resource you tried to create already exists'
-          ServiceResult.success(message: 'Folder already exists.')
-        else
-          Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
+            create_folder_request(auth_strategy, request_url, path_prefix)
+          end
+
+          private
+
+          def create_folder_request(auth_strategy, request_url, path_prefix)
+            Authentication[auth_strategy].call(storage: @storage) do |http|
+              result = handle_response(http.mkcol(request_url))
+              return result if result.failure?
+
+              handle_response(http.propfind(request_url, requested_properties)).map do |response|
+                storage_file(path_prefix, response)
+              end
+            end
+          end
+
+          def handle_response(response)
+            case response
+            in { status: 200..299 }
+              ServiceResult.success(result: response)
+            in { status: 401 }
+              Util.failure(code: :unauthorized,
+                           data: Util.error_data_from_response(caller: self.class, response:),
+                           log_message: "Outbound request not authorized!")
+            in { status: 404 | 409 } # webDAV endpoint returns 409 if path does not exist
+              Util.failure(code: :not_found,
+                           data: Util.error_data_from_response(caller: self.class, response:),
+                           log_message: "Outbound request destination not found!")
+            in { status: 405 } # webDAV endpoint returns 405 if folder already exists
+              Util.failure(code: :conflict,
+                           data: Util.error_data_from_response(caller: self.class, response:),
+                           log_message: "Folder already exists")
+            else
+              Util.failure(code: :error,
+                           data: Util.error_data_from_response(caller: self.class, response:),
+                           log_message: "Outbound request failed with unknown error!")
+            end
+          end
+
+          def requested_properties
+            Nokogiri::XML::Builder.new do |xml|
+              xml["d"].propfind(
+                "xmlns:d" => "DAV:",
+                "xmlns:oc" => "http://owncloud.org/ns"
+              ) do
+                xml["d"].prop do
+                  xml["oc"].fileid
+                  xml["oc"].size
+                  xml["d"].getlastmodified
+                  xml["oc"].send(:"owner-display-name")
+                end
+              end
+            end.to_xml
+          end
+
+          # rubocop:disable Metrics/AbcSize
+          def storage_file(path_prefix, response)
+            xml = response.xml
+            path = xml.xpath("//d:response/d:href/text()").to_s
+            timestamp = xml.xpath("//d:response/d:propstat/d:prop/d:getlastmodified/text()").to_s
+            creator = xml.xpath("//d:response/d:propstat/d:prop/oc:owner-display-name/text()").to_s
+            location = CGI.unescapeURIComponent(path.gsub(path_prefix, "")).delete_suffix("/")
+
+            StorageFile.new(
+              id: xml.xpath("//d:response/d:propstat/d:prop/oc:fileid/text()").to_s,
+              name: location.split("/").last,
+              size: xml.xpath("//d:response/d:propstat/d:prop/oc:size/text()").to_s,
+              mime_type: "application/x-op-directory",
+              created_at: Time.zone.parse(timestamp),
+              last_modified_at: Time.zone.parse(timestamp),
+              created_by_name: creator,
+              last_modified_by_name: creator,
+              location:
+            )
+          end
+
+          # rubocop:enable Metrics/AbcSize
+
+          def base_uri = Util.join_uri_path(@storage.uri, "remote.php", "dav", "files")
         end
-      in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
-      in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found', error_data)
-      in { status: 409 }
-        Util.error(:conflict, Util.error_text_from_response(response), error_data)
-      else
-        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

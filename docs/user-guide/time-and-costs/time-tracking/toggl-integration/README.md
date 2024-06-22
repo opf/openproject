@@ -28,15 +28,11 @@ For any other OpenProject Domains you need to exactly add the **Fully Qualified 
 
 ![toggl-configuration-integrations-openproject](toggl-configuration-integrations-openproject.png)
 
-
-
 ## Track time from OpenProject to Toggl Track
 
 If this add-in is installed and the **Integration URL** is configured, a **Start/Stop Timer button** is displayed on the work package details view, which can be used to record times from OpenProject into Toggl:
 
 ![toggl button openproject work package detail view](toggl-button-openproject-workpackage-detail-view.png)
-
-
 
 ## Copy time entries from Toggl Track to OpenProject
 

@@ -41,6 +41,9 @@ See COPYRIGHT and LICENSE files for more details.
 <div class="form--field -visible-overflow">
   <%= f.text_area :description,
                   container_class: '-xxwide',
+                  label_options: {
+                    class: '-top'
+                  },
                   with_text_formatting: true,
                   resource: api_v3_document_resource(f.object),
                   preview_context: preview_context(f.object.project) %>

@@ -28,9 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
+RSpec.describe Groups::CleanupInheritedRolesService, "integration", type: :model do
   subject(:service_call) do
     members.destroy_all
     instance.call(params)
@@ -76,20 +76,20 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
       .to receive(:send)
   end
 
-  context 'when having only the group provided roles' do
-    it 'is successful' do
+  context "when having only the group provided roles" do
+    it "is successful" do
       expect(service_call)
         .to be_success
     end
 
-    it 'removes all memberships the users have had by the group' do
+    it "removes all memberships the users have had by the group" do
       service_call
 
       expect(Member.where(principal: users))
         .to be_empty
     end
 
-    it 'sends a notification for the destroyed members' do
+    it "sends a notification for the destroyed members" do
       user_members = Member.where(principal: users).to_a
 
       service_call
@@ -101,7 +101,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
       end
     end
 
-    it 'sends no notifications' do
+    it "sends no notifications" do
       service_call
 
       expect(Notifications::GroupMemberAlteredJob)
@@ -109,7 +109,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
     end
   end
 
-  context 'when also having own roles' do
+  context "when also having own roles" do
     shared_let(:another_role) { create(:project_role) }
     shared_let(:another_work_package_role) { create(:comment_work_package_role) }
     shared_let(:another_global_role) { create(:global_role) }
@@ -121,19 +121,19 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
       end
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(service_call)
         .to be_success
     end
 
-    it 'removes all memberships that users have had only by the group' do
+    it "removes all memberships that users have had only by the group" do
       service_call
 
       expect(Member.where(principal: users.last))
         .to be_empty
     end
 
-    it 'keeps the memberships where group independent roles were assigned' do
+    it "keeps the memberships where group independent roles were assigned" do
       service_call
 
       expect(first_user_member.updated_at)
@@ -143,7 +143,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
         .to contain_exactly(another_role, another_work_package_role, another_global_role)
     end
 
-    it 'sends a notification on the kept membership' do
+    it "sends a notification on the kept membership" do
       service_call
 
       expect(Notifications::GroupMemberAlteredJob)
@@ -155,7 +155,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
     end
   end
 
-  context 'when the user has had the roles added by the group before' do
+  context "when the user has had the roles added by the group before" do
     let!(:first_user_member) do
       Member.find_by(principal: users.first).tap do |m|
         m.member_roles.create(role:)
@@ -164,19 +164,19 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
       end
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(service_call)
         .to be_success
     end
 
-    it 'removes all memberships the users have had only by the group' do
+    it "removes all memberships the users have had only by the group" do
       service_call
 
       expect(Member.where(principal: users.last))
         .to be_empty
     end
 
-    it 'keeps the memberships where group independent roles were assigned' do
+    it "keeps the memberships where group independent roles were assigned" do
       service_call
 
       expect(first_user_member.updated_at)
@@ -186,7 +186,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
         .to contain_exactly(role, work_package_role, global_role)
     end
 
-    it 'sends a notification on the kept membership' do
+    it "sends a notification on the kept membership" do
       service_call
 
       expect(Notifications::GroupMemberAlteredJob)
@@ -198,7 +198,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
     end
   end
 
-  context 'when specifying the member_roles to be removed (e.g. when removing a user from a group)' do
+  context "when specifying the member_roles to be removed (e.g. when removing a user from a group)" do
     let(:member_role_ids) do
       MemberRole
         .where(member_id: Member.where(principal: users.first))
@@ -206,26 +206,26 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
     end
     let(:params) { { member_role_ids: } }
 
-    it 'is successful' do
+    it "is successful" do
       expect(service_call)
         .to be_success
     end
 
-    it 'removes memberships associated to the member roles' do
+    it "removes memberships associated to the member roles" do
       service_call
 
       expect(Member.where(principal: users.first))
         .to be_empty
     end
 
-    it 'keeps the memberships not associated to the member roles' do
+    it "keeps the memberships not associated to the member roles" do
       service_call
 
       expect(Member.find_by(principal: users.last).roles)
         .to contain_exactly(role)
     end
 
-    it 'sends no notifications' do
+    it "sends no notifications" do
       service_call
 
       expect(Notifications::GroupMemberAlteredJob)
@@ -233,10 +233,10 @@ RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model
     end
   end
 
-  context 'when not allowed' do
+  context "when not allowed" do
     let(:current_user) { User.anonymous }
 
-    it 'fails the request' do
+    it "fails the request" do
       expect(subject).to be_failure
       expect(subject.message).to match /may not be accessed/
     end

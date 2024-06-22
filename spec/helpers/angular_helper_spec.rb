@@ -26,32 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe AngularHelper do
-  let(:tag_name) { 'op-test' }
+  let(:tag_name) { "op-test" }
   let(:options) do
     {
-      class: 'op-classname',
+      class: "op-classname",
       inputs:,
       data:
     }
   end
   let(:data) do
     {
-      'test-selector': 'foo'
+      "test-selector": "foo"
     }
   end
 
   subject { helper.angular_component_tag tag_name, options }
 
-  describe 'inputs transformations' do
+  describe "inputs transformations" do
     let(:inputs) do
       {
-        key: 'value',
+        key: "value",
         number: 1,
         anArray: [1, 2, 3],
-        someRandomObject: { complex: true, foo: 'bar' }
+        someRandomObject: { complex: true, foo: "bar" }
       }
     end
 
@@ -68,7 +68,7 @@ RSpec.describe AngularHelper do
       HTML
     end
 
-    it 'converts the inputs' do
+    it "converts the inputs" do
       expect(subject).to be_html_eql(expected)
     end
   end

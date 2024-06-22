@@ -2,7 +2,7 @@
   render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-openproject-oauth-application-form')) do
     flex_layout(flex_items: :center) do |credentials_row|
       credentials_row.with_row(mb: 3, test_selector: 'storage-openproject_oauth_application_warning') do
-        render(Primer::Beta::Flash.new(icon: :alert, scheme: :warning)) do
+        render(Primer::Alpha::Banner.new(icon: :alert, scheme: :warning)) do
           I18n.t('storages.instructions.oauth_application_details', oauth_application_details_link: oauth_application_details_link).html_safe
         end
       end

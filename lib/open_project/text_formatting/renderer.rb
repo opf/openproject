@@ -31,7 +31,7 @@ module OpenProject::TextFormatting
     module_function
 
     def format_text(text, options = {})
-      return '' if text.blank?
+      return "" if text.blank?
 
       formatter(plain: options.delete(:plain))
         .new(options)

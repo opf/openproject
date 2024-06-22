@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Switching work package view on mobile', :js do
+RSpec.describe "Switching work package view on mobile", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -36,11 +36,11 @@ RSpec.describe 'Switching work package view on mobile', :js do
 
   let(:wp_1) do
     create(:work_package,
-           project:,)
+           project:)
   end
   let(:wp_2) do
     create(:work_package,
-           project:,)
+           project:)
   end
 
   before do
@@ -53,21 +53,21 @@ RSpec.describe 'Switching work package view on mobile', :js do
     wp_table.expect_work_package_listed wp_1, wp_2
   end
 
-  context 'switching to mobile card view' do
-    include_context 'with mobile screen size'
+  context "switching to mobile card view" do
+    include_context "with mobile screen size"
 
-    it 'can switch the representation automatically on mobile after a refresh' do
+    it "can switch the representation automatically on mobile after a refresh" do
       # It shows the elements as cards
       cards.expect_work_package_listed wp_1, wp_2
 
       # A single click leads to the full view
       cards.select_work_package(wp_1)
-      expect(page).to have_css('.work-packages--details--subject',
+      expect(page).to have_css(".work-packages--details--subject",
                                text: wp_1.subject)
-      page.find('.work-packages-back-button').click
+      page.find(".work-packages-back-button").click
 
       # The query is however unchanged
-      expect(page).to have_no_css('.editable-toolbar-title--save')
+      expect(page).to have_no_css(".editable-toolbar-title--save")
       url = URI.parse(page.current_url).query
       expect(url).not_to match(/query_props=.+/)
 

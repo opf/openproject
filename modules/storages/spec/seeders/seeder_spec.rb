@@ -28,15 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe RootSeeder, 'Storage module' do
-  it 'seeds role permissions for Storages' do
+RSpec.describe RootSeeder, "Storage module" do
+  it "seeds role permissions for Storages" do
     described_class.new.seed_data!
 
     expect(RolePermission.where(permission: :view_file_links).count).to eq 7
     expect(RolePermission.where(permission: :manage_file_links).count).to eq 2
-    expect(RolePermission.where(permission: :manage_storages_in_project).count).to eq 1
+    expect(RolePermission.where(permission: :manage_files_in_project).count).to eq 1
   end
 end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'create users', :with_cuprite do
+RSpec.describe "create users", :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let!(:auth_source) { create(:ldap_auth_source) }
@@ -43,68 +43,68 @@ RSpec.describe 'create users', :with_cuprite do
     allow(User).to receive(:current).and_return current_user
   end
 
-  shared_examples_for 'successful user creation' do |redirect_to_edit_page: true|
-    it 'creates the user' do
-      expect(page).to have_css('.op-toast', text: 'Successful creation.')
+  shared_examples_for "successful user creation" do |redirect_to_edit_page: true|
+    it "creates the user" do
+      expect(page).to have_css(".op-toast", text: "Successful creation.")
 
-      new_user = User.order(Arel.sql('id DESC')).first
+      new_user = User.order(Arel.sql("id DESC")).first
 
       expect(page).to have_current_path redirect_to_edit_page ? edit_user_path(new_user) : user_path(new_user)
     end
 
-    it 'sends out an activation email' do
-      expect(mail_body).to include 'activate your account'
+    it "sends out an activation email" do
+      expect(mail_body).to include "activate your account"
       expect(token).not_to be_nil
     end
   end
 
-  context 'with internal authentication' do
+  context "with internal authentication" do
     before do
       visit new_user_path
 
-      new_user_page.fill_in! first_name: 'bobfirst',
-                             last_name: 'boblast',
-                             email: 'bob@mail.com'
+      new_user_page.fill_in! first_name: "bobfirst",
+                             last_name: "boblast",
+                             email: "bob@mail.com"
 
       perform_enqueued_jobs do
         new_user_page.submit!
       end
     end
 
-    it_behaves_like 'successful user creation' do
-      describe 'activation' do
+    it_behaves_like "successful user creation" do
+      describe "activation" do
         before do
           allow(User).to receive(:current).and_call_original
 
           visit "/account/activate?token=#{token}"
         end
 
-        it 'shows the registration form' do
-          expect(page).to have_text 'Create a new account'
+        it "shows the registration form" do
+          expect(page).to have_text "Create a new account"
         end
 
-        it 'registers the user upon submission' do
-          fill_in 'user_password', with: 'foobarbaz1'
-          fill_in 'user_password_confirmation', with: 'foobarbaz1'
+        it "registers the user upon submission" do
+          fill_in "user_password", with: "foobarbaz1"
+          fill_in "user_password_confirmation", with: "foobarbaz1"
 
-          click_button 'Create'
+          click_button "Create"
 
           # landed on the 'my page'
-          expect(page).to have_text 'Welcome, your account has been activated. You are logged in now.'
-          expect(page).to have_link 'bobfirst boblast'
+          expect(page).to have_text "Welcome, your account has been activated. You are logged in now."
+          expect(page).to have_link "bobfirst boblast"
         end
       end
     end
   end
 
-  context 'with external authentication', :js do
+  context "with external authentication", :js do
     before do
       new_user_page.visit!
 
-      new_user_page.fill_in! first_name: 'bobfirst',
-                             last_name: 'boblast',
-                             email: 'bob@mail.com',
-                             login: 'bob',
+      new_user_page.fill_in! first_name: "bobfirst",
+                             last_name: "boblast",
+                             email: "bob@mail.com",
+                             login: "bob",
                              ldap_auth_source: auth_source.name
 
       perform_enqueued_jobs do
@@ -117,106 +117,106 @@ RSpec.describe 'create users', :with_cuprite do
       page.execute_script("window.sessionStorage.clear();")
     end
 
-    it_behaves_like 'successful user creation' do
-      describe 'activation', :js do
+    it_behaves_like "successful user creation" do
+      describe "activation", :js do
         before do
           allow(User).to receive(:current).and_call_original
 
           visit "/account/activate?token=#{token}"
         end
 
-        it 'shows the login form prompting the user to login' do
-          expect(page).to have_text 'Please login as bob to activate your account.'
+        it "shows the login form prompting the user to login" do
+          expect(page).to have_text "Please login as bob to activate your account."
         end
 
-        it 'registers the user upon submission' do
-          user = User.find_by login: 'bob'
+        it "registers the user upon submission" do
+          user = User.find_by login: "bob"
 
           allow(User)
             .to(receive(:find_by_login))
-            .with('bob')
+            .with("bob")
             .and_return(user)
 
           allow(user).to receive(:ldap_auth_source).and_return(auth_source)
 
           allow(auth_source)
-            .to(receive(:authenticate).with('bob', 'dummy'))
-            .and_return({ dn: 'cn=bob,ou=users,dc=example,dc=com' })
+            .to(receive(:authenticate).with("bob", "dummy"))
+            .and_return({ dn: "cn=bob,ou=users,dc=example,dc=com" })
 
-          fill_in 'password', with: 'dummy' # accepted by DummyAuthSource
+          fill_in "password", with: "dummy" # accepted by DummyAuthSource
 
-          click_button 'Sign in'
+          click_button "Sign in"
 
-          expect(page).to have_text 'OpenProject'
-          expect(page).to have_current_path '/', ignore_query: true
-          expect(page).to have_link 'bobfirst boblast'
+          expect(page).to have_text "OpenProject"
+          expect(page).to have_current_path "/", ignore_query: true
+          expect(page).to have_link "bobfirst boblast"
         end
       end
     end
   end
 
-  context 'as global user (with only create_user permission)' do
+  context "as global user (with only create_user permission)" do
     shared_let(:global_create_user) { create(:user, global_permissions: %i[create_user]) }
     let(:current_user) { global_create_user }
 
-    context 'with internal authentication' do
+    context "with internal authentication" do
       before do
         visit new_user_path
 
-        new_user_page.fill_in! first_name: 'bobfirst',
-                               last_name: 'boblast',
-                               email: 'bob@mail.com'
+        new_user_page.fill_in! first_name: "bobfirst",
+                               last_name: "boblast",
+                               email: "bob@mail.com"
 
         perform_enqueued_jobs do
           new_user_page.submit!
         end
       end
 
-      it_behaves_like 'successful user creation', redirect_to_edit_page: false do
-        describe 'activation' do
+      it_behaves_like "successful user creation", redirect_to_edit_page: false do
+        describe "activation" do
           before do
             allow(User).to receive(:current).and_call_original
 
             visit "/account/activate?token=#{token}"
           end
 
-          it 'shows the registration form' do
-            expect(page).to have_text 'Create a new account'
+          it "shows the registration form" do
+            expect(page).to have_text "Create a new account"
           end
 
-          it 'registers the user upon submission' do
-            fill_in 'user_password', with: 'foobarbaz1'
-            fill_in 'user_password_confirmation', with: 'foobarbaz1'
+          it "registers the user upon submission" do
+            fill_in "user_password", with: "foobarbaz1"
+            fill_in "user_password_confirmation", with: "foobarbaz1"
 
-            click_button 'Create'
+            click_button "Create"
 
             # landed on the 'my page'
-            expect(page).to have_text 'Welcome, your account has been activated. You are logged in now.'
-            expect(page).to have_link 'bobfirst boblast'
+            expect(page).to have_text "Welcome, your account has been activated. You are logged in now."
+            expect(page).to have_link "bobfirst boblast"
           end
         end
       end
     end
   end
 
-  context 'as global user (with manage_user and create_user permission)' do
+  context "as global user (with manage_user and create_user permission)" do
     shared_let(:global_create_user) { create(:user, global_permissions: %i[create_user manage_user]) }
     let(:current_user) { global_create_user }
 
-    context 'with internal authentication' do
+    context "with internal authentication" do
       before do
         visit new_user_path
 
-        new_user_page.fill_in! first_name: 'bobfirst',
-                               last_name: 'boblast',
-                               email: 'bob@mail.com'
+        new_user_page.fill_in! first_name: "bobfirst",
+                               last_name: "boblast",
+                               email: "bob@mail.com"
 
         perform_enqueued_jobs do
           new_user_page.submit!
         end
       end
 
-      it_behaves_like 'successful user creation', redirect_to_edit_page: true
+      it_behaves_like "successful user creation", redirect_to_edit_page: true
     end
   end
 end

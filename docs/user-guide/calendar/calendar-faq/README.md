@@ -14,7 +14,7 @@ The calendar automatically displays the start and end dates of work packages in 
 
 ## Where can I embed / activate the calendar?
 
-To use the calendar in a project, you need to [activate the “Calendar” module in the project settings](../../projects/project-settings/modules). Afterwards you can access the calendar in the project menu, as well as add it in the [project overview](../../projects/#projects-list). You can also enable the calendar in your [“My page” view](../../../getting-started/my-page).
+To use the calendar in a project, you need to [activate the “Calendar” module in the project settings](../../projects/project-settings/modules). Afterwards you can access the calendar in the project menu, as well as add it in the [project overview](../../projects/project-lists/). You can also enable the calendar in your [“My page” view](../../../getting-started/my-page).
 
 ## Is there an option to export or sync my calendar (e.g. Outlook)?
 
@@ -24,7 +24,7 @@ You can also use the meeting module in OpenProject to organize meetings and invi
 
 ## Are holidays considered in the calendar?
 
-Since the [12.3 release](../../../release-notes/12/12-3-0/) it is possible to specify  working and non-working days on an overall instance-level and consequently define a global work week. The default value for non-working days is set to Saturday and Sunday, but can be adjusted to your specific needs. Read more [here](../../../user-guide/work-packages/set-change-dates/#working-days).
+Since the [12.3 release](../../../release-notes/12/12-3-0/) it is possible to specify working and non-working days on an overall instance-level and consequently define a global work week. The default value for non-working days is set to Saturday and Sunday, but can be adjusted to your specific needs. Read more [here](../../../user-guide/work-packages/set-change-dates/#working-days).
 
 ## Is there a limit for the number of work packages displayed in the calendar?
 

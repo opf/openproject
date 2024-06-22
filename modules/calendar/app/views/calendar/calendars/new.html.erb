@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t(:label_new_calendar) %>
 <%= labelled_tabular_form_for @view, url: { controller: '/calendar/calendars', action: 'create' }, :html => {:id => 'calendar-form'} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
-  <%= styled_button_tag t(:button_create), class: '-highlight' %>
+  <%= styled_button_tag t(:button_create), class: '-primary' %>
   <%= link_to t(:button_cancel), { controller: 'calendar/calendars', action: 'index' },
               class: 'button' %>
 <% end %>

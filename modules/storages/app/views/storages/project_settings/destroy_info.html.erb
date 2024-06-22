@@ -49,11 +49,11 @@ See COPYRIGHT and LICENSE files for more details.
     </p>
     <div class="danger-zone--verification">
       <%= text_field_tag :delete_confirmation %>
-      <%= styled_button_tag title: t(:button_delete), class: '-highlight', disabled: true do
+      <%= styled_button_tag title: t(:button_delete), class: '-primary', disabled: true do
            concat content_tag :i, '', class: 'button--icon icon-delete'
            concat content_tag :span, t(:button_delete), class: 'button--text'
            end %>
-      <%= link_to project_settings_project_storages_path(@project_storage_to_destroy.project),
+      <%= link_to external_file_storages_project_settings_project_storages_path(@project_storage_to_destroy.project),
           title: t(:button_cancel),
           class: 'button -with-icon icon-cancel' do %>
             <%= t(:button_cancel) %>

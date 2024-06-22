@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::Projects::Statuses::StatusRepresenter, 'rendering' do
+RSpec.describe API::V3::Projects::Statuses::StatusRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   subject { representer.to_json }
@@ -40,26 +40,26 @@ RSpec.describe API::V3::Projects::Statuses::StatusRepresenter, 'rendering' do
 
   current_user { build_stubbed(:user) }
 
-  describe '_links' do
-    describe 'self' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
+  describe "_links" do
+    describe "self" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "self" }
         let(:href) { api_v3_paths.project_status status }
         let(:title) { I18n.t(:"activerecord.attributes.project.status_codes.#{status}") }
       end
     end
   end
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'ProjectStatus' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "ProjectStatus" }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { status }
     end
 
-    it_behaves_like 'property', :name do
+    it_behaves_like "property", :name do
       let(:value) { I18n.t(:"activerecord.attributes.project.status_codes.#{status}") }
     end
   end

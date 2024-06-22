@@ -1,6 +1,6 @@
 ja:
   js:
     queries:
-      all_open: 'All open'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+      all_open: 'すべて開く'
+      timeline: 'タイムライン'
+      milestones: 'マイルストーン'

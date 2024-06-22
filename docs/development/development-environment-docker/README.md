@@ -47,7 +47,6 @@ docker compose run --rm backend-test bundle exec rspec spec/features/work_packag
 
 More details and options follow in the next section.
 
-
 > **Note**: docker compose needs access to at least 4GB of RAM. E.g. for Mac, this requires
 > to [increase the default limit of the virtualized host](https://docs.docker.com/docker-for-mac/).
 > Signs of lacking memory include an "Exit status 137" in the frontend container.
@@ -99,7 +98,7 @@ cp docker-compose.override.example.yml docker-compose.override.yml
 # and will install all required server dependencies
 docker compose run --rm backend setup
 
-# This will install the web dependencies 
+# This will install the web dependencies
 docker compose run --rm frontend npm install
 ```
 
@@ -141,14 +140,7 @@ system's resources.
 ```shell
 # Start the worker service and let it run continuously
 docker compose up -d worker
-
-# Start the worker service to work off all delayed jobs and shut it down afterwards
-docker compose run --rm worker rake jobs:workoff
 ```
-
-The testing containers are excluded as well, while they are harmless to start, but take up system resources again and
-clog your logs while running. The delayed_job background worker reloads the application for every job in development
-mode. This is a know issue and documented here: https://github.com/collectiveidea/delayed_job/issues/823
 
 This process can take quite a long time on the first run where all gems are installed for the first time. However, these
 are cached in a docker volume. Meaning that from the 2nd run onwards it will start a lot quicker.
@@ -307,7 +299,7 @@ On Debian, you need to add the generated root CA to system certificates bundle.
 docker compose --project-directory docker/dev/tls cp \
  step:/home/step/certs/root_ca.crt /usr/local/share/ca-certificates/OpenProject_Development_Root_CA.crt
 
-# Create symbolic link   
+# Create symbolic link
 ln -s /usr/local/share/ca-certificates/OpenProject_Development_Root_CA.crt /etc/ssl/certs/OpenProject_Development_Root_CA.pem
 
 # Update certificate bundle
@@ -394,6 +386,74 @@ docker compose --project-directory docker/dev/tls down
 docker compose --project-directory docker/dev/tls up -d
 ```
 
+## GitLab CE Service
+
+Within `docker/dev/gitlab` a compose file is provided for running local Gitlab instance with TLS support. This provides
+a production like environment for testing the OpenProject GitLab integration against a community edition GitLab instance
+accessible on `https://gitlab.local`.
+
+> NOTE: Configure [TLS Support](#tls-support) first before starting the GitLab service
+
+See [Install GitLab using Docker Compose](https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose)
+official GitLab documentation.
+
+### Running the GitLab Instance
+
+Start up the docker compose service for gitlab as follows:
+
+```shell
+docker compose --project-directory docker/dev/gitlab up -d
+```
+
+### Initial password
+
+Once the GitLab service is started and running, you can access the initial `root` user password as follows:
+
+```shell
+docker compose --project-directory docker/dev/gitlab exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+```
+
+Should you need to reset your root password, execute the following command:
+
+```shell
+docker compose --project-directory docker/dev/gitlab exec -it gitlab gitlab-rake "gitlab:password:reset[root]"
+```
+
+## Keycloak Service
+
+> NOTE: OpenID connect is an enterprise feature in OpenProject. So, to be able to use this feature for development setup, we need to have an `Enterprise Edition Token` which is restricted to the domain `openproject.local`
+
+Within `docker/dev/keycloak` a compose file is provided for running local keycloak instance with TLS support. This provides
+a production like environment for testing the OpenProject Keycloak integration against a keycloak instance accessible on `https://keycloak.local`.
+
+> NOTE: Configure [TLS Support](#tls-support) first before starting the Keycloak service
+
+### Running the Keycloak Instance
+
+Start up the docker compose service for Keycloak as follows:
+
+```shell
+docker compose --project-directory docker/dev/keycloak up -d
+```
+
+Once the keycloak service is started and running, you can access the keycloak instance on `https://keycloak.local` 
+and login with initial username and password as `admin`.
+
+Keycloak being an OpenID connect provider, we need to setup an OIDC integration for OpenProject.
+[Setup OIDC (keycloak) integration for OpenProject](https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/#keycloak)
+
+Once the above setup is completed, In the root `docker-compose.override.yml` file, uncomment all the environment in `backend` service for keycloak and set the values according to configuration done in keycloak for OpenProject Integration.
+
+```shell
+# Stop all the service if already running
+docker compose down
+
+# or else simply start frontend service
+docker compose up -d frontend
+```
+
+Upon setting up all the things correctly, we can see a login with `keycloak` option in login page of `OpenProject`.
+
 ## Local files
 
 Running the docker images will change some of your local files in the mounted code directory. The
@@ -430,7 +490,7 @@ When a dependency of the image or the base image itself is changed you may need 
 Ruby version is updated you may run into an error like the following when
 running `docker compose run --rm backend setup`:
 
-```
+```text
 Your Ruby version is 2.7.6, but your Gemfile specified ~> 3.2.3
 ```
 

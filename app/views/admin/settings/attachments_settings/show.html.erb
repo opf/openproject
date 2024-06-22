@@ -26,10 +26,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:'attributes.attachments') %>
 
-<%= styled_form_tag(admin_settings_update_attachments_path, method: :patch) do %>
+<%=
+  render(Admin::AttachmentsSettingsHeaderComponent.new(
+    title: t(:"attributes.attachments"),
+    selected: 1,
+  ))
+%>
+
+<%= styled_form_tag(
+      admin_settings_attachments_path,
+      method: :patch
+    ) do %>
   <section class="form--section">
+    <div class="form--field">
+      <%= setting_check_box :show_work_package_attachments, container_class: '-slim' %>
+      <div class="form--field-instructions">
+        <%= t('settings.attachments.show_work_package_attachments') %>
+      </div>
+    </div>
     <div class="form--field">
       <%= setting_text_field :attachment_max_size, size: 6, unit: t(:"number.human.storage_units.units.kb"), container_class: '-slim' %>
     </div>
@@ -39,10 +54,9 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t('settings.attachments.whitelist_text_html',
               ext_example: '*.jpg',
               mime_example: 'image/jpeg',
-              ) %>
+            ) %>
       </div>
     </div>
   </section>
-
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

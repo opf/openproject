@@ -1,4 +1,4 @@
-require 'warden/basic_auth'
+require "warden/basic_auth"
 
 module OpenProject
   module Authentication
@@ -36,7 +36,7 @@ module OpenProject
           private
 
           def session
-            env['rack.session']
+            env["rack.session"]
           end
         end
       end

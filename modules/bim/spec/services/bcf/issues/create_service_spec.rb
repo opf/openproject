@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Bim::Bcf::Issues::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service' do
+  it_behaves_like "BaseServices create service" do
     let(:model_class) { Bim::Bcf::Issue }
     let(:factory) { :bcf_issue }
     let(:work_package) { build_stubbed(:work_package) }
@@ -42,10 +42,10 @@ RSpec.describe Bim::Bcf::Issues::CreateService, type: :model do
         .and_return(wp_call)
     end
 
-    context 'when WP service call fails' do
+    context "when WP service call fails" do
       let(:wp_call) { ServiceResult.failure(result: work_package) }
 
-      it 'returns with that call immediately' do
+      it "returns with that call immediately" do
         expect(subject).to eq wp_call
       end
     end

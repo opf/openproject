@@ -19,7 +19,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { JobStatusEnum, JobStatusInterface } from 'core-app/features/job-status/job-status.interface';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
@@ -181,34 +180,14 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     }
   }
 
-  private handleDownload(redirectionUrl?:string) {
-    if (redirectionUrl !== undefined) {
-      // Get the file url from the redirectionUrl
-      this.httpClient
-        .get(redirectionUrl, {
-          observe: 'response',
-          responseType: 'text',
-          // This might or might not be an external request (depending on the configuration of an S3 storage)
-          // But not having headers like X-CSRF-TOKEN set works in both cases.
-          headers: {
-            [EXTERNAL_REQUEST_HEADER]: 'true',
-          },
-        })
-        .subscribe((response) => {
-          this.downloadHref = response.url;
-
-          this.cdRef.detectChanges();
-          this.downloadLink.nativeElement.click();
-        }, (error:HttpErrorResponse) => {
-          // In this case, most typically, there is a CORS error.
-          // Instead of failing completely, we show a manual link for the user to click themselves.
-          if (error.status === 0) {
-            this.downloadHref = redirectionUrl;
-
-            this.cdRef.detectChanges();
-          }
-        });
+  private handleDownload(downloadUrl?:string) {
+    if (!downloadUrl) {
+      return;
     }
+
+    this.downloadHref = downloadUrl;
+    this.cdRef.detectChanges();
+    setTimeout(() => this.downloadLink.nativeElement.click(), 50);
   }
 
   private performRequest():Observable<HttpResponse<JobStatusInterface>> {
@@ -221,6 +200,7 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
   }
 
   private handleError(error:HttpErrorResponse) {
+    this.loadingIndicator.indicator('modal').stop();
     if (error?.status === 404) {
       this.statusIcon = 'icon-help';
       this.message = this.I18n.t('js.job_status.generic_messages.not_found');

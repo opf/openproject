@@ -1,6 +1,6 @@
 <section class="form--section op-user-consent-form">
   <p>
-    <%= format_text user_consent_instructions(consenting_user), { target: '_blank' } %>
+    <%= format_text(user_consent_instructions(::I18n.locale), { target: '_blank' }) %>
   </p>
 
   <label class="form--label-with-check-box -required -no-ellipsis op-user-consent-form--agreement">

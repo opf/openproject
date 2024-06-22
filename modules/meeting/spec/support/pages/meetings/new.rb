@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
-require_relative 'show'
+require_relative "base"
+require_relative "show"
 
 module Pages::Meetings
   class New < Base
     include Components::Autocompleter::NgSelectAutocompleteHelpers
 
     def expect_no_main_menu
-      expect(page).to have_no_css '#main-menu'
+      expect(page).to have_no_css "#main-menu"
     end
 
     def click_create
-      click_button 'Create'
+      click_on "Create"
 
       meeting = Meeting.last
 
@@ -54,7 +54,7 @@ module Pages::Meetings
     end
 
     def set_title(text)
-      fill_in 'Title', with: text
+      fill_in "Title", with: text
     end
 
     def expect_project_dropdown
@@ -64,22 +64,22 @@ module Pages::Meetings
     def set_project(project)
       select_autocomplete find("[data-test-selector='project_id']"),
                           query: project.name,
-                          results_selector: 'body'
+                          results_selector: "body"
     end
 
     def set_start_date(date)
-      find_by_id('meeting_start_date').click
+      find_by_id("meeting_start_date").click
       datepicker = Components::BasicDatepicker.new
       datepicker.set_date(date)
     end
 
     def set_start_time(time)
-      input = page.find_by_id('meeting-form-start-time')
+      input = page.find_by_id("meeting-form-start-time")
       page.execute_script("arguments[0].value = arguments[1]", input.native, time)
     end
 
     def set_duration(duration)
-      fill_in 'Duration', with: duration
+      fill_in "Duration", with: duration
     end
 
     def invite(user)

@@ -26,46 +26,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Gantt routing' do
-  context 'with :project_id' do
-    it 'routes to gantt#index' do
+RSpec.describe "Gantt routing" do
+  context "with :project_id" do
+    it "routes to gantt#index" do
       expect(subject)
-        .to route(:get, '/projects/foobar/gantt')
-              .to(controller: 'gantt/gantt', action: :index, project_id: 'foobar')
+        .to route(:get, "/projects/foobar/gantt")
+              .to(controller: "gantt/gantt", action: :index, project_id: "foobar")
     end
 
-    it 'connects GET /projects/:project_id/gantt/create_new to gantt#index' do
-      expect(get('/projects/1/gantt/create_new'))
-        .to route_to(controller: 'gantt/gantt',
-                     action: 'index',
-                     project_id: '1',
-                     state: 'create_new')
+    it "connects GET /projects/:project_id/gantt/create_new to gantt#index" do
+      expect(get("/projects/1/gantt/create_new"))
+        .to route_to(controller: "gantt/gantt",
+                     action: "index",
+                     project_id: "1",
+                     state: "create_new")
     end
 
-    it 'connects GET /projects/:project_id/gantt/details/:id/:state' +
-         ' to gantt#index' do
-      expect(get('/projects/1/gantt/details/2/overview'))
-        .to route_to(controller: 'gantt/gantt',
-                     action: 'index',
-                     project_id: '1',
-                     state: 'details/2/overview')
+    it "connects GET /projects/:project_id/gantt/details/:id/:state" +
+         " to gantt#index" do
+      expect(get("/projects/1/gantt/details/2/overview"))
+        .to route_to(controller: "gantt/gantt",
+                     action: "index",
+                     project_id: "1",
+                     state: "details/2/overview")
     end
   end
 
-  context 'without :project_id' do
-    it 'routes to gantt#index' do
+  context "without :project_id" do
+    it "routes to gantt#index" do
       expect(subject)
-        .to route(:get, '/gantt')
-              .to(controller: 'gantt/gantt', action: :index)
+        .to route(:get, "/gantt")
+              .to(controller: "gantt/gantt", action: :index)
     end
 
-    it 'connects GET /gantt/details/:state to gantt#index' do
-      expect(get('/gantt/details/5/overview'))
-        .to route_to(controller: 'gantt/gantt',
-                     action: 'index',
-                     state: '5/overview')
+    it "connects GET /gantt/details/:state to gantt#index" do
+      expect(get("/gantt/details/5/overview"))
+        .to route_to(controller: "gantt/gantt",
+                     action: "index",
+                     state: "5/overview")
     end
   end
 end

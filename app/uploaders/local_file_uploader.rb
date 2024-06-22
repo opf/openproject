@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'fileutils'
+require "fileutils"
 
 class LocalFileUploader < CarrierWave::Uploader::Base
   include FileUploader

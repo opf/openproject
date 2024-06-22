@@ -16,7 +16,7 @@ Rails.application.config.after_initialize do
     config.referrer_policy = "origin-when-cross-origin"
 
     # Valid for assets
-    assets_src = ["'self'"]
+    assets_src = []
     asset_host = OpenProject::Configuration.rails_asset_host
     assets_src << asset_host if asset_host.present?
 
@@ -34,13 +34,13 @@ Rails.application.config.after_initialize do
     media_src = default_src
 
     if OpenProject::Configuration.appsignal_frontend_key
-      connect_src += ['https://appsignal-endpoint.net']
+      connect_src += ["https://appsignal-endpoint.net"]
     end
 
     # Add proxy configuration for Angular CLI to csp
     if FrontendAssetHelper.assets_proxied?
       proxied = ["ws://#{Setting.host_name}", "http://#{Setting.host_name}",
-                 FrontendAssetHelper.cli_proxy.sub('http', 'ws'), FrontendAssetHelper.cli_proxy]
+                 FrontendAssetHelper.cli_proxy.sub("http", "ws"), FrontendAssetHelper.cli_proxy]
       connect_src += proxied
       assets_src += proxied
       media_src += proxied
@@ -50,15 +50,15 @@ Rails.application.config.after_initialize do
     script_src = assets_src
 
     # Allow unsafe-eval for rack-mini-profiler
-    if Rails.env.development? && ENV.fetch('OPENPROJECT_RACK_PROFILER_ENABLED', false)
+    if Rails.env.development? && ENV.fetch("OPENPROJECT_RACK_PROFILER_ENABLED", false)
       script_src += %w('unsafe-eval')
     end
 
     # Allow ANDI bookmarklet to run in development mode
     # https://www.ssa.gov/accessibility/andi/help/install.html
     if Rails.env.development?
-      script_src += ['https://www.ssa.gov']
-      assets_src += ['https://www.ssa.gov']
+      script_src += ["https://www.ssa.gov"]
+      assets_src += ["https://www.ssa.gov"]
     end
 
     config.csp = {
@@ -70,7 +70,7 @@ Rails.application.config.after_initialize do
       base_uri: %w('self'),
 
       # Allow fonts from self, asset host, or DATA uri
-      font_src: assets_src + %w(data:),
+      font_src: assets_src + %w(data: 'self'),
       # Form targets can only be self
       form_action: default_src,
       # Allow iframe from vimeo (welcome video)
@@ -79,9 +79,9 @@ Rails.application.config.after_initialize do
       # Allow images from anywhere including data urls and blobs (used in resizing)
       img_src: %w(* data: blob:),
       # Allow scripts from self
-      script_src:,
+      script_src: script_src + %w('strict-dynamic'),
       # Allow unsafe-inline styles
-      style_src: assets_src + %w('unsafe-inline'),
+      style_src: assets_src + %w('unsafe-inline' 'self'),
       # Allow object-src from Release API
       object_src: [OpenProject::Configuration[:security_badge_url]],
 

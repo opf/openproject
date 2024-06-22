@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-RSpec.describe 'Project description widget on dashboard', :js do
+RSpec.describe "Project description widget on dashboard", :js do
   let(:project_description) { "Some text I like to write" }
   let!(:project) do
     create(:project, description: project_description)
@@ -63,7 +63,7 @@ RSpec.describe 'Project description widget on dashboard', :js do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project description")
 
-    dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    dashboard_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
   end
 
   before do
@@ -71,12 +71,12 @@ RSpec.describe 'Project description widget on dashboard', :js do
     add_project_description_widget
   end
 
-  context 'without editing permissions' do
+  context "without editing permissions" do
     let(:current_user) { read_only_user }
 
-    it 'can add the widget, but not edit the description' do
+    it "can add the widget, but not edit the description" do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
-      description_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      description_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
       within(description_widget.area) do
         # The description is visible
@@ -84,41 +84,41 @@ RSpec.describe 'Project description widget on dashboard', :js do
           .to have_content(project_description)
 
         # The description is not editable
-        field = TextEditorField.new dashboard_page, 'description'
+        field = TextEditorField.new dashboard_page, "description"
         field.expect_read_only
         field.activate! expect_open: false
       end
     end
   end
 
-  context 'with editing permissions' do
+  context "with editing permissions" do
     let(:current_user) { editing_user }
 
-    it 'can edit the description' do
+    it "can edit the description" do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
-      description_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      description_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
       within(description_widget.area) do
         # Open description field
-        field = TextEditorField.new dashboard_page, 'description'
+        field = TextEditorField.new dashboard_page, "description"
         field.activate!
         sleep(0.1)
 
         # Change the value
         field.expect_value(project_description)
-        field.set_value 'A completely new description which is super cool.'
+        field.set_value "A completely new description which is super cool."
         field.save!
 
         # The edit field is toggled and the value saved.
-        expect(page).to have_content('A completely new description which is super cool.')
+        expect(page).to have_content("A completely new description which is super cool.")
         expect(page).to have_selector(field.selector)
         expect(page).to have_no_selector(field.input_selector)
       end
     end
   end
 
-  context 'with editing and wp add permissions' do
-    let!(:type) { create(:type_task, name: 'Task') }
+  context "with editing and wp add permissions" do
+    let!(:type) { create(:type_task, name: "Task") }
     let!(:project) do
       create(:project, types: [type])
     end
@@ -126,26 +126,26 @@ RSpec.describe 'Project description widget on dashboard', :js do
     let(:current_user) do
       create(:user, member_with_permissions: { project => editing_permissions + %i[add_work_packages] })
     end
-    let(:editor) { Components::WysiwygEditor.new 'body' }
+    let(:editor) { Components::WysiwygEditor.new "body" }
 
-    it 'can create a button macro for work packages' do
+    it "can create a button macro for work packages" do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
-      description_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      description_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
-      field = TextEditorField.new dashboard_page, 'description'
+      field = TextEditorField.new dashboard_page, "description"
       field.activate!
 
-      editor.insert_macro 'Insert create work package button'
+      editor.insert_macro "Insert create work package button"
 
-      expect(page).to have_css('.spot-modal')
-      select 'Task', from: 'selected-type'
-      find('.spot-modal--submit-button').click
+      expect(page).to have_css(".spot-modal")
+      select "Task", from: "selected-type"
+      find(".spot-modal--submit-button").click
 
       field.save!
 
-      dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
-      within('#content') do
+      within("#content") do
         expect(page).to have_css("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")
       end
     end

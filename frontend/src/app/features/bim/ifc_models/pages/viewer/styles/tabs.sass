@@ -56,6 +56,7 @@
     color: var(--main-menu-font-color)
     font-weight: var(--base-text-weight-bold)
     padding: 0 5px !important
+    max-width: unset !important
 
     &:hover
       border-bottom: 2px solid white
@@ -76,8 +77,8 @@
       font-style: normal
 
     &.active a.xeokit-tab-btn
-      color: var(--content-link-color)
-      border-bottom-color: var(--content-link-color)
+      color: var(--accent-color)
+      border-bottom-color: var(--accent-color)
 
     .xeokit-tab-content
       position: relative
@@ -137,7 +138,7 @@ $pill-padding-left: 8px
         // Workaround to hide the actual text of the link and show our icons instead
         color: var(--main-menu-bg-color)
 
-        .main-menu &
+        .main-menu &:not(.Button)
           // reset main menu indents
           padding: initial
 

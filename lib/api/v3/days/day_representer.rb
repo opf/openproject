@@ -59,7 +59,7 @@ module API::V3::Days
     end
 
     def _type
-      'Day'
+      "Day"
     end
   end
 end

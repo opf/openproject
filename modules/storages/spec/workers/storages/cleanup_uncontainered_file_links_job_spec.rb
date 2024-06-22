@@ -28,43 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::CleanupUncontaineredFileLinksJob, type: :job do
-  it 'has a schedule set' do
-    expect(described_class.cron_expression).to eq('06 22 * * *')
-  end
+  describe "#perform" do
+    it "removes uncontainered file_links which are old enough" do
+      grace_period = 10
+      allow(OpenProject::Configuration)
+        .to receive(:attachments_grace_period)
+              .and_return(grace_period)
 
-  it 'removes uncontainered file_links which are old enough' do
-    grace_period = 10
-    allow(OpenProject::Configuration)
-      .to receive(:attachments_grace_period)
-            .and_return(grace_period)
+      expect(Storages::FileLink.count).to eq(0)
 
-    expect(Storages::FileLink.count).to eq(0)
-
-    uncontainered_old = create(:file_link,
-                               container_id: nil,
-                               container_type: nil,
-                               created_at: Time.current - grace_period.minutes - 1.second)
-    uncontainered_young = create(:file_link,
+      uncontainered_old = create(:file_link,
                                  container_id: nil,
-                                 container_type: nil)
-    containered_old = create(:file_link,
-                             container_id: 1,
-                             created_at: Time.current - grace_period.minutes - 1.second)
-    containered_young = create(:file_link,
-                               container_id: 1)
+                                 container_type: nil,
+                                 created_at: Time.current - grace_period.minutes - 1.second)
+      uncontainered_young = create(:file_link,
+                                   container_id: nil,
+                                   container_type: nil)
+      containered_old = create(:file_link,
+                               container_id: 1,
+                               created_at: Time.current - grace_period.minutes - 1.second)
+      containered_young = create(:file_link,
+                                 container_id: 1)
 
-    expect(Storages::FileLink.count).to eq(4)
+      expect(Storages::FileLink.count).to eq(4)
 
-    described_class.new.perform
+      described_class.new.perform
 
-    expect(Storages::FileLink.count).to eq(3)
-    file_link_ids = Storages::FileLink.pluck(:id).sort
-    expected_file_link_ids = [uncontainered_young.id, containered_old.id, containered_young.id].sort
-    expect(file_link_ids).to eq(expected_file_link_ids)
-    expect(file_link_ids).not_to include(uncontainered_old.id)
+      expect(Storages::FileLink.count).to eq(3)
+      file_link_ids = Storages::FileLink.pluck(:id).sort
+      expected_file_link_ids = [uncontainered_young.id, containered_old.id, containered_young.id].sort
+      expect(file_link_ids).to eq(expected_file_link_ids)
+      expect(file_link_ids).not_to include(uncontainered_old.id)
+    end
   end
 end

@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::Bim::BcfXml::Importer do
-  let(:filename) { 'MaximumInformation.bcf' }
+  let(:filename) { "MaximumInformation.bcf" }
   let(:file) do
     Rack::Test::UploadedFile.new(
       Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
-      'application/octet-stream'
+      "application/octet-stream"
     )
   end
-  let(:type) { create(:type, name: 'Issue', is_standard: true, is_default: true) }
+  let(:type) { create(:type, name: "Issue", is_standard: true, is_default: true) }
   let(:project) do
     create(:project,
-           identifier: 'bim_project',
+           identifier: "bim_project",
            enabled_module_names: %w[bim work_package_tracking],
            types: [type])
   end
@@ -75,24 +75,24 @@ RSpec.describe OpenProject::Bim::BcfXml::Importer do
     bcf_manager_member
   end
 
-  describe '#to_listing' do
-    context 'without sufficient permissions' do
-      context 'no add_work_packages permission' do
-        pending 'test that importing user has add_work_packages permission'
+  describe "#to_listing" do
+    context "without sufficient permissions" do
+      context "no add_work_packages permission" do
+        pending "test that importing user has add_work_packages permission"
       end
 
-      context 'no manage_members permission' do
-        pending 'test that non members should not be able to prepare an import'
+      context "no manage_members permission" do
+        pending "test that non members should not be able to prepare an import"
       end
     end
   end
 
-  describe '#import!' do
-    it 'imports successfully' do
+  describe "#import!" do
+    it "imports successfully" do
       expect(subject.import!).to be_present
     end
 
-    it 'creates 2 work packages' do
+    it "creates 2 work packages" do
       subject.import!
 
       expect(Bim::Bcf::Issue.count).to eql 2
@@ -100,10 +100,10 @@ RSpec.describe OpenProject::Bim::BcfXml::Importer do
     end
   end
 
-  context 'with a viewpoint and snapshot' do
-    let(:filename) { 'issue-with-viewpoint.bcf' }
+  context "with a viewpoint and snapshot" do
+    let(:filename) { "issue-with-viewpoint.bcf" }
 
-    it 'imports that viewpoint successfully' do
+    it "imports that viewpoint successfully" do
       expect(subject.import!).to be_present
 
       expect(Bim::Bcf::Issue.count).to eq 1

@@ -15,7 +15,7 @@ You can adapt the following under the authentication settings:
 
 1. Select if the **authentication is required** to access OpenProject. For versions 13.1 and higher of OpenProject, this setting will be checked by default
 
-   **Important note**: If you un-tick this box your OpenProject instance will be visible to the general public without logging in. The visibility of individual projects depends on [this setting](../../../user-guide/projects/#set-a-project-to-public). 
+   **Important note**: If you un-tick this box your OpenProject instance will be visible to the general public without logging in. The visibility of individual projects depends on [this setting](../../../user-guide/projects/#set-a-project-to-public).
 
 2. Select an option for **self-registration**. Self-registration can either be **disabled**, or it can be allowed with the following criteria:
 

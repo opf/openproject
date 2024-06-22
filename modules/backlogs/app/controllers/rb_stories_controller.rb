@@ -66,7 +66,7 @@ class RbStoriesController < RbApplicationController
     story = call.result
 
     respond_to do |format|
-      format.html { render partial: 'story', object: story, status:, locals: { errors: call.errors } }
+      format.html { render partial: "story", object: story, status:, locals: { errors: call.errors } }
     end
   end
 

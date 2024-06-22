@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Users::UnpaginatedUserCollectionRepresenter do
   let(:users) do
@@ -35,13 +35,13 @@ RSpec.describe API::V3::Users::UnpaginatedUserCollectionRepresenter do
   end
   let(:representer) do
     described_class.new(users,
-                        self_link: '/api/v3/work_package/1/watchers',
+                        self_link: "/api/v3/work_package/1/watchers",
                         current_user: users.first)
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'unpaginated APIv3 collection', 3, 'work_package/1/watchers', 'User'
+    it_behaves_like "unpaginated APIv3 collection", 3, "work_package/1/watchers", "User"
   end
 end

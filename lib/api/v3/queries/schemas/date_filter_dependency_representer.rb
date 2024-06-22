@@ -36,9 +36,9 @@ module API
 
           def type
             if operator == ::Queries::Operators::OnDate
-              '[1]Date'
+              "[1]Date"
             elsif operator == ::Queries::Operators::BetweenDate
-              '[2]Date'
+              "[2]Date"
             else
               super
             end

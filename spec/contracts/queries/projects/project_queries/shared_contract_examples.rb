@@ -26,41 +26,98 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-RSpec.shared_examples_for 'project queries contract' do
-  include_context 'ModelContract shared context'
+RSpec.shared_examples_for "project queries contract" do
+  include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:user) }
   let(:query_name) { "Query name" }
   let(:query_user) { current_user }
+  let(:query_selects) { %i[name project_status] }
 
-  describe 'validation' do
-    it_behaves_like 'contract is valid'
+  describe "validation" do
+    it_behaves_like "contract is valid"
 
-    context 'if the name is nil' do
+    context "if the name is nil" do
       let(:query_name) { nil }
 
-      it_behaves_like 'contract is invalid', name: :blank
+      it_behaves_like "contract is invalid", name: :blank
     end
 
-    context 'if the name is too long' do
-      let(:query_name) { 'A' * 256 }
+    context "if the name is too long" do
+      let(:query_name) { "A" * 256 }
 
-      it_behaves_like 'contract is invalid', name: :too_long
+      it_behaves_like "contract is invalid", name: :too_long
     end
 
-    context 'if the user is not the current user' do
+    context "if the user is not the current user" do
       let(:query_user) { build_stubbed(:user) }
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :can_only_be_modified_by_owner
     end
 
-    context 'if the user and the current user is anonymous' do
+    context "if the list is public and the editing user has the permission" do
+      let(:query_user) { build_stubbed(:user) }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_globally :manage_public_project_queries
+        end
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "if the list is public and the editing user does not have the permission" do
+      let(:query_user) { build_stubbed(:user) }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user, &:forbid_everything)
+      end
+
+      it_behaves_like "contract is invalid", base: :need_permission_to_modify_public_query
+    end
+
+    context "if the list is public and the editing user does not have the permission, even if they are the owner" do
+      let(:query_user) { current_user }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user, &:forbid_everything)
+      end
+
+      it_behaves_like "contract is invalid", base: :need_permission_to_modify_public_query
+    end
+
+    context "if the user and the current user is anonymous" do
       let(:current_user) { build_stubbed(:anonymous) }
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :error_unauthorized
+    end
+
+    context "if the selects do not include the name column" do
+      let(:query_selects) { %i[project_status] }
+
+      it_behaves_like "contract is invalid", selects: :name_not_included
+    end
+
+    context "if the selects include a non existing one" do
+      let(:query_selects) { %i[project_status name foo_bar] }
+
+      it_behaves_like "contract is invalid", selects: :nonexistent
     end
   end
 end

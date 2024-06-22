@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Query::Results, 'Subproject filter integration' do
+RSpec.describe Query::Results, "Subproject filter integration" do
   let(:query) do
     build(:query,
           user:,
@@ -45,8 +45,8 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
 
   shared_let(:user) do
     create(:user,
-           firstname: 'user',
-           lastname: '1',
+           firstname: "user",
+           lastname: "1",
            member_with_permissions: {
              parent_project => [:view_work_packages],
              child_project => [:view_work_packages]
@@ -60,110 +60,110 @@ RSpec.describe Query::Results, 'Subproject filter integration' do
     login_as user
   end
 
-  describe 'new default query' do
-    context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
-      it 'shows the sub work packages' do
+  describe "new default query" do
+    context "when subprojects included", with_settings: { display_subprojects_work_packages: true } do
+      it "shows the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
       end
     end
 
-    context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
-      it 'does not show the sub work packages' do
+    context "when subprojects not included", with_settings: { display_subprojects_work_packages: false } do
+      it "does not show the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(parent_wp)
       end
 
-      context 'when subproject filter added manually' do
+      context "when subproject filter added manually" do
         before do
-          query.add_filter('subproject_id', '=', [child_project.id])
+          query.add_filter("subproject_id", "=", [child_project.id])
         end
 
-        it 'shows the sub work packages' do
+        it "shows the sub work packages" do
           expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
         end
       end
 
-      context 'when only subproject filter added manually' do
+      context "when only subproject filter added manually" do
         before do
-          query.add_filter('only_subproject_id', '=', [child_project.id])
+          query.add_filter("only_subproject_id", "=", [child_project.id])
         end
 
-        it 'shows only the sub work packages' do
+        it "shows only the sub work packages" do
           expect(query_results.work_packages).to contain_exactly(child_wp)
         end
       end
     end
   end
 
-  describe 'query with overridden include_subprojects = true' do
+  describe "query with overridden include_subprojects = true" do
     before do
       query.include_subprojects = true
     end
 
-    context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
-      it 'shows the sub work packages' do
+    context "when subprojects included", with_settings: { display_subprojects_work_packages: true } do
+      it "shows the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
       end
     end
 
-    context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
-      it 'shows the sub work packages' do
+    context "when subprojects not included", with_settings: { display_subprojects_work_packages: false } do
+      it "shows the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
       end
 
-      context 'when subproject filter added manually' do
+      context "when subproject filter added manually" do
         before do
-          query.add_filter('subproject_id', '=', [child_project.id])
+          query.add_filter("subproject_id", "=", [child_project.id])
         end
 
-        it 'shows the sub work packages' do
+        it "shows the sub work packages" do
           expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
         end
       end
 
-      context 'when only subproject filter added manually' do
+      context "when only subproject filter added manually" do
         before do
-          query.add_filter('only_subproject_id', '=', [child_project.id])
+          query.add_filter("only_subproject_id", "=", [child_project.id])
         end
 
-        it 'shows only the sub work packages' do
+        it "shows only the sub work packages" do
           expect(query_results.work_packages).to contain_exactly(child_wp)
         end
       end
     end
   end
 
-  describe 'query with overridden include_subprojects = false' do
+  describe "query with overridden include_subprojects = false" do
     before do
       query.include_subprojects = false
     end
 
-    context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
-      it 'does not show the sub work packages' do
+    context "when subprojects included", with_settings: { display_subprojects_work_packages: true } do
+      it "does not show the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(parent_wp)
       end
     end
 
-    context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
-      it 'does not show the sub work packages' do
+    context "when subprojects not included", with_settings: { display_subprojects_work_packages: false } do
+      it "does not show the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(parent_wp)
       end
 
-      context 'when subproject filter added manually' do
+      context "when subproject filter added manually" do
         before do
-          query.add_filter('subproject_id', '=', [child_project.id])
+          query.add_filter("subproject_id", "=", [child_project.id])
         end
 
-        it 'shows the sub work packages' do
+        it "shows the sub work packages" do
           expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp)
         end
       end
 
-      context 'when only subproject filter added manually' do
+      context "when only subproject filter added manually" do
         before do
-          query.add_filter('only_subproject_id', '=', [child_project.id])
+          query.add_filter("only_subproject_id", "=", [child_project.id])
         end
 
-        it 'shows only the sub work packages' do
+        it "shows only the sub work packages" do
           expect(query_results.work_packages).to contain_exactly(child_wp)
         end
       end

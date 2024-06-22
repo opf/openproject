@@ -31,13 +31,23 @@ module OpenProject
     module_function
 
     def enabled?
-      ENV['APPSIGNAL_ENABLED'] == 'true'
+      ENV["APPSIGNAL_ENABLED"] == "true"
+    end
+
+    def logging_enabled?
+      enabled? && ENV["APPSIGNAL_SEND_APPLICATION_LOGS"] == "true"
     end
 
     def exception_handler(message, log_context = {})
       if (exception = log_context[:exception])
-        ::Appsignal.send_error(exception) do |transaction|
-          transaction.set_tags tags(log_context)
+        if ::Appsignal::Transaction.current?
+          ::Appsignal.set_error(exception) do |transaction|
+            transaction.set_tags tags(log_context)
+          end
+        else
+          ::Appsignal.send_error(exception) do |transaction|
+            transaction.set_tags tags(log_context)
+          end
         end
       else
         Rails.logger.warn "Ignoring non-exception message for appsignal #{message.inspect}"

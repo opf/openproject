@@ -31,30 +31,31 @@ module API
     module Utilities
       class CustomFieldInjector
         TYPE_MAP = {
-          'string' => 'String',
-          'empty' => 'String',
-          'text' => 'Formattable',
-          'int' => 'Integer',
-          'float' => 'Float',
-          'date' => 'Date',
-          'bool' => 'Boolean',
-          'user' => 'User',
-          'version' => 'Version',
-          'list' => 'CustomOption'
+          "string" => "String",
+          "empty" => "String",
+          "text" => "Formattable",
+          "link" => "Link",
+          "int" => "Integer",
+          "float" => "Float",
+          "date" => "Date",
+          "bool" => "Boolean",
+          "user" => "User",
+          "version" => "Version",
+          "list" => "CustomOption"
         }.freeze
 
         LINK_FORMATS = %w(list user version).freeze
 
         NAMESPACE_MAP = {
-          'user' => ['users', 'groups', 'placeholder_users'],
-          'version' => 'versions',
-          'list' => 'custom_options'
+          "user" => ["users", "groups", "placeholder_users"],
+          "version" => "versions",
+          "list" => "custom_options"
         }.freeze
 
         REPRESENTER_MAP = {
-          'user' => '::API::V3::Principals::PrincipalRepresenterFactory',
-          'version' => '::API::V3::Versions::VersionRepresenter',
-          'list' => '::API::V3::CustomOptions::CustomOptionRepresenter'
+          "user" => "::API::V3::Principals::PrincipalRepresenterFactory",
+          "version" => "::API::V3::Versions::VersionRepresenter",
+          "list" => "::API::V3::CustomOptions::CustomOptionRepresenter"
         }.freeze
 
         class << self
@@ -105,11 +106,11 @@ module API
 
         def inject_schema(custom_field)
           case custom_field.field_format
-          when 'version'
+          when "version"
             inject_version_schema(custom_field)
-          when 'user'
+          when "user"
             inject_user_schema(custom_field)
-          when 'list'
+          when "list"
             inject_list_schema(custom_field)
           else
             inject_basic_schema(custom_field)
@@ -207,13 +208,13 @@ module API
         def link_value_setter_for(custom_field, property, expected_namespace)
           ->(fragment:, represented:, **) {
             values = Array([fragment].flatten).flat_map do |link|
-              href = link['href']
+              href = link["href"]
               value =
                 if href
                   ::API::Utilities::ResourceLinkParser.parse_id(
                     href,
                     property:,
-                    expected_version: '3',
+                    expected_version: "3",
                     expected_namespace:
                   )
                 end
@@ -259,7 +260,7 @@ module API
 
             value = send(custom_field.attribute_getter)
 
-            if custom_field.field_format == 'text'
+            if custom_field.field_format == "text"
               ::API::Decorators::Formattable.new(value, object: self)
             else
               value
@@ -269,8 +270,8 @@ module API
 
         def property_value_setter_for(custom_field)
           ->(fragment:, **) {
-            value = if fragment && custom_field.field_format == 'text'
-                      fragment['raw']
+            value = if fragment && custom_field.field_format == "text"
+                      fragment["raw"]
                     else
                       fragment
                     end
@@ -340,9 +341,9 @@ module API
 
         def allowed_users_static_filters
           [
-            { status: { operator: '!',
+            { status: { operator: "!",
                         values: [Principal.statuses[:locked].to_s] } },
-            { type: { operator: '=',
+            { type: { operator: "=",
                       values: %w[User Group PlaceholderUser] } }
           ]
         end
@@ -356,9 +357,9 @@ module API
             end
 
           if project_id_value.present?
-            [{ member: { operator: '=', values: [project_id_value.to_s] } }]
+            [{ member: { operator: "=", values: [project_id_value.to_s] } }]
           else
-            [{ member: { operator: '*', values: [] } }]
+            [{ member: { operator: "*", values: [] } }]
           end
         end
 

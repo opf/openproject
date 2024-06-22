@@ -1,6 +1,6 @@
 <%=
   component_wrapper do
-    flex_layout do |details_container|
+    flex_layout(mt: 3) do |details_container|
       details_container.with_row do
         flex_layout(align_items: :center, justify_content: :space_between) do |heading|
           heading.with_column(flex: 1) do
@@ -13,6 +13,7 @@
                 id: "edit-meeting-details-dialog", title: t("label_meeting_details"),
                 size: :medium_portrait
               )) do |dialog|
+                dialog.with_header(variant: :large)
                 dialog.with_show_button(icon: :pencil, 'aria-label': t("label_meeting_details_edit"), scheme: :invisible)
                 render(Meetings::Sidebar::DetailsFormComponent.new(meeting: @meeting))
               end
@@ -86,10 +87,10 @@
             end
           end
 
-          details.with_row(mt: 2, classes: 'meeting-detail-participants') do
+          details.with_row(mt: 2, classes: 'meeting-detail-participants', display: [nil, nil, :none]) do
             render_meeting_attribute_row(:people) do
-              flex_layout do |duration|
-                duration.with_column(mr: 2) do
+              flex_layout do |people|
+                people.with_column(mr: 2) do
                   render(Primer::Beta::Text.new) do
                     Meeting.human_attribute_name(
                       :participant,
@@ -98,17 +99,16 @@
                   end
                 end
 
-                duration.with_column(mr: 2) do
-                  render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
-                    id: "edit-participants-dialog",
-                    src: participants_dialog_meeting_path(@meeting),
-                    size: :medium_portrait,
-                    title: Meeting.human_attribute_name(:participants),
-                    button_text: t("label_meeting_show_all_participants"),
-                    button_attributes: {
-                      scheme: :link,
-                      font_weight: :normal
-                    }))
+                people.with_column(mr: 2) do
+                  render(Primer::Beta::Button.new(
+                    scheme: :link,
+                    underline: false,
+                    tag: :a,
+                    href: participants_dialog_meeting_path(@meeting),
+                    data: { controller: 'async-dialog' }
+                  )) do
+                    t("label_meeting_show_all_participants")
+                  end
                 end
               end
             end

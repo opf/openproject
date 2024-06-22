@@ -13,7 +13,7 @@
     &-action
       @include spot-body-small
 
-      color: $spot-color-basic-gray-1
+      color: var(--body-font-color)
       display: flex
       align-items: flex-start
       justify-content: flex-start
@@ -29,7 +29,7 @@
         @include spot-focus
 
       &:hover
-        background-color: $spot-color-basic-gray-6
+        background-color: var(--control-transparent-bgColor-hover)
         text-decoration: none
         border-color: var(--list-item-hover--border-color)
         color: var(--list-item-hover--color)
@@ -39,14 +39,14 @@
         &:hover
           background-color: transparent
           cursor: not-allowed
-          color: $spot-color-basic-gray-1
+          color: var(--list-item-hover--color)
 
       &_active#{&}_disabled
-        color: var(--color-fg-muted)
-        background-color: $spot-color-basic-gray-6
+        color: var(--fgColor-default)
+        background-color: var(--control-transparent-bgColor-hover)
 
       &_link:not(&_disabled)
-        color: var(--content-link-color)
+        color: var(--accent-color)
 
     &-floating-wrapper
       position: relative
@@ -54,12 +54,12 @@
 
       &:hover,
       &:focus-within
-        background-color: $spot-color-basic-gray-6
+        background-color: var(--control-transparent-bgColor-hover)
         text-decoration: none
         border-color: var(--list-item-hover--border-color)
 
       &_disabled
-        color: $spot-color-basic-gray-1
+        color: var(--body-font-color)
 
         &:hover
           background: none
@@ -110,7 +110,7 @@
 
   &_active &--item-action_active
     font-weight: var(--base-text-weight-bold)
-    background-color: $spot-color-basic-gray-6
+    background-color: var(--control-transparent-bgColor-hover)
     text-decoration: none
     border-color: var(--list-item-hover--border-color)
 

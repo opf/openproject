@@ -26,74 +26,108 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Notifications::ScheduleReminderMailsJob, type: :job do
-  subject(:job) { scheduled_job.invoke_job }
-
   let(:scheduled_job) do
-    described_class.ensure_scheduled!
+    described_class.perform_later.tap do |job|
+      set_cron_time(job, job_cron_at)
+      GoodJob.perform_inline
+    end
+  end
+  let(:job_cron_at) { Time.current.then { |t| t.change(min: t.min / 15 * 15) } }
 
-    Delayed::Job.first
+  let(:previous_job) do
+    described_class.perform_later.tap do |job|
+      GoodJob.perform_inline
+      set_cron_time(job, previous_job_cron_at)
+    end
   end
 
   let(:ids) { [23, 42] }
-  let(:run_at) { scheduled_job.run_at }
 
   before do
-    # We need to access the job as stored in the database to get at the run_at time persisted there
-    allow(ActiveJob::Base)
-      .to receive(:queue_adapter)
-            .and_return(ActiveJob::QueueAdapters::DelayedJobAdapter.new)
-
-    scheduled_job.update_column(:run_at, run_at)
+    # We need to access the job as stored in the database to get at the scheduled_at time persisted there
+    ActiveJob::Base.disable_test_adapter
 
     scope = instance_double(ActiveRecord::Relation)
-    allow(User)
-      .to receive(:having_reminder_mail_to_send)
-            .and_return(scope)
-
-    allow(scope)
-      .to receive(:pluck)
-            .with(:id)
-            .and_return(ids)
+    allow(User).to receive(:having_reminder_mail_to_send).and_return(scope)
+    allow(scope).to receive(:pluck).with(:id).and_return(ids)
   end
 
-  describe '#perform' do
-    shared_examples_for 'schedules reminder mails' do
-      it 'schedules reminder jobs for every user with a reminder mails to be sent' do
-        expect { subject }
-          .to change(Delayed::Job, :count)
+  def set_cron_time(job, cron_at)
+    GoodJob::Job
+      .where(id: job.job_id)
+      .update_all(cron_at:)
+  end
+
+  describe "#perform" do
+    shared_examples_for "schedules reminder mails" do
+      it "schedules reminder jobs for every user with a reminder mail to be sent" do
+        expect { scheduled_job }
+          .to change(GoodJob::Job.where(job_class: "Mails::ReminderJob"), :count)
                 .by(2)
 
-        jobs = Delayed::Job.all.map do |job|
-          YAML.safe_load(job.handler, permitted_classes: [ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper])
-        end
-
-        reminder_jobs = jobs.select { |job| job.job_data['job_class'] == "Mails::ReminderJob" }
-
-        expect(reminder_jobs[0].job_data['arguments'])
-          .to contain_exactly(23)
-
-        expect(reminder_jobs[1].job_data['arguments'])
-          .to contain_exactly(42)
+        arguments_from_both_jobs =
+          GoodJob::Job.where(job_class: "Mails::ReminderJob")
+                      .flat_map { |i| i.serialized_params["arguments"] }
+                      .sort
+        expect(arguments_from_both_jobs).to eq(ids)
       end
 
-      it 'queries with the intended job execution time (which might have been missed due to high load)' do
-        subject
+      it "queries with the intended job execution time (which might have been missed due to high load)" do
+        scheduled_job
 
         expect(User)
           .to have_received(:having_reminder_mail_to_send)
-                .with(run_at)
+                .with(expected_lower_boundary, expected_upper_boundary)
       end
     end
 
-    it_behaves_like 'schedules reminder mails'
+    context "when there is no predecessor job" do
+      it_behaves_like "schedules reminder mails" do
+        let(:expected_lower_boundary) { job_cron_at }
+        let(:expected_upper_boundary) { job_cron_at }
+      end
+    end
 
-    context 'with a job that missed some runs' do
-      let(:run_at) { scheduled_job.run_at - 3.hours }
+    context "when there is a predecessor job with a cron_at 15 min before" do
+      let(:previous_job_cron_at) { job_cron_at - 15.minutes }
 
-      it_behaves_like 'schedules reminder mails'
+      before do
+        previous_job
+      end
+
+      it_behaves_like "schedules reminder mails" do
+        let(:expected_lower_boundary) { previous_job_cron_at + 15.minutes }
+        let(:expected_upper_boundary) { job_cron_at }
+      end
+    end
+
+    context "when there is a predecessor job with a cron_at 2 hours before" do
+      let(:previous_job_cron_at) { job_cron_at - 2.hours }
+
+      before do
+        previous_job
+      end
+
+      it_behaves_like "schedules reminder mails" do
+        let(:expected_lower_boundary) { previous_job_cron_at + 15.minutes }
+        let(:expected_upper_boundary) { job_cron_at }
+      end
+    end
+
+    context "when there is a predecessor job with a cron_at more than 24 hours before" do
+      let(:previous_job_cron_at) { job_cron_at - 25.hours }
+
+      before do
+        previous_job
+      end
+
+      it_behaves_like "schedules reminder mails" do
+        let(:expected_lower_boundary) { job_cron_at - 24.hours }
+        let(:expected_upper_boundary) { job_cron_at }
+      end
     end
   end
 end

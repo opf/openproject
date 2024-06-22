@@ -32,10 +32,10 @@ module ReportsHelper
   def aggregate(data, criteria)
     data&.inject(0) do |sum, row|
       match = criteria&.all? do |k, v|
-        row[k].to_s == v.to_s || (k == 'closed' && row[k] == ActiveRecord::Type::Boolean.new.cast(v))
+        row[k].to_s == v.to_s || (k == "closed" && row[k] == ActiveRecord::Type::Boolean.new.cast(v))
       end
 
-      sum += row['total'].to_i if match
+      sum += row["total"].to_i if match
 
       sum
     end || 0
@@ -43,6 +43,6 @@ module ReportsHelper
 
   def aggregate_link(data, criteria, *)
     a = aggregate data, criteria
-    a.positive? ? link_to(h(a), *) : '-'
+    a.positive? ? link_to(h(a), *) : "-"
   end
 end

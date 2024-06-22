@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe MyController, :skip_2fa_stage do
   render_views
@@ -48,10 +48,10 @@ RSpec.describe MyController, :skip_2fa_stage do
   let(:header_value) { "#{header_login_value}#{secret ? ':' : ''}#{secret}" }
   let(:find_user_result) { user }
 
-  shared_examples 'should log in the user' do
+  shared_examples "should log in the user" do
     it "logs in given user" do
       expect(response).to redirect_to my_account_path
-      expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
+      expect(user.reload.last_login_on).to equal_time_without_usec(Time.current)
       expect(session[:user_id]).to eq user.id
     end
   end
@@ -68,7 +68,7 @@ RSpec.describe MyController, :skip_2fa_stage do
       expect(failure[:ttl]).to eq 1
     end
 
-    context 'when the config is marked optional' do
+    context "when the config is marked optional" do
       let(:sso_config) do
         {
           header:,
@@ -77,7 +77,7 @@ RSpec.describe MyController, :skip_2fa_stage do
         }
       end
 
-      context 'when no header is present' do
+      context "when no header is present" do
         let(:header_value) { nil }
 
         it "redirects to login" do
@@ -85,7 +85,7 @@ RSpec.describe MyController, :skip_2fa_stage do
         end
       end
 
-      context 'when the header is present' do
+      context "when the header is present" do
         it "shows an error" do
           expect(response).to redirect_to("/sso")
           expect(session).to have_key(:auth_source_sso_failure)
@@ -108,32 +108,32 @@ RSpec.describe MyController, :skip_2fa_stage do
     request.headers[header] = header_value
   end
 
-  describe 'login' do
+  describe "login" do
     before do
       get :account
     end
 
-    it_behaves_like 'should log in the user'
+    it_behaves_like "should log in the user"
 
-    context 'when the secret being null' do
+    context "when the secret being null" do
       let(:secret) { nil }
 
-      it_behaves_like 'should log in the user'
+      it_behaves_like "should log in the user"
     end
 
-    context 'when the secret is a number' do
+    context "when the secret is a number" do
       let(:secret) { 42 }
 
-      it_behaves_like 'should log in the user'
+      it_behaves_like "should log in the user"
     end
 
-    context 'when the header values does not match the case' do
-      let(:header_login_value) { 'H.wUrSt' }
+    context "when the header values does not match the case" do
+      let(:header_login_value) { "H.wUrSt" }
 
-      it_behaves_like 'should log in the user'
+      it_behaves_like "should log in the user"
     end
 
-    context 'when the user is invited' do
+    context "when the user is invited" do
       let!(:user) do
         create(:user, login:, status: Principal.statuses[:invited], ldap_auth_source:)
       end
@@ -173,8 +173,8 @@ RSpec.describe MyController, :skip_2fa_stage do
     end
   end
 
-  context 'when the logged-in user differs in case' do
-    let(:header_login_value) { 'h.WURST' }
+  context "when the logged-in user differs in case" do
+    let(:header_login_value) { "h.WURST" }
     let(:session_update_time) { 1.minute.ago }
     let(:last_login) { 1.minute.ago }
 
@@ -185,7 +185,7 @@ RSpec.describe MyController, :skip_2fa_stage do
       session[:should_be_kept] = true
     end
 
-    it 'logs in the user' do
+    it "logs in the user" do
       get :account
 
       expect(response).not_to be_redirect
@@ -194,15 +194,15 @@ RSpec.describe MyController, :skip_2fa_stage do
       expect(session[:updated_at]).to be > session_update_time
 
       # User not is not relogged
-      expect(user.reload.last_login_on).to be_within(1.second).of(last_login)
+      expect(user.reload.last_login_on).to equal_time_without_usec(last_login)
 
       # Session values are kept
       expect(session[:should_be_kept]).to be true
     end
   end
 
-  context 'when the logged-in user differs from the header' do
-    let(:other_user) { create(:user, login: 'other_user') }
+  context "when the logged-in user differs from the header" do
+    let(:other_user) { create(:user, login: "other_user") }
     let(:session_update_time) { 1.minute.ago }
     let(:service) { Users::LogoutService.new(controller:) }
 
@@ -211,7 +211,7 @@ RSpec.describe MyController, :skip_2fa_stage do
       session[:updated_at] = session_update_time
     end
 
-    it 'logs out the user and logs it in again' do
+    it "logs out the user and logs it in again" do
       allow(Users::LogoutService).to receive(:new).and_return(service)
       allow(service).to receive(:call!).with(other_user).and_call_original
 
@@ -219,7 +219,7 @@ RSpec.describe MyController, :skip_2fa_stage do
 
       expect(service).to have_received(:call!).with(other_user)
       expect(response).to redirect_to my_account_path
-      expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
+      expect(user.reload.last_login_on).to equal_time_without_usec(Time.current)
       expect(session[:user_id]).to eq user.id
       expect(session[:updated_at]).to be > session_update_time
     end

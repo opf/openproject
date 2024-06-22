@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe AdminController do
   let(:user) { build(:admin) }
@@ -35,12 +35,12 @@ RSpec.describe AdminController do
     allow(User).to receive(:current).and_return user
   end
 
-  describe '#index' do
-    it 'renders index' do
+  describe "#index" do
+    it "renders index" do
       get :index
 
       expect(response).to be_successful
-      expect(response).to render_template 'index'
+      expect(response).to render_template "index"
     end
 
     describe "with a plugin adding a menu item" do
@@ -56,9 +56,9 @@ RSpec.describe AdminController do
         Redmine::Plugin.register name.to_sym do
           menu :admin_menu,
                :"#{name}_settings",
-               { controller: '/admin/settings', action: :show_plugin, id: :"openproject_#{name}" },
+               { controller: "/admin/settings", action: :show_plugin, id: :"openproject_#{name}" },
                caption: name.capitalize,
-               icon: 'arrow',
+               icon: "book",
                if: ->(*) { show }
         end
 
@@ -70,7 +70,7 @@ RSpec.describe AdminController do
         let(:visible) { true }
 
         it "shows the plugin in the overview" do
-          expect(response.body).to have_css('a.menu-block', text: plugin_name.capitalize)
+          expect(response.body).to have_css("a.menu-block", text: plugin_name.capitalize)
         end
       end
 
@@ -79,16 +79,16 @@ RSpec.describe AdminController do
         let(:visible) { false }
 
         it "does not show the plugin in the overview" do
-          expect(response.body).to have_no_css('a.menu-block', text: plugin_name.capitalize)
+          expect(response.body).to have_no_css("a.menu-block", text: plugin_name.capitalize)
         end
       end
     end
   end
 
-  describe '#plugins' do
+  describe "#plugins" do
     render_views
 
-    context 'with plugins' do
+    context "with plugins" do
       before do
         Redmine::Plugin.register :foo do
         end
@@ -96,36 +96,36 @@ RSpec.describe AdminController do
         end
       end
 
-      it 'renders the plugins' do
+      it "renders the plugins" do
         get :plugins
 
         expect(response).to be_successful
-        expect(response).to render_template 'plugins'
+        expect(response).to render_template "plugins"
 
-        expect(response.body).to have_css('td span', text: 'Foo')
-        expect(response.body).to have_css('td span', text: 'Bar')
+        expect(response.body).to have_css("td span", text: "Foo")
+        expect(response.body).to have_css("td span", text: "Bar")
       end
     end
 
-    context 'without plugins' do
+    context "without plugins" do
       before do
         Redmine::Plugin.clear
       end
 
-      it 'renders even without plugins' do
+      it "renders even without plugins" do
         get :plugins
         expect(response).to be_successful
-        expect(response).to render_template 'plugins'
+        expect(response).to render_template "plugins"
       end
     end
   end
 
-  describe '#info' do
-    it 'renders info' do
+  describe "#info" do
+    it "renders info" do
       get :info
 
       expect(response).to be_successful
-      expect(response).to render_template 'info'
+      expect(response).to render_template "info"
     end
   end
 end

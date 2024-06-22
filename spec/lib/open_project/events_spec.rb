@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::Events do
   def fire_event(event_constant_name)
@@ -37,7 +37,7 @@ RSpec.describe OpenProject::Events do
   end
 
   before do
-    allow(Storages::ManageNextcloudIntegrationEventsJob).to receive(:debounce)
+    allow(Storages::ManageStorageIntegrationsJob).to receive(:debounce)
   end
 
   %w[
@@ -48,30 +48,27 @@ RSpec.describe OpenProject::Events do
     describe(event) do
       subject { fire_event(event) }
 
-      context 'when payload is empty' do
+      context "when payload is empty" do
         let(:payload) { {} }
 
         it do
           subject
-          expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
+          expect(Storages::ManageStorageIntegrationsJob).not_to have_received(:debounce)
         end
       end
 
-      context 'when payload contains automatic project_folder_mode' do
+      context "when payload contains automatic project_folder_mode" do
         let(:payload) { { project_folder_mode: :automatic } }
 
         it do
           subject
-          expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
+          expect(Storages::ManageStorageIntegrationsJob).to have_received(:debounce)
         end
 
         it do
-          # Check for message being called instead of checking the job arrival to the queue
-          # because it is not simple adding to the queue in ::Storages::ManageNextcloudIntegrationCronJob.ensure_scheduled!
-          # With this method cron_job can be actually removed if not needed.
-          allow(Storages::ManageNextcloudIntegrationCronJob).to receive(:ensure_scheduled!)
+          allow(Storages::ManageStorageIntegrationsJob).to receive(:disable_cron_job_if_needed)
           subject
-          expect(Storages::ManageNextcloudIntegrationCronJob).to have_received(:ensure_scheduled!)
+          expect(Storages::ManageStorageIntegrationsJob).to have_received(:disable_cron_job_if_needed)
         end
       end
     end
@@ -93,73 +90,73 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).to have_received(:debounce)
       end
     end
   end
 
-  describe 'OAUTH_CLIENT_TOKEN_CREATED' do
-    subject { fire_event('OAUTH_CLIENT_TOKEN_CREATED') }
+  describe "OAUTH_CLIENT_TOKEN_CREATED" do
+    subject { fire_event("OAUTH_CLIENT_TOKEN_CREATED") }
 
-    context 'when payload is empty' do
+    context "when payload is empty" do
       let(:payload) { {} }
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).not_to have_received(:debounce)
       end
     end
 
-    context 'when payload contains storage integration type' do
-      let(:payload) { { integration_type: 'Storages::Storage' } }
+    context "when payload contains storage integration type" do
+      let(:payload) { { integration_type: "Storages::Storage" } }
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).to have_received(:debounce)
       end
     end
   end
 
-  describe 'ROLE_UPDATED' do
-    subject { fire_event('ROLE_UPDATED') }
+  describe "ROLE_UPDATED" do
+    subject { fire_event("ROLE_UPDATED") }
 
-    context 'when payload is empty' do
+    context "when payload is empty" do
       let(:payload) { {} }
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).not_to have_received(:debounce)
       end
     end
 
-    context 'when payload contains some nextcloud related permissions as a diff' do
+    context "when payload contains some nextcloud related permissions as a diff" do
       let(:payload) { { permissions_diff: [:read_files] } }
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).to have_received(:debounce)
       end
     end
   end
 
-  describe 'ROLE_DESTROYED' do
-    subject { fire_event('ROLE_DESTROYED') }
+  describe "ROLE_DESTROYED" do
+    subject { fire_event("ROLE_DESTROYED") }
 
-    context 'when payload is empty' do
+    context "when payload is empty" do
       let(:payload) { {} }
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).not_to have_received(:debounce)
       end
     end
 
-    context 'when payload contains some nextcloud related permissions' do
+    context "when payload contains some nextcloud related permissions" do
       let(:payload) { { permissions: [:read_files] } }
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).to have_received(:debounce)
       end
     end
   end

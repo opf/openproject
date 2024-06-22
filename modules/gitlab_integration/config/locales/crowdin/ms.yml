@@ -1,0 +1,67 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ms:
+  activerecord:
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: "mestilah jalur hash dengan kunci-kunci: warna, tajuk"
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: "mestilah jalur hash dengan kunci-kunci: warna, tajuk"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "Paparkan kandungan GitLab"
+  gitlab_integration:
+    merge_request_opened_comment: >
+      **PP Dibuka:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_closed_comment: >
+      **PP Ditutup:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah ditutup oleh [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_merged_comment: >
+      **PP Digabungkan:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah digabungkan oleh [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_reopened_comment: >
+      **PP Dibuka Semula:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).
+    note_commit_referenced_comment: >
+      **Dirujuk dalam Komit:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Nota Komit [%{commit_id}](%{commit_url}) di [%{repository}](%{repository_url}): %{commit_note}
+    note_mr_referenced_comment: >
+      **Dirujuk dalam PP:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Penggabungan Permintaan %{mr_number} [%{mr_title}](%{mr_url}) pada [%{repository}](%{repository_url}): %{mr_note}
+    note_mr_commented_comment: >
+      **Memberi komen dalam PP:** [%{gitlab_user}](%{gitlab_user_url}) memberi komen WP ini dalam Penggabungan Permintaan %{mr_number} [%{mr_title}](%{mr_url}) di [%{repository}](%{repository_url}):%{mr_note}
+    note_issue_referenced_comment: >
+      **Dirujuk dalam Isu:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Isu %{issue_number} [%{issue_title}](%{issue_url}) pada [%{repository}](%{repository_url}): %{issue_note}
+    note_issue_commented_comment: >
+      **Memberi komen dalam Isu:** [%{gitlab_user}](%{gitlab_user_url}) memberi komen WP ini dalam Isu %{issue_number} [%{issue_title}](%{issue_url}) pada [%{repository}](%{repository_url}): %{issue_note}
+    note_snippet_referenced_comment: >
+      **Dirujuk dalam Snippet:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) pada [%{repository}](%{repository_url}): %{snippet_note}
+    issue_opened_referenced_comment: >
+      **Isu Dibuka:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).
+    issue_closed_referenced_comment: >
+      **Isu Ditutup:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah ditutup oleh [%{gitlab_user}](%{gitlab_user_url}).
+    issue_reopened_referenced_comment: >
+      **Isu Dibuka Semula:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).
+    push_single_commit_comment: >
+      **Ditolak masuk PP** [%{gitlab_user}] (%{gitlab_user_url}) ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}
+    push_multiple_commits_comment: >
+      **Ditolak masuk PG** [%{gitlab_user}] (%{gitlab_user_url}) beberapa komit telah ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}

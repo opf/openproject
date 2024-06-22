@@ -28,7 +28,7 @@ tr:
         author: "Sahibi"
         available: "Uygun"
         budget: "Planlanmış"
-        budget_ratio: "Harcanma (oranı)"
+        budget_ratio: "Harcanan (oran)"
         description: "Açıklama"
         spent: "Harcanan"
         status: "Durum"

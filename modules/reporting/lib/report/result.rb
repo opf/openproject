@@ -35,6 +35,7 @@ class Report::Result
     alias values value
     include Enumerable
     include Report::QueryUtils
+    include ActionView::Helpers::OutputSafetyHelper
 
     def initialize(value)
       @important_fields ||= []
@@ -146,7 +147,8 @@ class Report::Result
     end
 
     def render(keys = important_fields)
-      fields.map { |k, v| yield(k, v) if keys.include? k }.join
+      rendered = fields.map { |k, v| yield(k, v) if keys.include? k }
+      safe_join(rendered)
     end
 
     def set_key(index = [])
@@ -162,11 +164,11 @@ class Report::Result
     end
 
     def count
-      self['count'].to_i
+      self["count"].to_i
     end
 
     def units
-      self['units'].to_d
+      self["units"].to_d
     end
 
     ##

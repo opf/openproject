@@ -1,7 +1,7 @@
 "no":
   plugin_openproject_ldap_groups:
-    name: "OpenProject LDAP groups"
-    description: "Synchronization of LDAP group memberships."
+    name: "OpenProject LDAP-grupper"
+    description: "Synkronisering av LDAP gruppe medlemskap."
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
@@ -11,7 +11,7 @@
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP-filter'
         ldap_auth_source: 'LDAP-tilkobling'
-        group_name_attribute: "Gruppenavn-attributt"
+        group_name_attribute: "Gruppenavn-egenskap"
         sync_users: 'Synkroniser brukere'
         base_dn: "Søk i DN-basen"
     models:
@@ -66,7 +66,7 @@
       form:
         auth_source_text: 'Velg hvilken LDAP-tilkobling som skal brukes.'
         sync_users_text: >
-          Hvis du aktiverer dette valget, vil funnede brukere automatisk bli opprettet i OpenProject. Uten dette vil bare eksisterende kontoer i OpenProject bli lagt til i grupper.
+          Hvis du aktiverer dette valget, vil relevante brukere automatisk bli opprettet i OpenProject. Uten dette vil bare eksisterende kontoer i OpenProject bli lagt til i grupper.
         dn_text: 'Skriv inn hele DN for gruppen i LDAP'
         group_text: 'Velg en eksisterende OpenProject gruppe som medlemmene i LDAP-gruppen skal synkroniseres med'
       upsale:

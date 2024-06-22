@@ -25,8 +25,8 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
@@ -42,7 +42,7 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
   let(:path) { api_v3_paths.version_form(version.id) }
   let(:parameters) do
     {
-      name: 'A new version name'
+      name: "A new version name"
     }
   end
 
@@ -53,23 +53,23 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
 
   subject(:response) { last_response }
 
-  describe '#POST /api/v3/versions/:id/form' do
-    it 'returns 200 OK' do
+  describe "#POST /api/v3/versions/:id/form" do
+    it "returns 200 OK" do
       expect(response.status).to eq(200)
     end
 
-    it 'returns a form' do
+    it "returns a form" do
       expect(response.body)
-        .to be_json_eql('Form'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Form".to_json)
+        .at_path("_type")
     end
 
-    it 'does not update the version' do
+    it "does not update the version" do
       expect(version.reload.name)
-        .not_to eql 'A new version name'
+        .not_to eql "A new version name"
     end
 
-    context 'with nulling parameters' do
+    context "with nulling parameters" do
       let(:parameters) do
         {
           name: nil,
@@ -81,25 +81,25 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
         }
       end
 
-      it 'has 2 validation errors' do
-        expect(subject.body).to have_json_size(2).at_path('_embedded/validationErrors')
+      it "has 2 validation errors" do
+        expect(subject.body).to have_json_size(2).at_path("_embedded/validationErrors")
       end
 
-      it 'has a validation error on name' do
-        expect(subject.body).to have_json_path('_embedded/validationErrors/name')
+      it "has a validation error on name" do
+        expect(subject.body).to have_json_path("_embedded/validationErrors/name")
       end
 
-      it 'has a validation error on project' do
-        expect(subject.body).to have_json_path('_embedded/validationErrors/project')
+      it "has a validation error on project" do
+        expect(subject.body).to have_json_path("_embedded/validationErrors/project")
       end
 
-      it 'has no commit link' do
+      it "has no commit link" do
         expect(subject.body)
-          .not_to have_json_path('_links/commit')
+          .not_to have_json_path("_links/commit")
       end
     end
 
-    context 'with wanting to alter the project' do
+    context "with wanting to alter the project" do
       let(:other_project) do
         role = create(:project_role, permissions:)
 
@@ -116,34 +116,34 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
         }
       end
 
-      it 'has 1 validation errors' do
-        expect(subject.body).to have_json_size(1).at_path('_embedded/validationErrors')
+      it "has 1 validation errors" do
+        expect(subject.body).to have_json_size(1).at_path("_embedded/validationErrors")
       end
 
-      it 'has a validation error on project' do
-        expect(subject.body).to have_json_path('_embedded/validationErrors/project')
+      it "has a validation error on project" do
+        expect(subject.body).to have_json_path("_embedded/validationErrors/project")
       end
 
-      it 'notes definingProject to not be writable' do
+      it "notes definingProject to not be writable" do
         expect(subject.body)
           .to be_json_eql(false)
-          .at_path('_embedded/schema/definingProject/writable')
+          .at_path("_embedded/schema/definingProject/writable")
       end
 
-      it 'has no commit link' do
+      it "has no commit link" do
         expect(subject.body)
-          .not_to have_json_path('_links/commit')
+          .not_to have_json_path("_links/commit")
       end
     end
 
-    context 'with all parameters' do
+    context "with all parameters" do
       let!(:int_cf) { create(:version_custom_field, :integer) }
       let!(:list_cf) { create(:version_custom_field, :list) }
       let(:parameters) do
         {
-          name: 'New version',
+          name: "New version",
           description: {
-            raw: 'A new description'
+            raw: "A new description"
           },
           int_cf.attribute_name(:camel_case) => 5,
           startDate: "2018-01-01",
@@ -158,36 +158,36 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
         }
       end
 
-      it 'has 0 validation errors' do
-        expect(subject.body).to have_json_size(0).at_path('_embedded/validationErrors')
+      it "has 0 validation errors" do
+        expect(subject.body).to have_json_size(0).at_path("_embedded/validationErrors")
       end
 
-      it 'has the values prefilled in the payload' do
+      it "has the values prefilled in the payload" do
         body = subject.body
 
         expect(body)
-          .to be_json_eql('New version'.to_json)
-          .at_path('_embedded/payload/name')
+          .to be_json_eql("New version".to_json)
+          .at_path("_embedded/payload/name")
 
         expect(last_response.body)
-          .to be_json_eql('<p>A new description</p>'.to_json)
-          .at_path('_embedded/payload/description/html')
+          .to be_json_eql("<p>A new description</p>".to_json)
+          .at_path("_embedded/payload/description/html")
 
         expect(last_response.body)
-          .to be_json_eql('2018-01-01'.to_json)
-          .at_path('_embedded/payload/startDate')
+          .to be_json_eql("2018-01-01".to_json)
+          .at_path("_embedded/payload/startDate")
 
         expect(last_response.body)
-          .to be_json_eql('2018-01-09'.to_json)
-          .at_path('_embedded/payload/endDate')
+          .to be_json_eql("2018-01-09".to_json)
+          .at_path("_embedded/payload/endDate")
 
         expect(last_response.body)
-          .to be_json_eql('closed'.to_json)
-          .at_path('_embedded/payload/status')
+          .to be_json_eql("closed".to_json)
+          .at_path("_embedded/payload/status")
 
         expect(last_response.body)
-          .to be_json_eql('descendants'.to_json)
-          .at_path('_embedded/payload/sharing')
+          .to be_json_eql("descendants".to_json)
+          .at_path("_embedded/payload/sharing")
 
         expect(last_response.body)
           .to be_json_eql(api_v3_paths.custom_option(list_cf.custom_options.first.id).to_json)
@@ -198,31 +198,31 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
           .at_path("_embedded/payload/customField#{int_cf.id}")
       end
 
-      it 'has no definingProject path' do
+      it "has no definingProject path" do
         # As the definingProject is not writable
         expect(body)
-          .not_to have_json_path('_embedded/payload/_links/definingProject')
+          .not_to have_json_path("_embedded/payload/_links/definingProject")
       end
 
-      it 'has a commit link' do
+      it "has a commit link" do
         expect(subject.body)
           .to be_json_eql(api_v3_paths.version(version.id).to_json)
-          .at_path('_links/commit/href')
+          .at_path("_links/commit/href")
       end
     end
 
-    context 'without the necessary edit permission' do
+    context "without the necessary edit permission" do
       let(:permissions) { [:view_work_packages] }
 
-      it 'returns 403 Not Authorized' do
+      it "returns 403 Not Authorized" do
         expect(response.status).to eq(403)
       end
     end
 
-    context 'without the necessary view permission' do
+    context "without the necessary view permission" do
       let(:permissions) { [] }
 
-      it 'returns 404 Not Found' do
+      it "returns 404 Not Found" do
         expect(response.status).to eq(404)
       end
     end

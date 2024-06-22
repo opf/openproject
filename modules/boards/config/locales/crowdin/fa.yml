@@ -5,29 +5,29 @@ fa:
     description: "Provides board views."
   permission_show_board_views: "مشاهده تابلو ها"
   permission_manage_board_views: "مدیریت تابلو ها"
-  project_module_board_view: "Boards"
+  project_module_board_view: "انجمن ها"
   boards:
-    label_board: "Board"
-    label_boards: "Boards"
-    label_create_new_board: "Create new board"
+    label_board: "تابلو"
+    label_boards: "تابلو"
+    label_create_new_board: "ایجاد تابلوی‌ اعلانات"
     label_board_type: "نوع انجمن"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: اصول اولیه
+      action: "تابلوی اکشن (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
+      assignee: نماینده
+      status: وضعیت
       version: نسخه
       subproject: زیر پروژه
-      subtasks: Parent-child
-      basic: Basic
+      subtasks: والد-فرزند
+      basic: اصول اولیه
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        از ابتدا با یک تخته خالی شروع کنید. به صورت دستی کارت ها و ستون ها را به این تابلو اضافه کنید.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        ستون هایی برای وضعیت هایی مانند To Do، در حال انجام، انجام شد.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        تابلو با ستون های خودکار بر اساس کاربران اختصاص داده شده. ایده آل برای ارسال بسته های کاری
       version: >
         Board with automated columns based on the version attribute. Ideal for planning product development.
       subproject: >

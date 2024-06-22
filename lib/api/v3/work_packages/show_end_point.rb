@@ -34,7 +34,7 @@ module API::V3::WorkPackages
 
       if forbidden_timestamps.any?
         message =
-          I18n.t(:'activerecord.errors.models.query.attributes.timestamps.forbidden',
+          I18n.t(:"activerecord.errors.models.query.attributes.timestamps.forbidden",
                  values: forbidden_timestamps.join(", "))
         raise ::API::Errors::BadRequest.new(message)
       end

@@ -27,8 +27,22 @@
 # ++
 
 FactoryBot.define do
-  factory :project_query, class: 'Queries::Projects::ProjectQuery' do
+  factory :project_query, class: "Queries::Projects::ProjectQuery" do
     sequence(:name) { |n| "Project query #{n}" }
+    public { false }
+
+    transient do
+      select { [] }
+    end
+
+    after(:stub) do |query, evaluator|
+      query.select(*evaluator.select)
+    end
+
+    after(:build) do |query, evaluator|
+      query.select(*evaluator.select)
+    end
+
     user
   end
 end

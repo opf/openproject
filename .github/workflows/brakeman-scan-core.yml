@@ -29,11 +29,6 @@ jobs:
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
-        with:
-          # FIXME: remove the ruby version once '3.2.2' is released.
-          # This is set to head to fix ruby segfaulting when brakeman is
-          # used. See https://bugs.ruby-lang.org/issues/19433
-          ruby-version: 'head'
 
       - name: Setup Brakeman
         run: |

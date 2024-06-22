@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'API v3 oauth applications resource', content_type: :json do
+RSpec.describe "API v3 oauth applications resource", content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { create(:admin) }
@@ -40,15 +40,15 @@ RSpec.describe 'API v3 oauth applications resource', content_type: :json do
     get path
   end
 
-  describe 'GET /api/v3/oauth_applications/:oauth_application_id' do
+  describe "GET /api/v3/oauth_applications/:oauth_application_id" do
     let(:path) { api_v3_paths.oauth_application(oauth_application.id) }
 
-    it_behaves_like 'successful response'
+    it_behaves_like "successful response"
 
-    context 'as non-admin' do
+    context "as non-admin" do
       let(:current_user) { create(:user) }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 end

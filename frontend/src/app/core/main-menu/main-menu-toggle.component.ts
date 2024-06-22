@@ -55,7 +55,8 @@ export class MainMenuToggleComponent extends UntilDestroyedMixin implements OnIn
     readonly topMenu:TopMenuService,
     readonly toggleService:MainMenuToggleService,
     readonly cdRef:ChangeDetectorRef,
-    readonly injector:Injector) {
+    readonly injector:Injector,
+  ) {
     super();
   }
 

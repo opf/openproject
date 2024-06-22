@@ -33,26 +33,25 @@ module Storages
     module StorageInteraction
       module OneDrive
         class DownloadLinkQuery
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+          def self.call(storage:, auth_strategy:, file_link:)
+            new(storage).call(auth_strategy:, file_link:)
+          end
+
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          def self.call(storage:, user:, file_link:)
-            new(storage).call(user:, file_link:)
-          end
+          def call(auth_strategy:, file_link:)
+            if file_link.nil?
+              return ServiceResult.failure(result: :error,
+                                           errors: Util.storage_error(code: :error, response: nil, source: self.class,
+                                                                      log_message: "File link can not be nil."))
+            end
 
-          def call(user:, file_link:)
-            Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx.get(
-                Util.join_uri_path(
-                  @uri,
-                  uri_path_for(file_link.origin_id)
-                ),
-                headers: { 'Authorization' => "Bearer #{token.access_token}" }
-              )
-
-              handle_errors(response)
+            Auth[auth_strategy].call(storage: @storage) do |http|
+              handle_errors http.get(Util.join_uri_path(@storage.uri, uri_path_for(file_link.origin_id)))
             end
           end
 
@@ -61,19 +60,23 @@ module Storages
           def handle_errors(response)
             case response
             in { status: 300..399 }
-              ServiceResult.success(result: response.headers['Location'])
+              ServiceResult.success(result: response.headers["Location"])
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data: response))
+                                    errors: Util.storage_error(code: :not_found, response:, source: self.class,
+                                                               log_message: "Outbound request destination not found!"))
             in { status: 403 }
               ServiceResult.failure(result: :forbidden,
-                                    errors: ::Storages::StorageError.new(code: :forbidden, data: response))
+                                    errors: Util.storage_error(code: :forbidden, response:, source: self.class,
+                                                               log_message: "Outbound request forbidden!"))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: response))
+                                    errors: Util.storage_error(code: :unauthorized, response:, source: self.class,
+                                                               log_message: "Outbound request not authorized!"))
             else
               ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data: response))
+                                    errors: Util.storage_error(code: :error, response:, source: self.class,
+                                                               log_message: "Outbound request failed with unknown error!"))
             end
           end
 

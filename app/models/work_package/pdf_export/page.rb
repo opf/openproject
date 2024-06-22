@@ -31,7 +31,7 @@ module WorkPackage::PDFExport::Page
 
   def configure_page_size!(layout)
     pdf.options[:page_layout] = layout
-    pdf.options[:page_size] = styles.page_size
+    pdf.options[:page_size] = options[:paper_size] || styles.page_size
     pdf.options[:top_margin] = styles.page_margin_top
     pdf.options[:left_margin] = styles.page_margin_left
     pdf.options[:bottom_margin] = styles.page_margin_bottom
@@ -134,7 +134,7 @@ module WorkPackage::PDFExport::Page
     if @total_page_nr
       "/#{@total_page_nr - (with_cover? ? 1 : 0)}"
     else
-      ''
+      ""
     end
   end
 end

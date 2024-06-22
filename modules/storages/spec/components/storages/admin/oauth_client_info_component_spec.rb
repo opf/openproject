@@ -26,25 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Admin::OAuthClientInfoComponent, type: :component do # rubocop:disable RSpec/SpecFilePathFormat
-  describe '#edit_icon_button_options' do
-    context 'with oauth client configured' do
-      it 'returns false, does not render view component' do
+  describe "#edit_icon_button_options" do
+    context "with oauth client configured" do
+      it "returns false, does not render view component" do
         storage = build_stubbed(:nextcloud_storage,
                                 oauth_client: build_stubbed(:oauth_client))
         component = described_class.new(storage:, oauth_client: storage.oauth_client)
-        expect(component.edit_icon_button_options).to include(
-          icon: :sync,
-          data: { confirm: "Are you sure? All users will have to authorize again against the storage.", turbo_stream: true }
-        )
+        expect(component.edit_icon_button_options)
+          .to include(icon: :sync,
+                      data: { confirm:
+                                "This action will reset the current OAuth credentials. After confirming you will " \
+                                "have to enter new credentials from the storage provider and all users will have " \
+                                "to authorize against Nextcloud again. Are you sure you want to proceed?",
+                              turbo_stream: true })
       end
     end
 
-    context 'without oauth client' do
-      it 'returns true, renders view component' do
+    context "without oauth client" do
+      it "returns true, renders view component" do
         storage = build_stubbed(:nextcloud_storage)
         component = described_class.new(storage:, oauth_client: nil)
 

@@ -2,10 +2,8 @@ module ::TeamPlanner
   class TeamPlannerController < BaseController
     include EnterpriseTrialHelper
     include Layout
-    before_action :find_optional_project
+    before_action :load_and_authorize_in_optional_project
     before_action :build_plan_view, only: %i[new]
-    before_action :authorize, except: %i[overview new create upsale]
-    before_action :authorize_global, only: %i[overview new create]
     before_action :require_ee_token, except: %i[upsale]
     before_action :find_plan_view, only: %i[destroy]
 
@@ -17,7 +15,7 @@ module ::TeamPlanner
 
     def overview
       @views = visible_plans
-      render layout: 'global'
+      render layout: "global"
     end
 
     def new; end
@@ -37,7 +35,7 @@ module ::TeamPlanner
     end
 
     def show
-      render layout: 'angular/angular'
+      render layout: "angular/angular"
     end
 
     def upsale; end
@@ -94,11 +92,11 @@ module ::TeamPlanner
         .includes(:project)
         .joins(:views)
         .references(:projects)
-        .where('views.type' => 'team_planner')
-        .order('queries.name ASC')
+        .where("views.type" => "team_planner")
+        .order("queries.name ASC")
 
       if project
-        query = query.where('queries.project_id' => project.id)
+        query = query.where("queries.project_id" => project.id)
       else
         allowed_projects = Project.allowed_to(User.current, :view_team_planner)
         query = query.where(queries: { project: allowed_projects })

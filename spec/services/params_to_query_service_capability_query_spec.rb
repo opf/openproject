@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe ParamsToQueryService, 'capability query' do
+RSpec.describe ParamsToQueryService, "capability query" do
   # This spec does currently not cover the whole functionality.
   let(:user) { build_stubbed(:admin) }
   let(:model) { Capability }
@@ -36,20 +36,20 @@ RSpec.describe ParamsToQueryService, 'capability query' do
   let(:instance) { described_class.new(model, user) }
   let(:service_call) { instance.call(params) }
 
-  context 'for a new query' do
-    context 'when applying filters' do
+  context "for a new query" do
+    context "when applying filters" do
       let(:params) do
         { filters: JSON.dump([{ principal: { operator: "=", values: ["4"] } },
                               { context: { operator: "=", values: ["g"] } },
                               { action: { operator: "=", values: ["projects/create"] } }]) }
       end
 
-      it 'returns a new query' do
+      it "returns a new query" do
         expect(service_call)
           .to be_a Queries::Capabilities::CapabilityQuery
       end
 
-      it 'applies the filters' do
+      it "applies the filters" do
         expect(service_call.filters.map { |f| { field: f.field, operator: f.operator, values: f.values } })
           .to contain_exactly({ field: :principal_id, operator: "=", values: ["4"] },
                               { field: :context, operator: "=", values: ["g"] },

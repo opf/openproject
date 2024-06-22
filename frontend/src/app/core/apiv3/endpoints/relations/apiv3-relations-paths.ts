@@ -28,11 +28,13 @@
 
 import { ApiV3GettableResource, ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { from, Observable } from 'rxjs';
+import { forkJoin, from, Observable } from 'rxjs';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { map } from 'rxjs/operators';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+
+export const MAGIC_RELATION_SIZE = 100;
 
 export class ApiV3RelationsPaths extends ApiV3ResourceCollection<RelationResource, ApiV3GettableResource<RelationResource>> {
   constructor(protected apiRoot:ApiV3Service,
@@ -50,6 +52,14 @@ export class ApiV3RelationsPaths extends ApiV3ResourceCollection<RelationResourc
   }
 
   public loadInvolved(workPackageIds:string[]):Observable<RelationResource[]> {
+    if (workPackageIds.length > MAGIC_RELATION_SIZE) {
+      const chunks = _.chunk(workPackageIds, MAGIC_RELATION_SIZE);
+      return forkJoin(chunks.map((chunk) => this.loadInvolved(chunk)))
+        .pipe(
+          map((results) => _.flatten(results)),
+        );
+    }
+
     const validIds = _.filter(workPackageIds, (id) => /\d+/.test(id));
 
     if (validIds.length === 0) {

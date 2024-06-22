@@ -10,7 +10,7 @@ module Components::Autocompleter
 
       # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
       wait_for_network_idle if using_cuprite? && wait_for_fetched_options
-      expect(element).to have_no_css('.ng-spinner-loader')
+      expect(element).to have_no_css(".ng-spinner-loader")
 
       # Insert the text to find
       within(element) do
@@ -18,7 +18,7 @@ module Components::Autocompleter
       end
 
       # Wait for options to be refreshed after having entered some text.
-      expect(element).to have_no_css('.ng-spinner-loader')
+      expect(element).to have_no_css(".ng-spinner-loader")
 
       # probably not necessary anymore
       sleep(0.5) unless using_cuprite?
@@ -32,11 +32,11 @@ module Components::Autocompleter
     def ng_find_dropdown(element, results_selector: nil)
       retry_block do
         if results_selector
-          results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == 'body'
+          results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == "body"
           page.find(results_selector)
         else
           within(element) do
-            page.find('ng-select .ng-dropdown-panel')
+            page.find("ng-select .ng-dropdown-panel")
           end
         end
       rescue StandardError => e
@@ -45,22 +45,22 @@ module Components::Autocompleter
       end
     end
 
-    def expect_ng_option(element, option, results_selector: nil)
+    def expect_ng_option(element, option, results_selector: nil, present: true)
       within(ng_find_dropdown(element, results_selector:)) do
-        expect(page).to have_css('.ng-option', text: option)
+        expect(page).to have_conditional_selector(present, ".ng-option", text: option)
       end
     end
 
     def expect_no_ng_option(element, option, results_selector: nil)
       within(ng_find_dropdown(element, results_selector:)) do
-        expect(page).to have_no_css('.ng-option', text: option)
+        expect(page).to have_no_css(".ng-option", text: option)
       end
     end
 
     ##
     # Insert the query, typing
     def ng_enter_query(element, query, wait_for_fetched_options: true)
-      input = element.find('input[type=text]', visible: :all).native
+      input = element.find("input[type=text]", visible: :all).native
       if using_cuprite?
         clear_input_field_contents(input)
       else
@@ -89,13 +89,13 @@ module Components::Autocompleter
     ##
     # Get the ng_select input element
     def ng_select_input(from_element = page)
-      from_element.find('.ng-input input')
+      from_element.find(".ng-input input")
     end
 
     ##
     # clear the ng select field
     def ng_select_clear(from_element)
-      from_element.find('.ng-clear-wrapper', visible: :all).click
+      from_element.find(".ng-clear-wrapper", visible: :all).click
     end
 
     def select_autocomplete(element,
@@ -116,7 +116,7 @@ module Components::Autocompleter
       text = select_text.presence || query
 
       # click the element to select it
-      target_dropdown.find('.ng-option', text:, match: :first, wait: 15).click
+      target_dropdown.find(".ng-option", text:, match: :first, wait: 15).click
     end
   end
 end

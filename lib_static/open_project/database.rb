@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'semantic'
+require "semantic"
 
 module OpenProject
   # This module provides some information about the currently used database
@@ -34,8 +34,8 @@ module OpenProject
   # syntax differences.
 
   module Database
-    DB_VALUE_FALSE = 'f'.freeze
-    DB_VALUE_TRUE = 't'.freeze
+    DB_VALUE_FALSE = "f".freeze
+    DB_VALUE_TRUE = "t".freeze
 
     class InsufficientVersionError < StandardError; end
 
@@ -56,7 +56,7 @@ module OpenProject
     def self.required_version
       {
         numeric: 100000, # PG_VERSION_NUM
-        string: '10.0.0'
+        string: "10.0.0"
       }
     end
 
@@ -64,7 +64,7 @@ module OpenProject
     # Check pending database migrations
     # and cache the result for up to one hour
     def self.migrations_pending?(ensure_fresh: false)
-      cache_key = OpenProject::Cache::CacheKey.key('database_migrations')
+      cache_key = OpenProject::Cache::CacheKey.key("database_migrations")
       cached_result = Rails.cache.read(cache_key)
 
       # Ensure cache is busted if result is positive or unset
@@ -168,13 +168,13 @@ module OpenProject
     # Set the +raw+ argument to true to return the unmangled string
     # from the database.
     def self.version(raw = false)
-      @version ||= ActiveRecord::Base.connection.select_value('SELECT version()')
+      @version ||= ActiveRecord::Base.connection.select_value("SELECT version()")
 
       raw ? @version : @version.match(/\APostgreSQL ([\d.]+)/i)[1]
     end
 
     def self.numeric_version
-      ActiveRecord::Base.connection.select_value('SHOW server_version_num;').to_i
+      ActiveRecord::Base.connection.select_value("SHOW server_version_num;").to_i
     end
 
     # Return if the version of the underlying database engine is capable of TSVECTOR features, needed for full-text

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe "POST /api/v3/grids/form", content_type: :json do
   include Rack::Test::Methods
@@ -50,22 +50,22 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
     login_as(current_user)
   end
 
-  describe '#post' do
+  describe "#post" do
     before do
-      post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      post path, params.to_json, "CONTENT_TYPE" => "application/json"
     end
 
-    it 'contains a Schema embedding the available values' do
+    it "contains a Schema embedding the available values" do
       expect(subject.body)
         .to be_json_eql("Schema".to_json)
-        .at_path('_embedded/schema/_type')
+        .at_path("_embedded/schema/_type")
 
       expect(subject.body)
         .to be_json_eql(my_page_path.to_json)
-        .at_path('_embedded/schema/scope/_links/allowedValues/0/href')
+        .at_path("_embedded/schema/scope/_links/allowedValues/0/href")
     end
 
-    context 'with /my/page for the scope value' do
+    context "with /my/page for the scope value" do
       let(:params) do
         {
           _links: {
@@ -76,7 +76,7 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
         }
       end
 
-      it 'contains default data in the payload' do
+      it "contains default data in the payload" do
         expected = {
           rowCount: 1,
           columnCount: 2,
@@ -84,11 +84,11 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
           widgets: [
             {
               _type: "GridWidget",
-              identifier: 'work_packages_table',
+              identifier: "work_packages_table",
               options: {
                 name: "Work packages assigned to me",
                 queryProps: {
-                  'columns[]': %w(id project type subject),
+                  "columns[]": %w(id project type subject),
                   filters: "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"assigned_to\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
                 }
               },
@@ -99,11 +99,11 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
             },
             {
               _type: "GridWidget",
-              identifier: 'work_packages_table',
+              identifier: "work_packages_table",
               options: {
                 name: "Work packages created by me",
                 queryProps: {
-                  'columns[]': %w(id project type subject),
+                  "columns[]": %w(id project type subject),
                   filters: "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"author\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
                 }
               },
@@ -124,23 +124,23 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
 
         expect(subject.body)
           .to be_json_eql(expected.to_json)
-          .at_path('_embedded/payload')
+          .at_path("_embedded/payload")
       end
 
-      it 'has no validationErrors' do
+      it "has no validationErrors" do
         expect(subject.body)
           .to be_json_eql({}.to_json)
-          .at_path('_embedded/validationErrors')
+          .at_path("_embedded/validationErrors")
       end
 
-      it 'has a commit link' do
+      it "has a commit link" do
         expect(subject.body)
           .to be_json_eql(api_v3_paths.grids.to_json)
-          .at_path('_links/commit/href')
+          .at_path("_links/commit/href")
       end
     end
 
-    context 'with an unsupported widget identifier' do
+    context "with an unsupported widget identifier" do
       let(:params) do
         {
           _links: {
@@ -161,17 +161,17 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
         }
       end
 
-      it 'has a validationError on widget' do
+      it "has a validationError on widget" do
         expect(subject.body)
           .to be_json_eql("Widgets is not set to one of the allowed values.".to_json)
-          .at_path('_embedded/validationErrors/widgets/message')
+          .at_path("_embedded/validationErrors/widgets/message")
       end
     end
 
-    context 'with name set' do
+    context "with name set" do
       let(:params) do
         {
-          name: 'My custom grid 1',
+          name: "My custom grid 1",
           _links: {
             scope: {
               href: my_page_path
@@ -180,18 +180,18 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
         }
       end
 
-      it 'feeds it back' do
+      it "feeds it back" do
         expect(subject.body)
           .to be_json_eql("My custom grid 1".to_json)
-          .at_path('_embedded/payload/name')
+          .at_path("_embedded/payload/name")
       end
     end
 
-    context 'with options set' do
+    context "with options set" do
       let(:params) do
         {
           options: {
-            foo: 'bar'
+            foo: "bar"
           },
           _links: {
             scope: {
@@ -201,10 +201,10 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
         }
       end
 
-      it 'feeds them back' do
+      it "feeds them back" do
         expect(subject.body)
           .to be_json_eql("bar".to_json)
-          .at_path('_embedded/payload/options/foo')
+          .at_path("_embedded/payload/options/foo")
       end
     end
   end

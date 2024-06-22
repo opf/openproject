@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'mobile date filter work packages', :js, :with_cuprite do
+RSpec.describe "mobile date filter work packages", :js, :with_cuprite do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -39,20 +39,20 @@ RSpec.describe 'mobile date filter work packages', :js, :with_cuprite do
 
   current_user { user }
 
-  include_context 'with mobile screen size'
+  include_context "with mobile screen size"
 
   before do
     wp_table.visit!
   end
 
-  context 'when filtering between finish date' do
-    it 'allows filtering, saving and retrieving and altering the saved filter' do
+  context "when filtering between finish date" do
+    it "allows filtering, saving and retrieving and altering the saved filter" do
       filters.open
-      filters.add_filter('Finish date')
-      filters.set_operator('Finish date', 'between', 'dueDate')
+      filters.add_filter("Finish date")
+      filters.set_operator("Finish date", "between", "dueDate")
 
-      start_field = find_test_selector('op-basic-range-date-picker-start')
-      end_field = find_test_selector('op-basic-range-date-picker-end')
+      start_field = find_test_selector("op-basic-range-date-picker-start")
+      end_field = find_test_selector("op-basic-range-date-picker-end")
 
       clear_input_field_contents(start_field)
       clear_input_field_contents(end_field)
@@ -69,8 +69,8 @@ RSpec.describe 'mobile date filter work packages', :js, :with_cuprite do
       wp_cards.expect_work_package_listed work_package_with_due_date
       wp_cards.expect_work_package_not_listed work_package_without_due_date
 
-      wp_table.save_as('Some query name')
-      wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+      wp_table.save_as("Some query name")
+      wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
       last_query = Query.last
       date_filter = last_query.filters.last
@@ -78,14 +78,14 @@ RSpec.describe 'mobile date filter work packages', :js, :with_cuprite do
     end
   end
 
-  context 'when filtering on finish date' do
-    it 'allows filtering, saving and retrieving and altering the saved filter' do
+  context "when filtering on finish date" do
+    it "allows filtering, saving and retrieving and altering the saved filter" do
       filters.open
-      filters.add_filter('Finish date')
-      filters.set_operator('Finish date', 'on', 'dueDate')
+      filters.add_filter("Finish date")
+      filters.set_operator("Finish date", "on", "dueDate")
 
-      date_field = find_field 'values-dueDate'
-      expect(date_field['type']).to eq 'date'
+      date_field = find_field "values-dueDate"
+      expect(date_field["type"]).to eq "date"
 
       clear_input_field_contents(date_field)
       date_field.set Date.current
@@ -97,8 +97,8 @@ RSpec.describe 'mobile date filter work packages', :js, :with_cuprite do
       wp_cards.expect_work_package_listed work_package_with_due_date
       wp_cards.expect_work_package_not_listed work_package_without_due_date
 
-      wp_table.save_as('Some query name')
-      wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+      wp_table.save_as("Some query name")
+      wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
       last_query = Query.last
       date_filter = last_query.filters.last

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require_relative 'board_list_page'
-require_relative 'board_new_page'
+require "support/pages/page"
+require_relative "board_list_page"
+require_relative "board_new_page"
 
 module Pages
   class BoardIndex < BoardListPage
@@ -48,19 +48,19 @@ module Pages
 
     def expect_editable(editable)
       # Editable / draggable check
-      expect(page).to have_conditional_selector(editable, '.buttons a.icon-delete')
+      expect(page).to have_conditional_selector(editable, ".buttons a.icon-delete")
       # Create button
-      expect(page).to have_conditional_selector(editable, '.toolbar-item a', text: 'Board')
+      expect(page).to have_conditional_selector(editable, ".toolbar-item a", text: "Board")
     end
 
     def expect_board(name, present: true)
-      expect(page).to have_conditional_selector(present, 'td.name', text: name)
+      expect(page).to have_conditional_selector(present, "td.name", text: name)
     end
 
-    def create_board(action: 'Basic', title: "#{action} Board", expect_empty: false, via_toolbar: true)
+    def create_board(action: "Basic", title: "#{action} Board", expect_empty: false, via_toolbar: true)
       if via_toolbar
-        within '.toolbar-items' do
-          click_link 'Board'
+        within ".toolbar-items" do
+          click_link "Board"
         end
       else
         find('[data-test-selector="sidebar--create-board-button"]').click
@@ -72,18 +72,20 @@ module Pages
       new_board_page.set_board_type action
       new_board_page.click_on_submit
 
+      new_board_page.expect_and_dismiss_toaster
+
       if expect_empty
-        expect(page).to have_css('.boards-list--add-item-text', wait: 10)
-        expect(page).to have_no_css('.boards-list--item')
+        expect(page).to have_css(".boards-list--add-item-text", wait: 10)
+        expect(page).to have_no_css(".boards-list--item")
       else
-        expect(page).to have_css('.boards-list--item', wait: 10)
+        expect(page).to have_css(".boards-list--item", wait: 10)
       end
 
       ::Pages::Board.new ::Boards::Grid.last
     end
 
     def open_board(board)
-      page.find('td.name a', text: board.name).click
+      page.find("td.name a", text: board.name).click
       wait_for_reload if using_cuprite?
       ::Pages::Board.new board
     end

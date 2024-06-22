@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe "Work package filtering by assignee's role", :js, :with_cuprite do
   shared_let(:project) { create(:project) }
@@ -45,8 +45,8 @@ RSpec.describe "Work package filtering by assignee's role", :js, :with_cuprite d
 
   shared_let(:other_user) do
     create(:user,
-           firstname: 'Other',
-           lastname: 'User',
+           firstname: "Other",
+           lastname: "User",
            member_with_roles: { project => project_role, work_package_user_assignee => visible_work_package_role })
   end
 
@@ -75,11 +75,11 @@ RSpec.describe "Work package filtering by assignee's role", :js, :with_cuprite d
     filters.open
     # It does not show builtin roles such as Anonymous and NonMember or roles that don't allow the user to become an assignee
     filters.expect_missing_filter_value_by("Assignee's role",
-                                           'is (OR)',
+                                           "is (OR)",
                                            (builtin_roles + non_assignable_roles),
-                                           'assignedToRole')
+                                           "assignedToRole")
 
-    filters.add_filter_by("Assignee's role", 'is (OR)', assignable_roles, 'assignedToRole')
+    filters.add_filter_by("Assignee's role", "is (OR)", assignable_roles, "assignedToRole")
 
     filters.expect_filter_count("2")
 
@@ -93,8 +93,8 @@ RSpec.describe "Work package filtering by assignee's role", :js, :with_cuprite d
 
     sleep 1
 
-    wp_table.save_as('Subject query', by_title: true)
-    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+    wp_table.save_as("Subject query", by_title: true)
+    wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
     # Revisit query
     wp_table.visit_query Query.last
@@ -103,9 +103,9 @@ RSpec.describe "Work package filtering by assignee's role", :js, :with_cuprite d
 
     filters.open
     # Do not show the already selected roles in the autocomplete dropdown
-    filters.expect_missing_autocomplete_value('assignedToRole', assignable_roles)
+    filters.expect_missing_autocomplete_value("assignedToRole", assignable_roles)
 
     # Ensure that all assigned roles are shown in the filter
-    filters.expect_filter_by("Assignee's role", 'is (OR)', assignable_roles, 'assignedToRole')
+    filters.expect_filter_by("Assignee's role", "is (OR)", assignable_roles, "assignedToRole")
   end
 end

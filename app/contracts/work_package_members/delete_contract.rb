@@ -28,6 +28,14 @@
 
 module WorkPackageMembers
   class DeleteContract < ::DeleteContract
-    delete_permission -> { user.allowed_in_project?(:share_work_packages, model.entity.project) }
+    delete_permission :share_work_packages
+
+    validate :member_is_deletable
+
+    private
+
+    def member_is_deletable
+      errors.add(:base, :not_deletable) unless model.some_roles_deletable?
+    end
   end
 end

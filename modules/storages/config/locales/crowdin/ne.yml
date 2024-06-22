@@ -39,21 +39,27 @@ ne:
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
-  permission_create_files: Create files
-  permission_delete_files: Delete files
+  external_file_storages: External file storages
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Manage file links
-  permission_manage_storages_in_project: Manage file storages in project
-  permission_read_files: Read files
-  permission_share_files: Share files
+  permission_manage_files_in_project: Manage files in project
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: View file links
-  permission_write_files: Write files
-  project_module_storages: File storages
+  permission_write_files: 'Automatically managed project folders: Write files'
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Complete without it
       done_complete_setup: Done, complete setup
       done_continue: Done, continue
-      replace_provider_type_oauth: Replace %{provider_type} OAuth
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Save and continue
       select_folder: Select folder
     configuration_checks:
@@ -62,8 +68,8 @@ ne:
         one_drive: Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Complete the setup with the correct URI redirection.
-    confirm_replace_oauth_application: Are you sure? All users will have to authorize again against OpenProject.
-    confirm_replace_oauth_client: Are you sure? All users will have to authorize again against the storage.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Enter the file storage name %{file_storage} to confirm deletion.
       irreversible_notice: Deleting a file storage is an irreversible action.
@@ -76,6 +82,15 @@ ne:
       storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
     error_invalid_provider_type: Please select a valid storage provider.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: Automatically managed folders
       general_information: General information
       nextcloud_oauth: Nextcloud OAuth
@@ -91,8 +106,15 @@ ne:
       label_healthy: Healthy
       label_pending: Pending
       since: since %{datetime}
-      subtitle: Automatic managed project folders
+      subtitle: Automatically managed project folders
       title: Health status
+    health_email_notifications:
+      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     instructions:
@@ -142,9 +164,9 @@ ne:
     label_creator: Creator
     label_delete_storage: Delete storage
     label_edit_storage: Edit storage
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
     label_edit_storage_host: Edit storage host
-    label_edit_storage_oauth_client: Edit storage OAuth client
     label_existing_manual_folder: Existing folder with manually managed permissions
     label_file_storage: File storage
     label_host: Host URL
@@ -179,9 +201,12 @@ ne:
       of each desired project to use it.
     oauth_grant_nudge_modal:
       access_granted: Access granted
+      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: To get access to the project folder you need to login to %{storage}.
       cancel_button_label: I will do it later
+      confirm_button_aria_label: Login to %{storage}
       confirm_button_label: Login
+      requesting_access_to: Requesting access to %{storage}
       storage_ready: You are now ready to use %{storage}
       title: One more step...
     open_project_storage_modal:
@@ -196,11 +221,6 @@ ne:
         delete: Delete file storage
         subtitle: Add an external file storage in order to upload, link and manage files in work packages.
       managed_project_folders:
-        one_drive_information: |-
-          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
-          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
-          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
-          to the %{drive_id_link_text}.
         subtitle: |-
           Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
           member always has the correct access permissions.
@@ -209,12 +229,12 @@ ne:
       project_settings:
         delete: Delete file storage
         edit: Edit the file storage to this project
-        index: File storages available in this project
         members_connection_status: Members connection status
         new: Add a file storage to this project
       project_storage_members:
         subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
         title: Members connection status
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
     provider_types:
       label: Provider type
       nextcloud:
@@ -227,6 +247,9 @@ ne:
         label_oauth_client_secret: Azure OAuth Client Secret Value
         name: OneDrive/SharePoint
         name_placeholder: e.g. OneDrive
+    show_attachments_toggle:
+      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.

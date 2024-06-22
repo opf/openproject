@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Bim::IfcModels::CreateContract do
-  it_behaves_like 'ifc model contract' do
+  it_behaves_like "ifc model contract" do
     let(:ifc_model) do
       Bim::IfcModels::IfcModel.new(project: model_project,
                                    title: model_title,

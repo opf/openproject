@@ -124,30 +124,33 @@ module Storages
               permission[:id]
             end.curry
 
-            write_permissions = permission_set.filter_map(&filter.call('write'))
-            read_permissions = permission_set.filter_map(&filter.call('read'))
+            write_permissions = permission_set.filter_map(&filter.call("write"))
+            read_permissions = permission_set.filter_map(&filter.call("read"))
 
             { read: read_permissions, write: write_permissions }
           end
 
           def handle_response(response)
-            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-
             case response
             in { status: 200 }
               ServiceResult.success(result: response.json(symbolize_keys: true))
             in { status: 204 }
               ServiceResult.success(result: response)
             in { status: 400 }
-              ServiceResult.failure(result: :bad_request, errors: ::Storages::StorageError.new(code: :bad_request, data:))
+              ServiceResult.failure(result: :bad_request,
+                                    errors: Util.storage_error(response:, code: :bad_request, source: self.class))
             in { status: 401 }
-              ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized, data:))
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
             in { status: 403 }
-              ServiceResult.failure(result: :forbidden, errors: ::Storages::StorageError.new(code: :forbidden, data:))
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(response:, code: :forbidden, source: self.class))
             in { status: 404 }
-              ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found, data:))
+              ServiceResult.failure(result: :not_found,
+                                    errors: Util.storage_error(response:, code: :not_found, source: self.class))
             else
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(response:, code: :error, source: self.class))
             end
           end
 
@@ -168,10 +171,15 @@ module Storages
           end
 
           def log_error(error)
-            OpenProject.logger.warn({ command: error.data.source,
-                                      message: error.log_message,
-                                      data: { status: error.data.payload.status,
-                                              body: error.data.payload.body.to_s } })
+            payload = error.data.payload
+            OpenProject.logger.warn(
+              command: error.data.source,
+              message: error.log_message,
+              data: {
+                status: payload.try(:status),
+                body: (payload.try(:body) || payload).to_s
+              }
+            )
           end
         end
       end

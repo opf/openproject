@@ -26,29 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/page_objects/notification'
+require "spec_helper"
+require "features/page_objects/notification"
 
-RSpec.describe 'edit work package', :js do
+RSpec.describe "edit work package", :js do
   let(:current_user) do
     create(:user,
-           firstname: 'Dev',
-           lastname: 'Guy',
+           firstname: "Dev",
+           lastname: "Guy",
            member_with_roles: { project => role })
   end
   let(:permissions) { %i[view_work_packages change_work_package_status] }
-  let(:role) { create(:project_role, permissions: permissions) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:type) { create(:type) }
   let(:project) { create(:project, types: [type]) }
-  let(:status_new) { create(:status, name: 'New') }
-  let(:status_done) { create(:status, name: 'Done') }
+  let(:status_new) { create(:status, name: "New") }
+  let(:status_done) { create(:status, name: "Done") }
   let(:workflow) do
     create(:workflow,
            type_id: type.id,
            old_status: status_new,
            new_status: status_done,
-           role: role)
+           role:)
   end
   let(:work_package) do
     create(:work_package,
@@ -69,29 +69,29 @@ RSpec.describe 'edit work package', :js do
     wp_page.ensure_page_loaded
   end
 
-  context 'as a user having only the change_work_package_status permission' do
-    it 'can only change the status' do
+  context "as a user having only the change_work_package_status permission" do
+    it "can only change the status" do
       status_field = wp_page.edit_field :status
       status_field.expect_state_text status_new.name
       status_field.update status_done.name
 
-      wp_page.expect_toast(message: 'Successful update')
+      wp_page.expect_toast(message: "Successful update")
       status_field.expect_state_text status_done.name
 
-      subject_field = wp_page.work_package_field('subject')
+      subject_field = wp_page.work_package_field("subject")
       subject_field.expect_read_only
     end
   end
 
-  context 'as a user having only the edit_work_packages permission' do
+  context "as a user having only the edit_work_packages permission" do
     let(:permissions) { %i[view_work_packages edit_work_packages] }
 
-    it 'can change the status' do
+    it "can change the status" do
       status_field = wp_page.edit_field :status
       status_field.expect_state_text status_new.name
       status_field.update status_done.name
 
-      wp_page.expect_toast(message: 'Successful update')
+      wp_page.expect_toast(message: "Successful update")
       status_field.expect_state_text status_done.name
     end
   end

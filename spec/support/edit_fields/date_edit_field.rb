@@ -1,4 +1,4 @@
-require_relative 'edit_field'
+require_relative "edit_field"
 
 class DateEditField < EditField
   attr_accessor :milestone, :is_table
@@ -41,7 +41,7 @@ class DateEditField < EditField
   end
 
   def input_selector
-    if property_name == 'combinedDate'
+    if property_name == "combinedDate"
       "input[name=startDate]"
     else
       "input[name=#{property_name}]"
@@ -50,7 +50,7 @@ class DateEditField < EditField
 
   def property_name
     if milestone
-      'date'
+      "date"
     else
       super
     end
@@ -162,11 +162,11 @@ class DateEditField < EditField
   end
 
   def submit_by_click
-    scroll_to_and_click action_button('Save')
+    scroll_to_and_click action_button(I18n.t(:button_save))
   end
 
   def cancel_by_click
-    scroll_to_and_click action_button('Cancel')
+    scroll_to_and_click action_button(I18n.t(:button_cancel))
   end
 
   def action_button(text)

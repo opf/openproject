@@ -39,7 +39,10 @@ module Meetings
     end
 
     def sortable_columns_correlation
-      super.merge(project_name: 'projects.name')
+      super.merge(
+        project_name: "projects.name",
+        type: "meetings.type"
+      )
     end
 
     def initialize_sorted_model

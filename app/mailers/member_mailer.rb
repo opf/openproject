@@ -44,21 +44,21 @@ class MemberMailer < ApplicationMailer
   def added_project(current_user, member, message)
     alter_project(current_user,
                   member,
-                  in_member_locale(member) { I18n.t(:'mail_member_added_project.subject', project: member.project.name) },
+                  in_member_locale(member) { I18n.t(:"mail_member_added_project.subject", project: member.project.name) },
                   message)
   end
 
   def updated_project(current_user, member, message)
     alter_project(current_user,
                   member,
-                  in_member_locale(member) { I18n.t(:'mail_member_updated_project.subject', project: member.project.name) },
+                  in_member_locale(member) { I18n.t(:"mail_member_updated_project.subject", project: member.project.name) },
                   message)
   end
 
   def updated_global(current_user, member, message)
     send_mail(current_user,
               member,
-              in_member_locale(member) { I18n.t(:'mail_member_updated_global.subject') },
+              in_member_locale(member) { I18n.t(:"mail_member_updated_global.subject") },
               message)
   end
 
@@ -86,7 +86,7 @@ class MemberMailer < ApplicationMailer
 
         yield if block_given?
 
-        mail to: member.principal.mail,
+        mail to: member.principal,
              subject:
       end
     end

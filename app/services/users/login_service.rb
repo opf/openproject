@@ -66,22 +66,28 @@ module Users
         # The autologin expiry is checked on validating the token
         # but still expire the cookie to avoid unnecessary retries
         expires: expires_on,
-        path: OpenProject::Configuration['autologin_cookie_path'],
+        path: OpenProject::Configuration["autologin_cookie_path"],
         secure: OpenProject::Configuration.https?,
         httponly: true
       }
-      cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
+      cookies[OpenProject::Configuration["autologin_cookie_name"]] = cookie_options
     end
 
     def successful_login
       user.log_successful_login
+
+      # Clear all previous recovery tokens as user successfully logged in
+      # We do not want to clear invitation tokens, as user might just be logging in with one
+      Users::DropTokensService
+        .new(current_user: user)
+        .call!(clear_invitation_tokens: false)
 
       context = { user:, request:, session: }
       OpenProject::Hook.call_hook(:user_logged_in, context)
     end
 
     def reset_session!
-      ::Sessions::DropAllSessionsService.call(user) if drop_old_sessions?
+      ::Sessions::DropAllSessionsService.call!(user) if drop_old_sessions?
       controller.reset_session
     end
 

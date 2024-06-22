@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'base_create_service_shared_examples'
+require "spec_helper"
+require_relative "base_create_service_shared_examples"
 
 RSpec.describe Boards::BasicBoardCreateService do
   shared_let(:project) { create(:project) }
@@ -38,16 +38,16 @@ RSpec.describe Boards::BasicBoardCreateService do
 
   subject { instance.call(params) }
 
-  context 'with all valid params' do
+  context "with all valid params" do
     let(:params) do
       {
         name: "Gotham Renewal Board",
         project:,
-        attribute: 'basic'
+        attribute: "basic"
       }
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject).to be_success
     end
 
@@ -56,32 +56,32 @@ RSpec.describe Boards::BasicBoardCreateService do
 
       expect(board.name).to eq("Gotham Renewal Board")
       expect(board.options[:attribute]).to be_nil
-      expect(board.options[:type]).to eq 'free'
+      expect(board.options[:type]).to eq "free"
     end
 
-    describe 'widgets and queries' do
+    describe "widgets and queries" do
       let(:board) { subject.result }
       let(:widgets) { board.widgets }
       let(:queries) { Query.all }
 
-      it 'creates one of each', :aggregate_failures do
+      it "creates one of each", :aggregate_failures do
         subject
 
         expect(widgets.count).to eq 1
         expect(queries.count).to eq 1
       end
 
-      it 'sets the manual sorting filter on each' do
+      it "sets the manual sorting filter on each" do
         subject
 
         query_filter = queries.flat_map(&:filters).map(&:to_hash).first
-        widget_filter = widgets.flat_map { _1.options['filters'] }.first
+        widget_filter = widgets.flat_map { _1.options["filters"] }.first
 
         expect(query_filter).to have_key :manual_sort
         expect(query_filter).to eq widget_filter
       end
 
-      it_behaves_like 'sets the appropriate sort_criteria on each query'
+      it_behaves_like "sets the appropriate sort_criteria on each query"
     end
   end
 end

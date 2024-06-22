@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/attachments/attachment_collection_representer'
+require "api/v3/attachments/attachment_collection_representer"
 
 module API
   module V3
@@ -44,7 +44,7 @@ module API
           end
 
           def post_request?
-            request.env['REQUEST_METHOD'] == 'POST'
+            request.env["REQUEST_METHOD"] == "POST"
           end
 
           ##
@@ -66,7 +66,7 @@ module API
             params[:metadata] = JSON.parse(params[:metadata]) if params.key?(:metadata)
           end
         rescue JSON::ParserError
-          raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.invalid_json'))
+          raise ::API::Errors::InvalidRequestBody.new(I18n.t("api_v3.errors.invalid_json"))
         end
 
         def self.read

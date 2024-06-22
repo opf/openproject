@@ -74,16 +74,6 @@ module API::V3::Storages
 
     extend ClassMethods
 
-    def initialize(model, current_user:, embed_links: nil)
-      if model.oauth_configuration.present?
-        # Do not instantiate a connection manager, if representer is used for parsing
-        @connection_manager =
-          ::OAuthClients::ConnectionManager.new(user: current_user, configuration: model.oauth_configuration)
-      end
-
-      super
-    end
-
     property :id
 
     property :name
@@ -100,14 +90,28 @@ module API::V3::Storages
                end
              }
 
+    property :tenant_id,
+             skip_render: ->(represented:, **) { !represented.provider_type_one_drive? },
+             render_nil: true,
+             getter: ->(represented:, **) { represented.tenant_id if represented.provider_type_one_drive? },
+             setter: ->(fragment:, represented:, **) { represented.tenant_id = fragment }
+
+    property :drive_id,
+             skip_render: ->(represented:, **) { !represented.provider_type_one_drive? },
+             render_nil: true,
+             getter: ->(represented:, **) { represented.drive_id if represented.provider_type_one_drive? },
+             setter: ->(fragment:, represented:, **) { represented.drive_id = fragment }
+
+    property :configured,
+             skip_parse: true,
+             getter: ->(represented:, **) { represented.configured? }
+
     property :hasApplicationPassword,
              skip_parse: true,
              skip_render: ->(represented:, **) { !represented.provider_type_nextcloud? },
-             getter: ->(represented:, **) {
-               break unless represented.provider_type_nextcloud?
-
-               represented.automatic_management_enabled?
-             },
+             getter: ->(represented:, **) do
+               represented.automatic_management_enabled? if represented.provider_type_nextcloud?
+             end,
              setter: ->(*) {}
 
     date_time_property :created_at
@@ -120,21 +124,21 @@ module API::V3::Storages
                           getter: ->(*) {
                             type = STORAGE_TYPE_URN_MAP[represented.provider_type] || represented.provider_type
 
-                            { href: type, title: 'Nextcloud' }
+                            { href: type, title: "Nextcloud" }
                           },
                           setter: ->(fragment:, **) {
-                            href = fragment['href']
+                            href = fragment["href"]
                             break if href.blank?
 
                             represented.provider_type = STORAGE_TYPE_MAP[href] || href
                           }
 
     link_without_resource :origin,
-                          getter: ->(*) { { href: represented.host } },
+                          getter: ->(*) { { href: represented.host } if represented.host.present? },
                           setter: ->(fragment:, **) {
-                            break if fragment['href'].blank?
+                            break if fragment["href"].blank?
 
-                            represented.host = fragment['href'].gsub(/\/+$/, '')
+                            represented.host = fragment["href"].gsub(/\/+$/, "")
                           }
 
     links :prepareUpload do
@@ -145,8 +149,8 @@ module API::V3::Storages
           title: "Upload file",
           payload: {
             projectId: project_id,
-            fileName: '{fileName}',
-            parent: '{parent}'
+            fileName: "{fileName}",
+            parent: "{parent}"
           },
           templated: true
         }
@@ -158,7 +162,8 @@ module API::V3::Storages
     end
 
     link :authorizationState do
-      urn = case authorization_state
+      auth_state = authorization_state
+      urn = case auth_state
             when :connected
               URN_CONNECTION_CONNECTED
             when :failed_authorization
@@ -166,15 +171,15 @@ module API::V3::Storages
             else
               URN_CONNECTION_ERROR
             end
-      title = I18n.t(:"oauth_client.urn_connection_status.#{authorization_state}")
+      title = I18n.t(:"oauth_client.urn_connection_status.#{auth_state}")
 
       { href: urn, title: }
     end
 
     link :authorize do
-      next unless authorization_state == :failed_authorization
+      next if hide_authorize_link?
 
-      { href: @connection_manager.get_authorization_uri, title: 'Authorize' }
+      { href: represented.oauth_configuration.authorization_uri, title: "Authorize" }
     end
 
     link :projectStorages do
@@ -213,13 +218,17 @@ module API::V3::Storages
                         }
 
     def _type
-      'Storage'
+      "Storage"
     end
 
     private
 
     def represent_oauth_application?
       current_user.admin? && represented.provider_type_nextcloud?
+    end
+
+    def hide_authorize_link?
+      represented.oauth_client.blank? || authorization_state != :failed_authorization
     end
 
     def storage_projects(storage)
@@ -231,7 +240,8 @@ module API::V3::Storages
     end
 
     def authorization_state
-      @authorization_state ||= @connection_manager.authorization_state
+      ::Storages::Peripherals::StorageInteraction::Authentication.authorization_state(storage: represented,
+                                                                                      user: current_user)
     end
   end
 end

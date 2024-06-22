@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Watcher do
   let(:project) { watchable.project }
@@ -52,24 +52,24 @@ RSpec.describe Watcher do
   end
   let(:saved_watchable) { create(:news) }
 
-  describe '#valid' do
-    it 'is valid for an active user' do
+  describe "#valid" do
+    it "is valid for an active user" do
       expect(watcher).to be_valid
     end
 
-    it 'is valid for an invited user' do
+    it "is valid for an invited user" do
       user.status = Principal.statuses[:invited]
       expect(watcher).to be_valid
     end
 
-    it 'is valid for a registered user' do
+    it "is valid for a registered user" do
       user.status = Principal.statuses[:registered]
       expect(watcher).to be_valid
     end
   end
 
-  describe '.prune' do
-    shared_examples_for 'a pruned watchable' do
+  describe ".prune" do
+    shared_examples_for "a pruned watchable" do
       before do
         watcher.save!
         other_watcher.save!
@@ -77,86 +77,86 @@ RSpec.describe Watcher do
         user.reload
       end
 
-      context 'with a matching user scope' do
-        it 'removes the watcher' do
+      context "with a matching user scope" do
+        it "removes the watcher" do
           Watcher.prune(user:)
 
           expect(Watcher.find_by(id: watcher.id)).to be_nil
         end
 
-        it 'leaves the other watcher' do
+        it "leaves the other watcher" do
           Watcher.prune(user:)
 
           expect(Watcher.find_by(id: other_watcher.id)).to eql other_watcher
         end
       end
 
-      context 'without a scope' do
-        it 'removes the watcher' do
+      context "without a scope" do
+        it "removes the watcher" do
           Watcher.prune
 
           expect(Watcher.find_by(id: watcher.id)).to be_nil
         end
 
-        it 'leaves the other watcher' do
+        it "leaves the other watcher" do
           Watcher.prune
 
           expect(Watcher.find_by(id: other_watcher.id)).to eql other_watcher
         end
       end
 
-      context 'with a non matching user scope' do
+      context "with a non matching user scope" do
         let(:other_other_user) { create(:user) }
 
-        it 'leaves the watcher' do
+        it "leaves the watcher" do
           Watcher.prune(user: other_other_user)
 
           expect(Watcher.find_by(id: watcher.id)).to eql watcher
         end
 
-        it 'leaves the other watcher' do
+        it "leaves the other watcher" do
           Watcher.prune(user: other_other_user)
 
           expect(Watcher.find_by(id: other_watcher.id)).to eql other_watcher
         end
       end
 
-      context 'with a matching user and project_id scope' do
-        it 'removes the watcher' do
+      context "with a matching user and project_id scope" do
+        it "removes the watcher" do
           Watcher.prune(user:, project_id: project.id)
 
           expect(Watcher.find_by(id: watcher.id)).to be_nil
         end
 
-        it 'leaves the other watcher' do
+        it "leaves the other watcher" do
           Watcher.prune(user:, project_id: project.id)
 
           expect(Watcher.find_by(id: other_watcher.id)).to eql other_watcher
         end
       end
 
-      context 'with a matching project_id scope' do
-        it 'removes the watcher' do
+      context "with a matching project_id scope" do
+        it "removes the watcher" do
           Watcher.prune(project_id: project.id)
 
           expect(Watcher.find_by(id: watcher.id)).to be_nil
         end
 
-        it 'leaves the other watcher' do
+        it "leaves the other watcher" do
           Watcher.prune(project_id: project.id)
 
           expect(Watcher.find_by(id: other_watcher.id)).to eql other_watcher
         end
       end
 
-      context 'with a non matching project_id scope' do
-        it 'leaves the watcher' do
+      context "with a non matching project_id scope" do
+        it "leaves the watcher" do
           Watcher.prune(project_id: other_project.id)
 
           expect(Watcher.find_by(id: watcher.id)).to eql watcher
         end
 
-        it 'leaves the other watcher' do
+        it "leaves the other watcher" do
           Watcher.prune(project_id: other_project.id)
 
           expect(Watcher.find_by(id: other_watcher.id)).to eql other_watcher
@@ -164,22 +164,22 @@ RSpec.describe Watcher do
       end
     end
 
-    shared_examples_for 'no watcher exists' do
+    shared_examples_for "no watcher exists" do
       before do
         watchable.save!
       end
 
-      it 'is robust' do
+      it "is robust" do
         expect { Watcher.prune }.not_to raise_error
       end
     end
 
-    context 'for a work package' do
-      it_behaves_like 'a pruned watchable'
-      it_behaves_like 'no watcher exists'
+    context "for a work package" do
+      it_behaves_like "a pruned watchable"
+      it_behaves_like "no watcher exists"
     end
 
-    context 'for a message' do
+    context "for a message" do
       let(:forum) { build(:forum) }
       let(:watchable) do
         forum.save!
@@ -187,25 +187,25 @@ RSpec.describe Watcher do
       end
       let(:project) { forum.project }
 
-      it_behaves_like 'a pruned watchable'
-      it_behaves_like 'no watcher exists'
+      it_behaves_like "a pruned watchable"
+      it_behaves_like "no watcher exists"
     end
   end
 
-  describe '#add_watcher' do
-    it 'returns true when the watcher is added' do
+  describe "#add_watcher" do
+    it "returns true when the watcher is added" do
       expect(saved_watchable.add_watcher(saved_user))
         .to be_truthy
     end
 
-    it 'adds the user to watchers' do
+    it "adds the user to watchers" do
       saved_watchable.add_watcher(saved_user)
 
       expect(saved_watchable.watchers.map(&:user))
         .to match_array(saved_user)
     end
 
-    it 'does not add the same user when called twice' do
+    it "does not add the same user when called twice" do
       saved_watchable.add_watcher(saved_user)
       saved_watchable.add_watcher(saved_user)
 
@@ -214,12 +214,12 @@ RSpec.describe Watcher do
     end
   end
 
-  describe '#remove_watcher' do
+  describe "#remove_watcher" do
     before do
       saved_watchable.watchers.create(user: saved_user)
     end
 
-    it 'removes the watcher' do
+    it "removes the watcher" do
       saved_watchable.remove_watcher(saved_user)
 
       expect(saved_watchable.watchers)
@@ -227,28 +227,28 @@ RSpec.describe Watcher do
     end
   end
 
-  describe '#watched_by' do
-    context 'for a watcher user' do
+  describe "#watched_by" do
+    context "for a watcher user" do
       before do
         saved_watchable.watchers.create!(user: saved_user)
       end
 
-      it 'is truthy' do
+      it "is truthy" do
         expect(saved_watchable.watched_by?(saved_user))
           .to be_truthy
       end
     end
 
-    context 'for a non watcher user' do
-      it 'is falsey' do
+    context "for a non watcher user" do
+      it "is falsey" do
         expect(saved_watchable.watched_by?(saved_user))
           .to be_falsey
       end
     end
   end
 
-  describe '#watcher_user_ids' do
-    it 'only adds unique users' do
+  describe "#watcher_user_ids" do
+    it "only adds unique users" do
       saved_watchable.watcher_user_ids = [saved_user.id, saved_user.id]
       expect(saved_watchable)
         .to be_valid

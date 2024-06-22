@@ -38,7 +38,7 @@ module API::V3::Days
     self_link path: :days_non_working_day, id_attribute: :date
 
     def _type
-      'NonWorkingDay'
+      "NonWorkingDay"
     end
   end
 end

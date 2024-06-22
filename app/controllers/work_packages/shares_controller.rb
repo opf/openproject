@@ -30,7 +30,7 @@ class WorkPackages::SharesController < ApplicationController
   include OpTurbo::ComponentStream
   include MemberHelper
 
-  before_action :find_work_package, only: %i[index create resend_invite]
+  before_action :find_work_package, only: %i[index create destroy update resend_invite]
   before_action :find_share, only: %i[destroy update resend_invite]
   before_action :find_project
   before_action :authorize
@@ -168,7 +168,7 @@ class WorkPackages::SharesController < ApplicationController
   def respond_with_update_permission_button
     replace_via_turbo_stream(
       component: WorkPackages::Share::PermissionButtonComponent.new(share: @share,
-                                                                    data: { 'test-selector': 'op-share-wp-update-role' })
+                                                                    data: { "test-selector": "op-share-wp-update-role" })
     )
 
     respond_with_turbo_streams
@@ -200,8 +200,7 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def find_share
-    @share = Member.of_any_work_package.find(params[:id])
-    @work_package = @share.entity
+    @share = @work_package.members.find(params[:id])
   end
 
   def find_shares
@@ -223,9 +222,9 @@ class WorkPackages::SharesController < ApplicationController
                                  .call(params)
 
     # Set default filter on the entity
-    @query.where('entity_id', '=', @work_package.id)
-    @query.where('entity_type', '=', WorkPackage.name)
-    @query.where('project_id', '=', @project.id)
+    @query.where("entity_id", "=", @work_package.id)
+    @query.where("entity_type", "=", WorkPackage.name)
+    @query.where("project_id", "=", @project.id)
 
     @query.order(name: :asc) unless params[:sortBy]
 

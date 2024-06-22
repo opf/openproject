@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'work_packages/create_contract'
-require 'concerns/user_invitation'
+require "work_packages/create_contract"
+require "concerns/user_invitation"
 
 module Users
   class CreateService < ::BaseServices::Create
@@ -36,7 +36,7 @@ module Users
     def persist(call)
       new_user = call.result
 
-      return super(call) unless new_user.invited?
+      return super unless new_user.invited?
 
       # As we're basing on the user's mail, this parameter is required
       # before we're able to validate the contract or user

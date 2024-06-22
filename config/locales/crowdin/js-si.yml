@@ -31,6 +31,7 @@ si:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         පේළිගත රූපය හෝ යොමු ඇමුණුමක් කර්තෘ ක්ෂේත්රය මත ඇදගෙන යන්න. ඔබ ඇදගෙන යන අතරතුර සංවෘත සංස්කාරක ක්ෂේත්ර විවෘත කරනු ඇත.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
@@ -39,8 +40,8 @@ si:
       type_to_search: "සෙවීමට ටයිප් කරන්න"
     autocomplete_select:
       placeholder:
-        multi: "එකතු කරන්න \"%{name}”"
-        single: "තෝරන්න \"%{name}”"
+        multi: 'එකතු කරන්න "%{name}”'
+        single: 'තෝරන්න "%{name}”'
       remove: "%{name}ඉවත් කරන්න"
       active: "ක්රියාකාරී %{label} %{name}"
     backup:
@@ -106,99 +107,98 @@ si:
     button_export-atom: "බාගත කරන්න පරමාණුව"
     button_create: "සාදන්න"
     card:
-      add_new: 'නව කාඩ් එකතු කරන්න'
+      add_new: "නව කාඩ් එකතු කරන්න"
       highlighting:
-        inline: 'පේළිගත ඉස්මතු:'
-        entire_card_by: 'මුළු කාඩ්පත'
-      remove_from_list: 'ලැයිස්තුවෙන් කාඩ් ඉවත් කරන්න'
+        inline: "පේළිගත ඉස්මතු:"
+        entire_card_by: "මුළු කාඩ්පත"
+      remove_from_list: "ලැයිස්තුවෙන් කාඩ් ඉවත් කරන්න"
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
-      type: 'සටහන වර්ගය'
-      axis_criteria: 'අක්ෂ නිර්ණායක'
-      modal_title: 'වැඩ පැකේජය ප්රස්ථාර වින්යාසය'
+      type: "සටහන වර්ගය"
+      axis_criteria: "අක්ෂ නිර්ණායක"
+      modal_title: "වැඩ පැකේජය ප්රස්ථාර වින්යාසය"
       types:
-        line: 'මාර්ගය'
-        horizontal_bar: 'තිරස් තීරුව'
-        bar: 'බාර්'
-        pie: 'පයි'
-        doughnut: 'ඩග්නට්'
-        radar: 'රේඩාර්'
-        polar_area: 'ධ්රැව ප්රදේශය'
+        line: "මාර්ගය"
+        horizontal_bar: "තිරස් තීරුව"
+        bar: "බාර්"
+        pie: "පයි"
+        doughnut: "ඩග්නට්"
+        radar: "රේඩාර්"
+        polar_area: "ධ්රැව ප්රදේශය"
       tabs:
-        graph_settings: 'පොදු'
-        dataset: 'දත්ත සමුදාය %{number}'
+        graph_settings: "පොදු"
+        dataset: "දත්ත සමුදාය %{number}"
       errors:
-        could_not_load: 'ප්රස්ථාරය ප්රදර්ශනය කිරීම සඳහා දත්ත පටවා ගත නොහැකි විය. අවශ්ය අවසරයන් නොමැති විය හැකිය.'
+        could_not_load: "ප්රස්ථාරය ප්රදර්ශනය කිරීම සඳහා දත්ත පටවා ගත නොහැකි විය. අවශ්ය අවසරයන් නොමැති විය හැකිය."
     description_available_columns: "ලබා ගත හැකි තීරු"
     description_current_position: "ඔයා මෙහෙයි: "
     description_select_work_package: "වැඩ පැකේජය තෝරන්න #%{id}"
-    description_selected_columns: "තෝරාගත් තීරු"
     description_subwork_package: "වැඩ පැකේජය දරුවා #%{id}"
     editor:
-      preview: 'පෙරදසුනෙහි මාදිලිය ටොගල් කරන්න'
-      source_code: 'සලකුණු කිරීමේ ප්රභව ප්රකාරය ටොගල් කරන්න'
-      error_saving_failed: 'පහත දැක්වෙන දෝෂය සමඟ ලේඛනය සුරැකීම අසාර්ථක විය: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      preview: "පෙරදසුනෙහි මාදිලිය ටොගල් කරන්න"
+      source_code: "සලකුණු කිරීමේ ප්රභව ප්රකාරය ටොගල් කරන්න"
+      error_saving_failed: "පහත දැක්වෙන දෝෂය සමඟ ලේඛනය සුරැකීම අසාර්ථක විය: %{error}"
+      ckeditor_error: "An error occurred within CKEditor"
       mode:
-        manual: 'මාර්ක්ඩවුන් ප්රභවයට මාරු වන්න'
-        wysiwyg: 'WYSIWYG සංස්කාරකය වෙත මාරු වන්න'
+        manual: "මාර්ක්ඩවුන් ප්රභවයට මාරු වන්න"
+        wysiwyg: "WYSIWYG සංස්කාරකය වෙත මාරු වන්න"
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: "Cannot expand macro: %{message}"
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
+          macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
+          not_found: "Requested resource could not be found"
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
-          button: 'ළමා පිටු වලට සබැඳි'
-          include_parent: 'දෙමව්පියන් ඇතුළත් කරන්න'
-          text: '[Placeholder] ළමා පිටු වෙත සබැඳි'
-          page: 'විකි පිටුව'
-          this_page: 'මෙම පිටුව'
+          button: "ළමා පිටු වලට සබැඳි"
+          include_parent: "දෙමව්පියන් ඇතුළත් කරන්න"
+          text: "[Placeholder] ළමා පිටු වෙත සබැඳි"
+          page: "විකි පිටුව"
+          this_page: "මෙම පිටුව"
           hint: |
             වත්මන් පිටුවේ සියලුම ළමා පිටු ලැයිස්තුගත කිරීම සඳහා මෙම ක්ෂේත්රය හිස්ව තබන්න. ඔබට වෙනත් පිටුවක් යොමු කිරීමට අවශ්ය නම්, එහි මාතෘකාව හෝ ස්ලූග් ලබා දෙන්න.
         code_block:
-          button: 'ස්නිපෙට් කේතය ඇතුල් කරන්න'
-          title: 'ඇතුලත් කරන්න/සංස්කරණය කේතය ස්නිපෙට්'
-          language: 'හැඩතල භාෂාව'
-          language_hint: 'අවධාරණය කිරීම සඳහා භාවිතා කරනු ලබන ආකෘතිකරණ භාෂාව ඇතුළත් කරන්න (සහාය දක්වන්නේ නම්).'
+          button: "ස්නිපෙට් කේතය ඇතුල් කරන්න"
+          title: "ඇතුලත් කරන්න/සංස්කරණය කේතය ස්නිපෙට්"
+          language: "හැඩතල භාෂාව"
+          language_hint: "අවධාරණය කිරීම සඳහා භාවිතා කරනු ලබන ආකෘතිකරණ භාෂාව ඇතුළත් කරන්න (සහාය දක්වන්නේ නම්)."
         dropdown:
-          macros: 'මැක්රෝස්'
-          chose_macro: 'Choose macro'
-        toc: 'අන්තර්ගත වගුව'
-        toolbar_help: 'විජට් තෝරා ගැනීමට ක්ලික් කරන්න සහ මෙවලම් තීරුව පෙන්වන්න. විජට් සංස්කරණය කිරීමට ද්වි-ක්ලික් කරන්න'
+          macros: "මැක්රෝස්"
+          chose_macro: "Choose macro"
+        toc: "අන්තර්ගත වගුව"
+        toolbar_help: "විජට් තෝරා ගැනීමට ක්ලික් කරන්න සහ මෙවලම් තීරුව පෙන්වන්න. විජට් සංස්කරණය කිරීමට ද්වි-ක්ලික් කරන්න"
         wiki_page_include:
-          button: 'වෙනත් විකි පිටුවක අන්තර්ගතය ඇතුළත් කරන්න'
-          text: '[Placeholder] විකි පිටුවේ ඇතුළත්'
-          page: 'විකි පිටුව'
-          not_set: '(පිටුව තවමත් සකසා නැත)'
+          button: "වෙනත් විකි පිටුවක අන්තර්ගතය ඇතුළත් කරන්න"
+          text: "[Placeholder] විකි පිටුවේ ඇතුළත්"
+          page: "විකි පිටුව"
+          not_set: "(පිටුව තවමත් සකසා නැත)"
           hint: |
             එහි මාතෘකාව හෝ ස්ලූග් සඳහන් කිරීමෙන් තවත් විකි පිටුවක අන්තර්ගතය ඇතුළත් කරන්න.
             පහත දැක්වෙන උදාහරණය වැනි මහා බඩවැල සමඟ වෙන් කිරීමෙන් ඔබට වෙනත් ව්යාපෘතියක විකි පිටුව ඇතුළත් කළ හැකිය.
         work_package_button:
-          button: 'වැඩ පැකේජ බොත්තම නිර්මාණය කරන්න ඇතුල් කරන්න'
-          type: 'වැඩ පැකේජය වර්ගය'
-          button_style: 'බොත්තම ශෛලිය භාවිතා'
-          button_style_hint: 'විකල්ප: සාර්ව සබැඳියක් ලෙස නොව බොත්තමක් ලෙස පෙනී සිටීමට පරීක්ෂා කරන්න.'
-          without_type: 'වැඩ පැකේජයක් සාදන්න'
-          with_type: 'වැඩ පැකේජය සාදන්න (වර්ගය: %{typename})'
+          button: "වැඩ පැකේජ බොත්තම නිර්මාණය කරන්න ඇතුල් කරන්න"
+          type: "වැඩ පැකේජය වර්ගය"
+          button_style: "බොත්තම ශෛලිය භාවිතා"
+          button_style_hint: "විකල්ප: සාර්ව සබැඳියක් ලෙස නොව බොත්තමක් ලෙස පෙනී සිටීමට පරීක්ෂා කරන්න."
+          without_type: "වැඩ පැකේජයක් සාදන්න"
+          with_type: "වැඩ පැකේජය සාදන්න (වර්ගය: %{typename})"
         embedded_table:
-          button: 'කාවැද්දූ වැඩ පැකේජය වගුව'
-          text: '[Placeholder] කාවැද්දූ වැඩ පැකේජය වගුව'
+          button: "කාවැද්දූ වැඩ පැකේජය වගුව"
+          text: "[Placeholder] කාවැද්දූ වැඩ පැකේජය වගුව"
         embedded_calendar:
-          text: '[Placeholder] කාවැද්දූ දින දර්ශනය'
+          text: "[Placeholder] කාවැද්දූ දින දර්ශනය"
     admin:
       type_form:
-        custom_field: 'අභිරුචි ක්ෂේත්රය'
-        inactive: 'අක්රිය'
+        custom_field: "අභිරුචි ක්ෂේත්රය"
+        inactive: "අක්රිය"
         drag_to_activate: "ඒවා සක්රිය කිරීම සඳහා මෙතැන් සිට ක්ෂේත්ර ඇදගෙන යන්න"
         add_group: "ගුණාංග පිරිසක් එකතු කරන්න"
         add_table: "අදාළ වැඩ පැකේජ වගුව එකතු කරන්න"
-        edit_query: 'විමසුම සංස්කරණය කරන්න'
-        new_group: 'නව කණ්ඩායම'
-        reset_to_defaults: 'පැහැර හැරීම් නැවත සකසන්න'
+        edit_query: "විමසුම සංස්කරණය කරන්න"
+        new_group: "නව කණ්ඩායම"
+        reset_to_defaults: "පැහැර හැරීම් නැවත සකසන්න"
       enterprise:
         text_reprieve_days_left: "%{days} days until end of grace period"
         text_expired: "expired"
@@ -264,7 +264,7 @@ si:
         calendar:
           empty_state_header: "Non-working days"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
-          new_date: '(new)'
+          new_date: "(new)"
         add_non_working_day: "Non-working day"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
@@ -274,10 +274,15 @@ si:
         warning: >
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
-        specific: 'මත'
-        current_date: 'වත්මන් දිනය'
+        specific: "මත"
+        current_date: "වත්මන් දිනය"
     error:
       internal: "අභ්යන්තර දෝෂයක් සිදුවී ඇත."
       cannot_save_changes_with_message: "පහත දැක්වෙන දෝෂය හේතුවෙන් ඔබගේ වෙනස්කම් සුරැකිය නොහැක: %{error}"
@@ -303,22 +308,22 @@ si:
           two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
           three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
     gantt_chart:
-      label: 'ගැන්ට් සටහන'
-      quarter_label: 'Q%{quarter_number}'
+      label: "ගැන්ට් සටහන"
+      quarter_label: "Q%{quarter_number}"
       labels:
-        title: 'ලේබල් වින්යාසය'
-        bar: 'බාර් ලේබල්'
-        left: 'වම'
-        right: 'අයිතිය'
-        farRight: 'ඈත හරි'
+        title: "ලේබල් වින්යාසය"
+        bar: "බාර් ලේබල්"
+        left: "වම"
+        right: "අයිතිය"
+        farRight: "ඈත හරි"
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Gantt සටහන පෙන්වන්න'
-      button_deactivate: 'Gantt සටහන සඟවන්න'
+      button_activate: "Gantt සටහන පෙන්වන්න"
+      button_deactivate: "Gantt සටහන සඟවන්න"
       filter:
         noneSelection: "(කිසිවක් නැත)"
       selection_mode:
-        notification: 'සම්බන්ධතාවය නිර්මාණය කිරීම සඳහා ඕනෑම උද්දීපනය කළ වැඩ පැකේජයක් මත ක්ලික් කරන්න. අවලංගු කිරීමට මාධ්ය ගැලවීම.'
+        notification: "සම්බන්ධතාවය නිර්මාණය කිරීම සඳහා ඕනෑම උද්දීපනය කළ වැඩ පැකේජයක් මත ක්ලික් කරන්න. අවලංගු කිරීමට මාධ්ය ගැලවීම."
       zoom:
         in: "විශාලනය"
         out: "විශාලනය"
@@ -330,6 +335,18 @@ si:
         years: "අවුරුදු"
         description: >
           ස්වයංසූම් ලබා ගත නොහැකි විට පෙන්විය යුතු ආරම්භක විශාලන මට්ටම තෝරන්න.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
     general_text_No: "නැත"
@@ -348,24 +365,23 @@ si:
           learn_about: "නව විශේෂාංග ගැන වැඩි විස්තර දැනගන්න"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
       token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
-      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
+      token_name_placeholder: 'Type a name, e.g. "Phone"'
+      token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="my/access_token", target="_blank">access tokens</a> list.'
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
+      success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
     label_activate: "සක්රිය කරන්න"
-    label_assignee: 'අස්ගිනී'
+    label_assignee: "අස්ගිනී"
     label_add_column_after: "පසු තීරුව එකතු කරන්න"
     label_add_column_before: "පෙර තීරුව එකතු කරන්න"
     label_add_columns: "තීරු එකතු කරන්න"
@@ -375,9 +391,10 @@ si:
     label_add_row_before: "පෙර පේළිය එකතු කරන්න"
     label_add_selected_columns: "තෝරාගත් තීරු එකතු කරන්න"
     label_added_by: "විසින් එකතු කරන ලදි"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "දින කිහිපයකට පෙර"
     label_all: "සියලු"
+    label_all_uppercase: "සියලු"
     label_all_work_packages: "සියලුම වැඩ පැකේජ"
     label_and: "සහ"
     label_ascending: "නැගීම"
@@ -419,12 +436,13 @@ si:
     label_expand_project_menu: "ව්යාපෘති මෙනුව පුළුල් කරන්න"
     label_export: "අපනයන"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_favorites: "Favorites"
     label_filename: "ගොනුව"
     label_filesize: "ප්‍රමාණය"
     label_general: "පොදු"
     label_global_roles: "Global roles"
     label_greater_or_equal: ">="
-    label_group: 'කණ්ඩායම'
+    label_group: "කණ්ඩායම"
     label_group_by: "කණ්ඩායම විසින්"
     label_group_plural: "කණ්ඩායම්"
     label_hide_attributes: "අඩු පෙන්වන්න"
@@ -444,6 +462,7 @@ si:
     label_less_than_ago: "දින ගණනකට පෙර"
     label_loading: "පැටවීම..."
     label_mail_notification: "වි-ල් ස්කිනිම්"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "මට"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Minutes"
@@ -482,6 +501,7 @@ si:
     label_report: "වාර්තාව"
     label_repository_plural: "ගබඩාවලදී"
     label_save_as: "ලෙස සුරකින්න"
+    label_search_columns: "Search a column"
     label_select_project: "ව්යාපෘතියක් තෝරන්න"
     label_select_watcher: "මුරකරුවෙකු තෝරන්න..."
     label_selected_filter_list: "තෝරාගත් පෙරහන්"
@@ -552,86 +572,86 @@ si:
     label_version_plural: "අනුවාද"
     label_view_has_changed: "මෙම මතය නොගැලවූ වෙනස්කම් ඇත. ඒවා සුරැකීමට ක්ලික් කරන්න."
     help_texts:
-      show_modal: 'ගුණාංග උපකාරක පෙළ ප්රවේශය පෙන්වන්න'
+      show_modal: "ගුණාංග උපකාරක පෙළ ප්රවේශය පෙන්වන්න"
     onboarding:
       buttons:
-        skip: 'මගහරින්න'
-        next: 'ඊළඟ'
-        got_it: 'ඒක ගත්තා'
+        skip: "මගහරින්න"
+        next: "ඊළඟ"
+        got_it: "ඒක ගත්තා"
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
-        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        help_menu: "The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!"
+        members: "Invite new <b>members</b> to join your project."
+        quick_add_button: "Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>."
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
-        welcome: 'වඩාත්ම ඉගෙන ගැනීමට විනාඩි තුනක් හඳුන්වාදීමේ චාරිකාවක් ගන්න <b>වැදගත් ලක්ෂණ</b>. <br> අවසානය දක්වා පියවර සම්පූර්ණ කිරීම අපි නිර්දේශ කරමු. ඔබට ඕනෑම වේලාවක සංචාරය නැවත ආරම්භ කළ හැකිය.'
-        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        welcome: "වඩාත්ම ඉගෙන ගැනීමට විනාඩි තුනක් හඳුන්වාදීමේ චාරිකාවක් ගන්න <b>වැදගත් ලක්ෂණ</b>. <br> අවසානය දක්වා පියවර සම්පූර්ණ කිරීම අපි නිර්දේශ කරමු. ඔබට ඕනෑම වේලාවක සංචාරය නැවත ආරම්භ කළ හැකිය."
+        wiki: "Within the <b>wiki</b> you can document and share knowledge together with your team."
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
           sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
-          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board_arrow: "To see your <b>task board</b>, open the sprint drop-down..."
+          task_board_select: "...and select the <b>task board</b> entry."
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
-          lists_kanban: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
-          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
-          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+          overview: "Select <b>boards</b> to shift the view and manage your project using the agile boards view."
+          lists_kanban: "Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example."
+          lists_basic: "Here you can create multiple lists (columns) within your agile board."
+          add: "Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board."
+          drag: "Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details."
         wp:
           toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
-          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
-          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
-          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
-          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
-          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+          list: "This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row."
+          full_view: "The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments."
+          back_button: "Use the return arrow in the top left corner to exit and return to the work package list."
+          create_button: "The <b>+ Create</b> button will add a new work package to your project."
+          gantt_menu: "Create project schedules and timelines effortlessly using the Gantt chart module."
+          timeline: "Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time."
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: "The team planner lets you visually assign tasks to team members and get an overview of who is working on what."
+          calendar: "The weekly or biweekly planning board displays all work packages assigned to your team members."
+          add_assignee: "To get started, add assignees to the team planner."
+          add_existing: "Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates."
+          card: "Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member."
     notifications:
       title: "Notifications"
       no_unread: "නොකියවූ දැනුම්දීම් නැත"
       reasons:
-        mentioned: 'mentioned'
-        watched: 'watcher'
-        assigned: 'assignee'
-        responsible: 'accountable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
-        dateAlert: 'Date alert'
-        shared: 'shared'
+        mentioned: "mentioned"
+        watched: "watcher"
+        assigned: "assignee"
+        responsible: "accountable"
+        created: "created"
+        scheduled: "scheduled"
+        commented: "commented"
+        processed: "processed"
+        prioritized: "prioritized"
+        dateAlert: "Date alert"
+        shared: "shared"
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        milestone_date: "Milestone date"
+        overdue: "Overdue"
+        overdue_since: "since %{difference_in_days}"
+        property_today: "is today"
+        property_is: "is in %{difference_in_days}"
+        property_was: "was %{difference_in_days} ago"
+        property_is_deleted: "is deleted"
         upsale:
-          title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          title: "Date alerts"
+          description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
       facets:
-        unread: 'Unread'
-        unread_title: 'Show unread'
-        all: 'සියලු'
-        all_title: 'සියල්ල පෙන්වන්න'
+        unread: "Unread"
+        unread_title: "Show unread"
+        all: "සියලු"
+        all_title: "සියල්ල පෙන්වන්න"
       center:
-        label_actor_and: 'සහ'
+        label_actor_and: "සහ"
         and_more_users:
-          one: 'and 1 other'
-          other: 'and %{count} others'
+          one: "and 1 other"
+          other: "and %{count} others"
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
-          with_current_filter: 'There are no notifications in this view at the moment'
-        mark_all_read: 'Mark all as read'
-        mark_as_read: 'Mark as read'
+          at_all: "New notifications will appear here when there is activity that concerns you."
+          with_current_filter: "There are no notifications in this view at the moment"
+        mark_all_read: "Mark all as read"
+        mark_as_read: "Mark as read"
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
@@ -640,17 +660,17 @@ si:
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: "There are new notifications."
+          link_text: "Click here to load them."
       menu:
-        accountable: 'වගවීම'
-        by_project: 'Unread by project'
-        by_reason: 'Reason'
-        inbox: 'Inbox'
-        mentioned: 'Mentioned'
-        watched: 'මුරකරු'
-        date_alert: 'Date alert'
-        shared: 'Shared'
+        accountable: "වගවීම"
+        by_project: "Unread by project"
+        by_reason: "Reason"
+        inbox: "Inbox"
+        mentioned: "Mentioned"
+        watched: "මුරකරු"
+        date_alert: "Date alert"
+        shared: "Shared"
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -669,96 +689,96 @@ si:
               P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'අස්ගිනී'
-          responsible: 'වගවීම'
-          shared: 'Shared'
-          watched: 'මුරකරු'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+            title: "Mentioned"
+            description: "Receive a notification every time someone mentions me anywhere"
+          assignee: "අස්ගිනී"
+          responsible: "වගවීම"
+          shared: "Shared"
+          watched: "මුරකරු"
+          work_package_commented: "All new comments"
+          work_package_created: "New work packages"
+          work_package_processed: "All status changes"
+          work_package_prioritized: "All priority changes"
+          work_package_scheduled: "All date changes"
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            title: "Participating"
+            description: "Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)."
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects.'
+            title: "Non-participating"
+            description: "Additional notifications for activities in all projects."
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+            title: "Date alerts"
+            description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
+            teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
           overdue: When overdue
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above.'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
-          remove: 'Remove project settings'
+          title: "Project-specific notification settings"
+          description: "These project-specific settings override default settings above."
+          add: "Add setting for project"
+          already_selected: "This project is already selected"
+          remove: "Remove project settings"
     password_confirmation:
-      field_description: 'මෙම වෙනස තහවුරු කිරීම සඳහා ඔබගේ ගිණුමේ මුරපදය ඇතුළත් කළ යුතුය.'
-      title: 'දිගටම කරගෙන යාමට ඔබගේ මුරපදය තහවුරු කරන්න'
+      field_description: "මෙම වෙනස තහවුරු කිරීම සඳහා ඔබගේ ගිණුමේ මුරපදය ඇතුළත් කළ යුතුය."
+      title: "දිගටම කරගෙන යාමට ඔබගේ මුරපදය තහවුරු කරන්න"
     pagination:
       no_other_page: "ඔබ සිටින්නේ එකම පිටුවේ ය."
       pages:
         next: "ඊළඟ පිටුවට ඉදිරියට යන්න"
         previous: "පෙර පිටුවට ආපසු යන්න"
     placeholders:
-      default: '-'
-      subject: 'මෙහි විෂය ඇතුලත් කරන්න'
-      selection: 'කරුණාකර තෝරන්න'
-      description: 'Description: Click to edit...'
-      relation_description: 'මෙම සම්බන්ධයෙන් විස්තර එකතු කිරීමට ක්ලික් කරන්න'
+      default: "-"
+      subject: "මෙහි විෂය ඇතුලත් කරන්න"
+      selection: "කරුණාකර තෝරන්න"
+      description: "Description: Click to edit..."
+      relation_description: "මෙම සම්බන්ධයෙන් විස්තර එකතු කිරීමට ක්ලික් කරන්න"
     project:
       required_outside_context: >
         කරුණාකර සියලු ගුණාංග බැලීමට වැඩ පැකේජය නිර්මාණය කිරීම සඳහා ව්යාපෘතියක් තෝරන්න. ඔබට තෝරා ගත හැක්කේ ඉහත ආකාරයේ සක්රිය කර ඇති ව්යාපෘති පමණි.
-      details_activity: 'Project details activity'
-      context: 'ව්යාපෘති සන්දර්භය'
-      click_to_switch_to_project: 'Project: %{projectname}'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      details_activity: "Project details activity"
+      context: "ව්යාපෘති සන්දර්භය"
+      click_to_switch_to_project: "Project: %{projectname}"
+      confirm_template_load: "Switching the template will reload the page and you will lose all input to this form. Continue?"
       use_template: "Use template"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
-        label: 'ව්යාපෘති ස්වයංක්රීයව නිම කිරීම'
+        label: "ව්යාපෘති ස්වයංක්රීයව නිම කිරීම"
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
-          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: "Add time"
+          enable: "Enable daily email reminders"
+          explanation: "You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}"
+          no_time_zone: "Until you configure a time zone for your account, the times will be interpreted to be in UTC."
+          time_label: "Time %{counter}:"
+          title: "Send me daily email reminders for unread notifications"
         workdays:
-          title: 'Receive email reminders on these days'
+          title: "Receive email reminders on these days"
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
+          title: "Send me an email reminder"
+          mentioned: "Immediately when someone @mentions me"
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: "Email alerts for other items (that are not work packages)"
           explanation: >
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
-          news_added: 'පුවත් එකතු'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
-          wiki_page_added: 'විකි පිටුව එකතු කරන ලදි'
-          wiki_page_updated: 'විකි පිටුව යාවත්කාලීන කරන ලදි'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
-        title: 'Email reminders'
+          news_added: "පුවත් එකතු"
+          news_commented: "Comment on a news item"
+          document_added: "Documents added"
+          forum_messages: "New forum messages"
+          wiki_page_added: "විකි පිටුව එකතු කරන ලදි"
+          wiki_page_updated: "විකි පිටුව යාවත්කාලීන කරන ලදි"
+          membership_added: "Membership added"
+          membership_updated: "Membership updated"
+        title: "Email reminders"
         pause:
-          label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          label: "Temporarily pause daily email reminders"
+          first_day: "First day"
+          last_day: "Last day"
     text_are_you_sure: "ඔබට විශ්වාසද?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} ලිවීය:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} නම එක් වරකට වඩා භාවිතා වේ. කණ්ඩායම් නම් අද්විතීය විය යුතුය."
@@ -775,18 +795,18 @@ si:
         projects: "ව්‍යාපෘති"
         settings: "සැකසුම්"
     time_entry:
-      work_package_required: 'පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ.'
-      title: 'ලොග් වේලාව'
-      tracking: 'ෙසොයා ගැනීෙම්'
-      stop: 'Stop'
+      work_package_required: "පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ."
+      title: "ලොග් වේලාව"
+      tracking: "ෙසොයා ගැනීෙම්"
+      stop: "Stop"
     timer:
-      start_new_timer: 'Start new timer'
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
-      button_stop: 'Stop current timer'
+      start_new_timer: "Start new timer"
+      timer_already_running: "To start a new timer, you must first stop the current timer:"
+      timer_already_stopped: "No active timer for this work package, have you stopped it in another window?"
+      tracking_time: "Tracking time"
+      button_stop: "Stop current timer"
     two_factor_authentication:
-      label_two_factor_authentication: 'Two-factor authentication'
+      label_two_factor_authentication: "Two-factor authentication"
     watchers:
       label_loading: පැටවුම් මුරකරුවන්...
       label_error_loading: මුරකරුවන් පැටවීම අතරතුර දෝෂයක් ඇති විය
@@ -847,27 +867,27 @@ si:
       project:
         placeholder: "Select project"
     repositories:
-      select_tag: 'ටැගය තෝරන්න'
-      select_branch: 'ශාඛාව තෝරන්න'
+      select_tag: "ටැගය තෝරන්න"
+      select_branch: "ශාඛාව තෝරන්න"
     field_value_enter_prompt: "'%{field}' සඳහා වටිනාකමක් ඇතුළත් කරන්න"
     project_menu_details: "විස්තර"
     scheduling:
-      manual: 'Manual scheduling'
+      manual: "Manual scheduling"
     sort:
-      sorted_asc: 'නැගී එන ආකාරයේ අයදුම්, '
-      sorted_dsc: 'බැස වර්ග අයදුම්, '
-      sorted_no: 'කිසිදු ආකාරයක අයදුම්, '
-      sorting_disabled: 'වර්ග කිරීම අක්රීය කර ඇත'
-      activate_asc: 'නැගී එන ආකාරයේ අයදුම් කිරීමට සක්රිය'
-      activate_dsc: 'අවරෝහණ ආකාරයක අයදුම් කිරීමට සක්රිය'
-      activate_no: 'වර්ග කිරීම ඉවත් කිරීමට සක්රිය'
+      sorted_asc: "නැගී එන ආකාරයේ අයදුම්, "
+      sorted_dsc: "බැස වර්ග අයදුම්, "
+      sorted_no: "කිසිදු ආකාරයක අයදුම්, "
+      sorting_disabled: "වර්ග කිරීම අක්රීය කර ඇත"
+      activate_asc: "නැගී එන ආකාරයේ අයදුම් කිරීමට සක්රිය"
+      activate_dsc: "අවරෝහණ ආකාරයක අයදුම් කිරීමට සක්රිය"
+      activate_no: "වර්ග කිරීම ඉවත් කිරීමට සක්රිය"
     text_work_packages_destroy_confirmation: "ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
     text_query_destroy_confirmation: "තෝරාගත් දර්ශනය මකා දැමීමට ඔබට අවශ්යද?"
     tl_toolbar:
       zooms: "විශාලන මට්ටම"
       outlines: "ධූරාවලිය මට්ටම"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: "Enterprise edition add-on"
     wiki_formatting:
       strong: "ශක්තිමත්"
       italic: "ඇල අකුරු"
@@ -886,10 +906,10 @@ si:
       image: "පින්තූරය"
     work_packages:
       bulk_actions:
-        move: 'ව්යාපෘතියේ තොග වෙනසක්'
-        edit: 'තොග සංස්කරණය'
-        copy: 'තොග පිටපතක්'
-        delete: 'තොග මකන්න'
+        move: "ව්යාපෘතියේ තොග වෙනසක්"
+        edit: "තොග සංස්කරණය"
+        copy: "තොග පිටපතක්"
+        delete: "තොග මකන්න"
       button_clear: "පැහැදිලි"
       comment_added: "අදහස් දැක්වීම සාර්ථකව එකතු කරන ලදී."
       comment_send_failed: "දෝෂයක් සිදුවී ඇත. අදහස ඉදිරිපත් කළ නොහැකි විය."
@@ -901,9 +921,9 @@ si:
         start_date_limited_by_relations: "Available start and finish dates are limited by relations."
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        show_relations: "Show relations"
         ignore_non_working_days:
-          title: 'Working days only'
+          title: "Working days only"
       description_filter: "පෙරහන්"
       description_enter_text: "පෙළ ඇතුලත් කරන්න"
       description_options_hide: "විකල්ප සඟවන්න"
@@ -923,32 +943,34 @@ si:
       message_work_package_read_only: "වැඩ පැකේජය මෙම තත්වය තුළ අගුලු දමා ඇත. තත්වය හැර වෙනත් කිසිදු ගුණාංගයක් වෙනස් කළ නොහැක."
       message_work_package_status_blocked: "සංවෘත තත්ත්වය සහ සංවෘත අනුවාදය පවරා ඇති නිසා වැඩ පැකේජ තත්ත්වය ලිවිය නොහැකි ය."
       placeholder_filter_by_text: "විෂය, විස්තරය, අදහස්,..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
-        addition_label: 'Added to view within the comparison time period'
-        removal_label: 'Removed from view within the comparison time period'
-        modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This column does not show changes in Baseline mode.'
+        addition_label: "Added to view within the comparison time period"
+        removal_label: "Removed from view within the comparison time period"
+        modification_label: "Modified within the comparison time period"
+        column_incompatible: "This column does not show changes in Baseline mode."
       filters:
-        title: 'පෙරහන් වැඩ පැකේජ'
-        baseline_incompatible: 'This filter attribute is not taken into consideration in Baseline mode.'
-        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+        title: "පෙරහන් වැඩ පැකේජ"
+        baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
+        baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
       inline_create:
-        title: 'මෙම ලැයිස්තුවට නව වැඩ පැකේජයක් එක් කිරීමට මෙහි ක්ලික් කරන්න'
+        title: "මෙම ලැයිස්තුවට නව වැඩ පැකේජයක් එක් කිරීමට මෙහි ක්ලික් කරන්න"
       create:
-        title: 'නව වැඩ පැකේජය'
-        header: 'අලුත් %{type}'
-        header_no_type: 'නව වැඩ පැකේජය (ටයිප් තවමත් සකසා නැත)'
-        header_with_parent: 'නව %{type} ( %{parent_type} #%{id}දරුවා)'
-        button: 'සාදන්න'
+        title: "නව වැඩ පැකේජය"
+        header: "අලුත් %{type}"
+        header_no_type: "නව වැඩ පැකේජය (ටයිප් තවමත් සකසා නැත)"
+        header_with_parent: "නව %{type} ( %{parent_type} #%{id}දරුවා)"
+        button: "සාදන්න"
       copy:
-        title: 'වැඩ පැකේජය පිටපත් කරන්න'
+        title: "වැඩ පැකේජය පිටපත් කරන්න"
       hierarchy:
         show: "ධූරාවලිය මාදිලිය පෙන්වන්න"
         hide: "ධූරාවලිය මාදිලිය සඟවන්න"
-        toggle_button: 'ධූරාවලිය මාදිලිය ටොගල් කිරීමට ක්ලික් කරන්න.'
-        leaf: '%{level}මට්ටමේ වැඩ පැකේජ කොළ.'
-        children_collapsed: 'ධූරාවලියේ මට්ටම %{level}, බිඳ වැටුණි. පෙරීම දරුවන්ට පෙන්වීමට ක්ලික් කරන්න'
-        children_expanded: 'ධූරාවලියේ මට්ටම %{level}, පුළුල් විය. පෙරහන් කළ දරුවන් බිඳ වැටීම සඳහා ක්ලික් කරන්න'
+        toggle_button: "ධූරාවලිය මාදිලිය ටොගල් කිරීමට ක්ලික් කරන්න."
+        leaf: "%{level}මට්ටමේ වැඩ පැකේජ කොළ."
+        children_collapsed: "ධූරාවලියේ මට්ටම %{level}, බිඳ වැටුණි. පෙරීම දරුවන්ට පෙන්වීමට ක්ලික් කරන්න"
+        children_expanded: "ධූරාවලියේ මට්ටම %{level}, පුළුල් විය. පෙරහන් කළ දරුවන් බිඳ වැටීම සඳහා ක්ලික් කරන්න"
       faulty_query:
         title: වැඩ පැකේජ පටවා ගත නොහැකි විය.
         description: ඔබේ මතය වැරදියි. එය ක්රියාවට නැංවිය නොහැක.
@@ -977,7 +999,7 @@ si:
         priority: "ප්රමුඛතාව"
         projectName: "ව්යාපෘති"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "ඉතිරි පැය"
         responsible: "වගකිව යුතු"
         startDate: "ආරම්භක දිනය"
         status: "තත්වය"
@@ -989,7 +1011,7 @@ si:
         versionName: "අනුවාදය"
         version: "අනුවාදය"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "ඇස්තමේන්තුගත කාලය"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "නවතම ක්රියාකාරකම්"
@@ -999,6 +1021,7 @@ si:
         all_open: "සියල්ල විවෘතයි"
         summary: "සාරාංශය"
         shared_with_users: "Shared with users"
+        shared_with_me: "Shared with me"
       jump_marks:
         pagination: "මේසය පේනීම වෙත පනින්න"
         label_pagination: "වැඩ පැකේජ වගුව හරහා මඟ හැරීමට සහ පේනිෂන් වෙත යන්න මෙහි ක්ලික් කරන්න"
@@ -1036,54 +1059,54 @@ si:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: "Share"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:
-        configure_button: 'වැඩ පැකේජ වගුව සකසන්න'
+        configure_button: "වැඩ පැකේජ වගුව සකසන්න"
         summary: "වැඩ පැකේජයේ පේළි සහ වැඩ පැකේජ ගුණාංගවල තීරු සහිත වගුව."
         text_inline_edit: "මෙම වගුවේ බොහෝ සෛල එම ගුණාංගයේ පේලි-සංස්කරණ ක්රියාකාරිත්වය සක්රිය කරන බොත්තම් වේ."
         text_sort_hint: "වගු ශීර්ෂයන්හි ඇති සබැඳි සමඟ ඔබට වගු තීරු වර්ග කිරීම, කණ්ඩායම් කිරීම, නැවත සකස් කිරීම, ඉවත් කිරීම සහ එකතු කිරීම කළ හැකිය."
         text_select_hint: "තෝරන්න පෙට්ටි 'ALT' සහ ඊතල යතුරු සමඟ විවෘත කළ යුතුය."
       table_configuration:
-        button: 'මෙම වැඩ පැකේජ වගුව සකසන්න'
-        choose_display_mode: 'වැඩ පැකේජ ලෙස පෙන්වන්න'
-        modal_title: 'වැඩ පැකේජය වගු වින්යාසය'
+        button: "මෙම වැඩ පැකේජ වගුව සකසන්න"
+        choose_display_mode: "වැඩ පැකේජ ලෙස පෙන්වන්න"
+        modal_title: "වැඩ පැකේජය වගු වින්යාසය"
         embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "පෙරනිමි"
-        display_settings: 'දර්ශන සැකසුම්'
+        display_settings: "දර්ශන සැකසුම්"
         default_mode: "පැතලි ලැයිස්තුව"
         hierarchy_mode: "ධූරාවලිය"
         hierarchy_hint: "සියළුම පෙරූ වගු ප්රතිඵල ඔවුන්ගේ මුතුන් මිත්තන් සමඟ වැඩි දියුණු කරනු ඇත. ධූරාවලිය පුළුල් කර බිඳ දැමිය හැකිය."
         display_sums_hint: "වගු ප්රතිඵලවලට පහළින් පේළියක සියලු සාරාංශගත ගුණාංගවල සාරාංශ දර්ශනය කරන්න."
         show_timeline_hint: "වගුවේ දකුණු පැත්තේ අන්තර් ක්රියාකාරී ගැන්ට් ප්රස්ථාරයක් පෙන්වන්න. වගුව සහ ගැන්ට් ප්රස්ථාරය අතර බෙදුම්කරු ඇදගෙන යාමෙන් ඔබට එහි පළල වෙනස් කළ හැකිය."
-        highlighting: 'උද්දීපනය'
+        highlighting: "උද්දීපනය"
         highlighting_mode:
           description: "වර්ණය සමඟ ඉස්මතු කරන්න"
           none: "කිසිදු අවධාරණය"
-          inline: 'උද්දීපිත ගුණාංගය (ය)'
-          inline_all: 'සියලු ගුණාංග'
-          entire_row_by: 'මුළු පේළිය'
-          status: 'තත්වය'
-          priority: 'ප්රමුඛතාව'
-          type: 'වර්ගය'
+          inline: "උද්දීපිත ගුණාංගය (ය)"
+          inline_all: "සියලු ගුණාංග"
+          entire_row_by: "මුළු පේළිය"
+          status: "තත්වය"
+          priority: "ප්රමුඛතාව"
+          type: "වර්ගය"
         sorting_mode:
-          description: 'ඔබගේ වැඩ පැකේජ වර්ග කිරීම සඳහා මාදිලිය තෝරා ගන්න:'
-          automatic: 'ස්වයංක්රීය'
-          manually: 'අතින්'
-          warning: 'ස්වයංක්රීය තෝරා බේරා ගැනීමේ මාදිලිය සක්රිය විට ඔබ ඔබේ පෙර තෝරා බේරා ගැනීමේ අහිමි වනු ඇත.'
+          description: "ඔබගේ වැඩ පැකේජ වර්ග කිරීම සඳහා මාදිලිය තෝරා ගන්න:"
+          automatic: "ස්වයංක්රීය"
+          manually: "අතින්"
+          warning: "ස්වයංක්රීය තෝරා බේරා ගැනීමේ මාදිලිය සක්රිය විට ඔබ ඔබේ පෙර තෝරා බේරා ගැනීමේ අහිමි වනු ඇත."
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
-          attribute_highlighting: 'ස්කන්ධයෙන් කැපී පෙනෙන ඇතැම් වැඩ පැකේජ අවශ්යද?'
-          relation_columns: 'වැඩ පැකේජ ලැයිස්තුවේ සබඳතා දැකීමට අවශ්යද?'
-          check_out_link: 'Check out the Enterprise edition.'
+          attribute_highlighting: "ස්කන්ධයෙන් කැපී පෙනෙන ඇතැම් වැඩ පැකේජ අවශ්යද?"
+          relation_columns: "වැඩ පැකේජ ලැයිස්තුවේ සබඳතා දැකීමට අවශ්යද?"
+          check_out_link: "Check out the Enterprise edition."
         relation_filters:
-          filter_work_packages_by_relation_type: 'සම්බන්ධතා වර්ගය අනුව වැඩ පැකේජ පෙරහන් කරන්න'
+          filter_work_packages_by_relation_type: "සම්බන්ධතා වර්ගය අනුව වැඩ පැකේජ පෙරහන් කරන්න"
       tabs:
         overview: දළ විශ්ලේෂණය
         activity: ක්‍රියාකාරකම
@@ -1123,8 +1146,8 @@ si:
       button_cancel: "අවලංගු කරන්න"
       button_delete: "මකන්න"
       form_submit:
-        title: 'දිගටම කරගෙන යාමට තහවුරු කරන්න'
-        text: 'ඔබට මෙම ක්රියාව කිරීමට අවශ්ය බව ඔබට විශ්වාසද?'
+        title: "දිගටම කරගෙන යාමට තහවුරු කරන්න"
+        text: "ඔබට මෙම ක්රියාව කිරීමට අවශ්ය බව ඔබට විශ්වාසද?"
       destroy_work_package:
         title: "%{label}මකාදැමීම තහවුරු කරන්න"
         single_text: "Are you sure you want to delete the work package"
@@ -1156,11 +1179,11 @@ si:
       null_value_label: "වටිනාකමක් නැත"
       clear_value_label: "-"
       errors:
-        required: '%{field} හිස් විය නොහැක'
-        number: '%{field} වලංගු අංකයක් නොවේ'
-        maxlength: '%{field} ඉලක්කම් %{maxLength} ට වඩා අඩංගු විය නොහැක (ය)'
-        minlength: '%{field} ඉලක්කම් %{minLength} ට වඩා අඩු අඩංගු විය නොහැක (ය)'
-        messages_on_field: 'මෙම ක්ෂේත්රය අවලංගුයි: %{messages}'
+        required: "%{field} හිස් විය නොහැක"
+        number: "%{field} වලංගු අංකයක් නොවේ"
+        maxlength: "%{field} ඉලක්කම් %{maxLength} ට වඩා අඩංගු විය නොහැක (ය)"
+        minlength: "%{field} ඉලක්කම් %{minLength} ට වඩා අඩු අඩංගු විය නොහැක (ය)"
+        messages_on_field: "මෙම ක්ෂේත්රය අවලංගුයි: %{messages}"
     error_could_not_resolve_version_name: "අනුවාදයේ නම විසඳිය නොහැක"
     error_could_not_resolve_user_name: "පරිශීලක නාමය විසඳිය නොහැක"
     error_attachment_upload: "ගොනුව උඩුගත කිරීමට අසමත් විය: %{error}"
@@ -1181,8 +1204,8 @@ si:
         other: "%{count} දින"
         zero: "0 days"
     zen_mode:
-      button_activate: 'සක්රිය මාදිලිය'
-      button_deactivate: 'සෙන් මාදිලිය අක්රිය'
+      button_activate: "සක්රිය මාදිලිය"
+      button_deactivate: "සෙන් මාදිලිය අක්රිය"
     global_search:
       all_projects: "සියලු ව්යාපෘති"
       close_search: "සෙවුම වසන්න"
@@ -1195,129 +1218,146 @@ si:
         project_and_subprojects: "සහ සියළු උප ව්යාපෘති"
         search_for: "සඳහා සොයන්න"
     views:
-      card: 'පත්'
-      list: 'මේසය'
-      timeline: 'ගැන්ට්'
+      card: "පත්"
+      list: "මේසය"
+      timeline: "ගැන්ට්"
     invite_user_modal:
-      back: 'ආපසු'
-      invite: 'Invite'
+      back: "ආපසු"
+      invite: "Invite"
       title:
-        invite: 'පරිශීලකයාට ආරාධනා කරන්න'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite: "පරිශීලකයාට ආරාධනා කරන්න"
+        invite_to_project: "Invite %{type} to %{project}"
+        User: "user"
+        Group: "group"
+        PlaceholderUser: "placeholder user"
+        invite_principal_to_project: "Invite %{principal} to %{project}"
       project:
-        label: 'ව්යාපෘති'
-        required: 'Please select a project'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
-        next_button: 'ඊළඟ'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        label: "ව්යාපෘති"
+        required: "Please select a project"
+        lacking_permission: "Please select a different project since you lack permissions to assign users to the currently selected."
+        lacking_permission_info: "You lack the permission to assign users to the project you are currently in. You need to select a different one."
+        next_button: "ඊළඟ"
+        no_results: "No projects were found"
+        no_invite_rights: "You are not allowed to invite members to this project"
       type:
-        required: 'Please select the type to be invited'
+        required: "Please select the type to be invited"
         user:
-          title: 'පරිශීලක'
-          description: 'Permissions based on the assigned role in the selected project'
+          title: "පරිශීලක"
+          description: "Permissions based on the assigned role in the selected project"
         group:
-          title: 'කණ්ඩායම'
-          description: 'Permissions based on the assigned role in the selected project'
+          title: "කණ්ඩායම"
+          description: "Permissions based on the assigned role in the selected project"
         placeholder:
-          title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
-          description: 'Has no access to the project and no emails are sent out.'
+          title: "Placeholder user"
+          title_no_ee: "Placeholder user (Enterprise edition only add-on)"
+          description: "Has no access to the project and no emails are sent out."
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
-          name: 'නම'
-        already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
-        no_results_placeholder: 'No placeholders were found'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
-        next_button: 'ඊළඟ'
+          name_or_email: "Name or email address"
+          name: "නම"
+        already_member_message: "Already a member of %{project}"
+        no_results_user: "No users were found"
+        invite_user: "Invite:"
+        no_results_placeholder: "No placeholders were found"
+        create_new_placeholder: "Create new placeholder:"
+        no_results_group: "No groups were found"
+        next_button: "ඊළඟ"
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          user: "Please select a user"
+          placeholder: "Please select a placeholder"
+          group: "Please select a group"
       role:
-        label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
-        next_button: 'ඊළඟ'
+        label: "Role in %{project}"
+        no_roles_found: "No roles were found"
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
+        required: "Please select a role"
+        next_button: "ඊළඟ"
       message:
-        label: 'Invitation message'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'ඊළඟ'
+        label: "Invitation message"
+        description: "We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started."
+        next_button: "ඊළඟ"
       summary:
-        next_button: 'ආරාධනය යවන්න'
+        next_button: "ආරාධනය යවන්න"
       success:
-        title: '%{principal} was invited!'
+        title: "%{principal} was invited!"
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
-        next_button: 'ඉදිරියට යන්න'
+          user: "The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+          placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+          group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
+        next_button: "ඉදිරියට යන්න"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
-      toggle_title: 'Include projects'
-      title: 'ව්‍යාපෘති'
-      clear_selection: 'Clear selection'
-      apply: 'අයදුම් කරන්න'
+      toggle_title: "Include projects"
+      title: "ව්‍යාපෘති"
+      clear_selection: "Clear selection"
+      apply: "අයදුම් කරන්න"
       selected_filter:
-        all: 'All projects'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+        all: "All projects"
+        selected: "Only selected"
+      search_placeholder: "Search project..."
+      include_subprojects: "Include all sub-projects"
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
-        current_project: 'This is the current project you are in.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        include_all_selected: "Project already included since Include all sub-projects is enabled."
+        current_project: "This is the current project you are in."
+        does_not_match_search: "Project does not match the search criteria."
+      no_results: "No project matches your search criteria."
     baseline:
-      toggle_title: 'Baseline'
-      clear: 'පැහැදිලි'
-      apply: 'අයදුම් කරන්න'
-      header_description: 'Highlight changes made to this list since any point in the past.'
-      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
-      show_changes_since: 'Show changes since'
-      baseline_comparison: 'Baseline comparison'
-      help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'සිට'
-      to: 'කිරීමට'
+      toggle_title: "Baseline"
+      clear: "පැහැදිලි"
+      apply: "අයදුම් කරන්න"
+      header_description: "Highlight changes made to this list since any point in the past."
+      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
+      show_changes_since: "Show changes since"
+      baseline_comparison: "Baseline comparison"
+      help_description: "Reference time zone for the baseline."
+      time_description: "In your local time: %{datetime}"
+      time: "Time"
+      from: "සිට"
+      to: "කිරීමට"
       drop_down:
-        none: '-'
-        yesterday: 'ඊයේ'
-        last_working_day: 'last working day'
-        last_week: 'පසුගිය සතියේ'
-        last_month: 'පසුගිය මාසයේ'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        none: "-"
+        yesterday: "ඊයේ"
+        last_working_day: "last working day"
+        last_week: "පසුගිය සතියේ"
+        last_month: "පසුගිය මාසයේ"
+        a_specific_date: "a specific date"
+        between_two_specific_dates: "between two specific dates"
       legends:
-        changes_since: 'Changes since'
-        changes_between: 'Changes between'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        changes_since: "Changes since"
+        changes_between: "Changes between"
+        now_meets_filter_criteria: "Now meets filter criteria"
+        no_longer_meets_filter_criteria: "No longer meets filter criteria"
+        maintained_with_changes: "Maintained with changes"
+        in_your_timezone: "In your local timezone:"
       icon_tooltip:
-        added: 'Added to view within the comparison time period'
-        removed: 'Removed from view within the comparison time period'
-        changed: 'Maintained with modifications'
+        added: "Added to view within the comparison time period"
+        removed: "Removed from view within the comparison time period"
+        changed: "Maintained with modifications"
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
-      advanced_settings: 'උසස් සැකසුම්'
+      submit_success_message: "The form was successfully submitted"
+      load_error_message: "There was an error loading the form"
+      validation_error_message: "Please fix the errors present in the form"
+      advanced_settings: "උසස් සැකසුම්"
     spot:
       filter_chip:
-        remove: 'ඉවත් කරන්න'
+        remove: "ඉවත් කරන්න"
       drop_modal:
-        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
-        Close: 'වසන්න'
+        focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
+        close: "Close modal"
+    open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

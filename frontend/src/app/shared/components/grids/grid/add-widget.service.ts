@@ -16,14 +16,16 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 export class GridAddWidgetService {
   text = { add: this.i18n.t('js.grid.add_widget') };
 
-  constructor(readonly opModalService:OpModalService,
+  constructor(
+    readonly opModalService:OpModalService,
     readonly injector:Injector,
     readonly halResource:HalResourceService,
     readonly layout:GridAreaService,
     readonly drag:GridDragAndDropService,
     readonly move:GridMoveService,
     readonly resize:GridResizeService,
-    readonly i18n:I18nService) {
+    readonly i18n:I18nService,
+  ) {
   }
 
   public isAddable(area:GridArea) {
@@ -33,8 +35,8 @@ export class GridAddWidgetService {
       && this.isAllowed;
   }
 
-  public widget(area:GridArea) {
-    this
+  public widget(area:GridArea):Promise<GridWidgetResource|null> {
+    return this
       .select(area)
       .then((widgetResource) => {
         if (this.layout.isGap(area)) {
@@ -46,10 +48,9 @@ export class GridAddWidgetService {
         this.setMaxWidth(newArea);
 
         this.persist(newArea);
+        return widgetResource;
       })
-      .catch(() => {
-        // user didn't select a widget
-      });
+      .catch(() => null);
   }
 
   public get addText() {
@@ -61,7 +62,7 @@ export class GridAddWidgetService {
       this.opModalService.show(
         AddGridWidgetModalComponent,
         this.injector,
-        { schema: this.layout.schema },
+        { $schema: this.layout.$schema },
       ).subscribe((modal) => {
         modal.closingEvent.subscribe(() => {
           const registered = modal.chosenWidget;

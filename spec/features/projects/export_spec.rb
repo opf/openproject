@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/work_packages_page"
 
-RSpec.describe 'project export', :js, :with_cuprite do
-  shared_let(:important_project) { create(:project, name: 'Important schedule plan') }
-  shared_let(:party_project) { create(:project, name: 'Christmas party') }
+RSpec.describe "project export", :js, :with_cuprite do
+  shared_let(:important_project) { create(:project, name: "Important schedule plan", description: "Important description") }
+  shared_let(:party_project) { create(:project, name: "Christmas party", description: "Christmas description") }
   shared_let(:user) do
     create(:user, member_with_permissions: {
              important_project => %i[view_project edit_project view_work_packages],
@@ -58,11 +58,11 @@ RSpec.describe 'project export', :js, :with_cuprite do
   subject { @download_list.refresh_from(page).latest_downloaded_content } # rubocop:disable RSpec/InstanceVariable
 
   def export!(expect_success: true)
-    index_page.click_more_menu_item 'Export'
+    index_page.click_more_menu_item "Export"
     click_on export_type
 
     # Expect to get a response regarding queuing
-    expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue'),
+    expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue"),
                                  wait: 10
 
     begin
@@ -76,44 +76,49 @@ RSpec.describe 'project export', :js, :with_cuprite do
     end
   end
 
-  describe 'CSV export' do
-    let(:export_type) { 'CSV' }
+  describe "CSV export" do
+    let(:export_type) { "CSV" }
 
-    it 'exports the visible projects' do
-      expect(page).to have_css('td.name', text: important_project.name)
+    it "exports the visible projects" do
+      index_page.expect_projects_listed(important_project)
 
       export!
 
       expect(subject).to have_text(important_project.name)
     end
 
-    context 'with a filter set to match only one project' do
-      it 'exports with that filter' do
-        expect(page).to have_text(important_project.name)
-        expect(page).to have_text(party_project.name)
+    context "with a filter set to match only one project" do
+      it "exports with that filter" do
+        index_page.expect_projects_listed(important_project, party_project)
 
         index_page.open_filters
 
-        index_page.set_filter('name_and_identifier',
-                              'Name or identifier',
-                              'contains',
-                              ['Important'])
+        index_page.set_filter("name_and_identifier",
+                              "Name or identifier",
+                              "contains",
+                              ["Important"])
 
-        click_on 'Apply'
-        expect(page).to have_text(important_project.name)
-        expect(page).to have_no_text(party_project.name)
+        index_page.apply_filters
+
+        index_page.set_columns("Name", "Description")
+
+        index_page.expect_projects_listed(important_project)
+        index_page.expect_projects_not_listed(party_project)
 
         export!
 
         expect(subject).to have_text(important_project.name)
+        expect(subject).to have_text(important_project.description)
         expect(subject).to have_no_text(party_project.name)
+        expect(subject).to have_no_text(party_project.description)
       end
     end
 
-    context 'with a persisted list' do
+    context "with a persisted list" do
       let(:my_projects_list) do
-        create(:project_query, name: 'My projects list', user:) do |query|
-          query.where('name_and_identifier', '~', ['Important'])
+        create(:project_query, name: "My projects list", user:) do |query|
+          query.where("name_and_identifier", "~", ["Important"])
+          query.select("name", "description")
 
           query.save!
         end
@@ -123,18 +128,20 @@ RSpec.describe 'project export', :js, :with_cuprite do
         my_projects_list
       end
 
-      it 'exports with the filters persisted in the list' do
+      it "exports with the filters persisted in the list" do
         index_page.visit!
 
         index_page.set_sidebar_filter(my_projects_list.name)
 
-        expect(page).to have_text(important_project.name)
-        expect(page).to have_no_text(party_project.name)
+        index_page.expect_projects_listed(important_project)
+        index_page.expect_projects_not_listed(party_project)
 
         export!
 
         expect(subject).to have_text(important_project.name)
+        expect(subject).to have_text(important_project.description)
         expect(subject).to have_no_text(party_project.name)
+        expect(subject).to have_no_text(party_project.description)
       end
     end
   end

@@ -58,12 +58,12 @@ pl:
         select_all: "Zaznacz wszystkie"
         selection:
           zero: "Wybierz pliki do połączenia"
-          one: "Połącz %{count} plik"
+          one: "Połącz 1 plik"
           few: "Połącz %{count} pliki"
           many: "Połącz %{count} plików"
           other: "Połącz %{count} plików"
         success_create:
-          one: "Pomyślnie utworzono %{count} połączenie plików."
+          one: "Pomyślnie utworzono 1 połączenie plików."
           few: "Pomyślnie utworzono %{count} połączenia plików."
           many: "Pomyślnie utworzono %{count} połączeń plików."
           other: "Pomyślnie utworzono %{count} połączeń plików."
@@ -82,7 +82,7 @@ pl:
         link_uploaded_file_error: >
           Wystąpił błąd podczas łączenia niedawno przesłanego pliku '%{fileName}' z pakietem roboczym %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to the storage to access this file."
+          not_logged_in: "Zaloguj się do magazynu, aby uzyskać dostęp do tego pliku."
           view_not_allowed: "Nie masz uprawnień do wyświetlania tego pliku."
           not_found: "Nie można znaleźć tego pliku."
         already_linked_file: "Ten plik jest już powiązany z tym pakietem roboczym."

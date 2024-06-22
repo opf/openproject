@@ -63,7 +63,7 @@ module Storages::Admin
     def provider_default_client_secret_input_options
       {}.tap do |options_h|
         if @storage.provider_type_one_drive?
-          options_h[:caption] = I18n.t('storages.instructions.one_drive.oauth_client_secret')
+          options_h[:caption] = I18n.t("storages.instructions.one_drive.oauth_client_secret")
         end
       end
     end

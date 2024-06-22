@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Projects::ArchiveService do
   let(:project) { create(:project) }
@@ -36,7 +36,7 @@ RSpec.describe Projects::ArchiveService do
   let(:user) { create(:admin) }
   let(:instance) { described_class.new(user:, model: project) }
 
-  it 'sends the notification' do
+  it "sends the notification" do
     allow(OpenProject::Notifications).to receive(:send)
 
     expect(instance.call).to be_truthy
@@ -49,8 +49,8 @@ RSpec.describe Projects::ArchiveService do
             .with(OpenProject::Events::PROJECT_ARCHIVED, project:))
   end
 
-  context 'with project without any subprojects' do
-    it 'archives the project' do
+  context "with project without any subprojects" do
+    it "archives the project" do
       expect(project.reload).not_to be_archived
 
       expect(instance.call).to be_truthy
@@ -58,14 +58,14 @@ RSpec.describe Projects::ArchiveService do
     end
   end
 
-  context 'with project having subprojects' do
+  context "with project having subprojects" do
     before do
       project.update(children: [subproject1, subproject2, subproject3])
       project.reload
     end
 
-    shared_examples 'when archiving a project' do
-      it 'archives the project' do
+    shared_examples "when archiving a project" do
+      it "archives the project" do
         # Baseline verification.
         expect(project.reload).not_to be_archived
 
@@ -76,7 +76,7 @@ RSpec.describe Projects::ArchiveService do
         expect(project.reload).to be_archived
       end
 
-      it 'archives all the subprojects' do
+      it "archives all the subprojects" do
         # Baseline verification.
         expect(subproject1.reload).not_to be_archived
         expect(subproject2.reload).not_to be_archived
@@ -92,9 +92,9 @@ RSpec.describe Projects::ArchiveService do
       end
     end
 
-    include_examples 'when archiving a project'
+    include_examples "when archiving a project"
 
-    context 'with deep nesting' do
+    context "with deep nesting" do
       before do
         project.update(children: [subproject1])
         subproject1.update(children: [subproject2])
@@ -103,11 +103,11 @@ RSpec.describe Projects::ArchiveService do
         subproject1.reload
       end
 
-      include_examples 'when archiving a project'
+      include_examples "when archiving a project"
     end
   end
 
-  context 'with project having an archived subproject' do
+  context "with project having an archived subproject" do
     let(:subproject1) { create(:project, active: false) }
 
     before do
@@ -115,8 +115,8 @@ RSpec.describe Projects::ArchiveService do
       project.reload
     end
 
-    context 'while archiving the project' do
-      it 'does not change timestamp of the already archived subproject' do
+    context "while archiving the project" do
+      it "does not change timestamp of the already archived subproject" do
         expect(subproject1.reload).to be_archived
         before_timestamp = subproject1.updated_at
 
@@ -126,7 +126,7 @@ RSpec.describe Projects::ArchiveService do
         expect(before_timestamp).to eq(after_timestamp)
       end
 
-      it 'changes timestamp of the active subproject' do
+      it "changes timestamp of the active subproject" do
         expect(subproject2.reload).not_to be_archived
         before_timestamp = subproject2.updated_at
 
@@ -135,6 +135,20 @@ RSpec.describe Projects::ArchiveService do
         after_timestamp = subproject2.reload.updated_at
         expect(before_timestamp).not_to eq(after_timestamp)
       end
+    end
+  end
+
+  context "with the seeded demo project" do
+    let(:demo_project) { create(:project, name: "Demo project", identifier: "demo-project", public: true) }
+    let(:instance) { described_class.new(user:, model: demo_project) }
+
+    it "saves in a Setting that the demo project was modified (regression #52826)" do
+      # Archive the demo project
+      expect(instance.call).to be_truthy
+      expect(demo_project.reload).to be_archived
+
+      # Demo project is not available any more for the onboarding tour
+      expect(Setting.demo_projects_available).to be(false)
     end
   end
 end

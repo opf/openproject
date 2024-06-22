@@ -27,92 +27,82 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="generic-table--flex-container">
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
-        <colgroup>
-          <% headers.each do |_name, _options| %>
-            <col <%= "opHighlightCol" unless _name == :hierarchy %> >
-          <% end %>
-          <col opHighlightCol>
-        </colgroup>
-        <thead  class="-sticky">
-        <tr>
-          <% headers.each do |name, options| %>
-            <% if name == :hierarchy %>
-              <th id="project-table--hierarchy-header">
-                <div class="generic-table--sort-header-outer generic-table--sort-header-outer_no-highlighting">
-                  <div class="generic-table--sort-header">
-                    <%= content_tag :a,
-                                    helpers.op_icon("icon-hierarchy"),
-                                    href: href_only_when_not_sort_lft,
-                                    class: "spot-link #{deactivate_class_on_lft_sort}",
-                                    title: t(:label_sort_by, value: %("#{t(:label_project_hierarchy)}")) %>
-                  </div>
-                </div>
-              </th>
-            <% elsif sortable_column?(name) %>
-              <%= build_sort_header name,
-                                    options.merge(data:
-                                                    {
-                                                      controller: "params-from-query",
-                                                      'application-target': "dynamic",
-                                                      'params-from-query-allowed-value': '["query_id"]',
-                                                      'params-from-query-all-anchors-value': "true"
-                                                    }
-                                                 ) %>
-            <% else %>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= options[:caption] %>
-                    </span>
-                  </div>
-                </div>
-              </th>
+<div class="project-list-page--table">
+  <div class="generic-table--flex-container">
+    <div class="generic-table--container <%= container_class %>">
+      <div class="generic-table--results-container">
+        <table class="generic-table" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
+          <colgroup>
+            <% columns.each do |column| %>
+              <col <%= "opHighlightCol" unless column.attribute == :hierarchy %> >
             <% end %>
-          <% end %>
-          <th class="-right">
-            <div class="generic-table--header-outer">
-              <div class="generic-table--header"
-                   data-controller="params-from-query"
-                   data-application-target="dynamic"
-                   data-params-from-query-all-anchors-value="true"
-                   data-params-from-query-allowed-value='["query_id", "per_page", "page", "sortBy", "filters"]'>
-                <% if params[:expand] == 'all' %>
-                  <%= link_to t(:button_collapse_all) %>
-                <% else %>
-                  <%= link_to t(:button_expand_all), { params: { expand: 'all' } } %>
-                <% end %>
+            <col>
+          </colgroup>
+          <thead class="-sticky">
+          <tr>
+            <% columns.each do |column| %>
+              <% if column.attribute == :hierarchy %>
+                <th id="project-table--hierarchy-header">
+                  <div class="generic-table--sort-header-outer generic-table--sort-header-outer_no-highlighting">
+                    <div class="generic-table--sort-header">
+                      <%= content_tag :a,
+                                      helpers.op_icon("icon-hierarchy"),
+                                      href: href_only_when_not_sort_lft,
+                                      class: "spot-link #{deactivate_class_on_lft_sort}",
+                                      title: t(:label_sort_by, value: %("#{t(:label_project_hierarchy)}")) %>
+                    </div>
+                  </div>
+                </th>
+              <% elsif sortable_column?(column) %>
+                <%= build_sort_header column.attribute,
+                                      order_options(column) %>
+              <% elsif column.attribute == :favored %>
+                <th>
+                  <div class="generic-table--header-outer">
+                    <div class="generic-table--header generic-table--header_centered generic-table--header_no-min-width">
+                      <span>
+                        <%= render(Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, "aria-label": I18n.t(:label_favorite))) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+              <% else %>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                          <%= column.caption %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+              <% end %>
+            <% end %>
+            <th>
+              <div class="generic-table--empty-header">
               </div>
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <% if rows.empty? %>
-          <tr class="generic-table--empty-row">
-            <td colspan="<%= headers.length + 1 %>"><%= empty_row_message %></td>
+            </th>
           </tr>
+          </thead>
+          <tbody>
+          <% if rows.empty? %>
+            <tr class="generic-table--empty-row">
+              <td colspan="<%= columns.length + 1 %>"><%= empty_row_message %></td>
+            </tr>
+          <% end %>
+          <%= render_collection rows %>
+          </tbody>
+        </table>
+        <% if inline_create_link && show_inline_create %>
+          <div class="wp-inline-create-button">
+            <%= inline_create_link %>
+          </div>
         <% end %>
-        <%= render_collection rows %>
-        </tbody>
-      </table>
-      <% if inline_create_link && show_inline_create %>
-        <div class="wp-inline-create-button">
-          <%= inline_create_link %>
-        </div>
-      <% end %>
+      </div>
     </div>
   </div>
-  <% if paginated? %>
-    <div data-controller="params-from-query"
-         data-application-target="dynamic"
-         data-params-from-query-all-anchors-value="true"
-         data-params-from-query-allowed-value='["query_id"]'>
-      <%= helpers.pagination_links_full model, { blocked_url_params: [:query_id] } %>
-    </div>
-  <% end %>
 </div>
+
+<% if paginated? %>
+  <%= helpers.pagination_links_full model, pagination_options %>
+<% end %>

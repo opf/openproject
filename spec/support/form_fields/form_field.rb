@@ -17,7 +17,7 @@ module FormFields
 
     def expect_required
       expect(field_container)
-        .to have_css '.spot-form-field--label-indicator', text: '*'
+        .to have_css ".spot-form-field--label-indicator", text: "*"
     end
 
     def field_container

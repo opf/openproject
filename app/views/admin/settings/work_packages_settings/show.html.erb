@@ -31,50 +31,80 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= toolbar title: t(:label_work_package_tracking) %>
 
-<%= styled_form_tag({action: :update}, method: :patch) do %>
-  <section class="form--section">
+<%= styled_form_tag({ action: :update }, method: :patch) do %>
+  <section class="form--section"
+           data-application-target="dynamic"
+           data-controller="admin--work-packages-settings">
     <div class="form--field"><%= setting_check_box :cross_project_work_package_relations %></div>
     <div class="form--field"><%= setting_check_box :display_subprojects_work_packages %></div>
     <div class="form--field"><%= setting_check_box :work_package_startdate_is_adddate %></div>
-    <div class="form--field"><%= setting_select :work_package_done_ratio, WorkPackage::DONE_RATIO_OPTIONS.collect {|i| [t("setting_work_package_done_ratio_#{i}"), i]}, container_class: '-middle' %></div>
+    <div class="form--field">
+      <%= setting_select :work_package_done_ratio,
+                         WorkPackage::DONE_RATIO_OPTIONS.collect { |i| [t("setting_work_package_done_ratio_#{i}"), i] },
+                         container_class: "-middle",
+                         data: { admin__work_packages_settings_target: "progressCalculationModeSelect",
+                                 action: "change->admin--work-packages-settings#displayWarning" } %>
+      <div class="form--field-instructions"><%= t("setting_work_package_done_ratio_explanation_html") %></div>
+    </div>
+    <div class="op-toast -warning -with-bottom-spacing"
+         hidden
+         data-admin--work-packages-settings-target="warningToast">
+      <div class="op-toast--content">
+        <p data-admin--work-packages-settings-target="warningText"></p>
+      </div>
+    </div>
     <div class="form--field settings--highlighting-mode">
-      <%= setting_select :work_package_list_default_highlighting_mode,
-                         Query::Highlighting::QUERY_HIGHLIGHTING_MODES.map { |mode|
+      <%= setting_select(:work_package_list_default_highlighting_mode,
+                         Query::Highlighting::QUERY_HIGHLIGHTING_MODES.map do |mode|
                            [t("settings.highlighting.mode_long.#{mode}"), mode]
-                         },
-                         Hash.new.tap { |options|
-                            options[:container_class] = '-middle'
-                            options[:disabled] = 'disabled' unless EnterpriseToken.allows_to?(:conditional_highlighting)
-                         }
-      %>
-      <%= render partial: 'enterprise_feature_hint',
+                         end,
+                         Hash.new.tap do |options|
+                           options[:container_class] = "-middle"
+                           options[:disabled] = "disabled" unless EnterpriseToken.allows_to?(:conditional_highlighting)
+                         end) %>
+      <%= render partial: "enterprise_feature_hint",
                  locals: {
                    ee_feature: :conditional_highlighting,
-                   explanation: t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
+                   explanation: t("js.work_packages.table_configuration.upsale.attribute_highlighting"),
                    link_out: {
                      href: "https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=settings-wp-attribute-highlighting#attribute-highlighting",
-                     caption: t('js.work_packages.table_configuration.upsale.check_out_link')
+                     caption: t("js.work_packages.table_configuration.upsale.check_out_link")
                    }
                  } %>
     </div>
     <% if EnterpriseToken.allows_to? :conditional_highlighting %>
-      <div class="form--field -indented -vertical settings--highlighted-attributes" style="<%= 'display: none' unless Setting[:work_package_list_default_highlighting_mode] == 'inline' %>">
-        <%= setting_multiselect :work_package_list_default_highlighted_attributes,
-                              Query.available_columns(nil).select(&:highlightable).map { |column|
-                                [column.caption, column.name.to_s]
-                              }
-        %>
+      <div class="form--field -indented -vertical settings--highlighted-attributes" style="<%= "display: none" unless Setting[:work_package_list_default_highlighting_mode] == "inline" %>">
+        <%= setting_multiselect(:work_package_list_default_highlighted_attributes,
+                                Query.available_columns(nil).select(&:highlightable).map do |column|
+                                  [column.caption, column.name.to_s]
+                                end) %>
       </div>
     <% end %>
   </section>
-  <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
-    <%
-       column_choices = Query.new.displayable_columns.map { |column|
-         { caption: column.caption, value: column.name.to_s }
-       }
-    %>
-    <%= settings_matrix([:work_package_list_default_columns],
-                        column_choices, label_choices: :setting_work_package_properties) %>
-  </fieldset>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
+
+      <div class="form--field -full-width">
+        <div class="form--field-container">
+          <div class="form--text-field-container -xwide">
+            <%= angular_component_tag "opce-draggable-autocompleter",
+                                      inputs: {
+                                        options: work_packages_columns_options,
+                                        selected: selected_work_packages_columns_options,
+                                        protected: protected_work_packages_columns_options,
+                                        name: "settings[work_package_list_default_columns][]",
+                                        id: "setting_column_options",
+                                        inputLabel: I18n.t(:"queries.configure_view.columns.input_label"),
+                                        inputPlaceholder: I18n.t(:"queries.configure_view.columns.input_placeholder"),
+                                        dragAreaLabel: I18n.t(:"queries.configure_view.columns.drag_area_label")
+                                      } %>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
 <% end %>

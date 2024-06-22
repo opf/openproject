@@ -24,9 +24,9 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::Principals::PrincipalSqlRepresenter, 'rendering' do
+RSpec.describe API::V3::Principals::PrincipalSqlRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   subject(:json) do
@@ -46,13 +46,13 @@ RSpec.describe API::V3::Principals::PrincipalSqlRepresenter, 'rendering' do
   let(:group) { create(:group) }
   let(:placeholder_user) { create(:placeholder_user) }
 
-  let(:select) { { '*' => {} } }
+  let(:select) { { "*" => {} } }
 
   current_user do
     create(:user)
   end
 
-  context 'when rendering all supported properties for a group' do
+  context "when rendering all supported properties for a group" do
     let(:rendered_principal) { group }
 
     let(:expected) do
@@ -69,13 +69,13 @@ RSpec.describe API::V3::Principals::PrincipalSqlRepresenter, 'rendering' do
       }
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(expected.to_json)
     end
   end
 
-  context 'when rendering all supported properties for a placeholder user' do
+  context "when rendering all supported properties for a placeholder user" do
     let(:rendered_principal) { placeholder_user }
 
     let(:expected) do
@@ -92,13 +92,13 @@ RSpec.describe API::V3::Principals::PrincipalSqlRepresenter, 'rendering' do
       }
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(expected.to_json)
     end
   end
 
-  context 'when rendering all supported properties for a user' do
+  context "when rendering all supported properties for a user" do
     let(:rendered_principal) { current_user }
 
     let(:expected) do
@@ -117,15 +117,15 @@ RSpec.describe API::V3::Principals::PrincipalSqlRepresenter, 'rendering' do
       }
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(expected.to_json)
     end
   end
 
-  context 'when rendering only the name property for a user' do
+  context "when rendering only the name property for a user" do
     let(:rendered_principal) { current_user }
-    let(:select) { { 'name' => {} } }
+    let(:select) { { "name" => {} } }
 
     let(:expected) do
       {
@@ -133,7 +133,7 @@ RSpec.describe API::V3::Principals::PrincipalSqlRepresenter, 'rendering' do
       }
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(expected.to_json)
     end

@@ -28,45 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::Util do
   let(:storage) { create(:sharepoint_dev_drive_storage) }
 
-  describe '.using_admin_token' do
-    it 'return a httpx session with an authorization header', vcr: 'one_drive/utils_access_tokens' do
+  describe ".using_admin_token" do
+    it "return a httpx session with an authorization header", vcr: "one_drive/utils_access_tokens" do
       described_class.using_admin_token(storage) do |http|
         expect(http).to be_a(HTTPX::Session)
 
-        authorization_header = extract_headers(http)['authorization']
+        authorization_header = extract_headers(http)["authorization"]
         expect(authorization_header).not_to be_nil
         expect(authorization_header).to match /Bearer .+$/
       end
     end
 
-    it 'caches the token', vcr: 'one_drive/utils_access_token' do
+    it "caches the token", vcr: "one_drive/utils_access_token" do
       described_class.using_admin_token(storage) do |http|
-        cached = Rails.cache.fetch("storage.#{storage.id}.access_token") { fail 'No value found in the cache' }
-        token = extract_headers(http)['authorization'].split.last
+        cached = Rails.cache.fetch("storage.#{storage.id}.access_token") { fail "No value found in the cache" }
+        token = extract_headers(http)["authorization"].split.last
 
         expect(cached.result).not_to be_nil
         expect(cached.result.access_token).to eq(token)
       end
     end
 
-    context 'when getting the token fails' do
-      it 'returns a ServiceResult.failure', vcr: 'one_drive/util_access_token_failure' do
-        storage.oauth_client.update(client_secret: 'this_is_wrong')
+    context "when getting the token fails" do
+      it "returns a ServiceResult.failure", vcr: "one_drive/util_access_token_failure" do
+        storage.oauth_client.update(client_secret: "this_is_wrong")
 
-        result = described_class.using_admin_token(storage) { |_| fail 'this should not run' }
+        result = described_class.using_admin_token(storage) { |_| fail "this should not run" }
 
         expect(result).to be_failure
       end
 
-      it 'does not store data in the cache', vcr: 'one_drive/util_access_token_failure' do
-        storage.oauth_client.update(client_secret: 'this_is_wrong')
-        described_class.using_admin_token(storage) { |_| fail 'this should not run' }
+      it "does not store data in the cache", vcr: "one_drive/util_access_token_failure" do
+        storage.oauth_client.update(client_secret: "this_is_wrong")
+        described_class.using_admin_token(storage) { |_| fail "this should not run" }
         cached = Rails.cache.fetch("storage.#{storage.id}.access_token")
 
         expect(cached).to be_nil

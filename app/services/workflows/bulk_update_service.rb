@@ -62,8 +62,8 @@ class Workflows::BulkUpdateService < BaseServices::Update
                                       role:,
                                       old_status: status_map[status_id.to_i],
                                       new_status: status_map[new_status_id.to_i],
-                                      author: options_include(options, 'author'),
-                                      assignee: options_include(options, 'assignee'))
+                                      author: options_include(options, "author"),
+                                      assignee: options_include(options, "assignee"))
       end
     end
 
@@ -78,20 +78,9 @@ class Workflows::BulkUpdateService < BaseServices::Update
     return unless workflows.any?
 
     columns = %w(role_id type_id old_status_id new_status_id author assignee)
-    values = workflows
-             .map { |w| "(#{w.attributes.slice(*columns).values.join(', ')})" }
-             .join(', ')
+    values = workflows.map { |w| w.attributes.slice(*columns) }
 
-    # use Workflow.insert_all in rails 6
-    sql = <<-SQL
-          INSERT
-            INTO #{Workflow.table_name}
-            (#{columns.join(', ')})
-          VALUES
-            #{values}
-    SQL
-
-    Workflow.connection.execute(sql)
+    Workflow.insert_all values
   end
 
   def status_map
@@ -99,6 +88,6 @@ class Workflows::BulkUpdateService < BaseServices::Update
   end
 
   def options_include(options, string)
-    options.is_a?(Array) && options.include?(string) && !options.include?('always')
+    options.is_a?(Array) && options.include?(string) && !options.include?("always")
   end
 end

@@ -68,6 +68,15 @@ class PermissionMock
     permitted_entities[work_package] += permissions
   end
 
+  def allow_in_project_query(*permissions, project_query:)
+    raise ArgumentError, NIL_ERROR if project_query.nil?
+
+    permissions.each do |permission|
+      Authorization.contextual_permissions(permission, :project_query, raise_on_unknown: true)
+    end
+    permitted_entities[project_query] += permissions
+  end
+
   def allow_globally(*permissions)
     permissions.each do |permission|
       Authorization.contextual_permissions(permission, :global, raise_on_unknown: true)
@@ -169,26 +178,6 @@ module MockedPermissionHelper
 
       (entity.respond_to?(:project) && permission_mock.permitted_entities[entity.project].intersect?(permissions)) ||
       permission_mock.permitted_entities[entity].intersect?(permissions)
-    end
-
-    # Also mock the legacy interface using the `allowed_to?` method
-    allow(user).to receive(:allowed_to?) do |permission_or_action, project, global: false|
-      next true if permission_mock.allow_all_permissions
-
-      permissions = Authorization.permissions_for(permission_or_action).map(&:name)
-
-      if global
-        # global permission is true, when it is either allowed globally (for global permissions) or
-        # when it is allowed in any project (for project permissions).
-        permission_mock.permitted_entities[:global].intersect?(permissions) ||
-        permission_mock.permitted_entities
-        .select { |k, _| k.is_a?(Project) }
-        .values
-        .flatten
-        .intersect?(permissions)
-      elsif project
-        permission_mock.permitted_entities[project].intersect?(permissions)
-      end
     end
   end
 end

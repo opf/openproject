@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'task_list/filter'
+require "task_list/filter"
 
 module OpenProject::TextFormatting::Formats::Markdown
   class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
@@ -52,11 +52,11 @@ module OpenProject::TextFormatting::Formats::Markdown
         OpenProject::TextFormatting::Filters::PatternMatcherFilter,
         OpenProject::TextFormatting::Filters::SyntaxHighlightFilter,
         OpenProject::TextFormatting::Filters::AttachmentFilter,
+        OpenProject::TextFormatting::Filters::AutolinkFilter,
         OpenProject::TextFormatting::Filters::RelativeLinkFilter,
         OpenProject::TextFormatting::Filters::LinkAttributeFilter,
         OpenProject::TextFormatting::Filters::FigureWrappedFilter,
-        OpenProject::TextFormatting::Filters::BemCssFilter,
-        OpenProject::TextFormatting::Filters::AutolinkFilter
+        OpenProject::TextFormatting::Filters::BemCssFilter
       ]
     end
 

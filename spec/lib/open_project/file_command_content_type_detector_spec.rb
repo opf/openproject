@@ -54,27 +54,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::FileCommandContentTypeDetector do
-  it 'returns a content type based on the content of the file' do
-    tempfile = Tempfile.new('something')
-    tempfile.write('This is a file.')
+  it "returns a content type based on the content of the file" do
+    tempfile = Tempfile.new("something")
+    tempfile.write("This is a file.")
     tempfile.rewind
 
-    expect(OpenProject::FileCommandContentTypeDetector.new(tempfile.path).detect).to eq('text/plain')
+    expect(OpenProject::FileCommandContentTypeDetector.new(tempfile.path).detect).to eq("text/plain")
 
     tempfile.close
   end
 
-  it 'returns a sensible default when the file command is missing' do
-    allow(Open3).to receive(:capture2).and_raise 'o noes!'
-    @filename = '/path/to/something'
-    expect(OpenProject::FileCommandContentTypeDetector.new(@filename).detect).to eq('application/binary')
+  it "returns a sensible default when the file command is missing" do
+    allow(Open3).to receive(:capture2).and_raise "o noes!"
+    @filename = "/path/to/something"
+    expect(OpenProject::FileCommandContentTypeDetector.new(@filename).detect).to eq("application/binary")
   end
 
-  it 'returns a sensible default on the odd chance that run returns nil' do
+  it "returns a sensible default on the odd chance that run returns nil" do
     allow(Open3).to receive(:capture2).and_return [nil, 0]
-    expect(OpenProject::FileCommandContentTypeDetector.new('windows').detect).to eq('application/binary')
+    expect(OpenProject::FileCommandContentTypeDetector.new("windows").detect).to eq("application/binary")
   end
 end

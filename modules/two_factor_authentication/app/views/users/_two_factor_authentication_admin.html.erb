@@ -39,7 +39,7 @@
       <% end %>
       <% if ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.admin_register_sms_strategy.present? %>
       <li class="toolbar-item">
-        <%= link_to new_user_2fa_device_path(@user, type: :sms), class: 'button -alt-highlight' do %>
+        <%= link_to new_user_2fa_device_path(@user, type: :sms), class: 'button -primary' do %>
             <%= op_icon 'button--icon icon-add' %>
             <span class="button--text"><%= t 'two_factor_authentication.admin.button_register_mobile_phone_for_user' %></span>
         <% end %>

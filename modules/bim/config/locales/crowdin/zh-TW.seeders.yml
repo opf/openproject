@@ -52,7 +52,7 @@ zh-TW:
         item_0:
           form_configuration:
             item_0:
-              group_name: 子階
+              group_name: 子項目
       groups:
         item_0:
           name: 建築師
@@ -87,12 +87,12 @@ zh-TW:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
+          name: "(示範) 營建專案"
           status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo construction project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: 歡迎來到示範專案
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
@@ -149,12 +149,12 @@ zh-TW:
                 options:
                   name: 里程碑
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
+          name: "(示範) 規劃 & 興建"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo planning and constructing project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: 歡迎來到您的示範專案
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
@@ -307,7 +307,7 @@ zh-TW:
               subject: Construction phase
               children:
                 item_0:
-                  subject: Start constructing
+                  subject: 開始建造
                   description: |-
                     ## Goal
 
@@ -408,7 +408,7 @@ zh-TW:
           description: This is a short summary of the goals of this demo BIM project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: 歡迎來到您的示範專案
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
@@ -665,7 +665,7 @@ zh-TW:
                 *   The model can be used for the operating system of the building
                 *   ...
             item_14:
-              subject: Asset Management
+              subject: 資產管理
               description: Enjoy your building :)
         demo-bcf-management-project:
           name: "(Demo) BCF management"
@@ -686,7 +686,7 @@ zh-TW:
             item_1:
               name: Clashes
             item_2:
-              name: Requests
+              name: 要求
             item_3:
               name: Remarks
             item_4:

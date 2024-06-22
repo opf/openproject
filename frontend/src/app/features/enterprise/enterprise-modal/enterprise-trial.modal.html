@@ -45,7 +45,7 @@
           [attr.title]="text.button_cancel"
         ></button>
         <button
-          class="button button_no-margin -highlight spot-action-bar--action"
+          class="button button_no-margin -primary spot-action-bar--action"
           data-test-selector="confirmation-modal--confirmed"
           (click)="onSubmit()"
           [disabled]="!trialForm || trialForm.invalid"
@@ -57,7 +57,7 @@
       <ng-template #mailSubmitted>
         <div class="spot-action-bar--right">
           <button
-            class="button button_no-margin -highlight spot-action-bar--action"
+            class="button button_no-margin -primary spot-action-bar--action"
             data-test-selector="confirmation-modal--confirmed"
             (click)="startEnterpriseTrial()"
             [textContent]="text.button_continue"
@@ -67,7 +67,7 @@
           ></button>
           <button
             *ngIf="context.status === 'startTrial'"
-            class="button button_no-margin -highlight spot-action-bar--action"
+            class="button button_no-margin -primary spot-action-bar--action"
             data-test-selector="confirmation-modal--confirmed"
             (click)="closeModal($event)"
             [textContent]="text.button_continue"

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Token based access', type: :rails_request, with_settings: { login_required?: false } do
+RSpec.describe "Token based access", type: :rails_request, with_settings: { login_required?: false } do
   let(:work_package) { create(:work_package) }
   let(:user) do
     create(:user,
@@ -36,7 +36,7 @@ RSpec.describe 'Token based access', type: :rails_request, with_settings: { logi
   end
   let(:rss_key) { user.rss_key }
 
-  it 'grants access but does not login the user' do
+  it "grants access but does not login the user" do
     # work_packages of a private project
     get "/work_packages/#{work_package.id}.atom"
     expect(response)

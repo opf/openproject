@@ -34,6 +34,12 @@ module WorkPackagesControllerHelper
     end
   end
 
+  def check_allowed_export
+    return unless params[:format] == "pdf" && params[:gantt] == "true"
+
+    render_403 unless EnterpriseToken.allows_to?(:gantt_pdf_export)
+  end
+
   def user_allowed_to_export?
     User.current.allowed_in_any_work_package?(:export_work_packages, in_project: @project)
   end
@@ -52,7 +58,7 @@ module WorkPackagesControllerHelper
 
     unless @query.valid?
       # Ensure outputting an html response
-      request.format = 'html'
+      request.format = "html"
       render_400(message: @query.errors.full_messages.join(". "))
     end
   rescue ActiveRecord::RecordNotFound

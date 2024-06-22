@@ -8,7 +8,7 @@ import { ApiV3WorkPackagePaths } from 'core-app/core/apiv3/endpoints/work_packag
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Injectable()
@@ -23,20 +23,41 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
   // A method for fetching data with different resource type and different filter
   public loadAvailable(matching:string, resource:TOpAutocompleterResource, filters?:IAPIFilter[], searchKey?:string):Observable<HalResource[]> {
     const finalFilters:ApiV3FilterBuilder = this.createFilters(filters ?? [], matching, searchKey);
+    const params = this.createParams(resource);
 
     const filteredData = (this.apiV3Service[resource] as
       ApiV3ResourceCollection<UserResource|WorkPackageResource, ApiV3UserPaths|ApiV3WorkPackagePaths>)
-      .filtered(finalFilters).get()
+      .filtered(finalFilters, params).get()
       .pipe(map((collection) => collection.elements));
     return filteredData;
   }
 
   // A method for fetching the object for a provided value using the API
-  public loadValue(id:string, resource:TOpAutocompleterResource):Observable<HalResource> {
+  public loadValue(id:string|string[], resource:TOpAutocompleterResource, multiple:boolean):Observable<HalResource|HalResource[]> {
+    if (multiple) {
+      const calls = (id as string[])
+        .map((singleId) => this.loadSingleValue(singleId, resource));
+      return forkJoin(calls);
+    }
+
+    return this.loadSingleValue(id as string, resource);
+  }
+
+  protected loadSingleValue(id:string, resource:TOpAutocompleterResource) {
     return (this.apiV3Service[resource] as
       ApiV3ResourceCollection<UserResource|WorkPackageResource, ApiV3UserPaths|ApiV3WorkPackagePaths>)
       .id(id)
       .get();
+  }
+
+  protected createParams(resource:TOpAutocompleterResource):{ [p:string]:string } {
+    if (resource === 'work_packages') {
+      return {
+        sortBy: '[["updatedAt","desc"]]',
+      };
+    }
+
+    return {};
   }
 
   // A method for building filters

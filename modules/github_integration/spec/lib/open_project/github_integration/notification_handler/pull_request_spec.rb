@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path('../../../../spec_helper', __dir__)
+require File.expand_path("../../../../spec_helper", __dir__)
 
 RSpec.describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
   subject(:process) { handler_instance.process(payload) }
@@ -37,42 +37,43 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::PullRequest 
 
   let(:payload) do
     {
-      'action' => action,
-      'open_project_user_id' => github_system_user.id,
-      'pull_request' => {
-        'id' => 123,
-        'number' => 1,
-        'body' => pr_body,
-        'title' => 'A PR title',
-        'html_url' => 'http://pr.url',
-        'updated_at' => Time.current.iso8601,
-        'state' => 'open',
-        'draft' => pr_draft,
-        'merged' => pr_merged,
-        'merged_by' => nil,
-        'merged_at' => nil,
-        'comments' => 1,
-        'review_comments' => 2,
-        'additions' => 3,
-        'deletions' => 4,
-        'changed_files' => 5,
-        'labels' => [],
-        'user' => {
-          'id' => 345,
-          'login' => 'test_user',
-          'html_url' => 'https://github.com/test_user',
-          'avatar_url' => 'https://github.com/test_user.jpg'
+      "action" => action,
+      "open_project_user_id" => github_system_user.id,
+      "pull_request" => {
+        "id" => 123,
+        "number" => 1,
+        "body" => pr_body,
+        "title" => "A PR title",
+        "html_url" => "http://pr.url",
+        "updated_at" => Time.current.iso8601,
+        "state" => "open",
+        "draft" => pr_draft,
+        "merged" => pr_merged,
+        "merged_by" => nil,
+        "merged_at" => nil,
+        "merge_commit_sha" => nil,
+        "comments" => 1,
+        "review_comments" => 2,
+        "additions" => 3,
+        "deletions" => 4,
+        "changed_files" => 5,
+        "labels" => [],
+        "user" => {
+          "id" => 345,
+          "login" => "test_user",
+          "html_url" => "https://github.com/test_user",
+          "avatar_url" => "https://github.com/test_user.jpg"
         },
-        'base' => {
-          'repo' => {
-            'full_name' => 'test_user/repo',
-            'html_url' => 'github.com/test_user/repo'
+        "base" => {
+          "repo" => {
+            "full_name" => "test_user/repo",
+            "html_url" => "github.com/test_user/repo"
           }
         }
       },
-      'sender' => {
-        'login' => 'test_user',
-        'html_url' => 'github.com/test_user'
+      "sender" => {
+        "login" => "test_user",
+        "html_url" => "github.com/test_user"
       }
     }
   end
@@ -88,8 +89,8 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::PullRequest 
     allow(upsert_service).to receive(:call).and_call_original
   end
 
-  shared_examples_for 'not adding a comment' do
-    it 'does not add comments to work packages' do
+  shared_examples_for "not adding a comment" do
+    it "does not add comments to work packages" do
       process
       expect(handler_instance).to have_received(:comment_on_referenced_work_packages).with(
         [],
@@ -99,8 +100,8 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::PullRequest 
     end
   end
 
-  shared_examples_for 'adding a comment' do
-    it 'adds a comment to the work packages' do
+  shared_examples_for "adding a comment" do
+    it "adds a comment to the work packages" do
       process
       expect(handler_instance).to have_received(:comment_on_referenced_work_packages).with(
         [work_package],
@@ -110,101 +111,101 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::PullRequest 
     end
   end
 
-  shared_examples_for 'calls the pull request upsert service' do
-    it 'calls the pull request upsert service' do
+  shared_examples_for "calls the pull request upsert service" do
+    it "calls the pull request upsert service" do
       process
-      expect(upsert_service).to have_received(:call).with(payload['pull_request'], work_packages: [work_package])
+      expect(upsert_service).to have_received(:call).with(payload["pull_request"], work_packages: [work_package])
     end
 
-    context 'when no work_package was mentioned' do
-      let(:pr_body) { 'some text that does not mention any work package' }
+    context "when no work_package was mentioned" do
+      let(:pr_body) { "some text that does not mention any work package" }
 
-      it 'does not call the pull request upsert service' do
+      it "does not call the pull request upsert service" do
         process
         expect(upsert_service).not_to have_received(:call)
       end
     end
   end
 
-  context 'with a closed action' do
-    let(:action) { 'closed' }
+  context "with a closed action" do
+    let(:action) { "closed" }
     let(:comment) do
       %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
         data-pull-request-state="&quot;closed&quot;"></macro>).squish
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the pull request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the pull request upsert service"
   end
 
-  context 'with a closed action when the PR was merged' do
-    let(:action) { 'closed' }
+  context "with a closed action when the PR was merged" do
+    let(:action) { "closed" }
     let(:pr_merged) { true }
     let(:comment) do
       %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
         data-pull-request-state="&quot;merged&quot;"></macro>).squish
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the pull request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the pull request upsert service"
 
-    context 'when the work package is already known to the GithubPullRequest' do
+    context "when the work package is already known to the GithubPullRequest" do
       let!(:github_pull_request) { create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
 
-      it_behaves_like 'adding a comment'
+      it_behaves_like "adding a comment"
 
-      it 'calls the pull request upsert service' do
+      it "calls the pull request upsert service" do
         process
-        expect(upsert_service).to have_received(:call).with(payload['pull_request'], work_packages: [work_package])
+        expect(upsert_service).to have_received(:call).with(payload["pull_request"], work_packages: [work_package])
       end
     end
   end
 
-  context 'with a converted_to_draft action' do
-    let(:action) { 'converted_to_draft' }
+  context "with a converted_to_draft action" do
+    let(:action) { "converted_to_draft" }
 
-    it_behaves_like 'not adding a comment'
-    it_behaves_like 'calls the pull request upsert service'
+    it_behaves_like "not adding a comment"
+    it_behaves_like "calls the pull request upsert service"
   end
 
-  context 'with an edited action' do
-    let(:action) { 'edited' }
+  context "with an edited action" do
+    let(:action) { "edited" }
     let(:comment) do
       %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
         data-pull-request-state="&quot;referenced&quot;"></macro>).squish
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the pull request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the pull request upsert service"
 
-    context 'when a GithubPullRequest exists that is not linked to the mentioned work package yet' do
+    context "when a GithubPullRequest exists that is not linked to the mentioned work package yet" do
       let!(:github_pull_request) { create(:github_pull_request, github_id: 123) }
 
-      it_behaves_like 'adding a comment'
+      it_behaves_like "adding a comment"
 
-      it 'calls the pull request upsert service' do
+      it "calls the pull request upsert service" do
         process
-        expect(upsert_service).to have_received(:call).with(payload['pull_request'], work_packages: [work_package])
+        expect(upsert_service).to have_received(:call).with(payload["pull_request"], work_packages: [work_package])
       end
     end
 
-    context 'when the work package is already known to the GithubPullRequest' do
+    context "when the work package is already known to the GithubPullRequest" do
       let!(:github_pull_request) { create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
 
-      it_behaves_like 'not adding a comment'
+      it_behaves_like "not adding a comment"
 
-      it 'calls the pull request upsert service' do
+      it "calls the pull request upsert service" do
         process
-        expect(upsert_service).to have_received(:call).with(payload['pull_request'], work_packages: [work_package])
+        expect(upsert_service).to have_received(:call).with(payload["pull_request"], work_packages: [work_package])
       end
     end
 
-    context 'when the a work package is already known to the GithubPullRequest but another work package is new' do
+    context "when the a work package is already known to the GithubPullRequest but another work package is new" do
       let!(:github_pull_request) { create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
       let!(:other_work_package) { create(:work_package) }
       let(:pr_body) { "Mentioning OP##{work_package.id} and OP##{other_work_package.id}" }
 
-      it 'adds a comment only for the other_work_package' do
+      it "adds a comment only for the other_work_package" do
         process
         expect(handler_instance).to have_received(:comment_on_referenced_work_packages).with(
           [other_work_package],
@@ -213,70 +214,70 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::PullRequest 
         )
       end
 
-      it 'calls the pull request upsert service with all work_packages' do
+      it "calls the pull request upsert service with all work_packages" do
         process
-        expect(upsert_service).to have_received(:call).with(payload['pull_request'],
+        expect(upsert_service).to have_received(:call).with(payload["pull_request"],
                                                             work_packages: [work_package, other_work_package])
       end
     end
   end
 
-  context 'with a labeled action' do
-    let(:action) { 'labeled' }
+  context "with a labeled action" do
+    let(:action) { "labeled" }
 
-    it_behaves_like 'not adding a comment'
-    it_behaves_like 'calls the pull request upsert service'
+    it_behaves_like "not adding a comment"
+    it_behaves_like "calls the pull request upsert service"
   end
 
-  context 'with an opened action' do
-    let(:action) { 'opened' }
+  context "with an opened action" do
+    let(:action) { "opened" }
     let(:comment) do
       %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
         data-pull-request-state="&quot;opened&quot;"></macro>).squish
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the pull request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the pull request upsert service"
   end
 
-  context 'with an opened action when the PR is a draft' do
-    let(:action) { 'opened' }
+  context "with an opened action when the PR is a draft" do
+    let(:action) { "opened" }
     let(:pr_draft) { true }
     let(:comment) do
       %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
         data-pull-request-state="&quot;opened&quot;"></macro>).squish
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the pull request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the pull request upsert service"
   end
 
-  context 'with a ready_for_review action' do
-    let(:action) { 'ready_for_review' }
+  context "with a ready_for_review action" do
+    let(:action) { "ready_for_review" }
     let(:comment) do
       %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
         data-pull-request-state="&quot;ready_for_review&quot;"></macro>).squish
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the pull request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the pull request upsert service"
   end
 
-  context 'with a reopened action' do
-    let(:action) { 'reopened' }
+  context "with a reopened action" do
+    let(:action) { "reopened" }
     let(:comment) do
       %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
         data-pull-request-state="&quot;opened&quot;"></macro>).squish
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the pull request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the pull request upsert service"
   end
 
-  context 'with a synchronize action' do
-    let(:action) { 'synchronize' }
+  context "with a synchronize action" do
+    let(:action) { "synchronize" }
 
-    it_behaves_like 'not adding a comment'
-    it_behaves_like 'calls the pull request upsert service'
+    it_behaves_like "not adding a comment"
+    it_behaves_like "calls the pull request upsert service"
   end
 end

@@ -30,15 +30,11 @@ module FrontendAssetHelper
   CLI_DEFAULT_PROXY = 'http://localhost:4200'.freeze
 
   def self.assets_proxied?
-    ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].blank? && !Rails.env.production? && cli_proxy?
+    ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].blank? && !Rails.env.production? && cli_proxy.present?
   end
 
   def self.cli_proxy
     ENV.fetch('OPENPROJECT_CLI_PROXY', CLI_DEFAULT_PROXY)
-  end
-
-  def self.cli_proxy?
-    cli_proxy.present?
   end
 
   ##
@@ -47,35 +43,49 @@ module FrontendAssetHelper
   def include_frontend_assets
     capture do
       %w(vendor.js polyfills.js runtime.js main.js).each do |file|
-        concat javascript_include_tag variable_asset_path(file), skip_pipeline: true
+        concat nonced_javascript_include_tag variable_asset_path(file), skip_pipeline: true
       end
 
-      concat stylesheet_link_tag variable_asset_path("styles.css"), media: :all, skip_pipeline: true
+      concat frontend_stylesheet_link_tag("styles.css")
     end
   end
 
   def include_spot_assets
     capture do
-      concat stylesheet_link_tag variable_asset_path("spot.css"), media: :all, skip_pipeline: true
+      concat frontend_stylesheet_link_tag("spot.css")
     end
+  end
+
+  def frontend_stylesheet_link_tag(path)
+    stylesheet_link_tag variable_asset_path(path), media: :all, skip_pipeline: true
+  end
+
+  def nonced_javascript_include_tag(path, **)
+    javascript_include_tag(path, nonce: content_security_policy_script_nonce, **)
   end
 
   private
 
-  def angular_cli_asset(path)
-    URI.join(FrontendAssetHelper.cli_proxy, "assets/frontend/#{path}")
+  def lookup_frontend_asset(unhashed_file_name)
+    hashed_file_name = ::OpenProject::Assets.lookup_asset(unhashed_file_name)
+    frontend_asset_path(hashed_file_name)
   end
 
-  def frontend_asset_path(unhashed)
-    file_name = ::OpenProject::Assets.lookup_asset unhashed
+  def frontend_asset_path(file_name)
     "/assets/frontend/#{file_name}"
   end
 
   def variable_asset_path(path)
     if FrontendAssetHelper.assets_proxied?
-      angular_cli_asset(path)
+      File.join(
+        FrontendAssetHelper.cli_proxy,
+        Rails.application.config.relative_url_root,
+        frontend_asset_path(path)
+      )
     else
-      frontend_asset_path(path)
+      # we do not need to take care about Rails.application.config.relative_url_root
+      # because in this case javascript|stylesheet_include_tag will add it automatically.
+      lookup_frontend_asset(path)
     end
   end
 end

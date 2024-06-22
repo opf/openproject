@@ -33,6 +33,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,10 +41,19 @@ import {
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
 })
 export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
-  constructor(protected readonly i18n:I18nService,
+  text = {
+    missing_permission: this.I18n.t('js.grid.widgets.missing_permission'),
+  };
+
+  hasCapability$ = this.currentUser.hasCapabilities$('work_packages/read', this.currentProject.id);
+
+  constructor(
+    protected readonly I18n:I18nService,
     protected readonly injector:Injector,
-    protected readonly currentProject:CurrentProjectService) {
-    super(i18n, injector);
+    protected readonly currentProject:CurrentProjectService,
+    protected readonly currentUser:CurrentUserService,
+  ) {
+    super(I18n, injector);
   }
 
   public get projectIdentifier() {

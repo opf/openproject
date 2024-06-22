@@ -1,0 +1,8 @@
+<ng-container *ngIf="gitlabIssues.length === 0">
+  <p
+    class="op-tab-content--text-box"
+    [innerHTML]="getEmptyText()"
+  ></p>
+</ng-container>
+
+<gitlab-issue [gitlabIssue]="gitlabIssue" *ngFor="let gitlabIssue of gitlabIssues"></gitlab-issue>

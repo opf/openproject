@@ -39,7 +39,7 @@ module API
 
         WorkPackageCollectionFromQueryService
           .new(query, current_user, scope:)
-          .call(params, valid_subset: params['valid_subset'].present?)
+          .call(params, valid_subset: params["valid_subset"].present?)
       end
 
       private

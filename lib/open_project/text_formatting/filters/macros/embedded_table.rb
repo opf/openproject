@@ -28,8 +28,8 @@
 
 module OpenProject::TextFormatting::Filters::Macros
   module EmbeddedTable
-    CUSTOM_ELEMENT = 'opce-macro-embedded-table'.freeze
-    HTML_CLASS = 'embedded-table'.freeze
+    CUSTOM_ELEMENT = "opce-macro-embedded-table".freeze
+    HTML_CLASS = "embedded-table".freeze
 
     module_function
 
@@ -39,11 +39,11 @@ module OpenProject::TextFormatting::Filters::Macros
 
     def apply(macro, **)
       macro.name = CUSTOM_ELEMENT
-      macro['class'] = macro['class'].gsub('op-uc-placeholder', '').squish
+      macro["class"] = macro["class"].gsub("op-uc-placeholder", "").squish
     end
 
     def is?(macro)
-      macro['class'].include?(HTML_CLASS)
+      macro["class"].include?(HTML_CLASS)
     end
   end
 end

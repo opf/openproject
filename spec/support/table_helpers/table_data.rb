@@ -39,10 +39,10 @@ module TableHelpers
     end
 
     def self.from_work_packages(work_packages, columns)
-      attribute_names = columns.map(&:attribute)
       work_packages_data = work_packages.map do |work_package|
-        attributes = attribute_names.to_h { [_1, work_package.read_attribute(_1)] }
-        attributes[:parent] &&= to_identifier(attributes[:parent].subject)
+        attributes = columns.reduce({}) do |attrs, column|
+          attrs.merge!(column.attributes_for_work_package(work_package))
+        end
         row = columns.to_h { [_1.title, nil] }
         identifier = to_identifier(work_package.subject)
         {
@@ -83,6 +83,15 @@ module TableHelpers
       Table.new(work_packages_by_identifier)
     end
 
+    def order_like!(other_table)
+      ordered_identifiers = other_table.work_package_identifiers
+      extra_identifiers = work_package_identifiers - ordered_identifiers
+      @work_packages_data = work_packages_data
+        .index_by { _1[:identifier] }
+        .values_at(*(ordered_identifiers + extra_identifiers))
+        .compact
+    end
+
     class Factory
       attr_reader :table_data, :work_packages_by_identifier
 
@@ -102,6 +111,9 @@ module TableHelpers
         @work_packages_by_identifier[identifier] ||= begin
           attributes = work_package_attributes(identifier)
           attributes[:parent] = lookup_parent(attributes[:parent])
+          if status = lookup_status(attributes[:status])
+            attributes[:status] = status
+          end
           FactoryBot.create(:work_package, attributes)
         end
       end
@@ -110,6 +122,19 @@ module TableHelpers
         if identifier
           @work_packages_by_identifier[identifier] || create_work_package(identifier)
         end
+      end
+
+      def lookup_status(status_name)
+        if status_name
+          statuses_by_name.fetch(status_name) do
+            raise NameError, "No status with name \"#{status_name}\" found. " \
+                             "Available statuses are: #{statuses_by_name.keys}."
+          end
+        end
+      end
+
+      def statuses_by_name
+        @statuses_by_name ||= Status.all.index_by(&:name)
       end
 
       def work_package_attributes(identifier)

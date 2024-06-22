@@ -32,6 +32,8 @@ class MessagesController < ApplicationController
   model_object Message, scope: Forum
   before_action :find_object_and_scope
   before_action :authorize, except: %i[edit update destroy]
+  # Checked inside the method.
+  no_authorization_required! :edit, :update, :destroy
 
   include AttachmentsHelper
   include PaginationHelper
@@ -57,7 +59,7 @@ class MessagesController < ApplicationController
                .per_page(per_page_param)
 
     @reply = Message.new(subject: "RE: #{@message.subject}", parent: @topic, forum: @topic.forum)
-    render action: 'show', layout: !request.xhr?
+    render action: "show", layout: !request.xhr?
   end
 
   # new topic
@@ -87,7 +89,7 @@ class MessagesController < ApplicationController
 
       redirect_to topic_path(@message)
     else
-      render action: 'new'
+      render action: "new"
     end
   end
 
@@ -116,7 +118,7 @@ class MessagesController < ApplicationController
       @message.reload
       redirect_to topic_path(@message.root, r: @message.parent_id && @message.id)
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
@@ -128,9 +130,9 @@ class MessagesController < ApplicationController
     @message.destroy
     flash[:notice] = t(:notice_successful_delete)
     redirect_target = if @message.parent.nil?
-                        { controller: '/forums', action: 'show', project_id: @project, id: @forum }
+                        { controller: "/forums", action: "show", project_id: @project, id: @forum }
                       else
-                        { action: 'show', id: @message.parent, r: @message }
+                        { action: "show", id: @message.parent, r: @message }
                       end
 
     redirect_to redirect_target
@@ -140,10 +142,10 @@ class MessagesController < ApplicationController
     user = @message.author
     text = @message.content
     subject = @message.subject
-    subject = "RE: #{subject}" unless subject.starts_with?('RE:')
+    subject = "RE: #{subject}" unless subject.starts_with?("RE:")
     user_wrote = I18n.t(:text_user_wrote, value: ERB::Util.html_escape(user), locale: Setting.default_language)
     content = "#{user_wrote}\n> "
-    content << (text.to_s.strip.gsub(%r{<pre>(.+?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n")
+    content << (text.to_s.strip.gsub(%r{<pre>(.+?)</pre>}m, "[...]").gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n")
 
     respond_to do |format|
       format.json { render json: { subject:, content: } }

@@ -3,6 +3,7 @@ module ::TwoFactorAuthentication
     class BackupCodesController < ::ApplicationController
       # Ensure user is logged in
       before_action :require_login
+      no_authorization_required! :show, :create
 
       # Password confirmation helpers and actions
       include PasswordConfirmation
@@ -11,7 +12,7 @@ module ::TwoFactorAuthentication
       # Verify that flash was set (coming from create)
       before_action :check_regenerate_done, only: [:show]
 
-      layout 'my'
+      layout "my"
       menu_item :two_factor_authentication
 
       def create
@@ -22,6 +23,8 @@ module ::TwoFactorAuthentication
       def show
         render
       end
+
+      private
 
       def check_regenerate_done
         @backup_codes = flash[:_backup_codes]

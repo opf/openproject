@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/work_packages_page"
 
-RSpec.describe 'work package export' do
+RSpec.describe "work package export" do
   let(:project) { create(:project_with_types, types: [type_a, type_b]) }
-  let(:export_type) { 'CSV' }
+  let(:export_type) { "CSV" }
   let(:current_user) { create(:admin) }
 
   let(:type_a) { create(:type, name: "Type A") }
@@ -49,6 +49,17 @@ RSpec.describe 'work package export' do
   let(:group_by) { Components::WorkPackages::GroupBy.new }
   let(:hierarchies) { Components::WorkPackages::Hierarchies.new }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
+  let(:query) { create(:query, user: current_user, project:) }
+  let!(:query_tl) do
+    query = build(:query_with_view_gantt, user: current_user, project:)
+    query.column_names = ["id", "type", "subject"]
+    query.filters.clear
+    query.timeline_visible = true
+    query.timeline_zoom_level = "days"
+    query.name = "Query with Timeline"
+    query.save!
+    query
+  end
 
   before do
     @download_list = DownloadList.new
@@ -62,19 +73,21 @@ RSpec.describe 'work package export' do
 
   subject { @download_list.refresh_from(page).latest_downloaded_content }
 
-  def export!(expect_success = true)
-    work_packages_page.ensure_loaded
-
-    settings_menu.open_and_choose 'Export'
+  def expect_export
+    settings_menu.open_and_choose "Export"
     click_on export_type
+    expect_export_in_queue
+  end
 
+  def expect_export_in_queue
     # Expect to get a response regarding queuing
-    expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue'),
+    expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue"),
                                  wait: 10
-
     # Expect title
-    expect(page).to have_test_selector 'job-status--header', text: I18n.t('export.your_work_packages_export')
+    expect(page).to have_test_selector "job-status--header", text: I18n.t("export.your_work_packages_export")
+  end
 
+  def perform!(expect_success = true)
     begin
       perform_enqueued_jobs
     rescue StandardError
@@ -86,19 +99,25 @@ RSpec.describe 'work package export' do
     end
   end
 
+  def export!(expect_success = true)
+    work_packages_page.ensure_loaded
+    expect_export
+    perform!(expect_success)
+  end
+
   after do
     DownloadList.clear
   end
 
-  context 'CSV export' do
-    context 'with default filter' do
+  context "CSV export" do
+    context "with default filter" do
       before do
         work_packages_page.visit_index
         filters.expect_filter_count 1
         filters.open
       end
 
-      it 'shows all work packages with the default filters', :js do
+      it "shows all work packages with the default filters", :js do
         export!
 
         expect(subject).to have_text(wp1.description)
@@ -110,8 +129,8 @@ RSpec.describe 'work package export' do
         expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A B A)
       end
 
-      it 'shows all work packages grouped by', :js do
-        group_by.enable_via_menu 'Type'
+      it "shows all work packages grouped by", :js do
+        group_by.enable_via_menu "Type"
 
         wp_table.expect_work_package_listed(wp1)
         wp_table.expect_work_package_listed(wp2)
@@ -129,8 +148,8 @@ RSpec.describe 'work package export' do
         expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
       end
 
-      it 'shows only the work package with the right progress if filtered this way', :js do
-        filters.add_filter_by '% Complete', 'is', ['25'], 'percentageDone'
+      it "shows only the work package with the right progress if filtered this way", :js do
+        filters.add_filter_by "% Complete", "is", ["25"], "percentageDone"
 
         sleep 1
         loading_indicator_saveguard
@@ -145,8 +164,8 @@ RSpec.describe 'work package export' do
         expect(subject).to have_no_text(wp3.description)
       end
 
-      it 'shows only work packages of the filtered type', :js do
-        filters.add_filter_by 'Type', 'is (OR)', wp3.type.name
+      it "shows only work packages of the filtered type", :js do
+        filters.add_filter_by "Type", "is (OR)", wp3.type.name
 
         expect(page).to have_no_content(wp2.description) # safeguard
 
@@ -159,17 +178,17 @@ RSpec.describe 'work package export' do
         expect(subject).to have_text(wp3.description)
       end
 
-      it 'exports selected columns', :js do
-        columns.add '% Complete'
+      it "exports selected columns", :js do
+        columns.add "% Complete"
 
         export!
 
-        expect(subject).to have_text('% Complete')
-        expect(subject).to have_text('25')
+        expect(subject).to have_text("% Complete")
+        expect(subject).to have_text("25")
       end
     end
 
-    describe 'with a manually sorted query', :js do
+    describe "with a manually sorted query", :js do
       let(:query) do
         create(:query,
                user: current_user,
@@ -182,20 +201,20 @@ RSpec.describe 'work package export' do
         OrderedWorkPackage.create(query:, work_package: wp2, position: 2)
         OrderedWorkPackage.create(query:, work_package: wp3, position: 3)
 
-        query.add_filter('manual_sort', 'ow', [])
-        query.sort_criteria = [[:manual_sorting, 'asc']]
+        query.add_filter("manual_sort", "ow", [])
+        query.sort_criteria = [[:manual_sorting, "asc"]]
         query.save!
       end
 
-      it 'returns the correct number of work packages' do
+      it "returns the correct number of work packages" do
         wp_table.visit_query query
         wp_table.expect_work_package_listed(wp1, wp2, wp3, wp4)
         wp_table.expect_work_package_order(wp4, wp1, wp2, wp3)
 
         export!
 
-        expect(page).to have_css('.job-status--modal .icon-checkmark', wait: 10)
-        expect(page).to have_content('The export has completed successfully.')
+        expect(page).to have_css(".job-status--modal .icon-checkmark", wait: 10)
+        expect(page).to have_content("The export has completed successfully.")
 
         expect(subject).to have_text(wp1.description)
         expect(subject).to have_text(wp2.description)
@@ -208,51 +227,115 @@ RSpec.describe 'work package export' do
     end
   end
 
-  context 'PDF export', :js do
-    let(:export_type) { I18n.t('export.format.pdf_overview_table') }
-    let(:query) do
-      create(:query,
-             user: current_user,
-             project:)
-    end
+  context "PDF export", :js do
+    before do
+      query.column_names = query.displayable_columns.map { |c| c.name.to_s } - ["bcf_thumbnail"]
+      query.save!
+      allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
+        .to receive(:export!)
+              .and_return(
+                ::Exports::Result.new format: :pdf,
+                                      title: 'foo',
+                                      content: Tempfile.new("something"),
+                                      mime_type: "application/pdf"
+              )
+     end
 
-    context 'with many columns' do
-      before do
-        query.column_names = query.displayable_columns.map { |c| c.name.to_s } - ['bcf_thumbnail']
-        query.save!
+    context "table" do
+      let(:export_type) { I18n.t("export.format.pdf_overview_table") }
+      context "with many columns" do
+        before do
+          # Despite attempts to provoke the error by having a lot of columns, the pdf
+          # is still being drawn successfully. We thus have to fake the error.
+          allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
+            .to receive(:export!)
+                  .and_raise(I18n.t(:error_pdf_export_too_many_columns))
+        end
 
-        # Despite attempts to provoke the error by having a lot of columns, the pdf
-        # is still being drawn successfully. We thus have to fake the error.
-        allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
-          .to receive(:export!)
-          .and_raise(I18n.t(:error_pdf_export_too_many_columns))
+        it "returns the error" do
+          wp_table.visit_query query
+          export!(false)
+          expect(page)
+            .to have_content(I18n.t(:error_pdf_export_too_many_columns), wait: 10)
+        end
       end
 
-      it 'returns the error' do
+      it "exports a pdf table" do
         wp_table.visit_query query
+        export!
+      end
+    end
 
-        export!(false)
+    context "report" do
+      let(:export_type) { I18n.t("export.format.pdf_report") }
 
-        expect(page)
-          .to have_content(I18n.t(:error_pdf_export_too_many_columns), wait: 10)
+      it "exports a pdf report" do
+        wp_table.visit_query query
+        export!
+      end
+    end
+
+    context "report with images" do
+      let(:export_type) { I18n.t("export.format.pdf_report_with_images") }
+
+      it "exports a pdf report with images" do
+        wp_table.visit_query query
+        export!
+      end
+    end
+
+    context "gantt" do
+      let(:export_type) { I18n.t("export.format.pdf_gantt") }
+
+      context "not in module gantt and not EE" do
+        it "has no gantt export" do
+          wp_table.visit_query query
+          work_packages_page.ensure_loaded
+          settings_menu.open_and_choose "Export"
+          expect(page).not_to have_content(export_type)
+        end
+      end
+
+      context "in module gantt" do
+        let(:wp_table) { Pages::WorkPackagesTimeline.new(project) }
+
+        context "EE not active" do
+          it "has no gantt export" do
+            wp_table.visit_query query_tl
+            settings_menu.open_and_choose "Export"
+            expect(page).not_to have_content(export_type)
+          end
+        end
+
+        context "EE active", with_ee: %i[gantt_pdf_export] do
+          it "exports a gantt pdf" do
+            wp_table.visit_query query_tl
+            settings_menu.open_and_choose "Export"
+            click_on export_type
+            expect(page).to have_content I18n.t("js.gantt_chart.export.title").upcase
+            click_on I18n.t("js.gantt_chart.export.button_export")
+            expect_export_in_queue
+            perform!
+          end
+        end
       end
     end
   end
 
   # Atom exports are not downloaded. In fact, it is not even a download but rather
   # a feed one can follow.
-  context 'Atom export', :js do
-    let(:export_type) { 'Atom' }
+  context "Atom export", :js do
+    let(:export_type) { "Atom" }
 
-    context 'with default filter' do
+    context "with default filter" do
       before do
         work_packages_page.visit_index
         filters.expect_filter_count 1
         filters.open
       end
 
-      it 'shows an xml with work packages' do
-        settings_menu.open_and_choose 'Export'
+      it "shows an xml with work packages" do
+        settings_menu.open_and_choose "Export"
 
         # The feed is opened in a new tab
         new_window = window_opened_by { click_on export_type }

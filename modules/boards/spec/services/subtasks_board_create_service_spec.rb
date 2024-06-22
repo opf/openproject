@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Boards::SubtasksBoardCreateService do
   shared_let(:project) { create(:project) }
@@ -37,16 +37,16 @@ RSpec.describe Boards::SubtasksBoardCreateService do
 
   subject { instance.call(params) }
 
-  context 'with all valid params' do
+  context "with all valid params" do
     let(:params) do
       {
         name: "Gotham Renewal Board",
         project:,
-        attribute: 'subtasks'
+        attribute: "subtasks"
       }
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject).to be_success
     end
 
@@ -54,8 +54,8 @@ RSpec.describe Boards::SubtasksBoardCreateService do
       board = subject.result
 
       expect(board.name).to eq("Gotham Renewal Board")
-      expect(board.options[:attribute]).to eq('subtasks')
-      expect(board.options[:type]).to eq('action')
+      expect(board.options[:attribute]).to eq("subtasks")
+      expect(board.options[:type]).to eq("action")
 
       expect(board.widgets).to be_empty
     end

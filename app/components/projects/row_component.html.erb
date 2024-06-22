@@ -30,8 +30,6 @@ See COPYRIGHT and LICENSE files for more details.
 <tr
   <%= "id=\"#{row_css_id}\"".html_safe if row_css_id %>
   <%= "class=\"#{row_css_class}\"".html_safe if row_css_class %>
-  data-project-target="projectRow"
-  data-project-id="<%= project.id %>"
 >
   <% columns.each do |column| %>
     <td class="<%= column_css_class(column) %>">
@@ -39,46 +37,8 @@ See COPYRIGHT and LICENSE files for more details.
     </td>
   <% end %>
   <td class="buttons">
-    <% items = helpers.project_more_menu_items(project) %>
-    <% if items.any?  %>
-      <ul class="project-actions">
-        <li aria-haspopup="true" title="<%= I18n.t(:label_open_menu) %>" class="drop-down">
-          <a class="icon icon-show-more-horizontal context-menu--icon" title="<%= t(:label_open_menu) %>" href></a>
-          <ul style="display:none;" class="menu-drop-down-container">
-            <% items.each do |item| %>
-              <li>
-                <%= link_to(*item) %>
-              </li>
-            <% end %>
-          </ul>
-        </li>
-      </ul>
-    <% end %>
-    <% unless project.description.blank? %>
-      <a class="icon collapse icon-arrow-up1 projects-table--description-toggle"
-         href
-         title="<%= t('label_project_hide_details') %>"
-         data-project-target="descriptionToggle"
-         data-action="click->project#toggleDescription"
-         data-project-project-id-param="<%= project.id %>"></a>
-      <a class="icon expand icon-arrow-down1 projects-table--description-toggle"
-         href
-         title="<%= t('label_project_show_details') %>"
-         data-project-target="descriptionToggle"
-         data-action="click->project#toggleDescription"
-         data-project-project-id-param="<%= project.id %>"></a>
+    <% button_links.each do |link| %>
+      <%= link %>
     <% end %>
   </td>
 </tr>
-<% if User.current.allowed_in_project?(:view_project, project) && project.description.present? %>
-  <tr class="project-description <%= project_css_classes %> <%= row_css_level_classes %> <%= params[:expand] == 'all' ? '-expanded' : '' %>"
-      data-project-target="descriptionRow"
-      data-project-id="<%= project.id %>">
-    <td></td>
-    <td colspan="<%= columns.length%>" class="project--hierarchy">
-      <div class="description-container wiki">
-        <%= helpers.format_text(helpers.short_project_description(project), project: project) %>
-      </div>
-    </td>
-  </tr>
-<% end %>

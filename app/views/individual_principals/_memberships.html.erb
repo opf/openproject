@@ -104,7 +104,7 @@ See COPYRIGHT and LICENSE files for more details.
                             </label>
                         <% end %>
                       </div>
-                      <p><%= submit_tag t(:button_change), class: 'memberships--edit-submit-button button -highlight -small' %>
+                      <p><%= submit_tag t(:button_change), class: 'memberships--edit-submit-button button -primary -small' %>
                         <%= link_to_function t(:button_cancel),
                                              "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
                   class: 'button -small' %></p>
@@ -164,7 +164,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
             </div>
           </div>
-          <div><%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
+          <div><%= styled_button_tag t(:button_add), class: '-primary -with-icon icon-checkmark' %></div>
         </fieldset>
       <% end %>
     <% end %>

@@ -28,25 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package sharing',
+RSpec.describe "Work package sharing",
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
   shared_let(:edit_work_package_role) { create(:edit_work_package_role) }
 
-  shared_let(:view_user) { create(:user, firstname: 'View', lastname: 'User') }
-  shared_let(:comment_user) { create(:user, firstname: 'Comment', lastname: 'User') }
-  shared_let(:edit_user) { create(:user, firstname: 'Edit', lastname: 'User') }
-  shared_let(:non_shared_project_user) { create(:user, firstname: 'Non Shared Project', lastname: 'User') }
-  shared_let(:shared_project_user) { create(:user, firstname: 'Shared Project', lastname: 'User') }
-  shared_let(:not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
+  shared_let(:view_user) { create(:user, firstname: "View", lastname: "User") }
+  shared_let(:comment_user) { create(:user, firstname: "Comment", lastname: "User") }
+  shared_let(:edit_user) { create(:user, firstname: "Edit", lastname: "User") }
+  shared_let(:non_shared_project_user) { create(:user, firstname: "Non Shared Project", lastname: "User") }
+  shared_let(:shared_project_user) { create(:user, firstname: "Shared Project", lastname: "User") }
+  shared_let(:not_shared_yet_with_user) { create(:user, firstname: "Not shared Yet", lastname: "User") }
 
-  shared_let(:richard) { create(:user, firstname: 'Richard', lastname: 'Hendricks') }
-  shared_let(:dinesh) { create(:user, firstname: 'Dinesh', lastname: 'Chugtai') }
-  shared_let(:gilfoyle) { create(:user, firstname: 'Bertram', lastname: 'Gilfoyle') }
+  shared_let(:richard) { create(:user, firstname: "Richard", lastname: "Hendricks") }
+  shared_let(:dinesh) { create(:user, firstname: "Dinesh", lastname: "Chugtai") }
+  shared_let(:gilfoyle) { create(:user, firstname: "Bertram", lastname: "Gilfoyle") }
   shared_let(:not_shared_yet_with_group) { create(:group, members: [richard, dinesh, gilfoyle]) }
 
   let(:project) do
@@ -81,8 +81,7 @@ RSpec.describe 'Work package sharing',
   let(:columns) { Components::WorkPackages::Columns.new }
   let(:wp_modal) { Components::WorkPackages::TableConfigurationModal.new }
 
-
-  current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
+  current_user { create(:user, firstname: "Signed in", lastname: "User") }
 
   def shared_principals
     Principal.where(id: Member.of_work_package(work_package).select(:user_id))
@@ -92,8 +91,8 @@ RSpec.describe 'Work package sharing',
     MemberRole.where(inherited_from: MemberRole.where(member_id: group.memberships))
   end
 
-  context 'when having share permission' do
-    it 'allows seeing and administrating sharing' do
+  context "when having share permission" do
+    it "allows seeing and administrating sharing" do
       work_package_page.visit!
 
       # Clicking on the share button opens a modal which lists all of the users a work package
@@ -103,14 +102,14 @@ RSpec.describe 'Work package sharing',
       work_package_page.click_share_button
 
       aggregate_failures "Initial shares list" do
-        share_modal.expect_title(I18n.t('js.work_packages.sharing.title'))
-        share_modal.expect_shared_with(comment_user, 'Comment', position: 1)
-        share_modal.expect_shared_with(dinesh, 'Edit', position: 2)
-        share_modal.expect_shared_with(edit_user, 'Edit', position: 3)
-        share_modal.expect_shared_with(shared_project_user, 'Edit', position: 4)
+        share_modal.expect_title(I18n.t("js.work_packages.sharing.title"))
+        share_modal.expect_shared_with(comment_user, "Comment", position: 1)
+        share_modal.expect_shared_with(dinesh, "Edit", position: 2)
+        share_modal.expect_shared_with(edit_user, "Edit", position: 3)
+        share_modal.expect_shared_with(shared_project_user, "Edit", position: 4)
         # The current users share is also displayed but not editable
         share_modal.expect_shared_with(current_user, position: 5, editable: false)
-        share_modal.expect_shared_with(view_user, 'View', position: 6)
+        share_modal.expect_shared_with(view_user, "View", position: 6)
 
         share_modal.expect_not_shared_with(non_shared_project_user)
         share_modal.expect_not_shared_with(not_shared_yet_with_user)
@@ -120,9 +119,9 @@ RSpec.describe 'Work package sharing',
 
       aggregate_failures "Inviting a user for the first time" do
         # Inviting a user will lead to that user being prepended to the list together with the rest of the shared with users.
-        share_modal.invite_user(not_shared_yet_with_user, 'View')
+        share_modal.invite_user(not_shared_yet_with_user, "View")
 
-        share_modal.expect_shared_with(not_shared_yet_with_user, 'View', position: 1)
+        share_modal.expect_shared_with(not_shared_yet_with_user, "View", position: 1)
         share_modal.expect_shared_count_of(7)
       end
 
@@ -135,8 +134,8 @@ RSpec.describe 'Work package sharing',
 
       aggregate_failures "Re-inviting a user" do
         # Adding a user multiple times will lead to the user's role being updated.
-        share_modal.invite_user(not_shared_yet_with_user, 'Edit')
-        share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit', position: 1)
+        share_modal.invite_user(not_shared_yet_with_user, "Edit")
+        share_modal.expect_shared_with(not_shared_yet_with_user, "Edit", position: 1)
         share_modal.expect_shared_count_of(6)
 
         # Sent out email only on first share and not again when updating.
@@ -146,8 +145,8 @@ RSpec.describe 'Work package sharing',
 
       aggregate_failures "Updating a share" do
         # Updating the share
-        share_modal.change_role(not_shared_yet_with_user, 'Comment')
-        share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment', position: 1)
+        share_modal.change_role(not_shared_yet_with_user, "Comment")
+        share_modal.expect_shared_with(not_shared_yet_with_user, "Comment", position: 1)
         share_modal.expect_shared_count_of(6)
 
         # Sent out email only on first share and not again when updating so the
@@ -159,11 +158,11 @@ RSpec.describe 'Work package sharing',
       aggregate_failures "Inviting a group" do
         # Inviting a group propagates the membership to the group's users. However, these propagated
         # memberships are not expected to be visible.
-        share_modal.invite_group(not_shared_yet_with_group, 'View')
-        share_modal.expect_shared_with(not_shared_yet_with_group, 'View', position: 1)
+        share_modal.invite_group(not_shared_yet_with_group, "View")
+        share_modal.expect_shared_with(not_shared_yet_with_group, "View", position: 1)
 
         # This user has a share independent of the group's share. Hence, that Role prevails
-        share_modal.expect_shared_with(dinesh, 'Edit')
+        share_modal.expect_shared_with(dinesh, "Edit")
         share_modal.expect_not_shared_with(richard)
         share_modal.expect_not_shared_with(gilfoyle)
 
@@ -184,8 +183,8 @@ RSpec.describe 'Work package sharing',
       aggregate_failures "Inviting a group member with its own independent role" do
         # Inviting a group user to a Work Package independently of the the group displays
         # said user in the shares list
-        share_modal.invite_user(gilfoyle, 'Comment')
-        share_modal.expect_shared_with(gilfoyle, 'Comment', position: 1)
+        share_modal.invite_user(gilfoyle, "Comment")
+        share_modal.expect_shared_with(gilfoyle, "Comment", position: 1)
         share_modal.expect_shared_count_of(8)
 
         perform_enqueued_jobs
@@ -197,10 +196,10 @@ RSpec.describe 'Work package sharing',
       aggregate_failures "Updating a group's share" do
         # Updating a group's share role also propagates to the inherited member roles of
         # its users
-        share_modal.change_role(not_shared_yet_with_group, 'Comment')
+        share_modal.change_role(not_shared_yet_with_group, "Comment")
         wait_for_network_idle
 
-        share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment')
+        share_modal.expect_shared_with(not_shared_yet_with_group, "Comment")
         share_modal.expect_shared_count_of(8)
         expect(inherited_member_roles(group: not_shared_yet_with_group))
           .to all(have_attributes(role: comment_work_package_role))
@@ -218,8 +217,8 @@ RSpec.describe 'Work package sharing',
 
         share_modal.expect_not_shared_with(not_shared_yet_with_group)
         share_modal.expect_not_shared_with(richard)
-        share_modal.expect_shared_with(dinesh, 'Edit')
-        share_modal.expect_shared_with(gilfoyle, 'Comment')
+        share_modal.expect_shared_with(dinesh, "Edit")
+        share_modal.expect_shared_with(gilfoyle, "Comment")
         share_modal.expect_shared_count_of(7)
         expect(inherited_member_roles(group: not_shared_yet_with_group))
           .to be_empty
@@ -236,16 +235,16 @@ RSpec.describe 'Work package sharing',
 
       aggregate_failures "Re-opening the modal after changes performed" do
         # This user preserved its group independent share
-        share_modal.expect_shared_with(gilfoyle, 'Comment', position: 1)
-        share_modal.expect_shared_with(comment_user, 'Comment', position: 2)
+        share_modal.expect_shared_with(gilfoyle, "Comment", position: 1)
+        share_modal.expect_shared_with(comment_user, "Comment", position: 2)
         # This user preserved its group independent share
-        share_modal.expect_shared_with(dinesh, 'Edit', position: 3)
+        share_modal.expect_shared_with(dinesh, "Edit", position: 3)
         # This user's role was updated
-        share_modal.expect_shared_with(not_shared_yet_with_user, 'Comment', position: 4)
+        share_modal.expect_shared_with(not_shared_yet_with_user, "Comment", position: 4)
         # These users were not changed
-        share_modal.expect_shared_with(shared_project_user, 'Edit', position: 5)
+        share_modal.expect_shared_with(shared_project_user, "Edit", position: 5)
         share_modal.expect_shared_with(current_user, position: 6, editable: false)
-        share_modal.expect_shared_with(view_user, 'View', position: 7)
+        share_modal.expect_shared_with(view_user, "View", position: 7)
 
         # This group's share was revoked
         share_modal.expect_not_shared_with(not_shared_yet_with_group)
@@ -261,55 +260,54 @@ RSpec.describe 'Work package sharing',
 
       visit project_members_path(project)
 
-      aggregate_failures 'Observing the shared members with view permission' do
-        members_page.click_menu_item 'View'
+      aggregate_failures "Observing the shared members with view permission" do
+        members_page.click_menu_item "View"
         expect(members_page).to have_user view_user.name
         members_page.in_user_row(view_user) do
-          expect(page).to have_text '1 work package'
+          expect(page).to have_text "1 work package"
         end
         expect(members_page).not_to have_user gilfoyle.name
         expect(members_page).not_to have_user comment_user.name
         expect(members_page).not_to have_user dinesh.name
       end
 
-      aggregate_failures 'Observing the shared members with comment permission' do
-        members_page.click_menu_item 'Comment'
+      aggregate_failures "Observing the shared members with comment permission" do
+        members_page.click_menu_item "Comment"
         expect(members_page).to have_user gilfoyle.name
         members_page.in_user_row(gilfoyle) do
-          expect(page).to have_text '1 work package'
+          expect(page).to have_text "1 work package"
         end
         expect(members_page).to have_user comment_user.name
         expect(members_page).not_to have_user view_user.name
         expect(members_page).not_to have_user dinesh.name
       end
 
-      aggregate_failures 'Observing the shared members with edit permission' do
-        members_page.click_menu_item 'Edit'
+      aggregate_failures "Observing the shared members with edit permission" do
+        members_page.click_menu_item "Edit"
         expect(members_page).to have_user dinesh.name
         expect(members_page).not_to have_user gilfoyle.name
         expect(members_page).not_to have_user comment_user.name
         expect(members_page).not_to have_user view_user.name
       end
 
-      aggregate_failures 'Showing the shared users in the table' do
+      aggregate_failures "Showing the shared users in the table" do
         wp_table.visit!
 
         wp_modal.open!
-        wp_modal.switch_to 'Columns'
+        wp_modal.switch_to "Columns"
 
         columns.assume_opened
         columns.uncheck_all save_changes: false
-        columns.add 'ID', save_changes: false
-        columns.add 'Subject', save_changes: false
-        columns.add 'Shared with', save_changes: false
+        columns.add "ID", save_changes: false
+        columns.add "Subject", save_changes: false
+        columns.add "Shared with", save_changes: false
         columns.apply
 
-
         wp_row = wp_table.row(work_package)
-        expect(wp_row).to have_css('.wp-table--cell-td.sharedWithUsers .badge', text: '7')
-        wp_row.find('.wp-table--cell-td.sharedWithUsers .badge').click
+        expect(wp_row).to have_css(".wp-table--cell-td.sharedWithUsers .badge", text: "7")
+        wp_row.find(".wp-table--cell-td.sharedWithUsers .badge").click
 
-        share_modal.expect_title(I18n.t('js.work_packages.sharing.title'))
+        share_modal.expect_title(I18n.t("js.work_packages.sharing.title"))
         share_modal.expect_shared_count_of(7)
       end
     end
@@ -322,20 +320,20 @@ RSpec.describe 'Work package sharing',
       share_modal.click_share
       share_modal.expect_select_a_user_hint
 
-      share_modal.invite_user(not_shared_yet_with_user, 'View')
+      share_modal.invite_user(not_shared_yet_with_user, "View")
       share_modal.expect_shared_with(not_shared_yet_with_user, position: 1)
       share_modal.expect_no_select_a_user_hint
     end
   end
 
-  context 'when lacking share permission but having the viewing permission' do
+  context "when lacking share permission but having the viewing permission" do
     let(:sharer_role) do
       create(:project_role,
              permissions: %i(view_work_packages
                              view_shared_work_packages))
     end
 
-    it 'allows seeing shares but not editing' do
+    it "allows seeing shares but not editing" do
       work_package_page.visit!
 
       # Clicking on the share button opens a modal which lists all of the users a work package
@@ -385,42 +383,42 @@ RSpec.describe 'Work package sharing',
     it_behaves_like "'Share' button is not rendered"
   end
 
-  context 'when having global invite permission' do
+  context "when having global invite permission" do
     let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
     let(:current_user) { global_manager_user }
-    let(:locked_user) { create(:user, mail: 'holly@openproject.com', status: :locked) }
+    let(:locked_user) { create(:user, mail: "holly@openproject.com", status: :locked) }
 
     before do
       work_package_page.visit!
       work_package_page.click_share_button
     end
 
-    it 'allows inviting and directly sharing with a user who is not part of the instance yet' do
+    it "allows inviting and directly sharing with a user who is not part of the instance yet" do
       share_modal.expect_open
       share_modal.expect_shared_count_of(6)
 
       # Invite a user that does not exist yet
-      share_modal.invite_user('hello@world.de', 'View')
+      share_modal.invite_user("hello@world.de", "View")
 
       # New user is shown in the list of shares
       share_modal.expect_shared_count_of(7)
 
       # New user is created
       new_user = User.last
-      share_modal.expect_shared_with(new_user, 'View', position: 1)
+      share_modal.expect_shared_with(new_user, "View", position: 1)
 
       perform_enqueued_jobs
       # Only one combined email for create and share should be send out
       expect(ActionMailer::Base.deliveries.size).to eq(1)
 
       # The new user can be interacted with
-      share_modal.change_role(new_user, 'Comment')
-      share_modal.expect_shared_with(new_user, 'Comment', position: 1)
+      share_modal.change_role(new_user, "Comment")
+      share_modal.expect_shared_with(new_user, "Comment", position: 1)
       share_modal.expect_shared_count_of(7)
 
       # The new user can be updated
-      share_modal.invite_user(new_user, 'Edit')
-      share_modal.expect_shared_with(new_user, 'Edit', position: 1)
+      share_modal.invite_user(new_user, "Edit")
+      share_modal.expect_shared_with(new_user, "Edit", position: 1)
       share_modal.expect_shared_count_of(7)
 
       # The invite can be resent
@@ -436,7 +434,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_count_of(6)
     end
 
-    it 'shows an error message when inviting an existing locked user' do
+    it "shows an error message when inviting an existing locked user" do
       share_modal.expect_open
       share_modal.expect_shared_count_of(6)
 
@@ -448,7 +446,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_no_ng_option("", locked_user.name, results_selector: "body")
 
       # Invite the email address
-      share_modal.invite_user(locked_user.mail, 'View')
+      share_modal.invite_user(locked_user.mail, "View")
 
       # The number of shared people has not changed, but an error message is shown
       share_modal.expect_shared_count_of(6)
@@ -456,8 +454,8 @@ RSpec.describe 'Work package sharing',
     end
   end
 
-  context 'when lacking global invite permission' do
-    it 'does not allow creating a user who is not part of the instance yet' do
+  context "when lacking global invite permission" do
+    it "does not allow creating a user who is not part of the instance yet" do
       work_package_page.visit!
       work_package_page.click_share_button
 
@@ -465,7 +463,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_count_of(6)
 
       # Search for a user that does not exist
-      share_modal.search_user('hello@world.de')
+      share_modal.search_user("hello@world.de")
 
       # There is no option to directly create and share the WP for the unknown email address
       share_modal.expect_no_ng_option("", 'Send invite to"hello@world.de"', results_selector: "body")

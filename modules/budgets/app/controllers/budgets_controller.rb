@@ -32,16 +32,18 @@ class BudgetsController < ApplicationController
   before_action :find_budget, only: %i[show edit update copy destroy_info]
   before_action :find_budgets, only: :destroy
   before_action :check_and_update_belonging_work_packages, only: :destroy
-  before_action :find_project, only: %i[new create update_material_budget_item update_labor_budget_item]
+  before_action :find_project_by_project_id, only: %i[new create update_material_budget_item update_labor_budget_item]
   before_action :find_optional_project, only: :index
 
   before_action :authorize_global, only: :index
   before_action :authorize, except: [
-    # unrestricted actions
     :index,
+    # unrestricted actions
     :update_material_budget_item,
     :update_labor_budget_item
   ]
+  no_authorization_required! :update_material_budget_item,
+                             :update_labor_budget_item
 
   helper :sort
   include SortHelper
@@ -57,23 +59,23 @@ class BudgetsController < ApplicationController
   include ::Costs::NumberHelper
 
   def index
-    sort_init 'id', 'desc'
+    sort_init "id", "desc"
     sort_update default_budget_sort
 
     @budgets = visible_sorted_budgets
 
     respond_to do |format|
       format.html do
-        render action: 'index', layout: !request.xhr?
+        render action: "index", layout: !request.xhr?
       end
-      format.csv { send_data(budgets_to_csv(@budgets), type: 'text/csv; header=present', filename: 'export.csv') }
+      format.csv { send_data(budgets_to_csv(@budgets), type: "text/csv; header=present", filename: "export.csv") }
     end
   end
 
   def show
     @edit_allowed = User.current.allowed_in_project?(:edit_budgets, @project)
     respond_to do |format|
-      format.html { render action: 'show', layout: !request.xhr? }
+      format.html { render action: "show", layout: !request.xhr? }
     end
   end
 
@@ -107,9 +109,9 @@ class BudgetsController < ApplicationController
 
     if call.success?
       flash[:notice] = t(:notice_successful_create)
-      redirect_to(params[:continue] ? { action: 'new' } : { action: 'show', id: @budget })
+      redirect_to(params[:continue] ? { action: "new" } : { action: "show", id: @budget })
     else
-      render action: 'new', layout: !request.xhr?
+      render action: "new", layout: !request.xhr?
     end
   end
 
@@ -127,7 +129,7 @@ class BudgetsController < ApplicationController
       redirect_to(@budget)
     else
       @budget = call.result
-      render action: 'edit'
+      render action: "edit"
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
@@ -137,7 +139,7 @@ class BudgetsController < ApplicationController
   def destroy
     @budgets.each(&:destroy)
     flash[:notice] = t(:notice_successful_delete)
-    redirect_to action: 'index', project_id: @project
+    redirect_to action: "index", project_id: @project
   end
 
   def destroy_info
@@ -159,7 +161,7 @@ class BudgetsController < ApplicationController
       @unit = volume == 1.0 ? cost_type.unit : cost_type.unit_plural
     else
       @costs = 0.0
-      @unit = cost_type.try(:unit_plural) || ''
+      @unit = cost_type.try(:unit_plural) || ""
     end
 
     respond_to do |format|
@@ -212,14 +214,8 @@ class BudgetsController < ApplicationController
       @project = projects.first
     else
       # TODO: let users bulk edit/move/destroy budgets from different projects
-      render_error 'Can not bulk edit/move/destroy cost objects from different projects' and return false
+      render_error "Can not bulk edit/move/destroy cost objects from different projects" and return false
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def find_project
-    @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -233,7 +229,7 @@ class BudgetsController < ApplicationController
   def render_item_as_json(element_id, costs, unit, project, permission)
     response = {
       "#{element_id}_unit_name" => ActionController::Base.helpers.sanitize(unit),
-      "#{element_id}_currency" => Setting.plugin_costs['costs_currency']
+      "#{element_id}_currency" => Setting.plugin_costs["costs_currency"]
     }
 
     if current_user.allowed_in_project?(permission, project)
@@ -246,9 +242,9 @@ class BudgetsController < ApplicationController
 
   def default_budget_sort
     {
-      'id' => "#{Budget.table_name}.id",
-      'subject' => "#{Budget.table_name}.subject",
-      'fixed_date' => "#{Budget.table_name}.fixed_date"
+      "id" => "#{Budget.table_name}.id",
+      "subject" => "#{Budget.table_name}.subject",
+      "fixed_date" => "#{Budget.table_name}.fixed_date"
     }
   end
 
@@ -277,7 +273,7 @@ class BudgetsController < ApplicationController
     reassign_to_id = params[:reassign_to_id]
     budget_id = params[:id]
 
-    budget_exists = Budget.visible(current_user).exists?(id: reassign_to_id) if params[:todo] == 'reassign'
+    budget_exists = Budget.visible(current_user).exists?(id: reassign_to_id) if params[:todo] == "reassign"
     reassign_to = budget_exists ? reassign_to_id : nil
 
     WorkPackage

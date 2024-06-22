@@ -28,31 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'root_seeder_shared_examples'
+require "spec_helper"
+require_relative "root_seeder_shared_examples"
 
 RSpec.describe RootSeeder,
-               'standard edition',
-               with_config: { edition: 'standard' } do
+               "standard edition",
+               with_config: { edition: "standard" } do
   include RootSeederTestHelpers
 
-  shared_examples 'creates standard demo data' do
-    it 'creates the system user' do
+  shared_examples "creates standard demo data" do
+    it "creates the system user" do
       expect(SystemUser.where(admin: true).count).to eq 1
     end
 
-    it 'creates an admin user' do
+    it "creates an admin user" do
       expect(User.not_builtin.where(admin: true).count).to eq 1
     end
 
-    it 'creates the demo data' do
+    it "creates the demo data" do
       expect(Project.count).to eq 2
       expect(EnabledModule.count).to eq 13
       expect(WorkPackage.count).to eq 36
       expect(Wiki.count).to eq 2
       expect(Query.having_views.count).to eq 8
-      expect(View.where(type: 'work_packages_table').count).to eq 7
-      expect(View.where(type: 'team_planner').count).to eq 1
+      expect(View.where(type: "work_packages_table").count).to eq 5
+      expect(View.where(type: "team_planner").count).to eq 1
+      expect(View.where(type: "gantt").count).to eq 2
       expect(Query.count).to eq 26
       expect(ProjectRole.count).to eq 5
       expect(WorkPackageRole.count).to eq 3
@@ -64,8 +65,8 @@ RSpec.describe RootSeeder,
       expect(Boards::Grid.count { |grid| grid.options.has_key?(:filters) }).to eq 1
     end
 
-    it 'links work packages to their version' do
-      count_by_version = WorkPackage.joins(:version).group('versions.name').count
+    it "links work packages to their version" do
+      count_by_version = WorkPackage.joins(:version).group("versions.name").count
       # testing with strings would fail for the German language test
       # 'Bug Backlog' => 1,
       # 'Sprint 1' => 8,
@@ -73,15 +74,32 @@ RSpec.describe RootSeeder,
       expect(count_by_version.values).to contain_exactly(1, 8, 7)
     end
 
-    it 'creates different types of queries' do
+    it "adds the backlogs, board, costs, meetings, and reporting modules to the default_projects_modules setting" do
+      default_modules = Setting.find_by(name: "default_projects_modules").value
+      expect(default_modules).to include("backlogs")
+      expect(default_modules).to include("board_view")
+      expect(default_modules).to include("costs")
+      expect(default_modules).to include("meetings")
+      expect(default_modules).to include("reporting_module")
+    end
+
+    it "creates a structured meeting of 1h duration" do
+      expect(StructuredMeeting.count).to eq 1
+      expect(StructuredMeeting.last.duration).to eq 1.0
+      expect(MeetingAgendaItem.count).to eq 9
+      expect(MeetingAgendaItem.sum(:duration_in_minutes)).to eq 60
+    end
+
+    it "creates different types of queries" do
       count_by_type = View.group(:type).count
       expect(count_by_type).to eq(
-        "work_packages_table" => 7,
+        "work_packages_table" => 5,
+        "gantt" => 2,
         "team_planner" => 1
       )
     end
 
-    it 'adds additional permissions from modules' do
+    it "adds additional permissions from modules" do
       # do not test for all permissions but only some of them to ensure each
       # module got processed for a standard edition
       work_package_editor_role = root_seeder.seed_data.find_reference(:default_role_work_package_editor)
@@ -106,43 +124,45 @@ RSpec.describe RootSeeder,
       )
     end
 
-    include_examples 'it creates records', model: Color, expected_count: 144
-    include_examples 'it creates records', model: DocumentCategory, expected_count: 3
-    include_examples 'it creates records', model: GlobalRole, expected_count: 1
-    include_examples 'it creates records', model: WorkPackageRole, expected_count: 3
-    include_examples 'it creates records', model: Role, expected_count: 9
-    include_examples 'it creates records', model: IssuePriority, expected_count: 4
-    include_examples 'it creates records', model: Status, expected_count: 14
-    include_examples 'it creates records', model: TimeEntryActivity, expected_count: 6
-    include_examples 'it creates records', model: Workflow, expected_count: 1758
-    include_examples 'it creates records', model: Meeting, expected_count: 1
+    include_examples "it creates records", model: Color, expected_count: 144
+    include_examples "it creates records", model: DocumentCategory, expected_count: 3
+    include_examples "it creates records", model: GlobalRole, expected_count: 1
+    include_examples "it creates records", model: WorkPackageRole, expected_count: 3
+    include_examples "it creates records", model: ProjectRole, expected_count: 5
+    include_examples "it creates records", model: ProjectQueryRole, expected_count: 2
+    include_examples "it creates records", model: IssuePriority, expected_count: 4
+    include_examples "it creates records", model: Status, expected_count: 14
+    include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
+    include_examples "it creates records", model: Workflow, expected_count: 1758
+    include_examples "it creates records", model: Meeting, expected_count: 1
   end
 
-  describe 'demo data' do
+  describe "demo data" do
     shared_let(:root_seeder) { described_class.new }
 
     before_all do
-      with_edition('standard') do
+      with_edition("standard") do
         root_seeder.seed_data!
       end
     end
 
-    include_examples 'creates standard demo data'
+    include_examples "creates standard demo data"
 
-    include_examples 'no email deliveries'
+    include_examples "no email deliveries"
 
-    context 'when run a second time' do
+    context "when run a second time" do
       before_all do
         described_class.new.seed_data!
       end
 
-      it 'does not create additional data' do
+      it "does not create additional data" do
         expect(Project.count).to eq 2
         expect(WorkPackage.count).to eq 36
         expect(Wiki.count).to eq 2
         expect(Query.having_views.count).to eq 8
-        expect(View.where(type: 'work_packages_table').count).to eq 7
-        expect(View.where(type: 'team_planner').count).to eq 1
+        expect(View.where(type: "work_packages_table").count).to eq 5
+        expect(View.where(type: "team_planner").count).to eq 1
+        expect(View.where(type: "gantt").count).to eq 2
         expect(Query.count).to eq 26
         expect(ProjectRole.count).to eq 5
         expect(WorkPackageRole.count).to eq 3
@@ -155,29 +175,29 @@ RSpec.describe RootSeeder,
     end
   end
 
-  describe 'demo data with work package role migration having been run' do
+  describe "demo data with work package role migration having been run" do
     shared_let(:root_seeder) { described_class.new }
 
     before_all do
       # call the migration which will add data for work package roles. This
       # needs to be done manually as running tests automatically calls the
       # `db:test:purge` rake task.
-      require(Rails.root.join('db/migrate/20231128080650_add_work_package_roles'))
+      require(Rails.root.join("db/migrate/20231128080650_add_work_package_roles"))
       AddWorkPackageRoles.new.up
 
-      with_edition('standard') do
+      with_edition("standard") do
         root_seeder.seed_data!
       end
     end
 
-    include_examples 'creates standard demo data'
+    include_examples "creates standard demo data"
   end
 
-  describe 'demo data mock-translated in another language' do
+  describe "demo data mock-translated in another language" do
     shared_let(:root_seeder) { described_class.new }
 
     before_all do
-      with_edition('standard') do
+      with_edition("standard") do
         # simulate a translation by changing the returned string on `I18n#t` calls
         allow(I18n).to receive(:t).and_wrap_original do |m, *args, **kw|
           original_translation = m.call(*args, **kw)
@@ -187,24 +207,24 @@ RSpec.describe RootSeeder,
       end
     end
 
-    include_examples 'creates standard demo data'
+    include_examples "creates standard demo data"
 
-    it 'has all Query.name translated' do
-      expect(Query.pluck(:name)).to all(start_with('tr: '))
+    it "has all Query.name translated" do
+      expect(Query.pluck(:name)).to all(start_with("tr: "))
     end
   end
 
   [
-    'OPENPROJECT_SEED_LOCALE',
-    'OPENPROJECT_DEFAULT_LANGUAGE'
+    "OPENPROJECT_SEED_LOCALE",
+    "OPENPROJECT_DEFAULT_LANGUAGE"
   ].each do |env_var_name|
     describe "demo data with a non-English language set with #{env_var_name}",
              :settings_reset do
       shared_let(:root_seeder) { described_class.new }
 
       before_all do
-        with_env(env_var_name => 'de') do
-          with_edition('standard') do
+        with_env(env_var_name => "de") do
+          with_edition("standard") do
             reset(:default_language) # Settings are a pain to reset
             root_seeder.seed_data!
           ensure
@@ -213,47 +233,53 @@ RSpec.describe RootSeeder,
         end
       end
 
-      it 'seeds with the specified language' do
-        willkommen = I18n.t("#{Source::Translate::I18N_PREFIX}.standard.welcome.title", locale: 'de')
+      it "seeds with the specified language" do
+        willkommen = I18n.t("#{Source::Translate::I18N_PREFIX}.standard.welcome.title", locale: "de")
         expect(Setting.welcome_title).to eq(willkommen)
-        expect(Status.where(name: 'Neu')).to exist
-        expect(Type.where(name: 'Meilenstein')).to exist
-        expect(Color.where(name: 'Gelb')).to exist
+        expect(Status.where(name: "Neu")).to exist
+        expect(Type.where(name: "Meilenstein")).to exist
+        expect(Color.where(name: "Gelb")).to exist
       end
 
-      it 'sets Setting.default_language to the given language' do
-        expect(Setting.find_by(name: 'default_language')).to have_attributes(value: 'de')
+      it "sets Setting.default_language to the given language" do
+        expect(Setting.find_by(name: "default_language")).to have_attributes(value: "de")
       end
 
-      include_examples 'creates standard demo data'
+      include_examples "creates standard demo data"
     end
   end
 
-  describe 'demo data with development data' do
+  describe "demo data with development data" do
     shared_let(:root_seeder) { described_class.new(seed_development_data: true) }
 
     before_all do
-      root_seeder.seed_data!
+      RSpec::Mocks.with_temporary_scope do
+        # opportunistic way to add a test for bug #53611 without extending the testing time
+        allow(Settings::Definition["default_projects_modules"])
+          .to receive(:writable?).and_return(false)
+
+        root_seeder.seed_data!
+      end
     end
 
-    it 'creates 1 additional admin user with German locale' do
+    it "creates 1 additional admin user with German locale" do
       admins = User.not_builtin.where(admin: true)
       expect(admins.count).to eq 2
       expect(admins.pluck(:language)).to match_array(%w[en de])
     end
 
-    it 'creates 5 additional projects for development' do
+    it "creates 5 additional projects for development" do
       expect(Project.count).to eq 7
     end
 
-    it 'creates 4 additional work packages for development' do
+    it "creates 4 additional work packages for development" do
       expect(WorkPackage.count).to eq 40
     end
 
-    it 'creates 1 project with custom fields' do
+    it "creates 1 project with custom fields" do
       expect(CustomField.count).to eq 12
     end
 
-    include_examples 'no email deliveries'
+    include_examples "no email deliveries"
   end
 end

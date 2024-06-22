@@ -29,7 +29,7 @@
 <%= toolbar title: t('two_factor_authentication.label_two_factor_authentication') do %>
   <li class="toolbar-item">
     <%= link_to new_my_2fa_device_path,
-          { class: 'button -alt-highlight',
+          { class: 'button -primary',
             aria: {label: t('two_factor_authentication.label_device')},
             title: t('two_factor_authentication.devices.add_new')} do %>
       <%= op_icon('button--icon icon-add') %>

@@ -26,34 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Relations::Filters::FromFilter do
-  include_context 'filter tests'
-  let(:values) { ['1'] }
+  include_context "filter tests"
+  let(:values) { ["1"] }
   let(:model) { Relation }
   let(:current_user) { build_stubbed(:user) }
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :from_id }
     let(:type) { :integer }
     # The name is not very good but as long as the filter is not displayed in the UI ...
-    let(:human_name) { 'Work package' }
+    let(:human_name) { "Work package" }
 
-    describe '#allowed_values' do
-      it 'is nil' do
+    describe "#allowed_values" do
+      it "is nil" do
         expect(instance.allowed_values).to be_nil
       end
     end
   end
 
-  describe '#visibility_checked?' do
-    it 'is true' do
+  describe "#visibility_checked?" do
+    it "is true" do
       expect(instance).to be_visibility_checked
     end
   end
 
-  describe '#scope' do
+  describe "#apply_to" do
     before do
       login_as(current_user)
     end
@@ -61,22 +61,22 @@ RSpec.describe Queries::Relations::Filters::FromFilter do
     let(:visible_sql) { WorkPackage.visible(current_user).select(:id).to_sql }
 
     context 'for "="' do
-      let(:operator) { '=' }
+      let(:operator) { "=" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         expected = model.where("from_id IN ('1') AND to_id IN (#{visible_sql})")
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
     context 'for "!"' do
-      let(:operator) { '!' }
+      let(:operator) { "!" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         expected = model.where("from_id NOT IN ('1') AND to_id IN (#{visible_sql})")
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end

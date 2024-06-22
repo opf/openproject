@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'mentioned_journals_shared'
+require "spec_helper"
+require_relative "mentioned_journals_shared"
 
-RSpec.describe Notifications::MailService, 'Mentioned integration', type: :model do
-  include_context 'with a mentioned work package being updated again'
+RSpec.describe Notifications::MailService, "Mentioned integration", type: :model do
+  include_context "with a mentioned work package being updated again"
 
   let(:assignee) do
     create(:user,
@@ -56,7 +56,7 @@ RSpec.describe Notifications::MailService, 'Mentioned integration', type: :model
     expect(mentioned_notification).to be_present
     mentioned_notification.reload
     expect(mentioned_notification.recipient).to eq recipient
-    expect(mentioned_notification.reason).to eq 'mentioned'
+    expect(mentioned_notification.reason).to eq "mentioned"
     expect(mentioned_notification.read_ian).to be false
     expect(mentioned_notification.mail_alert_sent).to be true
   end
@@ -75,10 +75,10 @@ RSpec.describe Notifications::MailService, 'Mentioned integration', type: :model
     expect(assigned_notification).to be_present
     expect(assigned_notification.recipient).to eq assignee
     expect(assigned_notification.read_ian).to be false
-    expect(assigned_notification.mail_alert_sent).to be false
+    expect(assigned_notification.mail_alert_sent).to be_nil
   end
 
-  it 'triggers only one mention notification mail when editing attributes afterwards' do
+  it "triggers only one mention notification mail when editing attributes afterwards" do
     allow(WorkPackageMailer)
       .to receive(:mentioned)
             .and_call_original

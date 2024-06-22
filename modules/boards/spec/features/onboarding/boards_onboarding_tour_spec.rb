@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/onboarding_steps'
+require "spec_helper"
+require_relative "../support/onboarding_steps"
 
 # We decrease the notification polling interval because some portions of the JS code rely on something triggering
 # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
-RSpec.describe 'boards onboarding tour',
+RSpec.describe "boards onboarding tour",
                :js,
                with_settings: { notifications_polling_interval: 1_000 } do
-  let(:next_button) { find('.enjoyhint_next_btn') }
+  let(:next_button) { find(".enjoyhint_next_btn") }
   let(:user) do
     create(:admin,
            member_with_roles: { demo_project => role })
@@ -53,15 +53,15 @@ RSpec.describe 'boards onboarding tour',
 
   let(:demo_project) do
     create(:project,
-           name: 'Demo project',
-           identifier: 'demo-project',
+           name: "Demo project",
+           identifier: "demo-project",
            public: true,
            enabled_module_names: %w[work_package_tracking gantt wiki board_view])
   end
   let!(:wp_1) { create(:work_package, project: demo_project) }
 
-  let!(:demo_board_view) { create(:board_grid_with_query, project: demo_project, name: 'Kanban', query:) }
-  let!(:demo_basic_board_view) { create(:board_grid_with_query, project: demo_project, name: 'Basic board', query:) }
+  let!(:demo_board_view) { create(:board_grid_with_query, project: demo_project, name: "Kanban", query:) }
+  let!(:demo_basic_board_view) { create(:board_grid_with_query, project: demo_project, name: "Basic board", query:) }
   let(:query) { create(:query, user:, project: demo_project) }
 
   before do
@@ -75,13 +75,13 @@ RSpec.describe 'boards onboarding tour',
     page.execute_script("window.sessionStorage.clear();")
   end
 
-  context 'as a new user' do
-    context 'with an EE token', with_ee: %i[board_view] do
+  context "as a new user" do
+    context "with an EE token", with_ee: %i[board_view] do
       before do
         login_as user
       end
 
-      it 'I see the board onboarding tour in the demo project' do
+      it "I see the board onboarding tour in the demo project" do
         # Set the tour parameter so that we can start on the wp page
         visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
 
@@ -93,12 +93,12 @@ RSpec.describe 'boards onboarding tour',
       end
     end
 
-    context 'without an EE token' do
+    context "without an EE token" do
       before do
         login_as user
       end
 
-      it 'I see the board onboarding tour in the demo project' do
+      it "I see the board onboarding tour in the demo project" do
         # Set the tour parameter so that we can start on the wp page
         visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
 

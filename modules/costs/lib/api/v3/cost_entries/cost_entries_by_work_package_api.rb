@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/cost_types/cost_type_representer'
+require "api/v3/cost_types/cost_type_representer"
 
 module API
   module V3

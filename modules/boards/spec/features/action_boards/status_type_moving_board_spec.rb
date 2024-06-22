@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support//board_index_page'
-require_relative '../support/board_page'
+require "spec_helper"
+require_relative "../support//board_index_page"
+require_relative "../support/board_page"
 
-RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
+RSpec.describe "Status action board", :js, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
@@ -50,21 +50,21 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
   let(:board_index) { Pages::BoardIndex.new(project) }
 
   let!(:priority) { create(:default_priority) }
-  let!(:open_status) { create(:default_status, name: 'Open') }
-  let!(:closed_status) { create(:status, is_closed: true, name: 'Closed') }
+  let!(:open_status) { create(:default_status, name: "Open") }
+  let!(:closed_status) { create(:status, is_closed: true, name: "Closed") }
 
   let(:task_wp) do
     create(:work_package,
            project:,
            type: type_task,
-           subject: 'Open task item',
+           subject: "Open task item",
            status: open_status)
   end
   let(:bug_wp) do
     create(:work_package,
            project:,
            type: type_bug,
-           subject: 'Closed bug item',
+           subject: "Closed bug item",
            status: closed_status)
   end
 
@@ -106,23 +106,23 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
     login_as(user)
   end
 
-  it 'allows moving of types between lists without changing filters (Regression #30817)' do
+  it "allows moving of types between lists without changing filters (Regression #30817)" do
     board_index.visit!
 
     # Create new board
-    board_page = board_index.create_board action: 'Status'
+    board_page = board_index.create_board action: "Status"
 
     # expect lists of default status
-    board_page.expect_list 'Open'
+    board_page.expect_list "Open"
 
-    board_page.add_list option: 'Closed'
-    board_page.expect_list 'Closed'
+    board_page.add_list option: "Closed"
+    board_page.expect_list "Closed"
 
     filters.expect_filter_count 0
     filters.open
 
-    filters.add_filter_by('Type', 'is (OR)', [type_task.name, type_bug.name])
-    filters.expect_filter_by('Type', 'is (OR)', [type_task.name, type_bug.name])
+    filters.add_filter_by("Type", "is (OR)", [type_task.name, type_bug.name])
+    filters.expect_filter_by("Type", "is (OR)", [type_task.name, type_bug.name])
 
     # Wait a bit before saving the page to ensure both values are processed
     sleep 2
@@ -131,27 +131,27 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
     board_page.save
 
     # Move task to closed
-    board_page.move_card(0, from: 'Open', to: 'Closed')
+    board_page.move_card(0, from: "Open", to: "Closed")
 
-    board_page.expect_card('Closed', 'Open task item', present: true)
+    board_page.expect_card("Closed", "Open task item", present: true)
 
     # Expect type unchanged
-    board_page.card_for(task_wp).expect_type 'Task'
-    board_page.card_for(bug_wp).expect_type 'Bug'
+    board_page.card_for(task_wp).expect_type "Task"
+    board_page.card_for(bug_wp).expect_type "Bug"
 
     # Wait a bit before moving the items too fast
     sleep 2
 
     # Move bug to open
-    board_page.move_card_by_name('Closed bug item', from: 'Closed', to: 'Open')
+    board_page.move_card_by_name("Closed bug item", from: "Closed", to: "Open")
     board_page.wait_for_lists_reload
 
-    board_page.expect_card('Closed', 'Closed bug item', present: false)
-    board_page.expect_card('Open', 'Closed bug item', present: true)
+    board_page.expect_card("Closed", "Closed bug item", present: false)
+    board_page.expect_card("Open", "Closed bug item", present: true)
 
     # Expect type unchanged
-    board_page.card_for(task_wp).expect_type 'Task'
-    board_page.card_for(bug_wp).expect_type 'Bug'
+    board_page.card_for(task_wp).expect_type "Task"
+    board_page.card_for(bug_wp).expect_type "Bug"
 
     sleep 2
 

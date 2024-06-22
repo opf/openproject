@@ -37,7 +37,7 @@ module OpenProject
 
       # Creates the url string to a specific Redmine issue
       def issue(issue_id)
-        url + 'issues/' + issue_id.to_s
+        url + "issues/" + issue_id.to_s
       end
     end
   end

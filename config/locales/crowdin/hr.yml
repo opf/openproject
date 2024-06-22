@@ -26,15 +26,14 @@ hr:
       no_results_title_text: There has not been any activity for the project within this time frame.
   admin:
     plugins:
-      no_results_title_text: Nema dostupnih dodataka.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Color theme"
       color_theme_custom: "(Prilagođeno)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Header background"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Header font"
@@ -53,10 +52,8 @@ hr:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Uređivanje boja odaberite Opcije"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
-        content-link-color: "Font color of most of the links."
-        primary-color: "Glavna boja."
-        primary-color-dark: "Obično tamnije verzije glavne boje za efekat lebdenja."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
         header-item-font-color: "Font color of clickable header items."
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
@@ -90,6 +87,17 @@ hr:
     show_until: Pokaži sve do
     is_active: trenutno prikazani
     is_inactive: trenutno nije prikazano
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Any text and images you add to this field is publicly visible to all logged in users!"
     text_overview: "In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute."
@@ -254,12 +262,17 @@ hr:
       no_results_title_text: Trenutno nema projekata
       no_results_content_text: Novi projekt
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "Moji projekati"
+      favored: "Favorite projects"
+      archived: "Archived projects"
+      public: "Public project lists"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Change identifier
       activities:
@@ -272,6 +285,26 @@ hr:
         no_results_content_text: Nova kategorija za radni paket
       custom_fields:
         no_results_title_text: Trenutno nije dostupno niti jedno prilagođeno polje.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: Trenutno nema dostupnih tipova.
         form:
@@ -281,24 +314,86 @@ hr:
         no_results_content_text: Dodaj novu verziju projekta
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
+  lists:
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Trenutno nema korisnika koji su dio ovog projekta.
       no_results_content_text: Pridruži korisnika projektu
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     columns:
       shared: "Shared"
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Svi"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Zaključano"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Grupe"
+    delete_member_dialog:
+      title: "Remove member"
+      will_remove_the_users_role: "This will remove the user’s role from this project."
+      will_remove_the_groups_role: "This will remove the group role from this project."
+      however_work_packages_shared_with_user_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this user."
+        few: "However, %{shared_work_packages_link} have also been shared with this user."
+        other: "However, %{shared_work_packages_link} have also been shared with this user."
+      however_work_packages_shared_with_group_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this group."
+        few: "However, %{shared_work_packages_link} have also been shared with this group."
+        other: "However, %{shared_work_packages_link} have also been shared with this group."
+      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+      also_work_packages_shared_with_user_html:
+        one: "Also, %{shared_work_packages_link} has been shared with this user."
+        few: "Also, %{shared_work_packages_link} have been shared with this user."
+        other: "Also, %{shared_work_packages_link} have been shared with this user."
+      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
+      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
+      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
+      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+    delete_work_package_shares_dialog:
+      title: "Revoke work package shares"
+      shared_with_this_user_html:
+        one: "%{all_shared_work_packages_link} has been shared with this user."
+        few: "%{all_shared_work_packages_link} have been shared with this user."
+        other: "%{all_shared_work_packages_link} have been shared with this user."
+      shared_with_this_group_html:
+        one: "%{all_shared_work_packages_link} has been shared with this group."
+        few: "%{all_shared_work_packages_link} have been shared with this group."
+        other: "%{all_shared_work_packages_link} have been shared with this group."
+      shared_with_permission_html:
+        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
+        few: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
+      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
+      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
       failed_to_reset_token: "Ne mogu postaviti pristupni token: %{error}"
@@ -333,7 +428,7 @@ hr:
     memberships:
       no_results_title_text: Korisnik trenutno nije član projekta.
   page:
-    text: 'Text'
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -364,13 +459,22 @@ hr:
         No attributes can be changed with the exception of the status.
         <br/>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Trenutačno ne postoje izvješća o statusu radnih paketa.
       no_results_content_text: Novi status
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
+    dark: "Dark"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -420,7 +524,7 @@ hr:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Masovno premještanje/kopiranje ne podržava radne pakete iz više projekata"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -534,12 +638,13 @@ hr:
       oauth_client:
         client: "Client ID"
       relation:
-        delay: "Kašnjenje"
+        lag: "Lag"
         from: "Radni paket"
         to: "Pripadajući radni paket"
       status:
         is_closed: "Radni paket zatvoren"
         is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Bilješke"
       member:
@@ -557,6 +662,7 @@ hr:
           false: "private"
         queries: "Upiti"
         status_code: "Status projekta"
+        description: "Opis"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -626,13 +732,15 @@ hr:
         redirect_existing_links: "Preusmjeri postojeće poveznice"
       planning_element_type_color:
         hexcode: Heksadecimalni kod
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "Početak umetanja"
         begin_deletion: "Početak brisanja"
         children: "Subelements"
-        derived_done_ratio: "Derived % Complete"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
+        derived_done_ratio: "Total % complete"
+        derived_remaining_hours: "Total remaining work"
+        derived_remaining_time: "Total remaining work"
         done_ratio: "% Complete"
         duration: "Trajanje"
         end_insertion: "Kraj umetanja"
@@ -677,6 +785,7 @@ hr:
         before_or_equal_to: "mora biti prije ili jednako %{date}."
         blank: "ne može biti prazan unos."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Radni paket ne može biti pridružen podređenim radnim zadacima."
         circular_dependency: "Ova relacija izraditi će skupnu odnosno cirkularnu ovisnost."
         confirmation: "ne odgovara %{attribute}."
@@ -715,6 +824,7 @@ hr:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "ne pripada istom projektu."
         odd: "mora biti neparan."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "mora biti manje od ili jednako maksimalnom trajanju."
         taken: "već je zauzeto."
@@ -831,7 +941,13 @@ hr:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
@@ -865,6 +981,9 @@ hr:
             base:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -922,7 +1041,16 @@ hr:
               only_same_project_categories_allowed: "Kategorija radnog paketa mora biti u sklopu istog projekta kao i sam radni paket."
               does_not_exist: "Navedena kategorija ne postoji."
             estimated_hours:
-              only_values_greater_or_equal_zeroes_allowed: "mora biti >=0."
+              not_a_number: "is not a valid duration."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
+            remaining_hours:
+              not_a_number: "is not a valid duration."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
@@ -958,7 +1086,7 @@ hr:
             ldap_auth_source:
               error_not_found: "nije pronađeno"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "nije pronađeno"
         member:
           principal_blank: "Molim vas odaberite najamnje jednog korisnika ili grupu."
           role_blank: "need to be assigned."
@@ -1031,6 +1159,12 @@ hr:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Potprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1074,7 +1208,7 @@ hr:
     default_columns: "Zadani stupci"
     description: "Opis"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived work"
+    derived_estimated_hours: "Total work"
     derived_start_date: "Derived start date"
     display_sums: "Prikaži iznose"
     due_date: "Finish date"
@@ -1141,6 +1275,7 @@ hr:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
+  button_actions: "Actions"
   button_add: "Dodaj"
   button_add_comment: "Dodaj komentar"
   button_add_member: Dodaj člana
@@ -1174,6 +1309,7 @@ hr:
   button_edit: "Uredi"
   button_edit_associated_wikipage: "Uredi pripadajuće Wiki stranice: %{page_title}"
   button_expand_all: "Proširi sve"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generiraj"
   button_list: "Popis"
@@ -1191,6 +1327,7 @@ hr:
   button_reset: "Resetiraj"
   button_rollback: "Vrati na ovu verziju"
   button_save: "Spremi"
+  button_save_as: "Spremiti kao"
   button_apply_changes: "Apply changes"
   button_save_back: "Snimi i vratiti"
   button_show: "Prikaži"
@@ -1200,6 +1337,7 @@ hr:
   button_unarchive: "Nemoj arhivirati"
   button_uncheck_all: "Nemoj odabrati sve"
   button_unlock: "Otključaj"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Ne nadgledaj više"
   button_update: "Ažuriraj"
   button_upgrade: "Ažuriraj"
@@ -1210,6 +1348,16 @@ hr:
   button_add_menu_entry: "Dodaj novu stavku izbornika"
   button_configure_menu_entry: "Konfiguriraj stavku izbornika"
   button_delete_menu_entry: "Obriši stavku izbornika"
+  button_view_shared_work_packages: "View shared work packages"
+  button_manage_roles: "Manage roles"
+  button_remove_member: "Remove member"
+  button_remove_member_and_shares: "Remove member and shares"
+  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_access: "Revoke access"
+  button_revoke_all: "Revoke all"
+  button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Zabilježio sam i pristajem na prethodno.
     failure_message: Suglasnost nije uspjela, ne može se nastaviti.
@@ -1443,7 +1591,6 @@ hr:
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Radni paket nije pronađen ili ne pripada ovom projektu"
   error_must_be_project_member: "mora biti član projekta"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1474,7 +1621,7 @@ hr:
     message: Poruka uređena
     news: Vijesti
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekt je uređivan"
     projects: "Projekt je uređivan"
     reply: Je odgovorio
     time_entry: "Timelog uređen"
@@ -1496,8 +1643,15 @@ hr:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d
@@ -1537,6 +1691,7 @@ hr:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Korisnički priručnici"
       faq: "Često postavljana pitanja"
+      impressum: "Legal notice"
       glossary: "Kazalo pojmova"
       shortcuts: "Prečaci"
       blog: "OpenProject blog"
@@ -1548,6 +1703,9 @@ hr:
     changes_retracted: "The changes were retracted."
     caused_changes:
       dates_changed: "Dates changed"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1563,9 +1721,19 @@ hr:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Vodič za konfiguraciju"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1580,6 +1748,8 @@ hr:
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1628,17 +1798,6 @@ hr:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "Vijesti"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Accessibility"
   label_account: "Korisnički račun"
   label_active: "Aktivno"
@@ -1681,23 +1840,23 @@ hr:
   label_ascending: "Uzlazno"
   label_assigned_to_me_work_packages: "Radni paketi dodijeljeni meni"
   label_associated_revisions: "Pridružene revizije"
-  label_attachment_delete: "Izbriši datoteku"
-  label_attachment_new: "Nova datoteka"
-  label_attachment_plural: "Datoteke"
+  label_attachment_plural: "Prilozi"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributi"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentifikacija"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "Dostupni repozitoriji"
   label_available_project_versions: "Dostupne verzije"
   label_available_project_work_package_categories: "Dostupne kategorije radnih paketa"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API dokumentacija"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "između"
@@ -1793,6 +1952,7 @@ hr:
   label_diff_side_by_side: "jedno uz drugo"
   label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "onemogućeno"
+  label_disabled_uppercase: "Disabled"
   label_display: "Prikaz"
   label_display_per_page: "Po stranici: %{value}"
   label_display_used_statuses_only: "Samo prikaži statuse koji pripadaju ovom tipu"
@@ -1819,7 +1979,7 @@ hr:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Okruženje"
-  label_estimates_and_time: "Estimates and time"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "je"
   label_everywhere: "everywhere"
   label_example: "Primjer"
@@ -1829,17 +1989,18 @@ hr:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Također dostupan kao:"
+  label_expand: "Proširiti"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} sat"
   label_f_hour_plural: "%{value} sati"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS pristupni ključ"
   label_feeds_access_key_created_on: "RSS pristupni ključ kreiran %{value} prije"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Datoteke"
   label_filter_add: "Dodaj filter"
-  label_filter: "Filters"
+  label_filter: "Filteri"
   label_filter_plural: "Filteri"
   label_filters_toggle: "Pokaži/Sakrij filtere"
   label_float: "Plutajući"
@@ -1866,8 +2027,7 @@ hr:
   label_home: "Početna"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
-  label_impressum: "Legal notice"
+  label_identifier: "Identifikator"
   label_in: "u"
   label_in_less_than: "u manje od"
   label_in_more_than: "u više od"
@@ -1883,7 +2043,7 @@ hr:
   label_internal: "Unutarnji"
   label_introduction_video: "Introduction video"
   label_invite_user: "Pozovi korisnika"
-  label_share: "Share"
+  label_share: "Podijeli"
   label_show_hide: "Pokaži/Sakrij"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1903,8 +2063,10 @@ hr:
   label_latest_revision: "Zadnja revizija"
   label_latest_revision_plural: "Zadnje revizije"
   label_ldap_authentication: "LDAP provjera autentičnosti"
+  label_learn_more: "Saznaj više"
   label_less_or_equal: "<="
   label_less_than_ago: "manje od dana"
+  label_link_url: "Link (URL)"
   label_list: "Popis"
   label_loading: "Učitavanje..."
   label_lock_user: "Lock user"
@@ -1927,8 +2089,10 @@ hr:
   label_member_new: "Novi član"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Članovi"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2019,6 +2183,7 @@ hr:
   label_precedes: "prethodi"
   label_preferences: "Preference"
   label_preview: "Pregled"
+  label_preview_not_available: "Preview not available"
   label_previous: "Prethodni"
   label_previous_week: "Prethodni tjedan"
   label_principal_invite_via_email: " ili pozovite nove korisnike putem emaila"
@@ -2026,8 +2191,10 @@ hr:
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Verzija proizvoda"
   label_profile: "Profil"
+  label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Ukupan broj projekata"
   label_project_copy_notifications: "Slanje obavijesti e-mailom tijekom kopiranja projekta"
   label_project_latest: "Najnoviji projekti"
@@ -2035,10 +2202,14 @@ hr:
   label_project_hierarchy: "Hijerarhija projekta"
   label_project_new: "Novi projekt"
   label_project_plural: "Projekti"
+  label_project_list_plural: "Project lists"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Postavke projekta"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projekt koristi %{storage} diskovnog prostora"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Pogledaj sve projekte"
   label_project_show_details: "Prikaži detalje o projektu"
   label_project_hide_details: "Sakrij detalje o projektu"
@@ -2058,6 +2229,7 @@ hr:
   label_relation_delete: "Izbriši relaciju"
   label_relation_new: "Nova relacija"
   label_release_notes: "Napomene uz izdavanje"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Izbriši odabrene stupce"
   label_renamed: "preimenovan"
   label_reply_plural: "Odgovori"
@@ -2090,10 +2262,11 @@ hr:
   label_search: "Pretraživanje"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošalji probni e-mail"
-  label_session: "Session"
+  label_session: "Sesija"
   label_setting_plural: "Postavke"
   label_system_settings: "Postavke sustava"
   label_show_completed_versions: "Prikažite završene verzije"
+  label_columns: "Stupci"
   label_sort: "Sortiraj"
   label_sort_by: "Sortiraj po %{value}"
   label_sorted_by: "sortirano po %{value}"
@@ -2136,7 +2309,6 @@ hr:
   label_type_new: "Novi tip"
   label_type_plural: "Tipovi"
   label_ui: "Korisničko sučelje"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Ažurirano prije %{value}"
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: "Ažurirao korisnik %{author} prije %{age}"
@@ -2191,6 +2363,7 @@ hr:
   label_wiki_show_new_page_link: "Prikaži stavku podizbornika 'Kreiraj novu podređenu stranicu'"
   label_wiki_show_submenu_item: "Prikaži kao stavku podizbornika iz "
   label_wiki_start: "Početna stranica"
+  label_work: "Work"
   label_work_package: "Radni paket"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Nova kategorija"
@@ -2208,7 +2381,7 @@ hr:
   label_workflow: "Tijek rada"
   label_workflow_plural: "Tijek rada"
   label_workflow_summary: "Sažetak"
-  label_working_days: "Working days"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 zaključen"
     other: "%{count} zatvorenih"
@@ -2229,7 +2402,12 @@ hr:
     one: "1 projekt"
     other: "%{count} projekta"
     zero: "no projects"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "jučer"
+  label_zen_mode: "Zen mode"
   label_role_type: "Tip"
   label_member_role: "Project role"
   label_global_role: "Global role"
@@ -2304,6 +2482,35 @@ hr:
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "Novi korisnik je (%{value}) je registriran. Čeka se na vaše odobrenje:"
   mail_body_account_information: "Informacije o vašem korisničkom računu"
   mail_body_account_information_external: "Možete koristiti vaš %{value} korisnički račun za pristup sustavu."
@@ -2409,7 +2616,6 @@ hr:
   notice_file_not_found: "Stranica kojoj ste pokušali pristupiti ne postoji ili je izbrisana."
   notice_forced_logout: "Automatski ste odjavljeni iz sustava nakon %{ttl_time} minuta neaktivnosti."
   notice_internal_server_error: "Nastupila je pogrška na stranici kojoj pokuštavate pristupiti. Ako se problemi nastave molim vas da kontaktirate vašeg %{app_title} administratora za podršku."
-  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informacija je u međuvremenu ažurirana od najmanje jednog korisnika."
   notice_locking_conflict_additional_information: "Ažuiranje(a) je obavio %{users}."
   notice_locking_conflict_reload_page: "Molim vas ponovno učitajte stranicu, pregledajte promjene i ponovno učitajte vaša ažuriranja."
@@ -2536,6 +2742,7 @@ hr:
   permission_save_queries: "Save views"
   permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Odaberi module projekta"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Odaberi tipove"
@@ -2560,6 +2767,9 @@ hr:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:
@@ -2584,13 +2794,17 @@ hr:
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
   project_module_activity: "Aktivnost"
   project_module_forums: "Forumi"
   project_module_work_package_tracking: "Radni paketi"
   project_module_news: "Vijesti"
   project_module_repository: "Repozitorij"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2602,7 +2816,8 @@ hr:
     member_of_group: "Grupa opunomoćenog korisnika"
     name_or_identifier: "Ime ili identifikator"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
+    shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
     at_identifier: "pri %{identifier}"
@@ -2720,6 +2935,9 @@ hr:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -2743,6 +2961,9 @@ hr:
   setting_app_subtitle: "Podnaslov aplikacije"
   setting_app_title: "Naslov aplikacije"
   setting_attachment_max_size: "Max. veličina privitka"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Automatski dohvati promjene na repozitoriju"
   setting_autologin: "Automatska prijava"
   setting_available_languages: "Dostupni jezici"
@@ -2751,7 +2972,7 @@ hr:
   setting_brute_force_block_minutes: "Vrijeme u kojem je korisnik blokiran"
   setting_cache_formatted_text: "Formatirani tekst u međumemoriji"
   setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
-  setting_column_options: "Prilagodite izgled liste radnih paketa"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Ispravljanje ključnih riječi"
   setting_commit_logs_encoding: "Commitajte kodiranje poruka"
   setting_commit_logtime_activity_id: "Aktivnost za zabilježeno vrijeme"
@@ -2773,18 +2994,21 @@ hr:
   setting_emails_header: "Zaglavlja email-a"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Omogući SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Omogući sažetke sadržaja aktivnosti"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksimalna veličina tesktualnih datoteka prikazanih u liniji"
   setting_host_name: "Hostname"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Zadani prikaz"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Postavke radnih paketa"
   setting_work_package_startdate_is_adddate: "Koristite današanji datum kao početni datum novih radnih paketa"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2842,6 +3066,29 @@ hr:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
     brute_force_prevention: "Automatizirano blokiranje korisnika"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2868,10 +3115,24 @@ hr:
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "Ostalo"
     passwords: "Lozinke"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "Settings for project lists"
     session: "Sesija"
     user:
       default_preferences: "Default preferences"
@@ -2900,6 +3161,7 @@ hr:
   text_are_you_sure: "Da li ste sigurni?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Izbriši radni paket i sve podređene radne pakete?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Pridruži projektu"
   text_form_configuration: >
     You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
@@ -3036,6 +3298,16 @@ hr:
       If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Primjenite prethodno konfigurirani filter
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"
@@ -3071,6 +3343,7 @@ hr:
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Otključaj"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "zaključen"
@@ -3116,6 +3389,12 @@ hr:
     destroy:
       info: "Brisanje radnog paketa je nepovratan čin."
       title: "Izbriši radni paket"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 users"
@@ -3144,7 +3423,7 @@ hr:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Nije dijeljeno"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3166,12 +3445,12 @@ hr:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
@@ -3224,9 +3503,7 @@ hr:
         unsupported_context: "Dani resurs nije podržan u obliku konteksta."
         context_object_not_found: "Ne mogu pronaći resurs zadan kao kontekst."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Izabranom korisniku nije dopušteno da bude '%{property}' za ovaj radni paket."
         start_date: "Datum početka ne može biti postavljen na nadređenim radnim paketima."
       eprops:
@@ -3340,7 +3617,7 @@ hr:
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 provider reported"
       oauth_returned_error: "OAuth2 returned an error"
       oauth_returned_json_error: "OAuth2 returned a JSON error"
@@ -3380,7 +3657,7 @@ hr:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

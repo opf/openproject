@@ -27,7 +27,7 @@
 #++
 
 class WorkflowsController < ApplicationController
-  layout 'admin'
+  layout "admin"
 
   before_action :require_admin
 
@@ -45,7 +45,7 @@ class WorkflowsController < ApplicationController
   end
 
   def edit
-    @used_statuses_only = params[:used_statuses_only] != '0'
+    @used_statuses_only = params[:used_statuses_only] != "0"
 
     statuses_for_form
 
@@ -57,21 +57,21 @@ class WorkflowsController < ApplicationController
   def update
     call = Workflows::BulkUpdateService
            .new(role: @role, type: @type)
-           .call(params['status'])
+           .call(params["status"])
 
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'edit', role_id: @role, type_id: @type
+      redirect_to action: "edit", role_id: @role, type_id: @type
     end
   end
 
   def copy
-    @source_type = if params[:source_type_id].blank? || params[:source_type_id] == 'any'
+    @source_type = if params[:source_type_id].blank? || params[:source_type_id] == "any"
                      nil
                    else
                      ::Type.find(params[:source_type_id])
                    end
-    @source_role = if params[:source_role_id].blank? || params[:source_role_id] == 'any'
+    @source_role = if params[:source_role_id].blank? || params[:source_role_id] == "any"
                      nil
                    else
                      eligible_roles.find(params[:source_role_id])
@@ -88,16 +88,16 @@ class WorkflowsController < ApplicationController
       else
         Workflow.copy(@source_type, @source_role, @target_types, @target_roles)
         flash[:notice] = I18n.t(:notice_successful_update)
-        redirect_to action: 'copy', source_type_id: @source_type, source_role_id: @source_role
+        redirect_to action: "copy", source_type_id: @source_type, source_role_id: @source_role
       end
     end
   end
 
   def default_breadcrumb
-    if action_name == 'edit'
-      t('label_workflow')
+    if action_name == "edit"
+      t("label_workflow")
     else
-      ActionController::Base.helpers.link_to(t('label_workflow'), url_for(controller: '/workflows', action: 'edit'))
+      ActionController::Base.helpers.link_to(t("label_workflow"), url_for(controller: "/workflows", action: "edit"))
     end
   end
 
@@ -118,9 +118,9 @@ class WorkflowsController < ApplicationController
   def workflows_for_form
     workflows = Workflow.where(role_id: @role.id, type_id: @type.id)
     @workflows = {}
-    @workflows['always'] = workflows.select { |w| !w.author && !w.assignee }
-    @workflows['author'] = workflows.select(&:author)
-    @workflows['assignee'] = workflows.select(&:assignee)
+    @workflows["always"] = workflows.select { |w| !w.author && !w.assignee }
+    @workflows["author"] = workflows.select(&:author)
+    @workflows["assignee"] = workflows.select(&:assignee)
   end
 
   def find_roles

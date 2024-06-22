@@ -31,11 +31,11 @@ class Forum < ApplicationRecord
   has_many :topics, -> {
     where("#{Message.table_name}.parent_id IS NULL")
       .order("#{Message.table_name}.sticky DESC")
-  }, class_name: 'Message'
+  }, class_name: "Message"
   has_many :messages, -> {
     order("#{Message.table_name}.sticky DESC")
   }, dependent: :destroy
-  belongs_to :last_message, class_name: 'Message'
+  belongs_to :last_message, class_name: "Message"
   acts_as_list scope: :project_id
   acts_as_watchable permission: :view_messages
 

@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Cost report in subproject', :js do
+RSpec.describe "Cost report in subproject", :js do
   let!(:project) { create(:project) }
   let!(:subproject) { create(:project, parent: project) }
 
@@ -15,13 +15,13 @@ RSpec.describe 'Cost report in subproject', :js do
     visit project_path(subproject)
   end
 
-  it 'provides filtering' do
-    within '#main-menu' do
-      click_on 'Time and costs'
+  it "provides filtering" do
+    within "#main-menu" do
+      click_on "Time and costs"
     end
 
-    within '#content' do
-      expect(page).to have_content 'New cost report'
+    within "#content" do
+      expect(page).to have_content "New cost report"
     end
   end
 end

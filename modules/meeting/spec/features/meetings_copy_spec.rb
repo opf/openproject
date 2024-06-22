@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Meetings copy', :js, :with_cuprite do
+RSpec.describe "Meetings copy", :js, :with_cuprite do
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   shared_let(:permissions) { %i[view_meetings create_meetings] }
   shared_let(:user) do
     create(:user,
            member_with_permissions: { project => permissions }).tap do |u|
-      u.pref[:time_zone] = 'UTC'
+      u.pref[:time_zone] = "UTC"
 
       u.save!
     end
@@ -51,8 +51,8 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
     create(:meeting,
            author: user,
            project:,
-           title: 'Awesome meeting!',
-           location: 'Meeting room',
+           title: "Awesome meeting!",
+           location: "Meeting room",
            duration:,
            start_time:).tap do |m|
       create(:meeting_agenda, meeting: m, text: agenda_text)
@@ -66,37 +66,35 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
     start_of_meeting = start_time.strftime(twelve_hour_format)
     end_of_meeting = (start_time + meeting.duration.hours).strftime(twelve_hour_format)
 
-    "Time: #{date} #{start_of_meeting} - #{end_of_meeting} (GMT+00:00) UTC"
+    "Start time: #{date} #{start_of_meeting} - #{end_of_meeting} (GMT+00:00) UTC"
   end
 
   before do
     login_as user
   end
 
-  it 'copying a meeting' do
+  it "copying a meeting" do
     visit project_meetings_path(project)
 
-    click_link meeting.title
+    click_on meeting.title
 
-    find_test_selector('meetings-more-dropdown-menu').click
-    page.within('.menu-drop-down-container') do
-      click_link 'Copy'
+    find_test_selector("meetings-more-dropdown-menu").click
+    page.within(".menu-drop-down-container") do
+      click_on "Copy"
     end
 
     expect(page)
-      .to have_field 'Title',      with: meeting.title
+      .to have_field "Title",      with: meeting.title
     expect(page)
-      .to have_field 'Location',   with: meeting.location
+      .to have_field "Location",   with: meeting.location
     expect(page)
-      .to have_field 'Duration',   with: meeting.duration
+      .to have_field "Duration",   with: meeting.duration
     expect(page)
-      .to have_field 'Start date', with: (start_time + 1.week).strftime("%Y-%m-%d")
+      .to have_field "Start date", with: (start_time + 1.week).strftime("%Y-%m-%d")
     expect(page)
-      .to have_field 'Time',       with: start_time.strftime("%H:%M")
+      .to have_field "Time",       with: start_time.strftime("%H:%M")
 
-    choose 'Classic'
-
-    click_button "Create"
+    click_on "Create"
 
     # Be on the new meeting's page with copied over attributes
     expect(page).to have_no_current_path meeting_path(meeting.id)
@@ -121,12 +119,12 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
       .to have_content "Attendees:"
 
     # Copies the agenda
-    click_link "Agenda"
+    click_on "Agenda"
     expect(page)
       .to have_content agenda_text
 
     # Adds an entry to the history
-    click_link "History"
+    click_on "History"
     expect(page)
       .to have_content("Copied from Meeting ##{meeting.id}")
   end

@@ -29,11 +29,38 @@
 class Queries::Projects::ProjectQuery < ApplicationRecord
   include Queries::BaseQuery
   include Queries::Serialization::Hash
+  include HasMembers
+  include ::Scopes::Scoped
 
   belongs_to :user
 
   serialize :filters, coder: Queries::Serialization::Filters.new(self)
   serialize :orders, coder: Queries::Serialization::Orders.new(self)
+  serialize :selects, coder: Queries::Serialization::Selects.new(self)
+
+  scope :public_lists, -> { where(public: true) }
+  scope :private_lists, ->(user: User.current) { where(public: false, user:) }
+
+  scope :visible, ->(user = User.current) {
+                    allowed_to(user, :view_project_query)
+                  }
+
+  scopes :allowed_to
+
+  def visible?(user = User.current)
+    public? ||
+    user == self.user ||
+    user.allowed_in_project_query?(:view_project_query, self)
+  end
+
+  def editable?(user = User.current)
+    # non public queries can only be edited by the owner
+    (!public? && user == self.user) ||
+    # public queries can be edited by users with the global permission (regardless of ownership)
+    (public? && user.allowed_globally?(:manage_public_project_queries)) ||
+    # or by users with the edit permission on the query
+    user.allowed_in_project_query?(:edit_project_query, self)
+  end
 
   def self.model
     Project

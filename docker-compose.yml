@@ -1,5 +1,3 @@
-version: '3.8'
-
 networks:
   network:
   testing:
@@ -48,11 +46,14 @@ x-op-backend: &backend
     OPENPROJECT_WEB_MAX__THREADS: 1
     OPENPROJECT_WEB_MIN__THREADS: 1
     OPENPROJECT_WEB_WORKERS: 0
+    PIDFILE: /home/dev/openproject/tmpfs/pids/server.pid
   volumes:
     - ".:/home/dev/openproject"
     - "opdata:/var/openproject/assets"
     - "bundle:/usr/local/bundle"
     - "tmp:/home/dev/openproject/tmp"
+  tmpfs:
+    - /home/dev/openproject/tmpfs/pids:uid=$DEV_UID,gid=$DEV_GID
   networks:
     - network
 
@@ -68,7 +69,7 @@ services:
 
   worker:
     <<: *backend
-    command: bundle exec rake jobs:work
+    command: bundle exec good_job start
     depends_on:
       - db
       - cache

@@ -38,7 +38,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { fromEvent, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
 import { States } from 'core-app/core/states/states.service';
@@ -77,6 +77,10 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
   @Input() public allowUploading = true;
 
   @Input() public destroyImmediately = true;
+
+  @Input() public externalUploadButton:string|null = null;
+
+  @Input() public showTimestamp = true;
 
   public attachments$:Observable<IAttachment[]>;
 
@@ -144,6 +148,14 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     if (!(this.resource instanceof HalResource)) {
       // Parse the resource if any exists
       this.resource = this.halResourceService.createHalResource(this.resource, true);
+    }
+
+    if (this.externalUploadButton) {
+      fromEvent(document.querySelector(this.externalUploadButton) as Element, 'click')
+        .pipe(
+          this.untilDestroyed(),
+        )
+        .subscribe(() => this.triggerFileInput());
     }
 
     this.states.forResource(this.resource)!.changes$()

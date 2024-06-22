@@ -129,7 +129,7 @@ module Grids
     end
 
     def run_registration_validations
-      validations = config.validations(model, self.class.name.demodulize.gsub('Contract', '').underscore.to_sym)
+      validations = config.validations(model, self.class.name.demodulize.gsub("Contract", "").underscore.to_sym)
 
       validations.each do |validation|
         instance_eval(&validation)

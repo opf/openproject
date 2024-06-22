@@ -4,19 +4,19 @@ http_interactions:
     method: post
     uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
     body:
-      encoding: UTF-8
-      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default
+      encoding: ASCII-8BIT
+      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default+offline_access&client_id=4262df2b-77bb-49c2-a5df-28355da676d2&client_secret=Vwk8Q%7EJTuPh.pAjvPiWBQBdTFMDK%7EAIwxbj9_axB
     headers:
       User-Agent:
-      - Rack::OAuth2 (2.2.1)
-      Authorization:
-      - Basic <BASIC_AUTH>
-      Content-Type:
-      - application/x-www-form-urlencoded
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      - httpx.rb/1.2.4
       Accept:
       - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '201'
   response:
     status:
       code: 200
@@ -37,101 +37,45 @@ http_interactions:
       P3p:
       - CP="DSP CUR OTPi IND OTRi ONL FIN"
       X-Ms-Request-Id:
-      - 7a1cb3f1-4f5d-4c69-ba3f-eb4e1b067e00
+      - 7b9c2a3b-6b35-4d14-beb2-af5c0bff2c00
       X-Ms-Ests-Server:
-      - 2.1.17122.3 - FRC ProdSlices
+      - 2.1.17846.6 - NEULR1 ProdSlices
+      X-Ms-Srs:
+      - 1.P
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - fpc=AoFOY2TLdrRMslOCNslu3yikbDoXAQAAAMzaSt0OAAAA; expires=Thu, 29-Feb-2024
-        11:55:57 GMT; path=/; secure; HttpOnly; SameSite=None
-      - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
-      - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
+      - fpc=Aoe3j1UDTmlElQnMOPlZuEOkbDoXAQAAABtVuN0OAAAA; expires=Wed, 22-May-2024
+        12:54:52 GMT; path=/; secure; HttpOnly; SameSite=None, x-ms-gateway-slice=estsfd;
+        path=/; secure; samesite=none; httponly, stsservicecookie=estsfd; path=/;
+        secure; samesite=none; httponly
       Date:
-      - Tue, 30 Jan 2024 11:55:57 GMT
+      - Mon, 22 Apr 2024 12:54:51 GMT
       Content-Length:
-      - '1708'
+      - '1735'
     body:
       encoding: UTF-8
       string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
-  recorded_at: Tue, 30 Jan 2024 11:55:57 GMT
+  recorded_at: Mon, 22 Apr 2024 12:54:52 GMT
 - request:
     method: post
     uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root/children
     body:
       encoding: UTF-8
-      string: '{"name":"Földer CreatedBy Çommand","folder":{},"@microsoft.graph.conflictBehavior":"fail"}'
+      string: '{"name":"Folder","folder":{},"@microsoft.graph.conflictBehavior":"fail"}'
     headers:
-      Authorization:
-      - Bearer <BEARER TOKEN>
-      Accept:
-      - application/json
       Content-Type:
       - application/json
       User-Agent:
-      - httpx.rb/1.2.1
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
       Accept-Encoding:
       - gzip, deflate
       Content-Length:
-      - '92'
-  response:
-    status:
-      code: 201
-      message: Created
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
-      Content-Encoding:
-      - gzip
-      Etag:
-      - '"{1DE12AE8-38C4-4668-B83B-25A73381CBEB},1"'
-      Location:
-      - https://finn.sharepoint.com/_api/v2.0/drives('b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs')/items('root')/children('01AZJL5PPIFLQR3RBYNBDLQOZFU4ZYDS7L')
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - 3a26d83e-692f-43e9-96ef-fbeb5fb8d9f9
-      Client-Request-Id:
-      - 3a26d83e-692f-43e9-96ef-fbeb5fb8d9f9
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF00000449"}}'
-      Odata-Version:
-      - '4.0'
-      Date:
-      - Tue, 30 Jan 2024 11:55:57 GMT
-    body:
-      encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/root/children/$entity","@odata.etag":"\"{1DE12AE8-38C4-4668-B83B-25A73381CBEB},1\"","createdDateTime":"2024-01-30T11:55:58Z","eTag":"\"{1DE12AE8-38C4-4668-B83B-25A73381CBEB},1\"","id":"01AZJL5PPIFLQR3RBYNBDLQOZFU4ZYDS7L","lastModifiedDateTime":"2024-01-30T11:55:58Z","name":"F\u00f6lder
-        CreatedBy \u00c7ommand","size":0,"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/F%C3%B6lder%20CreatedBy%20%C3%87ommand","cTag":"\"c:{1DE12AE8-38C4-4668-B83B-25A73381CBEB},0\"","commentSettings":{"commentingDisabled":{"isDisabled":false}},"createdBy":{"application":{"displayName":"OpenProject
-        Dev App","id":"4262df2b-77bb-49c2-a5df-28355da676d2"},"user":{"displayName":"SharePoint
-        App"}},"lastModifiedBy":{"application":{"displayName":"OpenProject Dev App","id":"4262df2b-77bb-49c2-a5df-28355da676d2"},"user":{"displayName":"SharePoint
-        App"}},"parentReference":{"driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","driveType":"documentLibrary","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:","sharepointIds":{"listId":"f3baf95b-362b-4740-80d8-4f593d28f5ec","listItemUniqueId":"049e81d0-52fb-4624-af6d-96611c29a9cc","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50","siteUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests","tenantId":"4d44bf36-9b56-45c0-8807-bbf386dd047f","webId":"7ef259e8-8eed-4645-920a-8b367bb0d8e0"}},"fileSystemInfo":{"createdDateTime":"2024-01-30T11:55:58Z","lastModifiedDateTime":"2024-01-30T11:55:58Z"},"folder":{"childCount":0}}'
-  recorded_at: Tue, 30 Jan 2024 11:55:57 GMT
-- request:
-    method: post
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root/children
-    body:
-      encoding: UTF-8
-      string: '{"name":"Földer CreatedBy Çommand","folder":{},"@microsoft.graph.conflictBehavior":"fail"}'
-    headers:
+      - '72'
       Authorization:
       - Bearer <BEARER TOKEN>
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.1
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Length:
-      - '92'
   response:
     status:
       code: 409
@@ -139,8 +83,6 @@ http_interactions:
     headers:
       Cache-Control:
       - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
       Content-Type:
       - application/json
       Content-Encoding:
@@ -150,53 +92,15 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - da735664-6ad3-485f-a498-05f66398a82f
+      - 80784f71-6a84-4b33-96a5-7e972867f8ca
       Client-Request-Id:
-      - da735664-6ad3-485f-a498-05f66398a82f
+      - 80784f71-6a84-4b33-96a5-7e972867f8ca
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002D9"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"004","RoleInstance":"FR2PEPF00000406"}}'
       Date:
-      - Tue, 30 Jan 2024 11:55:57 GMT
+      - Mon, 22 Apr 2024 12:54:51 GMT
     body:
       encoding: UTF-8
-      string: '{"error":{"code":"nameAlreadyExists","message":"Name already exists","innerError":{"date":"2024-01-30T11:55:58","request-id":"da735664-6ad3-485f-a498-05f66398a82f","client-request-id":"da735664-6ad3-485f-a498-05f66398a82f"}}}'
-  recorded_at: Tue, 30 Jan 2024 11:55:58 GMT
-- request:
-    method: delete
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PPIFLQR3RBYNBDLQOZFU4ZYDS7L
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Authorization:
-      - Bearer <BEARER TOKEN>
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.1
-      Accept-Encoding:
-      - gzip, deflate
-  response:
-    status:
-      code: 204
-      message: No Content
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - faaceacd-8ff4-4960-a6e5-4f1f70ab69d0
-      Client-Request-Id:
-      - faaceacd-8ff4-4960-a6e5-4f1f70ab69d0
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002C3"}}'
-      Date:
-      - Tue, 30 Jan 2024 11:55:57 GMT
-    body:
-      encoding: UTF-8
-      string: ''
-  recorded_at: Tue, 30 Jan 2024 11:55:58 GMT
+      string: '{"error":{"code":"nameAlreadyExists","message":"Name already exists","innerError":{"date":"2024-04-22T12:54:52","request-id":"80784f71-6a84-4b33-96a5-7e972867f8ca","client-request-id":"80784f71-6a84-4b33-96a5-7e972867f8ca"}}}'
+  recorded_at: Mon, 22 Apr 2024 12:54:52 GMT
 recorded_with: VCR 6.2.0

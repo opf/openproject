@@ -29,14 +29,13 @@
 module ::Gantt
   class DefaultQueryGeneratorService
     DEFAULT_QUERY = :all_open
-    QUERY_MAPPINGS = {
-      DEFAULT_QUERY => I18n.t('js.queries.all_open'),
-      :milestones => I18n.t('js.queries.milestones')
-    }.freeze
-    QUERY_OPTIONS = QUERY_MAPPINGS.keys
+    QUERY_OPTIONS = [
+      DEFAULT_QUERY,
+      :milestones
+    ].freeze
 
     PROJECT_DEFAULT_COLUMNS = %w[id type subject status startDate dueDate duration].freeze
-    GLOBAL_DEFAULT_COLUMNS = %w[id type subject status startDate dueDate duration project].freeze
+    GLOBAL_DEFAULT_COLUMNS = %w[id project type subject status startDate dueDate duration].freeze
 
     DEFAULT_PARAMS =
       {
@@ -44,7 +43,7 @@ module ::Gantt
         tzl: "auto",
         tv: true,
         hi: true,
-        t: 'start_date:asc'
+        t: "start_date:asc"
       }.to_json.freeze
 
     attr_reader :project
@@ -71,7 +70,7 @@ module ::Gantt
       def all_open_query(project)
         default_with_filter = add_columns(project)
 
-        default_with_filter['f'] = [{ 'n' => 'status', 'o' => 'o', 'v' => [] }]
+        default_with_filter["f"] = [{ "n" => "status", "o" => "o", "v" => [] }]
 
         default_with_filter
       end
@@ -82,7 +81,7 @@ module ::Gantt
         milestones = milestone_ids(project)
         return if milestones.empty?
 
-        default_with_filter['f'] = [{ 'n' => 'type', 'o' => '=', 'v' => milestones }]
+        default_with_filter["f"] = [{ "n" => "type", "o" => "=", "v" => milestones }]
         default_with_filter
       end
 
@@ -90,11 +89,11 @@ module ::Gantt
         default_with_filter = JSON
           .parse(Gantt::DefaultQueryGeneratorService::DEFAULT_PARAMS)
 
-        default_with_filter['c'] = if project.present?
-          Gantt::DefaultQueryGeneratorService::PROJECT_DEFAULT_COLUMNS
-        else
-          Gantt::DefaultQueryGeneratorService::GLOBAL_DEFAULT_COLUMNS
-        end
+        default_with_filter["c"] = if project.present?
+                                     Gantt::DefaultQueryGeneratorService::PROJECT_DEFAULT_COLUMNS
+                                   else
+                                     Gantt::DefaultQueryGeneratorService::GLOBAL_DEFAULT_COLUMNS
+                                   end
 
         default_with_filter
       end
@@ -111,11 +110,11 @@ module ::Gantt
         if project.present?
           ::Type
             .enabled_in(project.id)
-            .where(name: I18n.t('seeds.standard.types.item_2.name', default: 'Phase'))
+            .where(name: I18n.t("seeds.standard.types.item_2.name", default: "Phase"))
             .pluck(:id)
             .map(&:to_s)
         else
-          ::Type.where(name: 'Phase').pluck(:id).map(&:to_s)
+          ::Type.where(name: "Phase").pluck(:id).map(&:to_s)
         end
       end
     end

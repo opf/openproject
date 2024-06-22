@@ -47,11 +47,9 @@
 .dropdown .dropdown-panel,
 .drop-down .menu-drop-down-container
   list-style: none
-  background: #FFF
-  border: solid 1px #DDD
-  border: solid 1px rgba(0, 0, 0, .2)
+  background: var(--overlay-bgColor)
   border-radius: 0
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+  box-shadow: var(--shadow-floating-medium)
   overflow: visible
   padding: 3px 0
   margin: 0
@@ -77,7 +75,7 @@
     margin: 0
     background: 0
     border: 1px solid transparent
-    color: var(--context-menu-unselected-font-color)
+    color: var(--body-font-color)
     text-decoration: none
     padding: 4px 13px 4px 10px
     white-space: nowrap
@@ -86,7 +84,7 @@
     text-align: left
 
     &:not(.inactive):hover
-      background-color: #F0F0F0
+      background-color: var(--control-transparent-bgColor-hover)
       cursor: pointer
       border-color: var(--list-item-hover--border-color)
       color: var(--list-item-hover--color)
@@ -99,7 +97,7 @@
       margin-left: 19.09px //for whatever reasons it is the right dimension
 
   LI > .inactive
-    color: var(--color-fg-subtle)
+    color: var(--fgColor-muted)
 
   LI > .selected
     background: var(--drop-down-selected-bg-color)
@@ -139,7 +137,7 @@
 
 .dropdown LI > A.dropdown-menu-hasicons
   display: block
-  color: var(--context-menu-unselected-font-color)
+  color: var(--body-font-color)
   text-decoration: none
   padding: 3px 10px
   white-space: nowrap

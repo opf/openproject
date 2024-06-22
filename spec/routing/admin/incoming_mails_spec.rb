@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'admin incoming_mails routes' do
+RSpec.describe "admin incoming_mails routes" do
   it do
-    expect(get('admin/settings/incoming_mails'))
-      .to route_to('admin/settings/incoming_mails_settings#show')
+    expect(get("admin/settings/incoming_mails"))
+      .to route_to("admin/settings/incoming_mails_settings#show")
   end
 
   it do
-    expect(patch('admin/settings/incoming_mails'))
-      .to route_to('admin/settings/incoming_mails_settings#update')
+    expect(patch("admin/settings/incoming_mails"))
+      .to route_to("admin/settings/incoming_mails_settings#update")
   end
 end

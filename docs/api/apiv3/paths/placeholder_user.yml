@@ -1,0 +1,161 @@
+# /api/v3/placeholder_users/{id}
+---
+delete:
+  summary: Delete placeholder user
+  operationId: delete_placeholder_user
+  description: Set the specified placeholder user to deleted status.
+  tags:
+    - Principals
+  parameters:
+    - description: Placeholder user id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '202':
+      description: |-
+        Returned if the group was marked for deletion.
+
+        Note that the response body is empty as of now. In future versions of the API a body
+        *might* be returned, indicating the progress of deletion.
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to delete the account of this user.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `manage_placeholder_users`
+    '404':
+      description: Returned if the placeholder user does not exist.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified placeholder user does not exist.
+
+get:
+  summary: View placeholder user
+  operationId: view_placeholder_user
+  description: Return the placeholder user resource.
+  tags:
+    - Principals
+  parameters:
+    - description: The placeholder user id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/placeholder_user_model.yml'
+          examples:
+            'placeholder user response':
+              $ref: '../components/examples/placeholder-user-response.yml'
+      description: OK
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified placeholder user does not exist or you do not have permission to view them.
+      description: |-
+        Returned if the user does not exist or if the API user does not have permission to view them.
+
+        **Required permission**: `manage_placeholder_users`
+
+patch:
+  summary: Update placeholder user
+  operationId: update_placeholder_user
+  tags:
+    - Principals
+  description: |-
+    Updates the placeholder user's writable attributes.
+    When calling this endpoint the client provides a single object, containing at least the properties and links
+    that are required, in the body.
+  parameters:
+    - description: Placeholder user id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/placeholder_user_create_model.yml'
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/placeholder_user_model.yml'
+      description: OK
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to update the account of this user.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission**: `manage_placeholder_users`
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+              _type: Error
+              errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+              message: The specified placeholder user does not exist.
+      description: |-
+        Returned if the placeholder user does not exist.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: name
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Name has already been taken.
+      description: |-
+        Returned if:
+
+        - the client tries to modify a read-only property (`PropertyIsReadOnly`)
+        - a constraint for a property was violated (`PropertyConstraintViolation`)

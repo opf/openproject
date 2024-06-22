@@ -26,33 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Localization', with_settings: { login_required?: false,
+RSpec.describe "Localization", with_settings: { login_required?: false,
                                                 available_languages: %w[de en],
-                                                default_language: 'en' } do
-  context 'with a HTTP header Accept-Language having a valid supported language' do
+                                                default_language: "en" } do
+  context "with a HTTP header Accept-Language having a valid supported language" do
     before do
-      Capybara.current_session.driver.header('Accept-Language', 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3')
+      Capybara.current_session.driver.header("Accept-Language", "de,de-de;q=0.8,en-us;q=0.5,en;q=0.3")
     end
 
-    it 'uses the language from HTTP header Accept-Language' do
+    it "uses the language from HTTP header Accept-Language" do
       visit projects_path
 
       expect(page)
-        .to have_content('Projekte')
+        .to have_content("Projekte")
     end
   end
 
-  context 'with a HTTP header Accept-Language having an unsupported language' do
+  context "with a HTTP header Accept-Language having an unsupported language" do
     before do
-      Capybara.current_session.driver.header('Accept-Language', 'zz')
+      Capybara.current_session.driver.header("Accept-Language", "zz")
     end
 
-    it 'uses the default language configured in administration' do
+    it "uses the default language configured in administration" do
       visit projects_path
 
-      expect(page).to have_content('Projects')
+      expect(page).to have_content("Projects")
     end
   end
 end

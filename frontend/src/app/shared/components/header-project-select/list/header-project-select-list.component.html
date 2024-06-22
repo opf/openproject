@@ -1,6 +1,6 @@
 <li
   class="spot-list--item"
-  *ngFor="let project of projects; index as i; first as isFirst; last as isLast"
+  *ngFor="let project of filteredProjects; index as i; first as isFirst; last as isLast"
   data-test-selector="op-header-project-select--item"
   [attr.data-list-selector]="projectListItemIdentifier"
 >
@@ -19,8 +19,18 @@
   <span
     class="spot-list--item-title spot-list--item-title_ellipse-text"
     data-test-selector="op-header-project-select--item-title"
-    [opSearchHighlight]="searchText"
-  >{{ project.name }}</span>
+  >
+    <span
+      [opSearchHighlight]="searchText"
+      [textContent]="project.name"></span>
+
+    <svg
+      *ngIf="favored?.includes(project.id.toString())"
+      star-fill-icon
+      class="op-primer--star-icon"
+      size="small"
+    ></svg>
+  </span>
   </a>
   <span
     *ngIf="project.disabled"
@@ -39,6 +49,8 @@
     *ngIf="project.children.length"
     op-header-project-select-list
     [projects]="project.children"
+    [displayMode]="displayMode"
+    [favored]="favored"
     [selected]="selected"
     [searchText]="searchText"
   ></ul>

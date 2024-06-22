@@ -51,7 +51,7 @@ module API
 
           {
             href: api_v3_paths.show_user(represented.id),
-            type: 'text/html'
+            type: "text/html"
           }
         end
 
@@ -159,7 +159,7 @@ module API
 
         property :identity_url,
                  exec_context: :decorator,
-                 as: 'identityUrl',
+                 as: "identityUrl",
                  getter: ->(*) { represented.identity_url },
                  setter: ->(fragment:, represented:, **) { represented.identity_url = fragment },
                  render_nil: true,
@@ -184,7 +184,7 @@ module API
         ##
         # Used while parsing JSON to initialize `ldap_auth_source_id` through the given link.
         def initialize_embedded_links!(data)
-          ldap_auth_source_id = parse_auth_source_id data, "auth_source"
+          ldap_auth_source_id = parse_auth_source_id(data, "authSource") || parse_auth_source_id(data, "auth_source")
 
           if ldap_auth_source_id
             auth_source = LdapAuthSource.find_by_unique(ldap_auth_source_id) # rubocop:disable Rails/DynamicFindBy
@@ -220,7 +220,7 @@ module API
         end
 
         def _type
-          'User'
+          "User"
         end
 
         def current_user_can_delete_represented?

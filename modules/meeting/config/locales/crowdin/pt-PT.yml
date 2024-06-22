@@ -1,0 +1,223 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+pt-PT:
+  plugin_openproject_meeting:
+    name: "Reunião do OpenProject"
+    description: >-
+      Este módulo adiciona ao OpenProject funções de apoio às reuniões de projeto. As reuniões podem ser agendadas selecionando convidados do mesmo projeto para participarem na reunião. Uma agenda pode ser criada e enviada para os convidados. Após a reunião, os participantes podem ser selecionados e as minutas podem ser criadas com base na agenda. Por fim, as minutas podem ser enviadas  para todos os participantes e convidados.
+  activerecord:
+    attributes:
+      meeting:
+        type: "Tipo de Reunião"
+        location: "Localização"
+        duration: "Duração"
+        notes: "Notas"
+        participants: "Participantes"
+        participant:
+          one: "1 Participante"
+          other: "%{count} Participantes"
+        participants_attended: "Participantes"
+        participants_invited: "Convidados"
+        project: "Projeto"
+        start_date: "Data"
+        start_time: "Hora de início"
+        start_time_hour: "Hora de início"
+      meeting_agenda_item:
+        title: "Título"
+        author: "Autor"
+        duration_in_minutes: "min"
+        description: "Notas"
+        presenter: "Apresentador"
+      meeting_section:
+        title: "Título"
+    errors:
+      messages:
+        invalid_time_format: "não é uma hora válida. Formato exigido: HH:MM"
+    models:
+      structured_meeting: "Reunião (dinâmica)"
+      meeting_agenda_item: "Pontos da ordem de trabalhos"
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Minutos"
+      meeting_section: "Secção"
+  activity:
+    filter:
+      meeting: "Reuniões"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "definido como %{value}"
+          added_html: "definido como <i>%{value}</i>"
+          removed: "removido"
+          updated: "alterado de %{old_value} para %{value}"
+          updated_html: "alterado de <i>%{old_value}</i> para <i>%{value}</i>"
+        position:
+          updated: "reordenado"
+        work_package:
+          updated: "alterado de %{old_value} para %{value}"
+          updated_html: "alterado de <i>%{old_value}</i> para <i>%{value}</i>"
+  description_attended: "participantes"
+  description_invite: "convidados"
+  events:
+    meeting: Reunião editada
+    meeting_agenda: Agenda de reunião editada
+    meeting_agenda_closed: Agenda de reunião fechada
+    meeting_agenda_opened: Agenda de reunião aberta
+    meeting_minutes: Minutos de reunião editados
+    meeting_minutes_created: Minutos de reunião criados
+  error_notification_with_errors: "Falha ao enviar a notificação. Os seguintes destinatários não podem ser notificados: %{recipients}"
+  label_meeting: "Reunião"
+  label_meeting_plural: "Reuniões"
+  label_meeting_new: "Nova reunião"
+  label_meeting_edit: "Editar a reunião"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Minutos"
+  label_meeting_close: "Fechar"
+  label_meeting_open: "Abrir"
+  label_meeting_agenda_close: "Fechar a agenda para começar os minutos"
+  label_meeting_date_time: "Data/Hora"
+  label_meeting_diff: "Diferença"
+  label_upcoming_meetings: "Próximas reuniões"
+  label_past_meetings: "Reuniões anteriores"
+  label_upcoming_meetings_short: "Próximas"
+  label_past_meetings_short: "Passado"
+  label_involvement: "Envolvimento"
+  label_upcoming_invitations: "Próximos convites"
+  label_past_invitations: "Convites anteriores"
+  label_attendee: "Participante"
+  label_author: "Criador"
+  label_notify: "Enviar para revisão"
+  label_icalendar: "Enviar iCalendar"
+  label_icalendar_download: "Transferir evento iCalendar"
+  label_version: "Versão"
+  label_time_zone: "Fuso horário"
+  label_start_date: "Data de início"
+  meeting:
+    attachments:
+      text: "Os ficheiros anexados estão disponíveis para todos os participantes na reunião. Também pode arrastar e soltar estes ficheiros nas notas do item da agenda."
+    copy:
+      title: "Copiar reunião: %{title}"
+      attachments: "Copiar anexos"
+      attachments_text: "Copiar todos os ficheiros anexados para a nova reunião"
+      agenda: "Copiar agenda"
+      agenda_text: "Copiar agenda da reunião anterior"
+    email:
+      send_emails: "Enviar e-mails"
+      send_invitation_emails: "Enviar e-mails de convite após a criação"
+      open_meeting_link: "Entrar na Reunião"
+      invited:
+        summary: "%{actor} enviou-lhe um convite para a reunião %{title}"
+      rescheduled:
+        header: "A reunião %{title} foi remarcada"
+        summary: "Reunião %{title} foi remarcada por %{actor}"
+        body: "A reunião %{title} foi remarcada por %{actor}"
+        old_date_time: "Data/hora antiga"
+        new_date_time: "Nova data/hora"
+    label_mail_all_participants: "Enviar e-mail a todos os participantes"
+    types:
+      classic: "Clássico"
+      classic_text: "Organize a sua reunião numa agenda e protocolo de texto formatáveis."
+      structured: "Dinâmico"
+      structured_text: "Organize a sua reunião como uma lista de itens da agenda, associando-os opcionalmente a um pacote de trabalho."
+      structured_text_copy: "Atualmente, a cópia de uma reunião não copia os itens associados da agenda da reunião, apenas os detalhes"
+    copied: "Copiado da reunião #%{id}"
+  meeting_section:
+    untitled_title: "Secção sem título"
+    delete_confirmation: "A eliminação da secção também irá eliminar os seus pontos da ordem de trabalhos. Tem a certeza de que pretende fazê-lo?"
+    placeholder_title: "Nova secção"
+    empty_text: "Arraste itens para aqui ou crie um novo"
+  notice_successful_notification: "Notificação enviada com sucesso"
+  notice_timezone_missing: Sem fuso horário definido, presume-se %{zone}. Para escolher o seu fuso horário, por favor clique aqui.
+  permission_create_meetings: "Criar reuniões"
+  permission_edit_meetings: "Editar reuniões"
+  permission_delete_meetings: "Apagar reuniões"
+  permission_view_meetings: "Ver reuniões"
+  permission_create_meeting_agendas: "Criar agendas de reuniões"
+  permission_create_meeting_agendas_explanation: "Permite editar o conteúdo da agenda da Reunião Clássica."
+  permission_manage_agendas: "Gerir agendas"
+  permission_manage_agendas_explanation: "Permite gerir os itens da agenda da Reunião Dinâmica."
+  permission_close_meeting_agendas: "Fechar agendas"
+  permission_send_meeting_agendas_notification: "Enviar notificação de revisão para as agendas"
+  permission_create_meeting_minutes: "Gerir minutos"
+  permission_send_meeting_minutes_notification: "Enviar notificação de revisão por minutos"
+  permission_meetings_send_invite: "Convidar utilizadores para reuniões"
+  permission_send_meeting_agendas_icalendar: "Enviar agenda de reunião como entrada na agenda"
+  project_module_meetings: "Reuniões"
+  text_duration_in_hours: "Duração em horas"
+  text_in_hours: "em horas"
+  text_meeting_agenda_for_meeting: 'agenda para a reunião "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Tem a certeza de que deseja fechar a agenda da reunião?"
+  text_meeting_agenda_open_are_you_sure: "Isto irá gravar por cima de todas as alterações nos minutos! Pretende continuar?"
+  text_meeting_minutes_for_meeting: 'minutos para a reunião "%{meeting}"'
+  text_notificiation_invited: "Este e-mail contém uma entrada de ics para a reunião abaixo:"
+  text_meeting_empty_heading: "A sua reunião está vazia"
+  text_meeting_empty_description_1: "Comece por adicionar os itens da agenda abaixo. Cada item pode ser tão simples como um título, mas também pode adicionar detalhes adicionais, como a duração e notas."
+  text_meeting_empty_description_2: 'Também pode adicionar referências a pacotes de trabalho existentes. Ao fazê-lo, as notas relacionadas ficarão automaticamente visíveis no separador "Reuniões" do pacote de trabalho.'
+  label_meeting_empty_action: "Adicionar item da agenda"
+  label_meeting_actions: "Ações da reunião"
+  label_meeting_edit_title: "Editar título da reunião"
+  label_meeting_delete: "Apagar reunião"
+  label_meeting_created_by: "Criado por"
+  label_meeting_last_updated: "Ultima atualização"
+  label_agenda_items: "Pontos da ordem de trabalhos"
+  label_agenda_items_reordered: "reordenados"
+  label_agenda_item_remove: "Remover da ordem de trabalhos"
+  label_agenda_item_undisclosed_wp: "Pacote de trabalho #%{id} não visível"
+  label_agenda_item_deleted_wp: "Referência do pacote de trabalho excluída"
+  label_agenda_item_actions: "Ações dos itens da agenda"
+  label_agenda_item_move_to_top: "Mover para o início"
+  label_agenda_item_move_to_bottom: "Mover para o fim"
+  label_agenda_item_move_up: "Mover para cima"
+  label_agenda_item_move_down: "Mover para baixo"
+  label_agenda_item_add_notes: "Adicionar notas"
+  label_agenda_item_work_package: "Pacote de trabalho do ponto da ordem de trabalhos"
+  text_agenda_item_title: 'Ponto da ordem de trabalhos "%{title}"'
+  text_agenda_work_package_deleted: 'Ponto da ordem de trabalhos para pacote de trabalho eliminado'
+  text_deleted_agenda_item: 'Ponto da ordem de trabalhos eliminado'
+  label_initial_meeting_details: "Reunião"
+  label_meeting_details: "Detalhes da Reunião"
+  label_meeting_details_edit: "Editar detalhes da reunião"
+  label_meeting_state: "Estado da reunião"
+  label_meeting_state_open: "Aberto"
+  label_meeting_state_open_html: "<i>Aberta</i>"
+  label_meeting_state_closed: "Fechado"
+  label_meeting_state_closed_html: "<i>Fechada</i>"
+  label_meeting_reopen_action: "Reabrir reunião"
+  label_meeting_close_action: "Encerrar reunião"
+  text_meeting_open_description: "Esta reunião está aberta. Você pode adicionar/remover itens da agenda e editá-los quando necessário. Após a reunião acabar, feche-a para trancá-la."
+  text_meeting_closed_description: "Esta reunião está encerrada. Você não pode mais adicionar/remover itens da agenda."
+  label_meeting_manage_participants: "Gerir participantes"
+  label_meeting_no_participants: "Sem participantes"
+  label_meeting_show_hide_participants: "Mostrar/ocultar mais %{count}"
+  label_meeting_show_all_participants: "Mostrar todos"
+  label_meeting_add_participants: "Adicionar participantes"
+  text_meeting_not_editable_anymore: "Esta reunião não é mais editável."
+  text_meeting_not_present_anymore: "Esta reunião foi excluída. Por favor, selecione outra reunião."
+  label_add_work_package_to_meeting_dialog_title: "Adicionar pacote de trabalho à reunião"
+  label_add_work_package_to_meeting_dialog_button: "Adicionar à reunião"
+  label_meeting_selection_caption: "Só é possível adicionar este pacote de trabalho a reuniões abertas futuras ou a decorrer."
+  text_add_work_package_to_meeting_description: "Um pacote de trabalho pode ser adicionado a uma ou várias reuniões para discussão. Quaisquer notas relacionadas a ele também serão visíveis aqui."
+  text_agenda_item_no_notes: "Nenhuma nota fornecida."
+  text_agenda_item_not_editable_anymore: "Este item da agenda não pode ser mais editado."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Este pacote de trabalho ainda não está agendado em uma reunião futura."
+  text_work_package_add_to_meeting_hint: 'Use o botão "Adicionar à reunião" para adicionar este pacote de trabalho a uma reunião futura.'
+  text_work_package_has_no_past_meeting_agenda_items: "Este pacote de trabalho não foi mencionado numa reunião anterior."

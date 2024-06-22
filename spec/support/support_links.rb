@@ -29,8 +29,8 @@
 # ++
 
 # rubocop:disable RSpec/ContextWording
-RSpec.shared_context 'support links' do
-  let(:support_link_as_community) { 'https://www.openproject.org/pricing/#support' }
-  let(:support_link_as_enterprise) { 'https://www.openproject.org/docs/enterprise-guide/support/' }
+RSpec.shared_context "support links" do
+  let(:support_link_as_community) { "https://www.openproject.org/pricing/#support" }
+  let(:support_link_as_enterprise) { "https://www.openproject.org/docs/enterprise-guide/support/" }
 end
 # rubocop:enable RSpec/ContextWording

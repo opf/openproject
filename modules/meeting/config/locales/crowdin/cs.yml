@@ -42,13 +42,16 @@ cs:
         participants_invited: "Pozvaní"
         project: "Projekt"
         start_date: "Datum"
-        start_time: "Čas"
-        start_time_hour: "Čas začátku"
-      meeting_agenda_items:
+        start_time: "Čas zahájení"
+        start_time_hour: "Čas zahájení"
+      meeting_agenda_item:
         title: "Název"
-        author: "Odpovědný"
-        duration_in_minutes: "Trvání [min]"
+        author: "Autor"
+        duration_in_minutes: "min"
         description: "Poznámky"
+        presenter: "Přednášející"
+      meeting_section:
+        title: "Název"
     errors:
       messages:
         invalid_time_format: "není platný čas. Požadovaný formát: HH:MM"
@@ -57,9 +60,23 @@ cs:
       meeting_agenda_item: "Pořad jednání"
       meeting_agenda: "Agenda"
       meeting_minutes: "Zápis"
+      meeting_section: "Sekce"
   activity:
     filter:
       meeting: "Schůzky"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "nastavit na %{value}"
+          added_html: "nastavit na <i>%{value}</i>"
+          removed: "odstraněno"
+          updated: "změněno z %{old_value} na %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "přeřazeno"
+        work_package:
+          updated: "změněno z %{old_value} na %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "zúčastněn"
   description_invite: "pozván"
   events:
@@ -97,7 +114,17 @@ cs:
   label_time_zone: "Časové pásmo"
   label_start_date: "Datum zahájení"
   meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+    copy:
+      title: "Kopírovat schůzku %{title}"
+      attachments: "Kopírovat přílohy"
+      attachments_text: "Zkopírujte všechny přiložené soubory do nové schůzky"
+      agenda: "Kopírovat program"
+      agenda_text: "Zkopírujte program staré schůzky"
     email:
+      send_emails: "Odeslat e-maily"
+      send_invitation_emails: "Odeslat e-maily s pozvánkou při vytvoření"
       open_meeting_link: "Otevřít schůzku"
       invited:
         summary: "%{actor} vám poslal pozvánku na schůzku %{title}"
@@ -109,12 +136,17 @@ cs:
         new_date_time: "Nové datum/čas"
     label_mail_all_participants: "Poslat e-mail všem účastníkům"
     types:
-      classic: 'Klasické'
-      classic_text: 'Uspořádat schůzku do formátů textového programu a protokolu.'
-      structured: 'Dynamic'
-      structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
-      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
+      classic: "Klasické"
+      classic_text: "Uspořádat schůzku do formátů textového programu a protokolu."
+      structured: "Dynamická"
+      structured_text: "Uspořádat schůzku jako seznam bodů pořadu jednání, případně je propojit s pracovním balíčkem."
+      structured_text_copy: "Kopírování schůzky v současné době nezkopíruje související body pořadu jednání, jen podrobnosti"
     copied: "Zkopírováno ze schůzky #%{id}"
+  meeting_section:
+    untitled_title: "Sekce bez názvu"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "Nová sekce"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Oznámení bylo úspěšně odesláno"
   notice_timezone_missing: Není nastaveno žádné časové pásmo a předpokládá se %{zone} . Chcete-li vybrat časové pásmo, klikněte prosím zde.
   permission_create_meetings: "Vytvořit schůzku\n"
@@ -141,13 +173,16 @@ cs:
   text_notificiation_invited: "Tento e-mail obsahuje ics záznam pro následující setkání:"
   text_meeting_empty_heading: "Vaše schůzka je prázdná"
   text_meeting_empty_description_1: "Začněte přidáním bodů programu schůzky níže. Každá položka může být tak jednoduchá jako jen název, ale můžete také přidat další podrobnosti jako doba trvání a poznámky."
-  text_meeting_empty_description_2: "Můžete také přidat odkazy na existující pracovní balíčky. Pokud tak učiníte, související poznámky budou automaticky viditelné v záložce \"Schůzky\" pracovního balíčku."
+  text_meeting_empty_description_2: 'Můžete také přidat odkazy na existující pracovní balíčky. Pokud tak učiníte, související poznámky budou automaticky viditelné v záložce "Schůzky" pracovního balíčku.'
   label_meeting_empty_action: "Přidat položku programu"
   label_meeting_actions: "volby pro Schůzku\n"
   label_meeting_edit_title: "Upravit název schůzky"
   label_meeting_delete: "Smazat schůzku"
   label_meeting_created_by: "Vytvořil"
   label_meeting_last_updated: "Naposledy aktualizováno"
+  label_agenda_items: "Bod programu"
+  label_agenda_items_reordered: "přeřazeno"
+  label_agenda_item_remove: "Odebrat z programu"
   label_agenda_item_undisclosed_wp: "Pracovní balíček #%{id} není viditelný"
   label_agenda_item_deleted_wp: "Odstraněna reference pracovního balíčku"
   label_agenda_item_actions: "volby pro body schůzky"
@@ -156,10 +191,18 @@ cs:
   label_agenda_item_move_up: "Přesunout výš"
   label_agenda_item_move_down: "Přesunout níž"
   label_agenda_item_add_notes: "Přidat poznámky"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Bod programu "%{title}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Vymazaný bod programu'
+  label_initial_meeting_details: "Schůzka"
   label_meeting_details: "Podrobnosti o schůzce"
   label_meeting_details_edit: "Upravit podrobnosti schůzky"
+  label_meeting_state: "Stav schůzky"
   label_meeting_state_open: "Otevřít"
+  label_meeting_state_open_html: "<i>Otevřeno</i>"
   label_meeting_state_closed: "Uzavřený"
+  label_meeting_state_closed_html: "<i>Uzavřeno</i>"
   label_meeting_reopen_action: "Znovu otevřít schůzku"
   label_meeting_close_action: "Ukončit schůzku"
   text_meeting_open_description: "Tato schůzka je otevřená. Můžete přidat/odebrat položky programu a upravit je, jak chcete. Po skončení schůzky ji zavřete a uzamkněte ji."
@@ -178,5 +221,5 @@ cs:
   text_agenda_item_no_notes: "Nebyly poskytnuty žádné poznámky"
   text_agenda_item_not_editable_anymore: "Tento bod pořadu jednání již není upravitelný."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Tento pracovní balíček ještě není naplánován na nadcházející program schůzky."
-  text_work_package_add_to_meeting_hint: "Použijte tlačítko \"Přidat do schůzky\" pro přidání tohoto pracovního balíčku na nadcházející schůzku."
+  text_work_package_add_to_meeting_hint: 'Použijte tlačítko "Přidat do schůzky" pro přidání tohoto pracovního balíčku na nadcházející schůzku.'
   text_work_package_has_no_past_meeting_agenda_items: "Tento pracovní balíček nebyl na minulé schůzce zmíněn."

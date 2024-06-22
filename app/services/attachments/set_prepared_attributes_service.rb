@@ -47,7 +47,7 @@ module Attachments
 
       model.extend(OpenProject::ChangedBySystem)
       model.change_by_system do
-        model.downloads = -1
+        model.status = :prepared
         # Set a preliminary content type as the file is not present
         # The content type will be updated by the FinishDirectUploadJob if necessary.
         model.content_type = params[:content_type].presence || OpenProject::ContentTypeDetector::SENSIBLE_DEFAULT

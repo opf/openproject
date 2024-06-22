@@ -65,13 +65,13 @@ module DemoData
     attr_writer :project
 
     def reset_project
-      print_status '   -Creating/Resetting project'
+      print_status "   -Creating/Resetting project"
       delete_project
       create_project
     end
 
     def delete_project
-      project_to_delete = Project.find_by(identifier: project_data.lookup('identifier'))
+      project_to_delete = Project.find_by(identifier: project_data.lookup("identifier"))
       project_to_delete&.destroy
     end
 
@@ -80,7 +80,7 @@ module DemoData
     end
 
     def set_members
-      print_status '   -Setting members.'
+      print_status "   -Setting members."
 
       role = seed_data.find_reference(:default_role_project_admin)
 
@@ -92,43 +92,43 @@ module DemoData
     end
 
     def set_types
-      print_status '   -Assigning types.'
+      print_status "   -Assigning types."
 
-      project.types = seed_data.find_references(project_data.lookup('types'))
+      project.types = seed_data.find_references(project_data.lookup("types"))
     end
 
     def seed_categories
-      print_status '   -Creating categories'
+      print_status "   -Creating categories"
 
-      Array(project_data.lookup('categories')).each do |cat_name|
+      Array(project_data.lookup("categories")).each do |cat_name|
         project.categories.create name: cat_name
       end
     end
 
     def seed_news
-      print_status '   -Creating news.'
+      print_status "   -Creating news."
 
-      project_data.each('news') do |news|
+      project_data.each("news") do |news|
         News.create!(project:,
                      author: admin_user,
-                     title: news['title'],
-                     summary: news['summary'],
-                     description: news['description'])
+                     title: news["title"],
+                     summary: news["summary"],
+                     description: news["description"])
       end
     end
 
     def seed_queries
-      print_status '   -Creating queries.'
+      print_status "   -Creating queries."
 
-      Array(project_data.lookup('queries')).each do |config|
+      Array(project_data.lookup("queries")).each do |config|
         QueryBuilder.new(config, project:, user: admin_user, seed_data:).create!
       end
     end
 
     def seed_versions
-      print_status '   -Creating versions.'
+      print_status "   -Creating versions."
 
-      project_data.each('versions') do |attributes|
+      project_data.each("versions") do |attributes|
         VersionBuilder.new(attributes, project:, user: admin_user, seed_data:).create!
       end
     end
@@ -143,14 +143,14 @@ module DemoData
     end
 
     def project_attributes
-      parent = Project.find_by(identifier: project_data.lookup('parent'))
+      parent = Project.find_by(identifier: project_data.lookup("parent"))
       {
-        name: project_data.lookup('name'),
-        identifier: project_data.lookup('identifier'),
-        status_code: project_data.lookup('status_code'),
-        status_explanation: project_data.lookup('status_explanation'),
-        description: project_data.lookup('description'),
-        enabled_module_names: project_data.lookup('modules'),
+        name: project_data.lookup("name"),
+        identifier: project_data.lookup("identifier"),
+        status_code: project_data.lookup("status_code"),
+        status_explanation: project_data.lookup("status_explanation"),
+        description: project_data.lookup("description"),
+        enabled_module_names: project_data.lookup("modules"),
         types: Type.all,
         parent:
       }

@@ -45,7 +45,7 @@ class DigestMailer < ApplicationMailer
   class << self
     def generate_message_id(_, user)
       hash = "openproject.digest-#{user.id}-#{Time.current.strftime('%Y%m%d%H%M%S')}"
-      host = Setting.mail_from.to_s.gsub(%r{\A.*@}, '')
+      host = Setting.mail_from.to_s.gsub(%r{\A.*@}, "")
       host = "#{::Socket.gethostname}.openproject" if host.empty?
       "#{hash}@#{host}"
     end
@@ -55,7 +55,7 @@ class DigestMailer < ApplicationMailer
     recipient = User.find(recipient_id)
 
     open_project_headers User: recipient.name
-    message_id 'digest', recipient
+    message_id "digest", recipient
 
     @user = recipient
     @notification_ids = notification_ids
@@ -72,11 +72,8 @@ class DigestMailer < ApplicationMailer
 
     return if @aggregated_notifications.empty?
 
-    with_locale_for(recipient) do
-      subject = "#{Setting.app_title} - #{digest_summary_text(notification_ids.size, @mentioned_count)}"
-
-      mail to: recipient.mail,
-           subject:
+    send_localized_mail(recipient) do
+      "#{Setting.app_title} - #{digest_summary_text(notification_ids.size, @mentioned_count)}"
     end
   end
 

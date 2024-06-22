@@ -1,0 +1,67 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+hu:
+  activerecord:
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: "egy hash tömbnek kell lennie a következő kulcsokkal: color, title"
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: "egy hash tömbnek kell lennie a következő kulcsokkal: color, title"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "GitLab tartalom megjelenítése"
+  gitlab_integration:
+    merge_request_opened_comment: >
+      **MR megnyitva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) megnyitva [%{gitlab_user}](%{gitlab_user_url}) által.
+    merge_request_closed_comment: >
+      **MR lezárva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) lezárva [%{gitlab_user}](%{gitlab_user_url}) által.
+    merge_request_merged_comment: >
+      **MR egyesítve:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) egyesítve [%{gitlab_user}](%{gitlab_user_url}) által.
+    merge_request_reopened_comment: >
+      **MR újranyitva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.
+    note_commit_referenced_comment: >
+      **Hivatkozva a következő commitban:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) [%{commit_id}](%{commit_url}) commitban a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: %{commit_note}
+    note_mr_referenced_comment: >
+      **Hivatkozva a következő egyesítési kérelemben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{mr_number}%{mr_title}%{mr_url} MR-ben a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: %{mr_note}
+    note_mr_commented_comment: >
+      **Hozzászólva a következő egyesítési kérelemben:** [%{gitlab_user}](%{gitlab_user_url}) hozzászólt ehhez a WP-hez a(z) %{mr_number}[%{mr_title}]%{mr_url} MR-ben a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: %{mr_note}
+    note_issue_referenced_comment: >
+      **Hivatkozva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{issue_number}[%{issue_title}]%{issue_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{issue_note}
+    note_issue_commented_comment: >
+      **Hozzászólva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hozzászólt ehhez a WP-hez a(z) %{issue_number}[%{issue_title}]%{issue_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{issue_note}
+    note_snippet_referenced_comment: >
+      **Hivatkozva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{snippet_number}[%{snippet_title}]%{snippet_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{snippet_note}
+    issue_opened_referenced_comment: >
+      **Kérdés megnyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) megnyitva [%{gitlab_user}](%{gitlab_user_url}) által.
+    issue_closed_referenced_comment: >
+      **Kérdés lezárva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) lezárva [%{gitlab_user}](%{gitlab_user_url}) által.
+    issue_reopened_referenced_comment: >
+      **Kérdés újranyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.
+    push_single_commit_comment: >
+      **Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}
+    push_multiple_commits_comment: >
+      **Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}

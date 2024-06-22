@@ -12,6 +12,7 @@ value:
         _type: Storage
         name: It's no moon
         hasApplicationPassword: true
+        configured: true
         createdAt: '2021-12-20T13:37:00.211Z'
         updatedAt: '2021-12-20T13:37:00.211Z'
         _links:
@@ -31,6 +32,8 @@ value:
           authorize:
             href: https://nextcloud.deathstar.rocks/authorize/
             title: Authorize
+          projectStorages:
+            href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1337"]}}]
           oauthApplication:
             href: /api/v3/oauth_application/42
             title: It's no moon (Nextcloud)
@@ -39,8 +42,11 @@ value:
       - id: 1338
         _type: Storage
         name: EmpireSharepoint
-        createdAt: '2022-12-21T13:37:00.296Z'
-        updatedAt: '2022-12-21T13:37:00.296Z'
+        tenantId: e36f1dbc-fdae-427e-b61b-0d96ddfb81a4
+        driveId: b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Qconfm2i6SKEoCmuGYqQK
+        createdAt: '2021-12-20T13:37:00.211Z'
+        updatedAt: '2021-12-20T13:37:00.211Z'
+        configured: true
         _links:
           self:
             href: /api/v3/storages/1338
@@ -53,5 +59,7 @@ value:
           authorizationState:
             href: urn:openproject-org:api:v3:storages:authorization:Connected
             title: Connected
+          projectStorages:
+            href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1338"]}}]
           oauthClientCredentials:
             href: /api/v3/oauth_client_credentials/44

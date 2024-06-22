@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/work_packages/abstract_work_package'
-require 'support/pages/work_packages/split_work_package_create'
+require "support/pages/work_packages/abstract_work_package"
+require "support/pages/work_packages/split_work_package_create"
 
 module Pages
   class SplitWorkPackage < Pages::AbstractWorkPackage
     attr_reader :selector
 
     def initialize(work_package, project = nil)
-      super(work_package, project)
-      @selector = '.work-packages--details'
+      super
+      @selector = ".work-packages--details"
     end
 
     def switch_to_fullscreen
-      find('.work-packages--details-fullscreen-icon').click
+      find(".work-packages--details-fullscreen-icon").click
       FullWorkPackage.new(work_package, project)
     end
 
@@ -54,7 +54,7 @@ module Pages
     end
 
     def close
-      find('.work-packages--details-close-icon').click
+      find(".work-packages--details-close-icon").click
     end
 
     def container
@@ -63,7 +63,7 @@ module Pages
 
     protected
 
-    def path(tab = 'overview')
+    def path(tab = "overview")
       state = "#{work_package.id}/#{tab}"
 
       if project

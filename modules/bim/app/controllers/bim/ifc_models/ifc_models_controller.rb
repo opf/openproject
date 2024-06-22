@@ -39,6 +39,8 @@ module Bim
       before_action :authorize, except: %i[direct_upload_finished set_direct_upload_file_name]
       before_action :require_login, only: [:set_direct_upload_file_name]
       skip_before_action :verify_authenticity_token, only: [:set_direct_upload_file_name] # AJAX request in page, so skip authenticity token
+      no_authorization_required! :set_direct_upload_file_name,
+                                 :direct_upload_finished
 
       menu_item :ifc_models
 
@@ -65,6 +67,13 @@ module Bim
       end
 
       def set_direct_upload_file_name
+        if params[:filesize].to_i > Setting.attachment_max_size.to_i.kilobytes
+          render json: { error: I18n.t("activerecord.errors.messages.file_too_large",
+                                       count: Setting.attachment_max_size.to_i.kilobytes) },
+                 status: :unprocessable_entity
+          return
+        end
+
         session[:pending_ifc_model_title] = params[:title]
         session[:pending_ifc_model_is_default] = params[:isDefault]
       end
@@ -110,7 +119,7 @@ module Bim
                                                              whitelist: false
 
           flash[:notice] = if new_model
-                             t('ifc_models.flash_messages.upload_successful')
+                             t("ifc_models.flash_messages.upload_successful")
                            else
                              t(:notice_successful_update)
                            end
@@ -137,7 +146,7 @@ module Bim
         @ifc_model = service_result.result
 
         if service_result.success?
-          flash[:notice] = t('ifc_models.flash_messages.upload_successful')
+          flash[:notice] = t("ifc_models.flash_messages.upload_successful")
           redirect_to action: :index
         else
           render action: :new
@@ -203,7 +212,7 @@ module Bim
       def permitted_model_params
         params
             .require(:bim_ifc_models_ifc_model)
-            .permit('title', 'ifc_attachment', 'is_default')
+            .permit("title", "ifc_attachment", "is_default")
       end
 
       def find_ifc_model_object

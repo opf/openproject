@@ -28,8 +28,9 @@
 
 class PlaceholderUsersController < ApplicationController
   include EnterpriseTrialHelper
-  layout 'admin'
+  layout "admin"
   before_action :authorize_global, except: %i[show]
+  no_authorization_required! :show
 
   before_action :find_placeholder_user, only: %i[show
                                                  edit
@@ -60,7 +61,7 @@ class PlaceholderUsersController < ApplicationController
                      .where(id: Member.visible(current_user))
 
     respond_to do |format|
-      format.html { render layout: 'no_menu' }
+      format.html { render layout: "no_menu" }
     end
   end
 
@@ -153,20 +154,20 @@ class PlaceholderUsersController < ApplicationController
 
   def authorize_deletion
     unless helpers.can_delete_placeholder_user?(@placeholder_user, current_user)
-      render_403 message: I18n.t('placeholder_users.right_to_manage_members_missing')
+      render_403 message: I18n.t("placeholder_users.right_to_manage_members_missing")
     end
   end
 
   def default_breadcrumb
-    if action_name == 'index'
-      t('label_placeholder_user_plural')
+    if action_name == "index"
+      t("label_placeholder_user_plural")
     else
-      ActionController::Base.helpers.link_to(t('label_placeholder_user_plural'),
+      ActionController::Base.helpers.link_to(t("label_placeholder_user_plural"),
                                              placeholder_users_path)
     end
   end
 
   def show_local_breadcrumb
-    action_name != 'show'
+    action_name != "show"
   end
 end

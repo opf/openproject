@@ -251,6 +251,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       this.selectedItem = undefined;
       this.toggleTopMenuClass();
     }
+
+    (<HTMLInputElement>document.activeElement).blur();
   }
 
   public onClose():void {
@@ -465,11 +467,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       }
       this.globalSearchService.submitSearch();
     }
-  }
-
-  public blur():void {
-    this.ngSelectComponent.ngSelectInstance.searchTerm = '';
-    (<HTMLInputElement>document.activeElement).blur();
   }
 
   private get currentScope():string {

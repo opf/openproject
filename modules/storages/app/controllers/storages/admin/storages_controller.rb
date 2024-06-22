@@ -31,10 +31,12 @@
 # Purpose: CRUD the global admin page of Storages (=Nextcloud servers)
 class Storages::Admin::StoragesController < ApplicationController
   using Storages::Peripherals::ServiceResultRefinements
-  include FlashMessagesHelper
+
+  include FlashMessagesOutputSafetyHelper
+  include OpTurbo::ComponentStream
 
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
-  layout 'admin'
+  layout "admin"
 
   # specify which model #find_model_object should look up
   model_object Storages::Storage
@@ -43,17 +45,13 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object,
-                only: %i[show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
+                only: %i[show_oauth_application destroy edit edit_host confirm_destroy update
+                         change_health_notifications_enabled replace_oauth_application]
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
   before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 
-  # menu_item is defined in the Redmine::MenuManager::MenuController
-  # module, included from ApplicationController.
-  # The menu item is defined in the engine.rb
-  menu_item :storages_admin_settings
+  menu_item :external_file_storages
 
-  # Index page with a list of Storages objects
-  # Called by: Global app/config/routes.rb to serve Web page
   def index
     @storages = Storages::Storage.all
   end
@@ -85,7 +83,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def select_provider
     @object = Storages::Storage.new(provider_type: @provider_type)
-    service_result = ::Storages::Storages::SetProviderFieldsAttributesService
+    service_result = ::Storages::Storages::SetAttributesService
                        .new(user: current_user,
                             model: @object,
                             contract_class: EmptyContract)
@@ -112,10 +110,12 @@ class Storages::Admin::StoragesController < ApplicationController
     end
 
     service_result.on_success do
-      service_result.on_success do
-        respond_to do |format|
-          format.turbo_stream
-        end
+      if @storage.provider_type_one_drive?
+        prepare_storage_for_access_management_form
+      end
+
+      respond_to do |format|
+        format.turbo_stream
       end
     end
   end
@@ -160,6 +160,20 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
+  def change_health_notifications_enabled
+    return head :bad_request unless %w[1 0].include?(permitted_storage_params[:health_notifications_enabled])
+
+    if @storage.update(health_notifications_enabled: permitted_storage_params[:health_notifications_enabled])
+      update_via_turbo_stream(component: Storages::Admin::Sidebar::HealthNotificationsComponent.new(storage: @storage))
+      respond_with_turbo_streams
+    else
+      flash.now[:primer_banner] = {
+        message: I18n.t("storages.health_email_notifications.error_could_not_be_saved"), scheme: :danger
+      }
+      render :edit
+    end
+  end
+
   def confirm_destroy
     @storage_to_destroy = @storage
   end
@@ -194,29 +208,27 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
-  # Used by: admin layout
-  # Breadcrumbs is something like OpenProject > Admin > Storages.
-  # This returns the name of the last part (Storages admin page)
-  def default_breadcrumb
-    if action_name == 'index'
-      t(:project_module_storages)
-    else
-      ActionController::Base.helpers.link_to(t(:project_module_storages), admin_settings_storages_path)
-    end
-  end
+  def default_breadcrumb; end
 
-  # See: default_breadcrum above
-  # Defines whether to show breadcrumbs on the page or not.
   def show_local_breadcrumb
-    true
+    false
   end
 
   private
 
+  def prepare_storage_for_access_management_form
+    return unless @storage.automatic_management_unspecified?
+
+    @storage = ::Storages::Storages::SetProviderFieldsAttributesService
+                 .new(user: current_user, model: @storage, contract_class: EmptyContract)
+                 .call
+                 .result
+  end
+
   def ensure_valid_provider_type_selected
     short_provider_type = params[:provider]
     if short_provider_type.blank? || (@provider_type = ::Storages::Storage::PROVIDER_TYPE_SHORT_NAMES[short_provider_type]).blank?
-      flash[:primer_banner] = { message: I18n.t('storages.error_invalid_provider_type'), scheme: :danger }
+      flash[:primer_banner] = { message: I18n.t("storages.error_invalid_provider_type"), scheme: :danger }
       redirect_to admin_settings_storages_path
     end
   end
@@ -230,14 +242,15 @@ class Storages::Admin::StoragesController < ApplicationController
   def permitted_storage_params(model_parameter_name = storage_provider_parameter_name)
     params
       .require(model_parameter_name)
-      .permit('name',
-              'provider_type',
-              'host',
-              'oauth_client_id',
-              'oauth_client_secret',
-              'tenant_id',
-              'drive_id',
-              'automatic_management_enabled')
+      .permit("name",
+              "provider_type",
+              "host",
+              "oauth_client_id",
+              "oauth_client_secret",
+              "tenant_id",
+              "drive_id",
+              "automatic_management_enabled",
+              "health_notifications_enabled")
   end
 
   def storage_provider_parameter_name

@@ -18,7 +18,7 @@ jobs:
       run: |
         BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
           https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-          jq -r .[].name | grep "release/" | sort -r | head -1
+          jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
         )
         if [ "$BRANCH" = "" ]; then
           echo "Invalid release branch found: $BRANCH"
@@ -78,11 +78,22 @@ jobs:
         env:
           OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDINV2_PROJECT }}
           OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDINV2_API_KEY }}
+      - name: "Fix root key in Portuguese crowdin translation files"
+        run: |
+          script/i18n/fix_crowdin_pt_language_root_key
       - name: "Commit translations"
+        env:
+          BRANCH: ${{ matrix.branch }}
         run: |
           git config user.name "OpenProject Actions CI"
           git config user.email "operations+ci@openproject.com"
           echo "Updating combined translations"
           git ls-files -m -o | grep 'crowdin\/.*\.yml$' | xargs git add
           git diff --staged --name-only
-          git diff --staged --exit-code --quiet || ( git commit -m "update locales from crowdin [ci skip]" && git pull --rebase && git push origin $BRANCH )
+          if ! git diff --staged --exit-code --quiet; then
+            git commit -m "update locales from crowdin [ci skip]"
+            echo "Run git pull --rebase origin $BRANCH"
+            git pull --rebase origin "$BRANCH"
+            echo "Run git push origin $BRANCH"
+            git push origin "$BRANCH"
+          fi

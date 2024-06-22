@@ -43,10 +43,10 @@ module ::Query::Results::Sums
     return nil unless query.grouped?
 
     sums_by_id = sums_select(true).inject({}) do |result, group_sum|
-      result[group_sum['id']] = {}
+      result[group_sum["id"]] = {}
 
       query.summed_up_columns.each do |column|
-        result[group_sum['id']][column] = group_sum[column.name.to_s]
+        result[group_sum["id"]][column] = group_sum[column.name.to_s]
       end
 
       result
@@ -103,17 +103,22 @@ module ::Query::Results::Sums
 
         "LEFT OUTER JOIN (#{c.summable.(query, grouped).to_sql}) #{c.name} ON #{join_condition}"
       end
-      .join(' ')
+      .join(" ")
   end
 
   def sums_work_package_scope_selects(grouped)
-    select = if grouped
-               ["#{query.group_by_statement} id"]
-             else
-               []
-             end
+    group_statement =
+      if grouped
+        [Queries::WorkPackages::Selects::WorkPackageSelect.select_group_by(query.group_by_statement)]
+      else
+        []
+      end
 
-    select + query.summed_up_columns.filter_map(&:summable_work_packages_select).map { |c| "SUM(#{c}) #{c}" }
+    group_statement + summed_columns
+  end
+
+  def summed_columns
+    query.summed_up_columns.filter_map(&:summable_work_packages_select).map { |c| "SUM(#{c}) #{c}" }
   end
 
   def callable_summed_up_columns

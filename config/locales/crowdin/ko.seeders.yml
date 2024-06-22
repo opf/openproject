@@ -41,6 +41,11 @@ ko:
           name: 사양
         item_2:
           name: 기타
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: 작업 패키지 편집자
@@ -251,6 +256,21 @@ ko:
                     *   [ ] 더 많은 맥주
             item_4:
               subject: 프로젝트 종료
+          wiki: |
+            _이 위키에서는 공동으로 페이지와 하위 페이지를 만들고 편집하여 프로젝트 위키를 만들 수 있습니다._
+
+            **다음과 같은 작업이 가능합니다.
+
+            * 텍스트 및 이미지 삽입, 다른 문서에서 복사 및 붙여넣기
+            * 상위 페이지를 사용하여 페이지 계층 구조 만들기
+            * 프로젝트 메뉴에 위키 페이지 포함
+            * 매크로를 사용하여 목차, 작업 패키지 목록, Gantt 차트 등 포함
+            * 다른 텍스트 필드(예: 프로젝트 개요 페이지)에 위키 페이지 포함
+            * 다른 문서의 링크 포함
+            * 변경 기록 보기
+            * Markdown으로 보기
+
+            추가 정보: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: 스크럼 프로젝트
           status_explanation: 모든 작업이 예정대로 진행되고 있습니다. 관련된 사람들이 자신의 작업을 알고 있습니다. 시스템이 완전히 설정되었습니다.

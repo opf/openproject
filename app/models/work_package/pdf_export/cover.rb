@@ -75,7 +75,7 @@ module WorkPackage::PDFExport::Cover
     return nil if color.hexcode.blank?
 
     # pdf hex colors are defined without leading hash
-    color.hexcode.sub('#', '')
+    color.hexcode.sub("#", "")
   end
 
   def write_hero_title(top, width)

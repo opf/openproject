@@ -45,7 +45,7 @@ class Queries::WorkPackages::Filter::CommentFilter < Queries::WorkPackages::Filt
   end
 
   def notes_condition
-    Queries::Operators::Contains.sql_for_field(values, journal_table, 'notes')
+    Queries::Operators::Contains.sql_for_field(values, journal_table, "notes")
   end
 
   def journal_table

@@ -47,7 +47,7 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
   end
 
   def human_name
-    I18n.t('query_fields.subproject_id')
+    I18n.t("query_fields.subproject_id")
   end
 
   def self.key
@@ -66,7 +66,7 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
   end
 
   def where
-    "#{Project.table_name}.id IN (%s)" % ids_for_where.join(',')
+    "#{Project.table_name}.id IN (%s)" % ids_for_where.join(",")
   end
 
   protected

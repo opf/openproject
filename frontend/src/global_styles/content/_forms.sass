@@ -29,7 +29,7 @@
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file, date-picker)
 $base-line-height: 1.5
 $form-label-color: var(--body-font-color)
-$content-form-input-border: 1px solid var(--color-border-default)
+$content-form-input-border: 1px solid var(--borderColor-default)
 
 %input-style
   border: $content-form-input-border
@@ -53,7 +53,6 @@ $content-form-input-border: 1px solid var(--color-border-default)
 
 %required-star
   @include default-transition
-  color: var(--primary-color-dark)
   content: '*'
   padding: 0 0.325rem
 
@@ -78,8 +77,8 @@ form
 
   &.-bordered
     padding: 30px 20px
-    background-color: var(--content-form-bg-color)
-    border: 1px solid var(--color-border-muted)
+    background-color: var(--bgColor-neutral-muted)
+    border: 1px solid var(--borderColor-neutral-muted)
 
     &.-compressed
       padding: 10px 20px 0 20px
@@ -143,7 +142,7 @@ form
       .button
         @extend %input--sizing
 
-        &.-highlight
+        &.-primary
           background: var(--content-form-danger-zone-bg-color)
           color: var(--content-form-danger-zone-font-color)
           border-color: var(--content-form-danger-zone-bg-color)
@@ -182,7 +181,7 @@ hr
   border: 0
 
   &.form--separator
-    border-bottom: 1px solid var(--color-border-muted)
+    border-bottom: 1px solid var(--borderColor-default)
     margin: 0 0 30px
     background: none
 
@@ -227,12 +226,12 @@ hr
 
 
 %form--fieldset-legend-or-section-title
-  color: #4d4d4d
+  color: var(--fgColor-muted)
   font-size: var(--body-font-size)
   font-weight: var(--base-text-weight-bold)
   line-height: 1.8
   text-transform: uppercase
-  border-bottom: 1px solid var(--color-border-muted)
+  border-bottom: 1px solid var(--borderColor-default)
 
 // HACK. TODO: Remove fieldset element rules in various places.
 .form--fieldset,
@@ -271,7 +270,6 @@ fieldset.form--fieldset
 .form--toolbar
   float: right
   text-align: right
-  color: #4d4d4d
   font-size: var(--body-font-size)
   font-style: italic
   line-height: 1.8
@@ -538,6 +536,10 @@ fieldset.form--fieldset
   &.-with-bottom-spacing
     margin-bottom: 1rem
 
+  .form--field.-vertical &
+    @include grid-size(12)
+    @include grid-offset(0)
+
 .form--field-error
   @extend %form--field-after-container
   font-style: italic
@@ -613,7 +615,7 @@ select
   font-size: var(--body-font-size)
 
   &:focus, &:active
-    border-color: var(--color-accent-fg)
+    border-color: var(--fgColor-accent)
 
 .-hide-placeholder-on-focus
   &:focus::placeholder
@@ -769,18 +771,10 @@ input[readonly].-clickable
 .form--matrix-header-row
   font-weight: var(--base-text-weight-bold)
   border-bottom: $content-form-input-border
-  background-color: var(--gray-light)
+  background-color: var(--bgColor-muted)
 
 .form--matrix-header-cell
   padding: 0 1rem
-
-.form--matrix-row
-
-  &:nth-child(odd)
-    background-color: var(--gray-light)
-
-  &:nth-child(even)
-    background-color: white
 
 .form--matrix-checkbox-cell
   min-width: 1rem
@@ -818,9 +812,6 @@ input[readonly].-clickable
     .form--field.-required > &
       &::after
         @extend %required-star
-
-      &:hover::after
-        color: var(--primary-color)
 
     > a
       display: block
@@ -879,7 +870,7 @@ input[readonly].-clickable
   flex: 0 0 auto
   display: flex
   font-size: 0.9rem
-  background: #EEEEEE
+  background: var(--bgColor-neutral-muted)
   color: var(--body-font-color)
   border: $content-form-input-border
   border-radius: 2px
@@ -914,7 +905,7 @@ input[readonly].-clickable
 
   .form--field-inline-button
     margin-right: 0
-    border: 1px solid var(--button--border-color)
+    border: 1px solid var(--button-default-borderColor-rest)
     border-left-width: 0px
     border-radius: 0px
 
@@ -951,30 +942,10 @@ input[readonly].-clickable
 textarea
   text-rendering: optimizeLegibility
 
-// Overwriting Foundation color variables.
-// Unfortunatel I do not know how to get it DRY.
-input[type=range]::-moz-range-thumb
-  background: var(--primary-color)
-
-input[type=range]::-webkit-slider-thumb
-  background: var(--primary-color)
-
-input[type=range]::-ms-thumb
-  background: var(--primary-color)
-
-input[type=range]::-moz-range-thumb:hover
-  background: var(--primary-color-dark)
-
-input[type=range]::-webkit-slider-thumb:hover
-  background: var(--primary-color-dark)
-
 // Date and time inputs should be left-aligned on iOS
 input[type=date], input[type=time]
   &::-webkit-date-and-time-value
     text-align: left !important
-
-input[type=range]::-ms-thumb:hover
-  background: var(--primary-color-dark)
 
 // Special handling for the permissions_form of Admin/Roles --> permission report
 // Since FF ESR is not able to handle the overflow of fieldsets correctly, a workaround is needed.

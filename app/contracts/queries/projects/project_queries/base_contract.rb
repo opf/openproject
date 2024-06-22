@@ -29,7 +29,7 @@
 module Queries::Projects::ProjectQueries
   class BaseContract < ::ModelContract
     attribute :name
-    attribute :columns
+    attribute :selects
     attribute :filters
     attribute :orders
 
@@ -41,11 +41,45 @@ module Queries::Projects::ProjectQueries
               presence: true,
               length: { maximum: 255 }
 
-    validate :user_is_current_user_and_logged_in
+    validate :name_select_included
+    validate :existing_selects
+    validate :user_is_logged_in
+    validate :allowed_to_modify_private_query
+    validate :allowed_to_modify_public_query
 
-    def user_is_current_user_and_logged_in
-      unless user.logged? && user == model.user
+    protected
+
+    def user_is_logged_in
+      unless user.logged?
         errors.add :base, :error_unauthorized
+      end
+    end
+
+    def allowed_to_modify_private_query
+      return if model.public?
+
+      if model.user != user
+        errors.add :base, :can_only_be_modified_by_owner
+      end
+    end
+
+    def allowed_to_modify_public_query
+      return unless model.public?
+
+      unless user.allowed_globally?(:manage_public_project_queries)
+        errors.add :base, :need_permission_to_modify_public_query
+      end
+    end
+
+    def name_select_included
+      if model.selects.none? { |s| s.attribute == :name }
+        errors.add :selects, :name_not_included
+      end
+    end
+
+    def existing_selects
+      model.selects.select { |s| s.is_a?(Queries::Selects::NotExistingSelect) }.each do |s|
+        errors.add :selects, :nonexistent, column: s.attribute
       end
     end
   end

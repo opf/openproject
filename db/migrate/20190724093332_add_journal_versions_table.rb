@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'migration_utils/utils'
+require_relative "migration_utils/utils"
 
 class AddJournalVersionsTable < ActiveRecord::Migration[5.2]
   include ::Migration::Utils
@@ -37,7 +37,7 @@ class AddJournalVersionsTable < ActiveRecord::Migration[5.2]
       t.integer :journable_id
       t.integer :version, default: 0
       t.index %i[journable_type journable_id version],
-              name: 'unique_journal_version',
+              name: "unique_journal_version",
               unique: true
     end
 

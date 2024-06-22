@@ -28,42 +28,53 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'vcr'
+require "vcr"
+
+module VCRTimeoutHelper
+  def stub_request_with_timeout(method, path_matcher)
+    request_mock = HTTPX::Request.new(method.to_s.upcase, "https://example.com")
+    error_response_mock = HTTPX::ErrorResponse.new(request_mock,
+                                                   HTTPX::ConnectTimeoutError.new(60, "timed out while waiting on select"), {})
+    allow_any_instance_of(HTTPX::Session).to receive(method.to_sym).with(any_args).and_call_original
+    allow_any_instance_of(HTTPX::Session).to receive(method.to_sym).with(path_matcher, any_args).and_return(error_response_mock)
+  end
+end
 
 VCR.configure do |config|
-  config.cassette_library_dir = 'spec/support/fixtures/vcr_cassettes'
+  config.cassette_library_dir = "spec/support/fixtures/vcr_cassettes"
   config.hook_into :webmock
   config.configure_rspec_metadata!
   config.before_record do |i|
-    i.response.body.force_encoding('UTF-8')
+    i.response.body.force_encoding("UTF-8")
   end
 
-  config.filter_sensitive_data '<BASIC_AUTH>' do |interaction|
-    header = interaction.request.headers['Authorization'].first.split
+  config.filter_sensitive_data "<BASIC_AUTH>" do |interaction|
+    header = interaction.request.headers["Authorization"]&.first&.split
 
-    header.last if header.first == 'Basic'
+    header.last if header&.first == "Basic"
   end
 
-  config.filter_sensitive_data '<BEARER TOKEN>' do |interaction|
-    header = interaction.request.headers['Authorization'].first.split
+  config.filter_sensitive_data "<BEARER TOKEN>" do |interaction|
+    header = interaction.request.headers["Authorization"]&.first&.split
 
-    header.last if header.first == 'Bearer'
+    header.last if header&.first == "Bearer"
   end
 
-  config.filter_sensitive_data '<ACCESS_TOKEN>' do |interaction|
-    header_value = interaction.response.headers['Content-Type']&.first
+  config.filter_sensitive_data "<ACCESS_TOKEN>" do |interaction|
+    header_value = interaction.response.headers["Content-Type"]&.first
 
-    if header_value&.include?('application/json')
-      MultiJson.load(interaction.response.body)['access_token']
+    if header_value&.include?("application/json")
+      MultiJson.load(interaction.response.body)["access_token"]
     end
   end
 
-  config.default_cassette_options = { record: ENV.fetch('VCR_RECORD_MODE', :once).to_sym, drop_unused_requests: true }
+  config.default_cassette_options = { record: ENV.fetch("VCR_RECORD_MODE", :once).to_sym, drop_unused_requests: true }
 end
 
 VCR.turn_off!
 
 RSpec.configure do |config|
+  config.include(VCRTimeoutHelper)
   config.around(:example, :vcr) do |example|
     # Only enable VCR's webmock integration for tests tagged with :vcr otherwise interferes with WebMock
     # See: https://github.com/vcr/vcr/issues/146

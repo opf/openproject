@@ -34,7 +34,7 @@ module OpenProject
 
       # Truncates and returns the string as a single line
       def truncate_single_line(string, *)
-        truncate(string.to_s, *).gsub(%r{[\r\n]+}m, ' ').html_safe
+        truncate(string.to_s, *).gsub(%r{[\r\n]+}m, " ").html_safe
       end
     end
   end

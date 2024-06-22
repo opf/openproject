@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::HelpTexts::HelpTextRepresenter do
   include API::V3::Utilities::PathHelper
@@ -35,8 +35,8 @@ RSpec.describe API::V3::HelpTexts::HelpTextRepresenter do
 
   let(:help_text) do
     build_stubbed(:work_package_help_text,
-                  attribute_name: 'status',
-                  help_text: 'This is a help text for **status** attribute.')
+                  attribute_name: "status",
+                  help_text: "This is a help text for **status** attribute.")
   end
 
   let(:representer) { described_class.new help_text, current_user: user }
@@ -65,14 +65,14 @@ RSpec.describe API::V3::HelpTexts::HelpTextRepresenter do
       "attribute" => "status",
       "attributeCaption" => "Status",
       "helpText" => {
-        "format" => 'markdown',
-        "raw" => 'This is a help text for **status** attribute.',
+        "format" => "markdown",
+        "raw" => "This is a help text for **status** attribute.",
         "html" => '<p class="op-uc-p">This is a help text for <strong>status</strong> attribute.</p>'
       }
     }
   end
 
-  it 'serializes the relation correctly' do
+  it "serializes the relation correctly" do
     data = JSON.parse representer.to_json
     expect(data).to eq result
   end

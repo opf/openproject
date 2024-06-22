@@ -28,16 +28,14 @@
 
 #login-form
   margin: 50px auto 0
-  padding-top: 20px
+  padding: 20px
   width: 511px
   word-break: break-word
 
-  .login-options-container
+  .login-form--footer
+    display: flex
+    justify-content: space-between
     margin-bottom: 10px
-    .login-links
-      float: right
-      text-align: right
-      margin-top: -3rem
 
 #content .login-auth-providers.wide
   width: auto
@@ -63,13 +61,9 @@
   margin-top: 25px
 
   h3
-    border: none
-    margin-top: 20px
     font-weight: normal
     font-size: 1rem
-    text-decoration: none
     text-align: center
-
     position: relative
     z-index: 1
 
@@ -77,7 +71,7 @@
     // from http://codepen.io/ericrasch/pen/Irlpm
 
     &:after
-      border-bottom: 2px solid var(--color-border-muted)
+      border-bottom: 2px solid var(--borderColor-default)
       content: ""
       // this centers the line to the full width specified
       margin: 0 auto
@@ -101,26 +95,13 @@
     @include prevent-float-collapse
     margin-top: 1em
 
-  a.auth-provider
-    float: left
-    margin-left: 10px
-    background-color: light-grey
-    font-weight: normal
-    color: var(--body-font-color)
-
-    &:hover
-      text-decoration: none
-
-    .auth-provider-name
-      line-height: normal
-      white-space: normal
+  a.auth-provider:hover
+    text-decoration: none
 
 #nav-login-content .login-auth-providers
   h3
-    &:before
-      width: 100%
     span
-      background: var(--header-drop-down-bg-color)
+      background: var(--body-background)
   .login-auth-provider-list
     margin-top: 1em
     margin-bottom: 10px

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Users::LoginService, type: :model do
   shared_let(:input_user) { create(:user) }
@@ -34,9 +34,9 @@ RSpec.describe Users::LoginService, type: :model do
   let(:session) { {} }
   let(:browser) do
     instance_double(Browser::Safari,
-                    name: 'Safari',
-                    version: '13.2',
-                    platform: instance_double(Browser::Platform::Linux, name: 'Linux'))
+                    name: "Safari",
+                    version: "13.2",
+                    platform: instance_double(Browser::Platform::Linux, name: "Linux"))
   end
   let(:cookies) { {} }
   let(:flash) { ActionDispatch::Flash::FlashHash.new }
@@ -47,6 +47,10 @@ RSpec.describe Users::LoginService, type: :model do
   subject { instance.call! }
 
   before do
+    allow(Sessions::DropOtherSessionsService)
+      .to receive(:call)
+      .with(input_user, session)
+
     allow(controller)
       .to(receive(:reset_session)) do
       session.clear
@@ -57,11 +61,11 @@ RSpec.describe Users::LoginService, type: :model do
       .to receive(:log_successful_login)
   end
 
-  describe 'session' do
-    context 'with an SSO provider' do
+  describe "session" do
+    context "with an SSO provider" do
       let(:sso_provider) do
         {
-          name: 'saml',
+          name: "saml",
           retain_from_session: %i[foo bar]
         }
       end
@@ -69,17 +73,17 @@ RSpec.describe Users::LoginService, type: :model do
       before do
         allow(OpenProject::Plugins::AuthPlugin)
           .to(receive(:find_provider_by_name))
-          .with('provider_name')
+          .with("provider_name")
           .and_return sso_provider
       end
 
-      context 'if provider retains session values' do
+      context "if provider retains session values" do
         let(:retained_values) { %i[foo bar] }
 
-        it 'retains present session values' do
-          session[:omniauth_provider] = 'provider_name'
-          session[:foo] = 'foo value'
-          session[:what] = 'should be cleared'
+        it "retains present session values" do
+          session[:omniauth_provider] = "provider_name"
+          session[:foo] = "foo value"
+          session[:what] = "should be cleared"
 
           subject
 
@@ -88,16 +92,16 @@ RSpec.describe Users::LoginService, type: :model do
           expect(session[:user_id]).to eq input_user.id
         end
 
-        context 'if provider retains oidc session values' do
+        context "if provider retains oidc session values" do
           let(:retained_values) { %w[omniauth.oidc_sid] }
           let(:sso_provider) do
             {
-              name: 'oidc',
+              name: "oidc",
               retain_from_session: %w[omniauth.oidc_sid]
             }
           end
 
-          it 'retains an oidc session token (Regression #52185)' do
+          it "retains an oidc session token (Regression #52185)" do
             expect(OpenProject::Hook)
               .to receive(:call_hook) # rubocop:disable RSpec/MessageSpies
                     .with(
@@ -105,93 +109,105 @@ RSpec.describe Users::LoginService, type: :model do
                       {
                         request: {},
                         user: input_user,
-                        session: hash_including('omniauth.oidc_sid' => '1234', user_id: input_user.id)
+                        session: hash_including("omniauth.oidc_sid" => "1234", user_id: input_user.id)
                       }
                     )
-            session[:omniauth_provider] = 'provider_name'
-            session['omniauth.oidc_sid'] = '1234'
+            session[:omniauth_provider] = "provider_name"
+            session["omniauth.oidc_sid"] = "1234"
 
             subject
 
-            expect(session['omniauth.oidc_sid']).to eq '1234'
+            expect(session["omniauth.oidc_sid"]).to eq "1234"
           end
         end
       end
 
-      it 'retains present flash values' do
-        flash[:notice] = 'bar' # rubocop:disable Rails/I18nLocaleTexts
+      it "retains present flash values" do
+        flash[:notice] = "bar" # rubocop:disable Rails/I18nLocaleTexts
 
         subject
 
-        expect(controller.flash[:notice]).to eq 'bar'
+        expect(controller.flash[:notice]).to eq "bar"
       end
     end
   end
 
-  describe 'autologin cookie' do
+  describe "autologin cookie" do
     before do
       session[:autologin_requested] = true if autologin_requested
     end
 
-    shared_examples 'does not set autologin cookie' do
-      it 'does not set a cookie' do
+    shared_examples "does not set autologin cookie" do
+      it "does not set a cookie" do
         subject
 
         expect(Token::AutoLogin.exists?(user: input_user)).to be false
-        expect(cookies[OpenProject::Configuration['autologin_cookie_name']]).to be_nil
+        expect(cookies[OpenProject::Configuration["autologin_cookie_name"]]).to be_nil
       end
     end
 
-    context 'when not requested and disabled', with_settings: { autologin: 0 } do
+    context "when not requested and disabled", with_settings: { autologin: 0 } do
       let(:autologin_requested) { false }
 
-      it_behaves_like 'does not set autologin cookie'
+      it_behaves_like "does not set autologin cookie"
     end
 
-    context 'when not requested and enabled', with_settings: { autologin: 1 } do
+    context "when not requested and enabled", with_settings: { autologin: 1 } do
       let(:autologin_requested) { false }
 
-      it_behaves_like 'does not set autologin cookie'
+      it_behaves_like "does not set autologin cookie"
     end
 
-    context 'when requested, but disabled', with_settings: { autologin: 0 } do
+    context "when requested, but disabled", with_settings: { autologin: 0 } do
       let(:autologin_requested) { true }
 
-      it_behaves_like 'does not set autologin cookie'
+      it_behaves_like "does not set autologin cookie"
     end
 
-    context 'when requested and enabled', with_settings: { autologin: 1 } do
+    context "when requested and enabled", with_settings: { autologin: 1 } do
       let(:autologin_requested) { true }
 
-      it 'sets a cookie' do
+      it "sets a cookie" do
         subject
 
         tokens = Token::AutoLogin.where(user: input_user)
         expect(tokens.count).to eq 1
         expect(tokens.first.user_id).to eq input_user.id
 
-        autologin_cookie = cookies[OpenProject::Configuration['autologin_cookie_name']]
+        autologin_cookie = cookies[OpenProject::Configuration["autologin_cookie_name"]]
         expect(autologin_cookie).to be_present
         expect(autologin_cookie[:value]).to be_present
         expect(autologin_cookie[:expires]).to eq (Time.zone.today + 1.day).beginning_of_day
-        expect(autologin_cookie[:path]).to eq '/'
+        expect(autologin_cookie[:path]).to eq "/"
         expect(autologin_cookie[:httponly]).to be true
         expect(autologin_cookie[:secure]).to eq Setting.https?
         expect(Token::AutoLogin.find_by_plaintext_value(autologin_cookie[:value])).to eq tokens.first
       end
     end
 
-    context 'when requested and enabled with https',
+    context "when requested and enabled with https",
             with_config: { https: true },
             with_settings: { autologin: 1 } do
       let(:autologin_requested) { true }
 
-      it 'sets a secure cookie' do
+      it "sets a secure cookie" do
         subject
 
-        autologin_cookie = cookies[OpenProject::Configuration['autologin_cookie_name']]
+        autologin_cookie = cookies[OpenProject::Configuration["autologin_cookie_name"]]
         expect(autologin_cookie[:secure]).to be true
       end
+    end
+  end
+
+  describe "removal of tokens" do
+    let!(:invitation_token) { create(:invitation_token, user: input_user) }
+    let!(:recovery_token) { create(:recovery_token, user: input_user) }
+
+    it "removes only the recovery token on successful login" do
+      subject
+
+      expect(Token::Invitation.exists?(invitation_token.id)).to be true
+      expect(Token::Recovery.exists?(recovery_token.id)).to be false
     end
   end
 end

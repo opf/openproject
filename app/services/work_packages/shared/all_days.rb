@@ -38,21 +38,21 @@ module WorkPackages
 
       def start_date(due_date, duration)
         return nil unless due_date && duration
-        raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0
+        raise ArgumentError, "duration must be strictly positive" if duration.is_a?(Integer) && duration <= 0
 
         due_date - duration + 1
       end
 
       def due_date(start_date, duration)
         return nil unless start_date && duration
-        raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0
+        raise ArgumentError, "duration must be strictly positive" if duration.is_a?(Integer) && duration <= 0
 
         start_date + duration - 1
       end
 
-      def soonest_working_day(date, delay: nil)
-        delay ||= 0
-        date + delay.days if date
+      def soonest_working_day(date, lag: nil)
+        lag ||= 0
+        date + lag.days if date
       end
 
       def working?(_date)

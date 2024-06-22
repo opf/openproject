@@ -15,7 +15,7 @@ uk:
       choose_location: "Виберіть папку"
       types:
         nextcloud: "Nextcloud"
-        one_drive: "OneDrive/SharePoint"
+        one_drive: "OneDrive / SharePoint"
         default: "Сховище"
       information:
         connection_error: >
@@ -82,7 +82,7 @@ uk:
         link_uploaded_file_error: >
           Під час зв’язування нещодавно вивантаженого файлу «%{fileName}» з пакетом робіт %{workPackageId} сталася помилка.
         tooltip:
-          not_logged_in: "Please log in to the storage to access this file."
+          not_logged_in: "Щоб отримати доступ до цього файлу, увійдіть у сховище."
           view_not_allowed: "У вас немає дозволу на перегляд цього файлу."
           not_found: "Не вдається знайти цей файл."
         already_linked_file: "Цей файл уже прив’язано до цього пакету робіт."

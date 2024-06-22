@@ -38,7 +38,7 @@ module Notifications::Scopes
       # As currently only notifications for work packages exist, the implementation is work package specific.
       def visible(user)
         recipient(user)
-          .where(resource_type: 'WorkPackage', resource_id: WorkPackage.visible(user).select(:id))
+          .where(resource_type: "WorkPackage", resource_id: WorkPackage.visible(user).select(:id))
       end
     end
   end

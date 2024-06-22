@@ -25,17 +25,17 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Journal do
-  describe '#journable' do
-    it 'raises no error on a new journal without a journable' do
+  describe "#journable" do
+    it "raises no error on a new journal without a journable" do
       expect(Journal.new.journable)
         .to be_nil
     end
   end
 
-  describe '#notifications' do
+  describe "#notifications" do
     let(:work_package) { create(:work_package) }
     let(:journal) { work_package.journals.first }
     let!(:notification) do
@@ -45,22 +45,22 @@ RSpec.describe Journal do
              project: work_package.project)
     end
 
-    it 'has a notifications association' do
+    it "has a notifications association" do
       expect(journal.notifications)
         .to contain_exactly(notification)
     end
 
-    it 'destroys the associated notifications upon journal destruction' do
+    it "destroys the associated notifications upon journal destruction" do
       expect { journal.destroy }
         .to change(Notification, :count).from(1).to(0)
     end
   end
 
-  describe '#create' do
-    context 'without a data foreign key' do
+  describe "#create" do
+    context "without a data foreign key" do
       subject { create(:work_package_journal, data: nil) }
 
-      it 'raises an error and does not create a database record' do
+      it "raises an error and does not create a database record" do
         expect { subject }
           .to raise_error(ActiveRecord::NotNullViolation)
 

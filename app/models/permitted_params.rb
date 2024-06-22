@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'permitted_params/allowed_settings'
+require "permitted_params/allowed_settings"
 
 class PermittedParams
   # This class intends to provide a method for all params hashes coming from the
@@ -162,7 +162,7 @@ class PermittedParams
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])
     p[:sort_criteria] = params
       .require(:query)
-      .permit(sort_criteria: { '0' => [], '1' => [], '2' => [] })
+      .permit(sort_criteria: { "0" => [], "1" => [], "2" => [] })
     p[:sort_criteria].delete :sort_criteria
     p
   end
@@ -179,16 +179,18 @@ class PermittedParams
     params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
 
-  def settings
-    permitted_params = params.require(:settings).permit
-    all_valid_keys = AllowedSettings.all
-
-    permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
+  def settings(extra_permitted_filters = nil)
+    params.require(:settings).permit(*AllowedSettings.filters, *extra_permitted_filters)
   end
 
   def user(additional_params = [])
-    permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user] + additional_params)
-    permitted_params.merge(custom_field_values(:user))
+    if params[:user].present?
+      permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user] + additional_params)
+      permitted_params.merge(custom_field_values(:user))
+    else
+      # This happens on the Profile page for LDAP user, no "user" hash is sent.
+      {}.merge(custom_field_values(:user, required: false))
+    end
   end
 
   def placeholder_user
@@ -288,6 +290,11 @@ class PermittedParams
     whitelist.merge(custom_field_values(:project))
   end
 
+  def project_custom_field_project_mapping
+    params.require(:project_custom_field_project_mapping)
+      .permit(*self.class.permitted_attributes[:project_custom_field_project_mapping])
+  end
+
   def news
     params.require(:news).permit(:title, :summary, :description)
   end
@@ -330,7 +337,7 @@ class PermittedParams
   end
 
   def attachments
-    params.permit(attachments: %i[file description id])['attachments']
+    params.permit(attachments: %i[file description id])["attachments"]
   end
 
   def enumerations
@@ -397,7 +404,7 @@ class PermittedParams
     # Reject blank values from include_hidden select fields
     values.each { |_, v| v.compact_blank! if v.is_a?(Array) }
 
-    values.empty? ? {} : { 'custom_field_values' => values.permit! }
+    values.empty? ? {} : { "custom_field_values" => values.permit! }
   end
 
   def permitted_attributes(key, additions = {})
@@ -470,6 +477,7 @@ class PermittedParams
           :possible_values,
           :multi_value,
           :content_right_to_left,
+          :custom_field_section_id,
           :allow_non_open_versions,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
@@ -518,7 +526,7 @@ class PermittedParams
           :subject,
           Proc.new do |args|
             # avoid costly allowed_in_project? if the param is not there at all
-            if args[:params]['work_package']&.has_key?('watcher_user_ids') &&
+            if args[:params]["work_package"]&.has_key?("watcher_user_ids") &&
                args[:current_user].allowed_in_project?(:add_work_package_watchers, args[:project])
 
               { watcher_user_ids: [] }
@@ -551,6 +559,12 @@ class PermittedParams
           :name,
           { type_ids: [] }
         ],
+        project_custom_field_project_mapping: %i(
+          project_id
+          custom_field_id
+          custom_field_section_id
+          include_sub_projects
+        ),
         query: %i(
           name
           display_sums
@@ -580,6 +594,7 @@ class PermittedParams
           name
           color_id
           default_done_ratio
+          excluded_from_totals
           is_closed
           is_default
           is_readonly

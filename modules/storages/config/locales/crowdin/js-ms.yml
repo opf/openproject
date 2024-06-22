@@ -1,0 +1,83 @@
+#English strings go here
+ms:
+  js:
+    storages:
+      link_files_in_storage: "Pautkan fail dalam %{storageType}"
+      link_existing_files: "Pautkan fail sedia ada"
+      upload_files: "Muat naik fail"
+      drop_files: "Letakkan fail disini untuk dimuat naik ke %{name}."
+      drop_or_click_files: "Letakkan fail disini atau klik untuk dimuat naik ke %{name}."
+      login: "log masuk %{storageType}"
+      login_to: "Log masuk ke %{storageType}"
+      no_connection: "Tiada sambungan %{storageType}"
+      open_storage: "Buka %{storageType}"
+      select_location: "Pilih lokasi"
+      choose_location: "Pilih lokasi"
+      types:
+        nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Storan"
+      information:
+        connection_error: >
+          Beberapa tetapan %{storageType} tidak berfungsi. Sila hubungi pentadbir %{storageType} anda.
+        live_data_error: "Ralat memperoleh butiran fail"
+        live_data_error_description: >
+          Beberapa data %{storageType} tidak dapat diperolehi. Sila cuba untuk memuat semula halaman ini atau hubungi pentadbir %{storageType} anda.
+        no_file_links: "Untuk mengaitkan fail-fail kepada pakej kerja ini, sila lakukan melalui %{storageType}."
+        not_logged_in: >
+          Untuk tambah pautan, lihat atau muat naik fail yang berkaitan dengan pakej kerja ini, sila log masuk ke %{storageType}.
+      files:
+        already_existing_header: "Fail ini telah wujud"
+        already_existing_body: >
+          Fail dengan nama "%{fileName}" sudah wujud di lokasi dimana anda sedang cuba untuk memuat naik fail ini. Apakah yang anda ingin lakukan?
+        directory_not_writeable: "Anda tidak mempunyai kebenaran untuk menambah fail ke dalam folder ini."
+        dragging_many_files: "Muat naik ke %{storageType} menyokong hanya satu fail pada satu masa."
+        dragging_folder: "Muat naik ke %{storageType} tidak menyokong folder."
+        empty_folder: "Folder ini kosong."
+        empty_folder_location_hint: "Klik butang di bawah untuk memuat naik fail di lokasi ini."
+        file_not_selectable_location: "Pemilihan fail tidak boleh dilakukan dalam proses pemilihan lokasi."
+        project_folder_no_access: >
+          Anda tidak mempunyai akses ke folder projek. Sila hubungi pentadbir anda untuk mendapatkan akses atau muat naik fail ke lokasi yang berbeza.
+        managed_project_folder_not_available: >
+          Folder yang dikendalikan secara automatik masih belum ditemui. Sila tunggu sebentar, muat semula halaman untuk dapatkan data terkini, dan cuba lagi.
+        managed_project_folder_no_access: >
+          Anda masih belum mempunyai akses ke folder projek yang dikendalikan. Sila tunggu sebentar dan cuba lagi.
+        upload_keep_both: "Simpan kedua-duanya"
+        upload_replace: "Gantikan"
+      file_links:
+        empty: >
+          Tiada fail yang terpaut pada pakej kerja ini pada masa ini. Mula pautkan fail dengan tindakan di bawah atau dari %{storageType}.
+        download: "Muat turun %{fileName}"
+        open: "Buka fail dalam storan"
+        open_location: "Buka fail dalam lokasi"
+        remove: "Padamkan pautan fail"
+        remove_confirmation: >
+          Adakah anda pasti anda ingin nyahpautkan pautan fail daripada pakej kerja ini? Nyahpautkan pautan tidak mempengaruhi fail asli dan hanya memadam sambungan ke pakej kerja ini.
+        remove_short: "Padamkan pautan"
+        select: "Pilih fail"
+        select_all: "Pilih semua"
+        selection:
+          zero: "Pilih fail untuk dipautkan"
+          other: "Pautkan %{count} fail"
+        success_create:
+          other: "%{count} pautan fail berjaya dicipta."
+        upload_error:
+          default: >
+            Fail anda (%{fileName}) tidak dapat dimuat naikkan.
+          403: >
+            Fail anda (%{fileName}) tidak dapat dimuat naik oleh kerana sekatan sistem. Sila hubungi pentadbir anda untuk maklumat lanjut.
+          413: >
+            Fail anda (%{fileName}) lebih besar daripada apa yang OpenProject boleh muat naik ke %{storageType}. Anda boleh memuat naiknya terus ke %{storageType} dahulu, kemudian pautkan fail tersebut.
+          507: >
+            Fail anda (%{fileName}) ialah lebih besar dari kuota storan yang dibenarkan. Hubungi pentadbir anda untuk ubah suai kuota ini.
+          detail:
+            nextcloud: >
+              Sila semak versi aplikasi Nextcloud "Integrasi OpenProject" terkini sudah dipasang dan hubungi pentadbir anda untuk maklumat lanjut.
+        link_uploaded_file_error: >
+          Ralat berlaku semasa pautkan fail %{fileName} yang baru sahaja dimuat naik ke pakej kerja %{workPackageId}.
+        tooltip:
+          not_logged_in: "Sila log masuk ke dalam storan untuk mengakses fail ini."
+          view_not_allowed: "Anda tidak mempunyai kebenaran untuk melihat fail ini."
+          not_found: "Fail ini tidak dapat ditemui."
+        already_linked_file: "Fail ini sudah terpaut dengan pakej kerja ini."
+        already_linked_directory: "Direktori ini telah dipautkan ke pakej kerja ini."

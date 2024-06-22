@@ -25,10 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Views::ViewsAPI,
-               'create',
+               "create",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -65,7 +65,7 @@ RSpec.describe API::V3::Views::ViewsAPI,
   end
 
   let(:send_request) do
-    post api_v3_paths.views_type('team_planner'), body
+    post api_v3_paths.views_type("team_planner"), body
   end
 
   current_user { permitted_user }
@@ -78,25 +78,25 @@ RSpec.describe API::V3::Views::ViewsAPI,
     send_request
   end
 
-  describe 'POST /api/v3/views/team_planner' do
-    context 'with a user allowed to save the query' do
-      it 'returns 201 CREATED' do
+  describe "POST /api/v3/views/team_planner" do
+    context "with a user allowed to save the query" do
+      it "returns 201 CREATED" do
         expect(response.status)
           .to eq(201)
       end
 
-      it 'returns the view' do
+      it "returns the view" do
         expect(response.body)
-          .to be_json_eql('Views::TeamPlanner'.to_json)
-                .at_path('_type')
+          .to be_json_eql("Views::TeamPlanner".to_json)
+                .at_path("_type")
 
         expect(response.body)
           .to be_json_eql(View.last.id.to_json)
-                .at_path('id')
+                .at_path("id")
       end
     end
 
-    context 'with a user not allowed to manage team planners' do
+    context "with a user not allowed to manage team planners" do
       let(:additional_setup) do
         role.update_attribute(:permissions,
                               %w[view_work_packages
@@ -104,7 +104,7 @@ RSpec.describe API::V3::Views::ViewsAPI,
                                  manage_public_queries])
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 end

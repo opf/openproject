@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackages::UpdateContract do
   let(:work_package) do
@@ -58,15 +58,15 @@ RSpec.describe WorkPackages::UpdateContract do
     allow(work_package).to receive(:changed).and_return(changed_values)
   end
 
-  describe 'story points' do
-    context 'has not changed' do
-      it('is valid') { expect(contract.errors.empty?).to be true }
+  describe "story points" do
+    context "has not changed" do
+      it("is valid") { expect(contract.errors.empty?).to be true }
     end
 
-    context 'has changed' do
-      let(:changed_values) { ['story_points'] }
+    context "has changed" do
+      let(:changed_values) { ["story_points"] }
 
-      it('is valid') { expect(contract.errors.empty?).to be true }
+      it("is valid") { expect(contract.errors.empty?).to be true }
     end
   end
 end

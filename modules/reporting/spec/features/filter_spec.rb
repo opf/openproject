@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Cost report calculations', :js, :with_cuprite do
+RSpec.describe "Cost report calculations", :js, :with_cuprite do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
 
@@ -10,8 +10,8 @@ RSpec.describe 'Cost report calculations', :js, :with_cuprite do
   end
 
   def clear_project_filter
-    within '#filter_project_id' do
-      find('.filter_rem').click
+    within "#filter_project_id" do
+      find(".filter_rem").click
     end
   end
 
@@ -20,7 +20,7 @@ RSpec.describe 'Cost report calculations', :js, :with_cuprite do
     wait_for_reload
   end
 
-  it 'provides filtering' do
+  it "provides filtering" do
     # Then filter "spent_on" should be visible
     # And filter "user_id" should be visible
     expect(page).to have_css("#filter_project_id")
@@ -32,11 +32,11 @@ RSpec.describe 'Cost report calculations', :js, :with_cuprite do
     # And I click on the filter's "Clear" button
     clear_project_filter
     # Then filter "project_id" should not be visible
-    expect(page).to have_no_css('#filter_project_id')
+    expect(page).to have_no_css("#filter_project_id")
 
     # Remove filters:
     # And I click on "Clear"
-    click_on 'Clear'
+    click_on "Clear"
     # Then filter "spent_on" should not be visible
     # And filter "user_id" should not be visible
     expect(page).to have_no_css("#filter_spent_on")
@@ -49,6 +49,6 @@ RSpec.describe 'Cost report calculations', :js, :with_cuprite do
     expect(page).to have_css("#filter_spent_on")
     expect(page).to have_css("#filter_user_id")
 
-    expect(page).to have_css("#user_id_arg_1_val", text: 'me')
+    expect(page).to have_css("#user_id_arg_1_val", text: "me")
   end
 end

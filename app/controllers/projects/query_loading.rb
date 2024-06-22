@@ -27,43 +27,35 @@
 # ++
 module Projects
   module QueryLoading
-    def load_query(existing: true)
-      query = if existing
-                Queries::Projects::Factory.find(params[:query_id])
-              else
-                Queries::Projects::ProjectQuery.new
-              end
-
-      contract_class = if existing
-                         # This one allows to change the name of the query.
-                         # Semantically, it would be better to use the UpdateContract
-                         # but there wasn't the need to create that yet and for now it
-                         # would be the same as the CreateContract anyway.
-                         Queries::Projects::ProjectQueries::CreateContract
-                       else
-                         Queries::Projects::ProjectQueries::LoadingContract
-                       end
-
-      Queries::Projects::ProjectQueries::SetAttributesService
-        .new(user: current_user,
-             model: query,
-             contract_class:)
-        .call(permitted_query_params)
-    end
-
     private
 
-    def permitted_query_params
-      query_params = if params[:query]
-                       params
-                         .require(:query)
-                         .permit(:name)
-                         .to_h
-                     else
-                       {}
-                     end
+    def load_query(duplicate:)
+      ::Queries::Projects::Factory.find(params[:query_id],
+                                        params: permitted_query_params,
+                                        user: current_user,
+                                        duplicate:)
+    end
 
-      query_params.merge!(Queries::ParamsParser.parse(params))
+    def load_query_or_deny_access
+      @query = load_query(duplicate: false)
+
+      render_403 unless @query
+    end
+
+    def build_query_or_deny_access
+      @query = load_query(duplicate: true)
+
+      render_403 unless @query
+    end
+
+    def permitted_query_params
+      query_params = {}
+
+      if params[:query]
+        query_params.merge!(params.require(:query).permit(:name))
+      end
+
+      query_params.merge!(::Queries::ParamsParser.parse(params))
 
       query_params.with_indifferent_access
     end

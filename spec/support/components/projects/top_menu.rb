@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'support/components/autocompleter/autocomplete_helpers'
+require "support/components/autocompleter/autocomplete_helpers"
 
 module Components
   module Projects
@@ -36,7 +36,7 @@ module Components
       include ::Components::Autocompleter::AutocompleteHelpers
 
       def toggle
-        page.find_by_id('projects-menu').click
+        page.find_by_id("projects-menu").click
         wait_for_network_idle(timeout: 10) if using_cuprite?
       end
 
@@ -50,8 +50,14 @@ module Components
         page.has_selector?(autocompleter_selector)
       end
 
+      def switch_mode(mode)
+        within(".op-project-list-modal--header") do
+          find('[data-test-selector="spot-toggle--option"]', text: mode).click
+        end
+      end
+
       def expect_current_project(name)
-        page.find_by_id('projects-menu', text: name)
+        page.find_by_id("projects-menu", text: name)
       end
 
       def expect_open
@@ -67,7 +73,7 @@ module Components
       end
 
       def clear_search
-        autocompleter.set ''
+        autocompleter.set ""
         autocompleter.send_keys :backspace
       end
 
@@ -103,12 +109,12 @@ module Components
       end
 
       def expect_blankslate
-        expect(page).not_to have_test_selector('op-project-list-modal--no-results', wait: 0)
+        expect(page).not_to have_test_selector("op-project-list-modal--no-results", wait: 0)
       end
 
       def expect_item_with_hierarchy_level(hierarchy_level:, item_name:)
         within search_results do
-          hierarchy_selector  = hierarchy_level.times.collect { autocompleter_item_selector }.join(' ')
+          hierarchy_selector  = hierarchy_level.times.collect { autocompleter_item_selector }.join(" ")
           expect(page)
             .to have_css("#{hierarchy_selector} #{autocompleter_item_title_selector}", text: item_name)
         end

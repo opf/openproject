@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Login' do
+RSpec.describe "Login" do
   before do
     @capybara_ignore_elements = Capybara.ignore_hidden_elements
     Capybara.ignore_hidden_elements = true
@@ -45,28 +45,28 @@ RSpec.describe 'Login' do
 
   def expect_not_being_logged_in
     expect(page)
-      .to have_field('Username')
+      .to have_field("Username")
   end
 
-  context 'sign in user' do
-    let(:user_password) { 'bob' * 4 }
-    let(:new_user_password) { 'obb' * 4 }
+  context "sign in user" do
+    let(:user_password) { "bob" * 4 }
+    let(:new_user_password) { "obb" * 4 }
     let(:force_password_change) { false }
     let(:first_login) { false }
     let(:user) do
       create(:user,
              force_password_change:,
              first_login:,
-             login: 'bob',
-             mail: 'bob@example.com',
-             firstname: 'Bo',
-             lastname: 'B',
+             login: "bob",
+             mail: "bob@example.com",
+             firstname: "Bo",
+             lastname: "B",
              password: user_password,
              password_confirmation: user_password)
     end
 
-    context 'with leading and trailing space in login' do
-      it 'can still login' do
+    context "with leading and trailing space in login" do
+      it "can still login" do
         # first login
         login_with(" #{user.login} ", user_password)
 
@@ -76,7 +76,7 @@ RSpec.describe 'Login' do
       end
     end
 
-    context 'with force password change' do
+    context "with force password change" do
       let(:force_password_change) { true }
       let(:first_login) { true }
 
@@ -87,29 +87,29 @@ RSpec.describe 'Login' do
         expect(current_path).to eql signin_path
 
         # change password page (giving an invalid password)
-        within('#main') do
-          fill_in('password', with: user_password)
-          fill_in('new_password', with: new_user_password)
-          fill_in('new_password_confirmation', with: new_user_password + 'typo')
+        within("#main") do
+          fill_in("password", with: user_password)
+          fill_in("new_password", with: new_user_password)
+          fill_in("new_password_confirmation", with: new_user_password + "typo")
           click_link_or_button I18n.t(:button_save)
         end
         expect(current_path).to eql account_change_password_path
 
         # change password page
-        within('#main') do
-          fill_in('password', with: user_password)
-          fill_in('new_password', with: new_user_password)
-          fill_in('new_password_confirmation', with: new_user_password)
+        within("#main") do
+          fill_in("password", with: user_password)
+          fill_in("new_password", with: new_user_password)
+          fill_in("new_password_confirmation", with: new_user_password)
           click_link_or_button I18n.t(:button_save)
         end
 
         # on the my page
-        expect(current_path).to eql '/'
+        expect(current_path).to eql "/"
       end
     end
 
-    it 'prevents login for a blocked user' do
-      user.lock!
+    it "prevents login for a blocked user" do
+      user.locked!
 
       login_with(user.login, user.password)
 
@@ -118,11 +118,11 @@ RSpec.describe 'Login' do
         .to have_content "Invalid user or password"
     end
 
-    it 'forwards to the deep linked page after login' do
+    it "forwards to the deep linked page after login" do
       visit my_page_path
 
       expect(page)
-        .to have_field('Username')
+        .to have_field("Username")
 
       login_with(user.login, user_password)
 
@@ -130,15 +130,15 @@ RSpec.describe 'Login' do
         .to have_current_path my_page_path
     end
 
-    context 'autologin',
+    context "autologin",
             with_settings: {
               autologin: 1
             } do
       def fake_browser_closed
-        page.driver.browser.set_cookie(OpenProject::Configuration['session_cookie_name'])
+        page.driver.browser.set_cookie(OpenProject::Configuration["session_cookie_name"])
       end
 
-      it 'logs in the user automatically if enabled' do
+      it "logs in the user automatically if enabled" do
         login_with(user.login, user_password, autologin: true)
 
         fake_browser_closed
@@ -157,13 +157,13 @@ RSpec.describe 'Login' do
       end
     end
 
-    context 'with password expiry', :js do
+    context "with password expiry", :js do
       before do
         user.passwords.update_all(created_at: 31.days.ago,
                                   updated_at: 31.days.ago)
       end
 
-      it 'does not allow login if the password is expired but the user can provide a new one' do
+      it "does not allow login if the password is expired but the user can provide a new one" do
         login_with(user.login, user_password)
 
         expect_being_logged_in(user)
@@ -175,11 +175,11 @@ RSpec.describe 'Login' do
 
         login_with(user.login, user_password)
 
-        fill_in 'Current password', with: user_password
-        fill_in 'New password', with: new_user_password
-        fill_in 'Confirmation', with: new_user_password
+        fill_in "Current password", with: user_password
+        fill_in "New password", with: new_user_password
+        fill_in "Confirmation", with: new_user_password
 
-        click_button 'Save'
+        click_button "Save"
 
         expect_being_logged_in(user)
 

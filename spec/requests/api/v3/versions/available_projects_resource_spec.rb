@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 members available projects resource' do
+RSpec.describe "API v3 versions available projects resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -78,7 +78,7 @@ RSpec.describe 'API v3 members available projects resource' do
 
   subject(:response) { last_response }
 
-  describe 'GET api/v3/members/available_projects' do
+  describe "GET api/v3/versions/available_projects" do
     let(:projects) { [manage_project, view_project, unauthorized_project] }
     let(:path) { api_v3_paths.versions_available_projects }
 
@@ -89,30 +89,30 @@ RSpec.describe 'API v3 members available projects resource' do
       get path
     end
 
-    context 'without params' do
-      it 'responds 200 OK' do
+    context "without params" do
+      it "responds 200 OK" do
         expect(subject.status).to eq(200)
       end
 
-      it 'returns a collection of projects containing only the ones for which the user has :manage_versions permission' do
+      it "returns a collection of projects containing only the ones for which the user has :manage_versions permission" do
         expect(subject.body)
-          .to be_json_eql('Collection'.to_json)
-          .at_path('_type')
+          .to be_json_eql("Collection".to_json)
+          .at_path("_type")
 
         expect(subject.body)
-          .to be_json_eql('1')
-          .at_path('total')
+          .to be_json_eql("1")
+          .at_path("total")
 
         expect(subject.body)
           .to be_json_eql(manage_project.id.to_json)
-          .at_path('_embedded/elements/0/id')
+          .at_path("_embedded/elements/0/id")
       end
     end
 
-    context 'without permissions' do
+    context "without permissions" do
       let(:permissions) { [:view_versions] }
 
-      it 'returns a 403' do
+      it "returns a 403" do
         expect(subject.status)
           .to eq(403)
       end

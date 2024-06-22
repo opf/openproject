@@ -32,10 +32,12 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, meeting_agenda_item:, method:, submit_path:, cancel_path:, type: :simple, display_notes_input: nil)
+    def initialize(meeting:, meeting_section:, meeting_agenda_item:, method:, submit_path:, cancel_path:, type: :simple,
+                   display_notes_input: nil)
       super
 
       @meeting = meeting
+      @meeting_section = meeting_section
       @meeting_agenda_item = meeting_agenda_item
       @method = method
       @submit_path = submit_path
@@ -56,9 +58,9 @@ module MeetingAgendaItems
 
     def wrapper_data_attributes
       {
-        controller: 'meeting-agenda-item-form',
-        'application-target': 'dynamic',
-        'meeting-agenda-item-form-cancel-url-value': @cancel_path
+        controller: "meeting-agenda-item-form",
+        "application-target": "dynamic",
+        "meeting-agenda-item-form-cancel-url-value": @cancel_path
       }
     end
 

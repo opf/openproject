@@ -26,25 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../project_include/project_include_shared_examples'
+require "spec_helper"
+require_relative "../project_include/project_include_shared_examples"
 
-RSpec.describe 'Work package project include', :js do
+RSpec.describe "Work package project include", :js do
   shared_let(:enabled_modules) { %w[work_package_tracking] }
   shared_let(:status) { create(:default_status) }
   shared_let(:priority) { create(:default_priority) }
   shared_let(:permissions) { %i[view_work_packages edit_work_packages add_work_packages save_queries manage_public_queries] }
 
-  it_behaves_like 'has a project include dropdown' do
+  it_behaves_like "has a project include dropdown" do
     shared_let(:work_package_view) { Pages::WorkPackagesTable.new(project) }
 
-    it 'correctly filters work packages by project' do
+    it "correctly filters work packages by project" do
       dropdown.expect_count 1
 
       # Make sure the filter gets set once
       dropdown.toggle!
       dropdown.expect_open
-      dropdown.click_button 'Apply'
+      dropdown.click_button "Apply"
       dropdown.expect_closed
 
       work_package_view.expect_work_package_listed(task, other_task, sub_bug, sub_sub_bug)
@@ -52,7 +52,7 @@ RSpec.describe 'Work package project include', :js do
 
       dropdown.toggle!
       dropdown.toggle_checkbox(sub_sub_sub_project.id)
-      dropdown.click_button 'Apply'
+      dropdown.click_button "Apply"
       dropdown.expect_count 1
 
       work_package_view.expect_work_package_listed(task, other_task, sub_sub_bug, sub_bug)
@@ -60,7 +60,7 @@ RSpec.describe 'Work package project include', :js do
 
       dropdown.toggle!
       dropdown.toggle_checkbox(other_project.id)
-      dropdown.click_button 'Apply'
+      dropdown.click_button "Apply"
       dropdown.expect_count 2
 
       work_package_view.expect_work_package_listed(task, other_task, sub_sub_bug, sub_bug, other_other_task)
@@ -70,14 +70,14 @@ RSpec.describe 'Work package project include', :js do
       work_package_view.expect_work_package_listed(task, other_task, sub_bug, sub_sub_bug, other_other_task)
     end
 
-    it 'creates new work packages in the host project of the work package view (regression #42271)' do
+    it "creates new work packages in the host project of the work package view (regression #42271)" do
       dropdown.expect_count 1
 
       # Make sure the filter gets set once
       dropdown.toggle!
       dropdown.expect_open
       dropdown.toggle_checkbox(other_sub_sub_project.id)
-      dropdown.click_button 'Apply'
+      dropdown.click_button "Apply"
       dropdown.expect_count 2
 
       work_package_view.click_inline_create
@@ -85,14 +85,14 @@ RSpec.describe 'Work package project include', :js do
       subject_field.expect_active!
 
       # Save the WP
-      subject_field.set_value 'Foobar!'
+      subject_field.set_value "Foobar!"
       subject_field.submit_by_enter
 
       work_package_view.expect_and_dismiss_toaster(
-        message: 'Successful creation. Click here to open this work package in fullscreen view.'
+        message: "Successful creation. Click here to open this work package in fullscreen view."
       )
 
-      work_package_view.expect_work_package_subject 'Foobar!'
+      work_package_view.expect_work_package_subject "Foobar!"
 
       inline_created = WorkPackage.last
       expect(inline_created.project).to eq(project)

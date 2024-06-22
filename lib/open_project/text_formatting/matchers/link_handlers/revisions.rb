@@ -34,7 +34,7 @@ module OpenProject::TextFormatting::Matchers
       # Condition: Separator is r
       # Condition: Prefix is nil
       def applicable?
-        matcher.prefix.nil? && matcher.sep == 'r'
+        matcher.prefix.nil? && matcher.sep == "r"
       end
 
       #
@@ -49,9 +49,9 @@ module OpenProject::TextFormatting::Matchers
 
         if changeset
           link_to(h("#{matcher.project_prefix}r#{matcher.identifier}"),
-                  { only_path: context[:only_path], controller: '/repositories', action: 'revision', project_id: project,
+                  { only_path: context[:only_path], controller: "/repositories", action: "revision", project_id: project,
                     rev: changeset.revision },
-                  class: 'changeset',
+                  class: "changeset",
                   title: truncate_single_line(changeset.comments, length: 100))
         end
       end

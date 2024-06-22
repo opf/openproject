@@ -31,8 +31,7 @@ module FlashMessagesHelper
   extend ActiveSupport::Concern
 
   included do
-    # For .safe_join in join_flash_messages
-    include ActionView::Helpers::OutputSafetyHelper
+    include FlashMessagesOutputSafetyHelper
   end
 
   def render_primer_banner_message?
@@ -45,12 +44,17 @@ module FlashMessagesHelper
     render(BannerMessageComponent.new(**flash[:primer_banner].to_hash))
   end
 
+  # Primer's flash message component wrapped in a component which is empty initially but can be updated via turbo stream
+  def render_streameable_primer_banner_message
+    render(FlashMessageComponent.new)
+  end
+
   # Renders flash messages
   def render_flash_messages
     return if render_primer_banner_message?
 
     messages = flash
-      .reject { |k, _| k.start_with? '_' }
+      .reject { |k, _| k.start_with? "_" }
       .map do |k, v|
       if k.to_sym == :modal
         component = v[:type].constantize
@@ -63,33 +67,25 @@ module FlashMessagesHelper
     safe_join messages, "\n"
   end
 
-  def join_flash_messages(messages)
-    if messages.respond_to?(:join)
-      safe_join(messages, '<br />'.html_safe)
-    else
-      messages
-    end
-  end
-
   def render_flash_message(type, message, html_options = {}) # rubocop:disable Metrics/AbcSize
-    if type.to_s == 'notice'
-      type = 'success'
+    if type.to_s == "notice"
+      type = "success"
     end
 
     toast_css_classes = ["op-toast -#{type}", html_options.delete(:class)]
 
     # Add autohide class to notice flashes if configured
-    if type.to_s == 'success' && User.current.pref.auto_hide_popups?
-      toast_css_classes << 'autohide-toaster'
+    if type.to_s == "success" && User.current.pref.auto_hide_popups?
+      toast_css_classes << "autohide-toaster"
     end
 
-    html_options = { class: toast_css_classes.join(' '), role: 'alert' }.merge(html_options)
-    close_button = content_tag :a, '', class: 'op-toast--close icon-context icon-close',
-                                       title: I18n.t('js.close_popup_title'),
-                                       tabindex: '0'
-    toast = content_tag(:div, join_flash_messages(message), class: 'op-toast--content')
-    content_tag :div, '', class: 'op-toast--wrapper' do
-      content_tag :div, '', class: 'op-toast--casing' do
+    html_options = { class: toast_css_classes.join(" "), role: "alert" }.merge(html_options)
+    close_button = content_tag :a, "", class: "op-toast--close icon-context icon-close",
+                                       title: I18n.t("js.close_popup_title"),
+                                       tabindex: "0"
+    toast = content_tag(:div, join_flash_messages(message), class: "op-toast--content")
+    content_tag :div, "", class: "op-toast--wrapper" do
+      content_tag :div, "", class: "op-toast--casing" do
         content_tag :div, html_options do
           concat(close_button)
           concat(toast)

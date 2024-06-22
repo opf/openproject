@@ -32,5 +32,5 @@ See COPYRIGHT and LICENSE files for more details.
 <%= breadcrumb_toolbar t(:label_enumeration_new) %>
 <%= labelled_tabular_form_for @enumeration do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_create), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

@@ -17,7 +17,7 @@
         </div>
         <div class="form--field-instructions">
           <%= I18n.t('recaptcha.settings.recaptcha_description_html',
-                     hcaptcha_link: link_to('https://docs.hcaptcha.com/switch/', 'https://docs.hcaptcha.com/switch/', target: '_blan'),
+                     hcaptcha_link: link_to('https://docs.hcaptcha.com/switch/', 'https://docs.hcaptcha.com/switch/', target: '_blank'),
                      recaptcha_link: link_to('https://www.google.com/recaptcha', 'https://www.google.com/recaptcha', target: '_blank')).html_safe %>
         </div>
       </div>
@@ -52,6 +52,6 @@
         </div>
       </div>
     </fieldset>
-    <%= styled_submit_tag t(:button_apply), class: '-highlight' %>
+    <%= styled_submit_tag t(:button_apply), class: '-primary' %>
   <% end %>
 </section>

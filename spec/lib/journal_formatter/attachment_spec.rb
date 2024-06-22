@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::Attachment do
   include ApplicationHelper
@@ -47,37 +47,37 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
 
   subject(:instance) { described_class.new(journal) }
 
-  describe '#render' do
-    describe 'WITH the first value being nil, and the second an id as string' do
-      it 'adds an attachment added text' do
+  describe "#render" do
+    describe "WITH the first value being nil, and the second an id as string" do
+      it "adds an attachment added text" do
         link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/attachments/#{attachment.id}/content"
         expect(instance.render(key, [nil, attachment.filename.to_s]))
           .to eq(I18n.t(:text_journal_attachment_added,
-                        label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
+                        label: "<strong>#{I18n.t(:"activerecord.models.attachment")}</strong>",
                         value: "<a href=\"#{link}\">#{attachment.filename}</a>"))
       end
 
-      context 'WITH a relative_url_root' do
+      context "WITH a relative_url_root" do
         before do
           allow(OpenProject::Configuration)
             .to receive(:rails_relative_url_root)
-                  .and_return('/blubs')
+                  .and_return("/blubs")
         end
 
-        it 'adds an attachment added text' do
+        it "adds an attachment added text" do
           link = "#{Setting.protocol}://#{Setting.host_name}/blubs/api/v3/attachments/#{attachment.id}/content"
           expect(instance.render(key, [nil, attachment.filename.to_s]))
             .to eq(I18n.t(:text_journal_attachment_added,
-                          label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
+                          label: "<strong>#{I18n.t(:"activerecord.models.attachment")}</strong>",
                           value: "<a href=\"#{link}\">#{attachment.filename}</a>"))
         end
       end
     end
 
-    describe 'WITH the first value being an id as string, and the second nil' do
+    describe "WITH the first value being an id as string, and the second nil" do
       let(:expected) do
         I18n.t(:text_journal_attachment_deleted,
-               label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
+               label: "<strong>#{I18n.t(:"activerecord.models.attachment")}</strong>",
                old: "<strike><i>#{attachment.filename}</i></strike>")
       end
 
@@ -88,7 +88,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
               WITH specifying not to output html" do
       let(:expected) do
         I18n.t(:text_journal_attachment_added,
-               label: I18n.t(:'activerecord.models.attachment'),
+               label: I18n.t(:"activerecord.models.attachment"),
                value: attachment.filename)
       end
 
@@ -99,7 +99,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
               WITH specifying not to output html" do
       let(:expected) do
         I18n.t(:text_journal_attachment_deleted,
-               label: I18n.t(:'activerecord.models.attachment'),
+               label: I18n.t(:"activerecord.models.attachment"),
                old: attachment.filename)
       end
 

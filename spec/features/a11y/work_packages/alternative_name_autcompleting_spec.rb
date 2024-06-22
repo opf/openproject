@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe "Alternative name autocompleting",
                :js,
@@ -43,42 +43,42 @@ RSpec.describe "Alternative name autocompleting",
 
   before { login_as(user) }
 
-  describe 'Work package filter autocompleter' do
-    it 'allows discovering attributes by alternative names' do
+  describe "Work package filter autocompleter" do
+    it "allows discovering attributes by alternative names" do
       work_packages_page.visit!
       work_packages_page.expect_work_package_listed(work_package)
 
       filters.open!
 
       # Exact alternative match
-      filters.expect_alternative_available_filter('Progress', '% Complete')
+      filters.expect_alternative_available_filter("Progress", "% Complete")
       # Partial alternative match
-      filters.expect_alternative_available_filter('ime', 'Work')
+      filters.expect_alternative_available_filter("ime", "Work")
       # Exact "real" match
-      filters.expect_alternative_available_filter('% Complete', '% Complete')
+      filters.expect_alternative_available_filter("% Complete", "% Complete")
       # Partial "real" match
-      filters.expect_alternative_available_filter('ork', 'Work')
+      filters.expect_alternative_available_filter("ork", "Work")
       # Indifferent to casing
-      filters.expect_alternative_available_filter('% comp', '% Complete')
+      filters.expect_alternative_available_filter("% comp", "% Complete")
     end
   end
 
-  describe 'Work package view configuration form' do
-    it 'allows discovering attributes by alternative names' do
+  describe "Work package view configuration form" do
+    it "allows discovering attributes by alternative names" do
       work_packages_page.visit!
       work_packages_page.expect_work_package_listed(work_package)
 
       columns.open_modal
       # Exact alternative match
-      columns.expect_alternative_available_column('Progress', '% Complete')
+      columns.expect_alternative_available_column("Progress", "% Complete")
       # Partial alternative match
-      columns.expect_alternative_available_column('ime', 'Work')
+      columns.expect_alternative_available_column("ime", "Work")
       # Exact "real" match
-      columns.expect_alternative_available_column('% Complete', '% Complete')
+      columns.expect_alternative_available_column("% Complete", "% Complete")
       # Partial "real" match
-      columns.expect_alternative_available_column('hours', 'Remaining work')
+      columns.expect_alternative_available_column("hours", "Remaining work")
       # Indifferent to casing
-      columns.expect_alternative_available_column('% comp', '% Complete')
+      columns.expect_alternative_available_column("% comp", "% Complete")
     end
   end
 end

@@ -1,0 +1,41 @@
+#English strings go here
+ms:
+  plugin_openproject_avatars:
+    name: "Avatar"
+    description: >-
+      Plugin ini membolehkan pengguna OpenProject untuk memuat naik gambar untuk dijadikan sebagai avatar, atau menggunakan imej berdaftar dari Gravatar.
+  label_avatar: "Avatar"
+  label_avatar_plural: "Avatar"
+  label_current_avatar: "Avatar semasa"
+  label_choose_avatar: "Pilih Avatar dari fail"
+  message_avatar_uploaded: "Avatar berjaya ditukar."
+  error_image_upload: "Ralat menyimpan imej."
+  error_image_size: "Imej terlalu besar."
+  button_change_avatar: "Tukar avatar."
+  are_you_sure_delete_avatar: "Adakah anda pasti mahu memadam avatar anda?"
+  avatar_deleted: "Avatar berjaya dipadam."
+  unable_to_delete_avatar: "Avatar tidak berjaya dipadam."
+  wrong_file_format: "Format yang dibenarkan adalah jpg, png, gif"
+  empty_file_error: "Sila muat naik imej yang sah (jpg, png, gif)"
+  avatars:
+    label_avatar: "Avatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Avatar semasa'
+    label_local_avatar: 'Avatar tersuai'
+    text_current_avatar: |
+      Imej berikut memaparkan avatar semasa.
+    text_upload_instructions: |
+      Muat naik avatar tersuai anda sendiri bersaiz 128 x 128 piksel. Fail lebih besar akan disaizkan semula dan dipotong untuk disesuaikan.
+      Previu avatar anda akan ditunjukkan sebelum memuat naik, sebaik sahaja anda memilih imej.
+    text_change_gravatar_html: 'Untuk menukar atau menambah Gravatar ke alamat e-mel anda, sila ke %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject membenarkan anda memuat naik avatar tersuai anda sendiri.
+    text_local_avatar_over_gravatar: |
+      Jika anda tetapkan satu, avatar tersuai ini akan digunakan dalam keutamaan daripada gravatar di atas.
+    text_your_current_gravatar: |
+      OpenProject akan menggunakan gravatar anda jika anda mendaftarkannya, atau imej atau ikon default, jika ada.
+      Gravatar semasa adalah seperti berikut:
+    settings:
+      enable_gravatars: 'Benarkan pengguna gravatar'
+      gravatar_default: "Imej Gravatar default"
+      enable_local_avatars: 'Benarkan pengguna menyuaikan avatar'

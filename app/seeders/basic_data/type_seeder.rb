@@ -28,7 +28,7 @@
 module BasicData
   class TypeSeeder < ModelSeeder
     self.model_class = Type
-    self.seed_data_model_key = 'types'
+    self.seed_data_model_key = "types"
     self.needs = [
       BasicData::ColorSeeder,
       BasicData::ColorSchemeSeeder
@@ -36,13 +36,13 @@ module BasicData
 
     def model_attributes(type_data)
       {
-        name: type_data['name'],
-        description: '',
-        is_default: true?(type_data['is_default']),
-        color_id: color_id(type_data['color_name']),
-        is_in_roadmap: true?(type_data['is_in_roadmap']),
-        is_milestone: true?(type_data['is_milestone']),
-        position: type_data['position']
+        name: type_data["name"],
+        description: "",
+        is_default: true?(type_data["is_default"]),
+        color_id: color_id(type_data["color_name"]),
+        is_in_roadmap: true?(type_data["is_in_roadmap"]),
+        is_milestone: true?(type_data["is_milestone"]),
+        position: type_data["position"]
       }
     end
   end

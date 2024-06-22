@@ -46,11 +46,11 @@ module OpenProject::Storages
     # please see comments inside ActsAsOpEngine class
     include OpenProject::Plugins::ActsAsOpEngine
 
-    initializer 'openproject_storages.feature_decisions' do
+    initializer "openproject_storages.feature_decisions" do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
     end
 
-    initializer 'openproject_storages.event_subscriptions' do
+    initializer "openproject_storages.event_subscriptions" do
       Rails.application.config.after_initialize do
         [
           OpenProject::Events::MEMBER_CREATED,
@@ -62,29 +62,31 @@ module OpenProject::Storages
           OpenProject::Events::PROJECT_UNARCHIVED
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |_payload|
-            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
 
         OpenProject::Notifications.subscribe(
           OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED
         ) do |payload|
-          if payload[:integration_type] == 'Storages::Storage'
-            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+          if payload[:integration_type] == "Storages::Storage"
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
+
         OpenProject::Notifications.subscribe(
           OpenProject::Events::ROLE_UPDATED
         ) do |payload|
           if payload[:permissions_diff]&.intersect?(OpenProject::Storages::Engine.permissions)
-            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
+
         OpenProject::Notifications.subscribe(
           OpenProject::Events::ROLE_DESTROYED
         ) do |payload|
           if payload[:permissions]&.intersect?(OpenProject::Storages::Engine.permissions)
-            ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
 
@@ -95,10 +97,22 @@ module OpenProject::Storages
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |payload|
             if payload[:project_folder_mode] == :automatic
-              ::Storages::ManageNextcloudIntegrationEventsJob.debounce
-              ::Storages::ManageNextcloudIntegrationCronJob.ensure_scheduled!
+              ::Storages::ManageStorageIntegrationsJob.debounce
+              ::Storages::ManageStorageIntegrationsJob.disable_cron_job_if_needed
             end
           end
+        end
+
+        OpenProject::Notifications.subscribe(
+          ::OpenProject::Events::STORAGE_TURNED_UNHEALTHY
+        ) do |payload|
+          Storages::HealthService.new(storage: payload[:storage]).unhealthy(reason: payload[:reason])
+        end
+
+        OpenProject::Notifications.subscribe(
+          ::OpenProject::Events::STORAGE_TURNED_HEALTHY
+        ) do |payload|
+          Storages::HealthService.new(storage: payload[:storage]).healthy
         end
       end
     end
@@ -106,14 +120,38 @@ module OpenProject::Storages
     # For documentation see the definition of register in "ActsAsOpEngine"
     # This corresponds to the openproject-storage.gemspec
     # Pass a block to the plugin (for defining permissions, menu items and the like)
-    register 'openproject-storages',
-             author_url: 'https://www.openproject.org',
+    register "openproject-storages",
+             author_url: "https://www.openproject.org",
              bundled: true,
              settings: {} do
       # Defines permission constraints used in the module (controller, etc.)
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
-      project_module :storages,
-                     dependencies: :work_package_tracking do
+      # Independent of storages module (Disabling storages module does not revoke enabled permissions).
+      project_module nil, order: 100 do
+        permission :manage_files_in_project,
+                   { "storages/admin/project_storages": %i[external_file_storages
+                                                           attachments
+                                                           members
+                                                           index
+                                                           new
+                                                           edit
+                                                           update
+                                                           create
+                                                           oauth_access_grant
+                                                           destroy
+                                                           destroy_info
+                                                           set_permissions],
+                     projects: %i[deactivate_work_package_attachments],
+                     "storages/project_settings/project_storage_members": %i[index] },
+                   permissible_on: :project,
+                   dependencies: %i[]
+        OpenProject::Storages::Engine.permissions.each do |p|
+          permission(p, {}, permissible_on: :project, dependencies: %i[])
+        end
+      end
+
+      # Dependent on work_package_tracking module
+      project_module :work_package_tracking do
         permission :view_file_links,
                    {},
                    permissible_on: :project,
@@ -124,52 +162,56 @@ module OpenProject::Storages
                    permissible_on: :project,
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
-        permission :manage_storages_in_project,
-                   { 'storages/admin/project_storages': %i[index members new
-                                                           edit update create oauth_access_grant
-                                                           destroy destroy_info set_permissions],
-                     'storages/project_settings/project_storage_members': %i[index] },
-                   permissible_on: :project,
-                   dependencies: %i[]
-
-        OpenProject::Storages::Engine.permissions.each do |p|
-          permission(p, {}, permissible_on: :project, dependencies: %i[])
-        end
       end
 
-      # Menu extensions
-      # Add a "storages_admin_settings" to the admin_menu with the specified link,
-      # condition ("if:"), caption and icon.
       menu :admin_menu,
-           :storages_admin_settings,
-           { controller: '/storages/admin/storages', action: :index },
+           :files,
+           { controller: "/storages/admin/storages", action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
-           icon: 'hosting'
+           icon: "file-directory"
+
+      menu :admin_menu,
+           :external_file_storages,
+           { controller: "/storages/admin/storages", action: :index },
+           if: Proc.new { User.current.admin? },
+           caption: :external_file_storages,
+           parent: :files
+
+      menu :admin_menu,
+           :attachments,
+           { controller: "/admin/settings/attachments_settings", action: :show },
+           if: Proc.new { User.current.admin? },
+           caption: :"attributes.attachments",
+           parent: :files
 
       menu :project_menu,
            :settings_project_storages,
-           { controller: '/storages/admin/project_storages', action: 'index' },
+           { controller: "/storages/admin/project_storages", action: "external_file_storages" },
+           if: lambda { |project| User.current.allowed_in_project?(:manage_files_in_project, project) },
            caption: :project_module_storages,
            parent: :settings
 
-      configure_menu :project_menu do |menu, project|
-        if project.present? &&
-          User.current.logged? &&
-          User.current.member_of?(project) &&
-          User.current.allowed_in_project?(:view_file_links, project)
-          project.project_storages.each do |project_storage|
-            storage = project_storage.storage
-            next unless storage.configured?
+      configure_menu :project_menu do |menu, prj|
+        u = User.current
+        if prj.present? && u.logged? && u.member_of?(prj) && u.allowed_in_project?(:view_file_links, prj)
+          prj.project_storages.each do |prj_storage|
+            storage = prj_storage.storage
+            hide_from_menu = !storage.configured? ||
+                             # the following check is required for ensure access modal final check being possible
+                             # the modal waiting for read_files permission on the project folder
+                             # otherwise polls backend until eternity
+                             (prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj))
+            next if hide_from_menu
 
-            icon = storage.provider_type_nextcloud? ? 'nextcloud-circle' : 'hosting'
+            icon = storage.provider_type_nextcloud? ? "op-mark-nextcloud" : "file-directory"
             menu.push(
               :"storage_#{storage.id}",
-              project_storage.open_with_connection_ensured,
+              prj_storage.open_with_connection_ensured,
               caption: storage.name,
               before: :members,
               icon:,
-              icon_after: 'external-link',
+              icon_after: "link-external",
               skip_permissions_check: true
             )
           end
@@ -273,21 +315,28 @@ module OpenProject::Storages
     end
 
     # Add api endpoints specific to this module
-    add_api_endpoint 'API::V3::Root' do
+    add_api_endpoint "API::V3::Root" do
       mount ::API::V3::Storages::StoragesAPI
       mount ::API::V3::ProjectStorages::ProjectStoragesAPI
       mount ::API::V3::FileLinks::FileLinksAPI
     end
 
-    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
+    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
       mount ::API::V3::FileLinks::WorkPackagesFileLinksAPI
     end
 
     add_cron_jobs do
-      [
-        Storages::CleanupUncontaineredFileLinksJob,
-        Storages::ManageNextcloudIntegrationCronJob
-      ]
+      {
+        "Storages::CleanupUncontaineredFileLinksJob": {
+          cron: "06 22 * * *", # every day at 22:06
+          class: ::Storages::CleanupUncontaineredFileLinksJob.name
+        },
+
+        "Storages::ManageStorageIntegrationsJob": {
+          cron: "1 * * * *", # every hour at xx:01
+          class: ::Storages::ManageStorageIntegrationsJob.name
+        }
+      }
     end
   end
 end

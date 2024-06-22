@@ -35,8 +35,8 @@ module API
 
         resources :render do
           helpers do
-            SUPPORTED_CONTEXT_NAMESPACES ||= %w(work_packages projects news posts wiki_pages).freeze
-            SUPPORTED_MEDIA_TYPE ||= 'text/plain'.freeze
+            SUPPORTED_CONTEXT_NAMESPACES ||= %w(work_packages projects news posts wiki_pages meeting_contents).freeze
+            SUPPORTED_MEDIA_TYPE ||= "text/plain".freeze
 
             def allowed_content_types
               [SUPPORTED_MEDIA_TYPE]
@@ -46,8 +46,8 @@ module API
               actual = request.content_type
 
               unless actual&.starts_with?(SUPPORTED_MEDIA_TYPE)
-                bad_type = actual || I18n.t('api_v3.errors.missing_content_type')
-                message = I18n.t('api_v3.errors.invalid_content_type',
+                bad_type = actual || I18n.t("api_v3.errors.missing_content_type")
+                message = I18n.t("api_v3.errors.invalid_content_type",
                                  content_type: SUPPORTED_MEDIA_TYPE,
                                  actual: bad_type)
 
@@ -57,24 +57,24 @@ module API
 
             def check_format(format)
               unless ::OpenProject::TextFormatting::Formats.supported?(format)
-                fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
+                fail ::API::Errors::NotFound, I18n.t("api_v3.errors.code_404")
               end
             end
 
             def setup_response
               status 200
-              content_type 'text/html'
+              content_type "text/html"
             end
 
             def request_body
-              env['api.request.body']
+              env["api.request.body"]
             end
 
             def context_object
               try_context_object
             rescue ::ActiveRecord::RecordNotFound
               fail ::API::Errors::InvalidRenderContext.new(
-                I18n.t('api_v3.errors.render.context_object_not_found')
+                I18n.t("api_v3.errors.render.context_object_not_found")
               )
             end
 
@@ -83,9 +83,9 @@ module API
                 context = parse_context
                 namespace = context[:namespace]
 
-                klass = if namespace == 'posts'
+                klass = if namespace == "posts"
                           Message
-                        elsif SUPPORTED_CONTEXT_NAMESPACES.without('posts').include?(namespace)
+                        elsif SUPPORTED_CONTEXT_NAMESPACES.without("posts").include?(namespace)
                           namespace.camelcase.singularize.constantize
                         end
 
@@ -100,12 +100,12 @@ module API
 
               if context.nil?
                 fail ::API::Errors::InvalidRenderContext.new(
-                  I18n.t('api_v3.errors.render.context_not_parsable')
+                  I18n.t("api_v3.errors.render.context_not_parsable")
                 )
-              elsif !SUPPORTED_CONTEXT_NAMESPACES.include?(context[:namespace]) ||
-                    context[:version] != '3'
+              elsif SUPPORTED_CONTEXT_NAMESPACES.exclude?(context[:namespace]) ||
+                    context[:version] != "3"
                 fail ::API::Errors::InvalidRenderContext.new(
-                  I18n.t('api_v3.errors.render.unsupported_context')
+                  I18n.t("api_v3.errors.render.unsupported_context")
                 )
               else
                 context

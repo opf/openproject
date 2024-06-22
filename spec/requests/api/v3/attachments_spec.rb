@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'attachments/attachment_resource_shared_examples'
+require "spec_helper"
+require_relative "attachments/attachment_resource_shared_examples"
 
 RSpec.describe API::V3::Attachments::AttachmentsAPI do
   include Rack::Test::Methods
@@ -40,74 +40,74 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:add_work_packages] }
 
-  describe 'permissions', :with_direct_uploads do
+  describe "permissions", :with_direct_uploads do
     let(:request_path) { api_v3_paths.prepare_new_attachment_upload }
     let(:request_parts) { { metadata: metadata.to_json, file: } }
-    let(:metadata) { { fileName: 'cat.png', fileSize: file.size, contentType: 'image/png' } }
-    let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
+    let(:metadata) { { fileName: "cat.png", fileSize: file.size, contentType: "image/png" } }
+    let(:file) { mock_uploaded_file(name: "original-filename.txt") }
 
     before do
       allow(User).to receive(:current).and_return current_user
       post request_path, request_parts
     end
 
-    context 'with missing permissions' do
+    context "with missing permissions" do
       let(:permissions) { [] }
 
-      it 'forbids to prepare attachments' do
+      it "forbids to prepare attachments" do
         expect(last_response.status).to eq 403
       end
     end
 
-    context 'with :edit_work_packages permission' do
+    context "with :edit_work_packages permission" do
       let(:permissions) { [:edit_work_packages] }
 
-      it 'can prepare attachments' do
+      it "can prepare attachments" do
         expect(last_response.status).to eq 201
       end
     end
 
-    context 'with :add_work_package_attachments permission' do
+    context "with :add_work_package_attachments permission" do
       let(:permissions) { [:add_work_package_attachments] }
 
-      it 'can prepare attachments' do
+      it "can prepare attachments" do
         expect(last_response.status).to eq 201
       end
     end
   end
 
-  it_behaves_like 'it supports direct uploads' do
+  it_behaves_like "it supports direct uploads" do
     let(:request_path) { api_v3_paths.prepare_new_attachment_upload }
     let(:container_href) { nil }
 
-    describe 'GET /uploaded' do
-      let(:digest) { "" }
+    describe "GET /uploaded" do
+      let(:status) { :prepared }
       let(:attachment) do
-        create(:attachment, digest:, author: current_user, container: nil, container_type: nil, downloads: -1)
+        create(:attachment, status:, author: current_user, container: nil, container_type: nil)
       end
 
       before do
         get "/api/v3/attachments/#{attachment.id}/uploaded"
       end
 
-      context 'with no pending attachments' do
-        let(:digest) { "0xFF" }
+      context "with no pending attachments" do
+        let(:status) { :uploaded }
 
-        it 'returns 404' do
+        it "returns 404" do
           expect(last_response.status).to eq 404
         end
       end
 
-      context 'with a pending attachment' do
-        it 'enqueues a FinishDirectUpload job' do
+      context "with a pending attachment" do
+        it "enqueues a FinishDirectUpload job" do
           expect(Attachments::FinishDirectUploadJob).to have_been_enqueued.at_least(1)
         end
 
-        it 'responds with HTTP OK' do
+        it "responds with HTTP OK" do
           expect(last_response.status).to eq 200
         end
 
-        it 'returns the attachment representation' do
+        it "returns the attachment representation" do
           json = JSON.parse last_response.body
 
           expect(json["_type"]).to eq "Attachment"
@@ -115,4 +115,6 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
       end
     end
   end
+
+  context "with an quarantined attachments"
 end

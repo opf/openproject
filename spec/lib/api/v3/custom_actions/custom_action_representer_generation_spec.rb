@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::CustomActions::CustomActionRepresenter do
   include API::V3::Utilities::PathHelper
@@ -40,38 +40,38 @@ RSpec.describe API::V3::CustomActions::CustomActionRepresenter do
 
   subject { representer.to_json }
 
-  context 'properties' do
-    it 'has a _type property' do
+  context "properties" do
+    it "has a _type property" do
       expect(subject)
-        .to be_json_eql('CustomAction'.to_json)
-        .at_path('_type')
+        .to be_json_eql("CustomAction".to_json)
+        .at_path("_type")
     end
 
-    it 'has a name property' do
+    it "has a name property" do
       expect(subject)
         .to be_json_eql(custom_action.name.to_json)
-        .at_path('name')
+        .at_path("name")
     end
 
-    it 'has a description property' do
+    it "has a description property" do
       expect(subject)
         .to be_json_eql(custom_action.description.to_json)
-        .at_path('description')
+        .at_path("description")
     end
   end
 
-  context 'links' do
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'self' }
+  context "links" do
+    it_behaves_like "has a titled link" do
+      let(:link) { "self" }
       let(:href) { api_v3_paths.custom_action(custom_action.id) }
       let(:title) { custom_action.name }
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'executeImmediately' }
+    it_behaves_like "has a titled link" do
+      let(:link) { "executeImmediately" }
       let(:href) { api_v3_paths.custom_action_execute(custom_action.id) }
       let(:title) { "Execute #{custom_action.name}" }
-      let(:method) { 'post' }
+      let(:method) { "post" }
     end
   end
 end

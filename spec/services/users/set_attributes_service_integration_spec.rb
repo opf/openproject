@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Users::SetAttributesService, 'Integration', type: :model do
+RSpec.describe Users::SetAttributesService, "Integration", type: :model do
   shared_let(:input_user) { create(:user) }
   let(:actor) { build_stubbed(:admin) }
 
@@ -40,32 +40,32 @@ RSpec.describe Users::SetAttributesService, 'Integration', type: :model do
 
   subject { instance.call(params) }
 
-  context 'with a boolean castable preference' do
+  context "with a boolean castable preference" do
     let(:params) do
-      { pref: { hide_mail: '0' } }
+      { pref: { hide_mail: "0" } }
     end
 
-    it 'returns an error for that' do
+    it "returns an error for that" do
       expect(subject.errors).to be_empty
     end
   end
 
-  context 'with an invalid parameter' do
+  context "with an invalid parameter" do
     let(:params) do
-      { pref: { workdays: 'foobar' } }
+      { pref: { workdays: "foobar" } }
     end
 
-    it 'returns an error for that' do
+    it "returns an error for that" do
       expect(subject.errors[:workdays]).to include "is not of type 'array'"
     end
   end
 
-  context 'with an unknown property' do
+  context "with an unknown property" do
     let(:params) do
-      { pref: { watwatwat: 'foobar' } }
+      { pref: { watwatwat: "foobar" } }
     end
 
-    it 'does not raise an error' do
+    it "does not raise an error" do
       expect(subject).to be_success
       expect(subject.result.pref.settings).not_to be_key(:watwatwat)
     end

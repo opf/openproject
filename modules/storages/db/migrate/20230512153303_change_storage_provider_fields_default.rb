@@ -27,7 +27,7 @@
 
 class ChangeStorageProviderFieldsDefault < ActiveRecord::Migration[7.0]
   def change
-    change_column_default(:storages, :provider_fields, from: '{}', to: {})
+    change_column_default(:storages, :provider_fields, from: "{}", to: {})
 
     reversible do |dir|
       dir.up do

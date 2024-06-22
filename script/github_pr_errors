@@ -1,26 +1,27 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'bundler'
+require "rubygems"
+require "bundler"
 Bundler.setup(:default, :development)
 
-require 'colored2'
-require 'json'
-require 'optparse'
-require 'base64'
-require 'pathname'
-require 'pry'
-require 'yaml'
-require 'httpx'
+require "colored2"
+require "json"
+require "optparse"
+require "base64"
+require "pathname"
+require "pry"
+require "time"
+require "yaml"
+require "httpx"
 
-GITHUB_API_OPENPROJECT_PREFIX = 'https://api.github.com/repos/opf/openproject'.freeze
-GITHUB_HTML_OPENPROJECT_PREFIX = 'https://github.com/opf/openproject'.freeze
+GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject".freeze
+GITHUB_HTML_OPENPROJECT_PREFIX = "https://github.com/opf/openproject".freeze
 RAILS_ROOT = Pathname.new(__dir__).dirname
 EXCLUDED_JOB_NAMES = %w[eslint rubocop].freeze
 
-if !ENV['GITHUB_USERNAME']
+if !ENV["GITHUB_USERNAME"]
   raise "Missing GITHUB_USERNAME env"
-elsif !ENV['GITHUB_TOKEN']
+elsif !ENV["GITHUB_TOKEN"]
   raise "Missing GITHUB_TOKEN env, go to https://github.com/settings/tokens and create one with 'repo' access"
 end
 
@@ -28,6 +29,7 @@ class Options
   DEFAULTS = {
     compact: false,
     display_rerun_info: false,
+    display_images: false,
     failed_jobs_logs: [],
     no_cache: false,
     run_id: nil,
@@ -98,6 +100,10 @@ class Options
           options[:failed_jobs_logs] << path
         end
 
+        parser.on("-i", "--images", "Download and display screenshots of failed feature tests") do
+          options[:display_images] = true
+        end
+
         parser.on("-n", "--no-cache", "Do not use cached replies from GitHub API calls") do
           options[:no_cache] = true
         end
@@ -123,13 +129,13 @@ class Options
 
     def parse_url(url)
       case url
-      when %r{^https://github.com/opf/openproject/actions/runs/(\d+)(?:/job/\d+)?$}
+      when %r{^https://github.com/opf/openproject/actions/runs/(\d+)(?:/job/\d+(?:\?.*)?)?$}
         run_id = $1.to_i
         say_verbose("Extracted run id #{run_id} from #{url}")
         { run_id: }
       else
-        say_verbose("Unrecognized url #{url}")
-        {}
+        warn "Unrecognized url #{url}"
+        exit 1
       end
     end
   end
@@ -147,7 +153,7 @@ def current_branch_name
 end
 
 def github_url(path)
-  if path.start_with?('http')
+  if path.start_with?("http")
     path
   else
     "#{GITHUB_API_OPENPROJECT_PREFIX}/#{path}"
@@ -158,7 +164,7 @@ def http
   HTTPX
     .plugin(:follow_redirects)
     .plugin(:basic_auth)
-    .basic_auth(ENV.fetch('GITHUB_USERNAME'), ENV.fetch('GITHUB_TOKEN'))
+    .basic_auth(ENV.fetch("GITHUB_USERNAME"), ENV.fetch("GITHUB_TOKEN"))
 end
 
 def get_http(path)
@@ -196,18 +202,18 @@ end
 
 def path_to_cache_key(path)
   path
-    .gsub(/\?.*$/, '') # remove query parameter
-    .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/o, '') # remove https://.../
-    .gsub(/\W/, '_') # transform non alphanum chars
+    .gsub(/\?.*$/, "") # remove query parameter
+    .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/o, "") # remove https://.../
+    .gsub(/\W/, "_") # transform non alphanum chars
 end
 
 def get_jobs(workflow_run)
-  workflow_run['jobs_url']
+  workflow_run["jobs_url"]
   cache_key = [
-    path_to_cache_key(workflow_run['jobs_url']),
-    workflow_run['updated_at'].delete(':')
-  ].join('_')
-  cached(cache_key) { get_json(workflow_run['jobs_url']) }
+    path_to_cache_key(workflow_run["jobs_url"]),
+    workflow_run["updated_at"].delete(":")
+  ].join("_")
+  cached(cache_key) { get_json(workflow_run["jobs_url"]) }
 end
 
 def get_log(job)
@@ -237,20 +243,20 @@ end
 
 def last_with_status(workflow_runs, status)
   workflow_runs
-    .select { |entry| entry['status'] == status }
-    .max_by { |entry| entry['run_number'] }
+    .select { |entry| entry["status"] == status }
+    .max_by { |entry| entry["run_number"] }
 end
 
 def get_last_workflow_run(branch_name)
   test_workflow_runs =
     get_json("actions/runs?branch=#{CGI.escape(branch_name)}")
-      .then { |response| response['workflow_runs'] }
-      .select { |entry| entry['name'] == 'Test suite' }
+      .then { |response| response["workflow_runs"] }
+      .select { |entry| entry["name"] == "Test suite" }
 
-  last_completed = last_with_status(test_workflow_runs, 'completed')
-  last_in_progress = last_with_status(test_workflow_runs, 'in_progress')
+  last_completed = last_with_status(test_workflow_runs, "completed")
+  last_in_progress = last_with_status(test_workflow_runs, "in_progress")
 
-  last_completed || last_in_progress or raise "No workflow run found for branch #{branch_name}"
+  last_in_progress || last_completed or raise "No workflow run found for branch #{branch_name}"
 end
 
 def get_workflow_run(run_id)
@@ -263,7 +269,15 @@ def get_workflow_run(run_id)
   end
 end
 
-Report = Data.define(:errors, :failures_explanation)
+class Report
+  attr_accessor :errors,
+                :failures_explanation,
+                :head_branch,
+                :head_sha,
+                :commit_message,
+                :run_started_at,
+                :merge_branch_sha
+end
 
 class Error
   attr_accessor :location, :page_html, :page_screenshot, :tests_group, :loading_error
@@ -271,7 +285,7 @@ end
 
 # rubocop:disable Layout/LineLength
 # Looks like this in the job log:
-# Process 28: TEST_ENV_NUMBER=28 RUBYOPT=-I/usr/local/bundle/bundler/gems/turbo_tests-3148ae6c3482/lib -r/usr/local/bundle/gems/bundler-2.5.5/lib/bundler/setup -W0 RSPEC_SILENCE_FILTER_ANNOUNCEMENTS=1 /usr/local/bundle/gems/bundler-2.5.5/exe/bundle exec rspec --seed 52674 --format TurboTests::JsonRowsFormatter --out tmp/test-pipes/subprocess-28 --format ParallelTests::RSpec::RuntimeLogger --out spec/support/turbo_runtime_features.log spec/features/api_docs/index_spec.rb spec/features/custom_fields/reorder_options_spec.rb spec/features/projects/projects_portfolio_spec.rb spec/features/projects/template_spec.rb spec/features/versions/edit_spec.rb spec/features/work_packages/details/markdown/description_editor_spec.rb spec/features/work_packages/table/hierarchy/hierarchy_parent_below_spec.rb spec/features/work_packages/table/inline_create/inline_create_refresh_spec.rb spec/features/work_packages/table/invalid_query_spec.rb spec/features/work_packages/tabs/activity_revisions_spec.rb
+# Process 28: TEST_ENV_NUMBER=28 RUBYOPT=-I/usr/local/bundle/bundler/gems/turbo_tests-3148ae6c3482/lib -r/usr/local/bundle/gems/bundler-2.5.13/lib/bundler/setup -W0 RSPEC_SILENCE_FILTER_ANNOUNCEMENTS=1 /usr/local/bundle/gems/bundler-2.5.13/exe/bundle exec rspec --seed 52674 --format TurboTests::JsonRowsFormatter --out tmp/test-pipes/subprocess-28 --format ParallelTests::RSpec::RuntimeLogger --out spec/support/turbo_runtime_features.log spec/features/api_docs/index_spec.rb spec/features/custom_fields/reorder_options_spec.rb spec/features/projects/projects_portfolio_spec.rb spec/features/projects/template_spec.rb spec/features/versions/edit_spec.rb spec/features/work_packages/details/markdown/description_editor_spec.rb spec/features/work_packages/table/hierarchy/hierarchy_parent_below_spec.rb spec/features/work_packages/table/inline_create/inline_create_refresh_spec.rb spec/features/work_packages/table/invalid_query_spec.rb spec/features/work_packages/tabs/activity_revisions_spec.rb
 # rubocop:enable Layout/LineLength
 class TestsGroup
   attr_accessor :test_env_number, :seed, :files
@@ -296,15 +310,19 @@ class JobErrorsFinder
   SPEC_LOADING_ERRORS_PATTERN = %r{^\S+ An error occurred while loading (\S+)\.\r?$}
   SCREENSHOT_PATTERN = /\{"message":"Screenshot captured for failed feature test"[^\n]+$/
   TESTS_GROUP_PATTERN = /Process \d+: TEST_ENV_NUMBER=\d+ [^\n]+$/
+  BRANCH_MERGE_PATTERN = /Merge \w{40} into (\w{40})$/
 
-  attr_reader :failures_explanation
+  attr_reader :failures_explanation, :merge_branch_sha
 
-  def self.scan_logs(logs)
+  def self.scan_logs(report, logs)
     finder = new
     logs.each do |log|
       finder.scan_log(log)
     end
-    Report.new(errors: finder.errors, failures_explanation: finder.failures_explanation)
+    report.errors = finder.errors
+    report.failures_explanation = finder.failures_explanation
+    report.merge_branch_sha = finder.merge_branch_sha
+    report
   end
 
   def scan_log(log)
@@ -313,6 +331,7 @@ class JobErrorsFinder
     find_loading_errors(log)
     find_screenshots(log)
     find_tests_groups(log)
+    find_merge_branch_info(log)
   end
 
   def errors
@@ -401,6 +420,11 @@ class JobErrorsFinder
     end
   end
 
+  def find_merge_branch_info(log)
+    merge_branch_sha = log.scan(BRANCH_MERGE_PATTERN).flatten.first
+    @merge_branch_sha = merge_branch_sha if merge_branch_sha
+  end
+
   def build_tests_group_from_command(line)
     tests_group = TestsGroup.new
     parts = line.split
@@ -427,10 +451,15 @@ class Formatter
     @compact
   end
 
-  def display_workflow_run_info(workflow_run)
-    warn "  Branch: #{workflow_run['head_branch'].bold}"
-    warn "  Commit SHA: #{workflow_run['head_sha'].bold}"
-    warn "  Commit message: #{commit_message(workflow_run).bold}"
+  def display_workflow_run_info(report, workflow_run)
+    report.head_branch = workflow_run["head_branch"]
+    report.head_sha = workflow_run["head_sha"]
+    report.commit_message = commit_message(workflow_run)
+    report.run_started_at = Time.parse(workflow_run["run_started_at"]).utc
+    warn "  Branch: #{report.head_branch.bold}"
+    warn "  Commit SHA: #{report.head_sha.bold}"
+    warn "  Commit message: #{report.commit_message.bold}"
+    warn "  Run started at: #{report.run_started_at.localtime.to_s.bold}"
     display_pull_request_info(workflow_run)
   end
 
@@ -444,6 +473,7 @@ class Formatter
 
   def display_report(report)
     display_failures_explanation(report.failures_explanation)
+    display_checkout_test_commit_information(report) if Options.display_rerun_info
     display_errors(report.errors)
   end
 
@@ -492,7 +522,30 @@ class Formatter
     puts escaped_location(error)
     display_error_attribute("loading error", error.loading_error)
     display_error_attribute("html", error.page_html)
-    display_error_attribute("screenshot", error.page_screenshot)
+    display_error_screenshot(error.page_screenshot)
+  end
+
+  def display_error_screenshot(screenshot_url)
+    return unless screenshot_url
+
+    display_error_attribute("screenshot", screenshot_url)
+    if Options.display_images
+      if screenshot_url.start_with?("/")
+        # external pull requests do not have access to AWS credentials to upload screenshots
+        warn "      (cannot display screenshot: it is local file stored on the runner)".yellow
+        return
+      end
+      begin
+        Open3.popen2e("imgcat", "--width", "50%", "--url", screenshot_url) do |stdin, stdout_and_stderr, _thread|
+          stdin.close
+          warn stdout_and_stderr.read
+        end
+      rescue Errno::ENOENT => e
+        warn e
+        warn "To display image inline, you need to have a compatible terminal like iTerm2 or Konsole, and the 'imgcat' command installed."
+        warn "See https://iterm2.com/documentation-images.html to know more."
+      end
+    end
   end
 
   def display_error_attribute(name, value)
@@ -500,12 +553,33 @@ class Formatter
 
     warn [
       "    ",
-      '↳'.blue.bold,
+      "↳".blue.bold,
       " ",
       name.blue,
       ": ",
       value.to_s.blue
     ].join
+  end
+
+  def display_checkout_test_commit_information(report)
+    if report.merge_branch_sha
+      warn <<~INSTRUCTIONS.white.dark
+        To be with the exact same source files as CI, use these commands:
+          git branch --force repro/head_branch #{report.head_sha}
+          git branch --force repro/merge_branch #{report.merge_branch_sha}
+          git checkout repro/merge_branch
+          git merge --no-commit --no-verify repro/head_branch
+          git checkout --detach
+          git branch --delete repro/head_branch
+          git branch --delete repro/merge_branch
+      INSTRUCTIONS
+    else
+      warn <<~INSTRUCTIONS.white.dark
+        To be with the exact same source files as CI, use this command:
+          git checkout #{report.head_sha}
+      INSTRUCTIONS
+    end
+    warn # empty line
   end
 
   def display_tests_group_info(tests_group)
@@ -523,9 +597,9 @@ class Formatter
   end
 
   def display_pull_request_info(workflow_run)
-    return unless workflow_run['event'] == 'pull_request'
+    return unless workflow_run["event"] == "pull_request"
 
-    if pr = workflow_run['pull_requests'].first
+    if pr = workflow_run["pull_requests"].first
       pr_number = "##{pr['number']}"
       pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
       pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
@@ -536,17 +610,17 @@ class Formatter
   end
 
   def commit_message(workflow_run)
-    workflow_run['head_commit']
+    workflow_run["head_commit"]
       .then { |commit| commit["message"] }
       .then { |message| message.split("\n", 2).first }
   end
 
   def status_icon(job)
-    case job['status']
+    case job["status"]
     when "queued", "in_progress"
       "●".yellow
     else
-      case job['conclusion']
+      case job["conclusion"]
       when "success"
         "✓".green
       when "failure"
@@ -558,9 +632,9 @@ class Formatter
   end
 
   def status_url(job)
-    return if job['conclusion'] == "success"
+    return if job["conclusion"] == "success"
 
-    job['html_url'].white.dark
+    job["html_url"].white.dark
   end
 
   def status_line(job)
@@ -575,44 +649,50 @@ class Formatter
   end
 end
 
-def get_failed_jobs_logs_from_github(formatter)
+def get_failed_jobs_logs_from_github(report, formatter)
   workflow_run = get_workflow_run(Options.run_id)
 
-  formatter.display_workflow_run_info(workflow_run)
+  formatter.display_workflow_run_info(report, workflow_run)
 
   formatter.display_workflow_status(workflow_run)
-  get_jobs(workflow_run)
-    .then { |jobs_response| jobs_response['jobs'] }
-    .sort_by { _1['name'] }
+  job_logs = get_jobs(workflow_run)
+    .then { |jobs_response| jobs_response["jobs"] }
+    .sort_by { _1["name"] }
     .each { |job| formatter.display_job_status(job) }
-    .select { _1['conclusion'] == 'failure' }
-    .reject { EXCLUDED_JOB_NAMES.include?(_1['name']) }
+    .select { _1["conclusion"] == "failure" }
+    .reject { EXCLUDED_JOB_NAMES.include?(_1["name"]) }
     .map { |job| get_log(job) }
+
+  [job_logs, job_logs.any? ? "error" : workflow_run["status"]]
 end
 
 def get_failed_jobs_logs_from_args
   Options.failed_jobs_logs.map { |path| File.read(path) }
 end
 
-def get_failed_jobs_logs(formatter)
+def get_failed_jobs_logs(report, formatter)
   if Options.failed_jobs_logs.any?
-    get_failed_jobs_logs_from_args
+    [get_failed_jobs_logs_from_args, failed_jobs_logs.none? ? "completed" : "error"]
   else
-    get_failed_jobs_logs_from_github(formatter)
+    get_failed_jobs_logs_from_github(report, formatter)
   end
 end
 
 ##########
 
+# report stores all found information about the workflow run
+report = Report.new
 formatter = Formatter.new(compact: Options.compact)
 
-failed_jobs_logs = get_failed_jobs_logs(formatter)
+failed_jobs_logs, status = get_failed_jobs_logs(report, formatter)
 
-is_successful = failed_jobs_logs.none?
-report = JobErrorsFinder.scan_logs(failed_jobs_logs)
+JobErrorsFinder.scan_logs(report, failed_jobs_logs)
 
-if is_successful
+case status
+when "completed"
   warn "All jobs successful 🎉"
-else
+when "in_progress"
+  # NOOP
+when "error"
   formatter.display_report(report)
 end

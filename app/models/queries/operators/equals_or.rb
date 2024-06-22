@@ -28,6 +28,6 @@
 
 module Queries::Operators
   class EqualsOr < Equals
-    label 'operator_equals_or'
+    label "operator_equals_or"
   end
 end

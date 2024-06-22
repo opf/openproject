@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-require_relative 'shared_responses'
+require_relative "shared_responses"
 
-RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
+RSpec.describe "BCF 2.1 topics resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -99,7 +99,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
 
   subject(:response) { last_response }
 
-  describe 'GET /api/bcf/2.1/projects/:project_id/topics' do
+  describe "GET /api/bcf/2.1/projects/:project_id/topics" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics" }
     let(:current_user) { view_only_user }
 
@@ -110,7 +110,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       get path
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
         work_package.reload
         [
@@ -142,22 +142,22 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       end
     end
 
-    context 'lacking permission to see project' do
+    context "lacking permission to see project" do
       let(:current_user) { non_member_user }
 
-      it_behaves_like 'bcf api not found response'
+      it_behaves_like "bcf api not found response"
     end
 
-    context 'lacking permission to see linked issues' do
+    context "lacking permission to see linked issues" do
       let(:current_user) { only_member_user }
 
-      it_behaves_like 'bcf api not allowed response'
+      it_behaves_like "bcf api not allowed response"
     end
 
-    context 'having edit permission' do
+    context "having edit permission" do
       let(:current_user) { edit_member_user }
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_body) do
           work_package.reload
 
@@ -192,7 +192,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
     end
   end
 
-  describe 'GET /api/bcf/2.1/projects/:project_id/topics/:uuid' do
+  describe "GET /api/bcf/2.1/projects/:project_id/topics/:uuid" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}" }
     let(:current_user) { view_only_user }
 
@@ -203,7 +203,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       get path
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
         work_package.reload
 
@@ -234,28 +234,28 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       end
     end
 
-    context 'lacking permission to see project' do
+    context "lacking permission to see project" do
       let(:current_user) { non_member_user }
 
-      it_behaves_like 'bcf api not found response'
+      it_behaves_like "bcf api not found response"
     end
 
-    context 'invalid uuid' do
+    context "invalid uuid" do
       let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/0" }
 
-      it_behaves_like 'bcf api not found response'
+      it_behaves_like "bcf api not found response"
     end
 
-    context 'lacking permission to see linked issues' do
+    context "lacking permission to see linked issues" do
       let(:current_user) { only_member_user }
 
-      it_behaves_like 'bcf api not allowed response'
+      it_behaves_like "bcf api not allowed response"
     end
 
-    context 'having edit permission' do
+    context "having edit permission" do
       let(:current_user) { edit_member_user }
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_body) do
           work_package.reload
 
@@ -288,7 +288,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
     end
   end
 
-  describe 'DELETE /api/bcf/2.1/projects/:project_id/topics/:uuid' do
+  describe "DELETE /api/bcf/2.1/projects/:project_id/topics/:uuid" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}" }
     let(:current_user) { edit_and_delete_member_user }
 
@@ -299,169 +299,169 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       delete path
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_status) { 204 }
       let(:expected_body) { nil }
       let(:no_content) { true }
     end
 
-    it 'deletes the Bcf Issue as well as the belonging Work Package' do
+    it "deletes the Bcf Issue as well as the belonging Work Package" do
       expect(WorkPackage.where(id: work_package.id)).to be_empty
       expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to be_empty
     end
 
-    context 'lacking permission to delete bcf' do
+    context "lacking permission to delete bcf" do
       let(:current_user) { edit_member_user }
 
-      it_behaves_like 'bcf api not allowed response'
+      it_behaves_like "bcf api not allowed response"
 
-      it 'deletes neither the Work Package nor the Bcf Issue' do
+      it "deletes neither the Work Package nor the Bcf Issue" do
         expect(WorkPackage.where(id: work_package.id)).to contain_exactly(work_package)
         expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to contain_exactly(bcf_issue)
       end
     end
   end
 
-  shared_examples_for 'topics api write invalid parameters errors' do
-    context 'without a title' do
+  shared_examples_for "topics api write invalid parameters errors" do
+    context "without a title" do
       let(:params) do
         {}
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
+      it_behaves_like "bcf api unprocessable response" do
         let(:message) do
           "Title can't be blank."
         end
       end
     end
 
-    context 'with an inexistent status' do
+    context "with an inexistent status" do
       let(:params) do
         {
-          title: 'Some title',
-          topic_status: 'Some non existing status'
+          title: "Some title",
+          topic_status: "Some non existing status"
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
+      it_behaves_like "bcf api unprocessable response" do
         let(:message) do
           "Status does not exist."
         end
       end
     end
 
-    context 'with an inexistent priority' do
+    context "with an inexistent priority" do
       let(:params) do
         {
-          title: 'Some title',
-          priority: 'Some non existing priority'
+          title: "Some title",
+          priority: "Some non existing priority"
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
+      it_behaves_like "bcf api unprocessable response" do
         let(:message) do
           "Priority does not exist."
         end
       end
     end
 
-    context 'with an inexistent type' do
+    context "with an inexistent type" do
       let(:params) do
         {
-          title: 'Some title',
-          topic_type: 'Some non existing type'
+          title: "Some title",
+          topic_type: "Some non existing type"
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
+      it_behaves_like "bcf api unprocessable response" do
         let(:message) do
           "Type does not exist."
         end
       end
     end
 
-    context 'with an inexistent assigned_to' do
+    context "with an inexistent assigned_to" do
       let(:params) do
         {
-          title: 'Some title',
-          assigned_to: 'Some non existing assignee'
+          title: "Some title",
+          assigned_to: "Some non existing assignee"
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
+      it_behaves_like "bcf api unprocessable response" do
         let(:message) do
           "Assignee does not exist."
         end
       end
     end
 
-    context 'with two inexistent related resources' do
+    context "with two inexistent related resources" do
       let(:params) do
         {
-          title: 'Some title',
-          assigned_to: 'Some non existing assignee',
-          topic_type: 'Some non existing type'
+          title: "Some title",
+          assigned_to: "Some non existing assignee",
+          topic_type: "Some non existing type"
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
+      it_behaves_like "bcf api unprocessable response" do
         let(:message) do
           "Multiple field constraints have been violated. Type does not exist. Assignee does not exist."
         end
       end
     end
 
-    context 'with a label' do
+    context "with a label" do
       let(:params) do
         {
-          title: 'Some title',
-          labels: ['some label']
+          title: "Some title",
+          labels: ["some label"]
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
+      it_behaves_like "bcf api unprocessable response" do
         let(:message) do
           "Labels was attempted to be written but is not writable."
         end
       end
     end
 
-    context 'with a stage' do
+    context "with a stage" do
       let(:params) do
         {
-          title: 'Some title',
-          stage: 'some stage'
+          title: "Some title",
+          stage: "some stage"
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
+      it_behaves_like "bcf api unprocessable response" do
         let(:message) do
           "Stage was attempted to be written but is not writable."
         end
       end
     end
 
-    context 'with reference links' do
+    context "with reference links" do
       let(:params) do
         {
-          title: 'Some title',
+          title: "Some title",
           reference_links: [
             "/some/relative/links"
           ]
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
+      it_behaves_like "bcf api unprocessable response" do
         let(:message) do
           "Reference links was attempted to be written but is not writable."
         end
       end
     end
 
-    context 'with bim_snippet' do
+    context "with bim_snippet" do
       let(:params) do
         {
-          title: 'Some title',
+          title: "Some title",
           bim_snippet: {
             snippet_type: "clash",
             is_external: true,
@@ -471,7 +471,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
+      it_behaves_like "bcf api unprocessable response" do
         let(:message) do
           "Bim snippet was attempted to be written but is not writable."
         end
@@ -479,7 +479,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
     end
   end
 
-  describe 'POST /api/bcf/2.1/projects/:project_id/topics' do
+  describe "POST /api/bcf/2.1/projects/:project_id/topics" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics" }
     let(:current_user) { edit_member_user }
     let(:type) do
@@ -518,7 +518,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
     let!(:default_priority) do
       create(:default_priority)
     end
-    let(:description) { 'some description' }
+    let(:description) { "some description" }
     let(:stage) { nil }
     let(:labels) { [] }
     let(:index) { 5 }
@@ -527,7 +527,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         topic_type: type.name,
         topic_status: status.name,
         priority: priority.name,
-        title: 'BCF topic 101',
+        title: "BCF topic 101",
         labels:,
         stage:,
         index:,
@@ -543,7 +543,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       post path, params.to_json
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_status) { 201 }
       let(:expected_body) do
         issue = Bim::Bcf::Issue.last.reload
@@ -554,7 +554,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           topic_type: type.name,
           topic_status: status.name,
           priority: priority.name,
-          title: 'BCF topic 101',
+          title: "BCF topic 101",
           labels:,
           index:,
           reference_links: [
@@ -586,7 +586,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       description: nil,
       base: nil
     )
-      work_package = base || issue.work_package
+      work_package = (base || issue.work_package).reload
 
       {
         guid: issue&.uuid,
@@ -603,9 +603,9 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         due_date: due_date || base&.due_date,
         stage: nil,
         creation_author: creation_author_mail,
-        creation_date: work_package&.created_at&.iso8601(3),
+        creation_date: work_package&.created_at,
         modified_author: modified_author_mail,
-        modified_date: work_package&.updated_at&.iso8601(3),
+        modified_date: work_package&.updated_at,
         description: description || base&.description,
         authorization: {
           topic_status: [(base && base.status.name) || default_status.name],
@@ -614,14 +614,14 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       }
     end
 
-    context 'with minimal parameters' do
+    context "with minimal parameters" do
       let(:params) do
         {
-          title: 'BCF topic 101'
+          title: "BCF topic 101"
         }
       end
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_status) { 201 }
         let(:expected_body) do
           expected_body_for_bcf_issue(
@@ -634,7 +634,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       end
     end
 
-    context 'with an existing work package' do
+    context "with an existing work package" do
       let!(:existing_work_package) do
         create(:work_package, author: assignee, assigned_to: assignee, project:)
       end
@@ -648,7 +648,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         }
       end
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_status) { 201 }
         let(:expected_body) do
           expected_body_for_bcf_issue(
@@ -661,7 +661,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         end
       end
 
-      context 'with a non-existing work package' do
+      context "with a non-existing work package" do
         let(:params) do
           {
             title: "A new BCF topic",
@@ -671,12 +671,12 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           }
         end
 
-        it_behaves_like 'bcf api unprocessable response' do
+        it_behaves_like "bcf api unprocessable response" do
           let(:message) { "Work package does not exist." }
         end
       end
 
-      context 'with a work package where the user is not a bcf manager' do
+      context "with a work package where the user is not a bcf manager" do
         let(:current_user) { view_only_user }
 
         let(:params) do
@@ -694,7 +694,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         end
       end
 
-      context 'with a work package in another project' do
+      context "with a work package in another project" do
         let!(:foreign_work_package) { create(:work_package) }
 
         let(:params) do
@@ -712,7 +712,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
         end
       end
 
-      context 'with a work package that already belongs to a BCF issue' do
+      context "with a work package that already belongs to a BCF issue" do
         let(:params) do
           {
             title: "A BCF topic that shouldn't be",
@@ -722,22 +722,22 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           }
         end
 
-        it_behaves_like 'bcf api unprocessable response' do
+        it_behaves_like "bcf api unprocessable response" do
           let(:message) { "Work package has already been taken." }
         end
       end
     end
 
-    it_behaves_like 'topics api write invalid parameters errors'
+    it_behaves_like "topics api write invalid parameters errors"
 
-    context 'if not allowed to add topics' do
+    context "if not allowed to add topics" do
       let(:current_user) { view_only_user }
 
-      it_behaves_like 'bcf api not allowed response'
+      it_behaves_like "bcf api not allowed response"
     end
   end
 
-  describe 'PUT /api/bcf/2.1/projects/:project_id/topics/:guid' do
+  describe "PUT /api/bcf/2.1/projects/:project_id/topics/:guid" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}" }
     let(:current_user) { edit_member_user }
     let!(:type) do
@@ -775,14 +775,14 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
     let!(:default_priority) do
       create(:default_priority)
     end
-    let(:description) { 'some description' }
+    let(:description) { "some description" }
     let(:index) { 5 }
     let(:params) do
       {
         topic_type: type.name,
         topic_status: status.name,
         priority: priority.name,
-        title: 'BCF topic 101',
+        title: "BCF topic 101",
         index:,
         due_date: Date.today.iso8601,
         assigned_to: view_only_user.mail,
@@ -796,7 +796,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       put path, params.to_json
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
         work_package.reload
 
@@ -805,7 +805,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
           topic_type: type.name,
           topic_status: status.name,
           priority: priority.name,
-          title: 'BCF topic 101',
+          title: "BCF topic 101",
           labels: [],
           index:,
           reference_links: [
@@ -827,15 +827,15 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       end
     end
 
-    context 'with only the minimally required property (title)' do
-      let(:new_title) { 'New title' }
+    context "with only the minimally required property (title)" do
+      let(:new_title) { "New title" }
       let(:params) do
         {
           title: new_title
         }
       end
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_body) do
           reloaded_work_package = WorkPackage.find(work_package.id)
 
@@ -867,12 +867,12 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
       end
     end
 
-    it_behaves_like 'topics api write invalid parameters errors'
+    it_behaves_like "topics api write invalid parameters errors"
 
-    context 'if not allowed to alter topics' do
+    context "if not allowed to alter topics" do
       let(:current_user) { view_only_user }
 
-      it_behaves_like 'bcf api not allowed response'
+      it_behaves_like "bcf api not allowed response"
     end
   end
 end

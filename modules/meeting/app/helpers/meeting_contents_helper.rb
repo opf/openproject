@@ -28,7 +28,7 @@
 
 module MeetingContentsHelper
   def can_edit_meeting_content?(content, content_type)
-    authorize_for(content_type.pluralize, 'update') && content.editable?
+    authorize_for(content_type.pluralize, "update") && content.editable?
   end
 
   def saved_meeting_content_text_present?(content)
@@ -45,7 +45,7 @@ module MeetingContentsHelper
     menu << meeting_content_edit_link(content_type) if can_edit_meeting_content?(content, content_type)
     menu << meeting_content_history_link(content_type, content.meeting)
 
-    menu.join(' ')
+    menu.join(" ")
   end
 
   def meeting_agenda_toggle_status_link(content, content_type)
@@ -58,75 +58,75 @@ module MeetingContentsHelper
 
   def close_meeting_agenda_link(content_type, meeting)
     case content_type
-    when 'meeting_agenda'
-      content_tag :li, '', class: 'toolbar-item' do
-        link_to_if_authorized({ controller: '/meeting_agendas',
-                                action: 'close',
+    when "meeting_agenda"
+      content_tag :li, "", class: "toolbar-item" do
+        link_to_if_authorized({ controller: "/meeting_agendas",
+                                action: "close",
                                 meeting_id: meeting },
                               method: :put,
                               data: { confirm: I18n.t(:text_meeting_closing_are_you_sure) },
-                              class: 'meetings--close-meeting-button button') do
-          text_with_icon(I18n.t(:label_meeting_close), 'icon-locked')
+                              class: "meetings--close-meeting-button button") do
+          text_with_icon(I18n.t(:label_meeting_close), "icon-locked")
         end
       end
-    when 'meeting_minutes'
-      content_tag :li, '', class: 'toolbar-item' do
-        link_to_if_authorized({ controller: '/meeting_agendas',
-                                action: 'close',
+    when "meeting_minutes"
+      content_tag :li, "", class: "toolbar-item" do
+        link_to_if_authorized({ controller: "/meeting_agendas",
+                                action: "close",
                                 meeting_id: meeting },
                               method: :put,
-                              class: 'button') do
-          text_with_icon(I18n.t(:label_meeting_agenda_close), 'icon-locked')
+                              class: "button") do
+          text_with_icon(I18n.t(:label_meeting_agenda_close), "icon-locked")
         end
       end
     end
   end
 
   def open_meeting_agenda_link(content_type, meeting)
-    return unless content_type == 'meeting_agenda'
+    return unless content_type == "meeting_agenda"
 
-    content_tag :li, '', class: 'toolbar-item' do
-      link_to_if_authorized({ controller: '/meeting_agendas',
-                              action: 'open',
+    content_tag :li, "", class: "toolbar-item" do
+      link_to_if_authorized({ controller: "/meeting_agendas",
+                              action: "open",
                               meeting_id: meeting },
                             method: :put,
-                            class: 'button',
+                            class: "button",
                             data: { confirm: I18n.t(:text_meeting_agenda_open_are_you_sure) }) do
-        text_with_icon(I18n.t(:label_meeting_open), 'icon-unlocked')
+        text_with_icon(I18n.t(:label_meeting_open), "icon-unlocked")
       end
     end
   end
 
   def meeting_content_edit_link(_content_type)
-    content_tag :li, '', class: 'toolbar-item' do
-      link_to '',
-              class: 'button button--edit-agenda',
+    content_tag :li, "", class: "toolbar-item" do
+      link_to "",
+              class: "button button--edit-agenda",
               data: {
-                action: 'meeting-content#enableEditState',
-                'meeting-content-target': 'editButton'
+                action: "meeting-content#enableEditState",
+                "meeting-content-target": "editButton"
               },
               accesskey: accesskey(:edit) do
-                text_with_icon(I18n.t(:label_edit), 'icon-edit')
+                text_with_icon(I18n.t(:label_edit), "icon-edit")
               end
     end
   end
 
   def meeting_content_history_link(content_type, meeting)
-    content_tag :li, '', class: 'toolbar-item' do
-      link_to_if_authorized({ controller: '/' + content_type.pluralize,
-                              action: 'history',
+    content_tag :li, "", class: "toolbar-item" do
+      link_to_if_authorized({ controller: "/" + content_type.pluralize,
+                              action: "history",
                               meeting_id: meeting },
                             aria: { label: t(:label_history) },
                             title: t(:label_history),
-                            class: 'button') do
-        text_with_icon(I18n.t(:label_history), 'icon-activity-history')
+                            class: "button") do
+        text_with_icon(I18n.t(:label_history), "icon-activity-history")
       end
     end
   end
 
   def text_with_icon(text, icon)
     op_icon("button--icon #{icon}") +
-    ' ' +
-    content_tag('span', text, class: 'button--text')
+    " " +
+    content_tag("span", text, class: "button--text")
   end
 end

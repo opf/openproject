@@ -38,23 +38,33 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
       caption: I18n.t("label_meeting_selection_caption"),
       autocomplete_options: {
         multiple: false,
-        decorated: true
+        decorated: true,
+        append_to: append_to_container
       }
     ) do |select|
       MeetingAgendaItems::CreateContract
         .assignable_meetings(User.current)
         .where("meetings.start_time + (interval '1 hour' * meetings.duration) >= ?", Time.zone.now)
+        .includes(:project)
         .find_each do |meeting|
-        select.option(
-          label: "#{meeting.title} #{format_date(meeting.start_time)} #{format_time(meeting.start_time, false)}",
-          value: meeting.id
-        )
-      end
+          select.option(
+            label: "#{meeting.project.name}: " \
+                   "#{meeting.title} " \
+                   "#{format_date(meeting.start_time)} " \
+                   "#{format_time(meeting.start_time, false)}",
+            value: meeting.id
+          )
+        end
     end
   end
 
-  def initialize(disabled: false)
+  def initialize(disabled: false, wrapper_id: nil)
     super()
     @disabled = disabled
+    @wrapper_id = wrapper_id
+  end
+
+  def append_to_container
+    @wrapper_id.nil? ? "body" : "##{@wrapper_id}"
   end
 end

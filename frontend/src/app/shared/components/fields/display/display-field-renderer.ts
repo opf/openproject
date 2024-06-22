@@ -6,22 +6,21 @@ import {
   DisplayFieldService,
 } from 'core-app/shared/components/fields/display/display-field.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
-import { MultipleLinesCustomOptionsDisplayField } from 'core-app/shared/components/fields/display/field-types/multiple-lines-custom-options-display-field.module';
-import { ProgressTextDisplayField } from 'core-app/shared/components/fields/display/field-types/progress-text-display-field.module';
-import { MultipleLinesUserFieldModule } from 'core-app/shared/components/fields/display/field-types/multiple-lines-user-display-field.module';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { DateDisplayField } from 'core-app/shared/components/fields/display/field-types/date-display-field.module';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
 export const readOnlyClassName = '-read-only';
 export const placeholderClassName = '-placeholder';
 export const displayClassName = 'inline-edit--display-field';
+export const displayTriggerLink = 'inline-edit--display-trigger';
 export const editFieldContainerClass = 'inline-edit--container';
 
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
@@ -80,7 +79,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     field.render(span, this.getText(field), fieldSchema.options);
 
     const { title } = field;
-    if (title) {
+    if (title && !span.getAttribute('title')) {
       span.setAttribute('title', title);
     }
     span.setAttribute('aria-label', this.getAriaLabel(field, schema));

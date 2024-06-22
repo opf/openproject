@@ -35,11 +35,7 @@ import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import waitForUploadsFinished from 'core-app/core/upload/wait-for-uploads-finished';
-import {
-  IHalErrorBase,
-  IHalMultipleError,
-  isHalError,
-} from 'core-app/features/hal/resources/error-resource';
+import { IHalErrorBase, IHalMultipleError, isHalError } from 'core-app/features/hal/resources/error-resource';
 
 export function removeSuccessFlashMessages():void {
   jQuery('.op-toast.-success').remove();
@@ -50,6 +46,7 @@ export const OPToastEvent = 'op:toasters:add';
 
 export interface IToast {
   message:string;
+  icon?:string;
   link?:{ text:string, target:() => void };
   type:ToastType;
   data?:unknown;
@@ -99,7 +96,7 @@ export class ToastService {
     return ['success', 'error', 'loading'].includes(toast.type);
   }
 
-  public addError(obj:HttpErrorResponse|IToast|string, additionalErrors:unknown[]|string = []):IToast {
+  public addError(obj:HttpErrorResponse|IToast|string, additionalErrors:unknown[]|string = []):IToast|null {
     let message:IToast|string;
     let errors:string[];
 
@@ -110,6 +107,11 @@ export class ToastService {
     }
 
     if (obj instanceof HttpErrorResponse) {
+      if (obj.status === 0) {
+        console.error('Request cancelled or failed otherwise: %O', obj);
+        return null;
+      }
+
       message = isHalError(obj.error) ? obj.error.message : obj.message;
 
       if ((obj.error as IHalMultipleError)?._embedded?.errors) {
@@ -182,6 +184,7 @@ export class ToastService {
         message: toast.message,
         type,
         link: toast.link,
+        icon: toast.icon,
         data: toast.data,
       };
   }

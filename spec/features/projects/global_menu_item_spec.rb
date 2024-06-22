@@ -29,9 +29,9 @@
 # ++
 #
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Projects global menu item', :js, :with_cuprite do
+RSpec.describe "Projects global menu item", :js, :with_cuprite do
   let(:user) { create(:user) }
 
   before do
@@ -39,29 +39,43 @@ RSpec.describe 'Projects global menu item', :js, :with_cuprite do
     visit root_path
   end
 
-  it 'navigates to the projects#index page' do
-    within '#main-menu' do
-      click_link text: 'Projects'
+  it "navigates to the projects#index page" do
+    within "#main-menu" do
+      click_link text: "Projects"
     end
 
     expect(page).to have_current_path(projects_path)
   end
 
-  context 'when navigated to the projects#index page' do
+  context "when navigated to the projects#index page" do
     before do
-      within '#main-menu' do
-        click_link text: 'Projects'
+      within "#main-menu" do
+        click_link text: "Projects"
       end
     end
 
-    it 'renders the preset filters' do
-      within '#main-menu' do
-        expect(page).to have_link text: I18n.t(:'projects.lists.active')
-        expect(page).to have_link text: I18n.t(:'projects.lists.my')
-        expect(page).to have_link text: I18n.t(:'projects.lists.archived')
-        expect(page).to have_link text: I18n.t(:'activerecord.attributes.project.status_codes.on_track')
-        expect(page).to have_link text: I18n.t(:'activerecord.attributes.project.status_codes.off_track')
-        expect(page).to have_link text: I18n.t(:'activerecord.attributes.project.status_codes.at_risk')
+    it "renders the preset filters" do
+      within "#main-menu" do
+        expect(page).to have_link text: I18n.t("projects.lists.active")
+        expect(page).to have_link text: I18n.t("projects.lists.my")
+        expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.on_track")
+        expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.off_track")
+        expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.at_risk")
+      end
+    end
+
+    context "with an admin user" do
+      let(:user) { create(:admin) }
+
+      it "renders the archived filter as well" do
+        within "#main-menu" do
+          expect(page).to have_link text: I18n.t("projects.lists.active")
+          expect(page).to have_link text: I18n.t("projects.lists.my")
+          expect(page).to have_link text: I18n.t("projects.lists.archived")
+          expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.on_track")
+          expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.off_track")
+          expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.at_risk")
+        end
       end
     end
   end

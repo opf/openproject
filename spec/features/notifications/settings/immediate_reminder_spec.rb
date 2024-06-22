@@ -1,8 +1,8 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe "Immediate reminder settings", :js, :with_cuprite do
-  shared_examples 'immediate reminder settings' do
-    it 'allows to configure the reminder settings' do
+  shared_examples "immediate reminder settings" do
+    it "allows to configure the reminder settings" do
       # Save prefs so we can reload them later
       pref.save!
 
@@ -17,7 +17,7 @@ RSpec.describe "Immediate reminder settings", :js, :with_cuprite do
 
       reminders_settings_page.save
 
-      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       reminders_settings_page.reload!
 
@@ -27,7 +27,7 @@ RSpec.describe "Immediate reminder settings", :js, :with_cuprite do
     end
   end
 
-  context 'with the my page' do
+  context "with the my page" do
     let(:reminders_settings_page) { Pages::My::Reminders.new(current_user) }
     let(:pref) { current_user.pref }
 
@@ -35,10 +35,10 @@ RSpec.describe "Immediate reminder settings", :js, :with_cuprite do
       create(:user)
     end
 
-    it_behaves_like 'immediate reminder settings'
+    it_behaves_like "immediate reminder settings"
   end
 
-  context 'with the user administration page' do
+  context "with the user administration page" do
     let(:reminders_settings_page) { Pages::Reminders::Settings.new(other_user) }
 
     let(:other_user) { create(:user) }
@@ -48,10 +48,10 @@ RSpec.describe "Immediate reminder settings", :js, :with_cuprite do
       create(:admin)
     end
 
-    it_behaves_like 'immediate reminder settings'
+    it_behaves_like "immediate reminder settings"
   end
 
-  describe 'email sending', js: false, with_cuprite: false do
+  describe "email sending", js: false, with_cuprite: false do
     let(:project) { create(:project) }
     let(:work_package) { create(:work_package, project:) }
     let(:receiver) do
@@ -74,7 +74,7 @@ RSpec.describe "Immediate reminder settings", :js, :with_cuprite do
       create(:user)
     end
 
-    it 'sends a mail to the mentioned user immediately' do
+    it "sends a mail to the mentioned user immediately" do
       perform_enqueued_jobs do
         note = <<~NOTE
           Hey <mention class="mention"
@@ -93,7 +93,7 @@ RSpec.describe "Immediate reminder settings", :js, :with_cuprite do
         .to be 1
 
       expect(ActionMailer::Base.deliveries.first.subject)
-        .to eql I18n.t(:'mail.mention.subject',
+        .to eql I18n.t(:"mail.mention.subject",
                        user_name: current_user.name,
                        id: work_package.id,
                        subject: work_package.subject)

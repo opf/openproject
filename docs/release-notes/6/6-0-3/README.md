@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 6.0.3
-  sidebar_navigation:
-      title: 6.0.3
-  release_version: 6.0.3
-  release_date: 2016-08-16
+title: OpenProject 6.0.3
+sidebar_navigation:
+  title: 6.0.3
+release_version: 6.0.3
+release_date: 2016-08-16
 ---
 
 # OpenProject 6.0.3
@@ -39,8 +39,6 @@ Frank Schmid and Marc Vollmer, for [reporting multiple
 bugs](../../../development/report-a-bug/)!
 
 For further information on the release, please refer to the  
-[Changelog v.6.0.3](https://community.openproject.org/versions/815) 
+[Changelog v.6.0.3](https://community.openproject.org/versions/815)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v6.0.3).
-
-

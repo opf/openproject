@@ -32,6 +32,7 @@ module Standard
         ::BasicData::BuiltinUsersSeeder,
         ::BasicData::ProjectRoleSeeder,
         ::BasicData::WorkPackageRoleSeeder,
+        ::BasicData::ProjectQueryRoleSeeder,
         ::BasicData::GlobalRoleSeeder,
         ::BasicData::TimeEntryActivitySeeder,
         ::BasicData::ColorSeeder,

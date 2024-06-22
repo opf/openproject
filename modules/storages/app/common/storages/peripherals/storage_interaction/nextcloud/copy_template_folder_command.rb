@@ -26,100 +26,128 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class CopyTemplateFolderCommand
-    using Storages::Peripherals::ServiceResultRefinements
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class CopyTemplateFolderCommand
+          using ServiceResultRefinements
 
-    def initialize(storage)
-      @uri = storage.uri
-      @username = storage.username
-      @password = storage.password
-    end
+          def self.call(auth_strategy:, storage:, source_path:, destination_path:)
+            new(storage).call(auth_strategy:, source_path:, destination_path:)
+          end
 
-    def self.call(storage:, source_path:, destination_path:)
-      new(storage).call(source_path:, destination_path:)
-    end
+          def initialize(storage)
+            @storage = storage
+            @data = ResultData::CopyTemplateFolder.new(id: nil, polling_url: nil, requires_polling: false)
+          end
 
-    def call(source_path:, destination_path:)
-      validate_inputs(source_path, destination_path) >>
-        build_origin_paths >>
-        validate_destination >>
-        copy_folder
-    end
+          def call(auth_strategy:, source_path:, destination_path:)
+            valid_input_result = validate_inputs(source_path, destination_path).on_failure { |failure| return failure }
 
-    def validate_inputs(source_path, destination_path)
-      if source_path.blank? || destination_path.blank?
-        return Util.error(:error, 'Source and destination paths must be present.')
-      end
+            remote_urls = build_origin_urls(**valid_input_result.result)
 
-      ServiceResult.success(result: { source_path:, destination_path: })
-    end
+            ensure_remote_folder_does_not_exist(auth_strategy, remote_urls[:destination_url]).on_failure do |failure|
+              return failure
+            end
 
-    def build_origin_paths
-      ->(input) do
-        escaped_username = CGI.escapeURIComponent(@username)
+            copy_folder(auth_strategy, **remote_urls).on_failure { |failure| return failure }
 
-        source = Util.join_uri_path(
-          @uri,
-          "remote.php/dav/files",
-          escaped_username,
-          Util.escape_path(input[:source_path])
-        )
+            get_folder_id(valid_input_result.result[:destination_path])
+          end
 
-        destination = Util.join_uri_path(
-          @uri,
-          "remote.php/dav/files",
-          escaped_username,
-          Util.escape_path(input[:destination_path])
-        )
+          private
 
-        ServiceResult.success(result: { source_url: source, destination_url: destination })
-      end
-    end
+          def validate_inputs(source_path, destination_path)
+            if source_path.blank? || destination_path.blank?
+              return Util.error(:error, "Source and destination paths must be present.")
+            end
 
-    def validate_destination
-      ->(urls) do
-        response = OpenProject
-                     .httpx
-                     .basic_auth(@username, @password)
-                     .head(urls[:destination_url])
+            ServiceResult.success(result: { source_path:, destination_path: })
+          end
 
-        case response
-        in { status: 200..299 }
-          Util.error(:conflict, 'Destination folder already exists.')
-        in { status: 401 }
-          Util.error(:unauthorized, "unauthorized (validate_destination)")
-        in { status: 404 }
-          ServiceResult.success(result: urls)
-        else
-          Util.error(:unknown, "Unexpected response (validate_destination): #{response.code}", response)
-        end
-      end
-    end
+          def build_origin_urls(source_path:, destination_path:)
+            escaped_username = CGI.escapeURIComponent(@storage.username)
 
-    def copy_folder
-      ->(urls) do
-        response = OpenProject
-                     .httpx
-                     .basic_auth(@username, @password)
-                     .request("COPY",
-                              urls[:source_url],
-                              headers: {
-                                'Destination' => urls[:destination_url],
-                                'Depth' => 'infinity'
-                              })
+            source_url = Util.join_uri_path(
+              @storage.uri,
+              "remote.php/dav/files",
+              escaped_username,
+              Util.escape_path(source_path)
+            )
 
-        case response
-        in { status: 200..299 }
-          ServiceResult.success(message: 'Folder was successfully copied')
-        in { status: 401 }
-          Util.error(:unauthorized, "Unauthorized (copy_folder)")
-        in { status: 404 }
-          Util.error(:not_found, "Project folder not found (copy_folder)")
-        in { status: 409 }
-          Util.error(:conflict, Util.error_text_from_response(response))
-        else
-          Util.error(:unknown, "Unexpected response (copy_folder): #{response.status}", response)
+            destination_url = Util.join_uri_path(
+              @storage.uri,
+              "remote.php/dav/files",
+              escaped_username,
+              Util.escape_path(destination_path)
+            )
+
+            { source_url:, destination_url: }
+          end
+
+          def ensure_remote_folder_does_not_exist(auth_strategy, destination_url)
+            response = Authentication[auth_strategy].call(storage: @storage) { |http| http.head(destination_url) }
+
+            case response
+            in { status: 200..299 }
+              ServiceResult.failure(result: :conflict,
+                                    errors: Util.storage_error(
+                                      response:, code: :conflict, source: self.class,
+                                      log_message: "The copy would overwrite an already existing folder"
+                                    ))
+            in { status: 401 }
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
+            in { status: 404 }
+              ServiceResult.success
+            else
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(response:, code: :error, source: self.class))
+            end
+          end
+
+          def copy_folder(auth_strategy, source_url:, destination_url:)
+            response = Authentication[auth_strategy].call(storage: @storage) do |http|
+              http.request("COPY", source_url, headers: { "Destination" => destination_url, "Depth" => "infinity" })
+            end
+
+            handle_response(response)
+          end
+
+          def handle_response(response)
+            source = self.class
+
+            case response
+            in { status: 200..299 }
+              ServiceResult.success(message: "Folder was successfully copied")
+            in { status: 401 }
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: Util.storage_error(response:, code: :unauthorized, source:))
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(response:, code: :forbidden, source:))
+            in { status: 404 }
+              ServiceResult.failure(result: :not_found,
+                                    errors: Util.storage_error(response:, code: :not_found, source:,
+                                                               log_message: "Template folder not found"))
+            in { status: 409 }
+              ServiceResult.failure(result: :conflict,
+                                    errors: Util.storage_error(
+                                      response:, code: :conflict, source:,
+                                      log_message: Util.error_text_from_response(response)
+                                    ))
+            else
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(response:, code: :error, source:))
+            end
+          end
+
+          def get_folder_id(destination_path)
+            Registry
+              .resolve("#{@storage.short_provider_type}.queries.file_ids")
+              .call(storage: @storage, path: destination_path).map { |result| @data.with(id: result[destination_path]["fileid"]) }
+          end
         end
       end
     end

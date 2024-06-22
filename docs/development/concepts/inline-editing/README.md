@@ -21,8 +21,6 @@ Inline editing is a core functionality of work packages and other attributes.
 - can be used for work packages and other HAL resources that have a schema
 - `DisplayField` and `EditField` are two separate sets of classes to render attributes based on their schema type
 
-
-
 ## Prerequisites
 
 In order to understand Inline Editing, you will need the following concepts:
@@ -33,13 +31,9 @@ In order to understand Inline Editing, you will need the following concepts:
 
 - [Changesets](../resource-changesets)
 
-
-
 ## Components overview
 
 In order to understand the different modes of the inline edition functionality, we will first look at the components and code that handle displaying of resource attributes, the display fields.
-
-
 
 ### Display fields
 
@@ -77,8 +71,6 @@ In the frontend, multiple display field classes exist and the [`DisplayFieldServ
 
 With a resource and its schema present, there are multiple ways to render a display field for a given attribute.
 
-
-
 #### Rendering in plain JavaScript: `DisplayFieldRenderer`
 
 Since parts of the application are rendered in plain JavaScript (such as the work package table), most display fields are actually rendered explicitly to a DOM element through the [`DisplayFieldRenderer#render`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts) method. You will only need the resource with its schema loaded and the attribute name.
@@ -103,17 +95,14 @@ export class ExampleComponent implements OnInit {
             .work_packages
             .id(this.workPackageId)
             .get()
-        	.subscribe(workPackage => {
-
-          const fieldRenderer = new DisplayFieldRenderer(injector, 'table');
-		  const displayElement = fieldRenderer.render(workPackage, 'status', null);
-          this.elementRef.nativeElement.appendChild(displayElement);
+         .subscribe(workPackage => {
+           const fieldRenderer = new DisplayFieldRenderer(injector, 'table');
+           const displayElement = fieldRenderer.render(workPackage, 'status', null);
+           this.elementRef.nativeElement.appendChild(displayElement);
         });
     }
 }
 ```
-
-
 
 The third parameter of the `render` method is to provide a changeset. This allows to render the value not from the pristine work package, but from a temporary changeset of the work package:
 
@@ -121,8 +110,6 @@ The third parameter of the `render` method is to provide a changeset. This allow
 // Assuming we changed the subject property
 const changeset = new WorkPackageChangeset(workPackage);
 ```
-
-
 
 #### Rendering as angular component: `DisplayFieldComponent`
 
@@ -143,21 +130,17 @@ This will result in the work package status field being rendered including its s
 
 The `DisplayFieldComponent` will internally use the `DisplayFieldService` to find the matching field for the `Status` type and manually render the field to an inner HTML element.
 
-
-
 ### Edit fields
 
 The editable counterpart to a display field that renders the actual HTML form elements (A text or number input field, a boolean checkbox, or a WYSIWYG editor area).
 
 Edit fields are also working on a single attribute of a resource. The schema property `Type` will again determine the component type to render.
 
-
-
 #### `EditFieldComponent`
 
 The main component that handles rendering of the actual `<input>` fields of the edit fields is the `EditFieldComponent`. It is subclassed for every type of edit fields, such as the `TextEditFieldComponent` or `FloatEditFieldComponent`, and so on. You can find all edit field types in the [Angular fields module](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/edit/field-types).
 
-##### The `EditFieldComponents` operates on a changeset of the resource that's being edited. All changes are being written into this changeset, so they can be aggregated and saved, or reset on an individual level.
+The `EditFieldComponents` operates on a changeset of the resource that's being edited. All changes are being written into this changeset, so they can be aggregated and saved, or reset on an individual level.
 
 It is never directly used from within a template, but through a service that passes in the appropriate inputs. We will take a deeper look at this service later and the reasoning behind it.
 
@@ -167,8 +150,6 @@ Inline-editing is usually connected to not only a single, but multiple fields of
 
 The `EditForm` logically groups together multiple field elements very similar to how a `<form>` tag encapsulates a set of inputs. It is tied to a (HAL) `resource` input.
 
-
-
  It has multiple responsibilities:
 
 - receives registration of fields within the form
@@ -176,17 +157,11 @@ The `EditForm` logically groups together multiple field elements very similar to
 - handles submission of changes to the resource
 - activates erroneous fields after unsuccessfully trying to saving.
 
-
-
 #### EditableAttributeField
 
 The `EditableAttributeField` contains the logic to toggle between the *display* and *edit* states of a single attribute for the resource. The field will try to register to a parent form by injecting it through its constructor. Only fields within an `EditForm` parent are editable.
 
-
-
 The EditableAttributeField basically contains only two HTML elements that it wraps. These are used for the `display` and `edit` modes. Each is handled by their own `DisplayField` and `EditField` classes and components, as we will detail in the following.
-
-
 
 #### Editing portals
 
@@ -216,7 +191,7 @@ export class ExampleComponent implements OnInit {
             .work_packages
             .id(this.workPackageId)
             .get()
-        	.subscribe(workPackage => {
+         .subscribe(workPackage => {
 
 
             return this.editingPortalService.create(
@@ -232,8 +207,6 @@ export class ExampleComponent implements OnInit {
 }
 ```
 
-
-
 #### Edit field handler
 
 There is one more class involved in this stack, the `EditFieldHandler`. It implements an adapter pattern to break the connection between the input-only characteristics of the `EditFieldComponent` and the handling of events towards an outer wrapper such as the `EditForm`. They are regular classes that handle events from the `EditFieldComponent` to make them reusable in cases where, for example, an `EditForm` does not exist.
@@ -241,8 +214,6 @@ There is one more class involved in this stack, the `EditFieldHandler`. It imple
 Any user event that should trigger saving or resetting of the field is being handled by the `EditFieldHandler`, hence its name. For example, pressing <kbd>ESC</kbd> on a `TextEditFieldComponent` will trigger the `EditFieldHandler#handleUserCancel` method. The same is true for submit events on the field or form (e.g., pressing <kbd>ENTER</kbd> on the field), which trigger the `EditFieldHandler#handleUserSubmit` method.
 
 An example where this comes into play is the [`CustomText`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/grids/widgets/custom-text/custom-text.component.ts) widget of the dashboards and my page, which use the `<edit-form-portal>` manually and pass in a handler that handles saving of these widgets without access to an edit form.
-
-
 
 ### 🔗 Code references
 
@@ -257,15 +228,9 @@ An example where this comes into play is the [`CustomText`](https://github.com/o
 - [`WorkPackageFullViewComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/wp-full-view/wp-full-view.html) Work package full view template that uses the `edit-form` attribute to create a form for the work package full view (as seen in the Gif above)
 - [`ProjectDetailsComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/grids/widgets/project-details/project-details.component.html) Exemplary widget template that uses the form for project attributes
 
-
-
-
-
 ## Minimal example
 
 The  [`ProjectDetailsComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/grids/widgets/project-details/project-details.component.html) is a very isolated example showing how to use the edit-form together with `EditableAttributeField` component to show the actual inline-editable field.
-
-
 
 On the example of a work package, this following code snippet would create an edit form for a given work package resource and an attribute for the `subject` attribute of that work package.
 
@@ -277,23 +242,15 @@ On the example of a work package, this following code snippet would create an ed
 </edit-form>
 ```
 
-
-
 While this doesn't take care of any labels or styling, it will already provide error handling for the given field and allow proper saving of the changes to the resource.
 
-
-
 ![Minimal example of the edit form](basic-example.gif)
-
-
 
 ## Work package single view
 
 The work package single view is the boss fight of inline editing. It combines all the previous concepts with the flexibility of work package attributes and type configuration.
 
 The following screenshot is [bug report #34250](https://community.openproject.org/wp/34250), which is a work package of Type `Bug`. The Bug type has a [specific form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) defined. This configuration is as follows:
-
-
 
 ![bug-form-configuration](bug-form-configuration.png)
 
@@ -310,8 +267,6 @@ The type defines which type of group is being rendered. The attribute group is t
 ![Work package with query group for children](single-view-query-group.png)
 
 The [`WorkPackageSingleViewComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/components/wp-single-view/wp-single-view.component.ts) turns this definition into a template through its method `rebuildGroupedFields`. The template iterates over these and outputs the appropriate attribute or query group.
-
-
 
 ![Work package single view](single-view.png)
 

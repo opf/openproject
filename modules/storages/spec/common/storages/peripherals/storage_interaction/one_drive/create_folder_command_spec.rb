@@ -28,57 +28,54 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolderCommand, :vcr, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolderCommand, :webmock do
   let(:storage) { create(:sharepoint_dev_drive_storage) }
-  let(:project) { create(:project) }
-
-  let(:folder_path) { 'Földer CreatedBy Çommand' }
-
-  it 'responds to .call with correct parameters' do
-    expect(described_class).to respond_to(:call)
-
-    method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq folder_path])
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
   end
 
-  it 'is registered as create_folder' do
-    expect(Storages::Peripherals::Registry.resolve('commands.one_drive.create_folder')).to eq(described_class)
+  it_behaves_like "create_folder_command: basic command setup"
+
+  context "when creating a folder in the root", vcr: "one_drive/create_folder_root" do
+    let(:folder_name) { "Földer CreatedBy Çommand" }
+    let(:parent_location) { Storages::Peripherals::ParentFolder.new("/") }
+    let(:path) { "/#{folder_name}" }
+
+    it_behaves_like "create_folder_command: successful folder creation"
   end
 
-  it 'creates a folder and responds with a success', vcr: 'one_drive/create_folder_base' do
-    result = described_class.call(storage:, folder_path:)
-    expect(result).to be_success
-    expect(result.message).to eq("Folder was successfully created.")
+  context "when creating a folder in a parent folder", vcr: "one_drive/create_folder_parent" do
+    let(:folder_name) { "Földer CreatedBy Çommand" }
+    let(:parent_location) { Storages::Peripherals::ParentFolder.new("01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU") }
+    let(:path) { "/Folder with spaces/#{folder_name}" }
 
-    expect(result.result.name).to eq(folder_path)
-  ensure
-    if result.success?
-      Storages::Peripherals::Registry
-        .resolve('commands.one_drive.delete_folder')
-        .call(storage:, location: result.result.id)
-    end
+    it_behaves_like "create_folder_command: successful folder creation"
   end
 
-  context 'when the folder already exists', vcr: 'one_drive/create_folder_already_exists' do
-    it 'returns a failure' do
-      original_folder = described_class.call(storage:, folder_path:)
+  context "when creating a folder in a non-existing parent folder", vcr: "one_drive/create_folder_parent_not_found" do
+    let(:folder_name) { "Földer CreatedBy Çommand" }
+    let(:parent_location) { Storages::Peripherals::ParentFolder.new("01AZJL5PKU2WV3U3RKKFF4A7ZCWVBXRTEU") }
+    let(:error_source) { described_class }
 
-      result = described_class.call(storage:, folder_path:)
-      expect(result).to be_failure
+    it_behaves_like "create_folder_command: parent not found"
+  end
 
-      expect(result.result).to eq(:already_exists)
-      expect(result.errors.code).to eq(:conflict)
+  context "when folder already exists", vcr: "one_drive/create_folder_already_exists" do
+    let(:folder_name) { "Folder" }
+    let(:parent_location) { Storages::Peripherals::ParentFolder.new("/") }
+    let(:error_source) { described_class }
 
-      error_data = result.errors.data
-      error_payload = MultiJson.load(error_data.payload, symbolize_keys: true)
-      expect(error_payload.dig(:error, :code)).to eq('nameAlreadyExists')
-    ensure
-      Storages::Peripherals::Registry
-        .resolve('commands.one_drive.delete_folder')
-        .call(storage:, location: original_folder.result.id)
-    end
+    it_behaves_like "create_folder_command: folder already exists"
+  end
+
+  private
+
+  def delete_created_folder(folder)
+    Storages::Peripherals::Registry
+      .resolve("one_drive.commands.delete_folder")
+      .call(storage:, auth_strategy:, location: folder.id)
   end
 end

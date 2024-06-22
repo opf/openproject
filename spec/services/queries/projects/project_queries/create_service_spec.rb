@@ -26,11 +26,54 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Queries::Projects::ProjectQueries::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service' do
+  it_behaves_like "BaseServices create service" do
     let(:factory) { :project_query }
+  end
+
+  describe "overriding the instance" do
+    subject(:result) { described_class.new(from: instance, user:).call(params).result }
+
+    let(:user) { build(:user) }
+    let(:params) { { filters: [{ attribute: "active", operator: "=", values: ["f"] }] } }
+
+    context "when overriding initial instance" do
+      let(:instance) { build(:project_query).where("public", "=", "t").order(name: :desc) }
+
+      it "returns the instance" do
+        expect(result).to eq(instance)
+      end
+
+      it "keeps instance value for attribute not passed in params" do
+        expect(result).to have_attributes(
+          orders: [having_attributes(attribute: :name, direction: :desc)]
+        )
+      end
+
+      it "sets value for attribute passed in params" do
+        expect(result).to have_attributes(
+          filters: [having_attributes(name: :active, operator: "=", values: %w[f])]
+        )
+      end
+    end
+
+    context "when not overriding initial instance" do
+      let(:instance) { nil }
+
+      it "uses default value for attribute not passed in params" do
+        expect(result).to have_attributes(
+          orders: [having_attributes(attribute: :lft, direction: :asc)]
+        )
+      end
+
+      it "sets value for attribute passed in params" do
+        expect(result).to have_attributes(
+          filters: [having_attributes(name: :active, operator: "=", values: %w[f])]
+        )
+      end
+    end
   end
 end

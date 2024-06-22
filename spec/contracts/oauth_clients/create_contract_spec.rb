@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe OAuthClients::CreateContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   let(:current_user) { create(:admin) }
   let(:client_id) { "1234567889" }
@@ -43,57 +43,57 @@ RSpec.describe OAuthClients::CreateContract do
 
   let(:contract) { described_class.new(oauth_client, current_user) }
 
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  describe 'validations' do
-    context 'when all attributes are valid' do
-      include_examples 'contract is valid'
+  describe "validations" do
+    context "when all attributes are valid" do
+      include_examples "contract is valid"
     end
 
     %i[client_id client_secret].each do |attribute_name|
-      context 'when client_id is invalid' do
-        context 'as it is too long' do
-          let(attribute_name) { 'X' * 257 }
+      context "when client_id is invalid" do
+        context "as it is too long" do
+          let(attribute_name) { "X" * 257 }
 
-          include_examples 'contract is invalid', attribute_name => :too_long
+          include_examples "contract is invalid", attribute_name => :too_long
         end
 
-        context 'as it is empty' do
-          let(attribute_name) { '' }
+        context "as it is empty" do
+          let(attribute_name) { "" }
 
-          include_examples 'contract is invalid', attribute_name => :blank
+          include_examples "contract is invalid", attribute_name => :blank
         end
 
-        context 'as it is nil' do
+        context "as it is nil" do
           let(attribute_name) { nil }
 
-          include_examples 'contract is invalid', attribute_name => :blank
+          include_examples "contract is invalid", attribute_name => :blank
         end
       end
     end
 
-    context 'with blank client ID' do
-      let(:client_id) { '' }
+    context "with blank client ID" do
+      let(:client_id) { "" }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(contract).not_to be_valid
 
         expect(contract.errors[:client_id]).to eq(["can't be blank."])
       end
     end
 
-    context 'with integration (polymorphic attribute) linked' do
+    context "with integration (polymorphic attribute) linked" do
       let(:integration) { create(:nextcloud_storage) }
 
-      include_examples 'contract is valid'
+      include_examples "contract is valid"
     end
 
-    context 'without integration (polymorphic attribute)' do
+    context "without integration (polymorphic attribute)" do
       let(:integration) { nil }
 
-      include_examples 'contract is invalid', { integration_id: :blank, integration_type: :blank }
+      include_examples "contract is invalid", { integration_id: :blank, integration_type: :blank }
     end
   end
 
-  include_examples 'contract reuses the model errors'
+  include_examples "contract reuses the model errors"
 end

@@ -31,6 +31,7 @@ lt:
         Ar tikrai norite ištrinti šį failą? Šio veiksmo nebus galima atšaukti.
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
+      quarantined_hint: "Failas patalpintas į karantiną, nes rastas virusas. Jo atsisiųsti negalima."
     autocomplete_ng_select:
       add_tag: "Pridėti elementą"
       clear_all: "Valyti viską"
@@ -39,8 +40,8 @@ lt:
       type_to_search: "Rašykite paieškai"
     autocomplete_select:
       placeholder:
-        multi: "Pridėti „%{name}“"
-        single: "Pažymėti „%{name}“"
+        multi: 'Pridėti „%{name}“'
+        single: 'Pažymėti „%{name}“'
       remove: "Pašalinti %{name}"
       active: "Aktyvus %{label} %{name}"
     backup:
@@ -106,99 +107,98 @@ lt:
     button_export-atom: "Atsisiųsti Atom"
     button_create: "Kurti"
     card:
-      add_new: 'Pridėti naują kortelę'
+      add_new: "Pridėti naują kortelę"
       highlighting:
-        inline: 'Paryškinti eilutėje:'
-        entire_card_by: 'Visa kortelė pagal'
-      remove_from_list: 'Išimti kortelę iš sąrašo'
+        inline: "Paryškinti eilutėje:"
+        entire_card_by: "Visa kortelė pagal"
+      remove_from_list: "Išimti kortelę iš sąrašo"
     caption_rate_history: "Koeficiento istorija"
     clipboard:
       browser_error: "Jūsų naršyklė nepalaiko kopijavimo į iškarpinę. Prašome nukopijuoti rankiniu būdu : %{content}"
       copied_successful: "Sėkmingai nukopijuota į iškarpinę!"
     chart:
-      type: 'Grafiko tipas'
-      axis_criteria: 'Ašies kriterijus'
-      modal_title: 'Darbo paketo grafo konfigūracija'
+      type: "Grafiko tipas"
+      axis_criteria: "Ašies kriterijus"
+      modal_title: "Darbo paketo grafo konfigūracija"
       types:
-        line: 'Linija'
-        horizontal_bar: 'Horizontali juosta'
-        bar: 'Stulpeliai'
-        pie: 'Pyragas'
-        doughnut: 'Spurga'
-        radar: 'Radaras'
-        polar_area: 'Skritulinis'
+        line: "Linija"
+        horizontal_bar: "Horizontali juosta"
+        bar: "Stulpeliai"
+        pie: "Pyragas"
+        doughnut: "Spurga"
+        radar: "Radaras"
+        polar_area: "Skritulinis"
       tabs:
-        graph_settings: 'Bendra'
-        dataset: 'Duomenų aibė %{number}'
+        graph_settings: "Bendra"
+        dataset: "Duomenų aibė %{number}"
       errors:
-        could_not_load: 'Nepavyko įkelti duomenų rodymui. Galbūt trūksta reikiamų teisių.'
+        could_not_load: "Nepavyko įkelti duomenų rodymui. Galbūt trūksta reikiamų teisių."
     description_available_columns: "Galimi stulpeliai"
     description_current_position: "Jūs esate čia: "
     description_select_work_package: "Pasirinkite darbų paketą #%{id}"
-    description_selected_columns: "Parinkti stulpeliai"
     description_subwork_package: "Darbų paketo vaikas #%{id}"
     editor:
-      preview: 'Perjungti peržiūros režimą'
-      source_code: 'Perjungti Markdown išeities kodo režimą'
-      error_saving_failed: 'Dokumento išsaugoti nepavyko. Klaida: %{error}'
-      ckeditor_error: 'CKEditor''iuje įvyko klaida'
+      preview: "Perjungti peržiūros režimą"
+      source_code: "Perjungti Markdown išeities kodo režimą"
+      error_saving_failed: "Dokumento išsaugoti nepavyko. Klaida: %{error}"
+      ckeditor_error: "CKEditor'iuje įvyko klaida"
       mode:
-        manual: 'Perjungti į Markdown išeities kodą'
-        wysiwyg: 'Perjungti į WYSIWYG (ką matai, tą ir turi) redaktorių'
+        manual: "Perjungti į Markdown išeities kodą"
+        wysiwyg: "Perjungti į WYSIWYG (ką matai, tą ir turi) redaktorių"
       macro:
-        error: 'Nepavyksta išskleisti makrokomandos: %{message}'
+        error: "Nepavyksta išskleisti makrokomandos: %{message}"
         attribute_reference:
-          macro_help_tooltip: 'Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos.'
-          not_found: 'Reikalaujamas resursas nerastas'
+          macro_help_tooltip: "Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos."
+          not_found: "Reikalaujamas resursas nerastas"
           invalid_attribute: "Pasirinktas atributas „%{name}“ neegzistuoja."
         child_pages:
-          button: 'Nuorodos į vaikų puslapius'
-          include_parent: 'Įtraukti tėvą'
-          text: '[Placeholder] Nuorodos į vaikų puslapius'
-          page: 'Wiki puslapis'
-          this_page: 'šis puslapis'
+          button: "Nuorodos į vaikų puslapius"
+          include_parent: "Įtraukti tėvą"
+          text: "[Placeholder] Nuorodos į vaikų puslapius"
+          page: "Wiki puslapis"
+          this_page: "šis puslapis"
           hint: |
             Palikus šį lauką tuščią, bus pateikiamas visų šio puslapio vaikų sąrašas. Jei norite nuorodos į kitą puslapį, pateikite jo pavadinimą arba techninį adresą (slug).
         code_block:
-          button: 'Įterpti kodo fragmentą'
-          title: 'Įterpti / redaguoti kodo fragmentą'
-          language: 'Formatavimo kalba'
-          language_hint: 'Įveskite formatavimo kalbą, kuri bus naudojama elementų išryškinimui (jei tai palaikoma).'
+          button: "Įterpti kodo fragmentą"
+          title: "Įterpti / redaguoti kodo fragmentą"
+          language: "Formatavimo kalba"
+          language_hint: "Įveskite formatavimo kalbą, kuri bus naudojama elementų išryškinimui (jei tai palaikoma)."
         dropdown:
-          macros: 'Makrokomandos'
-          chose_macro: 'Parinkite makrokomandą'
-        toc: 'Turinys'
-        toolbar_help: 'Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
+          macros: "Makrokomandos"
+          chose_macro: "Parinkite makrokomandą"
+        toc: "Turinys"
+        toolbar_help: "Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui"
         wiki_page_include:
-          button: 'Įterpti kito wiki puslapio turinį'
-          text: '[Placeholder] Įterptas wiki puslapis'
-          page: 'Wiki puslapis'
-          not_set: '(Puslapis dar nenustatytas)'
+          button: "Įterpti kito wiki puslapio turinį"
+          text: "[Placeholder] Įterptas wiki puslapis"
+          page: "Wiki puslapis"
+          not_set: "(Puslapis dar nenustatytas)"
           hint: |
             Įtraukite kito wiki puslapio turinį nurodydami jo pavadinimą arba techninį adresą (slug).
             Galite įtraukti kito projekto turinį naudodami dvitaškį kaip toliau esančiame pavyzdyje.
         work_package_button:
-          button: 'Įterpti mygtuką „sukurti darbų paketą“'
-          type: 'Darbų paketo tipas'
-          button_style: 'Naudoti mygtukų stilių'
-          button_style_hint: 'Pasirinktinai: įjunkite, kad makro būtų rodomas kaip mygtukas, o ne kaip nuoroda.'
-          without_type: 'Kurti darbo paketą'
-          with_type: 'Kurti darbo paketą (Tipas: %{typename})'
+          button: "Įterpti mygtuką „sukurti darbų paketą“"
+          type: "Darbų paketo tipas"
+          button_style: "Naudoti mygtukų stilių"
+          button_style_hint: "Pasirinktinai: įjunkite, kad makro būtų rodomas kaip mygtukas, o ne kaip nuoroda."
+          without_type: "Kurti darbo paketą"
+          with_type: "Kurti darbo paketą (Tipas: %{typename})"
         embedded_table:
-          button: 'Įterpti darbo paketų lentelę'
-          text: '[Placeholder] Įterpta darbo paketų lentelė'
+          button: "Įterpti darbo paketų lentelę"
+          text: "[Placeholder] Įterpta darbo paketų lentelė"
         embedded_calendar:
-          text: '[Placeholder] Įterptinis kalendorius'
+          text: "[Placeholder] Įterptinis kalendorius"
     admin:
       type_form:
-        custom_field: 'Savas laukas'
-        inactive: 'Neaktyvus'
+        custom_field: "Savas laukas"
+        inactive: "Neaktyvus"
         drag_to_activate: "Vilkite laukelius iš čia, kad juos aktyvuotumėte"
         add_group: "Pridėti atributų grupę"
         add_table: "Pridėti susijusių darbų paketų lentelę"
-        edit_query: 'Keisti užklausą'
-        new_group: 'Nauja grupė'
-        reset_to_defaults: 'Atstatyti į numatytuosius'
+        edit_query: "Keisti užklausą"
+        new_group: "Nauja grupė"
+        reset_to_defaults: "Atstatyti į numatytuosius"
       enterprise:
         text_reprieve_days_left: "%{days} dienos iki lengvatos pabaigos"
         text_expired: "nebegalioja"
@@ -264,7 +264,7 @@ lt:
         calendar:
           empty_state_header: "Nedarbo dienos"
           empty_state_description: 'Šiems metams nėra nurodytų konkrečių nedarbo dienų. Spauskite „+ Nedarbo dieną“ žemiau, kad pridėtumėte datą.'
-          new_date: '(nauja)'
+          new_date: "(nauja)"
         add_non_working_day: "Nedarbo diena"
         already_added_error: "Nedarbo diena šiai datai jau yra. Kiekvienai unikaliai datai galima sukurti tik vieną nedarbo dieną."
         change_button: "Įrašyti ir perplanuoti"
@@ -274,10 +274,15 @@ lt:
         warning: >
           Pakeitimų įsigaliojimas gali užtrukti. Jums bus pranešta, kai visi susiję darbo paketai bus atnaujinti.
           Ar tikrai norite tęsti?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
-        specific: 'įjungta'
-        current_date: 'Dabartinė data'
+        specific: "įjungta"
+        current_date: "Dabartinė data"
     error:
       internal: "Įvyko vidinė klaida."
       cannot_save_changes_with_message: "Nepavyko įrašyti jūsų pakeitimų dėl šios klaidos: %{error}"
@@ -303,22 +308,22 @@ lt:
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
     gantt_chart:
-      label: 'Ganto diagrama'
-      quarter_label: 'Q%{quarter_number}'
+      label: "Ganto diagrama"
+      quarter_label: "Q%{quarter_number}"
       labels:
-        title: 'Užrašo konfigūracija'
-        bar: 'Juostelės užrašai'
-        left: 'Kairė'
-        right: 'Dešinė'
-        farRight: 'Toli dešinėje'
+        title: "Užrašo konfigūracija"
+        bar: "Juostelės užrašai"
+        left: "Kairė"
+        right: "Dešinė"
+        farRight: "Toli dešinėje"
         description: >
           Pasirinkite atributus, kuriuos visada norite pamatyti atitinkamose Ganto grafiko pozicijose. Atkreipkite dėmesį, kad kai pelės klavišas užvestas virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
-      button_activate: 'Rodyti Gantto diagramą'
-      button_deactivate: 'Slėpti Gantto diagramą'
+      button_activate: "Rodyti Gantto diagramą"
+      button_deactivate: "Slėpti Gantto diagramą"
       filter:
         noneSelection: "(nėra)"
       selection_mode:
-        notification: 'Paspauskite ant bet kurio pažymėto darbų paketo, kad sukurtumėte ryšį. Paspauskite Esc, jei norite atšaukti.'
+        notification: "Paspauskite ant bet kurio pažymėto darbų paketo, kad sukurtumėte ryšį. Paspauskite Esc, jei norite atšaukti."
       zoom:
         in: "Priartinti"
         out: "Nutolinti"
@@ -330,6 +335,18 @@ lt:
         years: "Metai"
         description: >
           Pasirinkite pradinį pritraukimo lygį, kuris bus rodomas kai automatinis pritraukimas negalimas.
+      export:
+        title: "Ganto diagramos PDF parinktys"
+        button_export: "Eksportuoti"
+        column_widths:
+          narrow: "Siauras"
+          medium: "Vidutinis"
+          wide: "Platus"
+          very_wide: "Labai platus"
+        options:
+          date_zoom: "Datos priartinimas"
+          paper_size: "Popieriaus dydis"
+          column_widths: "Stulpelių pločiai"
     general_text_no: "ne"
     general_text_yes: "taip"
     general_text_No: "Ne"
@@ -348,24 +365,23 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                Šioje laidoje yra keli nauji funkcionalumai ir patobulinimai: <br> <ul class="%{list_styling_class}">  <li>OneDrive/SharePoint integracija su rankiniais projekto aplankais.</li><li>Vaidmenų, grupių ir bendrinimų filtravimas projekto narių sąraše.</li> <li>Leisti paskirtuosius ir atsakingus bendrinamuose darbo paketuose.</li> <li>Pridėti nauji laukų pavadinimai Darbas, Likęs darbas ir % Baigta, pasiruošiant darbo hierarchijos progreso ataskaitoms.</li> <li>Leisti būsenos pakeitimą be darbo paketo keitimo teisių.</li>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
       description: "Jūs galite naudoti URL (iCalendar), kad prenumeruotumėte šį kalendorių išoriniame kliente ir žiūrėti naujausią darbo paketų informaciją."
       warning: "Prašome nesidalinti šiuo URL su kitais naudotojais. Bet kas su šia nuoroda galės peržiūrėti darbo paketo detales be paskyros ar slaptažodžio."
       token_name_label: "Kur jūs tai naudosite?"
-      token_name_placeholder: "Įrašykite pavadinimą, pvz. „Telefonas“"
-      token_name_description_text: "Jei prenumeruojate kalendorių iš kelių įrenginių, šis pavadinimas padės atskirti juos jūsų <a href=\"my/access_token\", target=\"_blank\">prieigos žetonų</a> sąraše."
+      token_name_placeholder: 'Įrašykite pavadinimą, pvz. „Telefonas“'
+      token_name_description_text: 'Jei prenumeruojate kalendorių iš kelių įrenginių, šis pavadinimas padės atskirti juos jūsų <a href="my/access_token", target="_blank">prieigos žetonų</a> sąraše.'
       copy_url_label: "Kopijuoti URL"
       ical_generation_error_text: "Kuriant kalendoriaus URL įvyko klaida."
-      success_message: "URL „%{name}“ buvo sėkmingai nukopijuotas į jūsų iškarpinę. Įkelkite jį į jūsų kalendoriaus klientą, kad baigtumėte prenumeratą."
+      success_message: 'URL „%{name}“ buvo sėkmingai nukopijuotas į jūsų iškarpinę. Įkelkite jį į jūsų kalendoriaus klientą, kad baigtumėte prenumeratą.'
     label_activate: "Aktyvuoti"
-    label_assignee: 'Paskirtas'
+    label_assignee: "Paskirtas"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
     label_add_columns: "Pridėti stulpelių"
@@ -375,9 +391,10 @@ lt:
     label_add_row_before: "Pridėti eilutę prieš"
     label_add_selected_columns: "Pridėti pažymėtus stulpelius"
     label_added_by: "pridėjo"
-    label_added_time_by: "Pridėjo <a href=\"%{authorLink}\">%{author}</a> %{age}"
+    label_added_time_by: 'Pridėjo <a href="%{authorLink}">%{author}</a> %{age}'
     label_ago: "dienų prieš"
     label_all: "visi"
+    label_all_uppercase: "Visi"
     label_all_work_packages: "visi darbų paketai"
     label_and: "ir"
     label_ascending: "Didėjančia tvarka"
@@ -419,12 +436,13 @@ lt:
     label_expand_project_menu: "Išskleisti projekto meniu"
     label_export: "Eksportuoti"
     label_export_preparing: "Eksportas ruošiamas ir greitai bus parsiųstas."
+    label_favorites: "Mėgstami"
     label_filename: "Failas"
     label_filesize: "Dydis"
     label_general: "Bendra"
     label_global_roles: "Visuotiniai vaidmenys"
     label_greater_or_equal: ">="
-    label_group: 'Grupė'
+    label_group: "Grupė"
     label_group_by: "Grupuoti pagal"
     label_group_plural: "Grupės"
     label_hide_attributes: "Rodyti mažiau"
@@ -444,6 +462,7 @@ lt:
     label_less_than_ago: "mažiau nei prieš dieną"
     label_loading: "Įkeliama..."
     label_mail_notification: "El. pašto priminimai"
+    label_manage_columns: "Tvarkyti ir perrikiuoti stulpelius"
     label_me: "aš"
     label_meeting_agenda: "Dienotvarkė"
     label_meeting_minutes: "Minutės"
@@ -482,6 +501,7 @@ lt:
     label_report: "Ataskaita"
     label_repository_plural: "Repozitorijos"
     label_save_as: "Įrašyti kaip"
+    label_search_columns: "Ieškoti stulpelio"
     label_select_project: "Pasirinkti projektą"
     label_select_watcher: "Parinkti stebėtoją..."
     label_selected_filter_list: "Parinkti filtrus"
@@ -552,88 +572,88 @@ lt:
     label_version_plural: "Versijos"
     label_view_has_changed: "Šiame vaizde yra neįrašytų pakeitimų. Spauskite, kad juos įrašytumėte."
     help_texts:
-      show_modal: 'Rodyti atributo pagalbos teksto įrašą'
+      show_modal: "Rodyti atributo pagalbos teksto įrašą"
     onboarding:
       buttons:
-        skip: 'Praleisti'
-        next: 'Kitas'
-        got_it: 'Supratau'
+        skip: "Praleisti"
+        next: "Kitas"
+        got_it: "Supratau"
       steps:
-        help_menu: 'Pagalbos (?) meniu yra <b>papildomi pagalbos resursai</b>. Čia jūs galite rasti naudotojo vadovą, naudingus video kaip atlikti veiksmus ir dar daugiau. <br>Sėkmės naudojant OpenProject!'
-        members: 'Pakvieskite naujus <b>narius</b> prisijungti prie projekto.'
-        quick_add_button: 'Paspauskite pliuso (+) ženklą navigacijos antraštėje ir <b>sukursite naują projektą</b> arba </b>pakviesite bendradarbius</b>.'
+        help_menu: "Pagalbos (?) meniu yra <b>papildomi pagalbos resursai</b>. Čia jūs galite rasti naudotojo vadovą, naudingus video kaip atlikti veiksmus ir dar daugiau. <br>Sėkmės naudojant OpenProject!"
+        members: "Pakvieskite naujus <b>narius</b> prisijungti prie projekto."
+        quick_add_button: "Paspauskite pliuso (+) ženklą navigacijos antraštėje ir <b>sukursite naują projektą</b> arba </b>pakviesite bendradarbius</b>."
         sidebar_arrow: "Pasinaudokite grįžimo rodykle viršutiniame kairiajame kampe grįžimui į projekto <b>pagrindinį meniu</b>."
-        welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
-        wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
+        welcome: "Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu."
+        wiki: "<b>Wiki</b>'yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais."
         backlogs:
           overview: "Valdykite savo darbus <b>Darbų sąrašo</b> vaizde."
           sprints: "Kairėje jūs matote produkto darbų sąrašą ir klaidų darbų sąrašą, dešinėje -- atitinkamus sprintus. Čia jūs galite kurti <b>epics, user stories ir bugs</b>, prioritetizuoti vilkdami į reikiamą vietą ir priskirti sprintui."
-          task_board_arrow: 'Norėdami matyti jūsų <b>užduočių lentą</b>, atverkite sprinto iškrentantį meniu...'
-          task_board_select: '... ir pasirinkite <b>task board</b> elementą.'
+          task_board_arrow: "Norėdami matyti jūsų <b>užduočių lentą</b>, atverkite sprinto iškrentantį meniu..."
+          task_board_select: "... ir pasirinkite <b>task board</b> elementą."
           task_board: "Užduočių lenta vaizduoja <b>sprinto progresą</b>. Nuspauskite pliuso (+) ženklą prie user story norėdami pridėti naujas užduotis arba trukdžius. <br> Būsena gali būti pakeista nuvelkant į reikiamą vietą."
         boards:
-          overview: 'Pasirinkite <b>lentas</b> siekdami pakeisti vaizdą ir valdyti projektą naudodami agile lentų vaizdą.'
-          lists_kanban: 'Lentoje galite sukurti keletą sąrašų (stulpelių) . Ši funkcija leidžia sukurti <b>Kanban lentą</b>.'
-          lists_basic: 'Čia galite sukurti kelis sąrašus (stulpelius) jūsų agile lentoje.'
-          add: 'Nuspauskite plius (+) ženklą ir <b>sukurkite naują kortelę</b> arba <b>pridėkite jau esamą</b> prie sąrašo lentoje.'
-          drag: 'Vilkite korteles sąrašo viduje norėdami pakeisti jų tvarką, arba perkelti į kitą sąrašą. <br> Galite nuspausti ant info (i) ženklo viršutiniame dešiniajame kampa arba du kartus spustelėti kortelę norėdami pamatyti jos detales.'
+          overview: "Pasirinkite <b>lentas</b> siekdami pakeisti vaizdą ir valdyti projektą naudodami agile lentų vaizdą."
+          lists_kanban: "Lentoje galite sukurti keletą sąrašų (stulpelių) . Ši funkcija leidžia sukurti <b>Kanban lentą</b>."
+          lists_basic: "Čia galite sukurti kelis sąrašus (stulpelius) jūsų agile lentoje."
+          add: "Nuspauskite plius (+) ženklą ir <b>sukurkite naują kortelę</b> arba <b>pridėkite jau esamą</b> prie sąrašo lentoje."
+          drag: "Vilkite korteles sąrašo viduje norėdami pakeisti jų tvarką, arba perkelti į kitą sąrašą. <br> Galite nuspausti ant info (i) ženklo viršutiniame dešiniajame kampa arba du kartus spustelėti kortelę norėdami pamatyti jos detales."
         wp:
           toggler: "Dabar žvilgtelėkime į <b>darbų paketų</b> skyrių, kuris suteikia išsamesnį vaizdą apie jūsų darbus."
-          list: 'Šis <b>darbo</b> paketų apžvalga duoda sąrašą visų projekto darbų, tokių kaip užduotys, etapai ir t.t. <br> Darbų paketai gali būti sukurti ir redaguojami tiesiai šiame vaizde. Norėdami pasiekti darbų paketo detales paprasčiausiai du kartus spustelėkite ant eilutės.'
-          full_view: '<b>Darbo paketo detalių</b> langas suteikia visą reikalingą informaciją apie konkretų darbų paketą, tokių kaip aprašymas, būsena, prioritetas, atlikti veiksmai, priklausomybės ir komentarai.'
-          back_button: 'Pasinaudokite grįžimo rodykle kairiajame viršutiniame kampe, kad išeitumėte ir sugrįžtumėte į darbo paketų sąrašą.'
-          create_button: 'Mygtukas <b>+Sukurti</b> pridės naują darbą į jūsų projektą.'
-          gantt_menu: 'Lengvai kurkite prjekto planus ir gaires naudodami Gantt modulį.'
-          timeline: 'Čia jūs galite <b>redaguoti savo projekto planą</b>, kurti naujus darbo paketus, tokius kaip užduotys, etapai ir <b>pridėti priklausomybių</b>. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
+          list: "Šis <b>darbo</b> paketų apžvalga duoda sąrašą visų projekto darbų, tokių kaip užduotys, etapai ir t.t. <br> Darbų paketai gali būti sukurti ir redaguojami tiesiai šiame vaizde. Norėdami pasiekti darbų paketo detales paprasčiausiai du kartus spustelėkite ant eilutės."
+          full_view: "<b>Darbo paketo detalių</b> langas suteikia visą reikalingą informaciją apie konkretų darbų paketą, tokių kaip aprašymas, būsena, prioritetas, atlikti veiksmai, priklausomybės ir komentarai."
+          back_button: "Pasinaudokite grįžimo rodykle kairiajame viršutiniame kampe, kad išeitumėte ir sugrįžtumėte į darbo paketų sąrašą."
+          create_button: "Mygtukas <b>+Sukurti</b> pridės naują darbą į jūsų projektą."
+          gantt_menu: "Lengvai kurkite prjekto planus ir gaires naudodami Gantt modulį."
+          timeline: "Čia jūs galite <b>redaguoti savo projekto planą</b>, kurti naujus darbo paketus, tokius kaip užduotys, etapai ir <b>pridėti priklausomybių</b>. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu."
         team_planner:
-          overview: 'Komandos planuotojas leidžia vizualiai priskirti užduotis komandos nariams ir gauti bendrą vaizdą, kas ką daro.'
-          calendar: 'Savaitės arba dviejų savaičių planavimo lenta rodo visus darbo paketus, priskirtus jūsų komandos nariams.'
-          add_assignee: 'Norėdami pradėti pridėkite paskiriamuosius į komandos planą.'
-          add_existing: 'Ieškokite esamų darbų paketų ir tempkite juos į komandos planą, kad akimirksniu priskirtumėte juos komandos nariui ir nurodytumėte pradžios ir pabaigos datas.'
-          card: 'Tempkite darbo paketus horizontaliai, kad perkeltumėte juos atgal arba į priekį laike. Tempkite kraštus, kad keistumėte pradžios ar pabaigos datas, arba tempkite vertikaliai į kitą eilutę, kad priskirtumėte juos kitam nariui.'
+          overview: "Komandos planuotojas leidžia vizualiai priskirti užduotis komandos nariams ir gauti bendrą vaizdą, kas ką daro."
+          calendar: "Savaitės arba dviejų savaičių planavimo lenta rodo visus darbo paketus, priskirtus jūsų komandos nariams."
+          add_assignee: "Norėdami pradėti pridėkite paskiriamuosius į komandos planą."
+          add_existing: "Ieškokite esamų darbų paketų ir tempkite juos į komandos planą, kad akimirksniu priskirtumėte juos komandos nariui ir nurodytumėte pradžios ir pabaigos datas."
+          card: "Tempkite darbo paketus horizontaliai, kad perkeltumėte juos atgal arba į priekį laike. Tempkite kraštus, kad keistumėte pradžios ar pabaigos datas, arba tempkite vertikaliai į kitą eilutę, kad priskirtumėte juos kitam nariui."
     notifications:
       title: "Pranešimai"
       no_unread: "Nėra neperskaitytų pranešimų"
       reasons:
-        mentioned: 'paminėtas'
-        watched: 'stebėtojas'
-        assigned: 'paskirtas'
-        responsible: 'atsakingas'
-        created: 'sukurta'
-        scheduled: 'suplanuota'
-        commented: 'komentuota'
-        processed: 'apdorota'
-        prioritized: 'prioritetizuota'
-        dateAlert: 'Datos įspėjimas'
-        shared: 'bendrinta'
+        mentioned: "paminėtas"
+        watched: "stebėtojas"
+        assigned: "paskirtas"
+        responsible: "atsakingas"
+        created: "sukurta"
+        scheduled: "suplanuota"
+        commented: "komentuota"
+        processed: "apdorota"
+        prioritized: "prioritetizuota"
+        dateAlert: "Datos įspėjimas"
+        shared: "bendrinta"
       date_alerts:
-        milestone_date: 'Gairės data'
-        overdue: 'Vėluojama'
-        overdue_since: 'nuo %{difference_in_days}'
-        property_today: 'yra šiandien'
-        property_is: 'yra %{difference_in_days}'
-        property_was: 'buvo prieš %{difference_in_days}'
-        property_is_deleted: 'yra ištrintas'
+        milestone_date: "Gairės data"
+        overdue: "Vėluojama"
+        overdue_since: "nuo %{difference_in_days}"
+        property_today: "yra šiandien"
+        property_is: "yra %{difference_in_days}"
+        property_was: "buvo prieš %{difference_in_days}"
+        property_is_deleted: "yra ištrintas"
         upsale:
-          title: 'Datos įspėjimai'
-          description: 'Su datos įspėjimais jus informuos apie ateinančias pradžios ir pabaigos datas, kad niekada nepraleistumėte ar nepamirštumėte svarbių terminų.'
+          title: "Datos įspėjimai"
+          description: "Su datos įspėjimais jus informuos apie ateinančias pradžios ir pabaigos datas, kad niekada nepraleistumėte ar nepamirštumėte svarbių terminų."
       facets:
-        unread: 'Neskaitytas'
-        unread_title: 'Rodyti neperskaitytus'
-        all: 'Visi'
-        all_title: 'Rodyti viską'
+        unread: "Neskaitytas"
+        unread_title: "Rodyti neperskaitytus"
+        all: "Visi"
+        all_title: "Rodyti viską"
       center:
-        label_actor_and: 'ir'
+        label_actor_and: "ir"
         and_more_users:
-          one: 'ir dar 1'
-          few: 'ir dar %{count}'
-          many: 'ir dar %{count}'
-          other: 'ir dar %{count}'
+          one: "ir dar 1"
+          few: "ir dar %{count}"
+          many: "ir dar %{count}"
+          other: "ir dar %{count}"
         no_results:
-          at_all: 'Čia pasirodys nauji pranešimai, kai bus su jumis susijusi veikla.'
-          with_current_filter: 'Šiuo metu šiame vaizde pranešimų nėra'
-        mark_all_read: 'Pažymėti visus kaip perskaitytus'
-        mark_as_read: 'Žymėti kaip skaitytą'
+          at_all: "Čia pasirodys nauji pranešimai, kai bus su jumis susijusi veikla."
+          with_current_filter: "Šiuo metu šiame vaizde pranešimų nėra"
+        mark_all_read: "Pažymėti visus kaip perskaitytus"
+        mark_as_read: "Žymėti kaip skaitytą"
         text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
         empty_state:
@@ -642,17 +662,17 @@ lt:
           no_notification_with_current_filter: "Panašu, kad jūs jau pilnai pasivijote filtrą %{filter}."
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
-          message: 'Yra naujų pranešimų.'
-          link_text: 'Spauskite čia, kad juos įkeltumėte'
+          message: "Yra naujų pranešimų."
+          link_text: "Spauskite čia, kad juos įkeltumėte."
       menu:
-        accountable: 'Atsakingas'
-        by_project: 'Neperskaityti pagal projektą'
-        by_reason: 'Priežastis'
-        inbox: 'Gauti'
-        mentioned: 'Paminėtas'
-        watched: 'Stebėtojas'
-        date_alert: 'Datos įspėjimas'
-        shared: 'Bendrinta'
+        accountable: "Atsakingas"
+        by_project: "Neperskaityti pagal projektą"
+        by_reason: "Priežastis"
+        inbox: "Gauti"
+        mentioned: "Paminėtas"
+        watched: "Stebėtojas"
+        date_alert: "Datos įspėjimas"
+        shared: "Bendrinta"
       settings:
         change_notification_settings: 'Jūs galite keisti savo <a target="_blank" href="%{url}">pranešimų nustatymus</a>, kad užtikrintumėte, jog niekada nepraleisite svarbaus atnaujinimo.'
         title: "Pranešimų nustatymai"
@@ -671,93 +691,93 @@ lt:
               P7D: kiekvieną savaitę
         reasons:
           mentioned:
-            title: 'Paminėtas'
-            description: 'Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini'
-          assignee: 'Paskirtas'
-          responsible: 'Atsakingas'
-          shared: 'Bendrinta'
-          watched: 'Stebėtojas'
-          work_package_commented: 'Visi nauji komentarai'
-          work_package_created: 'Nauji darbų paketai'
-          work_package_processed: 'Visi būsenų pakeitimai'
-          work_package_prioritized: 'Visi prioritetų pakeitimai'
-          work_package_scheduled: 'Visi datų pakeitimai'
+            title: "Paminėtas"
+            description: "Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini"
+          assignee: "Paskirtas"
+          responsible: "Atsakingas"
+          shared: "Bendrinta"
+          watched: "Stebėtojas"
+          work_package_commented: "Visi nauji komentarai"
+          work_package_created: "Nauji darbų paketai"
+          work_package_processed: "Visi būsenų pakeitimai"
+          work_package_prioritized: "Visi prioritetų pakeitimai"
+          work_package_scheduled: "Visi datų pakeitimai"
         global:
           immediately:
-            title: 'Dalyvaujate'
-            description: 'Pranešimai apie visus veiksmus darbo paketuose, su kuriais jūs susiję (priskirtasis, atsakingas ar stebėtojas).'
+            title: "Dalyvaujate"
+            description: "Pranešimai apie visus veiksmus darbo paketuose, su kuriais jūs susiję (priskirtasis, atsakingas ar stebėtojas)."
           delayed:
-            title: 'Nedalyvaujate'
-            description: 'Papildomi pranešimai apie veiksmus visuose projektuose.'
+            title: "Nedalyvaujate"
+            description: "Papildomi pranešimai apie veiksmus visuose projektuose."
           date_alerts:
-            title: 'Datos įspėjimai'
-            description: 'Automatiniai pranešimai apie artėjančias svarbias atvirų darbo paketų, su kuriais jūs susiję (paskirtasis, atsakingas ar stebėtojas), datas.'
-            teaser_text: 'Su datos įspėjimais jus informuos apie ateinančias pradžios ir pabaigos datas, kad niekada nepraleistumėte ar nepamirštumėte svarbių terminų.'
+            title: "Datos įspėjimai"
+            description: "Automatiniai pranešimai apie artėjančias svarbias atvirų darbo paketų, su kuriais jūs susiję (paskirtasis, atsakingas ar stebėtojas), datas."
+            teaser_text: "Su datos įspėjimais jus informuos apie ateinančias pradžios ir pabaigos datas, kad niekada nepraleistumėte ar nepamirštumėte svarbių terminų."
           overdue: Kai pavėluota
         project_specific:
-          title: 'Konkrečių projektų pranešimų nustatymai'
-          description: 'Šie konkrečių projektų nustatymai permuša aukščiau esančius numatytuosius nustatymus.'
-          add: 'Pridėti nustatymą projektui'
-          already_selected: 'Šis projektas jau pažymėtas'
-          remove: 'Išimti projekto nustatymus'
+          title: "Konkrečių projektų pranešimų nustatymai"
+          description: "Šie konkrečių projektų nustatymai permuša aukščiau esančius numatytuosius nustatymus."
+          add: "Pridėti nustatymą projektui"
+          already_selected: "Šis projektas jau pažymėtas"
+          remove: "Išimti projekto nustatymus"
     password_confirmation:
-      field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
-      title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'
+      field_description: "Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį."
+      title: "Norėdami tęsti, patvirtinkite savo slaptažodį"
     pagination:
       no_other_page: "Jūs esate vieninteliame puslapyje."
       pages:
         next: "Į kitą puslapį"
         previous: "Į ankstesnį puslapį"
     placeholders:
-      default: '-'
-      subject: 'Įveskite temą čia'
-      selection: 'Prašome pasirinkti'
-      description: 'Aprašymas: spauskite, kad keistumėte...'
-      relation_description: 'Paspauskite, kad pridėtumėte šio ryšio aprašymą'
+      default: "-"
+      subject: "Įveskite temą čia"
+      selection: "Prašome pasirinkti"
+      description: "Aprašymas: spauskite, kad keistumėte..."
+      relation_description: "Paspauskite, kad pridėtumėte šio ryšio aprašymą"
     project:
       required_outside_context: >
         Prašau pasirinkti projektą, kuriame turi būti sukurtas darbo paketas, kad matytumėte visus atributus. Jūs galite pasirinkti tik tuos projektus, kurie turi aukščiau nurodytą tipą.
-      details_activity: 'Projekto detalių aktyvumas'
-      context: 'Projekto kontekstas'
-      click_to_switch_to_project: 'Projektas: %{projectname}'
-      confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvestą informaciją. Tęsti?'
+      details_activity: "Projekto detalių aktyvumas"
+      context: "Projekto kontekstas"
+      click_to_switch_to_project: "Projektas: %{projectname}"
+      confirm_template_load: "Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvestą informaciją. Tęsti?"
       use_template: "Naudoti šabloną"
       no_template_selected: "(Nėra)"
       copy:
         copy_options: "Kopijos nustatymai"
       autocompleter:
-        label: 'Projekto autoužpildymas'
+        label: "Projekto autoužpildymas"
     reminders:
       settings:
         daily:
-          add_time: 'Pridėti laiką'
-          enable: 'Įjungti kasdienius el.pašto priminimus'
-          explanation: 'Jūs gausite šiuos priminimus tik neskaitytiems pranešimams ir tik jūsų nurodytomis valandomis. %{no_time_zone}'
-          no_time_zone: 'Iki jūs sukonfigūruosite jūsų paskyros laiko juostą, šie laikai bus interpretuojami kaip UTC.'
-          time_label: 'Laikas %{counter}:'
-          title: 'Siųskite man kasdienius el.pašto priminimus apie neskaitytus pranešimus'
+          add_time: "Pridėti laiką"
+          enable: "Įjungti kasdienius el.pašto priminimus"
+          explanation: "Jūs gausite šiuos priminimus tik neskaitytiems pranešimams ir tik jūsų nurodytomis valandomis. %{no_time_zone}"
+          no_time_zone: "Iki jūs sukonfigūruosite jūsų paskyros laiko juostą, šie laikai bus interpretuojami kaip UTC."
+          time_label: "Laikas %{counter}:"
+          title: "Siųskite man kasdienius el.pašto priminimus apie neskaitytus pranešimus"
         workdays:
-          title: 'Gauti e-pašto priminimus šiomis dienomis'
+          title: "Gauti e-pašto priminimus šiomis dienomis"
         immediate:
-          title: 'Siųsti man e-pašto priminimą'
-          mentioned: 'Iš karto, kai kažkas @pamini mane'
+          title: "Siųsti man e-pašto priminimą"
+          mentioned: "Iš karto, kai kažkas @pamini mane"
         alerts:
-          title: 'E-pašto pranešimai kitiems (ne darbo paketų) elementams'
+          title: "E-pašto pranešimai kitiems (ne darbo paketų) elementams"
           explanation: >
             Šiandien pranešimai galimi tik darbų paketams. Jūs galite pasirinkti gauti įspėjimus laiškais apie šiuos įvykius, kol jie dar įtraukiami į pranešimus:
-          news_added: 'Pridėta naujiena'
-          news_commented: 'Komentuoti naujienų elementą'
-          document_added: 'Dokumentai pridėti'
-          forum_messages: 'Nauji forumo pranešimai'
-          wiki_page_added: 'Wiki puslapis pridėtas'
-          wiki_page_updated: 'Wiki puslapis atnaujintas'
-          membership_added: 'Narystė pridėta'
-          membership_updated: 'Narystė atnaujinta'
-        title: 'El.pašto priminimai'
+          news_added: "Pridėta naujiena"
+          news_commented: "Komentuoti naujienų elementą"
+          document_added: "Dokumentai pridėti"
+          forum_messages: "Nauji forumo pranešimai"
+          wiki_page_added: "Wiki puslapis pridėtas"
+          wiki_page_updated: "Wiki puslapis atnaujintas"
+          membership_added: "Narystė pridėta"
+          membership_updated: "Narystė atnaujinta"
+        title: "El.pašto priminimai"
         pause:
-          label: 'Laikinai stabdyti kasdieninius e-pašto priminimus'
-          first_day: 'Pirma diena'
-          last_day: 'Paskutinė diena'
+          label: "Laikinai stabdyti kasdieninius e-pašto priminimus"
+          first_day: "Pirma diena"
+          last_day: "Paskutinė diena"
     text_are_you_sure: "Ar esate įsitikinę?"
     text_data_lost: "Visa įvesta informacija bus prarasta."
     text_user_wrote: "%{value} parašė:"
@@ -777,18 +797,18 @@ lt:
         projects: "Projektai"
         settings: "Nustatymai"
     time_entry:
-      work_package_required: 'Reikia pirma pasirinkti darbo paketą.'
-      title: 'Registruoti laiką'
-      tracking: 'Laiko apskaita'
-      stop: 'Stabdyti'
+      work_package_required: "Reikia pirma pasirinkti darbo paketą."
+      title: "Registruoti laiką"
+      tracking: "Laiko apskaita"
+      stop: "Stabdyti"
     timer:
-      start_new_timer: 'Pradėti naują laikmatį'
-      timer_already_running: 'Norėdami pradėti naują laikmatį, jūs iš pradžių turite sustabdyti esamą laikmatį:'
-      timer_already_stopped: 'Šis darbo paketas neturi aktyvių laikmačių, ar sustabdėte jį kitame lange?'
-      tracking_time: 'Sekamas laikas'
-      button_stop: 'Stabdyti dabartinį laikmatį'
+      start_new_timer: "Pradėti naują laikmatį"
+      timer_already_running: "Norėdami pradėti naują laikmatį, jūs iš pradžių turite sustabdyti esamą laikmatį:"
+      timer_already_stopped: "Šis darbo paketas neturi aktyvių laikmačių, ar sustabdėte jį kitame lange?"
+      tracking_time: "Sekamas laikas"
+      button_stop: "Stabdyti dabartinį laikmatį"
     two_factor_authentication:
-      label_two_factor_authentication: 'Dviejų veiksnių autentifikavimas'
+      label_two_factor_authentication: "Dviejų veiksnių autentifikavimas"
     watchers:
       label_loading: įkeliami stebėtojai...
       label_error_loading: Įkeliant stebėtojus įvyko klaida
@@ -849,27 +869,27 @@ lt:
       project:
         placeholder: "Pasirinkite projektą"
     repositories:
-      select_tag: 'Pasirinkti žymę'
-      select_branch: 'Parinkti padalinį'
+      select_tag: "Pasirinkti žymę"
+      select_branch: "Parinkti padalinį"
     field_value_enter_prompt: "Įveskite \"%{field}\" reikšmę "
     project_menu_details: "Detalės"
     scheduling:
-      manual: 'Rankinis laiko parinkimas'
+      manual: "Rankinis laiko parinkimas"
     sort:
-      sorted_asc: 'Pritaikytas didėjantis rikiavimas, '
-      sorted_dsc: 'Pritaikytas mažėjantis rikiavimas, '
-      sorted_no: 'Rikiavimas nėra taikomas, '
-      sorting_disabled: 'rikiavimas išjungtas'
-      activate_asc: 'aktyvuoti, kad būtų pritaikytas didėjantis rikiavimas'
-      activate_dsc: 'aktyvuoti, kad būtų pritaikytas mažėjantis rikiavimas'
-      activate_no: 'aktyvuoti, kad rikiavimas būtų pašalintas'
+      sorted_asc: "Pritaikytas didėjantis rikiavimas, "
+      sorted_dsc: "Pritaikytas mažėjantis rikiavimas, "
+      sorted_no: "Rikiavimas nėra taikomas, "
+      sorting_disabled: "rikiavimas išjungtas"
+      activate_asc: "aktyvuoti, kad būtų pritaikytas didėjantis rikiavimas"
+      activate_dsc: "aktyvuoti, kad būtų pritaikytas mažėjantis rikiavimas"
+      activate_no: "aktyvuoti, kad rikiavimas būtų pašalintas"
     text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
     text_query_destroy_confirmation: "Ar tikrai norite panaikinti pasirinktą vaizdą?"
     tl_toolbar:
       zooms: "Didinimo lygis"
       outlines: "Hierarchinis lygmuo"
     upsale:
-      ee_only: '„Enterprise“ versijos priedas'
+      ee_only: "„Enterprise“ versijos priedas"
     wiki_formatting:
       strong: "Paryškintas"
       italic: "Pasvirasis"
@@ -888,10 +908,10 @@ lt:
       image: "Paveikslėlis"
     work_packages:
       bulk_actions:
-        move: 'Masinis projekto pakeitimas'
-        edit: 'Masinis redagavimas'
-        copy: 'Masinis kopijavimas'
-        delete: 'Masinis trynimas'
+        move: "Masinis projekto pakeitimas"
+        edit: "Masinis redagavimas"
+        copy: "Masinis kopijavimas"
+        delete: "Masinis trynimas"
       button_clear: "Valyti"
       comment_added: "Komentaras sėkmingai pridėtas."
       comment_send_failed: "Įvyko klaida. Neįmanoma pateikti komentaro."
@@ -903,9 +923,9 @@ lt:
         start_date_limited_by_relations: "Galimos pradžios ir pabaigos datos ribojamos pagal ryšius."
         changing_dates_affects_follow_relations: "Šių datų keitimas įtakos susijusių darbo paketų datas."
         click_on_show_relations_to_open_gantt: 'Spauskite „%{button_name}“ GANTT vaizdui.'
-        show_relations: 'Rodyti ryšius'
+        show_relations: "Rodyti ryšius"
         ignore_non_working_days:
-          title: 'Tik darbo dienos'
+          title: "Tik darbo dienos"
       description_filter: "Filtras"
       description_enter_text: "Įveskite tekstą"
       description_options_hide: "Slėpti parinktis"
@@ -925,32 +945,34 @@ lt:
       message_work_package_read_only: "Šioje būsenoje darbų paketas yra užrakintas. Negali būti keičiamas joks atributas, išskyrus būseną."
       message_work_package_status_blocked: "Darbų paketo būsena negali būti keičiama, nes dabar yra uždaryta ir uždaryta versija yra priskirta."
       placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
+      progress:
+        title: "Darbo įvertinimas ir eiga"
       baseline:
-        addition_label: 'Pridėta į vaizdą lyginimo laiko periode'
-        removal_label: 'Išimta iš vaizdo lyginimo laiko periode'
-        modification_label: 'Pakeista lyginimo laiko periode'
-        column_incompatible: 'Šis stulpelis nerodo pakeitimų Bazinės linijos režime.'
+        addition_label: "Pridėta į vaizdą lyginimo laiko periode"
+        removal_label: "Išimta iš vaizdo lyginimo laiko periode"
+        modification_label: "Pakeista lyginimo laiko periode"
+        column_incompatible: "Šis stulpelis nerodo pakeitimų Bazinės linijos režime."
       filters:
-        title: 'Filtruoti darbų paketus'
-        baseline_incompatible: 'Šis filtro atributas neįvertinamas Bazinės linijos režime.'
-        baseline_warning: 'Bazinės linijos režimas įjungtas, bet kai kurie aktyvūs jūsų filtrai neįtraukti į palyginimą.'
+        title: "Filtruoti darbų paketus"
+        baseline_incompatible: "Šis filtro atributas neįvertinamas Bazinės linijos režime."
+        baseline_warning: "Bazinės linijos režimas įjungtas, bet kai kurie aktyvūs jūsų filtrai neįtraukti į palyginimą."
       inline_create:
-        title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'
+        title: "Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą"
       create:
-        title: 'Naujas darbų paketas'
-        header: 'Naujas %{type}'
-        header_no_type: 'Naujas darbų paketas (tipas dar nenurodytas)'
-        header_with_parent: 'Naujas %{type} (%{parent_type} #%{id} tėvo vaikas)'
-        button: 'Kurti'
+        title: "Naujas darbų paketas"
+        header: "Naujas %{type}"
+        header_no_type: "Naujas darbų paketas (tipas dar nenurodytas)"
+        header_with_parent: "Naujas %{type} (%{parent_type} #%{id} tėvo vaikas)"
+        button: "Kurti"
       copy:
-        title: 'Kopijuoti darbų paketą'
+        title: "Kopijuoti darbų paketą"
       hierarchy:
         show: "Rodyti hierarchijos režimą"
         hide: "Slėpti hierarchijos režimą"
-        toggle_button: 'Paspauskite, kad perjungtumėte hierarchijos režimą.'
-        leaf: 'Darbų paketo skaidos lygis yra %{level}.'
-        children_collapsed: 'Hierarchijos lygis %{level} susiskleidė. Paspauskite, kad pamatytumėte išfiltruotus vaikus'
-        children_expanded: 'Hierarchijos lygis %{level} išsiskleidė. Paspauskite, kad sutrauktumėte išfiltruotus vaikus'
+        toggle_button: "Paspauskite, kad perjungtumėte hierarchijos režimą."
+        leaf: "Darbų paketo skaidos lygis yra %{level}."
+        children_collapsed: "Hierarchijos lygis %{level} susiskleidė. Paspauskite, kad pamatytumėte išfiltruotus vaikus"
+        children_expanded: "Hierarchijos lygis %{level} išsiskleidė. Paspauskite, kad sutrauktumėte išfiltruotus vaikus"
       faulty_query:
         title: Nepavyko įkelti darbų paketų.
         description: Jūsų vaizdas yra klaidingas ir negalėjo būti apdorotas.
@@ -1001,6 +1023,7 @@ lt:
         all_open: "Visi atviri"
         summary: "Santrauka"
         shared_with_users: "Bendrinamas su naudotojais"
+        shared_with_me: "Bendrinama su manimi"
       jump_marks:
         pagination: "Pereiti į lentelės laužymą puslapiais"
         label_pagination: "Paspauskite čia, kad praleistumėte darbų paketų lentelės peržiūrą ir patektumėte į atvaizdavimą puslapiais"
@@ -1038,54 +1061,54 @@ lt:
         is_parent: "Šio darbų paketo datos yra automatiškai nustatomos pagal jo vaikų datas. Norėdami nustatyti kitokias datas įjunkite „Rankinį tvarkaraščio parinkimą“"
         is_switched_from_manual_to_automatic: "Po perjungimo iš rankinio į automatinį tvarkaraščio parinkimą, šio darbų paketo datas gali reikėti perskaičiuoti, nes yra sąryšių su kitais darbų paketais."
       sharing:
-        share: 'Dalintis'
+        share: "Dalintis"
         title: "Dalintis darbo paketu"
-        show_all_users: "Rodyti visus bendrinamus naudotojus"
+        show_all_users: "Rodyti visus naudotojus, su kuriais bendrinamas šis darbo paketas"
         selected_count: "%{count} pažymėta"
         selection:
           mixed: "Mišrus"
         upsale:
           description: "Bendrinkite darbo paketus su naudotojais, kurie nėra projekto nariai."
       table:
-        configure_button: 'Sukonfigūruokite darbų paketo lentelę'
+        configure_button: "Sukonfigūruokite darbų paketo lentelę"
         summary: "Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų."
         text_inline_edit: "Dauguma langelių šioje lentelėje yra mygtukai, kurie aktyvuoja to atributo redagavimą eilutėje."
         text_sort_hint: "Su nuorodomis lentelės antraštėje galima rikiavimo, grupuoti, perdėlioti, šalinti ir pridėti lentelės stulpelius."
         text_select_hint: "Pažymėjimo langeliai turi būti atidaryti nuspaudus 'Alt' ir krypčių rodykles."
       table_configuration:
-        button: 'Konfigūruokite šią darbų paketo lentelę'
-        choose_display_mode: 'Parodyti darbų paketą kaip'
-        modal_title: 'Darbų paketų lentelės konfigūracija'
+        button: "Konfigūruokite šią darbų paketo lentelę"
+        choose_display_mode: "Parodyti darbų paketą kaip"
+        modal_title: "Darbų paketų lentelės konfigūracija"
         embedded_tab_disabled: "Ši konfigūracijos kortelė nerodoma įterpiamam vaizdui, kurį jūs redaguojate."
         default: "numatytasis"
-        display_settings: 'Rodymo nustatymai'
+        display_settings: "Rodymo nustatymai"
         default_mode: "Paprastas sąrašas"
         hierarchy_mode: "Hierarchija"
         hierarchy_hint: "Visi filtruoti lentelės rezultatai bus papildyti savo tėvais. Hierarchijas galima išplėsti ir sutraukti."
         display_sums_hint: "Rodyti visų sumuotinų atributų sumas eilutėje lentelės apačioje po rezultatais."
         show_timeline_hint: "Parodyti interaktyvią gantt schemą dešinėje lentelės pusėje. Jūs galite keisti šios schemos plotį stumdydami skyriklį tarp lentelės ir schemos."
-        highlighting: 'Paryškinimai'
+        highlighting: "Paryškinimai"
         highlighting_mode:
           description: "Spalviniai paryškinimai"
           none: "Be paryškinimų"
-          inline: 'Paryškinti atributai'
-          inline_all: 'Visi atributai'
-          entire_row_by: 'Visa eilutė pagal'
-          status: 'Būsena'
-          priority: 'Pirmenybė'
-          type: 'Tipas'
+          inline: "Paryškinti atributai"
+          inline_all: "Visi atributai"
+          entire_row_by: "Visa eilutė pagal"
+          status: "Būsena"
+          priority: "Pirmenybė"
+          type: "Tipas"
         sorting_mode:
-          description: 'Parinkite režimą, kuriuo pradėti jūsų Darbo paketus:'
-          automatic: 'Automatinis'
-          manually: 'Rankinis'
-          warning: 'Aktyvuojant automatinį rikiavimo režimą jūs prarasite savo ankstesnį rikiavimą.'
+          description: "Parinkite režimą, kuriuo pradėti jūsų Darbo paketus:"
+          automatic: "Automatinis"
+          manually: "Rankinis"
+          warning: "Aktyvuojant automatinį rikiavimo režimą jūs prarasite savo ankstesnį rikiavimą."
         columns_help_text: "Aukščiau esančioje įvedimo eilutėje pridėkite stulpelius į lentelės vaizdą. Galite pele perkelti stulpelius, jei reikalinga kita jų tvarka."
         upsale:
-          attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
-          relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
-          check_out_link: 'Patikrinkite Enterprise versiją.'
+          attribute_highlighting: "Reikia išskirti tam tikrus darbo paketus iš didelės masės?"
+          relation_columns: "Ar reikia matyti ryšius darbų paketų sąraše?"
+          check_out_link: "Patikrinkite Enterprise versiją."
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filtruokite darbo paketus pagal sąryšio tipą'
+          filter_work_packages_by_relation_type: "Filtruokite darbo paketus pagal sąryšio tipą"
       tabs:
         overview: Peržiūra
         activity: Veikla
@@ -1125,8 +1148,8 @@ lt:
       button_cancel: "Nutraukti"
       button_delete: "Ištrinti"
       form_submit:
-        title: 'Norėdami tęsti, patvirtinkite'
-        text: 'Ar tikrai norite atlikti šį veiksmą?'
+        title: "Norėdami tęsti, patvirtinkite"
+        text: "Ar tikrai norite atlikti šį veiksmą?"
       destroy_work_package:
         title: "Patvirtinkite, jog %{label} ištrinamas"
         single_text: "Ar tikrai norite ištrinti darbo paketą"
@@ -1158,11 +1181,11 @@ lt:
       null_value_label: "Nėra reikšmės"
       clear_value_label: "-"
       errors:
-        required: '%{field} negali būti tuščias'
-        number: '%{field} nėra leistinas skaičius'
-        maxlength: '%{field} laukelis negali turėti daugiau nei %{maxLength} skaitmenų'
-        minlength: '%{field} negali turėti mažiau nei %{minLength} skaitmenų'
-        messages_on_field: 'Šio laukelio reikšmė netinkama: %{messages}'
+        required: "%{field} negali būti tuščias"
+        number: "%{field} nėra leistinas skaičius"
+        maxlength: "%{field} laukelis negali turėti daugiau nei %{maxLength} skaitmenų"
+        minlength: "%{field} negali turėti mažiau nei %{minLength} skaitmenų"
+        messages_on_field: "Šio laukelio reikšmė netinkama: %{messages}"
     error_could_not_resolve_version_name: "Nepavyko nustatyti versijos pavadinimo"
     error_could_not_resolve_user_name: "Nepavyko nustatyti vartotojo vardo"
     error_attachment_upload: "Nepavyko įkelti failo: %{error}"
@@ -1187,8 +1210,8 @@ lt:
         other: "%{count} dienas (-ą, -ų)"
         zero: "0 dienų"
     zen_mode:
-      button_activate: 'Įjungti Zen režimą'
-      button_deactivate: 'Išjungti Zen režimą'
+      button_activate: "Įjungti Zen režimą"
+      button_deactivate: "Išjungti Zen režimą"
     global_search:
       all_projects: "Visuose projektuose"
       close_search: "Uždaryti paiešką"
@@ -1201,129 +1224,146 @@ lt:
         project_and_subprojects: "ir visi subprojektai"
         search_for: "Ieškoti"
     views:
-      card: 'Kortelės'
-      list: 'Stalas'
-      timeline: 'Gantt'
+      card: "Kortelės"
+      list: "Stalas"
+      timeline: "Gantt"
     invite_user_modal:
-      back: 'Atgal'
-      invite: 'Pakviesti'
+      back: "Atgal"
+      invite: "Pakviesti"
       title:
-        invite: 'Pakviesti vartotoją'
-        invite_to_project: 'Pakviesti %{type} į %{project}'
-        User: 'naudotojas'
-        Group: 'grupė'
-        PlaceholderUser: 'statytinis naudotojas'
-        invite_principal_to_project: 'Pakviesti %{principal} į %{project}'
+        invite: "Pakviesti vartotoją"
+        invite_to_project: "Pakviesti %{type} į %{project}"
+        User: "naudotojas"
+        Group: "grupė"
+        PlaceholderUser: "statytinis naudotojas"
+        invite_principal_to_project: "Pakviesti %{principal} į %{project}"
       project:
-        label: 'Projektas'
-        required: 'Pasirinkite projektą'
-        lacking_permission: 'Prašome pasirinkti kitą projektą, nes dabar pasirinktame jūs neturite teisių priskirti naudotojus.'
-        lacking_permission_info: 'Jums trūksta teisių priskirti naudotojus projekte, kuriame dabar esate. Turėtumėte pasirinkti kitą projektą.'
-        next_button: 'Kitas'
-        no_results: 'Nerasta jokių projektų'
-        no_invite_rights: 'Jums neleidžiama kviesti narių į projektą'
+        label: "Projektas"
+        required: "Pasirinkite projektą"
+        lacking_permission: "Prašome pasirinkti kitą projektą, nes dabar pasirinktame jūs neturite teisių priskirti naudotojus."
+        lacking_permission_info: "Jums trūksta teisių priskirti naudotojus projekte, kuriame dabar esate. Turėtumėte pasirinkti kitą projektą."
+        next_button: "Kitas"
+        no_results: "Nerasta jokių projektų"
+        no_invite_rights: "Jums neleidžiama kviesti narių į projektą"
       type:
-        required: 'Prašome pasirinkti kokio tipo dalyvį kviesti'
+        required: "Prašome pasirinkti kokio tipo dalyvį kviesti"
         user:
-          title: 'Naudotojas'
-          description: 'Teisės, suteiktos pagal pasirinktame projekte turimą vaidmenį'
+          title: "Naudotojas"
+          description: "Teisės, suteiktos pagal pasirinktame projekte turimą vaidmenį"
         group:
-          title: 'Grupė'
-          description: 'Teisės, suteiktos pagal pasirinktame projekte turimą rolę'
+          title: "Grupė"
+          description: "Teisės, suteiktos pagal pasirinktame projekte turimą rolę"
         placeholder:
-          title: 'Statytinis naudotojas'
-          title_no_ee: 'Statytiniai naudotojai (Enterprise versijos priedas)'
-          description: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti.'
+          title: "Statytinis naudotojas"
+          title_no_ee: "Statytiniai naudotojai (Enterprise versijos priedas)"
+          description: "Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti."
           description_no_ee: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti. <br>Pabandykite <a href="%{eeHref}" target="_blank">Enterprise versiją</a>'
       principal:
         label:
-          name_or_email: 'Vardas arba elektroninio pašto adresas'
-          name: 'Vardas'
-        already_member_message: 'Jau yra %{project} narys'
-        no_results_user: 'Nerasta jokių naudotojų'
-        invite_user: 'Pakviesti:'
-        no_results_placeholder: 'Nerasta jokių statytinių naudotojų'
-        create_new_placeholder: 'Kurti naują statytinį naudotoją:'
-        no_results_group: 'Nerasta jokių grupių'
-        next_button: 'Kitas'
+          name_or_email: "Vardas arba elektroninio pašto adresas"
+          name: "Vardas"
+        already_member_message: "Jau yra %{project} narys"
+        no_results_user: "Nerasta jokių naudotojų"
+        invite_user: "Pakviesti:"
+        no_results_placeholder: "Nerasta jokių statytinių naudotojų"
+        create_new_placeholder: "Kurti naują statytinį naudotoją:"
+        no_results_group: "Nerasta jokių grupių"
+        next_button: "Kitas"
         required:
-          user: 'Parinkite naudotoją'
-          placeholder: 'Prašome parinkti statytinį naudotoją'
-          group: 'Prašome parinkti grupę'
+          user: "Parinkite naudotoją"
+          placeholder: "Prašome parinkti statytinį naudotoją"
+          group: "Prašome parinkti grupę"
       role:
-        label: 'Vaidmuo projekte %{project}'
-        no_roles_found: 'Nerasta jokių vaidmenų'
-        description: 'Tai yra vaidmuo, kurį naudotojas gaus, kai prisijungs prie jūsų projekto. Vaidmuo nurodo, kokius veiksmus leidžiama atlikti ir kokią informaciją galima matyti. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Sužinokite daugiau apie vaidmenis ir teises. </a>'
-        required: 'Prašome parinkti vaidmenį'
-        next_button: 'Kitas'
+        label: "Vaidmuo projekte %{project}"
+        no_roles_found: "Nerasta jokių vaidmenų"
+        description: >-
+          Tai yra vaidmuo, kurį naudotojas gaus, kai prisijungs prie jūsų projekto. Vaidmuo nurodo, kokius veiksmus leidžiama atlikti ir kokią informaciją galima matyti. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Sužinokite daugiau apie vaidmenis ir teises. </a>
+        required: "Prašome parinkti vaidmenį"
+        next_button: "Kitas"
       message:
-        label: 'Kvietimo pranešimas'
-        description: 'Mes siųsime el. pašto laišką naudotojui, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas, galėtų būti naudingas gavėjui. Taipogi šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu.'
-        next_button: 'Kitas'
+        label: "Kvietimo pranešimas"
+        description: "Mes siųsime el. pašto laišką naudotojui, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas, galėtų būti naudingas gavėjui. Taipogi šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu."
+        next_button: "Kitas"
       summary:
-        next_button: 'Siųsti pakvietimą'
+        next_button: "Siųsti pakvietimą"
       success:
-        title: '%{principal} buvo pakviestas!'
+        title: "%{principal} buvo pakviestas!"
         description:
-          user: 'Naudotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo naudotoju ir pavyzdžiui priskirti jam darbo užduotis.'
-          placeholder: 'Statytinis naudotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo naudotoju ir pavyzdžiui priskirti jam darbo užduotis.'
-          group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
-        next_button: 'Tęsti'
+          user: "Naudotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo naudotoju ir pavyzdžiui priskirti jam darbo užduotis."
+          placeholder: "Statytinis naudotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo naudotoju ir pavyzdžiui priskirti jam darbo užduotis."
+          group: "Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis."
+        next_button: "Tęsti"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "Jūs neturite mėgstamų projektų"
+      no_results_subtext: "Pridėkite vieną ar kelis projektus kaip mėgiamus jų apžvalgoje ar projektų sąraše."
     include_projects:
-      toggle_title: 'Įtraukti projektus'
-      title: 'Projektai'
-      clear_selection: 'Valyti pasirinkimą'
-      apply: 'Taikyti'
+      toggle_title: "Įtraukti projektus"
+      title: "Projektai"
+      clear_selection: "Valyti pasirinkimą"
+      apply: "Taikyti"
       selected_filter:
-        all: 'Visi projektai'
-        selected: 'Tik pasirinktus'
-      search_placeholder: 'Ieškoti projekte...'
-      include_subprojects: 'Įtraukti visus sub-projektus'
+        all: "Visi projektai"
+        selected: "Tik pasirinktus"
+      search_placeholder: "Ieškoti projekte..."
+      include_subprojects: "Įtraukti visus sub-projektus"
       tooltip:
-        include_all_selected: 'Projektas jau įtrauktas, nes įjungta parinktis įtraukti visus sub-projektus.'
-        current_project: 'Tai dabartinis projektas, kuriame jūs esate.'
-        does_not_match_search: 'Projektas neatitinka paieškos kriterijaus.'
-      no_results: 'Nei vienas projektas neatitinka jūsų paieškos kriterijaus.'
+        include_all_selected: "Projektas jau įtrauktas, nes įjungta parinktis įtraukti visus sub-projektus."
+        current_project: "Tai dabartinis projektas, kuriame jūs esate."
+        does_not_match_search: "Projektas neatitinka paieškos kriterijaus."
+      no_results: "Nei vienas projektas neatitinka jūsų paieškos kriterijaus."
     baseline:
-      toggle_title: 'Bazinė linija'
-      clear: 'Išvalyti'
-      apply: 'Taikyti'
-      header_description: 'Paryškinti pakeitimus, padarytus šiame sąraše, nuo bet kokio laiko momento praeityje.'
-      enterprise_header_description: 'Paryškinti pakeitimus, padarytus šiame sąraše, nuo bet kokio laiko momento su Enterprise versija.'
-      show_changes_since: 'Rodyti pakeitimus nuo'
-      baseline_comparison: 'Bazinės linijos palyginimas'
-      help_description: 'Bazinės linijos atskaitos laiko zona.'
-      time_description: 'Jūsų lokaliu laiku: %{datetime}'
-      time: 'Laikas'
-      from: 'Nuo'
-      to: 'Į'
+      toggle_title: "Bazinė linija"
+      clear: "Išvalyti"
+      apply: "Taikyti"
+      header_description: "Paryškinti pakeitimus, padarytus šiame sąraše, nuo bet kokio laiko momento praeityje."
+      enterprise_header_description: "Paryškinti pakeitimus, padarytus šiame sąraše, nuo bet kokio laiko momento su Enterprise versija."
+      show_changes_since: "Rodyti pakeitimus nuo"
+      baseline_comparison: "Bazinės linijos palyginimas"
+      help_description: "Bazinės linijos atskaitos laiko zona."
+      time_description: "Jūsų lokaliu laiku: %{datetime}"
+      time: "Laikas"
+      from: "Nuo"
+      to: "Į"
       drop_down:
-        none: '-'
-        yesterday: 'vakar'
-        last_working_day: 'paskutinė darbo diena'
-        last_week: 'praeita savaitė'
-        last_month: 'praeitas mėnuo'
-        a_specific_date: 'konkreti data'
-        between_two_specific_dates: 'tarp dviejų konkrečių datų'
+        none: "-"
+        yesterday: "vakar"
+        last_working_day: "paskutinė darbo diena"
+        last_week: "praeita savaitė"
+        last_month: "praeitas mėnuo"
+        a_specific_date: "konkreti data"
+        between_two_specific_dates: "tarp dviejų konkrečių datų"
       legends:
-        changes_since: 'Pakeitimai nuo'
-        changes_between: 'Pakeitimai tarp'
-        now_meets_filter_criteria: 'Dabar atitinka filtro kriterijų'
-        no_longer_meets_filter_criteria: 'Nebeatitinka filtro kriterijaus'
-        maintained_with_changes: 'Palaikoma su pakeitimais'
-        in_your_timezone: 'Jūsų lokalioje laiko zonoje:'
+        changes_since: "Pakeitimai nuo"
+        changes_between: "Pakeitimai tarp"
+        now_meets_filter_criteria: "Dabar atitinka filtro kriterijų"
+        no_longer_meets_filter_criteria: "Nebeatitinka filtro kriterijaus"
+        maintained_with_changes: "Palaikoma su pakeitimais"
+        in_your_timezone: "Jūsų lokalioje laiko zonoje:"
       icon_tooltip:
-        added: 'Pridėta į vaizdą lyginimo laiko periode'
-        removed: 'Išimta iš vaizdo lyginimo laiko periode'
-        changed: 'Palaikoma su pakeitimais'
+        added: "Pridėta į vaizdą lyginimo laiko periode"
+        removed: "Išimta iš vaizdo lyginimo laiko periode"
+        changed: "Palaikoma su pakeitimais"
     forms:
-      submit_success_message: 'Forma buvo sėkmingai pateikta'
-      load_error_message: 'Įkeliant formą įvyko klaida'
-      validation_error_message: 'Prašome ištaisyti klaidas formoje'
-      advanced_settings: 'Išplėstiniai nustatymai'
+      submit_success_message: "Forma buvo sėkmingai pateikta"
+      load_error_message: "Įkeliant formą įvyko klaida"
+      validation_error_message: "Prašome ištaisyti klaidas formoje"
+      advanced_settings: "Išplėstiniai nustatymai"
     spot:
       filter_chip:
-        remove: 'Pašalinti'
+        remove: "Pašalinti"
       drop_modal:
-        focus_grab: 'Tai fokuso inkaras modalams. Spauskite shift+tab, kad grįžtumėte į modalinių trigerių elementą.'
-        Close: 'Uždaryti'
+        focus_grab: "Tai fokuso inkaras modalams. Spauskite shift+tab, kad grįžtumėte į modalinių trigerių elementą."
+        close: "Close modal"
+    open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
+      waiting_subtitle:
+        network_off: "Yra tinklo problema."
+        network_on: "Tinklas grįžo. Mes bandome."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

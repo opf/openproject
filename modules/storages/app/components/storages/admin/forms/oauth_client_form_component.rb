@@ -35,8 +35,8 @@ module Storages::Admin::Forms
     attr_reader :storage
     alias_method :oauth_client, :model
 
-    def initialize(oauth_client:, storage:, **options)
-      super(oauth_client, **options)
+    def initialize(oauth_client:, storage:, **)
+      super(oauth_client, **)
       @storage = storage
     end
 
@@ -55,15 +55,15 @@ module Storages::Admin::Forms
 
     private
 
-    def one_drive_integration_link(target: '_blank')
+    def one_drive_integration_link(target: "_blank")
       href = ::OpenProject::Static::Links[:storage_docs][:one_drive_oauth_application][:href]
-      render(Primer::Beta::Link.new(href:, target:)) { I18n.t('storages.instructions.one_drive.application_link_text') }
+      render(Primer::Beta::Link.new(href:, target:)) { I18n.t("storages.instructions.one_drive.application_link_text") }
     end
 
-    def nextcloud_integration_link(target: '_blank')
+    def nextcloud_integration_link(target: "_blank")
       href = Storages::Peripherals::StorageInteraction::Nextcloud::Util
-               .join_uri_path(storage.host, 'settings/admin/openproject')
-      render(Primer::Beta::Link.new(href:, target:)) { I18n.t('storages.instructions.nextcloud.integration') }
+               .join_uri_path(storage.host, "settings/admin/openproject")
+      render(Primer::Beta::Link.new(href:, target:)) { I18n.t("storages.instructions.nextcloud.integration") }
     end
 
     def first_time_configuration?

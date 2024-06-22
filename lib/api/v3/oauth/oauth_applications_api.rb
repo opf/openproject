@@ -29,7 +29,7 @@
 module API::V3::OAuth
   class OAuthApplicationsAPI < ::API::OpenProjectAPI
     resources :oauth_applications do
-      route_param :oauth_application_id, type: Integer, desc: 'OAuth application id' do
+      route_param :oauth_application_id, type: Integer, desc: "OAuth application id" do
         after_validation do
           authorize_admin
           @application = ::Doorkeeper::Application.find(params[:oauth_application_id])

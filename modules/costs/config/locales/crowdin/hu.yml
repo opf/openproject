@@ -34,7 +34,7 @@ hu:
         unit: "Egység neve"
         unit_plural: "Többes számú egység neve"
       work_package:
-        costs_by_type: "Elköltött egység"
+        costs_by_type: "Elhasznált egységek"
         labor_costs: "Munkaerő költségek"
         material_costs: "Egység költségek"
         overall_costs: "Összes költség"
@@ -104,7 +104,7 @@ hu:
   label_work_package_filter_add: "Munkacsomag szűrő hozzáadása"
   label_kind: "Típus"
   label_less_or_equal: "<="
-  label_log_costs: "Költségek naplózása"
+  label_log_costs: "Naplózott költségek"
   label_no: "Nem"
   label_option_plural: "Beállítások"
   label_overall_costs: "Összes költség"

@@ -53,7 +53,7 @@ module WorkPackages::Scopes::IncludeDerivedDates
     end
 
     def descendants_alias
-      'descendants_work_packages'
+      "descendants_work_packages"
     end
   end
 end

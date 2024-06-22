@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-require_relative 'shared_responses'
+require_relative "shared_responses"
 
-RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
+RSpec.describe "BCF 2.1 comments resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -70,7 +70,7 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
 
   subject(:response) { last_response }
 
-  describe 'GET /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments' do
+  describe "GET /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/comments" }
     let(:current_user) { view_only_user }
     let(:comments) { bcf_comment }
@@ -81,7 +81,7 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       get path
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:comments) { [bcf_comment, bcf_answer, bcf_comment_to_viewpoint] }
 
       let(:expected_body) do
@@ -132,10 +132,10 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       end
     end
 
-    context 'with edit comments permission' do
+    context "with edit comments permission" do
       let(:current_user) { edit_user }
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_body) do
           [
             {
@@ -159,14 +159,14 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       end
     end
 
-    context 'without view permissions' do
+    context "without view permissions" do
       let(:current_user) { user_without_permission }
 
-      it_behaves_like 'bcf api not allowed response'
+      it_behaves_like "bcf api not allowed response"
     end
   end
 
-  describe 'POST /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments' do
+  describe "POST /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/comments" }
     let(:current_user) { edit_user }
     let(:params) do
@@ -180,18 +180,17 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       post path, params.to_json
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_status) { 201 }
       let(:expected_body) do
         comment = Bim::Bcf::Comment.last.reload
-        creation_date = comment&.journal&.created_at&.iso8601
 
         {
           guid: comment&.uuid,
-          date: creation_date,
+          date: comment&.journal&.created_at&.iso8601,
           author: edit_user.mail,
           comment: "this is a new bcf comment",
-          modified_date: creation_date,
+          modified_date: comment&.journal&.updated_at&.iso8601,
           modified_author: edit_user.mail,
           topic_guid: bcf_issue.uuid,
           reply_to_comment_guid: nil,
@@ -205,13 +204,13 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       end
     end
 
-    context 'if user has no permission to write comments' do
+    context "if user has no permission to write comments" do
       let(:current_user) { view_only_user }
 
-      it_behaves_like 'bcf api not allowed response'
+      it_behaves_like "bcf api not allowed response"
     end
 
-    context 'if request contains viewpoint guid' do
+    context "if request contains viewpoint guid" do
       let(:params) do
         {
           comment: "this is a comment to a specific viewpoint",
@@ -219,18 +218,17 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
         }
       end
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_status) { 201 }
         let(:expected_body) do
           comment = Bim::Bcf::Comment.last.reload
-          creation_date = comment&.journal&.created_at&.iso8601
 
           {
             guid: comment&.uuid,
-            date: creation_date,
+            date: comment&.journal&.created_at,
             author: edit_user.mail,
             comment: "this is a comment to a specific viewpoint",
-            modified_date: creation_date,
+            modified_date: comment&.journal&.updated_at,
             modified_author: edit_user.mail,
             topic_guid: bcf_issue.uuid,
             reply_to_comment_guid: nil,
@@ -244,7 +242,7 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
         end
       end
 
-      context 'if the viewpoint guid does not exist' do
+      context "if the viewpoint guid does not exist" do
         let(:params) do
           {
             comment: "this is a comment to a specific viewpoint",
@@ -252,13 +250,13 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
           }
         end
 
-        it_behaves_like 'bcf api unprocessable response' do
-          let(:message) { 'Viewpoint does not exist.' }
+        it_behaves_like "bcf api unprocessable response" do
+          let(:message) { "Viewpoint does not exist." }
         end
       end
     end
 
-    context 'if request contains reply comment' do
+    context "if request contains reply comment" do
       let(:params) do
         {
           comment: "this is a reply comment to another comment",
@@ -266,18 +264,17 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
         }
       end
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_status) { 201 }
         let(:expected_body) do
           comment = Bim::Bcf::Comment.last.reload
-          creation_date = comment&.journal&.created_at&.iso8601
 
           {
             guid: comment&.uuid,
-            date: creation_date,
+            date: comment&.journal&.created_at,
             author: edit_user.mail,
             comment: "this is a reply comment to another comment",
-            modified_date: creation_date,
+            modified_date: comment&.journal&.updated_at,
             modified_author: edit_user.mail,
             topic_guid: bcf_issue.uuid,
             reply_to_comment_guid: bcf_comment.uuid,
@@ -291,7 +288,7 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
         end
       end
 
-      context 'if the comment guid does not exist' do
+      context "if the comment guid does not exist" do
         let(:params) do
           {
             comment: "this is a reply comment to another comment",
@@ -299,13 +296,13 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
           }
         end
 
-        it_behaves_like 'bcf api unprocessable response' do
-          let(:message) { 'Bcf comment does not exist.' }
+        it_behaves_like "bcf api unprocessable response" do
+          let(:message) { "Bcf comment does not exist." }
         end
       end
     end
 
-    context 'if request contains reply comment and viewpoint reference' do
+    context "if request contains reply comment and viewpoint reference" do
       let(:params) do
         {
           comment: "this is a reply comment to another comment with a specific reference to a viewpoint",
@@ -314,18 +311,17 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
         }
       end
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_status) { 201 }
         let(:expected_body) do
           comment = Bim::Bcf::Comment.last.reload
-          creation_date = comment&.journal&.created_at&.iso8601
 
           {
             guid: comment&.uuid,
-            date: creation_date,
+            date: comment&.journal&.created_at,
             author: edit_user.mail,
             comment: "this is a reply comment to another comment with a specific reference to a viewpoint",
-            modified_date: creation_date,
+            modified_date: comment&.journal&.updated_at,
             modified_author: edit_user.mail,
             topic_guid: bcf_issue.uuid,
             reply_to_comment_guid: bcf_comment.uuid,
@@ -339,7 +335,7 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
         end
       end
 
-      context 'if the comment guid does not exist' do
+      context "if the comment guid does not exist" do
         let(:params) do
           {
             comment: "this is a reply comment to another comment",
@@ -348,12 +344,12 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
           }
         end
 
-        it_behaves_like 'bcf api unprocessable response' do
-          let(:message) { 'Bcf comment does not exist.' }
+        it_behaves_like "bcf api unprocessable response" do
+          let(:message) { "Bcf comment does not exist." }
         end
       end
 
-      context 'if the viewpoint guid does not exist' do
+      context "if the viewpoint guid does not exist" do
         let(:params) do
           {
             comment: "this is a reply comment to another comment",
@@ -362,12 +358,12 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
           }
         end
 
-        it_behaves_like 'bcf api unprocessable response' do
-          let(:message) { 'Viewpoint does not exist.' }
+        it_behaves_like "bcf api unprocessable response" do
+          let(:message) { "Viewpoint does not exist." }
         end
       end
 
-      context 'if the comment and viewpoint guid does not exist' do
+      context "if the comment and viewpoint guid does not exist" do
         let(:params) do
           {
             comment: "this is a reply comment to another comment",
@@ -376,14 +372,14 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
           }
         end
 
-        it_behaves_like 'bcf api unprocessable response' do
-          let(:message) { 'Multiple field constraints have been violated. Viewpoint does not exist. Bcf comment does not exist.' }
+        it_behaves_like "bcf api unprocessable response" do
+          let(:message) { "Multiple field constraints have been violated. Viewpoint does not exist. Bcf comment does not exist." }
         end
       end
     end
   end
 
-  describe 'PUT /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments' do
+  describe "PUT /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/comments" }
     let(:current_user) { edit_user }
     let(:params) { { comment: "This is a bad comment update ... " } }
@@ -393,10 +389,10 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       put path, params.to_json
     end
 
-    it_behaves_like 'bcf api method not allowed response'
+    it_behaves_like "bcf api method not allowed response"
   end
 
-  describe 'GET /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments/:comment_guid' do
+  describe "GET /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments/:comment_guid" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/comments/#{bcf_comment.uuid}" }
     let(:current_user) { view_only_user }
     let(:comments) { [bcf_comment, bcf_answer, bcf_comment_to_viewpoint] }
@@ -407,8 +403,10 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       get path
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
+        bcf_comment.reload
+
         {
           guid: bcf_comment.uuid,
           date: bcf_comment.journal.created_at,
@@ -424,11 +422,13 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       end
     end
 
-    context 'if user has editing permissions' do
+    context "if user has editing permissions" do
       let(:current_user) { edit_user }
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_body) do
+          bcf_comment.reload
+
           {
             guid: bcf_comment.uuid,
             date: bcf_comment.journal.created_at,
@@ -449,21 +449,21 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       end
     end
 
-    context 'if comment id does not exist' do
+    context "if comment id does not exist" do
       let(:invalid_id) { "1337" }
       let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/comments/#{invalid_id}" }
 
-      it_behaves_like 'bcf api not found response'
+      it_behaves_like "bcf api not found response"
     end
 
-    context 'without view permissions' do
+    context "without view permissions" do
       let(:current_user) { user_without_permission }
 
-      it_behaves_like 'bcf api not allowed response'
+      it_behaves_like "bcf api not allowed response"
     end
   end
 
-  describe 'PUT /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments/:comment_guid' do
+  describe "PUT /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments/:comment_guid" do
     let(:updated_comment) { bcf_comment }
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/comments/#{updated_comment.uuid}" }
     let(:current_user) { edit_user }
@@ -474,8 +474,10 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       put path, params.to_json
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
+        updated_comment.reload
+
         {
           guid: updated_comment.uuid,
           date: updated_comment.journal.created_at,
@@ -496,13 +498,13 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       end
     end
 
-    context 'if user has no edit permissions' do
+    context "if user has no edit permissions" do
       let(:current_user) { view_only_user }
 
-      it_behaves_like 'bcf api not allowed response'
+      it_behaves_like "bcf api not allowed response"
     end
 
-    context 'if viewpoint reference and reply to is changed' do
+    context "if viewpoint reference and reply to is changed" do
       let(:params) do
         {
           comment: "A new updated text",
@@ -511,8 +513,10 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
         }
       end
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_body) do
+          updated_comment.reload
+
           {
             guid: updated_comment.uuid,
             date: updated_comment.journal.created_at,
@@ -534,7 +538,7 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       end
     end
 
-    context 'if an invalid viewpoint guid is given' do
+    context "if an invalid viewpoint guid is given" do
       let(:params) do
         {
           comment: "A new updated text",
@@ -542,12 +546,12 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
-        let(:message) { 'Viewpoint does not exist.' }
+      it_behaves_like "bcf api unprocessable response" do
+        let(:message) { "Viewpoint does not exist." }
       end
     end
 
-    context 'if an invalid comment guid is given' do
+    context "if an invalid comment guid is given" do
       let(:params) do
         {
           comment: "A new updated text",
@@ -555,12 +559,12 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
-        let(:message) { 'Bcf comment does not exist.' }
+      it_behaves_like "bcf api unprocessable response" do
+        let(:message) { "Bcf comment does not exist." }
       end
     end
 
-    context 'if the updated comment contains viewpoint reference and is a reply, but update does not set those attributes' do
+    context "if the updated comment contains viewpoint reference and is a reply, but update does not set those attributes" do
       let(:updated_comment) do
         create(:bcf_comment,
                issue: bcf_issue,
@@ -571,8 +575,10 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
 
       let(:params) { { comment: "Only change the comment text and leave the reply and viewpoint guid empty." } }
 
-      it_behaves_like 'bcf api successful response' do
+      it_behaves_like "bcf api successful response" do
         let(:expected_body) do
+          updated_comment.reload
+
           {
             guid: updated_comment.uuid,
             date: updated_comment.journal.created_at,
@@ -595,7 +601,7 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
     end
   end
 
-  describe 'POST /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments/:comment_guid' do
+  describe "POST /api/bcf/2.1/projects/:project_id/topics/:topic_guid/comments/:comment_guid" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/comments/#{bcf_comment.uuid}" }
     let(:current_user) { edit_user }
     let(:params) { { comment: "This is an invalid try to create a comment ..." } }
@@ -605,6 +611,6 @@ RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
       post path, params.to_json
     end
 
-    it_behaves_like 'bcf api method not allowed response'
+    it_behaves_like "bcf api method not allowed response"
   end
 end

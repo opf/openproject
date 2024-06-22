@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
+import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
@@ -98,6 +98,8 @@ import { ProjectEditFieldComponent } from './edit/field-types/project-edit-field
 import {
   HoursDurationEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/hours-duration-edit-field.component';
+import { ProgressPopoverEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/progress-popover-edit-field.component';
+import { OpExclusionInfoComponent } from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
 import { UserEditFieldComponent } from './edit/field-types/user-edit-field.component';
 import {
   DaysDurationEditFieldComponent,
@@ -150,6 +152,8 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     EditFormPortalComponent,
     HoursDurationEditFieldComponent,
+    ProgressPopoverEditFieldComponent,
+    OpExclusionInfoComponent,
     DaysDurationEditFieldComponent,
     FloatEditFieldComponent,
     PlainFormattableEditFieldComponent,
@@ -168,6 +172,7 @@ import { FormsModule } from '@angular/forms';
 
     WorkPackageQuickinfoMacroComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectFieldsModule {
   constructor(injector:Injector) {

@@ -28,18 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 # Test if the deletion of a ProjectStorage actually deletes related FileLink
 # objects.
-RSpec.describe 'Delete ProjectStorage with FileLinks', :js, :webmock do
+RSpec.describe "Delete ProjectStorage with FileLinks", :js, :with_cuprite, :webmock do
   let(:user) { create(:user) }
-  let(:role) { create(:project_role, permissions: [:manage_storages_in_project]) }
+  let(:role) { create(:project_role, permissions: [:manage_files_in_project]) }
   let(:project) do
     create(:project,
-           name: 'Project 1',
-           identifier: 'demo-project',
+           name: "Project 1",
+           identifier: "demo-project",
            members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
@@ -49,7 +49,7 @@ RSpec.describe 'Delete ProjectStorage with FileLinks', :js, :webmock do
   let(:file_link) { create(:file_link, storage:, container: work_package) }
   let(:second_file_link) { create(:file_link, container: work_package, storage:) }
   let(:delete_folder_url) do
-    "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}/"
+    "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.managed_project_folder_path.chop}/"
   end
 
   before do
@@ -64,35 +64,35 @@ RSpec.describe 'Delete ProjectStorage with FileLinks', :js, :webmock do
     login_as user
   end
 
-  it 'deletes ProjectStorage with dependent FileLinks' do
+  it "deletes ProjectStorage with dependent FileLinks" do
     # Go to Projects -> Settings -> File Storages
-    visit project_settings_project_storages_path(project)
+    visit external_file_storages_project_settings_project_storages_path(project)
 
     # The list of enabled file storages should now contain Storage 1
-    expect(page).to have_text('File storages available in this project')
-    expect(page).to have_text('Storage 1')
+    expect(page).to have_selector('h1', text: 'Files')
+    expect(page).to have_text("Storage 1")
 
     # Press Delete icon to remove the storage from the project
-    page.find('.icon.icon-delete').click
+    page.find(".icon.icon-delete").click
 
     # Danger zone confirmation flow
-    expect(page).to have_css('.form--section-title', text: "DELETE FILE STORAGE")
-    expect(page).to have_css('.danger-zone--warning', text: "Deleting a file storage is an irreversible action.")
-    expect(page).to have_button('Delete', disabled: true)
+    expect(page).to have_css(".form--section-title", text: "DELETE FILE STORAGE")
+    expect(page).to have_css(".danger-zone--warning", text: "Deleting a file storage is an irreversible action.")
+    expect(page).to have_button("Delete", disabled: true)
 
     # Cancel Confirmation
-    page.click_link('Cancel')
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    page.click_link("Cancel")
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
-    page.find('.icon.icon-delete').click
+    page.find(".icon.icon-delete").click
 
     # Approve Confirmation
-    page.fill_in 'delete_confirmation', with: storage.name
-    page.click_button('Delete')
+    page.fill_in "delete_confirmation", with: storage.name
+    page.click_button("Delete")
 
     # List of ProjectStorages empty again
-    expect(page).to have_current_path project_settings_project_storages_path(project)
-    expect(page).to have_text(I18n.t('storages.no_results'))
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
+    expect(page).to have_text(I18n.t("storages.no_results"))
 
     # Also check in the database that ProjectStorage and dependent FileLinks are gone
     expect(Storages::ProjectStorage.count).to be 0

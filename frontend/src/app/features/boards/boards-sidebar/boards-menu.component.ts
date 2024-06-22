@@ -1,7 +1,6 @@
 import {
   Component,
   HostBinding,
-  Injector,
   OnInit,
 } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -14,7 +13,6 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
@@ -39,7 +37,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
           uiSref: 'boards.partitioned.show',
           uiParams: {
             board_id: board.id,
-            query_props: '',
+            query_props: undefined,
             projects: 'projects',
             projectPath: this.currentProject.identifier,
           },
@@ -70,7 +68,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     readonly mainMenuService:MainMenuNavigationService,
     readonly currentUserService:CurrentUserService,
     readonly I18n:I18nService,
-    readonly pathHelper:PathHelperService
+    readonly pathHelper:PathHelperService,
   ) {
     super();
   }

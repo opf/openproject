@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Notifications
@@ -68,13 +68,13 @@ module Pages
       end
 
       def expect_project(project)
-        expect(page).to have_css('th', text: project.name)
+        expect(page).to have_css("th", text: project.name)
       end
 
       def add_project(project)
-        click_button 'Add setting for project'
+        click_button "Add setting for project"
         container = page.find('[data-test-selector="notification-setting-inline-create"] ng-select')
-        select_autocomplete container, query: project.name, results_selector: 'body'
+        select_autocomplete container, query: project.name, results_selector: "body"
         wait_for_network_idle if using_cuprite?
         expect_project project
       end
@@ -127,8 +127,8 @@ module Pages
       end
 
       def save
-        click_button 'Save'
-        expect_toast message: 'Successful update.'
+        click_button "Save"
+        expect_toast message: "Successful update."
       end
     end
   end

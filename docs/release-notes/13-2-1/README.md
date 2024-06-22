@@ -28,7 +28,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Bugfix: Please refrain from overwriting logrotate settings with every single update \[[#50477](https://community.openproject.org/wp/50477)\]
 - Bugfix: Work packages get lost when Teamplanner's time frame switch from Work week to 2 weeks \[[#50895](https://community.openproject.org/wp/50895)\]
 - Bugfix: Can't pay for the Subscription after my trial period has ended \[[#51230](https://community.openproject.org/wp/51230)\]
-- Bugfix: Checkboxes are not correclty displayed in the CkEditor \[[#51247](https://community.openproject.org/wp/51247)\]
+- Bugfix: Checkboxes are not correctly displayed in the CkEditor \[[#51247](https://community.openproject.org/wp/51247)\]
 - Bugfix: Error 500 when trying to view a budget with a running WP timer \[[#51460](https://community.openproject.org/wp/51460)\]
 - Bugfix: /opt/openproject/lib/redmine/imap.rb:53:in `new': DEPRECATED: Call Net::IMAP.new with keyword options (StructuredWarnings::StandardWarning) \[[#51799](https://community.openproject.org/wp/51799)\]
 - Bugfix: Renaming Work Package Views/ Boards : Edit Lock Issue \[[#51851](https://community.openproject.org/wp/51851)\]
@@ -48,7 +48,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

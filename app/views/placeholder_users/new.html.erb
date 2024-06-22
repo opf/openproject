@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: 'form', locals: { f: f, placeholder_user: @placeholder_user } %>
 
   <p>
-    <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
-    <%= styled_button_tag t(:button_create_and_continue), name: 'continue', class: '-highlight -with-icon icon-checkmark' %>
+    <%= styled_button_tag t(:button_create), class: '-primary -with-icon icon-checkmark' %>
+    <%= styled_button_tag t(:button_create_and_continue), name: 'continue', class: '-primary -with-icon icon-checkmark' %>
   </p>
 <% end %>

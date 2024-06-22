@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'support/components/autocompleter/autocomplete_helpers'
+require "support/components/autocompleter/autocomplete_helpers"
 
 module Components
   module WorkPackages
@@ -47,15 +47,15 @@ module Components
       end
 
       def autocompleter_results_selector
-        '.op-view-select--search-results'
+        ".op-view-select--search-results"
       end
 
       def autocompleter_item_selector
-        '.op-sidemenu--item-title'
+        ".op-sidemenu--item-title"
       end
 
       def autocompleter_selector
-        '#query-title-filter'
+        "#query-title-filter"
       end
 
       def click_item(name)

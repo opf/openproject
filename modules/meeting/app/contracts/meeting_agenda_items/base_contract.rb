@@ -36,10 +36,12 @@ module MeetingAgendaItems
 
     attribute :meeting
     attribute :work_package
+    attribute :meeting_section
 
     attribute :position
     attribute :title
     attribute :duration_in_minutes
     attribute :notes
+    attribute :presenter
   end
 end

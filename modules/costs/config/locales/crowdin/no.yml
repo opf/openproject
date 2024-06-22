@@ -22,7 +22,7 @@
 "no":
   plugin_costs:
     name: "Tid og kostnader"
-    description: "This module adds features for planning and tracking costs of projects."
+    description: "Denne modulen legger til funksjoner for planlegging og sporing av prosjekter."
   activerecord:
     attributes:
       cost_entry:
@@ -46,7 +46,7 @@
         default_rates: "Standard satser"
     models:
       cost_type:
-        one: "Type kostnader"
+        one: "Kostnadstype"
         other: "Kostnadstyper"
       rate: "Sats"
     errors:
@@ -56,7 +56,7 @@
           nullify_is_not_valid_for_cost_entries: "Kostnadsoppføringer kan ikke tilordnes et prosjekt."
   attributes:
     comment: "Kommentar"
-    cost_type: "Type kostnader"
+    cost_type: "Kostnadstype"
     costs: "Kostnader"
     current_rate: "Nåværende sats"
     hours: "Timer"
@@ -135,7 +135,7 @@
   permission_view_own_time_entries: "Vis egen tidsbruk"
   project_module_costs: "Tid og kostnader"
   text_assign_time_and_cost_entries_to_project: "Overfør rapporterte timer og kostnader til prosjektet"
-  text_destroy_cost_entries_question: "%{hours} timer er ført på arbeidspakkene du er i ferd med å slette. Hva vil du gjøre ?"
+  text_destroy_cost_entries_question: "%{cost_entries} ble rapportert på arbeidspakkene du er i ferd med å slette. Hva vil du gjøre ?"
   text_destroy_time_and_cost_entries: "Slett rapporterte timer og kostnader"
   text_destroy_time_and_cost_entries_question: "%{hours} timer, %{cost_entries} ble rapportert på arbeidspakkene du er i ferd med å slette. Hva ønsker du å gjøre?"
   text_reassign_time_and_cost_entries: "Overfør rapporterte timer og kostnader til denne arbeidspakken:"

@@ -42,7 +42,7 @@ class Source::SeedFile
 
     def find_all_seed_files
       Pathname
-        .glob('**/app/seeders/*.yml')
+        .glob("{modules/*/,}app/seeders/*.yml")
         .map { |seed_file_path| new(seed_file_path) }
         .freeze
     end

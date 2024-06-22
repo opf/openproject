@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'contracts/shared/model_contract_shared_context'
+require "contracts/shared/model_contract_shared_context"
 
-RSpec.shared_examples_for 'relation contract' do
-  include_context 'ModelContract shared context'
+RSpec.shared_examples_for "relation contract" do
+  include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:user) }
   let(:relation_from) do
-    build_stubbed(:work_package, subject: 'From WP') do |wp|
+    build_stubbed(:work_package, subject: "From WP") do |wp|
       allow(wp_visible_scope)
         .to receive(:exists?)
               .with(wp.id)
@@ -41,7 +41,7 @@ RSpec.shared_examples_for 'relation contract' do
     end
   end
   let(:relation_to) do
-    build_stubbed(:work_package, subject: 'To WP') do |wp|
+    build_stubbed(:work_package, subject: "To WP") do |wp|
       allow(wp_visible_scope)
         .to receive(:exists?)
               .with(wp.id)
@@ -51,7 +51,7 @@ RSpec.shared_examples_for 'relation contract' do
   let(:relation_type) do
     Relation::TYPE_RELATES
   end
-  let(:relation_delay) { 42 }
+  let(:relation_lag) { 42 }
   let!(:wp_visible_scope) do
     instance_double(ActiveRecord::Relation).tap do |relation|
       allow(WorkPackage)
@@ -100,41 +100,41 @@ RSpec.shared_examples_for 'relation contract' do
     end
   end
 
-  describe 'validation' do
-    it_behaves_like 'contract is valid'
+  describe "validation" do
+    it_behaves_like "contract is valid"
 
-    context 'when lacking the necessary permission' do
+    context "when lacking the necessary permission" do
       let(:permissions) { [] }
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
 
-    context 'when the work package for from is not visible' do
+    context "when the work package for from is not visible" do
       let(:relation_from_visible) { false }
 
-      it_behaves_like 'contract is invalid', from: :error_not_found
+      it_behaves_like "contract is invalid", from: :error_not_found
     end
 
-    context 'when the work package for to is not visible' do
+    context "when the work package for to is not visible" do
       let(:relation_to_visible) { false }
 
-      it_behaves_like 'contract is invalid', to: :error_not_found
+      it_behaves_like "contract is invalid", to: :error_not_found
     end
 
     Relation::TYPES.each_key do |available_type|
       context "when having the type '#{available_type}'" do
         let(:relation_type) { available_type }
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
     end
 
-    context 'when the work package type is unknown' do
-      let(:relation_type) { 'some_bogus' }
+    context "when the work package type is unknown" do
+      let(:relation_type) { "some_bogus" }
 
-      it_behaves_like 'contract is invalid', relation_type: :inclusion
+      it_behaves_like "contract is invalid", relation_type: :inclusion
     end
   end
 
-  include_examples 'contract reuses the model errors'
+  include_examples "contract reuses the model errors"
 end

@@ -37,24 +37,26 @@ http_interactions:
       P3p:
       - CP="DSP CUR OTPi IND OTRi ONL FIN"
       X-Ms-Request-Id:
-      - 78945135-7b1b-4b6a-813f-7287a1218d00
+      - 865b5057-3482-45a6-9d1c-d90835e39f00
       X-Ms-Ests-Server:
-      - 2.1.17122.3 - FRC ProdSlices
+      - 2.1.17846.6 - SEC ProdSlices
+      X-Ms-Srs:
+      - 1.P
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - fpc=AhetdqSurEhMhuoxrPzZzsOkbDoXAQAAAFQaS90OAAAA; expires=Thu, 29-Feb-2024
-        16:27:00 GMT; path=/; secure; HttpOnly; SameSite=None
+      - fpc=AjiXIrmpaqNLqKzohFuYn-OkbDoXAQAAAMnvut0OAAAA; expires=Fri, 24-May-2024
+        12:19:21 GMT; path=/; secure; HttpOnly; SameSite=None
       - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
       - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
       Date:
-      - Tue, 30 Jan 2024 16:27:00 GMT
+      - Wed, 24 Apr 2024 12:19:21 GMT
       Content-Length:
       - '1708'
     body:
       encoding: UTF-8
       string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
-  recorded_at: Tue, 30 Jan 2024 16:27:00 GMT
+  recorded_at: Wed, 24 Apr 2024 12:19:21 GMT
 - request:
     method: get
     uri: https://graph.microsoft.com/v1.0/drives/THIS-IS-NOT-A-DRIVE-ID/root/children
@@ -69,7 +71,7 @@ http_interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - httpx.rb/1.2.1
+      - httpx.rb/1.2.4
       Accept-Encoding:
       - gzip, deflate
   response:
@@ -79,8 +81,6 @@ http_interactions:
     headers:
       Cache-Control:
       - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
       Content-Type:
       - application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false;
         charset=utf-8
@@ -91,16 +91,16 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - 190a0ac5-ac85-4f2f-a96b-840c8290bccb
+      - 2c56d97a-af7c-41db-8a1b-e13f513a3c0b
       Client-Request-Id:
-      - 190a0ac5-ac85-4f2f-a96b-840c8290bccb
+      - 2c56d97a-af7c-41db-8a1b-e13f513a3c0b
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"000","RoleInstance":"FR1PEPF00000C2E"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"002","RoleInstance":"FR3PEPF00000313"}}'
       Date:
-      - Tue, 30 Jan 2024 16:27:00 GMT
+      - Wed, 24 Apr 2024 12:19:21 GMT
     body:
       encoding: UTF-8
       string: '{"error":{"code":"invalidRequest","message":"The provided drive id
         appears to be malformed, or does not represent a valid drive."}}'
-  recorded_at: Tue, 30 Jan 2024 16:27:00 GMT
+  recorded_at: Wed, 24 Apr 2024 12:19:21 GMT
 recorded_with: VCR 6.2.0

@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe CustomFields::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_instance) do
-    contract = double('contract_instance')
+    contract = double("contract_instance")
     allow(contract)
       .to receive(:validate)
       .and_return(contract_valid)
@@ -41,7 +41,7 @@ RSpec.describe CustomFields::SetAttributesService, type: :model do
     contract
   end
 
-  let(:contract_errors) { double('contract_errors') }
+  let(:contract_errors) { double("contract_errors") }
   let(:contract_valid) { true }
   let(:cf_valid) { true }
 
@@ -71,30 +71,30 @@ RSpec.describe CustomFields::SetAttributesService, type: :model do
 
   subject { instance.call(params) }
 
-  it 'returns the cf instance as the result' do
+  it "returns the cf instance as the result" do
     expect(subject.result)
       .to eql cf_instance
   end
 
-  it 'is a success' do
+  it "is a success" do
     expect(subject)
       .to be_success
   end
 
-  context 'with params' do
+  context "with params" do
     let(:params) do
       {
-        name: 'Foobar'
+        name: "Foobar"
       }
     end
 
     let(:expected) do
       {
-        name: 'Foobar'
+        name: "Foobar"
       }.with_indifferent_access
     end
 
-    it 'assigns the params' do
+    it "assigns the params" do
       subject
 
       attributes_of_interest = cf_instance
@@ -106,14 +106,14 @@ RSpec.describe CustomFields::SetAttributesService, type: :model do
     end
   end
 
-  context 'with an invalid contract' do
+  context "with an invalid contract" do
     let(:contract_valid) { false }
     let(:expect_time_instance_save) do
       expect(cf_instance)
         .not_to receive(:save)
     end
 
-    it 'returns failure' do
+    it "returns failure" do
       expect(subject)
         .not_to be_success
     end

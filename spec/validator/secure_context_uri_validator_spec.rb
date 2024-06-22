@@ -28,7 +28,7 @@
 
 # require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe SecureContextUriValidator do
   let(:host) { nil }
@@ -48,8 +48,8 @@ RSpec.describe SecureContextUriValidator do
 
   before { model_instance.validate }
 
-  context 'with empty URI' do
-    ['', ' ', nil].each do |uri|
+  context "with empty URI" do
+    ["", " ", nil].each do |uri|
       describe "when URI is '#{uri}'" do
         let(:host) { uri }
 
@@ -61,7 +61,7 @@ RSpec.describe SecureContextUriValidator do
     end
   end
 
-  context 'with invalid URI' do
+  context "with invalid URI" do
     %w(some_string http://<>ample.com).each do |uri|
       describe "when URI is '#{uri}'" do
         let(:host) { uri }
@@ -74,9 +74,9 @@ RSpec.describe SecureContextUriValidator do
     end
   end
 
-  context 'with valid URI' do
-    context 'when host is missing' do
-      let(:host) { 'https://' }
+  context "with valid URI" do
+    context "when host is missing" do
+      let(:host) { "https://" }
 
       it "adds an :invalid_url error" do
         expect(model_instance.errors).to include(:host)
@@ -84,7 +84,7 @@ RSpec.describe SecureContextUriValidator do
       end
     end
 
-    context 'when not providing a Secure Context' do
+    context "when not providing a Secure Context" do
       %w{http://128.0.0.1 http://foo.com http://[::2]}.each do |uri|
         describe "when URI is '#{uri}'" do
           let(:host) { uri }
@@ -97,8 +97,8 @@ RSpec.describe SecureContextUriValidator do
       end
     end
 
-    context 'when providing a Secure Context' do
-      context 'with a loopback IP' do
+    context "when providing a Secure Context" do
+      context "with a loopback IP" do
         %w{http://127.0.0.1 http://127.1.1.1}.each do |uri|
           describe "when URI is '#{uri}'" do
             let(:host) { uri }
@@ -110,7 +110,7 @@ RSpec.describe SecureContextUriValidator do
         end
       end
 
-      context 'with a domain name' do
+      context "with a domain name" do
         %w(https://example.com http://localhost http://.localhost http://foo.localhost. http://foo.localhost).each do |uri|
           describe "when URI is '#{uri}'" do
             let(:host) { uri }
@@ -122,8 +122,8 @@ RSpec.describe SecureContextUriValidator do
         end
       end
 
-      context 'with IPV6 loopback URI' do
-        let(:host) { 'http://[::1]' }
+      context "with IPV6 loopback URI" do
+        let(:host) { "http://[::1]" }
 
         it "does not add an error" do
           expect(model_instance.errors).not_to include(:host)
