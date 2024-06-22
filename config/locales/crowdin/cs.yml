@@ -304,7 +304,7 @@ cs:
           add_projects: Přidat projekty
           include_sub_projects: Zahrnout všechny podprojekty
         project_mappings:
-          header: Enabled in projects
+          header: Povoleno v projektech
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
@@ -478,7 +478,7 @@ cs:
         is_default: "Výchozí"
         is_closed: "Uzavřeno"
         is_readonly: "Pouze pro čtení"
-        excluded_from_totals: "Excluded from totals"
+        excluded_from_totals: "Vyloučeno z celkových hodnot"
   themes:
     light: "Světlý"
     light_high_contrast: "Světlý kontrast"
@@ -533,7 +533,7 @@ cs:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        link_message: "Konfigurace pracovních postupů v administraci."
     summary:
       reports:
         category:
@@ -1047,13 +1047,13 @@ cs:
               only_same_project_categories_allowed: "Kategorie pracovního balíčku musí být v rámci stejného projektu jako pracovního balíčku."
               does_not_exist: "Zadaná kategorie neexistuje."
             estimated_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "není platná doba trvání."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Musí být >= 0."
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "není platná doba trvání."
               cant_exceed_work: "Nemůže být vyšší než Práce."
               must_be_set_when_work_is_set: "Vyžadováno, když je nastavena práce."
               format: "%{message}"
@@ -1171,10 +1171,10 @@ cs:
       updated_by_on_time_entry: "zaznamenaný čas aktualizován %{user} na %{datetime}"
       updated_on: "aktualizováno dne %{datetime}"
       updated_on_time_entry: "zaznamenaný čas aktualizován na %{datetime}"
-      deleted_on: "deleted on %{datetime}"
-      deleted_by_on: "deleted by %{user} on %{datetime}"
-      added_on: "added on %{datetime}"
-      added_by_on: "added by %{user} on %{datetime}"
+      deleted_on: "smazáno %{datetime}"
+      deleted_by_on: "smazal %{user} %{datetime}"
+      added_on: "přidáno %{datetime}"
+      added_by_on: "přidal %{user} %{datetime}"
       removed_on: "odstraněno %{datetime}"
       removed_by_on: "odstranil/a %{user} %{datetime}"
       parent_without_of: "Podprojekt"
@@ -1679,11 +1679,11 @@ cs:
     image:
       omitted: "Obrázek nebyl exportován."
     macro:
-      error: "Macro error, %{message}"
-      attribute_not_found: "attribute not found: %{attribute}"
+      error: "Makro chyba, %{message}"
+      attribute_not_found: "atribut nenalezen: %{attribute}"
       model_not_found: "invalid attribute model: %{model}"
       resource_not_found: "resource not found: %{resource}"
-      rich_text_unsupported: "Rich text embedding currently not supported in export"
+      rich_text_unsupported: "Vložení Rich textu v současné době není při exportu podporováno"
     units:
       hours: h
       days: d
@@ -1736,8 +1736,8 @@ cs:
     caused_changes:
       dates_changed: "Data změněna"
       default_attribute_written: "Zápis atributů pouze pro čtení"
-      progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_changed: "Status '%{status_name}'"
+      progress_mode_changed_to_status_based: "Výpočet průběhu byl aktualizován"
+      status_changed: "Stav '%{status_name}'"
       system_update: "Aktualizace systému OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: podle změn na předchůdce %{link}
@@ -1754,9 +1754,9 @@ cs:
           working: "%{date} je pracovní "
           non_working: "%{date} je nepracovní "
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
-      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_excluded_from_totals_set_to_false_message: nyní zahrnuty v součtech hierarchie
+      status_excluded_from_totals_set_to_true_message: nyní vyloučen z součtů hierarchie
+      status_percent_complete_changed: "% dokončeno se změnilo z %{old_value}% na %{new_value}%"
       system_update:
         file_links_journal: >
           Od této chvíle se zde v záložce Aktivita zobrazí činnost související s odkazy na soubory (soubory uložené v externím úložišti). Níže uvedené představují činnost týkající se již existujících:
@@ -1878,7 +1878,7 @@ cs:
   label_ldap_auth_source_new: "Nové připojení LDAP"
   label_ldap_auth_source: "Připojení LDAP"
   label_ldap_auth_source_plural: "Připojení LDAP"
-  label_attribute_expand_text: "The complete text for '%{attribute}'"
+  label_attribute_expand_text: "Úplný text pro '%{attribute}'"
   label_authentication: "Ověření"
   label_available_global_roles: "Dostupné globální role"
   label_available_project_attributes: "Dostupné atributy projektu"
@@ -2531,7 +2531,7 @@ cs:
             error-occurred-on: "Vyskytlo se"
             recommendation: "We recommend heading over to the storage configuration page to address this issue"
             unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
-        email_notification_settings: "Storage email notification settings"
+        email_notification_settings: "Nastavení e-mailových oznámení o úložišti"
         see_storage_settings: "Zobrazit nastavení úložiště"
         healthy:
           subject: "Storage \"%{name}\" is now healthy!"
@@ -2542,7 +2542,7 @@ cs:
           since: "od"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
-            text: "For more information, check file storages"
+            text: "Pro více informací zkontrolujte úložiště souborů"
             link_text: "Dokumentace pro řešení problémů"
   mail_body_account_activation_request: "Nový uživatel (%{value}) byl zaregistrován. Účet čeká na Vaše schválení:"
   mail_body_account_information: "Informace o vašem účtu"
@@ -2775,7 +2775,7 @@ cs:
   permission_save_queries: "Uložit zobrazení"
   permission_search_project: "Hledat projekt"
   permission_select_custom_fields: "Vybrat vlastní pole"
-  permission_select_project_custom_fields: "Select project attributes"
+  permission_select_project_custom_fields: "Vyberte atributy projektu"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_share_work_packages: "Sdílet pracovní balíčky"
   permission_manage_types: "Vyberte typy"
@@ -2800,7 +2800,7 @@ cs:
   permission_save_bcf_queries: "Uložit dotazy BCF"
   permission_manage_public_bcf_queries: "Spravovat veřejné dotazy BCF."
   permission_edit_attribute_help_texts: "Upravit text nápovědy atributu"
-  permission_manage_public_project_queries: "Manage public project lists"
+  permission_manage_public_project_queries: "Spravovat veřejné seznamy projektů"
   placeholders:
     default: "-"
   project:
@@ -2847,7 +2847,7 @@ cs:
     member_of_group: "Řešitelova skupina"
     name_or_identifier: "Jméno nebo identifikátor"
     only_subproject_id: "Pouze podprojekt"
-    shared_with_user: "Shared with users"
+    shared_with_user: "Sdíleno s uživateli"
     shared_with_me: "Sdílené se mnou"
     subproject_id: "Včetně podprojektu"
   repositories:
@@ -3031,13 +3031,13 @@ cs:
   setting_feeds_limit: "Limit obsahu kanálů"
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
   setting_host_name: "Název serveru"
-  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day: "Hodiny za den"
   setting_hours_per_day_explanation: >-
     This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Platnost aktivačního e-mailu vyprší po"
   setting_work_package_done_ratio: "Výpočet průběhu"
-  setting_work_package_done_ratio_field: "Work-based"
-  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_field: "Na základě práce"
+  setting_work_package_done_ratio_status: "Na základě stavu"
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
