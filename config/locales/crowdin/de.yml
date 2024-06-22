@@ -462,7 +462,7 @@ de:
         is_readonly: "Schreibgeschützt"
         excluded_from_totals: "Von Gesamtsumme auschließen"
   themes:
-    dark: "Dark"
+    dark: "Dunkel"
     light: "Hell"
     light_high_contrast: "Hell (hoher Kontrast)"
   types:
@@ -2727,8 +2727,8 @@ de:
   permission_manage_public_bcf_queries: "Öffentliche BCF-Abfragen verwalten"
   permission_edit_attribute_help_texts: "Attribut-Hilfetxt bearbeiten"
   permission_manage_public_project_queries: "Öffentliche Projektlisten verwalten"
-  permission_view_project_query: "View project query"
-  permission_edit_project_query: "Edit project query"
+  permission_view_project_query: "Projektabfrage anzeigen"
+  permission_edit_project_query: "Projektabfrage bearbeiten"
   placeholders:
     default: "-"
   project:

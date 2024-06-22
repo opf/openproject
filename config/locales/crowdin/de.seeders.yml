@@ -43,9 +43,9 @@ de:
           name: Andere
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: Projektabfrage-Viewer
         item_1:
-          name: Project query editor
+          name: Projektabfrage-Editor
       work_package_roles:
         item_0:
           name: Arbeitspaket-Bearbeiter
