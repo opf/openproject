@@ -43,9 +43,9 @@ zh-CN:
           name: 其他
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: 项目查询查看器
         item_1:
-          name: Project query editor
+          name: 项目查询查看器
       work_package_roles:
         item_0:
           name: 工作包编辑者

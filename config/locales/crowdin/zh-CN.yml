@@ -2690,8 +2690,8 @@ zh-CN:
   permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
   permission_edit_attribute_help_texts: "编辑属性帮助文本"
   permission_manage_public_project_queries: "管理公开项目列表"
-  permission_view_project_query: "查看项目查询器"
-  permission_edit_project_query: "编辑项目查询器"
+  permission_view_project_query: "查看项目查询"
+  permission_edit_project_query: "编辑项目查询"
   placeholders:
     default: "-"
   project:
