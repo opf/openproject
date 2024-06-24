@@ -40,6 +40,10 @@ See COPYRIGHT and LICENSE files for more details.
       elsif CustomStyle.current.theme_logo.present?
         logo_url = asset_path(CustomStyle.current.theme_logo)
       end
+
+      if isRu && logo_url == asset_path("logo_openproject.png")
+        logo_url = asset_path("logo-black-bg-ua.png")
+      end
     end
     %>
 
