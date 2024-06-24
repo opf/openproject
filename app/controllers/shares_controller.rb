@@ -42,7 +42,12 @@ class SharesController < ApplicationController
       flash.now[:error] = query.errors.full_messages
     end
 
-    render Shares::ModalBodyComponent.new(entity: @entity, shares: @shares, errors: @errors, available_roles:), layout: nil
+    render Shares::ModalBodyComponent.new(entity: @entity,
+                                          shares: @shares,
+                                          errors: @errors,
+                                          sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
+                                                                                               @entity.project),
+                                          available_roles:), layout: nil
   end
 
   def create
@@ -132,8 +137,8 @@ class SharesController < ApplicationController
 
   def destroy_share(share)
     Shares::DeleteService
-    .new(user: current_user, model: share, contract_class: sharing_contract_scope::DeleteContract)
-    .call
+      .new(user: current_user, model: share, contract_class: sharing_contract_scope::DeleteContract)
+      .call
   end
 
   def create_or_update_share(user_id, role_ids)
@@ -151,6 +156,8 @@ class SharesController < ApplicationController
       component: Shares::ModalBodyComponent.new(entity: @entity,
                                                 available_roles:,
                                                 shares: @new_shares || load_shares,
+                                                sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
+                                                                                                     @project),
                                                 errors: @errors)
     )
 
@@ -159,18 +166,31 @@ class SharesController < ApplicationController
 
   def respond_with_prepend_shares
     replace_via_turbo_stream(
-      component: Shares::InviteUserFormComponent.new(entity: @entity, available_roles:, errors: @errors)
+      component: Shares::InviteUserFormComponent.new(entity: @entity,
+                                                     available_roles:,
+                                                     sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
+                                                                                                          @project),
+                                                     errors: @errors)
     )
 
     update_via_turbo_stream(
-      component: Shares::CounterComponent.new(entity: @entity, count: current_visible_member_count)
+      component: Shares::CounterComponent.new(entity: @entity,
+                                              count: current_visible_member_count,
+                                              sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
+                                                                                                   @project))
     )
 
     @new_shares.each do |share|
       prepend_via_turbo_stream(
-        component: Shares::ShareRowComponent.new(share:, available_roles:),
+        component: Shares::ShareRowComponent.new(share:,
+                                                 available_roles:,
+                                                 sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
+                                                                                                      @project)),
         target_component: Shares::ModalBodyComponent.new(entity: @entity,
                                                          available_roles:,
+                                                         sharing_manageable: User.current.allowed_in_project?(
+                                                           :share_work_packages, @project
+                                                         ),
                                                          shares: load_shares,
                                                          errors: @errors)
       )
@@ -182,6 +202,9 @@ class SharesController < ApplicationController
   def respond_with_new_invite_form
     replace_via_turbo_stream(component: Shares::InviteUserFormComponent.new(entity: @entity,
                                                                             available_roles:,
+                                                                            sharing_manageable: User.current.allowed_in_project?(
+                                                                              :share_work_packages, @project
+                                                                            ),
                                                                             errors: @errors))
 
     respond_with_turbo_streams
@@ -196,14 +219,26 @@ class SharesController < ApplicationController
   end
 
   def respond_with_remove_share
-    remove_via_turbo_stream(component: Shares::ShareRowComponent.new(share: @share, available_roles:))
-    update_via_turbo_stream(component: Shares::CounterComponent.new(entity: @entity, count: current_visible_member_count))
+    remove_via_turbo_stream(component: Shares::ShareRowComponent.new(share: @share,
+                                                                     available_roles:,
+                                                                     sharing_manageable: User.current.allowed_in_project?(
+                                                                       :share_work_packages, @project
+                                                                     )))
+    update_via_turbo_stream(component: Shares::CounterComponent.new(entity: @entity,
+                                                                    count: current_visible_member_count,
+                                                                    sharing_manageable: User.current.allowed_in_project?(
+                                                                      :share_work_packages, @project
+                                                                    )))
 
     respond_with_turbo_streams
   end
 
   def respond_with_update_user_details
-    update_via_turbo_stream(component: Shares::UserDetailsComponent.new(share: @share, invite_resent: true))
+    update_via_turbo_stream(component: Shares::UserDetailsComponent.new(share: @share,
+                                                                        manager_mode: User.current.allowed_in_project?(
+                                                                          :share_work_packages, @entity.project
+                                                                        ),
+                                                                        invite_resent: true))
 
     respond_with_turbo_streams
   end
@@ -223,12 +258,18 @@ class SharesController < ApplicationController
   def respond_with_bulk_removed_shares
     @selected_shares.each do |share|
       remove_via_turbo_stream(
-        component: Shares::ShareRowComponent.new(share:, available_roles:)
+        component: Shares::ShareRowComponent.new(share:,
+                                                 available_roles:,
+                                                 sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
+                                                                                                      @project))
       )
     end
 
     update_via_turbo_stream(
-      component: Shares::CounterComponent.new(entity: @entity, count: current_visible_member_count)
+      component: Shares::CounterComponent.new(entity: @entity,
+                                              count: current_visible_member_count,
+                                              sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
+                                                                                                   @project))
     )
 
     respond_with_turbo_streams
@@ -237,7 +278,7 @@ class SharesController < ApplicationController
   def load_entity
     @entity = if params["work_package_id"]
                 WorkPackage.visible.find(params["work_package_id"])
-              # TODO: Add support for other entities
+                # TODO: Add support for other entities
               else
                 raise ArgumentError, <<~ERROR
                   Nested the SharesController under an entity controller that is not yet configured to support sharing.

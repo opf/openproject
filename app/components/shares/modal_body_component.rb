@@ -32,17 +32,25 @@ module Shares
     include MemberHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
-    include Shares::Concerns::Authorization
 
-    attr_reader :entity, :shares, :errors, :available_roles
+    attr_reader :entity,
+                :shares,
+                :available_roles,
+                :sharing_manageable,
+                :errors
 
-    def initialize(entity:, shares:, available_roles:, errors: nil)
+    def initialize(entity:,
+                   shares:,
+                   available_roles:,
+                   sharing_manageable:,
+                   errors: nil)
       super
 
       @entity = entity
       @shares = shares
-      @errors = errors
       @available_roles = available_roles
+      @sharing_manageable = sharing_manageable
+      @errors = errors
     end
 
     def self.wrapper_key

@@ -33,10 +33,10 @@ module Shares
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
-    include Shares::Concerns::Authorization
 
     def initialize(share:,
                    available_roles:,
+                   sharing_manageable:,
                    container: nil)
       super
 
@@ -44,6 +44,7 @@ module Shares
       @entity = share.entity
       @principal = share.principal
       @available_roles = available_roles
+      @sharing_manageable = sharing_manageable
       @container = container
     end
 
@@ -58,6 +59,8 @@ module Shares
     def share_editable?
       @share_editable ||= User.current != share.principal && sharing_manageable?
     end
+
+    def sharing_manageable? = @sharing_manageable
 
     def grid_css_classes
       if sharing_manageable?

@@ -34,7 +34,7 @@ module Shares
     include OpPrimer::ComponentHelpers
 
     def initialize(share:,
-                   manager_mode: User.current.allowed_in_project?(:share_work_packages, share.project),
+                   manager_mode:,
                    invite_resent: false)
       super
 

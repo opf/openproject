@@ -2,7 +2,10 @@
   component_wrapper(tag: 'turbo-frame') do
     flex_layout(data: { turbo: true }) do |modal_content|
       modal_content.with_row do
-        render(Shares::InviteUserFormComponent.new(entity: @entity, available_roles: @available_roles, errors: @errors))
+        render(Shares::InviteUserFormComponent.new(entity: @entity,
+                                                   available_roles: @available_roles,
+                                                   sharing_manageable: @sharing_manageable,
+                                                   errors: @errors))
       end
 
       modal_content.with_row(mt: 3,
@@ -13,7 +16,9 @@
           border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-wp-header' }) do
             grid_layout('op-share-wp-modal-body--header', tag: :div, align_items: :center) do |header_grid|
               header_grid.with_area(:counter, tag: :div) do
-                render(Shares::CounterComponent.new(entity: @entity, count: @shares.size))
+                render(Shares::CounterComponent.new(entity: @entity,
+                                                    count: @shares.size,
+                                                    sharing_manageable: @sharing_manageable))
               end
 
               header_grid.with_area(:actions,
@@ -70,7 +75,7 @@
                                     tag: :div,
                                     hidden: true, # Prevent flicker on initial render
                                     data: { 'work-packages--share--bulk-selection-target': 'bulkActions' }) do
-                if sharing_manageable?
+                if @sharing_manageable
                   concat(
                     render(Shares::BulkPermissionButtonComponent.new(entity: @entity, available_roles: @available_roles))
                   )
@@ -107,7 +112,10 @@
             end
           else
             @shares.each do |share|
-              render(Shares::ShareRowComponent.new(share: share, available_roles: @available_roles, container: border_box))
+              render(Shares::ShareRowComponent.new(share: share,
+                                                   available_roles: @available_roles,
+                                                   sharing_manageable: @sharing_manageable,
+                                                   container: border_box))
             end
           end
         end

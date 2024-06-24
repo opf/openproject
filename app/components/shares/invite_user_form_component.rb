@@ -31,14 +31,17 @@ module Shares
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
-    include Shares::Concerns::Authorization
 
-    def initialize(entity:, available_roles:, errors: nil)
+    def initialize(entity:,
+                   available_roles:,
+                   sharing_manageable:,
+                   errors: nil)
       super
 
       @entity = entity
-      @errors = errors
       @available_roles = available_roles
+      @sharing_manageable = sharing_manageable
+      @errors = errors
     end
 
     def new_share

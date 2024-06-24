@@ -1,11 +1,11 @@
 <%=
   component_wrapper do
-    if sharing_manageable?
+    if @sharing_manageable
       primer_form_with(
         model: new_share,
         url: url_for([@entity, Member]),
         data: { controller: 'user-limit ' \
-                            'work-packages--share--user-selected',
+          'work-packages--share--user-selected',
                 'application-target': 'dynamic',
                 'user-limit-open-seats-value': OpenProject::Enterprise.open_seats_count,
                 action: 'submit->work-packages--share--user-selected#ensureUsersSelected' }

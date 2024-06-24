@@ -33,18 +33,22 @@ module Shares
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
-    include Shares::Concerns::Authorization
 
-    def initialize(entity:, count:)
+    def initialize(entity:,
+                   count:,
+                   sharing_manageable:)
       super
 
       @entity = entity
       @count = count
+      @sharing_manageable = sharing_manageable
     end
 
     private
 
     attr_reader :entity, :count
+
+    def sharing_manageable? = @sharing_manageable
 
     def shared_with_anyone_else_other_than_myself?
       Member.of_entity(@entity)
