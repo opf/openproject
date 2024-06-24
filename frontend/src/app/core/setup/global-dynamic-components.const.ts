@@ -9,10 +9,6 @@ import {
   zenModeComponentSelector,
 } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {
-  attachmentsSelector,
-  OpAttachmentsComponent,
-} from 'core-app/shared/components/attachments/attachments.component';
-import {
   GlobalSearchWorkPackagesComponent,
   globalSearchWorkPackagesSelector,
 } from 'core-app/core/global_search/global-search-work-packages.component';
@@ -177,7 +173,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: staticAttributeHelpTextSelector, cls: StaticAttributeHelpTextComponent },
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
-  { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
   { selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent },
   { selector: homescreenNewFeaturesBlockSelector, cls: HomescreenNewFeaturesBlockComponent },
