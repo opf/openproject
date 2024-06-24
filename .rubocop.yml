@@ -236,10 +236,6 @@ RSpec/DescribeMethod:
 RSpec/SpecFilePathFormat:
   IgnoreMethods: true
 
-# Disable deprecated cop
-RSpec/FilePath:
-  Enabled: false
-
 # Prevent  "fit" or similar to be committed
 RSpec/Focus:
   Enabled: true
