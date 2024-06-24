@@ -99,8 +99,9 @@ module Projects
     end
 
     def copy_activated_custom_fields(call)
-       call.result.project_custom_field_ids = source.project_custom_field_ids
+      call.result.project_custom_field_ids = source.project_custom_field_ids
     end
+
     def contract_options
       { copy_source: source, validate_model: true }
     end

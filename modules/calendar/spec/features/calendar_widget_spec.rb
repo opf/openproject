@@ -65,15 +65,14 @@ RSpec.describe "Calendar Widget", :js, :with_cuprite, with_settings: { start_of_
     overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
   end
 
-  it 'shows the meeting' do
-    expect(page).to have_css('.fc-event', text: "Weekly", visible: :all)
-    page.find('.fc-event', text: "Weekly", visible: :all).click
+  it "shows the meeting" do
+    expect(page).to have_css(".fc-event", text: "Weekly", visible: :all)
+    page.find(".fc-event", text: "Weekly", visible: :all).click
 
     expect(page).to have_current_path /meetings\/#{meeting.id}/
   end
 
   it "opens the work package full view when clicking a calendar entry" do
-
     # Clicking the calendar entry goes to work package full screen
     page.find(".fc-event-title", text: work_package.subject).click
     wp_full_view.ensure_page_loaded

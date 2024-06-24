@@ -31,34 +31,7 @@ require "spec_helper"
 RSpec.describe "Wysiwyg attribute macros", :js do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
-
-  shared_let(:type_milestone) { create(:type_milestone) }
-  shared_let(:type_task) { create(:type_task) }
-
-  shared_let(:project) do
-    create(:project,
-           identifier: "some-project",
-           types: [type_milestone, type_task],
-           enabled_module_names: %w[wiki work_package_tracking])
-  end
-  shared_let(:work_package) do
-    create(:work_package,
-           subject: "Foo Bar",
-           project:,
-           start_date: '2023-01-01',
-           due_date: '2023-01-05',
-           type: type_task)
-  end
-  shared_let(:milestone) do
-    create(:work_package,
-           subject: "Milestone",
-           project:,
-           due_date: '2023-01-10',
-           type: type_milestone)
-  end
-
   let(:editor) { Components::WysiwygEditor.new }
-
   let(:markdown) do
     <<~MD
       # My headline
@@ -98,6 +71,31 @@ RSpec.describe "Wysiwyg attribute macros", :js do
         </tbody>
       </table>
     MD
+  end
+
+  shared_let(:type_milestone) { create(:type_milestone) }
+  shared_let(:type_task) { create(:type_task) }
+
+  shared_let(:project) do
+    create(:project,
+           identifier: "some-project",
+           types: [type_milestone, type_task],
+           enabled_module_names: %w[wiki work_package_tracking])
+  end
+  shared_let(:work_package) do
+    create(:work_package,
+           subject: "Foo Bar",
+           project:,
+           start_date: "2023-01-01",
+           due_date: "2023-01-05",
+           type: type_task)
+  end
+  shared_let(:milestone) do
+    create(:work_package,
+           subject: "Milestone",
+           project:,
+           due_date: "2023-01-10",
+           type: type_milestone)
   end
 
   before do

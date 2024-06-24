@@ -40,7 +40,6 @@ class Project < ApplicationRecord
 
   include ::Scopes::Scoped
 
-
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 

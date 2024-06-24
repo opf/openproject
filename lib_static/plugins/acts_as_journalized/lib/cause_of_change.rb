@@ -45,8 +45,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require_relative 'cause_of_change/base'
-require_relative 'cause_of_change/no_cause'
+require_relative "cause_of_change/base"
+require_relative "cause_of_change/no_cause"
 
 module CauseOfChange
 end

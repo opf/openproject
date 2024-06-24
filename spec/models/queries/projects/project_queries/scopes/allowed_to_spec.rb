@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Projects::ProjectQuery, "#allowed to" do # rubocop:disable RSpec/FilePath,RSpec/SpecFilePathFormat
+RSpec.describe Queries::Projects::ProjectQuery, "#allowed to" do # rubocop:disable RSpec/RSpec/SpecFilePathFormat
   shared_let(:user) { create(:user) }
   shared_let(:other_user) { create(:user) }
 
