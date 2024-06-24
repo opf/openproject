@@ -31,6 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
                       'admin--custom-fields-format-value': @custom_field.field_format
 %>
 
+<% html_title t(:label_administration), t("settings.project_attributes.heading"), t('settings.project_attributes.new.heading') %>
 <% local_assigns[:additional_breadcrumb] = t('settings.project_attributes.new.heading') %>
 
 <%= render(Settings::ProjectCustomFields::NewFormHeaderComponent.new) %>
