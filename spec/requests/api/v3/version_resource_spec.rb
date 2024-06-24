@@ -55,7 +55,7 @@ RSpec.describe "API v3 Version resource", content_type: :json do
 
     shared_examples_for "successful response" do
       it "responds with 200" do
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(:ok)
       end
 
       it "returns the version" do
@@ -157,7 +157,7 @@ RSpec.describe "API v3 Version resource", content_type: :json do
     end
 
     it "responds with 200" do
-      expect(last_response.status).to eq(200)
+      expect(last_response).to have_http_status(:ok)
     end
 
     it "updates the version" do
@@ -297,7 +297,7 @@ RSpec.describe "API v3 Version resource", content_type: :json do
     end
 
     it "responds with 201" do
-      expect(last_response.status).to eq(201)
+      expect(last_response).to have_http_status(:created)
     end
 
     it "creates the version" do

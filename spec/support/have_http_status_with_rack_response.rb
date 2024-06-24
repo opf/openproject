@@ -24,34 +24,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
-require "spec_helper"
-require "rack/test"
-require_relative "create_shared_examples"
-
-RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-               "create" do
-  current_user { user }
-
-  describe "admin user" do
-    let(:user) { build(:admin) }
-
-    it_behaves_like "create placeholder user request flow"
-  end
-
-  describe "user with manage_placeholder_user permission" do
-    let(:user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
-
-    it_behaves_like "create placeholder user request flow"
-  end
-
-  describe "unauthorized user" do
-    include_context "create placeholder user request context"
-    let(:user) { build(:user) }
-
-    it "returns an erroneous response" do
-      send_request
-      expect(last_response).to have_http_status(:forbidden)
+module HaveHttpStatusWithRackResponse
+  def as_test_response(obj)
+    if obj.is_a?(Rack::MockResponse)
+      # `have_http_status` matcher would fail if the response object is a
+      # `Rack::MockResponse`. Hack to disguise `Rack::MockResponse` into a
+      # `ActionDispatch::TestResponse` object.
+      response = ActionDispatch::Response.new(obj.status, obj.headers, obj.body)
+      response.request = ActionDispatch::Request.new({})
+      ::ActionDispatch::TestResponse.from_response(response)
+    else
+      super
     end
   end
 end
+
+RSpec::Rails::Matchers::HaveHttpStatus.prepend(HaveHttpStatusWithRackResponse)

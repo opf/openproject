@@ -247,7 +247,7 @@ RSpec.describe "API v3 file links resource" do
       let(:path) { "#{api_v3_paths.file_links(work_package.id)}?filters=#{CGI.escape(filters.to_json)}" }
 
       it "return a 400 HTTP error" do
-        expect(last_response.status).to be 400
+        expect(last_response).to have_http_status :bad_request
       end
     end
   end
@@ -636,7 +636,7 @@ RSpec.describe "API v3 file links resource" do
         let(:error) { :not_found }
 
         it "fails with outbound request failure" do
-          expect(last_response.status).to be(500)
+          expect(last_response).to have_http_status(:internal_server_error)
 
           body = JSON.parse(last_response.body)
           expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))

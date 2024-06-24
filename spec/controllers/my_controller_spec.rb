@@ -212,7 +212,7 @@ RSpec.describe MyController do
     let!(:user_session) { Sessions::UserSession.find_by(session_id: "internal_foobar") }
 
     let(:params) do
-      { user: { mail: "foo@example.org"} }
+      { user: { mail: "foo@example.org" } }
     end
 
     it "clears other sessions and removes tokens" do

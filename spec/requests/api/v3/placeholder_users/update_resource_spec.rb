@@ -67,7 +67,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
     let(:user) { build(:user) }
 
     it "returns a 403 response" do
-      expect(last_response.status).to eq(403)
+      expect(last_response).to have_http_status(:forbidden)
     end
   end
 end

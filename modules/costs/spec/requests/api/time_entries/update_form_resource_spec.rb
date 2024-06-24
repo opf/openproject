@@ -64,7 +64,7 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
 
   describe "#POST /api/v3/time_entries/:id/form" do
     it "returns 200 OK" do
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it "returns a form" do
@@ -205,13 +205,13 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
         end
 
         it "returns 200 OK" do
-          expect(response.status).to eq(200)
+          expect(response).to have_http_status(:ok)
         end
       end
 
       context "with the time_entry being of a different user" do
         it "returns 403 Not Authorized" do
-          expect(response.status).to eq(403)
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end
@@ -220,7 +220,7 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
       let(:permissions) { %i[view_time_entries] }
 
       it "returns 403 Not Authorized" do
-        expect(response.status).to eq(403)
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end

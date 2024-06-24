@@ -35,7 +35,7 @@ RSpec.describe PlaceholderUsersController do
   shared_examples "do not allow non-admins" do
     it "responds with unauthorized status" do
       expect(response).not_to be_successful
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
   end
 
@@ -348,7 +348,7 @@ RSpec.describe PlaceholderUsersController do
 
       it "responds with unauthorized status" do
         expect(response).not_to be_successful
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -359,7 +359,7 @@ RSpec.describe PlaceholderUsersController do
 
       it "responds with unauthorized status" do
         expect(response).not_to be_successful
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
   end

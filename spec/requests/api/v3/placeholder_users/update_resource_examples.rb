@@ -32,7 +32,7 @@ RSpec.shared_examples "updates the placeholder" do
     end
 
     it "returns an error" do
-      expect(last_response.status).to eq(422)
+      expect(last_response).to have_http_status(:unprocessable_entity)
       expect(last_response.body)
         .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyConstraintViolation".to_json)
               .at_path("errorIdentifier")
@@ -51,7 +51,7 @@ RSpec.shared_examples "updates the placeholder" do
     end
 
     it "updates the placeholder" do
-      expect(last_response.status).to eq(200)
+      expect(last_response).to have_http_status(:ok)
 
       placeholder.reload
 

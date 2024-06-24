@@ -48,7 +48,7 @@ RSpec.describe API::V3 do
       let(:oauth_access_token) { token.plaintext_token }
 
       it "authenticates successfully" do
-        expect(last_response.status).to eq 200
+        expect(last_response).to have_http_status :ok
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe API::V3 do
       let(:oauth_access_token) { "1337" }
 
       it "returns unauthorized" do
-        expect(last_response.status).to eq 401
+        expect(last_response).to have_http_status :unauthorized
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe API::V3 do
       let(:oauth_access_token) { token.plaintext_token }
 
       it "returns unauthorized" do
-        expect(last_response.status).to eq 401
+        expect(last_response).to have_http_status :unauthorized
       end
     end
   end
@@ -97,7 +97,7 @@ RSpec.describe API::V3 do
           end
 
           it "returns 401 unauthorized" do
-            expect(last_response.status).to eq 401
+            expect(last_response).to have_http_status :unauthorized
           end
         end
       end
@@ -109,7 +109,7 @@ RSpec.describe API::V3 do
           end
 
           it "returns 401 unauthorized" do
-            expect(last_response.status).to eq 401
+            expect(last_response).to have_http_status :unauthorized
           end
 
           it "returns the correct JSON response" do
@@ -131,7 +131,7 @@ RSpec.describe API::V3 do
           end
 
           it "returns 401 unauthorized" do
-            expect(last_response.status).to eq 401
+            expect(last_response).to have_http_status :unauthorized
           end
 
           it "returns the correct JSON response" do
@@ -156,7 +156,7 @@ RSpec.describe API::V3 do
           end
 
           it "returns 401 unauthorized" do
-            expect(last_response.status).to eq 401
+            expect(last_response).to have_http_status :unauthorized
           end
 
           it "returns the correct JSON response" do
@@ -183,7 +183,7 @@ RSpec.describe API::V3 do
           end
 
           it "returns 401 unauthorized" do
-            expect(last_response.status).to eq 401
+            expect(last_response).to have_http_status :unauthorized
           end
 
           it "returns the correct JSON response" do
@@ -207,7 +207,7 @@ RSpec.describe API::V3 do
           end
 
           it "returns 200 OK" do
-            expect(last_response.status).to eq 200
+            expect(last_response).to have_http_status :ok
           end
         end
       end
@@ -276,7 +276,7 @@ RSpec.describe API::V3 do
             end
 
             it "returns 200 OK" do
-              expect(last_response.status).to eq 200
+              expect(last_response).to have_http_status :ok
             end
 
             it '"login"s the anonymous user' do
@@ -291,7 +291,7 @@ RSpec.describe API::V3 do
             end
 
             it "returns 401 unauthorized" do
-              expect(last_response.status).to eq 401
+              expect(last_response).to have_http_status :unauthorized
             end
           end
 
@@ -302,7 +302,7 @@ RSpec.describe API::V3 do
             end
 
             it "returns 200 OK" do
-              expect(last_response.status).to eq 200
+              expect(last_response).to have_http_status :ok
             end
           end
 
@@ -313,7 +313,7 @@ RSpec.describe API::V3 do
             end
 
             it "returns 200 OK" do
-              expect(last_response.status).to eq 200
+              expect(last_response).to have_http_status :ok
             end
           end
         end

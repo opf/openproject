@@ -82,7 +82,7 @@ RSpec.describe "API v3 Status resource" do
         end
 
         context "valid status id" do
-          it { expect(response.status).to eq(200) }
+          it { expect(response).to have_http_status(:ok) }
         end
 
         context "invalid status id" do

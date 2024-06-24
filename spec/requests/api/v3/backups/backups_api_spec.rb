@@ -59,7 +59,7 @@ RSpec.describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true
         include_context "request"
 
         it "results in a bad request error" do
-          expect(last_response.status).to eq 400
+          expect(last_response).to have_http_status :bad_request
         end
       end
 
@@ -74,7 +74,7 @@ RSpec.describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true
         end
 
         it "enqueues the backup including attachments" do
-          expect(last_response.status).to eq 202
+          expect(last_response).to have_http_status :accepted
         end
       end
 
@@ -91,7 +91,7 @@ RSpec.describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true
         end
 
         it "enqueues a backup not including attachments" do
-          expect(last_response.status).to eq 202
+          expect(last_response).to have_http_status :accepted
         end
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true
       include_context "request"
 
       it "results in a conflict" do
-        expect(last_response.status).to eq 409
+        expect(last_response).to have_http_status :conflict
       end
     end
 
@@ -113,7 +113,7 @@ RSpec.describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true
       include_context "request"
 
       it "is forbidden" do
-        expect(last_response.status).to eq 403
+        expect(last_response).to have_http_status :forbidden
       end
     end
 
@@ -124,7 +124,7 @@ RSpec.describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true
       include_context "request"
 
       it "is forbidden" do
-        expect(last_response.status).to eq 403
+        expect(last_response).to have_http_status :forbidden
       end
     end
 
@@ -132,7 +132,7 @@ RSpec.describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true
       include_context "request"
 
       it "is rate limited" do
-        expect(last_response.status).to eq 429
+        expect(last_response).to have_http_status :too_many_requests
       end
     end
 
@@ -142,7 +142,7 @@ RSpec.describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true
       include_context "request"
 
       it "is forbidden" do
-        expect(last_response.status).to eq 403
+        expect(last_response).to have_http_status :forbidden
       end
 
       it "shows the remaining hours until the token is valid" do
