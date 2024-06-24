@@ -125,6 +125,21 @@ module Storages
               appendix = file_name.blank? ? "" : "/#{file_name}"
               location.empty? ? "/#{file_name}" : "#{location}#{appendix}"
             end
+
+            def storage_file_from_json(json)
+              StorageFile.new(
+                id: json[:id],
+                name: json[:name],
+                size: json[:size],
+                mime_type: Util.mime_type(json),
+                created_at: Time.zone.parse(json.dig(:fileSystemInfo, :createdDateTime)),
+                last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
+                created_by_name: json.dig(:createdBy, :user, :displayName),
+                last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
+                location: Util.escape_path(Util.extract_location(json[:parentReference], json[:name])),
+                permissions: %i[readable writeable]
+              )
+            end
           end
         end
       end

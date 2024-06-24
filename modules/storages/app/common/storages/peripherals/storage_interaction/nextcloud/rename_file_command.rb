@@ -28,47 +28,77 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class RenameFileCommand
-    using Storages::Peripherals::ServiceResultRefinements
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class RenameFileCommand
+          def self.call(storage:, auth_strategy:, file_id:, name:)
+            new(storage).call(auth_strategy:, file_id:, name:)
+          end
 
-    def initialize(storage)
-      @uri = storage.uri
-      @base_path = Util.join_uri_path(@uri, "remote.php/dav/files", CGI.escapeURIComponent(storage.username))
-      @username = storage.username
-      @password = storage.password
-    end
+          def initialize(storage)
+            @storage = storage
+          end
 
-    def self.call(storage:, source:, target:)
-      new(storage).call(source:, target:)
-    end
+          def call(auth_strategy:, file_id:, name:)
+            validate_input_data(file_id:, name:).on_failure { |failure| return failure }
 
-    def call(source:, target:)
-      response = OpenProject
-                   .httpx
-                   .basic_auth(@username, @password)
-                   .request(
-                     "MOVE",
-                     Util.join_uri_path(@base_path, Util.escape_path(source)),
-                     headers: {
-                       "Destination" => Util.join_uri_path(@uri.path,
-                                                           "remote.php/dav/files",
-                                                           CGI.escapeURIComponent(@username),
-                                                           Util.escape_path(target))
-                     }
-                   )
+            origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+                                 .on_failure { |failure| return failure }
+                                 .result
 
-      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+            info = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
+                                .on_failure { |failure| return failure }
+                                .result
 
-      case response
-      in { status: 200..299 }
-        ServiceResult.success
-      in { status: 404 }
-        Util.error(:not_found, "Outbound request destination not found", error_data)
-      in { status: 401 }
-        Util.error(:unauthorized, "Outbound request not authorized", error_data)
-      else
-        Util.error(:error, "Outbound request failed", error_data)
+            make_request(auth_strategy, origin_user_id, info, name).on_failure { |failure| return failure }
+
+            FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
+                         .map { |file_info| Util.storage_file_from_file_info(file_info) }
+          end
+
+          private
+
+          def make_request(auth_strategy, user, file_info, name)
+            base_path = Util.join_uri_path(@storage.uri, "remote.php/dav/files", user)
+            source_path = Util.join_uri_path(base_path, file_info.location)
+            destination = Util.join_uri_path(base_path, target_path(file_info, name))
+
+            Authentication[auth_strategy].call(storage: @storage) do |http|
+              handle_response http.request("MOVE", source_path, headers: { "Destination" => destination })
+            end
+          end
+
+          def target_path(info, name)
+            info.location.gsub(CGI.escapeURIComponent(info.name), CGI.escapeURIComponent(name))
+          end
+
+          def validate_input_data(file_id:, name:)
+            if file_id.blank? || name.blank?
+              ServiceResult.failure(result: :error,
+                                    errors: StorageError.new(code: :error,
+                                                             data: StorageErrorData.new(source: self.class),
+                                                             log_message: "Invalid input data!"))
+            else
+              ServiceResult.success
+            end
+          end
+
+          def handle_response(response)
+            error_data = StorageErrorData.new(source: self.class, payload: response)
+            case response
+            in { status: 200..299 }
+              ServiceResult.success
+            in { status: 404 }
+              Util.error(:not_found, "Outbound request destination not found", error_data)
+            in { status: 401 }
+              Util.error(:unauthorized, "Outbound request not authorized", error_data)
+            else
+              Util.error(:error, "Outbound request failed", error_data)
+            end
+          end
+        end
       end
     end
   end

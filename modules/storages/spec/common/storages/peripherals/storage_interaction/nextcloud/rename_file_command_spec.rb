@@ -31,32 +31,35 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCommand, :webmock do
-  let(:storage) { create(:sharepoint_dev_drive_storage) }
-  let(:auth_strategy) { Storages::Peripherals::Registry.resolve("one_drive.authentication.userless").call }
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::RenameFileCommand, :webmock do
+  let(:user) { create(:user) }
+  let(:storage) do
+    create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
+  end
+  let(:auth_strategy) { Storages::Peripherals::Registry.resolve("nextcloud.authentication.userbound").call(user:) }
 
   it_behaves_like "rename_file_command: basic command setup"
 
   it_behaves_like "rename_file_command: validating input data"
 
-  context "when renaming a folder", vcr: "one_drive/rename_file_success" do
-    let(:file_id) { "01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR" }
+  context "when renaming a folder", vcr: "nextcloud/rename_file_success" do
+    let(:file_id) { "169" }
     let(:name) { "I am the senat" }
 
     it_behaves_like "rename_file_command: successful file renaming"
   end
 
-  context "when renaming a file inside a subdirectory", vcr: "one_drive/rename_file_with_location_success" do
-    let(:file_id) { "01AZJL5PPMSBBO3R2BIZHJFCELSW3RP7GN" }
-    let(:name) { "I❤️you death star.png" }
+  context "when renaming a file inside a subdirectory", vcr: "nextcloud/rename_file_with_location_success" do
+    let(:file_id) { "167" }
+    let(:name) { "I❤️you death star.md" }
 
     it_behaves_like "rename_file_command: successful file renaming"
   end
 
-  context "when trying to rename a not existent file", vcr: "one_drive/rename_file_not_found" do
+  context "when trying to rename a not existent file", vcr: "nextcloud/rename_file_not_found" do
     let(:file_id) { "sith_have_yellow_light_sabers" }
-    let(:name) { "this_will_not_happen.png" }
-    let(:error_source) { described_class }
+    let(:name) { "this_will_not_happen.txt" }
+    let(:error_source) { Storages::Peripherals::StorageInteraction::Nextcloud::FileInfoQuery }
 
     it_behaves_like "rename_file_command: not found"
   end

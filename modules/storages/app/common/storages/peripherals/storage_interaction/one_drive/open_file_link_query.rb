@@ -33,9 +33,6 @@ module Storages
     module StorageInteraction
       module OneDrive
         class OpenFileLinkQuery
-          using ::Storages::Peripherals::ServiceResultRefinements
-          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
-
           def self.call(storage:, auth_strategy:, file_id:, open_location: false)
             new(storage).call(auth_strategy:, file_id:, open_location:)
           end
@@ -46,7 +43,7 @@ module Storages
           end
 
           def call(auth_strategy:, file_id:, open_location: false)
-            Auth[auth_strategy].call(storage: @storage) do |http|
+            Authentication[auth_strategy].call(storage: @storage) do |http|
               if open_location
                 request_parent_id(http, file_id).on_success { |parent_id| return request_web_url(http, parent_id.result) }
               else

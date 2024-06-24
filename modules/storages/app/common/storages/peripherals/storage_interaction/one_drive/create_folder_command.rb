@@ -64,7 +64,7 @@ module Storages
           def handle_response(response)
             case response
             in { status: 200..299 }
-              ServiceResult.success(result: file_info_for(MultiJson.load(response.body, symbolize_keys: true)),
+              ServiceResult.success(result: Util.storage_file_from_json(MultiJson.load(response.body, symbolize_keys: true)),
                                     message: "Folder was successfully created.")
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
@@ -79,21 +79,6 @@ module Storages
               ServiceResult.failure(result: :error,
                                     errors: Util.storage_error(code: :error, response:, source: self.class))
             end
-          end
-
-          def file_info_for(json_file)
-            StorageFile.new(
-              id: json_file[:id],
-              name: json_file[:name],
-              size: json_file[:size],
-              mime_type: Util.mime_type(json_file),
-              created_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :createdDateTime)),
-              last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
-              created_by_name: json_file.dig(:createdBy, :user, :displayName),
-              last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
-              location: Util.extract_location(json_file[:parentReference], json_file[:name]),
-              permissions: %i[readable writeable]
-            )
           end
 
           def payload(folder_name)
