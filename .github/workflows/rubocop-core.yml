@@ -12,7 +12,7 @@ jobs:
         with:
           fetch-depth: 2 # we are comparing PR merge head with base
       - uses: ruby/setup-ruby@v1
-      - uses: opf/action-rubocop@master
+      - uses: opf/action-rubocop@correct-pipefail
         with:
           github_token: ${{ secrets.github_token }}
           rubocop_version: gemfile
