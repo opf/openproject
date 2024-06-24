@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,22 @@
 # ++
 
 module Shares
-  module Concerns
+  module WorkPackages
     module Authorization
       extend ActiveSupport::Concern
 
       included do
         def sharing_manageable?
           # TODO: Fix this to check based on the entity
-          User.current.allowed_in_project?(:share_work_packages, @entity.project)
+          case @entity
+          when WorkPackage
+            User.current.allowed_in_project?(:share_work_packages, @entity.project)
+          else
+            raise ArgumentError, <<~ERROR
+              Checking sharing capabilities for an unsupported entity:
+              - #{@entity.class}
+            ERROR
+          end
         end
       end
     end

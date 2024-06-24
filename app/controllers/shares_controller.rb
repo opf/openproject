@@ -28,6 +28,7 @@
 
 class SharesController < ApplicationController
   include OpTurbo::ComponentStream
+  include Shares::WorkPackages::Authorization
   include MemberHelper
 
   before_action :load_entity
@@ -45,8 +46,7 @@ class SharesController < ApplicationController
     render Shares::ModalBodyComponent.new(entity: @entity,
                                           shares: @shares,
                                           errors: @errors,
-                                          sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
-                                                                                               @entity.project),
+                                          sharing_manageable: sharing_manageable?,
                                           available_roles:), layout: nil
   end
 
@@ -156,8 +156,7 @@ class SharesController < ApplicationController
       component: Shares::ModalBodyComponent.new(entity: @entity,
                                                 available_roles:,
                                                 shares: @new_shares || load_shares,
-                                                sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
-                                                                                                     @project),
+                                                sharing_manageable: sharing_manageable?,
                                                 errors: @errors)
     )
 
@@ -168,29 +167,24 @@ class SharesController < ApplicationController
     replace_via_turbo_stream(
       component: Shares::InviteUserFormComponent.new(entity: @entity,
                                                      available_roles:,
-                                                     sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
-                                                                                                          @project),
+                                                     sharing_manageable: sharing_manageable?,
                                                      errors: @errors)
     )
 
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(entity: @entity,
                                               count: current_visible_member_count,
-                                              sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
-                                                                                                   @project))
+                                              sharing_manageable: sharing_manageable?)
     )
 
     @new_shares.each do |share|
       prepend_via_turbo_stream(
         component: Shares::ShareRowComponent.new(share:,
                                                  available_roles:,
-                                                 sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
-                                                                                                      @project)),
+                                                 sharing_manageable: sharing_manageable?),
         target_component: Shares::ModalBodyComponent.new(entity: @entity,
                                                          available_roles:,
-                                                         sharing_manageable: User.current.allowed_in_project?(
-                                                           :share_work_packages, @project
-                                                         ),
+                                                         sharing_manageable: sharing_manageable?,
                                                          shares: load_shares,
                                                          errors: @errors)
       )
@@ -202,9 +196,7 @@ class SharesController < ApplicationController
   def respond_with_new_invite_form
     replace_via_turbo_stream(component: Shares::InviteUserFormComponent.new(entity: @entity,
                                                                             available_roles:,
-                                                                            sharing_manageable: User.current.allowed_in_project?(
-                                                                              :share_work_packages, @project
-                                                                            ),
+                                                                            sharing_manageable: sharing_manageable?,
                                                                             errors: @errors))
 
     respond_with_turbo_streams
@@ -221,23 +213,17 @@ class SharesController < ApplicationController
   def respond_with_remove_share
     remove_via_turbo_stream(component: Shares::ShareRowComponent.new(share: @share,
                                                                      available_roles:,
-                                                                     sharing_manageable: User.current.allowed_in_project?(
-                                                                       :share_work_packages, @project
-                                                                     )))
+                                                                     sharing_manageable: sharing_manageable?))
     update_via_turbo_stream(component: Shares::CounterComponent.new(entity: @entity,
                                                                     count: current_visible_member_count,
-                                                                    sharing_manageable: User.current.allowed_in_project?(
-                                                                      :share_work_packages, @project
-                                                                    )))
+                                                                    sharing_manageable: sharing_manageable?))
 
     respond_with_turbo_streams
   end
 
   def respond_with_update_user_details
     update_via_turbo_stream(component: Shares::UserDetailsComponent.new(share: @share,
-                                                                        manager_mode: User.current.allowed_in_project?(
-                                                                          :share_work_packages, @entity.project
-                                                                        ),
+                                                                        manager_mode: sharing_manageable?,
                                                                         invite_resent: true))
 
     respond_with_turbo_streams
@@ -260,16 +246,14 @@ class SharesController < ApplicationController
       remove_via_turbo_stream(
         component: Shares::ShareRowComponent.new(share:,
                                                  available_roles:,
-                                                 sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
-                                                                                                      @project))
+                                                 sharing_manageable: sharing_manageable?)
       )
     end
 
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(entity: @entity,
                                               count: current_visible_member_count,
-                                              sharing_manageable: User.current.allowed_in_project?(:share_work_packages,
-                                                                                                   @project))
+                                              sharing_manageable: sharing_manageable?)
     )
 
     respond_with_turbo_streams
