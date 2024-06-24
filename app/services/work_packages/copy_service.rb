@@ -41,15 +41,15 @@ class WorkPackages::CopyService
     self.contract_class = contract_class
   end
 
-  def call(send_notifications: nil, copy_attachments: true, **attributes)
+  def call(send_notifications: nil, copy_attachments: true, copy_share_members: true, **attributes)
     in_context(work_package, send_notifications:) do
-      copy(attributes, copy_attachments, send_notifications)
+      copy(attributes, copy_attachments, copy_share_members, send_notifications)
     end
   end
 
   protected
 
-  def copy(attribute_override, copy_attachments, send_notifications)
+  def copy(attribute_override, copy_attachments, copy_share_members, send_notifications)
     copied = create(work_package,
                     attribute_override,
                     send_notifications)
@@ -57,6 +57,7 @@ class WorkPackages::CopyService
         remove_author_watcher(copy_call.result)
         copy_watchers(copy_call.result)
         copy_work_package_attachments(copy_call.result) if copy_attachments
+        copy_share_members(copy_call.result, send_notifications) if copy_share_members
       end
 
     copied.state.copied_from_work_package_id = work_package&.id
@@ -110,5 +111,30 @@ class WorkPackages::CopyService
       to: copy,
       references: %i[description]
     )
+  end
+
+  def copy_share_members(copy, send_notifications)
+    work_package.members.each do |member|
+      create_share_membership(member, copy, send_notifications)
+    end
+  end
+
+  private
+
+  def create_share_membership(member, target, send_notifications)
+    role_ids = member.member_roles.map(&:role_id)
+
+    return if role_ids.empty?
+
+    attributes = member
+                   .attributes.dup.except("id", "project_id", "entity_id", "created_at", "updated_at")
+                   .merge(role_ids:,
+                          project: target.project,
+                          entity: target,
+                          send_notifications:)
+
+    Members::CreateService
+      .new(user: User.current, contract_class: EmptyContract)
+      .call(attributes)
   end
 end

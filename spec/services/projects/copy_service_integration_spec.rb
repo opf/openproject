@@ -95,6 +95,7 @@ RSpec.describe(
           categories
           work_packages
           work_package_attachments
+          work_package_shares
           wiki
           wiki_page_attachments
           forums
@@ -637,6 +638,40 @@ RSpec.describe(
             it "does not copy locked watchers and does not add the copying user as a watcher" do
               expect(subject).to be_success
               expect(project_copy.work_packages[0].watcher_users).to be_empty
+            end
+          end
+        end
+
+        context "with shared work packages" do
+          let(:wp_role) { create(:view_work_package_role) }
+          let!(:source_wp_shared_with_user) do
+            create(:user, member_with_roles: { source_wp => wp_role })
+          end
+
+          let(:only_args) { %w[work_packages work_package_shares] }
+
+          it "copies the shared with membership for the work package" do
+            expect(subject).to be_success
+            expect(project_copy.members.count).to eq 2
+
+            shared_wp_member = project_copy.members.find_by(entity_type: "WorkPackage")
+            expect(shared_wp_member.principal).to eq(source_wp_shared_with_user)
+            expect(shared_wp_member.roles).to contain_exactly(wp_role)
+
+            copied_wp = project_copy.work_packages.find_by(subject: "source wp")
+            expect(shared_wp_member.entity).to eq(copied_wp)
+          end
+
+          context "having disabled" do
+            let(:only_args) { %w[work_packages] }
+
+            it "copies the standard membership for the work package" do
+              expect(subject).to be_success
+              expect(project_copy.members.count).to eq 1
+
+              wp_member = project_copy.members.find_by(user_id: current_user.id)
+              expect(wp_member.principal).to eq(current_user)
+              expect(wp_member).to be_project_role
             end
           end
         end

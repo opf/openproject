@@ -29,8 +29,10 @@
 module Projects::Copy
   class WorkPackagesDependentService < Dependency
     include AttachmentCopier
+    include ShareCopier
 
     attachment_dependent_service ::Projects::Copy::WorkPackageAttachmentsDependentService
+    share_dependent_service ::Projects::Copy::WorkPackageSharesDependentService
 
     def self.human_name
       I18n.t(:label_work_package_plural)
@@ -85,7 +87,11 @@ module Projects::Copy
         .new(user:,
              work_package: source_work_package,
              contract_class: WorkPackages::CopyProjectContract)
-        .call(copy_attachments: copy_attachments?, **overrides)
+        .call(
+          copy_attachments: copy_attachments?,
+          copy_share_members: copy_shares?,
+          **overrides
+        )
 
       if service_call.success?
         service_call.result
@@ -140,7 +146,7 @@ module Projects::Copy
         budget_id: nil,
 
         # We persist the setting in the job which will trigger a delayed job for potentially sending the journal notifications.
-        send_notifications: params[:send_notifications]
+        send_notifications: params.dig(:params, :send_notifications)
       }
     end
 
