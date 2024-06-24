@@ -59,10 +59,8 @@ function containsFiles(dataTransfer:DataTransfer):boolean {
   return dataTransfer.types.indexOf('Files') >= 0;
 }
 
-export const attachmentsSelector = 'op-attachments';
-
 @Component({
-  selector: attachmentsSelector,
+  selector: 'op-attachments',
   templateUrl: './attachments.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
