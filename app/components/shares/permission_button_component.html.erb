@@ -11,10 +11,7 @@
         permission_name(active_role.id)
       end
 
-      puts "*"*100, @available_roles, "*"*100
-
       @available_roles.each do |role_hash|
-      puts "### role_hash: #{role_hash} ###"
         menu.with_item(label: role_hash[:label],
                        href: update_path,
                        method: :patch,
