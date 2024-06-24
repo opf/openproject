@@ -310,7 +310,8 @@ Rails.application.reloader.to_prepare do
                      {},
                      permissible_on: :project,
                      require: :loggedin,
-                     dependencies: :view_work_packages
+                     dependencies: :view_work_packages,
+                     contract_actions: { queries: %i[create] }
       # Watchers
       wpt.permission :view_work_package_watchers,
                      {},
