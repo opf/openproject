@@ -53,7 +53,7 @@ RSpec.describe TypesController do
       describe "the access should be restricted" do
         before { get "index" }
 
-        it { expect(response.status).to eq(403) }
+        it { expect(response).to have_http_status(:forbidden) }
       end
     end
 
@@ -61,7 +61,7 @@ RSpec.describe TypesController do
       describe "the access should be restricted" do
         before { get "new" }
 
-        it { expect(response.status).to eq(403) }
+        it { expect(response).to have_http_status(:forbidden) }
       end
     end
 
@@ -69,7 +69,7 @@ RSpec.describe TypesController do
       describe "the access should be restricted" do
         before { get "edit", params: { id: "123" } }
 
-        it { expect(response.status).to eq(403) }
+        it { expect(response).to have_http_status(:forbidden) }
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe TypesController do
       describe "the access should be restricted" do
         before { post "create" }
 
-        it { expect(response.status).to eq(403) }
+        it { expect(response).to have_http_status(:forbidden) }
       end
     end
 
@@ -85,7 +85,7 @@ RSpec.describe TypesController do
       describe "the access should be restricted" do
         before { delete "destroy", params: { id: "123" } }
 
-        it { expect(response.status).to eq(403) }
+        it { expect(response).to have_http_status(:forbidden) }
       end
     end
 
@@ -93,7 +93,7 @@ RSpec.describe TypesController do
       describe "the access should be restricted" do
         before { post "update", params: { id: "123" } }
 
-        it { expect(response.status).to eq(403) }
+        it { expect(response).to have_http_status(:forbidden) }
       end
     end
 
@@ -101,7 +101,7 @@ RSpec.describe TypesController do
       describe "the access should be restricted" do
         before { post "move", params: { id: "123" } }
 
-        it { expect(response.status).to eq(403) }
+        it { expect(response).to have_http_status(:forbidden) }
       end
     end
   end
@@ -161,7 +161,7 @@ RSpec.describe TypesController do
           post :create, params:
         end
 
-        it { expect(response.status).to eq(200) }
+        it { expect(response).to have_http_status(:ok) }
 
         it "shows an error message" do
           expect(response.body).to have_content("Name can't be blank")

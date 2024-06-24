@@ -59,7 +59,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
     context "authorized" do
       context "valid" do
         it "returns HTTP 200" do
-          expect(last_response.status).to be(200)
+          expect(last_response).to have_http_status(:ok)
         end
 
         it "returns a collection of schemas" do
@@ -79,7 +79,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
         let(:filter_values) { ["#{0}-#{type.id}"] }
 
         it "returns HTTP 200" do
-          expect(last_response.status).to be(200)
+          expect(last_response).to have_http_status(:ok)
         end
 
         it "returns an empty collection" do
@@ -93,7 +93,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
         let(:filter_values) { ["#{project.id}-#{0}"] }
 
         it "returns HTTP 200" do
-          expect(last_response.status).to be(200)
+          expect(last_response).to have_http_status(:ok)
         end
 
         it "returns an empty collection" do
@@ -107,7 +107,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
         let(:filter_values) { ["bogus"] }
 
         it "returns HTTP 400" do
-          expect(last_response.status).to be(400)
+          expect(last_response).to have_http_status(:bad_request)
         end
 
         it "returns an error" do
@@ -122,7 +122,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
       let(:role) { create(:project_role, permissions: []) }
 
       it "returns HTTP 403" do
-        expect(last_response.status).to be(403)
+        expect(last_response).to have_http_status(:forbidden)
       end
     end
   end
@@ -138,7 +138,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
 
       context "valid schema" do
         it "returns HTTP 200" do
-          expect(last_response.status).to be(200)
+          expect(last_response).to have_http_status(:ok)
         end
 
         it "sets a weak ETag" do
@@ -195,7 +195,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
 
       context "valid schema" do
         it "returns HTTP 200" do
-          expect(last_response.status).to be(200)
+          expect(last_response).to have_http_status(:ok)
         end
 
         # Further fields are tested in the representer specs

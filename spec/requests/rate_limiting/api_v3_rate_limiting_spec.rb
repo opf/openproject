@@ -48,13 +48,13 @@ RSpec.describe "Rate limiting APIv3",
              nil,
              "CONTENT_TYPE" => "application/json"
 
-        expect(last_response.status).to eq 200
+        expect(last_response).to have_http_status :ok
       end
 
       post "/api/v3/work_packages/form",
            nil,
            "CONTENT_TYPE" => "application/json"
-      expect(last_response.status).to eq 429
+      expect(last_response).to have_http_status :too_many_requests
     end
   end
 
@@ -68,7 +68,7 @@ RSpec.describe "Rate limiting APIv3",
              nil,
              "CONTENT_TYPE" => "application/json"
 
-        expect(last_response.status).to eq 200
+        expect(last_response).to have_http_status :ok
       end
     end
   end

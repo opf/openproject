@@ -33,7 +33,7 @@ RSpec.describe TwoFactorAuthentication::AuthenticationController, with_settings:
     end
 
     it "returns a 500" do
-      expect(response.status).to eq 500
+      expect(response).to have_http_status :internal_server_error
     end
   end
 

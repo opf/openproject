@@ -97,7 +97,7 @@ RSpec.describe API::V3::Views::ViewsAPI,
       end
 
       it "responds with 422 and explains the error" do
-        expect(last_response.status).to eq(422)
+        expect(last_response).to have_http_status(:unprocessable_entity)
 
         expect(last_response.body)
           .to be_json_eql("Query does not exist.".to_json)

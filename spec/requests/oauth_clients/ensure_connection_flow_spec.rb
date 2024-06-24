@@ -45,7 +45,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
     context "when user is not logged in" do
       it "requires login" do
         get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id)
-        expect(last_response.status).to eq(401)
+        expect(last_response).to have_http_status(:unauthorized)
       end
     end
 
@@ -54,7 +54,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
 
       it "responds with 400 when storage_id parameter is absent" do
         get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id)
-        expect(last_response.status).to eq(400)
+        expect(last_response).to have_http_status(:bad_request)
         expect(last_response.body).to eq("Required parameter missing: storage_id")
       end
 
@@ -77,7 +77,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
               get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id, storage_id: storage.id)
 
               oauth_client = storage.oauth_client
-              expect(last_response.status).to eq(302)
+              expect(last_response).to have_http_status(:found)
               expect(last_response.location).to eq(
                 "#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
                 "#{oauth_client.client_id}&redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
@@ -98,7 +98,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                                                         destination_url: "#{root_url}123")
 
                 oauth_client = storage.oauth_client
-                expect(last_response.status).to eq(302)
+                expect(last_response).to have_http_status(:found)
                 expect(last_response.location).to eq(
                   "#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
                   "#{oauth_client.client_id}&redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
@@ -118,7 +118,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                                                         destination_url: "#{storage.host}/index.php")
 
                 oauth_client = storage.oauth_client
-                expect(last_response.status).to eq(302)
+                expect(last_response).to have_http_status(:found)
                 expect(last_response.location).to eq(
                   "#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
                   "#{oauth_client.client_id}&redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
@@ -153,7 +153,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             it "redirects to root_url" do
               get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id, storage_id: storage.id)
 
-              expect(last_response.status).to eq(302)
+              expect(last_response).to have_http_status(:found)
               expect(last_response.location).to eq("http://www.example.com/")
               expect(last_response.cookies.keys).to eq(["_open_project_session"])
             end
@@ -167,7 +167,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                                                         destination_url: "#{root_url}123")
 
                 storage.oauth_client
-                expect(last_response.status).to eq(302)
+                expect(last_response).to have_http_status(:found)
                 expect(last_response.location).to eq("http://www.example.com/123")
                 expect(last_response.cookies.keys).to eq(["_open_project_session"])
               end
@@ -180,7 +180,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                                                         destination_url: "#{storage.host}/index.php")
 
                 storage.oauth_client
-                expect(last_response.status).to eq(302)
+                expect(last_response).to have_http_status(:found)
                 expect(last_response.location).to eq("http://www.example.com/")
                 expect(last_response.cookies.keys).to eq(["_open_project_session"])
               end

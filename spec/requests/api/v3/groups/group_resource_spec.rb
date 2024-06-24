@@ -122,7 +122,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
       current_user { create(:admin) }
 
       it "responds with 201" do
-        expect(last_response.status).to eq(201)
+        expect(last_response).to have_http_status(:created)
       end
 
       it "creates the group and sets the members" do
@@ -155,7 +155,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
       end
 
       it "responds with 422 and explains the error" do
-        expect(last_response.status).to eq(422)
+        expect(last_response).to have_http_status(:unprocessable_entity)
 
         expect(last_response.body)
           .to be_json_eql("Name can't be blank.".to_json)
@@ -221,7 +221,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
       current_user { admin }
 
       it "responds with 200" do
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(:ok)
       end
 
       it "updates the group" do

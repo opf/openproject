@@ -48,7 +48,7 @@ RSpec.describe API::V3::Users::UsersAPI do
     it "responds with the represented updated user" do
       send_request
 
-      expect(last_response.status).to eq(200)
+      expect(last_response).to have_http_status(:ok)
       expect(last_response.body).to have_json_type(Object).at_path("_links")
       expect(last_response.body)
         .to be_json_eql("User".to_json)
@@ -83,7 +83,7 @@ RSpec.describe API::V3::Users::UsersAPI do
       it "returns an erroneous response" do
         send_request
 
-        expect(last_response.status).to eq(422)
+        expect(last_response).to have_http_status(:unprocessable_entity)
 
         expect(last_response.body)
           .to be_json_eql("email".to_json)
@@ -107,7 +107,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
       it "updates the users password correctly" do
         send_request
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(:ok)
 
         updated_user = User.find(user.id)
         matches = updated_user.check_password?(password)
@@ -121,7 +121,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
       it "responds with 404" do
         send_request
-        expect(last_response.status).to be(404)
+        expect(last_response).to have_http_status(:not_found)
       end
     end
   end
@@ -138,7 +138,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
       it "rejects the users password update" do
         send_request
-        expect(last_response.status).to eq(422)
+        expect(last_response).to have_http_status(:unprocessable_entity)
 
         expect(last_response.body)
           .to be_json_eql("password".to_json)
@@ -157,7 +157,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
     it "returns an erroneous response" do
       send_request
-      expect(last_response.status).to eq(403)
+      expect(last_response).to have_http_status(:forbidden)
     end
   end
 end

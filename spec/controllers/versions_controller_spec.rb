@@ -243,7 +243,7 @@ RSpec.describe VersionsController do
     it "renders correctly" do
       login_as(user)
       get :new, params: { project_id: project.id }
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 
