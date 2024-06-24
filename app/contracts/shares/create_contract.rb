@@ -26,16 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module WorkPackageMembers
-  class DeleteContract < ::DeleteContract
-    delete_permission :share_work_packages
-
-    validate :member_is_deletable
+module Shares
+  class CreateContract < BaseContract
+    attribute :principal
+    attribute :entity_id
+    attribute :entity_type
+    attribute :user_id
 
     private
 
-    def member_is_deletable
-      errors.add(:base, :not_deletable) unless model.some_roles_deletable?
+    validate :principal_assignable
+
+    def principal_assignable
+      return if principal.nil?
+
+      if principal.builtin? || principal.locked?
+        errors.add(:principal, :unassignable)
+      end
     end
   end
 end

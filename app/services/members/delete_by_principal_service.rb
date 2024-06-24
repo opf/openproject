@@ -67,14 +67,14 @@ class Members::DeleteByPrincipalService
   end
 
   def delete_work_package_share(model)
-    WorkPackageMembers::DeleteService
-      .new(user:, model:)
+    Shares::WorkPackages::DeleteService
+      .new(user:, model:, contract_class: Shares::WorkPackages::DeleteContract)
       .call
   end
 
   def delete_work_package_share_with_role_id(model, role_id)
-    WorkPackageMembers::DeleteRoleService
-      .new(user:, model:)
+    Shares::WorkPackages::DeleteRoleService
+      .new(user:, model:, contract_class: Shares::WorkPackages::DeleteContract)
       .call(role_id:)
   end
 

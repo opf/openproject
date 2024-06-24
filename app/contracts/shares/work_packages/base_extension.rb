@@ -26,11 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module WorkPackageMembers
-  class UpdateContract < BaseContract
-    attribute :principal,
-              writable: false
-    attribute :entity_id,
-              writable: false
+module Shares
+  module WorkPackages
+    module BaseExtension
+      extend ActiveSupport::Concern
+
+      included do
+        delegate :project, to: :model
+        validate :project_set
+      end
+
+      private
+
+      def user_allowed_to_manage?
+        user.allowed_in_project?(:share_work_packages, project)
+      end
+
+      def assignable_role_class
+        WorkPackageRole
+      end
+
+      def project_set
+        errors.add(:project, :blank) if project.nil?
+      end
+    end
   end
 end

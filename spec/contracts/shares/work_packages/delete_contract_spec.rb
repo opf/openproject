@@ -29,7 +29,7 @@
 require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe WorkPackageMembers::DeleteContract do
+RSpec.describe Shares::WorkPackages::DeleteContract do
   include_context "ModelContract shared context"
 
   let(:contract) { described_class.new(member, current_user) }

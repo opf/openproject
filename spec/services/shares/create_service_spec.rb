@@ -31,7 +31,7 @@
 require "spec_helper"
 require "services/base_services/behaves_like_create_service"
 
-RSpec.describe WorkPackageMembers::CreateService, type: :model do
+RSpec.describe Shares::CreateService, type: :model do
   subject(:service_call) { instance.call(call_attributes) }
 
   let(:instance) { described_class.new(user:) }

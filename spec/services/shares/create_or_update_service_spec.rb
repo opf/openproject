@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageMembers::CreateOrUpdateService do
+RSpec.describe Shares::CreateOrUpdateService do
   let(:user) { build_stubbed(:user) }
   let(:role) { build_stubbed(:view_work_package_role) }
   let(:work_package) { build_stubbed(:work_package) }

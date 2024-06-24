@@ -26,32 +26,55 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class WorkPackageMembers::DeleteService < BaseServices::Delete
-  include Members::Concerns::CleanedUp
+module Shares
+  class BaseContract < ::ModelContract
+    attribute :roles
 
-  def destroy(object)
-    if object.member_roles.where.not(inherited_from: nil).empty?
-      super
-    else
-      object.member_roles.where(inherited_from: nil).destroy_all
+    validate :user_allowed_to_manage
+    validate :role_grantable
+    validate :single_non_inherited_role
+    validate :entity_set
+
+    attribute_alias(:user_id, :principal)
+
+    private
+
+    def user_allowed_to_manage
+      return if user_allowed_to_manage? && (!model.principal || model.principal != user)
+
+      errors.add :base, :error_unauthorized
     end
-  end
 
-  protected
-
-  def after_perform(service_call)
-    super.tap do |call|
-      work_package_member = call.result
-
-      cleanup_for_group(work_package_member)
+    def user_allowed_to_manage?
+      raise NotImplementedError, "Must be overridden by subclass"
     end
-  end
 
-  def cleanup_for_group(work_package_member)
-    return unless work_package_member.principal.is_a?(Group)
+    def single_non_inherited_role
+      errors.add(:roles, :more_than_one) if active_non_inherited_roles.count > 1
+    end
 
-    Groups::CleanupInheritedRolesService
-      .new(work_package_member.principal, current_user: user, contract_class: EmptyContract)
-      .call
+    def role_grantable
+      errors.add(:roles, :ungrantable) unless active_roles.all? { _1.is_a?(assignable_role_class) }
+    end
+
+    def active_roles
+      active_member_roles.map(&:role)
+    end
+
+    def active_non_inherited_roles
+      active_member_roles.reject(&:inherited_from).map(&:role)
+    end
+
+    def active_member_roles
+      model.member_roles.reject(&:marked_for_destruction?)
+    end
+
+    def entity_set
+      errors.add(:entity, :blank) if entity_id.nil?
+    end
+
+    def assignable_role_class
+      raise NotImplementedError, "Must be overridden by subclass"
+    end
   end
 end

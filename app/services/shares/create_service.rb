@@ -26,18 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module WorkPackageMembers
-  class SetAttributesService < ::BaseServices::SetAttributes
-    prepend WorkPackageMembers::Concerns::RoleAssignment
+class Shares::CreateService < BaseServices::Create
+  private
 
-    private
+  def instance_class
+    Member
+  end
 
-    def set_attributes(params)
-      super
+  def after_perform(service_call)
+    return service_call unless service_call.success?
 
-      model.change_by_system do
-        model.project = model.entity&.project
-      end
-    end
+    share = service_call.result
+
+    add_group_memberships(share)
+    send_notification(share)
+
+    service_call
+  end
+
+  def add_group_memberships(share)
+    return unless share.principal.is_a?(Group)
+
+    Groups::CreateInheritedRolesService
+      .new(share.principal, current_user: user, contract_class: EmptyContract)
+      .call(user_ids: share.principal.user_ids,
+            send_notifications: false,
+            project_ids: [share.project_id]) # TODO: Here we should add project_id and the entity id as well
+  end
+
+  def send_notification(share)
+    # TODO: We should select what sort of notification is sent out based on the shared entity
+    OpenProject::Notifications.send(OpenProject::Events::WORK_PACKAGE_SHARED,
+                                    work_package_member: share,
+                                    send_notifications: true)
   end
 end

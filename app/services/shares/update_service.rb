@@ -26,23 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module WorkPackageMembers
-  class CreateContract < BaseContract
-    attribute :principal
-    attribute :entity_id
-    attribute :entity_type
-    attribute :user_id
+class Shares::UpdateService < BaseServices::Update
+  include Members::Concerns::CleanedUp
 
-    private
+  protected
 
-    validate :principal_assignable
+  def after_perform(service_call)
+    return service_call unless service_call.success?
 
-    def principal_assignable
-      return if principal.nil?
+    share = service_call.result
 
-      if principal.builtin? || principal.locked?
-        errors.add(:principal, :unassignable)
-      end
-    end
+    update_group_roles(share) if share.principal.is_a?(Group)
+
+    service_call
+  end
+
+  def update_group_roles(share)
+    Groups::UpdateRolesService
+      .new(share.principal, current_user: user, contract_class: EmptyContract)
+      .call(member: share, send_notifications: false, message: nil)
   end
 end

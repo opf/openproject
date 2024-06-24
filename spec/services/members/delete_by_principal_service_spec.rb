@@ -99,17 +99,17 @@ RSpec.describe Members::DeleteByPrincipalService, type: :model do
                member_roles: [build(:member_role), build(:member_role, inherited_from: 123)],
                entity: work_package_c)
       end
-      let(:service_instance_a) { instance_double(WorkPackageMembers::DeleteService, call: service_result_a) }
-      let(:service_instance_c) { instance_double(WorkPackageMembers::DeleteService, call: service_result_c) }
+      let(:service_instance_a) { instance_double(Shares::DeleteService, call: service_result_a) }
+      let(:service_instance_c) { instance_double(Shares::DeleteService, call: service_result_c) }
       let(:service_result_a) { ServiceResult.success }
       let(:service_result_c) { ServiceResult.success }
 
       before do
-        allow(WorkPackageMembers::DeleteService)
+        allow(Shares::DeleteService)
           .to receive(:new)
           .with(user:, model: member_a)
           .and_return(service_instance_a)
-        allow(WorkPackageMembers::DeleteService)
+        allow(Shares::DeleteService)
           .to receive(:new)
           .with(user:, model: member_c)
           .and_return(service_instance_c)
@@ -119,7 +119,7 @@ RSpec.describe Members::DeleteByPrincipalService, type: :model do
         service_call
 
         expect(service_instance_a).to have_received(:call).with(no_args)
-        expect(WorkPackageMembers::DeleteService)
+        expect(Shares::DeleteService)
           .not_to have_received(:new)
           .with(user:, model: member_b)
         expect(service_instance_c).to have_received(:call).with(no_args)
@@ -171,17 +171,17 @@ RSpec.describe Members::DeleteByPrincipalService, type: :model do
                member_roles: [build(:member_role)],
                entity: work_package_d)
       end
-      let(:service_instance_a) { instance_double(WorkPackageMembers::DeleteRoleService, call: service_result_a) }
-      let(:service_instance_c) { instance_double(WorkPackageMembers::DeleteRoleService, call: service_result_c) }
+      let(:service_instance_a) { instance_double(Shares::DeleteRoleService, call: service_result_a) }
+      let(:service_instance_c) { instance_double(Shares::DeleteRoleService, call: service_result_c) }
       let(:service_result_a) { ServiceResult.success }
       let(:service_result_c) { ServiceResult.success }
 
       before do
-        allow(WorkPackageMembers::DeleteRoleService)
+        allow(Shares::DeleteRoleService)
           .to receive(:new)
           .with(user:, model: member_a)
           .and_return(service_instance_a)
-        allow(WorkPackageMembers::DeleteRoleService)
+        allow(Shares::DeleteRoleService)
           .to receive(:new)
           .with(user:, model: member_c)
           .and_return(service_instance_c)
@@ -191,11 +191,11 @@ RSpec.describe Members::DeleteByPrincipalService, type: :model do
         service_call
 
         expect(service_instance_a).to have_received(:call).with(role_id: role.id.to_s)
-        expect(WorkPackageMembers::DeleteRoleService)
+        expect(Shares::DeleteRoleService)
           .not_to have_received(:new)
           .with(user:, model: member_b)
         expect(service_instance_c).to have_received(:call).with(role_id: role.id.to_s)
-        expect(WorkPackageMembers::DeleteRoleService)
+        expect(Shares::DeleteRoleService)
           .not_to have_received(:new)
           .with(user:, model: member_d)
       end

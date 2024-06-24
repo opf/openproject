@@ -26,39 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class WorkPackageMembers::CreateService < BaseServices::Create
-  private
-
-  def instance_class
-    Member
-  end
-
-  def after_perform(service_call)
-    return service_call unless service_call.success?
-
-    work_package_member = service_call.result
-
-    add_group_memberships(work_package_member)
-    send_notification(work_package_member)
-
-    service_call
-  end
-
-  def add_group_memberships(work_package_member)
-    return unless work_package_member.principal.is_a?(Group)
-
-    Groups::CreateInheritedRolesService
-      .new(work_package_member.principal,
-           current_user: user,
-           contract_class: EmptyContract)
-      .call(user_ids: work_package_member.principal.user_ids,
-            send_notifications: false,
-            project_ids: [work_package_member.project_id])
-  end
-
-  def send_notification(work_package_member)
-    OpenProject::Notifications.send(OpenProject::Events::WORK_PACKAGE_SHARED,
-                                    work_package_member:,
-                                    send_notifications: true)
+module Shares
+  module WorkPackages
+    class DeleteContract < Shares::DeleteContract
+      # DeleteContract has its own permission check and does not care about the role class,
+      # so we do not need to include the BaseExtension here.
+      delete_permission :share_work_packages
+    end
   end
 end

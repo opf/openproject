@@ -31,7 +31,7 @@
 require "spec_helper"
 require "services/base_services/behaves_like_update_service"
 
-RSpec.describe WorkPackageMembers::UpdateService do
+RSpec.describe Shares::UpdateService do
   let!(:groups_update_roles_service) do
     instance_double(Groups::UpdateRolesService).tap do |service_double|
       allow(Groups::UpdateRolesService)

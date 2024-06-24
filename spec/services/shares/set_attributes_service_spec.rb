@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
+RSpec.describe Shares::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:work_package) { build_stubbed(:work_package) }
   let(:member) do
@@ -38,15 +38,15 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
   let(:existing_member) { build_stubbed(:work_package_member) }
 
   let(:contract_class) do
-    allow(WorkPackageMembers::CreateContract)
+    allow(Shares::WorkPackages::CreateContract)
       .to receive(:new)
             .with(member, user, options: {})
             .and_return(contract_instance)
 
-    WorkPackageMembers::CreateContract
+    Shares::WorkPackages
   end
   let(:contract_instance) do
-    instance_double(WorkPackageMembers::CreateContract, validate: contract_valid, errors: contract_errors)
+    instance_double(Shares::WorkPackages::CreateContract, validate: contract_valid, errors: contract_errors)
   end
   let(:contract_valid) { true }
   let(:contract_errors) do

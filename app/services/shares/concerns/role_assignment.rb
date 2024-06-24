@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,29 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class WorkPackageMembers::CreateOrUpdateService
-  def initialize(user:, contract_class: nil, contract_options: {})
-    self.user = user
-    self.contract_class = contract_class
-    self.contract_options = contract_options
-  end
+module Shares::Concerns::RoleAssignment
+  include Members::Concerns::RoleAssignment
 
-  def call(entity:, user_id:, **)
-    actual_service(entity, user_id)
-      .call(entity:, user_id:, **)
-  end
-
-  private
-
-  attr_accessor :user, :contract_class, :contract_options
-
-  def actual_service(entity, user_id)
-    if (member = Member.find_by(entity:, principal: user_id))
-      WorkPackageMembers::UpdateService
-        .new(user:, model: member, contract_class:, contract_options:)
-    else
-      WorkPackageMembers::CreateService
-        .new(user:, contract_class:, contract_options:)
-    end
+  # Memberships via shares have a unique distinction from
+  # regular project memberships. A User should be able to be granted
+  # "Role X" independently and via a group. Meaning that for role assignment
+  # as compared to Project memberships, the existing roles we want to take
+  # into account are those that have not been inherited.
+  def existing_ids
+    model.member_roles
+         .select { _1.inherited_from.nil? }
+         .map(&:role_id)
   end
 end

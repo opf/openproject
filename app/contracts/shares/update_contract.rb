@@ -26,12 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class WorkPackageMembers::DeleteRoleService < WorkPackageMembers::DeleteService
-  def destroy(object)
-    if object.member_roles.where.not("inherited_from IS NULL AND role_id = ?", params[:role_id]).empty?
-      super
-    else
-      object.member_roles.where(inherited_from: nil, role_id: params[:role_id]).destroy_all
-    end
+module Shares
+  class UpdateContract < BaseContract
+    attribute :principal,
+              writable: false
+    attribute :entity_id,
+              writable: false
   end
 end

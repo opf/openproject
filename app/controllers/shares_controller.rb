@@ -54,12 +54,7 @@ class SharesController < ApplicationController
       if user.present? && user.locked?
         @errors.add(:base, I18n.t("work_package.sharing.warning_locked_user", user: user.name))
       else
-        service_call = WorkPackageMembers::CreateOrUpdateService
-                         .new(user: current_user)
-                         .call(entity: @entity,
-                               user_id: member_params[:user_id],
-                               role_ids: [params[:member][:role_id]])
-
+        service_call = create_or_update_share(member_params[:user_id], [params[:member][:role_id]])
         overall_result.push(service_call)
       end
     end
@@ -80,9 +75,7 @@ class SharesController < ApplicationController
   end
 
   def update
-    WorkPackageMembers::UpdateService
-      .new(user: current_user, model: @share)
-      .call(role_ids: params[:role_ids])
+    create_or_update_share(@share.principal.id, params[:role_ids])
 
     load_shares
 
@@ -96,9 +89,7 @@ class SharesController < ApplicationController
   end
 
   def destroy
-    WorkPackageMembers::DeleteService
-      .new(user: current_user, model: @share)
-      .call
+    destroy_share(@share)
 
     if current_visible_member_count.zero?
       respond_with_replace_modal
@@ -116,23 +107,13 @@ class SharesController < ApplicationController
   end
 
   def bulk_update
-    @selected_shares.each do |share|
-      WorkPackageMembers::CreateOrUpdateService
-        .new(user: current_user)
-        .call(entity: @entity,
-              user_id: share.principal.id,
-              role_ids: params[:role_ids]).result
-    end
+    @selected_shares.each { |share| create_or_update_share(share.principal.id, params[:role_ids]) }
 
     respond_with_bulk_updated_permission_buttons
   end
 
   def bulk_destroy
-    @selected_shares.each do |share|
-      WorkPackageMembers::DeleteService
-        .new(user: current_user, model: share)
-        .call
-    end
+    @selected_shares.each { |share| destroy_share(share) }
 
     if current_visible_member_count.zero?
       respond_with_replace_modal
@@ -147,6 +128,22 @@ class SharesController < ApplicationController
     return if EnterpriseToken.allows_to?(:work_package_sharing)
 
     render Shares::ModalUpsaleComponent.new
+  end
+
+  def destroy_share(share)
+    Shares::DeleteService
+    .new(user: current_user, model: share, contract_class: sharing_contract_scope::DeleteContract)
+    .call
+  end
+
+  def create_or_update_share(user_id, role_ids)
+    Shares::CreateOrUpdateService
+      .new(
+        user: current_user,
+        create_contract_class: sharing_contract_scope::CreateContract,
+        update_contract_class: sharing_contract_scope::UpdateContract
+      )
+      .call(entity: @entity, user_id:, role_ids:)
   end
 
   def respond_with_replace_modal
@@ -308,6 +305,12 @@ class SharesController < ApplicationController
       ]
     else
       []
+    end
+  end
+
+  def sharing_contract_scope
+    if @entity.is_a?(WorkPackage)
+      Shares::WorkPackages
     end
   end
 end
