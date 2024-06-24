@@ -186,4 +186,22 @@ RSpec.describe "Wysiwyg attribute macros", :js do
       end
     end
   end
+
+  describe "recursively referencing descriptions (Regression #55320)" do
+    let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+
+    before do
+      work_package.update_column(:description, "Hello from wp workPackageValue:##{milestone.id}:description")
+      milestone.update_column(:description, "Hello from milestone workPackageValue:##{work_package.id}:description")
+    end
+
+    it "does not runaway" do
+      wp_page.visit!
+
+      expect(page).to have_text("Hello from wp")
+      expect(page).to have_text("Hello from milestone")
+
+      expect(page).to have_text("This macro is recursively referencing workPackage ##{milestone.id}")
+    end
+  end
 end
