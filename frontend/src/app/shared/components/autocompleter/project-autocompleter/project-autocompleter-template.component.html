@@ -1,7 +1,9 @@
 <ng-template
   #labelTemplate
   let-item
+  let-clear="clear"
 >
+  <span class="ng-value-icon left" (click)="clear(item)">×</span>
   <span class="ng-value-label">{{ item.name }}</span>
 </ng-template>
 
