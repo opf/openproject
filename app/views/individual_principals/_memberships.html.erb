@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
   .order(Arel.sql('lft')) %>
 <% memberships = @individual_principal.memberships.where(id: Member.visible(current_user)) %>
 
-<div class="grid-block">
+<div class="grid-block grid-block_visible-overflow">
   <div class="grid-content">
   <% if memberships.any? %>
     <div class="generic-table--container">
