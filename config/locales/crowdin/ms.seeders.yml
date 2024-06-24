@@ -43,9 +43,9 @@ ms:
           name: Lain-lain
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: Pemerhati pertanyaan projek
         item_1:
-          name: Project query editor
+          name: Pengedit pertanyaan projek
       work_package_roles:
         item_0:
           name: Pengedit pakej kerja
