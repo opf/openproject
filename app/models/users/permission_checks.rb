@@ -106,14 +106,24 @@ module Users::PermissionChecks
     roles_for_project(project).any?(&:member?)
   end
 
+  # Returns all permissions the user may have for a given context.
+  # "May" because this method does not check e.g. whether the module
+  # the permission belongs to is active.
   def all_permissions_for(context)
-    Authorization
-      .roles(self, context)
-      .includes(:role_permissions)
-      .pluck(:permission)
-      .compact
-      .map(&:to_sym)
-      .uniq
+    if admin?
+      OpenProject::AccessControl
+        .permissions
+        .select { |p| p.permissible_on?(context) && p.grant_to_admin? }
+        .map(&:name)
+    else
+      Authorization
+        .roles(self, context)
+        .includes(:role_permissions)
+        .pluck(:permission)
+        .compact
+        .map(&:to_sym)
+        .uniq
+    end
   end
 
   # Helper method to be used in places where we just throw anything into the permission check and don't know what

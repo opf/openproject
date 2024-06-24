@@ -33,15 +33,10 @@ RSpec.describe NewsController do
 
   include BecomeMember
 
-  let(:user) do
-    create(:admin)
-  end
-  let(:project) { create(:project) }
   let(:news) { create(:news) }
 
-  before do
-    allow(User).to receive(:current).and_return user
-  end
+  shared_let(:project) { create(:project) }
+  shared_current_user { create(:admin) }
 
   describe "#index" do
     it "renders index" do
@@ -101,7 +96,7 @@ RSpec.describe NewsController do
   describe "#create" do
     context "with news_added notifications" do
       it "persists a news item" do
-        become_member(project, user)
+        become_member(project, current_user)
 
         post :create,
              params: {
@@ -117,7 +112,7 @@ RSpec.describe NewsController do
         news = News.find_by!(title: "NewsControllerTest")
         expect(news).not_to be_nil
         expect(news.description).to eq "This is the description"
-        expect(news.author).to eq user
+        expect(news.author).to eq current_user
         expect(news.project).to eq project
       end
     end

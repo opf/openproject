@@ -30,6 +30,8 @@ require "spec_helper"
 
 RSpec.describe ActivitiesController do
   shared_let(:admin) { create(:admin) }
+  shared_let(:project) { create(:project) }
+
   current_user { admin }
 
   before do

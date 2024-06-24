@@ -33,6 +33,7 @@ RSpec.describe "Rate limiting APIv3",
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
+  shared_let(:project) { create(:project) }
   current_user { create(:admin) }
 
   context "when enabled", with_config: { rate_limiting: { api_v3: true } } do

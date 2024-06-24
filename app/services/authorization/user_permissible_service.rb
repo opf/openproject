@@ -9,7 +9,6 @@ module Authorization
     def allowed_globally?(permission)
       perms = contextual_permissions(permission, :global)
       return false unless authorizable_user?
-      return true if admin_and_all_granted_to_admin?(perms)
 
       cached_permissions(nil).intersect?(perms.map(&:name))
     end
@@ -19,9 +18,7 @@ module Authorization
       return false if projects_to_check.blank?
       return false unless authorizable_user?
 
-      projects = Array(projects_to_check)
-
-      projects.all? do |project|
+      Array(projects_to_check).all? do |project|
         allowed_in_single_project?(perms, project)
       end
     end
@@ -29,7 +26,6 @@ module Authorization
     def allowed_in_any_project?(permission)
       perms = contextual_permissions(permission, :project)
       return false unless authorizable_user?
-      return true if admin_and_all_granted_to_admin?(perms)
 
       cached_in_any_project?(perms)
     end
@@ -51,7 +47,6 @@ module Authorization
       perms = contextual_permissions(permission, context_name(entity_class))
       return false unless authorizable_user?
       return false if in_project && !(in_project.active? || in_project.being_archived?)
-      return true if admin_and_all_granted_to_admin?(perms)
 
       if entity_is_project_scoped?(entity_class)
         allowed_in_any_project_scoped_entity?(perms, entity_class, in_project:)
@@ -85,7 +80,6 @@ module Authorization
       permissions_filtered_for_project = permissions_by_enabled_project_modules(project, permissions)
 
       return false if permissions_filtered_for_project.empty?
-      return true if admin_and_all_granted_to_admin?(permissions)
 
       cached_permissions(project).intersect?(permissions_filtered_for_project)
     end
@@ -106,7 +100,6 @@ module Authorization
       permissions_filtered_for_project = permissions_by_enabled_project_modules(entity.project, permissions)
 
       return false if permissions_filtered_for_project.empty?
-      return true if admin_and_all_granted_to_admin?(permissions)
 
       # The combination of this is better then doing
       # EntityClass.allowed_to(user, permission).exists?.
