@@ -32,7 +32,10 @@
 require "spec_helper"
 
 RSpec.describe "Projects global menu item", :js, :with_cuprite do
-  current_user { create(:user) }
+  shared_let(:user) { create(:user) }
+  shared_let(:admin) { create(:admin) }
+
+  current_user { user }
 
   before do
     visit root_path
@@ -64,7 +67,7 @@ RSpec.describe "Projects global menu item", :js, :with_cuprite do
     end
 
     context "with an admin user" do
-      current_user { create(:admin) }
+      current_user { admin }
 
       it "renders the archived filter as well" do
         within "#main-menu" do

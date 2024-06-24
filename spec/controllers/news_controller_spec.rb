@@ -36,7 +36,7 @@ RSpec.describe NewsController do
   let(:news) { create(:news) }
 
   shared_let(:project) { create(:project) }
-  current_user { create(:admin) }
+  shared_current_user { create(:admin) }
 
   describe "#index" do
     it "renders index" do
