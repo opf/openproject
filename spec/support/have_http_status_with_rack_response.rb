@@ -32,10 +32,9 @@ module HaveHttpStatusWithRackResponse
       # `have_http_status` matcher would fail if the response object is a
       # `Rack::MockResponse`. Hack to disguise `Rack::MockResponse` into a
       # `ActionDispatch::TestResponse` object.
-      obj = ActionDispatch::Response.new(obj.status, obj.headers, obj.body).tap do |resp|
-        resp.request = ActionDispatch::Request.new({})
-      end
-      ::ActionDispatch::TestResponse.from_response(obj)
+      response = ActionDispatch::Response.new(obj.status, obj.headers, obj.body)
+      response.request = ActionDispatch::Request.new({})
+      ::ActionDispatch::TestResponse.from_response(response)
     else
       super
     end
