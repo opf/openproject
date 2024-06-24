@@ -216,9 +216,8 @@ RAILS_ENV=development bin/rails db:seed
 You can run all required workers of OpenProject through `overmind`, which combines them in a single tab. Optionally, you
 may also
 run `overmind` as a daemon and connect to services individually.
-The `bin/dev` command will first check if `overmind` is available and run the application if via `Procfile.dev` if
-possible. If not,
-it falls back to `foreman`, installing it if needed.
+The `bin/dev` command will first check if `overmind` is available and run the application via `Procfile.dev`. Otherwise
+it will use `foreman` if it is available.
 
 ```shell
 bin/dev
