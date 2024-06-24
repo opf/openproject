@@ -40,7 +40,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
     Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
-  subject { described_class.new(storage) }
+  subject(:query) { described_class.new(storage) }
 
   describe "#call" do
     it "responds with correct parameters" do
@@ -53,7 +53,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
     context "without outbound request involved" do
       context "with an empty array of file ids" do
         it "returns an empty array" do
-          result = subject.call(auth_strategy:, file_ids: [])
+          result = query.call(auth_strategy:, file_ids: [])
 
           expect(result).to be_success
           expect(result.result).to eq([])
@@ -62,7 +62,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
 
       context "with nil" do
         it "returns an error" do
-          result = subject.call(auth_strategy:, file_ids: nil)
+          result = query.call(auth_strategy:, file_ids: nil)
 
           expect(result).to be_failure
           expect(result.result).to eq(:error)
@@ -82,7 +82,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
 
         # rubocop:disable RSpec/ExampleLength
         it "must return an array of file information when called" do
-          result = subject.call(auth_strategy:, file_ids:)
+          result = query.call(auth_strategy:, file_ids:)
           expect(result).to be_success
 
           result.match(
@@ -106,7 +106,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                            permissions: nil,
                            trashed: false,
-                           location: "/Folder with spaces"
+                           location: "/Folder%20with%20spaces"
                          },
                          {
                            status: "ok",
@@ -156,7 +156,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
         let(:file_ids) { %w[01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU not_existent] }
 
         it "must return an array of file information when called" do
-          result = subject.call(auth_strategy:, file_ids:)
+          result = query.call(auth_strategy:, file_ids:)
           expect(result).to be_success
 
           result.match(

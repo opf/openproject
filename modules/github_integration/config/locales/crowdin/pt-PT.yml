@@ -20,8 +20,21 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 pt-PT:
+  button_add_deploy_target: Adicione um destino de implementação
+  label_deploy_target: Destino de implementação
+  label_deploy_target_new: Novo destino de implementação
+  label_deploy_target_plural: Destinos de implementação
+  label_github_integration: Integração GitHub
+  notice_deploy_target_created: Destino de implementação criado
+  notice_deploy_target_destroyed: Destino de implementação eliminado
   plugin_openproject_github_integration:
     name: "Integração do OpenProject GitHub"
     description: "Integra o OpenProject e o GitHub para um melhor fluxo de trabalho"
   project_module_github: "GitHub"
   permission_show_github_content: "Mostrar conteúdo GitHub"
+  permission_introspection: Leia a versão do núcleo do OpenProject em execução e construa o SHA
+  text_deploy_target_type_info: >
+    Até ao momento, apenas suportamos o próprio OpenProject.
+  text_deploy_target_api_key_info: >
+    Um OpenProject [chave API](docs_url) pertencente a um utilizador que tem a permissão de introspeção global.
+  text_pull_request_deployed_to: "%{pr_link} implementado em %{deploy_target_link}"

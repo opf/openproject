@@ -32,48 +32,57 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::ObjectLinking
 
-  def render(_key, values, options = { html: true })
-    cause = values.last
+  attr_reader :cause
 
-    if options[:html]
-      "#{content_tag(:strong, cause_type_translation(cause['type']))} #{cause_description(cause, true)}"
-    else
-      "#{cause_type_translation(cause['type'])} #{cause_description(cause, false)}"
-    end
+  def render(_key, values, options = { html: true })
+    @cause = values.last
+    @html = options[:html]
+
+    "#{caused_change} #{cause_description}"
   end
 
   private
 
-  def cause_type_translation(type)
-    mapped_type = mapped_cause_type(type)
-    I18n.t("journals.caused_changes.#{mapped_type}", default: mapped_type)
+  def html?
+    @html
   end
 
-  def mapped_cause_type(type)
-    case type
+  def caused_change
+    caused_change_text = I18n.t("journals.caused_changes.#{mapped_cause_type}",
+                                default: mapped_cause_type,
+                                status_name: cause["status_name"])
+    if html?
+      content_tag(:strong, caused_change_text)
+    else
+      caused_change_text
+    end
+  end
+
+  def mapped_cause_type
+    case cause["type"]
     when /changed_times/, "working_days_changed"
       "dates_changed"
     else
-      type
+      cause["type"]
     end
   end
 
-  def cause_description(cause, html)
+  def cause_description
     case cause["type"]
     when "system_update"
-      system_update_message(cause, html)
+      system_update_message
     when "working_days_changed"
       working_days_changed_message(cause["changed_days"])
-    when "status_p_complete_changed"
-      status_p_complete_changed_message(cause, html)
+    when "status_changed"
+      status_changed_message
     when "progress_mode_changed_to_status_based"
       progress_mode_changed_to_status_based_message
     else
-      related_work_package_changed_message(cause, html)
+      related_work_package_changed_message
     end
   end
 
-  def system_update_message(cause, html)
+  def system_update_message
     feature = cause["feature"]
     feature = "progress_calculation_adjusted" if feature == "progress_calculation_changed"
 
@@ -82,11 +91,13 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       when "progress_calculation_adjusted_from_disabled_mode",
            "progress_calculation_adjusted"
         { href: OpenProject::Static::Links.links[:blog_article_progress_changes][:href] }
+      when "totals_removed_from_childless_work_packages"
+        { href: OpenProject::Static::Links.links[:release_notes_14_0_1][:href] }
       else
         {}
       end
     message = I18n.t("journals.cause_descriptions.system_update.#{feature}", **options)
-    html ? message : Sanitize.fragment(message)
+    html? ? message : Sanitize.fragment(message)
   end
 
   def working_days_changed_message(changed_dates)
@@ -110,24 +121,35 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
            date: I18n.l(Date.parse(date)))
   end
 
-  def status_p_complete_changed_message(cause, html)
-    cause.symbolize_keys => { status_name:, status_p_complete_change: [old_value, new_value]}
-    status_name = html_escape(status_name) if html
+  def status_changed_message
+    cause["status_changes"]
+      .sort
+      .map { |change| status_change_partial_message(change) }
+      .to_sentence
+  end
 
-    I18n.t("journals.cause_descriptions.status_p_complete_changed", status_name:, old_value:, new_value:)
+  def status_change_partial_message(change)
+    case change
+    in ["default_done_ratio", [old_value, new_value]]
+      I18n.t("journals.cause_descriptions.status_percent_complete_changed", old_value:, new_value:)
+    in ["excluded_from_totals", [true, false]]
+      I18n.t("journals.cause_descriptions.status_excluded_from_totals_set_to_false_message")
+    in ["excluded_from_totals", [false, true]]
+      I18n.t("journals.cause_descriptions.status_excluded_from_totals_set_to_true_message")
+    end
   end
 
   def progress_mode_changed_to_status_based_message
     I18n.t("journals.cause_descriptions.progress_mode_changed_to_status_based")
   end
 
-  def related_work_package_changed_message(cause, html)
+  def related_work_package_changed_message
     related_work_package = WorkPackage.includes(:project).visible(User.current).find_by(id: cause["work_package_id"])
 
     if related_work_package
       I18n.t(
         "journals.cause_descriptions.#{cause['type']}",
-        link: html ? link_to_work_package(related_work_package, all_link: true) : "##{related_work_package.id}"
+        link: html? ? link_to_work_package(related_work_package, all_link: true) : "##{related_work_package.id}"
       )
 
     else

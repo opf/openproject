@@ -28,11 +28,8 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_meeting_plural) %>
 
-<%= toolbar title: t(:label_meeting_plural) do %>
-  <%= render Meetings::AddButtonComponent.new(current_project: @project) %>
-<% end %>
-
-<%= render(Meetings::MeetingFiltersComponent.new(query: @query, project: @project, output_format: 'json')) %>
+<%= render(Meetings::IndexPageHeaderComponent.new(project: @project)) %>
+<%= render(Meetings::IndexSubHeaderComponent.new(query: @query, project: @project)) %>
 
 <% if @meetings.empty? -%>
   <%= no_results_box %>

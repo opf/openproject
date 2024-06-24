@@ -191,7 +191,7 @@ id:
     plural: "Tindakan khusus"
     new: "Tindakan kustom baru"
     edit: "Edit tindakan kustom %{name}"
-    execute: "Jalankan %{nama}"
+    execute: "Jalankan %{name}"
     upsale:
       title: "Tindakan khusus"
       description: "Tindakan kustom adalah pintasan sekali klik ke serangkaian tindakan yang ditentukan sebelumnya yang dapat Anda sediakan pada paket kerja tertentu berdasarkan status, peran, jenis, atau proyek."
@@ -257,8 +257,10 @@ id:
       no_results_content_text: Buat proyek baru
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Project saya"
+      favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -279,15 +281,24 @@ id:
         no_results_title_text: There are currently no custom fields available.
       project_custom_fields:
         header:
-          title: "Project attributes"
+          title: "Atribut proyek"
           description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
         filter:
           label: "Search project attribute"
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -298,7 +309,20 @@ id:
       storage:
         no_results_title_text: Tidak ada ruang disk terekam tambahan yang digunakan oleh proyek ini.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -310,12 +334,12 @@ id:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Semua"
       invited: "Invited"
       locked: "Locked"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Grup"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -386,7 +410,7 @@ id:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "Teks"
   placeholder_users:
     right_to_manage_members_missing: >
       Anda tidak diizinkan untuk menghapus pengguna placeholder. Anda tidak memiliki hak untuk mengelola anggota untuk semua proyek yang menjadi anggota pengguna placeholder.
@@ -417,12 +441,20 @@ id:
         Tidak ada atribut yang dapat diubah kecuali status.
         <br/>
         <strong>Catatan</strong>: Nilai yang diwariskan (mis., dari anak atau relasi) akan tetap berlaku.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Klik untuk ditugaskan atau mengubah warna status ini.
         Itu ditampilkan di tombol status dan dapat digunakan untuk menyorot paket kerja di tabel.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
@@ -470,7 +502,7 @@ id:
       no_common_statuses_exists: "Tidak ada status yang tersedia untuk semua paket pekerjaan yang dipilih. Status mereka tidak dapat diubah."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -582,7 +614,7 @@ id:
         column_count: "Jumlah kolom"
         widgets: "Widget"
       oauth_client:
-        client: "Client ID"
+        client: "ID Pelanggan"
       relation:
         lag: "Lag"
         from: "Paket-Penugasan"
@@ -590,6 +622,7 @@ id:
       status:
         is_closed: "Paket-Penugasan telah berakhir"
         is_readonly: "Hanya baca paket kerja"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Note"
       member:
@@ -607,7 +640,7 @@ id:
           false: "pribadi"
         queries: "Query"
         status_code: "Project status"
-        description: "Description"
+        description: "Deskripsi"
         status_explanation: "Deskripsi status proyek"
         status_codes:
           not_started: "Belum mulai"
@@ -702,8 +735,8 @@ id:
         priority: "Prioritas"
         progress: "% Complete"
         readonly: "Baca saja"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
+        remaining_hours: "Pekerjaan yang tersisa"
+        remaining_time: "Pekerjaan yang tersisa"
         shared_with_users: "Shared with"
         schedule_manually: "Penjadwalan manual"
         spent_hours: "Durasi"
@@ -730,6 +763,7 @@ id:
         before_or_equal_to: "harus sebelum atau maksimal %{date}."
         blank: "harus di isi."
         blank_nested: "harus menyetel properti '%{property}'."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Work package tidak dapat dihubungkan dengan subtask-nya."
         circular_dependency: "Relasi ini menyebabkan dependensi circular."
         confirmation: "tidak sesuai dengan %{attribute}."
@@ -768,6 +802,7 @@ id:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "harus berasal dari proyek yang sama."
         odd: "harus ganjil."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "tidak dapat divalidasi dengan ekspresi reguler terkait."
         smaller_than_or_equal_to_max_length: "harus lebih kecil atau sama dengan panjang maksimum."
         taken: "sudah dipakai."
@@ -807,7 +842,7 @@ id:
           empty: "Nilai (%{name}) tidak boleh kosong."
           inclusion: "nilai (%{name}) tidak disetel ke salah satu nilai yang diperbolehkan."
           not_logged_in: "Nilai (%{name}) tidak dapat disetel karena Anda belum masuk."
-          not_an_integer: "(%{nama}) bukan bilangan bulat."
+          not_an_integer: "(%{name}) bukan bilangan bulat."
           smaller_than_or_equal_to: "(%{name}) harus lebih kecil dari atau sama dengan %{count}."
           greater_than_or_equal_to: "(%{name}) harus lebih besar dari atau sama dengan %{count}."
           format: "%{message}"
@@ -889,6 +924,8 @@ id:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "saling ekslusif bersama kelompok dengan '%{group_by}'. Anda tidak dapat mengaktifkan keduanya."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
@@ -922,6 +959,9 @@ id:
             base:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -979,11 +1019,13 @@ id:
               only_same_project_categories_allowed: "Kategori yang dipilih harus diambil dari kategori yang berlaku pada proyek."
               does_not_exist: "Kategori yang dipilih tidak ada."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1020,7 +1062,7 @@ id:
             ldap_auth_source:
               error_not_found: "tidak ditemukan"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "tidak ditemukan"
         member:
           principal_blank: "Silakan pilih setidaknya satu user atau grup."
           role_blank: "need to be assigned."
@@ -1098,18 +1140,6 @@ id:
           other: "Satu\n <i>%{count} jam</i>\n\n Lainnya\n <i>%{count} jam</i>"
         updated: "diubah dari %{old_value} menjadi %{value}"
         logged_for: "Masuk untuk"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordered"
-        work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Set perubahan"
       message: "Forum"
@@ -1207,7 +1237,7 @@ id:
       token_cooldown: Token cadangan akan valid dalam %{hours} jam.
       backup_pending: Sudah ada cadangan yang tertunda.
       limit_reached: Anda hanya dapat melakukan %{limit} pencadangan per hari.
-  button_actions: "Actions"
+  button_actions: "Tindakan"
   button_add: "Tambah"
   button_add_comment: "Tambah komentar"
   button_add_member: Add member
@@ -1241,6 +1271,7 @@ id:
   button_edit: "Edit"
   button_edit_associated_wikipage: "Edit Wiki terkait: %{page_title}"
   button_expand_all: "Buka semua"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generate"
   button_list: "List"
@@ -1258,7 +1289,7 @@ id:
   button_reset: "Reset"
   button_rollback: "Kembali ke versi ini"
   button_save: "Simpan"
-  button_save_as: "Save as"
+  button_save_as: "Simpan sebagai"
   button_apply_changes: "Menerapkan perubahan"
   button_save_back: "Save and back"
   button_show: "Tampilkan"
@@ -1268,6 +1299,7 @@ id:
   button_unarchive: "Batalkan arsip"
   button_uncheck_all: "Uncek semua"
   button_unlock: "Unlock"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Unwatch"
   button_update: "Update"
   button_upgrade: "Tingkatkan"
@@ -1286,6 +1318,8 @@ id:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Saya telah memperhatikan dan menyetujui hal di atas.
     failure_message: Persetujuan gagal, tidak bisa dilanjutkan.
@@ -1535,8 +1569,15 @@ id:
       pdf_overview_table: "Tabel PDF"
       pdf_report_with_images: "Laporan PDF dengan gambar"
       pdf_report: "Laporan PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Gambar tidak diekspor."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: j
       days: h
@@ -1576,7 +1617,7 @@ id:
       postgres_migration: "Migrasi instalasi anda ke PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
-      impressum: "Legal notice"
+      impressum: "Pernyataan hukum"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1590,7 +1631,7 @@ id:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1607,8 +1648,9 @@ id:
           working: "%{date} sekarang berkerja"
           non_working: "%{date} sekarang tidak berkerja"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1616,6 +1658,8 @@ id:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Petunjuk Konfigurasi"
     get_in_touch: "Anda punya pertanyaan? Hubungi kami."
@@ -1680,17 +1724,6 @@ id:
         mentioned: "Anda telah disebutkan di %{work_package}"
         responsible: "Anda telah bertanggung jawab atas %{work_package}"
         watched: "Anda sedang menonton %{work_package}"
-    update_info_mail:
-      body: >
-        Kami sangat senang mengumumkan rilis OpenProject 12.0. Ini adalah rilis utama yang diharapkan akan secara signifikan meningkatkan cara Anda menggunakan OpenProject.
-        Dimulai dengan rilis ini, kami memperkenalkan notifikasi dalam aplikasi.  Mulai sekarang, Anda akan menerima pemberitahuan untuk pembaruan paket kerja langsung di OpenProject. Anda dapat menandai notifikasi ini sebagai telah dibaca, membalas komentar, atau bahkan langsung mengubah atribut paket kerja tanpa meninggalkan pusat notifikasi.
-        Ini juga berarti bahwa kami tidak akan lagi menggunakan email untuk pemberitahuan. Menurut kami, pusat notifikasi baru adalah tempat yang lebih baik untuk melihat dan menindaklanjuti pembaruan ini. Namun demikian, jika Anda ingin terus menerima pembaruan melalui email, Anda dapat memilih untuk menerima pengingat email setiap hari pada waktu tertentu yang Anda pilih.
-        Pastikan untuk memverifikasi pengaturan notifikasi default baru Anda, dan atur preferensi Anda untuk notifikasi dan pengingat email melalui pengaturan akun Anda. Anda dapat melakukannya melalui tombol "Ubah setelan email" di bawah.
-        Kami harap notifikasi dalam aplikasi bermanfaat dan membuat Anda semakin produktif.
-        Hormat kami, Tim OpenProject
-      body_header: "Versi 12.0 dengan Notification Center"
-      body_subheader: "News"
-      subject: "Perubahan penting pada notifikasi dengan rilis 12.0"
   label_accessibility: "Kemampuan akses"
   label_account: "Akun"
   label_active: "Aktif"
@@ -1733,7 +1766,7 @@ id:
   label_ascending: "Askending"
   label_assigned_to_me_work_packages: "Paket-Penugasan yang saya kerjakan"
   label_associated_revisions: "Revisi terkait"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Lampiran"
   label_attribute: "Atribut"
   label_attribute_plural: "Atribut"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1742,6 +1775,7 @@ id:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Otentikasi"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Forums tersedia"
   label_available_project_repositories: "Available repositories"
   label_available_project_versions: "Available versions"
@@ -1750,7 +1784,7 @@ id:
   label_available_projects: "Available projects"
   label_api_doc: "API documentation"
   label_backup: "Cadangan"
-  label_backup_code: "Backup code"
+  label_backup_code: "Kode cadangan"
   label_between: "antara"
   label_blocked_by: "diblokir oleh"
   label_blocks: "blok"
@@ -1760,7 +1794,7 @@ id:
   label_forum_plural: "Forum"
   label_forum_sticky: "Sticky"
   label_boolean: "Boolean"
-  label_board_plural: "Boards"
+  label_board_plural: "Papan"
   label_branch: "Branch"
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Edit masal Paket-Penugasan yang dipilih"
@@ -1819,7 +1853,7 @@ id:
   label_custom_field_plural: "Isian kustom"
   label_custom_field_default_type: "Tipe kosong"
   label_custom_style: "Rancangan"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Dasbor"
   label_database_version: "Versi PostgreSQL"
   label_date: "Tanggal"
   label_date_and_time: "Tanggal dan waktu"
@@ -1871,7 +1905,7 @@ id:
   label_enterprise_support: "Dukungan perusahaan"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Environment"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "adalah"
   label_everywhere: "di mana pun"
   label_example: "Contoh"
@@ -1885,15 +1919,15 @@ id:
   label_expanded_click_to_collapse: "Diperluas. Klik untuk menciutkan"
   label_f_hour: "%{value} jam"
   label_f_hour_plural: "%{value} jam"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feed"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key dibuat %{value} yang lalu"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
-  label_filter: "Filters"
-  label_filter_plural: "Filter"
+  label_filter: "Filter"
+  label_filter_plural: "Penyaring"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
   label_folder: "Folder"
@@ -1919,7 +1953,7 @@ id:
   label_home: "Home"
   label_subject_or_id: "Subyek atau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Pengenal"
   label_in: "dalam"
   label_in_less_than: "kurang dari"
   label_in_more_than: "lebih dari"
@@ -1955,9 +1989,10 @@ id:
   label_latest_revision: "Revisi terbaru"
   label_latest_revision_plural: "Revisi terbaru"
   label_ldap_authentication: "Otentikasi LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "Pelajari lebih lanjut"
   label_less_or_equal: "<="
   label_less_than_ago: "kemarin lusa"
+  label_link_url: "Link (URL)"
   label_list: "List"
   label_loading: "Loading..."
   label_lock_user: "Mengunci pengguna"
@@ -1983,6 +2018,7 @@ id:
   label_membership_plural: "Memberships"
   lable_membership_added: "Anggota ditambahkan"
   lable_membership_updated: "Anggota diperbarui"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pra-alfa"
     alpha: "alfa"
@@ -2084,6 +2120,7 @@ id:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Atribut proyek"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Jumlah proyek"
   label_project_copy_notifications: "Kirim email notifikasi selama meng-copy Project"
   label_project_latest: "Project terbaru"
@@ -2092,13 +2129,13 @@ id:
   label_project_new: "Project baru"
   label_project_plural: "Project"
   label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_attributes_plural: "Atribut proyek"
+  label_project_custom_field_plural: "Atribut proyek"
   label_project_settings: "Projek setting"
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} proyek menggunakan %{storage} dari storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Lihat semua Project"
   label_project_show_details: "Tampilkan detail proyek"
   label_project_hide_details: "Sembunyikan detail proyek"
@@ -2118,7 +2155,7 @@ id:
   label_relation_delete: "Hapus keterkaitan"
   label_relation_new: "Keterkaitan baru"
   label_release_notes: "Release notes"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Pekerjaan yang tersisa"
   label_remove_columns: "Hapus kolom terpilih"
   label_renamed: "telah diganti nama"
   label_reply_plural: "Balasan"
@@ -2151,10 +2188,11 @@ id:
   label_search: "Cari"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Kirim test email"
-  label_session: "Session"
+  label_session: "Sesi"
   label_setting_plural: "Pengaturan"
   label_system_settings: "System settings"
   label_show_completed_versions: "Tampilkan versi lengkap"
+  label_columns: "Kolom"
   label_sort: "Urutkan"
   label_sort_by: "Urutkan %{value}"
   label_sorted_by: "diurutkan berdasarkan %{value}"
@@ -2269,7 +2307,7 @@ id:
   label_workflow: "Workflow"
   label_workflow_plural: "Alur kerja"
   label_workflow_summary: "Ringkasan"
-  label_working_days: "Hari kerja"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
     other: "%{count} tertutup"
@@ -2371,7 +2409,7 @@ id:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Penyimpanan"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -2649,6 +2687,7 @@ id:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "Hapus nilai"
   project:
@@ -2695,7 +2734,7 @@ id:
     member_of_group: "Ditugaskan untuk Grup"
     name_or_identifier: "Nama atau pengenal"
     only_subproject_id: "Hanya subproyek"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Termasuk subproyek"
   repositories:
@@ -2838,6 +2877,7 @@ id:
   setting_app_subtitle: "Subjudul aplikasi"
   setting_app_title: "Judul aplikasi"
   setting_attachment_max_size: "Ukuran lampiran maks."
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Ambil perubahan repository secara otomatis"
@@ -2876,6 +2916,9 @@ id:
   setting_feeds_limit: "Batasan konten feed"
   setting_file_max_size_displayed: "Ukuran maks. file teks yang ditampilkan inline"
   setting_host_name: "Nama host"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -2939,6 +2982,8 @@ id:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -2987,7 +3032,7 @@ id:
     other: "Lainnya"
     passwords: "Password"
     project_attributes:
-      heading: "Project attributes"
+      heading: "Atribut proyek"
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
       label_edit_section: "Edit title"
@@ -3172,9 +3217,13 @@ id:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Tambah kolom"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"
@@ -3288,7 +3337,7 @@ id:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Tidak dishare"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3310,12 +3359,12 @@ id:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Hari yang tidak dipilih akan dilewati saat menjadwalkan paket pekerjaan (dan tidak termasuk dalam hitungan hari). Ini dapat diganti pada tingkat paket kerja.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Tanggal yang ditambahkan ke daftar di bawah ini dianggap tidak berfungsi dan dilewati saat menjadwalkan paket pekerjaan.
     change_button: "Ubah hari kerja"
     warning: >
-      Mengubah hari mana dalam seminggu yang dianggap sebagai hari kerja atau bukan hari kerja dapat memengaruhi hari mulai dan selesai dari semua paket pekerjaan di semua proyek dalam contoh ini. <br/> Harap perhatikan bahwa perubahan hanya diterapkan setelah Anda mengeklik tombol terapkan perubahan.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Hari kerja** berubah (%{changes})._
       days:
@@ -3520,7 +3569,7 @@ id:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

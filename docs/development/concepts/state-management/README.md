@@ -9,8 +9,6 @@ keywords: state management, stores, input states
 
 State management in complex frontend applications is a topic that has been heavily evolving over the past years. Redux and stores, one-way data flow are all the rage nowadays. OpenProject is an old application, so its frontend exists way before these concepts were introduced and became popular.
 
-
-
 ## Key takeaways
 
 *State management in OpenProject frontend...*
@@ -18,8 +16,6 @@ State management in complex frontend applications is a topic that has been heavi
 - is mainly controlled by `RxJs` and the [reactivestates](https://github.com/ReactiveStates/reactivestates) library
 - `State` and `InputState` are mostly syntactic sugar over RxJS `Subject` and `BehaviorSubject`
 - States are used to hold and cache values with their values and non-values being observable
-
-
 
 ## InputState
 
@@ -36,8 +32,6 @@ console.log(state.hasValue()); // false
 console.log(state.value); // undefined
 ```
 
-
-
 An InputState will hold exactly one value, that you can fill explicitly:
 
 ```typescript
@@ -48,15 +42,11 @@ console.log(state.hasValue()); // true
 console.log(state.value); // 'my value'
 ```
 
-
-
 You can find out if a value is older than a specific amount of ms:
 
 ```typescript
 state.isValueOlderThan(60000); // Value is older than 60 seconds?
 ```
-
-
 
 The value can be explicitly cleared with `state.clear()`.
 
@@ -66,15 +56,11 @@ You can also fill the InputState with the result of a promise request. With `put
 state.putFromPromiseIfPristine(() => Promise.resolve('my new value'));
 ```
 
-
-
 To find out if there is an active promise request, use `state.hasActivePromiseRequest()`. You can also explicitly clear and put from promise in one step:
 
 ```typescript
 state.clearAndPutFromPromise(Promise.resolve('overridden value'));
 ```
-
-
 
 You can get an RxJS `Observable` to the value stream with `state.values$()`:
 
@@ -92,13 +78,9 @@ state
   .subscribe(val => console.log("Observed " + (val ? "String value" : "Undefined"));
 ```
 
-
-
 ## MultiInputState
 
 The `MultiInputState` is basically a map with a string key and an `InputState` as its value. It is used for most of the cache stores in OpenProject.
-
-
 
 To create a `MultiInputState`, use the helper method `multiInput<Type>()` . To get an `InputState` member of this map, use the following:
 
@@ -131,10 +113,6 @@ multi
 // CHANGE for my identifier: new
 ```
 
-
-
-
-
 ## StatesGroup
 
 The `StatesGroup` aggregates multiple States or MultiInputStates into one class. The only benefit to this is debugging capabilities of the reactivestates library. You can call the following method in development mode to see all changes to states in a StateGroup logged to console:
@@ -145,18 +123,15 @@ window.enableReactiveStatesLogging();
 
 This might then look like the following, with green color for added objects, and red color for removed values:
 
-```
+```text
 [RS] Changesets.changesets[/api/v3/projects/1] {o=4} "[object Object]"
 ```
-
-
 
 ## 🔗 Code references
 
 - [`StatesService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/core/states/states.service.ts) Global `States` cache of MultiInputStates
 - [`IsolatedQuerySpace`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/directives/query-space/isolated-query-space.ts) Query space `StatesGroup`. Is instantiated multiple times whenever a work package query is loaded. See [the separate concept guide](../queries) for more information.
 - [ReactiveStates](https://github.com/ReactiveStates/reactivestates)  library we use for the StatesGroup. This was developed by Roman primarily for us during AngularJS times.
-
 
 ## Discussions
 

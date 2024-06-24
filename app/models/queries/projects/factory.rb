@@ -29,17 +29,18 @@
 class Queries::Projects::Factory
   STATIC_ACTIVE = "active".freeze
   STATIC_MY = "my".freeze
+  STATIC_FAVORED = "favored".freeze
   STATIC_ARCHIVED = "archived".freeze
   STATIC_ON_TRACK = "on_track".freeze
   STATIC_OFF_TRACK = "off_track".freeze
   STATIC_AT_RISK = "at_risk".freeze
 
-  class << self
-    def find(id, params:, user:)
-      query = find_and_update_static_query(id, params, user) || find_and_update_persisted_query(id, params, user)
-      query&.valid_subset!
+  DEFAULT_STATIC = STATIC_ACTIVE
 
-      query
+  class << self
+    def find(id, params:, user:, duplicate: false)
+      find_static_query_and_set_attributes(id, params, user, duplicate:) ||
+      find_persisted_query_and_set_attributes(id, params, user, duplicate:)
     end
 
     def static_query(id)
@@ -48,6 +49,8 @@ class Queries::Projects::Factory
         static_query_active
       when STATIC_MY
         static_query_my
+      when STATIC_FAVORED
+        static_query_favored
       when STATIC_ARCHIVED
         static_query_archived
       when STATIC_ON_TRACK
@@ -68,6 +71,12 @@ class Queries::Projects::Factory
     def static_query_my
       list_with(:"projects.lists.my") do |query|
         query.where("member_of", "=", OpenProject::Database::DB_VALUE_TRUE)
+      end
+    end
+
+    def static_query_favored
+      list_with(:"projects.lists.favored") do |query|
+        query.where("favored", "=", OpenProject::Database::DB_VALUE_TRUE)
       end
     end
 
@@ -100,43 +109,51 @@ class Queries::Projects::Factory
     def list_with(name)
       Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
         query.order("lft" => "asc")
-        query.select(*(["name"] + Setting.enabled_projects_columns).uniq, add_not_existing: false)
+        query.select(*Setting.enabled_projects_columns, add_not_existing: false)
 
         yield query
+
+        # This method is used to create static queries, so assume clean state after building
+        query.clear_changes_information
       end
     end
 
-    def find_and_update_static_query(id, params, user)
+    def find_static_query_and_set_attributes(id, params, user, duplicate:)
       query = static_query(id)
 
       return unless query
 
+      query = duplicate_query(query) if duplicate || params.any?
+
       if params.any?
-        new_query(query, params, user)
+        set_query_attributes(query, params, user)
       else
         query
       end
     end
 
-    def find_and_update_persisted_query(id, params, user)
-      query = Queries::Projects::ProjectQuery.where(user:).find_by(id:)
+    def find_persisted_query_and_set_attributes(id, params, user, duplicate:)
+      query = Queries::Projects::ProjectQuery.visible(user).find_by(id:)
 
       return unless query
 
+      query.valid_subset!
+      query.clear_changes_information
+
+      query = duplicate_query(query) if duplicate
+
       if params.any?
-        update_query(query, params, user)
+        set_query_attributes(query, params, user)
       else
         query
       end
     end
 
-    def new_query(source_query, params, user)
-      update_query(Queries::Projects::ProjectQuery.new(source_query.attributes.slice("filters", "orders", "selects")),
-                   params,
-                   user)
+    def duplicate_query(query)
+      Queries::Projects::ProjectQuery.new(query.attributes.slice("filters", "orders", "selects"))
     end
 
-    def update_query(query, params, user)
+    def set_query_attributes(query, params, user)
       Queries::Projects::ProjectQueries::SetAttributesService
         .new(user:,
              model: query,

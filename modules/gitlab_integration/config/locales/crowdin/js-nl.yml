@@ -26,25 +26,25 @@ nl:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Problemen"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Samenvoegverzoeken"
         create_mr:
           label: Create MR
-          description: Create a Merge Request
+          description: Maak samenvoegingsverzoek aan
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: Git snippets kopiëren naar klembord
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Branch naam
+          commit_message: Commit bericht
+          cmd: Maak branch met lege commit
+          title: Snelle snippets voor Git
+          copy_success: '✅ Gekopieerd!'
+          copy_error: '❌ Kopiëren mislukt!'
       tab_issue:
         empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
       tab_mrs:
         empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
       gitlab_pipelines: Pipelines
-      updated_on: Updated on
+      updated_on: Bijgewerkt op

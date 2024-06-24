@@ -31,6 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
+# rubocop:disable RSpecRails/HaveHttpStatus
 RSpec.describe "API v3 storage files", :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
   include StorageServerHelpers
@@ -249,7 +250,7 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
   describe "POST /api/v3/storages/:storage_id/files/prepare_upload" do
     let(:permissions) { %i(view_work_packages view_file_links manage_file_links) }
     let(:path) { api_v3_paths.prepare_upload(storage.id) }
-    let(:upload_link) { Storages::UploadLink.new("https://example.com/upload/xyz123") }
+    let(:upload_link) { Storages::UploadLink.new("https://example.com/upload/xyz123", :post) }
     let(:body) { { fileName: "ape.png", parent: "/Pictures", projectId: project.id }.to_json }
 
     subject(:last_response) do
@@ -323,3 +324,5 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
     end
   end
 end
+
+# rubocop:enable RSpecRails/HaveHttpStatus

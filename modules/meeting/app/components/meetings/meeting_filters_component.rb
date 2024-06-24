@@ -28,22 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 module Meetings
-  class MeetingFiltersComponent < FiltersComponent
+  # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class MeetingFiltersComponent < Filter::FilterComponent
+    # rubocop:enable OpenProject/AddPreviewForViewComponent
     options :project
 
     def allowed_filters
       super
         .select { |f| allowed_filter?(f) }
         .sort_by(&:human_name)
-    end
-
-    def filters_count
-      @filters_count ||= begin
-        count = super
-        count -= 1 if project.present?
-
-        count
-      end
     end
 
     protected
@@ -60,7 +53,7 @@ module Meetings
           }
         }
       else
-        super(filter)
+        super
       end
     end
 

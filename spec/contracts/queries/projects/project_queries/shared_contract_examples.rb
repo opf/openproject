@@ -55,7 +55,51 @@ RSpec.shared_examples_for "project queries contract" do
     context "if the user is not the current user" do
       let(:query_user) { build_stubbed(:user) }
 
-      it_behaves_like "contract is invalid", base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :can_only_be_modified_by_owner
+    end
+
+    context "if the list is public and the editing user has the permission" do
+      let(:query_user) { build_stubbed(:user) }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_globally :manage_public_project_queries
+        end
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "if the list is public and the editing user does not have the permission" do
+      let(:query_user) { build_stubbed(:user) }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user, &:forbid_everything)
+      end
+
+      it_behaves_like "contract is invalid", base: :need_permission_to_modify_public_query
+    end
+
+    context "if the list is public and the editing user does not have the permission, even if they are the owner" do
+      let(:query_user) { current_user }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user, &:forbid_everything)
+      end
+
+      it_behaves_like "contract is invalid", base: :need_permission_to_modify_public_query
     end
 
     context "if the user and the current user is anonymous" do

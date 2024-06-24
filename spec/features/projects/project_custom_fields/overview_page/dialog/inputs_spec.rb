@@ -193,6 +193,22 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         it_behaves_like "a custom field input"
       end
 
+      describe "with link CF" do
+        let(:custom_field) { link_project_custom_field }
+        let(:default_value) { "https://openproject.org" }
+        let(:expected_blank_value) { "" }
+        let(:expected_initial_value) { "https://www.openproject.org" }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+
+        it_behaves_like "a custom field input"
+
+        it "renders the custom field as a link" do
+          page.within_test_selector "project-custom-field-#{link_project_custom_field.id}" do
+            expect(page).to have_link("https://www.openproject.org", href: "https://www.openproject.org")
+          end
+        end
+      end
+
       describe "with text CF" do
         let(:custom_field) { text_project_custom_field }
         let(:field) { FormFields::Primerized::EditorFormField.new(custom_field) }

@@ -50,6 +50,8 @@ lt:
         duration_in_minutes: "min"
         description: "Pastabos"
         presenter: "Pateikėjas"
+      meeting_section:
+        title: "Pavadinimas"
     errors:
       messages:
         invalid_time_format: "netinkamas laikas. Reikalingas formatas: HH:MM (pvz.: 10:30)"
@@ -58,9 +60,23 @@ lt:
       meeting_agenda_item: "Darbotvarkės punktas"
       meeting_agenda: "Dienotvarkė"
       meeting_minutes: "Minutės"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Susitikimai"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "nustatyti %{value}"
+          added_html: "nustatyti <i>%{value}</i>"
+          removed: "išimta"
+          updated: "pakeitė iš %{old_value} į %{value}"
+          updated_html: "pakeista iš <i>%{old_value}</i> į <i>%{value}</i>"
+        position:
+          updated: "perrikiuota"
+        work_package:
+          updated: "pakeista iš %{old_value} į %{value}"
+          updated_html: "pakeista iš <i>%{old_value}</i> į <i>%{value}</i>"
   description_attended: "būtinai dalyvavo"
   description_invite: "pakviesta"
   events:
@@ -101,12 +117,14 @@ lt:
     attachments:
       text: "Prisegti failai prieinami visiems susitikimo dalyviams. Taipogi galite nutempti juos į plano elemento pastabas."
     copy:
-      title: "Kopijuoti susitikimą %{title}"
+      title: "Kopijuoti susitikimą: %{title}"
       attachments: "Kopijuoti priedus"
       attachments_text: "Perkopijuoti visus prisegtus failus į naują susitikimą"
       agenda: "Kopijuoti dienotvarkę"
       agenda_text: "Kopijuoti seno susitikimo darbotvarkę"
     email:
+      send_emails: "Siųsti laiškus"
+      send_invitation_emails: "Išsiųsti pakvietimo laiškus baigus kūrimą"
       open_meeting_link: "Atverti susitikimą"
       invited:
         summary: "%{actor} atsiuntė jums pakvietimą į susitikimą %{title}"
@@ -124,6 +142,11 @@ lt:
       structured_text: "Organizuokite jūsų susitikimą su darbotvarkės elementų sąrašu, pasirinktinai susiejant juos su darbo paketu."
       structured_text_copy: "Šiuo metu nukopijavus susitikimą, susiję susitikimo elmentai nebus kopijuojami, tik detalės."
     copied: "Nukopijuota iš susitikimo #%{id}"
+  meeting_section:
+    untitled_title: "Bevardė skiltis"
+    delete_confirmation: "Ištrynus skiltį taipogi bus ištrinti ir visi jos plano elementai. Ar tikrai norite tai padaryti?"
+    placeholder_title: "Nauja skiltis"
+    empty_text: "Tempkite elementus čia arba sukurtkite naują"
   notice_successful_notification: "Pranešimas sėkmingai išsiųstas"
   notice_timezone_missing: Laiko zona nenustatyta ir %{zone} zona yra rekomenduojama. Kad pasirinktumėte laiko zoną, paspauskite čia.
   permission_create_meetings: "Sukurti pasitarimus"

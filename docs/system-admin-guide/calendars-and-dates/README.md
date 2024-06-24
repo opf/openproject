@@ -13,19 +13,19 @@ Navigate to **Administration → Calendar and dates**.
 
 | Topic                                             | Content                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------ |
-| [Working days](#working-days)                     | Define which days of the week are considered working days for scheduling and calculation of duration. |
+| [Working days](#working-days-and-hours)           | Define which days of the week are considered working days for scheduling and calculation of duration. |
 | [Date format](#date-format)                       | Change time and date formats.                                |
 | [Calendar subscriptions](#calendar-subscriptions) | Allow users to subscribe to calendars.                       |
 
-## Working days
+## Working days and hours
 
-Administrators are able to define which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages.
+Administrators are able to define how many hours are considered a day and which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages.
 
 To change this setting, navigate to **Working days** inside of the **Calendar and dates** settings.
 
-> **Note:** By default, the five days from Monday–Friday are considered working days, and Saturday and Sunday are considered non-working days.
+> **Note:** By default, a working day is considered to have 8 hours, the five days from Monday–Friday are considered working days, and Saturday and Sunday are considered non-working days.
 
-![The 'Working days' entry in Calendar and dates settings ](admin-working-days.png)
+![The 'Working days' entry in Calendar and dates settings ](admin-working-days-hours.png)
 
 To change this setting, unselect days that you would like to define as non-working, and select ones that you would like to consider working, and click on **Save**.
 
@@ -45,15 +45,15 @@ Click on **Apply changes** at the end of the page for the changes to take effect
 
 ### Effect on scheduling
 
-As an instance-level setting, any change here will affect the scheduling of *all work packages* in *all projects* in that instance. It is currently not possible to define working days at a project-level. 
+As an instance-level setting, any change here will affect the scheduling of *all work packages* in *all projects* in that instance. It is currently not possible to define working days at a project-level.
 
 However, it *is* possible to override this setting at the level of individual work packages via the date picker. For more information on how to schedule work packages on non-working days, refer to [Duration and Non-working days in the user guide](../../user-guide/work-packages/set-change-dates/#working-days-and-duration).
 
-> **Important:** Changing this setting will reschedule work packages automatically to the next available working day after clicking on **Save**. For example, removing Friday as a working day by unchecking it will mean that work packages that included Friday will now end one day in the future, and ones that started or ended on Friday will now start and end on Monday. 
+> **Important:** Changing this setting will reschedule work packages automatically to the next available working day after clicking on **Save**. For example, removing Friday as a working day by unchecking it will mean that work packages that included Friday will now end one day in the future, and ones that started or ended on Friday will now start and end on Monday.
 >
-> Depending on the number of projects and work packages in your instance, this process can take from a couple of minutes to hours. 
+> Depending on the number of projects and work packages in your instance, this process can take from a couple of minutes to hours.
 
-Changing this setting is likely to cause changes to scheduling in unexpected ways, and generate a significant number of notifications for assignees, responsibles and watchers for work packages whose dates change as a result. 
+Changing this setting is likely to cause changes to scheduling in unexpected ways, and generate a significant number of notifications for assignees, responsibles and watchers for work packages whose dates change as a result.
 
 We only recommend changing this setting if you are absolutely sure and you are aware of the potential consequences.
 
@@ -74,7 +74,7 @@ To change this setting, navigate to **Date format** inside of the **Calendar and
 3. **Week starts on**: configure what date the week starts on (e.g. in the calendar view). Default is `Based on user's language`.
    You can also choose to start a week always on Mondays, Sundays or Saturdays.
    If you set **Week starts on**, you must also set the **First week in year contains** or you will probably get inconsistencies in week numbering in calendars and the Gantt chart.
-4. **First week in year contains**: select the day that needs to be contained in the first week of the year. This value is used together with _Week starts on_ to determine the first week of the year. 
+4. **First week in year contains**: select the day that needs to be contained in the first week of the year. This value is used together with _Week starts on_ to determine the first week of the year.
    - For European ISO-8601 standard, set **Week starts on** to `Monday` and First week in year to `Thursday`.
    - For US and Canada, set **First week in year contains** to `Sunday` and Day of Year to `6`.
    - If you leave both on `Based on user's language`, the information provided by moment.js will be used: For more information, please also see [this document from moment.js](https://momentjscom.readthedocs.io/en/latest/moment/07-customization/16-dow-doy/).

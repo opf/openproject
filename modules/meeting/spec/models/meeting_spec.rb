@@ -196,7 +196,7 @@ RSpec.describe Meeting do
 
   describe "acts_as_watchable" do
     it "is watchable" do
-      expect(described_class).to include(Redmine::Acts::Watchable::InstanceMethods)
+      expect(described_class).to include(OpenProject::Acts::Watchable::InstanceMethods)
     end
 
     it "uses the :view_meetings permission" do

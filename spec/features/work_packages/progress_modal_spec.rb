@@ -274,6 +274,15 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
                  role:)
         end
 
+        it "can create work package after setting work" do
+          work_package_create_page.visit!
+
+          work_package_create_page.set_attributes({ subject: "hello" })
+          work_package_create_page.set_progress_attributes({ estimatedTime: "10h" })
+          work_package_create_page.save!
+          work_package_table.expect_and_dismiss_toaster(message: "Successful creation.", wait: 5)
+        end
+
         it "renders the status selection field inside the modal as disabled " \
            "and allows setting the status solely by the top-left field" do
           work_package_create_page.visit!
@@ -331,8 +340,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       context "with all values set" do
         before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 2.12345) }
 
-        it "populates fields with correctly values formatted " \
-           "with the minimum fractional part if present, and 2 decimals max" do
+        it "populates fields with correctly values formatted" do
           work_package_table.visit_query(progress_query)
           work_package_table.expect_work_package_listed(work_package)
 
@@ -342,8 +350,8 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
           work_edit_field.activate!
 
-          work_edit_field.expect_modal_field_value("10")
-          remaining_work_edit_field.expect_modal_field_value("2.12")
+          work_edit_field.expect_modal_field_value("1d 2h")
+          remaining_work_edit_field.expect_modal_field_value("2.12h") # 2h 7m
           percent_complete_edit_field.expect_modal_field_value("78", readonly: true)
         end
       end
@@ -356,7 +364,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           work_package.save(validate: false)
         end
 
-        it "does not lose precision due to conversion from ISO duration to hours" do
+        it "does not lose precision due to conversion from ISO duration to hours (rounded to closest minute)" do
           work_package_table.visit_query(progress_query)
           work_package_table.expect_work_package_listed(work_package)
 
@@ -373,10 +381,11 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           expect(work_package.estimated_hours).to eq(2.56)
           expect(work_package.remaining_hours).to eq(0.28)
 
-          # work should be displayed as 2.56, and remaining work as 0.28
+          # work should be displayed as "2h 34m" ("2h 33m 36s" rounded to minutes),
+          # and remaining work as "17m" ("16m 48s" rounded to minutes)
           work_edit_field.activate!
-          work_edit_field.expect_modal_field_value("2.56")
-          remaining_work_edit_field.expect_modal_field_value("0.28")
+          work_edit_field.expect_modal_field_value("2.56h") # 2h 34m
+          remaining_work_edit_field.expect_modal_field_value("0.28h") # 17m
         end
       end
 
@@ -487,6 +496,72 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
     context "on status based mode", with_settings: { work_package_done_ratio: "status" } do
       include_examples "migration warning", should_render: false
+    end
+  end
+
+  describe "Live-update edge cases" do
+    context "given work = 10h, remaining work = 4h, % complete = 60%" do
+      before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 4.0) }
+
+      specify "Case 1: When I unset work it unsets remaining work" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
+
+        work_edit_field.activate!
+        page.driver.wait_for_network_idle # Wait for initial loading to be ready
+
+        clear_input_field_contents(work_edit_field.input_element)
+        page.driver.wait_for_network_idle # Wait for live-update to finish
+
+        remaining_work_edit_field.expect_modal_field_value("", disabled: true)
+      end
+
+      specify "Case 2: when work is set to 12h, " \
+              "remaining work is automatically set to 6h " \
+              "and subsequently work is set to 14h, " \
+              "remaining work updates to 1d" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
+
+        work_edit_field.activate!
+        page.driver.wait_for_network_idle # Wait for initial loading to be ready
+
+        work_edit_field.set_value("12")
+        page.driver.wait_for_network_idle # Wait for live-update to finish
+        remaining_work_edit_field.expect_modal_field_value("6h")
+
+        work_edit_field.set_value("14")
+        page.driver.wait_for_network_idle # Wait for live-update to finish
+        remaining_work_edit_field.expect_modal_field_value("1d 0h")
+      end
+
+      specify "Case 3: when work is set to 2h, " \
+              "remaining work is automatically set to 0h, " \
+              "and work is subsequently set to 12h, " \
+              "remaining work is updated to 6h" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
+
+        work_edit_field.activate!
+        page.driver.wait_for_network_idle # Wait for initial loading to be ready
+
+        work_edit_field.set_value("2")
+        page.driver.wait_for_network_idle # Wait for live-update to finish
+        remaining_work_edit_field.expect_modal_field_value("0h")
+
+        work_edit_field.set_value("12")
+        page.driver.wait_for_network_idle # Wait for live-update to finish
+        remaining_work_edit_field.expect_modal_field_value("6h")
+      end
     end
   end
 end

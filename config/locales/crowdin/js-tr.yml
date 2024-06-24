@@ -273,6 +273,11 @@ tr:
         change_description: "Haftanın hangi günlerinin iş günü olarak kabul edileceğini değiştirmek, bu durumda tüm projelerdeki tüm iş paketlerinin başlangıç ve bitiş günlerini etkileyebilir."
         warning: >
           Değişikliklerin geçerlilik kazanması biraz zaman alabilir. İlgili tüm iş paketleri güncellendiğinde bilgilendirileceksiniz. Devam etmek istediğine emin misin?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: "açık"
@@ -329,6 +334,18 @@ tr:
         years: "Yıl"
         description: >
           Otomatik zoom mevcut olmadığında gösterilmesi gereken ilk yakınlaştırma seviyesini seçin.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "hayır"
     general_text_yes: "evet"
     general_text_No: "Hayır"
@@ -347,11 +364,10 @@ tr:
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -377,6 +393,7 @@ tr:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "gün önce"
     label_all: "tüm"
+    label_all_uppercase: "Hepsi"
     label_all_work_packages: "tüm iş paketleri"
     label_and: "ve"
     label_ascending: "Azalan"
@@ -418,6 +435,7 @@ tr:
     label_expand_project_menu: "Proje menüsünü genişlet"
     label_export: "Dışarı aktar"
     label_export_preparing: "İhracat hazırlanıyor ve kısa süre içinde indirilecek."
+    label_favorites: "Favorites"
     label_filename: "Dosya"
     label_filesize: "Boyutu"
     label_general: "Genel"
@@ -627,7 +645,7 @@ tr:
         label_actor_and: "ve"
         and_more_users:
           one: "ve 1 diğer"
-          other: "ve 1 diğer"
+          other: "ve %{count} diğer"
         no_results:
           at_all: "Sizi ilgilendiren bir etkinlik olduğunda yeni bildirimler burada görünecektir."
           with_current_filter: "Şu anda bu görünümde bildirim yok"
@@ -759,7 +777,7 @@ tr:
           last_day: "Son gün"
     text_are_you_sure: "Emin misiniz?"
     text_data_lost: "Girilen tüm veriler silinecek."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} demiş ki:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri eşsiz olmalıdır."
@@ -834,7 +852,7 @@ tr:
       toggle_description: "İlişki açıklamasını göster"
       update_relation: "İlişki türünü değiştirmek için tıklayın"
       add_follower: "Takipçi ekle"
-      show_relations: "Show relations"
+      show_relations: "İlişkileri göster"
       add_predecessor: "Öncelik ekle"
       remove: "İlişkiyi kaldır"
       save: "İlişkiyi kaydet"
@@ -979,8 +997,8 @@ tr:
         percentageDone: "Tamamlanan yüzde"
         priority: "Öncelik"
         projectName: "Proje"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Kalan çalışma"
+        remainingWorkAlternative: "Kalan saat"
         responsible: "Sorumlu"
         startDate: "Başlangıç tarihi"
         status: "Durum"
@@ -992,8 +1010,8 @@ tr:
         versionName: "Sürüm"
         version: "Sürüm"
         work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        workAlternative: "Tahmini süre"
+        remainingTime: "Kalan çalışma"
       default_queries:
         latest_activity: "En son etkinlik"
         created_by_me: "Benim oluşturduklarım"
@@ -1042,7 +1060,7 @@ tr:
       sharing:
         share: "Paylaş"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1268,6 +1286,14 @@ tr:
           placeholder: "Kullanıcı artık %{project} 'e erişmek için oturum açabilir. Bu arada, o kullanıcıyla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz."
           group: "Grup artık %{project} 'nin bir parçası. Bu arada, bu grupla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz."
         next_button: "Devam et"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Projeleri dahil et"
       title: "Projeler"
@@ -1325,8 +1351,12 @@ tr:
         remove: "Kaldır"
       drop_modal:
         focus_grab: "Bu, modallar için bir odak noktasıdır. Modal tetikleme öğesine geri dönmek için shift+tab tuşlarına basın."
-        Close: "Kapat"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

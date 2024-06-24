@@ -48,7 +48,7 @@ class WorkPackages::BulkController < ApplicationController
 
     if @call.success?
       flash[:notice] = t(:notice_successful_update)
-      redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
+      redirect_back_or_default(controller: "/work_packages", action: :index, project_id: @project)
     else
       flash[:error] = bulk_error_message(@work_packages, @call)
       setup_edit
@@ -75,7 +75,7 @@ class WorkPackages::BulkController < ApplicationController
                            associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
         end
         format.json do
-          render json: { error_message: 'Clean up of associated objects required' }, status: 420
+          render json: { error_message: "Clean up of associated objects required" }, status: 420
         end
       end
     end
@@ -125,6 +125,6 @@ class WorkPackages::BulkController < ApplicationController
   def transform_attributes(attributes)
     Hash(attributes)
       .compact_blank
-      .transform_values { |v| Array(v).include?('none') ? '' : v }
+      .transform_values { |v| Array(v).include?("none") ? "" : v }
   end
 end

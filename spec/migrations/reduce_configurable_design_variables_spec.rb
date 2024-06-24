@@ -73,7 +73,6 @@ RSpec.describe ReduceConfigurableDesignVariables, type: :model do
       expect(DesignColor.find_by(variable: "primary-color-dark")).not_to be_nil
       expect(DesignColor.find_by(variable: "alternative-color")).not_to be_nil
       expect(DesignColor.find_by(variable: "content-link-color")).not_to be_nil
-
     end
   end
 end

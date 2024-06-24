@@ -238,9 +238,9 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :users,
             { controller: "/users" },
             if: Proc.new {
-                  !User.current.admin? &&
-                  (User.current.allowed_globally?(:manage_user) || User.current.allowed_globally?(:create_user))
-                },
+              !User.current.admin? &&
+                (User.current.allowed_globally?(:manage_user) || User.current.allowed_globally?(:create_user))
+            },
             caption: :label_user_plural,
             icon: "group"
 
@@ -374,49 +374,21 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "help2",
             if: Proc.new { User.current.allowed_globally?(:edit_attribute_help_texts) }
 
-  menu.push :attachments,
-            { controller: "/admin/settings/attachments_settings", action: :show },
-            caption: :"attributes.attachments",
-            icon: "attachment",
-            if: Proc.new { User.current.admin? }
-
-  menu.push :attachments_settings,
-            { controller: "/admin/settings/attachments_settings", action: :show },
-            if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
-            parent: :attachments
-
-  menu.push :virus_scanning_settings,
-            { controller: "/admin/settings/virus_scanning_settings", action: :show },
-            caption: :"settings.antivirus.title",
-            parent: :attachments,
-            enterprise_feature: "virus_scanning",
-            if: Proc.new { User.current.admin? }
-
-  menu.push :attachment_quarantine,
-            { controller: "/admin/attachments/quarantined_attachments", action: :index },
-            caption: :"antivirus_scan.quarantined_attachments.title",
-            parent: :attachments,
-            if: Proc.new {
-              User.current.admin? &&
-                (EnterpriseToken.allows_to?(:virus_scanning) || Attachment.status_quarantined.any?)
-            }
-
   menu.push :enumerations,
             { controller: "/enumerations" },
             if: Proc.new { User.current.admin? },
             icon: "enumerations"
 
   menu.push :calendars_and_dates,
-            { controller: "/admin/settings/working_days_settings", action: :show },
+            { controller: "/admin/settings/working_days_and_hours_settings", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_calendars_and_dates,
             icon: "calendar"
 
-  menu.push :working_days,
-            { controller: "/admin/settings/working_days_settings", action: :show },
+  menu.push :working_days_and_hours,
+            { controller: "/admin/settings/working_days_and_hours_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_working_days,
+            caption: :label_working_days_and_hours,
             parent: :calendars_and_dates
 
   menu.push :date_format,

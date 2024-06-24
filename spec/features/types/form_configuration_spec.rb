@@ -128,7 +128,7 @@ RSpec.describe "form configuration", :js do
                           { key: :assignee, translation: "Assignee" },
                           { key: :responsible, translation: "Accountable" }
 
-        form.expect_group "estimates_and_time",
+        form.expect_group "estimates_and_progress",
                           "Estimates and progress",
                           { key: :estimated_time, translation: "Work" },
                           { key: :remaining_time, translation: "Remaining work" },
@@ -180,7 +180,7 @@ RSpec.describe "form configuration", :js do
                           "Cool Stuff",
                           { key: :responsible, translation: "Accountable" }
 
-        form.expect_group "estimates_and_time",
+        form.expect_group "estimates_and_progress",
                           "Estimates and progress",
                           { key: :estimated_time, translation: "Work" },
                           { key: :remaining_time, translation: "Remaining work" },
@@ -200,7 +200,7 @@ RSpec.describe "form configuration", :js do
         # Test the actual type backend
         type.reload
         expect(type.attribute_groups.map(&:key))
-          .to include("Cool Stuff", :estimates_and_time, "Whatever", "New Group")
+          .to include("Cool Stuff", :estimates_and_progress, "Whatever", "New Group")
 
         # Visit work package with that type
         wp_page.visit!
@@ -227,7 +227,7 @@ RSpec.describe "form configuration", :js do
 
         wp_page.expect_group("Estimates and progress") do
           wp_page.expect_attributes estimated_time: "-"
-          wp_page.expect_attributes spent_time: "0 h"
+          wp_page.expect_attributes spent_time: "0h"
         end
 
         # New work package has the same configuration

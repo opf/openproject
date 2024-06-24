@@ -91,6 +91,11 @@ module API
             { href: @base_schema_link } if @base_schema_link
           end
 
+          link :attachments do
+            next if represented.work_package.hide_attachments?
+            { href: nil }
+          end
+
           # Needs to not be cached as the queries in the attribute
           # groups might contain information (e.g. project names) whose
           # visibility needs to be checked per user
@@ -181,9 +186,9 @@ module API
                  type: "Duration",
                  required: false,
                  show_if: ->(*) {
-                            current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-                            current_user.allowed_in_any_work_package?(:view_own_time_entries, in_project: represented.project)
-                          }
+                   current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+                     current_user.allowed_in_any_work_package?(:view_own_time_entries, in_project: represented.project)
+                 }
 
           schema :percentage_done,
                  type: "Integer",

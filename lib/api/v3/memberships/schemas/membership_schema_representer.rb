@@ -32,10 +32,7 @@ module API
       module Schemas
         class MembershipSchemaRepresenter < ::API::Decorators::SchemaRepresenter
           def initialize(represented, self_link: nil, current_user: nil, form_embedded: false)
-            super(represented,
-                  self_link:,
-                  current_user:,
-                  form_embedded:)
+            super
           end
 
           schema :id,

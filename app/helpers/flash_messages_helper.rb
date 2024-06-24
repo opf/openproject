@@ -31,8 +31,7 @@ module FlashMessagesHelper
   extend ActiveSupport::Concern
 
   included do
-    # For .safe_join in join_flash_messages
-    include ActionView::Helpers::OutputSafetyHelper
+    include FlashMessagesOutputSafetyHelper
   end
 
   def render_primer_banner_message?
@@ -43,6 +42,11 @@ module FlashMessagesHelper
     return unless render_primer_banner_message?
 
     render(BannerMessageComponent.new(**flash[:primer_banner].to_hash))
+  end
+
+  # Primer's flash message component wrapped in a component which is empty initially but can be updated via turbo stream
+  def render_streameable_primer_banner_message
+    render(FlashMessageComponent.new)
   end
 
   # Renders flash messages
@@ -61,14 +65,6 @@ module FlashMessagesHelper
     end
 
     safe_join messages, "\n"
-  end
-
-  def join_flash_messages(messages)
-    if messages.respond_to?(:join)
-      safe_join(messages, "<br />".html_safe)
-    else
-      messages
-    end
   end
 
   def render_flash_message(type, message, html_options = {}) # rubocop:disable Metrics/AbcSize

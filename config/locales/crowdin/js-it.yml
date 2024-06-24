@@ -274,6 +274,11 @@ it:
         warning: >
           L'applicazione delle modifiche potrebbe richiedere del tempo. Riceverai una notifica quando tutti i pacchetti di lavoro pertinenti saranno aggiornati.
           Vuoi davvero continuare?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Cambiare la modalità di calcolo dell'avanzamento da basata sullo stato a basata su lavoro renderà <i>% Completa</i> un campo non modificabile il cui valore è derivato da <i>Lavoro</i> e <i>Lavoro rimanente</i>. I valori esistenti per <i>% Complete</i> sono conservati. Se i valori per <i>Lavoro</i> e <i>Lavoro rimanente</i> non erano presenti, saranno necessari per modificare <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Cambiando la modalità di calcolo dell'avanzamento da basata sul lavoro a basata sullo stato porvocherà la perdita di tutti i valori <i>% Complete</i> esistenti e saranno sostituiti con i valori associati ad ogni stato. I valori esistenti per il lavoro <i>rimanente</i> potrebbero anche essere ricalcolati per riflettere questo cambiamento. Questa azione non è reversibile.
     custom_actions:
       date:
         specific: "il"
@@ -330,6 +335,18 @@ it:
         years: "Anni"
         description: >
           Seleziona il livello di zoom iniziale da mostrare quando lo zoom automatico non è disponibile.
+      export:
+        title: "Opzioni del diagramma di Gantt in PDF"
+        button_export: "Esporta"
+        column_widths:
+          narrow: "Stretto"
+          medium: "Medio"
+          wide: "Ampio"
+          very_wide: "Molto ampio"
+        options:
+          date_zoom: "Zoom data"
+          paper_size: "Dimensione del foglio"
+          column_widths: "Larghezza colonne"
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -348,11 +365,10 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Implementazione della segnalazione dell'avanzamento dei lavori attraverso le gerarchie dei pacchetti di lavoro.</li> <li>Gestione degli attributi del progetto in modo strutturato nella pagina di panoramica del progetto.</li> <li>Visualizzazione semplificata dei campi personalizzati nell'elenco dei progetti e nella panoramica dei progetti.</li> <li>Intestazioni di pagina unificate con l'elegante design di Primer.</li> <li>Miglioramento delle riunioni con nuove funzioni come il caricamento di allegati, la responsabilità e la cronologia delle riunioni.</li> <li>Avvisi automatici per archivi di file non integri e ottenimento del controllo con le opzioni di attivazione/disattivazione. </li> <li>Copia automatica della cartella di progetto per OneDrive/SharePoint quando si copiano i progetti.</li> <li>Richiesta agli amministratori di rimuovere le condivisioni sulle macro-attività quando si revoca la partecipazione a un progetto.</li> <li>Migliora la pianificazione con modalità di visualizzazione a 4 e 8 settimane nel pianificatore del team.</li> </ul>
+                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Impostazione di ulteriori unità per lavoro, lavoro rimanente e tempo di lavoro</li> <li>Indicazione di quali progetti sono attivati per gli attributi</li> <li>Possibilità di rinominare gli elenchi di progetti privati</li> <li>Possibilità di evitare promemoria email ridondanti in caso di @menzioni</li> <li>Invito dei partecipanti alla riunione via email</li> <li>Visualizzazione degli attributi del pacchetto di lavoro nelle esportazioni PDF</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -378,6 +394,7 @@ it:
     label_added_time_by: 'Aggiunto da <a href="%{authorLink}">%{author}</a> alle %{age}'
     label_ago: "giorni fa"
     label_all: "tutti"
+    label_all_uppercase: "Tutti"
     label_all_work_packages: "tutte le macro-attività"
     label_and: "e"
     label_ascending: "Crescente"
@@ -419,6 +436,7 @@ it:
     label_expand_project_menu: "Espandi il menù di progetto"
     label_export: "Esporta"
     label_export_preparing: "L'esportazione è in fase di preparazione e il download partirà a breve."
+    label_favorites: "Preferiti"
     label_filename: "File"
     label_filesize: "Dimensione"
     label_general: "Generale"
@@ -1043,7 +1061,7 @@ it:
       sharing:
         share: "Condividi"
         title: "Condividi macro-attività"
-        show_all_users: "Mostra tutti gli utenti condivisi"
+        show_all_users: "Mostra tutti gli utenti con i quali la macro-attività è stata condivisa"
         selected_count: "%{count} selezionati"
         selection:
           mixed: "Misto"
@@ -1269,6 +1287,14 @@ it:
           placeholder: "Il segnaposto è ora utilizzabile in %{project}. Nel mentre puoi ad esempio già pianificare con quell'utente e assegnare pacchetti di lavoro."
           group: "Il gruppo è ora parte di %{project}. Nel mentre puoi ad esempio già pianificare con quel gruppo e assegnare pacchetti di lavoro."
         next_button: "Continua"
+    exclusion_info:
+      modal:
+        title: "Stato escluso dai totali della gerarchia"
+        content: >-
+          Lo stato '%{status_name}' è stato configurato per essere escluso dai totali delle gerarchie di Lavoro, Lavoro Rimanente e % Completamento. I totali non tengono conto di questo valore.
+    favorite_projects:
+      no_results: "Non hai progetti preferiti"
+      no_results_subtext: "Aggiungi uno o più progetti come preferiti dalla rispettiva panoramica o da una lista di progetti."
     include_projects:
       toggle_title: "Includi progetti"
       title: "Progetti"
@@ -1326,8 +1352,12 @@ it:
         remove: "Rimuovi"
       drop_modal:
         focus_grab: "Questo è un punto focale per i modali. Premere MAIUSC+TAB per tornare all'elemento scatenante modale."
-        Close: "Chiuso"
+        close: "Chiusura modale"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "C'è un problema di rete."
         network_on: "La rete è tornata. Stiamo provando."
+        timeout: >
+          OpenProject non è stato in grado di darti accesso alla cartella del progetto entro il tempo previsto. Prova di nuovo.<br><br> Se il problema persiste contatta il tuo amministratore OpenProject per controllare lo <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">stato della configurazione di archiviazione dei file</a>.

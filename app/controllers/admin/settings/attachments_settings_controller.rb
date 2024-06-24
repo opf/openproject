@@ -28,16 +28,24 @@
 
 module Admin::Settings
   class AttachmentsSettingsController < ::Admin::SettingsController
-    menu_item :attachments_settings
+    menu_item :attachments
 
-    def default_breadcrumb
-      t(:"attributes.attachments")
+    def default_breadcrumb; end
+
+    def show_local_breadcrumb
+      false
     end
 
     def settings_params
       super.tap do |settings|
         settings["attachment_whitelist"] = settings["attachment_whitelist"].split(/\r?\n/)
       end
+    end
+
+    def extra_permitted_filters
+      # attachment_whitelist is normally permitted as an array parameter.
+      # Explicitly permit it as a string here.
+      [:attachment_whitelist]
     end
   end
 end

@@ -273,6 +273,11 @@ ro:
         warning: >
           Modificările ar putea dura ceva timp pentru a produce efecte. Vei fi notificat când toate pachetele de lucru relevante au fost actualizate.
           Ești sigur că vrei să continui?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: "pe"
@@ -329,6 +334,18 @@ ro:
         years: "Ani"
         description: >
           Selectați nivelul inițial de zoom care trebuie afișat atunci când funcția de zoom automat nu este disponibilă.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "nu"
     general_text_yes: "da"
     general_text_No: "Nu"
@@ -347,11 +364,10 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -377,6 +393,7 @@ ro:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "zile în urmă"
     label_all: "toate"
+    label_all_uppercase: "Toate"
     label_all_work_packages: "toate pachetele de lucru"
     label_and: "și"
     label_ascending: "Crescător"
@@ -418,6 +435,7 @@ ro:
     label_expand_project_menu: "Deschideți meniul proiectului"
     label_export: "Exportare"
     label_export_preparing: "Exportul este în curs de pregătire și va fi descărcat în curând."
+    label_favorites: "Favorites"
     label_filename: "Fișier"
     label_filesize: "Dimensiune"
     label_general: "General"
@@ -639,7 +657,7 @@ ro:
         empty_state:
           no_notification: "Se pare că v-ați pus la punct."
           no_notification_with_current_project_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
-          no_notification_with_current_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
+          no_notification_with_current_filter: "Se pare că v-ați pus la punct pentru filtrul %{filter}."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: "Există notificări noi."
@@ -760,7 +778,7 @@ ro:
           last_day: "Ultima zi"
     text_are_you_sure: "Sunteți sigur?"
     text_data_lost: "Toate datele introduse vor fi pierdute."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} a scris:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Numele %{group} este utilizat de mai multe ori. Fiecare grup trebuie să aibă un nume unic."
@@ -835,7 +853,7 @@ ro:
       toggle_description: "Activați/Dezactivați descrierea legăturilor"
       update_relation: "Faceți click pentru a schimba tipul de legătură"
       add_follower: "Adaugă urmăritor"
-      show_relations: "Show relations"
+      show_relations: "Arată relațiile"
       add_predecessor: "Adăugați predecesorul"
       remove: "Eliminare relaţie"
       save: "Salvează relația"
@@ -981,7 +999,7 @@ ro:
         priority: "Prioritate"
         projectName: "Proiect"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Ore"
         responsible: "Responsabil"
         startDate: "Data de început"
         status: "Stare"
@@ -993,7 +1011,7 @@ ro:
         versionName: "Versiune"
         version: "Versiune"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Durata estimată"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Activitate recentă"
@@ -1043,7 +1061,7 @@ ro:
       sharing:
         share: "Distribuiți"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1271,6 +1289,14 @@ ro:
           placeholder: "Marca de poziție poate fi utilizată acum în %{project}. Între timp, puteți deja să planificați cu acel utilizator și să atribuiți pachete de lucru, de exemplu."
           group: "Grupul este acum o parte din %{project}. Între timp, puteți deja să planificați cu acest grup și să atribuiți pachete de lucru, de exemplu."
         next_button: "Continuaţi"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Includeți proiecte"
       title: "Proiecte"
@@ -1328,8 +1354,12 @@ ro:
         remove: "Eliminare"
       drop_modal:
         focus_grab: "Aceasta este o ancoră de focalizare pentru modalități. Apăsați shift+tab pentru a reveni la elementul de declanșare modal."
-        Close: "Închide"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

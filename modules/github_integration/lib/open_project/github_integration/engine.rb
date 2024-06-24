@@ -35,14 +35,53 @@ module OpenProject::GithubIntegration
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register "openproject-github_integration",
-             author_url: "https://www.openproject.org/",
-             bundled: true do
+    def self.settings
+      {
+        default: {
+          "github_user_id" => nil
+        }
+      }
+    end
+
+    initializer "github.feature_decisions" do
+      OpenProject::FeatureDecisions.add :deploy_targets
+    end
+
+    register(
+      "openproject-github_integration",
+      author_url: "https://www.openproject.org/",
+      bundled: true,
+      settings:
+    ) do
+      ::Redmine::MenuManager.map(:admin_menu) do |menu|
+        menu.push :admin_github_integration,
+                  { controller: "/deploy_targets", action: "index" },
+                  if: Proc.new { OpenProject::FeatureDecisions.deploy_targets_active? && User.current.admin? },
+                  caption: :label_github_integration,
+                  icon: "github_logo"
+      end
+
       project_module(:github, dependencies: :work_package_tracking) do
         permission(:show_github_content,
                    {},
                    permissible_on: %i[work_package project])
+
+        permission :introspection,
+                   {
+                     admin: %i[info]
+                   },
+                   permissible_on: :global,
+                   require: :loggedin,
+                   enabled: -> { OpenProject::FeatureDecisions.deploy_targets_active? } # can only be enable at start-time
       end
+
+      menu :admin_menu,
+           :deploy_targets,
+           { controller: "/deploy_targets", action: "index" },
+           if: ->(*) { OpenProject::FeatureDecisions.deploy_targets_active? && User.current.admin? },
+           parent: :admin_github_integration,
+           caption: :label_deploy_target_plural,
+           icon: "hosting"
     end
 
     initializer "github.register_hook" do
@@ -60,6 +99,13 @@ module OpenProject::GithubIntegration
         ::OpenProject::Notifications.subscribe("github.pull_request",
                                                &NotificationHandler.method(:pull_request))
       end
+    end
+
+    extend_api_response(:v3, :root) do
+      property :core_sha,
+               exec_context: :decorator,
+               getter: ->(*) { OpenProject::VERSION.core_sha },
+               if: ->(*) { current_user.admin? || current_user.allowed_globally?(:introspection) }
     end
 
     extend_api_response(:v3, :work_packages, :work_package,
@@ -86,12 +132,24 @@ module OpenProject::GithubIntegration
     end
 
     add_cron_jobs do
-      {
+      jobs = {
         "Cron::ClearOldPullRequestsJob": {
           cron: "25 1 * * *", # runs at 1:25 nightly
           class: ::Cron::ClearOldPullRequestsJob.name
         }
       }
+
+      # Enabling the feature flag at runtime won't enable
+      # the cron job. So if you want this feature, enable it
+      # at start-time.
+      if OpenProject::FeatureDecisions.deploy_targets_active?
+        jobs[:"Cron::CheckDeployStatusJob"] = {
+          cron: "15,45 * * * *", # runs every half hour
+          class: ::Cron::CheckDeployStatusJob.name
+        }
+      end
+
+      jobs
     end
   end
 end

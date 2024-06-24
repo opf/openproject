@@ -62,7 +62,7 @@ module OpenProject::Storages
           OpenProject::Events::PROJECT_UNARCHIVED
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |_payload|
-            ::Storages::ManageNextcloudIntegrationJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
 
@@ -70,7 +70,7 @@ module OpenProject::Storages
           OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED
         ) do |payload|
           if payload[:integration_type] == "Storages::Storage"
-            ::Storages::ManageNextcloudIntegrationJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
 
@@ -78,7 +78,7 @@ module OpenProject::Storages
           OpenProject::Events::ROLE_UPDATED
         ) do |payload|
           if payload[:permissions_diff]&.intersect?(OpenProject::Storages::Engine.permissions)
-            ::Storages::ManageNextcloudIntegrationJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
 
@@ -86,7 +86,7 @@ module OpenProject::Storages
           OpenProject::Events::ROLE_DESTROYED
         ) do |payload|
           if payload[:permissions]&.intersect?(OpenProject::Storages::Engine.permissions)
-            ::Storages::ManageNextcloudIntegrationJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
 
@@ -97,8 +97,8 @@ module OpenProject::Storages
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |payload|
             if payload[:project_folder_mode] == :automatic
-              ::Storages::ManageNextcloudIntegrationJob.debounce
-              ::Storages::ManageNextcloudIntegrationJob.disable_cron_job_if_needed
+              ::Storages::ManageStorageIntegrationsJob.debounce
+              ::Storages::ManageStorageIntegrationsJob.disable_cron_job_if_needed
             end
           end
         end
@@ -124,23 +124,33 @@ module OpenProject::Storages
              author_url: "https://www.openproject.org",
              bundled: true,
              settings: {} do
-
       # Defines permission constraints used in the module (controller, etc.)
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
       # Independent of storages module (Disabling storages module does not revoke enabled permissions).
       project_module nil, order: 100 do
         permission :manage_storages_in_project,
-                   { "storages/admin/project_storages": %i[index members new
-                                                           edit update create oauth_access_grant
-                                                           destroy destroy_info set_permissions],
+                   { "storages/admin/project_storages": %i[external_file_storages
+                                                           attachments
+                                                           members
+                                                           index
+                                                           new
+                                                           edit
+                                                           update
+                                                           create
+                                                           oauth_access_grant
+                                                           destroy
+                                                           destroy_info
+                                                           set_permissions],
                      "storages/project_settings/project_storage_members": %i[index] },
                    permissible_on: :project,
                    dependencies: %i[]
+        OpenProject::Storages::Engine.permissions.each do |p|
+          permission(p, {}, permissible_on: :project, dependencies: %i[])
+        end
       end
 
-      # Dependent on storages module (Disabling storages module does revoke enabled permissions).
-      project_module :storages,
-                     dependencies: :work_package_tracking do
+      # Dependent on work_package_tracking module
+      project_module :work_package_tracking do
         permission :view_file_links,
                    {},
                    permissible_on: :project,
@@ -151,25 +161,32 @@ module OpenProject::Storages
                    permissible_on: :project,
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
-
-        OpenProject::Storages::Engine.permissions.each do |p|
-          permission(p, {}, permissible_on: :project, dependencies: %i[])
-        end
       end
 
-      # Menu extensions
-      # Add a "storages_admin_settings" to the admin_menu with the specified link,
-      # condition ("if:"), caption and icon.
       menu :admin_menu,
-           :storages_admin_settings,
+           :files,
            { controller: "/storages/admin/storages", action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
            icon: "hosting"
 
+      menu :admin_menu,
+           :external_file_storages,
+           { controller: "/storages/admin/storages", action: :index },
+           if: Proc.new { User.current.admin? },
+           caption: :external_file_storages,
+           parent: :files
+
+      menu :admin_menu,
+           :attachments,
+           { controller: "/admin/settings/attachments_settings", action: :show },
+           if: Proc.new { User.current.admin? },
+           caption: :"attributes.attachments",
+           parent: :files
+
       menu :project_menu,
            :settings_project_storages,
-           { controller: "/storages/admin/project_storages", action: "index" },
+           { controller: "/storages/admin/project_storages", action: "external_file_storages" },
            if: lambda { |project| User.current.allowed_in_project?(:manage_storages_in_project, project) },
            caption: :project_module_storages,
            parent: :settings
@@ -310,13 +327,13 @@ module OpenProject::Storages
     add_cron_jobs do
       {
         "Storages::CleanupUncontaineredFileLinksJob": {
-          cron: "06 22 * * *",
+          cron: "06 22 * * *", # every day at 22:06
           class: ::Storages::CleanupUncontaineredFileLinksJob.name
         },
 
-        "Storages::ManageNextcloudIntegrationJob": {
-          cron: "1 * * * *",
-          class: ::Storages::ManageNextcloudIntegrationJob.name
+        "Storages::ManageStorageIntegrationsJob": {
+          cron: "1 * * * *", # every hour at xx:01
+          class: ::Storages::ManageStorageIntegrationsJob.name
         }
       }
     end

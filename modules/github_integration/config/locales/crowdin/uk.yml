@@ -20,8 +20,21 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 uk:
+  button_add_deploy_target: Додати ціль розгортання
+  label_deploy_target: Ціль розгортання
+  label_deploy_target_new: Нова ціль розгортання
+  label_deploy_target_plural: Цілі розгортання
+  label_github_integration: Інтеграція GitHub
+  notice_deploy_target_created: Створено ціль розгортання
+  notice_deploy_target_destroyed: Ціль розгортання видалено
   plugin_openproject_github_integration:
     name: "Інтеграція OpenProject GitHub"
     description: "Інтегрує OpenProject і GitHub для покращення робочого процесу"
   project_module_github: "GitHub"
   permission_show_github_content: "Показати контент GitHub"
+  permission_introspection: Зчитування даних про запущену версію ядра OpenProject і SHA складання
+  text_deploy_target_type_info: >
+    Зараз ми підтримуємо лише OpenProject.
+  text_deploy_target_api_key_info: >
+    OpenProject [API key](docs_url), що належить користувачу, який має глобальний дозвіл на аналіз об’єктів.
+  text_pull_request_deployed_to: "%{pr_link} розгорнуто в %{deploy_target_link}"

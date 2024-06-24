@@ -1,6 +1,6 @@
 <%=
   component_wrapper do
-    flex_layout do |details_container|
+    flex_layout(mt: 3) do |details_container|
       details_container.with_row do
         flex_layout(align_items: :center, justify_content: :space_between) do |heading|
           heading.with_column(flex: 1) do
@@ -13,6 +13,7 @@
                 id: "edit-meeting-details-dialog", title: t("label_meeting_details"),
                 size: :medium_portrait
               )) do |dialog|
+                dialog.with_header(variant: :large)
                 dialog.with_show_button(icon: :pencil, 'aria-label': t("label_meeting_details_edit"), scheme: :invisible)
                 render(Meetings::Sidebar::DetailsFormComponent.new(meeting: @meeting))
               end

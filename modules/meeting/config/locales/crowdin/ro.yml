@@ -44,11 +44,13 @@ ro:
         start_time: "Start time"
         start_time_hour: "Start time"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Titlu"
+        author: "Autor"
         duration_in_minutes: "min"
-        description: "Notes"
+        description: "Mențiuni"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "nu este o oră valabilă. Format necesar: HH:MM"
@@ -57,9 +59,23 @@ ro:
       meeting_agenda_item: "Agenda item"
       meeting_agenda: "Agendă"
       meeting_minutes: "Concluzii"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Reuniuni"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "a participat"
   description_invite: "a fost invitat"
   events:
@@ -100,12 +116,14 @@ ro:
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Copy meeting %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Copy attachments"
       attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Copy agenda"
       agenda_text: "Copy the agenda of the old meeting"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Open meeting"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
@@ -123,6 +141,11 @@ ro:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Copiat de la Întâlnire #%{id}"
+  meeting_section:
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notificare trimisă cu succes"
   notice_timezone_missing: Nu este setat niciun fus orar și se presupune %{zone}. Pentru a vă alege fusul orar, vă rugăm să faceți clic aici.
   permission_create_meetings: "Creați întâlniri"
@@ -171,7 +194,7 @@ ro:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "ID Întâlnire"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state: "Meeting status"

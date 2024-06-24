@@ -123,7 +123,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     (label + container_wrap_field(input, :date_picker, options))
   end
 
-  def radio_button(field, value, options = {}, *args)
+  def radio_button(field, value, options = {}, *)
     options[:class] = Array(options[:class]) + %w(form--radio-button)
 
     input_options, label_options = extract_from options
@@ -134,7 +134,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
 
     label = label_for_field(field, label_options)
-    input = super(field, value, input_options, *args)
+    input = super(field, value, input_options, *)
 
     (label + container_wrap_field(input, "radio-button", options))
   end

@@ -29,6 +29,8 @@
 #++
 module Projects
   class RowComponent < ::RowComponent
+    delegate :favored_project_ids, to: :table
+
     def project
       model.first
     end
@@ -40,6 +42,27 @@ module Projects
     # Hierarchy cell is just a placeholder
     def hierarchy
       ""
+    end
+
+    def favored
+      render(Primer::Beta::IconButton.new(
+               icon: currently_favored? ? "star-fill" : "star",
+               scheme: :invisible,
+               mobile_icon: currently_favored? ? "star-fill" : "star",
+               size: :medium,
+               tag: :a,
+               tooltip_direction: :e,
+               href: helpers.build_favorite_path(project, format: :html),
+               data: { method: currently_favored? ? :delete : :post },
+               classes: currently_favored? ? "op-primer--star-icon " : "op-project-row-component--favorite",
+               label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite),
+               aria: { label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
+               test_selector: "project-list-favorite-button"
+             ))
+    end
+
+    def currently_favored?
+      @currently_favored ||= favored_project_ids.include?(project.id)
     end
 
     def column_value(column)
@@ -138,11 +161,15 @@ module Projects
     end
 
     def row_css_class
-      classes = %w[basics context-menu--reveal]
+      classes = %w[basics context-menu--reveal op-project-row-component]
       classes << project_css_classes
       classes << row_css_level_classes
 
       classes.join(" ")
+    end
+
+    def row_css_id
+      "project-#{project.id}"
     end
 
     def row_css_level_classes
@@ -170,8 +197,10 @@ module Projects
     def additional_css_class(column)
       if column.attribute == :name
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
-      elsif [:status_explanation, :description].include?(column.attribute)
+      elsif %i[status_explanation description].include?(column.attribute)
         "project-long-text-container"
+      elsif column.attribute == :favored
+        "-w-abs-45"
       elsif custom_field_column?(column)
         cf = column.custom_field
         formattable = cf.field_format == "text" ? " project-long-text-container" : ""
@@ -180,36 +209,29 @@ module Projects
     end
 
     def button_links
-      return [] if more_menu_items.empty?
-
-      if more_menu_items.one?
-        more_menu_items.first => {label:, **button_options}
-
-        [render(Primer::Beta::IconButton.new(**button_options,
-                                             size: :small,
-                                             tag: :a,
-                                             scheme: button_options[:scheme] == :default ? :invisible : button_options[:scheme],
-                                             "aria-label": label,
-                                             test_selector: "project-list-row--single-action"))]
+      if more_menu_items.empty?
+        []
       else
-        [
-          render(Primer::Alpha::ActionMenu.new(test_selector: "project-list-row--action-menu")) do |menu|
-            menu.with_show_button(scheme: :invisible,
-                                  size: :small,
-                                  icon: :"kebab-horizontal",
-                                  "aria-label": t(:label_open_menu),
-                                  tooltip_direction: :w)
-            more_menu_items.each do |action_options|
-              action_options => {scheme:, label:, icon:, **button_options}
-              menu.with_item(scheme:,
-                             label:,
-                             test_selector: "project-list-row--action-menu-item",
-                             content_arguments: button_options) do |item|
-                item.with_leading_visual_icon(icon:)
-              end
-            end
+        [action_menu]
+      end
+    end
+
+    def action_menu
+      render(Primer::Alpha::ActionMenu.new(test_selector: "project-list-row--action-menu")) do |menu|
+        menu.with_show_button(scheme: :invisible,
+                              size: :small,
+                              icon: :"kebab-horizontal",
+                              "aria-label": t(:label_open_menu),
+                              tooltip_direction: :w)
+        more_menu_items.each do |action_options|
+          action_options => { scheme:, label:, icon:, **button_options }
+          menu.with_item(scheme:,
+                         label:,
+                         test_selector: "project-list-row--action-menu-item",
+                         content_arguments: button_options) do |item|
+            item.with_leading_visual_icon(icon:) if icon
           end
-        ]
+        end
       end
     end
 
@@ -217,10 +239,40 @@ module Projects
       @more_menu_items ||= [more_menu_subproject_item,
                             more_menu_settings_item,
                             more_menu_activity_item,
+                            more_menu_favorite_item,
+                            more_menu_unfavorite_item,
                             more_menu_archive_item,
                             more_menu_unarchive_item,
                             more_menu_copy_item,
                             more_menu_delete_item].compact
+    end
+
+    def more_menu_favorite_item
+      return if currently_favored?
+
+      {
+        scheme: :default,
+        icon: "star",
+        href: helpers.build_favorite_path(project, format: :html),
+        data: { method: :post },
+        label: I18n.t(:button_favorite),
+        aria: { label: I18n.t(:button_favorite) }
+      }
+    end
+
+    def more_menu_unfavorite_item
+      return unless currently_favored?
+
+      {
+        scheme: :default,
+        icon: "star-fill",
+        size: :medium,
+        href: helpers.build_favorite_path(project, format: :html),
+        data: { method: :delete },
+        classes: "op-primer--star-icon",
+        label: I18n.t(:button_unfavorite),
+        aria: { label: I18n.t(:button_unfavorite) }
+      }
     end
 
     def more_menu_subproject_item
@@ -252,7 +304,7 @@ module Projects
           scheme: :default,
           icon: :check,
           label: I18n.t(:label_project_activity),
-          href: project_activity_index_path(project, event_types: ["project_attributes"]),
+          href: project_activity_index_path(project, event_types: ["project_attributes"])
         }
       end
     end
@@ -267,7 +319,7 @@ module Projects
           data: {
             confirm: t("project.archive.are_you_sure", name: project.name),
             method: :post
-          },
+          }
         }
       end
     end
@@ -290,7 +342,7 @@ module Projects
           scheme: :default,
           icon: :copy,
           label: I18n.t(:button_copy),
-          href: copy_project_path(project),
+          href: copy_project_path(project)
         }
       end
     end
@@ -301,7 +353,7 @@ module Projects
           scheme: :danger,
           icon: :trash,
           label: I18n.t(:button_delete),
-          href: confirm_destroy_project_path(project),
+          href: confirm_destroy_project_path(project)
         }
       end
     end
@@ -311,7 +363,7 @@ module Projects
     end
 
     def custom_field_column?(column)
-      column.is_a?(Queries::Projects::Selects::CustomField)
+      column.is_a?(::Queries::Projects::Selects::CustomField)
     end
   end
 end

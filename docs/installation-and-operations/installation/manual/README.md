@@ -108,16 +108,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 3.2.3
+[openproject@host] rbenv install 3.3.2
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 3.2.3
+[openproject@host] rbenv global 3.3.2
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
-```
-ruby 3.2.3 (2024-01-18 revision 52bb2ac0a6) [arm64-darwin23]
+```text
+ruby 3.3.2 (2024-05-30 revision e5a195edf6) [arm64-darwin23]
 ```
 
 ## Installation of Node
@@ -143,7 +143,7 @@ time to finish.
 
 To check our Node installation we run `node --version`. It should output something very similar to:
 
-```
+```text
 v20.9.0
 ```
 
@@ -151,7 +151,6 @@ v20.9.0
 
 We will install the OpenProject Community Edition. It contains the recommended set of plugins for use
 with OpenProject. For more information, see [github.com/opf/openproject](https://github.com/opf/openproject).
-
 
 ```shell
 [openproject@host] cd ~
@@ -215,7 +214,7 @@ a better performance of OpenProject:
 rails_cache_store: :memcache
 ```
 
-> __NOTE:__ You should validate your `yml` files, for example with [yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml` file are sensitive to whitespace. It is pretty easy to write invalid `yml` files without seeing the error. Validating those files prevents you from such errors.
+> **NOTE:** You should validate your `yml` files, for example with [yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml` file are sensitive to whitespace. It is pretty easy to write invalid `yml` files without seeing the error. Validating those files prevents you from such errors.
 >
 
 To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
@@ -235,6 +234,7 @@ To configure the environment variables such as the number of web server threads 
 ```shell
 [openproject@all] RAILS_ENV="production" OPENPROJECT_DEFAULT_LANGUAGE=fr ./bin/rake db:seed
 ```
+
 will seed the database in the French language.
 
 ### Secret token
@@ -290,7 +290,6 @@ To do this, continue as the root user:
 As told by the installer, create the file /etc/apache2/mods-available/passenger.load and add the following line.
 But before copy&pasting the following lines, check if the content (especially the version numbers!) is the same as the passenger-install-apache2-module installer said. When you're in doubt, do what passenger tells you.
 
-
 ```apache
 LoadModule passenger_module /home/openproject/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/passenger-5.0.14/buildout/apache2/mod_passenger.so
 ```
@@ -298,10 +297,10 @@ LoadModule passenger_module /home/openproject/.rbenv/versions/2.1.6/lib/ruby/gem
 Then create the file /etc/apache2/mods-available/passenger.conf with the following contents (again, take care of the version numbers!):
 
 ```apache
-   <IfModule mod_passenger.c>
-     PassengerRoot /home/openproject/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/passenger-5.0.14
-     PassengerDefaultRuby /home/openproject/.rbenv/versions/2.1.6/bin/ruby
-   </IfModule>
+ <IfModule mod_passenger.c>
+   PassengerRoot /home/openproject/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/passenger-5.0.14
+   PassengerDefaultRuby /home/openproject/.rbenv/versions/2.1.6/bin/ruby
+ </IfModule>
 ```
 
 Then run:
@@ -440,7 +439,7 @@ If you need to restart the server (for example after a configuration change), do
 * **When accessing OpenProject, I get an error page. How do I find out what went wrong?**
 
   Things can go wrong on different levels. You can find the apache error logs here: `/var/log/apache2/error.log`
- 
+
   The OpenProject log can be found here: `/home/openproject/openproject/log/production.log`
 
 * **I cannot solve an error, not even with the log files. How do I get help?**

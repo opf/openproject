@@ -99,7 +99,7 @@ class WorkPackages::UpdateAncestorsService
       # or the derived remaining hours, depending on the % Complete mode
       # currently active.
       #
-      %i[estimated_hours remaining_hours] => :derive_total_estimated_and_remaining_hours,
+      %i[estimated_hours remaining_hours status status_id] => :derive_total_estimated_and_remaining_hours,
       %i[estimated_hours remaining_hours done_ratio status status_id] => :derive_done_ratio,
       %i[ignore_non_working_days] => :derive_ignore_non_working_days
     }.each do |derivative_attributes, method|
@@ -155,7 +155,9 @@ class WorkPackages::UpdateAncestorsService
     return if no_children?(work_package, loader)
 
     work_packages = [work_package] + loader.descendants_of(work_package)
-    values = work_packages.filter_map(&attribute)
+    values = work_packages
+      .filter(&:included_in_totals_calculation?)
+      .filter_map(&attribute)
     return if values.empty?
 
     values.sum.to_f

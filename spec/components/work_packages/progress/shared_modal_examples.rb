@@ -45,7 +45,7 @@ RSpec.shared_examples_for "progress modal validations" do
         work_package = build(:work_package)
 
         expect do
-          described_class.new(work_package, focused_field: "percentageDone")
+          described_class.new(work_package, focused_field: "jerry")
         end.to raise_error(ArgumentError, /The selected field is not one of/)
       end
     end

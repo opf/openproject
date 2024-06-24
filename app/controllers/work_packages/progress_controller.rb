@@ -36,17 +36,28 @@ class WorkPackages::ProgressController < ApplicationController
 
   layout false
   before_action :set_work_package
+  before_action :extract_persisted_progress_attributes, only: %i[edit create update]
 
   helper_method :modal_class
 
-  def edit
-    build_up_new_work_package
+  def new
+    build_up_brand_new_work_package
 
-    render modal_class.new(@work_package, focused_field: params[:field])
+    render modal_class.new(@work_package,
+                           focused_field: params[:field],
+                           touched_field_map:)
+  end
+
+  def edit
+    build_up_work_package
+
+    render modal_class.new(@work_package,
+                           focused_field: params[:field],
+                           touched_field_map:)
   end
 
   def create
-    service_call = build_up_new_work_package
+    service_call = build_up_brand_new_work_package
 
     if service_call.errors
                    .map(&:attribute)
@@ -70,7 +81,7 @@ class WorkPackages::ProgressController < ApplicationController
     service_call = WorkPackages::UpdateService
                      .new(user: current_user,
                           model: @work_package)
-                     .call(update_work_package_params)
+                     .call(work_package_params)
 
     if service_call.success?
       respond_to do |format|
@@ -105,15 +116,29 @@ class WorkPackages::ProgressController < ApplicationController
     @work_package = WorkPackage.new
   end
 
-  def create_work_package_params
+  def touched_field_map
     params.require(:work_package)
-          .permit(allowed_params)
-          .compact_blank
+          .slice("estimated_hours_touched",
+                 "remaining_hours_touched",
+                 "status_id_touched")
+          .transform_values { _1 == "true" }
+          .permit!
   end
 
-  def update_work_package_params
+  def extract_persisted_progress_attributes
+    @persisted_progress_attributes = @work_package
+                                       .attributes
+                                       .slice("estimated_hours", "remaining_hours", "status_id")
+  end
+
+  def work_package_params
     params.require(:work_package)
-          .permit(allowed_params)
+          .slice(*allowed_touched_params)
+          .permit!
+  end
+
+  def allowed_touched_params
+    allowed_params.filter { touched?(_1) }
   end
 
   def allowed_params
@@ -124,12 +149,24 @@ class WorkPackages::ProgressController < ApplicationController
     end
   end
 
-  def build_up_new_work_package
+  def touched?(field)
+    touched_field_map[:"#{field}_touched"]
+  end
+
+  def build_up_work_package
     WorkPackages::SetAttributesService
       .new(user: current_user,
            model: @work_package,
            contract_class: WorkPackages::CreateContract)
-      .call(create_work_package_params)
+      .call(work_package_params)
+  end
+
+  def build_up_brand_new_work_package
+    WorkPackages::SetAttributesService
+      .new(user: current_user,
+           model: @work_package,
+           contract_class: WorkPackages::CreateContract)
+      .call(work_package_params)
   end
 
   def formatted_duration(hours)

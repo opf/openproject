@@ -274,6 +274,11 @@ pl:
         warning: >
           Zmiany mogą wejść w życie po pewnym czasie. Gdy wszystkie odpowiednie pakiety robocze zostaną zaktualizowane, otrzymasz powiadomienie.
           Czy na pewno chcesz kontynuować?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Zmiana trybu obliczania postępu z opartego na statusie na oparty na pracy sprawi, że atrybut <i>%  ukończenia</i> będzie nieedytowalnym polem, którego wartość pochodzi z atrybutów <i>Praca</i> i <i>Pozostała praca</i>. Istniejące wartości atrybutu <i>% ukończenia</i> zostaną zachowane. Jeśli wartości atrybutów <i>Praca</i> i <i>Pozostała praca</i> nie były obecne, będą one wymagane w celu zmiany wartości <i>%  ukończenia</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Zmiana trybu obliczania postępu z opartego na pracy na oparty na statusie spowoduje, że wszystkie istniejące wartości <i>% ukończenia</i> zostaną utracone i zastąpione wartościami powiązanymi z poszczególnymi statusami. Istniejące wartości <i>Pozostała praca</i> mogą również zostać obliczone ponownie w celu odzwierciedlenia tej zmiany. Działanie to jest nieodwracalne.
     custom_actions:
       date:
         specific: "wł"
@@ -330,6 +335,18 @@ pl:
         years: "Lata"
         description: >
           Wybierz początkowy poziom powiększenia, który ma być wyświetlany, gdy tryb autopowiększenia jest niedostępny.
+      export:
+        title: "Opcje PDF wykresu Gantta"
+        button_export: "Eksportuj"
+        column_widths:
+          narrow: "Wąskie"
+          medium: "Średnie"
+          wide: "Szerokie"
+          very_wide: "Bardzo szerokie"
+        options:
+          date_zoom: "Powiększenie daty"
+          paper_size: "Rozmiar papieru"
+          column_widths: "Szerokość kolumn"
     general_text_no: "nie"
     general_text_yes: "tak"
     general_text_No: "Nie"
@@ -348,11 +365,10 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Wdrożenie raportowania postępów w hierarchiach pakietów roboczych.</li> <li>Zarządzanie atrybutami projektu w uporządkowany sposób na stronie przeglądu projektu.</li> <li>Usprawniony widok pól niestandardowych na liście projektów i w przeglądzie projektu.</li> <li>Ujednolicone nagłówki stron z eleganckim wyglądem Primer.</li> <li>Ulepszenie spotkań dzięki nowym funkcjom, takim jak przesyłanie załączników, osoby odpowiedzialne i historia spotkań.</li> <li>Automatyczne alerty o magazynach plików w złej kondycji i uzyskiwanie kontroli przy użyciu opcji przełączania.</li> <li>Kopiowanie automatycznie zarządzanego folderu projektu dla usług OneDrive/SharePoint podczas kopiowania projektów.</li> <li>Prośba do administratorów o usunięcie udostępnień pakietów roboczych podczas odwoływania członkostwa w projekcie.</li> <li>Lepsze planowanie dzięki 4- i 8-tygodniowym trybom wyświetlania w planiście zespołu.</li> </ul>
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Ustawianie większej liczby jednostek pracy, pozostałej pracy i czasu pracy</li> <li>Konfiguracja, które projekty są aktywowane dla atrybutów projektu</li> <li>Zmiana nazwy list projektów prywatnych</li> <li>Unikanie zbędnych przypomnień e-mail w przypadku @wzmianek</li> <li>Zapraszanie uczestników spotkań pocztą elektroniczną</li> <li>Wyświetlanie osadzonych atrybutów pakietu roboczego w eksportach PDF</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -378,6 +394,7 @@ pl:
     label_added_time_by: 'Dodany przez <a href="%{authorLink}">%{author}</a> o %{age}'
     label_ago: "dni temu"
     label_all: "wszystkie"
+    label_all_uppercase: "Wszystko"
     label_all_work_packages: "wszystkie pakiety pracy"
     label_and: "i"
     label_ascending: "Rosnąco"
@@ -419,6 +436,7 @@ pl:
     label_expand_project_menu: "Rozwiń menu projektu"
     label_export: "Eksportuj"
     label_export_preparing: "Eksport jest przygotowywany i zostanie wkrótce pobrany."
+    label_favorites: "Ulubione"
     label_filename: "Plik"
     label_filesize: "Rozmiar"
     label_general: "Ogólne"
@@ -1045,7 +1063,7 @@ pl:
       sharing:
         share: "Udostępnij"
         title: "Udostępnij pakiet roboczy"
-        show_all_users: "Pokaż wszystkich udostępnionych użytkowników"
+        show_all_users: "Pokaż wszystkich użytkowników, którym udostępniono pakiet roboczy"
         selected_count: "Wybrano %{count}"
         selection:
           mixed: "Mieszane"
@@ -1275,6 +1293,14 @@ pl:
           placeholder: "Symbolu zastępczego można teraz użyć w %{project}. Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze."
           group: "Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze."
         next_button: "Kontynuuj"
+    exclusion_info:
+      modal:
+        title: "Status wyłączono z sum hierarchii"
+        content: >-
+          Status „%{status_name}” został skonfigurowany tak, aby był wyłączony z sum hierarchii Praca, Pozostała praca i % ukończenia. Sumy nie uwzględniają tej wartości.
+    favorite_projects:
+      no_results: "Nie masz żadnych ulubionych projektów"
+      no_results_subtext: "Dodaj jeden lub wiele projektów jako ulubione w ich przeglądzie lub na liście projektów."
     include_projects:
       toggle_title: "Uwzględnij projekty"
       title: "Projekty"
@@ -1332,8 +1358,12 @@ pl:
         remove: "Usuń"
       drop_modal:
         focus_grab: "To jest kotwica fokusu okien modalnych. Naciśnij klawisze Shift+Tab, aby wrócić do elementu wyzwalającego okna modalne."
-        Close: "Zamknij"
+        close: "Zamknij okno modalne"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Limit czasu"
       waiting_subtitle:
         network_off: "Występuje problem z siecią."
         network_on: "Sieć znów działa. Staramy się."
+        timeout: >
+          OpenProject nie mógł Ci zapewnić dostępu do folderu projektu w oczekiwanym czasie. Spróbuj ponownie.<br><br> Jeśli problem nie ustąpi, skontaktuj się z administratorem OpenProject w celu sprawdzenia <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">stanu konfiguracji magazynu plików</a>.

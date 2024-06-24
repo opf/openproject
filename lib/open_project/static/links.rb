@@ -177,6 +177,10 @@ module OpenProject
               href: "https://www.openproject.org/docs/release-notes/",
               label: :label_release_notes
             },
+            release_notes_14_0_1: {
+              href: "https://www.openproject.org/docs/release-notes/14-0-1/",
+              label: "Release notes for OpenProject 14.0.1"
+            },
             data_privacy: {
               href: "https://www.openproject.org/legal/privacy/",
               label: :label_privacy_policy

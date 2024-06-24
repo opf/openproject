@@ -10,13 +10,13 @@ keywords: time and costs FAQ, time tracking, time logging, booking costs
 
 ## Is there a way to prevent logging hours for Phases (or other work package types)?
 
-It is not possible to prevent time logging on phases or restrict it to certain work package types. You could deactivate the fields "Work (earlier called Estimated time" and "Spent time" for type Phase (using the [work package form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on)) but it would still be possible to log time for Phases.
+It is not possible to prevent time logging on phases or restrict it to certain work package types. You could deactivate the fields "Work (earlier called Estimated time)" and "Spent time" for type Phase (using the [work package form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on)) but it would still be possible to log time for Phases.
 
 ## Can I log time for another user than myself?
 
 Since [12.2 release](../../../release-notes/12/12-2-0/) it is possible to log time for a user other than yourself. This right has to be granted by an admin to users with certain roles. You can find out more [here](../../../user-guide/time-and-costs/time-tracking/#log-and-edit-time-for-other-users).
 
-## Is it possible to view all hours assigned to each member in total? If I work on various projects I'd like to know how many hours I accumulated for all tasks assigned to me.
+## If I work on various projects I'd like to know how many hours I accumulated for all tasks assigned to me. Is it possible to view all hours assigned to each member in total?
 
 Yes, it is possible to see all hours assigned to each user in total. In your cost report you would just need to [select](../reporting/#filter-cost-reports) all projects that you would want to look at.
 Click on the **+** next to the project filter, select all projects or the ones that you would like to select (use Ctrl or Shift key), choose all other filters and then click **Apply** to generate the cost report.

@@ -273,6 +273,11 @@ de:
         warning: >
           Es kann einige Zeit dauern, bis die Änderungen wirksam werden. Sie werden benachrichtigt, wenn alle relevanten Arbeitspakete aktualisiert worden sind.
           Sind Sie sicher, dass Sie fortfahren möchten?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Wenn Sie den Modus der Fortschrittsberechnung von statusbezogen auf aufwandsbezogen ändern, wird <i>% Abgeschlossen</i> zu einem nicht editierbaren Feld, dessen Wert von <i>Aufwand</i> und <i>Verbleibender Aufwand</i> abgeleitet wird. Vorhandene Werte für <i>% Abgeschlossen</i> werden beibehalten. Wenn die Werte für <i>Aufwand</i> und Verbleibender <i>Aufwand</i> nicht vorhanden waren, werden sie benötigt, um <i>% Abgeschlossen</i> zu ändern.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Wenn Sie den Modus der Fortschrittsberechnung von aufwandsbezogen auf statusbezogen ändern, gehen alle bestehenden Werte für <i>% Fertigstellung</i> verloren und werden durch Werte ersetzt, die mit dem jeweiligen Status verbunden sind. Bestehende Werte für <i>Verbleibender Aufwand</i> können ebenfalls neu berechnet werden, um diese Änderung widerzuspiegeln. Diese Aktion ist nicht umkehrbar.
     custom_actions:
       date:
         specific: "am"
@@ -329,6 +334,18 @@ de:
         years: "Jahre"
         description: >
           Wählen Sie die Zoomstufe für das Gantt-Diagramm aus, wenn kein Autozoom aktiviert ist.
+      export:
+        title: "Gantt-Diagramm PDF-Optionen"
+        button_export: "Exportieren"
+        column_widths:
+          narrow: "Schmal"
+          medium: "Mittel"
+          wide: "Breit"
+          very_wide: "Sehr breit"
+        options:
+          date_zoom: "Datumszoom"
+          paper_size: "Papierformat"
+          column_widths: "Spaltenbreite"
     general_text_no: "nein"
     general_text_yes: "ja"
     general_text_No: "Nein"
@@ -347,11 +364,10 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/de/blog/openproject-14-0-release
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Fortschrittsberechnung über Arbeitspaket-Hierarchien hinweg.</li> <li>Strukturierte Verwaltung von Attributen auf der Projektübersichtsseite.</li> <li>Optimierte Ansicht der benutzerdefinierten Felder in der Projektliste und der Projektübersicht.</li> <li>Vereinheitlichte Seitenköpfe mit dem schlanken Primer-Design.</li> <li>Weitere Verbesserungen an Besprechungen, wie dem Hochladen von Anhängen, setzen eines Referenten und Anzeige des Änderungsverlaufs.</li> <li>Automatische Warnungen für defekte Dateispeicher und Kontrolle durch mehr Optionen.</li> <li>Verwaltete Projektordner für OneDrive/SharePoint können beim Kopieren von Projekten mit kopiert werden.</li> <li>Admins anfragen können, Freigaben für Arbeitspakete zu entfernen, wenn Sie eine Projektmitgliedschaft widerrufen.</li> <li>4- und 8-Wochen-Anzeigemodi im Teamplaner.</li> </ul>
+                Diese Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Legen Sie mehr Einheiten für Aufwand, Verbleibender Aufwand und Arbeitszeit fest</li> <li>Konfigurieren Sie in der Administration, in welchen Projekte Projektattribute aktiviert sind</li> <li>Umbenennen von privaten Projektlisten</li> <li>Vermeiden Sie überflüssige E-Mail-Erinnerungen bei @Mentions</li> <li>Einladung per E-Mail an Teilnehmer einer neuen Besprechung</li> <li>Eingebettete Arbeitspaketattribute in PDF-Exporten anzeigen</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -377,6 +393,7 @@ de:
     label_added_time_by: 'Hinzugefügt von <a href="%{authorLink}">%{author}</a> am %{age}'
     label_ago: "Tage her"
     label_all: "alle"
+    label_all_uppercase: "Alle"
     label_all_work_packages: "alle Arbeitspakete"
     label_and: "und"
     label_ascending: "Aufsteigend"
@@ -418,6 +435,7 @@ de:
     label_expand_project_menu: "Projektmenü aufklappen"
     label_export: "Exportieren"
     label_export_preparing: "Der Export wird vorbereitet und wird in Kürze heruntergeladen."
+    label_favorites: "Favoriten"
     label_filename: "Datei"
     label_filesize: "Größe"
     label_general: "Allgemein"
@@ -1042,7 +1060,7 @@ de:
       sharing:
         share: "Teilen"
         title: "Arbeitspaket teilen"
-        show_all_users: "Alle Benutzer anzeigen, mit denen dieses Arbeitspaket geteilt wurde"
+        show_all_users: "Alle Benutzer anzeigen, für die das Arbeitspaket geteilt wurde"
         selected_count: "%{count} ausgewählt"
         selection:
           mixed: "Gemischt"
@@ -1268,6 +1286,14 @@ de:
           placeholder: "Der Platzhalter kann jetzt in %{project} verwendet werden. In der Zwischenzeit können Sie bereits mit diesem Benutzer planen und beispielsweise Arbeitspakete zuweisen."
           group: "Die Gruppe ist nun %{project} zugewiesen. In der Zwischenzeit können Sie bereits mit dieser Gruppe planen und ihr zum Beispiel Arbeitspakete zuweisen."
         next_button: "Fortfahren"
+    exclusion_info:
+      modal:
+        title: "Status von Hierarchie-Summe ausgeschlossen"
+        content: >-
+          Der Status '%{status_name}' wurde so konfiguriert, dass er von den Hierarchiesummen für Aufwand, verbleibender Aufwand und % Abgeschlossen ausgeschlossen wird. Die Gesamtsumme berücksichtigen diesen Wert nicht.
+    favorite_projects:
+      no_results: "Sie haben keine favorisierten Projekte"
+      no_results_subtext: "Fügen Sie ein oder mehrere Projekte als Favorit in ihrer Übersicht oder in einer Projektliste hinzu."
     include_projects:
       toggle_title: "Enthaltene Projekte"
       title: "Projekte"
@@ -1325,8 +1351,12 @@ de:
         remove: "Entfernen"
       drop_modal:
         focus_grab: "Dies ist ein Fokusanker für Modale. Drücken Sie Shift+Tab um zum vorherigen öffnenden Element zurückzukehren."
-        Close: "Schließen"
+        close: "Modal schließen"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Zeitlimit"
       waiting_subtitle:
         network_off: "Es gibt ein Netzwerkproblem."
         network_on: "Netzwerk ist wieder da. Wir versuchen es erneut."
+        timeout: >
+          OpenProject konnte Ihnen den Zugriff auf den Projektordner nicht innerhalb des erwarteten Zeitlimits ermöglichen. Bitte versuchen Sie es noch einmal.<br><br> Wenn das Problem weiterhin besteht, wenden Sie sich bitte an Ihren OpenProject-Administrator, um den Status der <a href="https://www.openproject.org/de/docs/system-admin-guide/dateien/external-file-storages/file-storage-troubleshooting/">Dateiablage</a> zu überprüfen.

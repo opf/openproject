@@ -8,6 +8,10 @@ module ::Overviews
 
     menu_item :overview
 
+    def show
+      render
+    end
+
     def project_custom_fields_sidebar
       render :project_custom_fields_sidebar, layout: false
     end

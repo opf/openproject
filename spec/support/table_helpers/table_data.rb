@@ -83,6 +83,15 @@ module TableHelpers
       Table.new(work_packages_by_identifier)
     end
 
+    def order_like!(other_table)
+      ordered_identifiers = other_table.work_package_identifiers
+      extra_identifiers = work_package_identifiers - ordered_identifiers
+      @work_packages_data = work_packages_data
+        .index_by { _1[:identifier] }
+        .values_at(*(ordered_identifiers + extra_identifiers))
+        .compact
+    end
+
     class Factory
       attr_reader :table_data, :work_packages_by_identifier
 

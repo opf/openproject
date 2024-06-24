@@ -38,7 +38,7 @@ class Queries::Serialization::Selects
   end
 
   def dump(selects)
-    selects.map(&:attribute)
+    selects.map { |s| s.attribute.to_s }
   end
 
   def registered_and_available

@@ -81,7 +81,7 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
     create(:meeting, project:, title: "Awesome meeting yesterday!", start_time: 1.day.ago)
   end
 
-  shared_let(:other_project_meeting) do
+  let(:other_project_meeting) do
     create(:meeting,
            project: other_project,
            title: "Awesome other project meeting!",
@@ -89,12 +89,19 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
            duration: 2.0,
            location: "not-a-url")
   end
+  let(:ongoing_meeting) do
+    create(:meeting, project:, title: "Awesome ongoing meeting!", start_time: 30.minutes.ago)
+  end
 
   def setup_meeting_involvement
-    create(:meeting_participant, :invitee,  user:, meeting: tomorrows_meeting)
-    create(:meeting_participant, :invitee,  user:, meeting: yesterdays_meeting)
+    invite_to_meeting(tomorrows_meeting)
+    invite_to_meeting(yesterdays_meeting)
     create(:meeting_participant, :attendee, user:, meeting:)
     meeting.update!(author: user)
+  end
+
+  def invite_to_meeting(meeting)
+    create(:meeting_participant, :invitee, user:, meeting:)
   end
 
   before do
@@ -103,11 +110,9 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
 
   shared_examples "sidebar filtering" do |context:|
     context "when filtering with the sidebar" do
-      shared_let(:ongoing_meeting) do
-        create(:meeting, project:, title: "Awesome ongoing meeting!", start_time: 30.minutes.ago)
-      end
-
       before do
+        ongoing_meeting
+        other_project_meeting
         setup_meeting_involvement
         meetings_page.visit!
       end
@@ -199,9 +204,10 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
   context "when visiting from a global context" do
     let(:meetings_page) { Pages::Meetings::Index.new(project: nil) }
 
-    it "lists all upcoming meetings for all projects the user has access to" do
-      meeting
-      yesterdays_meeting
+    it "lists all upcoming meetings for all projects the user is invited to" do
+      invite_to_meeting(meeting)
+      invite_to_meeting(yesterdays_meeting)
+      invite_to_meeting(other_project_meeting)
 
       meetings_page.navigate_by_modules_menu
       meetings_page.expect_meetings_listed(meeting, other_project_meeting)
@@ -209,10 +215,11 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
     end
 
     it "renders a link to each meeting's location if present and a valid URL" do
-      meeting
-      meeting_with_no_location
-      meeting_with_malicious_location
-      tomorrows_meeting
+      invite_to_meeting(meeting)
+      invite_to_meeting(meeting_with_no_location)
+      invite_to_meeting(meeting_with_malicious_location)
+      invite_to_meeting(tomorrows_meeting)
+      invite_to_meeting(other_project_meeting)
 
       meetings_page.visit!
 
@@ -245,7 +252,8 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
 
     describe "sorting" do
       before do
-        meeting
+        invite_to_meeting(meeting)
+        invite_to_meeting(other_project_meeting)
         visit meetings_path
         # Start Time ASC is the default sort order for Upcoming meetings
         # We can assert the initial sort by expecting the order is
@@ -338,16 +346,16 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
     include_examples "sidebar filtering", context: :project
 
     specify "with 1 meeting listed" do
-      meeting
+      invite_to_meeting(meeting)
       meetings_page.visit!
 
       meetings_page.expect_meetings_listed(meeting)
     end
 
     it "with pagination", with_settings: { per_page_options: "1" } do
-      meeting
-      tomorrows_meeting
-      yesterdays_meeting
+      invite_to_meeting(meeting)
+      invite_to_meeting(tomorrows_meeting)
+      invite_to_meeting(yesterdays_meeting)
 
       # First page displays the soonest occurring upcoming meeting
       meetings_page.visit!
@@ -365,10 +373,10 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
     end
 
     it "renders a link to each meeting's location if present and a valid URL" do
-      meeting
-      meeting_with_no_location
-      meeting_with_malicious_location
-      tomorrows_meeting
+      invite_to_meeting(meeting)
+      invite_to_meeting(meeting_with_no_location)
+      invite_to_meeting(meeting_with_malicious_location)
+      invite_to_meeting(tomorrows_meeting)
 
       meetings_page.visit!
       meetings_page.expect_link_to_meeting_location(meeting)
@@ -379,8 +387,8 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
 
     describe "sorting" do
       before do
-        meeting
-        tomorrows_meeting
+        invite_to_meeting(meeting)
+        invite_to_meeting(tomorrows_meeting)
         meetings_page.visit!
         # Start Time ASC is the default sort order for Upcoming meetings
         # We can assert the initial sort by expecting the order is

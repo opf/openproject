@@ -53,7 +53,7 @@ lv:
       last_backup: Last backup
       last_backup_from: Last backup from
       title: Backup OpenProject
-      options: Options
+      options: Opcijas
       include_attachments: Include attachments
       download_backup: Download backup
       request_backup: Request backup
@@ -65,7 +65,7 @@ lv:
     button_back: "Atpakaļ"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Atcelt"
-    button_close: "Close"
+    button_close: "Aizvērt"
     button_change_project: "Change project"
     button_check_all: "Atzīmēt visus"
     button_configure-form: "Configure form"
@@ -274,6 +274,11 @@ lv:
         warning: >
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: " "
@@ -330,10 +335,22 @@ lv:
         years: "Gads"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "no"
     general_text_yes: "yes"
-    general_text_No: "No"
-    general_text_Yes: "Yes"
+    general_text_No: "Nē"
+    general_text_Yes: "Jā"
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -348,11 +365,10 @@ lv:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -378,6 +394,7 @@ lv:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "days ago"
     label_all: "all"
+    label_all_uppercase: "Visi"
     label_all_work_packages: "visu darbu pakotnes"
     label_and: "and"
     label_ascending: "Ascending"
@@ -404,7 +421,7 @@ lv:
     label_collapse: "Collapse"
     label_collapsed: "sakļauts"
     label_collapse_all: "Collapse all"
-    label_comment: "Comment"
+    label_comment: "Komentârs"
     label_committed_at: "%{committed_revision_link}, %{date}"
     label_committed_link: "ievietotā revīzija %{revision_identifier}"
     label_contains: "contains"
@@ -419,6 +436,7 @@ lv:
     label_expand_project_menu: "Expand project menu"
     label_export: "Eksportēt"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_favorites: "Favorites"
     label_filename: "Fails"
     label_filesize: "Izmērs"
     label_general: "General"
@@ -440,14 +458,14 @@ lv:
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Pēdējās izmaiņas veiktas"
     label_learn_more_link: "Uzzināt vairāk"
-    label_less_or_equal: "<="
+    label_less_or_equal: "mazāks vai vienāds"
     label_less_than_ago: "less than days ago"
     label_loading: "Notiek ielāde..."
     label_mail_notification: "E-pasta paziņojumi"
     label_manage_columns: "Manage and reorder columns"
     label_me: "me"
-    label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
+    label_meeting_agenda: "Darba kārtība"
+    label_meeting_minutes: "Protokols"
     label_menu_collapse: "sakļaut"
     label_menu_expand: "izvērst"
     label_more_than_ago: "more than days ago"
@@ -458,7 +476,7 @@ lv:
     label_no_start_date: "bez sākuma datuma"
     label_no_date: "no date"
     label_no_value: "Nav vērtības"
-    label_none: "none"
+    label_none: "Neviens"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
     label_on: " "
@@ -498,7 +516,7 @@ lv:
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Publisks"
-    label_sum: "Sum"
+    label_sum: "Summa"
     label_sum_for: "Sum for"
     label_total_sum: "Total sum"
     label_subject: "Nosaukums"
@@ -515,7 +533,7 @@ lv:
     label_value_derived_from_children: "(value derived from children)"
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
-    label_work_package: "Work package"
+    label_work_package: "Darba pieteikums"
     label_work_package_parent: "Parent work package"
     label_work_package_plural: "Pieteikumi"
     label_watch: "Sekot"
@@ -622,7 +640,7 @@ lv:
       facets:
         unread: "Unread"
         unread_title: "Show unread"
-        all: "All"
+        all: "Visi"
         all_title: "Rādīt visus"
       center:
         label_actor_and: "and"
@@ -917,7 +935,7 @@ lv:
       label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Pievienot filtru"
       label_filter_by_text: "Filter by text"
-      label_options: "Options"
+      label_options: "Opcijas"
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
@@ -975,27 +993,27 @@ lv:
         percentComplete: "% Complete"
         percentCompleteAlternative: "Progress"
         dueDate: "Finish date"
-        duration: "Duration"
+        duration: "Ilgums"
         spentTime: "Pavadīts laiks"
         category: "Sadaļa"
         percentageDone: "Percentage done"
         priority: "Prioritāte"
         projectName: "Projekts"
-        remainingWork: "Remaining work"
+        remainingWork: "Atlikušie darbi"
         remainingWorkAlternative: "Remaining hours"
         responsible: "Atbildīgais"
         startDate: "Sākuma datums"
         status: "Statuss"
         subject: "Nosaukums"
         subproject: "Subproject"
-        title: "Title"
+        title: "Virsraksts"
         type: "Veids"
         updatedAt: "Labots"
         versionName: "Versija"
         version: "Versija"
         work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        workAlternative: "Darbietilpības novērtējums"
+        remainingTime: "Atlikušie darbi"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
@@ -1044,7 +1062,7 @@ lv:
       sharing:
         share: "Koplietot"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1118,7 +1136,7 @@ lv:
         page_settings: "Rename view"
         delete: "Dzēst"
       filter: "Filtrēt"
-      unselected_title: "Work package"
+      unselected_title: "Darba pieteikums"
       search_query_label: "Search saved views"
     modals:
       label_name: "Nosaukums"
@@ -1185,7 +1203,7 @@ lv:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "%{count} dienas"
+        one: "1 dienas"
         other: "%{count} dienām"
         zero: "0 days"
     zen_mode:
@@ -1227,7 +1245,7 @@ lv:
       type:
         required: "Please select the type to be invited"
         user:
-          title: "User"
+          title: "Lietotāji"
           description: "Permissions based on the assigned role in the selected project"
         group:
           title: "Group"
@@ -1272,6 +1290,14 @@ lv:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
         next_button: "Continue"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "Projekti"
@@ -1297,7 +1323,7 @@ lv:
       baseline_comparison: "Baseline comparison"
       help_description: "Reference time zone for the baseline."
       time_description: "In your local time: %{datetime}"
-      time: "Time"
+      time: "Laiks"
       from: "From"
       to: "To"
       drop_down:
@@ -1329,8 +1355,12 @@ lv:
         remove: "Noņemt"
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        Close: "Close"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

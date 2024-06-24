@@ -17,19 +17,19 @@ OpenProject will be installed with a PostgreSQL database.
 If you find any bugs or you have any recommendations for improving this tutorial, please, feel free to send a pull
 request or comment in the [OpenProject forums](https://community.openproject.org/projects/openproject/boards).
 
-# Prepare your environment
+## Prepare your environment
 
 We'll use [homebrew](https://brew.sh/) to install most of our requirements. Please install that first using the guide on
 their homepage.
 
-## Install Ruby
+### Install Ruby
 
 Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install
 Ruby. We always require the latest ruby versions, and you can check which version is required
 by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At
-the time of writing, this version is "3.2.3"
+the time of writing, this version is "3.3.2"
 
-### Install rbenv and ruby-build
+#### Install rbenv and ruby-build
 
 rbenv is a ruby version manager that lets you quickly switch between ruby versions.
 ruby-build is an addon to rbenv that installs ruby versions.
@@ -41,11 +41,11 @@ $ brew install rbenv ruby-build
 $ rbenv init
 ```
 
-### Installing ruby
+#### Installing ruby
 
 With both installed, we can now install the actual ruby version. You can check available ruby versions
 with `rbenv install --list`.
-At the time of this writing, the latest stable version is `3.2.3`, which we also require.
+At the time of this writing, the latest stable version is `3.3.2`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile).
 Search for the `ruby '~> X.Y.Z'` line
@@ -53,14 +53,14 @@ and install that version.
 
 ```shell
 # Install the required version as read from the Gemfile
-rbenv install 3.2.3
+rbenv install 3.3.2
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to
 globally activate this version
 
 ```shell
-rbenv global 3.2.3
+rbenv global 3.3.2
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -69,7 +69,7 @@ You also need to install [bundler](https://github.com/bundler/bundler/), the rub
 gem install bundler
 ```
 
-## Setup PostgreSQL database
+### Setup PostgreSQL database
 
 Next, install a PostgreSQL database. If you wish to use a MySQL database instead and have installed one, skip these
 steps.
@@ -85,7 +85,7 @@ $ postgres -D /usr/local/var/postgres
 Then, create the OpenProject database user and accompanied database.
 
 ```shell
-$ createuser -d -P openproject
+createuser -d -P openproject
 ```
 
 You will be prompted for a password, for the remainder of these instructions, we assume its `openproject-dev-password`.
@@ -93,25 +93,25 @@ You will be prompted for a password, for the remainder of these instructions, we
 Now, create the database `openproject_dev` and `openproject_test` owned by the previously created user.
 
 ```shell
-$ createdb -O openproject openproject_dev
-$ createdb -O openproject openproject_test
+createdb -O openproject openproject_dev
+createdb -O openproject openproject_test
 ```
 
-## Install Node.js
+### Install Node.js
 
 We will install the latest LTS version of Node.js via [nodenv](https://github.com/nodenv/nodenv). This is basically the
 same steps as for rbenv:
 
-### Install nodenv and node-build
+#### Install nodenv and node-build
 
 ```shell
 # Install
-$ brew install nodenv node-build
+brew install nodenv node-build
 # Initialize nodenv
-$ nodenv init
+nodenv init
 ```
 
-### Install latest LTS node version
+#### Install latest LTS node version
 
 You can find the latest LTS version here: [nodejs.org/en/download](https://nodejs.org/en/download/)
 
@@ -122,22 +122,22 @@ nodenv install 20.9.0
 nodenv global 20.9.0
 ```
 
-### Update NPM to the latest version
+#### Update NPM to the latest version
 
 ```shell
 npm install npm@latest -g
 ```
 
-## Verify your installation
+### Verify your installation
 
 You should now have an active ruby and node installation. Verify that it works with these commands.
 
 ```shell
 $ ruby --version
-ruby 3.2.3 (2024-01-18 revision 52bb2ac0a6) [arm64-darwin23]
+ruby 3.3.2 (2024-05-30 revision e5a195edf6) [arm64-darwin23]
 
 $ bundler --version
-Bundler version 2.5.5
+Bundler version 2.5.11
 
 node --version
 v20.9.0
@@ -146,7 +146,7 @@ npm --version
 10.5.0
 ```
 
-# Install OpenProject
+## Install OpenProject
 
 ```shell
 # Download the repository
@@ -158,7 +158,7 @@ Note that we have checked out the `dev` branch of the OpenProject repository. De
 the `dev` branch (there is no `master` branch).
 So, if you want to develop a feature, create a feature branch from a current `dev` branch.
 
-## Configure OpenProject
+### Configure OpenProject
 
 Create and configure the database configuration file in `config/database.yml` (relative to the openproject-directory.
 
@@ -190,7 +190,7 @@ To configure the environment variables such as the number of web server threads 
 the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be
 automatically loaded to the application's environment.
 
-## Finish the Installation of OpenProject
+### Finish the Installation of OpenProject
 
 Install code dependencies, link plugin modules and export translation files.
 
@@ -211,7 +211,7 @@ RAILS_ENV=development bin/rails db:seed
 
 1
 
-## Run OpenProject through overmind
+### Run OpenProject through overmind
 
 You can run all required workers of OpenProject through `overmind`, which combines them in a single tab. Optionally, you
 may also
@@ -243,14 +243,16 @@ documentation [usage section](https://github.com/DarthSim/overmind/tree/v2.4.0#u
 
 You can access the application with the admin-account having the following credentials:
 
-    Username: admin
-    Password: admin
+```text
+Username: admin
+Password: admin
+```
 
-## Run OpenProject manually
+### Run OpenProject manually
 
 To run OpenProject manually, you need to run the rails server and the webpack frontend bundler to:
 
-### Rails web server
+#### Rails web server
 
 ```shell
 RAILS_ENV=development bin/rails server
@@ -258,7 +260,7 @@ RAILS_ENV=development bin/rails server
 
 This will start the development server on port `3000` by default.
 
-### Angular frontend
+#### Angular frontend
 
 To run the frontend server, please run
 
@@ -273,7 +275,7 @@ should you be working on the TypeScript / Angular frontend part.
 You can then access the application either through `localhost:3000` (Rails server) or through the frontend
 proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
 
-### Delayed Job background worker
+#### Delayed Job background worker
 
 ```shell
 RAILS_ENV=development bundle exec good_job start
@@ -281,12 +283,12 @@ RAILS_ENV=development bundle exec good_job start
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
 
-## Additional test dependencies
+### Additional test dependencies
 
 The test suite requires a few additional dependencies to be installed. These are not required for running OpenProject in
 development mode, but only for running the entire test suite.
 
-### Java 7 or later
+#### Java 7 or later
 
 To test the integration with LDAP servers, we rely on [ladle](https://github.com/NUBIC/ladle) to spin up an LDAP server
 when running tests. As this runs [ApacheDS](https://directory.apache.org/apacheds/) internally, it requires Java 7 or
@@ -301,7 +303,7 @@ brew install openjdk
 sudo ln -sfn $(brew --prefix)/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
 ```
 
-### Subversion
+#### Subversion
 
 To test the integration with Subversion repositories, we rely on the `svnadmin` command to be available. If subversion
 is not installed, the tests *will be skipped*. To run the tests, install subversion with
@@ -310,7 +312,7 @@ is not installed, the tests *will be skipped*. To run the tests, install subvers
 brew install subversion
 ```
 
-### Git
+#### Git
 
 To test the integration with Git repositories, we rely on the `git` command to be available. Git is either installed via
 the Xcode Command Line Tools, with [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12) or via homebrew.
@@ -323,9 +325,9 @@ xcode-select --install
 brew install git
 ```
 
-## Known issues
+### Known issues
 
-### Spawning a lot of browser tabs
+#### Spawning a lot of browser tabs
 
 If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a
 significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs
@@ -336,7 +338,7 @@ in a production setting.**
 RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
 ```
 
-## Start Coding
+### Start Coding
 
 Please have a look at [our development guidelines](../code-review-guidelines) for tips and guides on how to start
 coding. We have advice on how to get your changes back into the OpenProject core as smooth as possible.
@@ -344,13 +346,13 @@ Also, take a look at the `doc` directory in our sources, especially
 the [how to run tests](https://github.com/opf/openproject/blob/dev/docs/development/running-tests) documentation (we
 like to have automated tests for every new developed feature).
 
-## Troubleshooting
+### Troubleshooting
 
 The OpenProject logfile can be found in `log/development.log`.
 
 If an error occurs, it should be logged there (as well as in the output to STDOUT/STDERR of the rails server process).
 
-## Questions, Comments, and Feedback
+### Questions, Comments, and Feedback
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the
 appropriate community.openproject.org [forum](https://community.openproject.org/projects/openproject/boards/9).

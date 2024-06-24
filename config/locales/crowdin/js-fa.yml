@@ -88,7 +88,7 @@ fa:
     button_list_view: "نمای فهرستی"
     button_show_view: "نمایش تمام صفحه"
     button_log_time: "پیگیری زمان"
-    button_more: "More"
+    button_more: "بیشتر"
     button_open_details: "بازکردن نمای جزییات"
     button_close_details: "بستن نمایش جزئیات"
     button_open_fullscreen: "نمایش تمام صفحه"
@@ -100,7 +100,7 @@ fa:
     button_more_actions: "More actions"
     button_quote: "نقل قول"
     button_save: "ذخیره"
-    button_settings: "Settings"
+    button_settings: "تنظیمات"
     button_uncheck_all: "لغو انتخاب همه"
     button_update: "به روز رسانی"
     button_export-pdf: "دانلود PDF"
@@ -274,6 +274,11 @@ fa:
         warning: >
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: "برخط"
@@ -330,6 +335,18 @@ fa:
         years: "Years"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "نه"
@@ -348,11 +365,10 @@ fa:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -365,7 +381,7 @@ fa:
       ical_generation_error_text: "An error occured while generating the calendar URL."
       success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
     label_activate: "Activate"
-    label_assignee: "Assignee"
+    label_assignee: "نماینده"
     label_add_column_after: "Add column after"
     label_add_column_before: "افزودن ستون قبل از"
     label_add_columns: "افزودن ستون ها"
@@ -378,15 +394,16 @@ fa:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "days ago"
     label_all: "all"
+    label_all_uppercase: "همه"
     label_all_work_packages: "تمام بسته های کاری"
     label_and: "and"
     label_ascending: "Ascending"
     label_author: "نویسنده: %{user}"
     label_avatar: "چهرک"
     label_between: "بین"
-    label_board: "Board"
+    label_board: "تابلو"
     label_board_locked: "قفل شده"
-    label_board_plural: "Boards"
+    label_board_plural: "تابلو"
     label_board_sticky: "مهم"
     label_change: "تغییر"
     label_create: "ایجاد"
@@ -419,12 +436,13 @@ fa:
     label_expand_project_menu: "بازکردن منوی پروژه"
     label_export: "خروجی"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_favorites: "Favorites"
     label_filename: "فایل"
     label_filesize: "اندازه‌"
     label_general: "General"
     label_global_roles: "نقش‌های جهانی"
     label_greater_or_equal: ">="
-    label_group: "Group"
+    label_group: "گروه"
     label_group_by: "گروه‌بندی بر اساس"
     label_group_plural: "Groups"
     label_hide_attributes: "نمایش کمتر"
@@ -436,7 +454,7 @@ fa:
     label_incoming_emails: "Incoming emails"
     label_information_plural: "اطلاعات"
     label_invalid: "نا معتبر"
-    label_import: "Import"
+    label_import: "درون‌ریزی"
     label_latest_activity: "آخرین فعالیت"
     label_last_updated_on: "آخرین به روزرسانی در"
     label_learn_more_link: "Learn more"
@@ -673,7 +691,7 @@ fa:
           mentioned:
             title: "Mentioned"
             description: "Receive a notification every time someone mentions me anywhere"
-          assignee: "Assignee"
+          assignee: "نماینده"
           responsible: "Accountable"
           shared: "Shared"
           watched: "ناظر"
@@ -775,7 +793,7 @@ fa:
       edit:
         form_configuration: "Form Configuration"
         projects: "پروژه‌ها"
-        settings: "Settings"
+        settings: "تنظیمات"
     time_entry:
       work_package_required: "Requires selecting a work package first."
       title: "پیگیری زمان"
@@ -966,7 +984,7 @@ fa:
         estimatesAndTime: "برآورد و زمان"
         other: "غیره"
       properties:
-        assignee: "Assignee"
+        assignee: "نماینده"
         author: "نویسنده"
         createdAt: "Created on"
         description: "توضیحات"
@@ -980,11 +998,11 @@ fa:
         percentageDone: "Percentage done"
         priority: "اولويت"
         projectName: "پروژه"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "کار باقی‌مانده"
+        remainingWorkAlternative: "ساعت‌های باقیمانده"
         responsible: "مسئول"
         startDate: "Start date"
-        status: "Status"
+        status: "وضعیت"
         subject: "Subject"
         subproject: "زیر پروژه"
         title: "عنوان"
@@ -994,7 +1012,7 @@ fa:
         version: "نسخه"
         work: "Work"
         workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        remainingTime: "کار باقی‌مانده"
       default_queries:
         latest_activity: "آخرین فعالیت"
         created_by_me: "Created by me"
@@ -1043,7 +1061,7 @@ fa:
       sharing:
         share: "به اشتراک گذاری"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1074,7 +1092,7 @@ fa:
           inline: "بخش(های) هایلایت‌شده"
           inline_all: "همه‌ی بخش‌ها"
           entire_row_by: "Entire row by"
-          status: "Status"
+          status: "وضعیت"
           priority: "اولويت"
           type: "نوع"
         sorting_mode:
@@ -1227,7 +1245,7 @@ fa:
           title: "کاربر"
           description: "Permissions based on the assigned role in the selected project"
         group:
-          title: "Group"
+          title: "گروه"
           description: "Permissions based on the assigned role in the selected project"
         placeholder:
           title: "Placeholder user"
@@ -1269,6 +1287,14 @@ fa:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
         next_button: "Continue"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "پروژه‌ها"
@@ -1326,8 +1352,12 @@ fa:
         remove: "Remove"
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        Close: "Close"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

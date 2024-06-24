@@ -274,6 +274,11 @@ lt:
         warning: >
           Pakeitimų įsigaliojimas gali užtrukti. Jums bus pranešta, kai visi susiję darbo paketai bus atnaujinti.
           Ar tikrai norite tęsti?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: "įjungta"
@@ -330,6 +335,18 @@ lt:
         years: "Metai"
         description: >
           Pasirinkite pradinį pritraukimo lygį, kuris bus rodomas kai automatinis pritraukimas negalimas.
+      export:
+        title: "Ganto diagramos PDF parinktys"
+        button_export: "Eksportuoti"
+        column_widths:
+          narrow: "Siauras"
+          medium: "Vidutinis"
+          wide: "Platus"
+          very_wide: "Labai platus"
+        options:
+          date_zoom: "Datos priartinimas"
+          paper_size: "Popieriaus dydis"
+          column_widths: "Stulpelių pločiai"
     general_text_no: "ne"
     general_text_yes: "taip"
     general_text_No: "Ne"
@@ -348,11 +365,10 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Šioje laidoje yra keletas naujų savybių ir patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Darbo eigos skaičiavimas darbo paketų hierarchijoje.</li> <li>Projekto atributų valdymas struktūriniu būdu projekto apžvalgos puslapyje.</li> <li>Geresnis savo laukų vaizdas projektų sąraše ir projekto apžvalgoje.</li> <li>Unifikuotos puslapių antraštės su gražiu Primer dizainu.</li> <li>Pagerinti susitikimai su naujomis savybėmis, tokiomis kaip priedų įkėlimas, atsakingais asmenimis ir susitikimų istorija.</li> <li>Automatiniai pranešimai apie nesveikas failų saugyklas, valdymas perjungiamomis parinktimis.</li> <li>Automatiškai valdomų projekto aplankų kopijavimas OneDrive/SharePoint, kai kopijuojami projektai.</li> <li>Administratorių prašymas išimti prieigą prie darbo paketų atšaukiant projekto narystę.</li> <li>Pagerintas planavimas su 4 ir 8 savaičių vaizdo režimais komandos planavime.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
@@ -378,6 +394,7 @@ lt:
     label_added_time_by: 'Pridėjo <a href="%{authorLink}">%{author}</a> %{age}'
     label_ago: "dienų prieš"
     label_all: "visi"
+    label_all_uppercase: "Visi"
     label_all_work_packages: "visi darbų paketai"
     label_and: "ir"
     label_ascending: "Didėjančia tvarka"
@@ -419,6 +436,7 @@ lt:
     label_expand_project_menu: "Išskleisti projekto meniu"
     label_export: "Eksportuoti"
     label_export_preparing: "Eksportas ruošiamas ir greitai bus parsiųstas."
+    label_favorites: "Mėgstami"
     label_filename: "Failas"
     label_filesize: "Dydis"
     label_general: "Bendra"
@@ -1045,7 +1063,7 @@ lt:
       sharing:
         share: "Dalintis"
         title: "Dalintis darbo paketu"
-        show_all_users: "Rodyti visus bendrinamus naudotojus"
+        show_all_users: "Rodyti visus naudotojus, su kuriais bendrinamas šis darbo paketas"
         selected_count: "%{count} pažymėta"
         selection:
           mixed: "Mišrus"
@@ -1275,6 +1293,14 @@ lt:
           placeholder: "Statytinis naudotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo naudotoju ir pavyzdžiui priskirti jam darbo užduotis."
           group: "Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis."
         next_button: "Tęsti"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "Jūs neturite mėgstamų projektų"
+      no_results_subtext: "Pridėkite vieną ar kelis projektus kaip mėgiamus jų apžvalgoje ar projektų sąraše."
     include_projects:
       toggle_title: "Įtraukti projektus"
       title: "Projektai"
@@ -1332,8 +1358,12 @@ lt:
         remove: "Pašalinti"
       drop_modal:
         focus_grab: "Tai fokuso inkaras modalams. Spauskite shift+tab, kad grįžtumėte į modalinių trigerių elementą."
-        Close: "Uždaryti"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "Yra tinklo problema."
         network_on: "Tinklas grįžo. Mes bandome."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

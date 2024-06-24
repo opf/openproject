@@ -44,12 +44,22 @@ You will then get the relations in your Excel file.
 **Example:**
 "follows 12345, precedes 45678"
 
-Unfortunately, there is no way to create relation with translated terms via API at the moment. You have to use these terms instead: [Relation Edit Form API](../../../api/endpoints/relations/#relation-edit-form)
+Unfortunately, there is no way to create relation with translated terms via API at the moment. You have to use these
+terms instead, defined in the [relations model](https://github.com/opf/openproject/blob/f8caab74090dce26b6056857226a7e00e3b3fa09/app/models/relation.rb):
 
-![allowed values](image-20211014153150017.png)
+- relates
+- duplicates
+- duplicated
+- blocks
+- blocked
+- precedes
+- follows
+- includes
+- partof
+- requires
+- required
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Excel-Relations.mp4" type="video/mp4" controls="" style="width:100%"></video>
-
 
 ## Step-by-step guide
 
@@ -73,13 +83,9 @@ Unfortunately, there is no way to create relation with translated terms via API 
 
 ![Enable-content-and-macros](Enable-content-and-macros-1594297486714.png)
 
-
-
 7. Enter settings (URL and API-Token) and choose a project (and  optional a work package query) which you want to synchronize your data  with.
 
 ![Choose-project-900x479@2x](Choose-project-900x479@2x.png)
-
-
 
 **URL**: the URL of your OpenProject instance.
  **API-Token**: can be generated within your OpenProject installation ->*My Account* -> *Access token*. Generate a new API token and copy & paste it to this form.
@@ -105,13 +111,9 @@ Copy and paste all data accordingly from your existing Excel list to this sheet.
 
 ![Select-columns](Select-columns.png)
 
-
-
 11. Important: **Ctrl + B** will open the synchronization module to choose between the following options:
 
 ![Ctrl-B](Ctrl-B.png)
-
-
 
 **Download work packages**: initially downloads all work packages from the selected project (and query).
  **Upload / update work packages**: makes changes to the  work packages, e.g. adding new work packages or changing any information. This option needs to be chosen in order to initially import and  existing Excel list.
@@ -120,8 +122,6 @@ Copy and paste all data accordingly from your existing Excel list to this sheet.
 Congratulations! You can now synchronize your data between Excel and OpenProject.
 
 ![Excel-OpenProject-synch-900x630@2x](Excel-OpenProject-synch-900x630@2x.png)
-
-
 
 12. To synchronize hierarchies (Parent and child relations), insert the column **Parent** within the header of the Excel Sheet as described above (screen 10).
 
@@ -139,8 +139,6 @@ Click *OK* when the screen for the Search characters (screen 13) appears. The ID
 
 ![Search-character-parent](Search-character-parent.png)
 
-
-
 Pressing **Cancel** will ignore the Hierarchy – no matter what has been inserted. This is relevant for option B:
 
 **B)** you can edit the IDs in the parent column manually. If you have edited the IDs manually in the parent column, just click *Cancel* when the above Search character option (screen 13) appears. Then, the  hierarchy will be updated according to the IDs in the column *Parent*.
@@ -148,7 +146,5 @@ Pressing **Cancel** will ignore the Hierarchy – no matter what has been insert
 14. The parent-child-relation will be displayed in OpenProject.
 
 ![Parent-child-OpenProject](Parent-child-OpenProject.png)
-
-
 
 Hopefully, this will save you lots of time to import all your old  Excel To-Do lists and get started with OpenProject for project  management.

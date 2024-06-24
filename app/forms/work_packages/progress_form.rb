@@ -27,14 +27,36 @@
 # ++
 
 class WorkPackages::ProgressForm < ApplicationForm
+  ##
+  # Primer::Forms::BaseComponent or ApplicationForm will always autofocus the
+  # first input field with an error present on it. Despite this behavior being
+  # a11y-friendly, it breaks the modal's UX when an invalid input field
+  # is rendered.
+  #
+  # The reason for this is since we're implementing a "format on blur", when
+  # we make a request to the server that will set an input field in an invalid
+  # state and it is returned as such, any time we blur this autofocused field,
+  # we'll perform another request that will still have the input in an invalid
+  # state causing it to autofocus again and preventing us from leaving this
+  # "limbo state".
+  ##
+  def before_render
+    # no-op
+  end
+
+  attr_reader :work_package
+
   def initialize(work_package:,
                  mode: :work_based,
-                 focused_field: :remaining_hours)
+                 focused_field: :remaining_hours,
+                 touched_field_map: {})
     super()
 
     @work_package = work_package
     @mode = mode
-    @focused_field = focused_field_by_selection(focused_field) || focused_field_by_error
+    @focused_field = focused_field_by_selection(focused_field)
+    @touched_field_map = touched_field_map
+    ensure_only_one_error_for_remaining_work_exceeding_work
   end
 
   form do |query_form|
@@ -58,41 +80,53 @@ class WorkPackages::ProgressForm < ApplicationForm
 
         render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
         render_readonly_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work))
+
+        # Add a hidden field in create forms as the select field is disabled and is otherwise not included in the form payload
+        group.hidden(name: :status_id) if @work_package.new_record?
+
+        group.hidden(name: :status_id_touched,
+                     value: @touched_field_map["status_id_touched"] || false,
+                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
+                             "referrer-field": "work_package[status_id]" })
+        group.hidden(name: :estimated_hours_touched,
+                     value: @touched_field_map["estimated_hours_touched"] || false,
+                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
+                             "referrer-field": "work_package[estimated_hours]" })
       else
         render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
         render_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work),
                                  disabled: disabled_remaining_work_field?)
         render_readonly_text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
+
+        group.hidden(name: :estimated_hours_touched,
+                     value: @touched_field_map["estimated_hours_touched"] || false,
+                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
+                             "referrer-field": "work_package[estimated_hours]" })
+        group.hidden(name: :remaining_hours_touched,
+                     value: @touched_field_map["remaining_hours_touched"] || false,
+                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
+                             "referrer-field": "work_package[remaining_hours]" })
       end
     end
   end
 
   private
 
-  def focused_field_by_selection(field)
-    if field == :remaining_hours && @work_package.estimated_hours.nil?
-      :estimated_hours
-    else
-      field
+  def ensure_only_one_error_for_remaining_work_exceeding_work
+    if work_package.errors.added?(:remaining_hours, :cant_exceed_work) &&
+      work_package.errors.added?(:estimated_hours, :cant_be_inferior_to_remaining_work)
+      error_to_delete =
+        if @focused_field == :estimated_hours
+          :remaining_hours
+        else
+          :estimated_hours
+        end
+      work_package.errors.delete(error_to_delete)
     end
   end
 
-  # First field with an error is focused. If it's readonly or disabled, then the
-  # field before it will be focused
-  def focused_field_by_error
-    fields = if @mode == :work_based
-               %i[estimated_hours remaining_hours done_ratio]
-             else
-               %i[status_id estimated_hours remaining_hours]
-             end
-
-    fields.each do |field_name|
-      break if @focused_field
-
-      @focused_field = field_name if @work_package.errors.map(&:attribute).include?(field_name)
-    end
-
-    @focused_field
+  def focused_field_by_selection(field)
+    field
   end
 
   def render_text_field(group,
@@ -133,10 +167,12 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   def field_value(name)
     errors = @work_package.errors.where(name)
-    if user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? }
+    if (user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? })
       user_value
-    else
+    elsif name == :done_ratio
       format_to_smallest_fractional_part(@work_package.public_send(name))
+    else
+      DurationConverter.output(@work_package.public_send(name))
     end
   end
 
@@ -147,11 +183,14 @@ class WorkPackages::ProgressForm < ApplicationForm
   end
 
   def default_field_options(name)
+    data = { "work-packages--progress--preview-progress-target": "progressInput",
+             "work-packages--progress--touched-field-marker-target": "progressInput",
+             action: "input->work-packages--progress--touched-field-marker#markFieldAsTouched" }
+
     if @focused_field == name
-      { data: { "work-packages--progress--focus-field-target": "fieldToFocus" } }
-    else
-      {}
+      data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
     end
+    { data: }
   end
 
   # Remaining work field is enabled when work is set, or when there are errors

@@ -143,8 +143,47 @@ RSpec.describe StatusesController do
 
       it "does not start any jobs to update work packages % complete values" do
         expect(status.reload).to have_attributes(default_done_ratio: new_default_done_ratio)
-        expect(WorkPackages::ApplyStatusesPCompleteJob)
+        expect(WorkPackages::Progress::ApplyStatusesChangeJob)
           .not_to have_been_enqueued
+      end
+
+      context "when also marking a status as excluded from totals calculations" do
+        before_all do
+          status.update_columns(name: "Rejected",
+                                default_done_ratio: 70)
+        end
+
+        shared_let(:status_new) { create(:status, name: "New", default_done_ratio: "0") }
+        shared_let_work_packages(<<~TABLE)
+          hierarchy     | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+          parent        | New      |      |                |            |    20h |              15h |          25%
+            child       | Rejected |  10h |             5h |        50% |        |                  |
+            other child | New      |  10h |            10h |         0% |        |                  |
+        TABLE
+
+        let(:status_params) do
+          { default_done_ratio: new_default_done_ratio,
+            excluded_from_totals: true }
+        end
+
+        it "starts a job to update totals of work packages having excluded children" do
+          expect(status.reload).to have_attributes(excluded_from_totals: true)
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+            .to have_been_enqueued.with(cause_type: "status_changed",
+                                        status_name: status.name,
+                                        status_id: status.id,
+                                        changes: { "excluded_from_totals" => [false, true] })
+
+          perform_enqueued_jobs
+
+          expect_work_packages([parent, child, other_child], <<~TABLE)
+            subject       | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent        | New      |      |                |            |    10h |              10h |           0%
+              child       | Rejected |  10h |             5h |        50% |        |                  |
+              other child | New      |  10h |            10h |         0% |        |                  |
+          TABLE
+          expect(parent.last_journal.details["cause"].last).to include("type" => "status_changed")
+        end
       end
     end
 
@@ -158,16 +197,16 @@ RSpec.describe StatusesController do
         it "starts a job to update work packages % complete values" do
           old_default_done_ratio = status.default_done_ratio
           expect(status.reload).to have_attributes(default_done_ratio: new_default_done_ratio)
-          expect(WorkPackages::ApplyStatusesPCompleteJob)
-            .to have_been_enqueued.with(cause_type: "status_p_complete_changed",
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+            .to have_been_enqueued.with(cause_type: "status_changed",
                                         status_name: status.name,
                                         status_id: status.id,
-                                        change: [old_default_done_ratio, new_default_done_ratio])
+                                        changes: { "default_done_ratio" => [old_default_done_ratio, new_default_done_ratio] })
 
           perform_enqueued_jobs
 
           expect(work_package.reload.read_attribute(:done_ratio)).to eq(new_default_done_ratio)
-          expect(work_package.last_journal.details["cause"].last).to include("type" => "status_p_complete_changed")
+          expect(work_package.last_journal.details["cause"].last).to include("type" => "status_changed")
         end
       end
 
@@ -175,16 +214,84 @@ RSpec.describe StatusesController do
         let(:status_params) { { default_done_ratio: status.default_done_ratio } }
 
         it "does not start any jobs" do
-          expect(WorkPackages::ApplyStatusesPCompleteJob)
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
             .not_to have_been_enqueued
         end
       end
 
-      context "when changing something else than the default % complete" do
+      context "when marking a status as excluded from totals calculations" do
+        before_all do
+          status.update_columns(name: "Rejected",
+                                default_done_ratio: 70)
+        end
+
+        shared_let(:status_new) { create(:status, name: "New", default_done_ratio: "0") }
+        shared_let_work_packages(<<~TABLE)
+          hierarchy     | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+          parent        | New      |      |                |         0% |    20h |              16h |          20%
+            child       | Rejected |  10h |             3h |        70% |        |                  |
+            other child | New      |  10h |            10h |         0% |        |                  |
+        TABLE
+
+        let(:status_params) { { excluded_from_totals: true } }
+
+        it "starts a job to update totals of work packages having excluded children" do
+          expect(status.reload).to have_attributes(excluded_from_totals: true)
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+            .to have_been_enqueued.with(cause_type: "status_changed",
+                                        status_name: status.name,
+                                        status_id: status.id,
+                                        changes: { "excluded_from_totals" => [false, true] })
+
+          perform_enqueued_jobs
+
+          expect_work_packages([parent, child, other_child], <<~TABLE)
+            subject       | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent        | New      |      |                |         0% |    10h |              10h |           0%
+              child       | Rejected |  10h |             3h |        70% |        |                  |
+              other child | New      |  10h |            10h |         0% |        |                  |
+          TABLE
+          expect(parent.last_journal.details["cause"].last).to include("type" => "status_changed")
+        end
+
+        context "when also changing the default % complete of the status" do
+          let(:new_default_done_ratio) { 40 }
+          let(:status_params) { { excluded_from_totals: true, default_done_ratio: new_default_done_ratio } }
+
+          it "starts a job to update both total values and % complete of work packages" do
+            old_default_done_ratio = status.default_done_ratio
+            expect(status.reload).to have_attributes(default_done_ratio: new_default_done_ratio,
+                                                     excluded_from_totals: true)
+            expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+              .to have_been_enqueued.with(cause_type: "status_changed",
+                                          status_name: status.name,
+                                          status_id: status.id,
+                                          changes: { "default_done_ratio" => [old_default_done_ratio, new_default_done_ratio],
+                                                     "excluded_from_totals" => [false, true] })
+
+            perform_enqueued_jobs
+
+            expect_work_packages([parent, child, other_child], <<~TABLE)
+              subject       | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+              parent        | New      |      |                |         0% |    10h |              10h |           0%
+                child       | Rejected |  10h |             6h |        40% |        |                  |
+                other child | New      |  10h |            10h |         0% |        |                  |
+            TABLE
+
+            [parent, child].each do |work_package|
+              expect(work_package.journals.count).to eq(2)
+              expect(work_package.last_journal.details["cause"].last).to include("type" => "status_changed")
+            end
+            expect(other_child.journals.count).to eq(1) # this one should not have changed
+          end
+        end
+      end
+
+      context "when changing something else than default % complete or exclude from totals" do
         let(:status_params) { { name: "Another status name" } }
 
         it "does not start any jobs" do
-          expect(WorkPackages::ApplyStatusesPCompleteJob)
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
             .not_to have_been_enqueued
         end
       end

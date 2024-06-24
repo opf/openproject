@@ -1,4 +1,4 @@
-require 'omniauth-saml'
+require "omniauth-saml"
 module OpenProject
   module AuthSaml
     def self.configuration
@@ -26,10 +26,10 @@ module OpenProject
     end
 
     def self.settings_from_config
-      if OpenProject::Configuration['saml'].present?
+      if OpenProject::Configuration["saml"].present?
         Rails.logger.info("[auth_saml] Registering saml integration from configuration.yml")
 
-        OpenProject::Configuration['saml']
+        OpenProject::Configuration["saml"]
       end
     end
 
@@ -47,8 +47,8 @@ module OpenProject
       include OpenProject::Plugins::ActsAsOpEngine
       extend OpenProject::Plugins::AuthPlugin
 
-      register 'openproject-auth_saml',
-               author_url: 'https://github.com/finnlabs/openproject-auth_saml',
+      register "openproject-auth_saml",
+               author_url: "https://github.com/finnlabs/openproject-auth_saml",
                bundled: true,
                settings: { default: { "providers" => nil } }
 
@@ -78,8 +78,8 @@ module OpenProject
         end
       end
 
-      initializer 'auth_saml.configuration' do
-        ::Settings::Definition.add 'saml',
+      initializer "auth_saml.configuration" do
+        ::Settings::Definition.add "saml",
                                    default: nil,
                                    format: :hash,
                                    writable: false

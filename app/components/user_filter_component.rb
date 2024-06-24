@@ -59,7 +59,7 @@ class UserFilterComponent < IndividualPrincipalBaseFilterComponent
     protected
 
     def apply_filters(params, query)
-      super(params, query)
+      super
       filter_status query, status_param(params)
 
       query

@@ -263,8 +263,10 @@ eo:
       no_results_content_text: Krei nova projekton
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Miaj projektoj"
+      favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -292,8 +294,17 @@ eo:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -304,7 +315,20 @@ eo:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Nun estas neniu membro en la projekto.
@@ -316,12 +340,12 @@ eo:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Ĉiuj"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Ŝlosita"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Grupoj"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -398,7 +422,7 @@ eo:
     memberships:
       no_results_title_text: Tiu ĉi uzanto ne estas nuna membro de la projekto.
   page:
-    text: "Text"
+    text: "Teksto"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -429,12 +453,20 @@ eo:
         No attributes can be changed with the exception of the status.
         <br/>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Aldoni novan staton
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
@@ -484,7 +516,7 @@ eo:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -596,7 +628,7 @@ eo:
         column_count: "Numero de kolumnoj"
         widgets: "Kromprogrametoj"
       oauth_client:
-        client: "Client ID"
+        client: "ID de la kliento"
       relation:
         lag: "Lag"
         from: "Laborpakaĵo"
@@ -604,6 +636,7 @@ eo:
       status:
         is_closed: "Laborpakaĵo fermita"
         is_readonly: "Nurlega laborpakaĵo"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notoj"
       member:
@@ -621,7 +654,7 @@ eo:
           false: "private"
         queries: "Informpetoj"
         status_code: "Projekta stato"
-        description: "Description"
+        description: "Priskribo"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Nekomencita"
@@ -744,6 +777,7 @@ eo:
         before_or_equal_to: "devas esti antaŭ aŭ egale al %{date}."
         blank: "ne povas esti malplena."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Laborpakaĵo ne povis esti ligita al unu el siaj subtaskoj."
         circular_dependency: "Tiu ĉi rilato povus krei cirklan dependon."
         confirmation: "ne kongruas kun %{attribute}"
@@ -782,6 +816,7 @@ eo:
         not_an_iso_date: "Ĝi ne estas valida dato. Deviga datumo estas: JJJJ-MM-TT."
         not_same_project: "doesn't belong to the same project."
         odd: "devas esti nepara."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "jam prenita."
@@ -903,6 +938,8 @@ eo:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
@@ -936,6 +973,9 @@ eo:
             base:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -993,11 +1033,13 @@ eo:
               only_same_project_categories_allowed: "The category of a work package must be within the same project as the work package."
               does_not_exist: "The specified category does not exist."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1035,7 +1077,7 @@ eo:
             ldap_auth_source:
               error_not_found: "ne trovita"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "ne trovita"
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "ĝi bezonas esti atribuita."
@@ -1120,18 +1162,6 @@ eo:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordered"
-        work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Ŝanĝaroj"
       message: "Forumoj"
@@ -1229,7 +1259,7 @@ eo:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "Agoj"
   button_add: "Aldoni"
   button_add_comment: "Aldoni komenton"
   button_add_member: Aldoni membron
@@ -1263,6 +1293,7 @@ eo:
   button_edit: "Redakti"
   button_edit_associated_wikipage: "Redakti ligitan vikipaĝon: %{page_title}"
   button_expand_all: "Etendi ĉion"
+  button_favorite: "Add to favorites"
   button_filter: "Filtrilo"
   button_generate: "Krei"
   button_list: "Listo"
@@ -1280,7 +1311,7 @@ eo:
   button_reset: "Restarigi"
   button_rollback: "Rollback to this version"
   button_save: "Konservi"
-  button_save_as: "Save as"
+  button_save_as: "Konservi kiel"
   button_apply_changes: "Apply changes"
   button_save_back: "Konservi kaj retroiri"
   button_show: "Montri"
@@ -1290,6 +1321,7 @@ eo:
   button_unarchive: "Elarkivigi"
   button_uncheck_all: "Malelekti ĉion"
   button_unlock: "Malŝlosi"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Malatenti"
   button_update: "Ĝisdatigi"
   button_upgrade: "Ppromocii"
@@ -1308,6 +1340,8 @@ eo:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
@@ -1553,7 +1587,7 @@ eo:
     message: Mesaĝo redaktita
     news: Novaĵoj
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekto redaktita"
     projects: "Projekto redaktita"
     reply: Respondis
     time_entry: "Tempprotokolo redaktita"
@@ -1575,8 +1609,15 @@ eo:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Bildo ne eksportita."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d
@@ -1616,7 +1657,7 @@ eo:
       postgres_migration: "Transmetanta vian instalon al PostgreSQL"
       user_guides: "Manlibro por uzantoj"
       faq: "Oftaj Demandoj"
-      impressum: "Legal notice"
+      impressum: "Leĝa atentigo"
       glossary: "Difinvortaro"
       shortcuts: "Fulmoklavoj"
       blog: "Blogo de OpenProject"
@@ -1630,7 +1671,7 @@ eo:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1647,8 +1688,9 @@ eo:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1656,6 +1698,8 @@ eo:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Agordgvidilo"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1720,17 +1764,6 @@ eo:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "Novaĵoj"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Alirebleco"
   label_account: "Konto"
   label_active: "Aktiva"
@@ -1773,7 +1806,7 @@ eo:
   label_ascending: "Kreskante"
   label_assigned_to_me_work_packages: "Laborpakaĵoj asignitaj al mi"
   label_associated_revisions: "Ligitaj revizioj"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Aldonaĵoj"
   label_attribute: "Atributo"
   label_attribute_plural: "Atributoj"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1782,13 +1815,14 @@ eo:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Aŭtentigo"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Disponeblaj forumoj"
   label_available_project_repositories: "Disponeblaj deponejoj"
   label_available_project_versions: "Disponeblaj versioj"
   label_available_project_work_package_categories: "disponeblaj laborpakaĵaj kategorioj"
   label_available_project_work_package_types: "Disponeblaj laborpakaĵaj tipoj"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API dokumentado"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "inter"
@@ -1800,7 +1834,7 @@ eo:
   label_forum_plural: "Forumoj"
   label_forum_sticky: "Gluita"
   label_boolean: "Bulea"
-  label_board_plural: "Boards"
+  label_board_plural: "Tabuloj"
   label_branch: "Branĉo"
   label_browse: "Foliumi"
   label_bulk_edit_selected_work_packages: "Grupa redakto de laborpakaĵoj"
@@ -1859,7 +1893,7 @@ eo:
   label_custom_field_plural: "Propraj kampoj"
   label_custom_field_default_type: "Malplena tipo"
   label_custom_style: "Aspektigo"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Paneloj"
   label_database_version: "PostgreSQL version"
   label_date: "Dato"
   label_date_and_time: "Dato kaj horo"
@@ -1911,7 +1945,7 @@ eo:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Medio"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "estas"
   label_everywhere: "everywhere"
   label_example: "Ekzemplo"
@@ -1921,18 +1955,18 @@ eo:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Importi"
   label_export_to: "Krome disponebla ĉe:"
-  label_expand: "Expand"
+  label_expand: "Etendi"
   label_expanded_click_to_collapse: "Etendita. Klaki por maletendi"
   label_f_hour: "%{value} horoj"
   label_f_hour_plural: "%{value} hours"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Dosieroj"
   label_filter_add: "Add filter"
-  label_filter: "Filters"
+  label_filter: "Filtriloj"
   label_filter_plural: "Filtriloj"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"
@@ -1959,7 +1993,7 @@ eo:
   label_home: "Ĉefpaĝo"
   label_subject_or_id: "Temo aŭ ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identigilo"
   label_in: "en"
   label_in_less_than: "en malpli ol"
   label_in_more_than: "in more than"
@@ -1998,6 +2032,7 @@ eo:
   label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
+  label_link_url: "Link (URL)"
   label_list: "Listo"
   label_loading: "Loading..."
   label_lock_user: "Lock user"
@@ -2023,6 +2058,7 @@ eo:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2124,6 +2160,7 @@ eo:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Totala kvanto da projektoj"
   label_project_copy_notifications: "Sendi retpoŝtajn sciigojn dum la projekta kopiado"
   label_project_latest: "Lastaj projektoj"
@@ -2138,7 +2175,7 @@ eo:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projektoj uzas %{storage} da diskospaco"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vidi ĉiujn projektojn"
   label_project_show_details: "Montri projektajn detalojn"
   label_project_hide_details: "Kaŝi projektajn detalojn"
@@ -2195,6 +2232,7 @@ eo:
   label_setting_plural: "Agordoj"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
+  label_columns: "Kolumnoj"
   label_sort: "Ordigi"
   label_sort_by: "Sort by %{value}"
   label_sorted_by: "sorted by %{value}"
@@ -2309,7 +2347,7 @@ eo:
   label_workflow: "Laborfluo"
   label_workflow_plural: "Laborfluoj"
   label_workflow_summary: "Resumo"
-  label_working_days: "Working days"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 fermita"
     other: "%{count} fermitaj"
@@ -2412,7 +2450,7 @@ eo:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Konservejo"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -2693,6 +2731,7 @@ eo:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2739,7 +2778,7 @@ eo:
     member_of_group: "Assignee's group"
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2884,6 +2923,7 @@ eo:
   setting_app_subtitle: "Application subtitle"
   setting_app_title: "Application title"
   setting_attachment_max_size: "Attachment max. size"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Autofetch repository changes"
@@ -2922,6 +2962,9 @@ eo:
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -2985,6 +3028,8 @@ eo:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3063,7 +3108,7 @@ eo:
     plain: "Plain text"
   status_active: "aktiva"
   status_archived: "archived"
-  status_blocked: "blocked"
+  status_blocked: "barita"
   status_invited: invited
   status_locked: locked
   status_registered: registered
@@ -3218,9 +3263,13 @@ eo:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Aldoni kolumnojn"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"
@@ -3357,12 +3406,12 @@ eo:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
@@ -3568,7 +3617,7 @@ eo:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

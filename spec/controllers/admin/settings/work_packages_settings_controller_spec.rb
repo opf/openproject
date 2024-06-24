@@ -54,7 +54,7 @@ RSpec.describe Admin::Settings::WorkPackagesSettingsController do
               }
             }
       expect(Setting.work_package_done_ratio).to eq("status")
-      expect(WorkPackages::ApplyStatusesPCompleteJob)
+      expect(WorkPackages::Progress::ApplyStatusesChangeJob)
         .to have_been_enqueued.with(cause_type: "progress_mode_changed_to_status_based")
 
       perform_enqueued_jobs
@@ -76,7 +76,7 @@ RSpec.describe Admin::Settings::WorkPackagesSettingsController do
                 work_package_done_ratio: "status"
               }
             }
-      expect(WorkPackages::ApplyStatusesPCompleteJob)
+      expect(WorkPackages::Progress::ApplyStatusesChangeJob)
         .not_to have_been_enqueued
     end
   end
@@ -93,7 +93,7 @@ RSpec.describe Admin::Settings::WorkPackagesSettingsController do
                 work_package_done_ratio: "field"
               }
             }
-      expect(WorkPackages::ApplyStatusesPCompleteJob)
+      expect(WorkPackages::Progress::ApplyStatusesChangeJob)
         .not_to have_been_enqueued
     end
   end

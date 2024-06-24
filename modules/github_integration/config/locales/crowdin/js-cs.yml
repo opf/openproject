@@ -42,7 +42,7 @@ cs:
       pull_requests:
         message: "Požadavek na natažení #%{pr_number} %{pr_link} pro %{repository_link} autora %{github_user_link} byl %{pr_state}."
         merged_message: "Požadavek na natažení #%{pr_number} %{pr_link} pro %{repository_link} byl %{pr_state} od %{github_user_link}."
-        referenced_message: "Požadavek na natažení #%{pr_number} %{pr_link} pro %{repository_link} autora %{github_user_link} byl %{pr_state}."
+        referenced_message: "Požadavek na natažení #%{pr_number} %{pr_link} pro %{repository_link} autora %{github_user_link} odkazoval na tento pracovní balíček."
         states:
           opened: 'otevřeno'
           closed: 'zavřeno'

@@ -95,13 +95,13 @@ module API
         property.merge!(render_filter: filter)
       end
 
-      def from_hash(hash, *args)
+      def from_hash(hash, *)
         # Prevent entries in _embedded from overriding anything in the _links section
         copied_hash = hash.deep_dup
 
         copied_hash.delete("_embedded")
 
-        super(copied_hash, *args)
+        super(copied_hash, *)
       end
 
       def contract?(represented)
@@ -126,8 +126,8 @@ module API
       end
 
       module ClassMethods
-        def create_class(*args)
-          new_class = super(*args)
+        def create_class(*)
+          new_class = super
 
           new_class.send(:include, ::API::Utilities::PayloadRepresenter)
 

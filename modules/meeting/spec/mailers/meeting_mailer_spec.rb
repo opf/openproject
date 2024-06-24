@@ -86,7 +86,7 @@ RSpec.describe MeetingMailer do
     end
 
     context "with a recipient with another time zone" do
-      let!(:preference) { create(:user_preference, user: watcher1, time_zone: "Asia/Tokyo") }
+      let!(:preference) { watcher1.pref.update(time_zone: "Asia/Tokyo") }
 
       it "renders the mail with the correcet locale" do
         expect(mail.text_part.body).to include("Tokyo")
@@ -119,7 +119,7 @@ RSpec.describe MeetingMailer do
       end
 
       describe "it renders november 10th for Tokyo zone" do
-        let!(:preference) { create(:user_preference, user: watcher1, time_zone: "Asia/Tokyo") }
+        let!(:preference) { watcher1.pref.update(time_zone: "Asia/Tokyo") }
         let(:mail) { described_class.invited(meeting, watcher1, author) }
 
         it "renders the mail with the correct locale" do
@@ -203,7 +203,7 @@ RSpec.describe MeetingMailer do
     end
 
     context "with a recipient with another time zone" do
-      let!(:preference) { create(:user_preference, user: watcher1, time_zone: "Asia/Tokyo") }
+      let!(:preference) { watcher1.pref.update(time_zone: "Asia/Tokyo") }
       let(:mail) { described_class.icalendar_notification(meeting, watcher1, author) }
 
       it "renders the mail with the correct locale" do
@@ -237,7 +237,7 @@ RSpec.describe MeetingMailer do
 
       describe "it renders november 10th for Tokyo zone" do
         let(:mail) { described_class.icalendar_notification(meeting, watcher1, author) }
-        let!(:preference) { create(:user_preference, user: watcher1, time_zone: "Asia/Tokyo") }
+        let!(:preference) { watcher1.pref.update(time_zone: "Asia/Tokyo") }
 
         it "renders the mail with the correct locale" do
           expect(mail.text_part.body).to include("11/10/2021 07:00 AM-08:00 AM (GMT+09:00) Asia/Tokyo")

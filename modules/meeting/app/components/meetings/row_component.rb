@@ -35,7 +35,7 @@ module Meetings
     end
 
     def title
-      link_to model.title, meeting_path(model)
+      link_to model.title, project_meeting_path(model.project, model)
     end
 
     def type

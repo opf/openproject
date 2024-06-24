@@ -51,7 +51,7 @@ RSpec.describe Queries::Relations::Filters::InvolvedFilter do
     end
   end
 
-  describe "#scope" do
+  describe "#apply_to" do
     before do
       login_as(current_user)
     end
@@ -65,7 +65,7 @@ RSpec.describe Queries::Relations::Filters::InvolvedFilter do
         sql = "(from_id IN ('1') AND to_id IN (#{visible_sql})) OR (to_id IN ('1') AND from_id IN (#{visible_sql}))"
         expected = model.where(sql)
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -76,7 +76,7 @@ RSpec.describe Queries::Relations::Filters::InvolvedFilter do
         sql = "(from_id NOT IN ('1') AND to_id IN (#{visible_sql})) AND (to_id NOT IN ('1') AND from_id IN (#{visible_sql}))"
         expected = model.where(sql)
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end

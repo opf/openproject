@@ -30,7 +30,6 @@ module OpenProject
   module Common
     # @logical_path OpenProject/Common
     class AutocompletePreview < Lookbook::Preview
-
       # @display min_height 250px
       def decorated
         render_with_template
@@ -38,6 +37,11 @@ module OpenProject
 
       # @display min_height 250px
       def work_package
+        render_with_template
+      end
+
+      # @display min_height 250px
+      def project
         render_with_template
       end
     end

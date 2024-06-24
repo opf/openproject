@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 5.0.5
-  sidebar_navigation:
-      title: 5.0.5
-  release_version: 5.0.5
-  release_date: 2015-12-02
+title: OpenProject 5.0.5
+sidebar_navigation:
+  title: 5.0.5
+release_version: 5.0.5
+release_date: 2015-12-02
 ---
 
 
@@ -38,8 +38,6 @@ To help translate OpenProject, please take a look at the [OpenProject
 CrowdIn projects](https://crowdin.com/projects/opf).
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.5](https://community.openproject.org/versions/780) 
+[Changelog v.5.0.5](https://community.openproject.org/versions/780)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.5).
-
-

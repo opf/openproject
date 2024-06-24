@@ -42,11 +42,13 @@ zh-TW:
         start_time: "開始時間"
         start_time_hour: "開始時間"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
-        duration_in_minutes: "min"
-        description: "Notes"
-        presenter: "Presenter"
+        title: "標題"
+        author: "作者"
+        duration_in_minutes: "分鐘"
+        description: "備註"
+        presenter: "簡報者"
+      meeting_section:
+        title: "標題"
     errors:
       messages:
         invalid_time_format: "不是有效時間。所需格式: HH:MM"
@@ -55,9 +57,23 @@ zh-TW:
       meeting_agenda_item: "議程項目"
       meeting_agenda: "會議大綱"
       meeting_minutes: "會議記錄"
+      meeting_section: "區段"
   activity:
     filter:
       meeting: "會議"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "設定為 %{value}"
+          added_html: "設定為 <i>%{value}</i>"
+          removed: "已移除"
+          updated: "從 %{old_value} 更改至 %{value}"
+          updated_html: "從 <i>%{old_value}</i> 更改至 <i>%{value}</i>"
+        position:
+          updated: "重新排列"
+        work_package:
+          updated: "從 %{old_value} 更改至 %{value}"
+          updated_html: "從 <i>%{old_value}</i> 更改至 <i>%{value}</i>"
   description_attended: "出席人員"
   description_invite: "已邀請"
   events:
@@ -96,14 +112,16 @@ zh-TW:
   label_start_date: "開始日期"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+      text: "所有會議參與者都可以使用附件， 您也可以將它們拖放到議程項目註釋中。"
     copy:
       title: "複製會議 %{title}"
-      attachments: "Copy attachments"
-      attachments_text: "Copy over all attached files to the new meeting"
+      attachments: "複製附件"
+      attachments_text: "將所有附件複製到新會議"
       agenda: "複製議程"
       agenda_text: "複製舊會議之議程"
     email:
+      send_emails: "發送電子郵件"
+      send_invitation_emails: "建立後發送邀請電子郵件"
       open_meeting_link: "打開會議連結"
       invited:
         summary: "%{actor} 已經向您發送了一個 %{title} 會議邀請"
@@ -121,6 +139,11 @@ zh-TW:
       structured_text: "將您的會議整理成一個議程項目列表，並可選擇地將它們與一個工作項目連接起來。"
       structured_text_copy: "目前複製會議不會複製相關會議的議程項目，只會複製會議的詳細信息。"
     copied: "從會議紀錄 #%{id} 中複製"
+  meeting_section:
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
+    empty_text: "將項目拖曳至此處或建立新項目"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。
   permission_create_meetings: "建立會議"
@@ -131,7 +154,7 @@ zh-TW:
   permission_create_meeting_agendas_explanation: "允許編輯傳統會議的議程。"
   permission_manage_agendas: "管理議程"
   permission_manage_agendas_explanation: "允許編輯動態會議的議程項目。"
-  permission_close_meeting_agendas: "定案會議大綱"
+  permission_close_meeting_agendas: "結束會議大綱"
   permission_send_meeting_agendas_notification: "傳送會議大綱審閱通知"
   permission_create_meeting_minutes: "管理會議記錄"
   permission_send_meeting_minutes_notification: "傳送會議記錄審閱通知"
@@ -154,9 +177,9 @@ zh-TW:
   label_meeting_delete: "刪除會議"
   label_meeting_created_by: "建立者"
   label_meeting_last_updated: "最後更新於"
-  label_agenda_items: "Agenda items"
-  label_agenda_items_reordered: "reordered"
-  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_items: "議程"
+  label_agenda_items_reordered: "重新排列"
+  label_agenda_item_remove: "從議程中刪除"
   label_agenda_item_undisclosed_wp: "工作項目 #%{id} 非可見"
   label_agenda_item_deleted_wp: "已將引用的工作項目刪除"
   label_agenda_item_actions: "議程項目行動"
@@ -165,18 +188,18 @@ zh-TW:
   label_agenda_item_move_up: "向上移 "
   label_agenda_item_move_down: "向下移 "
   label_agenda_item_add_notes: "新增註記"
-  label_agenda_item_work_package: "Agenda item work package"
-  text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
-  text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_agenda_item_work_package: "議程項目工作包"
+  text_agenda_item_title: '議程項目 "%{title}"'
+  text_agenda_work_package_deleted: '已刪除工作包的議程項目'
+  text_deleted_agenda_item: '已刪除的議程項目'
+  label_initial_meeting_details: "會議"
   label_meeting_details: "會議詳情"
   label_meeting_details_edit: "編輯會議詳情"
-  label_meeting_state: "Meeting status"
+  label_meeting_state: "會議狀態"
   label_meeting_state_open: "開啟"
-  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_open_html: "<i>開啟</i>"
   label_meeting_state_closed: "關閉"
-  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_state_closed_html: "<i>關閉</i>"
   label_meeting_reopen_action: "重新開啟會議"
   label_meeting_close_action: "關閉會議"
   text_meeting_open_description: "本次會議已開放。您可以新增/移除議程項目並隨時編輯它們。會議結束後，關閉後鎖定起來。"

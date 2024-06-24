@@ -44,87 +44,14 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-# We currently require spec_helper here, since we loaded
-# the environment at all times before and have no specs that may run outside
+# We currently require rails_helper here, since we loaded
+# the environment at all times before and have almost no specs that may run outside
 require_relative "rails_helper"
+# Specs not relying on Rails can require rspec_helper directly for faster loading
+require_relative "rspec_helper"
 
 RSpec.configure do |config|
-  config.expect_with :rspec do |expectations|
-    # This option will default to `true` in RSpec 4. It makes the `description`
-    # and `failure_message` of custom matchers include text for helper methods
-    # defined using `chain`
-    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
-
-    # Configures the maximum character length that RSpec will print while
-    # formatting an object. Set length to nil to prevent RSpec from doing
-    # truncation.
-    expectations.max_formatted_output_length = 1000
-  end
-
-  # rspec-mocks config goes here. You can use an alternate test double
-  # library (such as bogus or mocha) by changing the `mock_with` option here.
-  config.mock_with :rspec do |mocks|
-    mocks.verify_partial_doubles = false
-  end
-
-  # This option will default to `:apply_to_host_groups` in RSpec 4 (and will
-  # have no way to turn it off -- the option exists only for backwards
-  # compatibility in RSpec 3). It causes shared context metadata to be
-  # inherited by the metadata hash of host groups and examples, rather than
-  # triggering implicit auto-inclusion in groups with matching metadata.
-  config.shared_context_metadata_behavior = :apply_to_host_groups
-
-  # Allows RSpec to persist some state between runs in order to support
-  # the `--only-failures` and `--next-failure` CLI options. We recommend
-  # you configure your source control system to ignore this file.
-  config.example_status_persistence_file_path = "tmp/spec_examples.txt"
-
-  # Limits the available syntax to the non-monkey patched syntax that is
-  # recommended. For more details, see:
-  # https://rspec.info/features/3-12/rspec-core/configuration/zero-monkey-patching-mode/
-  config.disable_monkey_patching!
-
-  # Many RSpec users commonly either run the entire suite or an individual
-  # file, and it's useful to allow more verbose output when running an
-  # individual spec file.
-  if config.files_to_run.one?
-    # Use the documentation formatter for detailed output,
-    # unless a formatter has already been configured
-    # (e.g. via a command-line flag).
-    config.default_formatter = "doc"
-  else
-    # Otherwise, use the Fuubar formatter if we're not on the CI
-    unless ENV["TEST_ENV_NUMBER"] || ENV["CI"]
-      config.default_formatter = Fuubar
-    end
-  end
-
-  # Print the 10 slowest examples and example groups at the
-  # end of the spec run, to help surface which specs are running
-  # particularly slow.
-  # Disabled on CI to have a cleaner log output.
-  config.profile_examples = 10 unless ENV["CI"]
-
-  # Run specs in random order to surface order dependencies. If you find an
-  # order dependency and want to debug it, you can fix the order by providing
-  # the seed, which is printed after each run.
-  #     --seed 1234
-  config.order = :random
-
-  # Use colored output
-  config.color = true
-
-  # Display the full backtrace of causing exceptions (limited to first line in
-  # default configuration).
-  config.full_cause_backtrace = true
-
   # Have the FactoryBot methods like #create and #build_stubbed without
   # having to call it on FactoryBot.
   config.include FactoryBot::Syntax::Methods
-
-  # Seed global randomization in this process using the `--seed` CLI option.
-  # Setting this allows you to use `--seed` to deterministically reproduce
-  # test failures related to randomization by passing the same `--seed` value
-  # as the one that triggered the failure.
-  Kernel.srand config.seed
 end

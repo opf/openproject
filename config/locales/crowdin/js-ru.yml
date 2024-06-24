@@ -31,7 +31,7 @@ ru:
         Вы уверены, что хотите удалить этот файл? Это действие необратимо.
       draggable_hint: |
         Перенесите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в процессе переноса.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "Этот файл помещен в карантин, так как в нем обнаружен вирус. Он недоступен для загрузки."
     autocomplete_ng_select:
       add_tag: "Добавить элемент"
       clear_all: "Очистить все"
@@ -102,7 +102,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновление"
+    button_update: "Обновить"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -273,6 +273,11 @@ ru:
         warning: >
           Для вступления изменений в силу может потребоваться некоторое время. Вы будете уведомлены, когда все соответствующие пакеты работ будут обновлены.
           Хотите продолжить?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          При изменении расчета прогресса с режима на основе статуса на режим на основе трудозатрат поле <i>% Завершения</i> станет нередактируемым, его значение будет получено из значений <i>Работа</i> и <i>Оставшаяся работа</i>. Существующие значения для <i>% Завершения</i> сохраняются. Если значения для <i>Работа</i> и <i>Оставшаяся работа</i> отсутствуют, они потребуются для изменения <i>% Завершения</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          При изменении расчета прогресса с режима на основе трудозатрат на режим на основе статуса все существующие значения <i>% Завершения</i> будут потеряны и заменены значениями, связанными с каждым статусом. Существующие значения параметра <i>Оставшаяся работа</i> также могут быть пересчитаны с учетом этого изменения. Это действие необратимо.
     custom_actions:
       date:
         specific: "вкл"
@@ -329,6 +334,18 @@ ru:
         years: "Лет"
         description: >
           Выберите начальный уровень масштаба, который должен быть показан, когда автозум недоступен.
+      export:
+        title: "Параметры диаграммы Гантта в PDF"
+        button_export: "Экспорт"
+        column_widths:
+          narrow: "Узкий"
+          medium: "Средний"
+          wide: "Широкий"
+          very_wide: "Очень широкий"
+        options:
+          date_zoom: "Изменение даты"
+          paper_size: "Размер бумаги"
+          column_widths: "Ширина столбца"
     general_text_no: "нет"
     general_text_yes: "Да"
     general_text_No: "Нет"
@@ -347,11 +364,10 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                Выпуск содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Установка большего количества единиц работы, оставшейся работы и рабочего времени</li> <li>Настройка, для каких проектов активируются атрибуты проекта</li> <li>Переименовывание списков частных проектов</li> <li>Исключение повторных напоминаний по электронной почте в случае @mentions</li> <li>Приглашение участников встречи по электронной почте</li> <li>Отображение встроенных атрибутов пакета работ при экспорте в PDF</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -364,7 +380,7 @@ ru:
       ical_generation_error_text: "Произошла ошибка при генерации URL-адреса календаря."
       success_message: 'URL-адрес "%{name}" был успешно скопирован в ваш буфер обмена. Вставьте его в свой клиент календаря, чтобы завершить подписку.'
     label_activate: "Активировать"
-    label_assignee: "Ответственный"
+    label_assignee: "Назначенный"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
     label_add_columns: "Добавить столбец"
@@ -377,6 +393,7 @@ ru:
     label_added_time_by: 'Добавлено <a href="%{authorLink}">%{author}</a> в %{age}'
     label_ago: "дней назад"
     label_all: "все"
+    label_all_uppercase: "Bсе"
     label_all_work_packages: "Все пакеты работ"
     label_and: "и"
     label_ascending: "По возрастанию"
@@ -399,7 +416,7 @@ ru:
     label_details: "Детали"
     label_display: "Отображение"
     label_cancel_comment: "Отменить комментарий"
-    label_closed_work_packages: "закрыт"
+    label_closed_work_packages: "закрыто"
     label_collapse: "свернуть"
     label_collapsed: "свернуто"
     label_collapse_all: "Свернуть все"
@@ -418,6 +435,7 @@ ru:
     label_expand_project_menu: "Развернуть меню проекта"
     label_export: "Экспортировать"
     label_export_preparing: "Экспорт готовится и будет загружен в ближайшее время."
+    label_favorites: "Избранное"
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общее"
@@ -443,7 +461,7 @@ ru:
     label_less_than_ago: "менее нескольких дней назад"
     label_loading: "Загрузка..."
     label_mail_notification: "Уведомления по email"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Управляйте колонками и изменяйте их порядок"
     label_me: "я"
     label_meeting_agenda: "Повестка встречи"
     label_meeting_minutes: "Протокол(-ы)"
@@ -454,7 +472,7 @@ ru:
     label_no_color: "Без цвета"
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "нет даты окончания"
-    label_no_start_date: "без даты начала"
+    label_no_start_date: "нет даты начала"
     label_no_date: "нет даты"
     label_no_value: "Нет значения"
     label_none: "Ничего"
@@ -482,7 +500,7 @@ ru:
     label_report: "Отчет"
     label_repository_plural: "Репозитории"
     label_save_as: "Сохранить как"
-    label_search_columns: "Search a column"
+    label_search_columns: "Поиск столбца"
     label_select_project: "Выберите проект"
     label_select_watcher: "Выберите наблюдателя..."
     label_selected_filter_list: "Выбранные фильтры"
@@ -580,12 +598,12 @@ ru:
           drag: "Перетащите карточки в заданный список, чтобы упорядочить их или переместить в другой список. <br> Вы можете щелкнуть по иконке info (i) в верхнем правом углу или дважды щелкнуть по карте, чтобы открыть ее данные."
         wp:
           toggler: "Теперь давайте посмотрим на раздел <b>рабочего пакета</b> , который дает вам более подробное представление о вашей работе."
-          list: "Этот обзор пакета <b>работ</b> содержит список всех работ вашего проекта, таких как задачи, контрольные точки, фазы и т. l. <br> Пакеты работ можно создавать и редактировать прямо в этом окне. Для получения сведений о конкретном рабочем пакете, просто дважды щелкните по нему. "
+          list: "Этот обзор пакета <b>работ</b> содержит список всех работ вашего проекта, таких как задачи, вехи, фазы и т. l. <br> Пакеты работ можно создавать и редактировать прямо в этом окне. Для получения сведений о конкретном рабочем пакете, просто дважды щелкните по нему. "
           full_view: "<b>Детали пакета работ</b> предоставляют всю соответствующую информацию, касающуюся данного пакета работ, таких как описание, статус, приоритет, деятельность, зависимости и комментарии."
           back_button: "Используйте стрелку возврата в верхнем левом углу для выхода и возврата к списку пакетов работ."
           create_button: "Кнопка <b>+ Создать</b> добавит новый пакет работ в ваш проект."
           gantt_menu: "Создавайте расписания проектов и графики с помощью модуля Гантт."
-          timeline: "Здесь вы можете <b>редактировать план проекта</b>, создавать новые пакеты работ, например, задачи, контрольные точки, фазы и многое другое, а также <b>добавить зависимости</b>. Все члены команды могут видеть и обновлять план в любое время."
+          timeline: "Здесь вы можете <b>редактировать план проекта</b>, создавать новые пакеты работ, например, задачи, вехи, фазы и многое другое, а также <b>добавлять зависимости</b>. Все члены команды могут видеть и обновлять план в любое время."
         team_planner:
           overview: "Планировщик команды позволяет наглядно назначать задачи членам команды и получать представление о том, кто над чем работает."
           calendar: "На доске планирования еженедельно или раз в две недели отображаются все пакеты работ членов вашей команды."
@@ -599,7 +617,7 @@ ru:
         mentioned: "упомянутый"
         watched: "наблюдатель"
         assigned: "назначенный"
-        responsible: "подотчетный"
+        responsible: "ответственный"
         created: "создано"
         scheduled: "запланировано"
         commented: "прокомментировано"
@@ -608,7 +626,7 @@ ru:
         dateAlert: "Дата оповещения"
         shared: "поделился"
       date_alerts:
-        milestone_date: "Дата контрольной точки"
+        milestone_date: "Дата вехи"
         overdue: "Просрочено"
         overdue_since: "на %{difference_in_days}"
         property_today: "сегодня"
@@ -640,13 +658,13 @@ ru:
         empty_state:
           no_notification: "Похоже, вы все сделали."
           no_notification_with_current_project_filter: "Похоже, в выбранном проекте вы все сделали."
-          no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали."
+          no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали %{filter}."
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали."
         new_notifications:
           message: "Есть новые уведомления."
-          link_text: "Click here to load them."
+          link_text: "Нажмите здесь, чтобы загрузить их."
       menu:
-        accountable: "Подотчетный"
+        accountable: "Ответственный"
         by_project: "Непрочитано по проекту"
         by_reason: "Причина"
         inbox: "Входящие"
@@ -675,7 +693,7 @@ ru:
             title: "Упомянутые"
             description: "Получать уведомления каждый раз, когда кто-то упоминает меня"
           assignee: "Назначенный"
-          responsible: "Подотчетный"
+          responsible: "Ответственный"
           shared: "Общий доступ"
           watched: "Наблюдатель"
           work_package_commented: "Все новые комментарии"
@@ -692,7 +710,7 @@ ru:
             description: "Дополнительные уведомления для деятельности во всех проектах."
           date_alerts:
             title: "Дата оповещения"
-            description: "Автоматическое уведомление, когда приближаются важные даты открытия пакетов работ, в которых вы участвуете (назначение, подотчетность или наблюдатель)."
+            description: "Автоматическое уведомление, когда приближаются важные даты открытия пакетов работ, в которых вы участвуете (назначенный, ответственный или наблюдатель)."
             teaser_text: "С уведомлениями о дате вы будете уведомлены о датах начала или окончания предстоящих дат, чтобы вы никогда не пропустили или не забыли важный срок."
           overdue: Когда просрочено
         project_specific:
@@ -927,7 +945,7 @@ ru:
       message_work_package_status_blocked: "Статус пакета работ недоступен для записи из-за закрытого статуса и назначенной закрытой версии."
       placeholder_filter_by_text: "Тема, описание, комментарии, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Оценки работы и прогресс"
       baseline:
         addition_label: "Добавлено для просмотра в период сравнения"
         removal_label: "Удалено из просмотра в период сравнения"
@@ -1004,7 +1022,7 @@ ru:
         all_open: "Все открытые"
         summary: "Сводка"
         shared_with_users: "Доступно пользователям"
-        shared_with_me: "Shared with me"
+        shared_with_me: "В общем доступе с"
       jump_marks:
         pagination: "Перейти вёрстке таблицы"
         label_pagination: "Кликните здесь чтобы пропустить таблицу рабочих пакетов и перейти к вёрстке"
@@ -1044,7 +1062,7 @@ ru:
       sharing:
         share: "Поделиться"
         title: "Поделиться пакетом работ"
-        show_all_users: "Показать всех общих пользователей"
+        show_all_users: "Показать всех пользователей, которым был предоставлен общий доступ к пакету работ"
         selected_count: "%{count} выбрано"
         selection:
           mixed: "Смешанное"
@@ -1274,6 +1292,14 @@ ru:
           placeholder: "Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты."
           group: "Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ."
         next_button: "Продолжить"
+    exclusion_info:
+      modal:
+        title: "Статус исключён из иерархии итогов"
+        content: >-
+          Статус '%{status_name}' был настроен на исключение из иерархии итогов Работы, Оставшейся работы и % завершения. Итоговые показатели не учитывают это значение.
+    favorite_projects:
+      no_results: "У вас нет избранных проектов"
+      no_results_subtext: "Добавьте один или несколько проектов в избранное через их обзор или в списке проектов."
     include_projects:
       toggle_title: "Включить проекты"
       title: "Проекты"
@@ -1331,8 +1357,12 @@ ru:
         remove: "Удалить"
       drop_modal:
         focus_grab: "Это якорь фокусировки для модальностей. Нажмите shift+ tab, чтобы вернуться к элементу модального триггера."
-        Close: "Закрыть"
+        close: "Закрыть диалоговое окно"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Время ожидания истекло"
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "Проблема с сетью."
+        network_on: "Проблема с сетью решена."
+        timeout: >
+          OpenProject не смог предоставить вам доступ к папке проекта в течение ожидаемого периода времени. Пожалуйста, попробуйте еще раз.<br><br> Если проблема не исчезнет, ​​обратитесь к администратору OpenProject, чтобы проверить <a href="https://www.openproject.org/docs/system-admin-guide/files/external -file-storages/file-storage-troubleshooting/">состояние файлового хранилища</a>.

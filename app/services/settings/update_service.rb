@@ -46,7 +46,7 @@ class Settings::UpdateService < BaseServices::BaseContracted
     new_value = derive_value(value)
     Setting[name] = new_value
     if name == :work_package_done_ratio && old_value != "status" && new_value == "status"
-      WorkPackages::ApplyStatusesPCompleteJob.perform_later(cause_type: "progress_mode_changed_to_status_based")
+      WorkPackages::Progress::ApplyStatusesChangeJob.perform_later(cause_type: "progress_mode_changed_to_status_based")
     end
   end
 

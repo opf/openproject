@@ -34,7 +34,7 @@ require_module_spec_helper
 RSpec.describe "Storage links in project menu" do
   include EnsureConnectionPathHelper
 
-  shared_let(:project) { create(:project, enabled_module_names: %i[storages]) }
+  shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking storages]) }
   shared_let(:storage_configured_linked1) { create(:nextcloud_storage_configured, :as_automatically_managed, name: "Storage 1") }
   shared_let(:project_storage1) do
     create(:project_storage, :as_automatically_managed, project:, storage: storage_configured_linked1)

@@ -29,6 +29,27 @@ class PermittedParams
       keys
     end
 
+    def filters
+      restricted_keys = Set.new(self.restricted_keys)
+      Settings::Definition.all.flat_map do |key, definition|
+        next if restricted_keys.include?(key)
+
+        case definition.format
+        when :hash
+          { key => {} }
+        when :array
+          { key => [] }
+        else
+          key
+        end
+      end
+    end
+
+    def restricted_keys
+      restrictions.select(&:applicable?)
+                  .flat_map(&:restricted_keys)
+    end
+
     def add_restriction!(keys:, condition:)
       restrictions << Restriction.new(keys, condition)
     end

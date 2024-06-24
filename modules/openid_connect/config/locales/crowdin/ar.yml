@@ -1,32 +1,32 @@
 ar:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID Connect"
-    description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
+    description: "يضيف مزودي استراتيجية OmniAuth OpenID Connect إلى OpenProject."
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    لقد تم تسجيل خروجك. قد يتم فقدان محتويات أي نموذج تقوم بإرساله. يرجى [تسجيل الدخول].
   activemodel:
     attributes:
       openid_connect/provider:
         name: الاسم
-        display_name: Display name
+        display_name: اسم العرض
         identifier: المعرّف
-        secret: Secret
-        scope: Scope
+        secret: السر
+        scope: النطاق
         limit_self_registration: Limit self registration
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: مزودو OpenID
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: إضافة مزود OpenID جديد
+      label_edit: تعديل موفر OpenID %{name}
+      no_results_table: لم يتم تعريف أى مزودين حتى الآن
+      plural: مزودو OpenID
+      singular: مزود OpenID
     setting_instructions:
       azure_deprecation_warning: >
-        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
+        تطبيق Azure الذي تم إعدادة يشير إلى واجهة برمجة تطبيقات غير معتمدة من Azure. يرجي انشاء تطبيق Azure جديد لضمان عمله مستقبلا.
       azure_graph_api: >
-        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+        استخدم نقطة النهاية graph.microsoft.com userinfo لطلب بيانات المستخدم. يجب أن يكون هذا هو الإختيار الافتراضي إلا إذا كان لديك تطبيق Azure قديم.
       azure_tenant_html: >
-        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
+        قم بإعداد Azure Tenant الخاص بك. حيث سيتم التحكم في من بإمكانه الوصول الى نسخة OpenProject. gl. لمزيد من المعلومات يرجي الإطلاع على <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">دليل المستخدم الخاص بنا على Azure OpenID connect</a>.
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.

@@ -261,7 +261,9 @@ pl:
     lists:
       active: "Aktywne projekty"
       my: "Moje projekty"
+      favored: "Ulubione projekty"
       archived: "Zarchiwizowane projekty"
+      public: "Listy projektów publicznych"
       my_private: "Moje prywatne listy projektów"
       new:
         placeholder: "Nowa lista projektów"
@@ -289,8 +291,17 @@ pl:
         actions:
           label_enable_single: "Aktywne w tym projekcie, kliknij, aby wyłączyć"
           label_disable_single: "Nieaktywne w tym projekcie, kliknij, aby włączyć"
+          deactivate_for_project: "Dezaktywuj dla tego projektu"
           label_enable_all: "Włącz wszystkie"
           label_disable_all: "Wyłącz wszystkie"
+        is_required_blank_slate:
+          heading: Wymagane we wszystkich projektach
+          description: Ten atrybut projektu jest aktywowany we wszystkich projektach, ponieważ zaznaczona jest opcja „Wymagane we wszystkich projektach”. Nie można go dezaktywować dla poszczególnych projektów.
+        new_project_mapping_form:
+          add_projects: Dodaj projekty
+          include_sub_projects: Uwzględnij podprojekty
+        project_mappings:
+          header: Włączone w projektach
       types:
         no_results_title_text: Nie ma dostępnych typów.
         form:
@@ -301,7 +312,20 @@ pl:
       storage:
         no_results_title_text: Nie ma dodatkowego zarejestrowanego miejsca na dysku zużytego przez ten projekt.
   lists:
-    can_be_saved_as: "Modyfikacje można zapisać tylko na nowej liście."
+    create:
+      success: "Zmodyfikowana lista została zapisana jako nowa lista"
+      failure: "Nie można zapisać zmodyfikowanej listy: %{errors}"
+    update:
+      success: "Zmodyfikowana lista została zapisana"
+      failure: "Nie można zapisać zmodyfikowanej listy: %{errors}"
+    publish:
+      success: "Lista została ustawiona jako publiczna"
+      failure: "Nie można ustawić listy jako publicznej: %{errors}"
+    unpublish:
+      success: "Lista została ustawiona jako prywatna"
+      failure: "Nie można ustawić listy jako prywatnej: %{errors}"
+    can_be_saved: "Zmodyfikowano listę:"
+    can_be_saved_as: "Modyfikacje można zapisać tylko na nowej liście:"
   members:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
@@ -438,12 +462,20 @@ pl:
         Nie można zmienić żadnych atrybutów z wyjątkiem stanu.
         <br/>
         <strong>Uwaga</strong>: wartości dziedziczone (np. po elementach podrzędnych lub relacjach) będą nadal stosowane.
+      status_excluded_from_totals_text: |-
+        Zaznacz tę opcję, aby wykluczyć pakiety robocze o tym statusie z sum atrybutów Praca,
+        Pozostała praca i % ukończenia w hierarchii.
       status_color_text: |
         Kliknij, aby przypisać lub zmienić kolor tego stanu.
         Jest on wyświetlany w przycisku stanu i można go używać do wyróżniania pakietów roboczych w tabeli.
     index:
       no_results_title_text: Nie ma aktualnie żadnych statusów Zestawu zadań.
       no_results_content_text: Dodaj nowy status
+      headers:
+        is_default: "Domyślny"
+        is_closed: "Zamknięty"
+        is_readonly: "Tylko do odczytu"
+        excluded_from_totals: "Wyłączono z sum"
   themes:
     light: "Jasny"
     light_high_contrast: "Jasny, wysoki kontrast"
@@ -495,7 +527,7 @@ pl:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: "Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Brak przepływu pracy udostępniania pakietu roboczego"
         message: "Dla roli „Edytor pakietów roboczych” nie skonfigurowano przepływu pracy. Bez przepływu pracy użytkownik, któremu ją  udostępniono nie może zmienić statusu pakietu roboczego. Przepływy pracy można kopiować. Wybierz typ źródłowy (np. „Zadanie”) i rolę źródłową (np. „Członek”). Następnie wybierz typy docelowe. Na początek możesz wybrać wszystkie typy jako docelowe. Na koniec wybierz rolę  „Edytor pakietów roboczych”  jako cel i naciśnij przycisk „Kopiuj”. Po utworzeniu ustawień domyślnych dostosuj przepływy pracy tak, jak w przypadku każdej innej roli."
         link_message: "Skonfiguruj przepływy pracy w administracji."
@@ -615,6 +647,7 @@ pl:
       status:
         is_closed: "Zadanie zamknięte"
         is_readonly: "Pakiet roboczy tylko do odczytu"
+        excluded_from_totals: "Wyłącz z obliczania sum w hierarchii"
       journal:
         notes: "Notatki"
       member:
@@ -755,12 +788,13 @@ pl:
         before_or_equal_to: "musi być przed lub równe %{date}."
         blank: "nie może być puste."
         blank_nested: "musi mieć ustawioną właściwość '%{property}'."
+        cannot_delete_mapping: "jest wymagane. Nie można usunąć."
         cant_link_a_work_package_with_a_descendant: "Zestaw zadań nie może być powiązany z jego podzadaniami."
         circular_dependency: "Ta relacja może wytworzyć zależność cykliczną."
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         error_conflict: "Information has been updated by at least one other user in the meantime."
@@ -793,6 +827,7 @@ pl:
         not_an_iso_date: "wprowadzono nieprawidłową datę. Wymagany format: RRRR-MM-DD."
         not_same_project: "nie należy do tego samego projektu."
         odd: "musi być nieparzyste."
+        regex_match_failed: "nie pasuje do wyrażenia regularnego %{expression}."
         regex_invalid: "nie może być zastosowany z zastosowanym wyrażeniem regularnym."
         smaller_than_or_equal_to_max_length: "musi być mniejsze niż lub równe z maksymalnej długości."
         taken: "zostały już podjęte."
@@ -914,6 +949,8 @@ pl:
               nonexistent: "Kolumna „%{column}” nie istnieje."
               format: "%{message}"
           group_by_hierarchies_exclusive: "wzajemnie się wykluczają w ramach grupowania wg \"%{group_by}\". Nie można aktywować równocześnie."
+          can_only_be_modified_by_owner: "Zapytanie może zmodyfikować tylko jego właściciel."
+          need_permission_to_modify_public_query: "Nie możesz zmodyfikować zapytania publicznego."
           filters:
             custom_fields:
               inexistent: "Brak pola niestandardowego dla tego filtra."
@@ -947,6 +984,9 @@ pl:
             base:
               working_days_are_missing: "Co najmniej jeden dzień tygodnia musi być zdefiniowany jako dzień roboczy."
               previous_working_day_changes_unprocessed: "Poprzednie zmiany konfiguracji dni roboczych nie zostały jeszcze zastosowane."
+              hours_per_day_are_missing: "Liczba godzin dziennie musi być określona."
+              durations_are_not_positive_numbers: "Czasy trwania muszą być liczbami dodatnimi."
+              hours_per_day_is_out_of_bounds: "Liczba godzin dziennie nie może przekraczać 24"
         time_entry:
           attributes:
             hours:
@@ -1004,13 +1044,15 @@ pl:
               only_same_project_categories_allowed: "Kategoria pakietu roboczego musi znajdować się w tym samym projekcie co pakiet roboczy."
               does_not_exist: "Podana kategoria nie istnieje."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              not_a_number: "nie jest prawidłowym czasem trwania."
+              cant_be_inferior_to_remaining_work: "Nie może być mniejsza niż wartość pozostałej pracy."
+              must_be_set_when_remaining_work_is_set: "Wymagane, gdy ustawiona jest opcja Pozostała praca."
+              only_values_greater_or_equal_zeroes_allowed: "Musi być >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              not_a_number: "nie jest prawidłowym czasem trwania."
+              cant_exceed_work: "Nie może być wyższa niż wartość pracy."
+              must_be_set_when_work_is_set: "Wymagane, gdy ustawiona jest opcja Praca."
               format: "%{message}"
           readonly_status: "Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić."
         type:
@@ -1147,18 +1189,6 @@ pl:
           other: "<i>%{count} godziny</i>"
         updated: "zmieniono z %{old_value} na %{value}"
         logged_for: "Zalogowano przez"
-      meeting_agenda_item:
-        duration:
-          added: "ustawiono na %{value}"
-          added_html: "ustawiono na <i>%{value}</i>"
-          removed: "usunięto"
-          updated: "zmieniono z %{old_value} na %{value}"
-          updated_html: "zmieniono z <i>%{old_value}</i> na <i>%{value}</i>"
-        position:
-          updated: "zmieniono kolejność"
-        work_package:
-          updated: "zmieniono z %{old_value} na %{value}"
-          updated_html: "zmieniono z <i>%{old_value}</i> na <i>%{value}</i>"
     filter:
       changeset: "Zestawy zmian"
       message: "Fora"
@@ -1290,6 +1320,7 @@ pl:
   button_edit: "Edycja"
   button_edit_associated_wikipage: "Edytuj powiązaną stronę Wiki: %{page_title}"
   button_expand_all: "Rozwiń wszystkie"
+  button_favorite: "Dodaj do ulubionych"
   button_filter: "Filtr"
   button_generate: "Utwórz"
   button_list: "Lista"
@@ -1317,6 +1348,7 @@ pl:
   button_unarchive: "Unarchive"
   button_uncheck_all: "Odznacz wszystko"
   button_unlock: "Odblokuj"
+  button_unfavorite: "Usuń z ulubionych"
   button_unwatch: "Nie obserwuj"
   button_update: "Aktualizacja"
   button_upgrade: "Aktualizuj"
@@ -1335,6 +1367,8 @@ pl:
   button_revoke_access: "Unieważnij dostęp"
   button_revoke_all: "Unieważnij wszystkie"
   button_revoke_only: "Unieważnij tylko %{shared_role_name}"
+  button_publish: "Ustaw jako publiczny"
+  button_unpublish: "Ustaw jako prywatny"
   consent:
     checkbox_label: Odnotowałem i zgadzam się na powyższe.
     failure_message: Zgoda nie powiodła się, nie można kontynuować.
@@ -1638,8 +1672,15 @@ pl:
       pdf_overview_table: "Tabela PDF"
       pdf_report_with_images: "Raport PDF z obrazami"
       pdf_report: "Raport PDF"
+      pdf_gantt: "Wykres Gantta w formacie PDF"
     image:
       omitted: "Nie wyeksportowano obrazu"
+    macro:
+      error: "Błąd makra, %{message}"
+      attribute_not_found: "nie znaleziono atrybutu: %{attribute}"
+      model_not_found: "nieprawidłowy model atrybutu: %{model}"
+      resource_not_found: "nie znaleziono zasobu: %{resource}"
+      rich_text_unsupported: "Osadzanie tekstu sformatowanego nie jest obecnie obsługiwane w eksporcie"
     units:
       hours: h
       days: d
@@ -1693,7 +1734,7 @@ pl:
       dates_changed: "Daty zostały zmienione"
       default_attribute_written: "Zapisano atrybuty tylko do odczytu"
       progress_mode_changed_to_status_based: "Zaktualizowano obliczenie postępu"
-      status_p_complete_changed: "Zmieniono status % ukończenia"
+      status_changed: "Status „%{status_name}”"
       system_update: "Aktualizacja systemu OpenProjekt:"
     cause_descriptions:
       work_package_predecessor_changed_times: przez zmiany poprzednika %{link}
@@ -1707,18 +1748,21 @@ pl:
           working: "%{day} jest teraz dniem roboczym"
           non_working: "%{day} jest teraz dniem nieroboczym"
         dates:
-          working: "%{day} jest teraz dniem roboczym"
+          working: "%{date} jest teraz dniem roboczym"
           non_working: "%{date} jest teraz wolnym od pracy"
       progress_mode_changed_to_status_based: Tryb obliczania postępu ustawiono na oparty na statusie
-      status_p_complete_changed: >-
-        Wartość % ukończenia dla statusu „%{status_name}” zmieniono z %{old_value}% na %{new_value}%
+      status_excluded_from_totals_set_to_false_message: teraz uwzględniono w sumach hierarchii
+      status_excluded_from_totals_set_to_true_message: teraz wyłączono z sum hierarchii
+      status_percent_complete_changed: "% ukończenia zmienił się z %{old_value}% na %{new_value}%"
       system_update:
         file_links_journal: >
           Od teraz aktywność związana z linkami do plików (plików przechowywanych w magazynach zewnętrznych) będzie wyświetlana na karcie Aktywność. Poniżej przedstawiono aktywność dotyczącą linków, które już istniały:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Obliczanie postępu jest automatycznie <a href="%{href}" target="_blank">ustawiane na tryb oparty na pracy i dostosowywane wraz z aktualizacją wersji</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Obliczanie postępu jest automatycznie <a href="%{href}" target="_blank">dostosowywane wraz z aktualizacją wersji</a>.
+        totals_removed_from_childless_work_packages: >-
+          Sumy pracy i postępu są automatycznie usuwane dla pakietów pracy innych niż nadrzędne wraz z <a href="%{href}" target="_blank">aktualizacją wersji</a>. Jest to zadanie konserwacyjne i można je bezpiecznie zignorować.
   links:
     configuration_guide: "Przewodnik po konfiguracji"
     get_in_touch: "Masz pytania? Skontaktuj się z nami."
@@ -1783,17 +1827,6 @@ pl:
         mentioned: "Wspomniano o tobie w %{work_package}"
         responsible: "Odpowiadasz za %{work_package}"
         watched: "Obserwujesz %{work_package}"
-    update_info_mail:
-      body: >
-        Z radością ogłaszamy wydanie wersji OpenProject 12.0. Mamy nadzieję, że to niezwykle ważne wydanie znacznie usprawni sposób korzystania z OpenProject.
-        Począwszy od tej wersji, wprowadzamy powiadomienia w aplikacji. Od teraz będziesz otrzymywać powiadomienia o aktualizacjach pakietów roboczych bezpośrednio w OpenProject. Możesz oznaczyć te powiadomienia jako przeczytane, odpowiedzieć na komentarze lub nawet bezpośrednio modyfikować atrybuty pakietu roboczego bez opuszczania centrum powiadomień.
-        Oznacza to również, że nie będziemy już używać wiadomości e-mail do wysyłania powiadomień. Naszym zdaniem nowe centrum powiadomień jest lepszym miejscem do przeglądania tych aktualizacji i podejmowania działań. Niemniej jednak, jeśli zależy ci na otrzymywaniu aktualizacji pocztą elektroniczną, możesz otrzymywać codzienne przypomnienia e-mail w wybranych przez siebie porach.
-        Pamiętaj, aby zweryfikować nowe domyślne ustawienia powiadomień i ustawić swoje preferencje dotyczące powiadomień i przypomnień e-mail w ustawieniach konta. W celu dokonania zmian wybierz poniższy przycisk "Zmień ustawienia poczty elektronicznej".
-        Mamy nadzieję, że z powodzeniem będziesz korzystać z powiadomień w aplikacji, a Twoja wydajność dzięki nim znacznie się zwiększy.
-        Pozdrawiamy, Zespół OpenProject
-      body_header: "Wersja 12.0 z Centrum powiadomień"
-      body_subheader: "Aktualności"
-      subject: "Ważne zmiany w powiadomieniach w wydaniu 12.0"
   label_accessibility: "Dostępność"
   label_account: "Konto"
   label_active: "Aktywne"
@@ -1845,6 +1878,7 @@ pl:
   label_attribute_expand_text: "Pełny tekst atrybutu „%{attribute}”"
   label_authentication: "Uwierzytelnianie"
   label_available_global_roles: "Dostępne role globalne"
+  label_available_project_attributes: "Dostępne atrybuty projektu"
   label_available_project_forums: "Dostępne fora"
   label_available_project_repositories: "Dostępne repozytoria"
   label_available_project_versions: "Dostępne wersje"
@@ -1974,7 +2008,7 @@ pl:
   label_enterprise_support: "Wsparcie Enterprise"
   label_enterprise_addon: "Dodatek wersji Enterprise"
   label_environment: "Środowisko"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Szacunki i postęp"
   label_equals: "jest"
   label_everywhere: "wszędzie"
   label_example: "Przykład"
@@ -1988,7 +2022,7 @@ pl:
   label_expanded_click_to_collapse: "Rozwinięto. Kliknij, aby zwinąć"
   label_f_hour: "%{value} godzin"
   label_f_hour_plural: "%{value} godzin"
-  label_favoured: "Ulubione"
+  label_favorite: "Ulubione"
   label_feed_plural: "Kanały"
   label_feeds_access_key: "Klucz dostępu RSS"
   label_feeds_access_key_created_on: "Klucz dostępu RSS utworzony %{value} temu"
@@ -2061,6 +2095,7 @@ pl:
   label_learn_more: "Dowiedz się więcej"
   label_less_or_equal: "≤"
   label_less_than_ago: "mniej niż dni temu"
+  label_link_url: "Link (adres URL)"
   label_list: "Lista"
   label_loading: "Ładowanie..."
   label_lock_user: "Zablokuj użytkownika"
@@ -2086,6 +2121,7 @@ pl:
   label_membership_plural: "Uczestnictwa"
   lable_membership_added: "Dodano członka"
   lable_membership_updated: "Zaktualizowano członka"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "wczesna alfa"
     alpha: "alfa"
@@ -2187,6 +2223,7 @@ pl:
   label_percent_complete: "% ukończenia"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
+  label_project_attribute_manage_link: "Zarządzaj atrybutami projektu"
   label_project_count: "Całkowita liczba projektów"
   label_project_copy_notifications: "Wyślij powiadomienia e-mail podczas kopiowania projektów"
   label_project_latest: "Najnowsze projekty"
@@ -2201,7 +2238,7 @@ pl:
   label_project_attributes_settings: "Ustawienia atrybutów projektu"
   label_project_storage_plural: "Magazyny plików"
   label_project_storage_project_folder: "Magazyny plików: foldery projektów"
-  label_projects_storage_information: "%{count} projektów zużywających %{storage} przestrzeni dyskowej"
+  label_projects_disk_usage_information: "Projekty (%{count}) zajmują %{used_disk_space} miejsca na dysku"
   label_project_view_all: "Zobacz wszystkie projekty"
   label_project_show_details: "Pokaż szczegóły projektu"
   label_project_hide_details: "Ukryj szczegóły projektu"
@@ -2258,6 +2295,7 @@ pl:
   label_setting_plural: "Ustawienia"
   label_system_settings: "Ustawienia"
   label_show_completed_versions: "Pokaż zakończone wersje"
+  label_columns: "Kolumny"
   label_sort: "Sortowanie"
   label_sort_by: "Sortuj wg %{value}"
   label_sorted_by: "kolejność wg %{value}"
@@ -2372,7 +2410,7 @@ pl:
   label_workflow: "Przepływ pracy"
   label_workflow_plural: "Przepływ zadań"
   label_workflow_summary: "Podsumowanie"
-  label_working_days: "Dni robocze"
+  label_working_days_and_hours: "Dni i godziny pracy"
   label_x_closed_work_packages_abbr:
     one: "1 zamknięty"
     other: "Liczba zamkniętych: %{count}"
@@ -2759,6 +2797,7 @@ pl:
   permission_save_bcf_queries: "Zapisz zapytania BCF"
   permission_manage_public_bcf_queries: "Zarządzanie publicznymi zapytaniami BCF"
   permission_edit_attribute_help_texts: "Edytuj teksty pomocy dotyczące atrybutów"
+  permission_manage_public_project_queries: "Zarządzaj listami projektów publicznych"
   placeholders:
     default: "-"
   project:
@@ -2805,7 +2844,7 @@ pl:
     member_of_group: "Przypisany do grupy"
     name_or_identifier: "Nazwa lub identyfikator"
     only_subproject_id: "Tylko podprojekt"
-    shared_with_user: "Udostępniono użytkownikowi"
+    shared_with_user: "Udostępnione użytkownikom"
     shared_with_me: "Udostępnione dla mnie"
     subproject_id: "Uwzględniając podprojekt"
   repositories:
@@ -2948,6 +2987,7 @@ pl:
   setting_app_subtitle: "Podtytuł"
   setting_app_title: "Tytuł"
   setting_attachment_max_size: "Maks. rozmiar załącznika"
+  setting_show_work_package_attachments: "Domyślnie pokazuj załączniki na karcie plików"
   setting_antivirus_scan_mode: "Tryb skanowania"
   setting_antivirus_scan_action: "Działanie wobec zainfekowanego pliku"
   setting_autofetch_changesets: "Autopobieranie zmian repozytorium"
@@ -2986,6 +3026,9 @@ pl:
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
   setting_host_name: "Nazwa hosta"
+  setting_hours_per_day: "Liczba godzin dziennie"
+  setting_hours_per_day_explanation: >-
+    To zdefiniuje, co jest uważane za „dzień” podczas wyświetlania czasu trwania w naturalniejszy sposób (na przykład, jeśli dzień ma 8 godzin, 32 godziny będą 4 dniami).
   setting_invitation_expiration_days: "Ważność aktywacyjnej waidomości e-mail wygasa po"
   setting_work_package_done_ratio: "Obliczenie postępu"
   setting_work_package_done_ratio_field: "Oparte na pracy"
@@ -3049,6 +3092,8 @@ pl:
     attachments:
       whitelist_text_html: >
         Zdefiniuj listę poprawnych rozszerzeń plików i/lub typów mime dla przesłanych plików. <br/> Wprowadź rozszerzenia plików (np. <code>%{ext_example}</code>) lub typy mime (np. <code>%{mime_example}</code>). <br/> Pozostaw puste, aby umożliwić przesłanie dowolnego typu pliku. Dozwolone wielokrotne wartości (jeden wiersz dla każdej wartości).
+      show_work_package_attachments: >
+        Wyłączenie tej opcji spowoduje ukrycie listy załączników na karcie plików pakietów roboczych dla nowych projektów. Pliki załączone w opisie pakietu roboczego będą nadal przesyłane do wewnętrznego magazynu załączników.
     antivirus:
       title: "Skanowanie antywirusowe"
       clamav_ping_failed: "Nie udało się połączyć z demonem ClamAV. Proszę sprawdzić konfigurację i spróbować ponownie."
@@ -3196,7 +3241,7 @@ pl:
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
   text_journal_attachment_added: "%{label} %{value} dodano jako załącznik"
-  text_journal_attachment_deleted: "%{label} %{value} usunięto jako załącznik"
+  text_journal_attachment_deleted: "%{label} %{old} usunięto jako załącznik"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
@@ -3285,6 +3330,10 @@ pl:
         input_label: "Dodaj kolumny"
         input_placeholder: "Wybierz kolumnę"
         drag_area_label: "Zarządzaj kolumnami i zmieniaj ich kolejność"
+      sort_by:
+        automatic:
+          heading: "Automatycznie"
+          description: "Ustaw kolejność %{plural} według jednego lub więcej kryteriów sortowania. Poprzednie sortowanie zostanie utracone."
   top_menu:
     additional_resources: "Dodatkowe zasoby"
     getting_started: "Pierwsze kroki"
@@ -3428,7 +3477,7 @@ pl:
       Daty dodane do poniższej listy są uważane za niedziałające i są pomijane podczas planowania pakietów roboczych.
     change_button: "Zmień dni robocze"
     warning: >
-      Zmiana dni tygodnia, które są uważane za dni robocze lub dni nierobocze może mieć wpływ na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach w tym wystąpieniu. <br/> Pamiętaj, że zmiany są stosowane dopiero po kliknięciu przycisku Zastosuj zmiany.
+      Zmiana dni tygodnia, które są uważane za dni robocze lub nierobocze może wpłynąć na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach w tym wystąpieniu.
     journal_note:
       changed: _Zmieniono **Dni robocze** (%{changes})._
       days:
@@ -3436,7 +3485,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{date} jest teraz roboczym"
-        non_working: "%{day} jest teraz wolnym od pracy"
+        non_working: "%{date} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:
@@ -3636,7 +3685,7 @@ pl:
   link: link
   plugin_openproject_auth_plugins:
     name: "Wtyczki uwierzytelniające OpenProject"
-    description: "Integracja dostawców strategii OmniAuth w celu uwierzytelniania w Openproject."
+    description: "Integracja dostawców strategii OmniAuth w celu uwierzytelniania w OpenProject."
   plugin_openproject_auth_saml:
     name: "SAML OmniAuth / pojedyncze logowanie"
     description: "Dodaje dostawcę SAML OmniAuth do OpenProject"

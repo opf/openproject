@@ -264,7 +264,9 @@ hi:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -292,8 +294,17 @@ hi:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -304,7 +315,20 @@ hi:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -318,10 +342,10 @@ hi:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "अवरोधित"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "समूह"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -398,7 +422,7 @@ hi:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "टेक्स्ट"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -428,11 +452,19 @@ hi:
         No attributes can be changed with the exception of the status.
         <br/>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         इस प्राथमिकता का रंग असाइन करने या बदलने के लिए क्लिक करें । यह तालिका में कार्य पैकेज हाइलाइटिंग के लिए उपयोग किया जा सकता है ।
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
@@ -482,7 +514,7 @@ hi:
       no_common_statuses_exists: "सभी चयनित कार्य पैकेज के लिए कोई स्थिति उपलब्ध नहीं है । उनकी हैसियत नहीं बदली जा सकती ।"
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -602,6 +634,7 @@ hi:
       status:
         is_closed: "कार्य पैकेज बंद"
         is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "टिप्पणियाँ"
       member:
@@ -742,6 +775,7 @@ hi:
         before_or_equal_to: "must be before or equal to %{date}."
         blank: "can't be blank."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
@@ -780,6 +814,7 @@ hi:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
         odd: "must be odd."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "has already been taken."
@@ -901,6 +936,8 @@ hi:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
@@ -934,6 +971,9 @@ hi:
             base:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -991,11 +1031,13 @@ hi:
               only_same_project_categories_allowed: "एक कार्य पैकेज की श्रेणी कार्य पैकेज के रूप में एक ही प्रोजेक्ट के भीतर होना चाहिए ।"
               does_not_exist: "निर्दिष्ट श्रेणी मौजूद नहीं है ।"
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1118,18 +1160,6 @@ hi:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordered"
-        work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Changesets"
       message: "मंच"
@@ -1227,7 +1257,7 @@ hi:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "क्रियाएँ"
   button_add: "जोड़ें"
   button_add_comment: "टिप्पणी लिखें"
   button_add_member: Add member
@@ -1261,6 +1291,7 @@ hi:
   button_edit: "संपादित करें"
   button_edit_associated_wikipage: "संबद्ध विकी पृष्ठ संपादित करें: %{page_title}"
   button_expand_all: "सभी विस्तृत करें"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generate"
   button_list: "सूची"
@@ -1278,7 +1309,7 @@ hi:
   button_reset: "रीसेट करें"
   button_rollback: "इस संस्करण के लिए रोलबैक"
   button_save: "सहेजें"
-  button_save_as: "Save as"
+  button_save_as: "के रूप में सहेजें..."
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "दिखाएँ"
@@ -1288,6 +1319,7 @@ hi:
   button_unarchive: "अपुरालेखित करें"
   button_uncheck_all: "सभी अचयनित करें"
   button_unlock: "अनलॉक करें"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "अनवॉच"
   button_update: "अद्यतन करें"
   button_upgrade: "Upgrade"
@@ -1306,6 +1338,8 @@ hi:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
@@ -1573,8 +1607,15 @@ hi:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d
@@ -1628,7 +1669,7 @@ hi:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1645,8 +1686,9 @@ hi:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1654,6 +1696,8 @@ hi:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1718,17 +1762,6 @@ hi:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "नया"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Accessibility"
   label_account: "खाता"
   label_active: "सक्रिय"
@@ -1780,6 +1813,7 @@ hi:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "प्रमाणीकरण"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "Available repositories"
   label_available_project_versions: "Available versions"
@@ -1909,7 +1943,7 @@ hi:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Environment"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "is"
   label_everywhere: "everywhere"
   label_example: "Example"
@@ -1919,18 +1953,18 @@ hi:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
-  label_expand: "Expand"
+  label_expand: "विस्तृत करें"
   label_expanded_click_to_collapse: "विस्तार. संक्षिप्त करने के लिए क्लिक करें"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS पहुंच कुंजी"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "फ़ाइलें"
   label_filter_add: "फ़िल्टर जोड़ें"
-  label_filter: "Filters"
+  label_filter: "फ़िल्टर"
   label_filter_plural: "फ़िल्टर"
   label_filters_toggle: "Show/hide filters"
   label_float: "फ्लोट"
@@ -1957,7 +1991,7 @@ hi:
   label_home: "मुखपृष्ठ"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "पहचानकर्ता"
   label_in: "में"
   label_in_less_than: "से भी कम समय में"
   label_in_more_than: "से अधिक में"
@@ -1973,7 +2007,7 @@ hi:
   label_internal: "आंतरिक"
   label_introduction_video: "परिचय वीडियो"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "सांझा करें"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1996,6 +2030,7 @@ hi:
   label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
+  label_link_url: "Link (URL)"
   label_list: "सूची"
   label_loading: "Loading..."
   label_lock_user: "Lock user"
@@ -2021,6 +2056,7 @@ hi:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2122,6 +2158,7 @@ hi:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "प्रोजेक्ट प्रतिलिपी के दौरान ईमेल सूचनाएँ भेजें"
   label_project_latest: "नवीनतम परियोजनाएं"
@@ -2136,7 +2173,7 @@ hi:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "सभी प्रोजेक्ट्स देखें"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
@@ -2193,6 +2230,7 @@ hi:
   label_setting_plural: "Settings"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
+  label_columns: "स्तंभ"
   label_sort: "क्रम में लगायें"
   label_sort_by: "Sort by %{value}"
   label_sorted_by: "sorted by %{value}"
@@ -2307,7 +2345,7 @@ hi:
   label_workflow: "कार्यप्रवाह"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "सारांश"
-  label_working_days: "Working days"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
     other: "%{count} closed"
@@ -2691,6 +2729,7 @@ hi:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2737,7 +2776,7 @@ hi:
     member_of_group: "Assignee's group"
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2882,6 +2921,7 @@ hi:
   setting_app_subtitle: "Application subtitle"
   setting_app_title: "Application title"
   setting_attachment_max_size: "Attachment max. size"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Autofetch repository changes"
@@ -2920,6 +2960,9 @@ hi:
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -2983,6 +3026,8 @@ hi:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3219,6 +3264,10 @@ hi:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"
@@ -3355,12 +3404,12 @@ hi:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
@@ -3566,7 +3615,7 @@ hi:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

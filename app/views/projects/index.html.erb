@@ -39,28 +39,12 @@ See COPYRIGHT and LICENSE files for more details.
       )
   %>
 
-  <%= render(Projects::ProjectsFiltersComponent.new(query:)) do |component|
-    if current_user.allowed_globally?(:add_project)
-      component.with_button(
-        tag: :a,
-        href: new_project_path,
-        scheme: :primary,
-        size: :medium,
-        aria: { label: I18n.t(:label_project_new) },
-        data: { 'test-selector': 'project-new-button' }) do |button|
-          button.with_leading_visual_icon(icon: :plus)
-          Project.model_name.human
-        end
-      end
-    end
-  %>
-
+  <%= render(Projects::IndexSubHeaderComponent.new(query:, current_user:, disable_buttons: state === :rename)) %>
 
   <%= render Projects::TableComponent.new(
     query:,
     current_user: current_user,
     params:) %>
 
-  <%= render Projects::StorageInformationComponent.new(
-    current_user: current_user) %>
+  <%= render Projects::DiskUsageInformationComponent.new(current_user: current_user) %>
 </div>

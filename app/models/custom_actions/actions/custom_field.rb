@@ -80,6 +80,8 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
       CustomActions::Actions::Strategies::String
     when "text"
       CustomActions::Actions::Strategies::Text
+    when "link"
+      CustomActions::Actions::Strategies::Link
     when "int"
       CustomActions::Actions::Strategies::Integer
     when "float"

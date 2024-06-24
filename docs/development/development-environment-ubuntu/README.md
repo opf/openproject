@@ -23,7 +23,7 @@ Remark: *At the time of writing* in this page refers to 12/10/2021
 If you find any bugs or you have any recommendations for improving this tutorial, please, feel free to send a pull
 request or comment in the [OpenProject forums](https://community.openproject.org/projects/openproject/boards).
 
-# Prepare your environment
+## Prepare your environment
 
 We need an active Ruby and Node JS environment to run OpenProject. To this end, we need some packages installed on the
 system.o
@@ -36,14 +36,14 @@ sudo apt-get update
 sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libpq-dev libreadline-dev
 ```
 
-## Install Ruby
+### Install Ruby
 
 Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install
 Ruby. We always require the latest ruby versions, and you can check which version is required
 by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At
-the time of writing, this version is "3.2.3"
+the time of writing, this version is "3.3.2"
 
-### Install rbenv and ruby-build
+#### Install rbenv and ruby-build
 
 rbenv is a ruby version manager that lets you quickly switch between ruby versions.
 ruby-build is an addon to rbenv that installs ruby versions.
@@ -64,7 +64,7 @@ echo 'eval "$(rbenv init - bash)"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### Installing ruby-build
+#### Installing ruby-build
 
 ruby-build is an addon to rbenv that installs ruby versions
 
@@ -72,10 +72,10 @@ ruby-build is an addon to rbenv that installs ruby versions
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ```
 
-### Installing ruby
+#### Installing ruby
 
 With both installed, we can now install ruby. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `3.2.3` which we also require.
+At the time of this writing, the latest stable version is `3.3.2` which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile).
 Search for the `ruby '~> X.Y.Z'` line
@@ -83,14 +83,14 @@ and install that version.
 
 ```shell
 # Install the required version as read from the Gemfile
-rbenv install 3.2.3
+rbenv install 3.3.2
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to
 globally activate this version
 
 ```shell
-rbenv global 3.2.3
+rbenv global 3.3.2
 rbenv rehash
 ```
 
@@ -100,7 +100,7 @@ an error, first try with a fresh reboot).
 If you get `Command 'gem' not found...` here, ensure you followed the instructions `rbenv init` command to ensure it is
 loaded in your shell.
 
-## Setup PostgreSQL database
+### Setup PostgreSQL database
 
 Next, install a PostgreSQL database.
 
@@ -127,12 +127,12 @@ Now, create the database `openproject_dev` and `openproject_test` owned by the p
 [postgres@ubuntu]# exit
 ```
 
-## Install Node.js
+### Install Node.js
 
 We will install the latest LTS version of Node.js via [nodenv](https://github.com/nodenv/nodenv). This is basically the
 same steps as for rbenv:
 
-### Install nodenv
+#### Install nodenv
 
 ```shell
 # Install nodenv
@@ -150,13 +150,13 @@ echo 'eval "$(nodenv init -)"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### Install node-build
+#### Install node-build
 
 ```shell
 git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-build
 ```
 
-### Install latest LTS node version
+#### Install latest LTS node version
 
 You can find the latest LTS version here: [nodejs.org/en/download/](https://nodejs.org/en/download/)
 
@@ -168,22 +168,22 @@ nodenv global 20.9.0
 nodenv rehash
 ```
 
-### Update NPM to the latest version
+#### Update NPM to the latest version
 
 ```shell
 npm install npm@latest -g
 ```
 
-## Verify your installation
+### Verify your installation
 
 You should now have an active ruby and node installation. Verify that it works with these commands.
 
 ```shell
 ruby --version
-ruby 3.2.3 (2024-01-18 revision 52bb2ac0a6) [arm64-darwin23]
+ruby 3.3.2 (2024-05-30 revision e5a195edf6) [arm64-darwin23]
 
 bundler --version
-Bundler version 2.5.5
+Bundler version 2.5.11
 
 node --version
 v20.9.0
@@ -192,7 +192,7 @@ npm --version
 10.5.0
 ```
 
-# Install OpenProject Sources
+## Install OpenProject Sources
 
 In order to create a pull request to the core OpenProject repository, you will want to fork it to your own GitHub
 account.
@@ -214,7 +214,7 @@ Note that we have checked out the `dev` branch of the OpenProject repository. De
 the `dev` branch (there is no `master` branch).
 So, if you want to develop a feature, create a feature branch from a current `dev` branch.
 
-## Configure OpenProject
+### Configure OpenProject
 
 Create and configure the database configuration file in `config/database.yml` (relative to the openproject-directory.
 
@@ -246,7 +246,7 @@ To configure the environment variables such as the number of web server threads 
 the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be
 automatically loaded to the application's environment.
 
-## Finish the Installation of OpenProject
+### Finish the Installation of OpenProject
 
 Install code dependencies, link plugin modules and export translation files.
 
@@ -265,7 +265,7 @@ Now, run the following tasks to seed the dev database, and prepare the test setu
 RAILS_ENV=development bin/rails db:seed
 ```
 
-## Run OpenProject through overmind
+### Run OpenProject through overmind
 
 You can run all required workers of OpenProject through `overmind`, which combines them in a single tab. Optionally, you
 may also
@@ -297,14 +297,16 @@ documentation [usage section](https://github.com/DarthSim/overmind/tree/v2.4.0#u
 
 You can access the application with the admin-account having the following credentials:
 
-    Username: admin
-    Password: admin
+```text
+Username: admin
+Password: admin
+```
 
-## Run OpenProject manually
+### Run OpenProject manually
 
 To run OpenProject manually, you need to run the rails server and the webpack frontend bundler to:
 
-### Rails web server
+#### Rails web server
 
 ```shell
 RAILS_ENV=development bin/rails server
@@ -312,7 +314,7 @@ RAILS_ENV=development bin/rails server
 
 This will start the development server on port `3000` by default.
 
-### Angular frontend
+#### Angular frontend
 
 To run the frontend server, please run
 
@@ -327,7 +329,7 @@ should you be working on the TypeScript / Angular frontend part.
 You can then access the application either through `localhost:3000` (Rails server) or through the frontend
 proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
 
-### Background job worker
+#### Background job worker
 
 ```shell
 RAILS_ENV=development bundle exec good_job start
@@ -335,9 +337,9 @@ RAILS_ENV=development bundle exec good_job start
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
 
-## Known issues
+### Known issues
 
-### Spawning a lot of browser tabs
+#### Spawning a lot of browser tabs
 
 If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a
 significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs
@@ -348,7 +350,7 @@ in a production setting.**
 RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
 ```
 
-## Start Coding
+### Start Coding
 
 Please have a look at [our development guidelines](../code-review-guidelines/) for tips and guides on how to start
 coding. We have advice on how to get your changes back into the OpenProject core as smooth as possible.
@@ -356,13 +358,13 @@ Also, take a look at the `doc` directory in our sources, especially
 the [how to run tests](https://github.com/opf/openproject/tree/dev/docs/development/running-tests) documentation (we
 like to have automated tests for every new developed feature).
 
-## Troubleshooting
+### Troubleshooting
 
 The OpenProject logfile can be found in `log/development.log`.
 
 If an error occurs, it should be logged there (as well as in the output to STDOUT/STDERR of the rails server process).
 
-## Questions, Comments, and Feedback
+### Questions, Comments, and Feedback
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the
 appropriate community.openproject.org [forum](https://community.openproject.org/projects/openproject/boards/9).

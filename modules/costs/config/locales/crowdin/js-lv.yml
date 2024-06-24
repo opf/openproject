@@ -25,8 +25,8 @@ lv:
       property_groups:
         costs: "Costs"
       properties:
-        overallCosts: "Overall costs"
-        spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
+        overallCosts: "Kopējās izmaksas"
+        spentUnits: "Izlietotās vienības"
+    button_log_costs: "Uzskaitīt vienības izmaksas"
     label_hour: "stunda"
     label_hours: "stundas"

@@ -16,7 +16,6 @@ A project in OpenProject can be understood as a project as defined above. Also, 
 
 > **Note**: In order to see a project and work in it, you have to be a [member of the project](../invite-members).
 
-
 | Topic                                                   | Content                                                      |
 | ------------------------------------------------------- | ------------------------------------------------------------ |
 | [Open a project](#open-an-existing-project)             | Select and open an existing project.                         |
@@ -34,8 +33,6 @@ You can also start typing in a project name to filter by the project's title.
 
 ![filter_for_project_in_header_menu](filter_project_header_menu.png)
 
-
-
 Projects and subprojects are displayed according to their hierarchy in the drop-down menu.
 
 <div class="glossary">
@@ -43,13 +40,11 @@ Projects and subprojects are displayed according to their hierarchy in the drop-
 </div>
 ![project_hierarchy](project_hierarchy-8178054.png)
 
-Alternatively, you can open the list of all existing projects using the [**Global modules**](../../user-guide/home/global-modules/#projects) menu. 
+Alternatively, you can open the list of all existing projects using the [**Global modules**](../../user-guide/home/global-modules/#projects) menu.
 
 Also, you will see your newest projects on the application landing page in the **Projects** section. Here you can simply click on one of the newest visible projects to open it.
 
 ![openproject landing page](openproject-landing-page.png)
-
-
 
 ## Create a new project
 
@@ -70,7 +65,7 @@ Alternatively, you can use the green **+ button** in the header menu to create a
 
 By default, creating a new project will set you as project admin, regardless of whether you copied a project, used a template or created a project from scratch. Now, you can get started working on your project.
 
-To configure further project information, see the documentation for [project settings](../../user-guide/projects/project-settings/project-information/). 
+To configure further project information, see the documentation for [project settings](../../user-guide/projects/project-settings/project-information/).
 
 ### View all projects
 
@@ -82,11 +77,10 @@ Alternatively you can use the [**Global modules menu**](../../user-guide/home/gl
 
 ![Open a list of all existing projects in OpenProject](view_all_projects_options.png)
 
-You will see a list with all your projects and their details. 
+You will see a list with all your projects and their details.
 
 ![project overview list](project-overview-list.png)
 
 ## Advanced Project Settings
 
 In our detailed user guide you can find out how to configure further [advanced project settings](../../user-guide/projects/) for your projects, e.g. description, project hierarchy or setting it to public.
-

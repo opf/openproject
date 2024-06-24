@@ -57,7 +57,7 @@ lv:
         select: "Select files"
         select_all: "Select all"
         selection:
-          zero: "Link %{count} files"
+          zero: "Select files to link"
           one: "Link 1 file"
           other: "Link %{count} files"
         success_create:

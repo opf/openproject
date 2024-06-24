@@ -37,7 +37,7 @@ module API
         base.extend ClassMethods
       end
 
-      def from_hash(hash, *args)
+      def from_hash(hash, *)
         return super unless hash && hash["_links"]
 
         copied_hash = hash.deep_dup
@@ -52,7 +52,7 @@ module API
           copied_hash[name] = fragment
         end
 
-        super(copied_hash, *args)
+        super(copied_hash, *)
       end
 
       module ClassMethods

@@ -48,6 +48,8 @@ pt-PT:
         duration_in_minutes: "min"
         description: "Notas"
         presenter: "Apresentador"
+      meeting_section:
+        title: "Título"
     errors:
       messages:
         invalid_time_format: "não é uma hora válida. Formato exigido: HH:MM"
@@ -56,9 +58,23 @@ pt-PT:
       meeting_agenda_item: "Pontos da ordem de trabalhos"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutos"
+      meeting_section: "Secção"
   activity:
     filter:
       meeting: "Reuniões"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "definido como %{value}"
+          added_html: "definido como <i>%{value}</i>"
+          removed: "removido"
+          updated: "alterado de %{old_value} para %{value}"
+          updated_html: "alterado de <i>%{old_value}</i> para <i>%{value}</i>"
+        position:
+          updated: "reordenado"
+        work_package:
+          updated: "alterado de %{old_value} para %{value}"
+          updated_html: "alterado de <i>%{old_value}</i> para <i>%{value}</i>"
   description_attended: "participantes"
   description_invite: "convidados"
   events:
@@ -99,12 +115,14 @@ pt-PT:
     attachments:
       text: "Os ficheiros anexados estão disponíveis para todos os participantes na reunião. Também pode arrastar e soltar estes ficheiros nas notas do item da agenda."
     copy:
-      title: "Copiar reunião %{title}"
+      title: "Copiar reunião: %{title}"
       attachments: "Copiar anexos"
       attachments_text: "Copiar todos os ficheiros anexados para a nova reunião"
       agenda: "Copiar agenda"
       agenda_text: "Copiar agenda da reunião anterior"
     email:
+      send_emails: "Enviar e-mails"
+      send_invitation_emails: "Enviar e-mails de convite após a criação"
       open_meeting_link: "Entrar na Reunião"
       invited:
         summary: "%{actor} enviou-lhe um convite para a reunião %{title}"
@@ -122,6 +140,11 @@ pt-PT:
       structured_text: "Organize a sua reunião como uma lista de itens da agenda, associando-os opcionalmente a um pacote de trabalho."
       structured_text_copy: "Atualmente, a cópia de uma reunião não copia os itens associados da agenda da reunião, apenas os detalhes"
     copied: "Copiado da reunião #%{id}"
+  meeting_section:
+    untitled_title: "Secção sem título"
+    delete_confirmation: "A eliminação da secção também irá eliminar os seus pontos da ordem de trabalhos. Tem a certeza de que pretende fazê-lo?"
+    placeholder_title: "Nova secção"
+    empty_text: "Arraste itens para aqui ou crie um novo"
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Sem fuso horário definido, presume-se %{zone}. Para escolher o seu fuso horário, por favor clique aqui.
   permission_create_meetings: "Criar reuniões"

@@ -65,7 +65,11 @@ Rails.application.routes.draw do
 
   scope "projects/:project_id", as: "project" do
     namespace "settings" do
-      resources :project_storages, controller: "/storages/admin/project_storages", except: %i[show] do
+      resources :project_storages, controller: "/storages/admin/project_storages", except: %i[index show] do
+        collection do
+          get :external_file_storages
+          get :attachments
+        end
         member do
           get :oauth_access_grant
           # Destroy uses a get request to prompt the user before the actual DELETE request

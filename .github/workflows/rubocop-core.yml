@@ -2,11 +2,6 @@ name: rubocop
 
 on:
   pull_request:
-    branches:
-      - dev
-      - release/*
-    paths:
-      - '**.rb'
 
 jobs:
   rubocop:
@@ -15,11 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 2 # we are comparing PR merge head with base
       - uses: ruby/setup-ruby@v1
-      - uses: opf/action-rubocop@v2
+      - uses: opf/action-rubocop@master
         with:
           github_token: ${{ secrets.github_token }}
           rubocop_version: gemfile
-          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile
+          rubocop_extensions: rubocop-inflector:gemfile rubocop-performance:gemfile rubocop-rails:gemfile rubocop-rspec:gemfile
           reporter: github-pr-check
+          only_changed: true

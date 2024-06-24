@@ -60,9 +60,9 @@ RSpec.describe "Project storage members connection status view" do
     login_as user
 
     # Go to Projects -> Settings -> File Storages
-    visit project_settings_project_storages_path(project)
+    visit external_file_storages_project_settings_project_storages_path(project)
 
-    expect(page).to have_title("File storages")
+    expect(page).to have_title("Files")
     expect(page).to have_text(storage.name)
     page.find(".icon.icon-group").click
 
@@ -90,9 +90,9 @@ RSpec.describe "Project storage members connection status view" do
     project_storage_no_members = create(:project_storage, :as_automatically_managed, project: project_no_members, storage:)
 
     # Go to Projects -> Settings -> File Storages
-    visit project_settings_project_storages_path(project_no_members)
+    visit external_file_storages_project_settings_project_storages_path(project_no_members)
 
-    expect(page).to have_title("File storages")
+    expect(page).to have_title("Files")
     expect(page).to have_text(storage.name)
     page.find(".icon.icon-group").click
 

@@ -263,8 +263,10 @@ et:
       no_results_content_text: Create a new project
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Minu projektid"
+      favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -292,8 +294,17 @@ et:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -304,7 +315,20 @@ et:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -316,12 +340,12 @@ et:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Kõik"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Lukus"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Rühmad"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -398,7 +422,7 @@ et:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -429,12 +453,20 @@ et:
         No attributes can be changed with the exception of the status.
         <br/>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Lisa uus staatus
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
@@ -484,7 +516,7 @@ et:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -596,7 +628,7 @@ et:
         column_count: "Veergude arv"
         widgets: "Vidinad"
       oauth_client:
-        client: "Client ID"
+        client: "Kliendi ID"
       relation:
         lag: "Lag"
         from: "Teema"
@@ -604,6 +636,7 @@ et:
       status:
         is_closed: "Teema on suletud"
         is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Märkmed"
       member:
@@ -621,7 +654,7 @@ et:
           false: "private"
         queries: "Päringuid"
         status_code: "Projekti olek"
-        description: "Description"
+        description: "Teave"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -744,6 +777,7 @@ et:
         before_or_equal_to: "must be before or equal to %{date}."
         blank: "ei tohi olla tühi."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
@@ -782,6 +816,7 @@ et:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
         odd: "peab olema paaritu arv."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "on juba kasutusel."
@@ -903,6 +938,8 @@ et:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
@@ -936,6 +973,9 @@ et:
             base:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -993,11 +1033,13 @@ et:
               only_same_project_categories_allowed: "The category of a work package must be within the same project as the work package."
               does_not_exist: "The specified category does not exist."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1120,18 +1162,6 @@ et:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordered"
-        work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Toimikud"
       message: "Foorumid"
@@ -1263,6 +1293,7 @@ et:
   button_edit: "Muuda"
   button_edit_associated_wikipage: "Muuda seotud vikilehte \"%{page_title}\""
   button_expand_all: "Laienda kõik"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Genereeri"
   button_list: "Nimistu"
@@ -1280,7 +1311,7 @@ et:
   button_reset: "Nulli"
   button_rollback: "Pöördu tagasi sellesse versiooni"
   button_save: "Salvesta"
-  button_save_as: "Save as"
+  button_save_as: "Salvesta kui"
   button_apply_changes: "Apply changes"
   button_save_back: "Salvesta ja mine tagasi"
   button_show: "Kuva"
@@ -1290,6 +1321,7 @@ et:
   button_unarchive: "Paki arhiiv lahti"
   button_uncheck_all: "Tühjenda valik"
   button_unlock: "Aktiveeri"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Ära jälgi"
   button_update: "Uuenda"
   button_upgrade: "Uuenda"
@@ -1308,6 +1340,8 @@ et:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
@@ -1397,7 +1431,7 @@ et:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: "umbes %{count} tundi"
+        one: "umbes 1 tund"
         other: "umbes %{count} tundi"
       about_x_months:
         one: "umbes 1 kuu"
@@ -1553,7 +1587,7 @@ et:
     message: Sõnum on muudetud
     news: Uudised
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekti on muudetud"
     projects: "Projekti on muudetud"
     reply: Vastatud
     time_entry: "Ajalogi on muudetud"
@@ -1575,8 +1609,15 @@ et:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d
@@ -1630,7 +1671,7 @@ et:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1647,8 +1688,9 @@ et:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1656,6 +1698,8 @@ et:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1720,17 +1764,6 @@ et:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "Uudised"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Accessibility"
   label_account: "Konto"
   label_active: "Aktiivne"
@@ -1773,7 +1806,7 @@ et:
   label_ascending: "Kasvav"
   label_assigned_to_me_work_packages: "Minu teemad"
   label_associated_revisions: "Seotud muudatused"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Manused"
   label_attribute: "Atribuut"
   label_attribute_plural: "Atribuudid"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1782,6 +1815,7 @@ et:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentimine"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "Available repositories"
   label_available_project_versions: "Available versions"
@@ -1911,7 +1945,7 @@ et:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Keskkond"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "võrdub"
   label_everywhere: "everywhere"
   label_example: "Näide"
@@ -1921,18 +1955,18 @@ et:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Saadaval ka:"
-  label_expand: "Expand"
+  label_expand: "Laienda"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} tund"
   label_f_hour_plural: "%{value} tundi"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Kanalid"
   label_feeds_access_key: "RSS kasutuse võti"
   label_feeds_access_key_created_on: "RSS kasutuse võti on loodud %{value} tagasi"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Failid"
   label_filter_add: "Lisa filter"
-  label_filter: "Filters"
+  label_filter: "Filtrid"
   label_filter_plural: "Filtrid"
   label_filters_toggle: "Show/hide filters"
   label_float: "Ujuvkomaarv"
@@ -1959,7 +1993,7 @@ et:
   label_home: "Avaleht"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifikaator"
   label_in: "sisaldub hulgas"
   label_in_less_than: "on väiksem kui"
   label_in_more_than: "on suurem kui"
@@ -1975,7 +2009,7 @@ et:
   label_internal: "Sisemine"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "Jaga"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1995,9 +2029,10 @@ et:
   label_latest_revision: "Viimane versioon"
   label_latest_revision_plural: "Viimased versioonid"
   label_ldap_authentication: "LDAP autentimine"
-  label_learn_more: "Learn more"
+  label_learn_more: "Loe rohkem"
   label_less_or_equal: "<="
   label_less_than_ago: "vähem kui päev tagasi"
+  label_link_url: "Link (URL)"
   label_list: "Nimistu"
   label_loading: "Laadimine..."
   label_lock_user: "Lock user"
@@ -2023,6 +2058,7 @@ et:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2124,6 +2160,7 @@ et:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Saada e-postiga teateid projekti kopeerimise ajal"
   label_project_latest: "Viimased projektid"
@@ -2138,7 +2175,7 @@ et:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vaata kõiki projekte"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
@@ -2191,10 +2228,11 @@ et:
   label_search: "Otsi"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Saada kontrollkiri"
-  label_session: "Session"
+  label_session: "Seanss"
   label_setting_plural: "Seaded"
   label_system_settings: "Süsteemiseaded"
   label_show_completed_versions: "Näita lõpetatud versioone"
+  label_columns: "Veerud"
   label_sort: "Sorteeri"
   label_sort_by: "Sorteeri %{value} järgi"
   label_sorted_by: "Sorteeritud %{value} järgi"
@@ -2309,7 +2347,7 @@ et:
   label_workflow: "Töövoog"
   label_workflow_plural: "Töövood"
   label_workflow_summary: "Kokkuvõte"
-  label_working_days: "Working days"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 suletud"
     other: "%{count} suletud"
@@ -2693,6 +2731,7 @@ et:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2739,7 +2778,7 @@ et:
     member_of_group: "Omistatud rühmale"
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2884,6 +2923,7 @@ et:
   setting_app_subtitle: "Rakenduse alamnimetus"
   setting_app_title: "Rakenduse nimetus"
   setting_attachment_max_size: "Manuste suurim lubatud suurus"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Autofetch repository changes"
@@ -2922,6 +2962,9 @@ et:
   setting_feeds_limit: "Uudisvoogude suurim uudiste arv"
   setting_file_max_size_displayed: "Teksti sees kuvatava tekstifaili maksimaalne suurus"
   setting_host_name: "Serveri nimi ja teerada"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -2985,6 +3028,8 @@ et:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3221,6 +3266,10 @@ et:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"
@@ -3335,7 +3384,7 @@ et:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Ei jaga"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3357,12 +3406,12 @@ et:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
@@ -3568,7 +3617,7 @@ et:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

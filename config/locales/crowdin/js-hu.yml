@@ -73,7 +73,7 @@ hu:
     button_continue: "Folytatás"
     button_copy: "Másol"
     button_copy_to_clipboard: "Másolás a vágólapra"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Hivatkozás másolása a vágólapra"
     button_copy_to_other_project: "Másolás másik projektbe"
     button_custom-fields: "Választható mezők"
     button_delete: "Törlés"
@@ -274,6 +274,11 @@ hu:
         warning: >
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: "be"
@@ -330,6 +335,18 @@ hu:
         years: "Évek"
         description: >
           Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "nem"
     general_text_yes: "igen"
     general_text_No: "Nem"
@@ -348,11 +365,10 @@ hu:
           learn_about: "Tudjon meg többet az új funkciókról"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_2":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -378,6 +394,7 @@ hu:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "nappal ezelőtt"
     label_all: "mind"
+    label_all_uppercase: "Összes"
     label_all_work_packages: "minden feladatcsoport"
     label_and: "és"
     label_ascending: "Növekvő"
@@ -419,6 +436,7 @@ hu:
     label_expand_project_menu: "Project menü kibontása"
     label_export: "Exportálás"
     label_export_preparing: "Az exportálás előkészítés alatt áll, és hamarosan letöltésre kerül."
+    label_favorites: "Favorites"
     label_filename: "File"
     label_filesize: "Méret"
     label_general: "Általános"
@@ -652,7 +670,7 @@ hu:
         mentioned: "Megemlített"
         watched: "Megfigyelő"
         date_alert: "Date alert"
-        shared: "Shared"
+        shared: "Megosztva"
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Értesítési beállítások"
@@ -675,7 +693,7 @@ hu:
             description: "Értesítés fogadása minden alkalommal, amikor bárki bárhol megemlít"
           assignee: "Megbízott"
           responsible: "Felelős"
-          shared: "Shared"
+          shared: "Megosztva"
           watched: "Megfigyelő"
           work_package_commented: "Új megjegyzések"
           work_package_created: "Új munkacsomagok"
@@ -760,7 +778,7 @@ hu:
           last_day: "Utolsó nap"
     text_are_you_sure: "Biztos vagy benne?"
     text_data_lost: "Az összes adat elveszhet"
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} írta:"
     types:
       attribute_groups:
         error_duplicate_group_name: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."
@@ -971,7 +989,7 @@ hu:
         createdAt: "Létrehozva"
         description: "Leírás"
         date: "dátum"
-        percentComplete: "% Complete"
+        percentComplete: "%-ban kész"
         percentCompleteAlternative: "Progress"
         dueDate: "Befejezési dátum"
         duration: "Időtartam"
@@ -980,8 +998,8 @@ hu:
         percentageDone: "Százalékosan elkészült"
         priority: "Fontosság"
         projectName: "Projekt"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Fennmaradó órák"
+        remainingWorkAlternative: "Fennmaradó órák"
         responsible: "Felelős"
         startDate: "Indulási dátum"
         status: "Állapot"
@@ -992,9 +1010,9 @@ hu:
         updatedAt: "Frissítve"
         versionName: "Verzió"
         version: "Verzió"
-        work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        work: "Munka"
+        workAlternative: "Becsült idő (óra)"
+        remainingTime: "Fennmaradó órák"
       default_queries:
         latest_activity: "Utolsó aktivitás"
         created_by_me: "Általam készített"
@@ -1043,7 +1061,7 @@ hu:
       sharing:
         share: "Megosztás"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1182,7 +1200,7 @@ hu:
         other: "%{count} ó"
         zero: "0 óra"
       day:
-        one: "%{count} nap"
+        one: "1 nap"
         other: "%{count} nap"
         zero: "0 days"
     zen_mode:
@@ -1269,6 +1287,14 @@ hu:
           placeholder: "A tesztfelhasználó mostantól használható a %{project}-ben. Eközben már tervezhetünk ezzel a felhasználóval, és például munkacsomagokat rendelhetünk hozzá."
           group: "A csoport mostantól a %{project} része. Eközben már tervezhet ezzel a csoporttal, és például munkacsomagokat rendelhet hozzá.\n"
         next_button: "Folytatás"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Projekteket tartalmaz"
       title: "Projektek"
@@ -1326,8 +1352,12 @@ hu:
         remove: "Eltávolítás"
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        Close: "Bezár"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

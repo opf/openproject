@@ -22,7 +22,7 @@
 #English strings go here for Rails i18n
 nl:
   plugin_openproject_meeting:
-    name: "OpenProject Meeting"
+    name: "OpenProject Vergadering"
     description: >-
       This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
   activerecord:
@@ -35,19 +35,21 @@ nl:
         participants: "Deelnemers"
         participant:
           one: "1 Deelnemer"
-          other: "%{count} Participants"
+          other: "%{count} Deelnemers"
         participants_attended: "Aanwezigen"
         participants_invited: "Genodigden"
         project: "Project"
         start_date: "Datum"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "Starttijd"
+        start_time_hour: "Starttijd"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Titel"
+        author: "Auteur"
         duration_in_minutes: "min"
-        description: "Notes"
-        presenter: "Presenter"
+        description: "Notities"
+        presenter: "Presentator"
+      meeting_section:
+        title: "Titel"
     errors:
       messages:
         invalid_time_format: "is geen geldige tijd. Vereist formaat: UH:MM"
@@ -56,9 +58,23 @@ nl:
       meeting_agenda_item: "Agendapunt"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minuten"
+      meeting_section: "Sectie"
   activity:
     filter:
       meeting: "Vergaderingen"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "ingesteld op %{value}"
+          added_html: "ingesteld op <i>%{value}</i>"
+          removed: "verwijderd"
+          updated: "veranderd van %{old_value} naar %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "veranderd van %{old_value} naar %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "bijgewoond"
   description_invite: "uitgenodigd"
   events:
@@ -99,12 +115,14 @@ nl:
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Copy meeting %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Copy attachments"
       attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Copy agenda"
       agenda_text: "Copy the agenda of the old meeting"
     email:
+      send_emails: "E-mails versturen"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Open vergadering"
       invited:
         summary: "%{actor} heeft je een uitnodiging gestuurd voor de meeting %{title}"
@@ -122,6 +140,11 @@ nl:
       structured_text: "Organiseren van uw vergadering als een lijst met agendapunten, eventueel koppelen aan een werkpakket."
       structured_text_copy: "Een vergadering kopiëren zal momenteel niet de bijbehorende agendapunten kopiëren, alleen de details"
     copied: "Gekopieerd van vergadering #%{id}"
+  meeting_section:
+    untitled_title: "Naamloze sectie"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "Nieuwe Sectie"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notificatie succesvol verzonden"
   notice_timezone_missing: Geen tijdzone is ingesteld en %{zone} is aangenomen. Om uw tijdzone te kiezen, klik dan hier.
   permission_create_meetings: "Creëer vergaderingen"
@@ -155,7 +178,7 @@ nl:
   label_meeting_delete: "Verwijder vergadering"
   label_meeting_created_by: "Gemaakt door"
   label_meeting_last_updated: "Laatst bijgewerkt"
-  label_agenda_items: "Agenda items"
+  label_agenda_items: "Agendapunten"
   label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
@@ -170,31 +193,31 @@ nl:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Vergadering"
   label_meeting_details: "Vergaderdetails"
   label_meeting_details_edit: "Bewerk vergader details"
   label_meeting_state: "Meeting status"
   label_meeting_state_open: "Openen"
   label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Gesloten"
-  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_state_closed_html: "<i>Gesloten</i>"
   label_meeting_reopen_action: "Heropen vergadering"
   label_meeting_close_action: "Vergadering sluiten"
   text_meeting_open_description: "Deze vergadering is open. Je kunt agenda-items toevoegen/verwijderen en bewerken naar eigen goeddunken. Na afloop van de vergadering kun je deze sluiten, om te vergrendelen."
-  text_meeting_closed_description: "This meeting is closed. You cannot add/remove agenda items anymore."
-  label_meeting_manage_participants: "Manage participants"
-  label_meeting_no_participants: "No participants"
+  text_meeting_closed_description: "Deze vergadering is gesloten. U kunt geen agendapunten meer toevoegen/verwijderen."
+  label_meeting_manage_participants: "Deelnemers beheren"
+  label_meeting_no_participants: "Geen deelnemers"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
   label_meeting_show_all_participants: "Toon alle"
-  label_meeting_add_participants: "Add participants"
-  text_meeting_not_editable_anymore: "This meeting is not editable anymore."
-  text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."
+  label_meeting_add_participants: "Voeg deelnemers toe"
+  text_meeting_not_editable_anymore: "Deze vergadering kan niet meer bewerkt worden."
+  text_meeting_not_present_anymore: "Deze vergadering is verwijderd. Selecteer een andere vergadering."
   label_add_work_package_to_meeting_dialog_title: "Add work package to meeting"
-  label_add_work_package_to_meeting_dialog_button: "Add to meeting"
+  label_add_work_package_to_meeting_dialog_button: "Toevoegen aan vergadering"
   label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
-  text_agenda_item_no_notes: "No notes provided"
-  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
+  text_agenda_item_no_notes: "Geen aantekeningen voorzien"
+  text_agenda_item_not_editable_anymore: "Dit agendapunt kan niet meer bewerkt worden."
   text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
   text_work_package_add_to_meeting_hint: 'Use the "Add to meeting" button to add this work package to an upcoming meeting.'
   text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

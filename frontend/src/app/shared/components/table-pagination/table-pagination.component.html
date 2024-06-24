@@ -2,7 +2,7 @@
   <nav class="op-pagination--pages">
     <ul class="op-pagination--items op-pagination--items_start">
 
-      <li [hidden]="pagination.page == 1 || !showPageSelections" class="op-pagination--item">
+      <li [hidden]="pagination.page === 1 || !showPageSelections" class="op-pagination--item">
         <button
           class="op-pagination--item-link op-pagination--item-link_prev"
           type="button"
@@ -30,13 +30,13 @@
 
       <ng-container *ngIf="pageNumbers.length > 1">
         <li *ngFor="let pageNumber of pageNumbers"
-            [ngClass]="{ 'op-pagination--item_current': pageNumber == pagination.page }"
+            [ngClass]="{ 'op-pagination--item_current': pageNumber === pagination.page }"
             class="op-pagination--item">
-          <em *ngIf="pageNumber == pagination.page">{{ pageNumber }}</em>
+          <em *ngIf="pageNumber === pagination.page">{{ pageNumber }}</em>
           <button
             class="op-pagination--item-link"
             type="button"
-            *ngIf="pageNumber != pagination.page"
+            *ngIf="pageNumber !== pagination.page"
             (click)="showPage(pageNumber)"
             rel="next"
             [textContent]="pageNumber"
@@ -96,10 +96,10 @@
       <li class="op-pagination--label" [textContent]="text.per_page" title="{{ text.per_page }}"></li>
 
       <li *ngFor="let perPageOption of perPageOptions"
-          [ngClass]="{ 'op-pagination--item_current': perPageOption == pagination.perPage }"
+          [ngClass]="{ 'op-pagination--item_current': perPageOption === pagination.perPage }"
           class="op-pagination--item">
 
-       <span *ngIf="perPageOption != pagination.perPage">
+       <span *ngIf="perPageOption !== pagination.perPage">
          <button
            class="op-pagination--item-link"
            type="button"
@@ -108,7 +108,7 @@
          ></button>
        </span>
 
-        <span *ngIf="perPageOption == pagination.perPage">{{ perPageOption }}</span>
+        <span *ngIf="perPageOption === pagination.perPage">{{ perPageOption }}</span>
       </li>
     </ul>
   </div>

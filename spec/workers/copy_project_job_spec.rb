@@ -178,9 +178,9 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
     let(:params) { { name: "Copy", identifier: "copy" } }
 
     let_work_packages(<<~TABLE)
-      hierarchy   | work | start date | end date
-      parent      |   1h | 2024-01-23 | 2024-01-26
-        child     |   3h | 2024-01-23 | 2024-01-26
+      hierarchy   | work | remaining work | start date | end date
+      parent      |   1h |             0h | 2024-01-23 | 2024-01-26
+        child     |   3h |           1.5h | 2024-01-23 | 2024-01-26
     TABLE
 
     before do

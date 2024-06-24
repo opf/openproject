@@ -261,7 +261,9 @@ es:
     lists:
       active: "Proyectos activos"
       my: "Mis proyectos"
+      favored: "Proyectos favoritos"
       archived: "Proyectos archivados"
+      public: "Lista de proyectos públicos"
       my_private: "Mis listas de proyectos privados"
       new:
         placeholder: "Nueva lista de proyectos"
@@ -289,8 +291,17 @@ es:
         actions:
           label_enable_single: "Activo en este proyecto, pulse para desactivarlo"
           label_disable_single: "Inactivo en este proyecto, pulse para activarlo"
+          deactivate_for_project: "Desactivar para este proyecto"
           label_enable_all: "Activar todo"
           label_disable_all: "Desactivar todo"
+        is_required_blank_slate:
+          heading: Obligatorio en todos los proyectos
+          description: Este atributo del proyecto está activado en todos los proyectos, ya que la opción «Obligatorio en todos los proyectos» está marcada. No puede desactivarse para proyectos individuales.
+        new_project_mapping_form:
+          add_projects: Añadir proyectos
+          include_sub_projects: Incluir subproyectos
+        project_mappings:
+          header: Activado en proyectos
       types:
         no_results_title_text: Actualmente no hay tipos disponibles.
         form:
@@ -301,7 +312,20 @@ es:
       storage:
         no_results_title_text: No se ha registrado el uso de espacio en disco adicional por este proyecto.
   lists:
-    can_be_saved_as: "Las modificaciones solo pueden guardarse en una lista nueva."
+    create:
+      success: "La lista modificada se ha guardado como una nueva lista"
+      failure: "La lista modificada no se puede guardar: %{errors}"
+    update:
+      success: "La lista modificada se ha guardado"
+      failure: "La lista modificada no se puede guardar: %{errors}"
+    publish:
+      success: "La lista se ha hecho pública"
+      failure: "La lista no puede hacerse pública: %{errors}"
+    unpublish:
+      success: "La lista se ha hecho privada"
+      failure: "La lista no puede hacerse privada: %{errors}"
+    can_be_saved: "Lista modificada:"
+    can_be_saved_as: "Las modificaciones solo pueden guardarse en una lista nueva:"
   members:
     index:
       no_results_title_text: Actualmente no hay miembros que formen parte de este proyecto.
@@ -426,12 +450,20 @@ es:
         Excepto el estado, ningún otro atributo se puede modificar.
         <br/>
         <strong>Nota</strong>: Los valores heredados (por ejemplo, de elementos secundarios o relaciones) seguirán aplicándose.
+      status_excluded_from_totals_text: |-
+        Marque esta opción para excluir los paquetes de trabajo con este estado de los totales de Trabajo,
+        Trabajo restante y % completado en una jerarquía.
       status_color_text: |
         Haga clic para asignar o cambiar el color de este estado.
         Se muestra en el botón de estado y puede usarse para resaltar paquetes de trabajo en la tabla.
     index:
       no_results_title_text: Actualmente no hay estados de paquetes de trabajo.
       no_results_content_text: Añadir un nuevo estado
+      headers:
+        is_default: "Por defecto"
+        is_closed: "Cerrado"
+        is_readonly: "Solo lectura"
+        excluded_from_totals: "Excluido de totales"
   themes:
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
@@ -481,7 +513,7 @@ es:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
       unsupported_for_multiple_projects: "Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Falta el flujo de trabajo para compartir paquetes de trabajo"
         message: "Ningún flujo de trabajo está configurado para el rol 'Editor de paquetes de trabajo'. Sin un flujo de trabajo, el usuario compartido no puede alterar el estado del paquete de trabajo. Los flujos de trabajo pueden ser copiados. Seleccione un tipo de base (por ejemplo, 'Tarea') y el rol de base (por ejemplo, 'Miembro'). Luego seleccione los tipos de destino. Para empezar, puede seleccionar todos los tipos como objetivos. Por último, seleccione el papel de \"Editor de paquetes de trabajo\" como objetivo y presione \"Copiar\". Después de haber creado así los valores predeterminados, ajuste los flujos de trabajo como lo hace para cualquier otro rol."
         link_message: "Configure un flujo de trabajo en la administración."
@@ -601,6 +633,7 @@ es:
       status:
         is_closed: "Paquete de trabajo cerrado"
         is_readonly: "Paquete de trabajo de solo lectura"
+        excluded_from_totals: "Excluir del cálculo de totales en la jerarquía"
       journal:
         notes: "Notas"
       member:
@@ -711,7 +744,7 @@ es:
         parent_issue: "Padre"
         parent_work_package: "Padre"
         priority: "Prioridad"
-        progress: "% Compleado"
+        progress: "% Completado"
         readonly: "Solo lectura"
         remaining_hours: "Trabajo restante"
         remaining_time: "Trabajo restante"
@@ -741,6 +774,7 @@ es:
         before_or_equal_to: "debe ser antes o igual a %{date}."
         blank: "no puede estar en blanco."
         blank_nested: "necesita tener la propiedad '%{property}' definida."
+        cannot_delete_mapping: "es obligatorio. No se puede eliminar."
         cant_link_a_work_package_with_a_descendant: "Un paquete de trabajo no puede ser vinculado a una de sus subtareas."
         circular_dependency: "Esta relación podría crear una dependencia circular."
         confirmation: "no coincide con %{attribute}."
@@ -779,6 +813,7 @@ es:
         not_an_iso_date: "no es una fecha válida. Requiere formato: AAAA-MM-DD."
         not_same_project: "no pertenecen a un mismo proyecto."
         odd: "debe ser impar."
+        regex_match_failed: "no coincide con la expresión regular %{expression}."
         regex_invalid: "no se pudo validar con la expresión regular asociada."
         smaller_than_or_equal_to_max_length: "Debe ser menor o igual que el tamaño maximo."
         taken: "Ya se ha tomado."
@@ -900,6 +935,8 @@ es:
               nonexistent: "La columna «%{column}» no existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "es mutuamente exclusivo con el grupo '%{group_by}'. No puede activar ambos."
+          can_only_be_modified_by_owner: "La consulta sólo puede ser modificada por su propietario."
+          need_permission_to_modify_public_query: "No puede modificar una consulta pública."
           filters:
             custom_fields:
               inexistent: "No hay ningún campo personalizado para el filtro."
@@ -933,6 +970,9 @@ es:
             base:
               working_days_are_missing: "Al menos un día de la semana debe definirse como laboral."
               previous_working_day_changes_unprocessed: "Los cambios anteriores en la configuración de días laborables no se han aplicado aún."
+              hours_per_day_are_missing: "Debe definirse el número de horas diarias."
+              durations_are_not_positive_numbers: "Las duraciones deben ser números positivos."
+              hours_per_day_is_out_of_bounds: "Las horas al día no pueden ser más de 24"
         time_entry:
           attributes:
             hours:
@@ -990,13 +1030,15 @@ es:
               only_same_project_categories_allowed: "La categoría de un paquete de trabajo debe estar en el mismo proyecto que el paquete de trabajo."
               does_not_exist: "La categoría especificada no existe."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              not_a_number: "no es una duración válida."
+              cant_be_inferior_to_remaining_work: "No puede ser inferior al Trabajo restante."
+              must_be_set_when_remaining_work_is_set: "Obligatorio cuando el Trabajo restante está establecido."
+              only_values_greater_or_equal_zeroes_allowed: "Debe ser >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              not_a_number: "no es una duración válida."
+              cant_exceed_work: "No puede ser superior a Trabajo."
+              must_be_set_when_work_is_set: "Obligatorio cuando Trabajo está establecido."
               format: "%{message}"
           readonly_status: "El paquete de trabajo está en un estado de sólo lectura por lo que sus atributos no se pueden cambiar."
         type:
@@ -1117,18 +1159,6 @@ es:
           other: "<i>%{count} horas</i>"
         updated: "cambiado de %{old_value} a %{value}"
         logged_for: "Registrado para"
-      meeting_agenda_item:
-        duration:
-          added: "fijado en %{value}"
-          added_html: "fijado en <i>%{value}</i>"
-          removed: "eliminado"
-          updated: "cambiado de %{old_value} a %{value}"
-          updated_html: "cambiado de <i>%{old_value}</i> a <i>%{value}</i>"
-        position:
-          updated: "reordenado"
-        work_package:
-          updated: "cambiado de %{old_value} a %{value}"
-          updated_html: "cambiado de <i>%{old_value}</i> a <i>%{value}</i>"
     filter:
       changeset: "Conjuntos de cambios"
       message: "Foros"
@@ -1260,6 +1290,7 @@ es:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar página Wiki asociada: %{page_title}"
   button_expand_all: "Expandir todos"
+  button_favorite: "Añadir a favoritos"
   button_filter: "Filtro"
   button_generate: "Generar"
   button_list: "Lista"
@@ -1287,6 +1318,7 @@ es:
   button_unarchive: "Desarchivar"
   button_uncheck_all: "Deseleccionar todos"
   button_unlock: "Desbloquear"
+  button_unfavorite: "Eliminar de favoritos"
   button_unwatch: "No controlar más"
   button_update: "Actualizar"
   button_upgrade: "Mejorar"
@@ -1305,6 +1337,8 @@ es:
   button_revoke_access: "Revocar acceso"
   button_revoke_all: "Revocar todos"
   button_revoke_only: "Revocar solo %{shared_role_name}"
+  button_publish: "Hacer público"
+  button_unpublish: "Hacer privado"
   consent:
     checkbox_label: He notado y doy mi consentimiento a lo anterior.
     failure_message: Consentimiento fallido, no puede continuar.
@@ -1572,8 +1606,15 @@ es:
       pdf_overview_table: "Tabla PDF"
       pdf_report_with_images: "Informe PDF con imágenes"
       pdf_report: "Informe PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Imagen no exportada."
+    macro:
+      error: "Error de macro, %{message}"
+      attribute_not_found: "atributo no encontrado: %{attribute}"
+      model_not_found: "modelo de atributo no válido: %{model}"
+      resource_not_found: "recurso no encontrado: %{resource}"
+      rich_text_unsupported: "Actualmente no se admite la incrustación de texto enriquecido en la exportación"
     units:
       hours: h
       days: d
@@ -1627,7 +1668,7 @@ es:
       dates_changed: "Cambio de fechas"
       default_attribute_written: "Atributos de solo lectura escritos"
       progress_mode_changed_to_status_based: "Cálculo del progreso actualizado"
-      status_p_complete_changed: "Estado % completado cambiado"
+      status_changed: "Estado «%{status_name}»"
       system_update: "Actualización del sistema OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: por cambios al %{link} predecesor
@@ -1644,15 +1685,18 @@ es:
           working: "%{date} es ahora laboral"
           non_working: "%{date} es ahora no laboral"
       progress_mode_changed_to_status_based: Modo de cálculo del progreso establecido como basado en el estado
-      status_p_complete_changed: >-
-        Valor de % completado para el estado «%{status_name}» cambiado de %{old_value} % a %{new_value} %
+      status_excluded_from_totals_set_to_false_message: ahora incluido en totales de jerarquía
+      status_excluded_from_totals_set_to_true_message: ahora excluido de los totales de la jerarquía
+      status_percent_complete_changed: "% completado cambiado de %{old_value} % a %{new_value} %"
       system_update:
         file_links_journal: >
           A partir de ahora, la actividad relacionada con los enlaces de archivos (archivos almacenados en almacenamiento externo) aparecerá aquí en la pestaña Actividad. La siguiente representa la actividad relativa a los enlaces que ya existían:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Cálculo de progreso automático <a href="%{href}" target="_blank">establecido en modo de trabajo y ajustado con la actualización de versión</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Cálculo de progreso automático <a href="%{href}" target="_blank">ajustado con la actualización de versión</a>.
+        totals_removed_from_childless_work_packages: >-
+          Los totales de trabajo y progreso se eliminan automáticamente para los paquetes de trabajo no padres con la <a href="%{href}" target="_blank">actualización de la versión</a>. Se trata de una tarea de mantenimiento y puede ignorarse con seguridad.
   links:
     configuration_guide: "Guía de configuración"
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
@@ -1717,17 +1761,6 @@ es:
         mentioned: "Has sido mencionado en %{work_package}"
         responsible: "Ahora es responsable de %{work_package}"
         watched: "Estás viendo a %{work_package}"
-    update_info_mail:
-      body: >
-        Nos complace anunciar el lanzamiento de la versión OpenProject 12.0. Esta, es una nueva versión con muchos cambios que esperamos simplifiquen y mejoren en gran medida la forma en que usa OpenProject.
-        Para empezar, con esta versión introducimos las notificaciones dentro de la aplicación. Des de ahora, va a recibir notificaciones por actualizaciones en los paquetes de trabajo directamente en OpenProject. Puede marcar estas notificaciones como leídas, contestar a comentarios e incluso modificar los atributos de un paquete de trabajo sin salir del centro de notificaciones.
-        Esto también supone que no se van a usar más los correos electrónicos para este tipo de notificaciones. Creemos que el centro de notificaciones es el mejor sitio para ver y realizar cambios sobre estas actualizaciones. No obstante, si desea continuar recibiendo notificaciones vía correo electrónico, puede seleccionar recibir correos recordatorios diarios en horas concretas de su elección.
-        Por favor, asegúrese de validar sus nuevas configuraciones de notificaciones que se han reseteado por defecto y a posteriori puede crear y modificar sus preferencias tanto para las notificaciones dentro de la aplicación como para los recordatorios vía correo electrónico en la configuración de su cuenta. También puede hacer estos cambios usando el botón abajo "Cambiar configuración de correo electrónico".
-        Esperamos que las nuevas notificaciones dentro la aplicación le sean útiles y le ayuden a ser aún más productivo.
-        Sinceramente, El equipo de OpenProject
-      body_header: "Versión 12.0 con el Centro de notificaciones"
-      body_subheader: "Noticias"
-      subject: "Cambios importantes en las notificaciones con el lanzamiento de la versión 12.0"
   label_accessibility: "Accesibilidad"
   label_account: "Cuenta"
   label_active: "Activo"
@@ -1779,6 +1812,7 @@ es:
   label_attribute_expand_text: "El texto completo para «%{attribute}»"
   label_authentication: "Autentificación"
   label_available_global_roles: "Roles globales disponibles"
+  label_available_project_attributes: "Atributos del proyecto disponibles"
   label_available_project_forums: "Foros disponibles"
   label_available_project_repositories: "Repositorios disponibles"
   label_available_project_versions: "Versiones disponibles"
@@ -1908,7 +1942,7 @@ es:
   label_enterprise_support: "Soporte empresarial"
   label_enterprise_addon: "Extensión Enterprise"
   label_environment: "Entorno"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimaciones y progreso"
   label_equals: "es"
   label_everywhere: "todo"
   label_example: "Ejemplo"
@@ -1922,7 +1956,7 @@ es:
   label_expanded_click_to_collapse: "Expandido. Haga clic para contraer"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
-  label_favoured: "Favorito"
+  label_favorite: "Favorito"
   label_feed_plural: "Flujos"
   label_feeds_access_key: "Código de acceso RSS"
   label_feeds_access_key_created_on: "Código de acceso RSS creado hace %{value}"
@@ -1995,6 +2029,7 @@ es:
   label_learn_more: "Más información"
   label_less_or_equal: "<="
   label_less_than_ago: "menos que hace días"
+  label_link_url: "Enlace (URL)"
   label_list: "Lista"
   label_loading: "Cargando..."
   label_lock_user: "Bloquear usuario"
@@ -2020,6 +2055,7 @@ es:
   label_membership_plural: "Afiliaciones"
   lable_membership_added: "Miembro añadido"
   lable_membership_updated: "Miembro actualizado"
+  label_menu: "Menú"
   label_menu_badge:
     pre_alpha: "pre-alfa"
     alpha: "alfa"
@@ -2121,6 +2157,7 @@ es:
   label_percent_complete: "% compleado"
   label_project_activity: "Actividad del proyecto"
   label_project_attribute_plural: "Atributos del proyecto"
+  label_project_attribute_manage_link: "Administrar atributos del proyecto"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
   label_project_latest: "Últimos proyectos"
@@ -2135,7 +2172,7 @@ es:
   label_project_attributes_settings: "Ajustes de los atributos del proyecto"
   label_project_storage_plural: "Almacenes de archivos"
   label_project_storage_project_folder: "Almacenes de archivos: Carpetas de proyectos"
-  label_projects_storage_information: "%{count} proyectos utilizando %{storage} de almacenamiento en disco"
+  label_projects_disk_usage_information: "%{count} proyectos utilizando %{used_disk_space} espacio de disco"
   label_project_view_all: "Ver todos los proyectos"
   label_project_show_details: "Mostrar los detalles del proyecto"
   label_project_hide_details: "Ocultar los detalles del proyecto"
@@ -2192,6 +2229,7 @@ es:
   label_setting_plural: "Configuración"
   label_system_settings: "Ajustes de sistema"
   label_show_completed_versions: "Mostrar versiones terminadas"
+  label_columns: "Columnas"
   label_sort: "Ordenar"
   label_sort_by: "Ordenar por %{value}"
   label_sorted_by: "ordenados por %{value}"
@@ -2306,7 +2344,7 @@ es:
   label_workflow: "Flujo de trabajo"
   label_workflow_plural: "Flujos de trabajo"
   label_workflow_summary: "Resumen"
-  label_working_days: "Días laborables"
+  label_working_days_and_hours: "Días y horas de trabajo"
   label_x_closed_work_packages_abbr:
     one: "1 cerrado"
     other: "%{count} cerrados"
@@ -2689,6 +2727,7 @@ es:
   permission_save_bcf_queries: "Guardar consultas BCF"
   permission_manage_public_bcf_queries: "Administrar consultas BCF públicas"
   permission_edit_attribute_help_texts: "Editar textos de ayuda de atributos"
+  permission_manage_public_project_queries: "Administrar las listas públicas de proyectos"
   placeholders:
     default: "-"
   project:
@@ -2735,7 +2774,7 @@ es:
     member_of_group: "Asignación de grupo"
     name_or_identifier: "Nombre o identificador"
     only_subproject_id: "Sólo subproyecto"
-    shared_with_user: "Compartido con usuario"
+    shared_with_user: "Compartido con usuarios"
     shared_with_me: "Compartido conmigo"
     subproject_id: "Incluyendo subproyecto"
   repositories:
@@ -2880,6 +2919,7 @@ es:
   setting_app_subtitle: "Subtítulo de aplicación"
   setting_app_title: "Título de aplicación"
   setting_attachment_max_size: "Tamaño máximo de adjunto"
+  setting_show_work_package_attachments: "Mostrar archivos adjuntos en la pestaña de archivos por defecto"
   setting_antivirus_scan_mode: "Modo de escaneo"
   setting_antivirus_scan_action: "Acción del archivo infectado"
   setting_autofetch_changesets: "Recopilación automática de cambios del repositorio"
@@ -2918,6 +2958,9 @@ es:
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
   setting_host_name: "Nombre de host"
+  setting_hours_per_day: "Horas al día"
+  setting_hours_per_day_explanation: >-
+    Esto definirá lo que se considera un «día» a la hora de mostrar la duración de una forma más natural (por ejemplo, si un día son 8 horas, 32 horas serían 4 días).
   setting_invitation_expiration_days: "El correo electrónico de activación caduca después de"
   setting_work_package_done_ratio: "Cálculo del progreso"
   setting_work_package_done_ratio_field: "Basado en el trabajo"
@@ -2981,6 +3024,8 @@ es:
     attachments:
       whitelist_text_html: >
         Define una lista de extensiones de archivo válidas o tipos MIME para los archivos cargados. <br/> Escriba las extensiones de archivo (por ejemplo, <code>%{ext_example}</code>) o tipos MIME (<code>%{mime_example}</code>). <br/> Deje vacío este campo para que pueda cargarse cualquier tipo de archivo. Se permiten varios valores (una línea para cada valor).
+      show_work_package_attachments: >
+        Al desactivar esta opción se ocultará la lista de archivos adjuntos en la pestaña de archivos de los paquetes de trabajo para los nuevos proyectos. Los archivos adjuntos en la descripción de un paquete de trabajo seguirán cargándose en el almacenamiento interno de archivos adjuntos.
     antivirus:
       title: "Escaneado de virus"
       clamav_ping_failed: "Ha fallado la conexión con el daemon ClamAV. Vuelva a comprobar la configuración e inténtelo de nuevo."
@@ -3217,6 +3262,10 @@ es:
         input_label: "Añadir columnas"
         input_placeholder: "Seleccionar una columna"
         drag_area_label: "Gestionar y reordenar columnas"
+      sort_by:
+        automatic:
+          heading: "Automático"
+          description: "Ordene la %{plural} por uno o varios criterios de clasificación. Perderá la ordenación anterior."
   top_menu:
     additional_resources: "Recursos Adicionales"
     getting_started: "Primeros pasos"
@@ -3357,15 +3406,15 @@ es:
       Las fechas añadidas a la lista siguiente se consideran no laborables y se omiten al programar los paquetes de trabajo.
     change_button: "Cambiar los días laborables"
     warning: >
-      Cambiar qué días de la semana se consideran días laborables o no laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia. <br/> Tenga en cuenta que los cambios solo se aplican después de hacer clic en el botón aplicar cambios.
+      Cambiar qué días de la semana se consideran laborables y cuáles no, puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia.
     journal_note:
       changed: _**Días laborales** cambiados (%{changes})._
       days:
         working: "%{day} es ahora laboral"
         non_working: "%{day} es ahora no laboral"
       dates:
-        working: "%{day} es ahora laboral"
-        non_working: "%{day} es ahora no laboral"
+        working: "%{date} es ahora laboral"
+        non_working: "%{date} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
     attributes:
@@ -3563,7 +3612,7 @@ es:
   link: enlace
   plugin_openproject_auth_plugins:
     name: "Plugins Auth de OpenProject"
-    description: "Integración de los proveedores de estrategia de OmniAuth para la autentificación en Openproject."
+    description: "Integración de los proveedores de estrategia de OmniAuth para la autentificación en OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Inicio de sesión único"
     description: "Añade el proveedor OmniAuth SAML a OpenProject"

@@ -54,7 +54,7 @@ sl:
     errors:
       models:
         work_package:
-          is_not_a_valid_target_for_cost_entries: "Delovni paket #% {id} ni veljaven cilj za prerazporeditev vnosov stroškov."
+          is_not_a_valid_target_for_cost_entries: "Delovni paket #%{id} ni veljaven cilj za prerazporeditev vnosov stroškov."
           nullify_is_not_valid_for_cost_entries: "Vnosa stroškov ni mogoče dodeliti projektu."
   attributes:
     comment: "Komentar"

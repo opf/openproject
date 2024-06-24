@@ -66,17 +66,18 @@ class Journal < ApplicationRecord
   store_accessor :cause,
                  %i[
                    type
+                   feature
                    work_package_id
                    changed_days
                    status_name
                    status_id
-                   status_p_complete_change
+                   status_changes
                  ],
                  prefix: true
   VALID_CAUSE_TYPES = %w[
     default_attribute_written
     progress_mode_changed_to_status_based
-    status_p_complete_changed
+    status_changed
     system_update
     work_package_children_changed_times
     work_package_parent_changed_times
