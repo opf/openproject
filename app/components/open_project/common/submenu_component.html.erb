@@ -31,7 +31,7 @@
           <% top_level_sidebar_menu_items.first.children.each do |menu_item| %>
             <li class="op-sidemenu--item" data-filter--filter-list-target="searchItem">
               <% selected = menu_item.selected ? 'selected' : '' %>
-              <a class="op-sidemenu--item-action <%= selected %>" href="<%= menu_item.href %>">
+              <a class="op-sidemenu--item-action <%= selected %>" href="<%= menu_item.href %>" data-test-selector="op-sidemenu--item-action">
                 <span class="op-sidemenu--item-title"><%= menu_item.title %></span>
               </a>
             </li>
@@ -60,7 +60,7 @@
           <% menu_item.children.each do |child_item| %>
             <li class="op-sidemenu--item" data-filter--filter-list-target="searchItem">
               <% selected = child_item.selected ? 'selected' : '' %>
-              <a class="op-sidemenu--item-action <%= selected %>" href="<%= child_item.href %>">
+              <a class="op-sidemenu--item-action <%= selected %>" href="<%= child_item.href %>" data-test-selector="op-sidemenu--item-action">
                 <span class="op-sidemenu--item-title"><%= child_item.title %></span>
               </a>
             </li>
@@ -75,9 +75,14 @@
       <%= render Primer::Beta::Button.new(scheme: :primary,
                                           tag: :a,
                                           href: @create_btn_options[:href],
+                                          test_selector: "#{@create_btn_options[:module_key]}--create-button",
                                           classes: "op-sidebar--footer-action") do |button|
         button.with_leading_visual_icon(icon: "plus")
-        @create_btn_options[:text]
+        if @create_btn_options[:btn_text].present?
+          @create_btn_options[:btn_text]
+        else
+          I18n.t("label_#{@create_btn_options[:module_key]}")
+        end
       end %>
     </div>
   <% end %>

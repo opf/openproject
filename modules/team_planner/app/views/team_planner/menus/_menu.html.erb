@@ -1,0 +1,5 @@
+  <%= turbo_frame_tag "team_planner_sidemenu",
+                      src: menu_project_team_planners_path(@project, **params.permit(:id)),
+                      target: '_top',
+                      data: { turbo: false },
+                      loading: :lazy %>

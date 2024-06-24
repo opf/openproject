@@ -25,18 +25,32 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-module ::Calendar
-  class MenusController < ApplicationController
-    before_action :find_project_by_project_id,
-                  :authorize
+module TeamPlanner
+  class Menu < Submenu
+    attr_reader :view_type, :project
 
-    def show
-      @submenu_menu_items = ::Calendar::Menu.new(project: @project, params:).menu_items
-      @create_btn_options = if User.current.allowed_in_project?(:manage_calendars, @project)
-                              { href: new_project_calendars_path(@project), module_key: "calendar" }
-                            end
+    def initialize(project: nil, params: nil)
+      @view_type = "team_planner"
+      @project = project
+      @params = params
 
-      render layout: nil
+      super(view_type:, project:, params:)
+    end
+
+    def default_queries
+      []
+    end
+
+    def selected?(query_params)
+      query_params[:id].to_s == params[:id]
+    end
+
+    def query_params(id)
+      { id: }
+    end
+
+    def query_path(query_params)
+      project_team_planner_path(project, query_params)
     end
   end
 end

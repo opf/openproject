@@ -38,7 +38,8 @@ module OpenProject::TeamPlanner
              settings: {} do
       project_module :team_planner_view, dependencies: :work_package_tracking, enterprise_feature: true do
         permission :view_team_planner,
-                   { "team_planner/team_planner": %i[index show upsale overview] },
+                   { "team_planner/team_planner": %i[index show upsale overview],
+                     "team_planner/menus": %i[show] },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages],
                    contract_actions: { team_planner: %i[read] }
@@ -80,7 +81,7 @@ module OpenProject::TeamPlanner
            :team_planner_menu,
            { controller: "/team_planner/team_planner", action: :index },
            parent: :team_planner_view,
-           partial: "team_planner/team_planner/menu",
+           partial: "team_planner/menus/menu",
            last: true,
            caption: :"team_planner.label_team_planner_plural"
 

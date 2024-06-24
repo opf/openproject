@@ -20,7 +20,6 @@ import {
   CustomDateActionAdminComponent,
   customDateActionAdminSelector,
 } from 'core-app/features/work-packages/components/wp-custom-actions/date-action/custom-date-action-admin.component';
-import { BoardsMenuComponent, boardsMenuSelector } from 'core-app/features/boards/boards-sidebar/boards-menu.component';
 import {
   GlobalSearchWorkPackagesEntryComponent,
   globalSearchWorkPackagesSelectorEntry,
@@ -144,10 +143,6 @@ import {
 } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
 import { IanMenuComponent, ianMenuSelector } from 'core-app/features/in-app-notifications/center/menu/menu.component';
 import {
-  opTeamPlannerSidemenuSelector,
-  TeamPlannerSidemenuComponent,
-} from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
-import {
   OpModalOverlayComponent,
   opModalOverlaySelector,
 } from 'core-app/shared/components/modal/modal-overlay.component';
@@ -187,7 +182,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent },
   { selector: homescreenNewFeaturesBlockSelector, cls: HomescreenNewFeaturesBlockComponent },
   { selector: customDateActionAdminSelector, cls: CustomDateActionAdminComponent },
-  { selector: boardsMenuSelector, cls: BoardsMenuComponent },
   { selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent },
   { selector: toastsContainerSelector, cls: ToastsContainerComponent },
   { selector: sidemenuSelector, cls: OpSidemenuComponent },
@@ -213,7 +207,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
-  { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: backupSelector, cls: BackupComponent },

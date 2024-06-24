@@ -25,18 +25,47 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-module ::Calendar
-  class MenusController < ApplicationController
-    before_action :find_project_by_project_id,
-                  :authorize
+module Boards
+  class Menu < Submenu
+    attr_reader :view_type, :project
 
-    def show
-      @submenu_menu_items = ::Calendar::Menu.new(project: @project, params:).menu_items
-      @create_btn_options = if User.current.allowed_in_project?(:manage_calendars, @project)
-                              { href: new_project_calendars_path(@project), module_key: "calendar" }
-                            end
+    def initialize(project: nil, params: nil)
+      @project = project
+      @params = params
 
-      render layout: nil
+      super(view_type: nil, project:, params:)
+    end
+
+    def global_queries
+      Boards::Grid.includes(:project)
+                  .references(:project)
+                  .where(project: @project)
+                  .pluck(:id, :name)
+                  .map { |id, name| menu_item(query_params(id), name) }
+    end
+
+    def starred_queries
+      []
+    end
+
+    def default_queries
+      []
+    end
+
+    def custom_queries
+      []
+    end
+
+    def selected?(query_params)
+      query_params[:id].to_s == params[:id]
+    end
+
+    def query_params(id)
+      { id: }
+    end
+
+    def query_path(query_params)
+      project_work_package_board_path(project, query_params)
     end
   end
 end

@@ -4,21 +4,6 @@ import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboardin
 export function teamPlannerTourSteps():OnboardingStep[] {
   return [
     {
-      'next .team-planner-view-menu-item': I18n.t('js.onboarding.steps.team_planner.overview'),
-      showSkip: false,
-      nextButton: { text: I18n.t('js.onboarding.buttons.next') },
-      onNext() {
-        jQuery('.team-planner-view-menu-item ~ .toggler')[0].click();
-
-        waitForElement(
-          '.op-sidemenu--item-action',
-          '#main-menu',
-          (match) => match.click(),
-          (match) => !!match.textContent?.includes('Team planner'),
-        );
-      },
-    },
-    {
       'next [data-tour-selector="op-team-planner--calendar-pane"]': I18n.t('js.onboarding.steps.team_planner.calendar'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
@@ -52,4 +37,22 @@ export function teamPlannerTourSteps():OnboardingStep[] {
       },
     },
   ];
+}
+
+export function navigateToTeamPlannerStep():OnboardingStep {
+  return {
+    'next .team-planner-view-menu-item': I18n.t('js.onboarding.steps.team_planner.overview'),
+    showSkip: false,
+    nextButton: { text: I18n.t('js.onboarding.buttons.next') },
+    onNext() {
+      jQuery('.team-planner-view-menu-item ~ .toggler')[0].click();
+
+      waitForElement(
+        '.op-sidemenu--item-action',
+        '#main-menu',
+        (match) => match.click(),
+        (match) => !!match.textContent?.includes('Team planner'),
+      );
+    },
+  };
 }

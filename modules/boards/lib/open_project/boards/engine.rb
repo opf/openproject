@@ -28,7 +28,8 @@ module OpenProject::Boards
              settings: {} do
       project_module :board_view, dependencies: :work_package_tracking, order: 80 do
         permission :show_board_views,
-                   { "boards/boards": %i[index show] },
+                   { "boards/boards": %i[index show],
+                     "boards/menus": %i[show] },
                    permissible_on: :project,
                    dependencies: :view_work_packages,
                    contract_actions: { boards: %i[read] }
@@ -50,7 +51,7 @@ module OpenProject::Boards
            :board_menu,
            { controller: "/boards/boards", action: :index },
            parent: :boards,
-           partial: "boards/boards/menu_board",
+           partial: "boards/menus/menu",
            last: true,
            caption: :"boards.label_boards"
 

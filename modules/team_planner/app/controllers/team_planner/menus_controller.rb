@@ -25,16 +25,17 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-module ::Calendar
+module ::TeamPlanner
   class MenusController < ApplicationController
     before_action :find_project_by_project_id,
                   :authorize
 
     def show
-      @submenu_menu_items = ::Calendar::Menu.new(project: @project, params:).menu_items
-      @create_btn_options = if User.current.allowed_in_project?(:manage_calendars, @project)
-                              { href: new_project_calendars_path(@project), module_key: "calendar" }
-                            end
+      @submenu_menu_items = ::TeamPlanner::Menu.new(project: @project, params:).menu_items
+      if User.current.allowed_in_project?(:manage_team_planner, @project) &&
+        EnterpriseToken.allows_to?(:team_planner_view)
+        @create_btn_options = { href: new_project_team_planners_path(@project), module_key: "team_planner" }
+      end
 
       render layout: nil
     end
