@@ -62,7 +62,7 @@ module OpenProject::Boards
 
       menu :top_menu,
            :boards,
-           { controller: "/boards/boards", action: "index" },
+           { controller: "/boards/boards", action: "index", project_id: nil },
            context: :modules,
            caption: :project_module_board_view,
            before: :news,
