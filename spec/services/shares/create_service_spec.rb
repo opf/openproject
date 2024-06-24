@@ -70,6 +70,7 @@ RSpec.describe Shares::CreateService, type: :model do
   before { stub_notifications }
 
   it_behaves_like "BaseServices create service" do
+    let(:factory) { :work_package_member }
     let(:model_class) { Member }
     let(:principal) { richard }
     let(:call_attributes) { { principal:, roles: [role], entity: work_package, project: work_package.project } }

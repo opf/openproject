@@ -34,7 +34,9 @@ RSpec.describe Shares::CreateOrUpdateService do
   let(:user) { build_stubbed(:user) }
   let(:role) { build_stubbed(:view_work_package_role) }
   let(:work_package) { build_stubbed(:work_package) }
-  let(:instance) { described_class.new(user:) }
+  let(:create_contract_class) { class_double(Shares::WorkPackages::CreateContract) }
+  let(:update_contract_class) { class_double(Shares::WorkPackages::UpdateContract) }
+  let(:instance) { described_class.new(user:, create_contract_class:, update_contract_class:) }
 
   let(:params) { { user_id: user, roles: [role], entity: work_package } }
   let(:service_result) { instance_double(ServiceResult) }
@@ -48,12 +50,16 @@ RSpec.describe Shares::CreateOrUpdateService do
             .and_return(existing_member)
   end
 
-  context "when the user has no work_package_member for that work package" do
-    let(:create_instance) { instance_double(WorkPackageMembers::CreateService) }
+  context "when the user is not a member of the shared entity" do
+    let(:create_instance) { instance_double(Shares::CreateService) }
     let(:existing_member) { nil }
 
-    it "calls the WorkPackageMembers::CreateService" do
-      allow(WorkPackageMembers::CreateService).to receive(:new).and_return(create_instance)
+    it "calls the Shares::CreateService" do
+      allow(Shares::CreateService).to receive(:new).with(
+        contract_class: create_contract_class,
+        contract_options: {},
+        user:
+      ).and_return(create_instance)
       allow(create_instance).to receive(:call).and_return(service_result)
 
       service_call
@@ -64,12 +70,17 @@ RSpec.describe Shares::CreateOrUpdateService do
     end
   end
 
-  context "when the user already has a work_package_member for that work package" do
-    let(:update_instance) { instance_double(WorkPackageMembers::UpdateService) }
+  context "when the user is already a member of the shared entity" do
+    let(:update_instance) { instance_double(Shares::UpdateService) }
     let(:existing_member) { build_stubbed(:work_package_member) }
 
-    it "calls the WorkPackageMembers::UpdateService" do
-      allow(WorkPackageMembers::UpdateService).to receive(:new).and_return(update_instance)
+    it "calls the Shares::UpdateService" do
+      allow(Shares::UpdateService).to receive(:new).with(
+        contract_class: update_contract_class,
+        contract_options: {},
+        model: existing_member,
+        user:
+      ).and_return(update_instance)
       allow(update_instance).to receive(:call).and_return(service_result)
 
       service_call

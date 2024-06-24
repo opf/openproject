@@ -107,11 +107,11 @@ RSpec.describe Members::DeleteByPrincipalService, type: :model do
       before do
         allow(Shares::DeleteService)
           .to receive(:new)
-          .with(user:, model: member_a)
+          .with(user:, model: member_a, contract_class: Shares::WorkPackages::DeleteContract)
           .and_return(service_instance_a)
         allow(Shares::DeleteService)
           .to receive(:new)
-          .with(user:, model: member_c)
+          .with(user:, model: member_c, contract_class: Shares::WorkPackages::DeleteContract)
           .and_return(service_instance_c)
       end
 
@@ -121,7 +121,7 @@ RSpec.describe Members::DeleteByPrincipalService, type: :model do
         expect(service_instance_a).to have_received(:call).with(no_args)
         expect(Shares::DeleteService)
           .not_to have_received(:new)
-          .with(user:, model: member_b)
+          .with(user:, model: member_b, contract_class: Shares::WorkPackages::DeleteContract)
         expect(service_instance_c).to have_received(:call).with(no_args)
       end
 
@@ -179,11 +179,11 @@ RSpec.describe Members::DeleteByPrincipalService, type: :model do
       before do
         allow(Shares::DeleteRoleService)
           .to receive(:new)
-          .with(user:, model: member_a)
+          .with(user:, model: member_a, contract_class: Shares::WorkPackages::DeleteContract)
           .and_return(service_instance_a)
         allow(Shares::DeleteRoleService)
           .to receive(:new)
-          .with(user:, model: member_c)
+          .with(user:, model: member_c, contract_class: Shares::WorkPackages::DeleteContract)
           .and_return(service_instance_c)
       end
 
@@ -193,11 +193,11 @@ RSpec.describe Members::DeleteByPrincipalService, type: :model do
         expect(service_instance_a).to have_received(:call).with(role_id: role.id.to_s)
         expect(Shares::DeleteRoleService)
           .not_to have_received(:new)
-          .with(user:, model: member_b)
+          .with(user:, model: member_b, contract_class: Shares::WorkPackages::DeleteContract)
         expect(service_instance_c).to have_received(:call).with(role_id: role.id.to_s)
         expect(Shares::DeleteRoleService)
           .not_to have_received(:new)
-          .with(user:, model: member_d)
+          .with(user:, model: member_d, contract_class: Shares::WorkPackages::DeleteContract)
       end
 
       context "when all calls succeed" do

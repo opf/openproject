@@ -33,6 +33,7 @@ require "services/base_services/behaves_like_delete_service"
 
 RSpec.describe Shares::DeleteRoleService, type: :model do
   it_behaves_like "BaseServices delete service" do
+    let(:factory) { :work_package_member }
     let(:model_class) { Member }
     let(:model_instance) { build_stubbed(:work_package_member, principal:) }
     let(:principal) { user }

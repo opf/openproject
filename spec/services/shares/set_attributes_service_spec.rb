@@ -43,7 +43,7 @@ RSpec.describe Shares::SetAttributesService, type: :model do
             .with(member, user, options: {})
             .and_return(contract_instance)
 
-    Shares::WorkPackages
+    Shares::WorkPackages::CreateContract
   end
   let(:contract_instance) do
     instance_double(Shares::WorkPackages::CreateContract, validate: contract_valid, errors: contract_errors)
