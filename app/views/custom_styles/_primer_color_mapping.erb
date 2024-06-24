@@ -18,6 +18,8 @@
     --button-primary-bgColor-hover: var(--button--primary-background-hover-color) !important;
     --button-primary-bgColor-disabled: var(--button--primary-background-disabled-color) !important;
     --button-primary-borderColor-disabled: var(--button--primary-border-disabled-color) !important;
+    --fc-page-bg-color: var(--body-background) !important;
+    --fc-list-event-hover-bg-color: var(--control-transparent-bgColor-hover) !important;
   }
 
   /* Generic color mapping for content variables */
@@ -79,6 +81,7 @@
   /* For dark themes we are using a lighter version of the accent and primary color. Otherwise they will not be seen */
   [data-dark-theme=dark] {
       --accent-color: var(--accent-color--dark-mode);
+      --content-icon-color: var(--accent-color--dark-mode);
       --primary-button-color: var(--primary-button-color--dark-mode);
       --main-menu-bg-color: var(--overlay-bgColor);
   }
