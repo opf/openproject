@@ -39,6 +39,10 @@ It is also possible to automatically create dedicated [project folders](../../pr
 | [Permissions and access control](#permissions-and-access-control)                                   | Who has access to linked files and who doesn't                                            |
 | [Possible errors and troubleshooting](#possible-errors-and-troubleshooting)                         | Common errors and how to troubleshoot them                                                |
 
+This video will give you a complete overview of how to set-up and work with the Nextcloud integration (English only):
+
+![Nextcloud integration complete user guide and admin guide](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-NextCloud-integration.mp4)
+
 ## Connect your OpenProject and Nextcloud accounts
 
 To begin using this integration, you will need to first connect your OpenProject and Nextcloud accounts. To do this, open any work package in a project where a Nextcloud file storage has been added and enabled by an administrator and follow these steps:
