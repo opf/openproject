@@ -38,7 +38,7 @@ module Bim::Bcf
 
       default_format :json
 
-      error_representer ::Bim::Bcf::API::V2_1::Errors::ErrorRepresenter, :json
+      error_representer ::Bim::Bcf::API::V2_1::Errors::ErrorRepresenter, "application/json; charset=utf-8"
       error_formatter :json, ::Bim::Bcf::API::ErrorFormatter::Json
 
       authentication_scope OpenProject::Authentication::Scope::BCF_V2_1

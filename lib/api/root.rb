@@ -35,7 +35,7 @@ module API
 
     parser :json, API::V3::Parser.new
 
-    error_representer ::API::V3::Errors::ErrorRepresenter, "hal+json"
+    error_representer ::API::V3::Errors::ErrorRepresenter, "application/hal+json; charset=utf-8"
     authentication_scope OpenProject::Authentication::Scope::API_V3
 
     OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, _opts|

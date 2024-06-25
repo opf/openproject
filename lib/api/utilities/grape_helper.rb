@@ -71,7 +71,7 @@ module API
           original_exception = $!
           representer = error_representer.new e
           resp_headers = instance_exec &headers
-          env["api.format"] = error_content_type
+          resp_headers["Content-Type"] = error_content_type
 
           if log == true
             OpenProject.logger.error original_exception, reference: :APIv3
