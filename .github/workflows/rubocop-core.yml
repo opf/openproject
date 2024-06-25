@@ -8,9 +8,9 @@ jobs:
     name: rubocop
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2 # we are comparing PR merge head with base
+      - uses: actions/checkout@v4
+      - name: Fetch head commit of base branch
+        run: git fetch --depth 1 origin ${{ github.event.pull_request.base.sha }}
       - uses: ruby/setup-ruby@v1
       - uses: opf/action-rubocop@master
         with:
