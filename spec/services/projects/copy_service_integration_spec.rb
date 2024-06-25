@@ -188,9 +188,9 @@ RSpec.describe(
           end
         end
 
-        context 'with disabled project custom fields with default value' do
-          it 'is still disabled in the copy' do
-            create(:text_project_custom_field, default_value: 'default value')
+        context "with disabled project custom fields with default value" do
+          it "is still disabled in the copy" do
+            create(:text_project_custom_field, default_value: "default value")
 
             expect(subject).to be_success
 

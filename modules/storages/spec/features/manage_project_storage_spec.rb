@@ -38,10 +38,7 @@ require_module_spec_helper
 # We decrease the notification polling interval because some portions of the JS code rely on something triggering
 # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
 RSpec.describe("Activation of storages in projects",
-               :js,
-               :with_cuprite,
-               :webmock,
-               with_settings: { notifications_polling_interval: 1_000 }) do
+               :js, :webmock, :with_cuprite, with_settings: { notifications_polling_interval: 1_000 }) do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
@@ -112,7 +109,7 @@ RSpec.describe("Activation of storages in projects",
     expect(page).to have_title("Files")
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t("storages.no_results"))
-    page.first(:link, 'New storage').click
+    page.first(:link, "New storage").click
 
     # Can cancel the creation of a new file storage
     expect(page).to have_current_path new_project_settings_project_storage_path(project_id: project)
@@ -121,7 +118,7 @@ RSpec.describe("Activation of storages in projects",
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     # Enable one file storage together with a project folder mode
-    page.first(:link, 'New storage').click
+    page.first(:link, "New storage").click
     expect(page).to have_current_path new_project_settings_project_storage_path(project_id: project)
     expect(page).to have_text("Add a file storage")
     expect(page).to have_select("storages_project_storage_storage_id",
@@ -149,14 +146,14 @@ RSpec.describe("Activation of storages in projects",
     page.click_button("Add")
 
     # The list of enabled file storages should now contain Storage 1
-    expect(page).to have_selector('h1', text: 'Files')
+    expect(page).to have_css("h1", text: "Files")
     expect(page).to have_text(storage.name)
 
     # Press Edit icon to change the project folder mode to inactive
     page.find(".icon.icon-edit").click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
                                                                                  id: Storages::ProjectStorage.last,
-                                                                                 storages_project_storage: {project_folder_mode: "manual"})
+                                                                                 storages_project_storage: { project_folder_mode: "manual" })
     expect(page).to have_text("Edit the file storage to this project")
     expect(page).to have_no_select("storages_project_storage_storage_id")
     expect(page).to have_text(storage.name)
@@ -169,14 +166,14 @@ RSpec.describe("Activation of storages in projects",
     page.click_button("Save")
 
     # The list of enabled file storages should still contain Storage 1
-    expect(page).to have_selector('h1', text: 'Files')
+    expect(page).to have_css("h1", text: "Files")
     expect(page).to have_text(storage.name)
 
     # Click Edit icon again but cancel the edit
     page.find(".icon.icon-edit").click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
                                                                                  id: Storages::ProjectStorage.last,
-                                                                                 storages_project_storage: {project_folder_mode: "inactive"})
+                                                                                 storages_project_storage: { project_folder_mode: "inactive" })
     expect(page).to have_text("Edit the file storage to this project")
     page.click_link("Cancel")
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
@@ -237,7 +234,7 @@ RSpec.describe("Activation of storages in projects",
     it "excludes storages that are not configured correctly" do
       visit external_file_storages_project_settings_project_storages_path(project)
 
-      page.first(:link, 'New storage').click
+      page.first(:link, "New storage").click
 
       aggregate_failures "select field options" do
         expect(page).to have_select("storages_project_storage_storage_id",

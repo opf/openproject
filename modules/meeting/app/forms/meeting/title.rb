@@ -47,7 +47,7 @@ class Meeting::Title < ApplicationForm
         scheme: :secondary,
         label: I18n.t(:button_cancel),
         tag: :a,
-        data: { 'turbo-stream': true },
+        data: { "turbo-stream": true },
         href: OpenProject::StaticRouting::StaticUrlHelpers.new.cancel_edit_meeting_path(@meeting)
       )
     end
