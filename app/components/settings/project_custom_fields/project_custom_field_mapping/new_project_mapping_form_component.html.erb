@@ -38,7 +38,6 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |form|
       concat(render(Primer::Alpha::Dialog::Body.new(
         id: DIALOG_BODY_ID, test_selector: DIALOG_BODY_ID, aria: { label: title },
-        classes: "FormControl-horizontalGroup--sm-vertical",
         style: "min-height: 300px"
       )) do
         render(Projects::CustomFields::CustomFieldMappingForm.new(form, project_mapping: @project_mapping))

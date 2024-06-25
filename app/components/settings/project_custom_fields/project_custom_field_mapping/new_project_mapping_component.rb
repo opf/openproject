@@ -41,6 +41,12 @@ module Settings
         def render?
           !@project_custom_field.required?
         end
+
+        private
+
+        def title
+          I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.add_projects")
+        end
       end
     end
   end
