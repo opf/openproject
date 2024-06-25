@@ -27,7 +27,7 @@
 #++
 
 module Shares
-  class ModalUpsaleComponent < ApplicationComponent
+  class ModalUpsaleComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers

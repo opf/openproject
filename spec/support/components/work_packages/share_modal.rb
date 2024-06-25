@@ -213,7 +213,7 @@ module Components
         select_invite_role(role_name)
 
         within_modal do
-          click_button "Share"
+          click_on "Share"
         end
       end
 
@@ -245,7 +245,7 @@ module Components
       def select_invite_role(role_name)
         within modal_element.find('[data-test-selector="op-share-dialog-invite-role"]') do
           # Open the ActionMenu
-          click_button "View"
+          click_on "View"
 
           find(".ActionListContent", text: role_name).click
         end
@@ -256,7 +256,7 @@ module Components
           find('[data-test-selector="op-share-dialog-update-role"]').click
 
           within ".ActionListWrap" do
-            click_button role_name
+            click_on role_name
           end
         end
       end
@@ -285,7 +285,7 @@ module Components
 
       def click_share
         within_modal do
-          click_button "Share"
+          click_on "Share"
         end
       end
 
@@ -330,7 +330,7 @@ module Components
 
       def resend_invite(user)
         within user_row(user) do
-          click_button I18n.t("sharing.user_details.resend_invite")
+          click_on I18n.t("sharing.user_details.resend_invite")
         end
       end
 

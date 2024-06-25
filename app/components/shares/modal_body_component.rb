@@ -71,7 +71,7 @@ module Shares
       "op-share-dialog-active-shares"
     end
 
-    def blankslate_config
+    def blankslate_config # rubocop:disable Metrics/AbcSize
       @blankslate_config ||= {}.tap do |config|
         if params[:filters].blank?
           config[:icon] = :people
