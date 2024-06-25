@@ -47,11 +47,6 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
   let(:invisible_custom_field) do
     create(:text_project_custom_field, visible: false)
   end
-  let(:custom_value) do
-    CustomValue.create(custom_field:,
-                       value: "1234",
-                       customized: project)
-  end
   let(:permissions) { [:edit_project] }
   let(:path) { api_v3_paths.project(project.id) }
   let(:body) do
@@ -70,7 +65,7 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
   end
 
   it "responds with 200 OK" do
-    expect(last_response.status).to eq(200)
+    expect(last_response).to have_http_status(:ok)
   end
 
   it "alters the project" do
@@ -102,7 +97,7 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
     end
 
     it "responds with 200 OK" do
-      expect(last_response.status).to eq(200)
+      expect(last_response).to have_http_status(:ok)
     end
 
     it "sets the cf value" do
@@ -129,7 +124,7 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
       let(:current_user) { create(:admin) }
 
       it "responds with 200 OK" do
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(:ok)
       end
 
       it "sets the cf value" do
@@ -146,12 +141,23 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
     context "with non-admin permissions" do
       it "responds with 200 OK" do
         # TBD: trying to set a not accessible custom field is silently ignored
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(:ok)
       end
 
       it "does not set the cf value" do
         expect(project.reload.custom_values)
           .to be_empty
+      end
+
+      context "when the hidden field has a value already" do
+        it "does not change the cf value" do
+          project.custom_field_values = { invisible_custom_field.id => "1234" }
+          project.save
+          patch path, body.to_json
+
+          expect(project.reload.custom_values.find_by(custom_field: invisible_custom_field).value)
+            .to eq "1234"
+        end
       end
 
       it "does not activate the cf for project" do
@@ -165,7 +171,7 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
     let(:permissions) { [] }
 
     it "responds with 403" do
-      expect(last_response.status).to eq(403)
+      expect(last_response).to have_http_status(:forbidden)
     end
 
     it "does not change the project" do
@@ -260,7 +266,7 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
     end
 
     it "responds with 422" do
-      expect(last_response.status).to eq(422)
+      expect(last_response).to have_http_status(:unprocessable_entity)
     end
 
     it "does not change the project" do
@@ -293,7 +299,7 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
     end
 
     it "responds with 422" do
-      expect(last_response.status).to eq(422)
+      expect(last_response).to have_http_status(:unprocessable_entity)
     end
 
     it "does not change the project status" do

@@ -46,17 +46,15 @@ $form-fontsize: 0.875rem !default
 $form-padding: 0.5rem !default
 
 // Text fields
-$input-color: #000 !default
 $input-border: 1px solid var(--borderColor-default) !default
 $input-border-focus: 1px solid #999 !default
 
 // Labels
 $form-label-margin: 0.5rem !default
-$form-label-color: #333 !default
 
 // Inline labels
-$inlinelabel-color: #333 !default
-$inlinelabel-background: #eee !default
+$inlinelabel-color: var(--button--font-color) !default
+$inlinelabel-background: var(--button--background-color) !default
 $inlinelabel-border: $input-border !default
 
 // Select menus
@@ -79,7 +77,7 @@ $select-arrow-color: #000 !default
   border: $input-border
   border-radius: 2px
   background-color: transparent
-  color: $input-color
+  color: var(--body-font-color)
   font-size: $form-fontsize
   -webkit-font-smoothing: antialiased
   vertical-align: middle

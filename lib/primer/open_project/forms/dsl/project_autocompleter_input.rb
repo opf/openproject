@@ -9,7 +9,7 @@ module Primer
             options.reverse_merge!(
               component: "opce-project-autocompleter",
               defaultData: false,
-              filters: [{ name: 'active', operator: '=', values: ['t'] }],
+              filters: [{ name: "active", operator: "=", values: ["t"] }]
             )
 
             if options[:disabledProjects]

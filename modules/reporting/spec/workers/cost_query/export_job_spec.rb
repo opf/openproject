@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe CostQuery::ExportJob do
-  let(:user) { build_stubbed(:admin) }
+  let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
 
   let(:initial_filter_params) do
@@ -44,6 +44,10 @@ RSpec.describe CostQuery::ExportJob do
         user_id: ["me"], spent_on: ["2024-03-30", ""], project_id: [project.id.to_s]
       }
     }
+  end
+
+  before do
+    mock_permissions_for(user, &:allow_everything)
   end
 
   # Performs a cost export with the given extra filters.

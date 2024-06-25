@@ -150,6 +150,7 @@ ro:
         attribute_reference:
           macro_help_tooltip: "Acest segment de text este redat în mod dinamic de o macro."
           not_found: "Resursa solicitată nu a fost găsită."
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Atributul selectat \"%{name}\" nu există."
         child_pages:
           button: "Legături către paginile pentru copii"

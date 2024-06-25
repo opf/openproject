@@ -102,7 +102,7 @@
     button_save: "Lagre"
     button_settings: "Innstillinger"
     button_uncheck_all: "Avmerk alle"
-    button_update: "Oppdater"
+    button_update: "Oppdatèr"
     button_export-pdf: "Last ned PDF"
     button_export-atom: "Last ned Atom"
     button_create: "Opprett"
@@ -150,6 +150,7 @@
         attribute_reference:
           macro_help_tooltip: "Dette tekstsegmentet er dynamisk gjengitt av en makro."
           not_found: "Finner ikke forespurt ressurs"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Den valgte egenskapen '%{name}' eksisterer ikke."
         child_pages:
           button: "Lenker til undersider"

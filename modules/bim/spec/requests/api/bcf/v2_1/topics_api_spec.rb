@@ -689,7 +689,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
         end
 
         it "responds with a not authorized error" do
-          expect(response.status).to eq 403
+          expect(response).to have_http_status :forbidden
           expect(response.body).to include "You are not authorized to access this resource."
         end
       end
@@ -707,7 +707,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
         end
 
         it "responds with a not authorized error" do
-          expect(response.status).to eq 404
+          expect(response).to have_http_status :not_found
           expect(response.body).to include "The requested resource could not be found."
         end
       end

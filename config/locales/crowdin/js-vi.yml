@@ -102,7 +102,7 @@ vi:
     button_save: "Lưu"
     button_settings: "Cài đặt"
     button_uncheck_all: "Bỏ chọn tất cả"
-    button_update: "Cập nhật"
+    button_update: "Cập Nhật"
     button_export-pdf: "Tải PDF"
     button_export-atom: "Tải về Atom"
     button_create: "Tạo mới"
@@ -150,6 +150,7 @@ vi:
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: "Liên kết đến trang con"

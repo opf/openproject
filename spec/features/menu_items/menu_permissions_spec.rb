@@ -57,7 +57,7 @@ RSpec.describe "menu permissions", :js, :with_cuprite do
 
       # Clicking the menu parent item leads to the version page
       find(".main-menu--parent-node", text: "Project settings").click
-      expect(page).to have_current_path "/projects/#{project.identifier}/settings/general/"
+      expect(page).to have_current_path "/projects/#{project.identifier}/settings/general"
     end
   end
 

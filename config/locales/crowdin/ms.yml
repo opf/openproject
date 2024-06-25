@@ -460,6 +460,7 @@ ms:
         is_readonly: "Baca-sahaja"
         excluded_from_totals: "Dikecualikan daripada jumlah"
   themes:
+    dark: "Gelap"
     light: "Terang"
     light_high_contrast: "Kontras tinggi yang terang"
   types:
@@ -506,6 +507,10 @@ ms:
     move:
       no_common_statuses_exists: "Tiada status tersedia untuk semua pakej kerja yang terpilih. Status mereka tidak dapat diubah."
       unsupported_for_multiple_projects: "Pindahan/salinan secara pukal tidak disokong untuk pakej kerja dari projek yang berbeza"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "Aliran kerja hilang untuk perkongsian pakej kerja"
@@ -2693,6 +2698,8 @@ ms:
   permission_manage_public_bcf_queries: "Urus pertanyaan BCF awam"
   permission_edit_attribute_help_texts: "Edit atribut teks bantuan"
   permission_manage_public_project_queries: "Uruskan senarai projek awam"
+  permission_view_project_query: "Lihat pertanyaan projek"
+  permission_edit_project_query: "Edit pertanyaan projek"
   placeholders:
     default: "-"
   project:

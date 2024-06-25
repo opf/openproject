@@ -1,7 +1,7 @@
 <%= render(Primer::OpenProject::SubHeader.new(data: {
-  controller: "filters",
+  controller: "filter--filters-form",
   "application-target": "dynamic",
-  "filters-output-format-value": "json",
+  "filter--filters-form-output-format-value": "json",
 })) do |subheader|
   subheader.with_filter_component do
     render(Meetings::MeetingFilterButtonComponent.new(query: @query, project: @project))

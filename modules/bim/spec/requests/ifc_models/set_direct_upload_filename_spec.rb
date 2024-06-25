@@ -36,7 +36,7 @@ RSpec.describe "POST /projects/:project_id/ifc_models/set_direct_upload_file_nam
   context "when user is not logged in" do
     it "requires login" do
       post set_direct_upload_file_name_bcf_project_ifc_models_path(project_id: project.id)
-      expect(last_response.status).to eq(406) # rubocop:disable RSpecRails/HaveHttpStatus
+      expect(last_response).to have_http_status(:not_acceptable)
     end
   end
 
@@ -47,7 +47,7 @@ RSpec.describe "POST /projects/:project_id/ifc_models/set_direct_upload_file_nam
       it "returns a 422" do
         post set_direct_upload_file_name_bcf_project_ifc_models_path(project_id: project.id),
              { title: "Test.ifc", isDefault: "0", filesize: "113328073" }
-        expect(last_response.status).to eq(422) # rubocop:disable RSpecRails/HaveHttpStatus
+        expect(last_response).to have_http_status(:unprocessable_entity)
         expect(parse_json(last_response.body)).to eq({ "error" => "is too large (maximum size is 1024 Bytes)." })
       end
     end

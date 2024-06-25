@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end -%>
 </ul>
 
-<%= styled_form_tag({action: 'create'},
+<%= styled_form_tag({ action: 'create' },
                     id: 'move_form',
                     data: {
                       'controller': 'refresh-on-form-changes',
@@ -54,134 +54,147 @@ See COPYRIGHT and LICENSE files for more details.
     <%= hidden_field_tag 'ids[]', wp.id %>
   <% end %>
   <%= back_url_hidden_field_tag %>
-    <section class="form--section">
-      <fieldset class="form--fieldset">
-        <legend class="form--fieldset-legend"><%= t(:label_change_properties) %></legend>
-        <div class="grid-block grid-block_visible-overflow">
-          <div class="grid-content medium-6">
-              <div class="form--field">
-                <label class="form--label" for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
-                  <div class="form--field-container">
-                    <%= angular_component_tag 'opce-project-autocompleter',
-                                              inputs: {
-                                                filters: [{ name: 'user_action', operator: '=', values: ['work_packages/move'] }],
-                                                inputName: 'new_project_id',
-                                                model: @target_project,
-                                                appendTo: 'body',
-                                                hiddenFieldAction: 'change->refresh-on-form-changes#triggerReload',
-                                                clearable: false,
-                                              },
-                                              id: 'new_project_id',
-                                              class: 'remote-field--input',
-                                              data: {
-                                                'test-selector': 'new_project_id'
-                                              }
-                    %>
-                  </div>
-              </div>
-            <div class="form--field">
-              <label class="form--label" for="new_type_id"><%= WorkPackage.human_attribute_name(:type) %>:</label>
-              <div class="form--field-container">
-                <%= styled_select_tag("new_type_id",
-                       content_tag('option', t(:label_no_change_option), value: '') +
-                       options_from_collection_for_select(@types, "id", "name", @target_type&.id),
-                       data: {
-                         'action': 'change->refresh-on-form-changes#triggerReload'
-                       }) %>
-              </div>
-            </div>
-            <div class="form--field">
-              <label class="form--label" for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
-              <div class="form--field-container">
-                <%= styled_select_tag('status_id',
-                       content_tag('option', t(:label_no_change_option), value: '') +
-                       options_from_collection_for_select(@available_statuses, :id, :name)) %>
-              </div>
-            </div>
-            <div class="form--field">
-              <label class="form--label" for='version_id'><%= WorkPackage.human_attribute_name(:version) %></label>
-              <div class="form--field-container">
-                <%= styled_select_tag('version_id',
-                                      content_tag('option', t(:label_no_change_option), value: '') +
-                                      version_options_for_select(@available_versions)) %>
-              </div>
-            </div>
-            <div class="form--field">
-              <label class="form--label" for='priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
-              <div class="form--field-container">
-                <%= styled_select_tag('priority_id',
-                       content_tag('option', t(:label_no_change_option), value: '') +
-                       options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
-              </div>
-            </div>
-            <div class="form--field">
-              <label class="form--label" for='assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
-              <div class="form--field-container">
-                <%= styled_select_tag('assigned_to_id',
-                       content_tag('option', t(:label_no_change_option), value: '') +
-                       content_tag('option', t(:label_nobody), value: 'none') +
-                       options_from_collection_for_select(Principal.possible_assignee(@target_project), :id, :name)) %>
-              </div>
-            </div>
-            <div class="form--field">
-              <label class="form--label" for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
-              <div class="form--field-container">
-                <%= styled_select_tag('responsible_id',
-                       content_tag('option', t(:label_no_change_option), value: '') +
-                       content_tag('option', t(:label_nobody), value: 'none') +
-                       options_from_collection_for_select(Principal.possible_assignee(@target_project), :id, :name)) %>
-              </div>
-            </div>
-            <div class="form--field">
-              <%= styled_label_tag :budget_id, Budget.model_name.human %>
-              <%= styled_select_tag('budget_id', (@target_project == @project ? content_tag('option', t(:label_no_change_option), :value => '') : "") +
-                content_tag('option', t(:label_none), :value => 'none') +
-                options_from_collection_for_select(@target_project.budgets, :id, :subject)) %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t(:label_change_properties) %></legend>
+      <div class="grid-block grid-block_visible-overflow">
+        <div class="grid-content medium-6">
+          <div class="form--field">
+            <label class="form--label" for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
+            <div class="form--field-container">
+              <%= angular_component_tag 'opce-project-autocompleter',
+                                        inputs: {
+                                          filters: [{ name: 'user_action', operator: '=', values: ['work_packages/move'] }],
+                                          inputName: 'new_project_id',
+                                          model: @target_project,
+                                          appendTo: 'body',
+                                          hiddenFieldAction: 'change->refresh-on-form-changes#triggerReload',
+                                          clearable: false,
+                                        },
+                                        id: 'new_project_id',
+                                        class: 'remote-field--input',
+                                        data: {
+                                          'test-selector': 'new_project_id'
+                                        }
+              %>
             </div>
           </div>
-          <div class="grid-content medium-6">
-            <div class="form--field">
-              <label class="form--label" for='start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
-              <div class="form--field-container -visible-overflow">
-                <%= angular_component_tag 'op-basic-single-date-picker',
-                                          inputs: {
-                                            id: "start_date",
-                                            name: "start_date"
-                                          }
-                %>
-              </div>
+          <div class="form--field">
+            <label class="form--label" for="new_type_id"><%= WorkPackage.human_attribute_name(:type) %>:</label>
+            <div class="form--field-container">
+              <%= styled_select_tag("new_type_id",
+                                    content_tag('option', t(:label_no_change_option), value: '') +
+                                      options_from_collection_for_select(@types, "id", "name", @target_type&.id),
+                                    data: {
+                                      'action': 'change->refresh-on-form-changes#triggerReload'
+                                    }) %>
             </div>
-            <div class="form--field">
-              <label class="form--label" for='due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
-              <div class="form--field-container -visible-overflow">
-                <%= angular_component_tag 'op-basic-single-date-picker',
-                                          inputs: {
-                                            id: "due_date",
-                                            name: "due_date"
-                                          }
-                %>
-              </div>
-            </div>
-            <% if @target_type %>
-              <% @target_type.custom_fields.required.each do |custom_field| %>
-                <div class="form--field">
-                  <%= blank_custom_field_label_tag('', custom_field) %>
-                  <div class="form--field-container">
-                    <%= custom_field_tag_for_bulk_edit('', custom_field, @project) %>
-                  </div>
+            <% if @unavailable_type_in_target_project %>
+              <div class="op-toast -warning icon-warning">
+                <div class="op-toast--content">
+                  <p>
+                    <% if @work_packages.size > 1 %>
+                      <%= t("work_packages.move.bulk_current_type_not_available_in_target_project") %>
+                    <% else %>
+                      <%= t("work_packages.move.current_type_not_available_in_target_project") %>
+                    <% end %>
+                  </p>
                 </div>
-              <% end %>
+              </div>
             <% end %>
           </div>
+          <div class="form--field">
+            <label class="form--label" for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
+            <div class="form--field-container">
+              <%= styled_select_tag('status_id',
+                                    content_tag('option', t(:label_no_change_option), value: '') +
+                                      options_from_collection_for_select(@available_statuses, :id, :name)) %>
+            </div>
+          </div>
+          <div class="form--field">
+            <label class="form--label" for='version_id'><%= WorkPackage.human_attribute_name(:version) %></label>
+            <div class="form--field-container">
+              <%= styled_select_tag('version_id',
+                                    content_tag('option', t(:label_no_change_option), value: '') +
+                                      version_options_for_select(@available_versions)) %>
+            </div>
+          </div>
+          <div class="form--field">
+            <label class="form--label" for='priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
+            <div class="form--field-container">
+              <%= styled_select_tag('priority_id',
+                                    content_tag('option', t(:label_no_change_option), value: '') +
+                                      options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
+            </div>
+          </div>
+          <div class="form--field">
+            <label class="form--label" for='assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
+            <div class="form--field-container">
+              <%= styled_select_tag('assigned_to_id',
+                                    content_tag('option', t(:label_no_change_option), value: '') +
+                                      content_tag('option', t(:label_nobody), value: 'none') +
+                                      options_from_collection_for_select(Principal.possible_assignee(@target_project), :id, :name)) %>
+            </div>
+          </div>
+          <div class="form--field">
+            <label class="form--label" for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
+            <div class="form--field-container">
+              <%= styled_select_tag('responsible_id',
+                                    content_tag('option', t(:label_no_change_option), value: '') +
+                                      content_tag('option', t(:label_nobody), value: 'none') +
+                                      options_from_collection_for_select(Principal.possible_assignee(@target_project), :id, :name)) %>
+            </div>
+          </div>
+          <div class="form--field">
+            <%= styled_label_tag :budget_id, Budget.model_name.human %>
+            <%= styled_select_tag('budget_id', (@target_project == @project ? content_tag('option', t(:label_no_change_option), :value => '') : "") +
+              content_tag('option', t(:label_none), :value => 'none') +
+              options_from_collection_for_select(@target_project.budgets, :id, :subject)) %>
+          </div>
         </div>
-      </fieldset>
-      <fieldset class="form--fieldset">
-        <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
-        <%= label_tag 'notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
-        <%= styled_text_area_tag 'notes', @notes, cols: 60, rows: 10, class: 'wiki-edit', with_text_formatting: true %>
-      </fieldset>
-      <%= call_hook(:view_work_packages_move_bottom, work_packages: @work_packages, target_project: @target_project, copy: !!@copy) %>
-    </section>
+        <div class="grid-content medium-6">
+          <div class="form--field">
+            <label class="form--label" for='start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
+            <div class="form--field-container -visible-overflow">
+              <%= angular_component_tag 'op-basic-single-date-picker',
+                                        inputs: {
+                                          id: "start_date",
+                                          name: "start_date"
+                                        }
+              %>
+            </div>
+          </div>
+          <div class="form--field">
+            <label class="form--label" for='due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
+            <div class="form--field-container -visible-overflow">
+              <%= angular_component_tag 'op-basic-single-date-picker',
+                                        inputs: {
+                                          id: "due_date",
+                                          name: "due_date"
+                                        }
+              %>
+            </div>
+          </div>
+          <% if @target_type %>
+            <% @target_type.custom_fields.required.each do |custom_field| %>
+              <div class="form--field">
+                <%= blank_custom_field_label_tag('', custom_field) %>
+                <div class="form--field-container">
+                  <%= custom_field_tag_for_bulk_edit('', custom_field, @project) %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
+      <%= label_tag 'notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
+      <%= styled_text_area_tag 'notes', @notes, cols: 60, rows: 10, class: 'wiki-edit', with_text_formatting: true %>
+    </fieldset>
+    <%= call_hook(:view_work_packages_move_bottom, work_packages: @work_packages, target_project: @target_project, copy: !!@copy) %>
+  </section>
   <% if @copy %>
     <%= hidden_field_tag("copy") %>
     <%= styled_submit_tag t(:button_copy), class: '-primary' %>

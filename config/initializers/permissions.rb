@@ -95,7 +95,6 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/general": %i[show],
                        "projects/settings/storage": %i[show],
-                       projects: %i[deactivate_work_package_attachments],
                        "projects/templated": %i[create destroy],
                        "projects/identifier": %i[show update]
                      },
@@ -186,6 +185,16 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :global,
                      require: :loggedin,
                      grant_to_admin: true
+
+      map.permission :view_project_query,
+                     {},
+                     permissible_on: :project_query,
+                     require: :loggedin
+
+      map.permission :edit_project_query,
+                     {},
+                     permissible_on: :project_query,
+                     require: :loggedin
     end
 
     map.project_module :work_package_tracking, order: 90 do |wpt|

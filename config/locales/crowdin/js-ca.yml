@@ -102,7 +102,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitzar"
+    button_update: "Actualitza"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -150,6 +150,7 @@ ca:
         attribute_reference:
           macro_help_tooltip: "Aquest segment de text s'està presentant dinàmicament per una macro."
           not_found: "El recurs sol·licitat no s'ha trobat"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "L'atribut seleccionat \"%{name}\" no existeix."
         child_pages:
           button: "Enllaços a pàgines filles"
@@ -776,7 +777,7 @@ ca:
           label: "Pausa els correu electrònic recordatori temporalment"
           first_day: "Primer dia"
           last_day: "Últim dia"
-    text_are_you_sure: "N'estas segur?"
+    text_are_you_sure: "N'esteu segur?"
     text_data_lost: "Totes les dades entrades es perdran."
     text_user_wrote: "%{value} va escriure:"
     types:

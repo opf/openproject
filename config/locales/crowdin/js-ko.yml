@@ -150,6 +150,7 @@ ko:
         attribute_reference:
           macro_help_tooltip: "이 텍스트 세그먼트는 매크로에 의해 동적으로 렌더링되고 있습니다."
           not_found: "요청한 리소스를 찾을 수 없습니다."
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "선택한 특성 '%{name}'이(가) 없습니다."
         child_pages:
           button: "자식 페이지의 링크"

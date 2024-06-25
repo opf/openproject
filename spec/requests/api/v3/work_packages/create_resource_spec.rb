@@ -109,7 +109,7 @@ RSpec.describe "API v3 Work package resource",
     end
 
     it "returns Created(201)" do
-      expect(last_response.status).to eq(201)
+      expect(last_response).to have_http_status(:created)
     end
 
     it "creates a work package" do
@@ -132,7 +132,7 @@ RSpec.describe "API v3 Work package resource",
       let(:current_user) { create(:user) }
 
       it "hides the endpoint" do
-        expect(last_response.status).to eq(403)
+        expect(last_response).to have_http_status(:forbidden)
       end
     end
 
@@ -142,7 +142,7 @@ RSpec.describe "API v3 Work package resource",
       let(:permissions) { [:view_project] }
 
       it "points out the missing permission" do
-        expect(last_response.status).to eq(403)
+        expect(last_response).to have_http_status(:forbidden)
       end
     end
 

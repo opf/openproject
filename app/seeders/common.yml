@@ -239,6 +239,22 @@ open_color_palette:
       - "#e8590c"
       - "#d9480f"
 
+project_query_roles:
+  - reference: :default_role_project_query_view
+    t_name: Project query viewer
+    position: 10
+    builtin: :project_query_view
+    permissions:
+      - :view_project_query
+
+  - reference: :default_role_project_query_edit
+    t_name: Project query editor
+    position: 11
+    builtin: :project_query_edit
+    permissions:
+      - :view_project_query
+      - :edit_project_query
+
 work_package_roles:
   - reference: :default_role_work_package_editor
     t_name: Work package editor

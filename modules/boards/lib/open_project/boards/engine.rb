@@ -28,7 +28,8 @@ module OpenProject::Boards
              settings: {} do
       project_module :board_view, dependencies: :work_package_tracking, order: 80 do
         permission :show_board_views,
-                   { "boards/boards": %i[index show] },
+                   { "boards/boards": %i[index show],
+                     "boards/menus": %i[show] },
                    permissible_on: :project,
                    dependencies: :view_work_packages,
                    contract_actions: { boards: %i[read] }
@@ -44,13 +45,13 @@ module OpenProject::Boards
            { controller: "/boards/boards", action: :index },
            caption: :"boards.label_boards",
            after: :work_packages,
-           icon: "boards"
+           icon: "op-boards"
 
       menu :project_menu,
            :board_menu,
            { controller: "/boards/boards", action: :index },
            parent: :boards,
-           partial: "boards/boards/menu_board",
+           partial: "boards/menus/menu",
            last: true,
            caption: :"boards.label_boards"
 
@@ -61,12 +62,12 @@ module OpenProject::Boards
 
       menu :top_menu,
            :boards,
-           { controller: "/boards/boards", action: "index" },
+           { controller: "/boards/boards", action: "index", project_id: nil },
            context: :modules,
            caption: :project_module_board_view,
            before: :news,
            after: :team_planners,
-           icon: "boards",
+           icon: "op-boards",
            if: should_render_global_menu_item
 
       menu :global_menu,
@@ -75,7 +76,7 @@ module OpenProject::Boards
            caption: :project_module_board_view,
            before: :news,
            after: :team_planners,
-           icon: "boards",
+           icon: "op-boards",
            if: should_render_global_menu_item
     end
 

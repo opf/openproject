@@ -29,14 +29,14 @@
 require "spec_helper"
 
 RSpec.describe "Top menu item for boards", :js, :with_cuprite do
-  let(:user) { create(:admin) }
+  shared_let(:admin) { create(:admin) }
+  shared_let(:user) { create(:user) }
+  shared_let(:project) { create(:project) }
 
   let(:menu) { find(".op-app-menu a[title='#{I18n.t('label_modules')}']") }
   let(:boards) { I18n.t("boards.label_boards") }
 
-  before do
-    allow(User).to receive(:current).and_return user
-  end
+  current_user { admin }
 
   shared_examples_for "the boards menu item" do
     it "sends the user to the boards overview when clicked" do
@@ -52,8 +52,6 @@ RSpec.describe "Top menu item for boards", :js, :with_cuprite do
   end
 
   context "when in the project settings" do
-    let!(:project) { create(:project) }
-
     before do
       visit "/projects/#{project.identifier}/settings/general"
     end
@@ -69,7 +67,7 @@ RSpec.describe "Top menu item for boards", :js, :with_cuprite do
     it_behaves_like "the boards menu item"
 
     context "with missing permissions" do
-      let(:user) { create(:user) }
+      current_user { user }
 
       it "does not display the menu item" do
         within "#more-menu", visible: false do

@@ -75,7 +75,7 @@ RSpec.describe(
            permissions: %i[copy_projects
                            view_work_packages
                            work_package_assigned
-                           manage_storages_in_project
+                           manage_files_in_project
                            manage_file_links])
   end
   shared_let(:new_project_role) { create(:project_role, permissions: %i[]) }
@@ -188,9 +188,9 @@ RSpec.describe(
           end
         end
 
-        context 'with disabled project custom fields with default value' do
-          it 'is still disabled in the copy' do
-            create(:text_project_custom_field, default_value: 'default value')
+        context "with disabled project custom fields with default value" do
+          it "is still disabled in the copy" do
+            create(:text_project_custom_field, default_value: "default value")
 
             expect(subject).to be_success
 

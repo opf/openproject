@@ -151,6 +151,7 @@ ja:
         attribute_reference:
           macro_help_tooltip: "このテキストセグメントはマクロによって動的にレンダリングされています。"
           not_found: "要求されたリソースが見つかりませんでした"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "選択した属性 '%{name}' は存在しません。"
         child_pages:
           button: "子ページへのリンク"

@@ -150,6 +150,7 @@ lt:
         attribute_reference:
           macro_help_tooltip: "Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos."
           not_found: "Reikalaujamas resursas nerastas"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Pasirinktas atributas „%{name}“ neegzistuoja."
         child_pages:
           button: "Nuorodos į vaikų puslapius"

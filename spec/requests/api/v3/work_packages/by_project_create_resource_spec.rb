@@ -99,7 +99,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
   end
 
   it "returns Created(201)" do
-    expect(last_response.status).to eq(201)
+    expect(last_response).to have_http_status(:created)
   end
 
   it "creates a work package" do
@@ -114,7 +114,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
     let(:current_user) { create(:user) }
 
     it "hides the endpoint" do
-      expect(last_response.status).to eq(404)
+      expect(last_response).to have_http_status(:not_found)
     end
   end
 
@@ -124,7 +124,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
     let(:permissions) { [:view_project] }
 
     it "points out the missing permission" do
-      expect(last_response.status).to eq(403)
+      expect(last_response).to have_http_status(:forbidden)
     end
   end
 

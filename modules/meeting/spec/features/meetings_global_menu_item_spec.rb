@@ -36,6 +36,7 @@ RSpec.describe "Meetings global menu item",
                :with_cuprite do
   shared_let(:user_without_permissions) { create(:user) }
   shared_let(:admin) { create(:admin) }
+  shared_let(:project) { create(:project) }
   shared_let(:meetings_label) { I18n.t(:label_meeting_plural) }
 
   let(:meetings_page) { Pages::Meetings::Index.new(project: nil) }

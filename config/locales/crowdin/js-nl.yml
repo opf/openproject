@@ -150,6 +150,7 @@ nl:
         attribute_reference:
           macro_help_tooltip: "Dit tekstsegment wordt dynamisch weergegeven door een macro."
           not_found: "Gevraagde bron kan niet worden gevonden"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Het geselecteerde attribuut '%{name}' bestaat niet."
         child_pages:
           button: "Links naar onderliggende pagina 's"

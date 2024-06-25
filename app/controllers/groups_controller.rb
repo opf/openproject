@@ -31,6 +31,8 @@ class GroupsController < ApplicationController
   layout "admin"
 
   before_action :require_admin, except: %i[show]
+  no_authorization_required! :show
+
   before_action :find_group, only: %i[destroy update show create_memberships destroy_membership
                                       edit_membership add_users]
 
@@ -153,7 +155,8 @@ class GroupsController < ApplicationController
   end
 
   def visible_group_members?
-    current_user.allowed_in_any_project?(:manage_members) ||
+    current_user.admin? ||
+      current_user.allowed_in_any_project?(:manage_members) ||
       Group.in_project(Project.allowed_to(current_user, :view_members)).exists?
   end
 

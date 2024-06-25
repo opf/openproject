@@ -1,8 +1,8 @@
-ARG RUBY_VERSION="3.3.2"
+ARG RUBY_VERSION="3.3.3"
 FROM ruby:${RUBY_VERSION}-bookworm as base
 LABEL maintainer="operations@openproject.com"
 
-ARG BUNDLER_VERSION="2.5.11"
+ARG BUNDLER_VERSION="2.5.13"
 ARG NODE_VERSION="20.9.0"
 ARG BIM_SUPPORT=true
 ENV DEBIAN_FRONTEND=noninteractive

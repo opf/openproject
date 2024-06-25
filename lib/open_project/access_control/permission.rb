@@ -84,8 +84,33 @@ module OpenProject
         permissible_on? :global
       end
 
+      def project_query?
+        permissible_on? :project_query
+      end
+
       def permissible_on?(context_type)
-        @permissible_on.include?(context_type)
+        # Sometimes the context_type passed in is a decorated object.
+        # Most of the times, this would then be an 'EagerLoadingWrapper' instance.
+        # We need to unwrap the object to get the actual object.
+        # Checking for `context_type.is_a?(SimpleDelegator)` fails for unknown reasons.
+        context_type = context_type.__getobj__ if context_type.class.ancestors.include?(SimpleDelegator)
+
+        context_symbol = case context_type
+                         when WorkPackage
+                           :work_package
+                         when Project
+                           :project
+                         when ::Queries::Projects::ProjectQuery
+                           :project_query
+                         when Symbol
+                           context_type
+                         when nil
+                           :global
+                         else
+                           raise "Unknown context: #{context_type}"
+                         end
+
+        @permissible_on.include?(context_symbol)
       end
 
       def grant_to_admin?

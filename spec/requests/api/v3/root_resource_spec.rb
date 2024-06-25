@@ -59,7 +59,7 @@ RSpec.describe "API v3 Root resource" do
 
       context "when not login_required", with_settings: { login_required: false } do
         it "responds with 200", :aggregate_failures do
-          expect(response.status).to eq(200)
+          expect(response).to have_http_status(:ok)
           expect(subject).to have_json_path("instanceName")
         end
       end
@@ -73,7 +73,7 @@ RSpec.describe "API v3 Root resource" do
       end
 
       it "responds with 200" do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it "responds with a root representer" do
@@ -82,7 +82,7 @@ RSpec.describe "API v3 Root resource" do
 
       context "without the X-requested-with header", :skip_xhr_header do
         it "returns OK because GET requests are allowed" do
-          expect(response.status).to eq(200)
+          expect(response).to have_http_status(:ok)
           expect(subject).to have_json_path("instanceName")
         end
       end

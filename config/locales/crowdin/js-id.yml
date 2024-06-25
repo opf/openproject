@@ -102,7 +102,7 @@ id:
     button_save: "Simpan"
     button_settings: "Pengaturan"
     button_uncheck_all: "Uncek semua"
-    button_update: "Perbarui"
+    button_update: "Update"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     button_create: "Buat baru"
@@ -150,6 +150,7 @@ id:
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: "Tautkan ke anak halaman"

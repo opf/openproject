@@ -28,9 +28,9 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_member_plural) -%>
 
-<div data-controller="members-form"
-     data-application-target="dynamic">
+<% content_controller "members-form", dynamic: true %>
 
+<% content_for :content_header do %>
   <%= render ::Members::IndexPageHeaderComponent.new(project: @project) %>
   <%= render ::Members::IndexSubHeaderComponent.new(project: @project, filter_options: @members_filter_options) %>
 
@@ -47,8 +47,8 @@ See COPYRIGHT and LICENSE files for more details.
       <%= link_to I18n.t('button_back'), :back, class: 'button' %>
     <% end %>
   </div>
+<% end %>
 
-  <div>
-    <%= render ::Members::TableComponent.new(rows: @members, **@members_table_options) %>
-  </div>
+<div>
+  <%= render ::Members::TableComponent.new(rows: @members, **@members_table_options) %>
 </div>

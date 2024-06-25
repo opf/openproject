@@ -461,6 +461,7 @@ ko:
         is_readonly: "읽기 전용"
         excluded_from_totals: "합계에서 제외됨"
   themes:
+    dark: "Dark"
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
   types:
@@ -507,6 +508,10 @@ ko:
     move:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: "여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다."
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "작업 패키지 공유에 대한 워크플로 누락"
@@ -2695,6 +2700,8 @@ ko:
   permission_manage_public_bcf_queries: "공용 BCF 쿼리 관리"
   permission_edit_attribute_help_texts: "특성 도움말 텍스트 편집"
   permission_manage_public_project_queries: "공개 프로젝트 목록 관리"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

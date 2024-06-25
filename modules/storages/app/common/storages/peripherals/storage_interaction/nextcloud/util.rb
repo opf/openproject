@@ -54,6 +54,13 @@ module Storages
               { headers: { "Depth" => number } }
             end
 
+            def storage_error(response:, code:, source:, log_message: nil)
+              # Some errors, like timeouts, aren't json responses so we need to adapt
+              data = StorageErrorData.new(source:, payload: response.to_s)
+
+              StorageError.new(code:, data:, log_message:)
+            end
+
             def error(code, log_message = nil, data = nil)
               ServiceResult.failure(
                 result: code, # This is needed to work with the ConnectionManager token refresh mechanism.

@@ -467,6 +467,7 @@ fr:
         is_readonly: "Lecture seule"
         excluded_from_totals: "Exclus des totaux"
   themes:
+    dark: "Dark"
     light: "Clair"
     light_high_contrast: "Clair avec contraste élevé"
   types:
@@ -514,6 +515,10 @@ fr:
     move:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: "Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "Flux de travail manquant pour le partage de lots de travaux"
@@ -2731,6 +2736,8 @@ fr:
   permission_manage_public_bcf_queries: "Gérer les requêtes publiques BCF"
   permission_edit_attribute_help_texts: "Modifier les textes d'aide des attributs"
   permission_manage_public_project_queries: "Gérer les listes de projets publics"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

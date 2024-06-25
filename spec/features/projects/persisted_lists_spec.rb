@@ -292,8 +292,14 @@ RSpec.describe "Persisted lists on projects index page",
 
     it "allows saving static query as user list" do
       projects_page.open_filters
+
       projects_page.filter_by_membership("yes")
+      projects_page.expect_projects_listed(project, development_project)
+      projects_page.expect_projects_not_listed(public_project)
+
       projects_page.set_columns("Name")
+      projects_page.expect_columns("Name")
+
       projects_page.save_query_as("My saved query")
 
       # It will be displayed in the sidebar
@@ -506,6 +512,30 @@ RSpec.describe "Persisted lists on projects index page",
         .to have_no_text(another_users_projects_list.name)
       expect(page)
         .to have_text("You are not authorized to access this page.")
+    end
+
+    it "can search for a query in the sidebar" do
+      # Go to the persisted query
+      visit projects_path(query_id: my_projects_list.id)
+      projects_page.expect_sidebar_filter("My projects list", selected: true)
+
+      # In the sidebar, search for a substring
+      projects_page.search_for_sidebar_filter("My proj")
+
+      # Only matches are still shown and the selection state is kept
+      projects_page.expect_sidebar_filter("My projects list", selected: true, visible: true)
+      projects_page.expect_sidebar_filter("My projects", selected: false, visible: true)
+
+      projects_page.expect_sidebar_filter("Active projects", selected: false, visible: false)
+
+      # In the sidebar, search for another substring
+      projects_page.search_for_sidebar_filter("DO NOT MATCH")
+
+      projects_page.expect_sidebar_filter("My projects list", selected: true, visible: false)
+      projects_page.expect_sidebar_filter("My projects", selected: false, visible: false)
+      projects_page.expect_sidebar_filter("Active projects", selected: false, visible: false)
+
+      projects_page.expect_no_search_results_in_sidebar
     end
   end
 

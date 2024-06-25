@@ -42,6 +42,7 @@ module Storages
       user = batch.properties[:user]
 
       project_folder_result = results_from_polling || initiate_copy(target)
+      project_folder_result.on_failure { |failed| return log_failure(failed) }
 
       ProjectStorages::UpdateService.new(user:, model: target)
                                     .call(project_folder_id: project_folder_result.result.id,
@@ -95,7 +96,16 @@ module Storages
     def log_failure(failed)
       return if failed.success?
 
-      OpenProject.logger.warn failed.errors.inspect.to_s
+      if failed.errors.is_a? StorageError
+        errors = failed.errors.to_active_model_errors.full_messages
+        batch.properties[:errors].push(*errors)
+      else
+        batch.properties[:errors].push(*failed.errors.to_s)
+      end
+
+      batch.save
+
+      OpenProject.logger.warn failed.errors.to_s
     end
 
     def polling_info

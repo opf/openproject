@@ -45,9 +45,9 @@ div.autocomplete
       padding: 2px
       cursor: pointer
       font-size: 90%
-      border: 1px solid var(--borderColor-muted)
-      border-left: 1px solid var(--borderColor-muted)
-      border-right: 1px solid var(--borderColor-muted)
+      border: 1px solid var(--borderColor-default)
+      border-left: 1px solid var(--borderColor-default)
+      border-right: 1px solid var(--borderColor-default)
       background-color: white
       &.selected
         background-color: #ffb
@@ -96,9 +96,23 @@ div.autocomplete
         -webkit-box-sizing: border-box !important
         -moz-box-sizing: border-box !important
         box-sizing: border-box !important
+
   .ng-value
     @include text-shortener
     line-height: 22px
+
+// Override some basic styles to ensure that ngSelect matches the current theme
+.ng-select-container,
+.ng-option:not(.ng-option-marked),
+.ng-dropdown-panel,
+.ng-dropdown-panel-items,
+.ng-dropdown-footer
+  background-color: var(--body-background) !important
+  color: var(--body-font-color) !important
+  border-color: var(--borderColor-default) !important
+
+.ng-select-container
+  background-color: transparent !important
 
 .ng-select .ng-arrow-wrapper .ng-arrow
   border-color: var(--fgColor-muted) transparent transparent
@@ -137,7 +151,9 @@ div.autocomplete
     margin-right: 8px
 
   &.ng-option-marked
-    background-color: $spot-color-basic-gray-6 !important
+    background-color: var(--control-transparent-bgColor-hover) !important
+    border-color: var(--list-item-hover--border-color) !important
+    color: var(--list-item-hover--color) !important
 
 .ng-dropdown-footer
   padding: 0 !important

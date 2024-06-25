@@ -106,9 +106,9 @@ RSpec.describe "Work Package boards spec", :js, with_ee: %i[board_view] do
 
     page.find_test_selector("main-menu-toggler--boards", wait: 10).click
 
-    subitem = page.find_test_selector("op-sidemenu--item-action--Myboard", wait: 10)
+    subitem = page.find_test_selector("op-sidemenu--item-action", text: "My board", wait: 10)
     # Ends with boards due to lazy route
-    expect(subitem[:href]).to end_with project_work_package_boards_path(project)
+    expect(subitem[:href]).to end_with project_work_package_board_path(project, board_view.id)
 
     subitem.click
 

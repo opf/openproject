@@ -4,6 +4,18 @@
   flex-direction: column
   overflow: hidden
 
+  &--search
+    margin: 12px
+    color: var(--main-menu-font-color)
+    display: flex
+    flex-direction: column
+    row-gap: 16px
+
+  &--search-input
+    // Overriding the defult input styles, because of the default dark background of the sidebar
+    color: var(--main-menu-font-color) !important
+    border-color: var(--borderColor-muted) !important
+
   &--body
     flex-grow: 1
     overflow: auto

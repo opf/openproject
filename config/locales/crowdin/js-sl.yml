@@ -150,6 +150,7 @@ sl:
         attribute_reference:
           macro_help_tooltip: "Ta del besedla je izveden dinamično s pomočjo makroprograma."
           not_found: "Zahtevanega vira ni mogoče najti"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Izbrana lastnost '%{name}' ne obstaja."
         child_pages:
           button: "Povezave do podrejenih strani"

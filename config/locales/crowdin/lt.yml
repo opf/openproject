@@ -477,6 +477,7 @@ lt:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
+    dark: "Dark"
     light: "Šviesi"
     light_high_contrast: "Šviesi kontrastinga"
   types:
@@ -526,6 +527,10 @@ lt:
     move:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
       unsupported_for_multiple_projects: "Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "Darbo paketo dalinimuisi trūksta darbo proceso"
@@ -2797,6 +2802,8 @@ lt:
   permission_manage_public_bcf_queries: "Valdyti viešas BCF užklausas"
   permission_edit_attribute_help_texts: "Keisti atributų pagalbos tekstus"
   permission_manage_public_project_queries: "Manage public project lists"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:

@@ -27,7 +27,7 @@ cs:
       budget:
         author: "Autor"
         available: "Dostupné"
-        budget: "Plánované"
+        budget: "Rozpočet"
         budget_ratio: "Stráveno (poměr)"
         description: "Popis"
         spent: "Strávený čas"

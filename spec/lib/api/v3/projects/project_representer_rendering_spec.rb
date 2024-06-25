@@ -39,6 +39,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, "rendering" do
                   parent: parent_project,
                   description: "some description").tap do |p|
       allow(p).to receive_messages(available_custom_fields: [int_custom_field, version_custom_field],
+                                   all_available_custom_fields: [int_custom_field, version_custom_field],
                                    ancestors_from_root: ancestors)
 
       allow(p)

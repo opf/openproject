@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'support/components/common/modal'
-require 'support/components/autocompleter/ng_select_autocomplete_helpers'
+require "support/components/common/modal"
+require "support/components/autocompleter/ng_select_autocomplete_helpers"
 
 module Components
   module Projects
@@ -71,7 +71,7 @@ module Components
 
         def close_via_button
           within(dialog_css_selector) do
-            click_link_or_button 'Cancel'
+            click_link_or_button "Cancel"
           end
         end
 
@@ -96,8 +96,8 @@ module Components
         ###
 
         def input_containers
-          within '#project-section-edit-form > .FormControl-spacingWrapper' do
-            page.all('.FormControl-spacingWrapper')
+          within "#project-section-edit-form > .FormControl-spacingWrapper" do
+            page.all(".FormControl-spacingWrapper")
           end
         end
 

@@ -8,7 +8,6 @@ require:
   - rubocop-capybara
   - rubocop-factory_bot
   - rubocop-performance
-  - rubocop-inflector
   - ./config/initializers/inflections.rb
 
 <% if File.exist?('.rubocop-local.yml') %>

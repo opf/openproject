@@ -46,7 +46,7 @@ pl:
   permission_delete_files_explanation: To uprawnienie jest dostępne tylko dla magazynów Nextcloud
   permission_header_for_project_module_storages: Automatycznie zarządzane foldery projektu
   permission_manage_file_links: Zarządzaj linkami do plików
-  permission_manage_storages_in_project: Zarządzaj magazynami plików w projekcie
+  permission_manage_files_in_project: Zarządzaj plikami w projekcie
   permission_read_files: 'Automatycznie zarządzane foldery projektu: odczyt plików'
   permission_share_files: 'Automatycznie zarządzane foldery projektu: udostępnianie plików'
   permission_share_files_explanation: To uprawnienie jest dostępne tylko dla magazynów Nextcloud

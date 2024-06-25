@@ -28,14 +28,13 @@
 
 class Widget::Controls::SaveAs < Widget::Controls
   def render
-    if @subject.new_record?
-      link_name = I18n.t(:button_save)
-      icon = "icon-save"
-    else
-      link_name = I18n.t(:button_save_as)
-      icon = "icon-save"
-    end
-    button = link_to(link_name, "#", id: "query-icon-save-as", class: "button icon-context #{icon}")
+    link_name =
+      if @subject.new_record?
+        I18n.t(:button_save)
+      else
+        I18n.t(:button_save_as)
+      end
+    button = link_to(link_name, "#", id: "query-icon-save-as", class: "button icon-context icon-save")
     write(button + render_popup)
   end
 
@@ -43,12 +42,13 @@ class Widget::Controls::SaveAs < Widget::Controls
     "#{super}#{@subject.name}"
   end
 
+  # rubocop:disable Metrics/AbcSize
   def render_popup_form
     name = content_tag :p,
                        class: "form--field -required -wide-label" do
       label_tag(:query_name,
                 class: "form--label -transparent") do
-        Query.human_attribute_name(:name).html_safe
+        Query.human_attribute_name(:name)
       end +
         content_tag(:span,
                     class: "form--field-container") do
@@ -81,6 +81,7 @@ class Widget::Controls::SaveAs < Widget::Controls
       name
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def render_popup_buttons
     save_url_params = { action: "create", set_filter: "1" }
