@@ -33,7 +33,7 @@ module Shares
     include OpPrimer::ComponentHelpers
 
     def self.wrapper_key
-      "work_package_share_list"
+      "share_list"
     end
   end
 end

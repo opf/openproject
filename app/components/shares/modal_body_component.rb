@@ -54,7 +54,7 @@ module Shares
     end
 
     def self.wrapper_key
-      "work_package_share_list"
+      "share_list"
     end
 
     private
