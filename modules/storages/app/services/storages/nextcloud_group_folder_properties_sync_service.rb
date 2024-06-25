@@ -191,7 +191,7 @@ module Storages
           rename_folder(project_storage.project_folder_id, target_folder_name).on_failure do |service_result|
             format_and_log_error(service_result.errors,
                                  folder_id: project_storage.project_folder_id,
-                                 folder_name: current_path)
+                                 folder_name: target_folder_name)
 
             # we need to stop as this would mess with the other processes
             return service_result
