@@ -186,10 +186,9 @@ Rails.application.configure do
     config.host_authorization = {
       exclude: ->(request) do
         base = OpenProject::Configuration["rails_relative_url_root"]
-        request.path.start_with?("#{base}/health_check") ||
-          request.path.start_with?("#{base}/sys")
+        request.path.start_with?("#{base}/health_check", "#{base}/sys")
       end,
-      response_app: -> env do
+      response_app: -> do
         [400, { "Content-Type" => "text/plain" }, ["Invalid host_name configuration"]]
       end
     }
