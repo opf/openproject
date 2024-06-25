@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 2 # we are comparing PR merge head with base
+          fetch-depth: 10 # we are comparing PR merge head with base
       - uses: ruby/setup-ruby@v1
       - uses: opf/action-rubocop@correct-pipefail
         with:
