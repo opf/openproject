@@ -69,8 +69,11 @@ module Storages
             end
 
             def join_uri_path(uri, *)
-              joined = File.join(uri.to_s, *)
-              joined.tr("\\", "/")
+              # We use `File.join` to ensure single `/` in between every part. This API will break if executed on a
+              # Windows context, as it used `\` as file separators. But we anticipate that OpenProject
+              # Server is not run on a Windows context.
+              # URI::join cannot be used, as it behaves very different for the path parts depending on trailing slashes.
+              File.join(uri.to_s, *)
             end
 
             def token(user:, configuration:, &)
