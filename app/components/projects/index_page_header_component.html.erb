@@ -1,7 +1,7 @@
 <% if show_state? %>
   <%=
     render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title }
+      header.with_title(data: { 'test-selector': 'project-query-name' }) { page_title }
       header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
 
       if can_save?
@@ -21,6 +21,13 @@
         )
       end
 
+      header.with_action_icon_button(
+        icon: "share-android",
+        mobile_icon: "share-android",
+        label: t(:label_share),
+        data: { show_dialog_id: Projects::ExportListModalComponent::MODAL_ID }
+      )
+
       header.with_action_menu(menu_arguments: {
         anchor_align: :end
       },
@@ -28,7 +35,7 @@
                                 icon: "op-kebab-vertical",
                                 "aria-label": t(:label_more),
                                 data: { "test-selector": "project-more-dropdown-menu" }
-                              })  do |menu|
+                              }) do |menu|
         if can_rename?
           menu.with_item(
             label: t('button_rename'),
@@ -130,7 +137,7 @@
 <% else %>
   <%=
     render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title(data: { 'test-selector': 'project-query-name'}) do
+      header.with_title(data: { 'test-selector': 'project-query-name' }) do
         primer_form_with(model: query,
                          url: @query.new_record? ? project_queries_path(projects_query_params) : project_query_path(@query, projects_query_params),
                          scope: 'query',
