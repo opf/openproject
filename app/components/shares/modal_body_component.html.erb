@@ -29,12 +29,12 @@
                     render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
                                                          select_variant: :single,
                                                          dynamic_label: true,
-                                                         dynamic_label_prefix: I18n.t('work_package.sharing.filter.type'),
+                                                         dynamic_label_prefix: I18n.t('sharing.filter.type'),
                                                          color: :muted,
                                                          data: { 'test-selector': 'op-share-dialog-filter-type' })) do |menu|
                       menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-dialog-filter-type-button' }) do |button|
                         button.with_trailing_action_icon(icon: "triangle-down")
-                        I18n.t('work_package.sharing.filter.type')
+                        I18n.t('sharing.filter.type')
                       end
                       type_filter_options.each do |option|
                         menu.with_item(label: option[:label],
@@ -51,12 +51,12 @@
                     render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
                                                          select_variant: :single,
                                                          dynamic_label: true,
-                                                         dynamic_label_prefix: I18n.t('work_package.sharing.filter.role'),
+                                                         dynamic_label_prefix: I18n.t('sharing.filter.role'),
                                                          color: :muted,
                                                          data: { 'test-selector': 'op-share-dialog-filter-role' })) do |menu|
                       menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-dialog-filter-role-button' }) do |button|
                         button.with_trailing_action_icon(icon: "triangle-down")
-                        I18n.t('work_package.sharing.filter.role')
+                        I18n.t('sharing.filter.role')
                       end
                       @available_roles.each do |role_hash|
                         menu.with_item(label: role_hash[:label],
@@ -87,7 +87,7 @@
                       render(Primer::Beta::IconButton.new(icon: "trash",
                                                           type: :submit,
                                                           scheme: :danger,
-                                                          "aria-label": I18n.t('work_package.sharing.remove'),
+                                                          "aria-label": I18n.t('sharing.remove'),
                                                           test_selector: 'op-share-dialog--bulk-remove'))
                     end
                   )

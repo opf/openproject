@@ -75,12 +75,12 @@ module Shares
       @blankslate_config ||= {}.tap do |config|
         if params[:filters].blank?
           config[:icon] = :people
-          config[:heading_text] = I18n.t("work_package.sharing.text_empty_state_header")
-          config[:description_text] = I18n.t("work_package.sharing.text_empty_state_description")
+          config[:heading_text] = I18n.t("sharing.text_empty_state_header")
+          config[:description_text] = I18n.t("sharing.text_empty_state_description", entity: @entity.class.model_name.human)
         else
           config[:icon] = :search
-          config[:heading_text] = I18n.t("work_package.sharing.text_empty_search_header")
-          config[:description_text] = I18n.t("work_package.sharing.text_empty_search_description")
+          config[:heading_text] = I18n.t("sharing.text_empty_search_header")
+          config[:description_text] = I18n.t("sharing.text_empty_search_description")
         end
       end
     end
@@ -88,19 +88,19 @@ module Shares
     def type_filter_options
       if project_scoped_entity?
         [
-          { label: I18n.t("work_package.sharing.filter.project_member"),
+          { label: I18n.t("sharing.filter.project_member"),
             value: { principal_type: "User", project_member: true } },
-          { label: I18n.t("work_package.sharing.filter.not_project_member"),
+          { label: I18n.t("sharing.filter.not_project_member"),
             value: { principal_type: "User", project_member: false } },
-          { label: I18n.t("work_package.sharing.filter.project_group"),
+          { label: I18n.t("sharing.filter.project_group"),
             value: { principal_type: "Group", project_member: true } },
-          { label: I18n.t("work_package.sharing.filter.not_project_group"),
+          { label: I18n.t("sharing.filter.not_project_group"),
             value: { principal_type: "Group", project_member: false } }
         ]
       else
         [
-          { label: "User", value: { principal_type: "User" } },
-          { label: "Group", value: { principal_type: "Group" } }
+          { label: I18n.t("sharing.filter.user"), value: { principal_type: "User" } },
+          { label: I18n.t("sharing.filter.group"), value: { principal_type: "Group" } }
         ]
 
       end

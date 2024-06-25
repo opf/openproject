@@ -2,7 +2,7 @@
   concat(
     render(Primer::Alpha::CheckBox.new(name: 'toggle_all',
                                        value: nil,
-                                       label: I18n.t('work_package.sharing.label_toggle_all'),
+                                       label: I18n.t('sharing.label_toggle_all'),
                                        visually_hide_label: true,
                                        data: { 'shares--bulk-selection-target': 'toggleAll',
                                                action: 'shares--bulk-selection#toggle' }))
@@ -10,7 +10,7 @@
 
   concat(
     render(Primer::Beta::Text.new(ml: 2, data: { 'shares--bulk-selection-target': 'sharedCounter' })) do
-      I18n.t('work_package.sharing.count', count:)
+      I18n.t('sharing.count', count:)
     end
   )
 

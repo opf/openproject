@@ -3,7 +3,7 @@
     grid_layout(grid_css_classes, tag: :div, align_items: :center, classes: 'ellipsis') do |user_row_grid|
       user_row_grid.with_area(:selection, tag: :div) do
         if share_editable?
-          render(Primer::Alpha::CheckBox.new(name: "share_ids", value: share.id, label: "#{principal.name}",
+          render(Primer::Alpha::CheckBox.new(name: "share_ids", value: share.id, label: principal.name,
                                                     visually_hide_label: true, scheme: :array,
                                                     data: {
                                                       'shares--bulk-selection-target': 'shareCheckbox',
@@ -32,7 +32,7 @@
             render(Primer::Beta::IconButton.new(icon: "trash",
                                                 type: :submit,
                                                 scheme: :danger,
-                                                "aria-label": I18n.t('work_package.sharing.remove'),
+                                                "aria-label": I18n.t('sharing.remove'),
                                                 test_selector: 'op-share-dialog--remove'))
           end
         end

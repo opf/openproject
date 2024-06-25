@@ -29,7 +29,7 @@
 # ++
 
 module Shares
-  class CounterComponent < ApplicationComponent
+  class CounterComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers

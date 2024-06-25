@@ -314,17 +314,18 @@ class SharesController < ApplicationController
   end
 
   def available_roles
-    # TODO: Optimize loading of roles
-    if @entity.is_a?(WorkPackage)
+    @available_roles ||= if @entity.is_a?(WorkPackage)
+      role_mapping = WorkPackageRole.unscoped.pluck(:builtin, :id).to_h
+
       [
-        { label: I18n.t("work_package.sharing.permissions.edit"),
-          value: WorkPackageRole.find_by(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR).id,
+        { label: I18n.t("work_package.permissions.edit"),
+          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_EDITOR],
           description: I18n.t("work_package.sharing.permissions.edit_description") },
-        { label: I18n.t("work_package.sharing.permissions.comment"),
-          value: WorkPackageRole.find_by(builtin: Role::BUILTIN_WORK_PACKAGE_COMMENTER).id,
-          description: I18n.t("work_package.sharing.permissions.comment_description") },
+        { label: I18n.t("work_package.permissions.comment"),
+          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_COMMENTER],
+          description: I18n.t("work_package.permissions.comment_description") },
         { label: I18n.t("work_package.sharing.permissions.view"),
-          value: WorkPackageRole.find_by(builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER).id,
+          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_VIEWER],
           description: I18n.t("work_package.sharing.permissions.view_description"),
           default: true }
       ]

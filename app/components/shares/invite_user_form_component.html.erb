@@ -27,7 +27,7 @@
 
           invite_form.with_area('submit') do
             render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do
-              I18n.t('work_package.sharing.share')
+              I18n.t('sharing.share')
             end
           end
 
@@ -44,8 +44,9 @@
                 user_limit_row.with_column do
                   render(Primer::Beta::Text.new(color: :danger)) do
                     I18n.t(
-                      "work_package.sharing.warning_user_limit_reached#{'_admin' if User.current.admin?}",
-                      upgrade_url: OpenProject::Enterprise.upgrade_url
+                      "sharing.warning_user_limit_reached#{'_admin' if User.current.admin?}",
+                      upgrade_url: OpenProject::Enterprise.upgrade_url,
+                      entity: @entity.model_name.human
                     ).html_safe
                   end
                 end
@@ -64,7 +65,7 @@
 
               no_selected_user_row.with_column do
                 render(Primer::Beta::Text.new(color: :danger)) do
-                  I18n.t("work_package.sharing.warning_no_selected_user")
+                  I18n.t("sharing.warning_no_selected_user", entity: @entity.model_name.human)
                 end
               end
             end
@@ -95,7 +96,7 @@
         end
       end
     else
-      render(Primer::Alpha::Banner.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
+      render(Primer::Alpha::Banner.new(icon: :info)) { I18n.t('sharing.denied', entity: @entity.model_name.human(count: 2)) }
     end
   end
 %>
