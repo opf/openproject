@@ -75,7 +75,8 @@ module ProjectCustomFieldProjectMappings
 
     def perform_bulk_create(service_call)
       ProjectCustomFieldProjectMapping.insert_all(
-        service_call.result.map { |model| model.attributes.slice("project_id", "custom_field_id") }
+        service_call.result.map { |model| model.attributes.slice("project_id", "custom_field_id") },
+        unique_by: %i[project_id custom_field_id]
       )
 
       service_call
