@@ -180,6 +180,23 @@ RSpec.describe Setting do
         .to raise_error NoMethodError
     end
 
+    context "for a setting with an environment specific default value", :settings_reset do
+      before do
+        Settings::Definition.add(
+          "my_setting",
+          format: :string,
+          default: "The default",
+          default_by_env: {
+            test: "The test default"
+          }
+        )
+      end
+
+      it "uses the test specific default" do
+        expect(described_class.my_setting).to eq("The test default")
+      end
+    end
+
     context "for a integer setting with non-nil default value", :settings_reset do
       before do
         Settings::Definition.add(
