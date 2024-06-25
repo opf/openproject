@@ -185,7 +185,9 @@ Rails.application.configure do
     # Skip DNS rebinding protection for the default health check endpoint.
     config.host_authorization = {
       exclude: ->(request) do
-        request.path.start_with?("#{OpenProject::Configuration["rails_relative_url_root"]}/health_check")
+        base = OpenProject::Configuration["rails_relative_url_root"]
+        request.path.start_with?("#{base}/health_check") ||
+          request.path.start_with?("#{base}/sys")
       end
     }
   end
