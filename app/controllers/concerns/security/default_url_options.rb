@@ -26,30 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Setting
-  ##
-  # Shorthand to common setting aliases to avoid checking values
-  module Aliases
-    ##
-    # Restore the previous Setting.protocol now replaced by https?
-    def protocol
-      if OpenProject::Configuration.https?
-        "https"
-      else
-        "http"
-      end
-    end
-
-    ##
-    # Host name without protocol
-    def host_without_protocol
-      Setting.host_name&.split(":")&.first
-    end
-
-    ##
-    # Port from host_name if set
-    def optional_port_from_host_name
-      Setting.host_name&.split(":")&.[](1)
+module Security
+  module DefaultUrlOptions
+    # Determine host for links on our static host name
+    def default_url_options(_options = {})
+      {
+        layout: params["layout"],
+        protocol: Setting.protocol,
+        host: Setting.host_without_protocol,
+        port: Setting.optional_port_from_host_name
+      }.compact
     end
   end
 end
