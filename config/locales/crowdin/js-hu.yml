@@ -150,6 +150,7 @@ hu:
         attribute_reference:
           macro_help_tooltip: "Ezt a szövegrészt dinamikusan megjeleníti egy makró."
           not_found: "A kért erőforrás nem található."
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "A kiválasztott \"%{name}\" attribútum nem létezik."
         child_pages:
           button: "Gyermek kapcsolatok"

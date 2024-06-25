@@ -150,6 +150,7 @@ ms:
         attribute_reference:
           macro_help_tooltip: "Bahagian teks ini sedang dihasilkan secara dinamik oleh makro."
           not_found: "Sumber yang diminta tidak dapat ditemui"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Atribut yang dipilih '%{name}' tidak wujud."
         child_pages:
           button: "Terpaut pada halaman anak"

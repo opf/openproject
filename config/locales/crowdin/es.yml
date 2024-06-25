@@ -263,7 +263,7 @@ es:
       my: "Mis proyectos"
       favored: "Proyectos favoritos"
       archived: "Proyectos archivados"
-      public: "Lista de proyectos públicos"
+      public: "Lista públicas de proyectos"
       my_private: "Mis listas de proyectos privados"
       new:
         placeholder: "Nueva lista de proyectos"
@@ -465,7 +465,7 @@ es:
         is_readonly: "Solo lectura"
         excluded_from_totals: "Excluido de totales"
   themes:
-    dark: "Dark"
+    dark: "Oscuro"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -513,6 +513,10 @@ es:
     move:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
       unsupported_for_multiple_projects: "Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "Falta el flujo de trabajo para compartir paquetes de trabajo"
@@ -936,8 +940,8 @@ es:
               nonexistent: "La columna «%{column}» no existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "es mutuamente exclusivo con el grupo '%{group_by}'. No puede activar ambos."
-          can_only_be_modified_by_owner: "La consulta sólo puede ser modificada por su propietario."
-          need_permission_to_modify_public_query: "No puede modificar una consulta pública."
+          can_only_be_modified_by_owner: "La vista sólo puede ser modificada por su propietario."
+          need_permission_to_modify_public_query: "No puede modificar una vista pública."
           filters:
             custom_fields:
               inexistent: "No hay ningún campo personalizado para el filtro."
@@ -1338,8 +1342,8 @@ es:
   button_revoke_access: "Revocar acceso"
   button_revoke_all: "Revocar todos"
   button_revoke_only: "Revocar solo %{shared_role_name}"
-  button_publish: "Hacer público"
-  button_unpublish: "Hacer privado"
+  button_publish: "Hacer pública"
+  button_unpublish: "Hacer privada"
   consent:
     checkbox_label: He notado y doy mi consentimiento a lo anterior.
     failure_message: Consentimiento fallido, no puede continuar.
@@ -2728,9 +2732,9 @@ es:
   permission_save_bcf_queries: "Guardar consultas BCF"
   permission_manage_public_bcf_queries: "Administrar consultas BCF públicas"
   permission_edit_attribute_help_texts: "Editar textos de ayuda de atributos"
-  permission_manage_public_project_queries: "Administrar las listas públicas de proyectos"
-  permission_view_project_query: "View project query"
-  permission_edit_project_query: "Edit project query"
+  permission_manage_public_project_queries: "Administrar listas públicas de proyectos"
+  permission_view_project_query: "Ver vistas de proyecto"
+  permission_edit_project_query: "Editar vistas de proyecto"
   placeholders:
     default: "-"
   project:

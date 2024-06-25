@@ -150,6 +150,7 @@ bg:
         attribute_reference:
           macro_help_tooltip: "Този текстов сегмент се визуализира динамично от макрос."
           not_found: "Заявеният ресурс не можа да бъде намерен"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Избраният атрибут „%{name}“ не съществува."
         child_pages:
           button: "Links to child pages"

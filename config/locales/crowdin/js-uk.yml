@@ -150,6 +150,7 @@ uk:
         attribute_reference:
           macro_help_tooltip: "Цей текстовий фрагмент динамічно візуалізується макросом."
           not_found: "Не вдалося знайти потрібний ресурс"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Вибраний атрибут «%{name}» не існує."
         child_pages:
           button: "Посилання на дочірні сторінки"

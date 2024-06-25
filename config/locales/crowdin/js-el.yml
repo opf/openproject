@@ -150,6 +150,7 @@ el:
         attribute_reference:
           macro_help_tooltip: "Αυτό το τμήμα κειμένου δημιουργείται δυναμικά από μια μακροεντολή."
           not_found: "Ο ζητούμενος πόρος δεν βρέθηκε."
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Το επιλεγμένο χαρακτηριστικό '%{name}' δεν υπάρχει."
         child_pages:
           button: "Σύνδεσμοι σε σελίδες-παιδιά"

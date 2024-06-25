@@ -150,6 +150,7 @@
         attribute_reference:
           macro_help_tooltip: "Dette tekstsegmentet er dynamisk gjengitt av en makro."
           not_found: "Finner ikke forespurt ressurs"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Den valgte egenskapen '%{name}' eksisterer ikke."
         child_pages:
           button: "Lenker til undersider"

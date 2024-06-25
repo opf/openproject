@@ -150,6 +150,7 @@ ru:
         attribute_reference:
           macro_help_tooltip: "Этот текстовый сегмент динамически отображается макросом."
           not_found: "Запрошенный ресурс не найден"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Выбранный атрибут '%{name}' не существует."
         child_pages:
           button: "Ссылки на дочерние страницы"

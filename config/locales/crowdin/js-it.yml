@@ -150,6 +150,7 @@ it:
         attribute_reference:
           macro_help_tooltip: "Questo segmento di testo viene renderizzato dinamicamente da una macro."
           not_found: "Impossibile trovare la risorsa richiesta"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "L'attributo selezionato '%{name}' non esiste."
         child_pages:
           button: "Collegamenti alle pagine discendenti"

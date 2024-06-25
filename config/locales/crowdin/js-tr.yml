@@ -150,6 +150,7 @@ tr:
         attribute_reference:
           macro_help_tooltip: "Bu metin parçası bir makro tarafından dinamik olarak işleniyor."
           not_found: "İstenen kaynak bulunamadı"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Seçilen '%{name}' özniteliği mevcut değil."
         child_pages:
           button: "Alt sayfalara bağlantılar"

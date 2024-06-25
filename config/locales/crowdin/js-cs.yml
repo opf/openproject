@@ -150,6 +150,7 @@ cs:
         attribute_reference:
           macro_help_tooltip: "Tento textový segment je dynamicky rendrován makrem."
           not_found: "Požadovaný zdroj nebyl nalezen."
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Vybraný atribut '%{name}' neexistuje."
         child_pages:
           button: "Odkazy na podřízené stránky"

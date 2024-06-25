@@ -150,6 +150,7 @@ uz:
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: "Links to child pages"
