@@ -68,7 +68,7 @@ module Shares
     end
 
     def insert_target_modifier_id
-      "op-share-wp-active-shares"
+      "op-share-dialog-active-shares"
     end
 
     def blankslate_config

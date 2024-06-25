@@ -5,10 +5,10 @@
         model: new_share,
         url: url_for([@entity, Member]),
         data: { controller: 'user-limit ' \
-          'work-packages--share--user-selected',
+          'shares--user-selected',
                 'application-target': 'dynamic',
                 'user-limit-open-seats-value': OpenProject::Enterprise.open_seats_count,
-                action: 'submit->work-packages--share--user-selected#ensureUsersSelected' }
+                action: 'submit->shares--user-selected#ensureUsersSelected' }
       ) do |form|
         grid_layout('invite-user-form',
                     tag: :div) do |invite_form|
@@ -21,7 +21,7 @@
               share: new_share,
               available_roles: @available_roles,
               form_arguments: { builder: form, name: "role_id" },
-              data: { 'test-selector': 'op-share-wp-invite-role' })
+              data: { 'test-selector': 'op-share-dialog-invite-role' })
             )
           end
 
@@ -34,7 +34,7 @@
           if OpenProject::Enterprise.user_limit.present?
             invite_form.with_area('userLimitWarning',
                                   data: { 'user-limit-target': 'limitWarning',
-                                          'test-selector': 'op-share-wp-user-limit' },
+                                          'test-selector': 'op-share-dialog-user-limit' },
                                   display: :none) do
               flex_layout do |user_limit_row|
                 user_limit_row.with_column(mr: 2) do
@@ -54,8 +54,8 @@
           end
 
           invite_form.with_area('userSelectedWarning',
-                                data: { 'work-packages--share--user-selected-target': 'error',
-                                        'test-selector': 'op-share-wp-no-user-selected' },
+                                data: { 'shares--user-selected-target': 'error',
+                                        'test-selector': 'op-share-dialog-no-user-selected' },
                                 display: :none) do
             flex_layout do |no_selected_user_row|
               no_selected_user_row.with_column(mr: 2) do
@@ -72,7 +72,7 @@
 
           if @errors.present?
             invite_form.with_area('errors',
-                                  data: { 'test-selector': 'op-share-wp-error-message' }) do
+                                  data: { 'test-selector': 'op-share-dialog-error-message' }) do
               flex_layout do |error_rows|
                 @errors.full_messages.each do |error_message|
                   error_rows.with_row do

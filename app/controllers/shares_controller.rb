@@ -205,7 +205,7 @@ class SharesController < ApplicationController
   def respond_with_update_permission_button
     replace_via_turbo_stream(component: Shares::PermissionButtonComponent.new(share: @share,
                                                                               available_roles:,
-                                                                              data: { "test-selector": "op-share-wp-update-role" }))
+                                                                              data: { "test-selector": "op-share-dialog-update-role" }))
 
     respond_with_turbo_streams
   end
@@ -234,7 +234,7 @@ class SharesController < ApplicationController
       replace_via_turbo_stream(
         component: Shares::PermissionButtonComponent.new(share:,
                                                          available_roles:,
-                                                         data: { "test-selector": "op-share-wp-update-role" })
+                                                         data: { "test-selector": "op-share-dialog-update-role" })
       )
     end
 

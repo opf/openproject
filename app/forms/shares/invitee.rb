@@ -32,14 +32,14 @@ module Shares
         name: :user_id,
         label: I18n.t("work_package.sharing.label_search"),
         visually_hide_label: true,
-        data: { "work-packages--share--user-limit-target": "autocompleter" },
+        data: { "shares--user-limit-target": "autocompleter" },
         autocomplete_options: {
           component: "opce-user-autocompleter",
           defaultData: false,
-          id: "op-share-wp-invite-autocomplete",
+          id: "op-share-dialog-invite-autocomplete",
           placeholder: I18n.t("work_package.sharing.label_search_placeholder"),
           data: {
-            "test-selector": "op-share-wp-invite-autocomplete"
+            "test-selector": "op-share-dialog-invite-autocomplete"
           },
           url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
           filters: [{ name: "type", operator: "=", values: %w[User Group] },

@@ -9,12 +9,12 @@
       end
 
       modal_content.with_row(mt: 3,
-                             data: { 'test-selector': 'op-share-wp-active-list',
-                                     controller: 'work-packages--share--bulk-selection',
+                             data: { 'test-selector': 'op-share-dialog-active-list',
+                                     controller: 'shares--bulk-selection',
                                      application_target: 'dynamic' }) do
         render(border_box_container(list_id: insert_target_modifier_id)) do |border_box|
-          border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-wp-header' }) do
-            grid_layout('op-share-wp-modal-body--header', tag: :div, align_items: :center) do |header_grid|
+          border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-dialog-header' }) do
+            grid_layout('op-share-dialog-modal-body--header', tag: :div, align_items: :center) do |header_grid|
               header_grid.with_area(:counter, tag: :div) do
                 render(Shares::CounterComponent.new(entity: @entity,
                                                     count: @shares.size,
@@ -23,7 +23,7 @@
 
               header_grid.with_area(:actions,
                                     tag: :div,
-                                    data: { 'work-packages--share--bulk-selection-target': 'defaultActions' }) do
+                                    data: { 'shares--bulk-selection-target': 'defaultActions' }) do
                 flex_layout do |header_actions|
                   header_actions.with_column(mr: 2) do
                     render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
@@ -31,8 +31,8 @@
                                                          dynamic_label: true,
                                                          dynamic_label_prefix: I18n.t('work_package.sharing.filter.type'),
                                                          color: :muted,
-                                                         data: { 'test-selector': 'op-share-wp-filter-type' })) do |menu|
-                      menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-wp-filter-type-button' }) do |button|
+                                                         data: { 'test-selector': 'op-share-dialog-filter-type' })) do |menu|
+                      menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-dialog-filter-type-button' }) do |button|
                         button.with_trailing_action_icon(icon: "triangle-down")
                         I18n.t('work_package.sharing.filter.type')
                       end
@@ -53,8 +53,8 @@
                                                          dynamic_label: true,
                                                          dynamic_label_prefix: I18n.t('work_package.sharing.filter.role'),
                                                          color: :muted,
-                                                         data: { 'test-selector': 'op-share-wp-filter-role' })) do |menu|
-                      menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-wp-filter-role-button' }) do |button|
+                                                         data: { 'test-selector': 'op-share-dialog-filter-role' })) do |menu|
+                      menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-dialog-filter-role-button' }) do |button|
                         button.with_trailing_action_icon(icon: "triangle-down")
                         I18n.t('work_package.sharing.filter.role')
                       end
@@ -74,7 +74,7 @@
               header_grid.with_area(:actions,
                                     tag: :div,
                                     hidden: true, # Prevent flicker on initial render
-                                    data: { 'work-packages--share--bulk-selection-target': 'bulkActions' }) do
+                                    data: { 'shares--bulk-selection-target': 'bulkActions' }) do
                 if @sharing_manageable
                   concat(
                     render(Shares::BulkPermissionButtonComponent.new(entity: @entity, available_roles: @available_roles))
@@ -83,12 +83,12 @@
                   concat(
                     form_with(url: url_for([:bulk, @entity, Member]),
                               method: :delete,
-                              data: { 'work-packages--share--bulk-selection-target': 'bulkForm' }) do
+                              data: { 'shares--bulk-selection-target': 'bulkForm' }) do
                       render(Primer::Beta::IconButton.new(icon: "trash",
                                                           type: :submit,
                                                           scheme: :danger,
                                                           "aria-label": I18n.t('work_package.sharing.remove'),
-                                                          test_selector: 'op-share-wp--bulk-remove'))
+                                                          test_selector: 'op-share-dialog--bulk-remove'))
                     end
                   )
                 end

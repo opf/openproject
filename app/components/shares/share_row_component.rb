@@ -64,9 +64,9 @@ module Shares
 
     def grid_css_classes
       if sharing_manageable?
-        "op-share-wp-modal-body--user-row_manageable"
+        "op-share-dialog-modal-body--user-row_manageable"
       else
-        "op-share-wp-modal-body--user-row"
+        "op-share-dialog-modal-body--user-row"
       end
     end
 

@@ -3,8 +3,8 @@
                                        dynamic_label: true,
                                        anchor_align: :end,
                                        color: :subtle,
-                                       data: { test_selector: 'op-share-wp-bulk-update-role'})) do |menu|
-    menu.with_show_button(scheme: :invisible, color: :subtle, data: { 'work-packages--share--bulk-selection-target': 'bulkUpdateRoleLabel' }) do |button|
+                                       data: { test_selector: 'op-share-dialog-bulk-update-role'})) do |menu|
+    menu.with_show_button(scheme: :invisible, color: :subtle, data: { 'shares--bulk-selection-target': 'bulkUpdateRoleLabel' }) do |button|
       button.with_trailing_action_icon(icon: "triangle-down")
       'Placeholder'
     end
@@ -18,9 +18,9 @@
                        method: :patch,
                        name: 'role_ids[]',
                        value: role_hash[:value],
-                       data: { 'work-packages--share--bulk-selection-target': 'bulkForm bulkUpdateRoleForm',
+                       data: { 'shares--bulk-selection-target': 'bulkForm bulkUpdateRoleForm',
                                'role-name': role_hash[:label],
-                               'test-selector': "op-share-wp-bulk-update-role-permission-#{role_hash[:label]}" }
+                               'test-selector': "op-share-dialog-bulk-update-role-permission-#{role_hash[:label]}" }
                      }) do |item|
         item.with_description.with_content(role_hash[:description])
       end
