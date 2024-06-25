@@ -26,35 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module News
-      class NewsAPI < ::API::OpenProjectAPI
-        resources :news do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: ::News,
-                      self_path: :newses)
-                 .mount
+require "spec_helper"
 
-          post &::API::V3::Utilities::Endpoints::Create
-            .new(model: News)
-            .mount
+RSpec.describe News::DeleteService, type: :model do
+  let(:news) { build_stubbed(:news, project:) }
+  let(:project) { build_stubbed(:project) }
 
-          route_param :id, type: Integer, desc: "News ID" do
-            after_validation do
-              @news = ::News
-                      .visible
-                      .find(params[:id])
-            end
+  let(:instance) { described_class.new(model: news, user: actor) }
 
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: ::News)
-                   .mount
-            patch &::API::V3::Utilities::Endpoints::Update.new(model: ::News).mount
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::News, success_status: 204).mount
-          end
-        end
+  subject do
+    instance.call
+  end
+
+  shared_examples "deletes the news" do
+    it do
+      expect(news).to receive(:destroy).and_return(true)
+      expect(subject).to be_success
+    end
+  end
+
+  shared_examples "does not delete the news" do
+    it do
+      expect(news).not_to receive(:destroy)
+      expect(subject).not_to be_success
+    end
+  end
+
+  context "with allowed user" do
+    let(:actor) { build_stubbed(:user) }
+
+    before do
+      mock_permissions_for(actor) do |mock|
+        mock.allow_in_project(:manage_news, project:)
       end
     end
+
+    it_behaves_like "deletes the news"
   end
 end

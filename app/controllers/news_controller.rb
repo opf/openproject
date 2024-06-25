@@ -73,29 +73,44 @@ class NewsController < ApplicationController
   def edit; end
 
   def create
-    @news = News.new(project: @project, author: User.current)
-    @news.attributes = permitted_params.news
-    if @news.save
+    call = News::CreateService
+      .new(user: current_user)
+      .call(permitted_params.news.merge(project: @project))
+
+    if call.success?
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to controller: "/news", action: "index", project_id: @project
     else
+      @news = call.result
       render action: "new"
     end
   end
 
   def update
-    @news.attributes = permitted_params.news
-    if @news.save
+    call = News::UpdateService
+      .new(model: @news, user: current_user)
+      .call(permitted_params.news.merge(project: @project))
+
+    if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "show", id: @news
     else
+      @news = call.result
       render action: "edit"
     end
   end
 
   def destroy
-    @news.destroy
-    flash[:notice] = I18n.t(:notice_successful_delete)
+    call = News::DeleteService
+      .new(model: @news, user: current_user)
+      .call
+
+    if call.success?
+      flash[:notice] = I18n.t(:notice_successful_delete)
+    else
+      call.apply_flash_message!(flash)
+    end
+
     redirect_to action: "index", project_id: @project
   end
 

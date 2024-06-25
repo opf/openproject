@@ -24,37 +24,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module API
-  module V3
-    module News
-      class NewsAPI < ::API::OpenProjectAPI
-        resources :news do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: ::News,
-                      self_path: :newses)
-                 .mount
+RSpec.shared_examples "represents the news" do
+  it do
+    aggregate_failures do
+      expect(last_response.status).to eq(200)
+      expect(last_response.body)
+        .to(be_json_eql("News".to_json).at_path("_type"))
 
-          post &::API::V3::Utilities::Endpoints::Create
-            .new(model: News)
-            .mount
+      expect(last_response.body)
+        .to(be_json_eql(news.title.to_json).at_path("title"))
 
-          route_param :id, type: Integer, desc: "News ID" do
-            after_validation do
-              @news = ::News
-                      .visible
-                      .find(params[:id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: ::News)
-                   .mount
-            patch &::API::V3::Utilities::Endpoints::Update.new(model: ::News).mount
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::News, success_status: 204).mount
-          end
-        end
-      end
+      expect(last_response.body)
+        .to(be_json_eql(news.id.to_json).at_path("id"))
     end
   end
 end

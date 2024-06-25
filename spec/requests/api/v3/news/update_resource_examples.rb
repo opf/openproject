@@ -24,37 +24,38 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module API
-  module V3
-    module News
-      class NewsAPI < ::API::OpenProjectAPI
-        resources :news do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: ::News,
-                      self_path: :newses)
-                 .mount
+RSpec.shared_examples "updates the news" do
+  context "with an empty title" do
+    let(:parameters) do
+      { title: "" }
+    end
 
-          post &::API::V3::Utilities::Endpoints::Create
-            .new(model: News)
-            .mount
+    it "returns an error" do
+      expect(last_response.status).to eq(422)
+      expect(last_response.body)
+        .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyConstraintViolation".to_json)
+              .at_path("errorIdentifier")
 
-          route_param :id, type: Integer, desc: "News ID" do
-            after_validation do
-              @news = ::News
-                      .visible
-                      .find(params[:id])
-            end
+      expect(parsed_response["_embedded"]["details"]["attribute"])
+        .to eq "title"
 
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: ::News)
-                   .mount
-            patch &::API::V3::Utilities::Endpoints::Update.new(model: ::News).mount
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::News, success_status: 204).mount
-          end
-        end
-      end
+      expect(parsed_response["message"])
+        .to eq "Title can't be blank."
+    end
+  end
+
+  context "with a new title" do
+    let(:parameters) do
+      { title: "my new title" }
+    end
+
+    it "updates the news" do
+      expect(last_response.status).to eq(200)
+
+      news.reload
+
+      expect(news.title).to eq "my new title"
     end
   end
 end
