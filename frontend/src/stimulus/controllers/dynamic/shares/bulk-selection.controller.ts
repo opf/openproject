@@ -201,7 +201,7 @@ export default class BulkSelectionController extends Controller {
       hiddenInput.type = 'hidden';
       hiddenInput.name = 'share_ids[]';
       hiddenInput.value = checkbox.value;
-      hiddenInput.setAttribute('data-work-packages--share--bulk-selection-target', 'hiddenShare');
+      hiddenInput.setAttribute('data-shares--bulk-selection-target', 'hiddenShare');
 
       return hiddenInput;
     });
