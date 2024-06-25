@@ -39,7 +39,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
   end
 
   shared_let(:edit_role) do
-    create(:project_role, permissions: %i[view_work_packages edit_project])
+    create(:project_role, permissions: %i[view_work_packages edit_project_attributes])
   end
 
   let!(:admin) do
