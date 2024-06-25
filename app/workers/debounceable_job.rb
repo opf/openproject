@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,41 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See: ../storages/create_service.rb for comments on services
-module Storages::ProjectStorages
-  class CreateService < ::BaseServices::Create
-    protected
+module DebounceableJob
+  # This module is generalizes the debounce logic that was originally used on {Storages::ManageStorageIntegrationsJob}
+  # Basically it ensures that a thread only queues one job per interval.
 
-    def after_perform(service_call)
-      super
+  # it depends on the class method `key` being implemented. The method will receive all the arguments
+  # used to invoke the job to construct the RequestStore key.
+  SINGLE_THREAD_DEBOUNCE_TIME = 4.seconds
 
-      project_storage = service_call.result
-      project_folder_mode = project_storage.project_folder_mode.to_sym
-      add_historical_data(service_call) if project_folder_mode != :inactive
-      OpenProject::Notifications.send(
-        OpenProject::Events::PROJECT_STORAGE_CREATED,
-        project_folder_mode:,
-        storage: project_storage.storage
-      )
+  def debounce(*, **)
+    store_key = key(*, **)
+    timestamp = RequestStore.store[store_key]
 
-      service_call
-    end
+    return false if timestamp.present? && (timestamp + SINGLE_THREAD_DEBOUNCE_TIME) > Time.current
 
-    private
-
-    def add_historical_data(service_call)
-      project_storage = service_call.result
-      last_project_folder_result =
-        Helper.create_last_project_folder(
-          user:,
-          project_storage_id: project_storage.id,
-          origin_folder_id: project_storage.project_folder_id,
-          mode: project_storage.project_folder_mode
-        )
-
-      service_call.add_dependent!(last_project_folder_result)
-
-      service_call
-    end
+    result = set(wait: 5.seconds).perform_later(*, **)
+    RequestStore.store[store_key] = Time.current
+    result
   end
 end
