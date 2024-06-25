@@ -50,7 +50,7 @@ class SharesController < ApplicationController
                                           available_roles:), layout: nil
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     overall_result = []
     @errors = ActiveModel::Errors.new(self)
 
@@ -142,51 +142,60 @@ class SharesController < ApplicationController
   end
 
   def create_or_update_share(user_id, role_ids)
-    Shares::CreateOrUpdateService
-      .new(
-        user: current_user,
-        create_contract_class: sharing_contract_scope::CreateContract,
-        update_contract_class: sharing_contract_scope::UpdateContract
-      )
+    Shares::CreateOrUpdateService.new(
+      user: current_user,
+      create_contract_class: sharing_contract_scope::CreateContract,
+      update_contract_class: sharing_contract_scope::UpdateContract
+    )
       .call(entity: @entity, user_id:, role_ids:)
   end
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: Shares::ModalBodyComponent.new(entity: @entity,
-                                                available_roles:,
-                                                shares: @new_shares || load_shares,
-                                                sharing_manageable: sharing_manageable?,
-                                                errors: @errors)
+      component: Shares::ModalBodyComponent.new(
+        entity: @entity,
+        available_roles:,
+        shares: @new_shares || load_shares,
+        sharing_manageable: sharing_manageable?,
+        errors: @errors
+      )
     )
 
     respond_with_turbo_streams
   end
 
-  def respond_with_prepend_shares
+  def respond_with_prepend_shares # rubocop:disable Metrics/AbcSize
     replace_via_turbo_stream(
-      component: Shares::InviteUserFormComponent.new(entity: @entity,
-                                                     available_roles:,
-                                                     sharing_manageable: sharing_manageable?,
-                                                     errors: @errors)
+      component: Shares::InviteUserFormComponent.new(
+        entity: @entity,
+        available_roles:,
+        sharing_manageable: sharing_manageable?,
+        errors: @errors
+      )
     )
 
     update_via_turbo_stream(
-      component: Shares::CounterComponent.new(entity: @entity,
-                                              count: current_visible_member_count,
-                                              sharing_manageable: sharing_manageable?)
+      component: Shares::CounterComponent.new(
+        entity: @entity,
+        count: current_visible_member_count,
+        sharing_manageable: sharing_manageable?
+      )
     )
 
     @new_shares.each do |share|
       prepend_via_turbo_stream(
-        component: Shares::ShareRowComponent.new(share:,
-                                                 available_roles:,
-                                                 sharing_manageable: sharing_manageable?),
-        target_component: Shares::ModalBodyComponent.new(entity: @entity,
-                                                         available_roles:,
-                                                         sharing_manageable: sharing_manageable?,
-                                                         shares: load_shares,
-                                                         errors: @errors)
+        component: Shares::ShareRowComponent.new(
+          share:,
+          available_roles:,
+          sharing_manageable: sharing_manageable?
+        ),
+        target_component: Shares::ModalBodyComponent.new(
+          entity: @entity,
+          available_roles:,
+          sharing_manageable: sharing_manageable?,
+          shares: load_shares,
+          errors: @errors
+        )
       )
     end
 
@@ -194,37 +203,57 @@ class SharesController < ApplicationController
   end
 
   def respond_with_new_invite_form
-    replace_via_turbo_stream(component: Shares::InviteUserFormComponent.new(entity: @entity,
-                                                                            available_roles:,
-                                                                            sharing_manageable: sharing_manageable?,
-                                                                            errors: @errors))
+    replace_via_turbo_stream(
+      component: Shares::InviteUserFormComponent.new(
+        entity: @entity,
+        available_roles:,
+        sharing_manageable: sharing_manageable?,
+        errors: @errors
+      )
+    )
 
     respond_with_turbo_streams
   end
 
   def respond_with_update_permission_button
-    replace_via_turbo_stream(component: Shares::PermissionButtonComponent.new(share: @share,
-                                                                              available_roles:,
-                                                                              data: { "test-selector": "op-share-dialog-update-role" }))
+    replace_via_turbo_stream(
+      component: Shares::PermissionButtonComponent.new(
+        share: @share,
+        available_roles:,
+        data: { "test-selector": "op-share-dialog-update-role" }
+      )
+    )
 
     respond_with_turbo_streams
   end
 
   def respond_with_remove_share
-    remove_via_turbo_stream(component: Shares::ShareRowComponent.new(share: @share,
-                                                                     available_roles:,
-                                                                     sharing_manageable: sharing_manageable?))
-    update_via_turbo_stream(component: Shares::CounterComponent.new(entity: @entity,
-                                                                    count: current_visible_member_count,
-                                                                    sharing_manageable: sharing_manageable?))
+    remove_via_turbo_stream(
+      component: Shares::ShareRowComponent.new(
+        share: @share,
+        available_roles:,
+        sharing_manageable: sharing_manageable?
+      )
+    )
+    update_via_turbo_stream(
+      component: Shares::CounterComponent.new(
+        entity: @entity,
+        count: current_visible_member_count,
+        sharing_manageable: sharing_manageable?
+      )
+    )
 
     respond_with_turbo_streams
   end
 
   def respond_with_update_user_details
-    update_via_turbo_stream(component: Shares::UserDetailsComponent.new(share: @share,
-                                                                        manager_mode: sharing_manageable?,
-                                                                        invite_resent: true))
+    update_via_turbo_stream(
+      component: Shares::UserDetailsComponent.new(
+        share: @share,
+        manager_mode: sharing_manageable?,
+        invite_resent: true
+      )
+    )
 
     respond_with_turbo_streams
   end
@@ -232,9 +261,11 @@ class SharesController < ApplicationController
   def respond_with_bulk_updated_permission_buttons
     @selected_shares.each do |share|
       replace_via_turbo_stream(
-        component: Shares::PermissionButtonComponent.new(share:,
-                                                         available_roles:,
-                                                         data: { "test-selector": "op-share-dialog-update-role" })
+        component: Shares::PermissionButtonComponent.new(
+          share:,
+          available_roles:,
+          data: { "test-selector": "op-share-dialog-update-role" }
+        )
       )
     end
 
@@ -244,16 +275,20 @@ class SharesController < ApplicationController
   def respond_with_bulk_removed_shares
     @selected_shares.each do |share|
       remove_via_turbo_stream(
-        component: Shares::ShareRowComponent.new(share:,
-                                                 available_roles:,
-                                                 sharing_manageable: sharing_manageable?)
+        component: Shares::ShareRowComponent.new(
+          share:,
+          available_roles:,
+          sharing_manageable: sharing_manageable?
+        )
       )
     end
 
     update_via_turbo_stream(
-      component: Shares::CounterComponent.new(entity: @entity,
-                                              count: current_visible_member_count,
-                                              sharing_manageable: sharing_manageable?)
+      component: Shares::CounterComponent.new(
+        entity: @entity,
+        count: current_visible_member_count,
+        sharing_manageable: sharing_manageable?
+      )
     )
 
     respond_with_turbo_streams
@@ -286,10 +321,9 @@ class SharesController < ApplicationController
   def load_query
     return @query if defined?(@query)
 
-    @query = ParamsToQueryService.new(Member,
-                                      current_user,
-                                      query_class: Queries::Members::EntityMemberQuery)
-                                 .call(params)
+    @query = ParamsToQueryService
+      .new(Member, current_user, query_class: Queries::Members::EntityMemberQuery)
+      .call(params)
 
     # Set default filter on the entity
     @query.where("entity_id", "=", @entity.id)
@@ -315,23 +349,23 @@ class SharesController < ApplicationController
 
   def available_roles
     @available_roles ||= if @entity.is_a?(WorkPackage)
-      role_mapping = WorkPackageRole.unscoped.pluck(:builtin, :id).to_h
+                           role_mapping = WorkPackageRole.unscoped.pluck(:builtin, :id).to_h
 
-      [
-        { label: I18n.t("work_package.permissions.edit"),
-          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_EDITOR],
-          description: I18n.t("work_package.permissions.edit_description") },
-        { label: I18n.t("work_package.permissions.comment"),
-          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_COMMENTER],
-          description: I18n.t("work_package.permissions.comment_description") },
-        { label: I18n.t("work_package.permissions.view"),
-          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_VIEWER],
-          description: I18n.t("work_package.permissions.view_description"),
-          default: true }
-      ]
-    else
-      []
-    end
+                           [
+                             { label: I18n.t("work_package.permissions.edit"),
+                               value: role_mapping[Role::BUILTIN_WORK_PACKAGE_EDITOR],
+                               description: I18n.t("work_package.permissions.edit_description") },
+                             { label: I18n.t("work_package.permissions.comment"),
+                               value: role_mapping[Role::BUILTIN_WORK_PACKAGE_COMMENTER],
+                               description: I18n.t("work_package.permissions.comment_description") },
+                             { label: I18n.t("work_package.permissions.view"),
+                               value: role_mapping[Role::BUILTIN_WORK_PACKAGE_VIEWER],
+                               description: I18n.t("work_package.permissions.view_description"),
+                               default: true }
+                           ]
+                         else
+                           []
+                         end
   end
 
   def sharing_contract_scope
