@@ -57,7 +57,7 @@ class SharesController < ApplicationController
     find_or_create_users(send_notification: false) do |member_params|
       user = User.find_by(id: member_params[:user_id])
       if user.present? && user.locked?
-        @errors.add(:base, I18n.t("work_package.sharing.warning_locked_user", user: user.name))
+        @errors.add(:base, I18n.t("sharing.warning_locked_user", user: user.name))
       else
         service_call = create_or_update_share(member_params[:user_id], [params[:member][:role_id]])
         overall_result.push(service_call)
@@ -320,13 +320,13 @@ class SharesController < ApplicationController
       [
         { label: I18n.t("work_package.permissions.edit"),
           value: role_mapping[Role::BUILTIN_WORK_PACKAGE_EDITOR],
-          description: I18n.t("work_package.sharing.permissions.edit_description") },
+          description: I18n.t("work_package.permissions.edit_description") },
         { label: I18n.t("work_package.permissions.comment"),
           value: role_mapping[Role::BUILTIN_WORK_PACKAGE_COMMENTER],
           description: I18n.t("work_package.permissions.comment_description") },
-        { label: I18n.t("work_package.sharing.permissions.view"),
+        { label: I18n.t("work_package.permissions.view"),
           value: role_mapping[Role::BUILTIN_WORK_PACKAGE_VIEWER],
-          description: I18n.t("work_package.sharing.permissions.view_description"),
+          description: I18n.t("work_package.permissions.view_description"),
           default: true }
       ]
     else

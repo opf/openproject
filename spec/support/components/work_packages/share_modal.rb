@@ -190,13 +190,13 @@ module Components
 
       def expect_blankslate
         within_modal do
-          expect(page).to have_text(I18n.t("work_package.sharing.text_empty_state_description"))
+          expect(page).to have_text(I18n.t("sharing.text_empty_state_description"))
         end
       end
 
       def expect_empty_search_blankslate
         within_modal do
-          expect(page).to have_text(I18n.t("work_package.sharing.text_empty_search_description"))
+          expect(page).to have_text(I18n.t("sharing.text_empty_search_description"))
         end
       end
 
@@ -318,26 +318,26 @@ module Components
 
       def expect_shared_count_of(count)
         expect(shares_header)
-          .to have_text(I18n.t("work_package.sharing.count", count:))
+          .to have_text(I18n.t("sharing.count", count:))
       end
 
       def expect_no_invite_option
         within_modal do
           expect(page)
-            .to have_text(I18n.t("work_package.sharing.permissions.denied"))
+            .to have_text(I18n.t("sharing.permissions.denied"))
         end
       end
 
       def resend_invite(user)
         within user_row(user) do
-          click_button I18n.t("work_package.sharing.user_details.resend_invite")
+          click_button I18n.t("sharing.user_details.resend_invite")
         end
       end
 
       def expect_invite_resent(user)
         within user_row(user) do
           expect(page)
-            .to have_text(I18n.t("work_package.sharing.user_details.invite_resent"))
+            .to have_text(I18n.t("sharing.user_details.invite_resent"))
         end
       end
 
@@ -388,14 +388,14 @@ module Components
       def expect_no_user_limit_warning
         within modal_element do
           expect(page)
-            .to have_no_text(I18n.t("work_package.sharing.warning_user_limit_reached"), wait: 0)
+            .to have_no_text(I18n.t("sharing.warning_user_limit_reached", entity: WorkPackage.model_name.human), wait: 0)
         end
       end
 
       def expect_user_limit_warning
         within modal_element do
           expect(page)
-            .to have_text(I18n.t("work_package.sharing.warning_user_limit_reached"))
+            .to have_text(I18n.t("sharing.warning_user_limit_reached", entity: WorkPackage.model_name.human))
         end
       end
 
@@ -410,14 +410,14 @@ module Components
       def expect_select_a_user_hint
         within modal_element do
           expect(page)
-            .to have_text(I18n.t("work_package.sharing.warning_no_selected_user"))
+            .to have_text(I18n.t("sharing.warning_no_selected_user", entity: WorkPackage.model_name.human))
         end
       end
 
       def expect_no_select_a_user_hint
         within modal_element do
           expect(page)
-            .to have_no_text(I18n.t("work_package.sharing.warning_no_selected_user"), wait: 0)
+            .to have_no_text(I18n.t("sharing.warning_no_selected_user", entity: WorkPackage.model_name.human), wait: 0)
         end
       end
     end

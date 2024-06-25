@@ -30,14 +30,14 @@ module Shares
     form do |user_invite_form|
       user_invite_form.autocompleter(
         name: :user_id,
-        label: I18n.t("work_package.sharing.label_search"),
+        label: I18n.t("sharing.label_search"),
         visually_hide_label: true,
         data: { "shares--user-limit-target": "autocompleter" },
         autocomplete_options: {
           component: "opce-user-autocompleter",
           defaultData: false,
           id: "op-share-dialog-invite-autocomplete",
-          placeholder: I18n.t("work_package.sharing.label_search_placeholder"),
+          placeholder: I18n.t("sharing.label_search_placeholder"),
           data: {
             "test-selector": "op-share-dialog-invite-autocomplete"
           },

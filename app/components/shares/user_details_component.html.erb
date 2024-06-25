@@ -25,7 +25,7 @@
                   concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t('sharing.user_details.invited') })
                   concat(
                     form_with(url: resend_invite_path, method: :post) do
-                      render(Primer::Beta::Button.new(type: :submit, px: 0, scheme: :link)) { I18n.t('work_package.sharing.user_details.resend_invite') }
+                      render(Primer::Beta::Button.new(type: :submit, px: 0, scheme: :link)) { I18n.t('sharing.user_details.resend_invite') }
                     end
                   )
                 end
