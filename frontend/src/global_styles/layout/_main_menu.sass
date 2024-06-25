@@ -348,6 +348,8 @@ a.main-menu--parent-node
 
   .main-menu--navigation-toggler
     position: relative
+    // Needed for Safari due to the fixed position of the parent element
+    -webkit-transform: translateZ(0)
     cursor: pointer
     margin-left: -0.75rem
     color: var(--main-menu-font-color)
