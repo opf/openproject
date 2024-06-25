@@ -63,6 +63,7 @@ module Storages
 
         def validation_result_placeholder
           ConnectionValidation.new(type: :none,
+                                   error_code: :none,
                                    timestamp: Time.current,
                                    description: I18n.t("storages.health.connection_validation.placeholder"))
         end

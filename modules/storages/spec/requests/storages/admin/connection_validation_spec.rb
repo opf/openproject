@@ -77,7 +77,10 @@ RSpec.describe "connection validation", :skip_csrf do
 
     context "if the a validation result of type :none (no validation executed) is returned" do
       let(:validation_result) do
-        Storages::ConnectionValidation.new(type: :none, timestamp: Time.current, description: "not configured")
+        Storages::ConnectionValidation.new(type: :none,
+                                           error_code: :none,
+                                           timestamp: Time.current,
+                                           description: "not configured")
       end
 
       it_behaves_like "a validation result template", show_timestamp: false, label: nil, description: "not configured"
@@ -85,27 +88,31 @@ RSpec.describe "connection validation", :skip_csrf do
 
     context "if validator returns an error" do
       let(:validation_result) do
-        Storages::ConnectionValidation.new(type: :error, timestamp: Time.current, description: "An error occurred")
+        Storages::ConnectionValidation.new(type: :error,
+                                           error_code: :my_err,
+                                           timestamp: Time.current,
+                                           description: "An error occurred")
       end
 
       it_behaves_like "a validation result template",
-                      show_timestamp: true, label: "Error", description: "An error occurred"
+                      show_timestamp: true, label: "Error", description: "MY_ERR: An error occurred"
     end
 
     context "if validator returns a warning" do
       let(:validation_result) do
         Storages::ConnectionValidation.new(type: :warning,
+                                           error_code: :my_wrn,
                                            timestamp: Time.current,
                                            description: "There is something weird...")
       end
 
       it_behaves_like "a validation result template",
-                      show_timestamp: true, label: "Warning", description: "There is something weird..."
+                      show_timestamp: true, label: "Warning", description: "MY_WRN: There is something weird..."
     end
 
     context "if validator returns a success" do
       let(:validation_result) do
-        Storages::ConnectionValidation.new(type: :healthy, timestamp: Time.current, description: nil)
+        Storages::ConnectionValidation.new(type: :healthy, error_code: :none, timestamp: Time.current, description: nil)
       end
 
       it_behaves_like "a validation result template",
@@ -115,22 +122,21 @@ RSpec.describe "connection validation", :skip_csrf do
 
   private
 
-  # rubocop:disable Layout/LineLength
   def xpath_for_subtitle
-    "//turbo-stream[@target='connection_validation_result']/template/div/div/span[@data-test-selector='validation-result--subtitle']"
+    "#{xpath_for_turbo_target}/div/div/span[@data-test-selector='validation-result--subtitle']"
   end
 
   def xpath_for_timestamp
-    "//turbo-stream[@target='connection_validation_result']/template/div/div/span[@data-test-selector='validation-result--timestamp']"
+    "#{xpath_for_turbo_target}/div/div/span[@data-test-selector='validation-result--timestamp']"
   end
 
   def xpath_for_label
-    "//turbo-stream[@target='connection_validation_result']/template/div/div/span[contains(@class, 'Label')]"
+    "#{xpath_for_turbo_target}/div/div/span[contains(@class, 'Label')]"
   end
 
   def xpath_for_description
-    "//turbo-stream[@target='connection_validation_result']/template/div/div/span[@data-test-selector='validation-result--description']"
+    "#{xpath_for_turbo_target}/div/div/span[@data-test-selector='validation-result--description']"
   end
 
-  # rubocop:enable Layout/LineLength
+  def xpath_for_turbo_target = "//turbo-stream[@target='storages-admin-sidebar-validation-result-component']/template"
 end

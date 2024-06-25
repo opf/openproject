@@ -43,6 +43,7 @@ RSpec.describe Storages::Peripherals::OneDriveConnectionValidator do
 
     it "returns a validation failure" do
       expect(subject.type).to eq(:none)
+      expect(subject.error_code).to eq(:wrn_not_configured)
       expect(subject.description).to eq("The connection could not be validated. Please finish configuration first.")
     end
   end
@@ -58,6 +59,7 @@ RSpec.describe Storages::Peripherals::OneDriveConnectionValidator do
 
     it "returns a validation failure" do
       expect(subject.type).to eq(:error)
+      expect(subject.error_code).to eq(:err_tenant_invalid)
       expect(subject.description)
         .to eq("The configured directory (tenant) id is invalid. Please check the configuration.")
     end
@@ -69,6 +71,7 @@ RSpec.describe Storages::Peripherals::OneDriveConnectionValidator do
 
     it "returns a validation failure" do
       expect(subject.type).to eq(:error)
+      expect(subject.error_code).to eq(:err_client_invalid)
       expect(subject.description).to eq("The configured OAuth 2 client id is invalid. Please check the configuration.")
     end
   end
@@ -79,6 +82,7 @@ RSpec.describe Storages::Peripherals::OneDriveConnectionValidator do
 
     it "returns a validation failure" do
       expect(subject.type).to eq(:error)
+      expect(subject.error_code).to eq(:err_client_invalid)
       expect(subject.description)
         .to eq("The configured OAuth 2 client secret is invalid. Please check the configuration.")
     end
@@ -89,6 +93,7 @@ RSpec.describe Storages::Peripherals::OneDriveConnectionValidator do
 
     it "returns a validation failure" do
       expect(subject.type).to eq(:error)
+      expect(subject.error_code).to eq(:err_drive_invalid)
       expect(subject.description).to eq("The configured drive id could not be found. Please check the configuration.")
     end
   end
@@ -102,6 +107,7 @@ RSpec.describe Storages::Peripherals::OneDriveConnectionValidator do
 
     it "returns a validation failure" do
       expect(subject.type).to eq(:error)
+      expect(subject.error_code).to eq(:err_unknown)
       expect(subject.description)
         .to eq("The connection could not be validated. An unknown error occurred. " \
                "Please check the server logs for further information.")
@@ -141,6 +147,7 @@ RSpec.describe Storages::Peripherals::OneDriveConnectionValidator do
 
     it "returns a validation failure" do
       expect(subject.type).to eq(:warning)
+      expect(subject.error_code).to eq(:wrn_unexpected_content)
       expect(subject.description).to eq("Unexpected content found in the drive.")
     end
   end
@@ -150,6 +157,7 @@ RSpec.describe Storages::Peripherals::OneDriveConnectionValidator do
 
     it "returns a validation success" do
       expect(subject.type).to eq(:healthy)
+      expect(subject.error_code).to eq(:none)
       expect(subject.description).to be_nil
     end
   end

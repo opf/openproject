@@ -29,5 +29,13 @@
 #++
 
 module Storages
-  ConnectionValidation = Data.define(:type, :description, :timestamp)
+  ConnectionValidation = Data.define(:type, :error_code, :description, :timestamp) do
+    def validation_result_exists?
+      type.present? && type != :none
+    end
+
+    def error_code?
+      error_code.present? && error_code != :none
+    end
+  end
 end

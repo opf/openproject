@@ -33,6 +33,7 @@ module Storages
     module Sidebar
       class ValidationResultComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
         def initialize(result:)
           super(result)

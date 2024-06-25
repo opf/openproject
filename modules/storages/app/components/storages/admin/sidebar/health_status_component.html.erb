@@ -36,9 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
 
       if @storage.provider_type_one_drive?
         health_status_container.with_row(mt: 2) do
-          render(OpTurbo::FrameComponent.new(id: :connection_validation_result)) do
-            render(Storages::Admin::Sidebar::ValidationResultComponent.new(result: validation_result_placeholder))
-          end
+          render(Storages::Admin::Sidebar::ValidationResultComponent.new(result: validation_result_placeholder))
         end
 
         health_status_container.with_row(mt: 2) do

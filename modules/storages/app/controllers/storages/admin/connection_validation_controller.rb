@@ -45,10 +45,8 @@ module Storages
         @result = Peripherals::OneDriveConnectionValidator
                     .new(storage: @storage)
                     .validate
-
-        respond_to do |format|
-          format.turbo_stream
-        end
+        update_via_turbo_stream(component: Sidebar::ValidationResultComponent.new(result: @result))
+        respond_to_with_turbo_streams
       end
 
       private

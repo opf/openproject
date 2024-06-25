@@ -47,7 +47,10 @@ module Storages
           .or { drive_id_wrong }
           .or { request_failed_with_unknown_error }
           .or { drive_with_unexpected_content }
-          .value_or(ConnectionValidation.new(type: :healthy, timestamp: Time.current, description: nil))
+          .value_or(ConnectionValidation.new(type: :healthy,
+                                             error_code: :none,
+                                             timestamp: Time.current,
+                                             description: nil))
       end
 
       private
@@ -62,6 +65,7 @@ module Storages
         return None() if @storage.configured?
 
         Some(ConnectionValidation.new(type: :none,
+                                      error_code: :wrn_not_configured,
                                       timestamp: Time.current,
                                       description: I18n.t("storages.health.connection_validation.not_configured")))
       end
@@ -70,6 +74,7 @@ module Storages
         return None() if query.result != :not_found
 
         Some(ConnectionValidation.new(type: :error,
+                                      error_code: :err_drive_invalid,
                                       timestamp: Time.current,
                                       description: I18n.t("storages.health.connection_validation.drive_id_wrong")))
       end
@@ -84,6 +89,7 @@ module Storages
         return None() unless payload["error_description"].include?(tenant_id_string)
 
         Some(ConnectionValidation.new(type: :error,
+                                      error_code: :err_tenant_invalid,
                                       timestamp: Time.current,
                                       description: I18n.t("storages.health.connection_validation.tenant_id_wrong")))
       end
@@ -95,6 +101,7 @@ module Storages
         return None() if payload["error"] != "unauthorized_client"
 
         Some(ConnectionValidation.new(type: :error,
+                                      error_code: :err_client_invalid,
                                       timestamp: Time.current,
                                       description: I18n.t("storages.health.connection_validation.client_id_wrong")))
       end
@@ -106,6 +113,7 @@ module Storages
         return None() if payload["error"] != "invalid_client"
 
         Some(ConnectionValidation.new(type: :error,
+                                      error_code: :err_client_invalid,
                                       timestamp: Time.current,
                                       description: I18n.t("storages.health.connection_validation.client_secret_wrong")))
       end
@@ -123,6 +131,7 @@ module Storages
         return None() if unexpected_files.empty?
 
         Some(ConnectionValidation.new(type: :warning,
+                                      error_code: :wrn_unexpected_content,
                                       timestamp: Time.current,
                                       description: I18n.t("storages.health.connection_validation.unexpected_content")))
       end
@@ -136,6 +145,7 @@ module Storages
                            "status: #{query.result}\n\tresponse: #{query.error_payload}")
 
         Some(ConnectionValidation.new(type: :error,
+                                      error_code: :err_unknown,
                                       timestamp: Time.current,
                                       description: I18n.t("storages.health.connection_validation.unknown_error")))
       end
