@@ -324,7 +324,7 @@ module Components
       def expect_no_invite_option
         within_modal do
           expect(page)
-            .to have_text(I18n.t("sharing.permissions.denied"))
+            .to have_text(I18n.t("work_package.permissions.denied"))
         end
       end
 
