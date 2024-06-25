@@ -190,7 +190,7 @@ module Components
 
       def expect_blankslate
         within_modal do
-          expect(page).to have_text(I18n.t("sharing.text_empty_state_description"))
+          expect(page).to have_text(I18n.t("sharing.text_empty_state_description", entity: WorkPackage.model_name.human))
         end
       end
 
@@ -324,7 +324,7 @@ module Components
       def expect_no_invite_option
         within_modal do
           expect(page)
-            .to have_text(I18n.t("work_package.permissions.denied"))
+            .to have_text(I18n.t("sharing.denied", entities: WorkPackage.model_name.human(count: 2)))
         end
       end
 

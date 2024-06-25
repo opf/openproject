@@ -96,7 +96,7 @@
         end
       end
     else
-      render(Primer::Alpha::Banner.new(icon: :info)) { I18n.t('sharing.denied', entity: @entity.model_name.human(count: 2)) }
+      render(Primer::Alpha::Banner.new(icon: :info)) { I18n.t('sharing.denied', entities: @entity.model_name.human(count: 2)) }
     end
   end
 %>
