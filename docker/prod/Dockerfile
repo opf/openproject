@@ -49,6 +49,8 @@ RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
 COPY ./docker/prod/setup/preinstall-common.sh ./docker/prod/setup/preinstall-common.sh
 RUN ./docker/prod/setup/preinstall-common.sh
 
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
+
 # stuff required for gems
 COPY Gemfile Gemfile.* .ruby-version ./
 COPY modules ./modules

@@ -44,6 +44,7 @@ apt-get install -yq --no-install-recommends \
 	postgresql-client-$NEXT_PGVERSION \
 	libpq5 \
 	libffi8 \
+	libjemalloc2 \
 	unrtf \
 	tesseract-ocr \
 	poppler-utils \
