@@ -29,13 +29,13 @@
 module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
-      class NewProjectMappingFormComponent < ApplicationComponent
+      class NewProjectMappingFormComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         include OpTurbo::Streamable
 
-        DIALOG_ID = "settings--new-project-custom-field-mapping-component"
-        DIALOG_BODY_ID = "settings--new-project-custom-field-mapping-body-component"
+        DIALOG_ID = "settings--new-project-custom-field-mapping-component".freeze
+        DIALOG_BODY_ID = "settings--new-project-custom-field-mapping-body-component".freeze
 
-        def initialize(project_mapping:, project_custom_field: )
+        def initialize(project_mapping:, project_custom_field:)
           super
           @project_mapping = project_mapping
           @project_custom_field = project_custom_field
