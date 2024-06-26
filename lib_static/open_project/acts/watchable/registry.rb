@@ -34,10 +34,6 @@ module OpenProject
           @models ||= Set.new
         end
 
-        def self.exists?(model)
-          models.include?(model)
-        end
-
         def self.instance(model_name)
           models.detect { |cls| cls.name == model_name.singularize.camelize }
         end
