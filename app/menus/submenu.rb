@@ -102,7 +102,7 @@ class Submenu
       end
     end
 
-    if query_params.empty? && params[:filters].present?
+    if query_params.empty? && (%i[filters query_props query_id name].any? { |k| params.key? k })
       return false
     end
 
