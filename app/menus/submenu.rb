@@ -102,6 +102,10 @@ class Submenu
       end
     end
 
+    if query_params.empty? && params[:filters].present?
+      return false
+    end
+
     true
   end
 
