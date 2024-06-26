@@ -15,6 +15,34 @@ This document describes the style settings format for the [PDF Export styling fi
 | `cover` | **Cover page**<br/>Styling for the cover page of the PDF report export<br/>See [Cover page](#cover-page) | object |
 | `overview` | **Overview**<br/>Styling for the PDF table export<br/>See [Overview](#overview) | object |
 
+## Alert
+
+Styling to denote a quote as alert box
+
+Key: `alert`
+
+Example:
+
+```yaml
+ALERT:
+  alert_color: f4f9ff
+  border_color: f4f9ff
+  border_width: 2
+  no_border_right: true
+  no_border_left: false
+  no_border_bottom: true
+  no_border_top: true
+```
+
+| Key | Description | Data type |
+| - | - | - |
+| `background_color` | **Color**<br/>A color in RRGGBB format<br/>Example: `F0F0F0` | string |
+| `alert_color` | **Color**<br/>A color in RRGGBB format<br/>Example: `F0F0F0` | string |
+| … | See [Font properties](#font-properties) |  |
+| … | See [Border Properties](#border-properties) |  |
+| … | See [Padding Properties](#padding-properties) |  |
+| … | See [Margin properties](#margin-properties) |  |
+
 ## Border Properties
 
 Properties to set borders
@@ -287,6 +315,7 @@ markdown:
 | `unordered_list_point` | **Markdown unordered list point**<br/>Default styling for unordered list points on all levels.<br/>use unordered_list_point_`x` as key for unordered list points level `x`.<br/>See [Markdown unordered list point](#markdown-unordered-list-point) | object |
 | `task_list` | **Markdown task list**<br/>See [Markdown unordered list](#markdown-unordered-list) | object |
 | `task_list_point` | **Markdown task list point**<br/>See [Markdown task list point](#markdown-task-list-point) | object |
+| `alerts` | **alert boxes (styled blockquotes)**<br/>See [alert boxes (styled blockquotes)](#alert-boxes-styled-blockquotes) | object |
 | `ordered_list_point_1`<br/>`ordered_list_point_2`<br/>`ordered_list_point_x` | Markdown ordered list point level<br/>See [Markdown ordered list point](#markdown-ordered-list-point) | object |
 | `ordered_list_1`<br/>`ordered_list_2`<br/>`ordered_list_x` | Markdown ordered list level<br/>See [Markdown ordered list](#markdown-ordered-list) | object |
 | `unordered_list_point_1`<br/>`unordered_list_point_2`<br/>`unordered_list_point_x` | Markdown unordered list point level<br/>See [Markdown unordered list point](#markdown-unordered-list-point) | object |
@@ -621,14 +650,14 @@ overview:
   table: {}
 ```
 
-| Key             | Description                                                                                                                                   | Data type |
-|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| `group_heading` | **Overview group heading**<br/>Styling for the group label if grouping is activated<br/>See [Overview group heading](#overview-group-heading) | object    |
-| `table`         | **Overview table**<br/>See [Overview table](#overview-table)                                                                                  | object    |
+| Key | Description | Data type |
+| - | - | - |
+| `group_heading` | **Overview group heading**<br/>Styling for the group lavel if grouping is activated<br/>See [Overview group heading](#overview-group-heading) | object |
+| `table` | **Overview table**<br/>See [Overview table](#overview-table) | object |
 
 ## Overview group heading
 
-Styling for the group label if grouping is activated
+Styling for the group lavel if grouping is activated
 
 Key: `group_heading`
 
@@ -1092,10 +1121,10 @@ subject:
   margin_bottom: 10
 ```
 
-| Key | Description                                 | Data type |
-|-----|---------------------------------------------|-----------|
-| …   | See [Font properties](#font-properties)     |           |
-| …   | See [Margin properties](#margin-properties) |           |
+| Key | Description | Data type |
+| - | - | - |
+| … | See [Font properties](#font-properties) |  |
+| … | See [Margin properties](#margin-properties) |  |
 
 ## Work package subject level
 
@@ -1122,6 +1151,18 @@ subject_level_3:
 | - | - | - |
 | … | See [Font properties](#font-properties) |  |
 | … | See [Margin properties](#margin-properties) |  |
+
+## alert boxes (styled blockquotes)
+
+Key: `alerts`
+
+| Key | Description | Data type |
+| - | - | - |
+| `NOTE` | **Alert**<br/>Styling to denote a quote as alert box<br/>See [Alert](#alert) | object |
+| `TIP` | **Alert**<br/>Styling to denote a quote as alert box<br/>See [Alert](#alert) | object |
+| `WARNING` | **Alert**<br/>Styling to denote a quote as alert box<br/>See [Alert](#alert) | object |
+| `IMPORTANT` | **Alert**<br/>Styling to denote a quote as alert box<br/>See [Alert](#alert) | object |
+| `CAUTION` | **Alert**<br/>Styling to denote a quote as alert box<br/>See [Alert](#alert) | object |
 
 ## Units
 
