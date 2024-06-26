@@ -106,26 +106,26 @@ module Shares
       end
     end
 
-    def type_filter_option_active?(_option)
+    def type_filter_option_active?(option)
       principal_type_filter_value = current_filter_value(params[:filters], "principal_type")
       project_member_filter_value = current_filter_value(params[:filters], "also_project_member")
 
       return false if principal_type_filter_value.nil? || project_member_filter_value.nil?
 
       principal_type_checked =
-        _option[:value][:principal_type] == principal_type_filter_value
+        option[:value][:principal_type] == principal_type_filter_value
       membership_selected =
-        _option[:value][:project_member] == ActiveRecord::Type::Boolean.new.cast(project_member_filter_value)
+        option[:value][:project_member] == ActiveRecord::Type::Boolean.new.cast(project_member_filter_value)
 
       principal_type_checked && membership_selected
     end
 
-    def role_filter_option_active?(_option)
+    def role_filter_option_active?(option)
       role_filter_value = current_filter_value(params[:filters], "role_id")
 
       return false if role_filter_value.nil?
 
-      selected_role = @available_roles.find { _1[:value] == _option[:value] }
+      selected_role = @available_roles.find { _1[:value] == option[:value] }
 
       selected_role[:value] == role_filter_value.to_i
     end
@@ -165,32 +165,32 @@ module Shares
       ]
     end
 
-    def apply_type_filter(_option)
+    def apply_type_filter(option)
       current_type_filter_value = current_filter_value(params[:filters], "principal_type")
       current_member_filter_value = current_filter_value(params[:filters], "also_project_member")
       filter = []
 
-      if _option.nil? && current_type_filter_value.present? && current_member_filter_value.present?
+      if option.nil? && current_type_filter_value.present? && current_member_filter_value.present?
         # When there is already a type filter set and no new value passed, we want to keep that filter
         value = { value: { principal_type: current_type_filter_value, project_member: current_member_filter_value } }
         filter = type_filter_for(value)
-      elsif _option.present? && !type_filter_option_active?(_option)
+      elsif option.present? && !type_filter_option_active?(option)
         # Only when the passed filter option is not the currently selected one, we apply the filter
-        filter = type_filter_for(_option)
+        filter = type_filter_for(option)
       end
 
       filter
     end
 
-    def type_filter_for(_option)
+    def type_filter_for(option)
       filter = []
-      if ActiveRecord::Type::Boolean.new.cast(_option[:value][:project_member])
+      if ActiveRecord::Type::Boolean.new.cast(option[:value][:project_member])
         filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_TRUE] } })
       else
         filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] } })
       end
 
-      filter.push({ principal_type: { operator: "=", values: [_option[:value][:principal_type]] } })
+      filter.push({ principal_type: { operator: "=", values: [option[:value][:principal_type]] } })
       filter
     end
 
