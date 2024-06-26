@@ -29,10 +29,6 @@
 module OpenProject
   module Acts
     module RegistryMethods
-      def models
-        @models ||= Set.new
-      end
-
       def instance(model_name)
         models.detect { |cls| cls.name == model_name.singularize.camelize }
       end
@@ -48,6 +44,12 @@ module OpenProject
 
           self.models << model
         end
+      end
+
+      private
+
+      def models
+        @models ||= Set.new
       end
     end
   end
