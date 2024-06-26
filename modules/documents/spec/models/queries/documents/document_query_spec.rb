@@ -33,17 +33,7 @@ RSpec.describe Queries::Documents::DocumentQuery do
   let(:base_scope) { Document.visible(user).order(id: :desc) }
   let(:instance) { described_class.new }
 
-  before do
-    login_as(user)
-  end
-
-  context "without a filter" do
-    describe "#results" do
-      it "is the same as getting all the visible documents" do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
-      end
-    end
-  end
+  current_user { user }
 
   context "with a project filter" do
     before do
@@ -52,15 +42,6 @@ RSpec.describe Queries::Documents::DocumentQuery do
         .with(:id)
         .and_return([1])
       instance.where("project_id", "=", ["1"])
-    end
-
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                     .where(["documents.project_id IN (?)", ["1"]])
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
     end
 
     describe "#valid?" do

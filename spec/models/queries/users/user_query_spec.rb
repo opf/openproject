@@ -32,28 +32,9 @@ RSpec.describe Queries::Users::UserQuery do
   let(:instance) { described_class.new }
   let(:base_scope) { User.user.order(id: :desc) }
 
-  context "without a filter" do
-    describe "#results" do
-      it "is the same as getting all the users" do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
-      end
-    end
-  end
-
   context "with a name filter" do
     before do
       instance.where("name", "~", ["a user"])
-    end
-
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                     .user
-                     .where(["unaccent(LOWER(CONCAT(users.firstname, ' ', users.lastname))) LIKE unaccent(?)",
-                             "%a user%"])
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
     end
 
     describe "#valid?" do
@@ -71,14 +52,6 @@ RSpec.describe Queries::Users::UserQuery do
   context "with a status filter" do
     before do
       instance.where("status", "=", ["active"])
-    end
-
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope.user.where("users.status IN (1)")
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
     end
 
     describe "#valid?" do
@@ -108,16 +81,6 @@ RSpec.describe Queries::Users::UserQuery do
       instance.where("group", "=", [group_1.id])
     end
 
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                   .user
-                   .where(["users.id IN (#{User.in_group([group_1.id.to_s]).select(:id).to_sql})"])
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-
     describe "#valid?" do
       it "is true" do
         expect(instance).to be_valid
@@ -135,14 +98,6 @@ RSpec.describe Queries::Users::UserQuery do
       instance.where("not_supposed_to_exist", "=", ["bogus"])
     end
 
-    describe "#results" do
-      it "returns a query not returning anything" do
-        expected = User.where(Arel::Nodes::Equality.new(1, 0))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-
     describe "valid?" do
       it "is false" do
         expect(instance).to be_invalid
@@ -156,72 +111,10 @@ RSpec.describe Queries::Users::UserQuery do
     end
   end
 
-  context "with an id sortation" do
-    before do
-      instance.order(id: :asc)
-    end
-
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = User.user.order(id: :asc)
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-  end
-
-  context "with a name sortation" do
-    before do
-      instance.order(name: :desc)
-    end
-
-    describe "#results", with_settings: { user_format: :firstname_lastname } do
-      let(:order_sql) do
-        <<~SQL
-          CASE
-          WHEN users.type = 'User' THEN LOWER(concat_ws(' ', users.firstname, users.lastname))
-          WHEN users.type != 'User' THEN LOWER(users.lastname)
-          END DESC
-        SQL
-      end
-
-      it "is the same as handwriting the query" do
-        expected = User
-            .user
-            .order(Arel.sql(order_sql))
-            .order(id: :desc)
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-  end
-
-  context "with a group sortation" do
-    before do
-      instance.order(group: :desc)
-    end
-
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = User.user.joins(:groups).order("groups_users.lastname DESC").order(id: :desc)
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-  end
-
   context "with a non existing sortation" do
     # this is a field protected from sortation
     before do
       instance.order(password: :desc)
-    end
-
-    describe "#results" do
-      it "returns a query not returning anything" do
-        expected = User.where(Arel::Nodes::Equality.new(1, 0))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
     end
 
     describe "valid?" do

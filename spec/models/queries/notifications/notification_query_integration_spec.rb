@@ -28,37 +28,54 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Notifications::NotificationQuery do
+RSpec.describe Queries::Notifications::NotificationQuery, "integration" do
   shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
+  shared_let(:invisible_project) { create(:project) }
 
-  shared_let(:recipient) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+  shared_let(:recipient) do
+    create(:user,
+           member_with_permissions: {
+             project => %i[view_work_packages],
+             other_project => %i[view_work_packages]
+           })
+  end
+  shared_let(:other_user) { create(:user) }
 
   shared_let(:work_package) { create(:work_package, project:) }
-  shared_let(:notification) { create(:notification, recipient:, project:, resource: work_package) }
+  shared_let(:other_work_package) { create(:work_package, project: other_project) }
+  shared_let(:invisible_work_package) { create(:work_package, project: invisible_project) }
+  shared_let(:mentioned_notification) { create(:notification, recipient:, project:, resource: work_package) }
+  shared_let(:assigned_notification) do
+    create(:notification, recipient:, project: other_project, resource: other_work_package, reason: "assigned")
+  end
+  shared_let(:other_user_notification) { create(:notification, recipient: other_user, project:, resource: work_package) }
+  shared_let(:invisible_notification) do
+    create(:notification, recipient:, project: invisible_project, resource: invisible_work_package)
+  end
 
   let(:instance) { described_class.new(user: recipient) }
-  let(:base_scope) { Notification.visible(recipient).recipient(recipient) }
 
   current_user { recipient }
 
   context "without a filter" do
     describe "#results" do
-      it "is the same as getting all the users" do
-        expect(instance.results.to_sql).to eql base_scope.order(id: :desc).to_sql
+      it "returns all the notifications visible to the user" do
+        expect(instance.results).to eq [assigned_notification, mentioned_notification]
       end
     end
   end
 
   context "with a read_ian filter" do
     before do
+      mentioned_notification.update_column(:read_ian, true)
+
       instance.where("read_ian", "=", ["t"])
     end
 
     describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope.where("notifications.read_ian IN ('t')").order(id: :desc).to_sql
-
-        expect(instance.results.to_sql).to eql expected
+      it "returns notifications that are read in app" do
+        expect(instance.results).to eq [mentioned_notification]
       end
     end
 
@@ -69,7 +86,7 @@ RSpec.describe Queries::Notifications::NotificationQuery do
 
       it "is invalid if the filter is invalid" do
         instance.where("read_ian", "=", [""])
-        expect(instance).to be_invalid
+        expect(instance).not_to be_valid
       end
     end
   end
@@ -80,16 +97,14 @@ RSpec.describe Queries::Notifications::NotificationQuery do
     end
 
     describe "#results" do
-      it "returns a query not returning anything" do
-        expected = Notification.where(Arel::Nodes::Equality.new(1, 0))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
+      it "returns nothing" do
+        expect(instance.results).to be_empty
       end
     end
 
     describe "valid?" do
       it "is false" do
-        expect(instance).to be_invalid
+        expect(instance).not_to be_valid
       end
 
       it "returns the error on the filter" do
@@ -106,38 +121,34 @@ RSpec.describe Queries::Notifications::NotificationQuery do
     end
 
     describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope.order(id: :asc)
-
-        expect(instance.results.to_sql).to eql expected.to_sql
+      it "returns all the notifications sorted by id asc" do
+        expect(instance.results).to eq [mentioned_notification, assigned_notification]
       end
     end
   end
 
   context "with a read_ian sortation" do
     before do
+      mentioned_notification.update_column(:read_ian, true)
+
       instance.order(read_ian: :desc)
     end
 
     describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope.order(read_ian: :desc, id: :desc).to_sql
-
-        expect(instance.results.to_sql).to eql expected
+      it "returns all read in app first and then the other" do
+        expect(instance.results).to eq [mentioned_notification, assigned_notification]
       end
     end
   end
 
   context "with a reason sortation" do
     before do
-      instance.order(reason: :desc)
+      instance.order(reason: :asc)
     end
 
     describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope.order(reason: :desc, id: :desc).to_sql
-
-        expect(instance.results.to_sql).to eql expected
+      it "returns the notifications ordered by reason" do
+        expect(instance.results).to eq [mentioned_notification, assigned_notification]
       end
     end
   end
@@ -148,34 +159,35 @@ RSpec.describe Queries::Notifications::NotificationQuery do
     end
 
     describe "#results" do
-      it "returns a query not returning anything" do
-        expected = Notification.where(Arel::Nodes::Equality.new(1, 0))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
+      it "returns nothing" do
+        expect(instance.results).to be_empty
       end
     end
 
     describe "valid?" do
       it "is false" do
-        expect(instance).to be_invalid
+        expect(instance).not_to be_valid
       end
     end
   end
 
   context "with a reason group_by" do
+    let!(:other_mentioned_notification) { create(:notification, recipient:, project:, resource: work_package) }
+
     before do
       instance.group(:reason)
     end
 
     describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                     .group(:reason)
-                     .order(reason: :asc)
-                     .select(:reason, Arel.sql("COUNT(*)"))
-                     .to_sql
+      it "returns the notifications ordered by reason" do
+        expect(instance.results).to eq [other_mentioned_notification, mentioned_notification, assigned_notification]
+      end
+    end
 
-        expect(instance.groups.to_sql).to eql expected
+    describe "#groups" do
+      it "returns the counts per reason" do
+        expect(instance.groups.map { [_1.reason, _1.count] })
+          .to eq [["mentioned", 2], ["assigned", 1]]
       end
     end
   end
@@ -186,14 +198,15 @@ RSpec.describe Queries::Notifications::NotificationQuery do
     end
 
     describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                     .group(:project_id)
-                     .order(project_id: :asc)
-                     .select(:project_id, Arel.sql("COUNT(*)"))
-                     .to_sql
+      it "returns the notifications ordered by project" do
+        expect(instance.results).to eq [mentioned_notification, assigned_notification]
+      end
+    end
 
-        expect(instance.groups.to_sql).to eql expected
+    describe "#groups" do
+      it "returns the counts per project" do
+        expect(instance.groups.map { [_1.project, _1.count] })
+          .to eq [[project, 1], [other_project, 1]]
       end
     end
   end
@@ -204,16 +217,14 @@ RSpec.describe Queries::Notifications::NotificationQuery do
     end
 
     describe "#results" do
-      it "returns a query not returning anything" do
-        expected = Notification.where(Arel::Nodes::Equality.new(1, 0))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
+      it "returns nothing" do
+        expect(instance.results).to be_empty
       end
     end
 
     describe "valid?" do
       it "is false" do
-        expect(instance).to be_invalid
+        expect(instance).not_to be_valid
       end
     end
   end

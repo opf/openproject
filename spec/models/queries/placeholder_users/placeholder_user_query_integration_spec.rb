@@ -28,13 +28,13 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Users::UserQuery do
+RSpec.describe Queries::PlaceholderUsers::PlaceholderUserQuery do
   let(:instance) { described_class.new }
 
-  shared_let(:a_user) { create(:user, firstname: "A", lastname: "A") }
-  shared_let(:z_user) { create(:user, firstname: "Z", lastname: "Z") }
-  shared_let(:m_user) { create(:user, firstname: "M", lastname: "M") }
-  shared_let(:u_user) { create(:user, firstname: "U", lastname: "U") }
+  shared_let(:a_user) { create(:placeholder_user, firstname: "A", lastname: "A") }
+  shared_let(:z_user) { create(:placeholder_user, firstname: "Z", lastname: "Z") }
+  shared_let(:m_user) { create(:placeholder_user, firstname: "M", lastname: "M") }
+  shared_let(:u_user) { create(:placeholder_user, firstname: "U", lastname: "U") }
   shared_let(:b_group) { create(:group, name: "B", members: [z_user]) }
   shared_let(:n_group) { create(:group, name: "N", members: [m_user]) }
   shared_let(:y_group) { create(:group, name: "Y", members: [a_user]) }

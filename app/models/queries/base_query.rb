@@ -233,6 +233,8 @@ module Queries::BaseQuery
     selects.select { _1.respond_to?(:apply_to) }.inject(query_scope) do |scope, select|
       # TODO: have all selects implement apply_to and use that to
       # formulate the select clause
+      # * In case the select is on a column that is part of the model, the apply_to
+      # just returns the scope
       select.apply_to(scope)
     end
   end

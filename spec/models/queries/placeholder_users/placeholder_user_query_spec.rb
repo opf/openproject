@@ -32,28 +32,9 @@ RSpec.describe Queries::PlaceholderUsers::PlaceholderUserQuery do
   let(:instance) { described_class.new }
   let(:base_scope) { PlaceholderUser.order(id: :desc) }
 
-  context "without a filter" do
-    describe "#results" do
-      it "is the same as getting all the users" do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
-      end
-    end
-  end
-
   context "with a name filter" do
     before do
       instance.where("name", "~", ["a user"])
-    end
-
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                     .merge(PlaceholderUser
-                     .where(["unaccent(LOWER(CONCAT(users.firstname, ' ', users.lastname))) LIKE unaccent(?)",
-                             "%a user%"]))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
     end
 
     describe "#valid?" do
@@ -83,16 +64,6 @@ RSpec.describe Queries::PlaceholderUsers::PlaceholderUserQuery do
       instance.where("group", "=", [group_1.id])
     end
 
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                       .merge(PlaceholderUser
-                                .where(["users.id IN (#{PlaceholderUser.in_group([group_1.id.to_s]).select(:id).to_sql})"]))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-
     describe "#valid?" do
       it "is true" do
         expect(instance).to be_valid
@@ -110,14 +81,6 @@ RSpec.describe Queries::PlaceholderUsers::PlaceholderUserQuery do
       instance.where("not_supposed_to_exist", "=", ["bogus"])
     end
 
-    describe "#results" do
-      it "returns a query not returning anything" do
-        expected = PlaceholderUser.where(Arel::Nodes::Equality.new(1, 0))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-
     describe "valid?" do
       it "is false" do
         expect(instance).to be_invalid
@@ -131,60 +94,10 @@ RSpec.describe Queries::PlaceholderUsers::PlaceholderUserQuery do
     end
   end
 
-  context "with an id sortation" do
-    before do
-      instance.order(id: :asc)
-    end
-
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = PlaceholderUser.merge(PlaceholderUser.order(id: :asc))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-  end
-
-  context "with a name sortation" do
-    before do
-      instance.order(name: :desc)
-    end
-
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = "SELECT \"users\".* FROM \"users\" WHERE \"users\".\"type\" = 'PlaceholderUser' ORDER BY \"users\".\"lastname\" DESC, \"users\".\"id\" DESC"
-
-        expect(instance.results.to_sql).to eql expected
-      end
-    end
-  end
-
-  context "with a group sortation" do
-    before do
-      instance.order(group: :desc)
-    end
-
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = PlaceholderUser.merge(PlaceholderUser.joins(:groups).order("groups_users.lastname DESC")).order(id: :desc)
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-  end
-
   context "with a non existing sortation" do
     # this is a field protected from sortation
     before do
       instance.order(password: :desc)
-    end
-
-    describe "#results" do
-      it "returns a query not returning anything" do
-        expected = PlaceholderUser.where(Arel::Nodes::Equality.new(1, 0))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
     end
 
     describe "valid?" do

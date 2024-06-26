@@ -38,6 +38,12 @@ class Queries::Days::DayQuery
     Day.default_scope
   end
 
+  def results
+    super.reorder(date: :asc)
+  end
+
+  protected
+
   ##
   # The dates interval filter needs to adjust the `from` clause of the query.
   # If there are multiple filters with custom from clause (currently not possible),
@@ -49,7 +55,10 @@ class Queries::Days::DayQuery
     scope
   end
 
-  def results
-    super.reorder(date: :asc)
+  # Since the model is a generated series, and the filters determine the range of that series,
+  # doing an EXISTS as done in the base query is not possible. The filtering determines the values that exists
+  # in the first place.
+  def filtered_results_scope
+    apply_filters(default_scope)
   end
 end
