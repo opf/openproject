@@ -25,12 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module OpenProject
   module Acts
     module Watchable
       module Routes
-        mattr_accessor :models
-
         def self.matches?(request)
           params = request.path_parameters
 
