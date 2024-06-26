@@ -25,8 +25,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require_relative "watchable/registry"
-require_relative "watchable/routes"
 
 module OpenProject
   module Acts
