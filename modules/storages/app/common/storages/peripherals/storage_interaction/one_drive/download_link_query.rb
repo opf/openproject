@@ -33,8 +33,6 @@ module Storages
     module StorageInteraction
       module OneDrive
         class DownloadLinkQuery
-          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
-
           def self.call(storage:, auth_strategy:, file_link:)
             new(storage).call(auth_strategy:, file_link:)
           end
@@ -50,7 +48,7 @@ module Storages
                                                                       log_message: "File link can not be nil."))
             end
 
-            Auth[auth_strategy].call(storage: @storage) do |http|
+            Authentication[auth_strategy].call(storage: @storage) do |http|
               handle_errors http.get(Util.join_uri_path(@storage.uri, uri_path_for(file_link.origin_id)))
             end
           end

@@ -150,7 +150,7 @@ zh-CN:
         attribute_reference:
           macro_help_tooltip: "此文本段正由宏动态呈现。"
           not_found: "无法找到请求的资源"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "该宏递归引用 %{model} %{id}。"
           invalid_attribute: "所选属性 '%{name}' 不存在。"
         child_pages:
           button: "链接至子页面"

@@ -210,6 +210,7 @@ gem "validate_url"
 
 # Storages support code
 gem "dry-container"
+gem "dry-monads"
 
 # ActiveRecord extension which adds typecasting to store accessors
 gem "store_attribute", "~> 1.0"

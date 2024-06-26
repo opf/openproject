@@ -534,6 +534,22 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
       </d:multistatus>
     XML
   end
+  let(:get_file_info_response_body) do
+    {
+      ocs: {
+        data: {
+          status: "OK",
+          statuscode: 200,
+          id: project_storage2.project_folder_id,
+          name: "Lost Jedi Project Folder #3",
+          mtime: 1691079621,
+          ctime: 0,
+          dav_permissions: "RMGDNVW",
+          path: "files/OpenProject/Lost Jedi Project Folder #3"
+        }
+      }
+    }.to_json
+  end
 
   let(:request_stubs) { [] }
 
@@ -644,7 +660,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
       expect(project_storage2.last_project_folders.pluck(:origin_folder_id)).to eq(["123"])
       expect(project_storage3.last_project_folders.pluck(:origin_folder_id)).to eq(["2600003"])
 
-      expect(request_stubs).to all have_been_requested
+      expect_all_stubs
     end
 
     describe "error handling and flow control" do
@@ -759,9 +775,12 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         it "continues normally ignoring that folder" do
           expect { described_class.new(storage).call }.not_to change(project_storage1, :project_folder_id)
 
-          expect(request_stubs.delete_at(5)).not_to have_been_requested
-          expect(request_stubs.delete_at(3)).not_to have_been_requested
-          expect(request_stubs).to all(have_been_requested)
+          expect(request_stubs[..2]).to all(have_been_requested)
+          expect(request_stubs[3]).not_to have_been_requested
+          expect(request_stubs[4]).to have_been_made.times(2)
+          expect(request_stubs[5]).to have_been_requested
+          expect(request_stubs[6]).not_to have_been_requested
+          expect(request_stubs[7..]).to all(have_been_requested)
         end
 
         it "logs the occurrence" do
@@ -779,19 +798,19 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
 
       context "when renaming a folder fail" do
         before do
-          request_stubs[4] = stub_request(:move,
+          request_stubs[5] = stub_request(:move,
                                           "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-                                          "Lost%20Jedi%20Project%20Folder%20%233/")
+                                          "Lost%20Jedi%20Project%20Folder%20%233")
                                .with(headers:
                                        { "Authorization" => "Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=",
                                          "Destination" => "/remote.php/dav/files/OpenProject/OpenProject/" \
-                                                          "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/" })
+                                                          "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29" })
                                .to_return(status: 404, body: "", headers: {})
         end
 
         it "we stop processing to avoid issues with permissions" do
           described_class.new(storage).call
-          request_stubs[5..].each { |request| expect(request).not_to have_been_requested }
+          request_stubs[6..].each { |request| expect(request).not_to have_been_requested }
         end
 
         it "logs the occurrence" do
@@ -800,8 +819,8 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
 
           expect(OpenProject.logger)
             .to have_received(:warn)
-                  .with(source: "OpenProject/Lost Jedi Project Folder #3/",
-                        target: project_storage2.managed_project_folder_path,
+                  .with(folder_id: project_storage2.project_folder_id,
+                        folder_name: "Jedi Project Folder ||| (#{project2.id})",
                         command: Storages::Peripherals::StorageInteraction::Nextcloud::RenameFileCommand,
                         message: "Outbound request destination not found",
                         data: { status: 404, body: "" })
@@ -823,7 +842,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         it "does not interrupt the flow" do
           described_class.new(storage).call
 
-          expect(request_stubs).to all(have_been_requested)
+          expect_all_stubs
         end
 
         it "logs the occurrence" do
@@ -855,7 +874,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         it "does not interrupt the flow" do
           described_class.new(storage).call
 
-          expect(request_stubs).to all(have_been_requested)
+          expect_all_stubs
         end
 
         it "logs the occurrence" do
@@ -886,7 +905,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         it "does not interrupt te flow" do
           described_class.new(storage).call
 
-          expect(request_stubs).to all have_been_requested
+          expect_all_stubs
         end
 
         it "logs the occurrence" do
@@ -921,7 +940,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         it "does not interrupt the flow" do
           described_class.new(storage).call
 
-          expect(request_stubs).to all have_been_requested
+          expect_all_stubs
         end
 
         it "logs the occurrence and continues the flow" do
@@ -993,19 +1012,30 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
                 body: created_folder_propfind_response_body,
                 headers: { "Content-Type" => "application/xml" })
 
-    # 4 - Move/Rename Folder
+    # 4 - Fetch folder information
+    request_stubs << stub_request(
+      :get,
+      "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/#{project_storage2.project_folder_id}"
+    ).with(
+      headers: {
+        "Authorization" => "Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=",
+        "OCS-APIRequest" => "true"
+      }
+    ).to_return(status: 200, body: get_file_info_response_body, headers: {})
+
+    # 5 - Move/Rename Folder
     request_stubs << stub_request(
       :move,
-      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%233/"
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%233"
     ).with(
       headers: {
         "Authorization" => "Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=",
         "Destination" => "/remote.php/dav/files/OpenProject/OpenProject/" \
-                         "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/"
+                         "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29"
       }
     ).to_return(status: 201, body: "", headers: {})
 
-    # 5 - Set Permissions for the Created Folder
+    # 6 - Set Permissions for the Created Folder
     request_stubs << stub_request(
       :proppatch,
       "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -1019,7 +1049,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
                 body: created_folder_set_permissions_response_body,
                 headers: { "Content-Type" => "application/xml" })
 
-    # 6 - Hide Unknown Inactive Folder
+    # 7 - Hide Unknown Inactive Folder
     request_stubs << stub_request(
       :proppatch,
       "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%232/"
@@ -1032,7 +1062,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
                 body: hide_folder_set_permissions_response_body,
                 headers: { "Content-Type" => "application/xml" })
 
-    # 7 - Hide Inactive Project Folder
+    # 8 - Hide Inactive Project Folder
     request_stubs << stub_request(
       :proppatch,
       "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/NOT%20ACTIVE%20PROJECT/"
@@ -1043,7 +1073,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
       }
     ).to_return(status: 207, body: set_permissions_response_body5, headers: { "Content-Type" => "application/xml" })
 
-    # 8 - Set folder Permissions
+    # 9 - Set folder Permissions
     request_stubs << stub_request(
       :proppatch,
       "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
@@ -1055,7 +1085,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
       }
     ).to_return(status: 207, body: set_permissions_response_body, headers: { "Content-Type" => "application/xml" })
 
-    # 9 - Set public project folder permissions
+    # 10 - Set public project folder permissions
     request_stubs << stub_request(
       :proppatch,
       "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/PUBLIC%20PROJECT%20%28#{project_public.id}%29/"
@@ -1066,6 +1096,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
       }
     ).to_return(status: 207, body: set_permissions_response_body6, headers: { "Content-Type" => "application/xml" })
 
+    # 11
     request_stubs << stub_request(
       :proppatch,
       "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20%28#{project3.id}%29/"
@@ -1076,7 +1107,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
       }
     ).to_return(status: 207, body: set_permissions_response_body7, headers: { "Content-Type" => "application/xml" })
 
-    # 11 - Get all user in the remote group
+    # 12 - Get all user in the remote group
     request_stubs << stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/groups/#{storage.group}")
                        .with(
                          headers: {
@@ -1087,7 +1118,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
                                    body: group_users_response_body,
                                    headers: { "Content-Type" => "application/xml" })
 
-    # 12 - Add user to group
+    # 13 - Add user to group
     request_stubs << stub_request(:post, "#{storage.host}/ocs/v1.php/cloud/users/Obi-Wan/groups")
                        .with(
                          body: "groupid=OpenProject",
@@ -1131,6 +1162,12 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         "Ocs-Apirequest" => "true"
       }
     ).to_return(status: 200, body: remove_user_from_group_response, headers: { "Content-Type" => "application/xml" })
+  end
+
+  def expect_all_stubs
+    expect(request_stubs[..3]).to all(have_been_requested)
+    expect(request_stubs[4]).to have_been_made.times(2)
+    expect(request_stubs[5..]).to all(have_been_requested)
   end
 
   def parse_error_msg(msg)

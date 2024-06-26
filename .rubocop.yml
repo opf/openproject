@@ -199,6 +199,10 @@ RSpec/DescribeClass:
     - 'spec/features/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
 
+# Allow number HTTP status codes in specs
+RSpecRails/HttpStatus:
+  Enabled: false
+
 # dynamic finders cop clashes with capybara ID cop
 Rails/DynamicFindBy:
   Enabled: true

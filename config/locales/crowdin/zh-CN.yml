@@ -506,9 +506,9 @@ zh-CN:
       no_common_statuses_exists: "所有选中的工作包都没有可用的状态，因此无法更改其状态。"
       unsupported_for_multiple_projects: "不支持多个项目工作包的大批量移动/复制"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        当前工作包类型未在目标项目中启用。 如果您希望目标项目保持不变，请启用此类型。 否则，工作包的类型将被自动重新分配，导致可能的数据丢失。
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        当前的工作包类型未在目标项目中启用。 如果您希望目标项目中的类型保持不变，请启用这些类型。 否则，工作包类型将被自动重新分配，导致可能的数据丢失。
     sharing:
       missing_workflow_warning:
         title: "工作包共享缺少工作流"
