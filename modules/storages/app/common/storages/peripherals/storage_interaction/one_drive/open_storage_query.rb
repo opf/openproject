@@ -33,8 +33,6 @@ module Storages
     module StorageInteraction
       module OneDrive
         class OpenStorageQuery
-          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
-
           def self.call(storage:, auth_strategy:)
             new(storage).call(auth_strategy:)
           end
@@ -44,7 +42,7 @@ module Storages
           end
 
           def call(auth_strategy:)
-            Auth[auth_strategy].call(storage: @storage) do |http|
+            Authentication[auth_strategy].call(storage: @storage) do |http|
               request_drive(http).map(&web_url)
             end
           end

@@ -304,8 +304,8 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
           expect(OpenProject.logger)
             .to have_received(:warn)
-                  .with(source: project_storage.project_folder_id,
-                        target: "[Sample] Project Name _ Ehuu (#{project.id})",
+                  .with(folder_id: project_storage.project_folder_id,
+                        folder_name: "[Sample] Project Name _ Ehuu (#{project.id})",
                         command: Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCommand,
                         message: nil,
                         data: { status: :conflict, body: /nameAlreadyExists/ })
