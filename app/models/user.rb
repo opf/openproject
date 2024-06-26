@@ -210,7 +210,7 @@ class User < Principal
 
   # Tries to authenticate a user in the database via external auth source
   # or password stored in the database
-  def self.try_authentication_for_existing_user(user, password, session = nil)
+  def self.try_authentication_for_existing_user(user, password, session = nil) # rubocop:disable Metrics/PerceivedComplexity
     activate_user! user, session if session
 
     return nil if !user.active? || OpenProject::Configuration.disable_password_login?
@@ -255,7 +255,7 @@ class User < Principal
 
   # Returns the user who matches the given autologin +key+ or nil
   def self.try_to_autologin(key)
-    token = Token::AutoLogin.find_by_plaintext_value(key)
+    token = Token::AutoLogin.find_by_plaintext_value(key) # rubocop:disable Rails/DynamicFindBy
     # Make sure there's only 1 token that matches the key
     if token && ((token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?)
       token.user
@@ -525,7 +525,7 @@ class User < Principal
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
-  def self.anonymous
+  def self.anonymous # rubocop:disable Metrics/AbcSize
     RequestStore[:anonymous_user] ||= begin
       anonymous_user = AnonymousUser.first
 
@@ -675,6 +675,6 @@ class User < Principal
   end
 
   def self.default_admin_account_changed?
-    !User.active.find_by_login("admin").try(:current_password).try(:matches_plaintext?, "admin")
+    !User.active.find_by_login("admin").try(:current_password).try(:matches_plaintext?, "admin") # rubocop:disable Rails/DynamicFindBy
   end
 end
