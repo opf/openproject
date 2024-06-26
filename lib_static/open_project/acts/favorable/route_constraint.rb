@@ -28,8 +28,8 @@
 
 module OpenProject
   module Acts
-    module Watchable
-      module Routes
+    module Favorable
+      module RouteConstraint
         def self.matches?(request)
           params = request.path_parameters
 
