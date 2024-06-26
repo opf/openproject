@@ -54,11 +54,13 @@ module OpenProject
         #                 is allowed to watch
 
         def acts_as_watchable(options = {})
-          return if included_modules.include?(::OpenProject::Acts::Watchable::InstanceMethods)
+          return if included_modules.include?(InstanceMethods)
 
           acts_as_watchable_enforce_project_association
 
           class_eval do
+            prepend InstanceMethods
+
             has_many :watchers, as: :watchable, dependent: :delete_all, validate: false
             has_many :watcher_users, through: :watchers, source: :user, validate: false
 
@@ -70,10 +72,9 @@ module OpenProject
             class_attribute :acts_as_watchable_options
 
             self.acts_as_watchable_options = options
-            ::OpenProject::Acts::Watchable::Registry.add(self)
           end
 
-          send :prepend, ::OpenProject::Acts::Watchable::InstanceMethods
+          Registry.add(self)
         end
 
         def acts_as_watchable_enforce_project_association
