@@ -79,12 +79,13 @@ Rails.application.routes.draw do
   # Shared route concerns
   # TODO: Add description how to configure controller to support shares
   concern :shareable do
-    resources :members, path: :shares, controller: "shares", only: %i[index create update destroy] do
+    resources :members, path: "shares", controller: "shares", only: %i[index create update destroy] do
       member do
         post "resend_invite" => "shares#resend_invite"
       end
 
       collection do
+        get :dialog, to: "shares#dialog"
         patch :bulk, to: "shares#bulk_update"
         put :bulk, to: "shares#bulk_update"
         delete :bulk, to: "shares#bulk_destroy"
@@ -537,7 +538,9 @@ Rails.application.routes.draw do
     get "/bulk" => "bulk#destroy"
   end
 
-  resources :work_packages, only: [:index], concerns: [:shareable] do
+  resources :work_packages, only: [:index] do
+    concerns :shareable
+
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"

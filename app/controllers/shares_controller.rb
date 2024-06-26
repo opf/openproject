@@ -29,15 +29,16 @@
 class SharesController < ApplicationController
   include OpTurbo::ComponentStream
   include OpTurbo::DialogStreamHelper
-  include Shares::WorkPackages::Authorization
   include MemberHelper
 
   before_action :load_entity
   before_action :load_shares, only: %i[index dialog]
   before_action :load_selected_shares, only: %i[bulk_update bulk_destroy]
   before_action :load_share, only: %i[destroy update resend_invite]
-  before_action :authorize
   before_action :enterprise_check, only: %i[index]
+
+  # TODO: Permission checks need to be implemented correctly depending on entity
+  before_action :authorize
 
   def dialog
     @sharing_manageable = sharing_manageable?
@@ -305,11 +306,16 @@ class SharesController < ApplicationController
   def load_entity
     @entity = if params["work_package_id"]
                 WorkPackage.visible.find(params["work_package_id"])
-                # TODO: Add support for other entities
+              # TODO: Add support for other entities
+              elsif params["query_id"] && request.path.starts_with?("/projects/queries")
+                Queries::Projects::ProjectQuery.visible.find(params["query_id"])
               else
                 raise ArgumentError, <<~ERROR
                   Nested the SharesController under an entity controller that is not yet configured to support sharing.
                   Edit the SharesController#load_entity method to load the entity from the correct parent.
+
+                  Params: #{params.to_unsafe_h}
+                  Request Path: #{request.path}
                 ERROR
               end
 
@@ -379,6 +385,21 @@ class SharesController < ApplicationController
   def sharing_contract_scope
     if @entity.is_a?(WorkPackage)
       Shares::WorkPackages
+    end
+  end
+
+  def sharing_manageable?
+    # TODO: Fix this to check based on the entity
+    case @entity
+    when WorkPackage
+      User.current.allowed_in_project?(:share_work_packages, @entity.project)
+    when Queries::Projects::ProjectQuery
+      @entity.editable?
+    else
+      raise ArgumentError, <<~ERROR
+        Checking sharing capabilities for an unsupported entity:
+        - #{@entity.class}
+      ERROR
     end
   end
 end

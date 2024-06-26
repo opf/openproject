@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
   %>
   <%= render(Projects::IndexSubHeaderComponent.new(query:, current_user:, disable_buttons: state === :rename)) %>
   <%# TODO: Temporary %>
-  <%- if @query %>
+  <%- if @query.persisted? %>
     <%= render(Primer::Beta::Button.new(
   tag: :a,
   href: dialog_projects_query_members_path(@query),
