@@ -86,6 +86,18 @@ RSpec.describe "Project Custom Field Mappings", :js do
       end
     end
 
+    it "shows an error in the dialog when no project is selected before adding" do
+      create(:project)
+      expect(page).to have_no_css("dialog")
+      click_on "Add projects"
+
+      page.within("dialog") do
+        click_on "Add"
+
+        expect(page).to have_text("Please select a project.")
+      end
+    end
+
     it "allows linking a project to a custom field" do
       project = create(:project)
       subproject = create(:project, parent: project)
