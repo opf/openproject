@@ -1,6 +1,6 @@
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,21 +24,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 module Members
   class Menu < Submenu
     attr_reader :project, :params
 
     def initialize(project: nil, params: nil)
-      @project = project
-      @params = params
-
-      super(view_type:, project:, params:)
+      super(view_type: nil, project:, params:)
     end
 
     def menu_items
       [
-        OpenProject::Menu::MenuGroup.new(header:nil, children: user_status_options),
+        OpenProject::Menu::MenuGroup.new(header: nil, children: user_status_options),
         OpenProject::Menu::MenuGroup.new(header: I18n.t("members.menu.project_roles"), children: project_roles_entries),
         OpenProject::Menu::MenuGroup.new(header: I18n.t("members.menu.wp_shares"), children: permission_menu_entries),
         OpenProject::Menu::MenuGroup.new(header: I18n.t("members.menu.groups"), children: project_group_entries)
@@ -50,8 +47,8 @@ module Members
         OpenProject::Menu::MenuItem.new(title: I18n.t("members.menu.all"),
                                         href: project_members_path(project),
                                         selected: active_filter_count == 0),
-        menu_item({status: :locked}, I18n.t("members.menu.locked")),
-        menu_item({status: :invited}, I18n.t("members.menu.invited"))
+        menu_item({ status: :locked }, I18n.t("members.menu.locked")),
+        menu_item({ status: :invited }, I18n.t("members.menu.invited"))
       ]
     end
 
@@ -60,7 +57,7 @@ module Members
         .where(id: MemberRole.where(member_id: @project.members.select(:id)).select(:role_id))
         .distinct
         .pluck(:id, :name)
-        .map { |id, name| menu_item( { role_id: id }, name) }
+        .map { |id, name| menu_item({ role_id: id }, name) }
     end
 
     def permission_menu_entries
@@ -81,7 +78,7 @@ module Members
     def selected?(query_params)
       return false if active_filter_count > 1
 
-      super(query_params)
+      super
     end
 
     def query_path(query_params)
