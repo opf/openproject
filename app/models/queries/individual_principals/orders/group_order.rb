@@ -36,14 +36,10 @@ class Queries::IndividualPrincipals::Orders::GroupOrder < Queries::Orders::Base
   private
 
   def order(scope)
-    order_string = "groups_users.lastname"
-
-    order_string += " DESC" if direction == :desc
-
-    scope.order(order_string)
+    scope.order(Arel.sql("groups_users.lastname").send(direction))
   end
 
-  def joins
+  def left_outer_joins
     :groups
   end
 end
