@@ -179,16 +179,17 @@ Rails.application.routes.draw do
     delete "/favorite" => "favorites#unfavorite"
   end
 
+  resources :project_queries, only: %i[show new create update destroy], controller: "projects/queries" do
+    member do
+      get :rename
+
+      post :publish
+      post :unpublish
+    end
+  end
+
   namespace :projects do
     resource :menu, only: %i[show]
-    resources :queries, only: %i[show new create update destroy] do
-      member do
-        get :rename
-
-        post :publish
-        post :unpublish
-      end
-    end
   end
 
   resources :projects, except: %i[show edit create update] do

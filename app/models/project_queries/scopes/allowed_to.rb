@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Queries::Projects::ProjectQueries::Scopes
+module ProjectQueries::Scopes
   module AllowedTo
     extend ActiveSupport::Concern
 

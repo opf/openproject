@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::ProjectQuery < ApplicationRecord
+class ProjectQuery < ApplicationRecord
   include Queries::BaseQuery
   include Queries::Serialization::Hash
   include HasMembers

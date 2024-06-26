@@ -38,15 +38,15 @@ RSpec.describe Menus::Projects do
   shared_let(:current_user) { build(:user) }
 
   shared_let(:current_user_query) do
-    Queries::Projects::ProjectQuery.create!(name: "Current user query", user: current_user)
+    ProjectQuery.create!(name: "Current user query", user: current_user)
   end
 
   shared_let(:other_user_query) do
-    Queries::Projects::ProjectQuery.create!(name: "Other user query", user: build(:user))
+    ProjectQuery.create!(name: "Other user query", user: build(:user))
   end
 
   shared_let(:public_query) do
-    Queries::Projects::ProjectQuery.create!(name: "Public query", user: build(:user), public: true)
+    ProjectQuery.create!(name: "Public query", user: build(:user), public: true)
   end
 
   subject(:first_level_menu_items) { instance.first_level_menu_items }

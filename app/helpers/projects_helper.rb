@@ -53,7 +53,7 @@ module ProjectsHelper
   end
 
   def projects_columns_options
-    @projects_columns_options ||= ::Queries::Projects::ProjectQuery
+    @projects_columns_options ||= ::ProjectQuery
                                     .new
                                     .available_selects
                                     .reject { |c| c.attribute == :hierarchy }

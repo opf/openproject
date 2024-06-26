@@ -31,7 +31,7 @@ class Member < ApplicationRecord
 
   ALLOWED_ENTITIES = [
     "WorkPackage",
-    "Queries::Projects::ProjectQuery"
+    "ProjectQuery"
   ].freeze
 
   extend DeprecatedAlias

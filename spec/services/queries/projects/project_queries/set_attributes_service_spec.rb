@@ -45,7 +45,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
                         contract_class:,
                         contract_options: {})
   end
-  let(:model_instance) { Queries::Projects::ProjectQuery.new }
+  let(:model_instance) { ProjectQuery.new }
   let(:contract_class) do
     allow(Queries::Projects::ProjectQueries::CreateContract)
       .to receive(:new)
@@ -191,7 +191,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
 
   context "with the query already having order and with order params" do
     let(:model_instance) do
-      Queries::Projects::ProjectQuery.new.tap do |query|
+      ProjectQuery.new.tap do |query|
         query.order(lft: :asc)
       end
     end
@@ -224,7 +224,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
 
   context "with the query already having filters and with filter params" do
     let(:model_instance) do
-      Queries::Projects::ProjectQuery.new.tap do |query|
+      ProjectQuery.new.tap do |query|
         query.where("active", "=", ["t"])
       end
     end
@@ -254,7 +254,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
 
   context "with the query already having selects and with selects params" do
     let(:model_instance) do
-      Queries::Projects::ProjectQuery.new.tap do |query|
+      ProjectQuery.new.tap do |query|
         query.select(:id, :name)
       end
     end
