@@ -41,8 +41,8 @@ class Queries::Projects::Selects::LatestActivityAt < Queries::Selects::Base
     User.current.admin?
   end
 
-  def scope
-    Project
+  def apply_to(scope)
+    scope
       .with(TABLE_NAME => Arel::Nodes::SqlLiteral.new(Project.latest_activity_sql))
       .select(self.class.column_sql)
       .joins("LEFT JOIN #{TABLE_NAME} ON projects.id = #{TABLE_NAME}.project_id")

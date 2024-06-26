@@ -229,13 +229,12 @@ module Queries::BaseQuery
       .order(group_by.name)
   end
 
-  def apply_selects(scope)
-    selects.select { _1.respond_to?(:scope) }.each do |select|
-      # TODO: change selects into apply_to pattern
-      scope = scope.merge(select.scope)
+  def apply_selects(query_scope)
+    selects.select { _1.respond_to?(:apply_to) }.inject(query_scope) do |scope, select|
+      # TODO: have all selects implement apply_to and use that to
+      # formulate the select clause
+      select.apply_to(scope)
     end
-
-    scope
   end
 
   def build_orders

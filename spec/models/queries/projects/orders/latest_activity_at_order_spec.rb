@@ -34,13 +34,27 @@ RSpec.describe Queries::Projects::Orders::LatestActivityAtOrder do
       i.direction = direction
     end
   end
-  let(:direction) { :asc }
+
+  shared_let(:recent_project) { create(:project, updated_at: 1.day.ago, created_at: 1.year.ago) }
+  shared_let(:today_project) { create(:project, updated_at: 1.hour.ago, created_at: 1.year.ago) }
+  shared_let(:inactive_project) { create(:project, updated_at: 1.year.ago, created_at: 1.year.ago) }
 
   describe "#apply_to" do
-    context "with a valid direction" do
-      it "orders by the disk space" do
-        expect(instance.apply_to(Project).to_sql)
-          .to eql(Project.order(Arel.sql("latest_activity.latest_activity_at").asc).to_sql)
+    context "when sorting asc" do
+      let(:direction) { :asc }
+
+      it "orders by the latest activity desc" do
+        expect(instance.apply_to(Project).to_a)
+          .to eql([inactive_project, recent_project, today_project])
+      end
+    end
+
+    context "when sorting desc" do
+      let(:direction) { :desc }
+
+      it "orders by the latest activity desc" do
+        expect(instance.apply_to(Project).to_a)
+          .to eql([today_project, recent_project, inactive_project])
       end
     end
 

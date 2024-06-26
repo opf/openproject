@@ -29,19 +29,26 @@
 class Queries::Projects::Orders::LatestActivityAtOrder < Queries::Orders::Base
   self.model = Project
 
+  TABLE_NAME = "latest_activity".freeze
+
   def self.key
     :latest_activity_at
+  end
+
+  def apply_to(query_scope)
+    super
+      .with(TABLE_NAME => Arel::Nodes::SqlLiteral.new(Project.latest_activity_sql))
   end
 
   private
 
   def joins
-    "LEFT JOIN (#{Project.latest_activity_sql}) activity_for_sort ON projects.id = activity_for_sort.project_id"
+    "LEFT JOIN #{TABLE_NAME} ON #{Project.table_name}.id = #{TABLE_NAME}.project_id"
   end
 
   def order(scope)
     with_raise_on_invalid do
-      scope.order(Arel.sql(Queries::Projects::Selects::LatestActivityAt.column_sql).send(direction))
+      scope.order(Arel.sql("#{TABLE_NAME}.#{self.class.key}").send(direction))
     end
   end
 end
