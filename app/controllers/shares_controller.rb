@@ -28,26 +28,34 @@
 
 class SharesController < ApplicationController
   include OpTurbo::ComponentStream
+  include OpTurbo::DialogStreamHelper
   include Shares::WorkPackages::Authorization
   include MemberHelper
 
   before_action :load_entity
-  before_action :load_shares, only: %i[index]
+  before_action :load_shares, only: %i[index dialog]
   before_action :load_selected_shares, only: %i[bulk_update bulk_destroy]
   before_action :load_share, only: %i[destroy update resend_invite]
   before_action :authorize
   before_action :enterprise_check, only: %i[index]
+
+  def dialog
+    @sharing_manageable = sharing_manageable?
+    @available_roles = available_roles
+  end
 
   def index
     unless @query.valid?
       flash.now[:error] = query.errors.full_messages
     end
 
-    render Shares::ModalBodyComponent.new(entity: @entity,
-                                          shares: @shares,
-                                          errors: @errors,
-                                          sharing_manageable: sharing_manageable?,
-                                          available_roles:), layout: nil
+    render Shares::ModalBodyComponent.new(
+      entity: @entity,
+      shares: @shares,
+      errors: @errors,
+      sharing_manageable: sharing_manageable?,
+      available_roles:
+    ), layout: nil
   end
 
   def create # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
