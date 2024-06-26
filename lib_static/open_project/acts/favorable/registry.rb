@@ -30,26 +30,7 @@ module OpenProject
   module Acts
     module Favorable
       module Registry
-        def self.models
-          @models ||= Set.new
-        end
-
-        def self.instance(model_name)
-          models.detect { |cls| cls.name == model_name.singularize.camelize }
-        end
-
-        def self.add(*models)
-          instance_methods_module = module_parent.const_get(:InstanceMethods)
-          acts_as_method_name = "acts_as_#{module_parent_name.demodulize.underscore}"
-
-          models.each do |model|
-            unless model.ancestors.include?(instance_methods_module)
-              raise ArgumentError.new("Model #{model} does not include #{acts_as_method_name}")
-            end
-
-            self.models << model
-          end
-        end
+        extend RegistryMethods
       end
     end
   end
