@@ -44,7 +44,7 @@ module OpenProject
 
         def self.add(*models)
           models.each do |model|
-            unless model.ancestors.include?(::OpenProject::Acts::Favorable)
+            unless model.ancestors.include?(::OpenProject::Acts::Favorable::InstanceMethods)
               raise ArgumentError.new("Model #{model} does not include acts_as_favorable")
             end
 
