@@ -57,7 +57,7 @@ export class WorkPackageShareButtonComponent extends UntilDestroyedMixin impleme
   shareCount$:Observable<number>;
 
   public text = {
-    share: this.I18n.t('js.work_packages.sharing.share'),
+    share: this.I18n.t('js.sharing.share'),
   };
 
   constructor(
