@@ -32,7 +32,7 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class BulkSelectionController extends Controller {
   static values = {
-    bulkUpdateRoleLabel: { type: String, default: I18n.t('js.work_packages.sharing.selection.mixed') },
+    bulkUpdateRoleLabel: { type: String, default: I18n.t('js.sharing.selection.mixed') },
   };
 
   declare bulkUpdateRoleLabelValue:string;
@@ -152,7 +152,7 @@ export default class BulkSelectionController extends Controller {
 
   private updateBulkUpdateRoleLabelValue() {
     if (new Set(this.selectedPermissions).size > 1) {
-      this.bulkUpdateRoleLabelValue = I18n.t('js.work_packages.sharing.selection.mixed');
+      this.bulkUpdateRoleLabelValue = I18n.t('js.sharing.selection.mixed');
       this.bulkPermissionButtons.forEach((button) => button.setAttribute('aria-checked', 'false'));
     } else {
       this.bulkUpdateRoleLabelValue = this.selectedPermissions[0];
@@ -180,7 +180,7 @@ export default class BulkSelectionController extends Controller {
   }
 
   private showSelectedCounter() {
-    this.selectedCounterTarget.textContent = I18n.t('js.work_packages.sharing.selected_count', { count: this.checked.length });
+    this.selectedCounterTarget.textContent = I18n.t('js.sharing.selected_count', { count: this.checked.length });
     this.sharedCounterTarget.setAttribute('hidden', 'true');
     this.selectedCounterTarget.removeAttribute('hidden');
   }
