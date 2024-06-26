@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,33 +24,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+module Bim
+  class Menu < Submenu
+    attr_reader :view_type, :project, :params
 
-Rails.application.routes.draw do
-  scope "", as: "bcf" do
-    mount Bim::Bcf::API::Root => "/api/bcf"
+    def initialize(project: nil, params: nil)
+      @view_type = "bim"
+      @project = project
+      @params = params
 
-    scope "projects/:project_id", as: "project" do
-      get "bcf/menu" => "bim/menus#show"
+      super(view_type:, project:, params:)
+    end
 
-      resources :issues, controller: "bim/bcf/issues" do
-        get :upload, action: :upload, on: :collection
-        post :prepare_import, action: :prepare_import, on: :collection
-        post :configure_import, action: :configure_import, on: :collection
-        post :import, action: :perform_import, on: :collection
+    def default_queries
+      query_generator = Bim::Menus::DefaultQueryGeneratorService.new
+      Bim::Menus::DefaultQueryGeneratorService::QUERY_OPTIONS.filter_map do |query_key|
+        params = query_generator.call(query_key:)
+        next if params.nil?
+
+        menu_item(
+          I18n.t("js.work_packages.default_queries.#{query_key}"),
+          params
+        )
       end
+    end
 
-      # IFC viewer frontend
-      get "bcf(/*state)", to: "bim/ifc_models/ifc_viewer#show", as: :frontend
-
-      # IFC model management
-      resources :ifc_models, controller: "bim/ifc_models/ifc_models" do
-        collection do
-          get :defaults
-          get :direct_upload_finished
-          post :set_direct_upload_file_name
-        end
-      end
+    def query_path(query_params)
+      bcf_project_frontend_path(project, query_params)
     end
   end
 end

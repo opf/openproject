@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "bim_sidemenu" do %>
+  <%= render OpenProject::Common::SubmenuComponent.new(sidebar_menu_items: @submenu_menu_items,
+                                                       searchable: true) %>
+<% end %>
