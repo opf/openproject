@@ -38,7 +38,7 @@ RSpec.describe Queries::Projects::ProjectQueries::LoadingContract do
   let(:query_orders) { [%w[name asc]] }
   let(:query_columns) { ["name", "public"] }
   let(:query) do
-    Queries::Projects::ProjectQuery.new do |query|
+    ProjectQuery.new do |query|
       query_filters.each do |key, operator, values|
         query.where(key, operator, values)
       end

@@ -113,6 +113,6 @@ class Projects::QueriesController < ApplicationController
   end
 
   def find_query
-    @query = Queries::Projects::ProjectQuery.visible(current_user).find(params[:id])
+    @query = ProjectQuery.visible(current_user).find(params[:id])
   end
 end

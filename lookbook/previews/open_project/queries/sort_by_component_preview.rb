@@ -2,7 +2,7 @@ module OpenProject::Queries
   # @logical_path OpenProject/Queries
   class SortByComponentPreview < Lookbook::Preview
     def default
-      query = ::Queries::Projects::ProjectQuery.new
+      query = ::ProjectQuery.new
       query.order(lft: :asc)
       query.order(created_at: :desc)
 

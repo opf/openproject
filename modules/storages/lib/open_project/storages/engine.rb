@@ -239,7 +239,7 @@ module OpenProject::Storages
           exclude filter
         end
 
-        ::Queries::Register.register(::Queries::Projects::ProjectQuery) do
+        ::Queries::Register.register(::ProjectQuery) do
           filter ::Queries::Storages::Projects::Filter::StorageIdFilter
           filter ::Queries::Storages::Projects::Filter::StorageUrlFilter
         end

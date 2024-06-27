@@ -434,7 +434,7 @@ module Settings
       },
       enabled_projects_columns: {
         default: %w[favored name project_status public created_at latest_activity_at required_disk_space],
-        allowed: -> { Queries::Projects::ProjectQuery.new.available_selects.map { |s| s.attribute.to_s } }
+        allowed: -> { ProjectQuery.new.available_selects.map { |s| s.attribute.to_s } }
       },
       enabled_scm: {
         default: %w[subversion git]
@@ -530,7 +530,7 @@ module Settings
         default_by_env: {
           # We do not want to set a localhost host name in production
           production: nil
-        },
+        }
       },
       hours_per_day: {
         description: "This will define what is considered a “day” when displaying duration in a more natural way " \
@@ -1037,7 +1037,7 @@ module Settings
       },
       smtp_timeout: {
         format: :integer,
-        default: 5,
+        default: 5
       },
       software_name: {
         description: "Override software application name",

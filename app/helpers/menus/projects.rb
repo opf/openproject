@@ -79,14 +79,14 @@ module Menus
     end
 
     def public_filters
-      ::Queries::Projects::ProjectQuery
+      ::ProjectQuery
         .public_lists
         .order(:name)
         .map { |query| query_menu_item(query) }
     end
 
     def my_filters
-      ::Queries::Projects::ProjectQuery
+      ::ProjectQuery
         .private_lists(user: current_user)
         .order(:name)
         .map { |query| query_menu_item(query) }
