@@ -47,6 +47,7 @@ module API
           p = super
 
           p[:includeSubprojects] = query.include_subprojects
+          p[:includeAllMembersAssignedProjects] = query.include_all_members_assigned_projects
           p[:showHierarchies] = query.show_hierarchies
           p[:showSums] = query.display_sums?
           p[:groupBy] = query.group_by if query.group_by?

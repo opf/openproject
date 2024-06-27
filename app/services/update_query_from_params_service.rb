@@ -54,6 +54,8 @@ class UpdateQueryFromParamsService
 
     apply_include_subprojects(params)
 
+    apply_include_all_members_assigned_projects(params)
+
     apply_timestamps(params)
 
     disable_hierarchy_when_only_grouped_by(params)
@@ -119,6 +121,10 @@ class UpdateQueryFromParamsService
 
   def apply_include_subprojects(params)
     query.include_subprojects = params[:include_subprojects] if params.key?(:include_subprojects)
+  end
+
+  def apply_include_all_members_assigned_projects(params)
+    query.include_all_members_assigned_projects = params[:include_all_members_assigned_projects] if params.key?(:include_all_members_assigned_projects)
   end
 
   def apply_timestamps(params)

@@ -42,6 +42,7 @@ module Queries
     attribute :show_hierarchies
     attribute :display_representation
     attribute :include_subprojects
+    attribute :include_all_members_assigned_projects
 
     attribute :column_names # => columns
     attribute :filters

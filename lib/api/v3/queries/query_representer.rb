@@ -291,6 +291,7 @@ module API
                  exec_context: :decorator
 
         property :include_subprojects
+        property :include_all_members_assigned_projects
 
         property :display_sums, as: :sums
         property :public

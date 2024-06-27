@@ -51,6 +51,8 @@ class Query < ApplicationRecord
 
   validates :include_subprojects,
             inclusion: [true, false]
+  validates :include_all_members_assigned_projects,
+            inclusion: [true, false]
 
   validate :validate_work_package_filters
   validate :validate_columns

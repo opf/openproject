@@ -73,6 +73,7 @@ module API
           display_representation: params[:displayRepresentation],
           show_hierarchies: boolearize(params[:showHierarchies]),
           include_subprojects: boolearize(params[:includeSubprojects]),
+          include_all_members_assigned_projects: boolearize(params[:includeAllMembersAssignedProjects]),
           timestamps: Timestamp.parse_multiple(params[:timestamps])
         }
       rescue ArgumentError => e

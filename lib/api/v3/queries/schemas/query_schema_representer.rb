@@ -167,6 +167,12 @@ module API
                  writable: true,
                  has_default: true
 
+          schema :include_all_members_assigned_projects,
+                 type: "Boolean",
+                 required: false,
+                 writable: true,
+                 has_default: false
+
           schema_with_allowed_collection :columns,
                                          type: "[]QueryColumn",
                                          required: false,
