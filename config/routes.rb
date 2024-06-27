@@ -197,6 +197,8 @@ Rails.application.routes.draw do
   end
 
   resources :project_queries, only: %i[show new create update destroy], controller: "projects/queries" do
+    concerns :shareable
+
     member do
       get :rename
 

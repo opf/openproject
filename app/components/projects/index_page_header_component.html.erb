@@ -21,12 +21,16 @@
         )
       end
 
-      header.with_action_icon_button(
-        icon: "share-android",
-        mobile_icon: "share-android",
-        label: t(:label_share),
-        data: { show_dialog_id: Projects::ExportListModalComponent::MODAL_ID }
-      )
+      if query.persisted?
+        header.with_action_icon_button(
+          tag: :a,
+          href: dialog_project_query_members_path(query),
+          icon: "share-android",
+          mobile_icon: "share-android",
+          label: t(:label_share),
+          data: { controller: "async-dialog" }
+        )
+      end
 
       header.with_action_menu(menu_arguments: {
         anchor_align: :end

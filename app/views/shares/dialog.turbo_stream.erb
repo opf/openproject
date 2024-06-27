@@ -1,0 +1,15 @@
+<%= turbo_stream.dialog do
+  render(Primer::Alpha::Dialog.new(title: t(:label_sharing),
+                                   id: 'share_list',
+                                   size: :xlarge)) do |d|
+    d.with_header(variant: :large)
+    d.with_body do
+      render(Shares::ModalBodyComponent.new(entity: @entity,
+                                            shares: @shares,
+                                            errors: @errors,
+                                            sharing_manageable: @sharing_manageable,
+                                            available_roles: @available_roles))
+    end
+  end
+end
+%>

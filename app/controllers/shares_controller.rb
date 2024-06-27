@@ -156,7 +156,7 @@ class SharesController < ApplicationController
       create_contract_class: sharing_contract_scope::CreateContract,
       update_contract_class: sharing_contract_scope::UpdateContract
     )
-      .call(entity: @entity, user_id:, role_ids:)
+                                 .call(entity: @entity, user_id:, role_ids:)
   end
 
   def respond_with_replace_modal
@@ -306,9 +306,8 @@ class SharesController < ApplicationController
   def load_entity
     @entity = if params["work_package_id"]
                 WorkPackage.visible.find(params["work_package_id"])
-              # TODO: Add support for other entities
-              elsif params["query_id"] && request.path.starts_with?("/projects/queries")
-                Queries::Projects::ProjectQuery.visible.find(params["query_id"])
+              elsif params["project_query_id"]
+                ProjectQuery.visible.find(params["project_query_id"])
               else
                 raise ArgumentError, <<~ERROR
                   Nested the SharesController under an entity controller that is not yet configured to support sharing.
@@ -336,8 +335,8 @@ class SharesController < ApplicationController
     return @query if defined?(@query)
 
     @query = ParamsToQueryService
-      .new(Member, current_user, query_class: Queries::Members::EntityMemberQuery)
-      .call(params)
+               .new(Member, current_user, query_class: Queries::Members::EntityMemberQuery)
+               .call(params)
 
     # Set default filter on the entity
     @query.where("entity_id", "=", @entity.id)
@@ -377,7 +376,20 @@ class SharesController < ApplicationController
                                description: I18n.t("work_package.permissions.view_description"),
                                default: true }
                            ]
+                         elsif @entity.is_a?(ProjectQuery)
+                           role_mapping = ProjectQueryRole.unscoped.pluck(:builtin, :id).to_h
+
+                           [
+                             { label: I18n.t("work_package.permissions.edit"),
+                               value: role_mapping[Role::BUILTIN_PROJECT_QUERY_EDIT],
+                               description: I18n.t("work_package.permissions.edit_description") },
+                             { label: I18n.t("work_package.permissions.view"),
+                               value: role_mapping[Role::BUILTIN_PROJECT_QUERY_VIEW],
+                               description: I18n.t("work_package.permissions.view_description"),
+                               default: true }
+                           ]
                          else
+
                            []
                          end
   end
@@ -393,7 +405,7 @@ class SharesController < ApplicationController
     case @entity
     when WorkPackage
       User.current.allowed_in_project?(:share_work_packages, @entity.project)
-    when Queries::Projects::ProjectQuery
+    when ProjectQuery
       @entity.editable?
     else
       raise ArgumentError, <<~ERROR
