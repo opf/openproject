@@ -90,7 +90,7 @@ FactoryBot.define do
           create(:member, principal:, project: object, roles: Array(role_or_roles))
         when WorkPackage
           create(:member, principal:, entity: object, project: object.project, roles: Array(role_or_roles))
-        when Queries::Projects::ProjectQuery
+        when ProjectQuery
           create(:member, principal:, entity: object, project: nil, roles: Array(role_or_roles))
         end
       end

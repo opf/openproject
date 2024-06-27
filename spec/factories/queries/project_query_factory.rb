@@ -27,7 +27,7 @@
 # ++
 
 FactoryBot.define do
-  factory :project_query, class: "Queries::Projects::ProjectQuery" do
+  factory :project_query, class: "ProjectQuery" do
     sequence(:name) { |n| "Project query #{n}" }
     public { false }
 

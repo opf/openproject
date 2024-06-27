@@ -317,7 +317,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it "removes the query" do
         job
 
-        expect(Queries::Projects::ProjectQuery.find_by(id: query.id)).to be_nil
+        expect(ProjectQuery.find_by(id: query.id)).to be_nil
       end
     end
 

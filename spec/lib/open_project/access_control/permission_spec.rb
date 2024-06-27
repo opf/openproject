@@ -88,7 +88,7 @@ RSpec.describe OpenProject::AccessControl::Permission do
       it { expect(permission).to be_permissible_on(WorkPackage.new) }
       it { expect(permission).not_to be_permissible_on(Project.new) }
       it { expect(permission).not_to be_permissible_on(nil) }
-      it { expect(permission).not_to be_permissible_on(Queries::Projects::ProjectQuery.new) }
+      it { expect(permission).not_to be_permissible_on(ProjectQuery.new) }
       it { expect(permission).to be_permissible_on(:work_package) }
       it { expect(permission).not_to be_permissible_on(:project) }
       it { expect(permission).not_to be_permissible_on(:global) }
@@ -103,7 +103,7 @@ RSpec.describe OpenProject::AccessControl::Permission do
       it { expect(permission).not_to be_permissible_on(WorkPackage.new) }
       it { expect(permission).to be_permissible_on(Project.new) }
       it { expect(permission).not_to be_permissible_on(nil) }
-      it { expect(permission).not_to be_permissible_on(Queries::Projects::ProjectQuery.new) }
+      it { expect(permission).not_to be_permissible_on(ProjectQuery.new) }
       it { expect(permission).not_to be_permissible_on(:work_package) }
       it { expect(permission).to be_permissible_on(:project) }
       it { expect(permission).not_to be_permissible_on(:global) }
@@ -118,7 +118,7 @@ RSpec.describe OpenProject::AccessControl::Permission do
       it { expect(permission).not_to be_permissible_on(WorkPackage.new) }
       it { expect(permission).not_to be_permissible_on(Project.new) }
       it { expect(permission).to be_permissible_on(nil) }
-      it { expect(permission).not_to be_permissible_on(Queries::Projects::ProjectQuery.new) }
+      it { expect(permission).not_to be_permissible_on(ProjectQuery.new) }
       it { expect(permission).not_to be_permissible_on(:work_package) }
       it { expect(permission).not_to be_permissible_on(:project) }
       it { expect(permission).to be_permissible_on(:global) }
@@ -133,7 +133,7 @@ RSpec.describe OpenProject::AccessControl::Permission do
       it { expect(permission).not_to be_permissible_on(WorkPackage.new) }
       it { expect(permission).not_to be_permissible_on(Project.new) }
       it { expect(permission).not_to be_permissible_on(nil) }
-      it { expect(permission).to be_permissible_on(Queries::Projects::ProjectQuery.new) }
+      it { expect(permission).to be_permissible_on(ProjectQuery.new) }
       it { expect(permission).not_to be_permissible_on(:work_package) }
       it { expect(permission).not_to be_permissible_on(:project) }
       it { expect(permission).not_to be_permissible_on(:global) }

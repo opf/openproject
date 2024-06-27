@@ -3,7 +3,7 @@ module OpenProject
     # @logical_path OpenProject/Filter
     class FilterButtonComponentPreview < Lookbook::Preview
       def default
-        @query = Queries::Projects::ProjectQuery.new
+        @query = ProjectQuery.new
         render(::Filter::FilterButtonComponent.new(query: @query))
       end
 
@@ -12,7 +12,7 @@ module OpenProject
       # Just register the controller in a container around both elements.
       # Unfortunately, stimulus controllers do not work in our lookbook as of now, so you will see no effect.
       def filter_section_toggle
-        @query = Queries::Projects::ProjectQuery.new
+        @query = ProjectQuery.new
         render_with_template(locals: { query: @query })
       end
     end
