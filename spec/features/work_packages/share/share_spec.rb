@@ -450,7 +450,7 @@ RSpec.describe "Work package sharing",
 
       # The number of shared people has not changed, but an error message is shown
       share_modal.expect_shared_count_of(6)
-      share_modal.expect_error_message(I18n.t("work_package.sharing.warning_locked_user", user: locked_user.name))
+      share_modal.expect_error_message(I18n.t("sharing.warning_locked_user", user: locked_user.name))
     end
   end
 

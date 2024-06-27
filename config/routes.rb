@@ -76,6 +76,22 @@ Rails.application.routes.draw do
           via: :all
   end
 
+  # Shared route concerns
+  # TODO: Add description how to configure controller to support shares
+  concern :shareable do
+    resources :members, path: :shares, controller: "shares", only: %i[index create update destroy] do
+      member do
+        post "resend_invite" => "shares#resend_invite"
+      end
+
+      collection do
+        patch :bulk, to: "shares#bulk_update"
+        put :bulk, to: "shares#bulk_update"
+        delete :bulk, to: "shares#bulk_destroy"
+      end
+    end
+  end
+
   scope controller: "account" do
     get "/account/force_password_change", action: "force_password_change"
     post "/account/change_password", action: "change_password"
@@ -521,7 +537,7 @@ Rails.application.routes.draw do
     get "/bulk" => "bulk#destroy"
   end
 
-  resources :work_packages, only: [:index] do
+  resources :work_packages, only: [:index], concerns: [:shareable] do
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"
@@ -530,16 +546,6 @@ Rails.application.routes.draw do
 
     # states managed by client-side routing on work_package#index
     get "details/*state" => "work_packages#index", on: :collection, as: :details
-
-    # Rails managed sharing route
-    resources :members, path: :shares, controller: "work_packages/shares", only: %i[index create update destroy] do
-      member do
-        post "resend_invite" => "work_packages/shares#resend_invite"
-      end
-      collection do
-        resource :bulk, controller: "work_packages/shares/bulk", only: %i[update destroy], as: :shares_bulk
-      end
-    end
 
     resource :progress, only: %i[new edit update], controller: "work_packages/progress"
     collection do
@@ -554,7 +560,7 @@ Rails.application.routes.draw do
     get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
     get "/new" => "work_packages#index", on: :collection, as: "new", state: "new"
     # We do not want to match the work package export routes
-    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/ }
+    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!shares).+/ }
     get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
   end
