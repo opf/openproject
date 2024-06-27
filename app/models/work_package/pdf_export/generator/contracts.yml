@@ -140,6 +140,63 @@ blockquote:
   margin-top: 2mm
   margin-bottom: 2mm
 
+alerts:
+  NOTE:
+    border_color: '0969da'
+    alert_color: '0969da'
+    padding: '4mm'
+    size: 10
+    styles: []
+    border_width: 2
+    no_border_right: true
+    no_border_left: false
+    no_border_bottom: true
+    no_border_top: true
+  TIP:
+    border_color: '1a7f37'
+    alert_color: '1a7f37'
+    padding: '4mm'
+    size: 10
+    styles: [ ]
+    border_width: 2
+    no_border_right: true
+    no_border_left: false
+    no_border_bottom: true
+    no_border_top: true
+  IMPORTANT:
+    border_color: '8250df'
+    alert_color: '8250df'
+    padding: '4mm'
+    size: 10
+    styles: [ ]
+    border_width: 2
+    no_border_right: true
+    no_border_left: false
+    no_border_bottom: true
+    no_border_top: true
+  WARNING:
+    border_color: 'bf8700'
+    alert_color: 'bf8700'
+    padding: '4mm'
+    size: 10
+    styles: [ ]
+    border_width: 2
+    no_border_right: true
+    no_border_left: false
+    no_border_bottom: true
+    no_border_top: true
+  CAUTION:
+    border_color: 'd1242f'
+    alert_color: 'd1242f'
+    size: 10
+    styles: [ ]
+    padding: '4mm'
+    border_width: 2
+    no_border_right: true
+    no_border_left: false
+    no_border_bottom: true
+    no_border_top: true
+
 code:
   font: 'SpaceMono'
   color: '880000'
