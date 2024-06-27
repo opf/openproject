@@ -31,6 +31,7 @@
 module Storages::Admin::Forms
   class OAuthClientFormComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
     attr_reader :storage
     alias_method :oauth_client, :model
@@ -39,6 +40,8 @@ module Storages::Admin::Forms
       super(oauth_client, **)
       @storage = storage
     end
+
+    def self.wrapper_key = :storage_oauth_client_section
 
     def form_method
       options[:form_method] || default_form_method

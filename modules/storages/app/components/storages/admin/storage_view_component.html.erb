@@ -30,9 +30,7 @@
       end
 
       component.with_row(scheme: :default) do
-        render(OpTurbo::FrameComponent.new(id: :storage_oauth_client_section)) do
-          render(Storages::Admin::OAuthClientInfoComponent.new(oauth_client: storage.oauth_client, storage:))
-        end
+        render(Storages::Admin::OAuthClientInfoComponent.new(oauth_client: storage.oauth_client, storage:))
       end
 
       component.with_row(scheme: :neutral, color: :muted) do
