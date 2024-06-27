@@ -42,12 +42,10 @@
       end
 
       component.with_row(scheme: :default) do
-        render(OpTurbo::FrameComponent.new(id: :automatically_managed_project_folders_section)) do
-          if automatically_managed_project_folders_section_closed?
-            render(Storages::Admin::AutomaticallyManagedProjectFoldersInfoComponent.new(storage))
-          else
-            render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(storage))
-          end
+        if automatically_managed_project_folders_section_closed?
+          render(Storages::Admin::AutomaticallyManagedProjectFoldersInfoComponent.new(storage))
+        else
+          render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(storage))
         end
       end
     end
