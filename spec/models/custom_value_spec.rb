@@ -101,6 +101,12 @@ RSpec.describe CustomValue do
   describe "#default?" do
     shared_let(:project) { create(:project) }
 
+    before do
+      allow(ProjectCustomField)
+        .to receive(:visible)
+        .and_return(ProjectCustomField.all)
+    end
+
     RSpec::Matchers.define_negated_matcher :not_be_default, :be_default
 
     shared_examples "returns true for generated custom value" do

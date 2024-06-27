@@ -40,6 +40,12 @@ RSpec.describe Project, "customizable" do
     create(:list_project_custom_field, project_custom_field_section: section)
   end
 
+  before do
+    allow(ProjectCustomField)
+      .to receive(:visible)
+      .and_return(ProjectCustomField.all)
+  end
+
   context "when not persisted" do
     let(:project) { build(:project) }
 
