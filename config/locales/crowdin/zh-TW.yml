@@ -67,7 +67,7 @@ zh-TW:
         text: "您確定要刪除當前使用的企業版權杖(Token)嗎？"
         title: "刪除權杖(Token)"
       replace_token: "替換當前權杖(Token)"
-      order: "訂購本地部署版的 Enterprise edition"
+      order: "升級至地端企業版"
       paste: "貼上您的企業版所需的權杖(Token)"
       required_for_feature: "此功能僅限具啟用中的企業版所需權杖(Token)的訂閱者使用。"
       enterprise_link: "如需了解詳細信息，請點擊此處。"
@@ -147,8 +147,8 @@ zh-TW:
     encryption_details: "LDAPS / STARTTLS 選項"
     system_account: "系統帳戶"
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      OpenProject 需要透過系統帳戶進行唯讀存取才能在 LDAP 樹中尋找使用者和群組。
+      請在下一節中指定該系統使用者的綁定憑證。
     ldap_details: "LDAP 詳細資料"
     user_settings: "屬性對應"
     user_settings_legend: |
@@ -302,6 +302,8 @@ zh-TW:
         new_project_mapping_form:
           add_projects: Add projects
           include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: 目前沒有可用的類型
         form:
@@ -459,6 +461,7 @@ zh-TW:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
+    dark: "Dark"
     light: "白色主題"
     light_high_contrast: "高對比白色主題"
   types:
@@ -505,6 +508,10 @@ zh-TW:
     move:
       no_common_statuses_exists: "被選取的工作項目沒有可用的狀態。他們的狀態不可以變更。"
       unsupported_for_multiple_projects: "工作項目不支援從多個專案的大區塊的移動/複製"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -2173,7 +2180,7 @@ zh-TW:
   label_repository_root: "版本庫根目錄"
   label_repository_plural: "Repositories"
   label_required: "必要"
-  label_requires: "要求"
+  label_requires: "需要"
   label_result_plural: "結果"
   label_reverse_chronological_order: "由新排列至舊"
   label_revision: "修訂"
@@ -2693,6 +2700,8 @@ zh-TW:
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "編輯屬性說明文字"
   permission_manage_public_project_queries: "Manage public project lists"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:
@@ -3472,7 +3481,7 @@ zh-TW:
         revoke:
           unauthorized: "您無權撤銷此裝置。"
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: '存取此資源需要範圍“%{oauth_scopes}”。'
   unsupported_browser:
     title: "您的瀏覽器已過時且不再支援。"
     message: "您可能會在此頁面上遇到錯誤和降級的體驗。"

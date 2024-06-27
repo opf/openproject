@@ -5,7 +5,7 @@
   color: $spot-color-basic-black
   border-radius: 4px
   padding: $spot-spacing-0_5
-  background-color: $spot-color-basic-white
+  background-color: var(--bgColor-default)
   display: inline-flex
   justify-content: center
   align-items: center
@@ -27,7 +27,10 @@
   &_disabled &--input
     &,
     &:hover
-      background-color: $spot-color-basic-white
+      background-color: var(--bgColor-default)
+
+  .spot-icon
+    color: var(--body-font-color)
 
   &--input
     background: transparent
@@ -46,7 +49,7 @@
     &:disabled,
     &:disabled:hover
       color: var(--fgColor-muted)
-      background-color: $spot-color-basic-white
+      background-color: var(--bgColor-default)
 
     &:focus,
     &:focus-visible
@@ -68,3 +71,4 @@
 
     > .spot-icon
       font-size: $spot-spacing-0_75
+      color: var(--body-font-color)

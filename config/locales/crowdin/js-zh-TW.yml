@@ -45,7 +45,7 @@ zh-TW:
       remove: "刪除 %{name}"
       active: "啟用 %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: 附件可能不包含在內，因為它們超出了允許的最大整體大小。您可以透過設定來變更此設定（需要重新啟動伺服器）。
       info: >
         You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
       note: >
@@ -150,6 +150,7 @@ zh-TW:
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: "指向子頁面的連結"
@@ -793,7 +794,7 @@ zh-TW:
         projects: "專案"
         settings: "設定"
     time_entry:
-      work_package_required: "Requires selecting a work package first."
+      work_package_required: "需要先選擇一個工作項目。"
       title: "日誌的時間"
       tracking: "時間追蹤"
       stop: "Stop"
@@ -820,12 +821,12 @@ zh-TW:
       duplicated: "重複於"
       blocks: "攔阻"
       blocked: "攔阻於"
-      precedes: "前置項目"
-      follows: "後置項目"
+      precedes: "後置項目"
+      follows: "前置項目"
       includes: "包括"
       partof: "一部分"
-      requires: "需求"
-      required: "被以下需要"
+      requires: "需要"
+      required: "要求由"
       relation_type: "關聯類型"
     relations_hierarchy:
       parent_headline: "上層目錄："
@@ -1356,4 +1357,4 @@ zh-TW:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

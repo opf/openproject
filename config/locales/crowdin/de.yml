@@ -300,6 +300,8 @@ de:
         new_project_mapping_form:
           add_projects: Projekte erstellen
           include_sub_projects: Andere Projekte einbeziehen
+        project_mappings:
+          header: Verwendung in Projekten
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -460,6 +462,7 @@ de:
         is_readonly: "Schreibgeschützt"
         excluded_from_totals: "Von Gesamtsumme auschließen"
   themes:
+    dark: "Dunkel"
     light: "Hell"
     light_high_contrast: "Hell (hoher Kontrast)"
   types:
@@ -507,6 +510,10 @@ de:
     move:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
       unsupported_for_multiple_projects: "Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
@@ -2724,6 +2731,8 @@ de:
   permission_manage_public_bcf_queries: "Öffentliche BCF-Abfragen verwalten"
   permission_edit_attribute_help_texts: "Attribut-Hilfetxt bearbeiten"
   permission_manage_public_project_queries: "Öffentliche Projektlisten verwalten"
+  permission_view_project_query: "Projektabfrage anzeigen"
+  permission_edit_project_query: "Projektabfrage bearbeiten"
   placeholders:
     default: "-"
   project:

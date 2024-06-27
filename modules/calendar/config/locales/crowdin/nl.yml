@@ -1,7 +1,7 @@
 #English strings go here
 nl:
   plugin_openproject_calendar:
-    name: "OpenProject Calendar"
+    name: "OpenProject Kalender"
     description: "Provides calendar views."
   label_calendar: "Kalender"
   label_calendar_plural: "Agenda's"

@@ -42,7 +42,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
 
     context "when logged in, but not enabled" do
       it "does not give access" do
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
 
@@ -117,7 +117,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
       describe "#get" do
         it "croaks on missing id" do
           get :confirm, params: { device_id: 1234 }
-          expect(response.status).to eq 404
+          expect(response).to have_http_status :not_found
         end
 
         describe "and registered totp device" do
@@ -156,7 +156,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
       describe "#post" do
         it "croaks on missing id" do
           get :confirm, params: { device_id: 1234 }
-          expect(response.status).to eq 404
+          expect(response).to have_http_status :not_found
         end
 
         describe "and registered totp device" do
@@ -226,7 +226,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
     describe "#destroy" do
       it "croaks on missing id" do
         delete :destroy, params: { device_id: "1234" }
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
 
       context "assuming password check is valid" do

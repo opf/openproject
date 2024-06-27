@@ -517,8 +517,6 @@ Rails.application.routes.draw do
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331
     get "/bulk" => "bulk#destroy"
-
-    resources :shares, only: %i[destroy update]
   end
 
   resources :work_packages, only: [:index] do
@@ -532,7 +530,7 @@ Rails.application.routes.draw do
     get "details/*state" => "work_packages#index", on: :collection, as: :details
 
     # Rails managed sharing route
-    resources :shares, controller: "work_packages/shares", only: %i[index create] do
+    resources :members, path: :shares, controller: "work_packages/shares", only: %i[index create update destroy] do
       member do
         post "resend_invite" => "work_packages/shares#resend_invite"
       end

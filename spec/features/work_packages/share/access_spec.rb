@@ -32,6 +32,7 @@ RSpec.describe "Shared Work Package Access",
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
   shared_let(:project) { create(:project_with_types) }
+  shared_let(:int_project_custom_field) { create(:integer_project_custom_field, projects: [project]) }
   shared_let(:work_package) { create(:work_package, project:, journal_notes: "Hello!") }
   shared_let(:sharer) { create(:admin) }
   shared_let(:shared_with_user) { create(:user, firstname: "Mean", lastname: "Turkey") }
@@ -86,6 +87,12 @@ RSpec.describe "Shared Work Package Access",
 
       # 3. Visiting the Project's URL directly
       project_page.visit!
+
+      # The project overview page is loaded and e.g. custom fields can be seen
+      # This ensures that the page is loaded.
+      project_page.within_async_loaded_sidebar do
+        expect(page).to have_content(int_project_custom_field.name)
+      end
 
       #
       # Work Package is now visible
@@ -160,6 +167,12 @@ RSpec.describe "Shared Work Package Access",
 
       # 3. Visiting the Project's URL directly
       project_page.visit!
+
+      # The project overview page is loaded and e.g. custom fields can be seen
+      # This ensures that the page is loaded.
+      project_page.within_async_loaded_sidebar do
+        expect(page).to have_content(int_project_custom_field.name)
+      end
 
       #
       # Work Package is now visible
@@ -239,6 +252,12 @@ RSpec.describe "Shared Work Package Access",
 
       # 3. Visiting the Project's URL directly
       project_page.visit!
+
+      # The project overview page is loaded and e.g. custom fields can be seen
+      # This ensures that the page is loaded.
+      project_page.within_async_loaded_sidebar do
+        expect(page).to have_content(int_project_custom_field.name)
+      end
 
       #
       # Work Package is now visible

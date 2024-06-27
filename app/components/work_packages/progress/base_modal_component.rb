@@ -40,7 +40,10 @@ module WorkPackages
         "remainingTime" => :remaining_hours,
         "work_package[remaining_hours]" => :remaining_hours,
         "work_package[status_id]" => :status_id,
-        "statusId" => :status_id
+        "statusId" => :status_id,
+        "work_package[done_ratio]" => :done_ratio,
+        "percentageDone" => :done_ratio,
+        "" => :no_field
       }.freeze
 
       include ApplicationHelper
@@ -48,9 +51,14 @@ module WorkPackages
       include OpPrimer::ComponentHelpers
       include OpenProject::StaticRouting::UrlHelpers
 
-      attr_reader :work_package, :mode, :focused_field, :touched_field_map
+      attr_reader :work_package,
+                  :mode,
+                  :focused_field,
+                  :touched_field_map
 
-      def initialize(work_package, focused_field: nil, touched_field_map: {})
+      def initialize(work_package,
+                     focused_field: nil,
+                     touched_field_map: {})
         super()
 
         @work_package = work_package

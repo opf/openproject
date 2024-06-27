@@ -47,6 +47,10 @@ RSpec.describe "Projects copy", :js, :with_cuprite,
 
         # Enable wiki
         p.enabled_module_names += ["wiki"]
+
+        # Enable the project custom field mappings
+        p.project_custom_field_project_mappings
+         .create(custom_field_id: optional_project_custom_field_with_default.id)
       end
     end
 

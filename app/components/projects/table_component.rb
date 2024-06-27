@@ -34,8 +34,8 @@ module Projects
     options :current_user # adds this option to those of the base class
     options :query
 
-    def initialize(**options)
-      super(rows: [], **options)
+    def initialize(**)
+      super(rows: [], **)
     end
 
     def before_render
@@ -52,7 +52,7 @@ module Projects
     end
 
     def container_class
-      "generic-table--container_visible-overflow"
+      "generic-table--container_visible-overflow generic-table--container_height-100"
     end
 
     ##
@@ -82,6 +82,18 @@ module Projects
       true
     end
 
+    def pagination_options
+      default_pagination_options.merge(optional_pagination_options)
+    end
+
+    def default_pagination_options
+      { allowed_params: %i[query_id filters columns sortBy] }
+    end
+
+    def optional_pagination_options
+      {}
+    end
+
     def deactivate_class_on_lft_sort
       if sorted_by_lft?
         "spot-link_inactive"
@@ -104,7 +116,7 @@ module Projects
     end
 
     def sortable_column?(select)
-      query.known_order?(select.attribute)
+      sortable? && query.known_order?(select.attribute)
     end
 
     def columns

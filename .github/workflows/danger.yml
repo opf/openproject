@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.2'
+          ruby-version: '3.3.3'
       - uses: MeilCli/danger-action@v5
         with:
           danger_file: 'Dangerfile'

@@ -73,7 +73,7 @@ cs:
           updated: "změněno z %{old_value} na %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
-          updated: "reordered"
+          updated: "přeřazeno"
         work_package:
           updated: "změněno z %{old_value} na %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
@@ -194,7 +194,7 @@ cs:
   label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Bod programu "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
-  text_deleted_agenda_item: 'Deleted agenda item'
+  text_deleted_agenda_item: 'Vymazaný bod programu'
   label_initial_meeting_details: "Schůzka"
   label_meeting_details: "Podrobnosti o schůzce"
   label_meeting_details_edit: "Upravit podrobnosti schůzky"

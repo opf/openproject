@@ -150,6 +150,7 @@ lt:
         attribute_reference:
           macro_help_tooltip: "Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos."
           not_found: "Reikalaujamas resursas nerastas"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Pasirinktas atributas „%{name}“ neegzistuoja."
         child_pages:
           button: "Nuorodos į vaikų puslapius"
@@ -1366,4 +1367,4 @@ lt:
         network_off: "Yra tinklo problema."
         network_on: "Tinklas grįžo. Mes bandome."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

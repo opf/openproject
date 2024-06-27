@@ -32,6 +32,7 @@
 require "spec_helper"
 
 RSpec.describe "Global menu item for boards", :js, :with_cuprite do
+  shared_let(:project) { create(:project) }
   let(:boards_label) { I18n.t("boards.label_boards") }
 
   before do

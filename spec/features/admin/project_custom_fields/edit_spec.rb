@@ -59,7 +59,7 @@ RSpec.describe "Edit project custom fields", :js do
     it "shows tab navigation" do
       within_test_selector("project_attribute_detail_header") do
         expect(page).to have_link("Details")
-        expect(page).to have_link("Projects")
+        expect(page).to have_link("Enabled in projects")
       end
     end
 

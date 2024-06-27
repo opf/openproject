@@ -150,6 +150,7 @@ it:
         attribute_reference:
           macro_help_tooltip: "Questo segmento di testo viene renderizzato dinamicamente da una macro."
           not_found: "Impossibile trovare la risorsa richiesta"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "L'attributo selezionato '%{name}' non esiste."
         child_pages:
           button: "Collegamenti alle pagine discendenti"
@@ -368,7 +369,7 @@ it:
           "14_2":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Impostazione di ulteriori unità per lavoro, lavoro rimanente e tempo di lavoro</li> <li>Indicazione di quali progetti sono attivati per gli attributi</li> <li>Possibilità di rinominare gli elenchi di progetti privati</li> <li>Possibilità di evitare promemoria email ridondanti in caso di @menzioni</li> <li>Invito dei partecipanti alla riunione via email</li> <li>Visualizzazione degli attributi del pacchetto di lavoro nelle esportazioni PDF</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -1360,4 +1361,4 @@ it:
         network_off: "C'è un problema di rete."
         network_on: "La rete è tornata. Stiamo provando."
         timeout: >
-          OpenProject non è riuscito a fornirti l'accesso alla cartella del progetto entro il periodo di tempo previsto. Ti preghiamo di riprovare.<br><br> Se il problema persiste, contatta l'amministratore di OpenProject per verificare lo <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">stato di salute della configurazione di archiviazione dei file</a>.
+          OpenProject non è stato in grado di darti accesso alla cartella del progetto entro il tempo previsto. Prova di nuovo.<br><br> Se il problema persiste contatta il tuo amministratore OpenProject per controllare lo <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">stato della configurazione di archiviazione dei file</a>.

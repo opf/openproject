@@ -41,6 +41,11 @@ fr:
           name: Spécification
         item_2:
           name: Autre
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Éditeur de lot de travaux

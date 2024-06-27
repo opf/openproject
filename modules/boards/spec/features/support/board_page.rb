@@ -110,7 +110,7 @@ module Pages
 
       page.find(".menu-item", text: "Add existing").click
 
-      select_autocomplete(page.find(".wp-inline-create--reference-autocompleter"),
+      select_autocomplete(page.find("ng-select.wp-inline-create--reference-autocompleter"),
                           query: work_package.subject,
                           results_selector: "body",
                           select_text: "##{work_package.id}")
@@ -125,7 +125,7 @@ module Pages
 
       page.find(".menu-item", text: "Add existing").click
 
-      target_dropdown = search_autocomplete(page.find(".wp-inline-create--reference-autocompleter"),
+      target_dropdown = search_autocomplete(page.find("ng-select.wp-inline-create--reference-autocompleter"),
                                             query: work_package.subject,
                                             results_selector: ".work-packages-partitioned-query-space--container")
 

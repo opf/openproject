@@ -266,7 +266,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
             .to have_received(:warn)
                   .with(command: described_class,
                         message: nil,
-                        data: "timed out while waiting on select")
+                        data: { body: /timed out while waiting on select/, status: nil })
         end
       end
 
@@ -288,7 +288,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
                   .with(folder_path: "[Sample] Project Name _ Ehuu (#{project.id})",
                         command: Storages::Peripherals::StorageInteraction::OneDrive::CreateFolderCommand,
                         message: nil,
-                        data: { status: 409, body: /nameAlreadyExists/ })
+                        data: { status: :conflict, body: /nameAlreadyExists/ })
         ensure
           delete_folder(already_existing_folder.id)
         end
@@ -304,11 +304,11 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
           expect(OpenProject.logger)
             .to have_received(:warn)
-                  .with(source: project_storage.project_folder_id,
-                        target: "[Sample] Project Name _ Ehuu (#{project.id})",
+                  .with(folder_id: project_storage.project_folder_id,
+                        folder_name: "[Sample] Project Name _ Ehuu (#{project.id})",
                         command: Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCommand,
                         message: nil,
-                        data: { status: 409, body: /nameAlreadyExists/ })
+                        data: { status: :conflict, body: /nameAlreadyExists/ })
         ensure
           delete_folder(already_existing_folder.result.id)
         end
@@ -323,7 +323,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
             .to have_received(:warn)
                   .with(command: Storages::Peripherals::StorageInteraction::OneDrive::SetPermissionsCommand,
                         message: nil,
-                        data: { body: /noResolvedUsers/, status: 400 }).twice
+                        data: { body: /noResolvedUsers/, status: nil }).twice
         end
       end
     end

@@ -17,7 +17,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
       let(:logged_in_user) { user }
 
       it "does not give access" do
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -38,7 +38,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
 
       it "does not give access" do
         get :show, params: { ldap_group_id: id }
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -50,7 +50,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
 
         it "renders 404" do
           get :show, params: { ldap_group_id: id }
-          expect(response.status).to eq(404)
+          expect(response).to have_http_status(:not_found)
         end
       end
 
@@ -78,7 +78,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
 
       it "does not give access" do
         get :new
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -106,7 +106,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
       let(:params) { {} }
 
       it "does not give access" do
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -117,7 +117,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
         let(:params) { {} }
 
         it "renders 400" do
-          expect(response.status).to eq(400)
+          expect(response).to have_http_status(:bad_request)
         end
       end
 
@@ -135,7 +135,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
 
         context "and saving fails" do
           it "renders new page" do
-            expect(response.status).to eq(200)
+            expect(response).to have_http_status(:ok)
             expect(response).to render_template :new
           end
         end
@@ -150,7 +150,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
 
       it "does not give access" do
         get :destroy_info, params: { ldap_group_id: id }
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -162,7 +162,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
 
         it "renders 404" do
           get :destroy_info, params: { ldap_group_id: id }
-          expect(response.status).to eq(404)
+          expect(response).to have_http_status(:not_found)
         end
       end
 
@@ -191,7 +191,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
 
       it "does not give access" do
         delete :destroy, params: { ldap_group_id: id }
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -203,7 +203,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
 
         it "renders 404" do
           delete :destroy, params: { ldap_group_id: id }
-          expect(response.status).to eq(404)
+          expect(response).to have_http_status(:not_found)
         end
       end
 

@@ -181,7 +181,7 @@ RSpec.describe EnterprisesController do
         end
 
         it "renders 404" do
-          expect(response.status).to eq(404)
+          expect(response).to have_http_status(:not_found)
         end
       end
     end
@@ -195,7 +195,7 @@ RSpec.describe EnterprisesController do
     end
 
     it "is forbidden" do
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
   end
 end

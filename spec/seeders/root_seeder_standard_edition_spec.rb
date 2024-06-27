@@ -128,7 +128,8 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: DocumentCategory, expected_count: 3
     include_examples "it creates records", model: GlobalRole, expected_count: 1
     include_examples "it creates records", model: WorkPackageRole, expected_count: 3
-    include_examples "it creates records", model: Role, expected_count: 9
+    include_examples "it creates records", model: ProjectRole, expected_count: 5
+    include_examples "it creates records", model: ProjectQueryRole, expected_count: 2
     include_examples "it creates records", model: IssuePriority, expected_count: 4
     include_examples "it creates records", model: Status, expected_count: 14
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 6

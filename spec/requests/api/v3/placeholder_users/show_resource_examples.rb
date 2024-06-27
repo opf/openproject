@@ -27,7 +27,7 @@
 
 RSpec.shared_examples "represents the placeholder" do
   it do
-    expect(last_response.status).to eq(200)
+    expect(last_response).to have_http_status(:ok)
     expect(last_response.body)
       .to(be_json_eql("PlaceholderUser".to_json).at_path("_type"))
 

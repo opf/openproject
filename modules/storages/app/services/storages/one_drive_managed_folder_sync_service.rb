@@ -107,11 +107,11 @@ module Storages
       end
     end
 
-    def rename_folder(source, target)
+    def rename_folder(folder_id, folder_name)
       Peripherals::Registry
         .resolve("one_drive.commands.rename_file")
-        .call(storage: @storage, source:, target:)
-        .result_or { |error| format_and_log_error(error, source:, target:) }
+        .call(storage: @storage, auth_strategy:, file_id: folder_id, name: folder_name)
+        .result_or { |error| format_and_log_error(error, folder_id:, folder_name:) }
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -198,16 +198,9 @@ module Storages
     end
 
     def format_and_log_error(error, context = {})
-      payload = error.data.payload
-      data =
-        case payload
-        in { status: Integer }
-          { status: payload.status, body: payload.body.to_s }
-        else
-          payload.error.to_s
-        end
-
-      error_message = context.merge({ command: error.data.source, message: error.log_message, data: })
+      error_message = context.merge({ command: error.data.source,
+                                      message: error.log_message,
+                                      data: { status: error.code, body: error.data.payload.to_s } })
       OpenProject.logger.warn error_message
     end
   end

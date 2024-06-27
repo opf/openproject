@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/fileinfo/361
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Ocs-Apirequest:
+      - 'true'
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.5
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 17 Jun 2024 09:56:32 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=617d1b32915ffc3d72d2d76f501756c7; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=YGTcReH6AsifPfrLZvwjm6r8CjNwCzDVEC0VDb1SiUMxGFJaPpdetZw3ot0bKnuMF1kYsCu%2FhPAXoYyQneOVO6t6vVZ9txhv5G2d%2FQ7H2edYILZtlt3cB%2B2pneBXkISP;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=617d1b32915ffc3d72d2d76f501756c7;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=617d1b32915ffc3d72d2d76f501756c7;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=617d1b32915ffc3d72d2d76f501756c7;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=617d1b32915ffc3d72d2d76f501756c7;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=617d1b32915ffc3d72d2d76f501756c7;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=617d1b32915ffc3d72d2d76f501756c7;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=617d1b32915ffc3d72d2d76f501756c7;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=617d1b32915ffc3d72d2d76f501756c7;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.18
+      X-Request-Id:
+      - k9daCouL8XDIahLt2oHU
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '289'
+    body:
+      encoding: UTF-8
+      string: '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK","totalitems":"","itemsperpage":""},"data":{"status":"OK","statuscode":200,"id":361,"name":"what_have_you_done.md","mtime":1718617919,"ctime":0,"mimetype":"text\/markdown","size":0,"owner_name":"admin","owner_id":"admin","modifier_name":null,"modifier_id":null,"dav_permissions":"RGDNVW","path":"files\/Folder
+        with spaces\/\u00dcml\u00e4uts & spe\u00a2i\u00e6l characters\/what_have_you_done.md"}}}'
+  recorded_at: Mon, 17 Jun 2024 09:56:32 GMT
+recorded_with: VCR 6.2.0

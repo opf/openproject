@@ -292,15 +292,17 @@ pt-PT:
         actions:
           label_enable_single: "Ativo neste projeto, clique para desativar"
           label_disable_single: "Inativo neste projeto, clique para ativar"
-          deactivate_for_project: "Deactivate for this project"
+          deactivate_for_project: "Desativar para este projeto"
           label_enable_all: "Ativar tudo"
           label_disable_all: "Desativar tudo"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Necessário em todos os projetos
+          description: Este atributo de projeto é ativado em todos os projetos, uma vez que a opção "Necessário em todos os projetos" está assinalada. Não pode ser desativado para projetos individuais.
         new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
+          add_projects: Adicionar projetos
+          include_sub_projects: Incluir subprojetos
+        project_mappings:
+          header: Ativado nos projetos
       types:
         no_results_title_text: Atualmente, não existem tipos disponíveis.
         form:
@@ -450,8 +452,8 @@ pt-PT:
         <br/>
         <strong>Nota</strong>: Valores herdados (ex: por crianças ou relações) ainda serão aplicados.
       status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
+        Assinale esta opção para excluir pacotes de trabalho com este estado dos totais de Trabalho,
+        Trabalho restante e % Completo numa hierarquia.
       status_color_text: |
         Clique para atribuir ou alterar a cor deste status.
         É mostrada no botão de status e pode ser usada para destacar os pacotes de trabalho na tabela.
@@ -459,11 +461,12 @@ pt-PT:
       no_results_title_text: Atualmente, não existem estados de pacote de trabalho.
       no_results_content_text: Adicione um novo estado
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
-        excluded_from_totals: "Excluded from totals"
+        is_default: "Predefinido"
+        is_closed: "Fechado"
+        is_readonly: "Só de leitura"
+        excluded_from_totals: "Excluído dos totais"
   themes:
+    dark: "Dark"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -511,6 +514,10 @@ pt-PT:
     move:
       no_common_statuses_exists: "Não há nenhum status disponível para todos os pacotes de trabalho selecionados. O seu status não pode ser alterado."
       unsupported_for_multiple_projects: "Mover/copiar em massa não é suportado por pacotes de trabalho de vários projetos"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "Falta um fluxo de trabalho para a partilha de pacotes de trabalho"
@@ -632,7 +639,7 @@ pt-PT:
       status:
         is_closed: "Tarefa fechada"
         is_readonly: "Pacote de trabalho só de leitura"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        excluded_from_totals: "Excluir do cálculo dos totais na hierarquia"
       journal:
         notes: "Notas"
       member:
@@ -773,7 +780,7 @@ pt-PT:
         before_or_equal_to: "deve ser antes ou igual a %{date}."
         blank: "não pode ficar em branco."
         blank_nested: "precisa de ter a propriedade '%{property}' configurada."
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        cannot_delete_mapping: "é necessário. Não pode ser eliminado."
         cant_link_a_work_package_with_a_descendant: "Um pacote de trabalho não pode ser ligado a uma das suas sub-tarefas."
         circular_dependency: "Esta relação vai criar uma dependência circular."
         confirmation: "não coincide %{attribute}."
@@ -969,9 +976,9 @@ pt-PT:
             base:
               working_days_are_missing: "Pelo menos um dia da semana deve ser definido como dia útil."
               previous_working_day_changes_unprocessed: "As alterações anteriores na configuração de dias úteis ainda não foram aplicadas."
-              hours_per_day_are_missing: "The number of hours per day must be defined."
-              durations_are_not_positive_numbers: "The durations must be positive numbers."
-              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              hours_per_day_are_missing: "O número de horas por dia tem de ser definido."
+              durations_are_not_positive_numbers: "As durações têm de ser números positivos."
+              hours_per_day_is_out_of_bounds: "O número de horas por dia não pode ser superior a 24"
         time_entry:
           attributes:
             hours:
@@ -1029,13 +1036,13 @@ pt-PT:
               only_same_project_categories_allowed: "A categoria de um pacote de trabalho deve estar dentro do mesmo projeto que o pacote de trabalho."
               does_not_exist: "A categoria especificada não existe."
             estimated_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "não é uma duração válida."
               cant_be_inferior_to_remaining_work: "Não pode ser inferior a Trabalho restante."
               must_be_set_when_remaining_work_is_set: "Obrigatório quando o Trabalho restante está definido."
               only_values_greater_or_equal_zeroes_allowed: "Tem de ser >= 0."
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "não é uma duração válida."
               cant_exceed_work: "Não pode ser superior a Trabalho."
               must_be_set_when_work_is_set: "Obrigatório quando o Trabalho é definido."
               format: "%{message}"
@@ -1609,11 +1616,11 @@ pt-PT:
     image:
       omitted: "Imagem não exportada."
     macro:
-      error: "Macro error, %{message}"
-      attribute_not_found: "attribute not found: %{attribute}"
-      model_not_found: "invalid attribute model: %{model}"
-      resource_not_found: "resource not found: %{resource}"
-      rich_text_unsupported: "Rich text embedding currently not supported in export"
+      error: "Erro de macro, %{message}"
+      attribute_not_found: "atributo não encontrado: %{attribute}"
+      model_not_found: "modelo de atributo inválido: %{model}"
+      resource_not_found: "recurso não encontrado: %{resource}"
+      rich_text_unsupported: "Atualmente, a incorporação de rich text não é suportada na exportação"
     units:
       hours: h
       days: d
@@ -1667,7 +1674,7 @@ pt-PT:
       dates_changed: "Datas alteradas"
       default_attribute_written: "Escrita de atributos só de leitura"
       progress_mode_changed_to_status_based: "Cálculo do progresso atualizado"
-      status_changed: "Status '%{status_name}'"
+      status_changed: "Estado \"%{status_name}\""
       system_update: "Atualização do sistema OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: por alterações no %{link} antecessor
@@ -1684,9 +1691,9 @@ pt-PT:
           working: "%{date} está agora a funcionar"
           non_working: "%{date} não está agora a funcionar"
       progress_mode_changed_to_status_based: Modo de cálculo do progresso definido como baseado no estado
-      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
-      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_excluded_from_totals_set_to_false_message: agora incluído nos totais da hierarquia
+      status_excluded_from_totals_set_to_true_message: agora excluído dos totais da hierarquia
+      status_percent_complete_changed: "% Completo alterada de %{old_value}% para %{new_value}%"
       system_update:
         file_links_journal: >
           A partir de agora, a atividade relacionada a links de arquivos (arquivos armazenados em armazenamentos externos) aparecerá aqui na guia Atividade. O seguinte representa a atividade relacionada aos links que já existiam:
@@ -2343,7 +2350,7 @@ pt-PT:
   label_workflow: "Fluxo de trabalho"
   label_workflow_plural: "Fluxos de Trabalho"
   label_workflow_summary: "Resumo"
-  label_working_days_and_hours: "Working days and hours"
+  label_working_days_and_hours: "Dias e horas de trabalho"
   label_x_closed_work_packages_abbr:
     one: "1 fechado"
     other: "%{count} fechados"
@@ -2727,6 +2734,8 @@ pt-PT:
   permission_manage_public_bcf_queries: "Gerir consultas BCF públicas"
   permission_edit_attribute_help_texts: "Editar textos de ajuda de atributos"
   permission_manage_public_project_queries: "Gerenciar listas de projetos públicos"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:
@@ -2955,9 +2964,9 @@ pt-PT:
   setting_feeds_limit: "Limite de conteúdo feed"
   setting_file_max_size_displayed: "Tamanho máximo de ficheiros de texto exibido inline"
   setting_host_name: "Nome do host"
-  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day: "Horas por dia"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    Isto irá definir o que é considerado um "dia" ao apresentar a duração de uma forma mais natural (por exemplo, se um dia tiver 8 horas, 32 horas serão 4 dias).
   setting_invitation_expiration_days: "O email de ativação expira após"
   setting_work_package_done_ratio: "Cálculo do progresso"
   setting_work_package_done_ratio_field: "Baseado no trabalho"
@@ -3399,12 +3408,12 @@ pt-PT:
         additional_privileges_project_or_group: "Poderá ter privilégios adicionais (como membro do projeto ou do grupo)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
+      Os dias não selecionados são ignorados ao agendar pacotes de trabalho (e não são incluídos na contagem de dias). Podem ser substituídos ao nível dos pacotes de trabalho.
     instance_wide_info: >
       As datas adicionadas à lista abaixo são consideradas inúteis e ignoradas ao agendar pacotes de trabalho.
     change_button: "Alterar dias úteis"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
+      Mudar os dias da semana que são considerados dias úteis ou não-úteis pode afetar os dias de início e de término de todos os pacotes de trabalho em todos os projetos nesta instância.
     journal_note:
       changed: _**Dias úteis** alterados (%{changes})._
       days:

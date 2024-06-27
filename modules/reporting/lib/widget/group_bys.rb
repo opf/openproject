@@ -27,8 +27,9 @@
 #++
 
 class Widget::GroupBys < Widget::Base
+  # rubocop:disable Metrics/AbcSize
   def render_options(group_by_ary)
-    group_by_ary.sort_by(&:label).map do |group_by|
+    options = group_by_ary.sort_by(&:label).map do |group_by|
       next unless group_by.selectable?
 
       label_text = CGI::escapeHTML(h(group_by.label)).to_s
@@ -37,7 +38,9 @@ class Widget::GroupBys < Widget::Base
       content_tag :option, option_tags do
         h(truncate_single_line(group_by.label, length: 40))
       end
-    end.join.html_safe
+    end
+
+    safe_join(options)
   end
 
   def render_group(type, initially_selected)
@@ -63,20 +66,20 @@ class Widget::GroupBys < Widget::Base
         out += content_tag :span,
                            class: "group-by--control grid-content shrink" do
           label = label_tag "group-by--add-#{type}",
-                            I18n.t(:label_group_by_add) + " " +
-                            I18n.t("js.filter.description.text_open_filter"),
+                            "#{I18n.t(:label_group_by_add)} #{I18n.t('js.filter.description.text_open_filter')}",
                             class: "hidden-for-sighted"
 
           label += content_tag :select, id: "group-by--add-#{type}", class: "advanced-filters--select" do
             content = content_tag :option, I18n.t(:label_group_by_add), value: "", disabled: true, selected: true
 
-            content += engine::GroupBy.all_grouped.sort_by do |label, _group_by_ary|
-              I18n.t(label)
-            end.map do |label, group_by_ary|
-              content_tag :optgroup, label: h(I18n.t(label)) do
+            sort_by_options = engine::GroupBy.all_grouped.sort_by do |i18n_key, _group_by_ary|
+              I18n.t(i18n_key)
+            end.map do |i18n_key, group_by_ary| # rubocop:disable Style/MultilineBlockChain
+              content_tag :optgroup, label: h(I18n.t(i18n_key)) do
                 render_options group_by_ary
               end
-            end.join.html_safe
+            end
+            content += safe_join(sort_by_options)
             content
           end
 
@@ -89,12 +92,14 @@ class Widget::GroupBys < Widget::Base
       legend + container
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def render
     write(content_tag(:div, id: "group-by--area", class: "autoscroll") do
-      out =  render_group "columns", @subject.group_bys(:column)
-      out += render_group "rows", @subject.group_bys(:row)
-      out.html_safe
+      out = "".html_safe
+      out << render_group("columns", @subject.group_bys(:column))
+      out << render_group("rows", @subject.group_bys(:row))
+      out
     end)
   end
 end

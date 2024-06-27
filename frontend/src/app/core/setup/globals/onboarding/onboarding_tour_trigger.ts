@@ -3,15 +3,14 @@
 import {
   OnboardingTourNames,
   onboardingTourStorageKey,
-  ProjectName,
   waitForElement,
 } from 'core-app/core/setup/globals/onboarding/helpers';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 
-async function triggerTour(name:OnboardingTourNames, project?:ProjectName):Promise<void> {
+async function triggerTour(name:OnboardingTourNames):Promise<void> {
   debugLog(`Loading and triggering onboarding tour ${name}`);
   await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour').then((tour) => {
-    tour.start(name, project);
+    tour.start(name);
   });
 }
 
@@ -67,12 +66,40 @@ export function detectOnboardingTour():void {
 
     // ------------------------------- Tutorial WP page -------------------------------
     if (url.searchParams.get('start_onboarding_tour')) {
-      void triggerTour('workPackages', ProjectName.demo);
+      void triggerTour('workPackages');
     }
 
-    // ------------------------------- Tutorial Main part (starting from the Gantt module) -------------------------------
+    // ------------------------------- Tutorial Gantt module -------------------------------
     if (currentTourPart === 'wpTourFinished') {
-      void triggerTour('main', ProjectName.demo);
+      void triggerTour('gantt');
+      return;
+    }
+
+    // ------------------------------- Tutorial Boards module -------------------------------
+    if (currentTourPart === 'ganttTourFinished') {
+      if (url.pathname.includes('boards')) {
+        void triggerTour('boards');
+        return;
+      }
+      if (url.pathname.includes('team_planner')) {
+        void triggerTour('teamPlanner');
+        return;
+      }
+      void triggerTour('final');
+    }
+
+    // ------------------------------- Tutorial TeamPlanner module -------------------------------
+    if (currentTourPart === 'boardsTourFinished') {
+      if (url.pathname.includes('team_planner')) {
+        void triggerTour('teamPlanner');
+        return;
+      }
+      void triggerTour('final');
+    }
+
+    // ------------------------------- Fina tutorial  -------------------------------
+    if (currentTourPart === 'teamPlannerTourFinished') {
+      void triggerTour('final');
     }
   }
 }

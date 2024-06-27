@@ -266,7 +266,7 @@ ko:
       my: "내 프로젝트"
       favored: "즐겨 찾는 프로젝트"
       archived: "보관된 프로젝트"
-      public: "Public project lists"
+      public: "공개 프로젝트 목록"
       my_private: "내 비공개 프로젝트 목록"
       new:
         placeholder: "새 프로젝트 목록"
@@ -294,15 +294,17 @@ ko:
         actions:
           label_enable_single: "이 프로젝트에서 활성화되어 있습니다. 비활성화하려면 클릭하세요."
           label_disable_single: "이 프로젝트에서 비활성화되어 있습니다. 활성화하려면 클릭하세요."
-          deactivate_for_project: "Deactivate for this project"
+          deactivate_for_project: "이 프로젝트에 대해 비활성화"
           label_enable_all: "모두 활성화"
           label_disable_all: "모두 비활성화"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: 모든 프로젝트에서 필수
+          description: '"모든 프로젝트에서 필수" 옵션이 선택되어 있으므로 모든 프로젝트에서 이 프로젝트 특성이 활성화됩니다. 개별 프로젝트에 대해 비활성화할 수 없습니다.'
         new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
+          add_projects: 프로젝트 추가
+          include_sub_projects: 하위 프로젝트 포함
+        project_mappings:
+          header: 프로젝트에서 활성화됨
       types:
         no_results_title_text: 사용 가능한 타입이 없습니다.
         form:
@@ -320,11 +322,11 @@ ko:
       success: "수정된 목록이 저장되었습니다"
       failure: "수정된 목록을 저장할 수 없습니다: %{errors}"
     publish:
-      success: "The list has been made public"
-      failure: "The list cannot be made public: %{errors}"
+      success: "이 목록이 공개로 설정되었습니다"
+      failure: "이 목록은 공개로 설정할 수 없습니다: %{errors}"
     unpublish:
-      success: "The list has been made private"
-      failure: "The list cannot be made private: %{errors}"
+      success: "이 목록이 비공개로 설정되었습니다"
+      failure: "이 목록은 비공개로 설정할 수 없습니다: %{errors}"
     can_be_saved: "목록이 수정되었습니다:"
     can_be_saved_as: "수정 사항은 새 목록에만 저장할 수 있습니다:"
   members:
@@ -445,8 +447,8 @@ ko:
         <br/>
         <strong>참고</strong>: 상속된 값(예: 자식 또는 관계)은 계속 적용됩니다.
       status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
+        계층의 총 작업, 남은 작업 및 완료 %에서 이 상태의 작업 패키지를
+        제외하려면 이 옵션을 선택하세요.
       status_color_text: |
         이 상태 색상을 할당하거나 변경하려면 클릭하세요.
         상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
@@ -454,11 +456,12 @@ ko:
       no_results_title_text: 작업 패키지 상태가 없습니다.
       no_results_content_text: 새 상태 추가
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
-        excluded_from_totals: "Excluded from totals"
+        is_default: "기본"
+        is_closed: "닫음"
+        is_readonly: "읽기 전용"
+        excluded_from_totals: "합계에서 제외됨"
   themes:
+    dark: "Dark"
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
   types:
@@ -505,6 +508,10 @@ ko:
     move:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: "여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다."
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "작업 패키지 공유에 대한 워크플로 누락"
@@ -626,7 +633,7 @@ ko:
       status:
         is_closed: "종료된 작업 패키지"
         is_readonly: "읽기 전용 작업 패키지"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        excluded_from_totals: "계층의 합계 계산에서 제외"
       journal:
         notes: "노트"
       member:
@@ -767,7 +774,7 @@ ko:
         before_or_equal_to: "은(는) %{date} 이전이어야 합니다."
         blank: "내용을 입력해주세요"
         blank_nested: "- '%{property}' 속성이 설정되어 있어야 합니다."
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        cannot_delete_mapping: "- 필수입니다. 삭제할 수 없습니다."
         cant_link_a_work_package_with_a_descendant: "작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수 없습니다."
         circular_dependency: "이 연계는 순환 종속관계를 만듭니다."
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
@@ -928,8 +935,8 @@ ko:
               nonexistent: "'%{column}' 열이 존재하지 않습니다."
               format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
-          can_only_be_modified_by_owner: "The query can only be modified by its owner."
-          need_permission_to_modify_public_query: "You cannot modify a public query."
+          can_only_be_modified_by_owner: "쿼리는 소유자만 수정할 수 있습니다."
+          need_permission_to_modify_public_query: "공개 쿼리는 수정할 수 없습니다."
           filters:
             custom_fields:
               inexistent: "필터에 대한 사용자 지정 필드가 없습니다."
@@ -963,9 +970,9 @@ ko:
             base:
               working_days_are_missing: "적어도 일주일의 하루는 근무일로 정의해야 합니다."
               previous_working_day_changes_unprocessed: "근무일 구성에 대한 이전 변경 사항이 아직 적용되지 않았습니다."
-              hours_per_day_are_missing: "The number of hours per day must be defined."
-              durations_are_not_positive_numbers: "The durations must be positive numbers."
-              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              hours_per_day_are_missing: "일별 시간을 정의해야 합니다."
+              durations_are_not_positive_numbers: "기간은 양수여야 합니다."
+              hours_per_day_is_out_of_bounds: "일별 시간은 24시간을 초과할 수 없습니다"
         time_entry:
           attributes:
             hours:
@@ -1023,13 +1030,13 @@ ko:
               only_same_project_categories_allowed: "작업 패키지의 카테고리는 작업 패키지와 동일한 프로젝트에 있어야 합니다."
               does_not_exist: "지정한 카테고리가 존재하지 않습니다."
             estimated_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "- 유효한 기간이 아닙니다."
               cant_be_inferior_to_remaining_work: "남은 작업보다 낮을 수 없습니다."
               must_be_set_when_remaining_work_is_set: "'남은 작업'이 설정된 경우 필수입니다."
               only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 합니다."
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "- 유효한 기간이 아닙니다."
               cant_exceed_work: "작업보다 높을 수 없습니다."
               must_be_set_when_work_is_set: "작업이 설정된 경우 필수입니다."
               format: "%{message}"
@@ -1322,8 +1329,8 @@ ko:
   button_revoke_access: "액세스 취소"
   button_revoke_all: "모두 취소"
   button_revoke_only: "%{shared_role_name}만 취소"
-  button_publish: "Make public"
-  button_unpublish: "Make private"
+  button_publish: "공개로 설정"
+  button_unpublish: "비공개로 설정"
   consent:
     checkbox_label: 위 내용을 확인했으며 이에 동의합니다.
     failure_message: 동의에 실패했습니다. 계속할 수 없습니다.
@@ -1577,11 +1584,11 @@ ko:
     image:
       omitted: "이미지를 내보내지 못했습니다."
     macro:
-      error: "Macro error, %{message}"
-      attribute_not_found: "attribute not found: %{attribute}"
-      model_not_found: "invalid attribute model: %{model}"
-      resource_not_found: "resource not found: %{resource}"
-      rich_text_unsupported: "Rich text embedding currently not supported in export"
+      error: "매크로 오류, %{message}"
+      attribute_not_found: "특성을 찾을 수 없음: %{attribute}"
+      model_not_found: "잘못된 특성 모델: %{model}"
+      resource_not_found: "리소스를 찾을 수 없음: %{resource}"
+      rich_text_unsupported: "서식 있는 텍스트 임베딩은 내보내기에서 현재 지원되지 않음"
     units:
       hours: 시간
       days: 일
@@ -1635,7 +1642,7 @@ ko:
       dates_changed: "변경된 날짜"
       default_attribute_written: "읽기 전용 특성 작성됨"
       progress_mode_changed_to_status_based: "진행률 계산 업데이트됨"
-      status_changed: "Status '%{status_name}'"
+      status_changed: "상태 '%{status_name}'"
       system_update: "OpenProject 시스템 업데이트:"
     cause_descriptions:
       work_package_predecessor_changed_times: 이전 %{link}에 대한 변경 사항 기준
@@ -1652,9 +1659,9 @@ ko:
           working: "%{date}은(는) 이제 근무일입니다."
           non_working: "%{date}은(는) 이제 휴무일입니다."
       progress_mode_changed_to_status_based: 진행률 계산 모드가 상태 기반으로 설정되었습니다
-      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
-      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_excluded_from_totals_set_to_false_message: 이제 계층 합계에 포함됨
+      status_excluded_from_totals_set_to_true_message: 이제 계층 합계에서 제외됨
+      status_percent_complete_changed: "완료 %가 %{old_value}%에서 %{new_value}%(으)로 변경되었습니다"
       system_update:
         file_links_journal: >
           지금부터 파일 링크(외부 저장소에 저장된 파일)와 관련된 활동이 활동 탭에 표시됩니다. 다음은 이미 존재하는 링크와 관련된 활동을 나타냅니다.
@@ -2311,7 +2318,7 @@ ko:
   label_workflow: "워크플로"
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
-  label_working_days_and_hours: "Working days and hours"
+  label_working_days_and_hours: "근무일 및 시간"
   label_x_closed_work_packages_abbr:
     one: "1개 닫힘"
     other: "%{count}개 닫힘"
@@ -2692,7 +2699,9 @@ ko:
   permission_save_bcf_queries: "BCF 쿼리 저장"
   permission_manage_public_bcf_queries: "공용 BCF 쿼리 관리"
   permission_edit_attribute_help_texts: "특성 도움말 텍스트 편집"
-  permission_manage_public_project_queries: "Manage public project lists"
+  permission_manage_public_project_queries: "공개 프로젝트 목록 관리"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:
@@ -2921,9 +2930,9 @@ ko:
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
   setting_host_name: "호스트 이름"
-  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day: "일별 시간"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    보다 자연스러운 방식으로 기간을 표시할 때 "하루"로 간주되는 시간을 정의합니다(예: 하루가 8시간이면 32시간은 4일이 됩니다).
   setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
   setting_work_package_done_ratio: "진행률 계산"
   setting_work_package_done_ratio_field: "작업 기반"
@@ -3364,12 +3373,12 @@ ko:
         additional_privileges_project_or_group: "(프로젝트 또는 그룹 멤버로서) 추가적인 권한을 가질 수 있습니다"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
+      선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.
     instance_wide_info: >
       아래 목록에 추가된 날짜는 휴무로 간주되며 작업 패키지를 예약할 때 건너뜁니다.
     change_button: "근무일 변경"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
+      근무일 또는 휴무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다.
     journal_note:
       changed: _**근무일**이 변경되었습니다(%{changes})._
       days:

@@ -46,7 +46,7 @@ de:
   permission_delete_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
   permission_header_for_project_module_storages: Automatisch verwaltete Projektordner
   permission_manage_file_links: Datei-Links verwalten
-  permission_manage_storages_in_project: Dateispeicher im Projekt verwalten
+  permission_manage_files_in_project: Dateien in OpenProject verwalten.
   permission_read_files: 'Automatisch verwaltete Projektordner: Dateien lesen'
   permission_share_files: 'Automatisch verwaltete Projektordner: Dateien freigeben'
   permission_share_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar

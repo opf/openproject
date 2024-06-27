@@ -33,64 +33,63 @@ module Storages
     module StorageInteraction
       module OneDrive
         class RenameFileCommand
-          def self.call(storage:, source:, target:)
-            new(storage).call(source:, target:)
+          def self.call(storage:, auth_strategy:, file_id:, name:)
+            new(storage).call(auth_strategy:, file_id:, name:)
           end
 
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          def call(source:, target:)
-            Util.using_admin_token(@storage) do |http|
-              response = http.patch(uri_path(source), body: { name: target }.to_json)
+          def call(auth_strategy:, file_id:, name:)
+            validate_input_data(file_id:, name:).on_failure { |failure| return failure }
 
-              handle_response(response)
+            Authentication[auth_strategy].call(storage: @storage, http_options: Util.json_content_type) do |http|
+              handle_response http.patch(uri_path(file_id), body: { name: }.to_json)
             end
           end
 
           private
 
-          def handle_response(response)
-            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-
-            case response
-            in { status: 200..299 }
-              ServiceResult.success(result: storage_file(response.json(symbolize_keys: true)))
-            in { status: 401 }
-              ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data:))
-            in { status: 404 }
-              ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data:))
-            in { status: 409 }
-              ServiceResult.failure(result: :conflict,
-                                    errors: ::Storages::StorageError.new(code: :conflict, data:))
-            else
+          def validate_input_data(file_id:, name:)
+            if file_id.blank? || name.blank?
               ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data:))
+                                    errors: StorageError.new(code: :error,
+                                                             data: StorageErrorData.new(source: self.class),
+                                                             log_message: "Invalid input data!"))
+            else
+              ServiceResult.success
             end
           end
 
-          def storage_file(json_file)
-            StorageFile.new(
-              id: json_file[:id],
-              name: json_file[:name],
-              size: json_file[:size],
-              mime_type: Util.mime_type(json_file),
-              created_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :createdDateTime)),
-              last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
-              created_by_name: json_file.dig(:createdBy, :user, :displayName),
-              last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
-              location: Util.extract_location(json_file[:parentReference], json_file[:name]),
-              permissions: %i[readable writeable]
-            )
+          def uri_path(source)
+            "#{@storage.uri}v1.0/drives/#{@storage.drive_id}/items/#{source}"
           end
 
-          def uri_path(source)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{source}"
+          # rubocop:disable Metrics/AbcSize
+          def handle_response(response)
+            case response
+            in { status: 200..299 }
+              ServiceResult.success(result: Util.storage_file_from_json(response.json(symbolize_keys: true)))
+            in { status: 401 }
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(response:, code: :forbidden, source: self.class))
+            in { status: 404 }
+              ServiceResult.failure(result: :not_found,
+                                    errors: Util.storage_error(response:, code: :not_found, source: self.class))
+            in { status: 409 }
+              ServiceResult.failure(result: :conflict,
+                                    errors: Util.storage_error(response:, code: :conflict, source: self.class))
+            else
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(response:, code: :error, source: self.class))
+            end
           end
+
+          # rubocop:enable Metrics/AbcSize
         end
       end
     end

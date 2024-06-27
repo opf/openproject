@@ -46,7 +46,7 @@ ko:
   permission_delete_files_explanation: 이 권한은 Nextcloud 저장소에만 사용할 수 있습니다
   permission_header_for_project_module_storages: 자동으로 관리되는 프로젝트 폴더
   permission_manage_file_links: 파일 링크 관리
-  permission_manage_storages_in_project: 프로젝트의 파일 저장소 관리
+  permission_manage_files_in_project: 프로젝트의 파일 관리
   permission_read_files: '자동으로 관리되는 프로젝트 폴더: 파일 읽기'
   permission_share_files: '자동으로 관리되는 프로젝트 폴더: 파일 공유'
   permission_share_files_explanation: 이 권한은 Nextcloud 저장소에만 사용할 수 있습니다

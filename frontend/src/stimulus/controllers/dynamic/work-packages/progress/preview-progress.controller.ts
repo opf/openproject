@@ -29,7 +29,7 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { debounce } from 'lodash';
+import { debounce, DebouncedFunc } from 'lodash';
 import Idiomorph from 'idiomorph/dist/idiomorph.cjs';
 
 interface TurboBeforeFrameRenderEventDetail {
@@ -44,7 +44,7 @@ export default class PreviewProgressController extends Controller {
   declare readonly progressInputTargets:HTMLInputElement[];
   declare readonly formTarget:HTMLFormElement;
 
-  private debouncedPreview:(event:Event) => void;
+  private debouncedPreview:DebouncedFunc<(event:Event) => void>;
   private frameMorphRenderer:(event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => void;
 
   connect() {
@@ -62,6 +62,7 @@ export default class PreviewProgressController extends Controller {
 
     this.progressInputTargets.forEach((target) => {
       target.addEventListener('input', this.debouncedPreview);
+      target.addEventListener('blur', this.debouncedPreview);
     });
 
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
@@ -69,13 +70,23 @@ export default class PreviewProgressController extends Controller {
   }
 
   disconnect() {
-    this.progressInputTargets.forEach((target) => target.removeEventListener('input', this.debouncedPreview));
+    this.progressInputTargets.forEach((target) => {
+      target.removeEventListener('input', this.debouncedPreview);
+      target.removeEventListener('blur', this.debouncedPreview);
+    });
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
     turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
   }
 
   async preview(event:Event) {
-    const field = event.target as HTMLInputElement;
+    let field:HTMLInputElement;
+    if (event.type === 'blur') {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      field = (event as FocusEvent).relatedTarget as HTMLInputElement;
+    } else {
+      field = event.target as HTMLInputElement;
+    }
+
     const form = this.formTarget;
     const formData = new FormData(form) as unknown as undefined;
     const formParams = new URLSearchParams(formData);
@@ -83,7 +94,7 @@ export default class PreviewProgressController extends Controller {
       ['work_package[remaining_hours]', formParams.get('work_package[remaining_hours]') || ''],
       ['work_package[estimated_hours]', formParams.get('work_package[estimated_hours]') || ''],
       ['work_package[status_id]', formParams.get('work_package[status_id]') || ''],
-      ['field', field.name ?? 'estimatedTime'],
+      ['field', field?.name ?? ''],
       ['work_package[remaining_hours_touched]', formParams.get('work_package[remaining_hours_touched]') || ''],
       ['work_package[estimated_hours_touched]', formParams.get('work_package[estimated_hours_touched]') || ''],
       ['work_package[status_id_touched]', formParams.get('work_package[status_id_touched]') || ''],

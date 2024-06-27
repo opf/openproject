@@ -86,7 +86,7 @@ RSpec.describe "API v3 Help texts resource" do
         end
 
         context "valid type id" do
-          it { expect(response.status).to eq(200) }
+          it { expect(response).to have_http_status(:ok) }
         end
 
         context "invalid type id" do

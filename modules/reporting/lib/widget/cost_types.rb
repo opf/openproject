@@ -31,7 +31,7 @@ class Widget::CostTypes < Widget::Base
     @cost_types = options.delete(:cost_types)
     @selected_type_id = options.delete(:selected_type_id)
 
-    super(options, &)
+    super
   end
 
   def render
@@ -40,7 +40,7 @@ class Widget::CostTypes < Widget::Base
 
   def contents
     content_tag :div do
-      available_cost_type_tabs(@subject).sort_by { |id, _| id }.map do |id, label|
+      tabs = available_cost_type_tabs(@subject).sort_by { |id, _| id }.map do |id, label|
         content_tag :div, class: "form--field -trailing-label" do
           types = label_tag "unit_#{id}", h(label), class: "form--label"
           types += content_tag :span, class: "form--field-container" do
@@ -49,7 +49,9 @@ class Widget::CostTypes < Widget::Base
             end
           end
         end
-      end.join("").html_safe
+      end
+
+      safe_join(tabs)
     end
   end
 end

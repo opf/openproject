@@ -32,10 +32,12 @@
 require "spec_helper"
 
 RSpec.describe "Projects global menu item", :js, :with_cuprite do
-  let(:user) { create(:user) }
+  shared_let(:user) { create(:user) }
+  shared_let(:admin) { create(:admin) }
+
+  current_user { user }
 
   before do
-    login_as user
     visit root_path
   end
 
@@ -56,12 +58,26 @@ RSpec.describe "Projects global menu item", :js, :with_cuprite do
 
     it "renders the preset filters" do
       within "#main-menu" do
-        expect(page).to have_link text: I18n.t(:"projects.lists.active")
-        expect(page).to have_link text: I18n.t(:"projects.lists.my")
-        expect(page).to have_link text: I18n.t(:"projects.lists.archived")
-        expect(page).to have_link text: I18n.t(:"activerecord.attributes.project.status_codes.on_track")
-        expect(page).to have_link text: I18n.t(:"activerecord.attributes.project.status_codes.off_track")
-        expect(page).to have_link text: I18n.t(:"activerecord.attributes.project.status_codes.at_risk")
+        expect(page).to have_link text: I18n.t("projects.lists.active")
+        expect(page).to have_link text: I18n.t("projects.lists.my")
+        expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.on_track")
+        expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.off_track")
+        expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.at_risk")
+      end
+    end
+
+    context "with an admin user" do
+      current_user { admin }
+
+      it "renders the archived filter as well" do
+        within "#main-menu" do
+          expect(page).to have_link text: I18n.t("projects.lists.active")
+          expect(page).to have_link text: I18n.t("projects.lists.my")
+          expect(page).to have_link text: I18n.t("projects.lists.archived")
+          expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.on_track")
+          expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.off_track")
+          expect(page).to have_link text: I18n.t("activerecord.attributes.project.status_codes.at_risk")
+        end
       end
     end
   end

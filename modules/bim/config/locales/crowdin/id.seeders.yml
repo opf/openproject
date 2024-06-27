@@ -20,7 +20,7 @@ id:
         item_1:
           name: In Progress
         item_2:
-          name: Resolved
+          name: Selesai
         item_3:
           name: Closed
       time_entry_activities:
@@ -150,8 +150,8 @@ id:
                   name: Tahapan pencapaian
         demo-planning-constructing-project:
           name: "(Demo) Perencanaan & konstruksi"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          status_explanation: Seluruh tugas berjalan sesuai jadwal. Orang-orang yang terlibat memahami tugas mereka. Sistem sudah diatur sepenuhnya.
+          description: Ini adalah ringkasan singkat mengenai tujuan dari proyek perencanaan dan konstruksi demo ini.
           news:
             item_0:
               title: Selamat datang di demo proyek Anda

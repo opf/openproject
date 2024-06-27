@@ -57,6 +57,11 @@ module OpenProject::Reporting
             OpenProject::AccessControl.permission(:view_cost_entries).controller_actions << "cost_reports/#{action}"
             OpenProject::AccessControl.permission(:view_own_cost_entries).controller_actions << "cost_reports/#{action}"
           end
+
+          OpenProject::AccessControl.permission(:view_time_entries).controller_actions << "cost_reports/menus/show"
+          OpenProject::AccessControl.permission(:view_own_time_entries).controller_actions << "cost_reports/menus/show"
+          OpenProject::AccessControl.permission(:view_cost_entries).controller_actions << "cost_reports/menus/show"
+          OpenProject::AccessControl.permission(:view_own_cost_entries).controller_actions << "cost_reports/menus/show"
         end
       end
 
@@ -90,7 +95,7 @@ module OpenProject::Reporting
            :cost_reports_global_report_menu,
            { controller: "/cost_reports", action: "index", project_id: nil },
            parent: :cost_reports_global,
-           partial: "cost_reports/report_menu",
+           partial: "cost_reports/menus/menu",
            if: should_render
 
       menu :project_menu,
@@ -105,7 +110,7 @@ module OpenProject::Reporting
            :costs_menu,
            { controller: "/cost_reports", action: "index" },
            if: Proc.new { |project| project.module_enabled?(:costs) },
-           partial: "/cost_reports/report_menu",
+           partial: "cost_reports/menus/menu",
            parent: :costs
     end
 

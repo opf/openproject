@@ -46,11 +46,11 @@ module Users
     private
 
     def invalidate_recovery_tokens
-      Token::Recovery.where(user: user).delete_all
+      Token::Recovery.where(user:).delete_all
     end
 
     def invalidate_invitation_tokens
-      Token::Invitation.where(user: user).delete_all
+      Token::Invitation.where(user:).delete_all
     end
   end
 end

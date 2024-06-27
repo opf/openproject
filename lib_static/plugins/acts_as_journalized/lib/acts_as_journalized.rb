@@ -45,14 +45,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'journal_changes'
-require 'journal_formatter'
-require 'cause_of_change'
+require "journal_changes"
+require "journal_formatter"
+require "cause_of_change"
 
 module Acts
 end
 
-Dir[File.expand_path('acts/journalized/*.rb', __dir__)].sort.each { |f| require f }
+Dir[File.expand_path("acts/journalized/*.rb", __dir__)].sort.each { |f| require f }
 
 module Acts
   module Journalized

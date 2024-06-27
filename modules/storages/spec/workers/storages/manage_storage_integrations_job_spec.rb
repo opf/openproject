@@ -65,8 +65,6 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
   describe ".disable_cron_job_if_needed" do
     before { ActiveJob::Base.disable_test_adapter }
 
-    subject { described_class.disable_cron_job_if_needed }
-
     context "when there is an active nextcloud project storage" do
       shared_let(:storage1) { create(:nextcloud_storage, :as_automatically_managed) }
       shared_let(:project_storage) { create(:project_storage, :as_automatically_managed, storage: storage1) }
@@ -78,7 +76,7 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
         expect(good_job_setting.key).to eq("cron_keys_disabled")
         expect(good_job_setting.value).to eq(["Storages::ManageStorageIntegrationsJob"])
 
-        expect { subject }.not_to change(GoodJob::Setting, :count).from(1)
+        expect { described_class.disable_cron_job_if_needed }.not_to change(GoodJob::Setting, :count).from(1)
 
         good_job_setting.reload
         expect(good_job_setting.key).to eq("cron_keys_disabled")
@@ -88,7 +86,7 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
       it "does nothing if the cron_job is not disabled" do
         expect(GoodJob::Setting.cron_key_enabled?(described_class::CRON_JOB_KEY)).to be(true)
 
-        expect { subject }.not_to change(GoodJob::Setting, :count).from(0)
+        expect { described_class.disable_cron_job_if_needed }.not_to change(GoodJob::Setting, :count).from(0)
 
         expect(GoodJob::Setting.cron_key_enabled?(described_class::CRON_JOB_KEY)).to be(true)
       end
@@ -96,7 +94,7 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
 
     context "when there is no active nextcloud project storage" do
       it "disables the cron job" do
-        expect { subject }.to change(GoodJob::Setting, :count).from(0).to(1)
+        expect { described_class.disable_cron_job_if_needed }.to change(GoodJob::Setting, :count).from(0).to(1)
 
         good_job_setting = GoodJob::Setting.first
         expect(good_job_setting.key).to eq("cron_keys_disabled")
@@ -107,8 +105,9 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
 
   describe ".perform" do
     let(:storage1) { create(:nextcloud_storage_configured, :as_automatically_managed) }
+    let(:storage2) { create(:sharepoint_dev_drive_storage, :as_automatically_managed) }
 
-    subject { described_class.new.perform }
+    subject(:job_instance) { described_class.new }
 
     it "calls NextcloudGroupFolderPropertiesSyncService for each automatically managed storage" do
       storage2 = create(:nextcloud_storage, :as_not_automatically_managed)
@@ -117,7 +116,7 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
       allow(Storages::NextcloudGroupFolderPropertiesSyncService)
         .to receive(:call).with(storage1).and_return(ServiceResult.success)
 
-      subject
+      job_instance.perform
 
       expect(Storages::NextcloudGroupFolderPropertiesSyncService).to have_received(:call).with(storage1).once
       expect(Storages::NextcloudGroupFolderPropertiesSyncService).not_to have_received(:call).with(storage2)
@@ -130,7 +129,7 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
 
       Timecop.freeze("2023-03-14T15:17:00Z") do
         expect do
-          subject
+          job_instance.perform
           storage1.reload
         end.to(
           change(storage1, :health_changed_at).to(Time.now.utc)
@@ -175,7 +174,7 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
 
         expect(described_class
                  .queue_adapter.performed_jobs
-                 .last.dig("exception_executions", "[Storages::Errors::IntegrationJobError]")).to eq(5)
+                 .last.dig("exception_executions", "[Storages::Errors::IntegrationJobError]")).to eq(4)
       end
 
       it "sends a notification after the maximum number of attempts" do
@@ -188,6 +187,19 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
           storage: storage1,
           reason: "custom_error"
         )
+      end
+
+      it "does not interrupt the processing" do
+        allow(Storages::NextcloudGroupFolderPropertiesSyncService)
+          .to receive(:call)
+                .with(storage1)
+                .and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :error, log_message: "Not working")))
+
+        allow(Storages::OneDriveManagedFolderSyncService).to receive(:call).with(storage2).and_return(ServiceResult.success)
+
+        expect { job_instance.perform }.to raise_error(Storages::Errors::IntegrationJobError)
+
+        expect(Storages::OneDriveManagedFolderSyncService).to have_received(:call).with(storage2)
       end
     end
   end

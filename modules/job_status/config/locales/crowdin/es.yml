@@ -1,5 +1,5 @@
 es:
-  label_job_status_plural: "Job statuses"
+  label_job_status_plural: "Estados de trabajo"
   plugin_openproject_job_status:
     name: "Estado del trabajo de OpenProject"
     description: "Listado y estado de los trabajos en segundo plano."

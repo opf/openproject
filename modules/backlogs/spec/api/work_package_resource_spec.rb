@@ -71,7 +71,7 @@ RSpec.describe "API v3 Work package resource" do
 
       include_context "query work package"
 
-      it { expect(last_response.status).to be 200 }
+      it { expect(last_response).to have_http_status :ok }
 
       it { is_expected.not_to have_json_path("storyPoints") }
     end

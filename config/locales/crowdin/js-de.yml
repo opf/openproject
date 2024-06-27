@@ -150,6 +150,7 @@ de:
         attribute_reference:
           macro_help_tooltip: "Dieser Textabschnitt wird dynamisch durch ein Makro erzeugt."
           not_found: "Die angeforderte Ressource konnte nicht gefunden werden"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Das ausgewählte Attribut '%{name}' existiert nicht."
         child_pages:
           button: "Auflistung untergeordneter Seiten"
@@ -367,7 +368,7 @@ de:
           "14_2":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                Diese Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Legen Sie mehr Einheiten für Aufwand, Verbleibender Aufwand und Arbeitszeit fest</li> <li>Konfigurieren Sie in der Administration, in welchen Projekte Projektattribute aktiviert sind</li> <li>Umbenennen von privaten Projektlisten</li> <li>Vermeiden Sie überflüssige E-Mail-Erinnerungen bei @Mentions</li> <li>Einladung per E-Mail an Teilnehmer einer neuen Besprechung</li> <li>Eingebettete Arbeitspaketattribute in PDF-Exporten anzeigen</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."

@@ -1,34 +1,12 @@
 import {
-  ProjectName,
   waitForElement,
 } from 'core-app/core/setup/globals/onboarding/helpers';
 import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 
-export function boardTourSteps(edition:'basic'|'enterprise', project:ProjectName):OnboardingStep[] {
-  let boardName:string;
-  if (edition === 'basic') {
-    boardName = project === ProjectName.demo ? 'Basic board' : 'Task board';
-  } else {
-    boardName = 'Kanban';
-  }
-
+export function boardTourSteps(edition:'basic'|'enterprise'):OnboardingStep[] {
   const listExplanation = edition === 'basic' ? 'basic' : 'kanban';
 
   return [
-    {
-      'next #boards-wrapper>.boards-menu-item': I18n.t('js.onboarding.steps.boards.overview'),
-      showSkip: false,
-      nextButton: { text: I18n.t('js.onboarding.buttons.next') },
-      onNext() {
-        jQuery('#boards-wrapper>.boards-menu-item ~ .toggler')[0].click();
-        waitForElement(
-          '.op-sidemenu--item-action',
-          '#main-menu',
-          (match) => match.click(),
-          (match) => !!match.textContent?.includes(boardName),
-        );
-      },
-    },
     {
       'next [data-tour-selector="op-board-list"]': I18n.t(`js.onboarding.steps.boards.lists_${listExplanation}`),
       showSkip: false,
@@ -56,4 +34,28 @@ export function boardTourSteps(edition:'basic'|'enterprise', project:ProjectName
       },
     },
   ];
+}
+
+export function navigateToBoardStep(edition:'basic'|'enterprise'):OnboardingStep {
+  let boardName:string;
+  if (edition === 'basic') {
+    boardName = 'Basic board';
+  } else {
+    boardName = 'Kanban';
+  }
+
+  return {
+    'next #boards-wrapper>.boards-menu-item': I18n.t('js.onboarding.steps.boards.overview'),
+    showSkip: false,
+    nextButton: { text: I18n.t('js.onboarding.buttons.next') },
+    onNext() {
+      jQuery('#boards-wrapper>.boards-menu-item ~ .toggler')[0].click();
+      waitForElement(
+        '.op-sidemenu--item-action',
+        '#main-menu',
+        (match) => match.click(),
+        (match) => !!match.textContent?.includes(boardName),
+      );
+    },
+  };
 }

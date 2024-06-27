@@ -156,7 +156,7 @@ RSpec.describe ProjectsController do
 
       it "shows an error" do
         get "copy", params: { id: project.id }
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
   end

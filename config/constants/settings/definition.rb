@@ -525,7 +525,12 @@ module Settings
         default: 7.days
       },
       host_name: {
-        default: "localhost:3000"
+        format: :string,
+        default: "localhost:3000",
+        default_by_env: {
+          # We do not want to set a localhost host name in production
+          production: nil
+        },
       },
       hours_per_day: {
         description: "This will define what is considered a “day” when displaying duration in a more natural way " \
@@ -1030,6 +1035,10 @@ module Settings
         default: "",
         env_alias: "SMTP_PASSWORD"
       },
+      smtp_timeout: {
+        format: :integer,
+        default: 5,
+      },
       software_name: {
         description: "Override software application name",
         default: "OpenProject"
@@ -1168,20 +1177,25 @@ module Settings
 
     def initialize(name,
                    default:,
+                   default_by_env: {},
                    description: nil,
                    format: nil,
                    writable: true,
                    allowed: nil,
                    env_alias: nil)
       self.name = name.to_s
-      @default = default.is_a?(Hash) ? default.deep_stringify_keys : default
-      @default.freeze
-      self.value = @default.dup
+      self.value = derive_default default_by_env.fetch(Rails.env.to_sym, default)
       self.format = format ? format.to_sym : deduce_format(value)
       self.writable = writable
       self.allowed = allowed
       self.env_alias = env_alias
       self.description = description.presence || :"setting_#{name}"
+    end
+
+    def derive_default(default)
+      @default = default.is_a?(Hash) ? default.deep_stringify_keys : default
+      @default.freeze
+      @default.dup
     end
 
     def default
@@ -1272,6 +1286,7 @@ module Settings
       #  from the ENV OPENPROJECT_2FA as well.
       def add(name,
               default:,
+              default_by_env: {},
               format: nil,
               description: nil,
               writable: true,
@@ -1284,6 +1299,7 @@ module Settings
                          format:,
                          description:,
                          default:,
+                         default_by_env:,
                          writable:,
                          allowed:,
                          env_alias:)

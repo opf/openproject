@@ -121,8 +121,8 @@ fr:
       agenda: "Copier l'ordre du jour"
       agenda_text: "Copier l'ordre du jour de l'ancienne réunion"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_emails: "Envoyer des e-mails"
+      send_invitation_emails: "Envoyez des e-mails d'invitation lors de la création"
       open_meeting_link: "Ouvrir la réunion"
       invited:
         summary: "%{actor} vous a envoyé une invitation pour la réunion %{title}"

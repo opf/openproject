@@ -150,6 +150,7 @@ ms:
         attribute_reference:
           macro_help_tooltip: "Bahagian teks ini sedang dihasilkan secara dinamik oleh makro."
           not_found: "Sumber yang diminta tidak dapat ditemui"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Atribut yang dipilih '%{name}' tidak wujud."
         child_pages:
           button: "Terpaut pada halaman anak"
@@ -368,7 +369,7 @@ ms:
           "14_2":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                Pelancaran tersebut mengandungi pelbagai fitur dan penambahbaikan baharu: <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li>Tetapkan lebih banyak unit pada kerja, kerja yang berbaki dan masa yang berbaki</li><li>Konfigurasikan projek yang manakah yang telah diaktifkan bagi atribut projek</li> <li>Namakan semula senarai projek peribadi</li> <li>Elakkan daripada peringatan e-mel yang tidak diperlukan sekiranya @sebutan</li> <li>Jemput penghadir mesyuarat melalui e-mel</li> <li> Paparkan atribut pakej kerja yang tersemat di eksport PDF</li> </ul>
     ical_sharing_modal:
       title: "Langgan kalendar"
       inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."
@@ -1357,4 +1358,4 @@ ms:
         network_off: "Terdapat masalah rangkaian."
         network_on: "Rangkaian kembali. Kami sedang mencuba."
         timeout: >
-          OpenProject tidak dapat memberikan anda akses ke folder projek dalam tempoh masa yang dijangkakan. Sila cuba sekali lagi. <br><br> Jika masalah berlanjutan sila hubungi pentadbir OpenProject anda untuk semak <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status kesihatan persediaan storan fail</a>.
+          OpenProject tidak dapat memberikan anda akses ke folder projek dalam tempoh masa yang dijangkakan. Sila cubasekali lagi.<br><br> Jika masalah itu berterusan, sila hubungi pentadbir OpenProject anda untuk menyemak <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status kesihatan penyediaan storan fail</a>.

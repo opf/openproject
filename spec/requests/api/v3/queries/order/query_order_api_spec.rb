@@ -52,7 +52,7 @@ RSpec.describe "/api/v3/queries/:id/order" do
     it "returns the order" do
       get path
 
-      expect(last_response.status).to eq 200
+      expect(last_response).to have_http_status :ok
       expect(body).to be_a Hash
       expect(body).to eq({ wp1.id => 0, wp2.id => 8192 }.stringify_keys)
     end
@@ -70,7 +70,7 @@ RSpec.describe "/api/v3/queries/:id/order" do
 
     it "allows inserting a delta" do
       patch path, { delta: { wp2.id.to_s => 1234 } }.to_json
-      expect(last_response.status).to eq 200
+      expect(last_response).to have_http_status :ok
 
       query.reload
       expect(body).to eq("t" => timestamp)
@@ -79,7 +79,7 @@ RSpec.describe "/api/v3/queries/:id/order" do
 
     it "allows removing an item" do
       patch path, { delta: { wp1.id.to_s => -1 } }.to_json
-      expect(last_response.status).to eq 200
+      expect(last_response).to have_http_status :ok
 
       query.reload
       expect(body).to eq("t" => timestamp)

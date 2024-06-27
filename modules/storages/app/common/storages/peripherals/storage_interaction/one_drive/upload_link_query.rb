@@ -72,21 +72,22 @@ module Storages
           end
 
           def handle_response(response)
-            data = StorageErrorData.new(source: self.class, payload: response)
-
             case response
             in { status: 200..299 }
               upload_url = response.json(symbolize_keys: true)[:uploadUrl]
               ServiceResult.success(result: UploadLink.new(URI(upload_url), :put))
             in { status: 404 | 400 } # not existent parent folder in request url is responded with 400
               ServiceResult.failure(result: :not_found,
-                                    errors: StorageError.new(code: :not_found, data:))
+                                    errors: Util.storage_error(code: :not_found, response:, source: self.class))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: StorageError.new(code: :unauthorized, data:))
+                                    errors: Util.storage_error(code: :unauthorized, response:, source: self.class))
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(code: :forbidden, response:, source: self.class))
             else
               ServiceResult.failure(result: :error,
-                                    errors: StorageError.new(code: :error, data:))
+                                    errors: Util.storage_error(code: :error, response:, source: self.class))
             end
           end
 

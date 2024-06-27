@@ -194,7 +194,7 @@ RSpec.describe UsersController do
       end
 
       it "returns 403 forbidden" do
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -401,7 +401,7 @@ RSpec.describe UsersController do
       let(:change_action) { :wtf }
 
       it "renders 400" do
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(response).not_to render_template "users/change_status_info"
       end
     end
