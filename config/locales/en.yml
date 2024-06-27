@@ -2140,6 +2140,7 @@ en:
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
   label_share: "Share"
+  label_share_project_list: "Share project list"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
