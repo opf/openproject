@@ -30,6 +30,7 @@
 #
 module Storages::Admin
   class OAuthApplicationInfoCopyComponent < ApplicationComponent
+    include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
     attr_reader :storage
@@ -39,6 +40,8 @@ module Storages::Admin
       super(oauth_application, **)
       @storage = storage
     end
+
+    def self.wrapper_key = :storage_openproject_oauth_section
 
     def oauth_application_details_link
       render(

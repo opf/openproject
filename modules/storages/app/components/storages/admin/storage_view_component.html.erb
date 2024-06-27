@@ -22,12 +22,10 @@
       end
 
       component.with_row(scheme: :default) do
-        render(OpTurbo::FrameComponent.new(id: :storage_openproject_oauth_section)) do
-          if storage.new_record? || openproject_oauth_application_section_closed?
-            render(Storages::Admin::OAuthApplicationInfoComponent.new(oauth_application:, storage:))
-          else
-            render(Storages::Admin::OAuthApplicationInfoCopyComponent.new(oauth_application:, storage:))
-          end
+        if storage.new_record? || openproject_oauth_application_section_closed?
+          render(Storages::Admin::OAuthApplicationInfoComponent.new(oauth_application:, storage:))
+        else
+          render(Storages::Admin::OAuthApplicationInfoCopyComponent.new(oauth_application:, storage:))
         end
       end
 
