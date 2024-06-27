@@ -76,19 +76,17 @@ module OpenProject
         end
 
         def acts_as_watchable_enforce_project_association
-          unless reflect_on_association(:project)
-            message = <<-MESSAGE
+          return if reflect_on_association(:project)
 
-              The #{self} model does not have an association to the Project model.
+          raise <<-MESSAGE
+            The #{self} model does not have an association to the Project model.
 
-              acts_as_watchable requires the including model to have such an association.
+            acts_as_watchable requires the including model to have such an association.
 
-              If no direct association exists, consider adding a
-                has_one :project, through: ...
-              association.
-            MESSAGE
-            raise message
-          end
+            If no direct association exists, consider adding a
+              has_one :project, through: ...
+            association.
+          MESSAGE
         end
       end
 
