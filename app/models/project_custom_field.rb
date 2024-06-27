@@ -45,17 +45,19 @@ class ProjectCustomField < CustomField
   def self.visible(user = User.current)
     if user.admin?
       all
+    elsif user.allowed_in_any_project?(:select_project_custom_fields)
+      where(visible: true)
     else
-      allowed_project_ids = Project.allowed_to(User.current, :view_project_attributes).select(:id).arel
+      allowed_project_ids = Project.allowed_to(user, :view_project_attributes).select(:id).arel
 
       mapping_table = ProjectCustomFieldProjectMapping.arel_table
       mapping_query = mapping_table.project(Arel.star)
         .where(
-          mapping_table[:custom_field_id].eq(ProjectCustomField.arel_table[:id])
+          mapping_table[:custom_field_id].eq(arel_table[:id])
           .and(mapping_table[:project_id].in(allowed_project_ids))
         )
 
-      ProjectCustomField.where(visible: true).where(mapping_query.exists)
+      where(visible: true).where(mapping_query.exists)
     end
   end
 
