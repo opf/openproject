@@ -569,6 +569,7 @@ en:
     label_sort_lower: "Move down"
     label_sorting: "Sorting"
     label_spent_time: "Spent time"
+    label_all_members_assigned_projects: "Include all members assigned projects"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Public"
@@ -1138,6 +1139,7 @@ en:
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
         click_to_edit_query_name: "Click to edit title of this view."
         rename_query_placeholder: "Name of this view"
+        all_members_assigned_projects_text: "Mark this view including all members assigned projects and no need to select those members's projects in project list."
         star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
         public_text: >
           Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query.

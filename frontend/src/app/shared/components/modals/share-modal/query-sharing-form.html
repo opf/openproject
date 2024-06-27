@@ -33,3 +33,21 @@
     <div class="form--field-instructions -no-margin" [textContent]="text.showInMenuText"></div>
   </div>
 </div>
+
+<div class="form--field">
+  <div class="form--field-container -vertical">
+    <label class="form--label-with-check-box">
+      <div class="form--check-box-container">
+        <input type="checkbox"
+               name="show_all_members_assigned_projects"
+               id="show-all-members-assigned-projects"
+               [ngModel]="isShowAllMembersAssignedProjects"
+               (ngModelChange)="updateShowAllMembersAssignedProjects($event)"
+               [disabled]="!canShowAllMembersAssignedProjects"
+               class="form--check-box" />
+      </div>
+      {{ text.showAllMembersAssignedProjects }}
+    </label>
+    <div class="form--field-instructions -no-margin" [textContent]="text.showAllMembersAssignedProjectsText"></div>
+  </div>
+</div>

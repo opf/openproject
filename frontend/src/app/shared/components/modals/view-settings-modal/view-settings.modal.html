@@ -35,6 +35,7 @@
       <query-sharing-form
         [isSave]="true"
         (onChange)="setValues($event)"
+        [isShowAllMembersAssignedProjects]="includeAllMembersAssignedProjects"
         [isStarred]="isStarred"
         [isPublic]="isPublic">
       </query-sharing-form>

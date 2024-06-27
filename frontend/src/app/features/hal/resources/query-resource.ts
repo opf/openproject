@@ -104,6 +104,8 @@ export class QueryResource extends HalResource {
 
   public includeSubprojects:boolean;
 
+  public includeAllMembersAssignedProjects:boolean;
+
   public ordered_work_packages:QueryOrder;
 
   public $initialize(source:any) {
