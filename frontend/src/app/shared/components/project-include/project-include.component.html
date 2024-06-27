@@ -9,11 +9,12 @@
     class="button"
     (click)="toggleOpen()"
     [title]="text.toggle_title"
+    [disabled]="includeAllMembersAssignedProjects"
     data-test-selector="project-include-button"
   >
     {{ text.toggle_title }}
     <span
-      *ngIf="(numberOfProjectsInFilter$ | async) as count"
+      *ngIf="!includeAllMembersAssignedProjects && (numberOfProjectsInFilter$ | async) as count"
       class="badge -secondary"
       [textContent]="count"
     >

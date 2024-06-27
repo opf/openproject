@@ -290,6 +290,8 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       });
   }
 
+  public includeAllMembersAssignedProjects = false;
+
   public ngOnInit():void {
     this.query$
       .pipe(
@@ -299,6 +301,15 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       .subscribe((includeSubprojects) => {
         this.includeSubprojects = includeSubprojects;
       });
+
+    this.query$
+      .pipe(
+        map((query) => query.includeAllMembersAssignedProjects),
+        distinctUntilChanged(),
+      )
+      .subscribe((includeAllMembersAssignedProjects) => {
+        this.includeAllMembersAssignedProjects = includeAllMembersAssignedProjects;
+      });      
   }
 
   public toggleIncludeSubprojects():void {
