@@ -113,6 +113,7 @@ class WorkPackage::PDFExport::Common::View
   def spacemono_font_base_path
     Rails.public_path.join("fonts/spacemono")
   end
+
   def opensans_font_base_path
     Rails.public_path.join("fonts/opensans")
   end
