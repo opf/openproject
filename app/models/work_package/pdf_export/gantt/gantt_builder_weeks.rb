@@ -30,7 +30,7 @@ module WorkPackage::PDFExport::Gantt
   class GanttBuilderWeeks < GanttBuilder
     def build_column_dates_range(range)
       range
-        .map { |d| [d.year, d.cweek] }
+        .map { |d| [d.cwyear, d.cweek] }
         .uniq
         .map { |year, week| Date.commercial(year, week, 1) }
     end
