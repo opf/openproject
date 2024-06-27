@@ -111,7 +111,8 @@ Rails.application.reloader.to_prepare do
 
       map.permission :view_project_attributes,
                      {},
-                     permissible_on: :project
+                     permissible_on: :project,
+                     dependencies: :view_project
 
       map.permission :edit_project_attributes,
                      {},
