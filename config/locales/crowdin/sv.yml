@@ -918,6 +918,10 @@ sv:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2600,6 +2604,7 @@ sv:
   notice_principals_found_multiple: "%{number} resultat hittades. Använd TAB för att fokusera på det första."
   notice_principals_found_single: "Ett resultat. Använd TAB för att fokusera på det."
   notice_project_not_deleted: "Projektet raderades ej."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Lyckad anslutning."
   notice_successful_create: "Skapades utan problem."
   notice_successful_delete: "Raderades utan problem."

@@ -916,6 +916,10 @@ hu:
             enabled_modules:
               dependency_missing: "A '%{dependency}' modult is engedélyezni kell, mivel a '%{module}' modul függ tőle."
               format: "%{message}\n"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2597,6 +2601,7 @@ hu:
   notice_principals_found_multiple: "%{number} találat. \n Tab-al tudsz az első találatra fókuszálni."
   notice_principals_found_single: "Egyetlen találat van.\nA Tab billentyű megnyomásával ugrik rá a fókusz."
   notice_project_not_deleted: "A projekt nem lett törölve."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Sikeresen létrejött a kapcsolat."
   notice_successful_create: "Sikeres létrehozás."
   notice_successful_delete: "Sikeres törlés."

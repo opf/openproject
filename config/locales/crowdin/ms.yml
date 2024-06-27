@@ -910,6 +910,10 @@ ms:
             enabled_modules:
               dependency_missing: "Modul '%{dependency}' perlu dibenarkan juga kerana modul '%{module}' bergantung padanya."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2565,6 +2569,7 @@ ms:
   notice_principals_found_multiple: "Terdapat %{number} hasil ditemui. \n Tab untuk memfokuskan hasil pertama."
   notice_principals_found_single: "Terdapat satu hasil. \n Tab untuk fokuskan."
   notice_project_not_deleted: "Projek tersebut tidak dipadam."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Sambungan berjaya."
   notice_successful_create: "Penciptaan berjaya."
   notice_successful_delete: "Pemadaman berjaya."

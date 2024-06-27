@@ -33,9 +33,10 @@ module WorkPackage::PDFExport::Export::Markdown
     include MarkdownToPDF::Core
     include MarkdownToPDF::Parser
 
-    def initialize(styling_yml)
+    def initialize(styling_yml, pdf)
       @styles = MarkdownToPDF::Styles.new(styling_yml)
       init_options({ auto_generate_header_ids: false })
+      pdf_init_md2pdf_fonts(pdf)
       # @hyphens = Hyphen.new('en', false)
     end
 
@@ -96,7 +97,7 @@ module WorkPackage::PDFExport::Export::Markdown
   end
 
   def write_markdown!(work_package, markdown, styling_yml)
-    md2pdf = MD2PDFExport.new(styling_yml)
+    md2pdf = MD2PDFExport.new(styling_yml, pdf)
     md2pdf.draw_markdown(markdown, pdf, ->(src) {
       with_images? ? attachment_image_filepath(work_package, src) : nil
     })

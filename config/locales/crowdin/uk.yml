@@ -927,6 +927,10 @@ uk:
             enabled_modules:
               dependency_missing: "Модуль «%{dependency}» потрібно також увімкнути, оскільки від нього залежить модуль «%{module}»."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2662,6 +2666,7 @@ uk:
   notice_principals_found_multiple: "There are %{number} знайдені результати. \nВкладка для фокусування першого результату."
   notice_principals_found_single: "Знайдений один результат. Натисніть <TAB> для переходу до нього."
   notice_project_not_deleted: "Проект не був видалений."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Підключення успішно встановлене."
   notice_successful_create: "Створення успішно завершене."
   notice_successful_delete: "Видалення успішно завершене."

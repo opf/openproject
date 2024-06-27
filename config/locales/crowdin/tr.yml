@@ -918,6 +918,10 @@ tr:
             enabled_modules:
               dependency_missing: "'%{module}' modülü buna bağlı olduğundan, '%{dependency}' modülünün de etkinleştirilmesi gerekiyor."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2599,6 +2603,7 @@ tr:
   notice_principals_found_multiple: "%{number} sonuç bulundu.\nİlk sonuç için TABa basın."
   notice_principals_found_single: "Bir sonuç bulundu. \n Ona gitmek için TABa basın."
   notice_project_not_deleted: "Proje silinemedi."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Bağlantı başarılı."
   notice_successful_create: "Oluşturma başarılı."
   notice_successful_delete: "Silme başarılı."

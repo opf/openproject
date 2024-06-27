@@ -916,6 +916,10 @@ es:
             enabled_modules:
               dependency_missing: "El módulo «%{dependency}» debe habilitarse también, ya que el módulo «%{module}» depende de este."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2598,6 +2602,7 @@ es:
   notice_principals_found_multiple: "Hemos encontrado %{number} resultados. \n Pulse TAB para ver el primer resultado."
   notice_principals_found_single: "Se ha encontrado solo un resultado. \n Pulse TAB para verlo."
   notice_project_not_deleted: "El proyecto no fue eliminado."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Conexión exitosa."
   notice_successful_create: "Creación exitosa."
   notice_successful_delete: "Eliminado con éxito."

@@ -918,6 +918,10 @@
             enabled_modules:
               dependency_missing: "Modulen '%{dependency}' må være aktivert i tillegg siden modulen '%{module}' avhenger av den."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2600,6 +2604,7 @@
   notice_principals_found_multiple: "Det finnes %{number} resultater. \n bruk tab for å fokusere det første resultatet."
   notice_principals_found_single: "Det er ett resultat. \n Bruk tab for å fokusere det."
   notice_project_not_deleted: "Prosjektet ble ikke slettet."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Vellykket tilkobling."
   notice_successful_create: "Opprettelsen var vellykket."
   notice_successful_delete: "Slettingen var vellykket."

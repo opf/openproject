@@ -905,6 +905,10 @@ id:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2560,6 +2564,7 @@ id:
   notice_principals_found_multiple: "Ada beberapa %{number} hasil yang ditemukan. \n Tab untuk fokus ke hasil pertama."
   notice_principals_found_single: "Ada satu hasil.\n Tab untuk lebih fokus."
   notice_project_not_deleted: "Project tidak dihapus."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Sambungan berhasil."
   notice_successful_create: "Berhasil dibuat."
   notice_successful_delete: "Berhasil dihapus."

@@ -930,6 +930,10 @@ pl:
             enabled_modules:
               dependency_missing: "Moduł „%{dependency}” musi również zostać włączony, ponieważ zależny jest od niego moduł „%{module}”."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2665,6 +2669,7 @@ pl:
   notice_principals_found_multiple: "Znaleziono %{number} wyników.\nNaciśnij Tab, aby wybrać pierwszy rezultat."
   notice_principals_found_single: "Znaleziono 1 wynik.\nNaciśnij Tab, aby go wybrać."
   notice_project_not_deleted: "Projekt nie został usunięty."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Połączenie zakończone sukcesem."
   notice_successful_create: "Tworzenie zakończone sukcesem."
   notice_successful_delete: "Usuwanie zakończone sukcesem."

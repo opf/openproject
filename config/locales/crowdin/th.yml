@@ -912,6 +912,10 @@ th:
             enabled_modules:
               dependency_missing: "ต้องเปิดใช้งานโมดูล '%{dependency}' ด้วย เนื่องจากโมดูล '%{module}' ขึ้นอยู่กับโมดูลนั้น"
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2567,6 +2571,7 @@ th:
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
   notice_project_not_deleted: "ไม่ได้ลบโครงการ"
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "การเชื่อมต่อสำเร็จ"
   notice_successful_create: "สร้างเรียบร้อยแล้ว"
   notice_successful_delete: "ลบเรียบร้อยแล้ว"

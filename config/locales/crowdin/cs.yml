@@ -933,6 +933,10 @@ cs:
             enabled_modules:
               dependency_missing: "Modul '%{dependency}' musí být také povolen, protože modul '%{module}' na něm závisí."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2668,6 +2672,7 @@ cs:
   notice_principals_found_multiple: "Nalezeno %{number} výsledků. \nStiskněte Tab pro přechod na první výsledek."
   notice_principals_found_single: "Existuje jeden výsledek. \n Záložka pro zaměření."
   notice_project_not_deleted: "Projekt nebyl odstraněn."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Úspěšné připojení."
   notice_successful_create: "Úspěšné vytvoření."
   notice_successful_delete: "Úspěšné odstranění."

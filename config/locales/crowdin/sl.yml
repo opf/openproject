@@ -930,6 +930,10 @@ sl:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2666,6 +2670,7 @@ sl:
   notice_principals_found_multiple: "Najdeno je %{number} rezultatov.\nKliknite tipko tab da fokusirate prvi rezultat."
   notice_principals_found_single: "Najden je en rezultat.\nPritisnite tab, da ga prikaže."
   notice_project_not_deleted: "Projekt ni bil izbrisan."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Povezava uspela."
   notice_successful_create: "Ustvarjanje uspelo."
   notice_successful_delete: "Uspešen izbris."

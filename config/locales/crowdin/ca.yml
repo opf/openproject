@@ -915,6 +915,10 @@ ca:
             enabled_modules:
               dependency_missing: "El mòdul \"%{dependency}\" necessita ser activat també, ja que el mòdul \"%{module}\" en depèn."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2594,6 +2598,7 @@ ca:
   notice_principals_found_multiple: "S'han trobat %{number} resultats.\nPrem per focalitzar el primer resultat."
   notice_principals_found_single: "S'han trobat un resultat.\nPrem per focalitzar-lo."
   notice_project_not_deleted: "El projecte no s'ha suprimit."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "S'ha connectat correctament."
   notice_successful_create: "Creat correctament."
   notice_successful_delete: "Esborrat correctament."
