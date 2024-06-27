@@ -38,6 +38,8 @@ module Storages::Admin::Forms
     options form_method: :post,
             submit_button_disabled: false
 
+    def self.wrapper_key = :storage_general_info_section
+
     def form_url
       options[:form_url] || default_form_url
     end
