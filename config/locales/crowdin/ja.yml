@@ -908,6 +908,10 @@ ja:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2563,6 +2567,7 @@ ja:
   notice_principals_found_multiple: "%{number} の検索結果があります。 \n タブで最初の結果へフォーカスします。"
   notice_principals_found_single: "1 つの結果があります。 \n タブでフォーカスします。"
   notice_project_not_deleted: "プロジェクトを削除していません。"
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "正常に接続しました。"
   notice_successful_create: "正常に作成しました。"
   notice_successful_delete: "正常に削除しました。"

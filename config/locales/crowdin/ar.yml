@@ -947,6 +947,10 @@ ar:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2737,6 +2741,7 @@ ar:
   notice_principals_found_multiple: "وُجِد %{number} من النتائج.\nإضغط كي تحدد على النتيجة الأولى."
   notice_principals_found_single: "هنالك نتيجة واحدة.\nإضغط لتحديدها."
   notice_project_not_deleted: "لم يتم حذف المشروع."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "اتصال ناجح."
   notice_successful_create: "إنشاء ناجح."
   notice_successful_delete: "حذف ناجح."

@@ -919,6 +919,10 @@ fil:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2601,6 +2605,7 @@ fil:
   notice_principals_found_multiple: "Mayroong %{number} mga resulta ang natagpuan.\n Ang tab ay tumuon sa unang resulta."
   notice_principals_found_single: "Mayroong isang resulta. \n Tab upang ituon ito."
   notice_project_not_deleted: "Ang proyekto ay hindi nabura."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Matagumpay na ikonekta."
   notice_successful_create: "Matagumpay pagkalikha."
   notice_successful_delete: "Matagumpay ang pagtanggal."

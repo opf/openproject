@@ -915,6 +915,10 @@ el:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2596,6 +2600,7 @@ el:
   notice_principals_found_multiple: "Βρέθηκαν %{number} αποτελέσματα. \n Πατήστε Tab για να εστιάσετε στο πρώτο αποτέλεσμα."
   notice_principals_found_single: "Υπάρχει ένα αποτέλεσμα. \n Πατήστε Tab για να εστιάσετε σε αυτό."
   notice_project_not_deleted: "Το έργο δεν διαγράφηκε."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Επιτυχής σύνδεση."
   notice_successful_create: "Επιτυχής δημιουργία."
   notice_successful_delete: "Επιτυχής διαγραφή."

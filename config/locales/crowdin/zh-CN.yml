@@ -908,6 +908,10 @@ zh-CN:
             enabled_modules:
               dependency_missing: "还需要启用模块“%{dependency}”，因为模块“%{module}”依赖于该模块。"
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2561,6 +2565,7 @@ zh-CN:
   notice_principals_found_multiple: "找到 %{number} 条结果。\n 点击以关注第一条结果。"
   notice_principals_found_single: "这有一个结果。\n点击来关注它。"
   notice_project_not_deleted: "项目没有被删除"
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "成功连接。"
   notice_successful_create: "成功创建。"
   notice_successful_delete: "成功删除。"

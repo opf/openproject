@@ -926,6 +926,10 @@ ro:
             enabled_modules:
               dependency_missing: "Modulul \"%{dependency}\" trebuie, de asemenea, să fie activat, deoarece modulul \"%{module}\" depinde de el."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2634,6 +2638,7 @@ ro:
   notice_principals_found_multiple: "S-au găsit %{number} rezultate\n Tab pentru a se concentra pe primul rezultat."
   notice_principals_found_single: "Există un singur rezultat\n Tab pentru a-l concentra."
   notice_project_not_deleted: "Proiectul nu a fost şters."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Conectare reușită."
   notice_successful_create: "Creare reuşită."
   notice_successful_delete: "Ştergere reuşită."

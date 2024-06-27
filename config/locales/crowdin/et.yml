@@ -919,6 +919,10 @@ et:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2601,6 +2605,7 @@ et:
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
   notice_project_not_deleted: "Projekti ei ole kustutatud."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Ühenduse loomine õnnestus."
   notice_successful_create: "Loomine õnnestus."
   notice_successful_delete: "Kustutamine õnnestus."

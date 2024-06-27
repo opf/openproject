@@ -933,6 +933,10 @@ sk:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -2668,6 +2672,7 @@ sk:
   notice_principals_found_multiple: "Nájdených %{number} výsledkov. \nStlačte TAB pre prechod na prvý výsledok."
   notice_principals_found_single: "Bol nájdený jeden výsledok.\nStlačením tlačidla TAB zobraziť."
   notice_project_not_deleted: "Projekt nebol odstránený."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Úspešne pripojené."
   notice_successful_create: "Úspešne vytvorené."
   notice_successful_delete: "Úspešne zmazané."
