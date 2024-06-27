@@ -303,7 +303,7 @@ class SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def load_entity
+  def load_entity # rubocop:disable Metrics/AbcSize
     @entity = if params["work_package_id"]
                 WorkPackage.visible.find(params["work_package_id"])
               elsif params["project_query_id"]
@@ -360,7 +360,7 @@ class SharesController < ApplicationController
                              .where(id: params[:share_ids])
   end
 
-  def available_roles
+  def available_roles # rubocop:disable Metrics/AbcSize
     @available_roles ||= if @entity.is_a?(WorkPackage)
                            role_mapping = WorkPackageRole.unscoped.pluck(:builtin, :id).to_h
 
@@ -377,6 +377,7 @@ class SharesController < ApplicationController
                                default: true }
                            ]
                          elsif @entity.is_a?(ProjectQuery)
+                           # TODO: Load all roles here and see where we can load the description from
                            role_mapping = ProjectQueryRole.unscoped.pluck(:builtin, :id).to_h
 
                            [
