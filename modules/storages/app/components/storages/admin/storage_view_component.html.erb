@@ -60,9 +60,7 @@
       end
 
       component.with_row(scheme: :default) do
-        render(OpTurbo::FrameComponent.new(id: :access_management_section)) do
-          render(Storages::Admin::AccessManagementComponent.new(storage))
-        end
+        render(Storages::Admin::AccessManagementComponent.new(storage))
       end
 
       component.with_row(scheme: :neutral, color: :muted) do
