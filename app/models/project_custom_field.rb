@@ -45,7 +45,7 @@ class ProjectCustomField < CustomField
   def self.visible(user = User.current)
     if user.admin?
       all
-    elsif user.allowed_in_any_project?(:select_project_custom_fields)
+    elsif user.allowed_in_any_project?(:select_project_custom_fields) || user.allowed_globally?(:add_project)
       where(visible: true)
     else
       allowed_project_ids = Project.allowed_to(user, :view_project_attributes).select(:id).arel

@@ -57,8 +57,8 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
   let(:parent_project_role) do
     create(:project_role, permissions: parent_project_permissions)
   end
-  # This is just temporary, the goal is to not return any custom fields if the
-  # view_project_attributes permission is present
+  # This is just temporary, the goal is to add a spec where no custom fields are returned if the
+  # view_project_attributes permission is missing
   let(:permissions) { %i[edit_project view_project_attributes edit_project_attributes] }
   let(:parent_project_permissions) { [:add_subprojects] }
   let(:path) { api_v3_paths.project_form(project.id) }

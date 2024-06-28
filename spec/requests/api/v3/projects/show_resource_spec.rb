@@ -44,7 +44,7 @@ RSpec.describe "API v3 Project resource show", content_type: :json do
   let(:other_project) do
     create(:project, public: false)
   end
-  let(:role) { create(:project_role) }
+  let(:role) { create(:project_role, permissions: [:view_project_attributes]) }
   let(:custom_field) do
     create(:text_project_custom_field)
   end

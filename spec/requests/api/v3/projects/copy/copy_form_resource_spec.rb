@@ -49,7 +49,10 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
 
   shared_let(:current_user) do
     create(:user,
-           member_with_permissions: { source_project => %i[copy_projects view_project view_work_packages] })
+           member_with_permissions: { source_project => %i[copy_projects
+                                                           view_project
+                                                           view_work_packages
+                                                           view_project_attributes] })
   end
 
   let(:path) { api_v3_paths.project_copy_form(source_project.id) }

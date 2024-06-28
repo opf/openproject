@@ -41,9 +41,7 @@ RSpec.describe Project, "customizable" do
   end
 
   before do
-    allow(ProjectCustomField)
-      .to receive(:visible)
-      .and_return(ProjectCustomField.all)
+    allow(User).to receive(:current).and_return build_stubbed(:admin)
   end
 
   context "when not persisted" do
