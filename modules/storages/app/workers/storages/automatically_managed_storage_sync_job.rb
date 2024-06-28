@@ -29,41 +29,45 @@
 #++
 
 module Storages
-  class ManageStorageIntegrationsJob < ApplicationJob
+  class AutomaticallyManagedStorageSyncJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Concurrency
     extend ::DebounceableJob
+
+    queue_with_priority :above_normal
 
     good_job_control_concurrency_with(
       total_limit: 2,
       enqueue_limit: 1,
-      perform_limit: 1
+      perform_limit: 1,
+      key: -> { "StorageSyncJob-#{arguments.last.short_provider_type}-#{arguments.last.id}" }
     )
 
-    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
-             wait: 5,
-             attempts: 20
+    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError, wait: 5, attempts: 10
 
-    KEY = :manage_nextcloud_integration_job_debounce_happened_at
-    CRON_JOB_KEY = :"Storages::ManageStorageIntegrationsJob"
-
-    queue_with_priority :above_normal
-
-    class << self
-      def disable_cron_job_if_needed
-        if ::Storages::ProjectStorage.active_automatically_managed.exists?
-          GoodJob::Setting.cron_key_enable(CRON_JOB_KEY) unless GoodJob::Setting.cron_key_enabled?(CRON_JOB_KEY)
-        elsif GoodJob::Setting.cron_key_enabled?(CRON_JOB_KEY)
-          GoodJob::Setting.cron_key_disable(CRON_JOB_KEY)
-        end
+    retry_on Errors::IntegrationJobError, attempts: 5 do |job, error|
+      if job.executions >= 5
+        OpenProject::Notifications.send(
+          OpenProject::Events::STORAGE_TURNED_UNHEALTHY, storage: job.arguments.last, reason: error.message
+        )
       end
-
-      def key = KEY
     end
 
-    def perform
-      Storage.automatic_management_enabled.find_each do |storage|
-        AutomaticallyManagedStorageSyncJob.perform_later(storage)
-      end
+    def self.key(storage) = "sync-#{storage.short_provider_type}-#{storage.id}"
+
+    def perform(storage)
+      return unless storage.configured? && storage.automatically_managed?
+
+      sync_result = case storage.short_provider_type
+                    when "nextcloud"
+                      NextcloudGroupFolderPropertiesSyncService.call(storage)
+                    when "one_drive"
+                      OneDriveManagedFolderSyncService.call(storage)
+                    else
+                      raise "Unknown Storage Type"
+                    end
+
+      sync_result.on_failure { raise Errors::IntegrationJobError, sync_result.errors.to_s }
+      sync_result.on_success { OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_HEALTHY, storage:) }
     end
   end
 end

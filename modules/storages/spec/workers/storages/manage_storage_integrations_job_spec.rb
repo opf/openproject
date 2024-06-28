@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
+RSpec.describe Storages::ManageStorageIntegrationsJob, type: :job do
   describe ".debounce" do
     context "when has been debounced by other thread" do
       before { ActiveJob::Base.disable_test_adapter }
@@ -104,103 +104,14 @@ RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
   end
 
   describe ".perform" do
-    let(:storage1) { create(:nextcloud_storage_configured, :as_automatically_managed) }
-    let(:storage2) { create(:sharepoint_dev_drive_storage, :as_automatically_managed) }
-
-    subject(:job_instance) { described_class.new }
-
-    it "calls NextcloudGroupFolderPropertiesSyncService for each automatically managed storage" do
-      storage2 = create(:nextcloud_storage, :as_not_automatically_managed)
-      storage3 = create(:nextcloud_storage, :as_automatically_managed)
-
-      allow(Storages::NextcloudGroupFolderPropertiesSyncService)
-        .to receive(:call).with(storage1).and_return(ServiceResult.success)
-
-      job_instance.perform
-
-      expect(Storages::NextcloudGroupFolderPropertiesSyncService).to have_received(:call).with(storage1).once
-      expect(Storages::NextcloudGroupFolderPropertiesSyncService).not_to have_received(:call).with(storage2)
-      expect(Storages::NextcloudGroupFolderPropertiesSyncService).not_to have_received(:call).with(storage3)
+    before do
+      create(:nextcloud_storage_configured, :as_automatically_managed)
+      create(:nextcloud_storage, :as_not_automatically_managed)
+      create(:sharepoint_dev_drive_storage, :as_automatically_managed)
     end
 
-    it "marks storage as healthy if sync was successful" do
-      allow(Storages::NextcloudGroupFolderPropertiesSyncService)
-        .to receive(:call).with(storage1).and_return(ServiceResult.success)
-
-      Timecop.freeze("2023-03-14T15:17:00Z") do
-        expect do
-          job_instance.perform
-          storage1.reload
-        end.to(
-          change(storage1, :health_changed_at).to(Time.now.utc)
-                                              .and(change(storage1, :health_status).from("pending").to("healthy"))
-        )
-      end
-    end
-
-    it "marks storage as unhealthy if sync was unsuccessful" do
-      job = class_double(Storages::HealthStatusMailerJob)
-      allow(Storages::HealthStatusMailerJob).to receive(:set).and_return(job)
-      allow(job).to receive(:perform_later)
-
-      allow(Storages::NextcloudGroupFolderPropertiesSyncService)
-        .to receive(:call)
-              .with(storage1)
-              .and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :not_found)))
-
-      Timecop.freeze("2023-03-14T15:17:00Z") do
-        expect do
-          perform_enqueued_jobs { described_class.perform_later }
-          storage1.reload
-        end.to(
-          change(storage1, :health_changed_at).to(Time.now.utc)
-                                              .and(change(storage1, :health_status).from("pending").to("unhealthy"))
-                                              .and(change(storage1, :health_reason).from(nil).to("not_found"))
-        )
-      end
-    end
-
-    context "when Storages::Errors::IntegrationJobError is raised" do
-      before do
-        allow(Storages::NextcloudGroupFolderPropertiesSyncService)
-          .to receive(:call).with(storage1)
-                            .and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :custom_error)))
-      end
-
-      it "retries the job" do
-        allow(OpenProject::Notifications).to receive(:send)
-
-        perform_enqueued_jobs { described_class.perform_later }
-
-        expect(described_class
-                 .queue_adapter.performed_jobs
-                 .last.dig("exception_executions", "[Storages::Errors::IntegrationJobError]")).to eq(4)
-      end
-
-      it "sends a notification after the maximum number of attempts" do
-        allow(OpenProject::Notifications).to receive(:send)
-
-        perform_enqueued_jobs { described_class.perform_later }
-
-        expect(OpenProject::Notifications).to have_received(:send).with(
-          OpenProject::Events::STORAGE_TURNED_UNHEALTHY,
-          storage: storage1,
-          reason: "custom_error"
-        )
-      end
-
-      it "does not interrupt the processing" do
-        allow(Storages::NextcloudGroupFolderPropertiesSyncService)
-          .to receive(:call)
-                .with(storage1)
-                .and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :error, log_message: "Not working")))
-
-        allow(Storages::OneDriveManagedFolderSyncService).to receive(:call).with(storage2).and_return(ServiceResult.success)
-
-        expect { job_instance.perform }.to raise_error(Storages::Errors::IntegrationJobError)
-
-        expect(Storages::OneDriveManagedFolderSyncService).to have_received(:call).with(storage2)
-      end
+    it "enqueues a job for each automatically managed storage" do
+      expect { described_class.perform_now }.to change(enqueued_jobs, :count).by(2)
     end
   end
 end
