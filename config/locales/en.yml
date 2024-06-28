@@ -337,8 +337,6 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         new_project_mapping_form:
           add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -2299,6 +2297,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_project_latest: "Latest projects"
   label_project_default_type: "Allow empty type"
   label_project_hierarchy: "Project hierarchy"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "New project"
   label_project_plural: "Projects"
   label_project_list_plural: "Project lists"

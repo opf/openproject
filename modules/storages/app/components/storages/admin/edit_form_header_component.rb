@@ -29,9 +29,20 @@
 module Storages
   module Admin
     class EditFormHeaderComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-      def initialize(storage:)
+      TAB_NAVS = %i[
+        edit
+        project_mappings
+      ].freeze
+
+      def initialize(storage:, selected:)
         super
         @storage = storage
+        @selected = selected
+      end
+
+      def tab_selected?(tab_name)
+        TAB_NAVS.include?(tab_name) &&
+          tab_name == @selected
       end
 
       def label_storage_name_with_provider_label
