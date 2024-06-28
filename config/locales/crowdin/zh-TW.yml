@@ -26,13 +26,13 @@ zh-TW:
       no_results_title_text: 在這一時限內, 該專案沒有任何活動。
   admin:
     plugins:
-      no_results_title_text: 現主時沒有安裝任何外掛程式
+      no_results_title_text: 目前沒有安裝任何外掛程式
       no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "色彩佈景主題"
       color_theme_custom: "自訂"
       colors:
-        primary-button-color: "Primary button"
+        primary-button-color: "主按鈕"
         accent-color: "強調（Accent）"
         header-bg-color: "頁首背景"
         header-item-bg-hover-color: "頁首背景（滑鼠停留）"
@@ -500,7 +500,7 @@ zh-TW:
       copy_failed: "此工作項目無法被複製"
       move_failed: "此工作項目無法被移動"
       could_not_be_saved: "以下文檔無法被保存"
-      none_could_be_saved: " %{total} 工作項目無法更新"
+      none_could_be_saved: " %{total} 個工作項目無法更新"
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
       selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
@@ -594,7 +594,7 @@ zh-TW:
       custom_action:
         actions: "操作"
       custom_field:
-        allow_non_open_versions: "允許非開放版本"
+        allow_non_open_versions: "允許非打開版本"
         default_value: "預設值"
         editable: "可編輯"
         field_format: "格式"
@@ -643,7 +643,7 @@ zh-TW:
         public_value:
           title: "可見度"
           true: "公開"
-          false: "不公開"
+          false: "私人的"
         queries: "查詢"
         status_code: "專案狀態"
         description: "說明"
@@ -1080,7 +1080,7 @@ zh-TW:
               unassignable: "無法分派到專案。"
         version:
           undeletable_archived_projects: "該版本無法刪除，因為包含工作項目。"
-          undeletable_work_packages_attached: "該版本無法刪除，因為包含工作項目。"
+          undeletable_work_packages_attached: "該版本無法刪除，因為它附帶了工作項目。"
         status:
           readonly_default_exlusive: "，是無法生效的(因其設定為「預設」狀態)"
       template:
@@ -2123,7 +2123,7 @@ zh-TW:
   label_privacy_policy: "資料隱私與安全性政策"
   label_product_version: "產品版本"
   label_profile: "個人資料"
-  label_percent_complete: "完成度(%)"
+  label_percent_complete: "(%)完成"
   label_project_activity: "專案活動"
   label_project_attribute_plural: "專案屬性"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2134,7 +2134,7 @@ zh-TW:
   label_project_hierarchy: "專案結構"
   label_project_new: "新增專案"
   label_project_plural: "專案"
-  label_project_list_plural: "列出專案"
+  label_project_list_plural: "專案列表"
   label_project_attributes_plural: "專案屬性"
   label_project_custom_field_plural: "專案屬性"
   label_project_settings: "專案設定"
@@ -2161,7 +2161,7 @@ zh-TW:
   label_relation_delete: "刪除關聯"
   label_relation_new: "新增關聯"
   label_release_notes: "發行備註"
-  label_remaining_work: "剩餘工時"
+  label_remaining_work: "剩餘工作"
   label_remove_columns: "移除所選欄"
   label_renamed: "重新命名"
   label_reply_plural: "回覆"
@@ -2327,7 +2327,7 @@ zh-TW:
     other: "%{count} 個未完成"
     zero: "0 個已開啟"
   label_x_work_packages:
-    one: "一個工作項目"
+    one: "1個工作項目"
     other: "%{count} 個工作項目"
     zero: "無工作項目"
   label_x_projects:
