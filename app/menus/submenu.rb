@@ -48,7 +48,7 @@ class Submenu
     base_query
       .where("starred" => "t")
       .pluck(:id, :name)
-      .map { |id, name| menu_item(query_params(id), name) }
+      .map { |id, name| menu_item(name, query_params(id)) }
   end
 
   def default_queries
@@ -60,7 +60,7 @@ class Submenu
       .where("starred" => "f")
       .where("public" => "t")
       .pluck(:id, :name)
-      .map { |id, name| menu_item(query_params(id), name) }
+      .map { |id, name| menu_item(name, query_params(id)) }
   end
 
   def custom_queries
@@ -68,7 +68,7 @@ class Submenu
       .where("starred" => "f")
       .where("public" => "f")
       .pluck(:id, :name)
-      .map { |id, name| menu_item(query_params(id), name) }
+      .map { |id, name| menu_item(name, query_params(id)) }
   end
 
   def base_query
@@ -89,7 +89,7 @@ class Submenu
     { query_id: id }
   end
 
-  def menu_item(query_params, name)
+  def menu_item(name, query_params)
     OpenProject::Menu::MenuItem.new(title: name,
                                     href: query_path(query_params),
                                     selected: selected?(query_params))
@@ -100,6 +100,10 @@ class Submenu
       if params[filter_key] != query_params[filter_key].to_s
         return false
       end
+    end
+
+    if query_params.empty? && params[:filters].present?
+      return false
     end
 
     true

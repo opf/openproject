@@ -41,7 +41,7 @@ module Boards
                   .references(:project)
                   .where(project: @project)
                   .pluck(:id, :name)
-                  .map { |id, name| menu_item(query_params(id), name) }
+                  .map { |id, name| menu_item(name, query_params(id)) }
     end
 
     def starred_queries

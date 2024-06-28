@@ -56,7 +56,7 @@ module Pages::Meetings
       expect(page).not_to have_test_selector("add-meeting-button")
 
       within "#main-menu" do
-        expect(page).to have_no_button "Meeting"
+        expect(page).not_to have_test_selector "meeting--create-button"
       end
     end
 
@@ -68,7 +68,7 @@ module Pages::Meetings
       expect(page).to have_test_selector("add-meeting-button")
 
       within "#main-menu" do
-        expect(page).to have_button "Meeting"
+        expect(page).to have_test_selector "meeting--create-button"
       end
     end
 

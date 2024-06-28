@@ -25,37 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-module Gantt
-  class Menu < Submenu
-    attr_reader :view_type, :project
+module Meetings
+  class MenusController < ApplicationController
+    before_action :load_and_authorize_in_optional_project
 
-    def initialize(project: nil, params: nil)
-      @view_type = "gantt"
-      @project = project
-      @params = params
+    def show
+      @submenu_menu_items = ::Meetings::Menu.new(project: @project, params:).menu_items
+      @create_btn_options = if @project.present? && User.current.allowed_in_project?(:create_meetings, @project)
+                              { href: new_project_meeting_path(@project), module_key: "meeting" }
+                            elsif @project.nil? && User.current.allowed_in_any_project?(:create_meetings)
+                              { href: new_meeting_path, module_key: "meeting" }
+                            end
 
-      super(view_type:, project:, params:)
-    end
-
-    def default_queries
-      query_generator = Gantt::DefaultQueryGeneratorService.new(with_project: project)
-      Gantt::DefaultQueryGeneratorService::QUERY_OPTIONS.filter_map do |query_key|
-        params = query_generator.call(query_key:)
-        next if params.nil?
-
-        menu_item(
-          I18n.t("js.queries.#{query_key}"),
-          params
-        )
-      end
-    end
-
-    def query_path(query_params)
-      if project.present?
-        project_gantt_index_path(project, params.permit(query_params.keys).merge!(query_params))
-      else
-        gantt_index_path(params.permit(query_params.keys).merge!(query_params))
-      end
+      render layout: nil
     end
   end
 end

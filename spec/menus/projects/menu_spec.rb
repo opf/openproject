@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Menus::Projects do
+RSpec.describe Projects::Menu do
   let(:instance) { described_class.new(controller_path:, params:, current_user:) }
   let(:controller_path) { "foo" }
   let(:params) { {} }
@@ -49,15 +49,15 @@ RSpec.describe Menus::Projects do
     ProjectQuery.create!(name: "Public query", user: build(:user), public: true)
   end
 
-  subject(:first_level_menu_items) { instance.first_level_menu_items }
+  subject(:menu_items) { instance.menu_items }
 
   it "returns 4 menu groups" do
-    expect(first_level_menu_items).to all(be_a(OpenProject::Menu::MenuGroup))
-    expect(first_level_menu_items.length).to eq(4)
+    expect(menu_items).to all(be_a(OpenProject::Menu::MenuGroup))
+    expect(menu_items.length).to eq(4)
   end
 
   describe "children items" do
-    subject(:children_menu_items) { first_level_menu_items.flat_map(&:children) }
+    subject(:children_menu_items) { menu_items.flat_map(&:children) }
 
     context "when the current user is an admin" do
       before do
@@ -97,7 +97,7 @@ RSpec.describe Menus::Projects do
   end
 
   describe "selected children items" do
-    subject(:selected_menu_items) { first_level_menu_items.flat_map(&:children).select(&:selected) }
+    subject(:selected_menu_items) { menu_items.flat_map(&:children).select(&:selected) }
 
     context "when on homescreen page" do
       let(:controller_path) { "homescreen" }
