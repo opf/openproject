@@ -131,6 +131,7 @@ end
 
 Sometimes a dialog with a form needs validations. If the form is submitted with turbo, the form can be rendered again with the validation errors within the dialog.
 In order for the dialog to not be closed, the rendering has to happen with an error response code (therefore 4xx or 5xx).
+Referring to the example above (see "Dialogs with separate forms"), a controller which renders validation errors inside a dialog could look like that:
 
 ```ruby
 class TestController < ApplicationControler
