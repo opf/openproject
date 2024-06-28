@@ -398,6 +398,12 @@ class Query < ApplicationRecord
   end
 
   def project_limiting_filter
+    if include_all_members_assigned_projects?
+      all_members_assigned_projects_filter = Queries::WorkPackages::Filter::AllMembersAssignedProjectsFilter.create!
+      all_members_assigned_projects_filter.context = self
+      return all_members_assigned_projects_filter
+    end
+
     return if project_filter_set?
 
     subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.create!
