@@ -41,7 +41,7 @@ RSpec.describe ParamsToQueryService, "meeting query" do
     context "when sending neither filters nor orders props" do
       it "returns a new query" do
         expect(service_call)
-          .to be_a Queries::Meetings::MeetingQuery
+          .to be_a MeetingQuery
       end
 
       it "applies no filter" do
@@ -62,7 +62,7 @@ RSpec.describe ParamsToQueryService, "meeting query" do
 
       it "returns a new query" do
         expect(service_call)
-          .to be_a Queries::Meetings::MeetingQuery
+          .to be_a MeetingQuery
       end
 
       it "applies no filter" do

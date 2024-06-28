@@ -67,20 +67,32 @@ class Queries::Factory
     end
 
     def duplicate_query(query)
-      query.class.new(query.attributes.slice("filters", "orders", "selects"))
+      if query.is_a?(ApplicationRecord)
+        query.class.new(query.attributes.slice("filters", "orders", "selects"))
+      else
+        query
+      end
     end
 
     def set_query_attributes(query, query_class, params, user)
       query_namespace(query_class)::SetAttributesService
         .new(user:,
              model: query,
-             contract_class: Queries::LoadingContract)
+             contract_class: query_loading_contract_class(query_class))
         .call(params)
         .result
     end
 
     def query_namespace(query_class)
       query_class.name.pluralize.constantize
+    end
+
+    def query_loading_contract_class(query_class)
+      if query_class.is_a?(ApplicationRecord)
+        Queries::LoadingContract
+      else
+        EmptyContract
+      end
     end
   end
 end
