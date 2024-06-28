@@ -9,9 +9,11 @@ import {
   ToolbarButtonComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
-import { StateService, TransitionService } from '@uirouter/core';
+import {
+  StateService,
+  TransitionService,
+} from '@uirouter/core';
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
-import { Board } from 'core-app/features/boards/board/board';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
@@ -19,13 +21,10 @@ import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-a
 import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { BoardsMenuButtonComponent } from 'core-app/features/boards/board/toolbar-menu/boards-menu-button.component';
-import { RequestSwitchmap } from 'core-app/shared/helpers/rxjs/request-switchmap';
-import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import {
   catchError,
   finalize,
   take,
-  tap,
 } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -35,11 +34,7 @@ import { BoardFiltersService } from 'core-app/features/boards/board/board-filter
 import { CardViewHandlerRegistry } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
-import {
-  EMPTY,
-  Observable,
-  of,
-} from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { SubmenuService } from 'core-app/core/main-menu/submenu.service';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
@@ -249,6 +244,6 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   }
 
   private reloadSidemenu():void {
-    this.submenuService.reloadSubmenu();
+    this.submenuService.reloadSubmenu(null);
   }
 }

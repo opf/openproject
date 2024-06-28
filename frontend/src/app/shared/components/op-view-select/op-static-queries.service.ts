@@ -93,7 +93,7 @@ export class StaticQueriesService {
 
       if (this.$state.params.name) {
         const nameKey = this.$state.params.name as string;
-        return this.I18n.t(`js.queries.${nameKey}`);
+        return this.I18n.t(`js.work_packages.default_queries.${nameKey}`);
       }
     }
 
@@ -142,33 +142,6 @@ export class StaticQueriesService {
           query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"dueDate","o":"<t-","v":["1"]},{"n":"status","o":"o","v":[]}]}',
         },
         view: 'WorkPackagesTable',
-      },
-      {
-        title: this.text.all_open,
-        uiSref: 'bim.partitioned.list',
-        uiParams: {
-          query_id: undefined,
-          query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc"}',
-        },
-        view: 'Bim',
-      },
-      {
-        title: this.text.latest_activity,
-        uiSref: 'bim.partitioned.list',
-        uiParams: {
-          query_id: undefined,
-          query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
-        },
-        view: 'Bim',
-      },
-      {
-        title: this.text.recently_created,
-        uiSref: 'bim.partitioned.list',
-        uiParams: {
-          query_id: undefined,
-          query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","createdAt"],"t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
-        },
-        view: 'Bim',
       },
     ];
 
@@ -236,24 +209,6 @@ export class StaticQueriesService {
         view: 'WorkPackagesTable',
         isEnterprise: true,
         ...this.eeGuardedShareWithMeRoute,
-      },
-      {
-        title: this.text.created_by_me,
-        uiSref: 'bim.partitioned.list',
-        uiParams: {
-          query_id: undefined,
-          query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
-        },
-        view: 'Bim',
-      },
-      {
-        title: this.text.assigned_to_me,
-        uiSref: 'bim.partitioned.list',
-        uiParams: {
-          query_id: undefined,
-          query_props: '{"c":["id","subject","bcfThumbnail","type","status","author","updatedAt"],"t":"id:desc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
-        },
-        view: 'Bim',
       },
     ];
   }

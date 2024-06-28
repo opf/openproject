@@ -197,9 +197,10 @@ module Bim
       end
 
       def frontend_redirect(model_ids)
-        props = '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc"}'
+        props = Bim::Menus::DefaultQueryGeneratorService.new.call
         redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)),
-                                              query_props: props)
+                                              query_props: props[:query_props],
+                                              name: props[:name])
       end
 
       def find_all_ifc_models

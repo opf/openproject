@@ -44,7 +44,7 @@ module Gantt
         next if params.nil?
 
         menu_item(
-          I18n.t("js.queries.#{query_key}"),
+          I18n.t("js.work_packages.default_queries.#{query_key}"),
           params
         )
       end
