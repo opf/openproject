@@ -262,7 +262,7 @@ export class WorkPackagesListService {
         // Reload the query, and then reload the menu
         this.reloadQuery(createdQuery).subscribe(() => {
           this.states.changes.queries.next(createdQuery.id);
-          this.reloadSidemenu();
+          this.reloadSidemenu(createdQuery.id);
         });
 
         return createdQuery;
@@ -313,7 +313,7 @@ export class WorkPackagesListService {
         if (queryAccessibleByUser) {
           void this.$state.go('.', { query_id: query.id, query_props: null }, { reload: true });
           this.states.changes.queries.next(query.id);
-          this.reloadSidemenu();
+          this.reloadSidemenu(query.id);
         } else {
           this.navigateToDefaultQuery(query);
         }
@@ -344,7 +344,7 @@ export class WorkPackagesListService {
       this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
       this.states.changes.queries.next(query.id!);
-      this.reloadSidemenu();
+      this.reloadSidemenu(query.id);
     });
 
     return promise;
@@ -458,11 +458,11 @@ export class WorkPackagesListService {
       void this.loadDefaultQuery(projectId);
 
       this.states.changes.queries.next(query.id);
-      this.reloadSidemenu();
+      this.reloadSidemenu(null);
     }
   }
 
-  private reloadSidemenu():void {
-    this.submenuService.reloadSubmenu();
+  private reloadSidemenu(selectedQueryId:string|null):void {
+    this.submenuService.reloadSubmenu(selectedQueryId);
   }
 }

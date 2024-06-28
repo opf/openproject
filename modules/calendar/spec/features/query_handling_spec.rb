@@ -141,7 +141,7 @@ RSpec.describe "Calendar query handling", :js do
       calendar_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_create"))
 
       # The saved query appears in the side menu...
-      query_menu.expect_item "I am your Query"
+      query_menu.expect_item "I am your Query", selected: true
       query_menu.expect_item saved_query.name
 
       # .. but not in the work packages module
