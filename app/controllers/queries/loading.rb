@@ -1,4 +1,4 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,25 +24,53 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+module Queries
+  module Loading
+    private
 
-require "spec_helper"
-require_relative "shared_contract_examples"
-
-RSpec.describe Queries::Projects::ProjectQueries::UpdateContract do
-  it_behaves_like "project queries contract" do
-    let(:query) do
-      ProjectQuery.new(name: query_name).tap do |query|
-        query.extend(OpenProject::ChangedBySystem)
-
-        query.change_by_system do
-          query.user = query_user
-        end
-
-        query.select(*query_selects)
-      end
+    def load_query(duplicate:)
+      ::Queries::Factory.find(params[:query_id],
+                              query_class:,
+                              params: permitted_query_params,
+                              user: current_user,
+                              duplicate:)
     end
 
-    let(:contract) { described_class.new(query, current_user) }
+    def load_query_or_deny_access
+      @query = load_query(duplicate: false)
+
+      render_403 unless @query
+    end
+
+    def build_query_or_deny_access
+      @query = load_query(duplicate: true)
+
+      render_403 unless @query
+    end
+
+    def permitted_query_params
+      query_params = {}
+
+      if params[:query]
+        query_params.merge!(params.require(:query).permit(:name))
+      end
+
+      query_params.merge!(::Queries::ParamsParser.parse(params))
+
+      query_params.with_indifferent_access
+    end
+
+    def query_class
+      controller_name = self.class.name.demodulize
+
+      model_name = if controller_name == "QueriesController"
+                     self.class.name.deconstantize
+                   else
+                     controller_name.chomp("Controller")
+                   end
+
+      "#{model_name.singularize}Query".constantize
+    end
   end
 end

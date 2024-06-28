@@ -29,7 +29,7 @@
 require "spec_helper"
 require "services/base_services/behaves_like_create_service"
 
-RSpec.describe Queries::Projects::ProjectQueries::CreateService, type: :model do
+RSpec.describe ProjectQueries::CreateService, type: :model do
   it_behaves_like "BaseServices create service" do
     let(:model_class) { ProjectQuery }
     let(:factory) { :project_query }

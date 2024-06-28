@@ -62,8 +62,9 @@ RSpec.describe Projects::QueriesController do
 
       before do
         allow(controller).to receive(:permitted_query_params).and_return(query_params)
-        allow(Queries::Projects::Factory).to receive(:find)
-          .with(query_id, user:, params: query_params, duplicate: true).and_return(query)
+        allow(Queries::Factory).to receive(:find)
+          .with(query_id, query_class: ProjectQuery, user:, params: query_params, duplicate: true)
+          .and_return(query)
 
         login_as user
       end
@@ -120,7 +121,7 @@ RSpec.describe Projects::QueriesController do
   end
 
   describe "#create" do
-    let(:service_class) { Queries::Projects::ProjectQueries::CreateService }
+    let(:service_class) { ProjectQueries::CreateService }
 
     it "requires login" do
       post "create"
@@ -137,8 +138,8 @@ RSpec.describe Projects::QueriesController do
 
       before do
         allow(controller).to receive(:permitted_query_params).and_return(query_params)
-        allow(Queries::Projects::Factory).to receive(:find)
-          .with(nil, user:, params: query_params, duplicate: true).and_return(query)
+        allow(Queries::Factory).to receive(:find)
+          .with(nil, query_class: ProjectQuery, user:, params: query_params, duplicate: true).and_return(query)
         allow(service_class).to receive(:new).with(from: query, user:).and_return(service_instance)
         allow(service_instance).to receive(:call).with(query_params).and_return(service_result)
 
@@ -191,7 +192,7 @@ RSpec.describe Projects::QueriesController do
   end
 
   describe "#update" do
-    let(:service_class) { Queries::Projects::ProjectQueries::UpdateService }
+    let(:service_class) { ProjectQueries::UpdateService }
 
     it "requires login" do
       put "update", params: { id: 42 }
@@ -264,7 +265,7 @@ RSpec.describe Projects::QueriesController do
   end
 
   describe "#toggle_public" do
-    let(:service_class) { Queries::Projects::ProjectQueries::PublishService }
+    let(:service_class) { ProjectQueries::PublishService }
 
     it "requires login" do
       post "toggle_public", params: { id: "42", value: "1" }
@@ -350,7 +351,7 @@ RSpec.describe Projects::QueriesController do
   end
 
   describe "#destroy" do
-    let(:service_class) { Queries::Projects::ProjectQueries::DeleteService }
+    let(:service_class) { ProjectQueries::DeleteService }
 
     it "requires login" do
       delete "destroy", params: { id: 42 }

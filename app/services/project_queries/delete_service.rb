@@ -1,4 +1,4 @@
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,8 +24,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Queries::Projects::ProjectQueries
-  class UpdateContract < BaseContract; end
-end
+class ProjectQueries::DeleteService < BaseServices::Delete; end

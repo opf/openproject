@@ -26,8 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects::ProjectQueries
-  class PublishContract < BaseContract
-    attribute :public
+require "spec_helper"
+require_relative "shared_contract_examples"
+
+RSpec.describe ProjectQueries::UpdateContract do
+  it_behaves_like "project queries contract" do
+    let(:query) do
+      ProjectQuery.new(name: query_name).tap do |query|
+        query.extend(OpenProject::ChangedBySystem)
+
+        query.change_by_system do
+          query.user = query_user
+        end
+
+        query.select(*query_selects)
+      end
+    end
+
+    let(:contract) { described_class.new(query, current_user) }
   end
 end

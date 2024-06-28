@@ -42,7 +42,7 @@ class ProjectsController < ApplicationController
   include PaginationHelper
   include QueriesHelper
   include ProjectsHelper
-  include Projects::QueryLoading
+  include Queries::Loading
   include OpTurbo::DialogStreamHelper
 
   helper_method :has_managed_project_folders?
