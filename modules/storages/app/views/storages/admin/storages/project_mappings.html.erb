@@ -34,3 +34,10 @@ See COPYRIGHT and LICENSE files for more details.
     )
   )
 %>
+<%=
+  render(Storages::ProjectStorages::ProjectMapping::TableComponent.new(
+    query: @project_query,
+    params:
+    )
+  )
+%>

@@ -245,7 +245,15 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
-  def project_mappings; end
+  def project_mappings
+    @project_query = ProjectQuery.new(
+      name: "project-storage-mappings-#{@storage.id}"
+    ) do |query|
+      query.where(:id, "=", @storage.projects.ids)
+      query.select(:name)
+      query.order("lft" => "asc")
+    end
+  end
 
   def default_breadcrumb; end
 
