@@ -26,30 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require "spec_helper"
-require "contracts/shared/model_contract_shared_context"
-
-RSpec.describe Queries::Projects::ProjectQueries::LoadingContract do
-  include_context "ModelContract shared context"
-
-  let(:current_user) { build_stubbed(:user) }
-  let(:query_user) { current_user }
-  let(:query_filters) { [[:active, "=", "t"]] }
-  let(:query_orders) { [%w[name asc]] }
-  let(:query_columns) { ["name", "public"] }
-  let(:query) do
-    ProjectQuery.new do |query|
-      query_filters.each do |key, operator, values|
-        query.where(key, operator, values)
-      end
-
-      query.order(query_orders)
-      query.select(*query_columns)
-    end
+class ProjectQueries::CreateService < BaseServices::Create
+  def initialize(from: nil, **)
+    @from = from
+    super(**)
   end
-  let(:contract) { described_class.new(query, current_user) }
 
-  describe "validation" do
-    it_behaves_like "contract is valid"
+  def instance(_params)
+    @from || super
+  end
+
+  def instance_class
+    ProjectQuery
   end
 end

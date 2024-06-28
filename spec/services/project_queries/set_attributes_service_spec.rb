@@ -28,10 +28,10 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :model do
+RSpec.describe ProjectQueries::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:user) }
   let(:contract_instance) do
-    contract = instance_double(Queries::Projects::ProjectQueries::CreateContract)
+    contract = instance_double(ProjectQueries::CreateContract)
     allow(contract)
       .to receive_messages(validate: contract_valid, errors: contract_errors)
     contract
@@ -47,11 +47,11 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
   end
   let(:model_instance) { ProjectQuery.new }
   let(:contract_class) do
-    allow(Queries::Projects::ProjectQueries::CreateContract)
+    allow(ProjectQueries::CreateContract)
       .to receive(:new)
             .and_return(contract_instance)
 
-    Queries::Projects::ProjectQueries::CreateContract
+    ProjectQueries::CreateContract
   end
   let(:params) { {} }
   let!(:custom_field) do

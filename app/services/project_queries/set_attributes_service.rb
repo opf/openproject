@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::SetAttributes
+class ProjectQueries::SetAttributesService < BaseServices::SetAttributes
   private
 
   def set_attributes(params)

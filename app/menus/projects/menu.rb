@@ -55,7 +55,7 @@ module Projects
       when "projects"
         case params[:query_id]
         when nil
-          query_params[:query_id].to_s == Queries::Projects::Factory::DEFAULT_STATIC
+          query_params[:query_id].to_s == ProjectQueries::Static::DEFAULT
         when /\A\d+\z/
           query_params[:query_id].to_s == params[:query_id]
         else
@@ -78,24 +78,24 @@ module Projects
 
     def main_static_filters
       static_filters [
-        ::Queries::Projects::Factory::STATIC_ACTIVE,
-        ::Queries::Projects::Factory::STATIC_MY,
-        ::Queries::Projects::Factory::STATIC_FAVORED,
-        current_user.admin? ? ::Queries::Projects::Factory::STATIC_ARCHIVED : nil
+        ProjectQueries::Static::ACTIVE,
+        ProjectQueries::Static::MY,
+        ProjectQueries::Static::FAVORED,
+        current_user.admin? ? ProjectQueries::Static::ARCHIVED : nil
       ].compact
     end
 
     def status_static_filters
       static_filters [
-        ::Queries::Projects::Factory::STATIC_ON_TRACK,
-        ::Queries::Projects::Factory::STATIC_OFF_TRACK,
-        ::Queries::Projects::Factory::STATIC_AT_RISK
+        ProjectQueries::Static::ON_TRACK,
+        ProjectQueries::Static::OFF_TRACK,
+        ProjectQueries::Static::AT_RISK
       ]
     end
 
     def static_filters(ids)
       ids.map do |id|
-        menu_item(title: ::Queries::Projects::Factory.static_query(id).name, query_params: { query_id: id })
+        menu_item(title: ::ProjectQueries::Static.query(id).name, query_params: { query_id: id })
       end
     end
 
