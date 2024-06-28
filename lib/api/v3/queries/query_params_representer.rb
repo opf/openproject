@@ -45,14 +45,7 @@ module API
 
         def to_h(column_key: :columns)
           p = super
-
-          p[:includeSubprojects] = query.include_subprojects
-          p[:includeAllMembersAssignedProjects] = query.include_all_members_assigned_projects
-          p[:showHierarchies] = query.show_hierarchies
-          p[:showSums] = query.display_sums?
-          p[:groupBy] = query.group_by if query.group_by?
-          p[column_key] = columns_to_v3 unless query.has_default_columns?
-
+          add_query_attributes(p, column_key)
           p
         end
 
@@ -74,6 +67,15 @@ module API
 
         def columns_to_v3
           query.column_names.map { |name| convert_to_v3(name) }
+        end
+
+        def add_query_attributes(p, column_key)
+          p[:includeSubprojects] = query.include_subprojects
+          p[:includeAllMembersAssignedProjects] = query.include_all_members_assigned_projects
+          p[:showHierarchies] = query.show_hierarchies
+          p[:showSums] = query.display_sums?
+          p[:groupBy] = query.group_by if query.group_by?
+          p[column_key] = columns_to_v3 unless query.has_default_columns?
         end
 
         attr_accessor :query
