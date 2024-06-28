@@ -904,6 +904,11 @@ de:
       preformatted_text: "Präformatierter Text"
       wiki_link: "Link zu einer Wikiseite"
       image: "Bild"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "In anderes Projekt verschieben"
@@ -1059,12 +1064,8 @@ de:
         is_parent: "Die Termine dieses Arbeitspakets werden automatisch von seinen Kindern aggregiert. Aktivieren Sie \"Manuelle Planung\", um die Termine frei zu setzen."
         is_switched_from_manual_to_automatic: "Die Termine dieses Arbeitspakets müssen nach dem Wechsel auf automatische Planung neu berechnet werden."
       sharing:
-        share: "Teilen"
         title: "Arbeitspaket teilen"
         show_all_users: "Alle Benutzer anzeigen, für die das Arbeitspaket geteilt wurde"
-        selected_count: "%{count} ausgewählt"
-        selection:
-          mixed: "Gemischt"
         upsale:
           description: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
       table:

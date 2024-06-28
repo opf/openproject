@@ -905,6 +905,11 @@ es:
       preformatted_text: "Texto Preformateado"
       wiki_link: "Vincular a una página Wiki"
       image: "Imagen"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Cambio masivo del proyecto"
@@ -1060,12 +1065,8 @@ es:
         is_parent: "Las fechas de este paquete de trabajo son deducidas automáticamente de sus sub-elementos. Active 'Programación manual' para establecer las fechas."
         is_switched_from_manual_to_automatic: "Las fechas de este paquete de trabajo pueden necesitar ser recalculadas después de pasar de programación manual a programación automática debido a las relaciones con otros paquetes de trabajo."
       sharing:
-        share: "Compartir"
         title: "Compartir paquete de trabajo"
         show_all_users: "Mostrar todos los usuarios con los que se ha compartido el paquete de trabajo"
-        selected_count: "%{count} seleccionados"
-        selection:
-          mixed: "Mixto"
         upsale:
           description: "Compartir paquetes de trabajo con usuarios que no son miembros del proyecto."
       table:

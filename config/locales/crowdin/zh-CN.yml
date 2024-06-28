@@ -3321,54 +3321,56 @@ zh-CN:
         work_based_help_text: "完成百分比由 \"工时\" 和 \"剩余工时\" 自动得出。"
         status_based_help_text: "完成百分比由工作包状态设定。"
         migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
-    sharing:
-      count:
-        zero: "0 个用户"
-        one: "1 个用户"
-        other: "%{count} 个用户"
-      filter:
-        project_member: "项目成员"
-        not_project_member: "非项目成员"
-        project_group: "项目组"
-        not_project_group: "非项目组"
-        role: "角色"
-        type: "类型"
-      label_search: "搜索要邀请的用户"
-      label_search_placeholder: "按用户名或电子邮件地址搜索"
-      label_toggle_all: "切换所有共享"
-      permissions:
-        comment: "评论"
-        comment_description: "可以查看和评论此工作包。"
-        denied: "您没有共享工作包的权限。"
-        edit: "编辑"
-        edit_description: "可以查看、评论和编辑此工作包。"
-        view: "查看"
-        view_description: "可以查看此工作包。"
-      remove: "移除"
-      share: "分享"
-      text_empty_search_description: "没有符合当前过滤条件的用户。"
-      text_empty_search_header: "我们找不到任何匹配的结果。"
-      text_empty_state_description: "工作包尚未共享给任何人。"
-      text_empty_state_header: "未共享"
-      text_user_limit_reached: "添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。"
-      text_user_limit_reached_admins: '添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>以添加更多用户。'
-      warning_user_limit_reached: >
-        添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。
-      warning_user_limit_reached_admin: >
-        添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此工作包。
-      warning_no_selected_user: "请选择要共享此工作包的用户"
-      warning_locked_user: "用户 %{user} 已被锁定且无法被分享"
-      user_details:
-        locked: "锁定的用户"
-        invited: "邀请已发送。 "
-        resend_invite: "重新发送。"
-        invite_resent: "邀请已重新发送"
-        not_project_member: "非项目成员"
-        project_group: "组成员可能具有额外的权限（作为项目成员）"
-        not_project_group: "组 (与所有成员共享)"
-        additional_privileges_project: "可能有额外的权限(作为项目成员)"
-        additional_privileges_group: "可能有额外的权限(作为群组成员)"
-        additional_privileges_project_or_group: "可能有额外的权限(作为项目成员或组成员)"
+    permissions:
+      comment: "Comment"
+      comment_description: "Can view and comment this work package."
+      edit: "Edit"
+      edit_description: "Can view, comment and edit this work package."
+      view: "View"
+      view_description: "Can view this work package."
+  sharing:
+    count:
+      zero: "0 users"
+      one: "1 user"
+      other: "%{count} users"
+    filter:
+      project_member: "Project member"
+      not_project_member: "Not project member"
+      project_group: "Project group"
+      not_project_group: "Not project group"
+      user: "User"
+      group: "Group"
+      role: "Role"
+      type: "Type"
+    denied: "You don't have permissions to share %{entities}."
+    label_search: "Search for users to invite"
+    label_search_placeholder: "Search by user or email address"
+    label_toggle_all: "Toggle all shares"
+    remove: "Remove"
+    share: "Share"
+    text_empty_search_description: "There are no users with the current filter criteria."
+    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
+    text_empty_state_header: "Not shared"
+    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
+    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    warning_user_limit_reached: >
+      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+    warning_user_limit_reached_admin: >
+      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
+    warning_no_selected_user: "Please select users to share this %{entity} with"
+    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    user_details:
+      locked: "Locked user"
+      invited: "Invite sent. "
+      resend_invite: "Resend."
+      invite_resent: "Invite has been resent"
+      not_project_member: "Not a project member"
+      project_group: "Group members might have additional privileges (as project members)"
+      not_project_group: "Group (shared with all members)"
+      additional_privileges_project: "Might have additional privileges (as project member)"
+      additional_privileges_group: "Might have additional privileges (as group member)"
+      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       在安排工作包时，未选择的日期将被跳过（且不计入天数）。可以在工作包级别覆盖这些选项。
