@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
               <% api_tokens.each do |api_token| %>
                 <tr>
                   <td class="-w-rel-60" data-test-selector="api-token-row-name">
-                    <%= api_token.name.nil? ? t("my_account.access_tokens.api.static_token_name") : api_token.name %>
+                    <%= api_token.token_name.nil? ? t("my_account.access_tokens.api.static_token_name") : api_token.token_name %>
                   </td>
                   <td>
                     <span title="<%= format_time(api_token.created_at) %>">

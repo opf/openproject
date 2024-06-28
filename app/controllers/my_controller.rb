@@ -39,6 +39,7 @@ class MyController < ApplicationController
   before_action :check_password_confirmation, only: %i[update_account]
   before_action :set_grouped_ical_tokens, only: %i[access_token]
   before_action :set_ical_token, only: %i[revoke_ical_token]
+  before_action :set_api_token, only: %i[revoke_api_key]
 
   no_authorization_required! :account,
                              :update_account,
@@ -159,19 +160,21 @@ class MyController < ApplicationController
 
   # Create a new API key
   def generate_api_key
-    token = Token::API.create(user: current_user, data: { name: params[:token_api][:token_name] })
+    result = APITokens::CreateService.new(user: current_user).call(token_name: params[:token_api][:token_name])
 
-    if token.valid?
+    result.on_success do |r|
       flash[:info] = [
         t("my.access_token.notice_reset_token", type: "API").html_safe,
-        content_tag(:strong, token.plain_value),
+        content_tag(:strong, r.result.plain_value),
         t("my.access_token.token_value_warning")
       ]
 
       redirect_to action: "access_token"
-    else
+    end
+
+    result.on_failure do |r|
       update_via_turbo_stream(
-        component: My::AccessToken::NewAccessTokenFormComponent.new(token:),
+        component: My::AccessToken::NewAccessTokenFormComponent.new(token: r.result),
         status: :bad_request
       )
 
@@ -180,12 +183,17 @@ class MyController < ApplicationController
   end
 
   def revoke_api_key
-    current_user.api_tokens.find(params[:token_id]).destroy
-    flash[:info] = t("my.access_token.notice_api_token_revoked")
-  rescue StandardError => e
-    Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
-    flash[:error] = t("my.access_token.failed_to_revoke_token", error: e.message)
-  ensure
+    result = APITokens::DeleteService.new(user: current_user, model: @api_token).call
+
+    result.on_success do
+      flash.now[:info] = t("my.access_token.notice_api_token_revoked")
+    end
+
+    result.on_failure do
+      Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
+      flash.now[:error] = t("my.access_token.failed_to_revoke_token", error: e.message)
+    end
+
     redirect_to action: "access_token"
   end
 
@@ -272,6 +280,10 @@ class MyController < ApplicationController
 
   def get_current_layout
     @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
+  end
+
+  def set_api_token
+    @api_token = current_user.api_tokens.find(params[:token_id])
   end
 
   def set_ical_token
