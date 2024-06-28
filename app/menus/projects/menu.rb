@@ -91,7 +91,7 @@ module Projects
 
     def static_filters(ids)
       ids.map do |id|
-        menu_item({ query_id: id }, ::Queries::Projects::Factory.static_query(id).name)
+        menu_item(::Queries::Projects::Factory.static_query(id).name, query_id: id)
       end
     end
 
@@ -99,14 +99,14 @@ module Projects
       ::ProjectQuery
         .public_lists
         .order(:name)
-        .map { |query| menu_item({ query_id: query.id }, query.name) }
+        .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
     def my_filters
       ::ProjectQuery
         .private_lists(user: current_user)
         .order(:name)
-        .map { |query| menu_item({ query_id: query.id }, query.name) }
+        .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
     def modification_params?

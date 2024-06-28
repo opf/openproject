@@ -48,10 +48,10 @@ module Meetings
       past_filter = [{ time: { operator: "=", values: ["past"] } }].to_json
 
       [
-        menu_item({ filters: upcoming_filter, sort: "start_time" },
-                  I18n.t(:label_upcoming_meetings)),
-        menu_item({ filters: past_filter, sort: "start_time:desc" },
-                  I18n.t(:label_past_meetings))
+        menu_item(I18n.t(:label_upcoming_meetings),
+                  filters: upcoming_filter, sort: "start_time"),
+        menu_item(I18n.t(:label_past_meetings),
+                  filters: past_filter, sort: "start_time:desc")
       ]
     end
 
@@ -64,14 +64,14 @@ module Meetings
       author_filter = [{ author_id: { operator: "=", values: [User.current.id.to_s] } }].to_json
 
       [
-        menu_item({},
-                  I18n.t(:label_upcoming_invitations)),
-        menu_item({ filters: past_filter, sort: "start_time:desc" },
-                  I18n.t(:label_past_invitations)),
-        menu_item({ filters: attendee_filter },
-                  I18n.t(:label_attendee)),
-        menu_item({ filters: author_filter },
-                  I18n.t(:label_author))
+        menu_item(I18n.t(:label_upcoming_invitations),
+                  {}),
+        menu_item(I18n.t(:label_past_invitations),
+                  { filters: past_filter, sort: "start_time:desc" }),
+        menu_item(I18n.t(:label_attendee),
+                  { filters: attendee_filter }),
+        menu_item(I18n.t(:label_author),
+                  { filters: author_filter })
       ]
     end
 
