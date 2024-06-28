@@ -26,41 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Projects::Factory
-  STATIC_ACTIVE = "active".freeze
-  STATIC_MY = "my".freeze
-  STATIC_FAVORED = "favored".freeze
-  STATIC_ARCHIVED = "archived".freeze
-  STATIC_ON_TRACK = "on_track".freeze
-  STATIC_OFF_TRACK = "off_track".freeze
-  STATIC_AT_RISK = "at_risk".freeze
+class ProjectQueries::Static
+  ACTIVE = "active".freeze
+  MY = "my".freeze
+  FAVORED = "favored".freeze
+  ARCHIVED = "archived".freeze
+  ON_TRACK = "on_track".freeze
+  OFF_TRACK = "off_track".freeze
+  AT_RISK = "at_risk".freeze
 
-  DEFAULT_STATIC = STATIC_ACTIVE
+  DEFAULT = ACTIVE
 
   class << self
-    def find(id, params:, user:, duplicate: false)
-      find_static_query_and_set_attributes(id, params, user, duplicate:) ||
-      find_persisted_query_and_set_attributes(id, params, user, duplicate:)
-    end
-
-    def static_query(id)
+    def query(id)
       case id
-      when STATIC_ACTIVE, nil
+      when ACTIVE, nil
         static_query_active
-      when STATIC_MY
+      when MY
         static_query_my
-      when STATIC_FAVORED
+      when FAVORED
         static_query_favored
-      when STATIC_ARCHIVED
+      when ARCHIVED
         static_query_archived
-      when STATIC_ON_TRACK
+      when ON_TRACK
         static_query_status_on_track
-      when STATIC_OFF_TRACK
+      when OFF_TRACK
         static_query_status_off_track
-      when STATIC_AT_RISK
+      when AT_RISK
         static_query_status_at_risk
       end
     end
+
+    private
 
     def static_query_active
       list_with(:"projects.lists.active") do |query|
@@ -116,50 +113,6 @@ class Queries::Projects::Factory
         # This method is used to create static queries, so assume clean state after building
         query.clear_changes_information
       end
-    end
-
-    def find_static_query_and_set_attributes(id, params, user, duplicate:)
-      query = static_query(id)
-
-      return unless query
-
-      query = duplicate_query(query) if duplicate || params.any?
-
-      if params.any?
-        set_query_attributes(query, params, user)
-      else
-        query
-      end
-    end
-
-    def find_persisted_query_and_set_attributes(id, params, user, duplicate:)
-      query = ProjectQuery.visible(user).find_by(id:)
-
-      return unless query
-
-      query.valid_subset!
-      query.clear_changes_information
-
-      query = duplicate_query(query) if duplicate
-
-      if params.any?
-        set_query_attributes(query, params, user)
-      else
-        query
-      end
-    end
-
-    def duplicate_query(query)
-      ProjectQuery.new(query.attributes.slice("filters", "orders", "selects"))
-    end
-
-    def set_query_attributes(query, params, user)
-      Queries::Projects::ProjectQueries::SetAttributesService
-        .new(user:,
-             model: query,
-             contract_class: Queries::Projects::ProjectQueries::LoadingContract)
-        .call(params)
-        .result
     end
   end
 end
