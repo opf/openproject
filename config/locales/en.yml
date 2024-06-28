@@ -430,6 +430,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     access_token:
       errors:
         token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
       new_access_token_dialog_title: "Create new API token"
       new_access_token_dialog_show_button_text: "API Token"
       new_access_token_dialog_text_field_placeholder_text: "My API token"
