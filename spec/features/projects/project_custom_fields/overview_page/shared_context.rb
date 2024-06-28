@@ -73,7 +73,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
 
   let!(:member_without_view_project_attributes_permission) do
     create(:user,
-           firstname: "Member 3",
+           firstname: "Member 4",
            lastname: "In Project",
            member_with_roles: { project => reader_role_without_project_attributes })
   end

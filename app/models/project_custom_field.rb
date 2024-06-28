@@ -38,27 +38,32 @@ class ProjectCustomField < CustomField
 
   validates :custom_field_section_id, presence: true
 
-  def type_name
-    :label_project_plural
-  end
+  class << self
+    def visible(user = User.current)
+      if user.admin?
+        all
+      elsif user.allowed_in_any_project?(:select_project_custom_fields) || user.allowed_globally?(:add_project)
+        where(visible: true)
+      else
+        where(visible: true).where(mappings_with_view_project_attributes_permission(user).exists)
+      end
+    end
 
-  def self.visible(user = User.current)
-    if user.admin?
-      all
-    elsif user.allowed_in_any_project?(:select_project_custom_fields) || user.allowed_globally?(:add_project)
-      where(visible: true)
-    else
+    private
+
+    def mappings_with_view_project_attributes_permission(user)
       allowed_project_ids = Project.allowed_to(user, :view_project_attributes).select(:id).arel
-
       mapping_table = ProjectCustomFieldProjectMapping.arel_table
-      mapping_query = mapping_table.project(Arel.star)
+      mapping_table.project(Arel.star)
         .where(
           mapping_table[:custom_field_id].eq(arel_table[:id])
           .and(mapping_table[:project_id].in(allowed_project_ids))
         )
-
-      where(visible: true).where(mapping_query.exists)
     end
+  end
+
+  def type_name
+    :label_project_plural
   end
 
   def activate_required_field_in_all_projects

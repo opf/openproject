@@ -31,7 +31,8 @@ module ::Overviews
       service_call = ::Projects::UpdateService
                       .new(
                         user: current_user,
-                        model: @project
+                        model: @project,
+                        contract_options: { project_attributes_only: true }
                       )
                       .call(
                         permitted_params.project.merge(

@@ -33,7 +33,7 @@ module Projects
     def manage_permission
       if changed_by_user == ["active"]
         :archive_project
-      elsif changed_by_user.any? && changed_by_user.all? { |c| c.match(/^custom_field_/) }
+      elsif options[:project_attributes_only]
         :edit_project_attributes
       else
         # if "active" is changed, :archive_project permission will also be

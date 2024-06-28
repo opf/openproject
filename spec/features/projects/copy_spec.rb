@@ -99,7 +99,8 @@ RSpec.describe "Projects copy", :js, :with_cuprite,
          select_custom_fields
          manage_files_in_project
          manage_file_links
-         work_package_assigned)
+         work_package_assigned
+         view_project_attributes)
     end
     let(:wp_user) do
       user = create(:user)
@@ -195,7 +196,6 @@ RSpec.describe "Projects copy", :js, :with_cuprite,
       it "does not disable optional project custom fields if explicitly set to blank" do
         # Expand advanced settings
         click_on "Advanced settings"
-
         editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{optional_project_custom_field.id}']"
         editor.clear
 

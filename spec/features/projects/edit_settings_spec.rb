@@ -31,7 +31,7 @@ require "spec_helper"
 RSpec.describe "Projects", "editing settings", :js, :with_cuprite do
   let(:name_field) { FormFields::InputFormField.new :name }
   let(:parent_field) { FormFields::SelectFormField.new :parent }
-  let(:permissions) { %i(edit_project) }
+  let(:permissions) { %i(edit_project view_project_attributes edit_project_attributes) }
 
   current_user do
     create(:user, member_with_permissions: { project => permissions })
