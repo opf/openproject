@@ -45,7 +45,11 @@ class RowComponent < ApplicationComponent
   end
 
   def column_value(column)
-    send(column)
+    if column.respond_to?(:attribute)
+      send(column.attribute)
+    else
+      send(column)
+    end
   end
 
   def column_css_class(column)
@@ -53,7 +57,7 @@ class RowComponent < ApplicationComponent
   end
 
   def column_css_classes
-    @column_css_classes ||= columns.to_h { |name| [name, name] }
+    @column_css_classes ||= columns.index_with { |column| column.respond_to?(:attribute) ? column.attribute : column }
   end
 
   def button_links

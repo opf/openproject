@@ -57,7 +57,6 @@ class MeetingsController < ApplicationController
 
   def index
     @query = load_query
-    @meetings = load_meetings(@query)
     render "index", locals: { menu_name: project_or_global_menu }
   end
 
@@ -253,16 +252,22 @@ class MeetingsController < ApplicationController
   private
 
   def load_query
+    # TODO: move into Factory
     query = ParamsToQueryService.new(
       Meeting,
       current_user
     ).call(params)
 
     query = apply_default_filter_if_none_given(query)
+    query = apply_default_order_if_none_given(query)
 
     if @project
       query.where("project_id", "=", @project.id)
     end
+
+    query.select(:title)
+    query.select(:project) unless @project
+    query.select(:type, :start_time, :duration, :location)
 
     query
   end
@@ -274,10 +279,10 @@ class MeetingsController < ApplicationController
     query.where("invited_user_id", "=", [User.current.id.to_s])
   end
 
-  def load_meetings(query)
-    query
-      .results
-      .paginate(page: page_param, per_page: per_page_param)
+  def apply_default_order_if_none_given(query)
+    return query if query.orders.any?
+
+    query.order(start_time: :asc)
   end
 
   def set_time_zone(&)

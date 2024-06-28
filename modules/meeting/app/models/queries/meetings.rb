@@ -34,5 +34,11 @@ module Queries::Meetings
     filter Filters::InvitedUserFilter
     filter Filters::AuthorFilter
     filter Filters::DatesIntervalFilter
+
+    order Orders::Default
+    order Orders::Project
+
+    select Selects::Default
+    select Selects::Project
   end
 end

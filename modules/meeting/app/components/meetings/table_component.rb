@@ -29,45 +29,76 @@
 #++
 
 module Meetings
-  class TableComponent < ::TableComponent
-    options :current_project # used to determine if displaying the projects column
+  class TableComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    options :params # We read collapsed state from params
+    options :current_user # adds this option to those of the base class
+    options :query
 
-    sortable_columns :title, :project_name, :type, :start_time, :duration, :location
-
-    def initial_sort
-      %i[start_time asc]
+    def table_id
+      "meeting-table"
     end
 
-    def sortable_columns_correlation
-      super.merge(
-        project_name: "projects.name",
-        type: "meetings.type"
-      )
+    def container_class
+      "generic-table--container_visible-overflow generic-table--container_height-100"
     end
 
-    def initialize_sorted_model
-      helpers.sort_clear
-
-      super
+    def rows
+      @rows ||= query.results.paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
     end
 
     def paginated?
       true
     end
 
-    def headers
-      @headers ||= [
-        [:title, { caption: Meeting.human_attribute_name(:title) }],
-        current_project.blank? ? [:project_name, { caption: Meeting.human_attribute_name(:project) }] : nil,
-        [:type, { caption: Meeting.human_attribute_name(:type) }],
-        [:start_time, { caption: Meeting.human_attribute_name(:start_time) }],
-        [:duration, { caption: Meeting.human_attribute_name(:duration) }],
-        [:location, { caption: Meeting.human_attribute_name(:location) }]
-      ].compact
+    def pagination_options
+      default_pagination_options.merge(optional_pagination_options)
+    end
+
+    def default_pagination_options
+      { allowed_params: %i[query_id filters columns sortBy] }
+    end
+
+    def optional_pagination_options
+      {}
+    end
+
+    def sortable_column?(select)
+      sortable? && query.known_order?(select.attribute)
     end
 
     def columns
-      @columns ||= headers.map(&:first)
+      @columns ||= query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
+    end
+
+    def render_rows
+      render(self.class.row_class.with_collection(rows, table: self))
+    end
+
+    def render_column_headers
+      # TODO: turn the Projects::ColumnHeaderComponent into generic component
+      render(Projects::ColumnHeaderComponent.with_collection(columns, query:))
+    end
+
+    def inline_create_link
+      nil
+    end
+
+    def empty_row_message
+      I18n.t :no_results_title_text
+    end
+
+    class << self
+      def row_class
+        mod = name.deconstantize
+
+        "#{mod}::RowComponent".constantize
+      rescue NameError
+        raise(
+          NameError,
+          "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
+            "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
+        )
+      end
     end
   end
 end

@@ -52,7 +52,7 @@ RSpec.describe MeetingsController do
           end
 
           it { expect(response).to be_successful }
-          it { expect(assigns(:meetings)).to match_array meetings[1..2] }
+          it { expect(assigns(:query).results).to match_array meetings[1..2] }
         end
 
         context "when requesting meetings scoped to a project ID" do
@@ -61,7 +61,7 @@ RSpec.describe MeetingsController do
           end
 
           it { expect(response).to be_successful }
-          it { expect(assigns(:meetings)).to match_array meetings[1] }
+          it { expect(assigns(:query).results).to match_array meetings[1] }
         end
       end
     end

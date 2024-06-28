@@ -31,8 +31,11 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Meetings::IndexPageHeaderComponent.new(project: @project)) %>
 <%= render(Meetings::IndexSubHeaderComponent.new(query: @query, project: @project)) %>
 
-<% if @meetings.empty? -%>
+<% if @query.results.empty? -%>
   <%= no_results_box %>
 <% else -%>
-  <%= render Meetings::TableComponent.new(rows: @meetings, current_project: @project) %>
+  <%= render Meetings::TableComponent.new(
+    query: @query,
+    current_user: current_user,
+    params:) %>
 <% end -%>
