@@ -103,7 +103,7 @@ de:
     health:
       checked: Zuletzt geprüft %{datetime}
       connection_validation:
-        action: Recheck connection
+        action: Verbindung erneut überprüfen
         client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
         client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
         drive_id_wrong: The configured drive id could not be found. Please check the configuration.
@@ -116,9 +116,9 @@ de:
       label_error: Fehler
       label_healthy: Fehlerfrei
       label_pending: Ausstehend
-      label_warning: Warning
+      label_warning: Warnung
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Automatisch verwaltete Projektordner
       since: seit %{datetime}
       title: Verbindungsstatus
     health_email_notifications:

@@ -1,6 +1,5 @@
 hu:
   js:
-    queries:
-      all_open: 'Minden nyitott'
-      timeline: 'Idővonal'
-      milestones: 'Mérföldkövek'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

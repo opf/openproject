@@ -40,16 +40,16 @@ hu:
         participants_invited: "Meghívottak"
         project: "Projekt"
         start_date: "dátum"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "Kezdés"
+        start_time_hour: "Kezdés"
       meeting_agenda_item:
         title: "Cím"
         author: "Szerző"
-        duration_in_minutes: "min"
+        duration_in_minutes: "Perc"
         description: "Jegyzet"
-        presenter: "Presenter"
+        presenter: "Bemutató"
       meeting_section:
-        title: "Title"
+        title: "Cím"
     errors:
       messages:
         invalid_time_format: "nem egy érvényes időpont. Előírt formátum: óó:pp"
@@ -58,23 +58,23 @@ hu:
       meeting_agenda_item: "Napirendi pont"
       meeting_agenda: "Napirend"
       meeting_minutes: "Jegyzőkönyv"
-      meeting_section: "Section"
+      meeting_section: "Szekció "
   activity:
     filter:
       meeting: "Megbeszélések"
     item:
       meeting_agenda_item:
         duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          added: "Átállítás %{value}-ra/-re"
+          added_html: "Átállítás <i>%{value}</i>-ra/-re"
+          removed: "Eltávolított "
+          updated: "Átállítva %{old_value}-ról/-ről %{value}-ra/-re"
+          updated_html: "Átállítva <i>%{old_value}</i>-ról/-ről <i>%{value}</i>-ra/-re"
         position:
-          updated: "reordered"
+          updated: "Átrakva"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated: "Átállítva %{old_value}-ról/-ről %{value}-ra/-re"
+          updated_html: "Átállítva <i>%{old_value}</i>-ról/-ről <i>%{value}</i>-ra/-re"
   description_attended: "részt vett"
   description_invite: "meghívott"
   events:

@@ -905,10 +905,10 @@ de:
       wiki_link: "Link zu einer Wikiseite"
       image: "Bild"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Teilen"
+      selected_count: "%{count} ausgewählt"
       selection:
-        mixed: "Mixed"
+        mixed: "Gemischt"
     work_packages:
       bulk_actions:
         move: "In anderes Projekt verschieben"

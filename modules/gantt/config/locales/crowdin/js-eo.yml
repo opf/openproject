@@ -1,6 +1,5 @@
 eo:
   js:
-    queries:
-      all_open: 'Ĉio malfermita'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

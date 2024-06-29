@@ -1,6 +1,5 @@
 si:
   js:
-    queries:
-      all_open: 'සියල්ල විවෘතයි'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'
