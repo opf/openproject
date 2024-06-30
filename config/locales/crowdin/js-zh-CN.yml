@@ -904,10 +904,10 @@ zh-CN:
       wiki_link: "链接到一个维基页面"
       image: "图片"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "共享"
+      selected_count: "%{count} 已选择"
       selection:
-        mixed: "Mixed"
+        mixed: "混合"
     work_packages:
       bulk_actions:
         move: "批量更改项目"
