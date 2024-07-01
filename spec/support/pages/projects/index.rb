@@ -304,7 +304,9 @@ module Pages
       end
 
       def click_more_menu_item(item)
+        wait_for_network_idle if using_cuprite?
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
+        wait_for_network_idle if using_cuprite?
         page.find(".ActionListItem", text: item, exact_text: true).click
       end
 
