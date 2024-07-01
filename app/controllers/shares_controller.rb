@@ -307,14 +307,15 @@ class SharesController < ApplicationController
   def load_entity # rubocop:disable Metrics/AbcSize
     if params["work_package_id"]
       @entity = WorkPackage.visible.find(params["work_package_id"])
-      @sharing_strategy = SharingStrategies::WorkPackageStrategy.new(work_package: @entity)
+      @sharing_strategy = SharingStrategies::WorkPackageStrategy.new(@entity, user: current_user)
     elsif params["project_query_id"]
       @entity = ProjectQuery.visible.find(params["project_query_id"])
-      @sharing_strategy = SharingStrategies::ProjectQueryStrategy.new(project_query: @entity)
+      @sharing_strategy = SharingStrategies::ProjectQueryStrategy.new(@entity, user: current_user)
     else
       raise ArgumentError, <<~ERROR
         Nested the SharesController under an entity controller that is not yet configured to support sharing.
-        Edit the SharesController#load_entity method to load the entity from the correct parent.
+        Edit the SharesController#load_entity method to load the entity from the correct parent and specify what sharing
+        strategy should be applied.
 
         Params: #{params.to_unsafe_h}
         Request Path: #{request.path}

@@ -27,38 +27,33 @@
 #++
 
 module SharingStrategies
-  class WorkPackageStrategy
-    def available_roles
-      role_mapping = WorkPackageRole.unscoped.pluck(:builtin, :id).to_h
+  class BaseStrategy
+    attr_reader :entity, user
 
-      [
-        { label: I18n.t("work_package.permissions.edit"),
-          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_EDITOR],
-          description: I18n.t("work_package.permissions.edit_description") },
-        { label: I18n.t("work_package.permissions.comment"),
-          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_COMMENTER],
-          description: I18n.t("work_package.permissions.comment_description") },
-        { label: I18n.t("work_package.permissions.view"),
-          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_VIEWER],
-          description: I18n.t("work_package.permissions.view_description"),
-          default: true }
-      ]
+    def initialize(entity, user: User.current)
+      @entity = entity
+      @user = user
+    end
+
+    def available_roles
+      # format: [{ label: "Role name", value: 42, description: "Role description", default: true }]
+      raise NotImplementedError, "Override in a subclass and return an array of roles that should be displayed"
     end
 
     def sharing_manageable?
-      user.allowed_in_project?(:share_work_packages, @entity.project)
+      raise NotImplementedError, "Override in a subclass and return true if the current user can manage sharing"
     end
 
     def create_contract_class
-      Shares::WorkPackages::CreateContract
+      raise NotImplementedError, "Override in a subclass and return the contract class for creating a share"
     end
 
     def update_contract_class
-      Shares::WorkPackages::UpdateContract
+      raise NotImplementedError, "Override in a subclass and return the contract class for updating a share"
     end
 
     def delete_contract_class
-      Shares::WorkPackages::DeleteContract
+      raise NotImplementedError, "Override in a subclass and return the contract class for deleting a share"
     end
   end
 end
