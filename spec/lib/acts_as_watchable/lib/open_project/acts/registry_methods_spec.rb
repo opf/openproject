@@ -58,8 +58,6 @@ RSpec.describe OpenProject::Acts::RegistryMethods do
   describe ".instance" do
     before do
       model.include instance_methods_module
-
-      allow(ActiveSupport::Inflector).to receive(:constantize).with("Model").and_return(model)
     end
 
     it "returns nil for non registered model" do
@@ -70,6 +68,23 @@ RSpec.describe OpenProject::Acts::RegistryMethods do
       registry.add(model)
 
       expect(registry.instance("models")).to eq(model)
+    end
+
+    describe "after model reload" do
+      let(:reloaded_model) { Class.new }
+
+      before do
+        reloaded_model.include instance_methods_module
+
+        allow(reloaded_model).to receive(:name).and_return("Model")
+
+        registry.add(model)
+        registry.add(reloaded_model)
+      end
+
+      it "returns reloaded model class" do
+        expect(registry.instance("models")).to eq(reloaded_model)
+      end
     end
   end
 end

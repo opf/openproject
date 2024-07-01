@@ -30,9 +30,7 @@ module OpenProject
   module Acts
     module RegistryMethods
       def instance(model_name)
-        class_name = model_name.singularize.camelize
-
-        class_name.constantize if class_names.include?(class_name)
+        models[model_name.singularize.camelize]
       end
 
       def add(*models)
@@ -44,14 +42,14 @@ module OpenProject
             raise ArgumentError.new("Model #{model} does not include #{acts_as_method_name}")
           end
 
-          class_names << model.name
+          self.models[model.name] = model
         end
       end
 
       private
 
-      def class_names
-        @class_names ||= Set.new
+      def models
+        @models ||= Hash.new
       end
     end
   end
