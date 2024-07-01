@@ -73,7 +73,7 @@ RSpec.describe Users::Profile::AttributesComponent, type: :component do
   describe "Custom fields" do
     let(:custom_field) { create(:user_custom_field, :string, visible:) }
     let(:user) { build_stubbed(:user, custom_values: [build(:custom_value, custom_field:, value: "Hello custom field")]) }
-    
+
     current_user { build(:admin) }
 
     before do
