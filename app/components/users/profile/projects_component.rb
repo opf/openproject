@@ -46,7 +46,6 @@ module Users
                             .where.not(project_id: nil)
                             .where(id: Member.visible(User.current))
                             .order("projects.created_at DESC")
-
       end
 
       def render?

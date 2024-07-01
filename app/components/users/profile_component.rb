@@ -27,7 +27,7 @@
 #++
 
 module Users
-  class ProfileComponent < ApplicationComponent
+  class ProfileComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
