@@ -28,6 +28,7 @@
                   header_actions.with_column(mr: 2) do
                     render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
                                                          select_variant: :single,
+                                                         size: :small,
                                                          dynamic_label: true,
                                                          dynamic_label_prefix: I18n.t('sharing.filter.type'),
                                                          color: :muted,
@@ -50,6 +51,7 @@
                   header_actions.with_column do
                     render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
                                                          select_variant: :single,
+                                                         size: :small,
                                                          dynamic_label: true,
                                                          dynamic_label_prefix: I18n.t('sharing.filter.role'),
                                                          color: :muted,
