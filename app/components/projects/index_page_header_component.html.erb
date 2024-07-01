@@ -21,14 +21,16 @@
         )
       end
 
-      header.with_action_menu(menu_arguments: {
-        anchor_align: :end
-      },
-                              button_arguments: {
-                                icon: "op-kebab-vertical",
-                                "aria-label": t(:label_more),
-                                data: { "test-selector": "project-more-dropdown-menu" }
-                              })  do |menu|
+      header.with_action_menu(
+        menu_arguments: {
+          anchor_align: :end
+        },
+        button_arguments: {
+          icon: "op-kebab-vertical",
+          "aria-label": t(:label_more),
+          data: { "test-selector": "project-more-dropdown-menu" }
+        }
+      ) do |menu|
         if can_rename?
           menu.with_item(
             label: t('button_rename'),
