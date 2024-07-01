@@ -98,7 +98,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     ### taken from ActivitiesByWorkPackageAPI
     call = AddWorkPackageNoteService
       .new(user: User.current,
-          work_package: @work_package)
+           work_package: @work_package)
       .call(journal_params[:notes],
             send_notifications: !(params.has_key?(:notify) && params[:notify] == "false"))
     ###
@@ -107,7 +107,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       generate_time_based_update_streams(params[:last_update_timestamp], params[:filter])
     end
 
-    clear_form_via_turbo_stream
+    # clear_form_via_turbo_stream
 
     respond_with_turbo_streams
   end
