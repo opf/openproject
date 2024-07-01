@@ -1,0 +1,33 @@
+<%=
+  component_wrapper do
+    if journal.available_untaken_emojis.any?
+      render(Primer::Alpha::Overlay.new(
+        title: I18n.t("reactions.action_title"),
+        padding: :condensed,
+        anchor_side: :outside_top,
+        visually_hide_title: true
+      )) do |d|
+        # d.with_header(title: "React")
+        d.with_show_button(icon: "smiley", "aria-label": I18n.t("reactions.add_reaction"), title: I18n.t("reactions.add_reaction"))
+        d.with_body(pt: 2) do 
+          flex_layout do |add_reactions_container|
+            journal.available_untaken_emojis.each do |emoji|
+              add_reactions_container.with_column(mr: 2) do
+                render(Primer::Beta::Button.new(
+                  scheme: :invisible,
+                  id: "#{journal.id}-#{emoji}",
+                  tag: :a,
+                  href: toggle_reaction_work_package_activity_path(journal.journable.id, id: journal.id, emoji: emoji),
+                  data: { "turbo-stream": true, "turbo-method": :put},
+                  "aria-label": I18n.t("reactions.react_with", emoji_shortcode: EmojiReaction.shortcode(emoji)),
+                )) do
+                  emoji.html_safe
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

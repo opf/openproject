@@ -1,0 +1,21 @@
+<%=
+  component_wrapper do
+    if journal.detailed_grouped_emoji_reactions.any? 
+      flex_layout do |reactions_container|
+        journal.detailed_grouped_emoji_reactions.each do |emoji, data|
+          reactions_container.with_column(mr: 2) do
+            render(Primer::Beta::Button.new(
+              id: "#{journal.id}-#{emoji}",
+              tag: :a,
+              href: toggle_reaction_work_package_activity_path(journal.journable.id, id: journal.id, emoji: emoji),
+              data: { "turbo-stream": true, "turbo-method": :put} 
+            )) do |button|
+              button.with_tooltip(text: tooltip_text(emoji, data[:users]))
+              "#{emoji} #{data[:count]}".html_safe
+            end
+          end
+        end
+      end
+    end
+  end
+%>

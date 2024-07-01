@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,40 +24,46 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module WorkPackages
-  module ActivitiesTab
-    class IndexComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+module Reactable
+  extend ActiveSupport::Concern
 
-      def initialize(work_package:, filter: :all)
-        super
+  included do
+    has_many :emoji_reactions, as: :reactable, dependent: :destroy
+  end
 
-        @work_package = work_package
-        @filter = filter
-      end
+  def add_reaction(user, emoji)
+    emoji_reactions.create(user: user, emoji: emoji)
+  end
 
-      private
+  def remove_reaction(user, emoji)
+    emoji_reactions.find_by(user: user, emoji: emoji)&.destroy
+  end
 
-      attr_reader :work_package, :filter
+  def grouped_emoji_reactions
+    emoji_reactions.group(:emoji).count
+  end
 
-      def wrapper_data_attributes
+  def detailed_grouped_emoji_reactions
+    emoji_reactions
+      .select('emoji, COUNT(*) as count, ARRAY_AGG(user_id) as user_ids')
+      .group(:emoji)
+      .map do |result|
+        users = User.where(id: result.user_ids).select(:id, :firstname, :lastname)
         {
-          controller: "work-packages--activities-tab--index",
-          "application-target": "dynamic",
-          "work-packages--activities-tab--index-update-streams-url-value": update_streams_work_package_activities_url(work_package),
-          "work-packages--activities-tab--index-sorting-value": journal_sorting,
-          "work-packages--activities-tab--index-filter-value": filter,
-          "work-packages--activities-tab--index-polling-interval-in-ms-value": 10000 # protoypical implementation
+          emoji: result.emoji,
+          count: result.count,
+          users: users.map { |u| { id: u.id, name: u.name } }
         }
-      end
+      end.index_by { |r| r[:emoji] }
+  end
 
-      def journal_sorting
-        User.current.preference&.comments_sorting || "desc"
-      end
-    end
+  def available_emojis
+    EmojiReaction.available_emojis
+  end
+
+  def available_untaken_emojis
+    EmojiReaction.available_emojis - detailed_grouped_emoji_reactions.keys
   end
 end

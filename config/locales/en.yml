@@ -501,6 +501,14 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         Click to assign or change the color of this priority.
         It can be used for highlighting work packages in the table.
 
+  reactions:
+    action_title: "React"
+    add_reaction: "Add reaction"
+    react_with: "React with %{emoji_shortcode}"
+    and_n_others_singular: "and %{n} other"
+    and_n_others_plural: "and %{n} others"
+    reacted_with: "reacted with %{emoji_shortcode}"
+
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.

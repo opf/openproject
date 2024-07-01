@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,39 +24,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module WorkPackages
   module ActivitiesTab
-    class IndexComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+    module Journals
+      class ItemComponent::AddReactions < ApplicationComponent
+        include ApplicationHelper
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-      def initialize(work_package:, filter: :all)
-        super
+        def initialize(journal:)
+          super
 
-        @work_package = work_package
-        @filter = filter
-      end
+          @journal = journal
+        end
 
-      private
+        private
 
-      attr_reader :work_package, :filter
+        attr_reader :journal
 
-      def wrapper_data_attributes
-        {
-          controller: "work-packages--activities-tab--index",
-          "application-target": "dynamic",
-          "work-packages--activities-tab--index-update-streams-url-value": update_streams_work_package_activities_url(work_package),
-          "work-packages--activities-tab--index-sorting-value": journal_sorting,
-          "work-packages--activities-tab--index-filter-value": filter,
-          "work-packages--activities-tab--index-polling-interval-in-ms-value": 10000 # protoypical implementation
-        }
-      end
-
-      def journal_sorting
-        User.current.preference&.comments_sorting || "desc"
+        def wrapper_uniq_by
+          journal.id
+        end
       end
     end
   end

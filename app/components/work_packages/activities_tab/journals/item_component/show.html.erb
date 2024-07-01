@@ -18,6 +18,14 @@
             end
           end
         end
+        journal_container.with_row(mt: 3, flex_layout: true) do |reactions_container|
+          reactions_container.with_column do
+            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(journal:))
+          end
+          reactions_container.with_column do
+            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::AddReactions.new(journal:))
+          end
+        end
       end
     end
   end
