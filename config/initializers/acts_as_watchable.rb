@@ -3,11 +3,13 @@
 # For development and non-eager load mode, we need to load models using acts_as_watchable manually
 # as no eager loading takes place
 Rails.application.config.to_prepare do
-  Forum
-  Meeting
-  Message
-  News
-  Wiki
-  WikiPage
-  WorkPackage
+  OpenProject::Acts::Watchable::Registry.add(
+    Forum,
+    Meeting,
+    Message,
+    News,
+    Wiki,
+    WikiPage,
+    WorkPackage
+  )
 end
