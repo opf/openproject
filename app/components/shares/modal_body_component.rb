@@ -36,8 +36,6 @@ module Shares
     attr_reader :strategy,
                 :entity,
                 :shares,
-                :available_roles,
-                :sharing_manageable,
                 :errors
 
     def initialize(strategy:, shares:, errors: nil)
@@ -46,8 +44,6 @@ module Shares
       @strategy = strategy
       @entity = strategy.entity
       @shares = shares
-      @available_roles = strategy.available_roles
-      @sharing_manageable = strategy.manageable?
       @errors = errors
     end
 
@@ -104,15 +100,15 @@ module Shares
       end
     end
 
-    def type_filter_option_active?(option)
+    def type_filter_option_active?(option) # rubocop:disable Metrics/AbcSize
       principal_type_filter_value = current_filter_value(params[:filters], "principal_type")
       project_member_filter_value = current_filter_value(params[:filters], "also_project_member")
 
-      return false if principal_type_filter_value.nil? || project_member_filter_value.nil?
+      return false if principal_type_filter_value.nil? || (project_scoped_entity? && project_member_filter_value.nil?)
 
       principal_type_checked =
         option[:value][:principal_type] == principal_type_filter_value
-      membership_selected =
+      membership_selected = !project_scoped_entity? ||
         option[:value][:project_member] == ActiveRecord::Type::Boolean.new.cast(project_member_filter_value)
 
       principal_type_checked && membership_selected
@@ -123,7 +119,7 @@ module Shares
 
       return false if role_filter_value.nil?
 
-      selected_role = @available_roles.find { _1[:value] == option[:value] }
+      selected_role = strategy.available_roles.find { _1[:value] == option[:value] }
 
       selected_role[:value] == role_filter_value.to_i
     end
@@ -181,14 +177,18 @@ module Shares
     end
 
     def type_filter_for(option)
-      filter = []
-      if ActiveRecord::Type::Boolean.new.cast(option[:value][:project_member])
-        filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_TRUE] } })
-      else
-        filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] } })
+      filter = [
+        { principal_type: { operator: "=", values: [option[:value][:principal_type]] } }
+      ]
+
+      if project_scoped_entity?
+        if ActiveRecord::Type::Boolean.new.cast(option[:value][:project_member])
+          filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_TRUE] } })
+        else
+          filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] } })
+        end
       end
 
-      filter.push({ principal_type: { operator: "=", values: [option[:value][:principal_type]] } })
       filter
     end
 

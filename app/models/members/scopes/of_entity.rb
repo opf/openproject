@@ -33,8 +33,11 @@ module Members::Scopes
     class_methods do
       # Find all members of a specific Work Package
       def of_entity(entity)
-        of_any_entity
-          .where(entity:)
+        if entity.respond_to?(:project)
+          where(project: entity.project, entity:)
+        else
+          where(project: nil, entity:)
+        end
       end
     end
   end

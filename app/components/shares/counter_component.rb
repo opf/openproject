@@ -34,26 +34,22 @@ module Shares
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(entity:,
-                   count:,
-                   sharing_manageable:)
+    def initialize(strategy:, count:)
       super
 
-      @entity = entity
+      @strategy = strategy
+      @entity = strategy.entity
       @count = count
-      @sharing_manageable = sharing_manageable
     end
 
     private
 
-    attr_reader :entity, :count
-
-    def sharing_manageable? = @sharing_manageable
+    attr_reader :entity, :count, :strategy
 
     def shared_with_anyone_else_other_than_myself?
       Member.of_entity(@entity)
             .where.not(principal: User.current)
-            .any?
+            .exists?
     end
   end
 end

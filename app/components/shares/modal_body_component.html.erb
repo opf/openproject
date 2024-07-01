@@ -2,7 +2,7 @@
   component_wrapper(tag: 'turbo-frame') do
     flex_layout(data: { turbo: true }) do |modal_content|
       modal_content.with_row do
-        render(Shares::InviteUserFormComponent.new(strategy: strategy, errors: errors))
+        render(Shares::InviteUserFormComponent.new(strategy:, errors: errors))
       end
 
       modal_content.with_row(mt: 3,
@@ -13,9 +13,7 @@
           border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-dialog-header' }) do
             grid_layout('op-share-dialog-modal-body--header', tag: :div, align_items: :center) do |header_grid|
               header_grid.with_area(:counter, tag: :div) do
-                render(Shares::CounterComponent.new(entity: @entity,
-                                                    count: @shares.size,
-                                                    sharing_manageable: @sharing_manageable))
+                render(Shares::CounterComponent.new(strategy:, count: @shares.size))
               end
 
               header_grid.with_area(:actions,
@@ -57,7 +55,7 @@
                         button.with_trailing_action_icon(icon: "triangle-down")
                         I18n.t('sharing.filter.role')
                       end
-                      @available_roles.each do |role_hash|
+                      strategy.available_roles.each do |role_hash|
                         menu.with_item(label: role_hash[:label],
                                        href: filter_url(role_option: role_hash),
                                        method: :get,
@@ -74,13 +72,11 @@
                                     tag: :div,
                                     hidden: true, # Prevent flicker on initial render
                                     data: { 'shares--bulk-selection-target': 'bulkActions' }) do
-                if @sharing_manageable
-                  concat(
-                    render(Shares::BulkPermissionButtonComponent.new(entity: @entity, available_roles: @available_roles))
-                  )
+                if strategy.manageable?
+                  concat(render(Shares::BulkPermissionButtonComponent.new(strategy:)))
 
                   concat(
-                    form_with(url: url_for([:bulk, @entity, Member]),
+                    form_with(url: url_for([:bulk, entity, Member]),
                               method: :delete,
                               data: { 'shares--bulk-selection-target': 'bulkForm' }) do
                       render(Primer::Beta::IconButton.new(icon: "trash",
@@ -95,7 +91,7 @@
             end
           end
 
-          if @shares.blank?
+          if @shares.none?
             border_box.with_row do
               render(Primer::Beta::Blankslate.new) do |component|
                 component.with_visual_icon(icon: blankslate_config[:icon], size: :medium)
@@ -111,10 +107,7 @@
             end
           else
             @shares.each do |share|
-              render(Shares::ShareRowComponent.new(share: share,
-                                                   available_roles: @available_roles,
-                                                   sharing_manageable: @sharing_manageable,
-                                                   container: border_box))
+              render(Shares::ShareRowComponent.new(share:, strategy:, container: border_box))
             end
           end
         end
