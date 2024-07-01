@@ -45,12 +45,13 @@ module Projects
         OpenProject::Menu::MenuGroup.new(header: nil, children: main_static_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.public"), children: public_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.my_private"), children: my_filters),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.shared"), children: shared_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"activerecord.attributes.project.status_code"),
                                          children: status_static_filters)
       ]
     end
 
-    def selected?(query_params)
+    def selected?(query_params) # rubocop:disable Metrics/AbcSize
       case controller_path
       when "projects"
         case params[:query_id]
@@ -96,17 +97,26 @@ module Projects
     end
 
     def public_filters
-      ::ProjectQuery
-        .public_lists
-        .order(:name)
+      persisted_filters
+        .select(&:public?)
         .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
     def my_filters
-      ::ProjectQuery
-        .private_lists(user: current_user)
-        .order(:name)
+      persisted_filters
+        .select { |query| query.user == current_user }
         .map { |query| menu_item(query.name, query_id: query.id) }
+    end
+
+    def shared_filters
+      persisted_filters
+        .select { |query| !query.public? && query.user != current_user }
+        # query is not public and not owned by the user, so it must be shared with them
+        .map { |query| menu_item(query.name, query_id: query.id) }
+    end
+
+    def persisted_filters
+      @persisted_filters = ::ProjectQuery.visible(current_user).order(:name)
     end
 
     def modification_params?
