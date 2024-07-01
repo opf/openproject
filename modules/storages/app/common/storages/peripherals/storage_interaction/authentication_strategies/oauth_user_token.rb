@@ -67,7 +67,7 @@ module Storages
 
             if storage.oauth_client.blank?
               log_message = "Authorization failed. Storage has no configured oauth client credentials."
-              return Failures::Builder.call(code: :unauthorized, log_message:, data:)
+              return Failures::Builder.call(code: :error, log_message:, data:)
             end
 
             current_token = OAuthClientToken.find_by(user: @user,
@@ -94,9 +94,9 @@ module Storages
                                         .with_access_token
                                         .with(http_options)
             rescue HTTPX::HTTPError => e
-              return Failures::Builder.call(code: :unauthorized,
-                                            log_message: "Error while refreshing OAuth token.",
-                                            data: Failures::ErrorData.call(response: e.response, source: self.class))
+              return handle_http_error_on_refresh(token, e)
+            rescue HTTPX::TimeoutError => e
+              return handle_timeout_on_refresh(token, e)
             end
 
             response = yield http_session
@@ -122,6 +122,35 @@ module Storages
             refresh_token = oauth.refresh_token
 
             token.update(access_token:, refresh_token:)
+          end
+
+          def log_and_destroy_token(token, log_message)
+            Rails.logger.error(log_message)
+            token.destroy
+          end
+
+          def handle_http_error_on_refresh(token, exception)
+            log_message = "Error while refreshing OAuth token."
+            data = Failures::ErrorData.call(response: exception.response, source: self.class)
+
+            Rails.logger.error("#{log_message} - Payload: #{data.payload}")
+
+            # Delete token from database to enforce new user login
+            token.destroy
+
+            Failures::Builder.call(code: :unauthorized, log_message:, data:)
+          end
+
+          def handle_timeout_on_refresh(token, exception)
+            log_message = "Timeout while refreshing OAuth token."
+            data = Failures::TimeoutErrorData.call(error: exception, source: self.class)
+
+            Rails.logger.error("#{log_message} - Payload: #{data.payload}")
+
+            # Delete token from database to enforce new user login
+            token.destroy
+
+            Failures::Builder.call(code: :unauthorized, log_message:, data:)
           end
 
           def build_failure(storage)
