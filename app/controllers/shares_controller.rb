@@ -342,7 +342,7 @@ class SharesController < ApplicationController
     return @query if defined?(@query)
 
     @query = ParamsToQueryService
-               .new(Member, current_user, query_class: Queries::Members::EntityMemberQuery)
+               .new(Member, current_user, query_class: Queries::Members::NonInheritedMemberQuery)
                .call(params)
 
     # Set default filter on the entity
