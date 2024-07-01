@@ -57,6 +57,10 @@ module Storages
       end
     end
 
+    def manual_management_possible?
+      !automatic_management_enabled?
+    end
+
     def oauth_configuration
       Peripherals::OAuthConfigurations::OneDriveConfiguration.new(self)
     end

@@ -61,6 +61,10 @@ module Storages
       storage.present? && storage.automatic_management_enabled?
     end
 
+    def manual_management_possible?
+      storage&.manual_management_possible?
+    end
+
     def managed_project_folder_path
       managed_folder_identifier.path
     end

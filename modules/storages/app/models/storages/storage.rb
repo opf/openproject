@@ -149,6 +149,10 @@ module Storages
 
     alias automatic_management_enabled automatically_managed
 
+    def manual_management_possible?
+      true
+    end
+
     def configured?
       configuration_checks.values.all?
     end

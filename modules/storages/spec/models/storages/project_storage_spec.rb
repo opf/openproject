@@ -113,6 +113,38 @@ RSpec.describe Storages::ProjectStorage do
     end
   end
 
+  describe "#manual_management_possible?" do
+    let(:project_storage) { build_stubbed(:project_storage, storage:) }
+
+    context "when the storage is not a OneDriveStorage" do
+      let(:storage) { build_stubbed(:storage, :as_generic) }
+
+      it "returns true" do
+        expect(project_storage.manual_management_possible?).to be true
+      end
+    end
+
+    context "when the storage is a OneDriveStorage" do
+      let(:storage) { build_stubbed(:one_drive_storage) }
+
+      context "when the storage is not automatically managed" do
+        it "returns true" do
+          expect(project_storage.manual_management_possible?).to be true
+        end
+      end
+
+      context "when the storage is automatically managed" do
+        before do
+          storage.automatically_managed = true
+        end
+
+        it "returns false" do
+          expect(project_storage.manual_management_possible?).to be false
+        end
+      end
+    end
+  end
+
   describe "#project_folder_mode" do
     let(:project_storage) { build(:project_storage) }
 
