@@ -33,9 +33,11 @@ module OpenProject
         models[model_name.singularize.camelize]
       end
 
-      def add(*models)
+      def add(*models, reset: false)
         instance_methods_module = module_parent.const_get(:InstanceMethods)
         acts_as_method_name = "acts_as_#{module_parent_name.demodulize.underscore}"
+
+        self.models.clear if reset
 
         models.each do |model|
           unless model.ancestors.include?(instance_methods_module)

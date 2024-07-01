@@ -86,5 +86,26 @@ RSpec.describe OpenProject::Acts::RegistryMethods do
         expect(registry.instance("models")).to eq(reloaded_model)
       end
     end
+
+    describe "after registry reset" do
+      let(:other_model) { Class.new }
+
+      before do
+        other_model.include instance_methods_module
+
+        allow(other_model).to receive(:name).and_return("OtherModel")
+
+        registry.add(model)
+        registry.add(other_model, reset: true)
+      end
+
+      it "doesn't return model registered before reset" do
+        expect(registry.instance("models")).to be_nil
+      end
+
+      it "returns model registered after reset" do
+        expect(registry.instance("other_models")).to eq(other_model)
+      end
+    end
   end
 end

@@ -10,6 +10,7 @@ Rails.application.config.to_prepare do
     News,
     Wiki,
     WikiPage,
-    WorkPackage
+    WorkPackage,
+    reset: true
   )
 end

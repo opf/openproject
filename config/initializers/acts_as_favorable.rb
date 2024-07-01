@@ -4,6 +4,7 @@
 # as no eager loading takes place
 Rails.application.config.to_prepare do
   OpenProject::Acts::Favorable::Registry.add(
-    Project
+    Project,
+    reset: true
   )
 end
