@@ -160,7 +160,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
     visit project_path(project)
 
     page.find_test_selector("main-menu-toggler--work_packages").click
-    expect(page).to have_css(".op-view-select--search-results")
+    expect(page).to have_test_selector("op-sidebar--body")
     find(".op-sidemenu--item-action", text: query.name).click
 
     expect(page).to have_no_css(".title-container", text: "Overview")
