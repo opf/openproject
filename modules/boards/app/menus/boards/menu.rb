@@ -42,6 +42,7 @@ module Boards
                   .where(project: @project)
                   .pluck(:id, :name)
                   .map { |id, name| menu_item(name, query_params(id)) }
+                  .sort_by(&:title)
     end
 
     def starred_queries
