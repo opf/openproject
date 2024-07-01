@@ -40,7 +40,7 @@ module SharingStrategies
       raise NotImplementedError, "Override in a subclass and return an array of roles that should be displayed"
     end
 
-    def sharing_manageable?
+    def manageable?
       raise NotImplementedError, "Override in a subclass and return true if the current user can manage sharing"
     end
 

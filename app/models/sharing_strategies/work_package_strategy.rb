@@ -45,7 +45,7 @@ module SharingStrategies
       ]
     end
 
-    def sharing_manageable?
+    def manageable?
       user.allowed_in_project?(:share_work_packages, @entity.project)
     end
 

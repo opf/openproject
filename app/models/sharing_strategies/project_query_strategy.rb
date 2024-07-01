@@ -39,7 +39,7 @@ module SharingStrategies
       end
     end
 
-    def sharing_manageable?
+    def manageable?
       @entity.editable?
     end
 
