@@ -58,7 +58,6 @@ import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-tria
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { ViewSelectComponent } from 'core-app/shared/components/op-view-select/op-view-select.component';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import {
   highlightColSelector,
@@ -207,8 +206,6 @@ export function bootstrapModule(injector:Injector):void {
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,
 
-    ViewSelectComponent,
-
     // Old datepickers
     OpMultiDatePickerComponent,
 
@@ -220,8 +217,6 @@ export function bootstrapModule(injector:Injector):void {
     ViewsResourceService,
   ],
   declarations: [
-    ViewSelectComponent,
-
     ToastsContainerComponent,
     ToastComponent,
     UploadProgressComponent,
