@@ -75,9 +75,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
     update_via_turbo_stream(component: Storages::Admin::Forms::GeneralInfoFormComponent.new(@storage))
 
-    respond_with_turbo_streams do |format|
-      format.html
-    end
+    respond_with_turbo_streams(&:html)
   end
 
   def upsale; end
@@ -111,6 +109,7 @@ class Storages::Admin::StoragesController < ApplicationController
     service_result.on_success do
       if @storage.provider_type_one_drive?
         prepare_storage_for_access_management_form
+        update_via_turbo_stream(component: Storages::Admin::Forms::AccessManagementFormComponent.new(@storage))
       end
 
       update_via_turbo_stream(component: Storages::Admin::GeneralInfoComponent.new(@storage))
@@ -123,10 +122,6 @@ class Storages::Admin::StoragesController < ApplicationController
             submit_button_options: { data: { turbo_stream: true } }
           )
         )
-      end
-
-      if @storage.provider_type_one_drive?
-        update_via_turbo_stream(component: Storages::Admin::Forms::AccessManagementFormComponent.new(@storage))
       end
     end
 
