@@ -3342,7 +3342,7 @@ zh-CN:
       group: "组"
       role: "角色"
       type: "类型"
-    denied: "您没有共享工作包的权限。"
+    denied: "You don't have permissions to share %{entities}."
     label_search: "搜索要邀请的用户"
     label_search_placeholder: "按用户名或电子邮件地址搜索"
     label_toggle_all: "切换所有共享"
