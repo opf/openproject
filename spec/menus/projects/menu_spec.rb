@@ -49,11 +49,17 @@ RSpec.describe Projects::Menu do
     ProjectQuery.create!(name: "Public query", user: build(:user), public: true)
   end
 
+  shared_let(:shared_query) do
+    query = ProjectQuery.create!(name: "Shared query", user: build(:user))
+    create(:project_query_member, entity: query, user: current_user, roles: [create(:view_project_query_role)])
+    query
+  end
+
   subject(:menu_items) { instance.menu_items }
 
   it "returns 4 menu groups" do
     expect(menu_items).to all(be_a(OpenProject::Menu::MenuGroup))
-    expect(menu_items.length).to eq(4)
+    expect(menu_items.length).to eq(5)
   end
 
   describe "children items" do
@@ -93,6 +99,10 @@ RSpec.describe Projects::Menu do
 
     it "contains item for public query" do
       expect(children_menu_items).to include(have_attributes(title: "Public query"))
+    end
+
+    it "contains item for shared query" do
+      expect(children_menu_items).to include(have_attributes(title: "Shared query"))
     end
   end
 

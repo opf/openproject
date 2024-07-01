@@ -61,4 +61,9 @@ FactoryBot.define do
     entity factory: %i[work_package]
     project { entity.project }
   end
+
+  factory :project_query_member, parent: :member do
+    entity factory: %i[project_query]
+    project { nil }
+  end
 end
