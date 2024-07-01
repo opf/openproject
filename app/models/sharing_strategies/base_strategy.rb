@@ -28,7 +28,7 @@
 
 module SharingStrategies
   class BaseStrategy
-    attr_reader :entity, user
+    attr_reader :entity, :user
 
     def initialize(entity, user: User.current)
       @entity = entity
