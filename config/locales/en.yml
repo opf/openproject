@@ -517,7 +517,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         excluded_from_totals: "Excluded from totals"
 
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Light"
     light_high_contrast: "Light high contrast"
 
@@ -794,6 +794,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
         theme: "Mode"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Finish date"
         sharing: "Sharing"
