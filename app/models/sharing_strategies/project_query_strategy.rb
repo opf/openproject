@@ -22,18 +22,15 @@ module SharingStrategies
     end
 
     def create_contract_class
-      # Shares::WorkPackages::CreateContract
-      EmptyContract
+      Shares::ProjectQueries::CreateContract
     end
 
     def update_contract_class
-      # Shares::WorkPackages::UpdateContract
-      EmptyContract
+      Shares::ProjectQueries::UpdateContract
     end
 
     def delete_contract_class
-      # Shares::WorkPackages::DeleteContract
-      EmptyContract
+      Shares::ProjectQueries::DeleteContract
     end
   end
 end
