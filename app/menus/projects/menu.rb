@@ -26,31 +26,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Menus
-  class Projects
+module Projects
+  class Menu < Submenu
     include Rails.application.routes.url_helpers
 
     attr_reader :controller_path, :params, :current_user
 
-    def initialize(controller_path:, params:, current_user:)
-      # rubocop:disable Rails/HelperInstanceVariable
-      @controller_path = controller_path
+    def initialize(params:, controller_path:, current_user:)
       @params = params
+      @controller_path = controller_path
       @current_user = current_user
-      # rubocop:enable Rails/HelperInstanceVariable
+
+      super(view_type:, project:, params:)
     end
 
-    def first_level_menu_items
+    def menu_items
       [
-        OpenProject::Menu::MenuGroup.new(header: nil,
-                                         children: main_static_filters),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.public"),
-                                         children: public_filters),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.my_private"),
-                                         children: my_filters),
+        OpenProject::Menu::MenuGroup.new(header: nil, children: main_static_filters),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.public"), children: public_filters),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.my_private"), children: my_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"activerecord.attributes.project.status_code"),
                                          children: status_static_filters)
       ]
+    end
+
+    def selected?(query_params)
+      case controller_path
+      when "projects"
+        case params[:query_id]
+        when nil
+          query_params[:query_id].to_s == Queries::Projects::Factory::DEFAULT_STATIC
+        when /\A\d+\z/
+          query_params[:query_id].to_s == params[:query_id]
+        else
+          query_params[:query_id].to_s == params[:query_id] unless modification_params?
+        end
+      when "projects/queries"
+        query_params[:query_id].to_s == params[:id]
+      end
+    end
+
+    def query_path(query_params)
+      projects_path(query_params)
     end
 
     private
@@ -74,7 +91,7 @@ module Menus
 
     def static_filters(ids)
       ids.map do |id|
-        query_menu_item(::Queries::Projects::Factory.static_query(id), id:)
+        menu_item(::Queries::Projects::Factory.static_query(id).name, query_id: id)
       end
     end
 
@@ -82,36 +99,14 @@ module Menus
       ::ProjectQuery
         .public_lists
         .order(:name)
-        .map { |query| query_menu_item(query) }
+        .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
     def my_filters
       ::ProjectQuery
         .private_lists(user: current_user)
         .order(:name)
-        .map { |query| query_menu_item(query) }
-    end
-
-    def query_menu_item(query, id: nil)
-      OpenProject::Menu::MenuItem.new(title: query.name,
-                                      href: projects_path(query_id: id || query.id),
-                                      selected: query_item_selected?(id || query.id))
-    end
-
-    def query_item_selected?(id)
-      case controller_path
-      when "projects"
-        case params[:query_id]
-        when nil
-          id.to_s == Queries::Projects::Factory::DEFAULT_STATIC
-        when /\A\d+\z/
-          id.to_s == params[:query_id]
-        else
-          id.to_s == params[:query_id] unless modification_params?
-        end
-      when "projects/queries"
-        id.to_s == params[:id]
-      end
+        .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
     def modification_params?

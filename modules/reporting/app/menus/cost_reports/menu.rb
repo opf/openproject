@@ -46,13 +46,13 @@ module CostReports
     def global_queries
       CostQuery.public(project)
         .pluck(:id, :name)
-        .map { |id, name| menu_item(query_params(id), name) }
+        .map { |id, name| menu_item(name, query_params(id)) }
     end
 
     def custom_queries
       CostQuery.private(project, User.current)
         .pluck(:id, :name)
-        .map { |id, name| menu_item(query_params(id), name) }
+        .map { |id, name| menu_item(name, query_params(id)) }
     end
 
     def selected?(query_params)

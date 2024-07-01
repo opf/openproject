@@ -904,6 +904,11 @@ ms:
       preformatted_text: "Teks yang telah dipraformatkan"
       wiki_link: "Pautan ke halaman Wiki"
       image: "Imej"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Perubahan projek secara pukal"
@@ -1059,12 +1064,8 @@ ms:
         is_parent: "Tarikh pakej kerja ini disimpulkan secara automatik dari anaknya. Aktifkan 'Penjadualan Manual' untuk tetapkan tarikh."
         is_switched_from_manual_to_automatic: "Tarikh pakej kerja ini mungkin perlu dikira semula selepas menukar dari penjadualan manual ke automatik kerana hubungan dengan pakej kerja lain."
       sharing:
-        share: "Kongsi"
         title: "Kongsi pakej kerja"
         show_all_users: "Paparkan kepada semua pengguna dengan siapa pakej kerja telah dikongsikan"
-        selected_count: "%{count} dipilih"
-        selection:
-          mixed: "Bercampur"
         upsale:
           description: "Kongsi pakej kerja dengan pengguna yang bukan ahli projek."
       table:

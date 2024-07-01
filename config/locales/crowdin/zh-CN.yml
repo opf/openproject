@@ -911,7 +911,7 @@ zh-CN:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "请选择一个项目。"
         query:
           attributes:
             project:
@@ -2565,7 +2565,7 @@ zh-CN:
   notice_principals_found_multiple: "找到 %{number} 条结果。\n 点击以关注第一条结果。"
   notice_principals_found_single: "这有一个结果。\n点击来关注它。"
   notice_project_not_deleted: "项目没有被删除"
-  notice_project_not_found: "Project not found."
+  notice_project_not_found: "未找到项目。"
   notice_successful_connection: "成功连接。"
   notice_successful_create: "成功创建。"
   notice_successful_delete: "成功删除。"
@@ -3321,54 +3321,56 @@ zh-CN:
         work_based_help_text: "完成百分比由 \"工时\" 和 \"剩余工时\" 自动得出。"
         status_based_help_text: "完成百分比由工作包状态设定。"
         migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
-    sharing:
-      count:
-        zero: "0 个用户"
-        one: "1 个用户"
-        other: "%{count} 个用户"
-      filter:
-        project_member: "项目成员"
-        not_project_member: "非项目成员"
-        project_group: "项目组"
-        not_project_group: "非项目组"
-        role: "角色"
-        type: "类型"
-      label_search: "搜索要邀请的用户"
-      label_search_placeholder: "按用户名或电子邮件地址搜索"
-      label_toggle_all: "切换所有共享"
-      permissions:
-        comment: "评论"
-        comment_description: "可以查看和评论此工作包。"
-        denied: "您没有共享工作包的权限。"
-        edit: "编辑"
-        edit_description: "可以查看、评论和编辑此工作包。"
-        view: "查看"
-        view_description: "可以查看此工作包。"
-      remove: "移除"
-      share: "分享"
-      text_empty_search_description: "没有符合当前过滤条件的用户。"
-      text_empty_search_header: "我们找不到任何匹配的结果。"
-      text_empty_state_description: "工作包尚未共享给任何人。"
-      text_empty_state_header: "未共享"
-      text_user_limit_reached: "添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。"
-      text_user_limit_reached_admins: '添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>以添加更多用户。'
-      warning_user_limit_reached: >
-        添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。
-      warning_user_limit_reached_admin: >
-        添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此工作包。
-      warning_no_selected_user: "请选择要共享此工作包的用户"
-      warning_locked_user: "用户 %{user} 已被锁定且无法被分享"
-      user_details:
-        locked: "锁定的用户"
-        invited: "邀请已发送。 "
-        resend_invite: "重新发送。"
-        invite_resent: "邀请已重新发送"
-        not_project_member: "非项目成员"
-        project_group: "组成员可能具有额外的权限（作为项目成员）"
-        not_project_group: "组 (与所有成员共享)"
-        additional_privileges_project: "可能有额外的权限(作为项目成员)"
-        additional_privileges_group: "可能有额外的权限(作为群组成员)"
-        additional_privileges_project_or_group: "可能有额外的权限(作为项目成员或组成员)"
+    permissions:
+      comment: "评论"
+      comment_description: "可以查看和评论该工作包。"
+      edit: "编辑"
+      edit_description: "可以查看、评论和编辑此工作包。"
+      view: "查看"
+      view_description: "可以查看此工作包。"
+  sharing:
+    count:
+      zero: "0 个用户"
+      one: "1 个用户"
+      other: "%{count} 个用户"
+    filter:
+      project_member: "项目成员"
+      not_project_member: "非项目成员"
+      project_group: "项目组"
+      not_project_group: "非项目组"
+      user: "用户"
+      group: "组"
+      role: "角色"
+      type: "类型"
+    denied: "You don't have permissions to share %{entities}."
+    label_search: "搜索要邀请的用户"
+    label_search_placeholder: "按用户名或电子邮件地址搜索"
+    label_toggle_all: "切换所有共享"
+    remove: "移除"
+    share: "共享"
+    text_empty_search_description: "没有符合当前过滤条件的用户。"
+    text_empty_search_header: "我们找不到任何匹配结果。"
+    text_empty_state_description: "%{entity} 尚未与任何人共享。"
+    text_empty_state_header: "未共享"
+    text_user_limit_reached: "添加其他用户将超出当前限制。请联系管理员增加用户限制，以确保外部用户能够访问 %{entity}。"
+    text_user_limit_reached_admins: '添加更多用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以便添加更多用户。'
+    warning_user_limit_reached: >
+      添加其他用户将超出当前限制。请联系管理员增加用户限制，以确保外部用户能够访问 %{entity}。
+    warning_user_limit_reached_admin: >
+      添加其他用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问 %{entity}。
+    warning_no_selected_user: "请选择要与之共享此 %{entity} 的用户"
+    warning_locked_user: "用户 %{user} 已锁定，不能与他人共享。"
+    user_details:
+      locked: "锁定用户"
+      invited: "邀请已发送。 "
+      resend_invite: "重新发送。"
+      invite_resent: "邀请已重新发送"
+      not_project_member: "非项目成员"
+      project_group: "小组成员可能拥有额外权限（作为项目成员）"
+      not_project_group: "组 (与所有成员共享)"
+      additional_privileges_project: "可能有额外的权限(作为项目成员)"
+      additional_privileges_group: "可能有额外的权限(作为组成员)"
+      additional_privileges_project_or_group: "可能有额外的权限(作为项目成员或组成员)"
   working_days:
     info: >
       在安排工作包时，未选择的日期将被跳过（且不计入天数）。可以在工作包级别覆盖这些选项。

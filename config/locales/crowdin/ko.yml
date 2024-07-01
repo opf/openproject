@@ -3328,54 +3328,56 @@ ko:
         work_based_help_text: "완료 %는 작업 및 남은 작업에서 자동으로 파생됩니다."
         status_based_help_text: "완료 %는 작업 패키지 상태에 따라 설정됩니다."
         migration_warning_text: "작업 기반 진행률 계산 모드에서 완료 %는 수동으로 설정할 수 없으며 작업에 연결됩니다. 기존 값은 유지되지만 편집할 수 없습니다. 먼저 작업을 입력하세요."
-    sharing:
-      count:
-        zero: "사용자 0명"
-        one: "사용자 1명"
-        other: "사용자 %{count}명"
-      filter:
-        project_member: "프로젝트 멤버"
-        not_project_member: "프로젝트 멤버 아님"
-        project_group: "프로젝트 그룹"
-        not_project_group: "프로젝트 그룹 없음"
-        role: "역할"
-        type: "타입"
-      label_search: "초대할 사용자 검색"
-      label_search_placeholder: "사용자 또는 이메일 주소로 검색"
-      label_toggle_all: "모든 공유 토글"
-      permissions:
-        comment: "코멘트"
-        comment_description: "이 작업 패키지를 보고 코멘트를 작성할 수 있습니다."
-        denied: "작업 패키지를 공유할 권한이 없습니다."
-        edit: "편집"
-        edit_description: "이 작업 패키지를 보고 코멘트를 작성하고 편집할 수 있습니다."
-        view: "보기"
-        view_description: "이 작업 패키지를 볼 수 있습니다."
-      remove: "제거"
-      share: "공유하기"
-      text_empty_search_description: "현재 필터 기준의 사용자가 없습니다."
-      text_empty_search_header: "일치하는 결과를 찾을 수 없습니다."
-      text_empty_state_description: "작업 패키지가 아직 누구와도 공유되지 않았습니다."
-      text_empty_state_header: "공유 안 됨"
-      text_user_limit_reached: "사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 작업 패키지에 액세스할 수 있도록 관리자에게 문의하여 사용자 한도를 늘리세요."
-      text_user_limit_reached_admins: '사용자를 더 추가하면 현재 한도가 초과됩니다. 사용자를 더 추가할 수 있도록 하려면 <a href="%{upgrade_url}">플랜을 업그레이드</a>하세요.'
-      warning_user_limit_reached: >
-        사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 작업 패키지에 액세스할 수 있도록 관리자에게 문의하여 사용자 한도를 늘리세요.
-      warning_user_limit_reached_admin: >
-        사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 작업 패키지에 액세스할 수 있도록 하려면 <a href="%{upgrade_url}">플랜을 업그레이드</a>하세요.
-      warning_no_selected_user: "이 작업 패키지를 공유할 사용자를 선택하세요"
-      warning_locked_user: "%{user} 사용자는 잠겨 있어 공유할 수 없습니다"
-      user_details:
-        locked: "잠긴 사용자"
-        invited: "초대장 전송됨. "
-        resend_invite: "다시 보내기."
-        invite_resent: "초대장을 다시 보냈습니다"
-        not_project_member: "프로젝트 멤버 아님"
-        project_group: "그룹 멤버는 (프로젝트 멤버로서) 추가적인 권한을 가질 수 있습니다"
-        not_project_group: "그룹(모든 멤버와 공유됨)"
-        additional_privileges_project: "(프로젝트 멤버로서) 추가적인 권한을 가질 수 있습니다"
-        additional_privileges_group: "(그룹 멤버로서) 추가적인 권한을 가질 수 있습니다"
-        additional_privileges_project_or_group: "(프로젝트 또는 그룹 멤버로서) 추가적인 권한을 가질 수 있습니다"
+    permissions:
+      comment: "Comment"
+      comment_description: "Can view and comment this work package."
+      edit: "Edit"
+      edit_description: "Can view, comment and edit this work package."
+      view: "View"
+      view_description: "Can view this work package."
+  sharing:
+    count:
+      zero: "0 users"
+      one: "1 user"
+      other: "%{count} users"
+    filter:
+      project_member: "Project member"
+      not_project_member: "Not project member"
+      project_group: "Project group"
+      not_project_group: "Not project group"
+      user: "User"
+      group: "Group"
+      role: "Role"
+      type: "Type"
+    denied: "You don't have permissions to share %{entities}."
+    label_search: "Search for users to invite"
+    label_search_placeholder: "Search by user or email address"
+    label_toggle_all: "Toggle all shares"
+    remove: "Remove"
+    share: "Share"
+    text_empty_search_description: "There are no users with the current filter criteria."
+    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
+    text_empty_state_header: "Not shared"
+    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
+    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    warning_user_limit_reached: >
+      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+    warning_user_limit_reached_admin: >
+      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
+    warning_no_selected_user: "Please select users to share this %{entity} with"
+    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    user_details:
+      locked: "Locked user"
+      invited: "Invite sent. "
+      resend_invite: "Resend."
+      invite_resent: "Invite has been resent"
+      not_project_member: "Not a project member"
+      project_group: "Group members might have additional privileges (as project members)"
+      not_project_group: "Group (shared with all members)"
+      additional_privileges_project: "Might have additional privileges (as project member)"
+      additional_privileges_group: "Might have additional privileges (as group member)"
+      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.

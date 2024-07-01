@@ -46,7 +46,8 @@ module OpenProject::Bim
         permission :view_ifc_models,
                    {
                      "bim/ifc_models/ifc_models": %i[index show defaults],
-                     "bim/ifc_models/ifc_viewer": %i[show]
+                     "bim/ifc_models/ifc_viewer": %i[show],
+                     "bim/menus": %i[show]
                    },
                    permissible_on: :project,
                    contract_actions: { ifc_models: %i[read] }
@@ -105,7 +106,7 @@ module OpenProject::Bim
         menu.push :ifc_viewer_panels,
                   { controller: "/bim/ifc_models/ifc_models", action: "defaults" },
                   parent: :ifc_models,
-                  partial: "/bim/ifc_models/ifc_models/panels"
+                  partial: "/bim/menus/menu"
       end
     end
 

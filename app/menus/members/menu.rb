@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,34 +25,30 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module Members
+  class Menu < Submenu
+    attr_reader :project, :params
 
-module Menus
-  module MembersHelper
-    def first_level_menu_items
-      [OpenProject::Menu::MenuGroup.new(header: nil, children: user_status_options)] + nested_menu_items
+    def initialize(project: nil, params: nil)
+      super(view_type: nil, project:, params:)
     end
 
-    private
+    def menu_items
+      [
+        OpenProject::Menu::MenuGroup.new(header: nil, children: user_status_options),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t("members.menu.project_roles"), children: project_roles_entries),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t("members.menu.wp_shares"), children: permission_menu_entries),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t("members.menu.groups"), children: project_group_entries)
+      ]
+    end
 
     def user_status_options
       [
         OpenProject::Menu::MenuItem.new(title: I18n.t("members.menu.all"),
-                                        href: project_members_path,
+                                        href: project_members_path(project),
                                         selected: active_filter_count == 0),
-        OpenProject::Menu::MenuItem.new(title: I18n.t("members.menu.locked"),
-                                        href: project_members_path(status: :locked),
-                                        selected: selected?(:status, :locked)),
-        OpenProject::Menu::MenuItem.new(title: I18n.t("members.menu.invited"),
-                                        href: project_members_path(status: :invited),
-                                        selected: selected?(:status, :invited))
-      ]
-    end
-
-    def nested_menu_items
-      [
-        OpenProject::Menu::MenuGroup.new(header: I18n.t("members.menu.project_roles"), children: project_roles_entries),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t("members.menu.wp_shares"), children: permission_menu_entries),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t("members.menu.groups"), children: project_group_entries)
+        menu_item(I18n.t("members.menu.locked"), status: :locked),
+        menu_item(I18n.t("members.menu.invited"), status: :invited)
       ]
     end
 
@@ -61,13 +57,13 @@ module Menus
         .where(id: MemberRole.where(member_id: @project.members.select(:id)).select(:role_id))
         .distinct
         .pluck(:id, :name)
-        .map { |id, name| menu_item(:role_id, id, name) }
+        .map { |id, name| menu_item(name, role_id: id) }
     end
 
     def permission_menu_entries
       Members::UserFilterComponent
         .share_options
-        .map { |name, id| menu_item(:shared_role_id, id, name) }
+        .map { |name, id| menu_item(name, shared_role_id: id) }
     end
 
     def project_group_entries
@@ -76,19 +72,17 @@ module Menus
         .order(lastname: :asc)
         .distinct
         .pluck(:id, :lastname)
-        .map { |id, name| menu_item(:group_id, id, name) }
+        .map { |id, name| menu_item(name, group_id: id) }
     end
 
-    def menu_item(filter_key, id, name)
-      OpenProject::Menu::MenuItem.new(title: name,
-                                      href: project_members_path(filter_key => id),
-                                      selected: selected?(filter_key, id))
-    end
-
-    def selected?(filter_key, value)
+    def selected?(query_params)
       return false if active_filter_count > 1
 
-      params[filter_key] == value.to_s
+      super
+    end
+
+    def query_path(query_params)
+      project_members_path(project, query_params)
     end
 
     def active_filter_count

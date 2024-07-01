@@ -916,7 +916,7 @@ de:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "Bitte wählen Sie ein Projekt aus."
         query:
           attributes:
             project:
@@ -2599,7 +2599,7 @@ de:
   notice_principals_found_multiple: "Es wurden %{number} Ergebnisse gefunden.\nDrücke Tab um das erste Ergebnis zu fokussieren."
   notice_principals_found_single: "Es wurde ein Ergebnis gefunden.\nDrücke Tab um es zu fokussieren."
   notice_project_not_deleted: "Das Projekt wurde nicht gelöscht."
-  notice_project_not_found: "Project not found."
+  notice_project_not_found: "Projekt nicht gefunden."
   notice_successful_connection: "Verbindung erfolgreich."
   notice_successful_create: "Erfolgreich angelegt."
   notice_successful_delete: "Erfolgreich gelöscht."
@@ -3361,54 +3361,56 @@ de:
         work_based_help_text: "% Abgeschlossen wird automatisch aus Aufwand und Verbleibender Aufwand abgeleitet."
         status_based_help_text: "% Abgeschlossen wird durch den Status des Arbeitspakets festgelegt."
         migration_warning_text: "Im aufwandsbezogenen Modus, kann % Fertig nicht manuell eingegeben werden und ist immer an den Aufwand gebunden. Der vorhandene Wert wurde beibehalten, kann aber nicht bearbeitet werden. Bitte geben Sie zuerst den Wert für Aufwand ein."
-    sharing:
-      count:
-        zero: "0 Benutzer"
-        one: "1 Benutzer"
-        other: "%{count} Benutzer"
-      filter:
-        project_member: "Projektmitglied"
-        not_project_member: "Kein Projektmitglied"
-        project_group: "Projektgruppe"
-        not_project_group: "Keine Projektgruppe"
-        role: "Rolle"
-        type: "Typ"
-      label_search: "Suche nach einzuladenen Benutzern"
-      label_search_placeholder: "Suche nach Benutzer oder E-Mail-Adresse"
-      label_toggle_all: "Alle Freigaben umschalten"
-      permissions:
-        comment: "Kommentar"
-        comment_description: "Kann dieses Arbeitspaket anzeigen und kommentieren."
-        denied: "Sie haben keine Berechtigung, Arbeitspakete zu teilen."
-        edit: "Bearbeiten"
-        edit_description: "Kann dieses Arbeitspaket ansehen, kommentieren und editieren."
-        view: "Ansicht"
-        view_description: "Kann dieses Arbeitspaket ansehen."
-      remove: "Entfernen"
-      share: "Teilen"
-      text_empty_search_description: "Es gibt keine Benutzer mit den aktuellen Filterkriterien."
-      text_empty_search_header: "Keine passenden Ergebnisse gefunden."
-      text_empty_state_description: "Das Arbeitspaket wurde mit niemandem geteilt."
-      text_empty_state_header: "Nicht geteilt"
-      text_user_limit_reached: "Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte kontaktieren Sie einen Administrator, um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können."
-      text_user_limit_reached_admins: 'Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte <a href="%{upgrade_url}">aktualisieren Sie Ihr Abonnement</a> um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.'
-      warning_user_limit_reached: >
-        Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte kontaktieren Sie einen Administrator, um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
-      warning_user_limit_reached_admin: >
-        Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte <a href="%{upgrade_url}">aktualisieren Sie Ihr Abonnement</a> um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
-      warning_no_selected_user: "Bitte wählen Sie Benutzer aus, mit denen dieses Arbeitspaket geteilt werden soll"
-      warning_locked_user: "Der Benutzer %{user} ist gesperrt und mit ihm kann nicht geteilt werden"
-      user_details:
-        locked: "Gesperrte Benutzer"
-        invited: "Einladung gesendet. "
-        resend_invite: "Erneut senden."
-        invite_resent: "Einladung wurde versendet"
-        not_project_member: "Kein Projektmitglied"
-        project_group: "Gruppenmitglieder haben möglicherweise zusätzliche Berechtigungen (als Projektmitglieder)"
-        not_project_group: "Gruppe (Teilen mit allen Mitgliedern)"
-        additional_privileges_project: "hat möglicherweise zusätzliche Berechtigungen (als Projektmitglied)"
-        additional_privileges_group: "hat möglicherweise zusätzliche Berechtigungen (als Gruppenmitglied)"
-        additional_privileges_project_or_group: "hat möglicherweise zusätzliche Berechtigungen (als Projekt- oder Gruppenmitglied)"
+    permissions:
+      comment: "Kommentar"
+      comment_description: "Can view and comment this work package."
+      edit: "Bearbeiten"
+      edit_description: "Can view, comment and edit this work package."
+      view: "Ansicht"
+      view_description: "Kann dieses Arbeitspaket ansehen."
+  sharing:
+    count:
+      zero: "0 Benutzer"
+      one: "1 Benutzer"
+      other: "%{count} Benutzer"
+    filter:
+      project_member: "Projektmitglied"
+      not_project_member: "Kein Projektmitglied"
+      project_group: "Projektgruppe"
+      not_project_group: "Keine Projektgruppe"
+      user: "Benutzer"
+      group: "Gruppe"
+      role: "Rolle"
+      type: "Typ"
+    denied: "Sie haben keine Berechtigung, %{entities} zu teilen."
+    label_search: "Search for users to invite"
+    label_search_placeholder: "Search by user or email address"
+    label_toggle_all: "Alle Freigaben umschalten"
+    remove: "Entfernen"
+    share: "Teilen"
+    text_empty_search_description: "Es gibt keine Benutzer mit den aktuellen Filterkriterien."
+    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
+    text_empty_state_header: "Nicht geteilt"
+    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
+    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    warning_user_limit_reached: >
+      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+    warning_user_limit_reached_admin: >
+      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
+    warning_no_selected_user: "Please select users to share this %{entity} with"
+    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    user_details:
+      locked: "Gesperrter Benutzer"
+      invited: "Einladung gesendet. "
+      resend_invite: "Erneut senden."
+      invite_resent: "Einladung wurde erneut gesendet"
+      not_project_member: "Kein Projektmitglied"
+      project_group: "Group members might have additional privileges (as project members)"
+      not_project_group: "Group (shared with all members)"
+      additional_privileges_project: "Might have additional privileges (as project member)"
+      additional_privileges_group: "Might have additional privileges (as group member)"
+      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
       Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.

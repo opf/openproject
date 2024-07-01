@@ -83,6 +83,8 @@ module Storages
 
     scope :automatic_management_enabled, -> { where("provider_fields->>'automatically_managed' = 'true'") }
 
+    scope :in_project, ->(project_id) { joins(project_storages: :project).where(project_storages: { project_id: }) }
+
     enum health_status: {
       pending: "pending",
       healthy: "healthy",

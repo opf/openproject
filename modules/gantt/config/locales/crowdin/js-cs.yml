@@ -1,6 +1,5 @@
 cs:
   js:
-    queries:
-      all_open: 'Vše otevřené'
-      timeline: 'Časová osa'
-      milestones: 'Milníky'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

@@ -128,7 +128,7 @@ RSpec.describe "Team planner query handling", :js, with_ee: %i[team_planner_view
     team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_create"))
 
     # The saved query appears in the side menu...
-    query_menu.expect_item "I am your Query"
+    query_menu.expect_item "I am your Query", selected: true
 
     # .. but not in the work packages module
     work_package_page.visit!

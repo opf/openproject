@@ -1,6 +1,5 @@
 pl:
   js:
-    queries:
-      all_open: 'Wszystkie otwarte'
-      timeline: 'Oś czasu'
-      milestones: 'Kamienie milowe'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

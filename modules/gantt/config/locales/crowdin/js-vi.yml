@@ -1,6 +1,5 @@
 vi:
   js:
-    queries:
-      all_open: 'Mở tất cả'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

@@ -35,11 +35,18 @@ import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routi
 import { BcfSplitLeftComponent } from 'core-app/features/bim/ifc_models/bcf/split/left/bcf-split-left.component';
 import { BcfSplitRightComponent } from 'core-app/features/bim/ifc_models/bcf/split/right/bcf-split-right.component';
 
+export const sidemenuId = 'bim_sidemenu';
+
+export const sideMenuOptions = {
+  sidemenuId,
+  hardReloadOnBaseRoute: true,
+};
+
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'bim',
     parent: 'optional_project',
-    url: '/bcf?query_id&query_props&models&viewpoint',
+    url: '/bcf?query_id&query_props&models&viewpoint&name',
     abstract: true,
     component: WorkPackagesBaseComponent,
     redirectTo: 'bim.partitioned.list',
@@ -49,6 +56,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       query_props: { type: 'opQueryString', dynamic: true },
       models: { type: 'opQueryString', dynamic: true },
       viewpoint: { type: 'int', dynamic: true },
+      name: { type: 'string', dynamic: true },
     },
   },
   {
@@ -58,6 +66,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     component: IFCViewerPageComponent,
     data: {
       bodyClasses: 'router--bim',
+      sideMenuOptions,
     },
   },
   {
@@ -67,6 +76,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       baseRoute: 'bim.partitioned.list',
       newRoute: 'bim.partitioned.list.new',
       partition: '-split',
+      sideMenuOptions,
     },
     reloadOnSearch: false,
     views: {
@@ -83,6 +93,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       allowMovingInEditMode: true,
       partition: '-left-only',
       successState: 'bim.partitioned.show',
+      sideMenuOptions,
     },
     views: { 'content-left': { component: WorkPackageNewFullViewComponent } },
   },
@@ -92,6 +103,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     data: {
       baseRoute: 'bim.partitioned.list',
       partition: '-left-only',
+      sideMenuOptions,
     },
     reloadOnSearch: false,
     redirectTo: 'bim.partitioned.show.details',
