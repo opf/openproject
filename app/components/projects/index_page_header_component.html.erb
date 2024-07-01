@@ -21,6 +21,29 @@
         )
       end
 
+      if can_toggle_favor?
+        if currently_favored?
+          header.with_action_icon_button(
+            icon: "star-fill",
+            mobile_icon: "star-fill",
+            label: t(:button_unfavorite),
+            classes: "op-primer--star-icon",
+            tag: :a,
+            href: helpers.build_favorite_path(query, format: :html),
+            data: { method: :delete },
+          )
+        else
+          header.with_action_icon_button(
+            icon: "star",
+            mobile_icon: "star",
+            label: t(:button_favorite),
+            tag: :a,
+            href: helpers.build_favorite_path(query, format: :html),
+            data: { method: :post },
+          )
+        end
+      end
+
       header.with_action_menu(
         menu_arguments: {
           anchor_align: :end
