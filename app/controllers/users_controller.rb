@@ -47,8 +47,6 @@ class UsersController < ApplicationController
   no_authorization_required! :show
   authorization_checked! :destroy, :deletion_info
 
-  before_action :set_current_activity_page, only: [:show]
-
   # Password confirmation helpers and actions
   include PasswordConfirmation
   before_action :check_password_confirmation, only: [:destroy]
@@ -266,10 +264,6 @@ class UsersController < ApplicationController
 
   def check_if_deletion_allowed
     render_404 unless Users::DeleteContract.deletion_allowed? @user, User.current
-  end
-
-  def set_current_activity_page
-    @activity_page = "users/#{@user.id}"
   end
 
   def my_or_admin_layout

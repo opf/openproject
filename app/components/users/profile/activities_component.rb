@@ -38,6 +38,7 @@ module Users
 
         @user = user
         @events = Activities::Fetcher.new(User.current, author: @user).events(limit: 10)
+        @activity_page = "users/#{@user.id}"
       end
     end
   end
