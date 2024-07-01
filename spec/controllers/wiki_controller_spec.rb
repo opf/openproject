@@ -110,7 +110,7 @@ RSpec.describe WikiController do
       it "renders 404 if used with an unknown page title" do
         get "new_child", params: { project_id: project, id: "foobar" }
 
-        expect(response.status).to eq(404) # not found
+        expect(response).to have_http_status(:not_found)
       end
     end
 

@@ -234,15 +234,16 @@ RSpec.describe "work package export" do
       allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
         .to receive(:export!)
               .and_return(
-                ::Exports::Result.new format: :pdf,
-                                      title: 'foo',
-                                      content: Tempfile.new("something"),
-                                      mime_type: "application/pdf"
+                Exports::Result.new(format: :pdf,
+                                    title: "foo",
+                                    content: Tempfile.new("something"),
+                                    mime_type: "application/pdf")
               )
-     end
+    end
 
     context "table" do
       let(:export_type) { I18n.t("export.format.pdf_overview_table") }
+
       context "with many columns" do
         before do
           # Despite attempts to provoke the error by having a lot of columns, the pdf
@@ -292,7 +293,7 @@ RSpec.describe "work package export" do
           wp_table.visit_query query
           work_packages_page.ensure_loaded
           settings_menu.open_and_choose "Export"
-          expect(page).not_to have_content(export_type)
+          expect(page).to have_no_content(export_type)
         end
       end
 
@@ -303,7 +304,7 @@ RSpec.describe "work package export" do
           it "has no gantt export" do
             wp_table.visit_query query_tl
             settings_menu.open_and_choose "Export"
-            expect(page).not_to have_content(export_type)
+            expect(page).to have_no_content(export_type)
           end
         end
 

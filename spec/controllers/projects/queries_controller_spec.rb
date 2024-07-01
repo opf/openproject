@@ -36,7 +36,7 @@ RSpec.describe Projects::QueriesController do
 
     before do
       scope = instance_double(ActiveRecord::Relation)
-      allow(Queries::Projects::ProjectQuery).to receive(:visible).with(user).and_return(scope)
+      allow(ProjectQuery).to receive(:visible).with(user).and_return(scope)
       allow(scope).to receive(:find).with(query.id.to_s).and_return(query)
 
       login_as user
@@ -97,7 +97,7 @@ RSpec.describe Projects::QueriesController do
 
       before do
         scope = instance_double(ActiveRecord::Relation)
-        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(ProjectQuery).to receive(:visible).and_return(scope)
         allow(scope).to receive(:find).with(query_id).and_return(query)
 
         login_as user
@@ -210,7 +210,7 @@ RSpec.describe Projects::QueriesController do
       before do
         allow(controller).to receive(:permitted_query_params).and_return(query_params)
         scope = instance_double(ActiveRecord::Relation)
-        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(ProjectQuery).to receive(:visible).and_return(scope)
         allow(scope).to receive(:find).with(query_id).and_return(query)
         allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)
         allow(service_instance).to receive(:call).with(query_params).and_return(service_result)
@@ -283,7 +283,7 @@ RSpec.describe Projects::QueriesController do
       before do
         allow(controller).to receive(:permitted_query_params).and_return(query_params)
         scope = instance_double(ActiveRecord::Relation)
-        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(ProjectQuery).to receive(:visible).and_return(scope)
         allow(scope).to receive(:find).with(query_id).and_return(query)
         allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)
         allow(service_instance).to receive(:call).with(query_params).and_return(service_result)
@@ -356,7 +356,7 @@ RSpec.describe Projects::QueriesController do
       before do
         allow(controller).to receive(:permitted_query_params).and_return(query_params)
         scope = instance_double(ActiveRecord::Relation)
-        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(ProjectQuery).to receive(:visible).and_return(scope)
         allow(scope).to receive(:find).with(query_id).and_return(query)
         allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)
         allow(service_instance).to receive(:call).with(query_params).and_return(service_result)
@@ -425,7 +425,7 @@ RSpec.describe Projects::QueriesController do
 
       before do
         scope = instance_double(ActiveRecord::Relation)
-        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(ProjectQuery).to receive(:visible).and_return(scope)
         allow(scope).to receive(:find).with(query_id).and_return(query)
 
         allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)

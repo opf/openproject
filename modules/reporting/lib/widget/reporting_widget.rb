@@ -40,7 +40,7 @@ class Widget::ReportingWidget < ActionView::Base
   attr_accessor :output_buffer, :controller, :config, :_content_for, :_routes, :subject
 
   def self.new(subject)
-    super(subject).tap do |o|
+    super.tap do |o|
       o.subject = subject
     end
   end

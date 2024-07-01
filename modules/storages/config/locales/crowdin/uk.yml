@@ -46,7 +46,7 @@ uk:
   permission_delete_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
   permission_header_for_project_module_storages: Папки проєкту з автоматичним керуванням
   permission_manage_file_links: Керування посиланнями на файл
-  permission_manage_files_in_project: Manage files in project
+  permission_manage_files_in_project: Керування файлами в проєкті
   permission_read_files: 'Папки проєкту з автоматичним керуванням: читання файлів'
   permission_share_files: 'Папки проєкту з автоматичним керуванням: надання доступу до файлів'
   permission_share_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
@@ -102,11 +102,24 @@ uk:
       storage_provider: Постачальник сховища
     health:
       checked: 'Востаннє перевірено: %{datetime}'
+      connection_validation:
+        action: Recheck connection
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Помилка
       label_healthy: Справність
       label_pending: Очікування
+      label_warning: Warning
+      project_folders:
+        subtitle: Automatically managed project folders
       since: з %{datetime}
-      subtitle: Папки проєкту з автоматичним керуванням
       title: Стан справності
     health_email_notifications:
       description_subscribed: Усі адміністратори отримують сповіщення електронною поштою про стан справності цього сховища.

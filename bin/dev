@@ -1,17 +1,10 @@
 #!/usr/bin/env bash
 
-function fallback_to_foreman() {
-  echo 'Overmind not installed. Falling back to foreman...'
-  if ! command -v foreman &> /dev/null; then
-    echo 'Installing foreman...'
-    gem install foreman
-  fi
-
-  foreman start -f Procfile.dev
-}
-
 if command -v overmind &> /dev/null; then
   overmind start -f Procfile.dev
+elif command -v foreman &> /dev/null; then
+  foreman start -f Procfile.dev
 else
-  fallback_to_foreman
+  echo 'Neither overmind, nor foreman is installed, either `gem install overmind` or `gem install foreman`.'
+  exit 1
 fi

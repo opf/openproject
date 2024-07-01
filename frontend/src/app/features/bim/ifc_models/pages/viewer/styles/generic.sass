@@ -12,21 +12,20 @@
 @import "tooltips"
 @import "pivot_point"
 
-// The IFC viewer shall fill the viewport to the bottom.
-// This is different to how we style #content else where.
 .controller-bim\/ifc_models\/ifc_viewer
   overflow: hidden
 
-  &.action-show
-    #content
-      height: 100%
+  // Do not remove this, without checking the BCF module.
+  // The container of the xeokit viewer needs a fixed height. Otherwise it will grow without end.
+  #content-body
+    height: calc(100vh - #{var(--header-height)})
 
-  // Override default behavior to let the viewer span the whole height
+  // Override default behavior to let the viewer be at the top of the table/cards
   @media only screen and (max-width: $breakpoint-sm)
     @include extended-content--right
     @include extended-content--left
     #content-wrapper
-      height: calc(100vh - 55px)
+      height: calc(100vh - #{var(--header-height)})
 
     .work-packages-partitioned-page--content-container
       flex-direction: column

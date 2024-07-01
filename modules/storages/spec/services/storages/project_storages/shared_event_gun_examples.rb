@@ -41,7 +41,7 @@ RSpec.shared_examples "an event gun" do |event|
         subject
 
         expect(OpenProject::Notifications).to(
-          have_received(:send).with(event, project_folder_mode: mode)
+          have_received(:send).with(event, project_folder_mode: mode, storage: model_instance.storage)
         )
       end
     end

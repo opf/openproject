@@ -46,7 +46,7 @@ pt-BR:
   permission_delete_files_explanation: Esta permissão está disponível apenas para armazenamentos Nextcloud
   permission_header_for_project_module_storages: Pastas do projeto gerenciadas automaticamente
   permission_manage_file_links: Gerenciar vínculos de arquivos
-  permission_manage_files_in_project: Manage files in project
+  permission_manage_files_in_project: Gerenciar arquivos no projeto
   permission_read_files: 'Pastas do projeto gerenciadas automaticamente: Ler arquivos'
   permission_share_files: 'Pastas do projeto gerenciadas automaticamente: Compartilhar arquivos'
   permission_share_files_explanation: Esta permissão está disponível apenas para armazenamentos Nextcloud
@@ -102,11 +102,24 @@ pt-BR:
       storage_provider: Provedor de armazenamento
     health:
       checked: Última verificação em %{datetime}
+      connection_validation:
+        action: Recheck connection
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Erro
       label_healthy: Saudável
       label_pending: Pendente
+      label_warning: Warning
+      project_folders:
+        subtitle: Automatically managed project folders
       since: desde %{datetime}
-      subtitle: Pastas do projeto gerenciadas automaticamente
       title: Status de saúde
     health_email_notifications:
       description_subscribed: Todos os administradores recebem notificações por e-mail sobre o estado de saúde deste armazenamento.

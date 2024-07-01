@@ -77,16 +77,16 @@ module WorkPackage::Exports
         elsif model_s == "project"
           resolve_project_match(id || work_package.project.id, type, attribute, user)
         else
-          msg_macro_error I18n.t('export.macro.model_not_found', model: model_s)
+          msg_macro_error I18n.t("export.macro.model_not_found", model: model_s)
         end
       end
 
       def self.msg_macro_error(message)
-        msg_inline I18n.t('export.macro.error', message:)
+        msg_inline I18n.t("export.macro.error", message:)
       end
 
       def self.msg_macro_error_rich_text
-        msg_inline I18n.t('export.macro.rich_text_unsupported')
+        msg_inline I18n.t("export.macro.rich_text_unsupported")
       end
 
       def self.msg_inline(message)
@@ -109,11 +109,11 @@ module WorkPackage::Exports
 
       def self.resolve_work_package_match(id, type, attribute, user)
         return resolve_label_work_package(attribute) if type == "label"
-        return msg_macro_error(I18n.t('export.macro.model_not_found', model: type)) unless type == "value"
+        return msg_macro_error(I18n.t("export.macro.model_not_found", model: type)) unless type == "value"
 
         work_package = WorkPackage.visible(user).find_by(id:)
         if work_package.nil?
-          return msg_macro_error(I18n.t('export.macro.resource_not_found', resource: "#{WorkPackage.name} #{id}"))
+          return msg_macro_error(I18n.t("export.macro.resource_not_found", resource: "#{WorkPackage.name} #{id}"))
         end
 
         resolve_value_work_package(work_package, attribute)

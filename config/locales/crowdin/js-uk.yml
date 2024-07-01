@@ -150,6 +150,7 @@ uk:
         attribute_reference:
           macro_help_tooltip: "Цей текстовий фрагмент динамічно візуалізується макросом."
           not_found: "Не вдалося знайти потрібний ресурс"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Вибраний атрибут «%{name}» не існує."
         child_pages:
           button: "Посилання на дочірні сторінки"
@@ -276,9 +277,9 @@ uk:
           Продовжити?
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+          Якщо перейти з режиму обчислення прогресу на основі статусу на режим на основі робіт, атрибут <i>% завершення</i> стане недоступним для редагування полем, значення якого отримуватиметься зі значень атрибутів <i>Робота</i> й <i>Залишок роботи</i>. Наявні значення атрибута <i>% завершення</i> буде збережено. Якщо значення атрибутів <i>Робота</i> й <i>Залишок роботи</i> не задано, їх потрібно буде задати, щоб змінити значення атрибута <i>% завершення</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
-          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
+          Якщо перейти з режиму обчислення прогресу на основі робіт на режим на основі статусу, усі наявні значення атрибута <i>% завершення</i> буде втрачено й замінено значеннями, пов’язаними з кожним статусом. Наявні значення атрибута <i>Залишок роботи</i> може бути також переобчислено з урахуванням цієї зміни. Цю дію не можна скасувати.
     custom_actions:
       date:
         specific: "на"
@@ -368,7 +369,7 @@ uk:
           "14_2":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li>Задавайте більше одиниць для атрибутів «Робота», «Залишок роботи» й «Робочий час».</li> <li>Вибирайте проєкти, які має бути активовано для його атрибутів.</li> <li>Перейменовуйте списки приватних проєктів.</li> <li>Не отримуйте непотрібні сповіщення електронною поштою про @згадки.</li> <li>Запрошуйте учасників наради електронною поштою.</li> <li>Переглядайте вбудовані атрибути пакетів робіт у PDF-файлах експорту.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -906,6 +907,11 @@ uk:
       preformatted_text: "Попередньо відформатований текст"
       wiki_link: "Посилання на вікі-сторінку"
       image: "Зображення"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Групова зміна проєкту"
@@ -1061,12 +1067,8 @@ uk:
         is_parent: "Дати цього пакета робіт автоматично виводяться з його дочірніх елементів. Активуйте «Ручне планування», щоб установити ці дати."
         is_switched_from_manual_to_automatic: "Можливо, дати цього пакета робіт знадобиться перерахувати після переходу з ручного на автоматичне планування через зв’язок з іншими пакетами робіт."
       sharing:
-        share: "Поширити"
         title: "Надати доступ до пакета робіт"
         show_all_users: "Показувати всіх користувачів, яким надано доступ до пакета робіт"
-        selected_count: "Вибрано: %{count}"
-        selection:
-          mixed: "Змішані"
         upsale:
           description: "Діліться пакетами робіт із користувачами, які не належать до учасників проєкту."
       table:
@@ -1295,9 +1297,9 @@ uk:
         next_button: "Продовжити"
     exclusion_info:
       modal:
-        title: "Status excluded from hierarchy totals"
+        title: "Статус виключено з підсумків ієрархії"
         content: >-
-          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+          Статус «%{status_name}» виключено з підсумків ієрархії для атрибутів «Робота», «Залишок роботи» й «% завершення». Це значення не враховуватиметься під час обчислення підсумків.
     favorite_projects:
       no_results: "У вас немає обраних проєктів"
       no_results_subtext: "Додайте один або кілька проєктів в обране на відповідній сторінці огляду або в списку проєктів."
@@ -1358,12 +1360,12 @@ uk:
         remove: "Видалити"
       drop_modal:
         focus_grab: "Це якір фокуса для модальних вікон. Натисніть клавіші Shift + Tab, щоб повернутися до тригера модального вікна."
-        close: "Close modal"
+        close: "Закрити модальне вікно"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "Час очікування"
       waiting_subtitle:
         network_off: "Існує проблема з мережею."
         network_on: "З’єднання відновлено. Ми намагаємося."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          Додатку OpenProject не вдалося надати вам доступ до папки проєкту протягом очікуваного періоду. Повторіть спробу.<br><br> Якщо ця проблема не зникне, зверніться до адміністратора OpenProject і попросіть його перевірити <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">стан справності конфігурації файлового сховища</a>.

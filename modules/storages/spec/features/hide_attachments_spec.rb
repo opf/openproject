@@ -74,7 +74,7 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
     context "if Setting.show_work_package_attachments is false", with_settings: { show_work_package_attachments: false } do
       let(:project) { create(:project) }
 
-      it 'renders the toggle as off for project with not set deactivate_work_package_attachments' do
+      it "renders the toggle as off for project with not set deactivate_work_package_attachments" do
         expect(project.deactivate_work_package_attachments).to be_nil
 
         login_as current_user
@@ -89,7 +89,7 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
     context "if Setting.show_work_package_attachments is true", with_settings: { show_work_package_attachments: true } do
       let(:project) { create(:project) }
 
-      it 'renders the toggle as on for project with not set deactivate_work_package_attachments' do
+      it "renders the toggle as on for project with not set deactivate_work_package_attachments" do
         expect(project.deactivate_work_package_attachments).to be_nil
 
         login_as current_user

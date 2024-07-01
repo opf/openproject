@@ -60,7 +60,10 @@ module Overviews
 
         OpenProject::AccessControl.permission(:view_work_packages)
           .controller_actions
-          .push("overviews/overviews/show")
+          .push(
+            "overviews/overviews/show",
+            "overviews/overviews/project_custom_fields_sidebar"
+          )
 
         OpenProject::AccessControl.map do |ac_map|
           ac_map.project_module nil do |map|

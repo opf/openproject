@@ -33,46 +33,31 @@ require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCommand, :webmock do
   let(:storage) { create(:sharepoint_dev_drive_storage) }
-  let(:userless_strategy) { Storages::Peripherals::Registry.resolve("one_drive.authentication.userless").call }
-  let(:folder) do
-    Storages::Peripherals::Registry
-                   .resolve("one_drive.commands.create_folder")
-                   .call(auth_strategy: userless_strategy, storage:, folder_name: "Wrong Name",
-                         parent_location: Storages::Peripherals::ParentFolder.new("/"))
+  let(:auth_strategy) { Storages::Peripherals::Registry.resolve("one_drive.authentication.userless").call }
+
+  it_behaves_like "rename_file_command: basic command setup"
+
+  it_behaves_like "rename_file_command: validating input data"
+
+  context "when renaming a folder", vcr: "one_drive/rename_file_success" do
+    let(:file_id) { "01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR" }
+    let(:name) { "I am the senat" }
+
+    it_behaves_like "rename_file_command: successful file renaming"
   end
 
-  subject(:command) { described_class.new(storage) }
+  context "when renaming a file inside a subdirectory", vcr: "one_drive/rename_file_with_location_success" do
+    let(:file_id) { "01AZJL5PPMSBBO3R2BIZHJFCELSW3RP7GN" }
+    let(:name) { "I❤️you death star.png" }
 
-  it "is registered as rename_file" do
-    expect(Storages::Peripherals::Registry.resolve("one_drive.commands.rename_file")).to eq(described_class)
+    it_behaves_like "rename_file_command: successful file renaming"
   end
 
-  it "responds to .call with correct parameters" do
-    expect(described_class).to respond_to(:call)
+  context "when trying to rename a not existent file", vcr: "one_drive/rename_file_not_found" do
+    let(:file_id) { "sith_have_yellow_light_sabers" }
+    let(:name) { "this_will_not_happen.png" }
+    let(:error_source) { described_class }
 
-    method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq source], %i[keyreq target])
-  end
-
-  it "renames a folder", vcr: "one_drive/rename_folder_success" do
-    file_info = folder.result
-
-    result = command.call(source: file_info.id, target: "My Project No. 1 (19)")
-
-    expect(result).to be_success
-    renamed_details = result.result
-
-    expect(renamed_details.name).to eq("My Project No. 1 (19)")
-    expect(renamed_details.id).to eq(file_info.id)
-  ensure
-    delete_folder(folder.result.id)
-  end
-
-  private
-
-  def delete_folder(folder_id)
-    Storages::Peripherals::Registry
-      .resolve("one_drive.commands.delete_folder")
-      .call(auth_strategy: userless_strategy, storage:, location: folder_id)
+    it_behaves_like "rename_file_command: not found"
   end
 end

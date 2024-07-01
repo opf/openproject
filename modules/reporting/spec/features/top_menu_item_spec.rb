@@ -29,6 +29,8 @@
 require "spec_helper"
 
 RSpec.describe "Top menu items", :js do
+  shared_let(:project) { create(:project) }
+
   let(:user) { create(:user) }
   let(:open_menu) { true }
 

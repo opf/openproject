@@ -199,6 +199,10 @@ RSpec/DescribeClass:
     - 'spec/features/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
 
+# Allow number HTTP status codes in specs
+RSpecRails/HttpStatus:
+  Enabled: false
+
 # dynamic finders cop clashes with capybara ID cop
 Rails/DynamicFindBy:
   Enabled: true
@@ -235,10 +239,6 @@ RSpec/DescribeMethod:
 # to match the exact file name
 RSpec/SpecFilePathFormat:
   IgnoreMethods: true
-
-# Disable deprecated cop
-RSpec/FilePath:
-  Enabled: false
 
 # Prevent  "fit" or similar to be committed
 RSpec/Focus:

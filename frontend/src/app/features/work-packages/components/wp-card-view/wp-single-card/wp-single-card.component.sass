@@ -13,6 +13,7 @@
   position: relative
   box-shadow: 1px 1px 3px 0px var(--borderColor-default)
   background: var(--body-background)
+  color: var(--body-font-color)
   font-size: var(--body-font-size)
 
   &:hover
@@ -36,12 +37,12 @@
         box-shadow: none
 
   &_closed:not(&_selected)
-    background-color: var(--color-scale-gray-3)
+    background-color: var(--display-gray-bgColor-muted)
     .op-icon--wrapper
-      background: var(--color-scale-gray-3)
+      background: var(--display-gray-bgColor-muted)
     &:hover
       .op-wp-single-card--inline-buttons
-        box-shadow: -4px -4px 10px 4px var(--color-scale-gray-3)
+        box-shadow: -4px -4px 10px 4px var(--display-gray-bgColor-muted)
 
   &_horizontal
     height: 100%

@@ -43,7 +43,7 @@ RSpec.describe BacklogsSettingsController do
 
       it "fails" do
         get :show
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
   end
@@ -102,7 +102,7 @@ RSpec.describe BacklogsSettingsController do
           subject
 
           expect(response).not_to be_successful
-          expect(response.status).to eq 403
+          expect(response).to have_http_status :forbidden
         end
       end
     end

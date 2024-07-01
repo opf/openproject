@@ -102,11 +102,24 @@ zh-CN:
       storage_provider: 存储提供商
     health:
       checked: 上次检查于 %{datetime}
+      connection_validation:
+        action: 重新检查连接
+        client_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
+        client_secret_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
+        drive_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
+        not_configured: 无法验证连接。请先完成配置。
+        placeholder: 检查您与服务器的连接。
+        subtitle: 连接验证
+        tenant_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
+        unexpected_content: 硬盘中发现意外内容。
+        unknown_error: 连接无法验证。出现未知错误。请查看服务器日志以获取更多信息。
       label_error: 错误
       label_healthy: 健康
       label_pending: 待处理
+      label_warning: 警告
+      project_folders:
+        subtitle: 自动托管项目文件夹
       since: 自从 %{datetime}
-      subtitle: 自动托管项目文件夹
       title: 健康状态
     health_email_notifications:
       description_subscribed: 所有管理员都会收到该存储的健康状态电子邮件通知。

@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe ApplicationController, "enforcement of authorization" do # rubocop:disable RSpec/FilePath, RSpec/SpecFilePathFormat
+RSpec.describe ApplicationController, "enforcement of authorization" do # rubocop:disable RSpec/RSpec/SpecFilePathFormat
   shared_let(:user) { create(:user) }
 
   controller_setup = Module.new do

@@ -27,13 +27,11 @@
 #++
 module Members
   class MenusController < ApplicationController
-    include Menus::MembersHelper
-
     before_action :find_project_by_project_id,
                   :authorize
 
     def show
-      @sidebar_menu_items = first_level_menu_items
+      @sidebar_menu_items = Members::Menu.new(project: @project, params:).menu_items
       render layout: nil
     end
   end

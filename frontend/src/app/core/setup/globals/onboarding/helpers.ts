@@ -1,9 +1,5 @@
 export const onboardingTourStorageKey = 'openProject-onboardingTour';
-export type OnboardingTourNames = 'prepareBacklogs'|'backlogs'|'taskboard'|'homescreen'|'workPackages'|'main';
-
-export enum ProjectName {
-  demo = 'demo',
-}
+export type OnboardingTourNames = 'homescreen'|'workPackages'|'gantt'|'final'|'boards'|'teamPlanner';
 
 function matchingFilter(list:NodeListOf<HTMLElement>, filterFunction:(match:HTMLElement) => boolean):HTMLElement|null {
   for (let i = 0; i < list.length; i++) {

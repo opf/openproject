@@ -123,8 +123,8 @@ uk:
       agenda: "Копіювати порядок денний"
       agenda_text: "Копіювати порядок денний старої наради"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_emails: "Надсилати листи"
+      send_invitation_emails: "Надсилайте електронні листи зі створеними запрошеннями"
       open_meeting_link: "Відкрити зустріч"
       invited:
         summary: "%{actor} надіслав запрошення на зустріч %{title}"

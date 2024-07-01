@@ -103,7 +103,7 @@ ms:
   event_sprint_description: "%{summary}: %{url}\n%{description}"
   event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideal"
-  inclusion: "tidak disertakan di dalam senarai\n"
+  inclusion: "tidak disertakan dalam senarai"
   label_back_to_project: "Kembali ke laman projek"
   label_backlog: "Tunggakan"
   label_backlogs: "Tunggakan"

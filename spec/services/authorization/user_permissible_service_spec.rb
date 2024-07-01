@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe Authorization::UserPermissibleService do
   shared_let(:user) { create(:user) }
+  shared_let(:admin) { create(:admin) }
   shared_let(:anonymous_user) { create(:anonymous) }
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
@@ -161,6 +162,27 @@ RSpec.describe Authorization::UserPermissibleService do
             it { is_expected.to be_allowed_in_project(permission, project) }
           end
         end
+
+        context "and the user is admin" do
+          let(:queried_user) { admin }
+
+          it { is_expected.to be_allowed_in_project(permission, project) }
+
+          context "and the account is locked" do
+            before { admin.locked! }
+
+            it { is_expected.not_to be_allowed_in_project(permission, project) }
+          end
+
+          context "and the module the permission belongs to is disabled" do
+            before do
+              project.enabled_module_names = project.enabled_module_names - ["work_package_tracking"]
+              project.reload
+            end
+
+            it { is_expected.not_to be_allowed_in_project(permission, project) }
+          end
+        end
       end
 
       context "and the user is a member of a project" do
@@ -222,6 +244,27 @@ RSpec.describe Authorization::UserPermissibleService do
 
           context "and the project is archived" do
             before { project.update_column(:active, false) }
+
+            it { is_expected.not_to be_allowed_in_any_project(permission) }
+          end
+        end
+
+        context "and the user is admin" do
+          let(:queried_user) { admin }
+
+          it { is_expected.to be_allowed_in_any_project(permission) }
+
+          context "and the account is locked" do
+            before { admin.locked! }
+
+            it { is_expected.not_to be_allowed_in_any_project(permission) }
+          end
+
+          context "and the module the permission belongs to is disabled" do
+            before do
+              project.enabled_module_names = project.enabled_module_names - ["work_package_tracking"]
+              project.reload
+            end
 
             it { is_expected.not_to be_allowed_in_any_project(permission) }
           end
@@ -292,6 +335,27 @@ RSpec.describe Authorization::UserPermissibleService do
         it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
       end
 
+      context "and the user is admin" do
+        let(:queried_user) { admin }
+
+        it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+
+        context "and the account is locked" do
+          before { admin.locked! }
+
+          it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+        end
+
+        context "and the module the permission belongs to is disabled" do
+          before do
+            project.enabled_module_names = project.enabled_module_names - ["work_package_tracking"]
+            project.reload
+          end
+
+          it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+        end
+      end
+
       context "and the user is a member of the project" do
         let(:role) { create(:project_role, permissions: [permission]) }
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
@@ -305,7 +369,10 @@ RSpec.describe Authorization::UserPermissibleService do
         end
 
         context "without the module enabled in the project" do
-          before { project.enabled_module_names = project.enabled_modules - [:work_package_tracking] }
+          before do
+            project.enabled_module_names = project.enabled_module_names - ["work_package_tracking"]
+            project.reload
+          end
 
           it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
         end
@@ -367,6 +434,30 @@ RSpec.describe Authorization::UserPermissibleService do
 
       context "and the user is not a member of any work package or project" do
         it { is_expected.not_to be_allowed_in_any_entity(permission, WorkPackage) }
+      end
+
+      context "and the user is admin" do
+        let(:queried_user) { admin }
+
+        it { is_expected.to be_allowed_in_any_entity(permission, WorkPackage) }
+        it { is_expected.to be_allowed_in_any_entity(permission, WorkPackage, in_project: project) }
+
+        context "and the account is locked" do
+          before { admin.locked! }
+
+          it { is_expected.not_to be_allowed_in_any_entity(permission, WorkPackage) }
+          it { is_expected.not_to be_allowed_in_any_entity(permission, WorkPackage, in_project: project) }
+        end
+
+        context "and the module the permission belongs to is disabled" do
+          before do
+            project.enabled_module_names = project.enabled_module_names - ["work_package_tracking"]
+            project.reload
+          end
+
+          it { is_expected.not_to be_allowed_in_any_entity(permission, WorkPackage) }
+          it { is_expected.not_to be_allowed_in_any_entity(permission, WorkPackage, in_project: project) }
+        end
       end
 
       context "and the user is a member of a project" do

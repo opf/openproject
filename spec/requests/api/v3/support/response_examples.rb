@@ -30,7 +30,7 @@ require "spec_helper"
 
 RSpec.shared_examples_for "successful response" do |code = 200|
   it "has the status code #{code}" do
-    expect(last_response.status).to eq(code)
+    expect(last_response).to have_http_status(code)
   end
 
   it "has a HAL+JSON Content-Type" do
@@ -42,7 +42,7 @@ end
 
 RSpec.shared_examples_for "successful no content response" do |code = 204|
   it "has the status code #{code}" do
-    expect(last_response.status).to eq(code)
+    expect(last_response).to have_http_status(code)
   end
 end
 
@@ -50,7 +50,7 @@ RSpec.shared_examples_for "redirect response" do |code = 303|
   let(:location) { "" }
 
   it "has the status code #{code}" do
-    expect(last_response.status).to eq(code)
+    expect(last_response).to have_http_status(code)
   end
 
   it "redirects to expected location" do
@@ -64,7 +64,7 @@ RSpec.shared_examples_for "error response" do |code, id, provided_message = nil|
   end
 
   it "has the status code #{code}" do
-    expect(last_response.status).to eq(code)
+    expect(last_response).to have_http_status(code)
   end
 
   it "has a HAL+JSON Content-Type" do
@@ -182,7 +182,7 @@ RSpec.shared_examples_for "param validation error" do
   subject { JSON.parse(last_response.body) }
 
   it "results in a validation error" do
-    expect(last_response.status).to eq(400)
+    expect(last_response).to have_http_status(:bad_request)
     expect(subject["errorIdentifier"]).to eq("urn:openproject-org:api:v3:errors:BadRequest")
     expect(subject["message"]).to match /Bad request: .+? is invalid/
   end

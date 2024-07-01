@@ -150,6 +150,7 @@ ca:
         attribute_reference:
           macro_help_tooltip: "Aquest segment de text s'està presentant dinàmicament per una macro."
           not_found: "El recurs sol·licitat no s'ha trobat"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "L'atribut seleccionat \"%{name}\" no existeix."
         child_pages:
           button: "Enllaços a pàgines filles"
@@ -904,6 +905,11 @@ ca:
       preformatted_text: "Text preformatat"
       wiki_link: "Enllaça a una pàgina Wiki"
       image: "Imatge"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Canvi massiu de projecte"
@@ -1059,12 +1065,8 @@ ca:
         is_parent: "Les dates d'aquest paquet de treball estan derivades automàticament dels seus fills. Activa la \"Planificació manual\" per canviar les dates."
         is_switched_from_manual_to_automatic: "Pot ser que les dates d'aquest paquet de treball no es tornin a calcular automàticament en canviar de planificació manual a automàtica a causa de les relacions amb altres paquets de treball."
       sharing:
-        share: "Compartir"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

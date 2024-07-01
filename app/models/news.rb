@@ -33,6 +33,7 @@ class News < ApplicationRecord
     order(:created_at)
   }, as: :commented, dependent: :delete_all
 
+  validates :project, presence: true
   validates :title, presence: true
   validates :title, length: { maximum: 256 }
   validates :summary, length: { maximum: 255 }
@@ -45,6 +46,11 @@ class News < ApplicationRecord
                      include: :project,
                      references: :projects,
                      date_column: "#{table_name}.created_at"
+
+  acts_as_attachable view_permission: :view_news,
+                     add_on_new_permission: :manage_news,
+                     add_on_persisted_permission: :manage_news,
+                     delete_permission: :manage_news
 
   acts_as_watchable
 

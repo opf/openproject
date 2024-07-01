@@ -41,6 +41,11 @@ ms:
           name: Spesifikasi
         item_2:
           name: Lain-lain
+      project_query_roles:
+        item_0:
+          name: Pemerhati pertanyaan projek
+        item_1:
+          name: Pengedit pertanyaan projek
       work_package_roles:
         item_0:
           name: Pengedit pakej kerja

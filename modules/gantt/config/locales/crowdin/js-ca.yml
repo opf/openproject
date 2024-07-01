@@ -1,6 +1,5 @@
 ca:
   js:
-    queries:
-      all_open: 'Tots els oberts'
-      timeline: 'Timeline'
-      milestones: 'Fites'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

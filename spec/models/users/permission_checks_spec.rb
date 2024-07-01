@@ -179,31 +179,55 @@ RSpec.describe User, "permission check methods" do
 
     let(:public_permissions) { OpenProject::AccessControl.public_permissions.map(&:name) }
 
-    subject do
-      create(:user, global_permissions: [:create_user],
-                    member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
+    context "for a non admin user" do
+      subject do
+        create(:user, global_permissions: [:create_user],
+                      member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
+      end
+
+      it "returns all permissions given on the project" do
+        expect(subject.all_permissions_for(project))
+          .to match_array(%i[view_work_packages edit_work_packages] + public_permissions)
+      end
+
+      it "returns non-member permissions given on the project the user is not a member of" do
+        expect(subject.all_permissions_for(other_project)).to match_array(%i[view_work_packages
+                                                                             manage_members] + public_permissions)
+      end
+
+      it "returns all global permissions" do
+        skip "Current implementation of the Authorization.roles query returns ALL permissions the user has, " \
+             "not only global ones. We should change this in the future, that's why this test is already in here."
+
+        expect(subject.all_permissions_for(nil)).to match_array(%i[create_user])
+      end
+
+      it "returns all permissions the user has (with project and global permissions)" do
+        expect(subject.all_permissions_for(nil)).to match_array(%i[create_user
+                                                                   view_work_packages edit_work_packages
+                                                                   manage_members] + public_permissions)
+      end
     end
 
-    it "returns all permissions given on the project" do
-      expect(subject.all_permissions_for(project)).to match_array(%i[view_work_packages edit_work_packages] + public_permissions)
-    end
+    context "for an admin user" do
+      subject do
+        create(:admin)
+      end
 
-    it "returns non-member permissions given on the project the user is not a member of" do
-      expect(subject.all_permissions_for(other_project)).to match_array(%i[view_work_packages
-                                                                           manage_members] + public_permissions)
-    end
+      it "returns all permissions given on the project" do
+        expect(subject.all_permissions_for(project))
+          .to include(:view_work_packages, :edit_work_packages, *public_permissions)
+      end
 
-    it "returns all global permissions" do
-      skip "Current implementation of the Authorization.roles query returns ALL permissions the user has, not only global ones. " \
-           "We should change this in the fututre, thats why this test is already in here."
+      it "returns all permissions given globally" do
+        expect(subject.all_permissions_for(nil))
+          .to include(:create_user)
+      end
 
-      expect(subject.all_permissions_for(nil)).to match_array(%i[create_user])
-    end
-
-    it "returns all permissions the user has (with project and global permissions)" do
-      expect(subject.all_permissions_for(nil)).to match_array(%i[create_user
-                                                                 view_work_packages edit_work_packages
-                                                                 manage_members] + public_permissions)
+      it "returns all permissions given on a work package" do
+        expect(subject.all_permissions_for(WorkPackage.new))
+          .to include(:view_work_packages, :edit_work_packages)
+      end
     end
   end
 

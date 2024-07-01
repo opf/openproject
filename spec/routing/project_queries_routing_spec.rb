@@ -29,16 +29,16 @@
 require "spec_helper"
 
 RSpec.describe "Project query routes" do
-  it "/projects/queries/new GET routes to projects/queries#new" do
-    expect(get("/projects/queries/new")).to route_to("projects/queries#new")
+  it "/project_queries/new GET routes to projects/queries#new" do
+    expect(get("/project_queries/new")).to route_to("projects/queries#new")
   end
 
-  it "/projects/queries POST routes to projects/queries#create" do
-    expect(post("/projects/queries")).to route_to("projects/queries#create")
+  it "/project_queries POST routes to projects/queries#create" do
+    expect(post("/project_queries")).to route_to("projects/queries#create")
   end
 
-  it "/projects/queries/:id DELETE routes to projects/queries#destroy" do
-    expect(delete("/projects/queries/42")).to route_to("projects/queries#destroy",
-                                                       id: "42")
+  it "/project_queries/:id DELETE routes to projects/queries#destroy" do
+    expect(delete("/project_queries/42")).to route_to("projects/queries#destroy",
+                                                      id: "42")
   end
 end

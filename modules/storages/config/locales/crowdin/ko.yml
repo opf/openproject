@@ -46,7 +46,7 @@ ko:
   permission_delete_files_explanation: 이 권한은 Nextcloud 저장소에만 사용할 수 있습니다
   permission_header_for_project_module_storages: 자동으로 관리되는 프로젝트 폴더
   permission_manage_file_links: 파일 링크 관리
-  permission_manage_files_in_project: Manage files in project
+  permission_manage_files_in_project: 프로젝트의 파일 관리
   permission_read_files: '자동으로 관리되는 프로젝트 폴더: 파일 읽기'
   permission_share_files: '자동으로 관리되는 프로젝트 폴더: 파일 공유'
   permission_share_files_explanation: 이 권한은 Nextcloud 저장소에만 사용할 수 있습니다
@@ -102,11 +102,24 @@ ko:
       storage_provider: 저장소 공급자
     health:
       checked: '마지막 확인: %{datetime}'
+      connection_validation:
+        action: Recheck connection
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: 오류
       label_healthy: 정상
       label_pending: 대기 중
+      label_warning: Warning
+      project_folders:
+        subtitle: Automatically managed project folders
       since: '%{datetime} 이후'
-      subtitle: 자동으로 관리되는 프로젝트 폴더
       title: 상태
     health_email_notifications:
       description_subscribed: 모든 관리자는 이 저장소의 상태 이메일 알림을 받습니다.

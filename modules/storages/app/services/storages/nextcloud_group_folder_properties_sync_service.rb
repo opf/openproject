@@ -187,10 +187,11 @@ module Storages
 
         current_path = id_folder_map[project_storage.project_folder_id]
         if current_path != project_storage.managed_project_folder_path
-          rename_folder(project_storage, current_path).on_failure do |service_result|
+          target_folder_name = name_from_path(project_storage.managed_project_folder_path)
+          rename_folder(project_storage.project_folder_id, target_folder_name).on_failure do |service_result|
             format_and_log_error(service_result.errors,
-                                 source: current_path,
-                                 target: project_storage.managed_project_folder_path)
+                                 folder_id: project_storage.project_folder_id,
+                                 folder_name: target_folder_name)
 
             # we need to stop as this would mess with the other processes
             return service_result
@@ -202,10 +203,14 @@ module Storages
       ServiceResult.success
     end
 
-    def rename_folder(project_storage, current_name)
+    def name_from_path(path)
+      path.split("/").last
+    end
+
+    def rename_folder(folder_id, folder_name)
       Peripherals::Registry
         .resolve("nextcloud.commands.rename_file")
-        .call(storage: @storage, source: current_name, target: project_storage.managed_project_folder_path)
+        .call(storage: @storage, auth_strategy:, file_id: folder_id, name: folder_name)
     end
 
     def create_folder(project_storage)
@@ -289,7 +294,7 @@ module Storages
     end
 
     def auth_strategy
-      Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy
+      Peripherals::Registry.resolve("nextcloud.authentication.userless").call
     end
 
     def admin_client_tokens_scope

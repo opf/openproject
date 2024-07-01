@@ -96,7 +96,7 @@ RSpec.describe "OpenID Google provider callback", with_ee: %i[openid_providers] 
     }
   } do
     response = get uri.to_s
-    expect(response.status).to eq(302)
+    expect(response).to have_http_status(:found)
     expect(response.location).to eq("http://example.org/two_factor_authentication/request")
   end
 end

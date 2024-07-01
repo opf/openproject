@@ -48,7 +48,7 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
     expect(copy.start_time).to eq(meeting.start_time + 1.week)
   end
 
-  context 'when the meeting is closed' do
+  context "when the meeting is closed" do
     it "reopens the meeting" do
       meeting.update! state: "closed"
       expect(service_result).to be_success

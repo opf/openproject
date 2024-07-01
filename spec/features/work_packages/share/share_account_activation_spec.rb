@@ -33,6 +33,8 @@ require "spec_helper"
 RSpec.describe "Work package sharing invited users",
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
+  shared_let(:edit_work_package_role) { create(:edit_work_package_role) }
+  shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:editor) { create(:admin, firstname: "Mr.", lastname: "Sharer") }
 

@@ -150,6 +150,7 @@ bg:
         attribute_reference:
           macro_help_tooltip: "Този текстов сегмент се визуализира динамично от макрос."
           not_found: "Заявеният ресурс не можа да бъде намерен"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Избраният атрибут „%{name}“ не съществува."
         child_pages:
           button: "Links to child pages"
@@ -904,6 +905,11 @@ bg:
       preformatted_text: "Предварително форматиран текст"
       wiki_link: "Линк към уики страница"
       image: "Изображение"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Групова промяна на проекта"
@@ -1059,12 +1065,8 @@ bg:
         is_parent: "Датите на този работен пакет се извеждат автоматично от неговите деца. Активирайте „Ръчно планиране“, за да зададете датите."
         is_switched_from_manual_to_automatic: "Датите на този работен пакет може да се наложи да бъдат преизчислени след преминаване от ръчно към автоматично планиране поради връзки с други работни пакети."
       sharing:
-        share: "Споделяне"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

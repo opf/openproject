@@ -1,6 +1,5 @@
 fr:
   js:
-    queries:
-      all_open: 'Tous les tickets ouverts'
-      timeline: 'Ligne du temps'
-      milestones: 'Jalons'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

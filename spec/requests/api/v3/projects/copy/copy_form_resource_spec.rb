@@ -66,7 +66,7 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   subject(:response) { last_response }
 
   it "returns 200 FORM response", :aggregate_failures do
-    expect(response.status).to eq(200)
+    expect(response).to have_http_status(:ok)
 
     expect(response.body)
       .to be_json_eql("Form".to_json)
@@ -240,7 +240,7 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     end
 
     it "returns 403 Not Authorized" do
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

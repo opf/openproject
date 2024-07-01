@@ -35,8 +35,6 @@ module Storages
         class FilesQuery
           FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
 
-          using ServiceResultRefinements
-
           def self.call(storage:, auth_strategy:, folder:)
             new(storage).call(auth_strategy:, folder:)
           end
@@ -81,25 +79,10 @@ module Storages
           end
 
           def storage_files(json_files)
-            files = json_files.map { |json| storage_file(json) }
+            files = json_files.map { |json| Util.storage_file_from_json(json) }
 
             parent_reference = json_files.first[:parentReference]
             StorageFiles.new(files, parent(parent_reference), forge_ancestors(parent_reference))
-          end
-
-          def storage_file(json_file)
-            StorageFile.new(
-              id: json_file[:id],
-              name: json_file[:name],
-              size: json_file[:size],
-              mime_type: Util.mime_type(json_file),
-              created_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :createdDateTime)),
-              last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
-              created_by_name: json_file.dig(:createdBy, :user, :displayName),
-              last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
-              location: Util.escape_path(Util.extract_location(json_file[:parentReference], json_file[:name])),
-              permissions: %i[readable writeable]
-            )
           end
 
           def empty_response(http, folder)

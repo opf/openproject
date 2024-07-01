@@ -27,7 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title(t(:label_project_plural)) -%>
-
 <div class="project-list-page">
   <%= render(
         Projects::IndexPageHeaderComponent.new(
@@ -38,13 +37,10 @@ See COPYRIGHT and LICENSE files for more details.
         )
       )
   %>
-
   <%= render(Projects::IndexSubHeaderComponent.new(query:, current_user:, disable_buttons: state === :rename)) %>
-
   <%= render Projects::TableComponent.new(
     query:,
     current_user: current_user,
     params:) %>
-
   <%= render Projects::DiskUsageInformationComponent.new(current_user: current_user) %>
 </div>

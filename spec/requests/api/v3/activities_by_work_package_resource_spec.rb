@@ -52,14 +52,14 @@ RSpec.describe API::V3::Activities::ActivitiesByWorkPackageAPI do
       end
 
       it "succeeds" do
-        expect(last_response.status).to be 200
+        expect(last_response).to have_http_status :ok
       end
 
       context "not allowed to see work package" do
         let(:current_user) { create(:user) }
 
         it "fails with HTTP Not Found" do
-          expect(last_response.status).to be 404
+          expect(last_response).to have_http_status :not_found
         end
       end
     end
@@ -96,7 +96,7 @@ RSpec.describe API::V3::Activities::ActivitiesByWorkPackageAPI do
         include_context "create activity"
 
         it "responds with error" do
-          expect(last_response.status).to be 422
+          expect(last_response).to have_http_status :unprocessable_entity
         end
 
         it "notes the error" do

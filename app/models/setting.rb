@@ -133,7 +133,7 @@ class Setting < ApplicationRecord
     private
 
     def accessor_base_name(name)
-      name.to_s.sub(/(_writable\?)|(\?)|=\z/, '')
+      name.to_s.sub(/(_writable\?)|(\?)|=\z/, "")
     end
   end
 
@@ -337,7 +337,7 @@ class Setting < ApplicationRecord
 
     if definition.serialized? && value.is_a?(String)
       deserialize_hash(value)
-    elsif value != ''.freeze && !value.nil?
+    elsif value != "".freeze && !value.nil?
       read_formatted_setting(value, definition.format)
     else
       definition.format == :string ? value : nil

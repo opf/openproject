@@ -46,7 +46,7 @@ de:
   permission_delete_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
   permission_header_for_project_module_storages: Automatisch verwaltete Projektordner
   permission_manage_file_links: Datei-Links verwalten
-  permission_manage_files_in_project: Manage files in project
+  permission_manage_files_in_project: Dateien in OpenProject verwalten.
   permission_read_files: 'Automatisch verwaltete Projektordner: Dateien lesen'
   permission_share_files: 'Automatisch verwaltete Projektordner: Dateien freigeben'
   permission_share_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
@@ -102,11 +102,24 @@ de:
       storage_provider: Speicheranbieter
     health:
       checked: Zuletzt geprüft %{datetime}
+      connection_validation:
+        action: Verbindung erneut überprüfen
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Fehler
       label_healthy: Fehlerfrei
       label_pending: Ausstehend
+      label_warning: Warnung
+      project_folders:
+        subtitle: Automatisch verwaltete Projektordner
       since: seit %{datetime}
-      subtitle: Automatisch verwaltete Projektordner
       title: Verbindungsstatus
     health_email_notifications:
       description_subscribed: Alle Administratoren erhalten E-Mail-Benachrichtigungen über den Zustand dieses Dateispeichers.

@@ -92,13 +92,13 @@ RSpec.describe WorkPackagesController do
   end
 
   it "connects GET /work_packages/:id/share to work_packages/shares#index" do
-    expect(get("/work_packages/1/shares")).to route_to(controller: "work_packages/shares",
+    expect(get("/work_packages/1/shares")).to route_to(controller: "shares",
                                                        action: "index",
                                                        work_package_id: "1")
   end
 
   it "connects POST /work_packages/:id/share to work_packages/shares#create" do
-    expect(post("/work_packages/1/shares")).to route_to(controller: "work_packages/shares",
+    expect(post("/work_packages/1/shares")).to route_to(controller: "shares",
                                                         action: "create",
                                                         work_package_id: "1")
   end

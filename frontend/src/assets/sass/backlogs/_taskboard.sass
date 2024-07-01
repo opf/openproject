@@ -48,10 +48,6 @@
   white-space: nowrap
   text-overflow: ellipsis
 
-
-.controller-rb_taskboards.action-show #main
-  overflow: visible
-
 #rb .task
   color: #484848
   line-height: inherit
@@ -118,7 +114,7 @@
         cursor: pointer
         background-color: var(--highlight-neutral-bgColor)
   .story, .label_sprint_impediments
-    background-color: var(--color-scale-yellow-0)
+    background-color: var(--display-lemon-bgColor-muted)
     color: var(--fgColor-muted)
     border: none
     display: block
@@ -139,7 +135,7 @@
       text-decoration: line-through
   .work_package, .placeholder
     background-color: #AFAFAF
-    color: var(--color-scale-black)
+    color: var(--color-ansi-black)
     border: none
     cursor: move
     display: block
@@ -224,9 +220,6 @@
     background: none
     background-color: none
     border: none
-
-.ui-dialog-titlebar-close
-  overflow: hidden
 
 .dark
   #task_editor label, .subject, .assigned_to_id, div

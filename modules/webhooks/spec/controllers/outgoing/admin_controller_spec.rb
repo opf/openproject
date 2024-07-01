@@ -40,7 +40,7 @@ RSpec.describe Webhooks::Outgoing::AdminController do
 
     it "renders 403" do
       get :index
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
   end
 
@@ -139,7 +139,7 @@ RSpec.describe Webhooks::Outgoing::AdminController do
       it "renders 404" do
         get :edit, params: { webhook_id: "1234" }
         expect(response).not_to be_successful
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
   end
@@ -157,7 +157,7 @@ RSpec.describe Webhooks::Outgoing::AdminController do
       it "renders an error" do
         put :update, params: { webhook_id: "bar" }
         expect(response).not_to be_successful
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
 

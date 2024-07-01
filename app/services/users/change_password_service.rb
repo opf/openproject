@@ -65,7 +65,7 @@ module Users
 
     def invalidate_tokens
       ::Users::DropTokensService
-        .new(current_user: current_user)
+        .new(current_user:)
         .call!
     end
 

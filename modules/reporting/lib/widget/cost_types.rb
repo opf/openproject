@@ -31,7 +31,7 @@ class Widget::CostTypes < Widget::Base
     @cost_types = options.delete(:cost_types)
     @selected_type_id = options.delete(:selected_type_id)
 
-    super(options, &)
+    super
   end
 
   def render

@@ -79,5 +79,14 @@ RSpec.describe Projects::UpdateService, type: :model do
         subject
       end
     end
+
+    describe "section based validation" do
+      it "is reset after the save is done" do
+        model_instance._limit_custom_fields_validation_to_section_id = 1
+        subject
+        # section scope is reset after the update
+        expect(model_instance._limit_custom_fields_validation_to_section_id).to be_nil
+      end
+    end
   end
 end

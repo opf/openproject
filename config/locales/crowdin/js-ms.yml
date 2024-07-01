@@ -150,6 +150,7 @@ ms:
         attribute_reference:
           macro_help_tooltip: "Bahagian teks ini sedang dihasilkan secara dinamik oleh makro."
           not_found: "Sumber yang diminta tidak dapat ditemui"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Atribut yang dipilih '%{name}' tidak wujud."
         child_pages:
           button: "Terpaut pada halaman anak"
@@ -368,7 +369,7 @@ ms:
           "14_2":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                Pelancaran tersebut mengandungi pelbagai fitur dan penambahbaikan baharu: <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li>Tetapkan lebih banyak unit pada kerja, kerja yang berbaki dan masa yang berbaki</li><li>Konfigurasikan projek yang manakah yang telah diaktifkan bagi atribut projek</li> <li>Namakan semula senarai projek peribadi</li> <li>Elakkan daripada peringatan e-mel yang tidak diperlukan sekiranya @sebutan</li> <li>Jemput penghadir mesyuarat melalui e-mel</li> <li> Paparkan atribut pakej kerja yang tersemat di eksport PDF</li> </ul>
     ical_sharing_modal:
       title: "Langgan kalendar"
       inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."
@@ -903,6 +904,11 @@ ms:
       preformatted_text: "Teks yang telah dipraformatkan"
       wiki_link: "Pautan ke halaman Wiki"
       image: "Imej"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Perubahan projek secara pukal"
@@ -1058,12 +1064,8 @@ ms:
         is_parent: "Tarikh pakej kerja ini disimpulkan secara automatik dari anaknya. Aktifkan 'Penjadualan Manual' untuk tetapkan tarikh."
         is_switched_from_manual_to_automatic: "Tarikh pakej kerja ini mungkin perlu dikira semula selepas menukar dari penjadualan manual ke automatik kerana hubungan dengan pakej kerja lain."
       sharing:
-        share: "Kongsi"
         title: "Kongsi pakej kerja"
         show_all_users: "Paparkan kepada semua pengguna dengan siapa pakej kerja telah dikongsikan"
-        selected_count: "%{count} dipilih"
-        selection:
-          mixed: "Bercampur"
         upsale:
           description: "Kongsi pakej kerja dengan pengguna yang bukan ahli projek."
       table:
@@ -1357,4 +1359,4 @@ ms:
         network_off: "Terdapat masalah rangkaian."
         network_on: "Rangkaian kembali. Kami sedang mencuba."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject tidak dapat memberikan anda akses ke folder projek dalam tempoh masa yang dijangkakan. Sila cubasekali lagi.<br><br> Jika masalah itu berterusan, sila hubungi pentadbir OpenProject anda untuk menyemak <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status kesihatan penyediaan storan fail</a>.

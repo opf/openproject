@@ -508,26 +508,6 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
     end
   end
 
-  describe "#rename_file_command" do
-    before do
-      stub_request(:move, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/asd")
-        .with(
-          headers: {
-            "Authorization" => "Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==",
-            "Destination" => "/remote.php/dav/files/OpenProject/OpenProject/qwe"
-          }
-        ).to_return(status: 201, body: "", headers: {})
-    end
-
-    describe "with Nextcloud storage type selected" do
-      it "moves the file" do
-        result = registry.resolve("nextcloud.commands.rename_file").call(storage:, source: "OpenProject/asd",
-                                                                         target: "OpenProject/qwe")
-        expect(result).to be_success
-      end
-    end
-  end
-
   describe "#delete_folder_command" do
     let(:auth_strategy) { Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy }
 

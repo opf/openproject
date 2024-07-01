@@ -150,6 +150,7 @@ it:
         attribute_reference:
           macro_help_tooltip: "Questo segmento di testo viene renderizzato dinamicamente da una macro."
           not_found: "Impossibile trovare la risorsa richiesta"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "L'attributo selezionato '%{name}' non esiste."
         child_pages:
           button: "Collegamenti alle pagine discendenti"
@@ -368,7 +369,7 @@ it:
           "14_2":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Impostazione di ulteriori unità per lavoro, lavoro rimanente e tempo di lavoro</li> <li>Indicazione di quali progetti sono attivati per gli attributi</li> <li>Possibilità di rinominare gli elenchi di progetti privati</li> <li>Possibilità di evitare promemoria email ridondanti in caso di @menzioni</li> <li>Invito dei partecipanti alla riunione via email</li> <li>Visualizzazione degli attributi del pacchetto di lavoro nelle esportazioni PDF</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -904,6 +905,11 @@ it:
       preformatted_text: "Testo preformattato"
       wiki_link: "Collega ad una pagina Wiki"
       image: "Immagine"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Modifica complessiva del progetto"
@@ -1059,12 +1065,8 @@ it:
         is_parent: "Le date di questa macro-attività vengono automaticamente dedotte dai suoi figli. Attiva 'Programmazione manuale' per impostare le date."
         is_switched_from_manual_to_automatic: "Potrebbe essere necessario ricalcolare le date di questa macro-attività dopo il passaggio dalla programmazione manuale alla programmazione automatica a causa delle relazioni con altre macro-attività."
       sharing:
-        share: "Condividi"
         title: "Condividi macro-attività"
         show_all_users: "Mostra tutti gli utenti con i quali la macro-attività è stata condivisa"
-        selected_count: "%{count} selezionati"
-        selection:
-          mixed: "Misto"
         upsale:
           description: "Condividi macro-attività con utenti che non sono membri del progetto."
       table:
@@ -1360,4 +1362,4 @@ it:
         network_off: "C'è un problema di rete."
         network_on: "La rete è tornata. Stiamo provando."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject non è stato in grado di darti accesso alla cartella del progetto entro il tempo previsto. Prova di nuovo.<br><br> Se il problema persiste contatta il tuo amministratore OpenProject per controllare lo <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">stato della configurazione di archiviazione dei file</a>.

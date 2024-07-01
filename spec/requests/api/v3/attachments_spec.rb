@@ -55,7 +55,7 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
       let(:permissions) { [] }
 
       it "forbids to prepare attachments" do
-        expect(last_response.status).to eq 403
+        expect(last_response).to have_http_status :forbidden
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
       let(:permissions) { [:edit_work_packages] }
 
       it "can prepare attachments" do
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
       let(:permissions) { [:add_work_package_attachments] }
 
       it "can prepare attachments" do
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
       end
     end
   end
@@ -94,7 +94,7 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
         let(:status) { :uploaded }
 
         it "returns 404" do
-          expect(last_response.status).to eq 404
+          expect(last_response).to have_http_status :not_found
         end
       end
 
@@ -104,7 +104,7 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
         end
 
         it "responds with HTTP OK" do
-          expect(last_response.status).to eq 200
+          expect(last_response).to have_http_status :ok
         end
 
         it "returns the attachment representation" do

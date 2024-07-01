@@ -44,9 +44,12 @@ module Storages
         return ServiceResult.success(result: @data) if source.project_folder_inactive?
         return ServiceResult.success(result: @data.with(id: source.project_folder_id)) if source.project_folder_manual?
 
+        auth_strategy = Peripherals::Registry.resolve("#{source.storage.short_provider_type}.authentication.userless").call
+
         Peripherals::Registry
           .resolve("#{source.storage.short_provider_type}.commands.copy_template_folder")
-          .call(storage: source.storage,
+          .call(auth_strategy:,
+                storage: source.storage,
                 source_path: source.project_folder_location,
                 destination_path: target.managed_project_folder_path)
       end

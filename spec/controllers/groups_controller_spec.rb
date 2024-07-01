@@ -179,7 +179,7 @@ RSpec.describe GroupsController do
     it "forbids index" do
       get :index
       expect(response).not_to be_successful
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
 
     it "shows" do
@@ -191,7 +191,7 @@ RSpec.describe GroupsController do
     it "forbids new" do
       get :new
       expect(response).not_to be_successful
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
 
     it "forbids create" do
@@ -200,14 +200,14 @@ RSpec.describe GroupsController do
       end.not_to(change(Group, :count))
 
       expect(response).not_to be_successful
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
 
     it "forbids edit" do
       get :edit, params: { id: group.id }
 
       expect(response).not_to be_successful
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
   end
 end

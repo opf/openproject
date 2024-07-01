@@ -151,6 +151,7 @@ ja:
         attribute_reference:
           macro_help_tooltip: "このテキストセグメントはマクロによって動的にレンダリングされています。"
           not_found: "要求されたリソースが見つかりませんでした"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "選択した属性 '%{name}' は存在しません。"
         child_pages:
           button: "子ページへのリンク"
@@ -904,6 +905,11 @@ ja:
       preformatted_text: "整形済みテキスト"
       wiki_link: "Wikiページにリンクする"
       image: "画像"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "プロジェクトの一括変更"
@@ -1059,12 +1065,8 @@ ja:
         is_parent: "このワークパッケージの日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。"
         is_switched_from_manual_to_automatic: "他のワークパッケージとの関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。"
       sharing:
-        share: "共有"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:
