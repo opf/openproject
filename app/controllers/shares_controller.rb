@@ -41,10 +41,6 @@ class SharesController < ApplicationController
   before_action :authorize
 
   def dialog
-    puts "*" * 100
-    pp(@shares)
-    puts "*" * 100
-
     @sharing_manageable = sharing_strategy.sharing_manageable?
     @available_roles = sharing_strategy.available_roles
   end
