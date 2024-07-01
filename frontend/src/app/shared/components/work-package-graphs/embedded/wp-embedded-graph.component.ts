@@ -98,10 +98,25 @@ export class WorkPackageEmbeddedGraphComponent {
   }
 
   protected setChartOptions() {
+    const bodyFontColor= getComputedStyle(document.body).getPropertyValue('--body-font-color');
+
     const defaults:ChartOptions = {
+      color: bodyFontColor,
       responsive: true,
       maintainAspectRatio: false,
       indexAxis: this.chartType === 'horizontalBar' ? 'y' : 'x',
+      scales: {
+        y: {
+          ticks: {
+            color: bodyFontColor,
+          },
+        },
+        x: {
+          ticks: {
+            color: bodyFontColor,
+          },
+        },
+      },
       plugins: {
         legend: {
           // Only display legends if more than one dataset is provided.
@@ -110,6 +125,7 @@ export class WorkPackageEmbeddedGraphComponent {
         datalabels: {
           anchor: 'center',
           align: this.chartType === 'bar' ? 'top' : 'center',
+          color: bodyFontColor,
         },
       },
     };
