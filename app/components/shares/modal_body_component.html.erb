@@ -2,10 +2,7 @@
   component_wrapper(tag: 'turbo-frame') do
     flex_layout(data: { turbo: true }) do |modal_content|
       modal_content.with_row do
-        render(Shares::InviteUserFormComponent.new(entity: @entity,
-                                                   available_roles: @available_roles,
-                                                   sharing_manageable: @sharing_manageable,
-                                                   errors: @errors))
+        render(Shares::InviteUserFormComponent.new(strategy: strategy, errors: errors))
       end
 
       modal_content.with_row(mt: 3,
