@@ -33,23 +33,21 @@ module Shares
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    attr_reader :entity,
+    attr_reader :strategy,
+                :entity,
                 :shares,
                 :available_roles,
                 :sharing_manageable,
                 :errors
 
-    def initialize(entity:,
-                   shares:,
-                   available_roles:,
-                   sharing_manageable:,
-                   errors: nil)
+    def initialize(strategy:, shares:, errors: nil)
       super
 
-      @entity = entity
+      @strategy = strategy
+      @entity = strategy.entity
       @shares = shares
-      @available_roles = available_roles
-      @sharing_manageable = sharing_manageable
+      @available_roles = strategy.available_roles
+      @sharing_manageable = strategy.manageable?
       @errors = errors
     end
 

@@ -40,23 +40,14 @@ class SharesController < ApplicationController
   # TODO: Permission checks need to be implemented correctly depending on entity
   before_action :authorize
 
-  def dialog
-    @sharing_manageable = sharing_strategy.sharing_manageable?
-    @available_roles = sharing_strategy.available_roles
-  end
+  def dialog; end
 
   def index
     unless @query.valid?
       flash.now[:error] = query.errors.full_messages
     end
 
-    render Shares::ModalBodyComponent.new(
-      entity: @entity,
-      shares: @shares,
-      errors: @errors,
-      sharing_manageable: sharing_strategy.sharing_manageable?,
-      available_roles: sharing_strategy.available_roles
-    ), layout: nil
+    render Shares::ModalBodyComponent.new(strategy: sharing_strategy, shares: @shares, errors: @errors), layout: nil
   end
 
   def create # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
@@ -166,7 +157,7 @@ class SharesController < ApplicationController
         entity: @entity,
         available_roles: sharing_strategy.available_roles,
         shares: @new_shares || load_shares,
-        sharing_manageable: sharing_strategy.sharing_manageable?,
+        sharing_manageable: sharing_strategy.manageable?,
         errors: @errors
       )
     )
@@ -179,7 +170,7 @@ class SharesController < ApplicationController
       component: Shares::InviteUserFormComponent.new(
         entity: @entity,
         available_roles: sharing_strategy.available_roles,
-        sharing_manageable: sharing_strategy.sharing_manageable?,
+        sharing_manageable: sharing_strategy.manageable?,
         errors: @errors
       )
     )
@@ -188,7 +179,7 @@ class SharesController < ApplicationController
       component: Shares::CounterComponent.new(
         entity: @entity,
         count: current_visible_member_count,
-        sharing_manageable: sharing_strategy.sharing_manageable?
+        sharing_manageable: sharing_strategy.manageable?
       )
     )
 
@@ -197,12 +188,12 @@ class SharesController < ApplicationController
         component: Shares::ShareRowComponent.new(
           share:,
           available_roles: sharing_strategy.available_roles,
-          sharing_manageable: sharing_strategy.sharing_manageable?
+          sharing_manageable: sharing_strategy.manageable?
         ),
         target_component: Shares::ModalBodyComponent.new(
           entity: @entity,
           available_roles: sharing_strategy.available_roles,
-          sharing_manageable: sharing_strategy.sharing_manageable?,
+          sharing_manageable: sharing_strategy.manageable?,
           shares: load_shares,
           errors: @errors
         )
@@ -217,7 +208,7 @@ class SharesController < ApplicationController
       component: Shares::InviteUserFormComponent.new(
         entity: @entity,
         available_roles: sharing_strategy.available_roles,
-        sharing_manageable: sharing_strategy.sharing_manageable?,
+        sharing_manageable: sharing_strategy.manageable?,
         errors: @errors
       )
     )
@@ -242,14 +233,14 @@ class SharesController < ApplicationController
       component: Shares::ShareRowComponent.new(
         share: @share,
         available_roles: sharing_strategy.available_roles,
-        sharing_manageable: sharing_strategy.sharing_manageable?
+        sharing_manageable: sharing_strategy.manageable?
       )
     )
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(
         entity: @entity,
         count: current_visible_member_count,
-        sharing_manageable: sharing_strategy.sharing_manageable?
+        sharing_manageable: sharing_strategy.manageable?
       )
     )
 
@@ -260,7 +251,7 @@ class SharesController < ApplicationController
     update_via_turbo_stream(
       component: Shares::UserDetailsComponent.new(
         share: @share,
-        manager_mode: sharing_strategy.sharing_manageable?,
+        manager_mode: sharing_strategy.manageable?,
         invite_resent: true
       )
     )
@@ -288,7 +279,7 @@ class SharesController < ApplicationController
         component: Shares::ShareRowComponent.new(
           share:,
           available_roles: sharing_strategy.available_roles,
-          sharing_manageable: sharing_strategy.sharing_manageable?
+          sharing_manageable: sharing_strategy.manageable?
         )
       )
     end
@@ -297,7 +288,7 @@ class SharesController < ApplicationController
       component: Shares::CounterComponent.new(
         entity: @entity,
         count: current_visible_member_count,
-        sharing_manageable: sharing_strategy.sharing_manageable?
+        sharing_manageable: sharing_strategy.manageable?
       )
     )
 
