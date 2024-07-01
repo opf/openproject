@@ -31,6 +31,6 @@
 module OpenProject
   module Menu
     MenuGroup = Data.define(:header, :children)
-    MenuItem = Data.define(:title, :href, :selected)
+    MenuItem = Data.define(:title, :href, :selected, :favored)
   end
 end
