@@ -25,10 +25,14 @@
         end
       end
 
-      @user.visible_custom_field_values.each do |custom_value|
-        if custom_value.value.present?
-          details_container.with_row do
-            "#{custom_value.custom_field.name}: #{custom_value.formatted_value}"
+      visible_custom_fields.each do |custom_field|
+        details_container.with_row(test_selector: "user-custom-field") do
+          concat "#{custom_field.name}: "
+          value = @user.formatted_custom_value_for(custom_field)
+          if value.is_a?(Array)
+            concat safe_join(value, ", ")
+          else
+            concat value
           end
         end
       end

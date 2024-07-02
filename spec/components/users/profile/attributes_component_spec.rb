@@ -70,9 +70,13 @@ RSpec.describe Users::Profile::AttributesComponent, type: :component do
     end
   end
 
-  describe "Custom fields" do
+  describe "Custom field" do
     let(:custom_field) { create(:user_custom_field, :string, visible:) }
-    let(:user) { build_stubbed(:user, custom_values: [build(:custom_value, custom_field:, value: "Hello custom field")]) }
+    let(:custom_values) do
+      [build(:custom_value, custom_field:, value: "Hello custom field")]
+    end
+    let(:visible) { true }
+    let(:user) { build_stubbed(:user, custom_values:) }
 
     current_user { build(:admin) }
 
@@ -80,12 +84,8 @@ RSpec.describe Users::Profile::AttributesComponent, type: :component do
       render_inline(component)
     end
 
-    context "when visible" do
-      let(:visible) { true }
-
-      it "renders the field" do
-        expect(page).to have_text("Hello custom field")
-      end
+    it "renders the field" do
+      expect(page).to have_text("Hello custom field")
     end
 
     context "when not visible" do
@@ -93,6 +93,30 @@ RSpec.describe Users::Profile::AttributesComponent, type: :component do
 
       it "does not render the field" do
         expect(page).to have_no_text("Hello custom field")
+      end
+    end
+
+    context "with multiple custom fields" do
+      let(:list_custom_field) { create(:user_custom_field, :multi_list, visible:, name: "Ze list") }
+      let(:text_custom_field) { create(:user_custom_field, :text, visible:, name: "A portrait") }
+      let(:custom_values) do
+        [
+          build(:custom_value, custom_field: list_custom_field, value: list_custom_field.possible_values[0]),
+          build(:custom_value, custom_field: list_custom_field, value: list_custom_field.possible_values[1]),
+          build(:custom_value, custom_field: list_custom_field, value: list_custom_field.possible_values[2]),
+          build(:custom_value, custom_field: text_custom_field, value: "This is **formatted** text.")
+        ]
+      end
+
+      it "renders the fields correctly and sorted" do
+        # correct render of formattable
+        expect(page).to have_css("strong", text: "formatted")
+        # correct render of multi select
+        expect(page).to have_text("A, B, C")
+        # alphabetical order
+        items = page.all(:test_id, "user-custom-field")
+        expect(items[0]).to have_text("A portrait")
+        expect(items[1]).to have_text("Ze list")
       end
     end
   end

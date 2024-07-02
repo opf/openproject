@@ -46,6 +46,15 @@ module Users
       def visible_user_information?
         @user.pref.can_expose_mail? || @user.visible_custom_field_values.any? { _1.value.present? }
       end
+
+      def visible_custom_fields
+        @user
+          .visible_custom_field_values
+          .select { |cv| cv.value.present? }
+          .group_by(&:custom_field)
+          .keys
+          .sort_by(&:name)
+      end
     end
   end
 end
