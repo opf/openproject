@@ -4,6 +4,7 @@ import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { set } from 'lodash';
 
 export default class IndexController extends Controller {
   static values = {
@@ -140,8 +141,15 @@ export default class IndexController extends Controller {
   private addBlurListener(editor:ICKEditorInstance) {
     editor.listenTo(
       editor.editing.view.document,
-      'blur',
-      () => this.hideEditorIfEmpty(),
+      'change:isFocused',
+      () => {
+        // without the timeout `isFocused` is still true even if the editor was blurred
+        // current limitation:
+        // clicking on empty toolbar space and the somewhere else on the page does not trigger the blur anymore
+        setTimeout(() => {
+          if (!editor.ui.focusTracker.isFocused) { this.hideEditorIfEmpty(); }
+        }, 100);
+      },
       { priority: 'highest' },
     );
   }
