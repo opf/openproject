@@ -21,7 +21,7 @@
         )
       end
 
-      if query.persisted? && OpenProject::FeatureDecisions.project_list_sharing_active? && can_view_shares?
+      if query.persisted? && OpenProject::FeatureDecisions.project_list_sharing_active?
         header.with_action_icon_button(
           tag: :a,
           href: dialog_project_query_members_path(query),
