@@ -98,13 +98,13 @@ module Projects
 
     def public_filters
       persisted_filters
-        .select { |query| query.public? && query.user != current_user }
+        .select(&:public?)
         .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
     def my_filters
       persisted_filters
-        .select { |query| query.user == current_user }
+        .select { |query| query.user == current_user && !query.public? }
         .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
