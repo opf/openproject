@@ -28,23 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module APITokens
-  class CreateContract < BaseContract
-    attribute :token_name
+require "spec_helper"
+require "services/base_services/behaves_like_delete_service"
 
-    validates :token_name, presence: { message: I18n.t("my.access_token.errors.token_name_blank") }
-    validate :token_name_is_unique, unless: :token_name_is_blank?
-
-    private
-
-    def token_name_is_blank?
-      token_name.blank?
-    end
-
-    def token_name_is_unique
-      if Token::API.where(user: model.user).any? { |t| t.token_name == model.token_name }
-        errors.add(:token_name, :taken, message: I18n.t("my.access_token.errors.token_name_in_use"))
-      end
-    end
-  end
+RSpec.describe APITokens::DeleteService, type: :model do
+  it_behaves_like "BaseServices delete service"
 end

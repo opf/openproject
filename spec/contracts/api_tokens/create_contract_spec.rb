@@ -28,23 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module APITokens
-  class CreateContract < BaseContract
-    attribute :token_name
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-    validates :token_name, presence: { message: I18n.t("my.access_token.errors.token_name_blank") }
-    validate :token_name_is_unique, unless: :token_name_is_blank?
-
-    private
-
-    def token_name_is_blank?
-      token_name.blank?
-    end
-
-    def token_name_is_unique
-      if Token::API.where(user: model.user).any? { |t| t.token_name == model.token_name }
-        errors.add(:token_name, :taken, message: I18n.t("my.access_token.errors.token_name_in_use"))
-      end
-    end
+RSpec.describe APITokens::CreateContract do
+  it_behaves_like "api token contract" do
+    subject(:contract) { described_class.new(token, current_user) }
   end
 end
