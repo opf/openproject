@@ -37,17 +37,25 @@ module Storages
             Strategy.new(:oauth_client_credentials)
           end
 
+          def initialize(use_cache)
+            @use_cache = use_cache
+          end
+
           def call(storage:, http_options: {})
             config = storage.oauth_configuration.to_httpx_oauth_config
             return build_failure(storage) unless config.valid?
 
             token_cache_key = cache_key(storage)
-            access_token = Rails.cache.read(token_cache_key)
+            access_token = @use_cache ? Rails.cache.read(token_cache_key) : nil
 
             # In ruby 3.4 this can become `return it`
-            http = build_http_session(access_token, config, http_options).on_failure { return _1 }.result
+            http = build_http_session(access_token, config, http_options)
+                     .on_failure { return _1 }
+                     .result
 
             operation_result = yield http
+
+            return operation_result unless @use_cache
 
             case operation_result
             in success: true
