@@ -46,18 +46,25 @@ module Reactable
   end
 
   def detailed_grouped_emoji_reactions
-    emoji_reactions
+    # TODO: Refactor this to be database agnostic
+    # fetch all emoji reactions and group them by emoji with their count and user ids
+    emoji_groups = emoji_reactions
       .select('emoji, COUNT(*) as count, ARRAY_AGG(user_id) as user_ids')
       .group(:emoji)
       .order('emoji ASC')
-      .map do |result|
-        users = User.where(id: result.user_ids).select(:id, :firstname, :lastname)
-        {
-          emoji: result.emoji,
-          count: result.count,
-          users: users.map { |u| { id: u.id, name: u.name } }
-        }
-      end.index_by { |r| r[:emoji] }
+
+    # avoid N+1 queries by preloading all reacting users
+    user_ids = emoji_groups.flat_map(&:user_ids).uniq
+    users = User.where(id: user_ids).select(:id, :firstname, :lastname).index_by(&:id)
+
+    # convert the result to a hash indexed by emoji suitable for rendering
+    emoji_groups.map do |result|
+      {
+        emoji: result.emoji,
+        count: result.count,
+        users: result.user_ids.map { |id| { id: id, name: users[id].name } }
+      }
+    end.index_by { |r| r[:emoji] }
   end
 
   def available_emojis
