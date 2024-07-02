@@ -15,6 +15,7 @@
     [href]="extendedUrl(project.id)"
     [attr.data-list-selector]="projectListActionIdentifier"
     [attr.data-project-id]="project.id"
+    [attr.data-test-selector]="currentProjectService.id === project.id.toString() ? 'op-header-project-select--active-item' : null"
   >
     <span
       class="spot-list--item-title spot-list--item-title_ellipse-text"
@@ -32,8 +33,11 @@
       ></svg>
     </span>
 
-    <a [href]="extendedUrl(null)"
-       *ngIf="currentProjectService.id === project.id.toString()">
+    <a
+      [href]="extendedUrl(null)"
+      *ngIf="currentProjectService.id === project.id.toString()"
+      data-test-selector="op-header-project-select--item-remove-icon"
+    >
       <svg
         x-circle-icon
         size="small"
