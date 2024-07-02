@@ -11,7 +11,10 @@ export function addTurboEventListeners() {
 
     if (success && target instanceof HTMLFormElement) {
       const dialog = target.closest('dialog') as HTMLDialogElement;
-      dialog && dialog.dataset.keepOpenOnSubmit !== 'true' && dialog.close();
+
+      if (dialog && dialog.dataset.keepOpenOnSubmit !== 'true') {
+        dialog.close();
+      }
     }
   });
 }

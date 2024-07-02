@@ -2,7 +2,6 @@ import '../typings/shims.d.ts';
 import * as Turbo from '@hotwired/turbo';
 import { registerDialogStreamAction } from './dialog-stream-action';
 import { addTurboEventListeners } from './turbo-event-listeners';
-import { ModalDialogElement } from '@openproject/primer-view-components/app/components/primer/alpha/modal_dialog';
 
 // Disable default turbo-drive for now as we don't need it for now AND it breaks angular routing
 Turbo.session.drive = false;
