@@ -138,15 +138,10 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
 
     if call.success?
-      update_via_turbo_stream(
-        component: WorkPackages::ActivitiesTab::Journals::FilterAndSortingComponent.new(
-          work_package: @work_package,
-          filter:
-        )
-      )
-
-      update_via_turbo_stream(
-        component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
+      # update the whole tab to reflect the new sorting in all components
+      # we need to call replace in order to properly re-init the index stimulus component
+      replace_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::IndexComponent.new(
           work_package: @work_package,
           filter:
         )
