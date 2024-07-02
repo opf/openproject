@@ -1,6 +1,10 @@
 <%=
   component_wrapper(tag: 'turbo-frame') do
     flex_layout(data: { turbo: true }) do |modal_content|
+      if strategy.custom_body_component?
+        render(strategy.additional_body_component.new(strategy: strategy, modal_body_container: modal_content))
+      end
+
       modal_content.with_row do
         render(Shares::InviteUserFormComponent.new(strategy:, errors: errors))
       end
