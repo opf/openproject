@@ -36,8 +36,7 @@
               concat helpers.link_to_project(membership.project)
 
               roles = membership.roles.sort.collect(&:to_s).join(', ')
-              date = helpers.format_date(membership.created_at)
-              concat render(Primer::Beta::Text.new(ml: 1, color: :subtle, font_size: :small)) { "(#{roles}, #{date})" }
+              concat render(Primer::Beta::Text.new(ml: 1, color: :subtle, font_size: :small)) { "(#{roles})" }
             end
           end
         end

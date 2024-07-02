@@ -45,7 +45,7 @@ module Users
         @memberships = @user.memberships
                             .of_any_project
                             .where(id: Member.visible(User.current))
-                            .order("projects.created_at DESC")
+                            .order("projects.name ASC")
       end
 
       def render?
