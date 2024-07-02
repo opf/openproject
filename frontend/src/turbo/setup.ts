@@ -18,15 +18,3 @@ document.addEventListener('turbo:frame-missing', (event:CustomEvent) => {
   event.preventDefault();
   visit(response.url);
 });
-
-// Close the primer dialog when the form inside has been submitted with a success response
-// It is necessary to close the primer dialog using the `close()` method, otherwise
-// it will leave an overflow:hidden attribute on the body, which prevents scrolling on the page.
-document.addEventListener('turbo:submit-end', (event:CustomEvent) => {
-  const { detail: { success }, target } = event as { detail:{ success:boolean }, target:EventTarget };
-
-  if (success && target instanceof HTMLFormElement) {
-    const dialog = target.closest('modal-dialog') as ModalDialogElement;
-    dialog && dialog.close(true);
-  }
-});
