@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -25,57 +27,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-module Meetings
-  class Sidebar::ParticipantsComponent < ApplicationComponent
+#
+module OpPrimer
+  class ExpandableListComponent < Primer::Component
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    MAX_SHOWN_PARTICIPANTS = 5
+    CUTOFF_LIMIT = 10
+
+    renders_many :elements
+
+    def initialize(cutoff_limit: CUTOFF_LIMIT, **system_arguments)
+      super()
+
+      @system_arguments = deny_tag_argument(**system_arguments)
+      @cutoff_limit = cutoff_limit
+    end
 
     def wrapper_data_attributes
       {
         controller: "expandable-list",
         "application-target": "dynamic"
       }
-    end
-
-    def initialize(meeting:)
-      super
-
-      @meeting = meeting
-    end
-
-    def elements
-      @elements ||= @meeting.invited_or_attended_participants.sort
-    end
-
-    def count
-      @count ||= elements.count
-    end
-
-    def render_participant(participant)
-      flex_layout(align_items: :center) do |flex|
-        flex.with_column(classes: "ellipsis") do
-          render(Users::AvatarComponent.new(user: participant.user,
-                                            size: :medium,
-                                            classes: "op-principal_flex"))
-        end
-        render_participant_state(participant, flex)
-      end
-    end
-
-    def render_participant_state(participant, flex)
-      if participant.attended?
-        flex.with_column(ml: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("description_attended").capitalize }
-        end
-      elsif participant.invited?
-        flex.with_column(ml: 1) do
-          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("description_invite").capitalize }
-        end
-      end
     end
   end
 end
