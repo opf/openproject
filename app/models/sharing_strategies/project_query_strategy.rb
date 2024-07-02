@@ -43,6 +43,10 @@ module SharingStrategies
       @entity.editable?
     end
 
+    def viewable?
+      @entity.visible?
+    end
+
     def create_contract_class
       Shares::ProjectQueries::CreateContract
     end

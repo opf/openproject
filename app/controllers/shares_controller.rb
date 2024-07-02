@@ -37,8 +37,9 @@ class SharesController < ApplicationController
   before_action :load_share, only: %i[destroy update resend_invite]
   before_action :enterprise_check, only: %i[index]
 
-  # TODO: Permission checks need to be implemented correctly depending on entity
-  before_action :authorize
+  before_action :check_if_manageable, except: %i[index dialog]
+  before_action :check_if_viewable, only: %i[index dialog]
+  authorization_checked! :dialog, :index, :create, :update, :destroy, :resend_invite, :bulk_update, :bulk_destroy
 
   def dialog; end
 
@@ -130,6 +131,18 @@ class SharesController < ApplicationController
   private
 
   attr_reader :sharing_strategy
+
+  def check_if_viewable
+    return if sharing_strategy.viewable? || sharing_strategy.manageable?
+
+    render_403
+  end
+
+  def check_if_manageable
+    return if sharing_strategy.manageable?
+
+    render_403
+  end
 
   def enterprise_check
     return if EnterpriseToken.allows_to?(:work_package_sharing)
