@@ -26,45 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module SharingStrategies
-  class ProjectQueryStrategy < BaseStrategy
-    def available_roles
-      ProjectQueryRole.all.map.with_index do |role, index|
-        {
-          label: role.name,
-          value: role.id,
-          description: "#{role.name} description", # TODO: Figure out from where we can get the description
-          default: index.zero?
-        }
+module Shares
+  module ProjectQueries
+    class EmptyStateComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      include OpPrimer::ComponentHelpers
+
+      def initialize(strategy:)
+        super
+
+        @strategy = strategy
+        @entity = strategy.entity
       end
-    end
 
-    def manageable?
-      @entity.editable?
-    end
+      private
 
-    def viewable?
-      @entity.visible?
-    end
+      attr_reader :strategy, :entity
 
-    def create_contract_class
-      Shares::ProjectQueries::CreateContract
-    end
-
-    def update_contract_class
-      Shares::ProjectQueries::UpdateContract
-    end
-
-    def delete_contract_class
-      Shares::ProjectQueries::DeleteContract
-    end
-
-    def additional_body_component
-      Shares::ProjectQueries::PublicFlagComponent
-    end
-
-    def empty_state_component
-      Shares::ProjectQueries::EmptyStateComponent if @entity.public?
+      def blankslate_config # rubocop:disable Metrics/AbcSize
+        @blankslate_config ||= {}.tap do |config|
+          if params[:filters].blank?
+            config[:icon] = :people
+            config[:heading_text] = "ABC"
+            config[:description_text] = I18n.t("sharing.text_empty_state_description", entity: @entity.class.model_name.human)
+          else
+            config[:icon] = :search
+            config[:heading_text] = I18n.t("sharing.text_empty_search_header")
+            config[:description_text] = I18n.t("sharing.text_empty_search_description")
+          end
+        end
+      end
     end
   end
 end
