@@ -43,7 +43,7 @@ module Users
         # also gets applied to the Project.allowed_to parts concatenated by a UNION
         # and an order inside a UNION is not allowed in postgres.
         @memberships = @user.memberships
-                            .where.not(project_id: nil)
+                            .of_any_project
                             .where(id: Member.visible(User.current))
                             .order("projects.created_at DESC")
       end
