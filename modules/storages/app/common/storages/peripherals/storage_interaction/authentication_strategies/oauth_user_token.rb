@@ -124,11 +124,6 @@ module Storages
             token.update(access_token:, refresh_token:)
           end
 
-          def log_and_destroy_token(token, log_message)
-            Rails.logger.error(log_message)
-            token.destroy
-          end
-
           def handle_http_error_on_refresh(token, exception)
             log_message = "Error while refreshing OAuth token."
             data = Failures::ErrorData.call(response: exception.response, source: self.class)
