@@ -96,12 +96,6 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     end
   end
 
-  def can_publish?
-    OpenProject::FeatureDecisions.project_list_sharing_active? &&
-    current_user.allowed_globally?(:manage_public_project_queries) &&
-    query.persisted?
-  end
-
   def show_state?
     state == :show
   end

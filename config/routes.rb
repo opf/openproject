@@ -201,9 +201,7 @@ Rails.application.routes.draw do
 
     member do
       get :rename
-
-      post :publish
-      post :unpublish
+      post :toggle_public
     end
   end
 

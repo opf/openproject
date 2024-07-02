@@ -180,7 +180,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_public_project_queries,
                      {
-                       "projects/queries": %i[publish unpublish]
+                       "projects/queries": %i[toggle_public]
                      },
                      permissible_on: :global,
                      require: :loggedin,
