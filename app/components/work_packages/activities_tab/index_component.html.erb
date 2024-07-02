@@ -10,15 +10,33 @@
             )
           )
         end
-        activties_tab_container.with_row(id: "journals-container", classes: "with-initial-input-compensation", data: { "work-packages--activities-tab--index-target": "journalsContainer" }) do
-          render(
-            WorkPackages::ActivitiesTab::Journals::IndexComponent.new(work_package:, filter:)
-          )
-        end
-        activties_tab_container.with_row(id: "input-container", mt: 3, pt: 2, pb: 2, pl: 3, pr: 2, border: :top, bg: :subtle) do
-          render(
-            WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
-          )
+        activties_tab_container.with_row(flex_layout: true) do |journals_wrapper_container|
+          journals_wrapper_container.with_row(
+            id: "journals-container",
+            classes: "with-initial-input-compensation",
+            data: { "work-packages--activities-tab--index-target": "journalsContainer" }
+          ) do
+            render(
+              WorkPackages::ActivitiesTab::Journals::IndexComponent.new(work_package:, filter:)
+            )
+          end
+          journals_wrapper_container.with_row(
+            id: "input-container",
+            classes: "sort-#{journal_sorting}", # css order attribute will take care of correct position
+            mt: 3,
+            mb: [3, nil, nil, nil, 0],
+            pt: 2,
+            pb: 2,
+            pl: 3,
+            pr: 2,
+            border: [nil, nil, nil, nil, :top],
+            border_radius: [2, nil, nil, nil, 0],
+            bg: :subtle
+          ) do
+            render(
+              WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
+            )
+          end
         end
       end
     end

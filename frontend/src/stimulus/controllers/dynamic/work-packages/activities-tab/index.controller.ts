@@ -94,10 +94,6 @@ export default class IndexController extends Controller {
   setFilterToOnlyChanges() { this.filterValue = 'only_changes'; }
   unsetFilter() { this.filterValue = ''; }
 
-  private getCkEditorElement():HTMLElement | null {
-    return this.formRowTarget.querySelectorAll('.document-editor__editable')[0] as HTMLElement;
-  }
-
   private getCkEditorInstance():ICKEditorInstance | null {
     const AngularCkEditorElement = this.element.querySelector('opce-ckeditor-augmented-textarea');
     return AngularCkEditorElement ? jQuery(AngularCkEditorElement).data('editor') as ICKEditorInstance : null;
@@ -155,6 +151,9 @@ export default class IndexController extends Controller {
   }
 
   private adjustJournalContainerMargin() {
+    // don't do this on mobile screens
+    // TODO: get rid of static width value and reach for a more CSS based solution
+    if (window.innerWidth < 1279) { return; }
     this.journalsContainerTarget.style.marginBottom = `${this.formRowTarget.clientHeight + 40}px`;
   }
 
@@ -172,9 +171,9 @@ export default class IndexController extends Controller {
 
     this.addEventListenersToCkEditorInstance();
 
-    const ckEditorElement = this.getCkEditorElement();
-    if (ckEditorElement) {
-      setTimeout(() => ckEditorElement.focus(), 10);
+    const ckEditorInstance = this.getCkEditorInstance();
+    if (ckEditorInstance) {
+      setTimeout(() => ckEditorInstance.editing.view.focus(), 10);
     }
   }
 
