@@ -19,7 +19,7 @@
       end
 
       details_container.with_row(mt: 2) do
-        render(OpPrimer::ExpandableListComponent.new(cutoff_limit: 5)) do |list|
+        render(OpPrimer::ExpandableListComponent.new) do |list|
           @groups.each do |group|
             list.with_element do
               helpers.avatar(group, size: :mini, hide_name: false)
