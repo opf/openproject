@@ -266,6 +266,7 @@ cs:
       my: "Moje projekty"
       favored: "Oblíbené projekty"
       archived: "Archivované projekty"
+      shared: "Shared project lists"
       public: "Veřejné projekty"
       my_private: "soukromé seznamy  projektů"
       new:
@@ -480,7 +481,7 @@ cs:
         is_readonly: "Pouze pro čtení"
         excluded_from_totals: "Vyloučeno z celkových hodnot"
   themes:
-    dark: "Tmavé"
+    dark: "Dark (experimental)"
     light: "Světlý"
     light_high_contrast: "Světlý kontrast"
   types:
@@ -733,6 +734,7 @@ cs:
         auto_hide_popups: "Automaticky skrýt oznámení o úspěchu"
         warn_on_leaving_unsaved: "Upozornit mě při opuštění pracovního balíčku s neuloženými změnami"
         theme: "Režim"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Datum dokončení"
         sharing: "Sdílení"

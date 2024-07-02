@@ -907,10 +907,10 @@ ru:
       wiki_link: "Ссылка на wiki страницу"
       image: "Изображение"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Предоставить общий доступ"
+      selected_count: "%{count} выбрано"
       selection:
-        mixed: "Mixed"
+        mixed: "Смешанное"
     work_packages:
       bulk_actions:
         move: "Массовое изменение проекта"

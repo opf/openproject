@@ -263,6 +263,7 @@ nl:
       my: "Mijn projecten"
       favored: "Favorite projects"
       archived: "Gearchiveerde projecten"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "My private project lists"
       new:
@@ -465,7 +466,7 @@ nl:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Licht"
     light_high_contrast: "Licht hoog contrast"
   types:
@@ -716,6 +717,7 @@ nl:
         auto_hide_popups: "Automatisch verbergen geslaagd-meldingen"
         warn_on_leaving_unsaved: "Mij waarschuwen bij het verlaten van een werkpakket met niet-opgeslagen wijzigingen"
         theme: "Modus"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Einddatum"
         sharing: "Delen"

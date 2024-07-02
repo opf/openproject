@@ -265,6 +265,7 @@ hu:
       my: "Saját projekjeim"
       favored: "Favorite projects"
       archived: "Archivált projektek"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "Privát projektlistáim"
       new:
@@ -466,7 +467,7 @@ hu:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Világos"
     light_high_contrast: "Világos, nagy kontraszt"
   types:
@@ -716,6 +717,7 @@ hu:
         auto_hide_popups: "Siker értesítések automatikus elrejtése"
         warn_on_leaving_unsaved: "Figyelmeztess, ha úgy hagyom el a munkacsomagot, hogy nem mentett változások vannak rajta"
         theme: "Mód"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Befejezési dátum"
         sharing: "Megosztás"

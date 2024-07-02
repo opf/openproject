@@ -264,6 +264,7 @@ ja:
       my: "参加しているプロジェクト"
       favored: "Favorite projects"
       archived: "Archived projects"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "My private project lists"
       new:
@@ -458,7 +459,7 @@ ja:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -708,6 +709,7 @@ ja:
         auto_hide_popups: "成功通知を自動的に隠す"
         warn_on_leaving_unsaved: "変更を保存せずにワークパッケージから移動するときに警告"
         theme: "Mode"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "終了日"
         sharing: "共有"

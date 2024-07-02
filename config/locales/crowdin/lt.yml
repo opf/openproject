@@ -263,6 +263,7 @@ lt:
       my: "Mano projektai"
       favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "Mano privatūs projektų sąrašai"
       new:
@@ -477,7 +478,7 @@ lt:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Šviesi"
     light_high_contrast: "Šviesi kontrastinga"
   types:
@@ -730,6 +731,7 @@ lt:
         auto_hide_popups: "Automatiškai slėpti sėkmės pranešimus"
         warn_on_leaving_unsaved: "Įspėti mane, kai palieku darbų paketą su neišsaugotais pakeitimais"
         theme: "Režimas"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Pabaigos data"
         sharing: "Pasidalijimas"

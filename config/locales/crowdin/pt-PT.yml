@@ -264,6 +264,7 @@ pt-PT:
       my: "Os meus projetos"
       favored: "Projetos favoritos"
       archived: "Projetos arquivados"
+      shared: "Shared project lists"
       public: "Listas públicas de projetos"
       my_private: "As minhas listas de projetos privados"
       new:
@@ -466,7 +467,7 @@ pt-PT:
         is_readonly: "Só de leitura"
         excluded_from_totals: "Excluído dos totais"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -717,6 +718,7 @@ pt-PT:
         auto_hide_popups: "Ocultar automaticamente notificações de sucesso"
         warn_on_leaving_unsaved: "Alertar-me quando sair de um pacote de trabalho sem guardar as alterações"
         theme: "Modo"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Data de término"
         sharing: "Compartilhar"
