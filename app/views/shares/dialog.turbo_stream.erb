@@ -1,6 +1,6 @@
 <%= turbo_stream.dialog do
   render(Primer::Alpha::Dialog.new(title: t(:label_share_project_list),
-                                   id: 'share_list',
+                                   id: 'sharing-modal',
                                    data: { 'keep-open-on-submit': true },
                                    size: :xlarge)) do |d|
     d.with_header(variant: :large)
