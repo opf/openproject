@@ -40,10 +40,6 @@ module Users
       end
 
       def render?
-        visible_user_information?
-      end
-
-      def visible_user_information?
         @user.pref.can_expose_mail? || @user.visible_custom_field_values.any? { _1.value.present? }
       end
 

@@ -7,12 +7,15 @@
             render(Primer::Beta::Heading.new(tag: :h4)) { t(:label_information) }
           end
 
-          if User.current.admin?
+          if User.current.admin? || User.current == @user
             heading.with_column do
-              render(Primer::Beta::Link.new(
-                href: edit_user_path(@user),
-                scheme: :secondary
-              )) { t(:label_manage) }
+              render(Primer::Beta::IconButton.new(
+                icon: :gear,
+                scheme: :invisible,
+                tag: :a,
+                "aria-label": t(:label_manage),
+                href: User.current == @user? my_account_path : edit_user_path(@user)
+              ))
             end
           end
         end

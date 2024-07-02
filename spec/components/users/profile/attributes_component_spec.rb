@@ -33,8 +33,8 @@ require "rails_helper"
 RSpec.describe Users::Profile::AttributesComponent, type: :component do
   let(:component) { described_class.new(user:) }
 
-  describe "visible_user_information?" do
-    subject { component.visible_user_information? }
+  describe "render?" do
+    subject { component.render? }
 
     context "when user has hide_mail = false in their preferences" do
       let(:user) { build(:user, preferences: { hide_mail: false }) }
