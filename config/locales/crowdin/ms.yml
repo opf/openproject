@@ -265,6 +265,7 @@ ms:
       my: "Projek saya"
       favored: "Projek kegemaran"
       archived: "Projek yang diarkibkan"
+      shared: "Shared project lists"
       public: "Senarai projek umum"
       my_private: "Senarai projek peribadi saya"
       new:
@@ -460,7 +461,7 @@ ms:
         is_readonly: "Baca-sahaja"
         excluded_from_totals: "Dikecualikan daripada jumlah"
   themes:
-    dark: "Gelap"
+    dark: "Dark (experimental)"
     light: "Terang"
     light_high_contrast: "Kontras tinggi yang terang"
   types:
@@ -710,6 +711,7 @@ ms:
         auto_hide_popups: "Pemberitahuan kejayaan auto-sembunyi"
         warn_on_leaving_unsaved: "Beri amaran kepada saya apabila meninggalkan pakej kerja dengan perubahan yang belum disimpan."
         theme: "Mod"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Tarikh selesai"
         sharing: "Perkongsian"

@@ -266,6 +266,7 @@ ko:
       my: "내 프로젝트"
       favored: "즐겨 찾는 프로젝트"
       archived: "보관된 프로젝트"
+      shared: "Shared project lists"
       public: "공개 프로젝트 목록"
       my_private: "내 비공개 프로젝트 목록"
       new:
@@ -461,7 +462,7 @@ ko:
         is_readonly: "읽기 전용"
         excluded_from_totals: "합계에서 제외됨"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
   types:
@@ -711,6 +712,7 @@ ko:
         auto_hide_popups: "자동 숨김 성공 알림"
         warn_on_leaving_unsaved: "저장하지 않고 작업 패키지를 벗어날 때 알려주세요."
         theme: "모드"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "완료 날짜"
         sharing: "공유"

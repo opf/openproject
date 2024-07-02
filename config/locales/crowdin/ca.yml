@@ -263,6 +263,7 @@ ca:
       my: "Els meus projectes"
       favored: "Projectes preferits"
       archived: "Projectes arxivats"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "Les meves llistes de projectes privats"
       new:
@@ -465,7 +466,7 @@ ca:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Clar"
     light_high_contrast: "Clar alt contrast"
   types:
@@ -715,6 +716,7 @@ ca:
         auto_hide_popups: "Oculta automàticament les notificacions de succés"
         warn_on_leaving_unsaved: "Avisa quan es deixi un paquet de treball amb canvis no desats"
         theme: "Mode"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Data de finalització"
         sharing: "Compartint"

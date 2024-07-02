@@ -261,6 +261,7 @@ uk:
       my: "Мої проєкти"
       favored: "Обрані проєкти"
       archived: "Заархівовані проєкти"
+      shared: "Shared project lists"
       public: "Списки загальнодоступних проєктів"
       my_private: "Особисті списки проєктів"
       new:
@@ -474,7 +475,7 @@ uk:
         is_readonly: "Лише для перегляду"
         excluded_from_totals: "Виключено з підсумків"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Світла"
     light_high_contrast: "Світла, високий контраст"
   types:
@@ -727,6 +728,7 @@ uk:
         auto_hide_popups: "Автоматичне приховування сповіщень про успіх"
         warn_on_leaving_unsaved: "Попереджати мене, коли залишив робочий пакет із незбереженими змінами"
         theme: "Режим"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Дата закінчення"
         sharing: "Поширення"

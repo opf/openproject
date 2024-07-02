@@ -266,6 +266,7 @@
       my: "Mine prosjekter"
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
+      shared: "Shared project lists"
       public: "Offentlige prosjektlister"
       my_private: "Mine private prosjektlister"
       new:
@@ -467,7 +468,7 @@
         is_readonly: "Kun lesetilgang"
         excluded_from_totals: "Unntatt fra totaler"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Lyst"
     light_high_contrast: "Lys høy kontrast"
   types:
@@ -718,6 +719,7 @@
         auto_hide_popups: "Auto-skjul suksessvarsler"
         warn_on_leaving_unsaved: "Varsle meg når jeg forlater en arbeidspakke med ulagrede endringer"
         theme: "Modus"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Sluttdato"
         sharing: "Deling"

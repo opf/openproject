@@ -265,6 +265,7 @@ zh-TW:
       my: "我的專案"
       favored: "Favorite projects"
       archived: "封存專案"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "我的私人專案"
       new:
@@ -461,7 +462,7 @@ zh-TW:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "白色主題"
     light_high_contrast: "高對比白色主題"
   types:
@@ -711,6 +712,7 @@ zh-TW:
         auto_hide_popups: "自動隱藏成功通知"
         warn_on_leaving_unsaved: "離開尚未儲存的工作包時提示我"
         theme: "模式 "
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "完成日期"
         sharing: "分享"

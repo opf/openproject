@@ -266,6 +266,7 @@ ka:
       my: "ჩემი პროექტები"
       favored: "Favorite projects"
       archived: "Archived projects"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "My private project lists"
       new:
@@ -468,7 +469,7 @@ ka:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "ღია"
     light_high_contrast: "Light high contrast"
   types:
@@ -719,6 +720,7 @@ ka:
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
         theme: "რეჟიმი"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "დასრულების თარიღი"
         sharing: "გაზიარება"
