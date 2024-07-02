@@ -27,7 +27,7 @@
 #++
 
 module SharingStrategies
-  class WorkPackageStrategy
+  class WorkPackageStrategy < BaseStrategy
     def available_roles
       role_mapping = WorkPackageRole.unscoped.pluck(:builtin, :id).to_h
 
