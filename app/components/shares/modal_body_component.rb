@@ -65,20 +65,6 @@ module Shares
       "op-share-dialog-active-shares"
     end
 
-    def blankslate_config # rubocop:disable Metrics/AbcSize
-      @blankslate_config ||= {}.tap do |config|
-        if params[:filters].blank?
-          config[:icon] = :people
-          config[:heading_text] = I18n.t("sharing.text_empty_state_header")
-          config[:description_text] = I18n.t("sharing.text_empty_state_description", entity: @entity.class.model_name.human)
-        else
-          config[:icon] = :search
-          config[:heading_text] = I18n.t("sharing.text_empty_search_header")
-          config[:description_text] = I18n.t("sharing.text_empty_search_description")
-        end
-      end
-    end
-
     def type_filter_options
       if project_scoped_entity?
         [

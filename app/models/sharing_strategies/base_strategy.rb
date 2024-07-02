@@ -55,5 +55,24 @@ module SharingStrategies
     def delete_contract_class
       raise NotImplementedError, "Override in a subclass and return the contract class for deleting a share"
     end
+
+    def custom_body_component?
+      additional_body_component.present?
+    end
+
+    # Override by returning a component class that should be rendered in the sharing dialog above the table of shares
+    def additional_body_component
+      nil
+    end
+
+    def custom_empty_state_component?
+      empty_state_component.present?
+    end
+
+    # Override by returning a component class that should be rendered in the sharing dialog instead of the table of shares
+    # when there is no share yet
+    def empty_state_component
+      nil
+    end
   end
 end
