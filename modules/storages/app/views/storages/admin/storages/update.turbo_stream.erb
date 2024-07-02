@@ -20,4 +20,6 @@
   <%= full_breadcrumbs %>
 <% end %>
 
-<%= render(::Storages::Admin::GeneralInfoComponent.new(@storage)) %>
+<%= turbo_stream.update ::Storages::Admin::GeneralInfoComponent.wrapper_key do %>
+  <%= render(::Storages::Admin::GeneralInfoComponent.new(@storage)) %>
+<% end %>
