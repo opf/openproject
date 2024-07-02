@@ -239,6 +239,10 @@ export default class IndexController extends Controller {
 
       if (this.journalsContainerTarget) {
         this.clearEditor();
+        if (this.journalsContainerTarget) {
+          this.journalsContainerTarget.style.marginBottom = '';
+          this.journalsContainerTarget.classList.add('with-input-compensation');
+        }
         setTimeout(() => {
           this.scrollJournalContainer(
             this.journalsContainerTarget,
