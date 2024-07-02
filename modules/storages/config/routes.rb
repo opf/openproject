@@ -40,9 +40,15 @@ Rails.application.routes.draw do
 
         resource :automatically_managed_project_folders,
                  controller: "/storages/admin/automatically_managed_project_folders",
-                 only: %i[new create edit update]
+                 only: %i[index new create edit update]
 
         resource :access_management, controller: "/storages/admin/access_management", only: %i[new create edit update]
+
+        namespace :projects do
+          resources :project_storages,
+                    controller: "/storages/admin/projects/project_storages",
+                    only: %i[index new create destroy]
+        end
 
         resource :connection_validation,
                  controller: "/storages/admin/connection_validation",
@@ -58,7 +64,6 @@ Rails.application.routes.draw do
           patch :change_health_notifications_enabled
           get :confirm_destroy
           delete :replace_oauth_application
-          get :project_mappings
         end
 
         get :upsale, on: :collection
