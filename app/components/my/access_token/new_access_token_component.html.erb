@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
         size: :large
       )
     ) do |dialog|
-      dialog.with_show_button(scheme: :primary, mt: 3) do |button|
+      dialog.with_show_button(scheme: :primary, mt: 3, test_selector: "api-token-add") do |button|
         button.with_leading_visual_icon(icon: :plus)
         I18n.t("my.access_token.new_access_token_dialog_show_button_text")
       end

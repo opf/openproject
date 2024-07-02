@@ -158,7 +158,7 @@ class MyController < ApplicationController
     redirect_to action: "access_token"
   end
 
-  # Create a new API key
+  # rubocop:disable Metrics/AbcSize
   def generate_api_key
     result = APITokens::CreateService.new(user: current_user).call(token_name: params[:token_api][:token_name])
 
@@ -181,21 +181,27 @@ class MyController < ApplicationController
       respond_with_turbo_streams
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
+  # rubocop:disable Metrics/AbcSize
   def revoke_api_key
     result = APITokens::DeleteService.new(user: current_user, model: @api_token).call
 
+    # rubocop:disable Rails/ActionControllerFlashBeforeRender
     result.on_success do
-      flash.now[:info] = t("my.access_token.notice_api_token_revoked")
+      flash[:info] = t("my.access_token.notice_api_token_revoked")
     end
 
     result.on_failure do
       Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
-      flash.now[:error] = t("my.access_token.failed_to_revoke_token", error: e.message)
+      flash[:error] = t("my.access_token.failed_to_revoke_token", error: e.message)
     end
+    # rubocop:enable Rails/ActionControllerFlashBeforeRender
 
     redirect_to action: "access_token"
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   def revoke_ical_token
     message = ical_destroy_info_message

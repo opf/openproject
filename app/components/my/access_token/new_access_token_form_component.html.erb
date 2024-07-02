@@ -64,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
               I18n.t("button_cancel")
             end
 
-            footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
+            footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit, test_selector: "create-api-token-button")) do
               I18n.t("my.access_token.new_access_token_dialog_submit_button_text")
             end
           end

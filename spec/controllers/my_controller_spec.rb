@@ -353,18 +353,18 @@ RSpec.describe MyController do
 
         it "revoke specific ical tokens" do
           expect(user.ical_tokens).to contain_exactly(
-                                        ical_token_for_query, another_ical_token_for_query, ical_token_for_another_query
-                                      )
+            ical_token_for_query, another_ical_token_for_query, ical_token_for_another_query
+          )
 
           delete :revoke_ical_token, params: { id: another_ical_token_for_query.id }
 
           expect(user.ical_tokens.reload).to contain_exactly(
-                                               ical_token_for_query, ical_token_for_another_query
-                                             )
+            ical_token_for_query, ical_token_for_another_query
+          )
 
           expect(user.ical_tokens.reload).not_to contain_exactly(
-                                                   ical_token_for_another_query
-                                                 )
+            ical_token_for_another_query
+          )
 
           expect(flash[:info]).to be_present
           expect(flash[:error]).not_to be_present
