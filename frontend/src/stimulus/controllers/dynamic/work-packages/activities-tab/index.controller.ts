@@ -148,7 +148,7 @@ export default class IndexController extends Controller {
         // clicking on empty toolbar space and the somewhere else on the page does not trigger the blur anymore
         setTimeout(() => {
           if (!editor.ui.focusTracker.isFocused) { this.hideEditorIfEmpty(); }
-        }, 100);
+        }, 0);
       },
       { priority: 'highest' },
     );
