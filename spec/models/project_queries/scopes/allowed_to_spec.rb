@@ -46,12 +46,12 @@ RSpec.describe ProjectQuery, "#allowed to" do # rubocop:disable RSpec/RSpec/Spec
   shared_let(:private_other_query) { create(:project_query, user: other_user) }
   shared_let(:private_other_query_with_view) do
     create(:project_query, user: other_user, members: [
-             create(:member, user:, roles: [view_role])
+             create(:project_query_member, user:, roles: [view_role])
            ])
   end
   shared_let(:private_other_query_with_edit) do
     create(:project_query, user: other_user, members: [
-             create(:member, user:, roles: [edit_role])
+             create(:project_query_member, user:, roles: [edit_role])
            ])
   end
 
