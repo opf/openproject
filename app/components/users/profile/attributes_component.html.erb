@@ -14,28 +14,34 @@
                 scheme: :invisible,
                 tag: :a,
                 "aria-label": t(:label_manage),
-                href: User.current == @user? my_account_path : edit_user_path(@user)
+                href: User.current == @user ? my_account_path : edit_user_path(@user)
               ))
             end
           end
         end
       end
 
-      details_container.with_row(mt: 2) do
-        if @user.pref.can_expose_mail?
-          concat "#{User.human_attribute_name(:mail)}: "
-          concat mail_to(escape_javascript(@user.mail), nil, encode: 'javascript')
+      if @user.pref.can_expose_mail?
+        details_container.with_row(mt: 2, font_weight: :bold) do
+          User.human_attribute_name(:mail)
+        end
+
+        details_container.with_row do
+          mail_to(escape_javascript(@user.mail), nil, encode: 'javascript')
         end
       end
 
       visible_custom_fields.each do |custom_field|
-        details_container.with_row(test_selector: "user-custom-field") do
-          concat "#{custom_field.name}: "
+        details_container.with_row(mt: 2, font_weight: :bold, test_selector: "user-custom-field") do
+          custom_field.name
+        end
+
+        details_container.with_row do
           value = @user.formatted_custom_value_for(custom_field)
           if value.is_a?(Array)
-            concat safe_join(value, ", ")
+            safe_join(value, ", ")
           else
-            concat value
+            value
           end
         end
       end
