@@ -154,10 +154,8 @@ class SharesController < ApplicationController
   def respond_with_replace_modal
     replace_via_turbo_stream(
       component: Shares::ModalBodyComponent.new(
-        entity: @entity,
-        available_roles: sharing_strategy.available_roles,
+        strategy: sharing_strategy,
         shares: @new_shares || load_shares,
-        sharing_manageable: sharing_strategy.manageable?,
         errors: @errors
       )
     )
@@ -165,21 +163,18 @@ class SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def respond_with_prepend_shares # rubocop:disable Metrics/AbcSize
+  def respond_with_prepend_shares
     replace_via_turbo_stream(
       component: Shares::InviteUserFormComponent.new(
-        entity: @entity,
-        available_roles: sharing_strategy.available_roles,
-        sharing_manageable: sharing_strategy.manageable?,
+        strategy: sharing_strategy,
         errors: @errors
       )
     )
 
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(
-        entity: @entity,
-        count: current_visible_member_count,
-        sharing_manageable: sharing_strategy.manageable?
+        strategy: sharing_strategy,
+        count: current_visible_member_count
       )
     )
 
@@ -187,13 +182,10 @@ class SharesController < ApplicationController
       prepend_via_turbo_stream(
         component: Shares::ShareRowComponent.new(
           share:,
-          available_roles: sharing_strategy.available_roles,
-          sharing_manageable: sharing_strategy.manageable?
+          strategy: sharing_strategy
         ),
         target_component: Shares::ModalBodyComponent.new(
-          entity: @entity,
-          available_roles: sharing_strategy.available_roles,
-          sharing_manageable: sharing_strategy.manageable?,
+          strategy: sharing_strategy,
           shares: load_shares,
           errors: @errors
         )
@@ -206,9 +198,7 @@ class SharesController < ApplicationController
   def respond_with_new_invite_form
     replace_via_turbo_stream(
       component: Shares::InviteUserFormComponent.new(
-        entity: @entity,
-        available_roles: sharing_strategy.available_roles,
-        sharing_manageable: sharing_strategy.manageable?,
+        strategy: sharing_strategy,
         errors: @errors
       )
     )
@@ -232,15 +222,13 @@ class SharesController < ApplicationController
     remove_via_turbo_stream(
       component: Shares::ShareRowComponent.new(
         share: @share,
-        available_roles: sharing_strategy.available_roles,
-        sharing_manageable: sharing_strategy.manageable?
+        strategy: sharing_strategy
       )
     )
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(
-        entity: @entity,
-        count: current_visible_member_count,
-        sharing_manageable: sharing_strategy.manageable?
+        strategy: sharing_strategy,
+        count: current_visible_member_count
       )
     )
 
@@ -278,17 +266,15 @@ class SharesController < ApplicationController
       remove_via_turbo_stream(
         component: Shares::ShareRowComponent.new(
           share:,
-          available_roles: sharing_strategy.available_roles,
-          sharing_manageable: sharing_strategy.manageable?
+          strategy: sharing_strategy
         )
       )
     end
 
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(
-        entity: @entity,
         count: current_visible_member_count,
-        sharing_manageable: sharing_strategy.manageable?
+        strategy: sharing_strategy
       )
     )
 
