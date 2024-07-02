@@ -15,6 +15,7 @@ module Colors
     # Get the fill style for this color.
     # If the color is light, use a dark font.
     # Otherwise, use a white font.
+    # TODO: remove
     def color_styles(light_color: "#FFFFFF", dark_color: "#333333")
       if bright?
         { color: dark_color, "background-color": hexcode }
