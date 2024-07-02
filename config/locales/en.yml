@@ -3674,6 +3674,11 @@ en:
     project_queries:
       text_empty_state_header: "Shared with everyone"
       text_empty_state_description: "Everyone can view this project list. You can also add individual users with extra permissions."
+      permissions:
+        view: "View"
+        view_description: "TODO: Add me"
+        edit: "Edit"
+        edit_description: "TODO: Add me as well"
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count).

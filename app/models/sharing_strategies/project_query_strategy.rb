@@ -29,14 +29,17 @@
 module SharingStrategies
   class ProjectQueryStrategy < BaseStrategy
     def available_roles
-      ProjectQueryRole.all.map.with_index do |role, index|
-        {
-          label: role.name,
-          value: role.id,
-          description: "#{role.name} description", # TODO: Figure out from where we can get the description
-          default: index.zero?
-        }
-      end
+      role_mapping = ProjectQueryRole.pluck(:builtin, :id).to_h
+
+      [
+        { label: I18n.t("sharing.project_queries.permissions.edit"),
+          value: role_mapping[Role::BUILTIN_PROJECT_QUERY_EDIT],
+          description: I18n.t("sharing.project_queries.permissions.edit_description") },
+        { label: I18n.t("sharing.project_queries.permissions.view"),
+          value: role_mapping[Role::BUILTIN_PROJECT_QUERY_VIEW],
+          description: I18n.t("sharing.project_queries.permissions.view_description"),
+          default: true }
+      ]
     end
 
     def manageable?
