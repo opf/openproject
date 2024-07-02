@@ -88,6 +88,10 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     query.editable?
   end
 
+  def can_view_shares?
+    query.visible? || query.editable?
+  end
+
   def show_state?
     state == :show
   end
