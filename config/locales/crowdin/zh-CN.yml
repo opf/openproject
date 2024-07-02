@@ -263,7 +263,7 @@ zh-CN:
       my: "我的项目"
       favored: "收藏的项目"
       archived: "归档项目"
-      shared: "Shared project lists"
+      shared: "共享项目列表"
       public: "公开项目列表"
       my_private: "我的私有项目列表"
       new:
@@ -460,7 +460,7 @@ zh-CN:
         is_readonly: "只读"
         excluded_from_totals: "不包括在总计中"
   themes:
-    dark: "Dark (experimental)"
+    dark: "暗色（测试）"
     light: "浅色模式"
     light_high_contrast: "高对比度模式"
   types:
@@ -709,7 +709,7 @@ zh-CN:
         auto_hide_popups: "自动隐藏成功通知"
         warn_on_leaving_unsaved: "离开未保存更改的工作包时提示我"
         theme: "模式"
-        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
+        mode_guideline: "某些模式会覆盖自定义主题的颜色，以便于访问和阅读。如需完整的自定义主题，请选择 \"浅色 \"模式。"
       version:
         effective_date: "完成日期"
         sharing: "共享"
