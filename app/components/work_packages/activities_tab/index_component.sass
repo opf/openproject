@@ -3,14 +3,19 @@
         overflow-y: auto
         &.with-initial-input-compensation
             margin-bottom: 75px // initial margin-bottom, will be increased by stimulus when opening ckeditor
+            @media screen and (max-width: $breakpoint-xl)
+                margin-bottom: 0
         &.with-input-compensation
             margin-bottom: 190px
+            @media screen and (max-width: $breakpoint-xl)
+                margin-bottom: 0
     #input-container
-        position: absolute
-        min-height: 60px
-        bottom: 0
-        left: 0
-        right: 0
-        @media screen and (max-width: $breakpoint-md)
-            width: 100vw
-            margin-left: -15px
+        @media screen and (min-width: $breakpoint-xl)
+            position: absolute
+            min-height: 60px
+            bottom: 0
+            left: 0
+            right: 0
+        @media screen and (max-width: $breakpoint-xl)
+            &.sort-desc
+                order: -1

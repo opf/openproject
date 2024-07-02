@@ -63,7 +63,7 @@ module Pages
           click_link "Board"
         end
       else
-        find('[data-test-selector="sidebar--create-board-button"]').click
+        find('[data-test-selector="boards--create-button"]').click
       end
 
       new_board_page = NewBoard.new

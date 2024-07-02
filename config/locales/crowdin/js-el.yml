@@ -150,6 +150,7 @@ el:
         attribute_reference:
           macro_help_tooltip: "Αυτό το τμήμα κειμένου δημιουργείται δυναμικά από μια μακροεντολή."
           not_found: "Ο ζητούμενος πόρος δεν βρέθηκε."
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Το επιλεγμένο χαρακτηριστικό '%{name}' δεν υπάρχει."
         child_pages:
           button: "Σύνδεσμοι σε σελίδες-παιδιά"
@@ -903,6 +904,11 @@ el:
       preformatted_text: "Προδιαμορφωμένο κείμενο"
       wiki_link: "Σύνδεση σε μια σελίδα Wiki"
       image: "Εικόνα"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Μαζική αλλαγή του έργου"
@@ -1058,12 +1064,8 @@ el:
         is_parent: "Οι ημερομηνίες αυτού του πακέτου εργασίας προκύπτουν αυτόματα από τα παιδιά του. Ενεργοποιήστε τον \"Χειροκίνητο προγραμματισμό\" για να ορίσετε τις ημερομηνίες."
         is_switched_from_manual_to_automatic: "Οι ημερομηνίες αυτού του πακέτου εργασίας μπορεί να χρειαστεί να υπολογιστούν εκ νέου μετά τη μετάβαση από χειροκίνητο σε αυτόματο προγραμματισμό λόγω των σχέσεων με άλλα πακέτα εργασίας."
       sharing:
-        share: "Share"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

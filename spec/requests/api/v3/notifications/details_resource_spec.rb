@@ -77,7 +77,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
 
       it "returns a 404 response" do
         send_request
-        expect(last_response.status).to eq(404)
+        expect(last_response).to have_http_status(:not_found)
       end
     end
 
@@ -151,7 +151,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
     end
 
     it "returns a 404 response" do
-      expect(last_response.status).to eq(404)
+      expect(last_response).to have_http_status(:not_found)
     end
   end
 
@@ -163,7 +163,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
     end
 
     it "returns a 404 response" do
-      expect(last_response.status).to eq(404)
+      expect(last_response).to have_http_status(:not_found)
     end
   end
 end

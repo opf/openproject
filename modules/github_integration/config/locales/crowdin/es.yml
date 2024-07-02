@@ -32,9 +32,9 @@ es:
     description: "Integra OpenProject y GitHub para un mejor flujo de trabajo"
   project_module_github: "GitHub"
   permission_show_github_content: "Mostrar contenido de GitHub"
-  permission_introspection: Read running OpenProject core version and build SHA
+  permission_introspection: Leer la versión del núcleo de OpenProject en ejecución y construir SHA
   text_deploy_target_type_info: >
-    So far we only support OpenProject itself.
+    Hasta ahora solo damos soporte al propio OpenProject.
   text_deploy_target_api_key_info: >
-    An OpenProject [API key](docs_url) belonging to a user who has the global introspection permission.
-  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"
+    Un OpenProject [clave API](docs_url) perteneciente a un usuario que tiene el permiso de introspección global.
+  text_pull_request_deployed_to: "%{pr_link} desplegado en %{deploy_target_link}"

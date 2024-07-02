@@ -46,7 +46,7 @@ es:
   permission_delete_files_explanation: Este permiso solo está disponible para los almacenamientos Nextcloud
   permission_header_for_project_module_storages: Carpetas de proyecto gestionadas automáticamente
   permission_manage_file_links: Administrar enlaces de archivos
-  permission_manage_files_in_project: Manage files in project
+  permission_manage_files_in_project: Gestionar archivos en el proyecto
   permission_read_files: 'Carpetas de proyecto gestionadas automáticamente: Ver archivos'
   permission_share_files: 'Carpetas de proyecto gestionadas automáticamente: Compartir archivos'
   permission_share_files_explanation: Este permiso solo está disponible para los almacenamientos Nextcloud
@@ -102,11 +102,24 @@ es:
       storage_provider: Proveedor de almacenamiento
     health:
       checked: Última comprobación %{datetime}
+      connection_validation:
+        action: Recheck connection
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Error
       label_healthy: Correcto
       label_pending: Pendiente
+      label_warning: Warning
+      project_folders:
+        subtitle: Automatically managed project folders
       since: desde %{datetime}
-      subtitle: Carpetas de proyecto gestionadas automáticamente
       title: Estado de salud
     health_email_notifications:
       description_subscribed: Todos los administradores reciben notificaciones por correo electrónico sobre el estado de salud de este almacenamiento.

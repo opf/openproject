@@ -51,6 +51,8 @@ import {
 import { firstValueFrom } from 'rxjs';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
+export const ATTRIBUTE_MACRO_CLASS = 'op-attribute-value-macro';
+
 @Component({
   templateUrl: './attribute-value-macro.html',
   styleUrls: ['./attribute-macro.sass'],
@@ -94,8 +96,20 @@ export class AttributeValueMacroComponent implements OnInit {
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id as string;
     const attributeName = element.dataset.attribute as string;
+    element.classList.add(ATTRIBUTE_MACRO_CLASS);
 
-    void this.loadAndRender(model, id, attributeName);
+    if (this.isNestedMacro(model, id, attributeName)) {
+      const error = this.I18n.t('js.editor.macro.attribute_reference.nested_macro', { model, id });
+      this.markError(error);
+    } else {
+      void this.loadAndRender(model, id, attributeName);
+    }
+  }
+
+  private isNestedMacro(model:SupportedAttributeModels, id:string, attributeName:string):boolean {
+    const element = this.elementRef.nativeElement as HTMLElement;
+    const parent = element.parentElement;
+    return !!parent?.closest(`.${ATTRIBUTE_MACRO_CLASS}[data-model="${model}"][data-id="${id}"][data-attribute="${attributeName}"]`);
   }
 
   private async loadAndRender(model:SupportedAttributeModels, id:string, attributeName:string):Promise<void> {

@@ -102,7 +102,7 @@ RSpec.describe "API v3 Work package form resource" do
         shared_examples_for "valid payload" do
           subject { last_response.body }
 
-          it { expect(last_response.status).to eq(200) }
+          it { expect(last_response).to have_http_status(:ok) }
 
           it { is_expected.to have_json_path("_embedded/payload") }
 
@@ -232,7 +232,7 @@ RSpec.describe "API v3 Work package form resource" do
 
                 include_context "with post request"
 
-                it { expect(last_response.status).to eq(409) }
+                it { expect(last_response).to have_http_status(:conflict) }
 
                 it_behaves_like "update conflict"
               end
@@ -803,7 +803,7 @@ RSpec.describe "API v3 Work package form resource" do
               end
 
               it "responds with a valid body (Regression OP#37510)" do
-                expect(last_response.status).to eq(200)
+                expect(last_response).to have_http_status(:ok)
               end
             end
           end
@@ -825,7 +825,7 @@ RSpec.describe "API v3 Work package form resource" do
       subject { last_response.body }
 
       shared_examples_for "valid payload" do
-        it { expect(last_response.status).to eq(200) }
+        it { expect(last_response).to have_http_status(:ok) }
 
         it { is_expected.to have_json_path("_embedded/payload") }
 

@@ -20,21 +20,21 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ko:
-  button_add_deploy_target: Add deploy target
-  label_deploy_target: Deploy target
-  label_deploy_target_new: New deploy target
-  label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
-  notice_deploy_target_created: Deploy target created
-  notice_deploy_target_destroyed: Deploy target deleted
+  button_add_deploy_target: 배포 대상 추가
+  label_deploy_target: 배포 대상
+  label_deploy_target_new: 새로운 배포 대상
+  label_deploy_target_plural: 배포 대상
+  label_github_integration: GitHub 통합
+  notice_deploy_target_created: 배포 대상 생성됨
+  notice_deploy_target_destroyed: 배포 대상 삭제됨
   plugin_openproject_github_integration:
     name: "OpenProject GitHub 통합"
     description: "개선된 워크플로를 위해 OpenProject와 GitHub를 통합합니다"
   project_module_github: "GitHub"
   permission_show_github_content: "GitHub 콘텐츠 표시"
-  permission_introspection: Read running OpenProject core version and build SHA
+  permission_introspection: 실행 중인 OpenProject 코어 버전 읽기 및 SHA 빌드
   text_deploy_target_type_info: >
-    So far we only support OpenProject itself.
+    현재로서는 OpenProject 자체만 지원됩니다.
   text_deploy_target_api_key_info: >
-    An OpenProject [API key](docs_url) belonging to a user who has the global introspection permission.
-  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"
+    글로벌 인트로스펙션 권한이 있는 사용자에게 속한 OpenProject [API 키](docs_url)입니다.
+  text_pull_request_deployed_to: "%{pr_link}이(가) %{deploy_target_link}에 배포되었습니다"

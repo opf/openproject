@@ -129,27 +129,27 @@ module Components
 
       def expect_bulk_actions_available
         within shares_header do
-          expect(page).to have_test_selector("op-share-wp--bulk-remove")
-          expect(page).to have_test_selector("op-share-wp-bulk-update-role")
+          expect(page).to have_test_selector("op-share-dialog--bulk-remove")
+          expect(page).to have_test_selector("op-share-dialog-bulk-update-role")
         end
       end
 
       def expect_bulk_actions_not_available
         within shares_header do
-          expect(page).not_to have_test_selector("op-share-wp--bulk-remove", wait: 0)
-          expect(page).not_to have_test_selector("op-share-wp-bulk-update-role", wait: 0)
+          expect(page).not_to have_test_selector("op-share-dialog--bulk-remove", wait: 0)
+          expect(page).not_to have_test_selector("op-share-dialog-bulk-update-role", wait: 0)
         end
       end
 
       def bulk_remove
         within shares_header do
-          page.find_test_selector("op-share-wp--bulk-remove").click
+          page.find_test_selector("op-share-dialog--bulk-remove").click
         end
       end
 
       def bulk_update(role_name)
         within shares_header do
-          find('[data-test-selector="op-share-wp-bulk-update-role"]').click
+          find('[data-test-selector="op-share-dialog-bulk-update-role"]').click
 
           find(".ActionListContent", text: role_name).click
         end
@@ -158,7 +158,7 @@ module Components
       def expect_bulk_update_label(label_text)
         within shares_header do
           expect(page)
-            .to have_css('[data-test-selector="op-share-wp-bulk-update-role"] .Button-label',
+            .to have_css('[data-test-selector="op-share-dialog-bulk-update-role"] .Button-label',
                          text: label_text)
           if label_text == "Mixed"
             %w[View Comment Edit].each do |permission_name|
@@ -177,7 +177,7 @@ module Components
       end
 
       def bulk_update_form(permission_name)
-        find("[data-test-selector='op-share-wp-bulk-update-role-permission-#{permission_name}']", visible: :all)
+        find("[data-test-selector='op-share-dialog-bulk-update-role-permission-#{permission_name}']", visible: :all)
       end
 
       def checked_permission
@@ -190,13 +190,13 @@ module Components
 
       def expect_blankslate
         within_modal do
-          expect(page).to have_text(I18n.t("work_package.sharing.text_empty_state_description"))
+          expect(page).to have_text(I18n.t("sharing.text_empty_state_description", entity: WorkPackage.model_name.human))
         end
       end
 
       def expect_empty_search_blankslate
         within_modal do
-          expect(page).to have_text(I18n.t("work_package.sharing.text_empty_search_description"))
+          expect(page).to have_text(I18n.t("sharing.text_empty_search_description"))
         end
       end
 
@@ -213,7 +213,7 @@ module Components
         select_invite_role(role_name)
 
         within_modal do
-          click_button "Share"
+          click_on "Share"
         end
       end
 
@@ -231,21 +231,21 @@ module Components
       end
 
       def search_user(search_string)
-        search_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+        search_autocomplete page.find('[data-test-selector="op-share-dialog-invite-autocomplete"]'),
                             query: search_string,
                             results_selector: "body"
       end
 
       def remove_user(user)
         within user_row(user) do
-          page.find_test_selector("op-share-wp--remove").click
+          page.find_test_selector("op-share-dialog--remove").click
         end
       end
 
       def select_invite_role(role_name)
-        within modal_element.find('[data-test-selector="op-share-wp-invite-role"]') do
+        within modal_element.find('[data-test-selector="op-share-dialog-invite-role"]') do
           # Open the ActionMenu
-          click_button "View"
+          click_on "View"
 
           find(".ActionListContent", text: role_name).click
         end
@@ -253,10 +253,10 @@ module Components
 
       def change_role(user, role_name)
         within user_row(user) do
-          find('[data-test-selector="op-share-wp-update-role"]').click
+          find('[data-test-selector="op-share-dialog-update-role"]').click
 
           within ".ActionListWrap" do
-            click_button role_name
+            click_on role_name
           end
         end
       end
@@ -267,7 +267,7 @@ module Components
             # The button's text changes dynamically based on the currently selected option
             # Hence the spec's readability is hindered by using something like
             # `click_button filter_name.capitalize`
-            find("[data-test-selector='op-share-wp-filter-#{filter_name}-button']").click
+            find("[data-test-selector='op-share-dialog-filter-#{filter_name}-button']").click
 
             # Open the ActionMenu
             find(".ActionListContent", text: value).click
@@ -279,13 +279,13 @@ module Components
 
       def close
         within_modal do
-          page.find("[data-test-selector='op-share-wp-modal--close-icon']").click
+          page.find("[data-test-selector='op-share-dialog-modal--close-icon']").click
         end
       end
 
       def click_share
         within_modal do
-          click_button "Share"
+          click_on "Share"
         end
       end
 
@@ -318,26 +318,26 @@ module Components
 
       def expect_shared_count_of(count)
         expect(shares_header)
-          .to have_text(I18n.t("work_package.sharing.count", count:))
+          .to have_text(I18n.t("sharing.count", count:))
       end
 
       def expect_no_invite_option
         within_modal do
           expect(page)
-            .to have_text(I18n.t("work_package.sharing.permissions.denied"))
+            .to have_text(I18n.t("sharing.denied", entities: WorkPackage.model_name.human(count: 2)))
         end
       end
 
       def resend_invite(user)
         within user_row(user) do
-          click_button I18n.t("work_package.sharing.user_details.resend_invite")
+          click_on I18n.t("sharing.user_details.resend_invite")
         end
       end
 
       def expect_invite_resent(user)
         within user_row(user) do
           expect(page)
-            .to have_text(I18n.t("work_package.sharing.user_details.invite_resent"))
+            .to have_text(I18n.t("sharing.user_details.invite_resent"))
         end
       end
 
@@ -349,30 +349,30 @@ module Components
 
       def active_list
         modal_element
-          .find('[data-test-selector="op-share-wp-active-list"]')
+          .find('[data-test-selector="op-share-dialog-active-list"]')
       end
 
       def shares_header
-        active_list.find('[data-test-selector="op-share-wp-header"]')
+        active_list.find('[data-test-selector="op-share-dialog-header"]')
       end
 
       def shares_counter
-        shares_header.find('[data-test-selector="op-share-wp-active-count"]')
+        shares_header.find('[data-test-selector="op-share-dialog-active-count"]')
       end
 
       def shares_list
-        find_by_id("op-share-wp-active-shares")
+        find_by_id("op-share-dialog-active-shares")
       end
 
       def select_existing_user(user)
-        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+        select_autocomplete page.find('[data-test-selector="op-share-dialog-invite-autocomplete"]'),
                             query: user.firstname,
                             select_text: user.name,
                             results_selector: "body"
       end
 
       def select_not_existing_user_option(email)
-        select_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
+        select_autocomplete page.find('[data-test-selector="op-share-dialog-invite-autocomplete"]'),
                             query: email,
                             select_text: "Send invite to\"#{email}\"",
                             results_selector: "body"
@@ -388,21 +388,21 @@ module Components
       def expect_no_user_limit_warning
         within modal_element do
           expect(page)
-            .to have_no_text(I18n.t("work_package.sharing.warning_user_limit_reached"), wait: 0)
+            .to have_no_text(I18n.t("sharing.warning_user_limit_reached", entity: WorkPackage.model_name.human), wait: 0)
         end
       end
 
       def expect_user_limit_warning
         within modal_element do
           expect(page)
-            .to have_text(I18n.t("work_package.sharing.warning_user_limit_reached"))
+            .to have_text(I18n.t("sharing.warning_user_limit_reached", entity: WorkPackage.model_name.human))
         end
       end
 
       def expect_error_message(text)
         within modal_element do
           expect(page)
-            .to have_css('[data-test-selector="op-share-wp-error-message"]',
+            .to have_css('[data-test-selector="op-share-dialog-error-message"]',
                          text:)
         end
       end
@@ -410,14 +410,14 @@ module Components
       def expect_select_a_user_hint
         within modal_element do
           expect(page)
-            .to have_text(I18n.t("work_package.sharing.warning_no_selected_user"))
+            .to have_text(I18n.t("sharing.warning_no_selected_user", entity: WorkPackage.model_name.human))
         end
       end
 
       def expect_no_select_a_user_hint
         within modal_element do
           expect(page)
-            .to have_no_text(I18n.t("work_package.sharing.warning_no_selected_user"), wait: 0)
+            .to have_no_text(I18n.t("sharing.warning_no_selected_user", entity: WorkPackage.model_name.human), wait: 0)
         end
       end
     end

@@ -51,7 +51,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
 
     it "returns an erroneous response" do
       send_request
-      expect(last_response.status).to eq(403)
+      expect(last_response).to have_http_status(:forbidden)
     end
   end
 end

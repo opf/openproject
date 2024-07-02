@@ -43,6 +43,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CopyTemplat
   let(:destination_path) { "boring-destination" }
   let(:source_url) { "#{url}/remote.php/dav/files/#{CGI.escape(origin_user_id)}/#{source_path}" }
   let(:destination_url) { "#{url}/remote.php/dav/files/#{CGI.escape(origin_user_id)}/#{destination_path}" }
+  let(:auth_strategy) { Storages::Peripherals::StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserLess.call }
 
   subject { described_class.new(storage) }
 
@@ -51,14 +52,14 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CopyTemplat
 
     describe "parameter validation" do
       it "source_path cannot be blank" do
-        result = subject.call(source_path: "", destination_path: "destination")
+        result = subject.call(auth_strategy:, source_path: "", destination_path: "destination")
 
         expect(result).to be_failure
         expect(result.errors.log_message).to eq("Source and destination paths must be present.")
       end
 
       it "destination_path cannot blank" do
-        result = subject.call(source_path: "source", destination_path: "")
+        result = subject.call(auth_strategy:, source_path: "source", destination_path: "")
 
         expect(result).to be_failure
         expect(result.errors.log_message).to eq("Source and destination paths must be present.")
@@ -68,10 +69,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CopyTemplat
     describe "remote server overwrite protection" do
       it "destination_path must not exist on the remote server" do
         stub_request(:head, destination_url).to_return(status: 200)
-        result = subject.call(source_path:, destination_path:)
+        result = subject.call(auth_strategy:, source_path:, destination_path:)
 
         expect(result).to be_failure
-        expect(result.errors.log_message).to eq("Destination folder already exists.")
+        expect(result.errors.log_message).to eq("The copy would overwrite an already existing folder")
       end
     end
 
@@ -112,7 +113,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CopyTemplat
       end
 
       it "must be successful" do
-        result = subject.call(source_path:, destination_path:)
+        result = subject.call(auth_strategy:, source_path:, destination_path:)
 
         expect(result).to be_success
         expect(result.result.id).to eq("349")
@@ -134,7 +135,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CopyTemplat
       end
 
       it "returns a :conflict failure if the copy fails" do
-        result = subject.call(source_path:, destination_path:)
+        result = subject.call(auth_strategy:, source_path:, destination_path:)
 
         expect(result).to be_failure
         expect(result.errors.code).to eq(:conflict)

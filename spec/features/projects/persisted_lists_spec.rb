@@ -279,6 +279,9 @@ RSpec.describe "Persisted lists on projects index page",
     it "keeps changes when cancelling save" do
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
+      projects_page.expect_projects_listed(project, development_project)
+      projects_page.expect_projects_not_listed(public_project)
+
       projects_page.set_columns("Name")
 
       projects_page.click_more_menu_item("Save as")
@@ -292,8 +295,14 @@ RSpec.describe "Persisted lists on projects index page",
 
     it "allows saving static query as user list" do
       projects_page.open_filters
+
       projects_page.filter_by_membership("yes")
+      projects_page.expect_projects_listed(project, development_project)
+      projects_page.expect_projects_not_listed(public_project)
+
       projects_page.set_columns("Name")
+      projects_page.expect_columns("Name")
+
       projects_page.save_query_as("My saved query")
 
       # It will be displayed in the sidebar

@@ -30,7 +30,9 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
+import {
+  WidgetAbstractMenuComponent,
+} from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -60,16 +62,14 @@ export class WidgetProjectDetailsMenuComponent extends WidgetAbstractMenuCompone
     );
   }
 
-  public get menuItems() {
-    return async () => {
-      const items = [
-        this.removeItem,
-      ];
-      if (await this.capabilityPromise) {
-        items.push(this.projectActivityLinkItem);
-      }
-      return items;
-    };
+  protected async buildItems():Promise<OpContextMenuItem[]> {
+    const items = [
+      this.removeItem,
+    ];
+    if (await this.capabilityPromise) {
+      items.push(this.projectActivityLinkItem);
+    }
+    return items;
   }
 
   protected get projectActivityLinkItem():OpContextMenuItem {

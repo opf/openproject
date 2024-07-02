@@ -53,7 +53,7 @@ RSpec.describe "Link custom fields edit", :js, :with_cuprite do
     # Expect field to be created
     cf = CustomField.last
     expect(cf.name).to eq("My Link CF")
-    expect(cf.field_format).to eq 'link'
+    expect(cf.field_format).to eq "link"
 
     # Edit again
     find("a", text: "My Link CF").click

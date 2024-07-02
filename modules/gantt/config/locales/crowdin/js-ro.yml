@@ -1,6 +1,5 @@
 ro:
   js:
-    queries:
-      all_open: 'Toate deschise'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

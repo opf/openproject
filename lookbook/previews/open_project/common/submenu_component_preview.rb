@@ -5,7 +5,7 @@ module OpenProject
       # @label Default
       def default
         render_with_template(template: "open_project/common/submenu_preview/playground",
-                             locals: { sidebar_menu_items: menu_items, searchable: false })
+                             locals: { sidebar_menu_items: menu_items, searchable: false, create_btn_options: nil })
       end
 
       # @label Searchable
@@ -13,7 +13,15 @@ module OpenProject
       # It will be fine in production.
       def searchable
         render_with_template(template: "open_project/common/submenu_preview/playground",
-                             locals: { sidebar_menu_items: menu_items, searchable: true })
+                             locals: { sidebar_menu_items: menu_items, searchable: true, create_btn_options: nil })
+      end
+
+      # @label With create Button
+      # `create_btn_options: { href: "/#", text: "User"}`
+      def with_create_button
+        render_with_template(template: "open_project/common/submenu_preview/playground",
+                             locals: { sidebar_menu_items: menu_items, searchable: true,
+                                       create_btn_options: { href: "/#", module_key: "user" } })
       end
 
       private

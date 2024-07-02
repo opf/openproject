@@ -101,6 +101,12 @@ module API
 
         API::OpenAPI.spec.to_yaml
       end
+
+      # Catch all unknown routes (therefore have it at the end of the file)
+      # and return a properly formatted 404 error.
+      route :any, "*path" do
+        raise API::Errors::NotFound
+      end
     end
   end
 end

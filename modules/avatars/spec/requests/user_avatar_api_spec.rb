@@ -59,7 +59,7 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       let(:local_avatars) { false }
 
       it "renders a 404" do
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
 
@@ -80,7 +80,7 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       let(:local_avatars) { false }
 
       it "redirects to gravatar" do
-        expect(response.status).to eq 302
+        expect(response).to have_http_status :found
         expect(response.location).to match /gravatar\.com/
       end
 
@@ -98,7 +98,7 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       end
 
       it "serves the attachment file" do
-        expect(response.status).to eq 200
+        expect(response).to have_http_status :ok
       end
 
       it_behaves_like "cache headers set to 24 hours"
@@ -117,7 +117,7 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
         # so here we just make sue it's called accordingly when the external
         # storage is configured
         it "redirects to temporary external URL" do
-          expect(response.status).to eq 302
+          expect(response).to have_http_status :found
           expect(response.location).to eq "external URL"
         end
       end

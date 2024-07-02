@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     mount Bim::Bcf::API::Root => "/api/bcf"
 
     scope "projects/:project_id", as: "project" do
+      get "bcf/menu" => "bim/menus#show"
+
       resources :issues, controller: "bim/bcf/issues" do
         get :upload, action: :upload, on: :collection
         post :prepare_import, action: :prepare_import, on: :collection

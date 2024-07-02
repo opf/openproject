@@ -50,7 +50,7 @@ RSpec.shared_examples "create placeholder user request flow" do
       it "returns an erroneous response" do
         send_request
 
-        expect(last_response.status).to eq(422)
+        expect(last_response).to have_http_status(:unprocessable_entity)
         expect(last_response.body)
           .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyConstraintViolation".to_json)
                 .at_path("errorIdentifier")
@@ -63,7 +63,7 @@ RSpec.shared_examples "create placeholder user request flow" do
     it "creates the placeholder when valid" do
       send_request
 
-      expect(last_response.status).to eq(201)
+      expect(last_response).to have_http_status(:created)
       placeholder = PlaceholderUser.find_by(name: parameters[:name])
       expect(placeholder).to be_present
     end
@@ -74,7 +74,7 @@ RSpec.shared_examples "create placeholder user request flow" do
       it "returns an error" do
         send_request
 
-        expect(last_response.status).to eq(422)
+        expect(last_response).to have_http_status(:unprocessable_entity)
         expect(last_response.body)
           .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyConstraintViolation".to_json)
                 .at_path("errorIdentifier")
@@ -92,7 +92,7 @@ RSpec.shared_examples "create placeholder user request flow" do
     it "adds an error that its only available in EE" do
       send_request
 
-      expect(last_response.status).to eq(422)
+      expect(last_response).to have_http_status(:unprocessable_entity)
       expect(parsed_response["message"])
         .to eq("Placeholder Users is only available in the OpenProject Enterprise edition")
 

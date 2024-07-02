@@ -46,7 +46,7 @@ RSpec.describe "API v3 Work package form resource" do
     shared_examples_for "valid payload" do
       subject { response.body }
 
-      it { expect(response.status).to eq(200) }
+      it { expect(response).to have_http_status(:ok) }
 
       it { is_expected.to have_json_path("_embedded/payload") }
 

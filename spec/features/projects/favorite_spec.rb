@@ -44,6 +44,7 @@ RSpec.describe "Favorite projects", :js do
   let(:my_page) do
     Pages::My::Page.new
   end
+
   context "as a user" do
     before do
       login_as user

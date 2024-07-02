@@ -43,10 +43,12 @@ module OpenProject::Meeting
                    { meetings: %i[index show download_ics participants_dialog history],
                      meeting_agendas: %i[history show diff],
                      meeting_minutes: %i[history show diff],
+                     "meetings/menus": %i[show],
                      work_package_meetings_tab: %i[index count] },
                    permissible_on: :project
         permission :create_meetings,
-                   { meetings: %i[new create copy] },
+                   { meetings: %i[new create copy],
+                     "meetings/menus": %i[show] },
                    permissible_on: :project,
                    require: :member,
                    contract_actions: { meetings: %i[create] }
@@ -120,7 +122,7 @@ module OpenProject::Meeting
       menu :project_menu,
            :meetings_query_select, { controller: "/meetings", action: "index" },
            parent: :meetings,
-           partial: "meetings/menu_query_select"
+           partial: "meetings/menus/menu"
 
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
@@ -145,7 +147,7 @@ module OpenProject::Meeting
       menu :global_menu,
            :meetings_query_select, { controller: "/meetings", action: "index", project_id: nil },
            parent: :meetings,
-           partial: "meetings/menu_query_select",
+           partial: "meetings/menus/menu",
            if: should_render_global_menu_item
 
       ActiveSupport::Inflector.inflections do |inflect|

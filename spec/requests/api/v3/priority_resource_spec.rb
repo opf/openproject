@@ -86,10 +86,7 @@ RSpec.describe "API v3 Priority resource" do
       context "invalid priority id" do
         let(:get_path) { api_v3_paths.priority "bogus" }
 
-        it_behaves_like "param validation error" do
-          let(:id) { "bogus" }
-          let(:type) { "IssuePriority" }
-        end
+        it_behaves_like "not found"
       end
     end
 

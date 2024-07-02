@@ -150,6 +150,7 @@ de:
         attribute_reference:
           macro_help_tooltip: "Dieser Textabschnitt wird dynamisch durch ein Makro erzeugt."
           not_found: "Die angeforderte Ressource konnte nicht gefunden werden"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Das ausgewählte Attribut '%{name}' existiert nicht."
         child_pages:
           button: "Auflistung untergeordneter Seiten"
@@ -367,7 +368,7 @@ de:
           "14_2":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                Diese Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Legen Sie mehr Einheiten für Aufwand, Verbleibender Aufwand und Arbeitszeit fest</li> <li>Konfigurieren Sie in der Administration, in welchen Projekte Projektattribute aktiviert sind</li> <li>Umbenennen von privaten Projektlisten</li> <li>Vermeiden Sie überflüssige E-Mail-Erinnerungen bei @Mentions</li> <li>Einladung per E-Mail an Teilnehmer einer neuen Besprechung</li> <li>Eingebettete Arbeitspaketattribute in PDF-Exporten anzeigen</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -903,6 +904,11 @@ de:
       preformatted_text: "Präformatierter Text"
       wiki_link: "Link zu einer Wikiseite"
       image: "Bild"
+    sharing:
+      share: "Teilen"
+      selected_count: "%{count} ausgewählt"
+      selection:
+        mixed: "Gemischt"
     work_packages:
       bulk_actions:
         move: "In anderes Projekt verschieben"
@@ -1058,12 +1064,8 @@ de:
         is_parent: "Die Termine dieses Arbeitspakets werden automatisch von seinen Kindern aggregiert. Aktivieren Sie \"Manuelle Planung\", um die Termine frei zu setzen."
         is_switched_from_manual_to_automatic: "Die Termine dieses Arbeitspakets müssen nach dem Wechsel auf automatische Planung neu berechnet werden."
       sharing:
-        share: "Teilen"
         title: "Arbeitspaket teilen"
         show_all_users: "Alle Benutzer anzeigen, für die das Arbeitspaket geteilt wurde"
-        selected_count: "%{count} ausgewählt"
-        selection:
-          mixed: "Gemischt"
         upsale:
           description: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
       table:
@@ -1359,4 +1361,4 @@ de:
         network_off: "Es gibt ein Netzwerkproblem."
         network_on: "Netzwerk ist wieder da. Wir versuchen es erneut."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject konnte Ihnen den Zugriff auf den Projektordner nicht innerhalb des erwarteten Zeitlimits ermöglichen. Bitte versuchen Sie es noch einmal.<br><br> Wenn das Problem weiterhin besteht, wenden Sie sich bitte an Ihren OpenProject-Administrator, um den Status der <a href="https://www.openproject.org/de/docs/system-admin-guide/dateien/external-file-storages/file-storage-troubleshooting/">Dateiablage</a> zu überprüfen.

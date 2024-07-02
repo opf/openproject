@@ -33,6 +33,7 @@ RSpec.describe Users::DropTokensService, type: :model do
   shared_let(:other_user) { create(:user) }
 
   let(:instance) { described_class.new(current_user: input_user) }
+
   subject { instance.call! }
 
   describe "Invitation token" do

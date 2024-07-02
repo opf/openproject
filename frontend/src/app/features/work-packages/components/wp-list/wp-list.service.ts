@@ -54,7 +54,7 @@ import { QueryFormResource } from 'core-app/features/hal/resources/query-form-re
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
-import { TurboElement } from 'core-typings/turbo';
+import { SubmenuService } from 'core-app/core/main-menu/submenu.service';
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string|null, query_props?:string|null };
@@ -104,6 +104,7 @@ export class WorkPackagesListService {
     protected wpStatesInitialization:WorkPackageStatesInitializationService,
     protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
     protected wpQueryView:WorkPackagesQueryViewService,
+    protected submenuService:SubmenuService,
   ) { }
 
   /**
@@ -431,10 +432,21 @@ export class WorkPackagesListService {
   }
 
   private navigateToDefaultQuery(query:QueryResource):void {
-    const { hardReloadOnBaseRoute } = this.$state.$current.data as { hardReloadOnBaseRoute?:boolean };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const sideMenuOptions = this.$state.$current.data?.sideMenuOptions as { hardReloadOnBaseRoute?:boolean, defaultQuery?:string };
+    const hardReloadOnBaseRoute = sideMenuOptions?.hardReloadOnBaseRoute;
 
     if (hardReloadOnBaseRoute) {
       const url = new URL(window.location.href);
+      const defaultQuery = sideMenuOptions.defaultQuery;
+
+      // If there is a default query passed, we replace the hard coded ids with the default query
+      // e.g. calendars/:id, team_planner/:id, ...
+      // Otherwise, we will just delete the search params
+      if (defaultQuery) {
+        url.pathname = url.pathname.replace(/\d+$/, defaultQuery);
+      }
+
       url.search = '';
       window.location.href = url.href;
     } else {
@@ -451,22 +463,6 @@ export class WorkPackagesListService {
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {
-    const menuIdentifier:string|undefined = this.$state.current.data.sidemenuId;
-
-    if (menuIdentifier) {
-      const menu = (document.getElementById(menuIdentifier) as HTMLElement&TurboElement);
-      const currentSrc = menu.getAttribute('src');
-
-      if (currentSrc && menu) {
-        const frameUrl = new URL(currentSrc);
-
-        // Override the frame src to enforce a reload
-        if (selectedQueryId) {
-          frameUrl.search = `?query_id=${selectedQueryId}`;
-        }
-
-        menu.setAttribute('src', frameUrl.href);
-      }
-    }
+    this.submenuService.reloadSubmenu(selectedQueryId);
   }
 }

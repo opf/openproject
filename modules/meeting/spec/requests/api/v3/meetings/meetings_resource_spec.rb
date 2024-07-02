@@ -54,7 +54,7 @@ RSpec.describe "API v3 Meeting resource" do
 
       context "when valid id" do
         it "returns HTTP 200" do
-          expect(last_response.status).to eq 200
+          expect(last_response).to have_http_status :ok
         end
       end
 
@@ -62,16 +62,14 @@ RSpec.describe "API v3 Meeting resource" do
         let(:permissions) { [:view_work_packages] }
 
         it "returns HTTP 404" do
-          expect(last_response.status).to eq 404
+          expect(last_response).to have_http_status :not_found
         end
       end
 
       context "when invalid id" do
         let(:get_path) { api_v3_paths.budget "bogus" }
 
-        it_behaves_like "param validation error" do
-          let(:id) { "bogus" }
-        end
+        it_behaves_like "not found"
       end
     end
 

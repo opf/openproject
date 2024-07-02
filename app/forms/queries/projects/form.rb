@@ -36,7 +36,7 @@ class Queries::Projects::Form < ApplicationForm
         required: true,
         autofocus: true,
         name: "name",
-        label: Queries::Projects::ProjectQuery.human_attribute_name(:name),
+        label: ProjectQuery.human_attribute_name(:name),
         placeholder: I18n.t(:"projects.lists.new.placeholder")
       )
 

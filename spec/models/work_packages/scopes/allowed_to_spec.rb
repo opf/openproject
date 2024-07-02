@@ -29,15 +29,14 @@
 require "spec_helper"
 
 RSpec.describe WorkPackage, ".allowed_to" do
-  let(:user) { create(:user) }
+  shared_let(:user) { create(:user) }
+  shared_let(:project_status) { true }
+  shared_let(:private_project) { create(:project, public: false, active: project_status) }
+  shared_let(:public_project) { create(:project, public: true, active: project_status) }
 
-  let!(:private_project) { create(:project, public: false, active: project_status) }
-  let!(:public_project) { create(:project, public: true, active: project_status) }
-  let(:project_status) { true }
-
-  let!(:work_package_in_public_project) { create(:work_package, project: public_project) }
-  let!(:work_package_in_private_project) { create(:work_package, project: private_project) }
-  let!(:other_work_package_in_private_project) { create(:work_package, project: private_project) }
+  shared_let(:work_package_in_public_project) { create(:work_package, project: public_project) }
+  shared_let(:work_package_in_private_project) { create(:work_package, project: private_project) }
+  shared_let(:other_work_package_in_private_project) { create(:work_package, project: private_project) }
 
   let(:project_permissions) { [] }
   let(:project_role) { create(:project_role, permissions: project_permissions) }
@@ -104,6 +103,16 @@ RSpec.describe WorkPackage, ".allowed_to" do
 
       it "returns no work packages" do
         expect(subject).to be_empty
+      end
+    end
+
+    context "when the module the permission belongs to is disabled" do
+      before do
+        private_project.enabled_module_names = private_project.enabled_module_names - ["work_package_tracking"]
+      end
+
+      it "excludes work packages where the module is disabled in" do
+        expect(subject).to contain_exactly(work_package_in_public_project)
       end
     end
   end

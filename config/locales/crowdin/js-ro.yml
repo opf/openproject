@@ -150,6 +150,7 @@ ro:
         attribute_reference:
           macro_help_tooltip: "Acest segment de text este redat în mod dinamic de o macro."
           not_found: "Resursa solicitată nu a fost găsită."
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Atributul selectat \"%{name}\" nu există."
         child_pages:
           button: "Legături către paginile pentru copii"
@@ -904,6 +905,11 @@ ro:
       preformatted_text: "Text preformatat"
       wiki_link: "Link la o pagină Wiki"
       image: "Imagine"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Modificare identificator proiect"
@@ -1059,12 +1065,8 @@ ro:
         is_parent: "Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați \"Programare manuală\" pentru a stabili datele."
         is_switched_from_manual_to_automatic: "Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru."
       sharing:
-        share: "Distribuiți"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

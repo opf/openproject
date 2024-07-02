@@ -266,7 +266,7 @@ fr:
       my: "Mes projets"
       favored: "Projets favoris"
       archived: "Projets archivés"
-      public: "Public project lists"
+      public: "Listes de projets publics"
       my_private: "Mes listes de projets privés"
       new:
         placeholder: "Nouvelle liste de projets"
@@ -294,17 +294,17 @@ fr:
         actions:
           label_enable_single: "Actif dans ce projet, cliquez pour le désactiver"
           label_disable_single: "Inactif dans ce projet, cliquez pour l'activer"
-          deactivate_for_project: "Deactivate for this project"
+          deactivate_for_project: "Désactiver pour ce projet"
           label_enable_all: "Activer tout"
           label_disable_all: "Désactiver tout"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Requis dans tous les projets
+          description: Cet attribut de projet est activé dans tous les projets, car l'option « Requis dans tous les projets » est cochée. Il ne peut pas être désactivé pour des projets individuels.
         new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
+          add_projects: Ajouter des projets
+          include_sub_projects: Inclure les sous-projets
         project_mappings:
-          header: Enabled in projects
+          header: Activé dans les projets
       types:
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         form:
@@ -322,11 +322,11 @@ fr:
       success: "La liste modifiée a été enregistrée"
       failure: "La liste modifiée ne peut pas être enregistrée : %{errors}"
     publish:
-      success: "The list has been made public"
-      failure: "The list cannot be made public: %{errors}"
+      success: "La liste a été rendue publique"
+      failure: "La liste ne peut pas être rendue publique : %{errors}"
     unpublish:
-      success: "The list has been made private"
-      failure: "The list cannot be made private: %{errors}"
+      success: "La liste a été rendue privée"
+      failure: "La liste ne peut pas être rendue privée : %{errors}"
     can_be_saved: "Liste modifiée :"
     can_be_saved_as: "Les modifications ne peuvent être enregistrées que dans une nouvelle liste :"
   members:
@@ -454,8 +454,7 @@ fr:
         <br/>
         <strong>Note</strong>: les valeurs héritées (ex: des enfants ou relations) continueront de s’appliquer.
       status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
+        Cochez cette option pour exclure les lots de travaux ayant ce statut des totaux de Travail, Travail restant et % réalisé dans une hiérarchie.
       status_color_text: |
         Cliquez pour assigner ou modifier la couleur de ce statut.
         Elle peut être utilisée pour mettre en évidence les lots de travaux dans le tableau.
@@ -463,11 +462,12 @@ fr:
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
       no_results_content_text: Ajouter un nouveau statut
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
-        excluded_from_totals: "Excluded from totals"
+        is_default: "Défaut"
+        is_closed: "Fermé"
+        is_readonly: "Lecture seule"
+        excluded_from_totals: "Exclus des totaux"
   themes:
+    dark: "Dark"
     light: "Clair"
     light_high_contrast: "Clair avec contraste élevé"
   types:
@@ -515,6 +515,10 @@ fr:
     move:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: "Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "Flux de travail manquant pour le partage de lots de travaux"
@@ -636,7 +640,7 @@ fr:
       status:
         is_closed: "Lot de travaux clôturé"
         is_readonly: "Paquet de travail en lecture seule"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        excluded_from_totals: "Exclure du calcul des totaux dans la hiérarchie"
       journal:
         notes: "Notes"
       member:
@@ -777,7 +781,7 @@ fr:
         before_or_equal_to: "doit être antérieur(e) ou égal(e) à %{date}."
         blank: "ne peut pas être vide."
         blank_nested: "doit avoir la propriété « %{property} » définie."
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        cannot_delete_mapping: "est requis. Ne peut être supprimé."
         cant_link_a_work_package_with_a_descendant: "Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches."
         circular_dependency: "Cette relation créerait une dépendance circulaire."
         confirmation: "ne correspond pas à %{attribute}."
@@ -914,6 +918,10 @@ fr:
             enabled_modules:
               dependency_missing: "Le module « %{dependency} » doit également être activé car le module « %{module} » en dépend."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -938,8 +946,8 @@ fr:
               nonexistent: "La colonne '%{column}' n'existe pas."
               format: "%{message}"
           group_by_hierarchies_exclusive: "est mutuellement exclusif avec grouper par '%{group_by}'. Vous ne pouvez pas activer les deux."
-          can_only_be_modified_by_owner: "The query can only be modified by its owner."
-          need_permission_to_modify_public_query: "You cannot modify a public query."
+          can_only_be_modified_by_owner: "La requête ne peut être modifiée que par son propriétaire."
+          need_permission_to_modify_public_query: "Vous ne pouvez pas modifier une requête publique."
           filters:
             custom_fields:
               inexistent: "Il n’y a pas de champ personnalisé pour le filtre."
@@ -973,9 +981,9 @@ fr:
             base:
               working_days_are_missing: "Au moins un jour de la semaine doit être défini comme jour de travail."
               previous_working_day_changes_unprocessed: "Les modifications précédentes de la configuration des jours ouvrables n'ont pas encore été appliquées."
-              hours_per_day_are_missing: "The number of hours per day must be defined."
-              durations_are_not_positive_numbers: "The durations must be positive numbers."
-              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              hours_per_day_are_missing: "Le nombre d'heures par jour doit être défini."
+              durations_are_not_positive_numbers: "Les durées doivent être des nombres positifs."
+              hours_per_day_is_out_of_bounds: "Le nombre d'heures par jour ne peut être supérieur à 24."
         time_entry:
           attributes:
             hours:
@@ -1033,13 +1041,13 @@ fr:
               only_same_project_categories_allowed: "La catégorie du lot de travaux doit faire partie du même projet que le lot de travaux."
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "n'est pas une durée valide."
               cant_be_inferior_to_remaining_work: "Ne peut être inférieur au Travail restant."
               must_be_set_when_remaining_work_is_set: "Requis lorsque le Travail restant est défini."
               only_values_greater_or_equal_zeroes_allowed: "Doit être >= 0."
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "n'est pas une durée valide."
               cant_exceed_work: "Ne peut être supérieur au Travail."
               must_be_set_when_work_is_set: "Requis lorsque le Travail est défini."
               format: "%{message}"
@@ -1340,8 +1348,8 @@ fr:
   button_revoke_access: "Révoquer l'accès"
   button_revoke_all: "Révoquer tout"
   button_revoke_only: "Révoquer uniquement %{shared_role_name}"
-  button_publish: "Make public"
-  button_unpublish: "Make private"
+  button_publish: "Passer en public"
+  button_unpublish: "Passer en privé"
   consent:
     checkbox_label: J'ai pris note de ce qui précède et je l'accepte.
     failure_message: Échec de l'accord, impossible de continuer.
@@ -1613,11 +1621,11 @@ fr:
     image:
       omitted: "Image non exportée."
     macro:
-      error: "Macro error, %{message}"
-      attribute_not_found: "attribute not found: %{attribute}"
-      model_not_found: "invalid attribute model: %{model}"
-      resource_not_found: "resource not found: %{resource}"
-      rich_text_unsupported: "Rich text embedding currently not supported in export"
+      error: "Erreur de macro, %{message}"
+      attribute_not_found: "attribut non trouvé : %{attribute}"
+      model_not_found: "modèle d'attribut non valide : %{model}"
+      resource_not_found: "ressource non trouvée : %{resource}"
+      rich_text_unsupported: "L'intégration de texte enrichi n'est actuellement pas prise en charge dans l'exportation"
     units:
       hours: h
       days: j
@@ -1671,7 +1679,7 @@ fr:
       dates_changed: "Dates modifiées"
       default_attribute_written: "Attributs en lecture seule écrits"
       progress_mode_changed_to_status_based: "Mise à jour du calcul de la progression"
-      status_changed: "Status '%{status_name}'"
+      status_changed: "Statut  « %{status_name} »"
       system_update: "Mise à jour du système OpenProject :"
     cause_descriptions:
       work_package_predecessor_changed_times: par changement vers le prédécesseur %{link}
@@ -1688,9 +1696,9 @@ fr:
           working: "%{date} est maintenant un jour ouvrable"
           non_working: "%{date} est maintenant un jour non ouvrable"
       progress_mode_changed_to_status_based: Le calcul de la progression est désormais basé sur le statut
-      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
-      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_excluded_from_totals_set_to_false_message: désormais inclus dans les totaux de la hiérarchie
+      status_excluded_from_totals_set_to_true_message: désormais exclus des totaux de la hiérarchie
+      status_percent_complete_changed: "% réalisé passé de %{old_value} % à %{new_value} %"
       system_update:
         file_links_journal: >
           À partir de maintenant, l'activité liée aux liens de fichiers (fichiers stockés sur des supports externes) apparaîtra ici dans l'onglet Activité. Les activités suivantes concernent des liens déjà existants :
@@ -2347,7 +2355,7 @@ fr:
   label_workflow: "Flux de travail"
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
-  label_working_days_and_hours: "Working days and hours"
+  label_working_days_and_hours: "Jours et heures travaillés"
   label_x_closed_work_packages_abbr:
     one: "1 fermée"
     other: "%{count} fermées"
@@ -2596,6 +2604,7 @@ fr:
   notice_principals_found_multiple: "Il y a %{number} résultats trouvés. Tabulation pour sélectionner le premier résultat."
   notice_principals_found_single: "Il y a un seul résultat. Tabulation pour le sélectionner."
   notice_project_not_deleted: "Le projet n'a pas été supprimé."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Connection réussie."
   notice_successful_create: "Création réussie."
   notice_successful_delete: "Suppression réussie."
@@ -2731,7 +2740,9 @@ fr:
   permission_save_bcf_queries: "Enregistrer les requêtes BCF"
   permission_manage_public_bcf_queries: "Gérer les requêtes publiques BCF"
   permission_edit_attribute_help_texts: "Modifier les textes d'aide des attributs"
-  permission_manage_public_project_queries: "Manage public project lists"
+  permission_manage_public_project_queries: "Gérer les listes de projets publics"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:
@@ -2962,9 +2973,9 @@ fr:
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
-  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day: "Heures par jour"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    Ceci permettra de définir ce qui est considéré comme un « jour » lors de l'affichage de la durée d'une manière plus naturelle (par exemple, si un jour est de 8 heures, 32 heures équivalent à 4 jours).
   setting_invitation_expiration_days: "L'émail d’activation expire après"
   setting_work_package_done_ratio: "Calcul de la progression"
   setting_work_package_done_ratio_field: "Basé sur le travail"
@@ -3355,62 +3366,64 @@ fr:
         work_based_help_text: "Le % réalisé est automatiquement dérivé de Travail et Travail restant."
         status_based_help_text: "Le % réalisé est défini par le statut du lot de travaux."
         migration_warning_text: "Dans le mode de calcul de la progression basé sur le travail, le % réalisé ne peut pas être défini manuellement et est lié au travail. La valeur existante a été conservée mais ne peut pas être modifiée. Veuillez d'abord renseigner Travail."
-    sharing:
-      count:
-        zero: "0 utilisateur"
-        one: "1 utilisateur"
-        other: "%{count} utilisateurs"
-      filter:
-        project_member: "Membre du projet"
-        not_project_member: "Non membre du projet"
-        project_group: "Groupe de projet"
-        not_project_group: "Non groupe du projet"
-        role: "Rôle"
-        type: "Type"
-      label_search: "Rechercher des utilisateurs à inviter"
-      label_search_placeholder: "Rechercher par nom ou par adresse mail..."
-      label_toggle_all: "Activer/désactiver tous les partages"
-      permissions:
-        comment: "Commentaire"
-        comment_description: "Peut voir et commenter ce lot de travaux."
-        denied: "Vous n'avez pas l'autorisation de partager des lots de travaux. "
-        edit: "Éditer"
-        edit_description: "Peut voir, commenter et modifier ce lot de travaux."
-        view: "Afficher"
-        view_description: "Peut voir ce lot de travaux."
-      remove: "Supprimer"
-      share: "Partager"
-      text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
-      text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
-      text_empty_state_description: "Le lot de travaux n'a encore été partagé avec personne."
-      text_empty_state_header: "Non partagé"
-      text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce lot de travaux."
-      text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour pouvoir ajouter d''autres utilisateurs.'
-      warning_user_limit_reached: >
-        L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin de garantir que les utilisateurs externes puissent accéder à ce work package.
-      warning_user_limit_reached_admin: >
-        L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour que les utilisateurs externes puissent accéder à ce work package.
-      warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels partager ce lot de travaux"
-      warning_locked_user: "Impossible de partager avec %{user} dont le compte est verrouillé"
-      user_details:
-        locked: "Utilisateur verrouillé"
-        invited: "Invitation envoyée."
-        resend_invite: "Renvoyer."
-        invite_resent: "L'Invitation a été renvoyée."
-        not_project_member: "Non membre du projet"
-        project_group: "Les membres du groupe peuvent avoir des privilèges supplémentaires (en tant que membres du projet)"
-        not_project_group: ""
-        additional_privileges_project: "Peut avoir des privilèges supplémentaires (en tant que membre du projet)"
-        additional_privileges_group: "Peut avoir des privilèges supplémentaires (en tant que membre d'un group)"
-        additional_privileges_project_or_group: "Peut avoir des privilèges supplémentaires (en tant que membre du projet ou d'un groupe)"
+    permissions:
+      comment: "Comment"
+      comment_description: "Can view and comment this work package."
+      edit: "Edit"
+      edit_description: "Can view, comment and edit this work package."
+      view: "View"
+      view_description: "Can view this work package."
+  sharing:
+    count:
+      zero: "0 users"
+      one: "1 user"
+      other: "%{count} users"
+    filter:
+      project_member: "Project member"
+      not_project_member: "Not project member"
+      project_group: "Project group"
+      not_project_group: "Not project group"
+      user: "User"
+      group: "Group"
+      role: "Role"
+      type: "Type"
+    denied: "You don't have permissions to share %{entities}."
+    label_search: "Search for users to invite"
+    label_search_placeholder: "Search by user or email address"
+    label_toggle_all: "Toggle all shares"
+    remove: "Remove"
+    share: "Share"
+    text_empty_search_description: "There are no users with the current filter criteria."
+    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
+    text_empty_state_header: "Not shared"
+    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
+    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    warning_user_limit_reached: >
+      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+    warning_user_limit_reached_admin: >
+      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
+    warning_no_selected_user: "Please select users to share this %{entity} with"
+    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    user_details:
+      locked: "Locked user"
+      invited: "Invite sent. "
+      resend_invite: "Resend."
+      invite_resent: "Invite has been resent"
+      not_project_member: "Not a project member"
+      project_group: "Group members might have additional privileges (as project members)"
+      not_project_group: "Group (shared with all members)"
+      additional_privileges_project: "Might have additional privileges (as project member)"
+      additional_privileges_group: "Might have additional privileges (as group member)"
+      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
+      Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.
     instance_wide_info: >
       Les dates ajoutées à la liste ci-dessous sont considérées comme non fonctionnelles et ignorées lors de la planification des lots de travaux.
     change_button: "Changer les jours ouvrables"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
+      La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas.
     journal_note:
       changed: _**Jours ouvrables** modifiés (%{changes})._
       days:

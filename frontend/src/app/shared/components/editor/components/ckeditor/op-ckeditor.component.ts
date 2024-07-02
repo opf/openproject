@@ -247,7 +247,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         if ((data.ctrlKey || data.metaKey) && data.keyCode === KeyCodes.ENTER) {
           debugLog('Sending save request from CKEditor.');
           this.saveRequested.emit();
-          evt.stop();
+          // evt.stop();
         }
       },
       { priority: 'highest' },

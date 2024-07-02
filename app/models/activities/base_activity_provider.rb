@@ -219,7 +219,7 @@ class Activities::BaseActivityProvider
 
   def restrict_projects_by_selection(options, query)
     if (project = options[:project])
-      query = query.where(project.project_condition(options[:with_subprojects]))
+      query = query.where(project.with_subprojects(options[:with_subprojects]))
     end
 
     query

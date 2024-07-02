@@ -27,7 +27,7 @@
 
 RSpec.shared_examples "deletion allowed" do
   it "responds with 202" do
-    expect(last_response.status).to eq 202
+    expect(last_response).to have_http_status :accepted
   end
 
   it "locks the account and mark for deletion" do
@@ -47,7 +47,7 @@ end
 
 RSpec.shared_examples "deletion is not allowed" do
   it "responds with 403" do
-    expect(last_response.status).to eq 403
+    expect(last_response).to have_http_status :forbidden
   end
 
   it "does not delete the user" do

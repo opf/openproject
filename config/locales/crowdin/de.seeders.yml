@@ -41,6 +41,11 @@ de:
           name: Spezifikation
         item_2:
           name: Andere
+      project_query_roles:
+        item_0:
+          name: Projektabfrage-Viewer
+        item_1:
+          name: Projektabfrage-Editor
       work_package_roles:
         item_0:
           name: Arbeitspaket-Bearbeiter

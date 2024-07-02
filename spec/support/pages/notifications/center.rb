@@ -40,7 +40,7 @@ module Pages
       end
 
       def mark_all_read
-        click_button 'Mark all as read'
+        click_button "Mark all as read"
       end
 
       def mark_notification_as_read(notification)
@@ -50,13 +50,13 @@ module Pages
       end
 
       def show_all
-        click_button 'All'
+        click_button "All"
       end
 
       def item_title(notification)
         text = notification.resource.is_a?(WorkPackage) ? notification.resource.subject : notification.subject
         within_item(notification) do
-          page.find('span', text:, exact_text: true)
+          page.find("span", text:, exact_text: true)
         end
       end
 
@@ -111,15 +111,15 @@ module Pages
       end
 
       def expect_closed
-        expect(page).to have_no_css('op-in-app-notification-center')
+        expect(page).to have_no_css("op-in-app-notification-center")
       end
 
       def expect_open
-        expect(page).to have_css('op-in-app-notification-center')
+        expect(page).to have_css("op-in-app-notification-center")
       end
 
       def expect_empty
-        expect(page).to have_text 'New notifications will appear here when there is activity that concerns you'
+        expect(page).to have_text "New notifications will appear here when there is activity that concerns you"
       end
 
       def expect_number_of_notifications(count)
@@ -143,15 +143,15 @@ module Pages
       end
 
       def expect_no_toaster
-        expect(page).to have_no_css('.op-toast.-info', wait: 10)
+        expect(page).to have_no_css(".op-toast.-info", wait: 10)
       end
 
       def expect_toast
-        expect(page).to have_css('.op-toast.-info', wait: 10)
+        expect(page).to have_css(".op-toast.-info", wait: 10)
       end
 
       def update_via_toaster
-        page.find('.op-toast.-info a', wait: 10).click
+        page.find(".op-toast.-info a", wait: 10).click
       end
     end
   end

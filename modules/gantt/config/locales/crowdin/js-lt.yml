@@ -1,6 +1,5 @@
 lt:
   js:
-    queries:
-      all_open: 'Visi atviri'
-      timeline: 'Laiko juosta'
-      milestones: 'Gairės'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

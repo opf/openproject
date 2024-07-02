@@ -150,6 +150,7 @@ zh-TW:
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: "指向子頁面的連結"
@@ -820,8 +821,8 @@ zh-TW:
       duplicated: "重複於"
       blocks: "攔阻"
       blocked: "攔阻於"
-      precedes: "前置項目"
-      follows: "後置項目"
+      precedes: "後置項目"
+      follows: "前置項目"
       includes: "包括"
       partof: "一部分"
       requires: "需要"
@@ -902,6 +903,11 @@ zh-TW:
       preformatted_text: "預先格式化文字"
       wiki_link: "連結到一個 Wiki 頁面"
       image: "圖片"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "專案整批變動"
@@ -1057,12 +1063,8 @@ zh-TW:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: "共享"
         title: "分享工作項目"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "已選取 %{count} 個"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "與不是專案成員的使用者共用工作項目。"
       table:

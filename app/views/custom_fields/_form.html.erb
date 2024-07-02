@@ -224,8 +224,11 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </div>
     <div class="form--field">
-    <%= f.check_box :searchable,
-                    data: { 'admin--custom-fields-target': 'searchable' }%>
+      <%= f.check_box :searchable,
+                      data: { 'admin--custom-fields-target': 'searchable' }%>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.searchable') %></p>
+      </div>
     </div>
   <% when "TimeEntryCustomField" %>
     <div class="form--field">

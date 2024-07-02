@@ -27,7 +27,7 @@
 #++
 
 class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: 'meetings',
+  activity_provider_for type: "meetings",
                         activities: %i[meeting meeting_content],
                         permission: :view_meetings
 
@@ -35,7 +35,7 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
     case activity
     when :meeting_content
       query.join(meetings_table).on(activity_journals_table[:meeting_id].eq(meetings_table[:id]))
-      join_cond = journals_table[:journable_type].eq('MeetingContent')
+      join_cond = journals_table[:journable_type].eq("MeetingContent")
       query.join(meeting_contents_table).on(journals_table[:journable_id].eq(meeting_contents_table[:id]).and(join_cond))
     else
       super
@@ -46,17 +46,17 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
     case activity
     when :meeting
       [
-        activity_journal_projection_statement(:title, 'meeting_title'),
-        activity_journal_projection_statement(:start_time, 'meeting_start_time'),
-        activity_journal_projection_statement(:duration, 'meeting_duration'),
-        activity_journal_projection_statement(:project_id, 'project_id')
+        activity_journal_projection_statement(:title, "meeting_title"),
+        activity_journal_projection_statement(:start_time, "meeting_start_time"),
+        activity_journal_projection_statement(:duration, "meeting_duration"),
+        activity_journal_projection_statement(:project_id, "project_id")
       ]
     else
       [
-        projection_statement(meeting_contents_table, :type, 'meeting_content_type'),
-        projection_statement(meetings_table, :id, 'meeting_id'),
-        projection_statement(meetings_table, :title, 'meeting_title'),
-        projection_statement(meetings_table, :project_id, 'project_id')
+        projection_statement(meeting_contents_table, :type, "meeting_content_type"),
+        projection_statement(meetings_table, :id, "meeting_id"),
+        projection_statement(meetings_table, :title, "meeting_title"),
+        projection_statement(meetings_table, :project_id, "project_id")
       ]
     end
   end
@@ -86,13 +86,13 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   protected
 
   def event_name(event)
-    case event['event_description']
-    when 'Agenda closed'
-      I18n.t('meeting_agenda_closed', scope: 'events')
-    when 'Agenda opened'
-      I18n.t('meeting_agenda_opened', scope: 'events')
-    when 'Minutes created'
-      I18n.t('meeting_minutes_created', scope: 'events')
+    case event["event_description"]
+    when "Agenda closed"
+      I18n.t("meeting_agenda_closed", scope: "events")
+    when "Agenda opened"
+      I18n.t("meeting_agenda_opened", scope: "events")
+    when "Minutes created"
+      I18n.t("meeting_minutes_created", scope: "events")
     else
       super
     end
@@ -101,12 +101,12 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   def event_title(event)
     case activity
     when :meeting
-      start_time = if event['meeting_start_time'].is_a?(String)
-                     DateTime.parse(event['meeting_start_time'])
+      start_time = if event["meeting_start_time"].is_a?(String)
+                     DateTime.parse(event["meeting_start_time"])
                    else
-                     event['meeting_start_time']
+                     event["meeting_start_time"]
                    end
-      end_time = start_time + event['meeting_duration'].to_f.hours
+      end_time = start_time + event["meeting_duration"].to_f.hours
 
       fstart_with = format_date start_time
       fstart_without = format_time start_time, false
@@ -121,9 +121,9 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   def event_type(event)
     case activity
     when :meeting
-      'meeting'
+      "meeting"
     else
-      event['meeting_content_type'].include?('Agenda') ? 'meeting-agenda' : 'meeting-minutes'
+      event["meeting_content_type"].include?("Agenda") ? "meeting-agenda" : "meeting-minutes"
     end
   end
 
@@ -164,6 +164,6 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   end
 
   def activity_id(event)
-    activity == :meeting ? event['journable_id'] : event['meeting_id']
+    activity == :meeting ? event["journable_id"] : event["meeting_id"]
   end
 end

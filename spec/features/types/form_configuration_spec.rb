@@ -32,7 +32,7 @@ RSpec.describe "form configuration", :js do
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
 
-  let(:project) { create(:project, types: [type]) }
+  let!(:project) { create(:project, types: [type]) }
   let(:category) { create(:category, project:) }
   let(:work_package) do
     create(:work_package,

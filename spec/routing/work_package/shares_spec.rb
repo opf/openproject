@@ -29,15 +29,59 @@
 require "spec_helper"
 
 RSpec.describe "work package share routes" do
-  it "connects DELETE /work_packages/shares/:id to work_packages/shares#delete" do
-    expect(delete("/work_packages/shares/5")).to route_to(controller: "work_packages/shares",
-                                                          action: "destroy",
-                                                          id: "5")
+  it "connects GET /work_packages/:wp_id/shares to shares#index" do
+    expect(get("/work_packages/1/shares")).to route_to(controller: "shares",
+                                                       action: "index",
+                                                       work_package_id: "1")
   end
 
-  it "connects PATCH /work_packages/shares/:id to work_packages/shares#update" do
-    expect(patch("/work_packages/shares/5")).to route_to(controller: "work_packages/shares",
+  it "connects POST /work_packages/:wp_id/shares to shares#create" do
+    expect(post("/work_packages/1/shares")).to route_to(controller: "shares",
+                                                        action: "create",
+                                                        work_package_id: "1")
+  end
+
+  it "connects DELETE /work_packages/:wp_id/shares/:id to shares#delete" do
+    expect(delete("/work_packages/1/shares/5")).to route_to(controller: "shares",
+                                                            action: "destroy",
+                                                            id: "5",
+                                                            work_package_id: "1")
+  end
+
+  it "connects PATCH /work_packages/:wp_id/shares/:id to shares#update" do
+    expect(patch("/work_packages/1/shares/5")).to route_to(controller: "shares",
+                                                           action: "update",
+                                                           id: "5",
+                                                           work_package_id: "1")
+  end
+
+  it "connects PUT /work_packages/:wp_id/shares/:id to shares#update" do
+    expect(put("/work_packages/1/shares/5")).to route_to(controller: "shares",
                                                          action: "update",
-                                                         id: "5")
+                                                         id: "5",
+                                                         work_package_id: "1")
+  end
+
+  it "connects POST /work_packages/:wp_id/shares/:id/resend_invite to shares#resend_invite" do
+    expect(post("/work_packages/1/shares/5/resend_invite")).to route_to(controller: "shares",
+                                                                        action: "resend_invite",
+                                                                        id: "5",
+                                                                        work_package_id: "1")
+  end
+
+  context "on bulk actions" do
+    it "routes DELETE /work_packages/:work_package_id/shares/bulk to shares/bulk#destroy" do
+      expect(delete("/work_packages/1/shares/bulk"))
+        .to route_to(controller: "shares",
+                     action: "bulk_destroy",
+                     work_package_id: "1")
+    end
+
+    it "routes PATCH /work_packages/:work_package_id/shares/bulk to shares/bulk#update" do
+      expect(patch("/work_packages/1/shares/bulk"))
+        .to route_to(controller: "shares",
+                     action: "bulk_update",
+                     work_package_id: "1")
+    end
   end
 end

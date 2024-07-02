@@ -99,7 +99,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     ### taken from ActivitiesByWorkPackageAPI
     call = AddWorkPackageNoteService
       .new(user: User.current,
-          work_package: @work_package)
+           work_package: @work_package)
       .call(journal_params[:notes],
             send_notifications: !(params.has_key?(:notify) && params[:notify] == "false"))
     ###
@@ -109,7 +109,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       generate_time_based_reaction_update_streams(params[:last_update_timestamp])
     end
 
-    clear_form_via_turbo_stream
+    # clear_form_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -140,15 +140,10 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
 
     if call.success?
-      update_via_turbo_stream(
-        component: WorkPackages::ActivitiesTab::Journals::FilterAndSortingComponent.new(
-          work_package: @work_package,
-          filter:
-        )
-      )
-
-      update_via_turbo_stream(
-        component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
+      # update the whole tab to reflect the new sorting in all components
+      # we need to call replace in order to properly re-init the index stimulus component
+      replace_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::IndexComponent.new(
           work_package: @work_package,
           filter:
         )

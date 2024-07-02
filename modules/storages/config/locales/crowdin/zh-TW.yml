@@ -102,11 +102,24 @@ zh-TW:
       storage_provider: 儲存空間提供者
     health:
       checked: 上次檢查時間：%{datetime}
+      connection_validation:
+        action: Recheck connection
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: 錯誤
       label_healthy: 健康的
       label_pending: 待處理
+      label_warning: Warning
+      project_folders:
+        subtitle: Automatically managed project folders
       since: 自從%{datetime}開始
-      subtitle: 自動管理的專案文件夾
       title: 健康狀態
     health_email_notifications:
       description_subscribed: 所有管理員都會收到此儲存空間的運作狀況電子郵件通知。

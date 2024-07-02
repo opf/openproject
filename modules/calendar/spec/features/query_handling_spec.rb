@@ -78,7 +78,7 @@ RSpec.describe "Calendar query handling", :js do
   let(:calendar_page) { Pages::Calendar.new project }
   let(:work_package_page) { Pages::WorkPackagesTable.new project }
   let(:query_title) { Components::WorkPackages::QueryTitle.new }
-  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
+  let(:query_menu) { Components::Submenu.new }
   let(:filters) { calendar_page.filters }
 
   current_user { user }
@@ -128,7 +128,7 @@ RSpec.describe "Calendar query handling", :js do
 
     it "shows only calendar queries" do
       # Go to calendar where a query is already shown
-      query_menu.expect_menu_entry saved_query.name
+      query_menu.expect_item saved_query.name
 
       # Change filter
       filters.open
@@ -141,12 +141,12 @@ RSpec.describe "Calendar query handling", :js do
       calendar_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_create"))
 
       # The saved query appears in the side menu...
-      query_menu.expect_menu_entry "I am your Query"
-      query_menu.expect_menu_entry saved_query.name
+      query_menu.expect_item "I am your Query", selected: true
+      query_menu.expect_item saved_query.name
 
       # .. but not in the work packages module
       work_package_page.visit!
-      query_menu.expect_menu_entry_not_visible "I am your Query"
+      query_menu.expect_no_item "I am your Query"
     end
 
     it_behaves_like "module specific query view management" do

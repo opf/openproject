@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "calendar_sidemenu" do %>
+  <%= render OpenProject::Common::SubmenuComponent.new(sidebar_menu_items: @submenu_menu_items,
+                                                       searchable: true,
+                                                       create_btn_options: @create_btn_options) %>
+<% end %>

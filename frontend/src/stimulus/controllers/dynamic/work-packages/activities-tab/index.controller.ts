@@ -1,38 +1,10 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
-
 import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
 import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { set } from 'lodash';
 
 export default class IndexController extends Controller {
   static values = {
@@ -58,15 +30,8 @@ export default class IndexController extends Controller {
 
   connect() {
     this.setLastUpdateTimestamp();
-    this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
-    document.addEventListener('work-package-updated', this.handleWorkPackageUpdate);
-
-    if (window.location.hash.includes('#activity-')) {
-      this.scrollToActivity();
-    } else if (this.sortingValue === 'asc') {
-      this.scrollToBottom();
-    }
-
+    this.setupEventListeners();
+    this.handleInitialScroll();
     this.intervallId = this.pollForUpdates();
   }
 
@@ -75,16 +40,26 @@ export default class IndexController extends Controller {
     window.clearInterval(this.intervallId);
   }
 
-  scrollToActivity() {
-    const activityId = window.location.hash.replace('#activity-', '');
-    const activityElement = document.getElementById(`activity-${activityId}`);
-    if (activityElement) {
-      activityElement.scrollIntoView({ behavior: 'smooth' });
+  private setupEventListeners() {
+    this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
+    document.addEventListener('work-package-updated', this.handleWorkPackageUpdate);
+  }
+
+  private handleInitialScroll() {
+    if (window.location.hash.includes('#activity-')) {
+      this.scrollToActivity();
+    } else if (this.sortingValue === 'asc') {
+      this.scrollToBottom();
     }
   }
 
-  scrollToBottom():void {
-    // copied from frontend/src/app/features/work-packages/components/work-package-comment/work-package-comment.component.ts
+  private scrollToActivity() {
+    const activityId = window.location.hash.replace('#activity-', '');
+    const activityElement = document.getElementById(`activity-${activityId}`);
+    activityElement?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private scrollToBottom() {
     const scrollableContainer = jQuery(this.element).scrollParent()[0];
     if (scrollableContainer) {
       setTimeout(() => {
@@ -94,9 +69,7 @@ export default class IndexController extends Controller {
   }
 
   async handleWorkPackageUpdate(event:Event) {
-    setTimeout(() => {
-      this.updateActivitiesList();
-    }, 2000); // TODO: wait dynamically for persisted change before updating the activities list
+    setTimeout(() => this.updateActivitiesList(), 2000);
   }
 
   async updateActivitiesList() {
@@ -104,17 +77,7 @@ export default class IndexController extends Controller {
     url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
     url.searchParams.append('filter', this.filterValue);
 
-    const response = await fetch(
-      url,
-      {
-        method: 'GET',
-        headers: {
-          'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
-          Accept: 'text/vnd.turbo-stream.html',
-        },
-        credentials: 'same-origin',
-      },
-    );
+    const response = await this.fetchWithCSRF(url, 'GET');
 
     if (response.ok) {
       const text = await response.text();
@@ -123,91 +86,107 @@ export default class IndexController extends Controller {
     }
   }
 
-  pollForUpdates() {
-    // protypical implementation of polling for updates in order to evaluate if we want to have this feature
-    return window.setInterval(() => {
-      this.updateActivitiesList();
-    }, this.pollingIntervalInMsValue);
+  private pollForUpdates() {
+    return window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
   }
 
-  setFilterToOnlyComments() {
-    this.filterValue = 'only_comments';
+  setFilterToOnlyComments() { this.filterValue = 'only_comments'; }
+  setFilterToOnlyChanges() { this.filterValue = 'only_changes'; }
+  unsetFilter() { this.filterValue = ''; }
+
+  private getCkEditorInstance():ICKEditorInstance | null {
+    const AngularCkEditorElement = this.element.querySelector('opce-ckeditor-augmented-textarea');
+    return AngularCkEditorElement ? jQuery(AngularCkEditorElement).data('editor') as ICKEditorInstance : null;
   }
 
-  setFilterToOnlyChanges() {
-    this.filterValue = 'only_changes';
+  private addEventListenersToCkEditorInstance() {
+    const editor = this.getCkEditorInstance();
+    if (editor) {
+      this.addKeydownListener(editor);
+      this.addKeyupListener(editor);
+      this.addBlurListener(editor);
+    }
   }
 
-  unsetFilter() {
-    this.filterValue = '';
+  private addKeydownListener(editor:ICKEditorInstance) {
+    editor.listenTo(
+      editor.editing.view.document,
+      'keydown',
+      (event, data) => {
+        if ((data.ctrlKey || data.metaKey) && data.keyCode === KeyCodes.ENTER) {
+          this.onSubmit();
+          event.stop();
+        }
+      },
+      { priority: 'highest' },
+    );
   }
 
-  getCkEditorElement() {
-    return this.formRowTarget.querySelectorAll('.document-editor__editable')[0] as HTMLElement;
+  private addKeyupListener(editor:ICKEditorInstance) {
+    editor.listenTo(
+      editor.editing.view.document,
+      'keyup',
+      (event) => {
+        this.adjustJournalContainerMargin();
+        event.stop();
+      },
+      { priority: 'highest' },
+    );
   }
 
-  addEventListenerToCkEditorElement(ckEditorElement:HTMLElement) {
-    ckEditorElement.addEventListener('keydown', (event) => {
-      this.onCtrlEnter(event);
-    });
-    ckEditorElement.addEventListener('keyup', () => {
-      this.adjustJournalContainerMargin();
-    });
+  private addBlurListener(editor:ICKEditorInstance) {
+    editor.listenTo(
+      editor.editing.view.document,
+      'change:isFocused',
+      () => {
+        // without the timeout `isFocused` is still true even if the editor was blurred
+        // current limitation:
+        // clicking on empty toolbar space and the somewhere else on the page does not trigger the blur anymore
+        setTimeout(() => {
+          if (!editor.ui.focusTracker.isFocused) { this.hideEditorIfEmpty(); }
+        }, 0);
+      },
+      { priority: 'highest' },
+    );
   }
 
-  adjustJournalContainerMargin() {
+  private adjustJournalContainerMargin() {
+    // don't do this on mobile screens
+    // TODO: get rid of static width value and reach for a more CSS based solution
+    if (window.innerWidth < 1279) { return; }
     this.journalsContainerTarget.style.marginBottom = `${this.formRowTarget.clientHeight + 40}px`;
   }
 
-  onCtrlEnter(event:KeyboardEvent) {
-    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
-      this.onSubmit(event);
-    }
-  }
-
-  scrollJournalContainerToBottom(journalsContainer:HTMLElement) {
+  private scrollJournalContainer(journalsContainer:HTMLElement, toBottom:boolean) {
     const scrollableContainer = jQuery(journalsContainer).scrollParent()[0];
     if (scrollableContainer) {
-        scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
-    }
-  }
-
-  scrollJournalContainerToTop(journalsContainer:HTMLElement) {
-    const scrollableContainer = jQuery(journalsContainer).scrollParent()[0];
-    if (scrollableContainer) {
-        scrollableContainer.scrollTop = 0;
+      scrollableContainer.scrollTop = toBottom ? scrollableContainer.scrollHeight : 0;
     }
   }
 
   showForm() {
     this.buttonRowTarget.classList.add('d-none');
     this.formRowTarget.classList.remove('d-none');
+    this.journalsContainerTarget?.classList.add('with-input-compensation');
 
-    if (this.journalsContainerTarget) {
-      this.journalsContainerTarget.classList.add('with-input-compensation');
-    }
+    this.addEventListenersToCkEditorInstance();
 
-    const ckEditorElement = this.getCkEditorElement();
-    if (ckEditorElement) {
-      this.addEventListenerToCkEditorElement(ckEditorElement);
-
-      setTimeout(() => {
-        if (ckEditorElement) {
-          ckEditorElement.focus();
-        }
-      }, 10);
+    const ckEditorInstance = this.getCkEditorInstance();
+    if (ckEditorInstance) {
+      setTimeout(() => ckEditorInstance.editing.view.focus(), 10);
     }
   }
 
   quote(event:Event) {
     event.preventDefault();
-    const userName = (event.currentTarget as HTMLElement).dataset.userNameParam as string;
-    const content = (event.currentTarget as HTMLElement).dataset.contentParam as string;
+    const target = event.currentTarget as HTMLElement;
+    const userName = target.dataset.userNameParam as string;
+    const content = target.dataset.contentParam as string;
 
     this.openEditorWithQuotedText(this.quotedText(content, userName));
   }
 
-  quotedText(rawComment:string, userName:string) {
+  private quotedText(rawComment:string, userName:string) {
     const quoted = rawComment.split('\n')
       .map((line:string) => `\n> ${line}`)
       .join('');
@@ -217,41 +196,41 @@ export default class IndexController extends Controller {
 
   openEditorWithQuotedText(quotedText:string) {
     this.showForm();
-    const AngularCkEditorElement = this.element.querySelector('opce-ckeditor-augmented-textarea');
-    if (AngularCkEditorElement) {
-      const ckeditorInstance = jQuery(AngularCkEditorElement).data('editor') as ICKEditorInstance;
-      if (ckeditorInstance) {
-        const currentData = ckeditorInstance.getData({ trim: false });
-        // only quote if the editor is empty
-        if (currentData.length === 0) {
-          ckeditorInstance.setData(quotedText);
-        }
+    const ckEditorInstance = this.getCkEditorInstance();
+    if (ckEditorInstance && ckEditorInstance.getData({ trim: false }).length === 0) {
+      ckEditorInstance.setData(quotedText);
+    }
+  }
+
+  clearEditor() {
+    this.getCkEditorInstance()?.setData('');
+  }
+
+  hideEditorIfEmpty() {
+    const ckEditorInstance = this.getCkEditorInstance();
+    if (ckEditorInstance && ckEditorInstance.getData({ trim: false }).length === 0) {
+      this.buttonRowTarget.classList.remove('d-none');
+      this.formRowTarget.classList.add('d-none');
+
+      if (this.journalsContainerTarget) {
+        this.journalsContainerTarget.style.marginBottom = '';
+        this.journalsContainerTarget.classList.add('with-initial-input-compensation');
+        this.journalsContainerTarget.classList.remove('with-input-compensation');
       }
     }
   }
 
-  async onSubmit(event:Event) {
-    event.preventDefault(); // Prevent the native form submission
+  async onSubmit(event:Event | null = null) {
+    event?.preventDefault();
+    const ckEditorInstance = this.getCkEditorInstance();
+    const data = ckEditorInstance ? ckEditorInstance.getData({ trim: false }) : '';
 
-    const form = this.formTarget;
-    const formData = new FormData(form);
+    const formData = new FormData(this.formTarget);
     formData.append('last_update_timestamp', this.lastUpdateTimestamp);
     formData.append('filter', this.filterValue);
+    formData.append('journal[notes]', data);
 
-    const action = form.action;
-
-    const response = await fetch(
-      action,
-      {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
-          Accept: 'text/vnd.turbo-stream.html',
-        },
-        credentials: 'same-origin',
-      },
-    );
+    const response = await this.fetchWithCSRF(this.formTarget.action, 'POST', formData);
 
     if (response.ok) {
       this.setLastUpdateTimestamp();
@@ -259,18 +238,31 @@ export default class IndexController extends Controller {
       Turbo.renderStreamMessage(text);
 
       if (this.journalsContainerTarget) {
-        setTimeout(() => {
+        this.clearEditor();
+        if (this.journalsContainerTarget) {
           this.journalsContainerTarget.style.marginBottom = '';
-          this.journalsContainerTarget.classList.add('with-initial-input-compensation');
-          this.journalsContainerTarget.classList.remove('with-input-compensation');
-          if (this.sortingValue === 'asc') {
-            this.scrollJournalContainerToBottom(this.journalsContainerTarget);
-          } else {
-            this.scrollJournalContainerToTop(this.journalsContainerTarget);
-          }
+          this.journalsContainerTarget.classList.add('with-input-compensation');
+        }
+        setTimeout(() => {
+          this.scrollJournalContainer(
+            this.journalsContainerTarget,
+            this.sortingValue === 'asc',
+          );
         }, 100);
       }
     }
+  }
+
+  private async fetchWithCSRF(url:string | URL, method:string, body?:FormData) {
+    return fetch(url, {
+      method,
+      body,
+      headers: {
+        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
+        Accept: 'text/vnd.turbo-stream.html',
+      },
+      credentials: 'same-origin',
+    });
   }
 
   setLastUpdateTimestamp() {

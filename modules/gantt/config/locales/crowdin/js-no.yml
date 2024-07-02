@@ -1,6 +1,5 @@
 "no":
   js:
-    queries:
-      all_open: 'Alle åpne'
-      timeline: 'Tidslinje'
-      milestones: 'Milepæler'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

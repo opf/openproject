@@ -46,7 +46,7 @@ fr:
   permission_delete_files_explanation: Cette permission n'est disponible que pour les espaces de stockage Nextcloud
   permission_header_for_project_module_storages: Dossiers de projets gérés automatiquement
   permission_manage_file_links: Gérer les liens de fichiers
-  permission_manage_files_in_project: Manage files in project
+  permission_manage_files_in_project: Gérer les fichiers dans un projet
   permission_read_files: 'Gestion automatique des dossiers de projet : Lire des fichiers'
   permission_share_files: 'Gestion automatique des dossiers de projet : Partager des fichiers'
   permission_share_files_explanation: Cette permission n'est disponible que pour les espaces de stockage Nextcloud
@@ -102,11 +102,24 @@ fr:
       storage_provider: Fournisseur de stockage
     health:
       checked: Dernière vérification %{datetime}
+      connection_validation:
+        action: Recheck connection
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Erreur
       label_healthy: Sain
       label_pending: En attente
+      label_warning: Warning
+      project_folders:
+        subtitle: Automatically managed project folders
       since: depuis %{datetime}
-      subtitle: Dossiers de projets gérés automatiquement
       title: État de santé
     health_email_notifications:
       description_subscribed: Tous les administrateurs reçoivent des notifications par e-mail concernant le statut de cet espace de stockage.

@@ -35,4 +35,8 @@ class Queries::Projects::ProjectQueries::CreateService < BaseServices::Create
   def instance(_params)
     @from || super
   end
+
+  def instance_class
+    ProjectQuery
+  end
 end

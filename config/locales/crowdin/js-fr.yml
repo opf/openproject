@@ -150,6 +150,7 @@ fr:
         attribute_reference:
           macro_help_tooltip: "Ce segment de texte est rendu dynamiquement par une macro."
           not_found: "La ressource demandée est introuvable"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "L'attribut « %{name} » n'existe pas."
         child_pages:
           button: "Liens vers les pages enfants"
@@ -276,9 +277,9 @@ fr:
           Voulez-vous continuer ?
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+          Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ non modifiable dont la valeur est dérivée des champs <i>Travail</i> et <i>Travail restant</i>. Les valeurs existantes pour <i>% réalisé</i> sont conservées. Des valeurs pour <i>Travail</i> et <i>Travail restant</i> sont requises pour modifier <i>% réalisé</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
-          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
+          Passer du mode de calcul de la progression basé sur le travail au mode basé sur le statut entraînera la perte de toutes les valeurs de <i>% réalisé</i> existantes et leur remplacement par les valeurs associées à chaque statut. Les valeurs existantes pour <i>Travail restant</i> peuvent également être recalculées pour refléter ce changement. Cette action est irréversible.
     custom_actions:
       date:
         specific: "le"
@@ -368,7 +369,7 @@ fr:
           "14_2":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Définir plus d'unités pour le travail, le travail restant et le temps de travail</li> <li>Configurer quels projets sont activés pour les attributs de projet</li> <li>Renommer les listes de projets privés</li> <li>Éviter les rappels redondants par e-mail en cas de @mentions</li> <li>Inviter les participants à une réunion par e-mail</li> <li>Afficher les attributs de lots de travaux intégrés dans les exportations PDF</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -904,6 +905,11 @@ fr:
       preformatted_text: "Texte préformaté"
       wiki_link: "Lien vers une page wiki"
       image: "Image"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Changement de projet en bloc"
@@ -1059,12 +1065,8 @@ fr:
         is_parent: "Les dates de ce lot de travaux sont automatiquement déduites de ses enfants. Activez la « Planification manuelle » pour définir les dates."
         is_switched_from_manual_to_automatic: "Les dates de ce lot de travaux peuvent avoir besoin d'être recalculées après avoir passé de la planification manuelle à la planification automatique en raison de relations avec d'autres lots de travaux."
       sharing:
-        share: "Partager"
         title: "Partager le lot de travaux"
         show_all_users: "Afficher tous les utilisateurs avec lesquels le lot de travaux a été partagé"
-        selected_count: "%{count} sélectionné"
-        selection:
-          mixed: "Mixte"
         upsale:
           description: "Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet."
       table:
@@ -1289,9 +1291,9 @@ fr:
         next_button: "Continuer"
     exclusion_info:
       modal:
-        title: "Status excluded from hierarchy totals"
+        title: "Statut exclu des totaux de la hiérarchie"
         content: >-
-          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+          Le statut « %{status_name} » a été configuré pour être exclu des totaux hiérarchiques du travail, du travail restant et du % réalisé. Les totaux ne tiennent pas compte de cette valeur.
     favorite_projects:
       no_results: "Vous n'avez pas de projet favori"
       no_results_subtext: "Ajoutez un ou plusieurs projets en tant que favoris via leur vue d'ensemble ou dans une liste de projets."
@@ -1352,12 +1354,12 @@ fr:
         remove: "Supprimer"
       drop_modal:
         focus_grab: "Il s'agit d'une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l'élément de déclenchement modal."
-        close: "Close modal"
+        close: "Fermer la fenêtre modale"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "Délai d'inactivité"
       waiting_subtitle:
         network_off: "Un problème de réseau est survenu."
         network_on: "Le réseau est à nouveau disponible. Nous essayons."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject n'a pas pu vous donner accès au dossier du projet dans le délai imparti. Veuillez réessayer.<br><br> Si ce problème persiste, veuillez contacter votre administrateur OpenProject pour vérifier le <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">statut de santé de l'espace de stockage de fichiers</a>.

@@ -31,7 +31,6 @@
 class Members::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include ApplicationHelper
-  include Menus::MembersHelper
 
   def initialize(project: nil)
     super
@@ -77,7 +76,7 @@ class Members::IndexPageHeaderComponent < ApplicationComponent
     query_name = nil
     menu_header = nil
 
-    first_level_menu_items.find do |section|
+    Members::Menu.new(project: @project, params:).menu_items.find do |section|
       section.children.find do |menu_query|
         if !!menu_query.selected
           query_name = menu_query.title
