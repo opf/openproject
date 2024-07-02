@@ -77,11 +77,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     return false unless query.persisted?
     return false unless query.changed?
 
-    if query.public?
-      current_user.allowed_globally?(:manage_public_project_queries)
-    else
-      query.user == current_user
-    end
+    query.editable?
   end
 
   def can_rename?
@@ -89,11 +85,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     return false unless query.persisted?
     return false if query.changed?
 
-    if query.public?
-      current_user.allowed_globally?(:manage_public_project_queries)
-    else
-      query.user == current_user
-    end
+    query.editable?
   end
 
   def show_state?
