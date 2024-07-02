@@ -20,6 +20,7 @@ get:
                   - 1
                   - 10
                   - 100
+                durationFormat: 'hours_only'
                 activeFeatureFlags:
                   - 'aFeatureFlag'
                   - 'anotherFeatureFlag'
@@ -28,7 +29,7 @@ get:
       description: OK
       headers: {}
   tags:
-  - Configuration
+    - Configuration
   description: ''
   operationId: View_configuration
   summary: View configuration

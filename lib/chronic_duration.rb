@@ -102,7 +102,10 @@ module ChronicDuration
     month = days_per_month * day
     year = SECONDS_PER_YEAR
 
-    if seconds >= SECONDS_PER_YEAR && seconds % year < seconds % month
+    if opts[:format] == :hours_only
+      hours = seconds / 3600.0
+      seconds = 0
+    elsif seconds >= SECONDS_PER_YEAR && seconds % year < seconds % month
       years = seconds / year
       months = seconds % year / month
       days = seconds % year % month / day
@@ -173,6 +176,14 @@ module ChronicDuration
       hours_int = hours.to_i
       hours = hours_int if hours - hours_int == 0 # if hours end with .0
       minutes = seconds = 0
+    when :hours_only
+      dividers = {
+        hours: "h", keep_zero: true
+      }
+
+      hours = hours.round(2)
+      hours_int = hours.to_i
+      hours = hours_int if hours - hours_int == 0 # if hours end with .0
     when :chrono
       dividers = {
         years: ":", months: ":", weeks: ":", days: ":", hours: ":", minutes: ":", seconds: ":", keep_zero: true
