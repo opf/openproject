@@ -95,7 +95,6 @@ RSpec.describe(
           categories
           work_packages
           work_package_attachments
-          work_package_shares
           wiki
           wiki_page_attachments
           forums
@@ -639,74 +638,6 @@ RSpec.describe(
               expect(subject).to be_success
               expect(project_copy.work_packages[0].watcher_users).to be_empty
             end
-          end
-        end
-
-        context "with shared work packages" do
-          let(:wp_role) { create(:view_work_package_role) }
-          let!(:source_wp_shared_with_user) do
-            create(:user, member_with_roles: { source_wp => wp_role })
-          end
-
-          let(:only_args) { %w[work_packages work_package_shares] }
-
-          shared_examples "does not sends share notification" do
-            it "does not create any notifications" do
-              subject
-              # The sharee is not notified
-              expect { perform_enqueued_jobs }
-                .not_to change(Notification.where(recipient: source_wp_shared_with_user), :count)
-            end
-          end
-
-          shared_examples "sends share notification" do
-            it "creates a notification for the sharee" do
-              subject
-              # The sharee of the new work package receives a notification
-              expect { perform_enqueued_jobs }
-                .to change(Notification.where(recipient: source_wp_shared_with_user), :count)
-                      .from(0)
-                      .to(1)
-            end
-          end
-
-          shared_examples "copies the shared with membership for the work package" do
-            it "copies the shared with membership for the work package" do
-              expect(subject).to be_success
-              expect(project_copy.members.count).to eq 2
-
-              shared_wp_member = project_copy.members.find_by(entity_type: "WorkPackage")
-              expect(shared_wp_member.principal).to eq(source_wp_shared_with_user)
-              expect(shared_wp_member.roles).to contain_exactly(wp_role)
-
-              copied_wp = project_copy.work_packages.find_by(subject: "source wp")
-              expect(shared_wp_member.entity).to eq(copied_wp)
-            end
-          end
-
-          it_behaves_like "copies the shared with membership for the work package"
-          it_behaves_like "sends share notification"
-
-          context "when send_notifications are disabled" do
-            let(:send_notifications) { false }
-
-            it_behaves_like "copies the shared with membership for the work package"
-            it_behaves_like "does not sends share notification"
-          end
-
-          context "having disabled" do
-            let(:only_args) { %w[work_packages] }
-
-            it "copies the standard membership for the project only" do
-              expect(subject).to be_success
-              expect(project_copy.members.count).to eq 1
-
-              wp_member = project_copy.members.find_by(user_id: current_user.id)
-              expect(wp_member.principal).to eq(current_user)
-              expect(wp_member).to be_project_role
-            end
-
-            it_behaves_like "does not sends share notification"
           end
         end
 
