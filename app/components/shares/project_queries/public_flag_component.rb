@@ -44,6 +44,18 @@ module Shares
       private
 
       attr_reader :strategy, :container
+
+      def toggle_public_flag_link
+        toggle_public_project_query_path(strategy.entity)
+      end
+
+      def checked
+        strategy.entity.public?
+      end
+
+      def can_publish?
+        User.current.allowed_globally?(:manage_public_project_queries)
+      end
     end
   end
 end

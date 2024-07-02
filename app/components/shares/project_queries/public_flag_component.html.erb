@@ -1,1 +1,15 @@
-<%=  container.with_row { "Hallo, das ist ein Test" } %>
+<%=
+container.with_row(mt: 3) do
+  render(Primer::Forms::ToggleSwitchForm.new(
+        name: "publish_project_query",
+        # TODO: Proper translations
+        label: "Make the query public",
+        caption: "All users will have access",
+        src: toggle_public_flag_link,
+        csrf_token: form_authenticity_token,
+        status_label_position: :start,
+        checked:,
+        enabled: can_publish?
+      ))
+end
+%>
