@@ -8,7 +8,7 @@
         visually_hide_title: true
       )) do |d|
         # d.with_header(title: "React")
-        d.with_show_button(icon: "smiley", "aria-label": I18n.t("reactions.add_reaction"), title: I18n.t("reactions.add_reaction"))
+        d.with_show_button(icon: "smiley", "aria-label": I18n.t("reactions.add_reaction"), title: I18n.t("reactions.add_reaction"), mr: 2)
         d.with_body(pt: 2) do 
           flex_layout do |add_reactions_container|
             journal.available_untaken_emojis.each do |emoji|

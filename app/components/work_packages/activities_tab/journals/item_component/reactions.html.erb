@@ -5,6 +5,7 @@
         journal.detailed_grouped_emoji_reactions.each do |emoji, data|
           reactions_container.with_column(mr: 2) do
             render(Primer::Beta::Button.new(
+              bg: counter_color(data[:users]),
               id: "#{journal.id}-#{emoji}",
               tag: :a,
               href: toggle_reaction_work_package_activity_path(journal.journable.id, id: journal.id, emoji: emoji),

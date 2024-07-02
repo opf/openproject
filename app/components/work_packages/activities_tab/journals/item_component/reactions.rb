@@ -48,6 +48,14 @@ module WorkPackages
           journal.id
         end
 
+        def reacted_by_current_user?(users)
+          users.any? { |u| u[:id] == User.current.id }
+        end
+
+        def counter_color(users)
+          reacted_by_current_user?(users) ? :accent : :default
+        end
+
         def tooltip_text(emoji, users)
           max_displayed_users_count = 5
 

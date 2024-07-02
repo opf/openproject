@@ -49,6 +49,7 @@ module Reactable
     emoji_reactions
       .select('emoji, COUNT(*) as count, ARRAY_AGG(user_id) as user_ids')
       .group(:emoji)
+      .order('emoji ASC')
       .map do |result|
         users = User.where(id: result.user_ids).select(:id, :firstname, :lastname)
         {
@@ -60,10 +61,10 @@ module Reactable
   end
 
   def available_emojis
-    EmojiReaction.available_emojis
+    EmojiReaction.available_emojis.sort
   end
 
   def available_untaken_emojis
-    EmojiReaction.available_emojis - detailed_grouped_emoji_reactions.keys
+    (EmojiReaction.available_emojis - detailed_grouped_emoji_reactions.keys).sort
   end
 end
