@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,46 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class TableComponent < ::TableComponent
-    options :current_project # used to determine if displaying the projects column
+require "spec_helper"
 
-    sortable_columns :title, :project_name, :type, :start_time, :duration, :location
+require_relative "../../support/pages/my/page"
 
-    def initial_sort
-      %i[start_time asc]
-    end
+RSpec.describe "Work package watched widget on My page", :js do
+  shared_let(:user) { create(:user) }
+  shared_let(:non_member) { create(:non_member, permissions: [:view_work_packages]) }
+  shared_let(:project) { create(:project, public: true) }
+  shared_let(:work_package) do
+    create(:work_package,
+           project:,
+           subject: "Visible work package for non member",
+           author: user,
+           responsible: user)
+  end
 
-    def sortable_columns_correlation
-      super.merge(
-        project_name: "projects.name",
-        type: "meetings.type"
-      )
-    end
+  let(:my_page) do
+    Pages::My::Page.new
+  end
 
-    def initialize_sorted_model
-      helpers.sort_clear
+  before do
+    login_as user
+    work_package.add_watcher(user)
 
-      super
-    end
+    my_page.visit!
+  end
 
-    def paginated?
-      true
-    end
+  it "can add the watcher widget without being member anywhere (Regression #55838)" do
+    my_page.add_widget(1, 1, :within, "Work packages watched by me")
 
-    def headers
-      @headers ||= [
-        [:title, { caption: Meeting.human_attribute_name(:title) }],
-        current_project.blank? ? [:project_name, { caption: Meeting.human_attribute_name(:project) }] : nil,
-        [:type, { caption: Meeting.human_attribute_name(:type) }],
-        [:start_time, { caption: Meeting.human_attribute_name(:start_time) }],
-        [:duration, { caption: Meeting.human_attribute_name(:duration) }],
-        [:location, { caption: Meeting.human_attribute_name(:location) }]
-      ].compact
-    end
-
-    def columns
-      @columns ||= headers.map(&:first)
-    end
+    expect(page).to have_text(work_package.subject)
   end
 end

@@ -303,7 +303,7 @@ ms:
           add_projects: Tambah projek
           include_sub_projects: Sertakan sub-projek
         project_mappings:
-          header: Enabled in projects
+          header: Didayakan dalam projek
       types:
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
         form:

@@ -20,13 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 cs:
-  button_add_deploy_target: Add deploy target
-  label_deploy_target: Deploy target
-  label_deploy_target_new: New deploy target
-  label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
-  notice_deploy_target_created: Deploy target created
-  notice_deploy_target_destroyed: Deploy target deleted
+  button_add_deploy_target: Přidání cíle nasazení
+  label_deploy_target: Cíl nasazení
+  label_deploy_target_new: Nový cíl nasazení
+  label_deploy_target_plural: Cíle nasazení
+  label_github_integration: Integrace GitHubu
+  notice_deploy_target_created: Cíl nasazení byl vytvořen
+  notice_deploy_target_destroyed: Cíl nasazení odstraněn
   plugin_openproject_github_integration:
     name: "OpenProject GitHub integrace"
     description: "Integruje OpenProject a GitHub pro lepší workflow"
@@ -34,7 +34,7 @@ cs:
   permission_show_github_content: "Zobrazit GitHub obsah"
   permission_introspection: Read running OpenProject core version and build SHA
   text_deploy_target_type_info: >
-    So far we only support OpenProject itself.
+    Zatím podporujeme pouze samotný OpenProject
   text_deploy_target_api_key_info: >
     An OpenProject [API key](docs_url) belonging to a user who has the global introspection permission.
-  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"
+  text_pull_request_deployed_to: "%{pr_link} nasazení na adrese %{deploy_target_link}"

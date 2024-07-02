@@ -33,13 +33,23 @@ RSpec.describe "Meeting requests",
                type: :rails_request do
   shared_let(:project) { create(:project, enabled_module_names: %i[meetings]) }
   shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_meetings create_meetings] }) }
+  shared_let(:meeting) { create(:structured_meeting, project:) }
 
   before do
     login_as user
   end
 
+  describe "Meetings index" do
+    context "when sorting by meeting type" do
+      it "does not raise an error (Regression #55839)" do
+        get meetings_path(sort: "type", filters: '[{"time":{"operator":"=","values":["future"]}}]')
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to have_text(meeting.title)
+      end
+    end
+  end
+
   describe "copy" do
-    let(:meeting) { create(:structured_meeting, project:) }
     let(:base_params) do
       {
         copied_from_meeting_id: meeting.id,

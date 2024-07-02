@@ -5,11 +5,11 @@ af:
     button_update: 'Opdateer'
     avatars:
       label_choose_avatar: "Kies Avatar uit lêer"
-      uploading_avatar: "Uploading your avatar."
+      uploading_avatar: "Laai jou avatar op."
       text_upload_instructions: |
         Laai jou eie pasgemaakte avatar van 128 by 128 pieksels op. Groter lêers sal verander en gesny word om te pas.
         'n Voorskou van jou avatar sal gewys word voor oplaai sodra jy 'n beeld gekies het.
-      error_image_too_large: "Image is too large."
+      error_image_too_large: "Prent is te groot"
       wrong_file_format: "Toegelate formate is jpg, png, gif"
       empty_file_error: "Laai asseblief 'n geldige prent op (jpg, png, gif)"
 
