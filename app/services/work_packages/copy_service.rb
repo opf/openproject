@@ -133,7 +133,7 @@ class WorkPackages::CopyService
                           entity: target,
                           send_notifications:)
 
-    Members::CreateService
+    Shares::CreateService
       .new(user: User.current, contract_class: EmptyContract)
       .call(attributes)
   end
