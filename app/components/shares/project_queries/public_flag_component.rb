@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,39 +26,24 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module SharingStrategies
-  class ProjectQueryStrategy < BaseStrategy
-    def available_roles
-      ProjectQueryRole.all.map.with_index do |role, index|
-        {
-          label: role.name,
-          value: role.id,
-          description: "#{role.name} description", # TODO: Figure out from where we can get the description
-          default: index.zero?
-        }
+module Shares
+  module ProjectQueries
+    class PublicFlagComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
+
+      def initialize(strategy:, modal_body_container:)
+        super
+
+        @strategy = strategy
+        @container = modal_body_container
       end
-    end
 
-    def manageable?
-      @entity.editable?
-    end
+      private
 
-    def create_contract_class
-      Shares::ProjectQueries::CreateContract
-    end
-
-    def update_contract_class
-      Shares::ProjectQueries::UpdateContract
-    end
-
-    def delete_contract_class
-      Shares::ProjectQueries::DeleteContract
-    end
-
-    def additional_body_component
-      Shares::ProjectQueries::PublicFlagComponent
+      attr_reader :strategy, :container
     end
   end
 end
