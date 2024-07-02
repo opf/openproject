@@ -3671,7 +3671,9 @@ en:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
-
+    project_queries:
+      text_empty_state_header: "Shared with everyone"
+      text_empty_state_description: "Everyone can view this project list. You can also add individual users with extra permissions."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count).

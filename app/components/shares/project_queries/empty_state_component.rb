@@ -42,12 +42,12 @@ module Shares
 
       attr_reader :strategy, :entity
 
-      def blankslate_config # rubocop:disable Metrics/AbcSize
+      def blankslate_config
         @blankslate_config ||= {}.tap do |config|
           if params[:filters].blank?
             config[:icon] = :people
-            config[:heading_text] = "ABC"
-            config[:description_text] = I18n.t("sharing.text_empty_state_description", entity: @entity.class.model_name.human)
+            config[:heading_text] = I18n.t("sharing.project_queries.text_empty_state_header")
+            config[:description_text] = I18n.t("sharing.project_queries.text_empty_state_description")
           else
             config[:icon] = :search
             config[:heading_text] = I18n.t("sharing.text_empty_search_header")
