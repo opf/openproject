@@ -3688,9 +3688,9 @@ en:
           description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
         view: "View"
-        view_description: "TODO: Add me"
+        view_description: "Can view this project list."
         edit: "Edit"
-        edit_description: "TODO: Add me as well"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count).

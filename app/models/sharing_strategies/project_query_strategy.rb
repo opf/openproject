@@ -32,13 +32,17 @@ module SharingStrategies
       role_mapping = ProjectQueryRole.pluck(:builtin, :id).to_h
 
       [
-        { label: I18n.t("sharing.project_queries.permissions.edit"),
+        {
+          label: I18n.t("sharing.project_queries.permissions.edit"),
           value: role_mapping[Role::BUILTIN_PROJECT_QUERY_EDIT],
-          description: I18n.t("sharing.project_queries.permissions.edit_description") },
-        { label: I18n.t("sharing.project_queries.permissions.view"),
+          description: I18n.t("sharing.project_queries.permissions.edit_description")
+        },
+        {
+          label: I18n.t("sharing.project_queries.permissions.view"),
           value: role_mapping[Role::BUILTIN_PROJECT_QUERY_VIEW],
           description: I18n.t("sharing.project_queries.permissions.view_description"),
-          default: true }
+          default: true
+        }
       ]
     end
 
