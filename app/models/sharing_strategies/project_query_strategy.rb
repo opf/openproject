@@ -70,7 +70,7 @@ module SharingStrategies
     end
 
     def empty_state_component
-      Shares::ProjectQueries::EmptyStateComponent if @entity.public?
+      Shares::ProjectQueries::EmptyStateComponent
     end
   end
 end

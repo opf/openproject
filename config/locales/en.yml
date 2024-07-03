@@ -3679,8 +3679,13 @@ en:
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
-      text_empty_state_header: "Shared with everyone"
-      text_empty_state_description: "Everyone can view this project list. You can also add individual users with extra permissions."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
         view: "View"
         view_description: "TODO: Add me"
