@@ -120,14 +120,14 @@ module Projects
     end
 
     def persisted_filters
-      @persisted_filters = ::ProjectQuery
+      @persisted_filters ||= ::ProjectQuery
         .visible(current_user)
         .with_favored_by_user(current_user)
         .order(favored: :desc, name: :asc)
     end
 
     def favored_ids
-      @favored_ids = persisted_filters.select(&:favored).to_set(&:id)
+      @favored_ids ||= persisted_filters.select(&:favored).to_set(&:id)
     end
 
     def modification_params?
