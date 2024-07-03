@@ -85,7 +85,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.visit!
     end
 
-    describe 'with the "Active projects" filter' do
+    context 'with the "Active projects" filter' do
       before do
         projects_page.set_sidebar_filter "Active projects"
       end
