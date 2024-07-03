@@ -67,6 +67,10 @@ module Projects
       end
     end
 
+    def favored?(query_params)
+      query_params[:query_id].in?(favored_ids)
+    end
+
     def query_path(query_params)
       projects_path(query_params)
     end
@@ -116,7 +120,14 @@ module Projects
     end
 
     def persisted_filters
-      @persisted_filters = ::ProjectQuery.visible(current_user).order(:name)
+      @persisted_filters ||= ::ProjectQuery
+        .visible(current_user)
+        .with_favored_by_user(current_user)
+        .order(favored: :desc, name: :asc)
+    end
+
+    def favored_ids
+      @favored_ids ||= persisted_filters.select(&:favored).to_set(&:id)
     end
 
     def modification_params?

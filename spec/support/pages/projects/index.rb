@@ -75,8 +75,8 @@ module Pages
         expect(page).to have_css('[data-test-selector="project-query-name"]', text: name)
       end
 
-      def expect_sidebar_filter(filter_name, selected: false, visible: true)
-        submenu.expect_item(filter_name, selected:, visible:)
+      def expect_sidebar_filter(filter_name, selected: false, favored: false, visible: true)
+        submenu.expect_item(filter_name, selected:, favored:, visible:)
       end
 
       def expect_no_sidebar_filter(filter_name)
@@ -301,6 +301,14 @@ module Pages
         within "dialog" do
           click_on "Apply"
         end
+      end
+
+      def mark_query_favorite
+        page.find('[data-test-selector="project-query-favorite"]').click
+      end
+
+      def unmark_query_favorite
+        page.find('[data-test-selector="project-query-unfavorite"]').click
       end
 
       def click_more_menu_item(item)
