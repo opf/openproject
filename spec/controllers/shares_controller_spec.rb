@@ -66,6 +66,33 @@ RSpec.describe SharesController do
     end
 
     context "for a project query" do
+      shared_let(:query_owner) { create(:user) }
+      shared_let(:project_query) { create(:project_query, user: query_owner) }
+      let(:make_request) do
+        get :index, params: { project_query_id: project_query.id }
+      end
+
+      context "when the user does not have permission to access the project query" do
+        before do
+          mock_permissions_for(user, &:forbid_everything)
+        end
+
+        it "raises a RecordNotFound error" do
+          expect { make_request }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context "when the user does have permission" do
+        before do
+          role = create(:project_query_role, permissions: %i[view_project_query])
+          create(:member, entity: project_query, principal: user, roles: [role])
+          make_request
+        end
+
+        it "loads the project query" do
+          expect(assigns(:entity)).to eq(project_query)
+        end
+      end
     end
   end
 
