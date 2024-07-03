@@ -80,10 +80,6 @@ See COPYRIGHT and LICENSE files for more details.
           </div>
         </div>
       <% end %>
-      <%#= link_to({ action: 'generate_api_key' }, method: :post, class: 'spot-link', data: { test_selector: 'api-token-add' }) do %>
-<!--        <span class="spot-icon spot-icon_add"></span>-->
-<!--        <span><%#= t('my_account.access_tokens.api.static_token_name') %></span>-->
-      <%# end %>
       <%= render My::AccessToken::NewAccessTokenComponent.new %>
     <% else %>
       <div tabindex="0" class="-info op-toast">
