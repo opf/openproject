@@ -31,6 +31,7 @@ module API
     content_type "hal+json", "application/hal+json; charset=utf-8"
     format "hal+json"
     formatter "hal+json", API::Formatter.new
+    parser "hal+json", Grape::Parser::Json
     default_format "hal+json"
 
     parser :json, API::V3::Parser.new
