@@ -44,9 +44,7 @@ RSpec.describe SharesController do
 
       context "when the user does not have permission to access the work package" do
         before do
-          mock_permissions_for(user) do |mock|
-            mock.forbid_everything
-          end
+          mock_permissions_for(user, &:forbid_everything)
         end
 
         it "raises a RecordNotFound error" do
