@@ -33,12 +33,6 @@ module ColorsHelper
       options = {}
       options[:name] = c.name
       options[:value] = c.id
-      options[:data] = {
-        color: c.hexcode,
-        bright: c.bright?,
-        dark: c.dark?,
-        background: c.contrasting_color(light_color: "transparent")
-      }
       options[:selected] = true if c.id == colored_thing.color_id
 
       colors.push(options)
@@ -48,12 +42,6 @@ module ColorsHelper
 
   def selected_color(colored_thing)
     colored_thing.color_id
-  end
-
-  def colored_text(color)
-    background = color.contrasting_color(dark_color: "#333", light_color: "transparent")
-    style = "background-color: #{background}; color: #{color.hexcode}"
-    content_tag(:span, color.hexcode, class: "color--text-preview", style:)
   end
 
   #
