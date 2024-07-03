@@ -249,6 +249,7 @@ bg:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Изтриването е планирано и се извършва във фонов режим. Ще бъдете уведомени за резултата."
       schedule_failed: "Project cannot be deleted: %{errors}"
@@ -2022,6 +2023,7 @@ bg:
   label_invite_user: "Покани потребител"
   label_share: "Споделяне"
   label_show_hide: "Покажи/Скрий"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Показване на всички регистрирани потребители"
   label_journal: "Дневник"
   label_journal_diff: "Сравнение на описание"
@@ -2059,6 +2061,7 @@ bg:
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Изход"
   label_main_menu: "Главното меню"
+  label_manage: "Manage"
   label_manage_groups: "Управление на групи"
   label_managed_repositories_vendor: "Управлявани %{vendor} хранилища"
   label_max_size: "Максимален размер"

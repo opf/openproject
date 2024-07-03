@@ -249,6 +249,7 @@ ro:
       work_package_attachments: "Pachete de lucru: anexe"
       work_package_categories: "Pachete de lucru: categorii"
       work_package_file_links: "Pachete de lucru: legături de fișiere"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Ștergerea a fost programată și se efectuează în fundal. Veți fi notificat cu privire la rezultat."
       schedule_failed: "Proiectul nu poate fi șters: %{errors}"
@@ -2055,6 +2056,7 @@ ro:
   label_invite_user: "Invitare utilizator"
   label_share: "Distribuiți"
   label_show_hide: "Afișare/ascundere"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Afișați toți utilizatorii înregistrați"
   label_journal: "Jurnal"
   label_journal_diff: "Comparare descriere"
@@ -2092,6 +2094,7 @@ ro:
   label_custom_touch_icon: "Pictogramă touch personalizată"
   label_logout: "Deconectare"
   label_main_menu: "Meniu lateral"
+  label_manage: "Manage"
   label_manage_groups: "Gestionare grupuri"
   label_managed_repositories_vendor: "Gestionare arhive %{vendor}"
   label_max_size: "Dimensiunea maximă"

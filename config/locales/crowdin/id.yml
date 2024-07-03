@@ -243,6 +243,7 @@ id:
       work_package_attachments: "Paket kerja: lampiran"
       work_package_categories: "Kategori paket kerja"
       work_package_file_links: "Tautan file paket kerja"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Penghapusan telah dijadwalkan dan dilakukan di latar belakang.  Anda akan diberitahu tentang hasilnya."
       schedule_failed: "Proyek tidak dapat dihapus: %{errors}"
@@ -1982,6 +1983,7 @@ id:
   label_invite_user: "Invite user"
   label_share: "Share"
   label_show_hide: "Show/hide"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Menampilkan semua pengguna teregistrasi"
   label_journal: "Journal"
   label_journal_diff: "Deskripsi perbandingan"
@@ -2019,6 +2021,7 @@ id:
   label_custom_touch_icon: "Ikon sentuh sesuai keinginan"
   label_logout: "Logout"
   label_main_menu: "Sidemenu"
+  label_manage: "Manage"
   label_manage_groups: "Manage groups"
   label_managed_repositories_vendor: "%{vendor} repository yang dikelola"
   label_max_size: "Ukuran maks."

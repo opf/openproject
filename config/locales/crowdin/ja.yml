@@ -247,6 +247,7 @@ ja:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "削除がスケジュールされ、バックグラウンドで実行されます。結果は通知されます。"
       schedule_failed: "プロジェクトを削除できません: %{errors}"
@@ -1985,6 +1986,7 @@ ja:
   label_invite_user: "ユーザを招待"
   label_share: "共有"
   label_show_hide: "表示/非表示"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "すべての登録ユーザーを表示"
   label_journal: "履歴記述"
   label_journal_diff: "説明の比較"
@@ -2022,6 +2024,7 @@ ja:
   label_custom_touch_icon: "カスタムのタッチアイコン"
   label_logout: "ログアウト"
   label_main_menu: "サイドメニュー"
+  label_manage: "Manage"
   label_manage_groups: "グループを管理"
   label_managed_repositories_vendor: "管理された %{vendor} リポジトリ"
   label_max_size: "最大サイズ"

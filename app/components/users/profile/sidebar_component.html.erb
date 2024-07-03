@@ -1,0 +1,15 @@
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::BorderGrid.new(spacious: true)) do |border_grid|
+      [
+        Users::Profile::AttributesComponent.new(user: @user),
+        Users::Profile::GroupsComponent.new(user: @user),
+        Users::Profile::ProjectsComponent.new(user: @user)
+      ].each do |component|
+        if component.render?
+          border_grid.with_row { render(component) }
+        end
+      end
+    end
+  end
+%>

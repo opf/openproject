@@ -246,6 +246,7 @@ zh-CN:
       work_package_attachments: "工作包：附件"
       work_package_categories: "工作包：类别"
       work_package_file_links: "工作包：文件链接"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "删除已安排并且将在后台执行。您将收到结果通知。"
       schedule_failed: "项目不能删除: %{errors}"
@@ -1985,6 +1986,7 @@ zh-CN:
   label_invite_user: "邀请用户"
   label_share: "共享"
   label_show_hide: "显示/隐藏"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "显示所有注册用户"
   label_journal: "日志"
   label_journal_diff: "描述的对比"
@@ -2022,6 +2024,7 @@ zh-CN:
   label_custom_touch_icon: "自定义触摸图标"
   label_logout: "注销"
   label_main_menu: "侧边菜单"
+  label_manage: "Manage"
   label_manage_groups: "组管理"
   label_managed_repositories_vendor: "托管的 %{vendor} 存储库"
   label_max_size: "最大"

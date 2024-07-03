@@ -245,6 +245,7 @@ el:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Η διαγραφή έχει προγραμματιστεί και εκτελείται στο παρασκήνιο. Θα ειδοποιηθείτε για το αποτέλεσμα."
       schedule_failed: "Το έργο δεν μπορεί να διαγραφεί: %{errors}"
@@ -2018,6 +2019,7 @@ el:
   label_invite_user: "Προσκαλέστε χρήστη"
   label_share: "Share"
   label_show_hide: "Εμφάνιση/απόκρυψη"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Εμφάνιση όλων των εγγεγραμμένων χρηστών"
   label_journal: "Ημερολόγιο"
   label_journal_diff: "Σύγκριση Περιγραφών"
@@ -2055,6 +2057,7 @@ el:
   label_custom_touch_icon: "Προσαρμοσμένο εικονίδιο αφής"
   label_logout: "Αποσύνδεση"
   label_main_menu: "Πλευρικό Μενού"
+  label_manage: "Manage"
   label_manage_groups: "Διαχείριση Ομάδων"
   label_managed_repositories_vendor: "Αποθετήρια που διαχειρίζονται από %{vendor}"
   label_max_size: "Μέγιστο μέγεθος"

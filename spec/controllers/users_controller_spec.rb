@@ -890,9 +890,9 @@ RSpec.describe UsersController do
         end
 
         context "when not login_required", with_settings: { login_required: false } do
-          it "responds with 404" do
+          it "responds with 200" do
             expect(response)
-              .to have_http_status(:not_found)
+              .to have_http_status(:ok)
           end
         end
 

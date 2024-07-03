@@ -101,7 +101,10 @@ module ProjectCustomFieldProjectMappings
       new_mappings = custom_field_ids.map do |id|
         { project_id: @project.id, custom_field_id: id }
       end
-      ProjectCustomFieldProjectMapping.insert_all(new_mappings)
+      ProjectCustomFieldProjectMapping.insert_all(
+        new_mappings,
+        unique_by: %i[project_id custom_field_id]
+      )
     end
   end
 end

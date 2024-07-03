@@ -246,6 +246,7 @@ it:
       work_package_attachments: "Macroattività: allegati"
       work_package_categories: "Unità di lavoro: categorie"
       work_package_file_links: "Unità di lavoro: collegamenti ai documenti"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "L'eliminazione è stata programmata e verrà eseguita in background. Verrai avvisato del risultato."
       schedule_failed: "Il progetto non può essere eliminato: %{errors}"
@@ -2019,6 +2020,7 @@ it:
   label_invite_user: "Invita utente"
   label_share: "Condividi"
   label_show_hide: "Mostra/Nascondi"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostra tutti gli utenti registrati"
   label_journal: "Diario"
   label_journal_diff: "Confronto Descrizione"
@@ -2056,6 +2058,7 @@ it:
   label_custom_touch_icon: "Icona del touch personalizzata"
   label_logout: "Disconnetti"
   label_main_menu: "Menu laterale"
+  label_manage: "Manage"
   label_manage_groups: "Gestisci i gruppi"
   label_managed_repositories_vendor: "Archivio gestito %{vendor}"
   label_max_size: "Dimensione massima"

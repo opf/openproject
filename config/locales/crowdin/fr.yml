@@ -249,6 +249,7 @@ fr:
       work_package_attachments: "Lots de Travaux : pièces jointes"
       work_package_categories: "Lots de travaux : catégories"
       work_package_file_links: "Lots de Travaux : liens vers des fichiers"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "La suppression a été planifiée et est effectuée en arrière-plan. Vous serez notifié du résultat."
       schedule_failed: "Le projet ne peut pas être supprimé : %{errors}"
@@ -2021,6 +2022,7 @@ fr:
   label_invite_user: "Inviter utilisateur"
   label_share: "Partager"
   label_show_hide: "Afficher/masquer"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Afficher tous les utilisateurs enregistrés"
   label_journal: "Journal"
   label_journal_diff: "Comparaison de description"
@@ -2058,6 +2060,7 @@ fr:
   label_custom_touch_icon: "Icône de contact personnalisé"
   label_logout: "Déconnexion"
   label_main_menu: "Menu principal"
+  label_manage: "Manage"
   label_manage_groups: "Gérer les groupes"
   label_managed_repositories_vendor: "Référentiels %{vendor} gérés"
   label_max_size: "Taille maximale"

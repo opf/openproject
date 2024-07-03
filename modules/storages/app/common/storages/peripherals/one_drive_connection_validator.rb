@@ -155,7 +155,9 @@ module Storages
       end
 
       def auth_strategy
-        Peripherals::Registry.resolve("#{@storage.short_provider_type}.authentication.userless").call
+        Peripherals::Registry.resolve("#{@storage.short_provider_type}.authentication.userless")
+                             .call
+                             .with_cache(false)
       end
     end
   end

@@ -249,6 +249,7 @@
       work_package_attachments: "Arbeidspakker: vedlegg"
       work_package_categories: "Arbeidspakker: kategorier"
       work_package_file_links: "Arbeidspakker: fillinker"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Sletting har blitt planlagt og blir utført i bakgrunnen. Du vil bli varslet om resultatet."
       schedule_failed: "Prosjektet kan ikke slettes: %{errors}"
@@ -2021,6 +2022,7 @@
   label_invite_user: "Inviter bruker"
   label_share: "Del"
   label_show_hide: "Vis/Skjul"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Vis alle registrerte brukere"
   label_journal: "Journal"
   label_journal_diff: "Sammenligning av beskrivelse"
@@ -2058,6 +2060,7 @@
   label_custom_touch_icon: "Egendefinert berøringsikon"
   label_logout: "Logg av"
   label_main_menu: "Sidemeny"
+  label_manage: "Manage"
   label_manage_groups: "Administrer grupper"
   label_managed_repositories_vendor: "Administrerte %{vendor} kodelagre"
   label_max_size: "Maks størrelse"

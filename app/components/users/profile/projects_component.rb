@@ -26,32 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Users
+  module Profile
+    class ProjectsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-RSpec.describe "users/show" do
-  let(:project)    { create(:valid_project) }
-  let(:user)       { create(:admin, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
-  let(:custom_field) { create(:user_custom_field, :text) }
-  let(:visibility_custom_value) do
-    create(:principal_custom_value,
-           customized: user,
-           custom_field:,
-           value: "TextUserCustomFieldValue")
-  end
+      def initialize(user:)
+        super()
 
-  before do
-    visibility_custom_value
-    user.reload
+        @user = user
+        # show projects based on current user visibility.
+        # But don't simply concatenate the .visible scope to the memberships
+        # as .memberships has an include and an order which for whatever reason
+        # also gets applied to the Project.allowed_to parts concatenated by a UNION
+        # and an order inside a UNION is not allowed in postgres.
+        @memberships = @user.memberships
+                            .of_any_project
+                            .where(id: Member.visible(User.current))
+                            .order("projects.name ASC")
+      end
 
-    assign(:user, user)
-    assign(:memberships, user.memberships)
-    assign(:events, [])
-    assign(:groups, [])
-  end
-
-  it "renders the visible custom values" do
-    render
-
-    expect(rendered).to have_css("li", text: "TextUserCustomField")
+      def render?
+        @memberships.any?
+      end
+    end
   end
 end

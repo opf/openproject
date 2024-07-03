@@ -249,6 +249,7 @@ ko:
       work_package_attachments: "작업 패키지: 첨부 파일"
       work_package_categories: "작업 패키지: 카테고리"
       work_package_file_links: "작업 패키지: 파일 링크"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "삭제가 예약되었으며 백그라운드에서 수행됩니다. 결과 알림이 제공될 것입니다."
       schedule_failed: "프로젝트를 삭제할 수 없습니다: %{errors}"
@@ -1988,6 +1989,7 @@ ko:
   label_invite_user: "사용자 초대"
   label_share: "공유"
   label_show_hide: "표시/숨기기"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "등록된 사용자 모두 표시"
   label_journal: "기록일지"
   label_journal_diff: "설명 비교"
@@ -2025,6 +2027,7 @@ ko:
   label_custom_touch_icon: "사용자 지정 터치 아이콘"
   label_logout: "로그아웃"
   label_main_menu: "측면 메뉴"
+  label_manage: "Manage"
   label_manage_groups: "그룹 관리"
   label_managed_repositories_vendor: "관리 되는 %{vendor} 저장소"
   label_max_size: "최대 크기"

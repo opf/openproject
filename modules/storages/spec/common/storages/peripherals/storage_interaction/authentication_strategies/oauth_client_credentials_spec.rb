@@ -35,7 +35,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::AuthenticationStrategi
   let(:storage) { create(:sharepoint_dev_drive_storage) }
   let(:cache_key) { "storage.#{storage.id}.httpx_access_token" }
 
-  subject(:strategy) { described_class.new }
+  subject(:strategy) { described_class.new(true) }
 
   context "when the attempted request fails with a 403" do
     before do

@@ -249,6 +249,7 @@ ne:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "परियोजना मेटिने छैन: %{errors}"
@@ -2022,6 +2023,7 @@ ne:
   label_invite_user: "Invite user"
   label_share: "Share"
   label_show_hide: "Show/hide"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
@@ -2059,6 +2061,7 @@ ne:
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Sign out"
   label_main_menu: "Side Menu"
+  label_manage: "Manage"
   label_manage_groups: "Manage groups"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_max_size: "Maximum size"

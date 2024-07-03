@@ -30,16 +30,15 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class MeetingsSidebarParticipantsController extends Controller {
-  static targets = ['showHideButton', 'hiddenParticipants'];
-  declare readonly showHideButtonTarget:HTMLInputElement;
-  declare readonly hiddenParticipantsTarget:HTMLElement;
+export default class ExxpandableListController extends Controller {
+  static targets = ['showHideButton', 'hiddenElements'];
+  declare readonly hiddenElementsTarget:HTMLElement;
 
-  showHiddenParticipants():void {
-    if (this.hiddenParticipantsTarget.classList.contains('d-none')) {
-      this.hiddenParticipantsTarget.classList.remove('d-none');
+  showhiddenElements():void {
+    if (this.hiddenElementsTarget.classList.contains('d-none')) {
+      this.hiddenElementsTarget.classList.remove('d-none');
     } else {
-      this.hiddenParticipantsTarget.classList.add('d-none');
+      this.hiddenElementsTarget.classList.add('d-none');
     }
   }
 }

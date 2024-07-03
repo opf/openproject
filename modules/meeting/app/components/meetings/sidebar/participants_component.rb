@@ -36,7 +36,7 @@ module Meetings
 
     def wrapper_data_attributes
       {
-        controller: "meetings-sidebar-participants",
+        controller: "expandable-list",
         "application-target": "dynamic"
       }
     end
@@ -47,10 +47,12 @@ module Meetings
       @meeting = meeting
     end
 
-    private
+    def elements
+      @elements ||= @meeting.invited_or_attended_participants.sort
+    end
 
     def count
-      @count ||= @meeting.invited_or_attended_participants.count
+      @count ||= elements.count
     end
 
     def render_participant(participant)

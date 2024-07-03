@@ -249,6 +249,7 @@ tr:
       work_package_attachments: "İş paketleri: ekler"
       work_package_categories: "İş paketleri: kategoriler"
       work_package_file_links: "Çalışma paketleri: dosya bağlantıları"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Silme planlandı ve arka planda gerçekleştirilir. Sonuçtan haberdar edileceksiniz."
       schedule_failed: "Proje silinemiyor: %{errors}"
@@ -2021,6 +2022,7 @@ tr:
   label_invite_user: "Kullanıcı davet et"
   label_share: "Paylaş"
   label_show_hide: "Göster/gizle"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Tüm kayıtlı kullanıcıları göster"
   label_journal: "Günlük"
   label_journal_diff: "Açıklama Karşılaştırması"
@@ -2058,6 +2060,7 @@ tr:
   label_custom_touch_icon: "Özel dokunma simgesi"
   label_logout: "Oturumu kapat"
   label_main_menu: "Yan menü"
+  label_manage: "Manage"
   label_manage_groups: "Grupları yönet"
   label_managed_repositories_vendor: "Yönetilen% {satıcı} depoları %{vendor}"
   label_max_size: "Maksimum boyut"
