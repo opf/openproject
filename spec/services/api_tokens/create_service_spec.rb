@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,14 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Token
-  class API < HashedToken
-    store_attribute :data, :token_name, :string
+require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
-    private
-
-    def single_value?
-      false
-    end
+RSpec.describe APITokens::CreateService, type: :model do
+  it_behaves_like "BaseServices create service" do
+    let(:model_class) { Token::API }
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,14 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Token
-  class API < HashedToken
-    store_attribute :data, :token_name, :string
+module APITokens
+  class CreateContract < BaseContract
+    attribute :token_name
+
+    validates :token_name, presence: { message: I18n.t("my.access_token.errors.token_name_blank") }
+    validate :token_name_is_unique, unless: :token_name_is_blank?
 
     private
 
-    def single_value?
-      false
+    def token_name_is_blank?
+      token_name.blank?
+    end
+
+    def token_name_is_unique
+      if Token::API.where(user: model.user).any? { |t| t.token_name == model.token_name }
+        errors.add(:token_name, :taken, message: I18n.t("my.access_token.errors.token_name_in_use"))
+      end
     end
   end
 end

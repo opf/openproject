@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,61 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "securerandom"
+require "spec_helper"
 
-FactoryBot.define do
-  factory :invitation_token, class: "::Token::Invitation" do
-    user
-  end
+RSpec.describe APITokens::CreateContract do
+  let(:current_user) { create(:admin) }
+  let(:token_name) { "my token name" }
+  let(:token) { build_stubbed(:api_token, token_name:, user: current_user) }
 
-  factory :api_token, class: "::Token::API" do
-    user
-    token_name { "my token name" }
-  end
+  subject(:contract) { described_class.new(token, current_user) }
 
-  factory :rss_token, class: "::Token::RSS" do
-    user
-  end
+  def expect_valid(valid, symbols = {})
+    expect(contract.validate).to eq(valid)
 
-  factory :recovery_token, class: "::Token::Recovery" do
-    user
-  end
-
-  factory :autologin_token, class: "::Token::AutoLogin" do
-    user
-  end
-
-  factory :backup_token, class: "::Token::Backup" do
-    user
-
-    after(:build) do |token|
-      token.created_at = DateTime.now - OpenProject::Configuration.backup_initial_waiting_period
+    symbols.each do |key, arr|
+      expect(contract.errors.symbols_for(key)).to match_array arr
     end
+  end
 
-    trait :with_waiting_period do
-      transient do
-        since { 0.seconds }
-      end
-
-      after(:build) do |token, factory|
-        token.created_at = DateTime.now - factory.since
+  describe "validation" do
+    context "when token_name is set" do
+      it "is valid" do
+        expect_valid(true)
       end
     end
-  end
 
-  factory :ical_token, class: "::Token::ICal" do
-    user
+    context "if the token_name is nil" do
+      let(:token_name) { nil }
 
-    transient do
-      query { nil }
-      name { nil }
+      it "is invalid" do
+        expect_valid(false, token_name: %i(blank))
+      end
     end
 
-    after(:build) do |token, evaluator|
-      token.ical_token_query_assignment = build(:ical_token_query_assignment,
-                                                query: evaluator.query,
-                                                name: evaluator.name,
-                                                ical_token: token)
+    context "if the token_name is taken for current user" do
+      before do
+        create(:api_token, token_name:, user: current_user)
+      end
+
+      it "is invalid" do
+        expect_valid(false, token_name: %i(taken))
+      end
     end
   end
 end
