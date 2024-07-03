@@ -246,6 +246,7 @@ pl:
       work_package_attachments: "Pakiety robocze: załączniki"
       work_package_categories: "Pakiety robocze: kategorie"
       work_package_file_links: "Pakiety robocze: linki do pliku"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Usunięcie zostało zaplanowane i jest wykonywane w tle. Otrzymasz powiadomienie o wyniku."
       schedule_failed: "Nie można usunąc projektu: %{errors}"
@@ -2085,6 +2086,7 @@ pl:
   label_invite_user: "Zaproś użytkownika"
   label_share: "Udostępnij"
   label_show_hide: "Pokaż/Ukryj"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Pokaż wszystkich zarejestrowanych użytkowników"
   label_journal: "Dziennik"
   label_journal_diff: "Opis porównania"
@@ -2122,6 +2124,7 @@ pl:
   label_custom_touch_icon: "Własny touch icon"
   label_logout: "Wyloguj"
   label_main_menu: "Menu boczne"
+  label_manage: "Manage"
   label_manage_groups: "Zarządzaj grupami"
   label_managed_repositories_vendor: "Zarządzane %{vendor} repozytoria"
   label_max_size: "Maksymalny rozmiar"

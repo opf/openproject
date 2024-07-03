@@ -248,6 +248,7 @@ sl:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Izbris je predviden in se izvaja v ozadju. Obveščeni boste o rezultatih."
       schedule_failed: "Projekta ni mogoče izbrisati: %{errors}"
@@ -2085,6 +2086,7 @@ sl:
   label_invite_user: "Povabi uporabnika"
   label_share: "Share"
   label_show_hide: "Pokaži / skrij"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Prikaži vse registrirane uporabnike"
   label_journal: "Dnevnik"
   label_journal_diff: "Opisna Primerjava"
@@ -2122,6 +2124,7 @@ sl:
   label_custom_touch_icon: "Ikona za dotik po meri"
   label_logout: "Odjava"
   label_main_menu: "Stranski meni"
+  label_manage: "Manage"
   label_manage_groups: "Upravljanje skupin"
   label_managed_repositories_vendor: "Upravljana %{vendor} skladišča"
   label_max_size: "Največja velikost"

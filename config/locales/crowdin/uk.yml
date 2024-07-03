@@ -244,6 +244,7 @@ uk:
       work_package_attachments: "Пакети робіт: вкладення"
       work_package_categories: "Пакети робіт: категорії"
       work_package_file_links: "Пакети робіт: посилання на файли"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Видалення заплановано та виконується у фоновому режимі. Ви отримаєте сповіщення про результат."
       schedule_failed: "Проект не можна видалити: %{errors}"
@@ -2082,6 +2083,7 @@ uk:
   label_invite_user: "Запросити користувача"
   label_share: "Поділитися"
   label_show_hide: "Показати сховати"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Усі зареєстровані користувачі"
   label_journal: "Журнал"
   label_journal_diff: "Опис Порівняння"
@@ -2119,6 +2121,7 @@ uk:
   label_custom_touch_icon: "Призначений для користувача значок логотипу"
   label_logout: "Вийти"
   label_main_menu: "Бокове меню"
+  label_manage: "Manage"
   label_manage_groups: "Керувати групами"
   label_managed_repositories_vendor: "Керований %{vendor} repositories"
   label_max_size: "Максимальний розмір"

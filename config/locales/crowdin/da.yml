@@ -247,6 +247,7 @@ da:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Sletning er skemalagt og udføres i baggrunden. Du får besked om resultatet."
       schedule_failed: "Projektet kan ikke slettes: %{errors}"
@@ -2020,6 +2021,7 @@ da:
   label_invite_user: "Invitér bruger"
   label_share: "Del"
   label_show_hide: "Vis/Skjul"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
   label_journal_diff: "Sammenligning af beskrivelser"
@@ -2057,6 +2059,7 @@ da:
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Log ud"
   label_main_menu: "Sidemenu"
+  label_manage: "Manage"
   label_manage_groups: "Administrér grupper"
   label_managed_repositories_vendor: "Administrerede %{vendor} repositorier"
   label_max_size: "Maksimal størrelse"

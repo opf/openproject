@@ -249,6 +249,7 @@ cs:
       work_package_attachments: "Pracovní balíčky: přílohy"
       work_package_categories: "Pracovní balíčky: kategorie"
       work_package_file_links: "Pracovní balíčky: odkazy na soubory"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Odstranění bylo naplánováno a je dokončeno na pozadí. Výsledek vám bude oznámen."
       schedule_failed: "Projekt nelze odstranit: %{errors}"
@@ -2088,6 +2089,7 @@ cs:
   label_invite_user: "Pozvat uživatele"
   label_share: "Sdílet"
   label_show_hide: "Zobrazit/skrýt"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Zobrazit registrované uživatele"
   label_journal: "Deník"
   label_journal_diff: "Popis porovnání"
@@ -2125,6 +2127,7 @@ cs:
   label_custom_touch_icon: "Vlastní ikona dotyku"
   label_logout: "Odhlásit se"
   label_main_menu: "Boční Menu"
+  label_manage: "Manage"
   label_manage_groups: "Spravovat skupiny"
   label_managed_repositories_vendor: "Spravováno %{vendor} repozitářů"
   label_max_size: "Maximální velikost"

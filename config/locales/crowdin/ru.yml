@@ -248,6 +248,7 @@ ru:
       work_package_attachments: "Пакеты работ: вложения"
       work_package_categories: "Пакеты работ: категории"
       work_package_file_links: "Пакеты работ: ссылки на файлы"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Удаление было запланировано и исполнено в фоновом режиме. О результатах вы будете уведомлены."
       schedule_failed: "Проект удален быть не может: %{errors}"
@@ -265,7 +266,7 @@ ru:
       my: "Мои проекты"
       favored: "Избранные проекты"
       archived: "Архивные проекты"
-      shared: "Shared project lists"
+      shared: "Общедоступные проекты"
       public: "Списки общедоступных проектов"
       my_private: "Списки моих личных проектов"
       new:
@@ -480,7 +481,7 @@ ru:
         is_readonly: "Только для чтения"
         excluded_from_totals: "Исключен из итогов"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Тёмная тема (экспериментальная)"
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
   types:
@@ -733,7 +734,7 @@ ru:
         auto_hide_popups: "Автоматически скрывать успешные уведомления"
         warn_on_leaving_unsaved: "При покидании рабочего пакета предупреждать о не сохраненных изменениях"
         theme: "Режим"
-        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
+        mode_guideline: "Некоторые режимы перезаписывают пользовательские цвета темы для удобства и удобочитаемости. Для полной пользовательской темы выберите светлый режим."
       version:
         effective_date: "Дата окончания"
         sharing: "Совместное использование"
@@ -2087,6 +2088,7 @@ ru:
   label_invite_user: "Пригласить пользователя"
   label_share: "Поделиться"
   label_show_hide: "Показать/скрыть"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
   label_journal: "Журнал"
   label_journal_diff: "Описание сравнения"
@@ -2124,6 +2126,7 @@ ru:
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
   label_main_menu: "Боковое меню"
+  label_manage: "Manage"
   label_manage_groups: "Управление группами"
   label_managed_repositories_vendor: "Управляемые %{vendor} репозиториев"
   label_max_size: "Максимальный размер"

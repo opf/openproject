@@ -249,6 +249,7 @@ fil:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
@@ -2022,6 +2023,7 @@ fil:
   label_invite_user: "Imbitahan ang user"
   label_share: "Ibahagi"
   label_show_hide: "Ipakita/itago"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Ipakita lahay ang mga nakarehistrong gumagamit"
   label_journal: "Talaarawan"
   label_journal_diff: "Paglalarawan ng paghahambing"
@@ -2059,6 +2061,7 @@ fil:
   label_custom_touch_icon: "Ang icon ng kustom pindutan"
   label_logout: "Mag-sign out"
   label_main_menu: "Slide menu"
+  label_manage: "Manage"
   label_manage_groups: "Pamahalain ang mga grupo"
   label_managed_repositories_vendor: "Pamahalain ang mga %{vendor} respository"
   label_max_size: "Pinakamataas na laki"

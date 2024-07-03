@@ -248,6 +248,7 @@ hu:
       work_package_attachments: "Munkacsomagok: mellékletek"
       work_package_categories: "Munkacsomagok: kategóriák"
       work_package_file_links: "Munkacsomagok: fájllinkek"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "A törlés ütemezésre került, és a háttérben történik. Értesítést kap az eredményről.\n"
       schedule_failed: "A projektet nem lehet törölni: %{errors}"
@@ -2019,6 +2020,7 @@ hu:
   label_invite_user: "Felhasználó meghívása"
   label_share: "Megosztás"
   label_show_hide: "Megjelenítés/Elrejtés"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Minden regisztrált felhasználó megjelenítése"
   label_journal: "Hírközlés"
   label_journal_diff: "Leírás összehasonlítás"
@@ -2056,6 +2058,7 @@ hu:
   label_custom_touch_icon: "Egyedi \"touch-icon\""
   label_logout: "Kijelentkezés"
   label_main_menu: "Oldalsó menü"
+  label_manage: "Manage"
   label_manage_groups: "Csoportok kezelése"
   label_managed_repositories_vendor: "Kezelt %{vendor} adattárak"
   label_max_size: "Maximális mérete"

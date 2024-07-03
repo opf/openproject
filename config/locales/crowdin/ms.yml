@@ -248,6 +248,7 @@ ms:
       work_package_attachments: "Pakej kerja: lampiran"
       work_package_categories: "Pakej kerja: kategori"
       work_package_file_links: "Pakej kerja: pautan fail"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Pembuangan telah dijadualkan dan dilaksanakan di latar belakang. Anda akan dimaklumkan tentang hasilnya."
       schedule_failed: "Projek tidak dapat dipadam: %{errors}"
@@ -1987,6 +1988,7 @@ ms:
   label_invite_user: "Jemput pengguna"
   label_share: "Kongsi"
   label_show_hide: "Papar/sembunyi"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Paparkan semua pengguna berdaftar"
   label_journal: "Jurnal"
   label_journal_diff: "Perbandingan Deskripsi"
@@ -2024,6 +2026,7 @@ ms:
   label_custom_touch_icon: "Ikon sentuh tersuai"
   label_logout: "Daftar keluar"
   label_main_menu: "Menu Sampingan"
+  label_manage: "Manage"
   label_manage_groups: "Urus kumpulan"
   label_managed_repositories_vendor: "Repositori %{vendor} yang diuruskan"
   label_max_size: "Saiz maksimum"

@@ -246,6 +246,7 @@ nl:
       work_package_attachments: "Werkpakketten: bijlagen"
       work_package_categories: "Werkpakketten: categorieën"
       work_package_file_links: "Werkpakketten: bestandslinks"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Het verwijderen is gepland en wordt op de achtergrond uitgevoerd. U wordt op de hoogte gebracht van het resultaat."
       schedule_failed: "Project kan niet worden verwijderd: %{errors}"
@@ -2019,6 +2020,7 @@ nl:
   label_invite_user: "Gebruiker uitnodigen"
   label_share: "Deel"
   label_show_hide: "Weergeven/verbergen"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Toon alle geregistreerde gebruikers"
   label_journal: "Logboek"
   label_journal_diff: "Beschrijving vergelijking"
@@ -2056,6 +2058,7 @@ nl:
   label_custom_touch_icon: "Aangepaste touch-pictogram"
   label_logout: "Afmelden"
   label_main_menu: "Submenu"
+  label_manage: "Manage"
   label_manage_groups: "Groepen beheren"
   label_managed_repositories_vendor: "Beheerde %{vendor} opslagplaatsen"
   label_max_size: "Maximale Grootte"

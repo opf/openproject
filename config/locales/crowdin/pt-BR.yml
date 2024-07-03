@@ -248,6 +248,7 @@ pt-BR:
       work_package_attachments: "Pacote de trabalho: anexos"
       work_package_categories: "Pacote de trabalho: categorias"
       work_package_file_links: "Pacote de trabalho: links de arquivo"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Exclusão foi agendada e será realizada em segundo plano. Você será notificado do resultado."
       schedule_failed: "Projeto não pode ser excluído: %{errors}"
@@ -2020,6 +2021,7 @@ pt-BR:
   label_invite_user: "Convidar usuário"
   label_share: "Compartilhar"
   label_show_hide: "Mostrar/ocultar"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostrar todos usuários registrados"
   label_journal: "Diário"
   label_journal_diff: "Comparação de Descrição"
@@ -2057,6 +2059,7 @@ pt-BR:
   label_custom_touch_icon: "Ícone de toque personalizado"
   label_logout: "Desconectar"
   label_main_menu: "Menu lateral"
+  label_manage: "Manage"
   label_manage_groups: "Gerenciar grupos"
   label_managed_repositories_vendor: "Repositórios gerenciados %{vendor}"
   label_max_size: "Tamanho máximo"

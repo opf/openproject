@@ -249,6 +249,7 @@ sk:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projekt nie je možné odstrániť: %{errors}"
@@ -2088,6 +2089,7 @@ sk:
   label_invite_user: "Pozvať používateľa"
   label_share: "Zdieľať"
   label_show_hide: "Zobraziť/skryť"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Zobraziť všetkých registrovaných užívateľov"
   label_journal: "Denník"
   label_journal_diff: "Porovnanie popisu"
@@ -2125,6 +2127,7 @@ sk:
   label_custom_touch_icon: "Vlastná dotyková ikona"
   label_logout: "Odhlásiť sa"
   label_main_menu: "Vedľajšie ponuky"
+  label_manage: "Manage"
   label_manage_groups: "Spravovať skupiny"
   label_managed_repositories_vendor: "Úložiská spravované %{vendor}"
   label_max_size: "Maximálna veľkosť"

@@ -246,6 +246,7 @@ lt:
       work_package_attachments: "Darbo paketai: pridėti failai"
       work_package_categories: "Darbo paketai: kategorijos"
       work_package_file_links: "Darbo paketai: failų nuorodos"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Naikinimas suplanuotas ir vykdomas fone. Jums bus pranešta apie rezultatą."
       schedule_failed: "Projekto negalima ištrinti: %{errors}"
@@ -2085,6 +2086,7 @@ lt:
   label_invite_user: "Pakviesti vartotoją"
   label_share: "Dalintis"
   label_show_hide: "Rodyti/slėpti"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Rodyti visus registruotus vartotojus"
   label_journal: "Žurnalas"
   label_journal_diff: "Aprašymų palyginimas"
@@ -2122,6 +2124,7 @@ lt:
   label_custom_touch_icon: "Pasirinktinė prisilietimo piktograma"
   label_logout: "Atsijungti"
   label_main_menu: "Šoninis meniu"
+  label_manage: "Manage"
   label_manage_groups: "Valdyti grupes"
   label_managed_repositories_vendor: "Valdomos %{vendor} saugyklos"
   label_max_size: "Maksimalus dydis"

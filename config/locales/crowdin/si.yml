@@ -249,6 +249,7 @@ si:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "ව්යාපෘතිය මකා දැමිය නොහැක: %{errors}"
@@ -2022,6 +2023,7 @@ si:
   label_invite_user: "පරිශීලකයාට ආරාධනා කරන්න"
   label_share: "Share"
   label_show_hide: "පෙන්වන්න/සඟවන්න"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "සියලුම ලියාපදිංචි පරිශීලකයන් පෙන්වන්න"
   label_journal: "ජර්නල්"
   label_journal_diff: "විස්තරය සංසන්දනය"
@@ -2059,6 +2061,7 @@ si:
   label_custom_touch_icon: "අභිරුචි ස්පර්ශ අයිකනය"
   label_logout: "ලියාපදිංචි වන්න"
   label_main_menu: "පැති මෙනුව"
+  label_manage: "Manage"
   label_manage_groups: "කණ්ඩායම් කළමනාකරණය කරන්න"
   label_managed_repositories_vendor: "කළමනාකරණය %{vendor} ගබඩාවලදී"
   label_max_size: "උපරිම ප්රමාණය"

@@ -249,6 +249,7 @@ sv:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projektet kan inte tas bort: %{errors}"
@@ -2021,6 +2022,7 @@ sv:
   label_invite_user: "Bjud in användare"
   label_share: "Dela"
   label_show_hide: "Visa/Dölj"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Visa alla registrerade användare"
   label_journal: "Journal"
   label_journal_diff: "Jämför beskrivning"
@@ -2058,6 +2060,7 @@ sv:
   label_custom_touch_icon: "Anpassad touch-ikon"
   label_logout: "Logga ut"
   label_main_menu: "Sidomenyn"
+  label_manage: "Manage"
   label_manage_groups: "Hantera grupper"
   label_managed_repositories_vendor: "Hanterade %{vendor} databaser"
   label_max_size: "Maximal storlek"

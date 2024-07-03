@@ -249,6 +249,7 @@ ar:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
@@ -2154,6 +2155,7 @@ ar:
   label_invite_user: "دعوة مستخدم"
   label_share: "شارك"
   label_show_hide: "إظهار / إخفاء"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "يوميات"
   label_journal_diff: "مقارنة التوصيف"
@@ -2191,6 +2193,7 @@ ar:
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "تسجيل الخروج"
   label_main_menu: "القائمة الثانوية"
+  label_manage: "Manage"
   label_manage_groups: "إدارة المجموعات"
   label_managed_repositories_vendor: "إدارة %{vendor} مستودعات البيانات"
   label_max_size: "الحجم الأقصى"

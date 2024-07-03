@@ -246,6 +246,7 @@ de:
       work_package_attachments: "Arbeitspakete: Anhänge"
       work_package_categories: "Arbeitspakete: Kategorien"
       work_package_file_links: "Arbeitspakete: Datei-Links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Die Löschung wurde geplant und wird im Hintergrund durchgeführt. Sie werden über das Ergebnis informiert."
       schedule_failed: "Projekt kann nicht gelöscht werden: %{errors}"
@@ -2016,6 +2017,7 @@ de:
   label_invite_user: "Nutzer einladen"
   label_share: "Teilen"
   label_show_hide: "Einblenden / Ausblenden"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Alle registrierten Benutzer anzeigen"
   label_journal: "Änderungen"
   label_journal_diff: "Beschreibungsvergleich"
@@ -2053,6 +2055,7 @@ de:
   label_custom_touch_icon: "Benutzerdefiniertes Touch-Icon"
   label_logout: "Abmelden"
   label_main_menu: "Nebenmenü"
+  label_manage: "Manage"
   label_manage_groups: "Gruppen verwalten"
   label_managed_repositories_vendor: "Verwaltete %{vendor} Projektarchive"
   label_max_size: "Maximale Größe"
