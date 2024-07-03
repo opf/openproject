@@ -39,7 +39,7 @@ module OpenProject::Webhooks
              author_url: "https://www.openproject.org" do
       menu :admin_menu,
            :plugin_webhooks,
-           { controller: "webhooks/outgoing/admin", action: :index },
+           { controller: "/webhooks/outgoing/admin", action: :index },
            if: Proc.new { User.current.admin? },
            parent: :api_and_webhooks,
            caption: :"webhooks.plural"
