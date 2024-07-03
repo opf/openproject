@@ -104,14 +104,15 @@ module Projects
 
     def my_filters
       persisted_filters
-        .select { |query| query.user == current_user && !query.public? }
+        .reject(&:public?)
+        .select { |query| query.user == current_user }
         .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
     def shared_filters
       persisted_filters
-        .select { |query| !query.public? && query.user != current_user }
-        # query is not public and not owned by the user, so it must be shared with them
+        .reject(&:public?)
+        .reject { |query| query.user == current_user }
         .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
