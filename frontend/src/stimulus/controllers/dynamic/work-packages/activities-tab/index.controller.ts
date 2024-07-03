@@ -171,6 +171,10 @@ export default class IndexController extends Controller {
 
     this.addEventListenersToCkEditorInstance();
 
+    this.focusEditor();
+  }
+
+  focusEditor() {
     const ckEditorInstance = this.getCkEditorInstance();
     if (ckEditorInstance) {
       setTimeout(() => ckEditorInstance.editing.view.focus(), 10);
@@ -239,6 +243,7 @@ export default class IndexController extends Controller {
 
       if (this.journalsContainerTarget) {
         this.clearEditor();
+        this.focusEditor();
         if (this.journalsContainerTarget) {
           this.journalsContainerTarget.style.marginBottom = '';
           this.journalsContainerTarget.classList.add('with-input-compensation');
