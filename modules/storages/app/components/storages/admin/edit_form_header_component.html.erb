@@ -33,7 +33,9 @@ See COPYRIGHT and LICENSE files for more details.
         label_storage_name_with_provider_label
       end
     end
+
     header.with_breadcrumbs(breadcrumbs_items)
+
     header.with_action_button(scheme: :danger,
                               mobile_icon: :trash,
                               mobile_label: I18n.t("button_delete"),
@@ -43,6 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
       button.with_leading_visual_icon(icon: :trash)
       I18n.t("button_delete")
     end
+
     if OpenProject::FeatureDecisions.enable_storage_for_multiple_projects_active?
       header.with_tab_nav(label: nil, test_selector: :project_attribute_detail_header) do |tab_nav|
         tab_nav.with_tab(
@@ -52,11 +55,12 @@ See COPYRIGHT and LICENSE files for more details.
           tab.with_text { t(:label_details) }
         end
 
-      tab_nav.with_tab(
-        selected: tab_selected?(:project_mappings),
-        href: admin_settings_storage_projects_project_storages_path(@storage)
-      ) do |tab|
-        tab.with_text { t(:label_project_mappings) }
+        tab_nav.with_tab(
+          selected: tab_selected?(:project_mappings),
+          href: admin_settings_storage_projects_project_storages_path(@storage)
+        ) do |tab|
+          tab.with_text { t(:label_project_mappings) }
+        end
       end
     end
   end
