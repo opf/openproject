@@ -37,8 +37,8 @@ module Shares
     def initialize(share:, strategy:, container: nil)
       super
 
-      @strategy = strategy
       @share = share
+      @strategy = strategy
       @entity = strategy.entity
       @principal = share.principal
       @available_roles = strategy.available_roles

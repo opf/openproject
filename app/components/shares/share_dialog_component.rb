@@ -37,8 +37,8 @@ module Shares
     def initialize(shares:, strategy:, errors:)
       super
 
-      @strategy = strategy
       @shares = shares
+      @strategy = strategy
       @errors = errors
     end
 
