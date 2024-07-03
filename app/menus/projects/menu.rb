@@ -121,7 +121,7 @@ module Projects
 
     def persisted_filters
       @persisted_filters = ::ProjectQuery.visible(current_user).order(:name)
-        .sort_by.with_index { |query, i| [query.id.in?(favored_ids) ? 0 : 1, i] }
+        .partition { |query| query.id.in?(favored_ids) }.flatten
     end
 
     def favored_ids
