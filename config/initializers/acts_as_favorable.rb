@@ -5,6 +5,7 @@
 Rails.application.config.to_prepare do
   OpenProject::Acts::Favorable::Registry.add(
     Project,
+    ProjectQuery,
     reset: true
   )
 end
