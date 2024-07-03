@@ -1,18 +1,18 @@
 <%=
   component_wrapper(tag: 'turbo-frame') do
-    flex_layout(data: { turbo: true }) do |modal_content|
+    flex_layout(data: { turbo: true },
+                classes: "op-share-dialog-modal-body--row-container") do |modal_content|
       if strategy.custom_body_components?
         strategy.additional_body_components.each do |component|
           render(component.new(strategy: strategy, modal_body_container: modal_content))
         end
       end
 
-      modal_content.with_row(mt: (strategy.custom_body_components? ? 3 : nil)) do
+      modal_content.with_row do
         render(Shares::InviteUserFormComponent.new(strategy:, errors: errors))
       end
 
-      modal_content.with_row(mt: 3,
-                             data: { 'test-selector': 'op-share-dialog-active-list',
+      modal_content.with_row(data: { 'test-selector': 'op-share-dialog-active-list',
                                      controller: 'shares--bulk-selection',
                                      application_target: 'dynamic' }) do
         render(border_box_container(list_id: insert_target_modifier_id)) do |border_box|

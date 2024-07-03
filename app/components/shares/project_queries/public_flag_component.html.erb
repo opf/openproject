@@ -1,5 +1,5 @@
 <%=
-container.with_row(mt: 3) do
+container.with_row do
   render(Primer::Forms::ToggleSwitchForm.new(
         name: "publish_project_query",
         label: t('sharing.project_queries.public_flag.label', instance_name: Setting.app_title),
