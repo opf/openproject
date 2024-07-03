@@ -97,6 +97,52 @@ RSpec.describe SharesController do
   end
 
   describe "dialog" do
+    let(:project_query) { create(:project_query, user:) }
+    let(:make_request) { get :dialog, params: { project_query_id: project_query.id }, format: :turbo_stream }
+
+    context "when the user does not have permission to access the project query" do
+      let(:other_user) { create(:user) } # Access as someone other than the query owner
+
+      before do
+        login_as(other_user)
+        mock_permissions_for(other_user, &:forbid_everything)
+      end
+
+      it "raises a RecordNotFound error" do
+        expect { make_request }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "when the user does have permission" do
+      before do
+        role = create(:project_query_role, permissions: %i[view_project_query])
+        create(:member, entity: project_query, principal: user, roles: [role])
+        make_request
+      end
+
+      it "loads the project query" do
+        expect(assigns(:entity)).to eq(project_query)
+      end
+
+      it "renders the dialog template" do
+        expect(response).to render_template(:dialog)
+      end
+    end
+
+    describe "before_action hooks" do
+      context "when the entity is not viewable" do
+        let(:strategy) { instance_double(SharingStrategies::ProjectQueryStrategy, viewable?: false, manageable?: false) }
+
+        before do
+          allow(SharingStrategies::ProjectQueryStrategy).to receive(:new).and_return(strategy)
+        end
+
+        it "returns a 403 status" do
+          make_request
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+    end
   end
 
   describe "index" do
