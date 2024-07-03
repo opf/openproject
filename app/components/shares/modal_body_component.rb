@@ -90,7 +90,8 @@ module Shares
       principal_type_filter_value = current_filter_value(params[:filters], "principal_type")
       project_member_filter_value = current_filter_value(params[:filters], "also_project_member")
 
-      return false if principal_type_filter_value.nil? || (project_scoped_entity? && project_member_filter_value.nil?)
+      return false if principal_type_filter_value.nil?
+      return false if project_scoped_entity? && project_member_filter_value.nil?
 
       principal_type_checked =
         option[:value][:principal_type] == principal_type_filter_value
