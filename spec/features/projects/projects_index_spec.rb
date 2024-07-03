@@ -142,7 +142,13 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_no_text(development_project.description)
           expect(page).to have_no_text(project_status_name(development_project.status_code))
           expect(page).to have_no_text(development_project.status_explanation)
-          expect(page).to have_no_text(development_project.custom_value_for(custom_field))
+          expect(page)
+            .to have_no_text(
+              development_project.custom_values_for_custom_field(
+                id: custom_field.id,
+                all: true
+              ).first.value
+            )
         end
       end
     end
@@ -1165,8 +1171,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
            with_ee: %i[custom_fields_in_projects_list], with_settings: { enabled_projects_columns: %w[name created_at] } do
     # Will still receive the :view_project permission
     shared_let(:user) do
-      create(:user, member_with_permissions: { project => [],
-                                               development_project => [] })
+      create(:user, member_with_permissions: { project => [:view_project_attributes],
+                                               development_project => [:view_project_attributes] })
     end
 
     shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
