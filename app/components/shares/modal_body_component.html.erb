@@ -1,11 +1,13 @@
 <%=
   component_wrapper(tag: 'turbo-frame') do
     flex_layout(data: { turbo: true }) do |modal_content|
-      if strategy.custom_body_component?
-        render(strategy.additional_body_component.new(strategy: strategy, modal_body_container: modal_content))
+      if strategy.custom_body_components?
+        strategy.additional_body_components.each do |component|
+          render(component.new(strategy: strategy, modal_body_container: modal_content))
+        end
       end
 
-      modal_content.with_row(mt: (strategy.custom_body_component? ? 3 : nil)) do
+      modal_content.with_row(mt: (strategy.custom_body_components? ? 3 : nil)) do
         render(Shares::InviteUserFormComponent.new(strategy:, errors: errors))
       end
 

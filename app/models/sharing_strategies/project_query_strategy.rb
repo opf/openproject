@@ -62,8 +62,11 @@ module SharingStrategies
       Shares::ProjectQueries::DeleteContract
     end
 
-    def additional_body_component
-      Shares::ProjectQueries::PublicFlagComponent
+    def additional_body_components
+      [
+        Shares::ProjectQueries::PublicFlagComponent,
+        Shares::ProjectQueries::ProjectAccessWarningComponent
+      ]
     end
 
     def empty_state_component
