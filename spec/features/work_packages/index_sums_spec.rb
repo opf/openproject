@@ -146,8 +146,8 @@ RSpec.describe "Work package index sums", :js do
     # Expect the total sums row
     aggregate_failures do
       within(:row, "Total sum") do |row|
-        expect(row).to have_css(".estimatedTime", text: "3d 1h")
-        expect(row).to have_css(".remainingTime", text: "1d 4.5h")
+        expect(row).to have_css(".estimatedTime", text: "25h")
+        expect(row).to have_css(".remainingTime", text: "12.5h")
         expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "12")
         expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "13.2")
         expect(row).to have_css(".laborCosts", text: "15.00 EUR")
@@ -164,8 +164,8 @@ RSpec.describe "Work package index sums", :js do
 
     aggregate_failures do
       within(:row, "Total sum") do |row|
-        expect(row).to have_css(".estimatedTime", text: "4d 3h")
-        expect(row).to have_css(".remainingTime", text: "2d 3.5h")
+        expect(row).to have_css(".estimatedTime", text: "35h")
+        expect(row).to have_css(".remainingTime", text: "19.5h")
         expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "12")
         expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "13.2")
         expect(row).to have_css(".laborCosts", text: "15.00 EUR")
@@ -184,8 +184,8 @@ RSpec.describe "Work package index sums", :js do
     first_sum_row, second_sum_row = *find_all(:row, "Sum")
     # First status row
     aggregate_failures do
-      expect(first_sum_row).to have_css(".estimatedTime", text: "2d 4h")
-      expect(first_sum_row).to have_css(".remainingTime", text: "1d 4h")
+      expect(first_sum_row).to have_css(".estimatedTime", text: "20h")
+      expect(first_sum_row).to have_css(".remainingTime", text: "12h")
       expect(first_sum_row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "5")
       expect(first_sum_row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "5.5")
       expect(first_sum_row).to have_css(".laborCosts", text: "15.00 EUR")
@@ -195,7 +195,7 @@ RSpec.describe "Work package index sums", :js do
 
     # Second status row
     aggregate_failures do
-      expect(second_sum_row).to have_css(".estimatedTime", text: "1d 7h")
+      expect(second_sum_row).to have_css(".estimatedTime", text: "15h")
       expect(second_sum_row).to have_css(".remainingTime", text: "7.5h")
       expect(second_sum_row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "7")
       expect(second_sum_row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "7.7")
@@ -207,8 +207,8 @@ RSpec.describe "Work package index sums", :js do
     # Total sums row is unchanged
     aggregate_failures do
       within(:row, "Total sum") do |row|
-        expect(row).to have_css(".estimatedTime", text: "4d 3h")
-        expect(row).to have_css(".remainingTime", text: "2d 3.5h")
+        expect(row).to have_css(".estimatedTime", text: "35h")
+        expect(row).to have_css(".remainingTime", text: "19.5h")
         expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "12")
         expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "13.2")
         expect(row).to have_css(".laborCosts", text: "15.00 EUR")
@@ -282,8 +282,8 @@ RSpec.describe "Work package index sums", :js do
       # Expect the total sums row without filtering
       aggregate_failures do
         within(:row, "Total sum") do |row|
-          expect(row).to have_css(".estimatedTime", text: "6d 2h")
-          expect(row).to have_css(".remainingTime", text: "3d 1h")
+          expect(row).to have_css(".estimatedTime", text: "50h")
+          expect(row).to have_css(".remainingTime", text: "25h")
           expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "24")
           expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "26.4")
           expect(row).to have_css(".laborCosts", text: "40.00 EUR")
@@ -295,7 +295,6 @@ RSpec.describe "Work package index sums", :js do
       # Filter
       filters.open
       filters.add_filter_by("Type", "is (OR)", type_task.name)
-      puts Capybara::Screenshot.screenshot_and_save_page
 
       # Expect 2 work packages shown
       expect(page).to have_row("WorkPackage", count: 2) # works because the subject name includes "WorkPackage"
@@ -303,8 +302,8 @@ RSpec.describe "Work package index sums", :js do
       # Expect the total sums row to have changed
       aggregate_failures do
         within(:row, "Total sum") do |row|
-          expect(row).to have_css(".estimatedTime", text: "3d 6h")
-          expect(row).to have_css(".remainingTime", text: "1d 7h")
+          expect(row).to have_css(".estimatedTime", text: "30h")
+          expect(row).to have_css(".remainingTime", text: "15h")
           expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "14")
           expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "15.4")
           expect(row).to have_css(".laborCosts", text: "", exact_text: true)
@@ -328,7 +327,7 @@ RSpec.describe "Work package index sums", :js do
       first_sum_row, second_sum_row = *find_all(:row, "Sum")
       # First status row
       aggregate_failures do
-        expect(first_sum_row).to have_css(".estimatedTime", text: "1d 2h")
+        expect(first_sum_row).to have_css(".estimatedTime", text: "10h")
         expect(first_sum_row).to have_css(".remainingTime", text: "5h")
         expect(first_sum_row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "5")
         expect(first_sum_row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "5.5")
@@ -339,7 +338,7 @@ RSpec.describe "Work package index sums", :js do
 
       # Second status row
       aggregate_failures do
-        expect(second_sum_row).to have_css(".estimatedTime", text: "1d 7h")
+        expect(second_sum_row).to have_css(".estimatedTime", text: "15h")
         expect(second_sum_row).to have_css(".remainingTime", text: "7.5h")
         expect(second_sum_row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "7")
         expect(second_sum_row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "7.7")
@@ -351,8 +350,8 @@ RSpec.describe "Work package index sums", :js do
       # Total sum
       aggregate_failures do
         within(:row, "Total sum") do |row|
-          expect(row).to have_css(".estimatedTime", text: "3d 1h")
-          expect(row).to have_css(".remainingTime", text: "1d 4.5h")
+          expect(row).to have_css(".estimatedTime", text: "25h")
+          expect(row).to have_css(".remainingTime", text: "12.5h")
           expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "12")
           expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "13.2")
           expect(row).to have_css(".laborCosts", text: "15.00 EUR")

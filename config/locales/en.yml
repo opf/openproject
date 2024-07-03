@@ -1474,7 +1474,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   create_new_page: "Wiki page"
 
   date:
-    abbr_day_names: [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
+    abbr_day_names: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     abbr_month_names:
       [
         ~,
@@ -3131,6 +3131,10 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   setting_default_projects_public: "New projects are public by default"
   setting_diff_max_lines_displayed: "Max number of diff lines displayed"
   setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
   setting_email_login: "Use email as login"
@@ -3143,8 +3147,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   setting_host_name: "Host name"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural
-    way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours
+    (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"

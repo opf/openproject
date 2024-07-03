@@ -28,11 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-# We use BigDecimal to handle floating point arithmetic and avoid
-# weird floating point results on decimal operations when converting
-# hours to seconds on duration outputting.
-require "bigdecimal"
-
 class DurationConverter
   UNIT_ABBREVIATION_MAP = {
     "seconds" => "seconds",
@@ -107,14 +102,14 @@ class DurationConverter
 
       # :days_and_hours format return "0h" when parsing 0.
       ChronicDuration.output(seconds,
-                             format: :days_and_hours,
+                             format:,
                              **duration_length_options)
     end
 
     private
 
-    def convert_duration_to_seconds(duration_in_hours)
-      (BigDecimal(duration_in_hours.to_s) * 3600).to_f
+    def format
+      Setting.duration_format == "days_and_hours" ? :days_and_hours : :hours_only
     end
 
     def duration_length_options

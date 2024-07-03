@@ -58,31 +58,80 @@ RSpec.describe DurationConverter do
       expect(described_class.output(nil)).to be_nil
     end
 
-    it "returns 0 h when given 0" do
+    it "returns 0h when given 0" do
       expect(described_class.output(0)).to eq("0h")
     end
 
-    it "works with ChronicDuration defaults otherwise in :days_and_hours format" do
-      expect(described_class.output(5.75))
-        .to eq("5.75h")
-      expect(described_class.output(5.754321))
-        .to eq("5.75h")
-      expect(described_class.output(8))
-        .to eq("1d 0h")
-      expect(described_class.output(804))
-        .to eq("100d 4h")
+    context "when duration format is set to days_and_hours",
+            with_settings: { duration_format: "days_and_hours" } do
+      it "displays the duration in days and hours" do
+        expect(described_class.output(5.75))
+            .to eq("5.75h")
+        expect(described_class.output(5.754321))
+          .to eq("5.75h")
+        expect(described_class.output(804))
+          .to eq("100d 4h")
+      end
+
+      it "does not display days if it would be 0 days (like '3h')" do
+        expect(described_class.output(3))
+          .to eq("3h")
+        expect(described_class.output(7))
+          .to eq("7h")
+        expect(described_class.output(7.99))
+          .to eq("7.99h")
+      end
+
+      it "displays hours even when it's zero (like '2d 0h')" do
+        expect(described_class.output(8))
+          .to eq("1d 0h")
+        expect(described_class.output(2 * 8))
+          .to eq("2d 0h")
+      end
+
+      it "ignores seconds and keep the nearest minute, displayed as hours" do
+        expect(described_class.output(0.28))
+          .to eq("0.28h")
+        expect(described_class.output(2.23))
+          .to eq("2.23h")
+      end
+
+      it "deals well with floating point maths" do
+        expect(described_class.output(1.89))
+          .to eq("1.89h")
+      end
     end
 
-    it "ignores seconds and keep the nearest minute, displayed as hours" do
-      expect(described_class.output(0.28))
-        .to eq("0.28h")
-      expect(described_class.output(2.23))
-        .to eq("2.23h")
-    end
+    context "when duration format is set to hours_only",
+            with_settings: { duration_format: "hours_only" } do
+      it "displays the duration in hours only" do
+        expect(described_class.output(0))
+            .to eq("0h")
+        expect(described_class.output(5.75))
+            .to eq("5.75h")
+        expect(described_class.output(5.754321))
+          .to eq("5.75h")
+        expect(described_class.output(8))
+          .to eq("8h")
+        expect(described_class.output(804.32))
+          .to eq("804.32h")
+      end
 
-    it "deals well with floating point maths" do
-      expect(described_class.output(1.89))
-        .to eq("1.89h")
+      it "ignores seconds and keep the nearest minute, displayed as hours" do
+        expect(described_class.output(0.28))
+          .to eq("0.28h")
+        expect(described_class.output(2.23))
+          .to eq("2.23h")
+      end
+
+      it "deals well with floating point maths" do
+        expect(described_class.output(1.89))
+          .to eq("1.89h")
+        expect(described_class.output(1.9997222222)) # 1h59m59s
+          .to eq("2h")
+        expect(described_class.output(1.9916666667)) # 1h59m30s
+          .to eq("1.99h")
+      end
     end
   end
 end
