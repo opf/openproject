@@ -276,8 +276,8 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
       }
 
       // Files however MAY have no mime type as well
-      // so fall back to checking zero or 4096 bytes
-      if (file.size === 0 || file.size === 4096) {
+      // so fall back to checking zero
+      if (file.size === 0) {
         console.warn(`Skipping file because of file size (${file.size}) %O`, file);
         return false;
       }
