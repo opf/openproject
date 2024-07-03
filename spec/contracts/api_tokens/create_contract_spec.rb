@@ -29,10 +29,45 @@
 #++
 
 require "spec_helper"
-require_relative "shared_contract_examples"
 
 RSpec.describe APITokens::CreateContract do
-  it_behaves_like "api token contract" do
-    subject(:contract) { described_class.new(token, current_user) }
+  let(:current_user) { create(:admin) }
+  let(:token_name) { "my token name" }
+  let(:token) { build_stubbed(:api_token, token_name:, user: current_user) }
+
+  subject(:contract) { described_class.new(token, current_user) }
+
+  def expect_valid(valid, symbols = {})
+    expect(contract.validate).to eq(valid)
+
+    symbols.each do |key, arr|
+      expect(contract.errors.symbols_for(key)).to match_array arr
+    end
+  end
+
+  describe "validation" do
+    context "when token_name is set" do
+      it "is valid" do
+        expect_valid(true)
+      end
+    end
+
+    context "if the token_name is nil" do
+      let(:token_name) { nil }
+
+      it "is invalid" do
+        expect_valid(false, token_name: %i(blank))
+      end
+    end
+
+    context "if the token_name is taken for current user" do
+      before do
+        create(:api_token, token_name:, user: current_user)
+      end
+
+      it "is invalid" do
+        expect_valid(false, token_name: %i(taken))
+      end
+    end
   end
 end
