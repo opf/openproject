@@ -99,6 +99,7 @@ export class WorkPackageEmbeddedGraphComponent {
 
   protected setChartOptions() {
     const bodyFontColor= getComputedStyle(document.body).getPropertyValue('--body-font-color');
+    const gridLineColor= getComputedStyle(document.body).getPropertyValue('--borderColor-default');
 
     const defaults:ChartOptions = {
       color: bodyFontColor,
@@ -110,10 +111,16 @@ export class WorkPackageEmbeddedGraphComponent {
           ticks: {
             color: bodyFontColor,
           },
+          grid: {
+            color: gridLineColor,
+          },
         },
         x: {
           ticks: {
             color: bodyFontColor,
+          },
+          grid: {
+            color: gridLineColor,
           },
         },
       },
