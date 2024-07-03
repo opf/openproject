@@ -2,9 +2,8 @@
 container.with_row(mt: 3) do
   render(Primer::Forms::ToggleSwitchForm.new(
         name: "publish_project_query",
-        # TODO: Proper translations
-        label: "Make the query public",
-        caption: "All users will have access",
+        label: t('sharing.project_queries.public_flag.label', instance_name: Setting.app_title),
+        caption: t('sharing.project_queries.public_flag.caption'),
         src: toggle_public_flag_link,
         csrf_token: form_authenticity_token,
         status_label_position: :start,
