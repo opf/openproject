@@ -92,6 +92,10 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     state == :show
   end
 
+  def show_toggle_share_dialog_button?
+    query.persisted? && OpenProject::FeatureDecisions.project_list_sharing_active?
+  end
+
   def breadcrumb_items
     [
       { href: projects_path, text: t(:label_project_plural) },
