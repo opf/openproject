@@ -26,11 +26,49 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Acts
-    module Watchable
-      module Registry
-        extend RegistryMethods
+require "spec_helper"
+
+RSpec.describe OpenProject::Acts::Watchable::RouteConstraint do
+  let(:request) { instance_double(ActionDispatch::Request, path_parameters:) }
+  let(:path_parameters) { { object_id: id, object_type: type } }
+
+  describe "matches?" do
+    %w[
+      forums
+      meetings
+      messages
+      news
+      wiki_pages
+      wikis
+      work_packages
+    ].each do |type|
+      describe "routing #{type} watches" do
+        let(:type) { type }
+
+        describe "for a valid id string" do
+          let(:id) { "1" }
+
+          it "is true" do
+            expect(described_class).to be_matches(request)
+          end
+        end
+
+        describe "for an invalid id string" do
+          let(:id) { "schmu" }
+
+          it "is false" do
+            expect(described_class).not_to be_matches(request)
+          end
+        end
+      end
+    end
+
+    describe "for a non watched model" do
+      let(:type) { "schmu" }
+      let(:id) { "4" }
+
+      it "is false" do
+        expect(described_class).not_to be_matches(request)
       end
     end
   end

@@ -28,9 +28,14 @@
 
 module OpenProject
   module Acts
-    module Watchable
-      module Registry
-        extend RegistryMethods
+    module Favorable
+      module RouteConstraint
+        def self.matches?(request)
+          params = request.path_parameters
+
+          Registry.instance(params[:object_type]) &&
+            /\d+/.match(params[:object_id])
+        end
       end
     end
   end

@@ -46,11 +46,11 @@ module OpenProject
         # acts_as_favorable expects that the including module defines a +visible?(user)+ method,
         # as it's used to identify whether a user can actually favorite the object.
         def acts_as_favorable
-          return if included_modules.include?(::OpenProject::Acts::Favorable::InstanceMethods)
-
-          OpenProject::Acts::Favorable::Registry.add(self)
+          return if included_modules.include?(InstanceMethods)
 
           class_eval do
+            prepend InstanceMethods
+
             has_many :favorites, as: :favored, dependent: :delete_all, validate: false
             has_many :favoring_users, through: :favorites, source: :user, validate: false
 
@@ -60,7 +60,7 @@ module OpenProject
             }
           end
 
-          send :prepend, ::OpenProject::Acts::Favorable::InstanceMethods
+          Registry.add(self)
         end
       end
 
