@@ -57,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
 
         tab_nav.with_tab(
           selected: tab_selected?(:project_mappings),
-          href: admin_settings_storage_projects_project_storages_path(@storage)
+          href: admin_settings_storage_project_storages_path(@storage)
         ) do |tab|
           tab.with_text { t(:label_project_mappings) }
         end

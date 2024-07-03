@@ -44,7 +44,7 @@ Rails.application.routes.draw do
 
         resource :access_management, controller: "/storages/admin/access_management", only: %i[new create edit update]
 
-        namespace :projects do
+        scope module: :projects do
           resources :project_storages,
                     controller: "/storages/admin/projects/project_storages",
                     only: %i[index new create destroy]
