@@ -75,7 +75,7 @@ module Storages::Admin
       if authorized
         success_title = I18n.t("storages.oauth_grant_nudge_modal.access_granted")
         success_subtitle = I18n.t("storages.oauth_grant_nudge_modal.storage_ready", storage: project_storage.storage.name)
-        concat(render(Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle:, success_title:)))
+        concat(render(::Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle:, success_title:)))
       else
         I18n.t("storages.oauth_grant_nudge_modal.body", storage: project_storage.storage.name)
       end
@@ -94,9 +94,9 @@ module Storages::Admin
 
     def find_project_storage(project_storage_record_or_id)
       return if project_storage_record_or_id.blank?
-      return project_storage_record_or_id if project_storage_record_or_id.is_a?(Storages::ProjectStorage)
+      return project_storage_record_or_id if project_storage_record_or_id.is_a?(::Storages::ProjectStorage)
 
-      Storages::ProjectStorage.find_by(id: project_storage_record_or_id)
+      ::Storages::ProjectStorage.find_by(id: project_storage_record_or_id)
     end
   end
 end

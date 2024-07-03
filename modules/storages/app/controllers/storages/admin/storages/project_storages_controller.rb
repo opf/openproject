@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Admin::Projects::ProjectStoragesController < ApplicationController
+class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
   include OpTurbo::ComponentStream
 
   layout "admin"
