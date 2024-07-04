@@ -41,12 +41,15 @@ See COPYRIGHT and LICENSE files for more details.
         test_selector: dialog_body_id,
         aria: { label: title }
       )) do
-        render(
-          Primer::Forms::FormList.new(
-            Storages::Admin::Storages::AddProjectsAutocompleterForm.new(form, project_storage:),
-          Storages::Admin::ProjectStorages::ProjectFolderModeForm.new(form, project_storage:)
-          )
-        )
+        flex_layout do |flex|
+          flex.with_row(mb: 3) do
+            render(Storages::Admin::Storages::AddProjectsAutocompleterForm.new(form, project_storage:))
+          end
+
+          flex.with_row do
+            render(Storages::Admin::ProjectStorages::ProjectFolderModeForm.new(form, project_storage:))
+          end
+        end
       end)
 
       concat(render(Primer::Alpha::Dialog::Footer.new(show_divider: false)) do
