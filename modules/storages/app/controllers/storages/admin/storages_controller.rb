@@ -46,7 +46,7 @@ class Storages::Admin::StoragesController < ApplicationController
   before_action :require_admin
   before_action :find_model_object,
                 only: %i[show_oauth_application destroy edit edit_host confirm_destroy update
-                         change_health_notifications_enabled replace_oauth_application]
+                         change_health_notifications_enabled replace_oauth_application project_mappings]
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
   before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 
@@ -244,6 +244,8 @@ class Storages::Admin::StoragesController < ApplicationController
       render :edit
     end
   end
+
+  def project_mappings; end
 
   def default_breadcrumb; end
 

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) 2012-2023 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,31 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @storage.name) %>
-
-<%= primer_form_with(
-      model: @storage,
-      url: confirm_destroy_admin_settings_storage_path(@storage),
-      method: :get
-    ) do %>
-  <%=
-    render(Storages::Admin::EditFormHeaderComponent.new(
+<%=
+  render(Storages::Admin::EditFormHeaderComponent.new(
       storage: @storage,
-      selected: :edit
-    ))
-  %>
-<% end %>
-
-<% display_sidebar = @storage.provider_type_one_drive? || @storage.automatic_management_enabled? %>
-<% if display_sidebar %>
-  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |component| %>
-    <% component.with_main() do %>
-      <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
-    <% end %>
-    <% component.with_sidebar(col_placement: :end, row_placement: :end) do %>
-      <%= render(::Storages::Admin::SidebarComponent.new(storage: @storage)) %>
-    <% end %>
-  <% end %>
-<% else %>
-  <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
-<% end %>
+      selected: :project_mappings
+    )
+  )
+%>
