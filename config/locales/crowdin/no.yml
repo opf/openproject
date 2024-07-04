@@ -392,7 +392,19 @@
       will_revoke_access_to_all: "Denne handlingen vil fjerne deres tilgang til alle."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Tilgangstoken kunne ikke tilbakestilles: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "En ny %{type} token har blitt generert. Din tilgangstoken er:"
       token_value_warning: "Merk: Du vil ikke kunne se denne token på nytt, sørg for å kopiere den nå."
       no_results_title_text: Det er ingen tilgangsnøkler tilgjengelig.
@@ -1103,6 +1115,10 @@
           undeletable_work_packages_attached: "Versjonen kan ikke slettes ettersom den har arbeidspakker knyttet til den."
         status:
           readonly_default_exlusive: "kan ikke aktiveres for statuser som er merket som standard."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Kontroller følgende felter:"
         header:
@@ -2968,6 +2984,10 @@
   setting_default_projects_public: "Nye prosjekter er offentlige som standard"
   setting_diff_max_lines_displayed: "Maks antall linjeforskjeller som vises"
   setting_display_subprojects_work_packages: "Vis arbeidspakker for underprosjekter som standard for hovedprosjekter"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Bunntekst for e-post"
   setting_emails_header: "Topptekst for e-post"
   setting_email_login: "Bruk e-post som innlogging"
@@ -2980,7 +3000,7 @@
   setting_host_name: "Vertsnavn"
   setting_hours_per_day: "Timer per dag"
   setting_hours_per_day_explanation: >-
-    Dette vil definere hva som anses som en "dag" når varigheten vises på en mer naturlig måte (for eksempel hvis dagen er 8 timer, vil 32 timer være 4 dager).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Aktiverings e-post utløper etter"
   setting_work_package_done_ratio: "Beregning av fremdrift"
   setting_work_package_done_ratio_field: "Arbeidsbasert"

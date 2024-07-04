@@ -385,7 +385,19 @@ zh-TW:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "無法重置訪問權杖(Token): %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "生成了一個新的 %{type} 權杖(Token)。您權杖是:"
       token_value_warning: "注意: 這是您唯一可以看到此權杖(Token)的時候, 請務必立即複製它。"
       no_results_title_text: 目前沒有存取權杖(Token)
@@ -1095,6 +1107,10 @@ zh-TW:
           undeletable_work_packages_attached: "該版本無法刪除，因為它附帶了工作項目。"
         status:
           readonly_default_exlusive: "，是無法生效的(因其設定為「預設」狀態)"
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "請檢查下列欄位："
         header:
@@ -2932,6 +2948,10 @@ zh-TW:
   setting_default_projects_public: "新專案預設為公開"
   setting_diff_max_lines_displayed: "顯示比對差異的最大行數"
   setting_display_subprojects_work_packages: "預設在主專案中顯示子專案的工作項目"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "電子郵件頁腳"
   setting_emails_header: "電子郵件標頭"
   setting_email_login: "使用信箱登入"
@@ -2944,7 +2964,7 @@ zh-TW:
   setting_host_name: "主機名稱"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "啟動信件在......天後過期"
   setting_work_package_done_ratio: "進度計算"
   setting_work_package_done_ratio_field: "Work-based"

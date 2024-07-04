@@ -392,7 +392,19 @@ sv:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Misslyckades med att återställa åtkomst-token: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "En ny %{type}-token har skapats. Din åtkomst-token är:"
       token_value_warning: "Notera: Detta är den enda gång du kommer se denna token, var säker på att kopiera den nu."
       no_results_title_text: Det finns för närvarande inga tillgängliga åtkomstnycklar.
@@ -1103,6 +1115,10 @@ sv:
           undeletable_work_packages_attached: "Versionen kan inte tas bort eftersom den har arbetspaket bifogade till den."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Kontrollera följande fält:"
         header:
@@ -2966,6 +2982,10 @@ sv:
   setting_default_projects_public: "Nya projekt är offentliga som standard"
   setting_diff_max_lines_displayed: "Max antal diff rader som visas"
   setting_display_subprojects_work_packages: "Visa arbetspaket för delprojekt på huvudprojekt som standard"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "E-post sidfot"
   setting_emails_header: "E-post sidhuvud"
   setting_email_login: "Använd e-post som inloggning"
@@ -2978,7 +2998,7 @@ sv:
   setting_host_name: "Värdnamn"
   setting_hours_per_day: "Timmar per dag"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Aktiveringsmail upphör efter"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
