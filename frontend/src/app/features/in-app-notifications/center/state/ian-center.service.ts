@@ -370,7 +370,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     }
 
     // Reload the sidemenu frame
-    this.menuFrame.reload();
+    void this.menuFrame.reload();
   }
 
   private sideLoadInvolvedWorkPackages(elements:INotification[]):Promise<unknown> {

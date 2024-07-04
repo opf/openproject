@@ -32,9 +32,9 @@ module Notifications
     no_authorization_required! :show
 
     def show
-      menu = Menus::Notifications.new(controller_path: params[:controller_path], params:, current_user:)
+      menu = Notifications::Menu.new(params:, current_user:)
 
-      @sidebar_menu_items = menu.first_level_menu_items
+      @sidebar_menu_items = menu.menu_items
 
       render layout: nil
     end

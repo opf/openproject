@@ -26,29 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Menus
-  class Notifications
+module Notifications
+  class Menu < Submenu
     ENTERPRISE_REASONS = %w[shared date_alert].freeze
 
     include Rails.application.routes.url_helpers
 
-    attr_reader :controller_path, :params, :current_user,
+    attr_reader :params, :current_user,
                 :query, :unread_by_reason, :unread_by_project
 
-    def initialize(controller_path:, params:, current_user:)
-      # rubocop:disable Rails/HelperInstanceVariable
-      @controller_path = controller_path
+    def initialize(params:, current_user:)
       @params = params
       @current_user = current_user
       @unread_by_reason = filter_unread_by_reason
       @unread_by_project = filter_unread_by_project
-      # rubocop:enable Rails/HelperInstanceVariable
+
+      super(view_type: nil, project: nil, params:)
     end
 
-    def first_level_menu_items
+    def menu_items
       [
-        OpenProject::Menu::MenuGroup.new(header: nil,
-                                         children: [inbox_menu]),
+        OpenProject::Menu::MenuGroup.new(header: nil, children: [inbox_menu]),
         OpenProject::Menu::MenuGroup.new(header: I18n.t("notifications.menu.by_reason"),
                                          children: reason_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t("notifications.menu.by_project"),
@@ -57,6 +55,23 @@ module Menus
     end
 
     private
+
+    def inbox_menu
+      menu_item(:inbox, I18n.t("notifications.menu.inbox"), nil, {})
+    end
+
+    def reason_filters
+      %w[mentioned assigned responsible watched date_alert shared].map do |reason|
+        count = unread_by_reason[reason]
+        menu_item(reason, I18n.t("mail.work_packages.reason.#{reason}"), count == 0 ? nil : count, query_params("reason", reason))
+      end
+    end
+
+    def project_filters
+      unread_by_project.map do |project, count|
+        menu_item(nil, project.name, count, query_params("project", project.id))
+      end
+    end
 
     def filter_unread_by_reason
       query = Queries::Notifications::NotificationQuery.new(user: current_user)
@@ -72,35 +87,25 @@ module Menus
       query.group_values
     end
 
-    def inbox_menu
-      OpenProject::Menu::MenuItem.new(title: I18n.t("notifications.menu.inbox"),
-                                      icon: :inbox,
-                                      href: notifications_path,
-                                      selected: !(params[:name] && params[:filter]))
+    def menu_item(key, title, count, query_params)
+      OpenProject::Menu::MenuItem.new(title:,
+                                      href: query_path(query_params),
+                                      icon: icon_map.fetch(key, key),
+                                      count:,
+                                      selected: selected?(query_params),
+                                      favored: favored?(query_params))
     end
 
-    def selected?(filter, name)
-      params[:filter] == filter && params[:name] == name
+    def query_params(filter, name)
+      { filter:, name: }
     end
 
-    def reason_filters
-      %w[mentioned assigned responsible watched date_alert shared].map do |reason|
-        count = unread_by_reason[reason]
-        OpenProject::Menu::MenuItem.new(title: I18n.t("mail.work_packages.reason.#{reason}"),
-                                        icon: icon_map.fetch(reason, reason),
-                                        href: notifications_path(filter: "reason", name: reason),
-                                        count: count == 0 ? nil : count,
-                                        selected: selected?("reason", reason))
-      end
+    def selected?(query_params)
+      params[:filter] == query_params[:filter] && params[:name] == query_params[:name]
     end
 
-    def project_filters
-      unread_by_project.map do |project, count|
-        OpenProject::Menu::MenuItem.new(title: project.name,
-                                        href: notifications_path(filter: "project", name: project.id),
-                                        count: count,
-                                        selected: selected?("project", project.id))
-      end
+    def query_path(query_params)
+      notifications_path(query_params)
     end
 
     def icon_map
