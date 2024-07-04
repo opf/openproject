@@ -252,8 +252,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           ["category", category.name],
           ["createdAt", export_time_formatted],
           ["updatedAt", export_time_formatted],
-          ["estimatedTime", "1d 2h"],
-          ["remainingTime", "1d 1h"],
+          ["estimatedTime", "10h"],
+          ["remainingTime", "9h"],
           ["version", version.name],
           ["responsible", user.name],
           ["dueDate", "05/30/2024"],
@@ -388,7 +388,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         DESCRIPTION
       end
 
-      it "contains resolved attributes and labels" do
+      it "contains resolved attributes and labels" do # rubocop:disable RSpec/ExampleLength
         result = pdf[:strings]
         expected_result = [
           *expected_details,

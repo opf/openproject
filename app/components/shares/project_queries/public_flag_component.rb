@@ -49,7 +49,7 @@ module Shares
         toggle_public_project_query_path(strategy.entity)
       end
 
-      def checked
+      def published?
         strategy.entity.public?
       end
 

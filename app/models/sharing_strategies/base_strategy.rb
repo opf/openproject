@@ -40,7 +40,7 @@ module SharingStrategies
       raise NotImplementedError, "Override in a subclass and return an array of roles that should be displayed"
     end
 
-    def vieable?
+    def viewable?
       raise NotImplementedError,
             "Override in a subclass and return true if the current user can view who the entity is shared with"
     end

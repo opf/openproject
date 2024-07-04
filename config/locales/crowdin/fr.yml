@@ -392,7 +392,19 @@ fr:
       will_revoke_access_to_all: "Cette action aura pour effet de révoquer l'accès de ces personnes à l'ensemble de ces éléments."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Un nouveau jeton de %{type} a été généré. Votre jeton d’accès est :"
       token_value_warning: "Note : Ceci est la seule fois où vous verrez ce jeton, veuillez le copier maintenant."
       no_results_title_text: Aucun jeton d'accès disponible pour le moment.
@@ -1103,6 +1115,10 @@ fr:
           undeletable_work_packages_attached: "La version ne peut pas être supprimée car des lots de travaux y sont attachés."
         status:
           readonly_default_exlusive: "ne peut pas être activé pour les statuts qui sont marqués par défaut."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Veuillez vérifier les champs suivants :"
         header:
@@ -2968,6 +2984,10 @@ fr:
   setting_default_projects_public: "Les nouveaux projets sont publics par défaut"
   setting_diff_max_lines_displayed: "Nombre maximal de lignes de «diff» affichées"
   setting_display_subprojects_work_packages: "Par défaut, afficher les lots de travaux des sous-projets dans les projets parents"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Pied de page des courriels"
   setting_emails_header: "En-tête des courriels"
   setting_email_login: "Utiliser l'adresse courriel comme login"
@@ -2980,7 +3000,7 @@ fr:
   setting_host_name: "Nom d'hôte"
   setting_hours_per_day: "Heures par jour"
   setting_hours_per_day_explanation: >-
-    Ceci permettra de définir ce qui est considéré comme un « jour » lors de l'affichage de la durée d'une manière plus naturelle (par exemple, si un jour est de 8 heures, 32 heures équivalent à 4 jours).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "L'émail d’activation expire après"
   setting_work_package_done_ratio: "Calcul de la progression"
   setting_work_package_done_ratio_field: "Basé sur le travail"

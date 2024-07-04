@@ -1,5 +1,5 @@
 <%=
-container.with_row(mt: 3) do
+container.with_row do
   render(Primer::Forms::ToggleSwitchForm.new(
         name: "publish_project_query",
         label: t('sharing.project_queries.public_flag.label', instance_name: Setting.app_title),
@@ -7,7 +7,7 @@ container.with_row(mt: 3) do
         src: toggle_public_flag_link,
         csrf_token: form_authenticity_token,
         status_label_position: :start,
-        checked:,
+        checked: published?,
         enabled: can_publish?
       ))
 end

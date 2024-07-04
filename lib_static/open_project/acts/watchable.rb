@@ -25,8 +25,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require_relative "watchable/registry"
-require_relative "watchable/routes"
 
 module OpenProject
   module Acts
@@ -54,11 +52,13 @@ module OpenProject
         #                 is allowed to watch
 
         def acts_as_watchable(options = {})
-          return if included_modules.include?(::OpenProject::Acts::Watchable::InstanceMethods)
+          return if included_modules.include?(InstanceMethods)
 
           acts_as_watchable_enforce_project_association
 
           class_eval do
+            prepend InstanceMethods
+
             has_many :watchers, as: :watchable, dependent: :delete_all, validate: false
             has_many :watcher_users, through: :watchers, source: :user, validate: false
 
@@ -70,26 +70,23 @@ module OpenProject
             class_attribute :acts_as_watchable_options
 
             self.acts_as_watchable_options = options
-            ::OpenProject::Acts::Watchable::Registry.add(self)
           end
 
-          send :prepend, ::OpenProject::Acts::Watchable::InstanceMethods
+          Registry.add(self)
         end
 
         def acts_as_watchable_enforce_project_association
-          unless reflect_on_association(:project)
-            message = <<-MESSAGE
+          return if reflect_on_association(:project)
 
-              The #{self} model does not have an association to the Project model.
+          raise <<-MESSAGE
+            The #{self} model does not have an association to the Project model.
 
-              acts_as_watchable requires the including model to have such an association.
+            acts_as_watchable requires the including model to have such an association.
 
-              If no direct association exists, consider adding a
-                has_one :project, through: ...
-              association.
-            MESSAGE
-            raise message
-          end
+            If no direct association exists, consider adding a
+              has_one :project, through: ...
+            association.
+          MESSAGE
         end
       end
 

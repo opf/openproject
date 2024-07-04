@@ -45,12 +45,12 @@ module OpenProject
         #
         # acts_as_favorable expects that the including module defines a +visible?(user)+ method,
         # as it's used to identify whether a user can actually favorite the object.
-        def acts_as_favorable
-          return if included_modules.include?(::OpenProject::Acts::Favorable::InstanceMethods)
-
-          OpenProject::Acts::Favorable::Registry.add(self)
+        def acts_as_favorable # rubocop:disable Metrics/AbcSize
+          return if included_modules.include?(InstanceMethods)
 
           class_eval do
+            prepend InstanceMethods
+
             has_many :favorites, as: :favored, dependent: :delete_all, validate: false
             has_many :favoring_users, through: :favorites, source: :user, validate: false
 
@@ -58,9 +58,24 @@ module OpenProject
               includes(:favorites)
                 .where(favorites: { user_id: })
             }
+
+            scope :with_favored_by_user, ->(user) {
+              favorite = ::Favorite.arel_table
+
+              join = arel_table
+                      .join(favorite, Arel::Nodes::OuterJoin)
+                      .on(
+                        favorite[:favored_type].eq(base_class.name),
+                        favorite[:favored_id].eq(arel_table[:id]),
+                        favorite[:user_id].eq(user.id)
+                      )
+                      .join_sources
+
+              select(arel_table[Arel.star], "(favorites.id IS NOT NULL) AS favored").joins(join)
+            }
           end
 
-          send :prepend, ::OpenProject::Acts::Favorable::InstanceMethods
+          Registry.add(self)
         end
       end
 

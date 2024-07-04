@@ -42,22 +42,38 @@ module Shares
 
       attr_reader :strategy, :entity
 
-      def blankslate_config # rubocop:disable Metrics/AbcSize
-        @blankslate_config ||= {}.tap do |config|
-          if entity.public?
-            config[:icon] = :people
-            config[:heading_text] = I18n.t("sharing.project_queries.blank_state.public.header")
-            config[:description_text] = I18n.t("sharing.project_queries.blank_state.public.description")
-          elsif params[:filters].blank?
-            config[:icon] = "share-android"
-            config[:heading_text] = I18n.t("sharing.project_queries.blank_state.private.header")
-            config[:description_text] = I18n.t("sharing.project_queries.blank_state.private.description")
-          else
-            config[:icon] = :search
-            config[:heading_text] = I18n.t("sharing.text_empty_search_header")
-            config[:description_text] = I18n.t("sharing.text_empty_search_description")
-          end
-        end
+      def blankslate_config
+        @blankslate_config ||= if entity.public?
+                                 public_blankslate_config
+                               elsif params[:filters].blank?
+                                 unfiltered_blankslate_config
+                               else
+                                 filtered_blankslate_config
+                               end
+      end
+
+      def public_blankslate_config
+        {
+          icon: :people,
+          heading_text: I18n.t("sharing.project_queries.blank_state.public.header"),
+          description_text: I18n.t("sharing.project_queries.blank_state.public.description")
+        }
+      end
+
+      def unfiltered_blankslate_config
+        {
+          icon: :people,
+          heading_text: I18n.t("sharing.project_queries.blank_state.private.header"),
+          description_text: I18n.t("sharing.project_queries.blank_state.private.description")
+        }
+      end
+
+      def filtered_blankslate_config
+        {
+          icon: :search,
+          heading_text: I18n.t("sharing.text_empty_search_header"),
+          description_text: I18n.t("sharing.text_empty_search_description")
+        }
       end
     end
   end
