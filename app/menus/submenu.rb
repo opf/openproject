@@ -92,7 +92,8 @@ class Submenu
   def menu_item(name, query_params)
     OpenProject::Menu::MenuItem.new(title: name,
                                     href: query_path(query_params),
-                                    selected: selected?(query_params))
+                                    selected: selected?(query_params),
+                                    favored: favored?(query_params))
   end
 
   def selected?(query_params)
@@ -107,6 +108,10 @@ class Submenu
     end
 
     true
+  end
+
+  def favored?(_query_params)
+    false
   end
 
   def query_path(query_params)

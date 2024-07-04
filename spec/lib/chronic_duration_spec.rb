@@ -31,6 +31,8 @@
 require "rspec_helper"
 require "chronic_duration"
 
+INACCURATE_FORMATS = %i[days_and_hours hours_only].freeze
+
 RSpec.describe ChronicDuration do
   describe ".parse" do
     exemplars = {
@@ -135,6 +137,7 @@ RSpec.describe ChronicDuration do
           default: "1 min 20 secs",
           long: "1 minute 20 seconds",
           days_and_hours: "0.02h",
+          hours_only: "0.02h",
           chrono: "1:20"
         },
       (60 + 20.51) =>
@@ -144,6 +147,7 @@ RSpec.describe ChronicDuration do
           default: "1 min 20.51 secs",
           long: "1 minute 20.51 seconds",
           days_and_hours: "0.02h",
+          hours_only: "0.02h",
           chrono: "1:20.51"
         },
       (60 + 20.51928) =>
@@ -153,6 +157,7 @@ RSpec.describe ChronicDuration do
           default: "1 min 20.51928 secs",
           long: "1 minute 20.51928 seconds",
           days_and_hours: "0.02h",
+          hours_only: "0.02h",
           chrono: "1:20.51928"
         },
       ((4 * 3600) + 60 + 1) =>
@@ -162,6 +167,7 @@ RSpec.describe ChronicDuration do
           default: "4 hrs 1 min 1 sec",
           long: "4 hours 1 minute 1 second",
           days_and_hours: "4.02h",
+          hours_only: "4.02h",
           chrono: "4:01:01"
         },
       ((2 * 3600) + (20 * 60)) =>
@@ -171,6 +177,7 @@ RSpec.describe ChronicDuration do
           default: "2 hrs 20 mins",
           long: "2 hours 20 minutes",
           days_and_hours: "2.33h",
+          hours_only: "2.33h",
           chrono: "2:20:00"
         },
       ((8 * 24 * 3600) + (3 * 3600) + (30 * 60)) =>
@@ -180,6 +187,7 @@ RSpec.describe ChronicDuration do
           default: "8 days 3 hrs 30 mins",
           long: "8 days 3 hours 30 minutes",
           days_and_hours: "8d 3.5h",
+          hours_only: "195.5h",
           chrono: "8:03:30:00"
         },
       ((6 * 30 * 24 * 3600) + (24 * 3600)) =>
@@ -189,6 +197,7 @@ RSpec.describe ChronicDuration do
           default: "6 mos 1 day",
           long: "6 months 1 day",
           days_and_hours: "181d 0h",
+          hours_only: "4344h",
           chrono: "6:01:00:00:00" # Yuck. FIXME
         },
       ((365.25 * 24 * 3600) + (24 * 3600)).to_i =>
@@ -198,6 +207,7 @@ RSpec.describe ChronicDuration do
           default: "1 yr 1 day",
           long: "1 year 1 day",
           days_and_hours: "366d 0h",
+          hours_only: "8790h",
           chrono: "1:00:01:00:00:00"
         },
       ((3 * 365.25 * 24 * 3600) + (24 * 3600)).to_i =>
@@ -207,16 +217,19 @@ RSpec.describe ChronicDuration do
           default: "3 yrs 1 day",
           long: "3 years 1 day",
           days_and_hours: "1096d 0h",
+          hours_only: "26322h",
           chrono: "3:00:01:00:00:00"
         },
-      ((6 * 365.25 * 24 * 3600) + (3 * 3600)).to_i => {
-        micro: "6y3h",
-        short: "6y 3h",
-        default: "6 yrs 3 hrs",
-        long: "6 years 3 hours",
-        days_and_hours: "2191d 3h",
-        chrono: "6:00:00:03:00:00"
-      },
+      ((6 * 365.25 * 24 * 3600) + (3 * 3600)).to_i =>
+        {
+          micro: "6y3h",
+          short: "6y 3h",
+          default: "6 yrs 3 hrs",
+          long: "6 years 3 hours",
+          days_and_hours: "2191d 3h",
+          hours_only: "52599h",
+          chrono: "6:00:00:03:00:00"
+        },
       (3600 * 24 * 30 * 18) =>
         {
           micro: "18mo",
@@ -224,6 +237,7 @@ RSpec.describe ChronicDuration do
           default: "18 mos",
           long: "18 months",
           days_and_hours: "540d 0h",
+          hours_only: "12960h",
           chrono: "18:00:00:00:00"
         }
     }
@@ -314,7 +328,7 @@ RSpec.describe ChronicDuration do
 
     exemplars.each do |seconds, format_spec|
       format_spec.each_key do |format|
-        next if format == :days_and_hours # this format is inaccurate
+        next if INACCURATE_FORMATS.include?(format)
 
         it "outputs a duration for #{seconds} that parses back to the same thing when using the #{format} format" do
           expect(described_class.parse(

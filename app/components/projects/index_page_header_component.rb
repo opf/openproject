@@ -92,9 +92,13 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     state == :show
   end
 
-  def show_toggle_share_dialog_button?
+  def can_access_shares?
     query.persisted? && OpenProject::FeatureDecisions.project_list_sharing_active?
   end
+
+  def can_toggle_favor? = query.persisted?
+
+  def currently_favored? = query.favored_by?(current_user)
 
   def breadcrumb_items
     [

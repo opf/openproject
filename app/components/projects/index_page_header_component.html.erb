@@ -21,7 +21,7 @@
         )
       end
 
-      if show_toggle_share_dialog_button?
+      if can_access_shares?
         header.with_action_icon_button(
           tag: :a,
           href: dialog_project_query_members_path(query),
@@ -32,14 +32,39 @@
         )
       end
 
-      header.with_action_menu(menu_arguments: {
-        anchor_align: :end
-      },
-                              button_arguments: {
-                                icon: "op-kebab-vertical",
-                                "aria-label": t(:label_more),
-                                data: { "test-selector": "project-more-dropdown-menu" }
-                              }) do |menu|
+      if can_toggle_favor?
+        if currently_favored?
+          header.with_action_icon_button(
+            icon: "star-fill",
+            mobile_icon: "star-fill",
+            label: t(:button_unfavorite),
+            classes: "op-primer--star-icon",
+            tag: :a,
+            href: helpers.build_favorite_path(query, format: :html),
+            data: { method: :delete, "test-selector": "project-query-unfavorite" },
+          )
+        else
+          header.with_action_icon_button(
+            icon: "star",
+            mobile_icon: "star",
+            label: t(:button_favorite),
+            tag: :a,
+            href: helpers.build_favorite_path(query, format: :html),
+            data: { method: :post, "test-selector": "project-query-favorite" },
+          )
+        end
+      end
+
+      header.with_action_menu(
+        menu_arguments: {
+          anchor_align: :end
+        },
+        button_arguments: {
+          icon: "op-kebab-vertical",
+          "aria-label": t(:label_more),
+          data: { "test-selector": "project-more-dropdown-menu" }
+        }
+      ) do |menu|
         if can_rename?
           menu.with_item(
             label: t('button_rename'),

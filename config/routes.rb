@@ -185,13 +185,13 @@ Rails.application.routes.draw do
   end
 
   # generic route for adding/removing watchers
-  scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::Routes do
+  scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::RouteConstraint do
     post "/watch" => "watchers#watch"
     delete "/unwatch" => "watchers#unwatch"
   end
 
   # generic route for adding/removing favorites
-  scope ":object_type/:object_id", constraints: OpenProject::Acts::Favorable::Routes do
+  scope ":object_type/:object_id", constraints: OpenProject::Acts::Favorable::RouteConstraint do
     post "/favorite" => "favorites#favorite"
     delete "/favorite" => "favorites#unfavorite"
   end

@@ -386,7 +386,19 @@ ko:
       will_revoke_access_to_all: "이 작업을 수행하면 모두에 대한 액세스 권한이 취소됩니다."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "새로운 %{type} 토큰이 생성되었습니다. 액세스 토큰:"
       token_value_warning: "참고: 이번에만 이 토큰이 표시됩니다. 지금 이 토큰을 복사해야 합니다."
       no_results_title_text: 가능한 접근 토큰이 없습니다.
@@ -1095,6 +1107,10 @@ ko:
           undeletable_work_packages_attached: "첨부된 작업 패키지가 있으므로 이 버전은 삭제할 수 없습니다."
         status:
           readonly_default_exlusive: "- 기본값으로 표시된 상태에 대해 활성화할 수 없습니다."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "다음 필드를 확인 하십시오."
         header:
@@ -2930,6 +2946,10 @@ ko:
   setting_default_projects_public: "새 프로젝트는 기본적으로 공용입니다."
   setting_diff_max_lines_displayed: "표시되는 최대 차이점 줄 수"
   setting_display_subprojects_work_packages: "기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "이메일 바닥글"
   setting_emails_header: "이메일 머리글"
   setting_email_login: "이메일로 로그인하기"
@@ -2942,7 +2962,7 @@ ko:
   setting_host_name: "호스트 이름"
   setting_hours_per_day: "일별 시간"
   setting_hours_per_day_explanation: >-
-    보다 자연스러운 방식으로 기간을 표시할 때 "하루"로 간주되는 시간을 정의합니다(예: 하루가 8시간이면 32시간은 4일이 됩니다).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
   setting_work_package_done_ratio: "진행률 계산"
   setting_work_package_done_ratio_field: "작업 기반"

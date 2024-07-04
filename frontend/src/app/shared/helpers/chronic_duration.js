@@ -253,7 +253,10 @@ export function outputChronicDuration(seconds, opts = {}) {
   const month = daysPerMonth * day;
   const year = SECONDS_PER_YEAR;
 
-  if (units.seconds >= SECONDS_PER_YEAR && units.seconds % year < units.seconds % month) {
+  if (opts.format === 'hours_only') {
+    units.hours = seconds / 3600;
+    units.seconds = 0;
+  } else if (units.seconds >= SECONDS_PER_YEAR && units.seconds % year < units.seconds % month) {
     units.years = Math.trunc(units.seconds / year);
     units.months = Math.trunc((units.seconds % year) / month);
     units.days = Math.trunc(((units.seconds % year) % month) / day);
@@ -330,9 +333,8 @@ export function outputChronicDuration(seconds, opts = {}) {
         pluralize: true,
       };
       break;
-    case 'daysAndHours':
+    case 'days_and_hours':
       dividers = {
-        // days: 'd',
         hours: 'h',
         keepZero: true,
       };
@@ -348,6 +350,15 @@ export function outputChronicDuration(seconds, opts = {}) {
       }
 
       units.hours += (((units.minutes * 60) + units.seconds) / 3600.0)
+      units.hours = parseFloat(Math.round(units.hours * 100)) / 100;
+
+      break
+    case 'hours_only':
+      dividers = {
+        hours: 'h',
+        keepZero: true,
+      };
+
       units.hours = parseFloat(Math.round(units.hours * 100)) / 100;
 
       break

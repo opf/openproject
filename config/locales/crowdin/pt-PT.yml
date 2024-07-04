@@ -390,7 +390,19 @@ pt-PT:
       will_revoke_access_to_all: "Esta ação irá revogar o seu acesso a todos eles."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Não foi possível reiniciar o token de acesso: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Foi gerado um novo token de %{type}. O seu token de acesso é:"
       token_value_warning: "Nota: Esta é a única vez que irá ver este token, certifique-se que o copia agora."
       no_results_title_text: Atualmente, não existem fichas de acesso disponíveis.
@@ -1102,6 +1114,10 @@ pt-PT:
           undeletable_work_packages_attached: "A versão não pode ser apagada pois tem pacotes de trabalho anexados a ela."
         status:
           readonly_default_exlusive: "não pode ser ativado para os status que estão marcados como padrão."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Por favor, verifique os seguintes campos:"
         header:
@@ -2964,6 +2980,10 @@ pt-PT:
   setting_default_projects_public: "Projetos novos são públicos por omissão"
   setting_diff_max_lines_displayed: "Número máximo de linhas de diff mostradas"
   setting_display_subprojects_work_packages: "Mostrar os pacotes de trabalho dos sub-projetos nos projetos principais"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Rodapé de e-mails"
   setting_emails_header: "Cabeçalho de e-mails"
   setting_email_login: "Utilizar o email como início de sessão"
@@ -2976,7 +2996,7 @@ pt-PT:
   setting_host_name: "Nome do host"
   setting_hours_per_day: "Horas por dia"
   setting_hours_per_day_explanation: >-
-    Isto irá definir o que é considerado um "dia" ao apresentar a duração de uma forma mais natural (por exemplo, se um dia tiver 8 horas, 32 horas serão 4 dias).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "O email de ativação expira após"
   setting_work_package_done_ratio: "Cálculo do progresso"
   setting_work_package_done_ratio_field: "Baseado no trabalho"

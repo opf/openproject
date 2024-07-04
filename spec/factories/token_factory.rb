@@ -35,6 +35,7 @@ FactoryBot.define do
 
   factory :api_token, class: "::Token::API" do
     user
+    token_name { "my token name" }
   end
 
   factory :rss_token, class: "::Token::RSS" do
