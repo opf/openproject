@@ -249,6 +249,7 @@ si:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "ව්යාපෘතිය මකා දැමිය නොහැක: %{errors}"
@@ -391,7 +392,19 @@ si:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "ප්රවේශ ටෝකනය නැවත සකස් කිරීමට අපොහොසත් විය: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "නව %{type} ටෝකනයක් ජනනය කර ඇත. ඔබගේ ප්රවේශ ටෝකනය:"
       token_value_warning: "සටහන: ඔබ මෙම ටෝකනය දකින එකම අවස්ථාව මෙයයි, දැන් එය පිටපත් කිරීමට වග බලා ගන්න."
       no_results_title_text: දැනට ප්රවේශ ටෝකන නොමැත.
@@ -1103,6 +1116,10 @@ si:
           undeletable_work_packages_attached: "එය අමුණා ඇති වැඩ පැකේජ ඇති බැවින් අනුවාදය මකා දැමිය නොහැක."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "කරුණාකර පහත සඳහන් ක්ෂේත්ර පරීක්ෂා කරන්න:"
         header:
@@ -2022,6 +2039,7 @@ si:
   label_invite_user: "පරිශීලකයාට ආරාධනා කරන්න"
   label_share: "Share"
   label_show_hide: "පෙන්වන්න/සඟවන්න"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "සියලුම ලියාපදිංචි පරිශීලකයන් පෙන්වන්න"
   label_journal: "ජර්නල්"
   label_journal_diff: "විස්තරය සංසන්දනය"
@@ -2059,6 +2077,7 @@ si:
   label_custom_touch_icon: "අභිරුචි ස්පර්ශ අයිකනය"
   label_logout: "ලියාපදිංචි වන්න"
   label_main_menu: "පැති මෙනුව"
+  label_manage: "Manage"
   label_manage_groups: "කණ්ඩායම් කළමනාකරණය කරන්න"
   label_managed_repositories_vendor: "කළමනාකරණය %{vendor} ගබඩාවලදී"
   label_max_size: "උපරිම ප්රමාණය"
@@ -2966,6 +2985,10 @@ si:
   setting_default_projects_public: "නව ව්යාපෘති පෙරනිමියෙන් පොදු වේ"
   setting_diff_max_lines_displayed: "ප්රදර්ශනය diff රේඛා උපරිම සංඛ්යාව"
   setting_display_subprojects_work_packages: "පෙරනිමියෙන් ප්රධාන ව්යාපෘතිවල උප ව්යාපෘති වැඩ පැකේජ ප්රදර්ශනය කරන්න"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "ඊමේල් පාදකය"
   setting_emails_header: "ඊමේල් ශීර්ෂකය"
   setting_email_login: "පිවිසුම් ලෙස විද්යුත් තැපෑල භාවිතා කරන්න"
@@ -2978,7 +3001,7 @@ si:
   setting_host_name: "සත්කාරක නාමය"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "සක්රිය කිරීමේ විද්යුත් තැපෑල කල් ඉකුත් වේ"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"

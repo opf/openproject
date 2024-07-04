@@ -44,6 +44,7 @@ import {
   OpGitlabPipelineStatusSkippedIconComponent,
   OpGitlabPipelineStatusSuccessIconComponent,
   OpGitlabPipelineStatusWaitingIconComponent,
+  XCircleIconComponent,
 } from '@openproject/octicons-angular';
 
 @NgModule({
@@ -93,6 +94,7 @@ import {
     OpGitlabPipelineStatusSkippedIconComponent,
     OpGitlabPipelineStatusSuccessIconComponent,
     OpGitlabPipelineStatusWaitingIconComponent,
+    XCircleIconComponent,
   ],
   declarations: [
     OpIconComponent,
@@ -144,6 +146,7 @@ import {
     OpGitlabPipelineStatusSkippedIconComponent,
     OpGitlabPipelineStatusSuccessIconComponent,
     OpGitlabPipelineStatusWaitingIconComponent,
+    XCircleIconComponent,
   ],
 })
 export class IconModule {}

@@ -27,6 +27,25 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream.update :automatically_managed_project_folders_section do %>
-  <%= render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(@storage)) %>
-<% end %>
+<%=
+    render(
+      Primer::Alpha::Dialog.new(
+        id: "new-access-token-dialog",
+        title: I18n.t("my.access_token.new_access_token_dialog_title"),
+        test_selector: "new-access-token-dialog",
+        size: :large
+      )
+    ) do |dialog|
+      dialog.with_show_button(scheme: :primary, mt: 3, test_selector: "api-token-add") do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        I18n.t("my.access_token.new_access_token_dialog_show_button_text")
+      end
+
+      dialog.with_header(
+        show_divider: false,
+        visually_hide_title: false
+      )
+
+      render(My::AccessToken::NewAccessTokenFormComponent.new(token: Token::API.new))
+    end
+%>

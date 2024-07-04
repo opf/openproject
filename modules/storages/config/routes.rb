@@ -64,6 +64,7 @@ Rails.application.routes.draw do
           patch :change_health_notifications_enabled
           get :confirm_destroy
           delete :replace_oauth_application
+          get :project_mappings
         end
 
         get :upsale, on: :collection

@@ -50,7 +50,7 @@ module Accounts::OmniauthLogin
   end
 
   def omniauth_login
-    params[:back_url] = request.env["omniauth.origin"] if remember_back_url?
+    params[:back_url] = omniauth_back_url if remember_back_url?
 
     # Extract auth info and perform check / login or activate user
     auth_hash = request.env["omniauth.auth"]
@@ -78,11 +78,16 @@ module Accounts::OmniauthLogin
 
   # Avoid remembering the back_url if we're coming from the login page
   def remember_back_url?
-    provided_back_url = request.env["omniauth.origin"]
-    return if provided_back_url.blank?
+    return if omniauth_back_url.blank?
 
     account_routes = /\/(login|account)/
-    omniauth_direct_login? || !provided_back_url.match?(account_routes)
+    omniauth_direct_login? || !omniauth_back_url.match?(account_routes)
+  end
+
+  # In case of SAML post bindings, we lose our session information
+  # so we need to store it in the RelayState parameter
+  def omniauth_back_url
+    request.env["omniauth.origin"].presence || params[:RelayState]
   end
 
   def show_error(error)

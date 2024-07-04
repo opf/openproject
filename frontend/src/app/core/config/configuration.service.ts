@@ -95,6 +95,10 @@ export class ConfigurationService {
     return this.systemPreference('dateFormat');
   }
 
+  public durationFormat():string {
+    return this.systemPreference('durationFormat');
+  }
+
   public hoursPerDay():number {
     return this.systemPreference('hoursPerDay');
   }

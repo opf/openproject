@@ -32,12 +32,21 @@ module Components
     include Capybara::RSpecMatchers
     include RSpec::Matchers
 
-    def expect_item(name, selected: false, visible: true)
+    def expect_item(name, selected: false, favored: nil, visible: true)
       within "#main-menu" do
         selected_specifier = selected ? ".selected" : ":not(.selected)"
 
-        expect(page).to have_css(".op-sidemenu--item-action#{selected_specifier}", text: name, visible:)
-        # expect(page).to have_css("[data-test-selector='op-sidemenu--item-action']#{selected_specifier}", text: name, visible:)
+        if favored.nil?
+          expect(page).to have_css(".op-sidemenu--item-action#{selected_specifier}", text: name, visible:)
+        else
+          item = page.find(".op-sidemenu--item-action#{selected_specifier}", text: name, visible:)
+
+          if favored
+            expect(item).to have_css(".op-primer--star-icon")
+          else
+            expect(item).to have_no_css(".op-primer--star-icon")
+          end
+        end
       end
     end
 

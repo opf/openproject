@@ -106,4 +106,25 @@ RSpec.describe "SAML provider callback", with_ee: %i[openid_providers] do
 
     it_behaves_like "request fails"
   end
+
+  context "with a RelayState present" do
+    let(:body) do
+      { SAMLResponse: saml_response, RelayState: "/projects?some_param=true" }
+    end
+
+    it "redirects the user to 2FA, but with back_url present in session" do
+      expect(subject.status).to eq(302)
+      expect(subject.headers["Location"]).to eq("http://example.org/two_factor_authentication/request")
+
+      session = Sessions::SqlBypass.lookup_data(subject.cookies["_open_project_session"].first)
+      expect(session["back_url"]).to eq "/projects?some_param=true"
+    end
+
+    context "when 2FA is disabled", :skip_2fa_stage do
+      it "redirects directly" do
+        expect(subject.status).to eq(302)
+        expect(subject.headers["Location"]).to eq("http://example.org/projects?some_param=true")
+      end
+    end
+  end
 end

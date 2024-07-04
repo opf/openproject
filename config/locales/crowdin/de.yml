@@ -246,6 +246,7 @@ de:
       work_package_attachments: "Arbeitspakete: Anhänge"
       work_package_categories: "Arbeitspakete: Kategorien"
       work_package_file_links: "Arbeitspakete: Datei-Links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Die Löschung wurde geplant und wird im Hintergrund durchgeführt. Sie werden über das Ergebnis informiert."
       schedule_failed: "Projekt kann nicht gelöscht werden: %{errors}"
@@ -388,7 +389,19 @@ de:
       will_revoke_access_to_all: "Mit dieser Aktion wird der Zugriff auf alle diese Arbeitspakete entfernt."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Zusatztoken konnte nicht zurückgesetzt werden: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Ein neuer %{type} Token wurde generiert. Der Zutrittstoken lautet:"
       token_value_warning: "Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden."
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
@@ -1097,6 +1110,10 @@ de:
           undeletable_work_packages_attached: "Die Version kann nicht gelöscht werden, da sie Arbeitspakete enthält, die an sie angeschlossen sind."
         status:
           readonly_default_exlusive: "kann nicht für einen Status aktiviert werden, der als Standard markiert ist."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
@@ -2016,6 +2033,7 @@ de:
   label_invite_user: "Nutzer einladen"
   label_share: "Teilen"
   label_show_hide: "Einblenden / Ausblenden"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Alle registrierten Benutzer anzeigen"
   label_journal: "Änderungen"
   label_journal_diff: "Beschreibungsvergleich"
@@ -2053,6 +2071,7 @@ de:
   label_custom_touch_icon: "Benutzerdefiniertes Touch-Icon"
   label_logout: "Abmelden"
   label_main_menu: "Nebenmenü"
+  label_manage: "Manage"
   label_manage_groups: "Gruppen verwalten"
   label_managed_repositories_vendor: "Verwaltete %{vendor} Projektarchive"
   label_max_size: "Maximale Größe"
@@ -2960,6 +2979,10 @@ de:
   setting_default_projects_public: "Neue Projekte sind standardmäßig öffentlich"
   setting_diff_max_lines_displayed: "Maximale Anzahl anzuzeigender Diff-Zeilen"
   setting_display_subprojects_work_packages: "Arbeitspakete von Unterprojekten im Hauptprojekt anzeigen"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "E-Mail-Fußzeile"
   setting_emails_header: "E-Mail-Kopfzeile"
   setting_email_login: "E-Mail als Benutzername verwenden"
@@ -2972,7 +2995,7 @@ de:
   setting_host_name: "Hostname"
   setting_hours_per_day: "Stunden pro Tag"
   setting_hours_per_day_explanation: >-
-    Dies legt fest, was als "Tag" angesehen wird, wenn die Dauer auf gleichmäßige Weise angezeigt wird (zum Beispiel wenn die Länge eines Tags 8 Stunden beträgt, wären 32 Stunden 4 Tage).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
   setting_work_package_done_ratio: "Fortschrittsberechnung"
   setting_work_package_done_ratio_field: "Arbeitsbezogen"

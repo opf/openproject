@@ -31,7 +31,11 @@
 module Storages::Admin::Forms
   class AccessManagementFormComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
     alias_method :storage, :model
+
+    def self.wrapper_key = :access_management_section
 
     private
 

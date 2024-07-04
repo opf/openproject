@@ -249,6 +249,7 @@ sk:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projekt nie je možné odstrániť: %{errors}"
@@ -403,7 +404,19 @@ sk:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Nepodarilo sa obnoviť prístupový token: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Bol vytvorený nový token %{type}. Prístupový token je:"
       token_value_warning: "Poznámka: Toto je jediný čas, kedy uvidíte tento Token, uistite sa, že ste si ho skopírovali."
       no_results_title_text: Momentálne nie sú dostupné žiadne prístupové tokeny.
@@ -1119,6 +1132,10 @@ sk:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Skontrolujte nasledujúce polia:"
         header:
@@ -2088,6 +2105,7 @@ sk:
   label_invite_user: "Pozvať používateľa"
   label_share: "Zdieľať"
   label_show_hide: "Zobraziť/skryť"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Zobraziť všetkých registrovaných užívateľov"
   label_journal: "Denník"
   label_journal_diff: "Porovnanie popisu"
@@ -2125,6 +2143,7 @@ sk:
   label_custom_touch_icon: "Vlastná dotyková ikona"
   label_logout: "Odhlásiť sa"
   label_main_menu: "Vedľajšie ponuky"
+  label_manage: "Manage"
   label_manage_groups: "Spravovať skupiny"
   label_managed_repositories_vendor: "Úložiská spravované %{vendor}"
   label_max_size: "Maximálna veľkosť"
@@ -3035,6 +3054,10 @@ sk:
   setting_default_projects_public: "Nové projekty nastaviť ako verejné"
   setting_diff_max_lines_displayed: "Maximálny počet rozdielových riadkov na zobrazenie"
   setting_display_subprojects_work_packages: "Automaticky zobraziť úlohy podprojektu v hlavnom projekte"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "E-mail päta"
   setting_emails_header: "E-mail záhlavie"
   setting_email_login: "Use email as login"
@@ -3047,7 +3070,7 @@ sk:
   setting_host_name: "Názov serveru (Host name)"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"

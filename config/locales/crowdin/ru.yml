@@ -248,6 +248,7 @@ ru:
       work_package_attachments: "Пакеты работ: вложения"
       work_package_categories: "Пакеты работ: категории"
       work_package_file_links: "Пакеты работ: ссылки на файлы"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Удаление было запланировано и исполнено в фоновом режиме. О результатах вы будете уведомлены."
       schedule_failed: "Проект удален быть не может: %{errors}"
@@ -265,7 +266,7 @@ ru:
       my: "Мои проекты"
       favored: "Избранные проекты"
       archived: "Архивные проекты"
-      shared: "Shared project lists"
+      shared: "Общедоступные проекты"
       public: "Списки общедоступных проектов"
       my_private: "Списки моих личных проектов"
       new:
@@ -402,7 +403,19 @@ ru:
       will_revoke_access_to_all: "Это действие лишит их доступа ко всем пакетам работ."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
@@ -480,7 +493,7 @@ ru:
         is_readonly: "Только для чтения"
         excluded_from_totals: "Исключен из итогов"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Тёмная тема (экспериментальная)"
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
   types:
@@ -733,7 +746,7 @@ ru:
         auto_hide_popups: "Автоматически скрывать успешные уведомления"
         warn_on_leaving_unsaved: "При покидании рабочего пакета предупреждать о не сохраненных изменениях"
         theme: "Режим"
-        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
+        mode_guideline: "Некоторые режимы перезаписывают пользовательские цвета темы для удобства и удобочитаемости. Для полной пользовательской темы выберите светлый режим."
       version:
         effective_date: "Дата окончания"
         sharing: "Совместное использование"
@@ -1118,6 +1131,10 @@ ru:
           undeletable_work_packages_attached: "Версия не может быть удалена, так как имеет пакеты работ, прикрепленные к ней."
         status:
           readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Пожалуйста, проверьте следующие поля:"
         header:
@@ -2087,6 +2104,7 @@ ru:
   label_invite_user: "Пригласить пользователя"
   label_share: "Поделиться"
   label_show_hide: "Показать/скрыть"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
   label_journal: "Журнал"
   label_journal_diff: "Описание сравнения"
@@ -2124,6 +2142,7 @@ ru:
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
   label_main_menu: "Боковое меню"
+  label_manage: "Manage"
   label_manage_groups: "Управление группами"
   label_managed_repositories_vendor: "Управляемые %{vendor} репозиториев"
   label_max_size: "Максимальный размер"
@@ -3032,6 +3051,10 @@ ru:
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
   setting_diff_max_lines_displayed: "Максимальное количество отображаемых строк diff(разницы)"
   setting_display_subprojects_work_packages: "Отображать пакеты работ подпроектов в основном проекте по-умолчанию"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "содержимое  нижней части почтовых сообщений"
   setting_emails_header: "Заголовок письма"
   setting_email_login: "Использовать email как логин"
@@ -3044,7 +3067,7 @@ ru:
   setting_host_name: "Имя компьютера в сети"
   setting_hours_per_day: "Количество часов в день"
   setting_hours_per_day_explanation: >-
-    Это определяет, что считается "днем" при более естественном отображении продолжительности (например, если день 8 часов, то 32 часа будет 4 дня).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Действие письма активации истекает после"
   setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"

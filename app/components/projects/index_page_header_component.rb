@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -105,6 +105,10 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   def show_state?
     state == :show
   end
+
+  def can_toggle_favor? = query.persisted?
+
+  def currently_favored? = query.favored_by?(current_user)
 
   def breadcrumb_items
     [

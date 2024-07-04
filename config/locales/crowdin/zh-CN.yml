@@ -246,6 +246,7 @@ zh-CN:
       work_package_attachments: "工作包：附件"
       work_package_categories: "工作包：类别"
       work_package_file_links: "工作包：文件链接"
+      work_package_shares: "工作包：共享"
     delete:
       scheduled: "删除已安排并且将在后台执行。您将收到结果通知。"
       schedule_failed: "项目不能删除: %{errors}"
@@ -382,7 +383,19 @@ zh-CN:
       will_revoke_access_to_all: "此操作将撤销他们对所有这些系统的访问权限。"
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "无法重置访问令牌: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "生成了一个新的%{type} 令牌。您的访问令牌是:"
       token_value_warning: "注意: 这将是您唯一机会看到这个令牌, 请务必立即复制它。"
       no_results_title_text: 目前没有可用的访问令牌。
@@ -1091,6 +1104,10 @@ zh-CN:
           undeletable_work_packages_attached: "无法删除该版本，因为它连接了工作包。"
         status:
           readonly_default_exlusive: "无法激活（对于标记为默认的状态）。"
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "请检查以下字段："
         header:
@@ -1985,6 +2002,7 @@ zh-CN:
   label_invite_user: "邀请用户"
   label_share: "共享"
   label_show_hide: "显示/隐藏"
+  label_show_hide_n_items: "显示/隐藏 %{count} 项目"
   label_show_all_registered_users: "显示所有注册用户"
   label_journal: "日志"
   label_journal_diff: "描述的对比"
@@ -2022,6 +2040,7 @@ zh-CN:
   label_custom_touch_icon: "自定义触摸图标"
   label_logout: "注销"
   label_main_menu: "侧边菜单"
+  label_manage: "管理"
   label_manage_groups: "组管理"
   label_managed_repositories_vendor: "托管的 %{vendor} 存储库"
   label_max_size: "最大"
@@ -2921,6 +2940,10 @@ zh-CN:
   setting_default_projects_public: "新项目默认公开"
   setting_diff_max_lines_displayed: "最大差异显示行数"
   setting_display_subprojects_work_packages: "默认在主项目上显示子项目工作包"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "电子邮件页脚"
   setting_emails_header: "电子邮件页眉"
   setting_email_login: "使用电子邮件作为登录名"
@@ -2933,7 +2956,7 @@ zh-CN:
   setting_host_name: "主机名"
   setting_hours_per_day: "每天小时数"
   setting_hours_per_day_explanation: >-
-    这将以更自然的方式在显示持续时间时定义什么是 "一天"（例如，如果一天是8小时，32小时就是4天）。
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
   setting_work_package_done_ratio: "进度计算"
   setting_work_package_done_ratio_field: "基于工时"

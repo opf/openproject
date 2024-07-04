@@ -1,52 +1,54 @@
 <%=
-  render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-oauth-client-form')) do
-    primer_form_with(
-      model: oauth_client,
-      url: finish_setup_admin_settings_storage_oauth_client_path(storage),
-      method: :post
-    ) do |form|
-      flex_layout do |oauth_client_row|
-        oauth_client_row.with_row(mb: 3) do
-          concat(render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
-            input_group.with_text_input(
-              name: :oauth_client_redirect_uri,
-              label: I18n.t('storages.label_redirect_uri'),
-              visually_hide_label: false,
-              value: redirect_uri_or_instructions,
-              required: true
-            )
+  component_wrapper(tag: 'turbo-frame') do
+    render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-oauth-client-form')) do
+      primer_form_with(
+        model: oauth_client,
+        url: finish_setup_admin_settings_storage_oauth_client_path(storage),
+        method: :post
+      ) do |form|
+        flex_layout do |oauth_client_row|
+          oauth_client_row.with_row(mb: 3) do
+            concat(render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+              input_group.with_text_input(
+                name: :oauth_client_redirect_uri,
+                label: I18n.t('storages.label_redirect_uri'),
+                visually_hide_label: false,
+                value: redirect_uri_or_instructions,
+                required: true
+              )
 
-            input_group.with_trailing_action_clipboard_copy_button(
-              value: redirect_uri_or_instructions,
-              aria: {
-                label: I18n.t('button_copy_to_clipboard')
+              input_group.with_trailing_action_clipboard_copy_button(
+                value: redirect_uri_or_instructions,
+                aria: {
+                  label: I18n.t('button_copy_to_clipboard')
+                },
+                test_selector: 'storage-oauth-client-redirect-uri'
+              )
+            end)
+
+            # NOTE: Hardcoded `FormControl-caption` class is used to align the text with the input field.
+            #      This is a workaround until Primer::OpenProject::InputGroup supports a caption.
+            #      See https://community.openproject.org/wp/51376
+            concat(render(Primer::Beta::Text.new(classes: 'FormControl-caption')) do
+              I18n.t('storages.instructions.one_drive.oauth_client_redirect_uri')
+            end)
+          end
+
+          oauth_client_row.with_row do
+            render(Storages::Admin::SubmitOrCancelForm.new(
+              form,
+              storage:,
+              submit_button_options: {
+                disabled: submit_button_disabled? || @options[:is_complete],
+                label: I18n.t('storages.buttons.done_complete_setup'),
+                data: { turbo: false },
+                test_selector: 'storage-oauth-client-submit-button'
               },
-              test_selector: 'storage-oauth-client-redirect-uri'
-            )
-          end)
-
-          # NOTE: Hardcoded `FormControl-caption` class is used to align the text with the input field.
-          #      This is a workaround until Primer::OpenProject::InputGroup supports a caption.
-          #      See https://community.openproject.org/wp/51376
-          concat(render(Primer::Beta::Text.new(classes: 'FormControl-caption')) do
-            I18n.t('storages.instructions.one_drive.oauth_client_redirect_uri')
-          end)
-        end
-
-        oauth_client_row.with_row do
-          render(Storages::Admin::SubmitOrCancelForm.new(
-            form,
-            storage:,
-            submit_button_options: {
-              disabled: submit_button_disabled? || @options[:is_complete],
-              label: I18n.t('storages.buttons.done_complete_setup'),
-              data: { turbo: false },
-              test_selector: 'storage-oauth-client-submit-button'
-            },
-            cancel_button_options: {
-              href: cancel_button_path
-            }
-          ))
+              cancel_button_options: {
+                href: cancel_button_path
+              }
+            ))
+          end
         end
       end
     end

@@ -246,6 +246,7 @@ ca:
       work_package_attachments: "Paquets de treball: fitxers adjunts"
       work_package_categories: "Paquets de treball: categories"
       work_package_file_links: "Paquets de treball: enllaços de fitxers"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "L'eliminació s'ha planificat i s'efectuarà de fons. Sereu notificats del resultat."
       schedule_failed: "El projecte no es pot eliminar: %{errors}"
@@ -388,7 +389,19 @@ ca:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "S'ha generat un nou token %{type}. El teu token d'accés és:"
       token_value_warning: "Nota: Aquesta és la única vegada que veuràs aquest token, assegura't de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
@@ -1099,6 +1112,10 @@ ca:
           undeletable_work_packages_attached: "La versió no es pot eliminar, ja que té paquets de treball adjunts."
         status:
           readonly_default_exlusive: "no pot ser activat per estats que estan marcats per defecte."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Si us plau, revisi els camps següents:"
         header:
@@ -2018,6 +2035,7 @@ ca:
   label_invite_user: "Invitar usuari"
   label_share: "Compartir"
   label_show_hide: "Mostrae/ocultar"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostra tots els usuaris registrats"
   label_journal: "Diari"
   label_journal_diff: "Descripció de comparació"
@@ -2055,6 +2073,7 @@ ca:
   label_custom_touch_icon: "Icona \"touch\" personalitzada"
   label_logout: "Tancar sessió"
   label_main_menu: "Menú lateral"
+  label_manage: "Manage"
   label_manage_groups: "Administrar grups"
   label_managed_repositories_vendor: "Administrar repositoris de %{vendor}"
   label_max_size: "Mida màxima"
@@ -2955,6 +2974,10 @@ ca:
   setting_default_projects_public: "Els projectes nous són públics per defecte"
   setting_diff_max_lines_displayed: "Nombre màxim de línies mostrades pels diff"
   setting_display_subprojects_work_packages: "Mostrae els paquets de treball dels subprojectes en els projectes principals per defecte"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Peu dels correus electrònics"
   setting_emails_header: "Encapçalament dels correus"
   setting_email_login: "Utilitza correu electrònic per l'inici de sessió"
@@ -2967,7 +2990,7 @@ ca:
   setting_host_name: "Nom del servidor"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "L'activació de correu electrònic caduca després de"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"

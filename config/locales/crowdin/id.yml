@@ -243,6 +243,7 @@ id:
       work_package_attachments: "Paket kerja: lampiran"
       work_package_categories: "Kategori paket kerja"
       work_package_file_links: "Tautan file paket kerja"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Penghapusan telah dijadwalkan dan dilakukan di latar belakang.  Anda akan diberitahu tentang hasilnya."
       schedule_failed: "Proyek tidak dapat dihapus: %{errors}"
@@ -379,7 +380,19 @@ id:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Gagal untuk menset ulang akses token: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Sebuah token baru %{type} telah dibuat. Token akses Anda adalah:"
       token_value_warning: "Catatan: Anda hanya akan melihat token ini satu kali, pastikan untuk membuat salinannya sekarang."
       no_results_title_text: There are currently no access tokens available.
@@ -1088,6 +1101,10 @@ id:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Silakan periksa isian berikut :"
         header:
@@ -1982,6 +1999,7 @@ id:
   label_invite_user: "Invite user"
   label_share: "Share"
   label_show_hide: "Show/hide"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Menampilkan semua pengguna teregistrasi"
   label_journal: "Journal"
   label_journal_diff: "Deskripsi perbandingan"
@@ -2019,6 +2037,7 @@ id:
   label_custom_touch_icon: "Ikon sentuh sesuai keinginan"
   label_logout: "Logout"
   label_main_menu: "Sidemenu"
+  label_manage: "Manage"
   label_manage_groups: "Manage groups"
   label_managed_repositories_vendor: "%{vendor} repository yang dikelola"
   label_max_size: "Ukuran maks."
@@ -2920,6 +2939,10 @@ id:
   setting_default_projects_public: "Project baru default untuk publik"
   setting_diff_max_lines_displayed: "Maks. tampilan baris diff"
   setting_display_subprojects_work_packages: "Tampilkan Paket-Penugasan pada Sub-Project secara default"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Email footer"
   setting_emails_header: "Email header"
   setting_email_login: "Use email as login"
@@ -2932,7 +2955,7 @@ id:
   setting_host_name: "Nama host"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"

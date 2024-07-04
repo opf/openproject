@@ -248,6 +248,7 @@ ms:
       work_package_attachments: "Pakej kerja: lampiran"
       work_package_categories: "Pakej kerja: kategori"
       work_package_file_links: "Pakej kerja: pautan fail"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Pembuangan telah dijadualkan dan dilaksanakan di latar belakang. Anda akan dimaklumkan tentang hasilnya."
       schedule_failed: "Projek tidak dapat dipadam: %{errors}"
@@ -384,7 +385,19 @@ ms:
       will_revoke_access_to_all: "Tindakan ini akan membatalkan akses mereka kepada semuanya."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Gagal untuk set semula token akses: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Token %{type} yang baharu telah dijanakan. Token akses anda ialah:"
       token_value_warning: "Perhatian: Ini adalah satu-satunya masa anda akan melihat token ini, pastikan untuk menyalinnya sekarang."
       no_results_title_text: Tiada token akses tersedia buat masa ini.
@@ -1093,6 +1106,10 @@ ms:
           undeletable_work_packages_attached: "Versi tidak dapat dipadam kerana ia mempunyai pakej kerja yang dilampirkan padanya."
         status:
           readonly_default_exlusive: "tidak dapat diaktifkan untuk status-status yang ditandakan sebagai default."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Sila semak ruang-ruang yang berikut:"
         header:
@@ -1987,6 +2004,7 @@ ms:
   label_invite_user: "Jemput pengguna"
   label_share: "Kongsi"
   label_show_hide: "Papar/sembunyi"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Paparkan semua pengguna berdaftar"
   label_journal: "Jurnal"
   label_journal_diff: "Perbandingan Deskripsi"
@@ -2024,6 +2042,7 @@ ms:
   label_custom_touch_icon: "Ikon sentuh tersuai"
   label_logout: "Daftar keluar"
   label_main_menu: "Menu Sampingan"
+  label_manage: "Manage"
   label_manage_groups: "Urus kumpulan"
   label_managed_repositories_vendor: "Repositori %{vendor} yang diuruskan"
   label_max_size: "Saiz maksimum"
@@ -2927,6 +2946,10 @@ ms:
   setting_default_projects_public: "Projek baharu adalah awam secara default"
   setting_diff_max_lines_displayed: "Jumlah maksimum baris perbezaan yang dipaparkan"
   setting_display_subprojects_work_packages: "Paparkan subprojek pakej kerja di projek utama secara default"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Pengaki e-mel"
   setting_emails_header: "Pengepala e-mel"
   setting_email_login: "Guna e-mel untuk log masuk"
@@ -2939,7 +2962,7 @@ ms:
   setting_host_name: "Nama hos"
   setting_hours_per_day: "Jam sehari"
   setting_hours_per_day_explanation: >-
-    Ini akan takrifkan apa yang dianggap sebagai "hari" apabila memaparkan jangka masa menggunakan cara yang lebih semula jadi (contohnya, jika sehari ialah 8 jam, 32 jam ialah 4 hari).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Pengaktifan e-mel tamat tempoh selepas"
   setting_work_package_done_ratio: "Pengiraan perkembangan"
   setting_work_package_done_ratio_field: "Berasaskan kerja"

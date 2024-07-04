@@ -246,6 +246,7 @@ pl:
       work_package_attachments: "Pakiety robocze: załączniki"
       work_package_categories: "Pakiety robocze: kategorie"
       work_package_file_links: "Pakiety robocze: linki do pliku"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Usunięcie zostało zaplanowane i jest wykonywane w tle. Otrzymasz powiadomienie o wyniku."
       schedule_failed: "Nie można usunąc projektu: %{errors}"
@@ -400,7 +401,19 @@ pl:
       will_revoke_access_to_all: "To działanie unieważni jego dostęp do nich wszystkich."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Nowy token typu %{type} został wygenerowany. Twój token dostępu to:"
       token_value_warning: "Uwaga: jest to jedyny raz, gdy zobaczysz ten token, koniecznie skopiuj go teraz."
       no_results_title_text: Aktualnie nie ma dostępnych tokenów.
@@ -1116,6 +1129,10 @@ pl:
           undeletable_work_packages_attached: "Wersji nie można usunąć, ponieważ dołączone są do niej pakiety robocze."
         status:
           readonly_default_exlusive: "nie można aktywować dla statusów, które są oznaczone jako domyślne."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Sprawdź następujące pola:"
         header:
@@ -2085,6 +2102,7 @@ pl:
   label_invite_user: "Zaproś użytkownika"
   label_share: "Udostępnij"
   label_show_hide: "Pokaż/Ukryj"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Pokaż wszystkich zarejestrowanych użytkowników"
   label_journal: "Dziennik"
   label_journal_diff: "Opis porównania"
@@ -2122,6 +2140,7 @@ pl:
   label_custom_touch_icon: "Własny touch icon"
   label_logout: "Wyloguj"
   label_main_menu: "Menu boczne"
+  label_manage: "Manage"
   label_manage_groups: "Zarządzaj grupami"
   label_managed_repositories_vendor: "Zarządzane %{vendor} repozytoria"
   label_max_size: "Maksymalny rozmiar"
@@ -3030,6 +3049,10 @@ pl:
   setting_default_projects_public: "Nowe projekty są publiczne (domyślnie)"
   setting_diff_max_lines_displayed: "Maksymalna wyświetlana liczba linii różnic"
   setting_display_subprojects_work_packages: "Domyślnie wyświetlaj pakiety robocze podprojektów na głównym projekcie"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Stopka wiadomości e-mail"
   setting_emails_header: "Nagłówek wiadomości e-mail"
   setting_email_login: "Użyj adresu e-mail jako loginu"
@@ -3042,7 +3065,7 @@ pl:
   setting_host_name: "Nazwa hosta"
   setting_hours_per_day: "Liczba godzin dziennie"
   setting_hours_per_day_explanation: >-
-    To zdefiniuje, co jest uważane za „dzień” podczas wyświetlania czasu trwania w naturalniejszy sposób (na przykład, jeśli dzień ma 8 godzin, 32 godziny będą 4 dniami).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Ważność aktywacyjnej waidomości e-mail wygasa po"
   setting_work_package_done_ratio: "Obliczenie postępu"
   setting_work_package_done_ratio_field: "Oparte na pracy"

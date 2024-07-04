@@ -386,6 +386,11 @@ module Settings
         description: "Destroy all sessions for current_user on login",
         default: false
       },
+      duration_format: {
+        description: "Format for displaying durations",
+        default: "hours_only",
+        allowed: %w[days_and_hours hours_only]
+      },
       edition: {
         format: :string,
         default: "standard",
