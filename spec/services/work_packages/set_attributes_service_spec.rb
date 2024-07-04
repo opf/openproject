@@ -84,10 +84,6 @@ RSpec.describe WorkPackages::SetAttributesService,
       instance.call(call_attributes)
     end
 
-    it "is successful" do
-      expect(subject).to be_success
-    end
-
     it description || "sets the value" do
       all_expected_attributes = {}
       all_expected_attributes.merge!(expected_attributes) if defined?(expected_attributes)
@@ -103,37 +99,22 @@ RSpec.describe WorkPackages::SetAttributesService,
 
       subject
 
-      expect(work_package).to have_attributes(all_expected_attributes)
-    end
-
-    it "does not persist the work_package" do
-      subject
-
-      expect(work_package)
-        .not_to have_received(:save)
-    end
-
-    it "has no errors" do
-      expect(subject.errors).to be_empty
+      aggregate_failures do
+        expect(subject).to be_success
+        expect(work_package).to have_attributes(all_expected_attributes)
+        # work package is not saved and no errors are created by the service
+        # (that's contract's responsibility and it is mocked in this test)
+        expect(work_package).not_to have_received(:save)
+        expect(subject.errors).to be_empty
+      end
     end
 
     context "when the contract does not validate" do
       let(:contract_valid) { false }
 
-      it "is unsuccessful" do
+      it "is unsuccessful, does not persist the changes and exposes the contract's errors", :aggregate_failures do
         expect(subject).not_to be_success
-      end
-
-      it "does not persist the changes" do
-        subject
-
-        expect(work_package)
-          .not_to have_received(:save)
-      end
-
-      it "exposes the contract's errors" do
-        subject
-
+        expect(work_package).not_to have_received(:save)
         expect(subject.errors).to eql mock_contract_instance.errors
       end
     end
