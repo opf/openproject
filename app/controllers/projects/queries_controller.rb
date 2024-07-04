@@ -28,6 +28,7 @@
 
 class Projects::QueriesController < ApplicationController
   include Projects::QueryLoading
+  include OpTurbo::ComponentStream
 
   # No need for a more specific authorization check. That is carried out in the contracts.
   no_authorization_required! :show, :new, :create, :rename, :update, :toggle_public, :destroy
@@ -79,7 +80,16 @@ class Projects::QueriesController < ApplicationController
              .new(user: current_user, model: @query)
              .call(public: to_be_public)
 
-    render_result(call, success_i18n_key: "#{i18n_key}.success", error_i18n_key: "#{i18n_key}.failure")
+    # Load shares and replace the modal
+    strategy = SharingStrategies::ProjectQueryStrategy.new(@query, user: current_user)
+    shares = strategy.shares_query({}).results
+    replace_via_turbo_stream(component: Shares::ModalBodyComponent.new(strategy:, shares:, errors: []))
+
+    respond_with_turbo_streams do |format|
+      format.html do
+        render_result(call, success_i18n_key: "#{i18n_key}.success", error_i18n_key: "#{i18n_key}.failure")
+      end
+    end
   end
 
   def destroy
