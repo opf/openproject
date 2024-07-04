@@ -72,7 +72,7 @@ class Projects::QueriesController < ApplicationController
     render_result(call, success_i18n_key: "lists.update.success", error_i18n_key: "lists.update.failure")
   end
 
-  def toggle_public
+  def toggle_public # rubocop:disable Metrics/AbcSize
     to_be_public = !@query.public?
     i18n_key = to_be_public ? "lists.publish" : "lists.unpublish"
 
