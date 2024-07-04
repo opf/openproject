@@ -28,10 +28,11 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Settings::ProjectCustomFields::EditFormHeaderComponent.new(
-    custom_field: @custom_field,
-    selected: :project_custom_field_project_mappings
-  ))
+  render(Storages::Admin::EditFormHeaderComponent.new(
+      storage: @storage,
+      selected: :project_mappings
+    )
+  )
 %>
 
 <%=
@@ -40,27 +41,12 @@ See COPYRIGHT and LICENSE files for more details.
       render(Primer::Beta::Button.new(
         scheme: :primary,
         tag: :a,
-        href: new_link_admin_settings_project_custom_field_path(@custom_field),
+        href: new_admin_settings_storage_project_storage_path(@storage),
         data: { controller: "async-dialog" }
       )) do |button|
         button.with_leading_visual_icon(icon: 'op-include-projects')
         I18n.t(:label_add_projects)
       end
     end
-  end unless @custom_field.required?
-%>
-
-<%=
-  if @custom_field.required?
-    render Primer::Beta::Blankslate.new(border: true) do |component|
-      component.with_visual_icon(icon: :checklist)
-      component.with_heading(tag: :h2).with_content(I18n.t("projects.settings.project_custom_fields.is_required_blank_slate.heading"))
-      component.with_description { I18n.t("projects.settings.project_custom_fields.is_required_blank_slate.description") }
-    end
-  else
-    render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
-      query: @project_custom_field_mappings_query,
-      params: params.merge({ custom_field: @custom_field }))
-    )
   end
 %>

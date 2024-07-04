@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,27 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Admin
-  class ProviderDriveIdInputForm < ApplicationForm
-    form do |storage_form|
-      storage_form.text_field(
-        name: :drive_id,
-        label: ::Storages::Admin::LABEL_DRIVE_ID,
-        visually_hide_label: false,
-        required: true,
-        caption: caption.html_safe, # rubocop:disable Rails/OutputSafety
-        input_width: :large
-      )
-    end
+class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
+  include OpTurbo::ComponentStream
 
-    private
+  layout "admin"
 
-    def caption
-      href = ::OpenProject::Static::Links[:storage_docs][:one_drive_drive_id_guide][:href]
-      I18n.t("storages.instructions.one_drive.drive_id",
-             drive_id_link_text: render(Primer::Beta::Link.new(href:, target: "_blank")) do
-               I18n.t("storages.instructions.one_drive.documentation_link_text")
-             end)
-    end
+  model_object Storages::Storage
+
+  before_action :require_admin
+  before_action :find_model_object
+
+  menu_item :external_file_storages
+
+  def index; end
+  def new; end
+  def create; end
+  def destroy; end
+
+  private
+
+  def find_model_object(object_id = :storage_id)
+    super
+    @storage = @object
   end
 end
