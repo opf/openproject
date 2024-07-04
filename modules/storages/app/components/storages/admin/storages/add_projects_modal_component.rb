@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,47 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
-  include OpTurbo::ComponentStream
-  include OpTurbo::DialogStreamHelper
+module Storages
+  module Admin
+    module Storages
+      class AddProjectsModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+        include OpTurbo::Streamable
 
-  layout "admin"
+        DIALOG_ID = "storages--add-projects-modal".freeze
+        DIALOG_BODY_ID = "storages--add-projects-modal-body".freeze
 
-  model_object Storages::Storage
+        def initialize(project_storage:, **)
+          @project_storage = project_storage
+          @storage = project_storage.storage
+          super(@project_storage, **)
+        end
 
-  before_action :require_admin
-  before_action :find_model_object
+        private
 
-  menu_item :external_file_storages
+        def dialog_id = DIALOG_ID
+        def dialog_body_id = DIALOG_BODY_ID
 
-  def index
-    @project_query = ProjectQuery.new(
-      name: "project-storage-mappings-#{@storage.id}"
-    ) do |query|
-      query.where(:storages, "=", [@storage.id])
-      query.select(:name)
-      query.order("lft" => "asc")
+        attr_reader :project_storage, :storage
+
+        def title
+          I18n.t(:label_add_projects)
+        end
+      end
     end
-
-    # Prepare data for project_folder_type column
-    @project_folder_modes_per_project = Storages::ProjectStorage
-      .where(storage_id: @storage.id)
-      .pluck(:project_id, :project_folder_mode)
-      .to_h
-  end
-
-  def new
-    @project_storage = ::Storages::ProjectStorage.new(storage: @storage)
-    respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
-  end
-
-  def create; end
-  def destroy; end
-
-  private
-
-  def find_model_object(object_id = :storage_id)
-    super
-    @storage = @object
   end
 end

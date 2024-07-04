@@ -2161,6 +2161,7 @@ en:
   label_inactive: "Inactive"
   label_incoming_emails: "Incoming emails"
   label_includes: "includes"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"
   label_information: "Information"

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,47 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
-  include OpTurbo::ComponentStream
-  include OpTurbo::DialogStreamHelper
+module Storages
+  module Admin
+    module Storages
+      class AddProjectsFormModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+        include OpTurbo::Streamable
 
-  layout "admin"
+        def initialize(project_storage:, **)
+          @project_storage = project_storage
+          @storage = project_storage.storage
+          super(@project_storage, **)
+        end
 
-  model_object Storages::Storage
+        private
 
-  before_action :require_admin
-  before_action :find_model_object
+        def dialog_id = Storages::AddProjectsModalComponent::DIALOG_ID
+        def dialog_body_id = Storages::AddProjectsModalComponent::DIALOG_BODY_ID
 
-  menu_item :external_file_storages
+        def title
+          I18n.t(:label_add_projects)
+        end
 
-  def index
-    @project_query = ProjectQuery.new(
-      name: "project-storage-mappings-#{@storage.id}"
-    ) do |query|
-      query.where(:storages, "=", [@storage.id])
-      query.select(:name)
-      query.order("lft" => "asc")
+        def cancel_button_text
+          I18n.t("button_cancel")
+        end
+
+        def submit_button_text
+          I18n.t("button_add")
+        end
+      end
     end
-
-    # Prepare data for project_folder_type column
-    @project_folder_modes_per_project = Storages::ProjectStorage
-      .where(storage_id: @storage.id)
-      .pluck(:project_id, :project_folder_mode)
-      .to_h
-  end
-
-  def new
-    @project_storage = ::Storages::ProjectStorage.new(storage: @storage)
-    respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
-  end
-
-  def create; end
-  def destroy; end
-
-  private
-
-  def find_model_object(object_id = :storage_id)
-    super
-    @storage = @object
   end
 end
