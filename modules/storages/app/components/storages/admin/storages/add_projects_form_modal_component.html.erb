@@ -46,6 +46,18 @@ See COPYRIGHT and LICENSE files for more details.
             render(Storages::Admin::Storages::AddProjectsAutocompleterForm.new(form, project_storage:))
           end
 
+          flex.with_row(mb: 3) do
+            render(Primer::Alpha::ActionList::Divider.new(scheme: :subtle))
+          end
+
+          flex.with_row(mb: 2) do
+            render(Primer::Beta::Heading.new(tag: :h4)) { t(:"storages.label_project_folder") }
+          end
+
+          flex.with_row(mb: 3) do
+            render(Primer::Beta::Text.new) { t(:"storages.help_texts.project_folder") }
+          end
+
           flex.with_row do
             render(Storages::Admin::ProjectStorages::ProjectFolderModeForm.new(form, project_storage:))
           end
