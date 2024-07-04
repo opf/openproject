@@ -30,7 +30,7 @@
 # Projects for a given Storage.
 # See also: row_component.rb, which contains a method
 # for every "column" defined below.
-module Storages::ProjectStorages::ProjectMapping
+module Storages::ProjectStorages::Projects
   class TableComponent < Projects::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include OpTurbo::Streamable
 

@@ -46,7 +46,7 @@ class Storages::Admin::StoragesController < ApplicationController
   before_action :require_admin
   before_action :find_model_object,
                 only: %i[show_oauth_application destroy edit edit_host confirm_destroy update
-                         change_health_notifications_enabled replace_oauth_application project_mappings]
+                         change_health_notifications_enabled replace_oauth_application]
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
   before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 
@@ -242,16 +242,6 @@ class Storages::Admin::StoragesController < ApplicationController
     else
       # FIXME: This should be a partial stream update
       render :edit
-    end
-  end
-
-  def project_mappings
-    @project_query = ProjectQuery.new(
-      name: "project-storage-mappings-#{@storage.id}"
-    ) do |query|
-      query.where(:id, "=", @storage.projects.ids)
-      query.select(:name)
-      query.order("lft" => "asc")
     end
   end
 

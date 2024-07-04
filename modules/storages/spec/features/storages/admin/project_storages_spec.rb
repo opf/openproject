@@ -48,7 +48,7 @@ RSpec.describe "Admin lists project mappings for a storage",
   context "with insufficient permissions" do
     it "is not accessible" do
       login_as(non_admin)
-      visit project_mappings_admin_settings_storage_path(storage)
+      visit admin_settings_storage_project_storages_path(storage)
 
       expect(page).to have_text("You are not authorized to access this page.")
     end
@@ -57,7 +57,7 @@ RSpec.describe "Admin lists project mappings for a storage",
   context "with sufficient permissions" do
     before do
       login_as(admin)
-      visit project_mappings_admin_settings_storage_path(storage)
+      visit admin_settings_storage_project_storages_path(storage)
     end
 
     it "renders a list of projects linked to the storage" do

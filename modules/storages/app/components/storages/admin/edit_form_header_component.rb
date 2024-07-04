@@ -31,7 +31,7 @@ module Storages
     class EditFormHeaderComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
       TAB_NAVS = %i[
         edit
-        project_mappings
+        project_storages
       ].freeze
 
       def initialize(storage:, selected:)

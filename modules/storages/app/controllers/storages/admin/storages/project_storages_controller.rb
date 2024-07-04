@@ -40,7 +40,16 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   menu_item :external_file_storages
 
-  def index; end
+  def index
+    @project_query = ProjectQuery.new(
+      name: "project-storage-mappings-#{@storage.id}"
+    ) do |query|
+      query.where(:id, "=", @storage.projects.ids)
+      query.select(:name)
+      query.order("lft" => "asc")
+    end
+  end
+
   def new; end
   def create; end
   def destroy; end

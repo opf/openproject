@@ -28,7 +28,7 @@
 
 # Purpose: Defines how to format the components within a table row of Projects
 # associated with a Storage
-module Storages::ProjectStorages::ProjectMapping
+module Storages::ProjectStorages::Projects
   class RowComponent < Projects::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
   end
 end
