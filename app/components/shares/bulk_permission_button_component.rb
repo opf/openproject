@@ -30,11 +30,11 @@
 
 module Shares
   class BulkPermissionButtonComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-    def initialize(entity:, available_roles:)
+    def initialize(strategy:)
       super
 
-      @entity = entity
-      @available_roles = available_roles
+      @entity = strategy.entity
+      @available_roles = strategy.available_roles
     end
 
     def update_path

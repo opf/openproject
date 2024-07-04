@@ -26,19 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Members::Scopes
-  module OfEntity
-    extend ActiveSupport::Concern
-
-    class_methods do
-      # Find all members of a specific Work Package
-      def of_entity(entity)
-        if entity.respond_to?(:project)
-          where(project: entity.project, entity:)
-        else
-          where(project: nil, entity:)
-        end
-      end
+module Shares
+  module ProjectQueries
+    class CreateContract < Shares::CreateContract
+      include Shares::ProjectQueries::BaseExtension
     end
   end
 end

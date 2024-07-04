@@ -1,17 +1,15 @@
 <%=
   component_wrapper do
-    if @sharing_manageable
+    if strategy.manageable?
       primer_form_with(
         model: new_share,
-        url: url_for([@entity, Member]),
-        data: { controller: 'user-limit ' \
-          'shares--user-selected',
+        url: url_for([entity, Member]),
+        data: { controller: 'user-limit shares--user-selected',
                 'application-target': 'dynamic',
                 'user-limit-open-seats-value': OpenProject::Enterprise.open_seats_count,
                 action: 'submit->shares--user-selected#ensureUsersSelected' }
       ) do |form|
-        grid_layout('invite-user-form',
-                    tag: :div) do |invite_form|
+        grid_layout('invite-user-form', tag: :div) do |invite_form|
           invite_form.with_area('invitee') do
             render(Shares::Invitee.new(form))
           end
@@ -19,7 +17,7 @@
           invite_form.with_area('permission') do
             render(Shares::PermissionButtonComponent.new(
               share: new_share,
-              available_roles: @available_roles,
+              available_roles: strategy.available_roles,
               form_arguments: { builder: form, name: "role_id" },
               data: { 'test-selector': 'op-share-dialog-invite-role' })
             )
@@ -46,7 +44,7 @@
                     I18n.t(
                       "sharing.warning_user_limit_reached#{'_admin' if User.current.admin?}",
                       upgrade_url: OpenProject::Enterprise.upgrade_url,
-                      entity: @entity.model_name.human
+                      entity: entity.model_name.human
                     ).html_safe
                   end
                 end
@@ -65,7 +63,7 @@
 
               no_selected_user_row.with_column do
                 render(Primer::Beta::Text.new(color: :danger)) do
-                  I18n.t("sharing.warning_no_selected_user", entity: @entity.model_name.human)
+                  I18n.t("sharing.warning_no_selected_user", entity: entity.model_name.human)
                 end
               end
             end
@@ -96,7 +94,7 @@
         end
       end
     else
-      render(Primer::Alpha::Banner.new(icon: :info)) { I18n.t('sharing.denied', entities: @entity.model_name.human(count: 2)) }
+      render(Primer::Alpha::Banner.new(icon: :info)) { I18n.t('sharing.denied', entities: entity.model_name.human(count: 2)) }
     end
   end
 %>

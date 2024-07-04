@@ -26,19 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Members::Scopes
-  module OfEntity
-    extend ActiveSupport::Concern
-
-    class_methods do
-      # Find all members of a specific Work Package
-      def of_entity(entity)
-        if entity.respond_to?(:project)
-          where(project: entity.project, entity:)
-        else
-          where(project: nil, entity:)
-        end
-      end
+module Shares
+  module ProjectQueries
+    class DeleteContract < Shares::DeleteContract
+      # DeleteContract has its own permission check and does not care about the role class,
+      # so we do not need to include the BaseExtension here.
+      delete_permission -> { model.entity.editable? }
     end
   end
 end

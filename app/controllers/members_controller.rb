@@ -144,8 +144,8 @@ class MembersController < ApplicationController
       available_roles: roles,
       authorize_update: authorize_for("members", :update),
       authorize_delete: authorize_for("members", :destroy),
-      authorize_work_package_shares_view: authorize_for("shares", :update),
-      authorize_work_package_shares_delete: authorize_for("shares", :bulk_destroy),
+      authorize_work_package_shares_view: current_user.allowed_in_project?(:view_shared_work_packages, @project),
+      authorize_work_package_shares_delete: current_user.allowed_in_project?(:share_work_packages, @project),
       authorize_manage_user: current_user.allowed_globally?(:manage_user),
       is_filtered: Members::UserFilterComponent.filtered?(params),
       shared_role_name:

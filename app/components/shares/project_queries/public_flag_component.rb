@@ -29,54 +29,33 @@
 # ++
 
 module Shares
-  class ShareRowComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+  module ProjectQueries
+    class PublicFlagComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-    def initialize(share:, strategy:, container: nil)
-      super
+      def initialize(strategy:, modal_body_container:)
+        super
 
-      @share = share
-      @strategy = strategy
-      @entity = strategy.entity
-      @principal = share.principal
-      @available_roles = strategy.available_roles
-      @container = container
-    end
-
-    def wrapper_uniq_by
-      share.id
-    end
-
-    private
-
-    attr_reader :share, :entity, :principal, :container, :available_roles, :strategy
-
-    def share_editable?
-      @share_editable ||= User.current != share.principal && sharing_manageable?
-    end
-
-    def sharing_manageable?
-      strategy.manageable?
-    end
-
-    def grid_css_classes
-      if sharing_manageable?
-        "op-share-dialog-modal-body--user-row_manageable"
-      else
-        "op-share-dialog-modal-body--user-row"
+        @strategy = strategy
+        @container = modal_body_container
       end
-    end
 
-    def select_share_checkbox_options
-      {
-        name: "share_ids",
-        value: share.id,
-        scheme: :array,
-        label: principal.name,
-        visually_hide_label: true
-      }
+      private
+
+      attr_reader :strategy, :container
+
+      def toggle_public_flag_link
+        toggle_public_project_query_path(strategy.entity)
+      end
+
+      def published?
+        strategy.entity.public?
+      end
+
+      def can_publish?
+        User.current.allowed_globally?(:manage_public_project_queries)
+      end
     end
   end
 end

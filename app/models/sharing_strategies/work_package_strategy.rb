@@ -26,30 +26,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Shares
-  class InviteUserFormComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+module SharingStrategies
+  class WorkPackageStrategy < BaseStrategy
+    def available_roles
+      role_mapping = WorkPackageRole.unscoped.pluck(:builtin, :id).to_h
 
-    attr_reader :entity, :strategy, :errors
-
-    def initialize(strategy:, errors: nil)
-      super
-
-      @strategy = strategy
-      @entity = strategy.entity
-      @errors = errors
+      [
+        { label: I18n.t("work_package.permissions.edit"),
+          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_EDITOR],
+          description: I18n.t("work_package.permissions.edit_description") },
+        { label: I18n.t("work_package.permissions.comment"),
+          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_COMMENTER],
+          description: I18n.t("work_package.permissions.comment_description") },
+        { label: I18n.t("work_package.permissions.view"),
+          value: role_mapping[Role::BUILTIN_WORK_PACKAGE_VIEWER],
+          description: I18n.t("work_package.permissions.view_description"),
+          default: true }
+      ]
     end
 
-    def new_share
-      @new_share ||= Member.new(entity:, roles: [Role.new(id: default_role[:value])])
+    def manageable?
+      user.allowed_in_project?(:share_work_packages, @entity.project)
     end
 
-    private
+    def viewable?
+      user.allowed_in_project?(:view_shared_work_packages, @entity.project)
+    end
 
-    def default_role
-      strategy.available_roles.find { |role_hash| role_hash[:default] } || strategy.available_roles.first
+    def create_contract_class
+      Shares::WorkPackages::CreateContract
+    end
+
+    def update_contract_class
+      Shares::WorkPackages::UpdateContract
+    end
+
+    def delete_contract_class
+      Shares::WorkPackages::DeleteContract
     end
   end
 end

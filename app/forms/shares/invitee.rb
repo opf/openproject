@@ -50,7 +50,7 @@ module Shares
           addTagText: I18n.t("members.send_invite_to"),
           multiple: true,
           focusDirectly: true,
-          appendTo: "body",
+          appendToComponent: true,
           disabled: @disabled
         }
       )
