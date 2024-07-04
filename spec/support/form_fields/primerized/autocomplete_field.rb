@@ -7,7 +7,13 @@ module FormFields
 
       def select_option(*values)
         values.each do |val|
+          # Wait for autocompleter options to be loaded
+          if has_css?(".ng-spinner-loader")
+            expect(page).to have_no_css(".ng-spinner-loader")
+          end
+
           field_container.find(".ng-select-container").click
+
           expect(page).to have_css(".ng-option", text: val, visible: :all)
           page.find(".ng-option", text: val, visible: :all).click
           sleep 0.25 # still required?
@@ -16,6 +22,11 @@ module FormFields
 
       def deselect_option(*values)
         values.each do |val|
+          # Wait for autocompleter options to be loaded
+          if has_css?(".ng-spinner-loader")
+            expect(page).to have_no_css(".ng-spinner-loader")
+          end
+
           field_container.find(".ng-select-container").click
           page.find(".ng-value", text: val, visible: :all).find(".ng-value-icon").click
           sleep 0.25 # still required?
