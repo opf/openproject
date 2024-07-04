@@ -292,7 +292,7 @@ RSpec.describe Projects::QueriesController do
       end
 
       it "calls publish service on query" do
-        post "toggle_public", params: { id: 42 }
+        post "toggle_public", params: { id: 42, value: 1 }
 
         expect(service_instance).to have_received(:call).with(query_params)
       end
@@ -301,7 +301,7 @@ RSpec.describe Projects::QueriesController do
         it "redirects to projects" do
           allow(I18n).to receive(:t).with("lists.publish.success").and_return("foo")
 
-          post "toggle_public", params: { id: 42 }
+          post "toggle_public", params: { id: 42, value: 1 }
 
           expect(flash[:notice]).to eq("foo")
           expect(response).to redirect_to(projects_path(query_id: query.id))
@@ -319,7 +319,7 @@ RSpec.describe Projects::QueriesController do
         it "renders projects/index" do
           allow(I18n).to receive(:t).with("lists.publish.failure", errors: "something\nwent\nwrong").and_return("bar")
 
-          post "toggle_public", params: { id: 42 }
+          post "toggle_public", params: { id: 42, value: 1 }
 
           expect(flash[:error]).to eq("bar")
           expect(response).to render_template("projects/index")
@@ -328,7 +328,7 @@ RSpec.describe Projects::QueriesController do
         it "passes variables to template" do
           allow(controller).to receive(:render).and_call_original
 
-          post "toggle_public", params: { id: 42 }
+          post "toggle_public", params: { id: 42, value: 1 }
 
           expect(controller).to have_received(:render).with(include(locals: { query:, state: :edit }))
         end
