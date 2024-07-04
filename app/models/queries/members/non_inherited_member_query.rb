@@ -28,55 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Shares
-  class ShareRowComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-
-    def initialize(share:, strategy:, container: nil)
-      super
-
-      @share = share
-      @strategy = strategy
-      @entity = strategy.entity
-      @principal = share.principal
-      @available_roles = strategy.available_roles
-      @container = container
-    end
-
-    def wrapper_uniq_by
-      share.id
-    end
-
-    private
-
-    attr_reader :share, :entity, :principal, :container, :available_roles, :strategy
-
-    def share_editable?
-      @share_editable ||= User.current != share.principal && sharing_manageable?
-    end
-
-    def sharing_manageable?
-      strategy.manageable?
-    end
-
-    def grid_css_classes
-      if sharing_manageable?
-        "op-share-dialog-modal-body--user-row_manageable"
-      else
-        "op-share-dialog-modal-body--user-row"
-      end
-    end
-
-    def select_share_checkbox_options
-      {
-        name: "share_ids",
-        value: share.id,
-        scheme: :array,
-        label: principal.name,
-        visually_hide_label: true
-      }
-    end
+class Queries::Members::NonInheritedMemberQuery < Queries::Members::MemberQuery
+  def default_scope
+    Member.joins(:member_roles).merge(MemberRole.only_non_inherited)
   end
 end

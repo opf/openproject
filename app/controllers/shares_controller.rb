@@ -28,26 +28,27 @@
 
 class SharesController < ApplicationController
   include OpTurbo::ComponentStream
-  include Shares::WorkPackages::Authorization
+  include OpTurbo::DialogStreamHelper
   include MemberHelper
 
   before_action :load_entity
-  before_action :load_shares, only: %i[index]
+  before_action :load_shares, only: %i[index dialog]
   before_action :load_selected_shares, only: %i[bulk_update bulk_destroy]
   before_action :load_share, only: %i[destroy update resend_invite]
-  before_action :authorize
   before_action :enterprise_check, only: %i[index]
+
+  before_action :check_if_manageable, except: %i[index dialog]
+  before_action :check_if_viewable, only: %i[index dialog]
+  authorization_checked! :dialog, :index, :create, :update, :destroy, :resend_invite, :bulk_update, :bulk_destroy
+
+  def dialog; end
 
   def index
     unless @query.valid?
       flash.now[:error] = query.errors.full_messages
     end
 
-    render Shares::ModalBodyComponent.new(entity: @entity,
-                                          shares: @shares,
-                                          errors: @errors,
-                                          sharing_manageable: sharing_manageable?,
-                                          available_roles:), layout: nil
+    render Shares::ModalBodyComponent.new(strategy: sharing_strategy, shares: @shares, errors: @errors), layout: nil
   end
 
   def create # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
@@ -129,6 +130,20 @@ class SharesController < ApplicationController
 
   private
 
+  attr_reader :sharing_strategy
+
+  def check_if_viewable
+    return if sharing_strategy.viewable? || sharing_strategy.manageable?
+
+    render_403
+  end
+
+  def check_if_manageable
+    return if sharing_strategy.manageable?
+
+    render_403
+  end
+
   def enterprise_check
     return if EnterpriseToken.allows_to?(:work_package_sharing)
 
@@ -137,26 +152,23 @@ class SharesController < ApplicationController
 
   def destroy_share(share)
     Shares::DeleteService
-      .new(user: current_user, model: share, contract_class: sharing_contract_scope::DeleteContract)
+      .new(user: current_user, model: share, contract_class: sharing_strategy.delete_contract_class)
       .call
   end
 
   def create_or_update_share(user_id, role_ids)
     Shares::CreateOrUpdateService.new(
       user: current_user,
-      create_contract_class: sharing_contract_scope::CreateContract,
-      update_contract_class: sharing_contract_scope::UpdateContract
-    )
-      .call(entity: @entity, user_id:, role_ids:)
+      create_contract_class: sharing_strategy.create_contract_class,
+      update_contract_class: sharing_strategy.update_contract_class
+    ).call(entity: @entity, user_id:, role_ids:)
   end
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
       component: Shares::ModalBodyComponent.new(
-        entity: @entity,
-        available_roles:,
+        strategy: sharing_strategy,
         shares: @new_shares || load_shares,
-        sharing_manageable: sharing_manageable?,
         errors: @errors
       )
     )
@@ -164,21 +176,18 @@ class SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def respond_with_prepend_shares # rubocop:disable Metrics/AbcSize
+  def respond_with_prepend_shares
     replace_via_turbo_stream(
       component: Shares::InviteUserFormComponent.new(
-        entity: @entity,
-        available_roles:,
-        sharing_manageable: sharing_manageable?,
+        strategy: sharing_strategy,
         errors: @errors
       )
     )
 
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(
-        entity: @entity,
-        count: current_visible_member_count,
-        sharing_manageable: sharing_manageable?
+        strategy: sharing_strategy,
+        count: current_visible_member_count
       )
     )
 
@@ -186,13 +195,10 @@ class SharesController < ApplicationController
       prepend_via_turbo_stream(
         component: Shares::ShareRowComponent.new(
           share:,
-          available_roles:,
-          sharing_manageable: sharing_manageable?
+          strategy: sharing_strategy
         ),
         target_component: Shares::ModalBodyComponent.new(
-          entity: @entity,
-          available_roles:,
-          sharing_manageable: sharing_manageable?,
+          strategy: sharing_strategy,
           shares: load_shares,
           errors: @errors
         )
@@ -205,9 +211,7 @@ class SharesController < ApplicationController
   def respond_with_new_invite_form
     replace_via_turbo_stream(
       component: Shares::InviteUserFormComponent.new(
-        entity: @entity,
-        available_roles:,
-        sharing_manageable: sharing_manageable?,
+        strategy: sharing_strategy,
         errors: @errors
       )
     )
@@ -219,7 +223,7 @@ class SharesController < ApplicationController
     replace_via_turbo_stream(
       component: Shares::PermissionButtonComponent.new(
         share: @share,
-        available_roles:,
+        available_roles: sharing_strategy.available_roles,
         data: { "test-selector": "op-share-dialog-update-role" }
       )
     )
@@ -231,15 +235,13 @@ class SharesController < ApplicationController
     remove_via_turbo_stream(
       component: Shares::ShareRowComponent.new(
         share: @share,
-        available_roles:,
-        sharing_manageable: sharing_manageable?
+        strategy: sharing_strategy
       )
     )
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(
-        entity: @entity,
-        count: current_visible_member_count,
-        sharing_manageable: sharing_manageable?
+        strategy: sharing_strategy,
+        count: current_visible_member_count
       )
     )
 
@@ -250,7 +252,7 @@ class SharesController < ApplicationController
     update_via_turbo_stream(
       component: Shares::UserDetailsComponent.new(
         share: @share,
-        manager_mode: sharing_manageable?,
+        manager_mode: sharing_strategy.manageable?,
         invite_resent: true
       )
     )
@@ -263,7 +265,7 @@ class SharesController < ApplicationController
       replace_via_turbo_stream(
         component: Shares::PermissionButtonComponent.new(
           share:,
-          available_roles:,
+          available_roles: sharing_strategy.available_roles,
           data: { "test-selector": "op-share-dialog-update-role" }
         )
       )
@@ -277,33 +279,38 @@ class SharesController < ApplicationController
       remove_via_turbo_stream(
         component: Shares::ShareRowComponent.new(
           share:,
-          available_roles:,
-          sharing_manageable: sharing_manageable?
+          strategy: sharing_strategy
         )
       )
     end
 
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(
-        entity: @entity,
         count: current_visible_member_count,
-        sharing_manageable: sharing_manageable?
+        strategy: sharing_strategy
       )
     )
 
     respond_with_turbo_streams
   end
 
-  def load_entity
-    @entity = if params["work_package_id"]
-                WorkPackage.visible.find(params["work_package_id"])
-                # TODO: Add support for other entities
-              else
-                raise ArgumentError, <<~ERROR
-                  Nested the SharesController under an entity controller that is not yet configured to support sharing.
-                  Edit the SharesController#load_entity method to load the entity from the correct parent.
-                ERROR
-              end
+  def load_entity # rubocop:disable Metrics/AbcSize
+    if params["work_package_id"]
+      @entity = WorkPackage.visible.find(params["work_package_id"])
+      @sharing_strategy = SharingStrategies::WorkPackageStrategy.new(@entity, user: current_user)
+    elsif params["project_query_id"]
+      @entity = ProjectQuery.visible.find(params["project_query_id"])
+      @sharing_strategy = SharingStrategies::ProjectQueryStrategy.new(@entity, user: current_user)
+    else
+      raise ArgumentError, <<~ERROR
+        Nested the SharesController under an entity controller that is not yet configured to support sharing.
+        Edit the SharesController#load_entity method to load the entity from the correct parent and specify what sharing
+        strategy should be applied.
+
+        Params: #{params.to_unsafe_h}
+        Request Path: #{request.path}
+      ERROR
+    end
 
     if @entity.respond_to?(:project)
       @project = @entity.project
@@ -322,8 +329,8 @@ class SharesController < ApplicationController
     return @query if defined?(@query)
 
     @query = ParamsToQueryService
-      .new(Member, current_user, query_class: Queries::Members::EntityMemberQuery)
-      .call(params)
+               .new(Member, current_user, query_class: Queries::Members::NonInheritedMemberQuery)
+               .call(params)
 
     # Set default filter on the entity
     @query.where("entity_id", "=", @entity.id)
@@ -345,32 +352,5 @@ class SharesController < ApplicationController
     @selected_shares = Member.includes(:principal)
                              .of_entity(@entity)
                              .where(id: params[:share_ids])
-  end
-
-  def available_roles
-    @available_roles ||= if @entity.is_a?(WorkPackage)
-                           role_mapping = WorkPackageRole.unscoped.pluck(:builtin, :id).to_h
-
-                           [
-                             { label: I18n.t("work_package.permissions.edit"),
-                               value: role_mapping[Role::BUILTIN_WORK_PACKAGE_EDITOR],
-                               description: I18n.t("work_package.permissions.edit_description") },
-                             { label: I18n.t("work_package.permissions.comment"),
-                               value: role_mapping[Role::BUILTIN_WORK_PACKAGE_COMMENTER],
-                               description: I18n.t("work_package.permissions.comment_description") },
-                             { label: I18n.t("work_package.permissions.view"),
-                               value: role_mapping[Role::BUILTIN_WORK_PACKAGE_VIEWER],
-                               description: I18n.t("work_package.permissions.view_description"),
-                               default: true }
-                           ]
-                         else
-                           []
-                         end
-  end
-
-  def sharing_contract_scope
-    if @entity.is_a?(WorkPackage)
-      Shares::WorkPackages
-    end
   end
 end

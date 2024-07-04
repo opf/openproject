@@ -33,23 +33,17 @@ module Shares
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    attr_reader :entity,
+    attr_reader :strategy,
+                :entity,
                 :shares,
-                :available_roles,
-                :sharing_manageable,
                 :errors
 
-    def initialize(entity:,
-                   shares:,
-                   available_roles:,
-                   sharing_manageable:,
-                   errors: nil)
+    def initialize(strategy:, shares:, errors: nil)
       super
 
-      @entity = entity
+      @strategy = strategy
+      @entity = strategy.entity
       @shares = shares
-      @available_roles = available_roles
-      @sharing_manageable = sharing_manageable
       @errors = errors
     end
 
@@ -69,20 +63,6 @@ module Shares
 
     def insert_target_modifier_id
       "op-share-dialog-active-shares"
-    end
-
-    def blankslate_config # rubocop:disable Metrics/AbcSize
-      @blankslate_config ||= {}.tap do |config|
-        if params[:filters].blank?
-          config[:icon] = :people
-          config[:heading_text] = I18n.t("sharing.text_empty_state_header")
-          config[:description_text] = I18n.t("sharing.text_empty_state_description", entity: @entity.class.model_name.human)
-        else
-          config[:icon] = :search
-          config[:heading_text] = I18n.t("sharing.text_empty_search_header")
-          config[:description_text] = I18n.t("sharing.text_empty_search_description")
-        end
-      end
     end
 
     def type_filter_options
@@ -106,15 +86,16 @@ module Shares
       end
     end
 
-    def type_filter_option_active?(option)
+    def type_filter_option_active?(option) # rubocop:disable Metrics/AbcSize
       principal_type_filter_value = current_filter_value(params[:filters], "principal_type")
       project_member_filter_value = current_filter_value(params[:filters], "also_project_member")
 
-      return false if principal_type_filter_value.nil? || project_member_filter_value.nil?
+      return false if principal_type_filter_value.nil?
+      return false if project_scoped_entity? && project_member_filter_value.nil?
 
       principal_type_checked =
         option[:value][:principal_type] == principal_type_filter_value
-      membership_selected =
+      membership_selected = !project_scoped_entity? ||
         option[:value][:project_member] == ActiveRecord::Type::Boolean.new.cast(project_member_filter_value)
 
       principal_type_checked && membership_selected
@@ -125,7 +106,7 @@ module Shares
 
       return false if role_filter_value.nil?
 
-      selected_role = @available_roles.find { _1[:value] == option[:value] }
+      selected_role = strategy.available_roles.find { _1[:value] == option[:value] }
 
       selected_role[:value] == role_filter_value.to_i
     end
@@ -183,14 +164,18 @@ module Shares
     end
 
     def type_filter_for(option)
-      filter = []
-      if ActiveRecord::Type::Boolean.new.cast(option[:value][:project_member])
-        filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_TRUE] } })
-      else
-        filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] } })
+      filter = [
+        { principal_type: { operator: "=", values: [option[:value][:principal_type]] } }
+      ]
+
+      if project_scoped_entity?
+        if ActiveRecord::Type::Boolean.new.cast(option[:value][:project_member])
+          filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_TRUE] } })
+        else
+          filter.push({ also_project_member: { operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] } })
+        end
       end
 
-      filter.push({ principal_type: { operator: "=", values: [option[:value][:principal_type]] } })
       filter
     end
 

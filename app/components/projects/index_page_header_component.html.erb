@@ -1,7 +1,7 @@
 <% if show_state? %>
   <%=
     render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title }
+      header.with_title(data: { 'test-selector': 'project-query-name' }) { page_title }
       header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
 
       if can_save?
@@ -18,6 +18,17 @@
           message: t("lists.can_be_saved_as"),
           label: t("button_save_as"),
           href: new_project_query_path(projects_query_params)
+        )
+      end
+
+      if can_access_shares?
+        header.with_action_icon_button(
+          tag: :a,
+          href: dialog_project_query_members_path(query),
+          icon: "share-android",
+          mobile_icon: "share-android",
+          label: t(:label_share),
+          data: { controller: "async-dialog" }
         )
       end
 
@@ -115,29 +126,6 @@
         end
 
         if query.persisted?
-          # TODO: Remove section when the sharing modal is implemented (https://community.openproject.org/projects/openproject/work_packages/55163)
-          if can_publish?
-            if query.public?
-              menu.with_item(
-                label: t(:button_unpublish),
-                scheme: :danger,
-                href: unpublish_project_query_path(query),
-                content_arguments: { data: { method: :post } }
-              ) do |item|
-                item.with_leading_visual_icon(icon: 'eye-closed')
-              end
-            else
-              menu.with_item(
-                label: t(:button_publish),
-                scheme: :default,
-                href: publish_project_query_path(query),
-                content_arguments: { data: { method: :post } }
-              ) do |item|
-                item.with_leading_visual_icon(icon: 'eye')
-              end
-            end
-          end
-
           menu.with_item(
             label: t(:button_delete),
             scheme: :danger,
@@ -155,7 +143,7 @@
 <% else %>
   <%=
     render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title(data: { 'test-selector': 'project-query-name'}) do
+      header.with_title(data: { 'test-selector': 'project-query-name' }) do
         primer_form_with(model: query,
                          url: @query.new_record? ? project_queries_path(projects_query_params) : project_query_path(@query, projects_query_params),
                          scope: 'query',

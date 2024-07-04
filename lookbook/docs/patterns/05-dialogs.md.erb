@@ -1,13 +1,9 @@
 As of now, this page is still a stub. In particular, the considerations on when and where to apply Dialogs are still missing.
-
 For now, it can be stated that OpenProject employs Dialogs for more purposes than GitHub [Primer specifies](https://primer.style/components/dialog).
 
-
 ## Async dialogs as turbo streams
-
 Primer dialogs need to be rendered and tied to a button, resulting in their content always being present.
 If you have any non-trivial content that should be displayed in a dialog, you should use the async dialog pattern.
-
 To render dialogs asynchronously, you use a Button/Link/IconButton component as a trigger and add the following
 attributes to it:
 
@@ -152,6 +148,23 @@ class TestController < ApplicationControler
 end
 ```
 
+### Dialogs that should stay open on form submission
+
+Because we normally want to close the dialog when a form is submitted successfully, we have implemented this as the default behaviour.  As described in the last section,
+when the submission returns a 4xx or 5xx status code, the dialog will stay open and display the validation errors and will be closed when the form is submitted successfully.
+
+If you want to keep a dialog open even after a successful form submission, you can use the `data-keep-open-on-submit="true"` attribute on the dialog. This will prevent the dialog
+from closing even if the form submission is successful.
+
+```erb
+<%%= turbo_stream.dialog do
+  render(Primer::Alpha::Dialog.new(data: { 'keep-open-on-submit': true }) do |d|
+    # ...
+  end
+end
+%>
+```
+
 ## Special kinds of dialogs
 
 We have multiple kind of dialogs that re-appear throughout the whole application. In order to make sure, they all look and feel alike, we further specify them here.
@@ -198,7 +211,6 @@ the form via the `form` attribute.
 In pseudo html, the logical format is then like this:
 
 ```html
-
 <dialog>
   <dialog-header>
     Dialog title
@@ -210,33 +222,25 @@ In pseudo html, the logical format is then like this:
   </dialog-body>
   <dialog-footer>
     <input type="submit" form="the-form-id">Submit</button>
-  </dialog-footer>
+</dialog-footer>
 </dialog>
-
 ```
 
 <%= embed OpenProject::Common::DialogPreview, :form %>
 
-
 #### Where it's used
-
 - WorkPackage &rarr; Meeting Tab &rarr; Add meeting to WorkPackage
 
 ### User nudging modal
-
 The idea of nudging modals is to promote users to perform actions that are not 100% mandatory but might be interesting for them. For example, after creating a type, an admin would like to add the new type to a project and configure a workflow for it. Another example is to grant personal access to a recently created storage:
-
 <lookbook-embed
 preview="OpenProject::Storages::Admin::OAuthAccessGrantNudgeModalComponentPreview"
 scenario="default"
 panels="">
 </lookbook-embed>
 
-
 #### Accessibility considerations
-
 To be written down..
 
 #### Where it's used
-
 - Admin &rarr; Storages &rarr; OAuth Grant Access

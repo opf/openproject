@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,54 +29,19 @@
 # ++
 
 module Shares
-  class ShareRowComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+  module ProjectQueries
+    module BaseExtension
+      extend ActiveSupport::Concern
 
-    def initialize(share:, strategy:, container: nil)
-      super
+      private
 
-      @share = share
-      @strategy = strategy
-      @entity = strategy.entity
-      @principal = share.principal
-      @available_roles = strategy.available_roles
-      @container = container
-    end
-
-    def wrapper_uniq_by
-      share.id
-    end
-
-    private
-
-    attr_reader :share, :entity, :principal, :container, :available_roles, :strategy
-
-    def share_editable?
-      @share_editable ||= User.current != share.principal && sharing_manageable?
-    end
-
-    def sharing_manageable?
-      strategy.manageable?
-    end
-
-    def grid_css_classes
-      if sharing_manageable?
-        "op-share-dialog-modal-body--user-row_manageable"
-      else
-        "op-share-dialog-modal-body--user-row"
+      def user_allowed_to_manage?
+        model.entity.editable?
       end
-    end
 
-    def select_share_checkbox_options
-      {
-        name: "share_ids",
-        value: share.id,
-        scheme: :array,
-        label: principal.name,
-        visually_hide_label: true
-      }
+      def assignable_role_class
+        ProjectQueryRole
+      end
     end
   end
 end

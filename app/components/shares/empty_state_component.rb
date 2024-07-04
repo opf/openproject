@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +24,45 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-class Queries::Members::EntityMemberQuery < Queries::Members::MemberQuery
-  def default_scope
-    Member.joins(:member_roles).merge(MemberRole.only_non_inherited)
+module Shares
+  class EmptyStateComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    include OpPrimer::ComponentHelpers
+
+    def initialize(strategy:)
+      super
+
+      @strategy = strategy
+      @entity = strategy.entity
+    end
+
+    private
+
+    attr_reader :strategy, :entity
+
+    def blankslate_config
+      @blankslate_config ||= if params[:filters].blank?
+                               unfiltered_blankslate_config
+                             else
+                               filtered_blankslate_config
+                             end
+    end
+
+    def unfiltered_blankslate_config
+      {
+        icon: :people,
+        heading_text: I18n.t("sharing.text_empty_state_header"),
+        description_text: I18n.t("sharing.text_empty_state_description", entity: @entity.class.model_name.human)
+      }
+    end
+
+    def filtered_blankslate_config
+      {
+        icon: :search,
+        heading_text: I18n.t("sharing.text_empty_search_header"),
+        description_text: I18n.t("sharing.text_empty_search_description")
+      }
+    end
   end
 end
