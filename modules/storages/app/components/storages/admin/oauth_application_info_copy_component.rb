@@ -46,8 +46,8 @@ module Storages::Admin
     def oauth_application_details_link
       render(
         Primer::Beta::Link.new(
-          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
-                                                                                         "settings/admin/openproject"),
+          href: ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
+                                                                                           "settings/admin/openproject"),
           target: "_blank"
         )
       ) { I18n.t("storages.instructions.oauth_application_details_link_text") }
