@@ -311,10 +311,6 @@ class SharesController < ApplicationController
         Request Path: #{request.path}
       ERROR
     end
-
-    if @entity.respond_to?(:project)
-      @project = @entity.project
-    end
   end
 
   def load_share
@@ -335,8 +331,8 @@ class SharesController < ApplicationController
     # Set default filter on the entity
     @query.where("entity_id", "=", @entity.id)
     @query.where("entity_type", "=", @entity.class.name)
-    if @project
-      @query.where("project_id", "=", @project.id)
+    if @entity.respond_to?(:project)
+      @query.where("project_id", "=", @entity.project.id)
     end
 
     @query.order(name: :asc) unless params[:sortBy]
