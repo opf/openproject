@@ -336,7 +336,6 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
       types:
         no_results_title_text: There are currently no types available.
@@ -1920,6 +1919,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_add_another_file: "Add another file"
   label_add_columns: "Add selected columns"
   label_add_note: "Add a note"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "added"
