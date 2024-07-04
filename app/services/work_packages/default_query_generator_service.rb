@@ -55,7 +55,7 @@ module ::WorkPackages
     end
 
     def call(query_key: DEFAULT_QUERY)
-      return {} if query_key == DEFAULT_QUERY
+      return { work_package_default: true } if query_key == DEFAULT_QUERY
 
       params = self.class.assign_params(query_key, project)
 
@@ -65,10 +65,6 @@ module ::WorkPackages
     end
 
     class << self
-      def all_open_query
-        {}
-      end
-
       def latest_activity_query
         DEFAULT_PARAMS.merge(
           {
@@ -144,8 +140,6 @@ module ::WorkPackages
 
       def assign_params(query_key, project)
         case query_key
-        when DEFAULT_QUERY
-          all_open_query
         when :latest_activity
           latest_activity_query
         when :recently_created

@@ -29,8 +29,9 @@ module WorkPackages
   class Menu < Submenu
     attr_reader :view_type, :project, :params
 
-    def initialize(project: nil, params: nil)
+    def initialize(project: nil, params: nil, request: nil)
       @view_type = "work_packages_table"
+      @request = request
 
       super(view_type:, project:, params:)
     end
@@ -64,16 +65,27 @@ module WorkPackages
     end
 
     def selected?(query_params)
-      # Special rules, as those are redirected to completely new pages where only the name parameter is preserved
-      return true if query_params[:name] == :summary && params[:name] == "summary"
-      return true if query_params[:name] == :shared_with_me && params[:name] == "shared_with_me"
-      return true if query_params[:name] == :shared_with_users && params[:name] == "shared_with_users"
+      return true if check_for_redirected_urls(query_params)
+
+      if query_params[:work_package_default] &&
+        (%i[filters query_props query_id name].none? { |k| params.key? k }) &&
+        @request.referer.include?("work_packages")
+        return true
+      end
 
       super
     end
 
     def ee_upsale_path(query_params)
       share_upsale_work_packages_path({ name: query_params[:name] })
+    end
+
+    def check_for_redirected_urls(query_params)
+      # Special rules, as those are redirected to completely new pages where only the name parameter is preserved
+      return true if query_params[:name] == :shared_with_me && params[:name] == "shared_with_me"
+      return true if query_params[:name] == :shared_with_users && params[:name] == "shared_with_users"
+
+      true if query_params[:name] == :summary && params[:name] == "summary"
     end
   end
 end
