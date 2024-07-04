@@ -73,7 +73,7 @@ class Projects::QueriesController < ApplicationController
   end
 
   def toggle_public # rubocop:disable Metrics/AbcSize
-    to_be_public = !@query.public?
+    to_be_public = ActiveRecord::Type::Boolean.new.cast(params["value"])
     i18n_key = to_be_public ? "lists.publish" : "lists.unpublish"
 
     call = Queries::Projects::ProjectQueries::PublishService
