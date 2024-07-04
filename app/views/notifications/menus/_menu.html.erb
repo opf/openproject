@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "notifications_sidemenu",
+                    src: notifications_menu_path(
+                      controller_path:,
+                      **params.permit(:filter, :name)
+                    ),
+                    target: '_top',
+                    data: { turbo: false },
+                    loading: :lazy %>

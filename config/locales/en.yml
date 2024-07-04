@@ -1903,6 +1903,10 @@ en:
         unknown_storage: "Unknown storage"
 
   notifications:
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -2589,6 +2593,7 @@ en:
         shared: "Shared"
         subscribed: "all"
         prefix: "Received because of the notification setting: %{reason}"
+        date_alert: "Date alert"
         date_alert_start_date: "Date alert"
         date_alert_due_date: "Date alert"
       see_all: "See all"
