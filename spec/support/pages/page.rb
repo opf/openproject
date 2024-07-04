@@ -32,6 +32,7 @@ module Pages
   class Page
     include Capybara::DSL
     include Capybara::RSpecMatchers
+    include TestSelectorFinders
     include RSpec::Matchers
     include OpenProject::StaticRouting::UrlHelpers
     include Toasts::Expectations

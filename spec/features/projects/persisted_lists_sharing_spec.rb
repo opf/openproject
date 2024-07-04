@@ -1,0 +1,113 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2024 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+require "spec_helper"
+
+RSpec.describe "Project list sharing",
+               :js,
+               :with_cuprite,
+               with_flag: { project_list_sharing_active?: true } do
+  shared_let(:view_project_query_role) { create(:view_project_query_role) }
+  shared_let(:edit_project_query_role) { create(:edit_project_query_role) }
+
+  shared_let(:sharer) do
+    create(:user,
+           firstname: "Han",
+           lastname: "Solo",
+           member_with_permissions: { project_where_both_are_members => %i[view_work_packages edit_work_packages] })
+  end
+  shared_let(:shared_user) do
+    create(:user,
+           firstname: "Jabba",
+           lastname: "The Hutt",
+           member_with_permissions: { project_where_both_are_members => %i[view_work_packages edit_work_packages] })
+  end
+
+  shared_let(:project_role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
+  shared_let(:project_where_both_are_members) do
+    create(:project,
+           name: "Shared project",
+           identifier: "shared-project") do |project|
+      create(:member, project:, user: sharer, roles: [project_role])
+      create(:member, project:, user: shared_user, roles: [project_role])
+    end
+  end
+
+  shared_let(:shared_projects_list) do
+    create(:project_query,
+           name: "Member-of list",
+           user: sharer,
+           select: %w[name]) do |query|
+      query.where("member_of", "=", OpenProject::Database::DB_VALUE_TRUE)
+      query.save!
+    end
+  end
+
+  let(:projects_index_page) { Pages::Projects::Index.new }
+  let(:share_dialog) { Components::Sharing::ProjectQueries::ShareModal.new(shared_projects_list) }
+
+  describe "Sharing a project list with View permissions with a user " \
+           "and accessing the list as the shared user" do
+    it "allows the shared user to view the project list but not edit it" do
+      using_session "shared user" do
+        login_as(shared_user)
+
+        projects_index_page.visit!
+        projects_index_page.expect_no_sidebar_filter("Member-of list")
+      end
+
+      using_session "sharer" do
+        login_as(sharer)
+
+        projects_index_page.visit!
+        projects_index_page.set_sidebar_filter "Member-of list"
+        projects_index_page.open_share_dialog
+
+        share_dialog.expect_open
+        share_dialog.invite_user!(shared_user, "View")
+      end
+
+      using_session "shared user" do
+        login_as(shared_user)
+        projects_index_page.visit!
+        projects_index_page.expect_sidebar_filter("Member-of list")
+        projects_index_page.set_sidebar_filter("Member-of list")
+        projects_index_page.open_share_dialog
+
+        share_dialog.expect_sharing_forbidden_banner
+        share_dialog.close
+
+        projects_index_page.open_filters
+        projects_index_page.filter_by_active("yes")
+        projects_index_page.expect_can_only_save_as_label
+        projects_index_page.save_query_as("Member-of and active list")
+
+        projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
+      end
+    end
+  end
+end
