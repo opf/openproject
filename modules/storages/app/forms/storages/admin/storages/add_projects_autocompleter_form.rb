@@ -29,9 +29,7 @@
 module Storages
   module Admin
     module Storages
-      class AddProjectsForm < ApplicationForm
-        include OpPrimer::ComponentHelpers
-
+      class AddProjectsAutocompleterForm < ApplicationForm
         form do |form|
           form.group(layout: :vertical) do |group|
             group.project_autocompleter(

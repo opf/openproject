@@ -28,33 +28,30 @@
 
 module Storages
   module Admin
-    module Storages
-      class AddProjectsFormModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-        include OpTurbo::Streamable
+    module ProjectStorages
+      class ProjectFolderModeForm < ApplicationForm
+        form do |radio_form|
+          radio_form.radio_button_group(
+            name: :project_folder_mode,
+            label: I18n.t(:"storages.label_project_folder"),
+            caption: I18n.t(:"storages.help_texts.project_folder")
+          ) do |radio_group|
+            radio_group.radio_button(value: "inactive", label: I18n.t(:"storages.label_no_specific_folder"),
+                                     caption: I18n.t(:"storages.instructions.no_specific_folder"))
 
-        def initialize(project_storage:, **)
+            if @project_storage.automatic_management_possible?
+              radio_group.radio_button(value: "automatic", label: I18n.t(:"storages.label_automatic_folder"),
+                                       caption: I18n.t(:"storages.instructions.automatic_folder"))
+            end
+
+            radio_group.radio_button(value: "manual", label: I18n.t(:"storages.label_existing_manual_folder"),
+                                     caption: I18n.t(:"storages.instructions.existing_manual_folder"))
+          end
+        end
+
+        def initialize(project_storage:)
+          super()
           @project_storage = project_storage
-          @storage = project_storage.storage
-          super(@project_storage, **)
-        end
-
-        private
-
-        attr_reader :project_storage, :storage
-
-        def dialog_id = Storages::AddProjectsModalComponent::DIALOG_ID
-        def dialog_body_id = Storages::AddProjectsModalComponent::DIALOG_BODY_ID
-
-        def title
-          I18n.t(:label_add_projects)
-        end
-
-        def cancel_button_text
-          I18n.t("button_cancel")
-        end
-
-        def submit_button_text
-          I18n.t("button_add")
         end
       end
     end

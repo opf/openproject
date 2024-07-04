@@ -39,10 +39,14 @@ See COPYRIGHT and LICENSE files for more details.
       concat(render(Primer::Alpha::Dialog::Body.new(
         id: dialog_body_id,
         test_selector: dialog_body_id,
-        aria: { label: title },
-        style: "min-height: 300px"
+        aria: { label: title }
       )) do
-        render(Storages::Admin::Storages::AddProjectsForm.new(form, project_storage: @project_storage))
+        render(
+          Primer::Forms::FormList.new(
+            Storages::Admin::Storages::AddProjectsAutocompleterForm.new(form, project_storage:),
+          Storages::Admin::ProjectStorages::ProjectFolderModeForm.new(form, project_storage:)
+          )
+        )
       end)
 
       concat(render(Primer::Alpha::Dialog::Footer.new(show_divider: false)) do
