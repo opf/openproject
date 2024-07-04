@@ -109,18 +109,18 @@ export class WorkPackageEmbeddedGraphComponent {
       scales: {
         y: {
           ticks: {
-            color: bodyFontColor,
+            color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
           grid: {
-            color: gridLineColor,
+            color: this.isBarChart() ? gridLineColor : 'transparent',
           },
         },
         x: {
           ticks: {
-            color: bodyFontColor,
+            color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
           grid: {
-            color: gridLineColor,
+            color: this.isBarChart() ? gridLineColor : 'transparent',
           },
         },
       },
@@ -186,5 +186,9 @@ export class WorkPackageEmbeddedGraphComponent {
     } else {
       this.chartHeight = '100%';
     }
+  }
+
+  private isBarChart() {
+    return this.chartType === 'bar' || this.chartType === 'horizontalBar' || this.chartType === 'line';
   }
 }
