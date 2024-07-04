@@ -326,22 +326,7 @@ class SharesController < ApplicationController
   end
 
   def load_query
-    return @query if defined?(@query)
-
-    @query = ParamsToQueryService
-               .new(Member, current_user, query_class: Queries::Members::NonInheritedMemberQuery)
-               .call(params)
-
-    # Set default filter on the entity
-    @query.where("entity_id", "=", @entity.id)
-    @query.where("entity_type", "=", @entity.class.name)
-    if @project
-      @query.where("project_id", "=", @project.id)
-    end
-
-    @query.order(name: :asc) unless params[:sortBy]
-
-    @query
+    @query = sharing_strategy.shares_query(params)
   end
 
   def load_shares

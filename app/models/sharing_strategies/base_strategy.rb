@@ -79,5 +79,24 @@ module SharingStrategies
     def empty_state_component
       nil
     end
+
+    def shares_query(params) # rubocop:disable Metrics/AbcSize
+      return @query if defined?(@query)
+
+      @query = ParamsToQueryService
+                 .new(Member, user, query_class: Queries::Members::NonInheritedMemberQuery)
+                 .call(params)
+
+      # Set default filter on the entity
+      @query.where("entity_id", "=", entity.id)
+      @query.where("entity_type", "=", entity.class.name)
+      if entity.respond_to?(:project)
+        @query.where("project_id", "=", entity.project.id)
+      end
+
+      @query.order(name: :asc) unless params[:sortBy]
+
+      @query
+    end
   end
 end
