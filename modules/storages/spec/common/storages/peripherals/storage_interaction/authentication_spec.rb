@@ -100,12 +100,12 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
       context "with incomplete storage configuration (missing oauth client)" do
         let(:storage) { create(:nextcloud_storage) }
 
-        it "must return unauthorized" do
+        it "must return error" do
           result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
           expect(result).to be_failure
 
           error = result.errors
-          expect(error.code).to eq(:unauthorized)
+          expect(error.code).to eq(:error)
           expect(error.data.source)
             .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
         end
@@ -200,12 +200,12 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
       context "with incomplete storage configuration (missing oauth client)" do
         let(:storage) { create(:one_drive_storage) }
 
-        it "must return unauthorized" do
+        it "must return error" do
           result = described_class[auth_strategy].call(storage:) { |http| make_request(http) }
           expect(result).to be_failure
 
           error = result.errors
-          expect(error.code).to eq(:unauthorized)
+          expect(error.code).to eq(:error)
           expect(error.data.source)
             .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
         end

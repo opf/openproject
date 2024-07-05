@@ -290,7 +290,7 @@
       project_custom_fields:
         header:
           title: "Prosjektegenskaper"
-          description: "Disse prosjektegenskapene vil bli vist i din <a href=%{overview_url} target=\"_blank\">oversiktsside for prosjekt</a> under deres respektive seksjoner.  Du kan aktivere eller deaktivere individuelle egenskaper.  Prosjektegenskaper og seksjoner er definert i  <a href=%{admin_settings_url} target=\"_blank\">administrasjonsinnstillingene</a> av en administrator."
+          description: 'Disse prosjektegenskapene vil bli vist i din <a href=%{overview_url} target="_blank">oversiktsside for prosjekt</a> under deres respektive seksjoner.  Du kan aktivere eller deaktivere individuelle egenskaper.  Prosjektegenskaper og seksjoner er definert i  <a href=%{admin_settings_url} target="_blank">administrasjonsinnstillingene</a> av en administrator.'
         filter:
           label: "Søk etter prosjektegenskap"
         actions:
@@ -2037,6 +2037,7 @@
   label_introduction_video: "Introduksjonsvideo"
   label_invite_user: "Inviter bruker"
   label_share: "Del"
+  label_share_project_list: "Share project list"
   label_show_hide: "Vis/Skjul"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Vis alle registrerte brukere"
@@ -2481,12 +2482,12 @@
         plaintext:
           storage: "Lagring"
           healthy:
-            summary: "Gode nyheter! Status for lagringen din, %{storage_name}, vises for øyeblikket som \"Sunn\"."
+            summary: 'Gode nyheter! Status for lagringen din, %{storage_name}, vises for øyeblikket som "Sunn".'
             error-solved-on: "Løst"
             recommendation: "Vi vil fortsette å overvåke systemet for å sikre at det holdes i god helse. Ved eventuelle avvik vil vi varsle deg."
             details: "For mer informasjon eller for å gjøre nødvendige endringer, kan du besøke konfigurasjonen for lagring"
           unhealthy:
-            summary: "Statusen for lagring, %{storage_name}, vises for øyeblikket som \"Feil\". Vi oppdaget et problem som kan kreve oppmerksomheten din."
+            summary: 'Statusen for lagring, %{storage_name}, vises for øyeblikket som "Feil". Vi oppdaget et problem som kan kreve oppmerksomheten din.'
             error-details: "Feildetaljer"
             error-message: "Feilmelding"
             error-occurred-on: "Skjedde"
@@ -2495,11 +2496,11 @@
         email_notification_settings: "Innstillinger for e-postvarsling om lagring"
         see_storage_settings: "Se lagringsinnstillinger"
         healthy:
-          subject: "Lagringsplass \"%{name}\" er nå friskt!"
+          subject: 'Lagringsplass "%{name}" er nå friskt!'
           solved_at: "løst"
           summary: "Problemet med din %{storage_name} lagringsintegrasjon er nå løst"
         unhealthy:
-          subject: "Lagringsplass \"%{name}\" er ikke friskt!"
+          subject: 'Lagringsplass "%{name}" er ikke friskt!'
           since: "siden"
           summary: "Det er et problem med %{storage_name}-lagringsintegrasjonen din"
           troubleshooting:
@@ -3442,6 +3443,23 @@
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Hoppet over dager som ikke er valgt ved planlegging av arbeidspakker (og ikke inkludert i antall dager). Disse kan overstyres på arbeidspakkenivå.

@@ -290,7 +290,7 @@ fr:
       project_custom_fields:
         header:
           title: "Attributs du projet"
-          description: "Ces attributs de projet seront affichés dans votre <a href=%{overview_url} target=\"_blank\">page d'aperçu du projet</a> sous leurs sections respectives. Vous pouvez activer ou désactiver des attributs individuels. Les attributs et les sections du projet sont définis dans les <a href=%{admin_settings_url} target=\"_blank\">paramètres d'administration</a> par l'administrateur de l'instance. "
+          description: 'Ces attributs de projet seront affichés dans votre <a href=%{overview_url} target="_blank">page d''aperçu du projet</a> sous leurs sections respectives. Vous pouvez activer ou désactiver des attributs individuels. Les attributs et les sections du projet sont définis dans les <a href=%{admin_settings_url} target="_blank">paramètres d''administration</a> par l''administrateur de l''instance. '
         filter:
           label: "Rechercher un attribut de projet"
         actions:
@@ -2037,6 +2037,7 @@ fr:
   label_introduction_video: "Vidéo de présentation"
   label_invite_user: "Inviter utilisateur"
   label_share: "Partager"
+  label_share_project_list: "Share project list"
   label_show_hide: "Afficher/masquer"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Afficher tous les utilisateurs enregistrés"
@@ -2481,12 +2482,12 @@ fr:
         plaintext:
           storage: "Espace de stockage"
           healthy:
-            summary: "Bonne nouvelle ! Le statut de votre espace de stockage, %{storage_name}, est actuellement « Sain »."
+            summary: 'Bonne nouvelle ! Le statut de votre espace de stockage, %{storage_name}, est actuellement « Sain ».'
             error-solved-on: "Résolu le"
             recommendation: "Nous continuerons à surveiller le système pour nous assurer qu'il reste performant. Nous vous informerons en cas d'anomalie."
             details: "Pour plus de détails ou pour apporter les modifications nécessaires, vous pouvez consulter la configuration de votre espace de stockage."
           unhealthy:
-            summary: "Le statut de votre espace de stockage, %{storage_name}, est actuellement « Erreur ». Nous avons détecté un problème qui pourrait nécessiter votre attention."
+            summary: 'Le statut de votre espace de stockage, %{storage_name}, est actuellement « Erreur ». Nous avons détecté un problème qui pourrait nécessiter votre attention.'
             error-details: "Détails de l'erreur"
             error-message: "Message d'erreur"
             error-occurred-on: "Survenu le"
@@ -2495,11 +2496,11 @@ fr:
         email_notification_settings: "Paramètres de notification par e-mail concernant l'espace de stockage"
         see_storage_settings: "Voir les paramètres de l'espace de stockage"
         healthy:
-          subject: "L'espace de stockage « %{name} » est maintenant sain !"
+          subject: 'L''espace de stockage « %{name} » est maintenant sain !'
           solved_at: "résolu à"
           summary: "Le problème lié à l'intégration de votre espace de stockage %{storage_name} est désormais résolu"
         unhealthy:
-          subject: "L'espace de stockage « %{name} » n'est pas en bonne santé !"
+          subject: 'L''espace de stockage « %{name} » n''est pas en bonne santé !'
           since: "depuis"
           summary: "Il y a un problème avec l'intégration de votre espace de stockage %{storage_name}"
           troubleshooting:
@@ -3441,6 +3442,23 @@ fr:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.

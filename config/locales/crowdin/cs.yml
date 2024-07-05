@@ -290,7 +290,7 @@ cs:
       project_custom_fields:
         header:
           title: "Atributy projektu"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
         filter:
           label: "Hledat atribut projektu"
         actions:
@@ -460,7 +460,7 @@ cs:
       irreversible: "Tato akce je nevratná"
       confirmation: "Zadejte název zástupného uživatele %{name} pro potvrzení odstranění."
     upsale:
-      title: placeholder uživatel
+      title: Placeholder uživatel
       description: >
         Placeholder uživatelé jsou způsob, jak přiřadit pracovní balíčky uživatelům, kteří nejsou součástí vašeho projektu. Mohou být užiteční v řadě scénářů; například, pokud potřebujete sledovat úkoly u zdroje, který ještě nejsou pojmenovány nebo dostupné, nebo pokud nechcete této osobě umožnit přístup k OpenProject ale stále chcete sledovat úkoly, které jim byly přiděleny.
   prioritiies:
@@ -680,7 +680,7 @@ cs:
           false: "archivováno"
         identifier: "Identifikátor"
         latest_activity_at: "Poslední aktivita"
-        parent: "Podprojekt"
+        parent: "Nadřazený projekt"
         public_value:
           title: "Viditelnost"
           true: "veřejný"
@@ -778,7 +778,7 @@ cs:
           true: "zahrnuje nepracovní dny"
         notify: "Oznámit" #used in custom actions
         parent: "Nadřazený"
-        parent_issue: "Rodič"
+        parent_issue: "Nadřazený"
         parent_work_package: "Nadřazený"
         priority: "Priorita"
         progress: "% Dokončeno"
@@ -916,7 +916,7 @@ cs:
               blank: "je povinné. Zvolte prosím název."
               not_unique: " už bylo použito. Prosím vyberte jiný název."
         notifications:
-          at_least_one_channel: "Alespoň jeden kanál pro odesílání oznámení musí být specifikován."
+          at_least_one_channel: "Pro odesílání notifikací musí být specifikován alespoň jeden kanál"
           attributes:
             read_ian:
               read_on_creation: "nelze nastavit na pravdivé při vytváření oznámení "
@@ -1157,11 +1157,11 @@ cs:
       member: "Člen"
       news: "Novinky"
       notification:
-        one: "Oznámení"
-        few: "Oznámení"
-        many: "Oznámení"
-        other: "Oznámení"
-      placeholder_user: "placeholder uživatel"
+        one: "Notifikace"
+        few: "Notifikací"
+        many: "Notifikací"
+        other: "Notifikace"
+      placeholder_user: "Placeholder uživatel"
       project: "Projekt"
       query: "Vlastní dotaz"
       role:
@@ -1802,7 +1802,7 @@ cs:
   instructions_after_error: "Zkuste se znovu přihlásit kliknutím na %{signin}. Pokud chyba přetrvává, požádejte správce o pomoc."
   menus:
     admin:
-      mail_notification: "E-mailová upozornění"
+      mail_notification: "E-mailové notifikace"
       mails_and_notifications: "E-maily a oznámení"
       aggregation: "Agregace"
       api_and_webhooks: "API & Webhooky"
@@ -1849,7 +1849,7 @@ cs:
         failed: "Došlo k chybě a token nemohl být odstraněn. Opakujte akci později."
         unknown_storage: "Neznámé úložiště"
   notifications:
-    send_notifications: "Odeslat oznámení pro tuto akci"
+    send_notifications: "Pro tuto akci odeslat notifikaci"
     work_packages:
       subject:
         created: "Pracovní balíček byl vytvořen."
@@ -2104,6 +2104,7 @@ cs:
   label_introduction_video: "Seznamovací video"
   label_invite_user: "Pozvat uživatele"
   label_share: "Sdílet"
+  label_share_project_list: "Share project list"
   label_show_hide: "Zobrazit/skrýt"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Zobrazit registrované uživatele"
@@ -2235,9 +2236,9 @@ cs:
   label_permissions: "Práva"
   label_permissions_report: "Přehled oprávnění"
   label_personalize_page: "Přizpůsobit tuto stránku"
-  label_placeholder_user: "placeholder uživatel"
+  label_placeholder_user: "Placeholder uživatel"
   label_placeholder_user_new: ""
-  label_placeholder_user_plural: "placeholder uživatelé"
+  label_placeholder_user_plural: "Placeholder uživatelé"
   label_planning: "Plánování"
   label_please_login: "Přihlaste se prosím"
   label_plugins: "Pluginy"
@@ -2258,7 +2259,7 @@ cs:
   label_project_attribute_plural: "Atributy projektu"
   label_project_attribute_manage_link: "Správa atributů produktu"
   label_project_count: "Celkový počet projektů"
-  label_project_copy_notifications: "Během kopie projektu odeslat oznámení e-mailem"
+  label_project_copy_notifications: "Během kopírování projektu odeslat notifikace e-mailem"
   label_project_latest: "Nejnovější projekty"
   label_project_default_type: "Povolit prázdný typ"
   label_project_hierarchy: "Hierarchie projektu"
@@ -2396,7 +2397,7 @@ cs:
   label_users_settings: "Uživatelská nastavení"
   label_version_new: "Nová verze"
   label_version_plural: "Verze"
-  label_version_sharing_descendants: "S Podprojekty"
+  label_version_sharing_descendants: "S podprojekty"
   label_version_sharing_hierarchy: "S hierarchií projektu"
   label_version_sharing_none: "Není sdíleno"
   label_version_sharing_system: "Se všemi projekty"
@@ -2500,28 +2501,28 @@ cs:
     digests:
       including_mention_singular: "včetně zmínky"
       including_mention_plural: "včetně %{number_mentioned} zmínění"
-      unread_notification_singular: "1 nepřečtené oznámení"
-      unread_notification_plural: "%{number_unread} nepřečtených oznámení"
+      unread_notification_singular: "1 nepřečtená notifikace"
+      unread_notification_plural: "%{number_unread} nepřečtených notifikací"
       you_have: "Máte"
     logo_alt_text: "Logo"
     mention:
       subject: "%{user_name} vás zmínil v #%{id} - %{subject}"
     notification:
-      center: "Centrum oznámení"
+      center: "Centrum notifikací"
       see_in_center: "Zobrazit komentář v oznamovacím centru"
       settings: "Změnit nastavení e-mailu"
     salutation: "Ahoj %{user}!"
     salutation_full_name: "Jméno a příjmení"
     work_packages:
       created_at: "Vytvořeno v %{timestamp} uživatelem %{user} "
-      login_to_see_all: "Přihlaste se pro zobrazení všech oznámení."
+      login_to_see_all: "Přihlaste se pro zobrazení všech notifikací."
       mentioned: "Byli jste <b>zmíněni v komentáři</b>"
       mentioned_by: "%{user} vás zmínil v komentáři"
       more_to_see:
-        one: "Existuje ještě 1 pracovní balíček s oznámeními."
-        few: "Existuje ještě  %{count}  pracovních balíčků s oznámeními."
-        many: "Existuje ještě  %{count}  pracovních balíčků s oznámeními."
-        other: "Existuje ještě  %{count}  pracovních balíčků s oznámeními."
+        one: "Existuje ještě 1 pracovní balíček s notifikací."
+        few: "Existuje ještě %{count} pracovních balíčků s notifikacema."
+        many: "Existuje ještě %{count} pracovních balíčků s notifikacema."
+        other: "Existuje ještě %{count} pracovních balíčků s notifikacema."
       open_in_browser: "Otevřít v prohlížeči"
       reason:
         watched: "Sledováno"
@@ -2530,7 +2531,7 @@ cs:
         mentioned: "Zmíněné"
         shared: "Sdílené"
         subscribed: "vše"
-        prefix: "Obdrženo z důvodu nastavení oznámení: %{reason}"
+        prefix: "Obdrženo z důvodu nastavení notifikací: %{reason}"
         date_alert_start_date: "Upozornění na datum"
         date_alert_due_date: "Upozornění na datum"
       see_all: "Zobrazit vše"
@@ -2550,12 +2551,12 @@ cs:
         plaintext:
           storage: "Úložiště"
           healthy:
-            summary: "Dobré zprávy! Stav vašeho úložiště, %{storage_name}, se aktuálně zobrazuje jako \"Zdravý\"."
+            summary: 'Dobré zprávy! Stav vašeho úložiště, %{storage_name}, se aktuálně zobrazuje jako "Zdravý".'
             error-solved-on: "Vyřešeno"
             recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
             details: "For more details or to make any necessary amendments, you can visit your storage configuration"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: 'The status of your storage, %{storage_name}, is currently displaying as "Error". We''ve detected an issue that might require your attention.'
             error-details: "Podrobnosti o chybě"
             error-message: ""
             error-occurred-on: "Vyskytlo se"
@@ -2564,11 +2565,11 @@ cs:
         email_notification_settings: "Nastavení e-mailových oznámení o úložišti"
         see_storage_settings: "Zobrazit nastavení úložiště"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: 'Storage "%{name}" is now healthy!'
           solved_at: "vyřešeno v"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Úložiště \"%{name}\" je nezdravé!"
+          subject: 'Úložiště "%{name}" je nezdravé!'
           since: "od"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
@@ -2803,7 +2804,7 @@ cs:
   permission_move_work_packages: "Přesun pracovních balíčků"
   permission_protect_wiki_pages: "Ochrana stránky wiki"
   permission_rename_wiki_pages: "Přejmenovat stránky wiki"
-  permission_save_queries: "Uložit pohled"
+  permission_save_queries: "Uložit zobrazení"
   permission_search_project: "Hledat projekt"
   permission_select_custom_fields: "Vybrat vlastní pole"
   permission_select_project_custom_fields: "Vyberte atributy projektu"
@@ -3179,7 +3180,7 @@ cs:
       enable_subscriptions_text_html: Umožňuje uživatelům s nezbytnými oprávněními přihlásit se do OpenProject kalendářů a získat přístup k informacím o pracovním balíčku prostřednictvím externího klienta kalendáře. <strong>Poznámka:</strong> Před povolením si prosím přečtěte <a href="%{link}" target="_blank">iCalendar předplatné</a>.
     language_name_being_default: "%{language_name} (výchozí)"
     notifications:
-      events_explanation: "Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele."
+      events_explanation: "Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože notifikace pro ně mohou být nastavena speciálně pro každého uživatele."
       delay_minutes_explanation: "Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení."
     other: "Ostatní"
     passwords: "Hesla"
@@ -3264,7 +3265,7 @@ cs:
   text_destroy_with_associated: "Existují další objekty, které jsou přiřazeny k pracovním balíčkům a které mají být odstraněny. Tyto objekty jsou následující typy:"
   text_destroy_what_to_do: "Co chcete udělat?"
   text_diff_truncated: "... Toto rozlišení bylo zkráceno, protože přesahuje maximální velikost, kterou lze zobrazit."
-  text_email_delivery_not_configured: "Doručení e-mailu není nakonfigurováno a oznámení jsou zakázána.\nNakonfigurujte váš SMTP server pro jejich povolení."
+  text_email_delivery_not_configured: "Doručení e-mailu není nakonfigurováno a notifikace jsou zakázány.\nNakonfigurujte váš SMTP server pro jejich povolení."
   text_enumeration_category_reassign_to: "Přiřadit je k této hodnotě:"
   text_enumeration_destroy_question: "%{count} objektů je přiřazeno k této hodnotě."
   text_file_repository_writable: "Do adresáře příloh lze zapisovat"
@@ -3513,6 +3514,23 @@ cs:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
