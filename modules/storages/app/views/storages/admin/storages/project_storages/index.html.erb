@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Storages::ProjectStorages::Projects::TableComponent.new(
     query: @project_query,
-    params:
-  )
+    project_folder_modes_per_project: @project_folder_modes_per_project,
+    params:)
   )
 %>

@@ -48,6 +48,12 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       query.select(:name)
       query.order("lft" => "asc")
     end
+
+    # Prepare data for project_folder_type column
+    @project_folder_modes_per_project = Storages::ProjectStorage
+      .where(storage_id: @storage.id)
+      .pluck(:project_id, :project_folder_mode)
+      .to_h
   end
 
   def new; end

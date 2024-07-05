@@ -30,5 +30,13 @@
 # associated with a Storage
 module Storages::ProjectStorages::Projects
   class RowComponent < Projects::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    def project_folder_type
+      project_folder_mode = table.project_folder_modes_per_project[project.id]
+      I18n.t("project_storages.project_folder_mode.#{project_folder_mode}")
+    end
+
+    def more_menu_items
+      @more_menu_items ||= []
+    end
   end
 end
