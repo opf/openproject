@@ -403,6 +403,10 @@ RSpec.describe Project do
     end
   end
 
+  it_behaves_like "acts_as_favorable included" do
+    let(:instance) { project }
+  end
+
   it_behaves_like "acts_as_customizable included" do
     let(:model_instance) { project }
     let(:custom_field) { create(:string_project_custom_field) }
