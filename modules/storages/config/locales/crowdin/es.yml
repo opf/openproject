@@ -103,22 +103,22 @@ es:
     health:
       checked: Última comprobación %{datetime}
       connection_validation:
-        action: Recheck connection
-        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        placeholder: Check your connection against the server.
-        subtitle: Connection validation
-        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content: Unexpected content found in the drive.
-        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        action: Vuelva a comprobar la conexión
+        client_id_wrong: El id de cliente OAuth 2 configurado no es válido. Por favor, compruebe la configuración.
+        client_secret_wrong: El secreto de cliente OAuth 2 configurado no es válido. Por favor, compruebe la configuración.
+        drive_id_wrong: No se ha podido encontrar el drive id configurado. Por favor, compruebe la configuración.
+        not_configured: No se ha podido validar la conexión. Por favor, termine primero la configuración.
+        placeholder: Compruebe su conexión con el servidor.
+        subtitle: Validación de conexión
+        tenant_id_wrong: El id de directorio (tenant) configurado no es válido. Por favor, compruebe la configuración.
+        unexpected_content: Contenido inesperado encontrado dentro la unidad.
+        unknown_error: No se ha podido validar la conexión. Se ha producido un error desconocido. Compruebe los registros del servidor para obtener más información.
       label_error: Error
       label_healthy: Correcto
       label_pending: Pendiente
-      label_warning: Warning
+      label_warning: Alerta
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Carpetas de proyecto gestionadas automáticamente
       since: desde %{datetime}
       title: Estado de salud
     health_email_notifications:

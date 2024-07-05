@@ -287,7 +287,7 @@ de:
       project_custom_fields:
         header:
           title: "Projektattribute"
-          description: "Diese Projektattribute werden auf Ihrer <a href=%{overview_url} target=\"_blank\">Projektübersichtsseite</a> in den jeweiligen Abschnitten angezeigt. Sie können einzelne Attribute aktivieren oder deaktivieren. Projektattribute und -abschnitte werden in den <a href=%{admin_settings_url} target=\"_blank\">Administrationseinstellungen</a> durch den Administrator der Instanz definiert. "
+          description: 'Diese Projektattribute werden auf Ihrer <a href=%{overview_url} target="_blank">Projektübersichtsseite</a> in den jeweiligen Abschnitten angezeigt. Sie können einzelne Attribute aktivieren oder deaktivieren. Projektattribute und -abschnitte werden in den <a href=%{admin_settings_url} target="_blank">Administrationseinstellungen</a> durch den Administrator der Instanz definiert. '
         filter:
           label: "Projektattribut suchen"
         actions:
@@ -300,10 +300,7 @@ de:
           heading: In allen Projekten erforderlich
           description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Benötigt in allen Projekten" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
         new_project_mapping_form:
-          add_projects: Projekte erstellen
           include_sub_projects: Andere Projekte einbeziehen
-        project_mappings:
-          header: Verwendung in Projekten
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -1796,6 +1793,7 @@ de:
   label_add_another_file: "Eine weitere Datei hinzufügen"
   label_add_columns: "Ausgewählte Spalten hinzufügen"
   label_add_note: "Kommentar hinzufügen"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
   label_add_subtask: "Unteraufgabe hinzufügen"
   label_added: "hinzugefügt"
@@ -2032,6 +2030,7 @@ de:
   label_introduction_video: "Einführungsvideo"
   label_invite_user: "Nutzer einladen"
   label_share: "Teilen"
+  label_share_project_list: "Share project list"
   label_show_hide: "Einblenden / Ausblenden"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Alle registrierten Benutzer anzeigen"
@@ -2190,6 +2189,7 @@ de:
   label_project_latest: "Neueste Projekte"
   label_project_default_type: "Erlaube leere Typen"
   label_project_hierarchy: "Projekthierarchie"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Neues Projekt"
   label_project_plural: "Projekte"
   label_project_list_plural: "Projektlisten"
@@ -2476,12 +2476,12 @@ de:
         plaintext:
           storage: "Speicherung"
           healthy:
-            summary: "Gute Nachrichten! Der Status Ihres Speichers, %{storage_name}, wird derzeit als „Gesund“ angezeigt."
+            summary: 'Gute Nachrichten! Der Status Ihres Speichers, %{storage_name}, wird derzeit als „Gesund“ angezeigt.'
             error-solved-on: "Gelöst am"
             recommendation: "Wir werden das System weiterhin überwachen, um sicherzustellen, dass es in gutem Zustand bleibt. Im Falle von Unstimmigkeiten werden wir Sie benachrichtigen."
             details: "Für weitere Einzelheiten oder um notwendige Änderungen vorzunehmen, können Sie Ihre Speicherkonfiguration aufrufen"
           unhealthy:
-            summary: "Der Status Ihres Speichers, %{storage_name}, wird derzeit als „Fehler“ angezeigt. Wir haben ein Problem festgestellt, das möglicherweise Ihre Aufmerksamkeit erfordert."
+            summary: 'Der Status Ihres Speichers, %{storage_name}, wird derzeit als „Fehler“ angezeigt. Wir haben ein Problem festgestellt, das möglicherweise Ihre Aufmerksamkeit erfordert.'
             error-details: "Fehlerdetails"
             error-message: "Fehlermeldung"
             error-occurred-on: "Aufgetreten am"
@@ -2490,11 +2490,11 @@ de:
         email_notification_settings: "Einstellungen für E-Mail-Benachrichtigungen zur Speicherung"
         see_storage_settings: "Siehe Speicherungseinstellungen"
         healthy:
-          subject: "Der Speicher „%{name}“ ist jetzt gesund!"
+          subject: 'Der Speicher „%{name}“ ist jetzt gesund!'
           solved_at: "gelöst am"
           summary: "Das Problem mit Ihrer %{storage_name}-Speicherintegration ist nun gelöst"
         unhealthy:
-          subject: "Der Speicher „%{name}“ ist ungesund!"
+          subject: 'Der Speicher „%{name}“ ist ungesund!'
           since: "seit"
           summary: "Es gibt ein Problem mit Ihrer %{storage_name}-Speicherintegration"
           troubleshooting:
@@ -3436,6 +3436,23 @@ de:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
