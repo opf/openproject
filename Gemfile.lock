@@ -50,14 +50,6 @@ GIT
       omniauth-openid-connect (>= 0.2.1)
 
 GIT
-  remote: https://github.com/opf/rubocop-openproject.git
-  revision: d1830d89bb64509fc7ce26103cce04bc9d6b3dc9
-  branch: main
-  specs:
-    rubocop-openproject (0.1.0)
-      rubocop
-
-GIT
   remote: https://github.com/opf/turbo_tests.git
   revision: c1c4707f536a5642a168650d273d714dfb62d842
   ref: with-patches
@@ -994,6 +986,8 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.26.1)
       rubocop (~> 1.61)
+    rubocop-openproject (0.1.0)
+      rubocop
     rubocop-performance (1.21.1)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
@@ -1320,7 +1314,7 @@ DEPENDENCIES
   rubocop
   rubocop-capybara
   rubocop-factory_bot
-  rubocop-openproject!
+  rubocop-openproject
   rubocop-performance
   rubocop-rails
   rubocop-rspec
