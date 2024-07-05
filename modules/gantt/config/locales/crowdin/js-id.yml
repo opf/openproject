@@ -1,6 +1,5 @@
 id:
   js:
-    queries:
-      all_open: 'Semua terbuka'
-      timeline: 'Lini Masa'
-      milestones: 'Pencapaian'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

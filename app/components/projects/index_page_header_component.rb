@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -77,11 +77,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     return false unless query.persisted?
     return false unless query.changed?
 
-    if query.public?
-      current_user.allowed_globally?(:manage_public_project_queries)
-    else
-      query.user == current_user
-    end
+    query.editable?
   end
 
   def can_rename?
@@ -89,22 +85,20 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     return false unless query.persisted?
     return false if query.changed?
 
-    if query.public?
-      current_user.allowed_globally?(:manage_public_project_queries)
-    else
-      query.user == current_user
-    end
-  end
-
-  def can_publish?
-    OpenProject::FeatureDecisions.project_list_sharing_active? &&
-    current_user.allowed_globally?(:manage_public_project_queries) &&
-    query.persisted?
+    query.editable?
   end
 
   def show_state?
     state == :show
   end
+
+  def can_access_shares?
+    query.persisted? && OpenProject::FeatureDecisions.project_list_sharing_active?
+  end
+
+  def can_toggle_favor? = query.persisted?
+
+  def currently_favored? = query.favored_by?(current_user)
 
   def breadcrumb_items
     [
@@ -126,9 +120,9 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   def current_section
     return @current_section if defined?(@current_section)
 
-    projects_menu = Menus::Projects.new(controller_path:, params:, current_user:)
+    projects_menu = Projects::Menu.new(controller_path:, params:, current_user:)
 
-    @current_section = projects_menu.first_level_menu_items.find { |section| section.children.any?(&:selected) }
+    @current_section = projects_menu.menu_items.find { |section| section.children.any?(&:selected) }
   end
 
   def header_save_action(header:, message:, label:, href:, method: nil)

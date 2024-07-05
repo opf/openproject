@@ -34,7 +34,7 @@ module Queries::Projects::ProjectQueries
     attribute :orders
 
     def self.model
-      Queries::Projects::ProjectQuery
+      ProjectQuery
     end
 
     validates :name,

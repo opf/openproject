@@ -1,6 +1,5 @@
 tr:
   js:
-    queries:
-      all_open: 'Tümü açık'
-      timeline: 'Zaman çizelgesi'
-      milestones: 'Kilometre taşları'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

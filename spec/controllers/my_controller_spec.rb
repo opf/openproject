@@ -303,10 +303,10 @@ RSpec.describe MyController do
     describe "api" do
       context "with no existing key" do
         it "creates a key" do
-          expect(user.api_token).to be_nil
+          expect(user.api_tokens).to be_empty
 
-          post :generate_api_key
-          new_token = user.reload.api_token
+          post :generate_api_key, params: { token_api: { token_name: "One heck of a token" } }
+          new_token = user.reload.api_tokens.last
           expect(new_token).to be_present
 
           expect(flash[:info]).to be_present
@@ -317,14 +317,14 @@ RSpec.describe MyController do
       end
 
       context "with existing key" do
-        let!(:key) { Token::API.create user: }
+        let!(:key) { Token::API.create(user:, data: { name: "One heck of a token" }) }
 
-        it "replaces the key" do
-          expect(user.reload.api_token).to eq(key)
+        it "must add the new key" do
+          expect(user.reload.api_tokens.last).to eq(key)
 
-          post :generate_api_key
+          post :generate_api_key, params: { token_api: { token_name: "Two heck of a token" } }
 
-          new_token = user.reload.api_token
+          new_token = user.reload.api_tokens.last
           expect(new_token).not_to eq(key)
           expect(new_token.value).not_to eq(key.value)
           expect(flash[:info]).to be_present

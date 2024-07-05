@@ -92,13 +92,30 @@ module Redmine::MenuManager::MenuController
   # Returns false if user is not authorized
   def redirect_to_project_menu_item(project, name)
     item = project_menu_item(name)
-    if user_allowed_to_access_item?(project, item)
+    if user_allowed_to_see_item?(project, item)
       engine = item.engine ? send(item.engine) : main_app
 
       redirect_to(engine.url_for({ item.param => project }.merge(item.url(project))))
       return true
     end
     false
+  end
+
+  # Redirects user to the global menu item
+  # Returns false if user is not authorized
+  def redirect_to_global_menu_item(name)
+    item = global_menu_item(name)
+    if globally_allowed_to_see_item?(item)
+      engine = item.engine ? send(item.engine) : main_app
+
+      redirect_to(engine.url_for(item.url))
+      return true
+    end
+    false
+  end
+
+  def global_menu_item(name)
+    Redmine::MenuManager.items(:global_menu).detect { |i| i.name.to_s == name.to_s }
   end
 
   def project_menu_item(name)
@@ -109,7 +126,11 @@ module Redmine::MenuManager::MenuController
     Redmine::MenuManager.items(:admin_menu).detect { |i| i.name.to_s == name.to_s }
   end
 
-  def user_allowed_to_access_item?(project, item)
+  def user_allowed_to_see_item?(project, item)
     item && User.current.allowed_in_project?(item.url(project), project) && (item.condition.nil? || item.condition.call(project))
+  end
+
+  def globally_allowed_to_see_item?(item)
+    item && User.current.allowed_in_any_project?(item.url) && (item.condition.nil? || item.condition.call)
   end
 end

@@ -32,9 +32,6 @@ module Settings
       class NewProjectMappingComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         include OpTurbo::Streamable
 
-        options dialog_id: "settings--new-project-custom-field-mapping-component",
-                dialog_body_id: "settings--new-project-custom-field-mapping-body-component"
-
         def initialize(project_mapping:, project_custom_field:, **)
           @project_mapping = project_mapping
           @project_custom_field = project_custom_field
@@ -48,19 +45,7 @@ module Settings
         private
 
         def title
-          I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.add_projects")
-        end
-
-        def show_button_text
-          I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.add_projects")
-        end
-
-        def cancel_button_text
-          I18n.t("button_cancel")
-        end
-
-        def submit_button_text
-          I18n.t("button_add")
+          I18n.t(:label_add_projects)
         end
       end
     end

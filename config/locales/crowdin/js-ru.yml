@@ -102,7 +102,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновление"
+    button_update: "Обновить"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -150,7 +150,7 @@ ru:
         attribute_reference:
           macro_help_tooltip: "Этот текстовый сегмент динамически отображается макросом."
           not_found: "Запрошенный ресурс не найден"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "Этот макрос рекурсивно ссылается на %{model} %{id}."
           invalid_attribute: "Выбранный атрибут '%{name}' не существует."
         child_pages:
           button: "Ссылки на дочерние страницы"
@@ -308,7 +308,7 @@ ru:
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
     gantt_chart:
-      label: "График Гантта"
+      label: "Диаграмма Ганта"
       quarter_label: "Q%{quarter_number}"
       labels:
         title: "Конфигурация метки"
@@ -318,8 +318,8 @@ ru:
         farRight: "Далеко справа"
         description: >
           Выберите атрибуты, которые вы хотите постоянно отображать в соответствующих позициях диаграммы Ганта. Обратите внимание, что при наведении курсора мыши на элемент вместо этих атрибутов будут отображаться метки даты.
-      button_activate: "Показать график Гантта"
-      button_deactivate: "Скрыть график Гантта"
+      button_activate: "Показать диаграмму Ганта"
+      button_deactivate: "Скрыть диаграмму Ганта"
       filter:
         noneSelection: "(нет)"
       selection_mode:
@@ -906,6 +906,11 @@ ru:
       preformatted_text: "Предварительно отформатированный текст"
       wiki_link: "Ссылка на wiki страницу"
       image: "Изображение"
+    sharing:
+      share: "Предоставить общий доступ"
+      selected_count: "%{count} выбрано"
+      selection:
+        mixed: "Смешанное"
     work_packages:
       bulk_actions:
         move: "Массовое изменение проекта"
@@ -1061,12 +1066,8 @@ ru:
         is_parent: "Даты этого пакета работ выводятся автоматически из дочерних пакетов работ. Используйте «Ручной планировщик», чтобы установить даты."
         is_switched_from_manual_to_automatic: "Даты этого пакета работ могут быть пересчитаны после переключения с ручного на автоматическое планирование из-за связей с другими пакетами работ."
       sharing:
-        share: "Поделиться"
         title: "Поделиться пакетом работ"
         show_all_users: "Показать всех пользователей, которым был предоставлен общий доступ к пакету работ"
-        selected_count: "%{count} выбрано"
-        selection:
-          mixed: "Смешанное"
         upsale:
           description: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
       table:

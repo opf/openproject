@@ -160,7 +160,8 @@ describe('outputChronicDuration', () => {
       short: '1m 20s',
       default: '1 min 20 secs',
       long: '1 minute 20 seconds',
-      daysAndHours: '0.02h',
+      days_and_hours: '0.02h',
+      hours_only: '0.02h',
       chrono: '1:20',
     },
     [60 + 20.51]: {
@@ -168,7 +169,8 @@ describe('outputChronicDuration', () => {
       short: '1m 20.51s',
       default: '1 min 20.51 secs',
       long: '1 minute 20.51 seconds',
-      daysAndHours: '0.02h',
+      days_and_hours: '0.02h',
+      hours_only: '0.02h',
       chrono: '1:20.51',
     },
     [60 + 20.51928]: {
@@ -176,7 +178,8 @@ describe('outputChronicDuration', () => {
       short: '1m 20.51928s',
       default: '1 min 20.51928 secs',
       long: '1 minute 20.51928 seconds',
-      daysAndHours: '0.02h',
+      days_and_hours: '0.02h',
+      hours_only: '0.02h',
       chrono: '1:20.51928',
     },
     [4 * 3600 + 60 + 1]: {
@@ -184,7 +187,8 @@ describe('outputChronicDuration', () => {
       short: '4h 1m 1s',
       default: '4 hrs 1 min 1 sec',
       long: '4 hours 1 minute 1 second',
-      daysAndHours: '4.02h',
+      days_and_hours: '4.02h',
+      hours_only: '4.02h',
       chrono: '4:01:01',
     },
     [2 * 3600 + 20 * 60]: {
@@ -192,7 +196,8 @@ describe('outputChronicDuration', () => {
       short: '2h 20m',
       default: '2 hrs 20 mins',
       long: '2 hours 20 minutes',
-      daysAndHours: '2.33h',
+      days_and_hours: '2.33h',
+      hours_only: '2.33h',
       chrono: '2:20:00',
     },
     [8 * 24 * 3600 + 3 * 3600 + 30 * 60]: {
@@ -200,7 +205,8 @@ describe('outputChronicDuration', () => {
       short: '8d 3h 30m',
       default: '8 days 3 hrs 30 mins',
       long: '8 days 3 hours 30 minutes',
-      daysAndHours: '8d 3.5h',
+      days_and_hours: '8d 3.5h',
+      hours_only: '195.5h',
       chrono: '8:03:30:00'
     },
     [6 * 30 * 24 * 3600 + 24 * 3600]: {
@@ -208,7 +214,8 @@ describe('outputChronicDuration', () => {
       short: '6mo 1d',
       default: '6 mos 1 day',
       long: '6 months 1 day',
-      daysAndHours: '181d 0h',
+      days_and_hours: '181d 0h',
+      hours_only: '4344h',
       chrono: '6:01:00:00:00', // Yuck. FIXME
     },
     [365.25 * 24 * 3600 + 24 * 3600]: {
@@ -216,7 +223,8 @@ describe('outputChronicDuration', () => {
       short: '1y 1d',
       default: '1 yr 1 day',
       long: '1 year 1 day',
-      daysAndHours: '366d 0h',
+      days_and_hours: '366d 0h',
+      hours_only: '8790h',
       chrono: '1:00:01:00:00:00',
     },
     [3 * 365.25 * 24 * 3600 + 24 * 3600]: {
@@ -224,7 +232,8 @@ describe('outputChronicDuration', () => {
       short: '3y 1d',
       default: '3 yrs 1 day',
       long: '3 years 1 day',
-      daysAndHours: '1096d 0h',
+      days_and_hours: '1096d 0h',
+      hours_only: '26322h',
       chrono: '3:00:01:00:00:00',
     },
     [6 * 365.25 * 24 * 3600 + 3 * 3600]: {
@@ -232,7 +241,8 @@ describe('outputChronicDuration', () => {
       short: '6y 3h',
       default: '6 yrs 3 hrs',
       long: '6 years 3 hours',
-      daysAndHours: '2191d 3h',
+      days_and_hours: '2191d 3h',
+      hours_only: '52599h',
       chrono: '6:00:00:03:00:00',
     },
     [3600 * 24 * 30 * 18]: {
@@ -240,7 +250,8 @@ describe('outputChronicDuration', () => {
       short: '18mo',
       default: '18 mos',
       long: '18 months',
-      daysAndHours: '540d 0h',
+      days_and_hours: '540d 0h',
+      hours_only: '12960h',
       chrono: '18:00:00:00:00',
     },
   };
@@ -354,7 +365,7 @@ describe('outputChronicDuration', () => {
   Object.entries(EXEMPLARS).forEach(([seconds, formatSpec]) => {
     const secondsF = parseFloat(seconds);
     Object.keys(formatSpec).forEach((format) => {
-      if (format === 'daysAndHours') return;
+      if (format === 'days_and_hours' || format === 'hours_only') return;
 
       it(`outputs a duration for ${seconds} that parses back to the same thing when using the ${format} format`, () => {
         expect(parseChronicDuration(outputChronicDuration(secondsF, { format }))).toBe(secondsF);

@@ -67,16 +67,9 @@ page-header
 
 // For some specific cases like progress form in small screens,
 // we need to change the direction of elements to column,
-// therefore elements are placed below each other.
-//
-// body needed for higher specificity compared to .FormControl-horizontalGroup--center-aligned
-body .FormControl-horizontalGroup--sm-vertical
+// therefore elements are placed below each other
+.FormControl-horizontalGroup--sm-vertical
   @media screen and (max-width: $breakpoint-sm)
     .FormControl-horizontalGroup
       flex-direction: column
       row-gap: 1rem
-      align-items: normal
-
-.FormControl-horizontalGroup--center-aligned
-  .FormControl-horizontalGroup
-    align-items: center

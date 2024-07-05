@@ -34,7 +34,7 @@ RSpec.describe "Work package timeline navigation",
   let(:user) { create(:admin) }
   let(:enabled_module_names) { %i[work_package_tracking gantt] }
   let(:project) { create(:project, enabled_module_names:) }
-  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
+  let(:query_menu) { Components::Submenu.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
@@ -121,7 +121,9 @@ RSpec.describe "Work package timeline navigation",
       page.find_test_selector("main-menu-toggler--work_packages").click
 
       # Select other query
-      query_menu.select query
+      query_menu.search_for_item query.name
+      query_menu.expect_item query.name
+      query_menu.click_item query.name
       wp_timeline.expect_timeline!(open: false)
       wp_table.expect_work_package_listed work_package
       wp_table.ensure_work_package_not_listed! work_package2

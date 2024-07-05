@@ -76,6 +76,23 @@ Rails.application.routes.draw do
           via: :all
   end
 
+  # Shared route concerns
+  # TODO: Add description how to configure controller to support shares
+  concern :shareable do
+    resources :members, path: "shares", controller: "shares", only: %i[index create update destroy] do
+      member do
+        post "resend_invite" => "shares#resend_invite"
+      end
+
+      collection do
+        get :dialog, to: "shares#dialog"
+        patch :bulk, to: "shares#bulk_update"
+        put :bulk, to: "shares#bulk_update"
+        delete :bulk, to: "shares#bulk_destroy"
+      end
+    end
+  end
+
   scope controller: "account" do
     get "/account/force_password_change", action: "force_password_change"
     post "/account/change_password", action: "change_password"
@@ -168,27 +185,28 @@ Rails.application.routes.draw do
   end
 
   # generic route for adding/removing watchers
-  scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::Routes do
+  scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::RouteConstraint do
     post "/watch" => "watchers#watch"
     delete "/unwatch" => "watchers#unwatch"
   end
 
   # generic route for adding/removing favorites
-  scope ":object_type/:object_id", constraints: OpenProject::Acts::Favorable::Routes do
+  scope ":object_type/:object_id", constraints: OpenProject::Acts::Favorable::RouteConstraint do
     post "/favorite" => "favorites#favorite"
     delete "/favorite" => "favorites#unfavorite"
   end
 
+  resources :project_queries, only: %i[show new create update destroy], controller: "projects/queries" do
+    concerns :shareable
+
+    member do
+      get :rename
+      post :toggle_public
+    end
+  end
+
   namespace :projects do
     resource :menu, only: %i[show]
-    resources :queries, only: %i[show new create update destroy] do
-      member do
-        get :rename
-
-        post :publish
-        post :unpublish
-      end
-    end
   end
 
   resources :projects, except: %i[show edit create update] do
@@ -283,6 +301,7 @@ Rails.application.routes.draw do
       collection do
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
+        get "menu" => "work_packages/menus#show"
       end
 
       # states managed by client-side routing on work_package#index
@@ -466,6 +485,7 @@ Rails.application.routes.draw do
           put :drop
 
           get :project_mappings
+          get :new_link
           post :link
           delete :unlink
         end
@@ -512,6 +532,8 @@ Rails.application.routes.draw do
   end
 
   namespace :work_packages do
+    get "menu" => "menus#show"
+
     match "auto_complete" => "auto_completes#index", via: %i[get post]
     resource :bulk, controller: "bulk", only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and
@@ -520,6 +542,8 @@ Rails.application.routes.draw do
   end
 
   resources :work_packages, only: [:index] do
+    concerns :shareable
+
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"
@@ -528,16 +552,6 @@ Rails.application.routes.draw do
 
     # states managed by client-side routing on work_package#index
     get "details/*state" => "work_packages#index", on: :collection, as: :details
-
-    # Rails managed sharing route
-    resources :members, path: :shares, controller: "work_packages/shares", only: %i[index create update destroy] do
-      member do
-        post "resend_invite" => "work_packages/shares#resend_invite"
-      end
-      collection do
-        resource :bulk, controller: "work_packages/shares/bulk", only: %i[update destroy], as: :shares_bulk
-      end
-    end
 
     resource :progress, only: %i[new edit update], controller: "work_packages/progress"
     collection do
@@ -552,7 +566,7 @@ Rails.application.routes.draw do
     get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
     get "/new" => "work_packages#index", on: :collection, as: "new", state: "new"
     # We do not want to match the work package export routes
-    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/ }
+    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!shares).+/ }
     get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
   end

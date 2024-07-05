@@ -249,6 +249,7 @@
       work_package_attachments: "Arbeidspakker: vedlegg"
       work_package_categories: "Arbeidspakker: kategorier"
       work_package_file_links: "Arbeidspakker: fillinker"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Sletting har blitt planlagt og blir utført i bakgrunnen. Du vil bli varslet om resultatet."
       schedule_failed: "Prosjektet kan ikke slettes: %{errors}"
@@ -266,6 +267,7 @@
       my: "Mine prosjekter"
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
+      shared: "Shared project lists"
       public: "Offentlige prosjektlister"
       my_private: "Mine private prosjektlister"
       new:
@@ -288,7 +290,7 @@
       project_custom_fields:
         header:
           title: "Prosjektegenskaper"
-          description: "Disse prosjektegenskapene vil bli vist i din <a href=%{overview_url} target=\"_blank\">oversiktsside for prosjekt</a> under deres respektive seksjoner.  Du kan aktivere eller deaktivere individuelle egenskaper.  Prosjektegenskaper og seksjoner er definert i  <a href=%{admin_settings_url} target=\"_blank\">administrasjonsinnstillingene</a> av en administrator."
+          description: 'Disse prosjektegenskapene vil bli vist i din <a href=%{overview_url} target="_blank">oversiktsside for prosjekt</a> under deres respektive seksjoner.  Du kan aktivere eller deaktivere individuelle egenskaper.  Prosjektegenskaper og seksjoner er definert i  <a href=%{admin_settings_url} target="_blank">administrasjonsinnstillingene</a> av en administrator.'
         filter:
           label: "Søk etter prosjektegenskap"
         actions:
@@ -301,10 +303,7 @@
           heading: Påkrevd i alle prosjekter
           description: Prosjektattributten er aktivert i alle prosjekter fordi "Påkrevd i alle prosjekter"-alternativet er valgt. Attributten kan ikke deaktiveres for hvert enkelt prosjekt.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -390,7 +389,19 @@
       will_revoke_access_to_all: "Denne handlingen vil fjerne deres tilgang til alle."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Tilgangstoken kunne ikke tilbakestilles: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "En ny %{type} token har blitt generert. Din tilgangstoken er:"
       token_value_warning: "Merk: Du vil ikke kunne se denne token på nytt, sørg for å kopiere den nå."
       no_results_title_text: Det er ingen tilgangsnøkler tilgjengelig.
@@ -467,7 +478,7 @@
         is_readonly: "Kun lesetilgang"
         excluded_from_totals: "Unntatt fra totaler"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Lyst"
     light_high_contrast: "Lys høy kontrast"
   types:
@@ -718,6 +729,7 @@
         auto_hide_popups: "Auto-skjul suksessvarsler"
         warn_on_leaving_unsaved: "Varsle meg når jeg forlater en arbeidspakke med ulagrede endringer"
         theme: "Modus"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Sluttdato"
         sharing: "Deling"
@@ -918,6 +930,10 @@
             enabled_modules:
               dependency_missing: "Modulen '%{dependency}' må være aktivert i tillegg siden modulen '%{module}' avhenger av den."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -1096,6 +1112,10 @@
           undeletable_work_packages_attached: "Versjonen kan ikke slettes ettersom den har arbeidspakker knyttet til den."
         status:
           readonly_default_exlusive: "kan ikke aktiveres for statuser som er merket som standard."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Kontroller følgende felter:"
         header:
@@ -1778,6 +1798,7 @@
   label_add_another_file: "Legg til en annen fil"
   label_add_columns: "Legg til valgte kolonner"
   label_add_note: "Legg til et notat"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Legg til relaterte arbeidspakker"
   label_add_subtask: "Legg til underoppgave"
   label_added: "lagt til"
@@ -2014,7 +2035,9 @@
   label_introduction_video: "Introduksjonsvideo"
   label_invite_user: "Inviter bruker"
   label_share: "Del"
+  label_share_project_list: "Share project list"
   label_show_hide: "Vis/Skjul"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Vis alle registrerte brukere"
   label_journal: "Journal"
   label_journal_diff: "Sammenligning av beskrivelse"
@@ -2052,6 +2075,7 @@
   label_custom_touch_icon: "Egendefinert berøringsikon"
   label_logout: "Logg av"
   label_main_menu: "Sidemeny"
+  label_manage: "Manage"
   label_manage_groups: "Administrer grupper"
   label_managed_repositories_vendor: "Administrerte %{vendor} kodelagre"
   label_max_size: "Maks størrelse"
@@ -2170,6 +2194,7 @@
   label_project_latest: "Siste prosjekter"
   label_project_default_type: "Tillatt tom type"
   label_project_hierarchy: "Prosjekthierarki"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nytt prosjekt"
   label_project_plural: "Prosjekter"
   label_project_list_plural: "Prosjektlister"
@@ -2456,12 +2481,12 @@
         plaintext:
           storage: "Lagring"
           healthy:
-            summary: "Gode nyheter! Status for lagringen din, %{storage_name}, vises for øyeblikket som \"Sunn\"."
+            summary: 'Gode nyheter! Status for lagringen din, %{storage_name}, vises for øyeblikket som "Sunn".'
             error-solved-on: "Løst"
             recommendation: "Vi vil fortsette å overvåke systemet for å sikre at det holdes i god helse. Ved eventuelle avvik vil vi varsle deg."
             details: "For mer informasjon eller for å gjøre nødvendige endringer, kan du besøke konfigurasjonen for lagring"
           unhealthy:
-            summary: "Statusen for lagring, %{storage_name}, vises for øyeblikket som \"Feil\". Vi oppdaget et problem som kan kreve oppmerksomheten din."
+            summary: 'Statusen for lagring, %{storage_name}, vises for øyeblikket som "Feil". Vi oppdaget et problem som kan kreve oppmerksomheten din.'
             error-details: "Feildetaljer"
             error-message: "Feilmelding"
             error-occurred-on: "Skjedde"
@@ -2470,11 +2495,11 @@
         email_notification_settings: "Innstillinger for e-postvarsling om lagring"
         see_storage_settings: "Se lagringsinnstillinger"
         healthy:
-          subject: "Lagringsplass \"%{name}\" er nå friskt!"
+          subject: 'Lagringsplass "%{name}" er nå friskt!'
           solved_at: "løst"
           summary: "Problemet med din %{storage_name} lagringsintegrasjon er nå løst"
         unhealthy:
-          subject: "Lagringsplass \"%{name}\" er ikke friskt!"
+          subject: 'Lagringsplass "%{name}" er ikke friskt!'
           since: "siden"
           summary: "Det er et problem med %{storage_name}-lagringsintegrasjonen din"
           troubleshooting:
@@ -2600,6 +2625,7 @@
   notice_principals_found_multiple: "Det finnes %{number} resultater. \n bruk tab for å fokusere det første resultatet."
   notice_principals_found_single: "Det er ett resultat. \n Bruk tab for å fokusere det."
   notice_project_not_deleted: "Prosjektet ble ikke slettet."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Vellykket tilkobling."
   notice_successful_create: "Opprettelsen var vellykket."
   notice_successful_delete: "Slettingen var vellykket."
@@ -2958,6 +2984,10 @@
   setting_default_projects_public: "Nye prosjekter er offentlige som standard"
   setting_diff_max_lines_displayed: "Maks antall linjeforskjeller som vises"
   setting_display_subprojects_work_packages: "Vis arbeidspakker for underprosjekter som standard for hovedprosjekter"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Bunntekst for e-post"
   setting_emails_header: "Topptekst for e-post"
   setting_email_login: "Bruk e-post som innlogging"
@@ -2970,7 +3000,7 @@
   setting_host_name: "Vertsnavn"
   setting_hours_per_day: "Timer per dag"
   setting_hours_per_day_explanation: >-
-    Dette vil definere hva som anses som en "dag" når varigheten vises på en mer naturlig måte (for eksempel hvis dagen er 8 timer, vil 32 timer være 4 dager).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Aktiverings e-post utløper etter"
   setting_work_package_done_ratio: "Beregning av fremdrift"
   setting_work_package_done_ratio_field: "Arbeidsbasert"
@@ -3362,54 +3392,73 @@
         work_based_help_text: "% Ferdig utledes automatisk fra arbeid og gjenstående arbeid."
         status_based_help_text: "% Ferdig er angitt etter status på arbeidspakken."
         migration_warning_text: "I arbeidsbasert fremdriftsberegningsmodus kan % Ferdig ferdigstilt ikke settes manuelt og er knyttet til jobber. Den eksisterende verdien er lagret, men kan ikke endres. Skriv inn arbeidet først."
-    sharing:
-      count:
-        zero: "0 brukere"
-        one: "1 bruker"
-        other: "%{count} brukere"
-      filter:
-        project_member: "Prosjektmedlem"
-        not_project_member: "Ikke prosjektmedlem"
-        project_group: "Prosjektgruppe"
-        not_project_group: "Ikke prosjektgruppe"
-        role: "Rolle"
-        type: "Type"
-      label_search: "Søk etter brukere for å invitere"
-      label_search_placeholder: "Søk med bruker eller e-postadresse"
-      label_toggle_all: "Veksle melom delinger"
+    permissions:
+      comment: "Comment"
+      comment_description: "Can view and comment this work package."
+      edit: "Edit"
+      edit_description: "Can view, comment and edit this work package."
+      view: "View"
+      view_description: "Can view this work package."
+  sharing:
+    count:
+      zero: "0 users"
+      one: "1 user"
+      other: "%{count} users"
+    filter:
+      project_member: "Project member"
+      not_project_member: "Not project member"
+      project_group: "Project group"
+      not_project_group: "Not project group"
+      user: "User"
+      group: "Group"
+      role: "Role"
+      type: "Type"
+    denied: "You don't have permissions to share %{entities}."
+    label_search: "Search for users to invite"
+    label_search_placeholder: "Search by user or email address"
+    label_toggle_all: "Toggle all shares"
+    remove: "Remove"
+    share: "Share"
+    text_empty_search_description: "There are no users with the current filter criteria."
+    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
+    text_empty_state_header: "Not shared"
+    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
+    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    warning_user_limit_reached: >
+      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+    warning_user_limit_reached_admin: >
+      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
+    warning_no_selected_user: "Please select users to share this %{entity} with"
+    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    user_details:
+      locked: "Locked user"
+      invited: "Invite sent. "
+      resend_invite: "Resend."
+      invite_resent: "Invite has been resent"
+      not_project_member: "Not a project member"
+      project_group: "Group members might have additional privileges (as project members)"
+      not_project_group: "Group (shared with all members)"
+      additional_privileges_project: "Might have additional privileges (as project member)"
+      additional_privileges_group: "Might have additional privileges (as group member)"
+      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
-        comment: "Kommentar"
-        comment_description: "Kan se og kommentere denne arbeidspakken."
-        denied: "Du har ikke tillatelse til å dele arbeidspakker."
-        edit: "Rediger"
-        edit_description: "Kan vise, kommentere og redigere denne arbeidspakken."
-        view: "Vis"
-        view_description: "Kan se denne arbeidspakken."
-      remove: "Fjern"
-      share: "Del"
-      text_empty_search_description: "Det er ingen brukere med gjeldende filterkriterier."
-      text_empty_search_header: "Vi kunne ikke finne noen matchende resultater."
-      text_empty_state_description: "Arbeidspakken har ikke blitt delt med noen enda."
-      text_empty_state_header: "Ikke delt"
-      text_user_limit_reached: "Å legg til ekstra brukere vil overskride gjeldende grense. Vennligst kontakt en administrator for å øke brukergrensen for å sikre at eksterne brukere har tilgang til denne arbeidspakken."
-      text_user_limit_reached_admins: 'Å legge til ekstra brukere overskrider gjeldende grense. <a href="%{upgrade_url}">oppgradere din plan</a> for å kunne legge til flere brukere.'
-      warning_user_limit_reached: >
-        Å legg til ekstra brukere vil overskride gjeldende grense. Vennligst kontakt en administrator for å øke brukergrensen for å sikre at eksterne brukere har tilgang til denne arbeidspakken.
-      warning_user_limit_reached_admin: >
-        Å legg til ekstra brukere vil overskride gjeldende grense. Vennligst <a href="%{upgrade_url}">oppgrader planen din</a> for å sikre at eksterne brukere har tilgang til denne arbeidspakken.
-      warning_no_selected_user: "Velg brukere du skal dele denne arbeidspakken med"
-      warning_locked_user: "Brukeren %{user} er låst og kan ikke bli delt med"
-      user_details:
-        locked: "Låst bruker"
-        invited: "Invitasjon sendt. "
-        resend_invite: "Send på nytt"
-        invite_resent: "Invitasjonen er sendt på nytt"
-        not_project_member: "Ikke et prosjektmedlem"
-        project_group: "Gruppemedlemmer kan ha flere privilegier (som prosjektmedlemmer)"
-        not_project_group: "Gruppe (delt med alle medlemmer)"
-        additional_privileges_project: "Kan ha flere privilegier (som prosjektmedlem)"
-        additional_privileges_group: "Kan ha flere privilegier (som gruppemedlem)"
-        additional_privileges_project_or_group: "Kan ha flere privilegier (som prosjekt- eller gruppemedlem)"
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Hoppet over dager som ikke er valgt ved planlegging av arbeidspakker (og ikke inkludert i antall dager). Disse kan overstyres på arbeidspakkenivå.

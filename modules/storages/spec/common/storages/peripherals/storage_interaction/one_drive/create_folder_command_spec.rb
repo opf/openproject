@@ -42,7 +42,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
   context "when creating a folder in the root", vcr: "one_drive/create_folder_root" do
     let(:folder_name) { "Földer CreatedBy Çommand" }
     let(:parent_location) { Storages::Peripherals::ParentFolder.new("/") }
-    let(:path) { "/#{folder_name}" }
+    let(:path) { "/F%C3%B6lder%20CreatedBy%20%C3%87ommand" }
 
     it_behaves_like "create_folder_command: successful folder creation"
   end
@@ -50,7 +50,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
   context "when creating a folder in a parent folder", vcr: "one_drive/create_folder_parent" do
     let(:folder_name) { "Földer CreatedBy Çommand" }
     let(:parent_location) { Storages::Peripherals::ParentFolder.new("01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU") }
-    let(:path) { "/Folder with spaces/#{folder_name}" }
+    let(:path) { "/Folder%20with%20spaces/F%C3%B6lder%20CreatedBy%20%C3%87ommand" }
 
     it_behaves_like "create_folder_command: successful folder creation"
   end

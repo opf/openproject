@@ -54,6 +54,20 @@ properties:
 
             **Resource**: User
           readOnly: true
+      updateImmediately:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Directly perform edits on the news
+
+              **Permission** manage news
+      delete:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Delete the news
+
+              **Permission** manage news
 example:
   _type: News
   id: 1
@@ -83,6 +97,12 @@ example:
     author:
       href: "/api/v3/users/2"
       title: Peggie Feeney
+    updateImmediately:
+      href: "api/v3/news/1"
+      method: "patch"
+    delete:
+      href: "api/v3/news/1"
+      method: "delete"
   _embedded:
     project:
       _type: Project...

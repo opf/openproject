@@ -100,7 +100,7 @@ module OpenProject
                            :work_package
                          when Project
                            :project
-                         when ::Queries::Projects::ProjectQuery
+                         when ::ProjectQuery
                            :project_query
                          when Symbol
                            context_type

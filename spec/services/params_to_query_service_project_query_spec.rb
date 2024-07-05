@@ -46,7 +46,7 @@ RSpec.describe ParamsToQueryService, "project query" do
 
       it "returns a new query" do
         expect(service_call)
-          .to be_a Queries::Projects::ProjectQuery
+          .to be_a ProjectQuery
       end
 
       it "applies the filters" do
@@ -59,7 +59,7 @@ RSpec.describe ParamsToQueryService, "project query" do
     context "when sending neither filters nor orders props" do
       it "returns a new query" do
         expect(service_call)
-          .to be_a Queries::Projects::ProjectQuery
+          .to be_a ProjectQuery
       end
 
       it "sets no name" do

@@ -32,7 +32,7 @@ require_relative "shared_contract_examples"
 RSpec.describe Queries::Projects::ProjectQueries::UpdateContract do
   it_behaves_like "project queries contract" do
     let(:query) do
-      Queries::Projects::ProjectQuery.new(name: query_name).tap do |query|
+      ProjectQuery.new(name: query_name).tap do |query|
         query.extend(OpenProject::ChangedBySystem)
 
         query.change_by_system do

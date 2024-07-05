@@ -905,6 +905,11 @@ fr:
       preformatted_text: "Texte préformaté"
       wiki_link: "Lien vers une page wiki"
       image: "Image"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Changement de projet en bloc"
@@ -1060,12 +1065,8 @@ fr:
         is_parent: "Les dates de ce lot de travaux sont automatiquement déduites de ses enfants. Activez la « Planification manuelle » pour définir les dates."
         is_switched_from_manual_to_automatic: "Les dates de ce lot de travaux peuvent avoir besoin d'être recalculées après avoir passé de la planification manuelle à la planification automatique en raison de relations avec d'autres lots de travaux."
       sharing:
-        share: "Partager"
         title: "Partager le lot de travaux"
         show_all_users: "Afficher tous les utilisateurs avec lesquels le lot de travaux a été partagé"
-        selected_count: "%{count} sélectionné"
-        selection:
-          mixed: "Mixte"
         upsale:
           description: "Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet."
       table:

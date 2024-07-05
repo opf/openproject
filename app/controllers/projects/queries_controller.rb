@@ -30,9 +30,9 @@ class Projects::QueriesController < ApplicationController
   include Projects::QueryLoading
 
   # No need for a more specific authorization check. That is carried out in the contracts.
-  no_authorization_required! :show, :new, :create, :rename, :update, :publish, :unpublish, :destroy
+  no_authorization_required! :show, :new, :create, :rename, :update, :toggle_public, :destroy
   before_action :require_login
-  before_action :find_query, only: %i[show rename update destroy publish unpublish]
+  before_action :find_query, only: %i[show rename update destroy toggle_public]
   before_action :build_query_or_deny_access, only: %i[new create]
 
   current_menu_item [:new, :rename, :create, :update] do
@@ -71,20 +71,15 @@ class Projects::QueriesController < ApplicationController
     render_result(call, success_i18n_key: "lists.update.success", error_i18n_key: "lists.update.failure")
   end
 
-  def publish
+  def toggle_public
+    to_be_public = !@query.public?
+    i18n_key = to_be_public ? "lists.publish" : "lists.unpublish"
+
     call = Queries::Projects::ProjectQueries::PublishService
              .new(user: current_user, model: @query)
-             .call(public: true)
+             .call(public: to_be_public)
 
-    render_result(call, success_i18n_key: "lists.publish.success", error_i18n_key: "lists.publish.failure")
-  end
-
-  def unpublish
-    call = Queries::Projects::ProjectQueries::PublishService
-             .new(user: current_user, model: @query)
-             .call(public: false)
-
-    render_result(call, success_i18n_key: "lists.unpublish.success", error_i18n_key: "lists.unpublish.failure")
+    render_result(call, success_i18n_key: "#{i18n_key}.success", error_i18n_key: "#{i18n_key}.failure")
   end
 
   def destroy
@@ -113,6 +108,6 @@ class Projects::QueriesController < ApplicationController
   end
 
   def find_query
-    @query = Queries::Projects::ProjectQuery.visible(current_user).find(params[:id])
+    @query = ProjectQuery.visible(current_user).find(params[:id])
   end
 end

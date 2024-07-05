@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "work_packages_sidemenu",
+                    src: @project ? menu_project_work_packages_path(@project, params.permit(:query_props, :query_id, :name)) : work_packages_menu_path(params.permit(:query_props, :query_id, :name)),
+                    target: "_top",
+                    data: { turbo: false },
+                    loading: :lazy %>

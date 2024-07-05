@@ -903,6 +903,11 @@ zh-TW:
       preformatted_text: "預先格式化文字"
       wiki_link: "連結到一個 Wiki 頁面"
       image: "圖片"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "專案整批變動"
@@ -1058,12 +1063,8 @@ zh-TW:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: "共享"
         title: "分享工作項目"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "已選取 %{count} 個"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "與不是專案成員的使用者共用工作項目。"
       table:

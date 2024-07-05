@@ -248,6 +248,7 @@ ru:
       work_package_attachments: "Пакеты работ: вложения"
       work_package_categories: "Пакеты работ: категории"
       work_package_file_links: "Пакеты работ: ссылки на файлы"
+      work_package_shares: "Пакеты работ: общие ресурсы"
     delete:
       scheduled: "Удаление было запланировано и исполнено в фоновом режиме. О результатах вы будете уведомлены."
       schedule_failed: "Проект удален быть не может: %{errors}"
@@ -265,6 +266,7 @@ ru:
       my: "Мои проекты"
       favored: "Избранные проекты"
       archived: "Архивные проекты"
+      shared: "Общедоступные проекты"
       public: "Списки общедоступных проектов"
       my_private: "Списки моих личных проектов"
       new:
@@ -287,7 +289,7 @@ ru:
       project_custom_fields:
         header:
           title: "Атрибуты проекта"
-          description: "Эти атрибуты проекта будут отображаться на Вашей <a href=%{overview_url} target=\"_blank\">странице обзора проекта</a> в соответствующих разделах. Вы можете включить или отключить отдельные атрибуты. Атрибуты проекта и разделы определяются в <a href=%{admin_settings_url} target=\"_blank\">настройках администрирования</a> администратором экземпляра."
+          description: 'Эти атрибуты проекта будут отображаться на Вашей <a href=%{overview_url} target="_blank">странице обзора проекта</a> в соответствующих разделах. Вы можете включить или отключить отдельные атрибуты. Атрибуты проекта и разделы определяются в <a href=%{admin_settings_url} target="_blank">настройках администрирования</a> администратором экземпляра.'
         filter:
           label: "Поиск атрибута проекта"
         actions:
@@ -300,10 +302,7 @@ ru:
           heading: Требуется во всех проектах
           description: Этот атрибут проекта активирован во всех проектах, поскольку установлен флажок «Требуется во всех проектах». Его нельзя отключить для отдельных проектов.
         new_project_mapping_form:
-          add_projects: Добавить проекты
           include_sub_projects: Включить подпроекты
-        project_mappings:
-          header: Включено в проектах
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -401,7 +400,19 @@ ru:
       will_revoke_access_to_all: "Это действие лишит их доступа ко всем пакетам работ."
   my:
     access_token:
+      errors:
+        token_name_blank: "Пожалуйста, укажите имя токена API"
+        token_name_in_use: "Это имя токена API уже используется, пожалуйста, выберите другое"
+      new_access_token_dialog_title: "Создать новый токен API"
+      new_access_token_dialog_show_button_text: "Токен API"
+      new_access_token_dialog_text_field_placeholder_text: "Мой токен API"
+      new_access_token_dialog_text_field_label: "Имя"
+      new_access_token_dialog_submit_button_text: "Создать"
+      new_access_token_dialog_text: "Этот токен позволит сторонним приложениям взаимодействовать с вашим экземпляром. Чтобы выделить новый токен API, пожалуйста, дайте ему имя."
+      new_access_token_dialog_attention_text: "Относитесь к токенам API как к паролям. Любой, у кого есть эта ссылка, будет иметь доступ к информации из этого экземпляра, делитесь ею только с доверенными пользователями."
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
+      failed_to_create_token: "Не удалось создать токен доступа: %{error}"
+      failed_to_revoke_token: "Не удалось отозвать токен доступа: %{error}"
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
@@ -479,7 +490,7 @@ ru:
         is_readonly: "Только для чтения"
         excluded_from_totals: "Исключен из итогов"
   themes:
-    dark: "Тёмная"
+    dark: "Тёмная тема (экспериментальная)"
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
   types:
@@ -530,9 +541,9 @@ ru:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: "Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        Текущий тип пакета работ не включен в целевой проект. Пожалуйста, включите этот тип в целевом проекте, если хотите, чтобы он остался неизменным. В противном случае тип пакета работ будет автоматически переназначен, что может привести к потере данных.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        Текущие типы пакетов работ не включены в целевой проект. Включите типы в целевом проекте, если хотите, чтобы они остались неизменными. В противном случае типы пакетов работ будут автоматически переназначены, что может привести к потере данных.
     sharing:
       missing_workflow_warning:
         title: "Отсутствует рабочий процесс для совместного использования пакета работ"
@@ -732,6 +743,7 @@ ru:
         auto_hide_popups: "Автоматически скрывать успешные уведомления"
         warn_on_leaving_unsaved: "При покидании рабочего пакета предупреждать о не сохраненных изменениях"
         theme: "Режим"
+        mode_guideline: "Некоторые режимы перезаписывают пользовательские цвета темы для удобства и удобочитаемости. Для полной пользовательской темы выберите светлый режим."
       version:
         effective_date: "Дата окончания"
         sharing: "Совместное использование"
@@ -932,6 +944,10 @@ ru:
             enabled_modules:
               dependency_missing: "Модуль '%{dependency}' ' должен быть включен, так как модуль '%{module}' зависит от него."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Пожалуйста, выберите проект."
         query:
           attributes:
             project:
@@ -1112,6 +1128,10 @@ ru:
           undeletable_work_packages_attached: "Версия не может быть удалена, так как имеет пакеты работ, прикрепленные к ней."
         status:
           readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Пожалуйста, проверьте следующие поля:"
         header:
@@ -1844,6 +1864,7 @@ ru:
   label_add_another_file: "Добавьте еще один файл"
   label_add_columns: "Добавить выбранные столбцы"
   label_add_note: "Добавить заметку"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Добавить связанные пакеты работ"
   label_add_subtask: "Добавить подзадачу"
   label_added: "Добавлено"
@@ -2080,7 +2101,9 @@ ru:
   label_introduction_video: "Вводное видео"
   label_invite_user: "Пригласить пользователя"
   label_share: "Поделиться"
+  label_share_project_list: "Share project list"
   label_show_hide: "Показать/скрыть"
+  label_show_hide_n_items: "Показать/скрыть %{count} элементов"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
   label_journal: "Журнал"
   label_journal_diff: "Описание сравнения"
@@ -2118,6 +2141,7 @@ ru:
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
   label_main_menu: "Боковое меню"
+  label_manage: "Управление"
   label_manage_groups: "Управление группами"
   label_managed_repositories_vendor: "Управляемые %{vendor} репозиториев"
   label_max_size: "Максимальный размер"
@@ -2236,6 +2260,7 @@ ru:
   label_project_latest: "Последние проекты"
   label_project_default_type: "Разрешить пустой тип"
   label_project_hierarchy: "Иерархия проектов"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_list_plural: "Списки проектов"
@@ -2524,12 +2549,12 @@ ru:
         plaintext:
           storage: "Хранилище"
           healthy:
-            summary: "Хорошие новости! Статус вашего хранилища, %{storage_name}, в настоящее время отображается как \"Здоровый\"."
+            summary: 'Хорошие новости! Статус вашего хранилища, %{storage_name}, в настоящее время отображается как "Здоровый".'
             error-solved-on: "Решено на"
             recommendation: "Мы будем продолжать следить за системой, чтобы она оставалась в хорошем состоянии. В случае каких-либо несоответствий мы сообщим Вам об этом."
             details: "Для получения более подробной информации или внесения необходимых изменений Вы можете посетить раздел конфигурации вашего хранилища"
           unhealthy:
-            summary: "Статус Вашего хранилища %{storage_name}, в настоящее время отображается как \"Ошибка\". Мы обнаружили проблему, которая может потребовать Вашего внимания."
+            summary: 'Статус Вашего хранилища %{storage_name}, в настоящее время отображается как "Ошибка". Мы обнаружили проблему, которая может потребовать Вашего внимания.'
             error-details: "Детали ошибки"
             error-message: "Сообщение об ошибке"
             error-occurred-on: "Произошло на"
@@ -2538,11 +2563,11 @@ ru:
         email_notification_settings: "Настройки уведомлений по электронной почте"
         see_storage_settings: "Настройки хранилища"
         healthy:
-          subject: "Хранилище \"%{name}\" теперь здорово!"
+          subject: 'Хранилище "%{name}" теперь здорово!'
           solved_at: "решено в"
           summary: "Проблема с интеграцией хранилища %{storage_name} решена."
         unhealthy:
-          subject: "Хранилище \"%{name}\" нездорово!"
+          subject: 'Хранилище "%{name}" нездорово!'
           since: "с"
           summary: "Проблема с интеграцией хранилища %{storage_name} "
           troubleshooting:
@@ -2667,6 +2692,7 @@ ru:
   notice_principals_found_multiple: "Найдено %{number} результатов. Нажмите <TAB> для перехода к первому."
   notice_principals_found_single: "Найден один результат. Нажмите <TAB> для перехода к нему."
   notice_project_not_deleted: "Проект удалён не был."
+  notice_project_not_found: "Проект не найден."
   notice_successful_connection: "Подключение выполнено."
   notice_successful_create: "Создание выполнено."
   notice_successful_delete: "Удаление выполнено."
@@ -3017,7 +3043,7 @@ ru:
   setting_consent_info: "Текст соглашения"
   setting_consent_required: "Требуется согласие"
   setting_consent_decline_mail: "Контактный почтовый адрес для согласия"
-  setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
+  setting_cross_project_work_package_relations: "Разрешить перекрестные связи пакетов работ проекта"
   setting_first_week_of_year: "Первая неделя в году содержит"
   setting_date_format: "Дата"
   setting_default_language: "Язык по умолчанию"
@@ -3025,6 +3051,10 @@ ru:
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
   setting_diff_max_lines_displayed: "Максимальное количество отображаемых строк diff(разницы)"
   setting_display_subprojects_work_packages: "Отображать пакеты работ подпроектов в основном проекте по-умолчанию"
+  setting_duration_format: "Формат длительности"
+  setting_duration_format_hours_only: "Только часы"
+  setting_duration_format_days_and_hours: "Дни и часы"
+  setting_duration_format_instructions: "Это определяет, как будут отображаться Работа, Оставшаяся работа и Затраченное время."
   setting_emails_footer: "содержимое  нижней части почтовых сообщений"
   setting_emails_header: "Заголовок письма"
   setting_email_login: "Использовать email как логин"
@@ -3037,7 +3067,7 @@ ru:
   setting_host_name: "Имя компьютера в сети"
   setting_hours_per_day: "Количество часов в день"
   setting_hours_per_day_explanation: >-
-    Это определяет, что считается "днем" при более естественном отображении продолжительности (например, если день 8 часов, то 32 часа будет 4 дня).
+    Это определяет, что считается «днем» при более естественном отображении продолжительности (например, если день длится 8 часов, то 32 часа будет 4 дня).
   setting_invitation_expiration_days: "Действие письма активации истекает после"
   setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"
@@ -3430,54 +3460,73 @@ ru:
         work_based_help_text: "% Выполнения автоматически выводится из Работ и Оставшихся работ."
         status_based_help_text: "% Выполнения определяется статусом пакета работ."
         migration_warning_text: "В режиме расчета прогресса \"На основе трудозатрат\" процент завершения невозможно установить вручную, он привязан к трудозатратам. Существующее значение сохранено, но его нельзя изменить. Пожалуйста, сначала введите трудозатраты."
-    sharing:
-      count:
-        zero: "0 пользователей"
-        one: "1 пользователь"
-        other: "%{count} пользователей"
-      filter:
-        project_member: "Участник проекта"
-        not_project_member: "Не участник проекта"
-        project_group: "Группа проекта"
-        not_project_group: "Не группа проекта"
-        role: "Роль"
-        type: "Тип"
-      label_search: "Искать пользователей для приглашения"
-      label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
-      label_toggle_all: "Переключить все общие ресурсы"
+    permissions:
+      comment: "Комментировать"
+      comment_description: "Может просматривать и комментировать этот пакет работ."
+      edit: "Редактировать"
+      edit_description: "Может просматривать, комментировать и редактировать этот пакет работ."
+      view: "Просматривать"
+      view_description: "Может просматривать этот пакет работ."
+  sharing:
+    count:
+      zero: "0 пользователей"
+      one: "1 пользователь"
+      other: "%{count} пользователей"
+    filter:
+      project_member: "Участник проекта"
+      not_project_member: "Не участник проекта"
+      project_group: "Группа проекта"
+      not_project_group: "Не группа проекта"
+      user: "Пользователь"
+      group: "Группа"
+      role: "Роль"
+      type: "Тип"
+    denied: "У вас нет прав на предоставление общего доступа к %{entities}."
+    label_search: "Искать пользователей для приглашения"
+    label_search_placeholder: "Искать по пользователю или адресу электронной почты"
+    label_toggle_all: "Переключить все общие ресурсы"
+    remove: "Удалить"
+    share: "Предоставить общий доступ"
+    text_empty_search_description: "Нет пользователей с текущими критериями фильтра."
+    text_empty_search_header: "Не удалось найти подходящие результаты."
+    text_empty_state_description: "%{entity} еще никому не был предоставлен общий доступ."
+    text_empty_state_header: "Без общего доступа"
+    text_user_limit_reached: "Добавление пользователей превысит текущий лимит. Обратитесь к администратору для увеличения лимита, чтобы внешние пользователи могли получить доступ к %{entity}."
+    text_user_limit_reached_admins: 'Добавление пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}">обновите свой план</a>, чтобы иметь возможность добавлять больше пользователей.'
+    warning_user_limit_reached: >
+      Добавление пользователей превысит текущий лимит. Обратитесь к администратору для увеличения лимита, чтобы внешние пользователи могли получить доступ к %{entity}.
+    warning_user_limit_reached_admin: >
+      Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой план </a>, чтобы гарантировать, что внешние пользователи смогут получить доступ к этому экземпляру. Обратитесь к администратору для увеличения лимита, чтобы внешние пользователи могли получить доступ к %{entity}.
+    warning_no_selected_user: "Пожалуйста, выберите пользователей, которыми предоставляется общий доступ для %{entity}."
+    warning_locked_user: "Пользователь %{user} заблокирован и ему не может быть предоставлен общий доступ к"
+    user_details:
+      locked: "Заблокированный пользователь"
+      invited: "Приглашение отправлено. "
+      resend_invite: "Отправить повторно."
+      invite_resent: "Приглашение отправлено повторно"
+      not_project_member: "Не участник проекта"
+      project_group: "Члены группы могут иметь дополнительные привилегии (как участники проекта)"
+      not_project_group: "Группа (общая для всех участников)"
+      additional_privileges_project: "Может иметь дополнительные привилегии (как участник проекта)"
+      additional_privileges_group: "Может иметь дополнительные привилегии (как участник группы)"
+      additional_privileges_project_or_group: "Может иметь дополнительные привилегии (как участник проекта или группы)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
-        comment: "Комментарий"
-        comment_description: "Может просматривать и комментировать этот пакет работ."
-        denied: "У вас нет прав на предоставление общего доступа к пакетам работ."
-        edit: "Правка"
-        edit_description: "Может просматривать, комментировать и редактировать этот пакет работ."
-        view: "Просмотр"
-        view_description: "Может просматривать этот пакет работ."
-      remove: "Удалить"
-      share: "Поделиться"
-      text_empty_search_description: "Пользователей с текущими критериями фильтрации нет."
-      text_empty_search_header: "Не удалось найти подходящие результаты."
-      text_empty_state_description: "Пакет работ еще не передан никому."
-      text_empty_state_header: "Без общего доступа"
-      text_user_limit_reached: "Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ."
-      text_user_limit_reached_admins: 'Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой тарифный план </a>, чтобы иметь возможность добавлять больше пользователей.'
-      warning_user_limit_reached: >
-        Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ.
-      warning_user_limit_reached_admin: >
-        Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой план </a>, чтобы обеспечить доступ внешних пользователей к этому рабочему пакету.
-      warning_no_selected_user: "Пожалуйста, выберите пользователей для отправки этого пакета работ"
-      warning_locked_user: "Пользователь %{user} заблокирован, и им нельзя поделиться с другими пользователями."
-      user_details:
-        locked: "Заблокированный пользователь"
-        invited: "Приглашение отправлено. "
-        resend_invite: "Переслать"
-        invite_resent: "Приглашение отправлено повторно"
-        not_project_member: "Не участник проекта"
-        project_group: "Члены группы могут иметь дополнительные привилегии (как участники проекта)"
-        not_project_group: "Группа (совместно со всеми участниками)"
-        additional_privileges_project: "Есть дополнительные привилегии (в качестве участника проекта)"
-        additional_privileges_group: "Есть дополнительные привилегии (в качестве члена группы)"
-        additional_privileges_project_or_group: "Есть дополнительные привилегии (в качестве участника проекта или группы)"
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.

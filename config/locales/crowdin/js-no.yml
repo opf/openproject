@@ -102,7 +102,7 @@
     button_save: "Lagre"
     button_settings: "Innstillinger"
     button_uncheck_all: "Avmerk alle"
-    button_update: "Oppdatèr"
+    button_update: "Oppdater"
     button_export-pdf: "Last ned PDF"
     button_export-atom: "Last ned Atom"
     button_create: "Opprett"
@@ -905,6 +905,11 @@
       preformatted_text: "Preformattert tekst"
       wiki_link: "Lenke til en Wiki-side"
       image: "Bilde"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Endre prosjekt i bulk"
@@ -1060,12 +1065,8 @@
         is_parent: "Datoene for denne arbeidspakken trekkes automatisk fra de underordnede. Aktiver 'Manuell planlegging' for å angi datoene."
         is_switched_from_manual_to_automatic: "Datoene for denne arbeidspakken må eventuelt beregnes på nytt etter å ha byttet fra manual til automatisk planlegging på grunn av relasjoner med andre arbeidspakker."
       sharing:
-        share: "Del"
         title: "Del arbeidspakke"
         show_all_users: "Vis alle brukere som arbeidspakken er delt med"
-        selected_count: "%{count} valgte"
-        selection:
-          mixed: "Blandet"
         upsale:
           description: "Del arbeidspakker med brukere som ikke er medlemmer i prosjektet."
       table:

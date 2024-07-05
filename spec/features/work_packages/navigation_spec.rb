@@ -160,7 +160,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
     visit project_path(project)
 
     page.find_test_selector("main-menu-toggler--work_packages").click
-    expect(page).to have_css(".op-view-select--search-results")
+    expect(page).to have_test_selector("op-sidebar--body")
     find(".op-sidemenu--item-action", text: query.name).click
 
     expect(page).to have_no_css(".title-container", text: "Overview")
@@ -259,7 +259,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
       visit "/projects/#{project.identifier}/work_packages?#{url_query}"
 
       wp_table.expect_toast message: "Your view is erroneous and could not be processed.", type: :error
-      expect(page).to have_css "li", text: "Bad request: id is invalid"
+      expect(page).to have_css "li", text: "The requested resource could not be found"
     end
   end
 end

@@ -158,7 +158,7 @@ gem "structured_warnings", "~> 0.4.0"
 gem "airbrake", "~> 13.0.0", require: false
 
 gem "markly", "~> 0.10" # another markdown parser like commonmarker, but with AST support used in PDF export
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "8772c791a21819751c0d111be903b3b44ef7d862"
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "32603f09a249999a00e8ca23eb17215b46a26c0f"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 
@@ -210,6 +210,7 @@ gem "validate_url"
 
 # Storages support code
 gem "dry-container"
+gem "dry-monads"
 
 # ActiveRecord extension which adds typecasting to store accessors
 gem "store_attribute", "~> 1.0"
@@ -330,6 +331,7 @@ group :development, :test do
   gem "rubocop", require: false
   gem "rubocop-capybara", require: false
   gem "rubocop-factory_bot", require: false
+  gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
@@ -349,7 +351,7 @@ end
 gem "bootsnap", "~> 1.18.0", require: false
 
 # API gems
-gem "grape", "~> 2.0.0"
+gem "grape", "~> 2.1.0"
 gem "grape_logging", "~> 1.8.4"
 gem "roar", "~> 1.2.0"
 
@@ -388,6 +390,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.14.1"
-gem "openproject-octicons_helper", "~>19.14.1"
-gem "openproject-primer_view_components", "~>0.35.2"
+gem "openproject-octicons", "~>19.15.0"
+gem "openproject-octicons_helper", "~>19.15.0"
+gem "openproject-primer_view_components", "~>0.36.0"

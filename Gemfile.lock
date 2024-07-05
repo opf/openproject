@@ -8,16 +8,16 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 8772c791a21819751c0d111be903b3b44ef7d862
-  ref: 8772c791a21819751c0d111be903b3b44ef7d862
+  revision: 32603f09a249999a00e8ca23eb17215b46a26c0f
+  ref: 32603f09a249999a00e8ca23eb17215b46a26c0f
   specs:
-    md_to_pdf (0.0.27)
+    md_to_pdf (0.1.1)
       color_conversion (~> 0.1)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.3)
       markly (~> 0.10)
       matrix (~> 0.4)
-      nokogiri (~> 1.1)
+      nokogiri (~> 1.16)
       prawn (~> 2.4)
       prawn-table (~> 0.2)
       text-hyphen (~> 1.5)
@@ -342,19 +342,19 @@ GEM
       activerecord (>= 4.0.0, < 7.2)
     awrence (1.2.1)
     aws-eventstream (1.3.0)
-    aws-partitions (1.947.0)
-    aws-sdk-core (3.198.0)
+    aws-partitions (1.950.0)
+    aws-sdk-core (3.201.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.8)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.86.0)
-      aws-sdk-core (~> 3, >= 3.198.0)
-      aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.153.0)
-      aws-sdk-core (~> 3, >= 3.198.0)
+    aws-sdk-kms (1.88.0)
+      aws-sdk-core (~> 3, >= 3.201.0)
+      aws-sigv4 (~> 1.5)
+    aws-sdk-s3 (1.156.0)
+      aws-sdk-core (~> 3, >= 3.201.0)
       aws-sdk-kms (~> 1)
-      aws-sigv4 (~> 1.8)
+      aws-sigv4 (~> 1.5)
     aws-sdk-sns (1.77.0)
       aws-sdk-core (~> 3, >= 3.197.0)
       aws-sigv4 (~> 1.1)
@@ -459,7 +459,7 @@ GEM
     disposable (0.6.3)
       declarative (>= 0.0.9, < 1.0.0)
       representable (>= 3.1.1, < 4)
-    doorkeeper (5.7.0)
+    doorkeeper (5.7.1)
       railties (>= 5)
     dotenv (3.1.2)
     dotenv-rails (3.1.2)
@@ -473,6 +473,10 @@ GEM
       zeitwerk (~> 2.6)
     dry-inflector (1.0.0)
     dry-logic (1.5.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0, < 2)
+      zeitwerk (~> 2.6)
+    dry-monads (1.6.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
@@ -591,13 +595,12 @@ GEM
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (>= 0.16, < 2.a)
-    grape (2.0.0)
-      activesupport (>= 5)
-      builder
+    grape (2.1.2)
+      activesupport (>= 6)
       dry-types (>= 1.1)
-      mustermann-grape (~> 1.0.0)
-      rack (>= 1.3.0)
-      rack-accept
+      mustermann-grape (~> 1.1.0)
+      rack (>= 2)
+      zeitwerk
     grape_logging (1.8.4)
       grape
       rack
@@ -724,12 +727,12 @@ GEM
     mini_magick (4.13.1)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
-    minitest (5.24.0)
+    minitest (5.24.1)
     msgpack (1.7.2)
     multi_json (1.15.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
-    mustermann-grape (1.0.2)
+    mustermann-grape (1.1.0)
       mustermann (>= 1.0.0)
     mutex_m (0.2.0)
     net-http (0.4.1)
@@ -768,15 +771,15 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-octicons (19.14.1)
-    openproject-octicons_helper (19.14.1)
+    openproject-octicons (19.15.0)
+    openproject-octicons_helper (19.15.0)
       actionview
-      openproject-octicons (= 19.14.1)
+      openproject-octicons (= 19.15.0)
       railties
-    openproject-primer_view_components (0.35.2)
+    openproject-primer_view_components (0.36.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-      openproject-octicons (>= 19.12.0)
+      openproject-octicons (>= 19.15.0)
       view_component (>= 3.1, < 4.0)
     openproject-token (4.0.0)
       activemodel
@@ -845,8 +848,6 @@ GEM
     raabro (1.4.0)
     racc (1.8.0)
     rack (2.2.9)
-    rack-accept (0.4.5)
-      rack (>= 0.4)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.2)
@@ -938,7 +939,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     retriable (3.1.2)
-    rexml (3.3.0)
+    rexml (3.3.1)
       strscan
     rinku (2.0.6)
     roar (1.2.0)
@@ -985,15 +986,17 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.26.1)
       rubocop (~> 1.61)
+    rubocop-openproject (0.1.0)
+      rubocop
     rubocop-performance (1.21.1)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-rails (2.25.0)
+    rubocop-rails (2.25.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-rspec (3.0.1)
+    rubocop-rspec (3.0.2)
       rubocop (~> 1.61)
     rubocop-rspec_rails (2.30.0)
       rubocop (~> 1.61)
@@ -1073,7 +1076,7 @@ GEM
     table_print (1.5.7)
     terminal-table (3.0.2)
       unicode-display_width (>= 1.1.1, < 3)
-    test-prof (1.3.3)
+    test-prof (1.3.3.1)
     text-hyphen (1.5.0)
     thor (1.3.1)
     thread_safe (0.3.6)
@@ -1195,6 +1198,7 @@ DEPENDENCIES
   doorkeeper (~> 5.7.0)
   dotenv-rails
   dry-container
+  dry-monads
   email_validator (~> 2.2.3)
   equivalent-xml (~> 0.6)
   erb_lint
@@ -1211,7 +1215,7 @@ DEPENDENCIES
   good_job (= 3.26.2)
   google-apis-gmail_v1
   googleauth
-  grape (~> 2.0.0)
+  grape (~> 2.1.0)
   grape_logging (~> 1.8.4)
   grids!
   html-pipeline (~> 2.14.0)
@@ -1259,10 +1263,10 @@ DEPENDENCIES
   openproject-job_status!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-octicons (~> 19.14.1)
-  openproject-octicons_helper (~> 19.14.1)
+  openproject-octicons (~> 19.15.0)
+  openproject-octicons_helper (~> 19.15.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.35.2)
+  openproject-primer_view_components (~> 0.36.0)
   openproject-recaptcha!
   openproject-reporting!
   openproject-storages!
@@ -1310,6 +1314,7 @@ DEPENDENCIES
   rubocop
   rubocop-capybara
   rubocop-factory_bot
+  rubocop-openproject
   rubocop-performance
   rubocop-rails
   rubocop-rspec

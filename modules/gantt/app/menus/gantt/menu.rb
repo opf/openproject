@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,8 @@ module Gantt
         next if params.nil?
 
         menu_item(
-          params,
-          I18n.t("js.queries.#{query_key}")
+          I18n.t("js.work_packages.default_queries.#{query_key}"),
+          params
         )
       end
     end

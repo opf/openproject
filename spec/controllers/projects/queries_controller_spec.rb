@@ -36,7 +36,7 @@ RSpec.describe Projects::QueriesController do
 
     before do
       scope = instance_double(ActiveRecord::Relation)
-      allow(Queries::Projects::ProjectQuery).to receive(:visible).with(user).and_return(scope)
+      allow(ProjectQuery).to receive(:visible).with(user).and_return(scope)
       allow(scope).to receive(:find).with(query.id.to_s).and_return(query)
 
       login_as user
@@ -97,7 +97,7 @@ RSpec.describe Projects::QueriesController do
 
       before do
         scope = instance_double(ActiveRecord::Relation)
-        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(ProjectQuery).to receive(:visible).and_return(scope)
         allow(scope).to receive(:find).with(query_id).and_return(query)
 
         login_as user
@@ -210,7 +210,7 @@ RSpec.describe Projects::QueriesController do
       before do
         allow(controller).to receive(:permitted_query_params).and_return(query_params)
         scope = instance_double(ActiveRecord::Relation)
-        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(ProjectQuery).to receive(:visible).and_return(scope)
         allow(scope).to receive(:find).with(query_id).and_return(query)
         allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)
         allow(service_instance).to receive(:call).with(query_params).and_return(service_result)
@@ -263,11 +263,11 @@ RSpec.describe Projects::QueriesController do
     end
   end
 
-  describe "#publish" do
+  describe "#toggle_public" do
     let(:service_class) { Queries::Projects::ProjectQueries::PublishService }
 
     it "requires login" do
-      put "publish", params: { id: 42 }
+      post "toggle_public", params: { id: 42 }
 
       expect(response).not_to be_successful
     end
@@ -283,7 +283,7 @@ RSpec.describe Projects::QueriesController do
       before do
         allow(controller).to receive(:permitted_query_params).and_return(query_params)
         scope = instance_double(ActiveRecord::Relation)
-        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(ProjectQuery).to receive(:visible).and_return(scope)
         allow(scope).to receive(:find).with(query_id).and_return(query)
         allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)
         allow(service_instance).to receive(:call).with(query_params).and_return(service_result)
@@ -292,7 +292,7 @@ RSpec.describe Projects::QueriesController do
       end
 
       it "calls publish service on query" do
-        put "publish", params: { id: 42 }
+        post "toggle_public", params: { id: 42 }
 
         expect(service_instance).to have_received(:call).with(query_params)
       end
@@ -301,7 +301,7 @@ RSpec.describe Projects::QueriesController do
         it "redirects to projects" do
           allow(I18n).to receive(:t).with("lists.publish.success").and_return("foo")
 
-          put "publish", params: { id: 42 }
+          post "toggle_public", params: { id: 42 }
 
           expect(flash[:notice]).to eq("foo")
           expect(response).to redirect_to(projects_path(query_id: query.id))
@@ -319,7 +319,7 @@ RSpec.describe Projects::QueriesController do
         it "renders projects/index" do
           allow(I18n).to receive(:t).with("lists.publish.failure", errors: "something\nwent\nwrong").and_return("bar")
 
-          put "publish", params: { id: 42 }
+          post "toggle_public", params: { id: 42 }
 
           expect(flash[:error]).to eq("bar")
           expect(response).to render_template("projects/index")
@@ -328,80 +328,7 @@ RSpec.describe Projects::QueriesController do
         it "passes variables to template" do
           allow(controller).to receive(:render).and_call_original
 
-          put "update", params: { id: 42 }
-
-          expect(controller).to have_received(:render).with(include(locals: { query:, state: :edit }))
-        end
-      end
-    end
-  end
-
-  describe "#unpublish" do
-    let(:service_class) { Queries::Projects::ProjectQueries::PublishService }
-
-    it "requires login" do
-      put "unpublish", params: { id: 42 }
-
-      expect(response).not_to be_successful
-    end
-
-    context "when logged in" do
-      let(:query) { build_stubbed(:project_query, user:) }
-      let(:query_id) { "42" }
-      let(:query_params) { { public: false } }
-      let(:service_instance) { instance_double(service_class) }
-      let(:service_result) { instance_double(ServiceResult, success?: success?, result: query) }
-      let(:success?) { true }
-
-      before do
-        allow(controller).to receive(:permitted_query_params).and_return(query_params)
-        scope = instance_double(ActiveRecord::Relation)
-        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
-        allow(scope).to receive(:find).with(query_id).and_return(query)
-        allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)
-        allow(service_instance).to receive(:call).with(query_params).and_return(service_result)
-
-        login_as user
-      end
-
-      it "calls publish service on query" do
-        put "unpublish", params: { id: 42 }
-
-        expect(service_instance).to have_received(:call).with(query_params)
-      end
-
-      context "when service call succeeds" do
-        it "redirects to projects" do
-          allow(I18n).to receive(:t).with("lists.unpublish.success").and_return("foo")
-
-          put "unpublish", params: { id: 42 }
-
-          expect(flash[:notice]).to eq("foo")
-          expect(response).to redirect_to(projects_path(query_id: query.id))
-        end
-      end
-
-      context "when service call fails" do
-        let(:success?) { false }
-        let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["something", "went", "wrong"]) }
-
-        before do
-          allow(service_result).to receive(:errors).and_return(errors)
-        end
-
-        it "renders projects/index" do
-          allow(I18n).to receive(:t).with("lists.unpublish.failure", errors: "something\nwent\nwrong").and_return("bar")
-
-          put "unpublish", params: { id: 42 }
-
-          expect(flash[:error]).to eq("bar")
-          expect(response).to render_template("projects/index")
-        end
-
-        it "passes variables to template" do
-          allow(controller).to receive(:render).and_call_original
-
-          put "unpublish", params: { id: 42 }
+          post "toggle_public", params: { id: 42 }
 
           expect(controller).to have_received(:render).with(include(locals: { query:, state: :edit }))
         end
@@ -425,7 +352,7 @@ RSpec.describe Projects::QueriesController do
 
       before do
         scope = instance_double(ActiveRecord::Relation)
-        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(ProjectQuery).to receive(:visible).and_return(scope)
         allow(scope).to receive(:find).with(query_id).and_return(query)
 
         allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)

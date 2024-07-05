@@ -28,7 +28,11 @@
 
 Rails.application.routes.draw do
   resources :projects, only: %i[] do
-    resources :meetings, only: %i[index new create show]
+    resources :meetings, only: %i[index new create show] do
+      collection do
+        get "menu" => "meetings/menus#show"
+      end
+    end
   end
 
   resources :work_packages, only: %i[] do
@@ -45,6 +49,10 @@ Rails.application.routes.draw do
         post :create, controller: "work_package_meetings_tab", action: :add_work_package_to_meeting
       end
     end
+  end
+
+  namespace :meetings do
+    resource :menu, only: %[show]
   end
 
   resources :meetings do

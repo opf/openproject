@@ -63,7 +63,8 @@ module Settings
         default: 1000
       },
       apiv3_write_readonly_attributes: {
-        description: "Allow overriding readonly attributes (e.g. createdAt, updatedAt, author) during the creation of resources via the REST API",
+        description: "Allow overriding readonly attributes (e.g. createdAt, updatedAt, author) " +
+          "during the creation of resources via the REST API",
         default: false
       },
       app_title: {
@@ -385,6 +386,11 @@ module Settings
         description: "Destroy all sessions for current_user on login",
         default: false
       },
+      duration_format: {
+        description: "Format for displaying durations",
+        default: "hours_only",
+        allowed: %w[days_and_hours hours_only]
+      },
       edition: {
         format: :string,
         default: "standard",
@@ -434,7 +440,7 @@ module Settings
       },
       enabled_projects_columns: {
         default: %w[favored name project_status public created_at latest_activity_at required_disk_space],
-        allowed: -> { Queries::Projects::ProjectQuery.new.available_selects.map { |s| s.attribute.to_s } }
+        allowed: -> { ProjectQuery.new.available_selects.map { |s| s.attribute.to_s } }
       },
       enabled_scm: {
         default: %w[subversion git]
@@ -530,7 +536,11 @@ module Settings
         default_by_env: {
           # We do not want to set a localhost host name in production
           production: nil
-        },
+        }
+      },
+      additional_host_names: {
+        description: "Additional allowed host names for the application.",
+        default: []
       },
       hours_per_day: {
         description: "This will define what is considered a “day” when displaying duration in a more natural way " \
@@ -930,7 +940,8 @@ module Settings
         description: "Provide an LDAP connection and sync settings through ENV",
         writable: false,
         default: nil,
-        format: :hash
+        format: :hash,
+        string_values: true
       },
       self_registration: {
         default: 2
@@ -1037,7 +1048,7 @@ module Settings
       },
       smtp_timeout: {
         format: :integer,
-        default: 5,
+        default: 5
       },
       software_name: {
         description: "Override software application name",
@@ -1150,7 +1161,7 @@ module Settings
       },
       work_package_list_default_columns: {
         default: %w[id subject type status assigned_to priority],
-        allowed: -> { Query.new.displayable_columns.map(&:name).map(&:to_s) }
+        allowed: -> { Query.new.displayable_columns.map { |c| c.name.to_s } }
       },
       work_package_startdate_is_adddate: {
         default: false
@@ -1169,20 +1180,22 @@ module Settings
 
     attr_accessor :name,
                   :format,
-                  :env_alias
+                  :env_alias,
+                  :string_values
 
     attr_writer :value,
                 :description,
                 :allowed
 
-    def initialize(name,
+    def initialize(name, # rubocop:disable Metrics/AbcSize
                    default:,
                    default_by_env: {},
                    description: nil,
                    format: nil,
                    writable: true,
                    allowed: nil,
-                   env_alias: nil)
+                   env_alias: nil,
+                   string_values: false)
       self.name = name.to_s
       self.value = derive_default default_by_env.fetch(Rails.env.to_sym, default)
       self.format = format ? format.to_sym : deduce_format(value)
@@ -1190,6 +1203,7 @@ module Settings
       self.allowed = allowed
       self.env_alias = env_alias
       self.description = description.presence || :"setting_#{name}"
+      self.string_values = string_values
     end
 
     def derive_default(default)
@@ -1291,7 +1305,8 @@ module Settings
               description: nil,
               writable: true,
               allowed: nil,
-              env_alias: nil)
+              env_alias: nil,
+              string_values: false)
         name = name.to_sym
         return if exists?(name)
 
@@ -1302,7 +1317,8 @@ module Settings
                          default_by_env:,
                          writable:,
                          allowed:,
-                         env_alias:)
+                         env_alias:,
+                         string_values:)
         override_value(definition)
         all[name] = definition
       end
@@ -1388,7 +1404,13 @@ module Settings
       def merge_hash_config(definition)
         merged_hash = {}
         each_env_var_hash_override(definition) do |env_var_name, env_var_value, env_var_hash_part|
-          value = extract_hash_from_env(env_var_name, env_var_value, env_var_hash_part)
+          value =
+            if definition.string_values
+              path_to_hash(*hash_path(env_var_hash_part), env_var_value)
+            else
+              extract_hash_from_env(env_var_name, env_var_value, env_var_hash_part)
+            end
+
           merged_hash.deep_merge!(value)
         end
         return if merged_hash.empty?

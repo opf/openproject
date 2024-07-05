@@ -47,8 +47,6 @@ class UsersController < ApplicationController
   no_authorization_required! :show
   authorization_checked! :destroy, :deletion_info
 
-  before_action :set_current_activity_page, only: [:show]
-
   # Password confirmation helpers and actions
   include PasswordConfirmation
   before_action :check_password_confirmation, only: [:destroy]
@@ -68,19 +66,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    # show projects based on current user visibility.
-    # But don't simply concatenate the .visible scope to the memberships
-    # as .memberships has an include and an order which for whatever reason
-    # also gets applied to the Project.allowed_to parts concatenated by a UNION
-    # and an order inside a UNION is not allowed in postgres.
-    @memberships = @user.memberships
-                        .where.not(project_id: nil)
-                        .where(id: Member.visible(current_user))
-
-    @groups = @user.groups.visible
-
     if can_show_user?
-      @events = events
       render layout: (can_manage_or_create_users? ? "admin" : "no_menu")
     else
       render_404
@@ -242,16 +228,11 @@ class UsersController < ApplicationController
     return true if can_manage_or_create_users?
     return true if @user == User.current
 
-    (@user.active? || @user.registered?) \
-    && (@memberships.present? || events.present?)
+    @user.active? || @user.registered?
   end
 
   def can_manage_or_create_users?
     current_user.allowed_globally?(:manage_user) || current_user.allowed_globally?(:create_user)
-  end
-
-  def events
-    @events ||= Activities::Fetcher.new(User.current, author: @user).events(limit: 10)
   end
 
   def find_user
@@ -285,10 +266,6 @@ class UsersController < ApplicationController
     render_404 unless Users::DeleteContract.deletion_allowed? @user, User.current
   end
 
-  def set_current_activity_page
-    @activity_page = "users/#{@user.id}"
-  end
-
   def my_or_admin_layout
     # TODO: how can this be done better:
     # check if the route used to call the action is in the 'my' namespace
@@ -314,7 +291,7 @@ class UsersController < ApplicationController
   end
 
   def show_local_breadcrumb
-    can_manage_or_create_users?
+    can_manage_or_create_users? && action_name != "show"
   end
 
   def build_user_update_params

@@ -71,7 +71,6 @@ The [package-based installation](../installation/packaged) requires one of the f
 | Ubuntu 20.04 Focal              |
 | Debian 12 Bookworm              |
 | Debian 11 Bullseye              |
-| Debian 10 Buster                |
 | CentOS/RHEL 9.x                 |
 | CentOS/RHEL 8.x                 |
 | Suse Linux Enterprise Server 15 |

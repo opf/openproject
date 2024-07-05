@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Projects::ProjectQuery do
+RSpec.describe ProjectQuery do
   let(:instance) { described_class.new }
 
   shared_let(:user) { create(:user) }
