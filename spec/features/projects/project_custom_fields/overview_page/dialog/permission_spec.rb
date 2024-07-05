@@ -58,12 +58,9 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     end
   end
 
-  describe "with insufficient Edit permissions" do
-    # turboframe sidebar request is covered by a controller spec checking for 403
-    # async dialog content request is be covered by a controller spec checking for 403
-    # via spec/permissions/manage_project_custom_values_spec.rb
+  describe "with Edit project permissions" do
     before do
-      login_as member_without_project_edit_permissions
+      login_as member_with_project_edit_permissions
       overview_page.visit_page
     end
 
@@ -74,9 +71,25 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     end
   end
 
-  describe "with sufficient Edit permissions" do
+  describe "with insufficient Edit attributes permissions" do
+    # turboframe sidebar request is covered by a controller spec checking for 403
+    # async dialog content request is be covered by a controller spec checking for 403
+    # via spec/permissions/manage_project_custom_values_spec.rb
     before do
-      login_as member_with_project_edit_permissions
+      login_as member_without_project_attributes_edit_permissions
+      overview_page.visit_page
+    end
+
+    it "does not show the edit buttons" do
+      overview_page.within_async_loaded_sidebar do
+        expect(page).to have_no_css("[data-test-selector='project-custom-field-section-edit-button']")
+      end
+    end
+  end
+
+  describe "with sufficient Edit attributes permissions" do
+    before do
+      login_as member_with_project_attributes_edit_permissions
       overview_page.visit_page
     end
 
@@ -84,6 +97,27 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
       overview_page.within_async_loaded_sidebar do
         expect(page).to have_css("[data-test-selector='project-custom-field-section-edit-button']", count: 3)
       end
+    end
+  end
+
+  describe "with insufficient Edit attribute permission on the update dialog" do
+    let(:member) { member_with_project_attributes_edit_permissions }
+    let(:section) { section_for_input_fields }
+    let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
+
+    before do
+      login_as member
+      overview_page.visit_page
+    end
+
+    it "responds with a permission denied message" do
+      overview_page.open_edit_dialog_for_section(section)
+      # Change role to project edit, so the user won't have the project attributes edit role
+      member_with_project_attributes_edit_permissions.memberships.first.update(roles: [edit_project_role])
+      member_with_project_attributes_edit_permissions.reload
+      dialog.submit
+
+      expect(page).to have_css("#errorExplanation", text: I18n.t(:notice_not_authorized))
     end
   end
 end

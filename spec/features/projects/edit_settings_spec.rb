@@ -223,4 +223,27 @@ RSpec.describe "Projects", "editing settings", :js, :with_cuprite do
       expect(page).to have_no_text "Optional Bar"
     end
   end
+
+  describe "permissions" do
+    context "with edit_project permission only" do
+      let!(:custom_field) { create(:string_project_custom_field, projects: [project]) }
+      let(:foo_field) { FormFields::InputFormField.new custom_field }
+
+      it "does not allow saving custom fields" do
+        visit project_settings_general_path(project.id)
+
+        # Remove edit_project_attributes after loading the form
+        role = Role.first
+        role.permissions -= [:edit_project_attributes]
+        role.save
+        current_user.reload
+
+        foo_field.set_value "1234"
+
+        click_on "Save"
+        expect(page)
+          .to have_text "#{custom_field.name} was attempted to be written but is not writable."
+      end
+    end
+  end
 end

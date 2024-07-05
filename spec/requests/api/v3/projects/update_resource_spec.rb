@@ -167,18 +167,87 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
     end
   end
 
-  context "without permission to patch projects" do
-    let(:permissions) { [] }
+  describe "permissions" do
+    context "without permission to patch projects" do
+      let(:permissions) { [] }
 
-    it "responds with 403" do
-      expect(last_response).to have_http_status(:forbidden)
+      it "responds with 403" do
+        expect(last_response).to have_http_status(:forbidden)
+      end
+
+      it "does not change the project" do
+        attributes_before = project.attributes
+
+        expect(project.reload.name)
+          .to eql(attributes_before["name"])
+      end
+
+      context "and with edit_project_attributes permission" do
+        let(:permissions) { [:edit_project_attributes] }
+        let(:body) do
+          {
+            custom_field.attribute_name(:camel_case) => {
+              raw: "CF text"
+            }
+          }
+        end
+
+        it "responds with 403" do
+          expect(last_response).to have_http_status(:forbidden)
+        end
+
+        it "does not change the project" do
+          attributes_before = project.attributes
+          custom_field_value_before = project.send(custom_field.attribute_getter)
+
+          expect(project.reload.name)
+            .to eql(attributes_before["name"])
+          expect(project.send(custom_field.attribute_getter))
+            .to eq custom_field_value_before
+        end
+      end
     end
 
-    it "does not change the project" do
-      attributes_before = project.attributes
+    context "with edit_project permission" do
+      let(:permissions) { [:edit_project] }
 
-      expect(project.reload.name)
-        .to eql(attributes_before["name"])
+      it "responds with 200 OK" do
+        expect(last_response).to have_http_status(:ok)
+      end
+
+      it "alters the project" do
+        project.reload
+
+        expect(project.name)
+          .to eql(body[:name])
+
+        expect(project.identifier)
+          .to eql(body[:identifier])
+      end
+
+      context "when custom_field values are updated without edit_project_attributes" do
+        let(:body) do
+          {
+            custom_field.attribute_name(:camel_case) => {
+              raw: "CF text"
+            }
+          }
+        end
+
+        it "responds with 422" do
+          expect(last_response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "does not change the project" do
+          attributes_before = project.attributes
+          custom_field_value_before = project.send(custom_field.attribute_getter)
+
+          expect(project.reload.name)
+            .to eql(attributes_before["name"])
+          expect(project.send(custom_field.attribute_getter))
+            .to eq custom_field_value_before
+        end
+      end
     end
   end
 
