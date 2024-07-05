@@ -28,30 +28,15 @@
 
 module Storages
   module Admin
-    class Sidebar::HealthNotificationsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    class SidePanelComponent < ApplicationComponent
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
       def initialize(storage:)
         super
+
         @storage = storage
-      end
-
-      def render?
-        @storage.automatically_managed?
-      end
-
-      def notification_status
-        if @storage.health_notifications_should_be_sent?
-          { icon: :"bell-slash",
-            label: I18n.t("storages.health_email_notifications.unsubscribe"),
-            description: I18n.t("storages.health_email_notifications.description_subscribed") }
-        else
-          { icon: :bell,
-            label: I18n.t("storages.health_email_notifications.subscribe"),
-            description: I18n.t("storages.health_email_notifications.description_unsubscribed") }
-        end
       end
     end
   end

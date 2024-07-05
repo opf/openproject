@@ -29,7 +29,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Admin::Sidebar::HealthStatusComponent, type: :component do
+RSpec.describe Storages::Admin::SidePanel::HealthStatusComponent, type: :component do
   frozen_date_time = Time.zone.local(2023, 11, 28, 1, 2, 3)
 
   subject(:health_status_component) { described_class.new(storage:) }
