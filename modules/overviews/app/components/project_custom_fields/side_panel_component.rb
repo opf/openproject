@@ -27,7 +27,7 @@
 #++
 
 module ProjectCustomFields
-  class SidebarComponent < ApplicationComponent
+  class SidePanelComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
