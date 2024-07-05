@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,38 +24,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
-  include OpTurbo::ComponentStream
+module Projects::Scopes
+  module ActivatedInStorage
+    extend ActiveSupport::Concern
 
-  layout "admin"
+    class_methods do
+      def activated_in_storage(storage_ids)
+        subquery = project_storages_subquery(storage_ids:)
+        where(id: subquery)
+      end
 
-  model_object Storages::Storage
+      def not_activated_in_storage(storage_ids)
+        subquery = project_storages_subquery(storage_ids:)
+        where.not(id: subquery)
+      end
 
-  before_action :require_admin
-  before_action :find_model_object
+      private
 
-  menu_item :external_file_storages
-
-  def index
-    @project_query = ProjectQuery.new(
-      name: "project-storage-mappings-#{@storage.id}"
-    ) do |query|
-      query.where(:storages, "=", [@storage.id])
-      query.select(:name)
-      query.order("lft" => "asc")
+      def project_storages_subquery(storage_ids:)
+        Storages::ProjectStorage
+          .select(:project_id)
+          .where(storage_id: storage_ids)
+      end
     end
-  end
-
-  def new; end
-  def create; end
-  def destroy; end
-
-  private
-
-  def find_model_object(object_id = :storage_id)
-    super
-    @storage = @object
   end
 end
