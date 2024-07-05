@@ -103,6 +103,10 @@ module Storages
             Failures::Builder.call(code: :unauthorized,
                                    log_message: "Error while fetching OAuth access token.",
                                    data: Failures::ErrorData.call(response: e.response, source: self.class))
+          rescue HTTPX::TimeoutError => e
+            Failures::Builder.call(code: :unauthorized,
+                                   log_message: "Timeout while fetching OAuth token.",
+                                   data: Failures::TimeoutErrorData.call(error: e, source: self.class))
           end
 
           def build_failure(storage)
