@@ -29,8 +29,7 @@ require "spec_helper"
 
 RSpec.describe "Project list sharing",
                :js,
-               :with_cuprite,
-               with_flag: { project_list_sharing_active?: true } do
+               :with_cuprite do
   shared_let(:view_project_query_role) { create(:view_project_query_role) }
   shared_let(:edit_project_query_role) { create(:edit_project_query_role) }
 
