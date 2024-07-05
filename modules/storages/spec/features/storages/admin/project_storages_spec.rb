@@ -37,11 +37,30 @@ RSpec.describe "Admin lists project mappings for a storage",
                with_flag: { enable_storage_for_multiple_projects: true } do
   shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
   shared_let(:non_admin) { create(:user) }
+
   shared_let(:project) { create(:project, name: "My active Project") }
-  shared_let(:archived_project) { create(:project, active: false, name: "My archived Project") }
-  shared_let(:storage) { create(:nextcloud_storage, name: "My Nextcloud Storage") }
-  shared_let(:project_storage) { create :project_storage, project:, storage: }
-  shared_let(:archived_project_project_storage) { create :project_storage, project: archived_project, storage: }
+  shared_let(:archived_project) do
+    create(:project,
+           active: false,
+           name: "My archived Project")
+  end
+  shared_let(:storage) do
+    create(:nextcloud_storage,
+           :as_automatically_managed,
+           name: "My Nextcloud Storage")
+  end
+  shared_let(:project_storage) do
+    create(:project_storage,
+           project:,
+           storage:,
+           project_folder_mode: "automatic")
+  end
+  shared_let(:archived_project_project_storage) do
+    create(:project_storage,
+           project: archived_project,
+           storage:,
+           project_folder_mode: "inactive")
+  end
 
   current_user { admin }
 
@@ -76,10 +95,19 @@ RSpec.describe "Admin lists project mappings for a storage",
         end
       end
 
-      aggregate_failures "shows the correct project mappings" do
+      aggregate_failures "shows the correct table headers" do
         within "#project-table" do
-          expect(page).to have_text(project.name)
-          expect(page).to have_text(archived_project.name)
+          expect(page)
+            .to have_css("th", text: "NAME")
+          expect(page)
+            .to have_css("th", text: "PROJECT FOLDER TYPE")
+        end
+      end
+
+      aggregate_failures "shows the correct project mappings including archived projects and their folder modes" do
+        within "#project-table" do
+          expect(page).to have_text("#{project.name} Automatically managed")
+          expect(page).to have_text("#{archived_project.name} No specific folder")
         end
       end
     end
