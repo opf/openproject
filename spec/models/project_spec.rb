@@ -237,10 +237,6 @@ RSpec.describe Project do
     end
   end
 
-  include_examples "creates an audit trail on destroy" do
-    subject { create(:attachment) }
-  end
-
   describe "#close_completed_versions" do
     let!(:completed_version) do
       create(:version, project:, effective_date: Date.parse("2000-01-01")).tap do |v|
