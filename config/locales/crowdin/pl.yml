@@ -287,7 +287,7 @@ pl:
       project_custom_fields:
         header:
           title: "Atrybuty projektu"
-          description: "Te atrybuty projektu będą wyświetlane w odpowiednich sekcjach Twojej <a href=%{overview_url} target=\"_blank\">strony przeglądu projektu</a>. Możesz włączyć lub wyłączyć poszczególne atrybuty. Atrybuty i sekcje projektu są definiowane w <a href=%{admin_settings_url} target=\"_blank\">ustawieniach administracyjnych</a> przez administratora wystąpienia. "
+          description: 'Te atrybuty projektu będą wyświetlane w odpowiednich sekcjach Twojej <a href=%{overview_url} target="_blank">strony przeglądu projektu</a>. Możesz włączyć lub wyłączyć poszczególne atrybuty. Atrybuty i sekcje projektu są definiowane w <a href=%{admin_settings_url} target="_blank">ustawieniach administracyjnych</a> przez administratora wystąpienia. '
         filter:
           label: "Wyszukaj atrybut projektu"
         actions:
@@ -814,7 +814,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         error_conflict: "Information has been updated by at least one other user in the meantime."
@@ -2101,6 +2101,7 @@ pl:
   label_introduction_video: "Film wprowadzający"
   label_invite_user: "Zaproś użytkownika"
   label_share: "Udostępnij"
+  label_share_project_list: "Share project list"
   label_show_hide: "Pokaż/Ukryj"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Pokaż wszystkich zarejestrowanych użytkowników"
@@ -2547,12 +2548,12 @@ pl:
         plaintext:
           storage: "Magazyn"
           healthy:
-            summary: "Dobre wieści! Status magazynu %{storage_name} jest obecnie wyświetlany jako „Zdrowe”."
+            summary: 'Dobre wieści! Status magazynu %{storage_name} jest obecnie wyświetlany jako „Zdrowe”.'
             error-solved-on: "Rozwiązano w dniu"
             recommendation: "Będziemy nadal monitorować system, aby zapewnić jego dobrą kondycję. W przypadku jakichkolwiek rozbieżności powiadomimy Cię."
             details: "Aby uzyskać więcej informacji lub wprowadzić wszelkie niezbędne zmiany, możesz odwiedzić konfigurację magazynu"
           unhealthy:
-            summary: "Status magazynu %{storage_name} jest obecnie wyświetlany jako „Błąd”. Wykryliśmy problem, który może wymagać Twojej uwagi."
+            summary: 'Status magazynu %{storage_name} jest obecnie wyświetlany jako „Błąd”. Wykryliśmy problem, który może wymagać Twojej uwagi.'
             error-details: "Szczegóły błędu"
             error-message: "Komunikat o błędzie"
             error-occurred-on: "Wystąpił w dniu"
@@ -2561,11 +2562,11 @@ pl:
         email_notification_settings: "Ustawienia powiadomień e-mail dotyczących magazynu"
         see_storage_settings: "Sprawdź ustawienia magazynu"
         healthy:
-          subject: "Magazyn „%{name}” jest już w dobrej kondycji!"
+          subject: 'Magazyn „%{name}” jest już w dobrej kondycji!'
           solved_at: "rozwiązano o"
           summary: "Problem z integracją magazynu %{storage_name} został już rozwiązany"
         unhealthy:
-          subject: "Magazyn „%{name}” jest w złej kondycji!"
+          subject: 'Magazyn „%{name}” jest w złej kondycji!'
           since: "od"
           summary: "Wystąpił problem z integracją magazynu %{storage_name}"
           troubleshooting:
@@ -3509,6 +3510,23 @@ pl:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Dni, które nie zostały wybrane, są pomijane podczas planowania pakietów roboczych (i nie są uwzględnione w liczbie dni). Mogą one zostać zastąpione na poziomie pakietu roboczego.

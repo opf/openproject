@@ -290,7 +290,7 @@ fa:
       project_custom_fields:
         header:
           title: "Project attributes"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
         filter:
           label: "Search project attribute"
         actions:
@@ -2038,6 +2038,7 @@ fa:
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
   label_share: "به اشتراک گذاری"
+  label_share_project_list: "Share project list"
   label_show_hide: "Show/hide"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "نمایش تمام کاربران ثبت نام شده"
@@ -2482,12 +2483,12 @@ fa:
         plaintext:
           storage: "ذخیره‌سازی"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            summary: 'Good news! The status of your storage, %{storage_name}, is currently displaying as "Healthy".'
             error-solved-on: "Solved On"
             recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
             details: "For more details or to make any necessary amendments, you can visit your storage configuration"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: 'The status of your storage, %{storage_name}, is currently displaying as "Error". We''ve detected an issue that might require your attention.'
             error-details: "Error Details"
             error-message: "Error Message"
             error-occurred-on: "Occurred On"
@@ -2496,11 +2497,11 @@ fa:
         email_notification_settings: "Storage email notification settings"
         see_storage_settings: "See storage settings"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: 'Storage "%{name}" is now healthy!'
           solved_at: "solved at"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
+          subject: 'Storage "%{name}" is unhealthy!'
           since: "since"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
@@ -3443,6 +3444,23 @@ fa:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

@@ -289,7 +289,7 @@ zh-TW:
       project_custom_fields:
         header:
           title: "專案屬性"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
         filter:
           label: "Search project attribute"
         actions:
@@ -1961,7 +1961,7 @@ zh-TW:
   label_file_plural: "檔案"
   label_filter_add: "新增條件"
   label_filter: "篩選條件"
-  label_filter_plural: "篩選器"
+  label_filter_plural: "篩選條件"
   label_filters_toggle: "顯示/隱藏篩選條件"
   label_float: "浮點數"
   label_folder: "資料夾"
@@ -1985,7 +1985,7 @@ zh-TW:
   label_history: "歷史"
   label_hierarchy_leaf: "頁面結構頁"
   label_home: "Home"
-  label_subject_or_id: "主旨或 id"
+  label_subject_or_id: "名稱或 id"
   label_calendar_subscriptions: "訂閱行事曆"
   label_identifier: "識別碼"
   label_in: "在"
@@ -2004,6 +2004,7 @@ zh-TW:
   label_introduction_video: "簡介影片"
   label_invite_user: "邀請使用者"
   label_share: "分享"
+  label_share_project_list: "Share project list"
   label_show_hide: "顯示/隱藏"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "顯示所有註冊使用者"
@@ -2025,7 +2026,7 @@ zh-TW:
   label_latest_revision_plural: "最新版本"
   label_ldap_authentication: "LDAP 認證"
   label_learn_more: "了解更多"
-  label_less_or_equal: "<="
+  label_less_or_equal: "之後"
   label_less_than_ago: "幾天內"
   label_link_url: "Link (URL)"
   label_list: "清單"
@@ -2447,12 +2448,12 @@ zh-TW:
         plaintext:
           storage: "儲存空間"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            summary: 'Good news! The status of your storage, %{storage_name}, is currently displaying as "Healthy".'
             error-solved-on: "Solved On"
             recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
             details: "For more details or to make any necessary amendments, you can visit your storage configuration"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: 'The status of your storage, %{storage_name}, is currently displaying as "Error". We''ve detected an issue that might require your attention.'
             error-details: "Error Details"
             error-message: "Error Message"
             error-occurred-on: "Occurred On"
@@ -2461,11 +2462,11 @@ zh-TW:
         email_notification_settings: "Storage email notification settings"
         see_storage_settings: "See storage settings"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: 'Storage "%{name}" is now healthy!'
           solved_at: "solved at"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
+          subject: 'Storage "%{name}" is unhealthy!'
           since: "since"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
@@ -3405,6 +3406,23 @@ zh-TW:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

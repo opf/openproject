@@ -248,7 +248,7 @@ ru:
       work_package_attachments: "Пакеты работ: вложения"
       work_package_categories: "Пакеты работ: категории"
       work_package_file_links: "Пакеты работ: ссылки на файлы"
-      work_package_shares: "Work packages: shares"
+      work_package_shares: "Пакеты работ: общие ресурсы"
     delete:
       scheduled: "Удаление было запланировано и исполнено в фоновом режиме. О результатах вы будете уведомлены."
       schedule_failed: "Проект удален быть не может: %{errors}"
@@ -289,7 +289,7 @@ ru:
       project_custom_fields:
         header:
           title: "Атрибуты проекта"
-          description: "Эти атрибуты проекта будут отображаться на Вашей <a href=%{overview_url} target=\"_blank\">странице обзора проекта</a> в соответствующих разделах. Вы можете включить или отключить отдельные атрибуты. Атрибуты проекта и разделы определяются в <a href=%{admin_settings_url} target=\"_blank\">настройках администрирования</a> администратором экземпляра."
+          description: 'Эти атрибуты проекта будут отображаться на Вашей <a href=%{overview_url} target="_blank">странице обзора проекта</a> в соответствующих разделах. Вы можете включить или отключить отдельные атрибуты. Атрибуты проекта и разделы определяются в <a href=%{admin_settings_url} target="_blank">настройках администрирования</a> администратором экземпляра.'
         filter:
           label: "Поиск атрибута проекта"
         actions:
@@ -404,18 +404,18 @@ ru:
   my:
     access_token:
       errors:
-        token_name_blank: "Please provide an API token name"
-        token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
-      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
-      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
+        token_name_blank: "Пожалуйста, укажите имя токена API"
+        token_name_in_use: "Это имя токена API уже используется, пожалуйста, выберите другое"
+      new_access_token_dialog_title: "Создать новый токен API"
+      new_access_token_dialog_show_button_text: "Токен API"
+      new_access_token_dialog_text_field_placeholder_text: "Мой токен API"
+      new_access_token_dialog_text_field_label: "Имя"
+      new_access_token_dialog_submit_button_text: "Создать"
+      new_access_token_dialog_text: "Этот токен позволит сторонним приложениям взаимодействовать с вашим экземпляром. Чтобы выделить новый токен API, пожалуйста, дайте ему имя."
+      new_access_token_dialog_attention_text: "Относитесь к токенам API как к паролям. Любой, у кого есть эта ссылка, будет иметь доступ к информации из этого экземпляра, делитесь ею только с доверенными пользователями."
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
-      failed_to_create_token: "Failed to create access token: %{error}"
-      failed_to_revoke_token: "Failed to revoke access token: %{error}"
+      failed_to_create_token: "Не удалось создать токен доступа: %{error}"
+      failed_to_revoke_token: "Не удалось отозвать токен доступа: %{error}"
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
@@ -2103,8 +2103,9 @@ ru:
   label_introduction_video: "Вводное видео"
   label_invite_user: "Пригласить пользователя"
   label_share: "Поделиться"
+  label_share_project_list: "Share project list"
   label_show_hide: "Показать/скрыть"
-  label_show_hide_n_items: "Show/hide %{count} items"
+  label_show_hide_n_items: "Показать/скрыть %{count} элементов"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
   label_journal: "Журнал"
   label_journal_diff: "Описание сравнения"
@@ -2142,7 +2143,7 @@ ru:
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
   label_main_menu: "Боковое меню"
-  label_manage: "Manage"
+  label_manage: "Управление"
   label_manage_groups: "Управление группами"
   label_managed_repositories_vendor: "Управляемые %{vendor} репозиториев"
   label_max_size: "Максимальный размер"
@@ -2549,12 +2550,12 @@ ru:
         plaintext:
           storage: "Хранилище"
           healthy:
-            summary: "Хорошие новости! Статус вашего хранилища, %{storage_name}, в настоящее время отображается как \"Здоровый\"."
+            summary: 'Хорошие новости! Статус вашего хранилища, %{storage_name}, в настоящее время отображается как "Здоровый".'
             error-solved-on: "Решено на"
             recommendation: "Мы будем продолжать следить за системой, чтобы она оставалась в хорошем состоянии. В случае каких-либо несоответствий мы сообщим Вам об этом."
             details: "Для получения более подробной информации или внесения необходимых изменений Вы можете посетить раздел конфигурации вашего хранилища"
           unhealthy:
-            summary: "Статус Вашего хранилища %{storage_name}, в настоящее время отображается как \"Ошибка\". Мы обнаружили проблему, которая может потребовать Вашего внимания."
+            summary: 'Статус Вашего хранилища %{storage_name}, в настоящее время отображается как "Ошибка". Мы обнаружили проблему, которая может потребовать Вашего внимания.'
             error-details: "Детали ошибки"
             error-message: "Сообщение об ошибке"
             error-occurred-on: "Произошло на"
@@ -2563,11 +2564,11 @@ ru:
         email_notification_settings: "Настройки уведомлений по электронной почте"
         see_storage_settings: "Настройки хранилища"
         healthy:
-          subject: "Хранилище \"%{name}\" теперь здорово!"
+          subject: 'Хранилище "%{name}" теперь здорово!'
           solved_at: "решено в"
           summary: "Проблема с интеграцией хранилища %{storage_name} решена."
         unhealthy:
-          subject: "Хранилище \"%{name}\" нездорово!"
+          subject: 'Хранилище "%{name}" нездорово!'
           since: "с"
           summary: "Проблема с интеграцией хранилища %{storage_name} "
           troubleshooting:
@@ -3043,7 +3044,7 @@ ru:
   setting_consent_info: "Текст соглашения"
   setting_consent_required: "Требуется согласие"
   setting_consent_decline_mail: "Контактный почтовый адрес для согласия"
-  setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
+  setting_cross_project_work_package_relations: "Разрешить перекрестные связи пакетов работ проекта"
   setting_first_week_of_year: "Первая неделя в году содержит"
   setting_date_format: "Дата"
   setting_default_language: "Язык по умолчанию"
@@ -3051,10 +3052,10 @@ ru:
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
   setting_diff_max_lines_displayed: "Максимальное количество отображаемых строк diff(разницы)"
   setting_display_subprojects_work_packages: "Отображать пакеты работ подпроектов в основном проекте по-умолчанию"
-  setting_duration_format: "Duration format"
-  setting_duration_format_hours_only: "Hours only"
-  setting_duration_format_days_and_hours: "Days and hours"
-  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
+  setting_duration_format: "Формат длительности"
+  setting_duration_format_hours_only: "Только часы"
+  setting_duration_format_days_and_hours: "Дни и часы"
+  setting_duration_format_instructions: "Это определяет, как будут отображаться Работа, Оставшаяся работа и Затраченное время."
   setting_emails_footer: "содержимое  нижней части почтовых сообщений"
   setting_emails_header: "Заголовок письма"
   setting_email_login: "Использовать email как логин"
@@ -3067,7 +3068,7 @@ ru:
   setting_host_name: "Имя компьютера в сети"
   setting_hours_per_day: "Количество часов в день"
   setting_hours_per_day_explanation: >-
-    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
+    Это определяет, что считается «днем» при более естественном отображении продолжительности (например, если день длится 8 часов, то 32 часа будет 4 дня).
   setting_invitation_expiration_days: "Действие письма активации истекает после"
   setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"
@@ -3510,6 +3511,23 @@ ru:
       additional_privileges_project: "Может иметь дополнительные привилегии (как участник проекта)"
       additional_privileges_group: "Может иметь дополнительные привилегии (как участник группы)"
       additional_privileges_project_or_group: "Может иметь дополнительные привилегии (как участник проекта или группы)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
