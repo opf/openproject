@@ -91,10 +91,6 @@ module OpenProject
       end
 
       module InstanceMethods
-        def self.prepended(base)
-          base.extend ClassMethods
-        end
-
         def possible_watcher?(user)
           user.allowed_based_on_permission_context?(self.class.acts_as_watchable_permission,
                                                     project:,
