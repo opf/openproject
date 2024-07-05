@@ -31,12 +31,23 @@ require_relative "shared_contract_examples"
 
 RSpec.describe Projects::UpdateContract do
   it_behaves_like "project contract" do
+    let(:custom_field) do
+      build_stubbed(:integer_project_custom_field).tap do |cf|
+        allow_any_instance_of(CustomValue) # rubocop:disable RSpec/AnyInstance
+          .to receive(:custom_field).and_return(cf)
+      end
+    end
+
     let(:project) do
       build_stubbed(:project,
                     active: project_active,
                     public: project_public,
                     status_code: project_status_code,
                     status_explanation: project_status_explanation).tap do |p|
+        allow(p).to receive_messages(available_custom_fields: [custom_field],
+                                     all_available_custom_fields: [custom_field])
+        next unless project_changed
+
         # in order to actually have something changed
         p.name = project_name
         p.parent = project_parent
@@ -44,14 +55,119 @@ RSpec.describe Projects::UpdateContract do
       end
     end
     let(:project_permissions) { [:edit_project] }
+    let(:project_changed) { true }
+    let(:options) { {} }
 
-    subject(:contract) { described_class.new(project, current_user) }
+    subject(:contract) { described_class.new(project, current_user, options:) }
 
     context "if the identifier is nil" do
       let(:project_identifier) { nil }
 
       it "is replaced for new project" do
         expect_valid(false, identifier: %i(blank))
+      end
+    end
+
+    describe "permissions" do
+      context "with edit_project_attributes" do
+        let(:project_permissions) { [:edit_project_attributes] }
+
+        context "when project_attributes_only flag is true" do
+          let(:options) { { project_attributes_only: true } }
+
+          before do
+            project.custom_field_values = { custom_field.id => "1" }
+          end
+
+          context "and only project_custom_fields are changed" do
+            let(:project_changed) { false }
+
+            it_behaves_like "is valid"
+          end
+
+          context "and other project attributes are changed too" do
+            let(:project_changed) { true }
+
+            it "is invalid" do
+              expect_valid(false, { name: %i(error_readonly),
+                                    parent_id: %i(error_readonly),
+                                    identifier: %i(error_readonly) })
+            end
+          end
+        end
+
+        context "when project_attributes_only flag is false" do
+          let(:options) { { project_attributes_only: false } }
+
+          it "is invalid" do
+            expect_valid(false, base: %i(error_unauthorized))
+          end
+        end
+      end
+
+      context "with edit_project" do
+        context "when project_attributes_only flag is true" do
+          let(:options) { { project_attributes_only: true } }
+
+          it "is invalid" do
+            expect_valid(false, base: %i(error_unauthorized))
+          end
+        end
+
+        context "when project_attributes_only flag is false" do
+          let(:options) { { project_attributes_only: false } }
+
+          context "and only project attributes are changed" do
+            let(:project_changed) { true }
+
+            it_behaves_like "is valid"
+          end
+
+          context "and project_custom_fields are changed too" do
+            let(:project_changed) { true }
+
+            before do
+              project.custom_field_values = { custom_field.id => "1" }
+            end
+
+            it "is invalid" do
+              expect_valid(false, "custom_field_#{custom_field.id}": %i(error_readonly))
+            end
+          end
+        end
+      end
+
+      context "with both edit_project and edit_project_attributes are set" do
+        let(:project_permissions) { %i(edit_project edit_project_attributes) }
+
+        context "when project_attributes_only flag is false" do
+          let(:options) { { project_attributes_only: false } }
+
+          context "and only project attributes are changed" do
+            let(:project_changed) { true }
+
+            it_behaves_like "is valid"
+          end
+
+          context "and project_custom_fields are changed too" do
+            let(:project_changed) { true }
+
+            before do
+              project.custom_field_values = { custom_field.id => "1" }
+            end
+
+            it_behaves_like "is valid"
+          end
+        end
+      end
+
+      context "without permissions when project_attributes_only flag is true" do
+        let(:project_permissions) { [] }
+        let(:options) { { project_attributes_only: true } }
+
+        it "is invalid" do
+          expect_valid(false, base: %i(error_unauthorized))
+        end
       end
     end
   end

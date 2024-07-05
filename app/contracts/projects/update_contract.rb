@@ -30,6 +30,30 @@ module Projects
   class UpdateContract < BaseContract
     private
 
+    def unauthenticated_changed
+      permissions = {
+        edit_project_attributes: user.allowed_in_project?(:edit_project_attributes, model),
+        edit_project: user.allowed_in_project?(:edit_project, model)
+      }
+
+      case permissions
+      in { edit_project_attributes: true, edit_project: false }
+        super + without_custom_fields(changed_by_user)
+      in { edit_project_attributes: false, edit_project: true }
+        super + with_custom_fields_only(changed_by_user)
+      else
+        super
+      end
+    end
+
+    def without_custom_fields(changes)
+      changes.grep_v(/^custom_field_/)
+    end
+
+    def with_custom_fields_only(changes)
+      changes.grep(/^custom_field_/)
+    end
+
     def manage_permission
       if changed_by_user == ["active"]
         :archive_project

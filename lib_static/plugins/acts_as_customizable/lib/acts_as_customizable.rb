@@ -277,8 +277,7 @@ module Redmine
 
             # Skip when the new value is the default value
             next cfv_changes if value_was.nil? && cfv.default?
-
-            cfv_changes.merge("custom_field_#{cfv.custom_field_id}": [value_was, cfv.value])
+            cfv_changes.merge("custom_field_#{cfv.custom_field_id}" => [value_was, cfv.value])
           end
         end
 
