@@ -100,6 +100,7 @@ export class WorkPackageEmbeddedGraphComponent {
   protected setChartOptions() {
     const bodyFontColor= getComputedStyle(document.body).getPropertyValue('--body-font-color');
     const gridLineColor= getComputedStyle(document.body).getPropertyValue('--borderColor-default');
+    const backdropColor= getComputedStyle(document.body).getPropertyValue('--overlay-backdrop-bgColor');
 
     const defaults:ChartOptions = {
       color: bodyFontColor,
@@ -107,12 +108,30 @@ export class WorkPackageEmbeddedGraphComponent {
       maintainAspectRatio: false,
       indexAxis: this.chartType === 'horizontalBar' ? 'y' : 'x',
       scales: {
+        r: {
+          angleLines: {
+            color: this.isRadarChart() ? gridLineColor : 'transparent',
+          },
+          grid: {
+            color: this.isRadarChart() ? gridLineColor : 'transparent',
+          },
+          pointLabels: {
+            color: this.isRadarChart() ? bodyFontColor : 'transparent',
+          },
+          ticks: {
+            color: this.isRadarChart() ? bodyFontColor : 'transparent',
+            backdropColor: this.isRadarChart() ? backdropColor : 'transparent',
+          },
+        },
         y: {
           ticks: {
             color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
           grid: {
             color: this.isBarChart() ? gridLineColor : 'transparent',
+          },
+          border: {
+            color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
         },
         x: {
@@ -121,6 +140,9 @@ export class WorkPackageEmbeddedGraphComponent {
           },
           grid: {
             color: this.isBarChart() ? gridLineColor : 'transparent',
+          },
+          border: {
+            color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
         },
       },
@@ -190,5 +212,9 @@ export class WorkPackageEmbeddedGraphComponent {
 
   private isBarChart() {
     return this.chartType === 'bar' || this.chartType === 'horizontalBar' || this.chartType === 'line';
+  }
+
+  private isRadarChart() {
+    return this.chartType === 'radar' || this.chartType === 'polarArea';
   }
 }
