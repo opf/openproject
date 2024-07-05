@@ -46,15 +46,6 @@ require "test_prof/recipes/rspec/sample"
 # https://github.com/paper-trail-gem/paper_trail#7b-rspec
 require "paper_trail/frameworks/rspec"
 
-# Add rubocop rspec helpers for our cop tests. It needs to be done before RSpec
-# requires all files so that the CopHelper module does not hide some let
-# definitions.
-#
-# Ideally we should move our cops to their own gem.
-require "rubocop"
-require "rubocop/rspec/shared_contexts"
-require "rubocop/rspec/support"
-
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end

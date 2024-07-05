@@ -986,6 +986,8 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.26.1)
       rubocop (~> 1.61)
+    rubocop-openproject (0.1.0)
+      rubocop
     rubocop-performance (1.21.1)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
@@ -1312,6 +1314,7 @@ DEPENDENCIES
   rubocop
   rubocop-capybara
   rubocop-factory_bot
+  rubocop-openproject
   rubocop-performance
   rubocop-rails
   rubocop-rspec

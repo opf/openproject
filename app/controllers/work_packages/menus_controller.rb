@@ -25,37 +25,13 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module WorkPackages
+  class MenusController < ApplicationController
+    before_action :load_and_authorize_in_optional_project
 
-require "spec_helper"
-require "rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect"
-
-RSpec.describe RuboCop::Cop::OpenProject::NoDoEndBlockWithRSpecCapybaraMatcherInExpect do
-  include RuboCop::RSpec::ExpectOffense
-  include_context "config"
-
-  context "when using `do .. end` syntax with rspec matcher" do
-    it "registers an offense" do
-      expect_offense(<<~RUBY)
-        expect(page).to have_selector("input") do |input|
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ The `do .. end` block is associated with `to` and not with Capybara matcher `have_selector`.
-        end
-      RUBY
-    end
-
-    it "matches only Capybara matchers" do
-      expect_no_offenses(<<~RUBY)
-        expect(foo).to have_received(:bar) do |value|
-          value == 'hello world'
-        end
-      RUBY
-    end
-  end
-
-  context "when using `{ .. }` syntax with rspec matcher" do
-    it "does not register an offense" do
-      expect_no_offenses(<<~RUBY)
-        expect(page).to have_selector("input") { |input| }
-      RUBY
+    def show
+      @sidebar_menu_items = WorkPackages::Menu.new(project: @project, params:, request:).menu_items
+      render layout: nil
     end
   end
 end
