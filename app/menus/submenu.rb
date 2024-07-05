@@ -49,6 +49,7 @@ class Submenu
       .where("starred" => "t")
       .pluck(:id, :name)
       .map { |id, name| menu_item(name, query_params(id)) }
+      .sort_by(&:title)
   end
 
   def default_queries
@@ -61,6 +62,7 @@ class Submenu
       .where("public" => "t")
       .pluck(:id, :name)
       .map { |id, name| menu_item(name, query_params(id)) }
+      .sort_by(&:title)
   end
 
   def custom_queries
@@ -69,6 +71,7 @@ class Submenu
       .where("public" => "f")
       .pluck(:id, :name)
       .map { |id, name| menu_item(name, query_params(id)) }
+      .sort_by(&:title)
   end
 
   def base_query
@@ -103,7 +106,7 @@ class Submenu
       end
     end
 
-    if query_params.empty? && params[:filters].present?
+    if query_params.empty? && (%i[filters query_props query_id name].any? { |k| params.key? k })
       return false
     end
 

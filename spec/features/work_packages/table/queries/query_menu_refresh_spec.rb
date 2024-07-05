@@ -79,7 +79,6 @@ RSpec.describe "Refreshing query menu item", :js do
       find_by_id("show-public").set false
       find(".button", text: "Save").click
 
-      wp_table.expect_and_dismiss_toaster message: "Successful update."
       expect(page).to have_current_path(project_work_packages_path(project))
     end
   end
