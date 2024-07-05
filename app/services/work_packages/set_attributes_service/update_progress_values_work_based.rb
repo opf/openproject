@@ -31,108 +31,100 @@ class WorkPackages::SetAttributesService
     private
 
     def update_progress_attributes
+      raise ArgumentError, "Cannot use #{self.class.name} in status-based mode" if WorkPackage.status_based_mode?
+
       if only_percent_complete_initially_set?
-        update_remaining_hours_from_percent_complete
+        update_remaining_work_from_percent_complete
       else
-        update_estimated_hours
-        update_remaining_hours
-        update_done_ratio
+        update_work
+        update_remaining_work
+        update_percent_complete
       end
     end
 
     def only_percent_complete_initially_set?
-      return false if work_package.done_ratio.nil?
-      return false if work_package.remaining_hours.present?
+      return false if percent_complete_unset?
+      return false if remaining_work.present?
 
-      work_package.estimated_hours_changed? && work_package.estimated_hours.present?
+      work_changed? && work.present?
     end
 
-    def work_was_unset_and_remaining_work_is_set?
-      work_package.estimated_hours_was.nil? && work_package.remaining_hours.present?
-    end
-
-    # Compute and update +done_ratio+ if its dependent attributes are being modified.
-    # The dependent attributes for +done_ratio+ are
-    # - +remaining_hours+
-    # - +estimated_hours+
+    # Compute and update +percent_complete+ if its dependent attributes are being modified.
+    # The dependent attributes for +percent_complete+ are
+    # - +work+
+    # - +remaining_work+
     #
-    # Unless both +remaining_hours+ and +estimated_hours+ are set, +done_ratio+ will be
+    # Unless both +remaining_work+ and +work+ are set, +percent_complete+ will be
     # considered nil.
-    def update_done_ratio
-      return unless work_package.remaining_hours_changed? || work_package.estimated_hours_changed?
+    def update_percent_complete
+      return unless remaining_work_changed? || work_changed?
 
-      work_package.done_ratio = if done_ratio_dependent_attribute_unset?
-                                  nil
-                                else
-                                  compute_done_ratio
-                                end
+      self.percent_complete = if percent_complete_dependent_attribute_unset?
+                                nil
+                              else
+                                compute_percent_complete
+                              end
     end
 
-    def update_remaining_hours_from_percent_complete
-      return if work_package.remaining_hours_came_from_user?
-      return if work_package.estimated_hours&.negative?
+    def update_remaining_work_from_percent_complete
+      return if remaining_work_came_from_user?
+      return if work&.negative?
 
-      work_package.remaining_hours = remaining_hours_from_done_ratio_and_estimated_hours
+      self.remaining_work = remaining_work_from_percent_complete_and_work
     end
 
-    def done_ratio_dependent_attribute_unset?
-      work_package.remaining_hours.nil? || work_package.estimated_hours.nil?
+    def percent_complete_dependent_attribute_unset?
+      remaining_work_unset? || work_unset?
     end
 
-    def compute_done_ratio
-      # do not change done ratio if the values are invalid
+    def compute_percent_complete
+      # do not change % complete if the progress values are invalid
       if invalid_progress_values?
-        return work_package.done_ratio
+        return percent_complete
       end
 
-      completed_work = work_package.estimated_hours - work_package.remaining_hours
-      completion_ratio = completed_work.to_f / work_package.estimated_hours
+      completed_work = work - remaining_work
+      completion_ratio = completed_work.to_f / work
 
       (completion_ratio * 100).round(2)
     end
 
     def invalid_progress_values?
-      work = work_package.estimated_hours
-      remaining_work = work_package.remaining_hours
-
       return true if work.negative?
       return true if remaining_work.negative?
 
       work && remaining_work && remaining_work > work
     end
 
-    def update_estimated_hours
-      return if work_package.estimated_hours_came_from_user?
-      return unless work_package.remaining_hours_changed?
+    def update_work
+      return if work_came_from_user?
+      return unless remaining_work_changed?
 
-      work = work_package.estimated_hours
-      remaining_work = work_package.remaining_hours
       return if work.present?
-      return if remaining_work.nil? || remaining_work.negative?
+      return if remaining_work_unset? || remaining_work.negative?
 
-      work_package.estimated_hours = estimated_hours_from_done_ratio_and_remaining_hours
+      self.work = work_from_percent_complete_and_remaining_work
     end
 
     # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
-    def update_remaining_hours
-      if work_package.estimated_hours_changed?
-        return if work_package.remaining_hours_came_from_user?
-        return if work_package.estimated_hours&.negative?
-        return if work_was_unset_and_remaining_work_is_set? # remaining work is kept and % complete will be set
+    def update_remaining_work
+      return unless work_changed?
+      return if remaining_work_came_from_user?
+      return if work&.negative?
+      return if work_was_unset? && remaining_work.present? # remaining work is kept and % complete will be set
 
-        if work_package.estimated_hours.nil? || work_package.remaining_hours.nil?
-          work_package.remaining_hours = work_package.estimated_hours
-        else
-          delta = work_package.estimated_hours - work_package.estimated_hours_was
-          work_package.remaining_hours = (work_package.remaining_hours + delta).clamp(0.0, work_package.estimated_hours)
-        end
+      if work_unset? || remaining_work.nil?
+        self.remaining_work = work
+      else
+        delta = work - work_was
+        self.remaining_work = (remaining_work + delta).clamp(0.0, work)
       end
     end
     # rubocop:enable Metrics/AbcSize,Metrics/PerceivedComplexity
 
-    def estimated_hours_from_done_ratio_and_remaining_hours
-      remaining_ratio = 1.0 - ((work_package.done_ratio || 0) / 100.0)
-      work_package.remaining_hours / remaining_ratio
+    def work_from_percent_complete_and_remaining_work
+      remaining_percent_complete = 1.0 - ((percent_complete || 0) / 100.0)
+      remaining_work / remaining_percent_complete
     end
   end
 end

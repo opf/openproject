@@ -31,28 +31,27 @@ class WorkPackages::SetAttributesService
     private
 
     def update_progress_attributes
-      raise ArgumentError, "Cannot use self.class.name for work-based mode" if WorkPackage.use_field_for_done_ratio?
+      raise ArgumentError, "Cannot use #{self.class.name} in work-based mode" if WorkPackage.work_based_mode?
 
-      update_done_ratio
-      update_remaining_hours_from_percent_complete
+      update_percent_complete
+      update_remaining_work_from_percent_complete
     end
 
-    # Update +done_ratio+ from the status if the status changed.
-    def update_done_ratio
+    # Update +% complete+ from the status if the status changed.
+    def update_percent_complete
       return unless work_package.status_id_changed?
 
-      work_package.done_ratio = work_package.status.default_done_ratio
+      self.percent_complete = work_package.status.default_done_ratio
     end
 
-    # When in "Status-based" mode for % Complete, remaining hours are based
-    # on the computation of it derived from the status's default done ratio
-    # and the estimated hours. If the estimated hours are unset, then also
-    # unset the remaining hours.
-    def update_remaining_hours_from_percent_complete
-      return if work_package.remaining_hours_came_from_user?
-      return if work_package.estimated_hours&.negative?
+    # When in "Status-based" mode for progress calculation, remaining work is
+    # always derived from % complete and work. If work is unset, then remaining
+    # work must be unset too.
+    def update_remaining_work_from_percent_complete
+      return if remaining_work_came_from_user?
+      return if work&.negative?
 
-      work_package.remaining_hours = remaining_hours_from_done_ratio_and_estimated_hours
+      self.remaining_work = remaining_work_from_percent_complete_and_work
     end
   end
 end

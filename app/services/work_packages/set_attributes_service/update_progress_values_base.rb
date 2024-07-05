@@ -43,24 +43,72 @@ class WorkPackages::SetAttributesService
       work_package.estimated_hours
     end
 
-    def remaining_work
-      work_package.remaining_hours
+    def work=(value)
+      work_package.estimated_hours = value
     end
 
-    def percent_complete
-      work_package.done_ratio
+    def work_was
+      work_package.estimated_hours_was
     end
 
     def work_unset?
       work.nil?
     end
 
+    def work_was_unset?
+      work_package.estimated_hours_was.nil?
+    end
+
+    def work_changed?
+      work_package.estimated_hours_changed?
+    end
+
+    def work_came_from_user?
+      work_package.estimated_hours_came_from_user?
+    end
+
+    def remaining_work
+      work_package.remaining_hours
+    end
+
+    def remaining_work=(value)
+      work_package.remaining_hours = value
+    end
+
     def remaining_work_unset?
       remaining_work.nil?
     end
 
+    def remaining_work_was_unset?
+      work_package.remaining_hours_was.nil?
+    end
+
+    def remaining_work_changed?
+      work_package.remaining_hours_changed?
+    end
+
+    def remaining_work_came_from_user?
+      work_package.remaining_hours_came_from_user?
+    end
+
+    def percent_complete
+      work_package.done_ratio
+    end
+
+    def percent_complete=(value)
+      work_package.done_ratio = value
+    end
+
     def percent_complete_unset?
       percent_complete.nil?
+    end
+
+    def percent_complete_was_unset?
+      work_package.done_ratio_was.nil?
+    end
+
+    def percent_complete_changed?
+      work_package.done_ratio_changed?
     end
 
     private
@@ -68,20 +116,20 @@ class WorkPackages::SetAttributesService
     def round_progress_values
       rounded = work&.round(2)
       if rounded != work
-        work_package.estimated_hours = rounded
+        self.work = rounded
       end
       rounded = remaining_work&.round(2)
       if rounded != remaining_work
-        work_package.remaining_hours = rounded
+        self.remaining_work = rounded
       end
     end
 
-    def remaining_hours_from_done_ratio_and_estimated_hours
+    def remaining_work_from_percent_complete_and_work
       return nil if work_unset? || percent_complete_unset?
 
       completed_work = work * percent_complete / 100.0
-      remaining_hours = (work - completed_work).round(2)
-      remaining_hours.clamp(0.0, work)
+      remaining_work = (work - completed_work).round(2)
+      remaining_work.clamp(0.0, work)
     end
   end
 end
