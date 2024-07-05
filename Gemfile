@@ -272,7 +272,7 @@ group :test do
   gem "selenium-devtools"
   gem "selenium-webdriver", "~> 4.20"
 
-  gem "fuubar", "~> 2.5.0"
+  gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
 
   # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
