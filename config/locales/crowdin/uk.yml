@@ -285,7 +285,7 @@ uk:
       project_custom_fields:
         header:
           title: "Атрибути проєкту"
-          description: "Ці атрибути проєкту відображатимуться на вашій <a href=%{overview_url} target=\"_blank\">сторінці огляду проєкту</a></a> у відповідних розділах. Ви можете ввімкнути або вимкнути окремі атрибути. Атрибути проєкту й розділи визначає адміністратор екземпляра в <a href=%{admin_settings_url} target=\"_blank\">налаштуваннях адміністрування</a>. "
+          description: 'Ці атрибути проєкту відображатимуться на вашій <a href=%{overview_url} target="_blank">сторінці огляду проєкту</a></a> у відповідних розділах. Ви можете ввімкнути або вимкнути окремі атрибути. Атрибути проєкту й розділи визначає адміністратор екземпляра в <a href=%{admin_settings_url} target="_blank">налаштуваннях адміністрування</a>. '
         filter:
           label: "Пошук атрибутів проєкту"
         actions:
@@ -298,10 +298,7 @@ uk:
           heading: Обов’язково для всіх проєктів
           description: Цей атрибут проєкту активовано в усіх проєктах, оскільки встановлено прапорець «Обов’язково для всіх проєктів». Його не можна деактивувати для окремих проєктів.
         new_project_mapping_form:
-          add_projects: Додати проєкти
           include_sub_projects: Включити підпроєкти
-        project_mappings:
-          header: Увімкнено в проєктах
       types:
         no_results_title_text: Наразі немає доступних типів.
         form:
@@ -1862,6 +1859,7 @@ uk:
   label_add_another_file: "Додати ще один файл"
   label_add_columns: "Додати вибрані стовпці"
   label_add_note: "Додати зауваження"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Додати відповідні робочі пакети"
   label_add_subtask: "Додати підзавдання"
   label_added: "додано"
@@ -2092,12 +2090,13 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції зі встановлення"
+  label_installation_guides: "Інструкції із встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
   label_invite_user: "Запросити користувача"
   label_share: "Поділитися"
+  label_share_project_list: "Share project list"
   label_show_hide: "Показати сховати"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Усі зареєстровані користувачі"
@@ -2256,6 +2255,7 @@ uk:
   label_project_latest: "Останні проекти"
   label_project_default_type: "Дозволити порожній тип"
   label_project_hierarchy: "Ієрархія проектів"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Новий проект"
   label_project_plural: "Проекти"
   label_project_list_plural: "Списки проєкту"
@@ -2544,12 +2544,12 @@ uk:
         plaintext:
           storage: "Сховище"
           healthy:
-            summary: "Чудові новини! Зараз статус вашого сховища «%{storage_name}» – «Справне»."
+            summary: 'Чудові новини! Зараз статус вашого сховища «%{storage_name}» – «Справне».'
             error-solved-on: "Вирішено"
             recommendation: "Ми продовжуватимемо відстежувати систему, щоб переконатися, що вона залишається справною. Ми сповістимо вас, якщо виявимо будь-які невідповідності."
             details: "Щоб дізнатися більше або внести необхідні зміни, перейдіть на сторінку конфігурації свого сховища"
           unhealthy:
-            summary: "Зараз статус вашого сховища, %{storage_name}, – «Помилка». Ми виявили проблему, яка може потребувати вашої уваги."
+            summary: 'Зараз статус вашого сховища, %{storage_name}, – «Помилка». Ми виявили проблему, яка може потребувати вашої уваги.'
             error-details: "Деталі помилки"
             error-message: "Повідомлення про помилку"
             error-occurred-on: "Сталася в"
@@ -2558,11 +2558,11 @@ uk:
         email_notification_settings: "Налаштування сповіщень електронною поштою для сховища"
         see_storage_settings: "Переглянути налаштування сховища"
         healthy:
-          subject: "Сховище «%{name}» зараз справне!"
+          subject: 'Сховище «%{name}» зараз справне!'
           solved_at: "вирішено о"
           summary: "Проблему з інтеграцією вашого сховища «%{storage_name}» вирішено"
         unhealthy:
-          subject: "Сховище «%{name}» несправне!"
+          subject: 'Сховище «%{name}» несправне!'
           since: "з"
           summary: "Існує проблема з інтеграцією вашого сховища «%{storage_name}»"
           troubleshooting:
@@ -3505,6 +3505,23 @@ uk:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Під час планування пакетів робіт невибрані дні пропускаються й не включаються в кількість днів. Це налаштування можна змінити на рівні пакета робіт.

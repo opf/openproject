@@ -287,7 +287,7 @@ lt:
       project_custom_fields:
         header:
           title: "Projekto atributai"
-          description: "Šie projekto atributai bus rodomi jūsų <a href=%{overview_url} target=\"_blank\">projekto apžvalgos puslapyje</a> savo atitinkamose skiltyse. Galite įjungti ar išjungti konkrečius atributus. Projekto atributus ir skiltys egzemplioriaus administratorius apibrėžia <a href=%{admin_settings_url} target=\"_blank\">administravimo nustatymuose</a>. "
+          description: 'Šie projekto atributai bus rodomi jūsų <a href=%{overview_url} target="_blank">projekto apžvalgos puslapyje</a> savo atitinkamose skiltyse. Galite įjungti ar išjungti konkrečius atributus. Projekto atributus ir skiltys egzemplioriaus administratorius apibrėžia <a href=%{admin_settings_url} target="_blank">administravimo nustatymuose</a>. '
         filter:
           label: "Ieškoti projekto atributo"
         actions:
@@ -300,10 +300,7 @@ lt:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Nėra prieinamų tipų.
         form:
@@ -1865,6 +1862,7 @@ lt:
   label_add_another_file: "Pridėti kitą failą"
   label_add_columns: "Pridėti pažymėtus stulpelius"
   label_add_note: "Pridėti pastabą"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Pridėti susijusių darbų paketų"
   label_add_subtask: "Pridėti antrinę užduotį"
   label_added: "pridėtas"
@@ -2101,6 +2099,7 @@ lt:
   label_introduction_video: "Įvado video"
   label_invite_user: "Pakviesti vartotoją"
   label_share: "Dalintis"
+  label_share_project_list: "Share project list"
   label_show_hide: "Rodyti/slėpti"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Rodyti visus registruotus vartotojus"
@@ -2259,6 +2258,7 @@ lt:
   label_project_latest: "Naujausi projektai"
   label_project_default_type: "Leisti tuščią tipą"
   label_project_hierarchy: "Projekto hierarchija"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
   label_project_list_plural: "Projektų sąrašai"
@@ -2547,12 +2547,12 @@ lt:
         plaintext:
           storage: "Saugykla"
           healthy:
-            summary: "Geros naujienos! Jūsų saugyklos „%{storage_name}“ būsena dabar rodoma kaip „Sveika“."
+            summary: 'Geros naujienos! Jūsų saugyklos „%{storage_name}“ būsena dabar rodoma kaip „Sveika“.'
             error-solved-on: "Išspręsta"
             recommendation: "Mes ir toliau stebėsime sistemą, kad įsitikintumėme, kad ji išlieka geroje būklėje. Jei pastebėsime kažką negero, pranešime jums."
             details: "Jei norite daugiau informacijos arba padaryti kokius nors pakeitimus, galite aplankyti saugyklos konfigūraciją"
           unhealthy:
-            summary: "Šiuo metu jūsų saugyklos „%{storage_name}“ būsena rodoma kaip „Klaida“. Aptikome problemą, kuriai gali prireikti jūsų dėmesio."
+            summary: 'Šiuo metu jūsų saugyklos „%{storage_name}“ būsena rodoma kaip „Klaida“. Aptikome problemą, kuriai gali prireikti jūsų dėmesio.'
             error-details: "Klaidos informacija"
             error-message: "Klaidos pranešimas"
             error-occurred-on: "Įvyko"
@@ -2561,11 +2561,11 @@ lt:
         email_notification_settings: "Saugyklos e-pašto pranešimų nustatymai"
         see_storage_settings: "Žiūrėkite saugyklos nustatymus"
         healthy:
-          subject: "Saugykla „%{name}“ dabar sveika!"
+          subject: 'Saugykla „%{name}“ dabar sveika!'
           solved_at: "išspręsta"
           summary: "Problema su jūsų saugyklos „%{storage_name}“ integracija dabar išspręsta"
         unhealthy:
-          subject: "Saugykla „%{name}“ nesveika!"
+          subject: 'Saugykla „%{name}“ nesveika!'
           since: "nuo"
           summary: "Yra problema su jūsų saugyklos „%{storage_name}“ integracija"
           troubleshooting:
@@ -3507,6 +3507,23 @@ lt:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

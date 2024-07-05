@@ -289,7 +289,7 @@ pt-BR:
       project_custom_fields:
         header:
           title: "Atributos do projeto"
-          description: "Esses atributos do projeto serão exibidos na sua <a href=%{overview_url} target=\"_blank\">página de visão geral do projeto</a>, cada um na seção correspondente. Você pode ativar ou desativar atributos individualmente. Os atributos e seções do projeto são configurados nas <a href=%{admin_settings_url} target=\"_blank\">configurações de administração</a> pelo responsável pela administração da instância."
+          description: 'Esses atributos do projeto serão exibidos na sua <a href=%{overview_url} target="_blank">página de visão geral do projeto</a>, cada um na seção correspondente. Você pode ativar ou desativar atributos individualmente. Os atributos e seções do projeto são configurados nas <a href=%{admin_settings_url} target="_blank">configurações de administração</a> pelo responsável pela administração da instância.'
         filter:
           label: "Pesquisar atributo do projeto"
         actions:
@@ -302,10 +302,7 @@ pt-BR:
           heading: Obrigatório em todos os projetos
           description: Este atributo do projeto está ativado em todos os projetos porque a opção "Obrigatório em todos os projetos" está selecionada. Ele não pode ser desativado em projetos individuais.
         new_project_mapping_form:
-          add_projects: Adicionar projetos
           include_sub_projects: Incluir subprojetos
-        project_mappings:
-          header: Habilitado em projetos
       types:
         no_results_title_text: Atualmente, não há tipos disponíveis.
         form:
@@ -1800,6 +1797,7 @@ pt-BR:
   label_add_another_file: "Adicionar outro arquivo"
   label_add_columns: "Adicionar colunas selecionadas"
   label_add_note: "Adicionar uma nota"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Adicionar pacotes de trabalho relacionados"
   label_add_subtask: "Adicionar subtarefa"
   label_added: "adicionado"
@@ -2036,6 +2034,7 @@ pt-BR:
   label_introduction_video: "Vídeo de introdução"
   label_invite_user: "Convidar usuário"
   label_share: "Compartilhar"
+  label_share_project_list: "Share project list"
   label_show_hide: "Mostrar/ocultar"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostrar todos usuários registrados"
@@ -2194,6 +2193,7 @@ pt-BR:
   label_project_latest: "Últimos projetos"
   label_project_default_type: "Permitir tipo vazio"
   label_project_hierarchy: "Hierarquia de projeto"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Novo projeto"
   label_project_plural: "Projetos"
   label_project_list_plural: "Listas de projeto"
@@ -2480,12 +2480,12 @@ pt-BR:
         plaintext:
           storage: "Armazenamento"
           healthy:
-            summary: "Ótima notícia! O status do seu armazenamento, %{storage_name}, está atualmente como \"Saudável\"."
+            summary: 'Ótima notícia! O status do seu armazenamento, %{storage_name}, está atualmente como "Saudável".'
             error-solved-on: "Resolvido em"
             recommendation: "Continuaremos monitorando o sistema para garantir que permaneça saudável. Se houver qualquer discrepância, iremos notificá-lo."
             details: "Para obter mais detalhes ou para fazer qualquer ajuste necessário, você pode acessar a configuração do seu armazenamento."
           unhealthy:
-            summary: "O status do seu armazenamento, %{storage_name}, atualmente está indicando \"Erro\". Detectamos um problema que pode precisar da sua atenção."
+            summary: 'O status do seu armazenamento, %{storage_name}, atualmente está indicando "Erro". Detectamos um problema que pode precisar da sua atenção.'
             error-details: "Detalhes do erro"
             error-message: "Mensagem de erro"
             error-occurred-on: "Ocorreu em"
@@ -2494,11 +2494,11 @@ pt-BR:
         email_notification_settings: "Configurações de notificação por e-mail do armazenamento"
         see_storage_settings: "Ver configurações de armazenamento"
         healthy:
-          subject: "O armazenamento \"%{name}\", no momento, está saudável!"
+          subject: 'O armazenamento "%{name}", no momento, está saudável!'
           solved_at: "resolvido em"
           summary: "O problema com a integração do armazenamento %{storage_name} foi resolvido."
         unhealthy:
-          subject: "O armazenamento \"%{name}\", no momento, não está saudável!"
+          subject: 'O armazenamento "%{name}", no momento, não está saudável!'
           since: "desde"
           summary: "Ocorreu um problema com a integração de seu armazenamento %{storage_name}."
           troubleshooting:
@@ -3438,6 +3438,23 @@ pt-BR:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Dias não selecionados são ignorados ao agendar pacotes de trabalho (e não são incluídos na contagem de dias). Isso pode ser alterado individualmente em cada pacote de trabalho.

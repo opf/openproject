@@ -287,7 +287,7 @@ es:
       project_custom_fields:
         header:
           title: "Atributos del proyecto"
-          description: "Estos atributos del proyecto se mostrarán en su <a href=%{overview_url} target=\"_blank\">página de resumen del proyecto</a> bajo sus respectivas secciones. Puede activar o desactivar atributos individuales. Los atributos y secciones del proyecto son definidos en los <a href=%{admin_settings_url} target=\"_blank\">ajustes de administración</a> por el administrador de la instancia. "
+          description: 'Estos atributos del proyecto se mostrarán en su <a href=%{overview_url} target="_blank">página de resumen del proyecto</a> bajo sus respectivas secciones. Puede activar o desactivar atributos individuales. Los atributos y secciones del proyecto son definidos en los <a href=%{admin_settings_url} target="_blank">ajustes de administración</a> por el administrador de la instancia. '
         filter:
           label: "Buscar atributo de proyecto"
         actions:
@@ -300,10 +300,7 @@ es:
           heading: Obligatorio en todos los proyectos
           description: Este atributo del proyecto está activado en todos los proyectos, ya que la opción «Obligatorio en todos los proyectos» está marcada. No puede desactivarse para proyectos individuales.
         new_project_mapping_form:
-          add_projects: Añadir proyectos
           include_sub_projects: Incluir subproyectos
-        project_mappings:
-          header: Activado en proyectos
       types:
         no_results_title_text: Actualmente no hay tipos disponibles.
         form:
@@ -1799,6 +1796,7 @@ es:
   label_add_another_file: "Agregar otro archivo"
   label_add_columns: "Agregar columnas seleccionadas"
   label_add_note: "Añadir una nota"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Añadir paquetes de trabajo relacionados"
   label_add_subtask: "Agregar subtarea"
   label_added: "agregado"
@@ -2035,6 +2033,7 @@ es:
   label_introduction_video: "Vídeo de introducción"
   label_invite_user: "Invitar usuario"
   label_share: "Compartir"
+  label_share_project_list: "Share project list"
   label_show_hide: "Mostrar/ocultar"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostrar todos los usuarios registrados"
@@ -2193,6 +2192,7 @@ es:
   label_project_latest: "Últimos proyectos"
   label_project_default_type: "Permitir tipo vacio"
   label_project_hierarchy: "Jerarquía del proyecto"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nuevo proyecto"
   label_project_plural: "Proyectos"
   label_project_list_plural: "Listas de proyectos"
@@ -2479,12 +2479,12 @@ es:
         plaintext:
           storage: "Almacenamiento"
           healthy:
-            summary: "¡Buenas noticias! El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Sano»."
+            summary: '¡Buenas noticias! El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Sano».'
             error-solved-on: "Resuelto el"
             recommendation: "Seguiremos supervisando el sistema para asegurarnos de que sigue gozando de buena salud. En caso de discrepancias, se lo notificaremos."
             details: "Para más detalles o para realizar las modificaciones necesarias, puede visitar su configuración de almacenamiento"
           unhealthy:
-            summary: "El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Error». Hemos detectado un problema que podría requerir su atención."
+            summary: 'El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Error». Hemos detectado un problema que podría requerir su atención.'
             error-details: "Detalles del error"
             error-message: "Mensaje de error"
             error-occurred-on: "Ocurrido el"
@@ -2493,11 +2493,11 @@ es:
         email_notification_settings: "Ajustes de notificación por correo electrónico de almacenamiento"
         see_storage_settings: "Ver ajustes de almacenamiento"
         healthy:
-          subject: "¡El almacenamiento «%{name}» está ahora sano!"
+          subject: '¡El almacenamiento «%{name}» está ahora sano!'
           solved_at: "resuelto el"
           summary: "El problema con la integración de su almacenamiento %{storage_name} ya está resuelto"
         unhealthy:
-          subject: "¡El almacenamiento «%{name}» no está sano!"
+          subject: '¡El almacenamiento «%{name}» no está sano!'
           since: "desde"
           summary: "Hay un problema con la integración de su almacenamiento %{storage_name}."
           troubleshooting:
@@ -3438,6 +3438,23 @@ es:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Los días no seleccionados se omiten al programar los paquetes de trabajo (y no se incluyen en el recuento de días). Esto puede anularse a nivel de paquete de trabajo.

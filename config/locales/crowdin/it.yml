@@ -64,11 +64,11 @@ it:
       upgrade_to_ee: "Aggiorna a Enterprise edition"
       add_token: "Carica un token di assistenza per Enterprise edition"
       delete_token_modal:
-        text: "Vuoi davvero rimuovere il token Enterprise edition attualmente utilizzato?"
+        text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
         title: "Elimina token"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Ordina l'edizione Enterprise on-premises"
-      paste: "Incolla il tuo token di assistenza per Enterprise edition"
+      paste: "Incolla il tuo token di assistenza per Enterprise Edition"
       required_for_feature: "Questa aggiunta è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
       start_trial: "Inizia la prova gratuita"
@@ -287,7 +287,7 @@ it:
       project_custom_fields:
         header:
           title: "Attributi del progetto"
-          description: "Questi attributi del progetto saranno visualizzati nella tua <a href=%{overview_url} target=\"_blank\">pagina di panoramica del progetto</a> sotto le rispettive sezioni. Puoi attivare o disattivare i singoli attributi. Gli attributi e le sezioni del progetto sono definiti nelle <a href=%{admin_settings_url} target=\"_blank\">impostazioni di amministrazione</a> dall'amministratore dell'istanza. "
+          description: 'Questi attributi del progetto saranno visualizzati nella tua <a href=%{overview_url} target="_blank">pagina di panoramica del progetto</a> sotto le rispettive sezioni. Puoi attivare o disattivare i singoli attributi. Gli attributi e le sezioni del progetto sono definiti nelle <a href=%{admin_settings_url} target="_blank">impostazioni di amministrazione</a> dall''amministratore dell''istanza. '
         filter:
           label: "Cerca l'attributo del progetto"
         actions:
@@ -300,10 +300,7 @@ it:
           heading: Richiesto in tutti i progetti
           description: Questo attributo di progetto è attivato in tutti i progetti, poiché l'opzione "Richiesto in tutti i progetti" è selezionata. Non può essere disattivato per i singoli progetti.
         new_project_mapping_form:
-          add_projects: Aggiungi progetti
           include_sub_projects: Includi sottoprogetti
-        project_mappings:
-          header: Abilitato nei progetti
       types:
         no_results_title_text: Al momento non sono disponibili tipi.
         form:
@@ -800,7 +797,7 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
-        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise Edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
         error_conflict: "L'informazione è stata aggiornata da almeno un altro utente nel frattempo."
@@ -1573,7 +1570,7 @@ it:
   error_cookie_missing: "Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza."
   error_custom_option_not_found: "L'opzione non esiste."
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
-  error_enterprise_token_invalid_domain: "L'Enterprise edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
+  error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: "Cancellazione voce non riuscita."
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1675,10 +1672,10 @@ it:
     blocks:
       community: "Comunità di OpenProject"
       upsale:
-        title: "Aggiorna ad Enterprise edition"
+        title: "Aggiorna ad Enterprise Edition"
         more_info: "Altre informazioni"
     links:
-      upgrade_enterprise_edition: "Aggiorna ad Enterprise edition"
+      upgrade_enterprise_edition: "Aggiorna ad Enterprise Edition"
       postgres_migration: "Migrazione dell'installazione su PostgreSQL"
       user_guides: "Guide utente"
       faq: "FAQ"
@@ -1799,6 +1796,7 @@ it:
   label_add_another_file: "Aggiungi un altro file"
   label_add_columns: "Aggiungi colonne selezionate"
   label_add_note: "Aggiungi nota"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Aggiungi macro-attività correlate"
   label_add_subtask: "Aggiungi sotto-attività"
   label_added: "aggiunto"
@@ -1966,7 +1964,7 @@ it:
   label_enumerations: "Enumerazioni"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Enterprise Edition"
   label_enterprise_support: "Supporto per Imprese"
   label_enterprise_addon: "Componente aggiuntivo Enterprise"
   label_environment: "Ambiente"
@@ -2035,6 +2033,7 @@ it:
   label_introduction_video: "Video introduttivo"
   label_invite_user: "Invita utente"
   label_share: "Condividi"
+  label_share_project_list: "Share project list"
   label_show_hide: "Mostra/Nascondi"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostra tutti gli utenti registrati"
@@ -2193,6 +2192,7 @@ it:
   label_project_latest: "Ultimi progetti"
   label_project_default_type: "Permetti tipi vuoti"
   label_project_hierarchy: "Gerarchia del progetto"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nuovo progetto"
   label_project_plural: "Progetti"
   label_project_list_plural: "Elenchi progetto"
@@ -2479,12 +2479,12 @@ it:
         plaintext:
           storage: "Archivio"
           healthy:
-            summary: "Ottime notizie! Lo stato del tuo archivio %{storage_name} è attualmente visualizzato come \"Tutto ok\"."
+            summary: 'Ottime notizie! Lo stato del tuo archivio %{storage_name} è attualmente visualizzato come "Tutto ok".'
             error-solved-on: "Risolto il"
             recommendation: "Continueremo a monitorare il sistema per assicurarci che rimanga in buona salute. In caso di discrepanze, ti informeremo."
             details: "Per maggiori dettagli o per apportare le modifiche necessarie, puoi visitare la configurazione del tuo archivio"
           unhealthy:
-            summary: "Lo stato del tuo archivio, %{storage_name}, è attualmente visualizzato come \"Errore\". Abbiamo rilevato un problema che potrebbe richiedere la tua attenzione."
+            summary: 'Lo stato del tuo archivio, %{storage_name}, è attualmente visualizzato come "Errore". Abbiamo rilevato un problema che potrebbe richiedere la tua attenzione.'
             error-details: "Dettagli dell'errore"
             error-message: "Messaggio di errore"
             error-occurred-on: "Si è verificato il"
@@ -2493,11 +2493,11 @@ it:
         email_notification_settings: "Impostazioni di notifica e-mail di archiviazione"
         see_storage_settings: "Vedi le impostazioni di archiviazione"
         healthy:
-          subject: "L'archivio \"%{name}\" è ora ok!"
+          subject: 'L''archivio "%{name}" è ora ok!'
           solved_at: "risolto il"
           summary: "Il problema con l'integrazione dell'archivio %{storage_name} è ora risolto."
         unhealthy:
-          subject: "L'archivio \"%{name}\" non è ok!"
+          subject: 'L''archivio "%{name}" non è ok!'
           since: "dal"
           summary: "C'è un problema con l'integrazione dell'archivio %{storage_name}"
           troubleshooting:
@@ -3440,6 +3440,23 @@ it:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       I giorni non selezionati vengono saltati durante la pianificazione delle macro-attività (e non inclusi nel conteggio dei giorni). Questi possono essere sovrascritti a livello di macro-attività.
