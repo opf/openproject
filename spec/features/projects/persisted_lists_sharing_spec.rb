@@ -46,6 +46,12 @@ RSpec.describe "Project list sharing",
            lastname: "The Hutt",
            member_with_permissions: { project_where_both_are_members => %i[view_work_packages edit_work_packages] })
   end
+  shared_let(:wildcard_user) do
+    create(:user,
+           firstname: "Marty",
+           lastname: "McFly",
+           member_with_permissions: { project_where_both_are_members => %i[view_work_packages edit_work_packages] })
+  end
 
   shared_let(:project_role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
   shared_let(:project_where_both_are_members) do
@@ -54,6 +60,7 @@ RSpec.describe "Project list sharing",
            identifier: "shared-project") do |project|
       create(:member, project:, user: sharer, roles: [project_role])
       create(:member, project:, user: shared_user, roles: [project_role])
+      create(:member, project:, user: wildcard_user, roles: [project_role])
     end
   end
 
@@ -70,7 +77,7 @@ RSpec.describe "Project list sharing",
   let(:projects_index_page) { Pages::Projects::Index.new }
   let(:share_dialog) { Components::Sharing::ProjectQueries::ShareModal.new(shared_projects_list) }
 
-  describe "Sharing a project list with View permissions with a user " \
+  describe "Sharing with View permissions with a user " \
            "and accessing the list as the shared user" do
     it "allows the shared user to view the project list but not edit it" do
       using_session "shared user" do
@@ -107,6 +114,49 @@ RSpec.describe "Project list sharing",
         projects_index_page.save_query_as("Member-of and active list")
 
         projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
+      end
+    end
+  end
+
+  describe "Sharing with Edit permissions with a user " \
+           "and accessing the list as the shared user" do
+    it "allows the shared user to view, share and edit the project list" do
+      using_session "shared user" do
+        login_as(shared_user)
+
+        projects_index_page.visit!
+        projects_index_page.expect_no_sidebar_filter("Member-of list")
+      end
+
+      using_session "sharer" do
+        login_as(sharer)
+
+        projects_index_page.visit!
+        projects_index_page.set_sidebar_filter "Member-of list"
+        projects_index_page.open_share_dialog
+
+        share_dialog.expect_open
+        share_dialog.invite_user!(shared_user, "Edit")
+      end
+
+      using_session "shared user" do
+        login_as(shared_user)
+        projects_index_page.visit!
+        projects_index_page.expect_sidebar_filter("Member-of list")
+        projects_index_page.set_sidebar_filter("Member-of list")
+        projects_index_page.open_share_dialog
+
+        # Allowed to further share the project list
+        share_dialog.invite_user!(wildcard_user, "View")
+        share_dialog.close
+
+        projects_index_page.open_filters
+        projects_index_page.filter_by_active("yes")
+
+        # Can save the project list
+        projects_index_page.save_query
+        pending "Currently unable to save the project list even with edit permissions"
+        projects_index_page.expect_toast(message: "The modified list has been saved")
       end
     end
   end
