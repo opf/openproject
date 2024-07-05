@@ -46,6 +46,7 @@ RUN apt update
 RUN apt install watchexec-cli
 
 COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
+COPY ./docker/dev/backend/scripts/setup-bim /usr/sbin/setup-bim
 COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app
 
 # The following lines are needed to make sure the file permissions are setup correctly after the volumes are mounted
