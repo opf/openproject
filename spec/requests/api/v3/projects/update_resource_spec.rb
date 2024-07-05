@@ -341,8 +341,8 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
       end
 
       it "responds with 200 OK" do
-        expect(last_response.status)
-          .to eq(200)
+        expect(last_response)
+          .to have_http_status(200)
       end
 
       it "archives the project" do
@@ -360,8 +360,8 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
       let(:permissions) { [:edit_project] }
 
       it "responds with 403" do
-        expect(last_response.status)
-          .to eq(403)
+        expect(last_response)
+          .to have_http_status(403)
       end
 
       it "does not alter the project" do
@@ -374,8 +374,8 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
       let(:permissions) { [:archive_project] }
 
       it "responds with 200 OK" do
-        expect(last_response.status)
-          .to eq(200)
+        expect(last_response)
+          .to have_http_status(200)
       end
 
       it "archives the project" do
@@ -394,8 +394,8 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
       let(:child_project) { create(:project) }
 
       it "responds with 422 (and not 403?)" do
-        expect(last_response.status)
-          .to eq(422)
+        expect(last_response)
+          .to have_http_status(422)
       end
 
       it "does not alter the project" do
@@ -429,8 +429,8 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
       end
 
       it "responds with 200 OK" do
-        expect(last_response.status)
-          .to eq(200)
+        expect(last_response)
+          .to have_http_status(200)
       end
 
       it "sets the cf value" do
@@ -453,8 +453,8 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
       let(:permissions) { [:edit_project] }
 
       it "responds with 403" do
-        expect(last_response.status)
-          .to eq(403)
+        expect(last_response)
+          .to have_http_status(403)
       end
     end
 
@@ -462,17 +462,26 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
       let(:permissions) { [:archive_project] }
 
       it "responds with 403" do
-        expect(last_response.status)
-          .to eq(403)
+        expect(last_response)
+          .to have_http_status(403)
       end
     end
 
-    context "for a user with both archive_project and edit_project permissions" do
+    context "for a user with archive_project and edit_project permissions" do
       let(:permissions) { %i[archive_project edit_project] }
 
+      it "responds with 422 unprocessable_entity" do
+        expect(last_response)
+          .to have_http_status(422)
+      end
+    end
+
+    context "for a user with archive_project and edit_project and edit_project_attributes permissions" do
+      let(:permissions) { %i[archive_project edit_project edit_project_attributes] }
+
       it "responds with 200 OK" do
-        expect(last_response.status)
-          .to eq(200)
+        expect(last_response)
+          .to have_http_status(200)
       end
     end
   end
@@ -499,8 +508,8 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
       end
 
       it "responds with 200 OK" do
-        expect(last_response.status)
-          .to eq(200)
+        expect(last_response)
+          .to have_http_status(200)
       end
 
       it "unarchives the project" do
@@ -518,8 +527,8 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
       let(:permissions) { %i[archive_project edit_project] }
 
       it "responds with 404" do
-        expect(last_response.status)
-          .to eq(404)
+        expect(last_response)
+          .to have_http_status(404)
       end
 
       it "does not alter the project" do
