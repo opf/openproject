@@ -26,40 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Admin
-    class EditFormHeaderComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-      TAB_NAVS = %i[
-        edit
-        project_storages
-      ].freeze
+# Purpose: Defines a table based on TableComponent for listing the
+# Projects for a given Storage.
+# See also: row_component.rb, which contains a method
+# for every "column" defined below.
+module Storages::ProjectStorages::Projects
+  class TableComponent < Projects::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    include OpTurbo::Streamable
 
-      def initialize(storage:, selected:)
-        super
-        @storage = storage
-        @selected = selected
-      end
+    def sortable?
+      false
+    end
 
-      def tab_selected?(tab_name)
-        TAB_NAVS.include?(tab_name) &&
-          tab_name == @selected
-      end
-
-      def label_storage_name_with_provider_label
-        "#{h(@storage.name)} #{label_storage_provider_part}".html_safe # rubocop:disable Rails/OutputSafety
-      end
-
-      def label_storage_provider_part
-        render(Primer::Beta::Text.new(tag: :span, font_weight: :light, color: :muted)) do
-          "(#{I18n.t("storages.provider_types.#{h(@storage.short_provider_type)}.name")})"
-        end
-      end
-
-      def breadcrumbs_items
-        [{ href: admin_index_path, text: t("label_administration") },
-         { href: admin_settings_storages_path, text: t("project_module_storages") },
-         @storage.name]
-      end
+    # Overwritten to avoid loading data that is not needed in this context
+    def projects(query)
+      query
+        .results
+        .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
     end
   end
 end

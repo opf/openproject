@@ -26,40 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Admin
-    class EditFormHeaderComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-      TAB_NAVS = %i[
-        edit
-        project_storages
-      ].freeze
-
-      def initialize(storage:, selected:)
-        super
-        @storage = storage
-        @selected = selected
-      end
-
-      def tab_selected?(tab_name)
-        TAB_NAVS.include?(tab_name) &&
-          tab_name == @selected
-      end
-
-      def label_storage_name_with_provider_label
-        "#{h(@storage.name)} #{label_storage_provider_part}".html_safe # rubocop:disable Rails/OutputSafety
-      end
-
-      def label_storage_provider_part
-        render(Primer::Beta::Text.new(tag: :span, font_weight: :light, color: :muted)) do
-          "(#{I18n.t("storages.provider_types.#{h(@storage.short_provider_type)}.name")})"
-        end
-      end
-
-      def breadcrumbs_items
-        [{ href: admin_index_path, text: t("label_administration") },
-         { href: admin_settings_storages_path, text: t("project_module_storages") },
-         @storage.name]
-      end
-    end
+# Purpose: Defines how to format the components within a table row of Projects
+# associated with a Storage
+module Storages::ProjectStorages::Projects
+  class RowComponent < Projects::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
   end
 end
