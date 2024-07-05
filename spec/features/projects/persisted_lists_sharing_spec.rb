@@ -155,7 +155,6 @@ RSpec.describe "Project list sharing",
 
         # Can save the project list
         projects_index_page.save_query
-        pending "Currently unable to save the project list even with edit permissions"
         projects_index_page.expect_toast(message: "The modified list has been saved")
       end
     end
