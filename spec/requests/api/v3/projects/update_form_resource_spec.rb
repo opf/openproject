@@ -57,8 +57,6 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
   let(:parent_project_role) do
     create(:project_role, permissions: parent_project_permissions)
   end
-  # This is just temporary, the goal is to add a spec where no custom fields are returned if the
-  # view_project_attributes permission is missing
   let(:permissions) { %i[edit_project view_project_attributes edit_project_attributes] }
   let(:parent_project_permissions) { [:add_subprojects] }
   let(:path) { api_v3_paths.project_form(project.id) }
@@ -260,11 +258,114 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
       end
     end
 
-    context "without the necessary permission" do
-      let(:permissions) { [] }
+    describe "permissions" do
+      context "without the necessary Edit permission" do
+        let(:permissions) { [] }
 
-      it "returns 403 Not Authorized" do
-        expect(response).to have_http_status(:forbidden)
+        it "returns 403 Not Authorized" do
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+
+      context "without View project attributes permission" do
+        let(:permissions) { %i(edit_project) }
+
+        context "when custom fields are not provided" do
+          let(:params) { { name: "Project name" } }
+
+          it "has 0 validation errors" do
+            expect(subject.body).to have_json_size(0).at_path("_embedded/validationErrors")
+          end
+
+          it "does not set the custom field in the payload" do
+            expect(subject.body)
+              .not_to have_json_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+          end
+        end
+
+        context "when custom fields are provided" do
+          let(:params) do
+            {
+              name: "Project name",
+              text_custom_field.attribute_name(:camel_case) => {
+                raw: "new CF text"
+              }
+            }
+          end
+
+          it "has one validation errors" do
+            expect(subject.body).to have_json_size(1).at_path("_embedded/validationErrors")
+          end
+
+          it "has a validation error on the custom field" do
+            expect(subject.body).to have_json_path(
+              "_embedded/validationErrors/#{text_custom_field.attribute_name(:camel_case)}"
+            )
+          end
+
+          it "does not set the custom field in the payload" do
+            expect(subject.body)
+              .not_to have_json_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+          end
+        end
+      end
+
+      context "with View project attributes permission and
+               without Edit project attributes permission" do
+        let(:permissions) { %i(edit_project view_project_attributes) }
+
+        context "when custom fields are not provided" do
+          let(:params) { { name: "Project name" } }
+
+          it "has 0 validation errors" do
+            expect(subject.body).to have_json_size(0).at_path("_embedded/validationErrors")
+          end
+
+          it "sets the custom field in the payload" do
+            expect(subject.body)
+              .to be_json_eql("CF text".to_json)
+              .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+          end
+        end
+
+        context "when custom fields are provided" do
+          let(:params) do
+            {
+              name: "Project name",
+              text_custom_field.attribute_name(:camel_case) => {
+                raw: "new CF text"
+              }
+            }
+          end
+
+          it "has one validation errors" do
+            expect(subject.body).to have_json_size(1).at_path("_embedded/validationErrors")
+          end
+
+          it "sets the custom field in the payload" do
+            expect(subject.body)
+              .to be_json_eql("new CF text".to_json)
+              .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+          end
+
+          it "has a validation error on name" do
+            expect(subject.body).to have_json_path(
+              "_embedded/validationErrors/#{text_custom_field.attribute_name(:camel_case)}"
+            )
+          end
+
+          it "has no commit link" do
+            expect(subject.body)
+              .not_to have_json_path("_links/commit")
+          end
+
+          it "does not alter the project" do
+            cf_value_before = project.send(text_custom_field.attribute_getter)
+
+            expect(project.send(text_custom_field.attribute_getter))
+              .to eql cf_value_before
+          end
+        end
       end
     end
 
