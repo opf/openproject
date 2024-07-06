@@ -1025,6 +1025,7 @@ ja:
         assigned_to_me: "私に割り当てられた"
         recently_created: "最近作成された"
         all_open: "未完了"
+        overdue: "Overdue"
         summary: "サマリ"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

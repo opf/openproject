@@ -1024,6 +1024,7 @@ ko:
         assigned_to_me: "내게 할당됨"
         recently_created: "최근에 만듦"
         all_open: "모두 열림"
+        overdue: "Overdue"
         summary: "요약"
         shared_with_users: "사용자와 공유됨"
         shared_with_me: "나와 공유됨"

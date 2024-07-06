@@ -58,7 +58,7 @@
       meeting_agenda_item: "Dagsorden element"
       meeting_agenda: "Saksliste"
       meeting_minutes: "Referat"
-      meeting_section: "Section"
+      meeting_section: "Seksjon"
   activity:
     filter:
       meeting: "Møter"

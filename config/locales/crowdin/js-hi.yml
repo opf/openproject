@@ -1025,6 +1025,7 @@ hi:
         assigned_to_me: "मुझे सौपा गया"
         recently_created: "हाल ही में बनाए गए"
         all_open: "सभी खुले"
+        overdue: "Overdue"
         summary: "सारांश"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

@@ -1024,6 +1024,7 @@ ms:
         assigned_to_me: "Ditugaskan kepada saya"
         recently_created: "Baru dicipta"
         all_open: "Semua terbuka"
+        overdue: "Overdue"
         summary: "Ringkasan"
         shared_with_users: "Dikongsi dengan pengguna"
         shared_with_me: "Dikongsi dengan saya"

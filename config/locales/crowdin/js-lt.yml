@@ -1027,6 +1027,7 @@ lt:
         assigned_to_me: "Priskirti man"
         recently_created: "Neseniai sukurti"
         all_open: "Visi atviri"
+        overdue: "Overdue"
         summary: "Santrauka"
         shared_with_users: "Bendrinamas su naudotojais"
         shared_with_me: "Bendrinama su manimi"
