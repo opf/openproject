@@ -156,7 +156,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     return {
       ...state.params,
       filters: [
-        ...IAN_FACET_FILTERS[state.activeFacet],
+        ...state.activeFacet === 'all' ? IAN_FACET_FILTERS.all : IAN_FACET_FILTERS.unread,
         ...(
           hasFilters
             ? ([[state.filters.filter, '=', [state.filters.name]]] as ApiV3ListFilter[])
@@ -351,7 +351,7 @@ export class IanCenterService extends UntilDestroyedMixin {
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
     if (action.all) {
-      this.store.update({ activeCollection: { ids: [] } });
+      this.store.update({ activeCollection: { ids: [] }, activeFacet: 'unread' });
       return;
     }
 
