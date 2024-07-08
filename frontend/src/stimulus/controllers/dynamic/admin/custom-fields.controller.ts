@@ -87,9 +87,7 @@ export default class CustomFieldsController extends Controller {
       element
         .querySelectorAll<HTMLInputElement>('input,textarea')
         .forEach((input) => {
-          if (!input.matches('.destroy_flag,.-cf-ignore-disabled')) {
-            input.disabled = !active;
-          }
+          input.disabled = !active;
         });
     });
   }
