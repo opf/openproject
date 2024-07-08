@@ -96,12 +96,12 @@ export default class CustomFieldsController extends Controller {
 
   toggleVisibility(hidden:boolean, elements:HTMLElement[]) {
     elements
-      .forEach((field) => {
-        const wrapper = field.closest<HTMLElement>('.form--grouping') || field.closest<HTMLElement>('.form--field');
+      .forEach((element) => {
+        const wrapper = element.closest<HTMLElement>('.form--grouping') || element.closest<HTMLElement>('.form--field');
         if (wrapper) {
           wrapper.hidden = hidden;
         } else {
-          field.hidden = hidden;
+          element.hidden = hidden;
         }
       });
   }
