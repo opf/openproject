@@ -11,3 +11,9 @@
   // userSelectedWarning userSelectedWarning userSelectedWarning
   //
   grid-column-gap: 0.5rem
+
+  // Fix overflow on mobile by providing a max width to the input
+  //
+  // We subtract the width and right padding of the dropdown arrow
+  .ng-placeholder
+    max-width: calc(100% - 25px - 5px)
