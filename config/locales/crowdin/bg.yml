@@ -1484,7 +1484,7 @@ bg:
         one: "1 минута"
         other: "%{count} минути"
       x_minutes_abbreviated:
-        one: "1 мин.\n%{count} минути"
+        one: "1 мин."
         other: "%{count} минути"
       x_hours:
         one: "1 час"
@@ -2400,7 +2400,7 @@ bg:
     zero: "няма проекти"
   label_x_files:
     one: "1 файл"
-    other: "{count} файла"
+    other: "%{count} файла"
     zero: "няма файлове"
   label_yesterday: "вчера"
   label_zen_mode: "Режим Дзен"
