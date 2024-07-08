@@ -82,7 +82,7 @@ export default class CustomFieldsController extends Controller {
   }
 
   activate(elements:HTMLElement[], active = true) {
-    this.toggleVisibility(!active, elements);
+    this.setVisibility(elements, !active);
     elements.forEach((element) => {
       element
         .querySelectorAll<HTMLInputElement>('input,textarea')
@@ -94,7 +94,7 @@ export default class CustomFieldsController extends Controller {
     });
   }
 
-  toggleVisibility(hidden:boolean, elements:HTMLElement[]) {
+  private setVisibility(elements:HTMLElement[], hidden:boolean) {
     elements
       .forEach((element) => {
         const wrapper = element.closest<HTMLElement>('.form--grouping') || element.closest<HTMLElement>('.form--field');
@@ -107,11 +107,11 @@ export default class CustomFieldsController extends Controller {
   }
 
   hide(...elements:HTMLElement[]) {
-    this.toggleVisibility(true, elements);
+    this.setVisibility(elements, true);
   }
 
   show(...elements:HTMLElement[]) {
-    this.toggleVisibility(false, elements);
+    this.setVisibility(elements, false);
   }
 
   unsearchable() {
