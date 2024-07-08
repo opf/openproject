@@ -85,7 +85,7 @@ jobs:
           ./docker/prod/setup/precompile-assets.sh
           # public/assets will be saved as artifact, so temporarily copying config file there as well
           cp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: public/
           name: public-assets-${{ github.sha }}
@@ -134,7 +134,7 @@ jobs:
         run: |
           cp ./docker/prod/Dockerfile ./Dockerfile
       - name: Download precompiled public assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: public-assets-${{ github.sha }}
           path: public/
@@ -226,7 +226,7 @@ jobs:
           digest="${{ steps.push.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
       - name: Upload digest
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: digests-${{ matrix.target }}
           path: /tmp/digests/*
@@ -242,7 +242,7 @@ jobs:
       - build
     steps:
       - name: Download digests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: digests-${{ matrix.target }}
           path: /tmp/digests
