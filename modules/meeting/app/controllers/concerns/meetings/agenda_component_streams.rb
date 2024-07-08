@@ -199,7 +199,7 @@ module Meetings
         update_show_items_via_turbo_stream
       end
 
-      def add_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item, clear_slate: false)
+      def add_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item, clear_slate: false) # rubocop:disable Metrics/AbcSize
         if clear_slate
           update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
         elsif meeting_agenda_item.meeting.agenda_items.count == 1

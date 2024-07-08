@@ -48,11 +48,8 @@ module Pages::StructuredMeeting
       end
     end
 
-    def cancel_add_form(item)
-      page.within("#meeting-agenda-items-new-component-#{item.meeting_section_id}") do
-        click_on I18n.t(:button_cancel)
-        expect(page).to have_no_link I18n.t(:button_cancel)
-      end
+    def expect_no_add_form
+      expect(page).not_to have_test_selector("#meeting-agenda-items-form-component")
     end
 
     def add_agenda_item_to_section(section:, type: MeetingAgendaItem, save: true, &)
