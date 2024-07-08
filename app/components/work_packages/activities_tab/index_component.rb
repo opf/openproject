@@ -53,6 +53,8 @@ module WorkPackages
           "work-packages--activities-tab--index-update-streams-url-value": update_streams_work_package_activities_url(work_package),
           "work-packages--activities-tab--index-sorting-value": journal_sorting,
           "work-packages--activities-tab--index-filter-value": filter,
+          "work-packages--activities-tab--index-user-id-value": User.current.id,
+          "work-packages--activities-tab--index-work-package-id-value": work_package.id,
           "work-packages--activities-tab--index-polling-interval-in-ms-value": 10000 # protoypical implementation
         }
       end

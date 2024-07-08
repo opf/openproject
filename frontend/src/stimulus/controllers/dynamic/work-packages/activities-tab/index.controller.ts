@@ -4,7 +4,7 @@ import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { set } from 'lodash';
+import { workPackageFilesCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-files-count.function';
 
 export default class IndexController extends Controller {
   static values = {
@@ -12,6 +12,8 @@ export default class IndexController extends Controller {
     sorting: String,
     pollingIntervalInMs: Number,
     filter: String,
+    userId: Number,
+    workPackageId: Number,
   };
 
   static targets = ['journalsContainer', 'buttonRow', 'formRow', 'form'];
@@ -27,31 +29,47 @@ export default class IndexController extends Controller {
   declare intervallId:number;
   declare pollingIntervalInMsValue:number;
   declare filterValue:string;
+  declare userIdValue:number;
+  declare workPackageIdValue:number;
+  declare localStorageKey:string;
 
   connect() {
+    this.setLocalStorageKey();
     this.setLastUpdateTimestamp();
     this.setupEventListeners();
     this.handleInitialScroll();
     this.startPolling();
+    this.populateRescuedEditorContent();
   }
 
   disconnect() {
+    this.rescueEditorContent();
     this.removeEventListeners();
     this.stopPolling();
+  }
+
+  private setLocalStorageKey() {
+    // scoped by user id in order to avoid data leakage when a user logs out and another user logs in on the same browser
+    // TODO: when a user logs out, the data should be removed anyways in order to avoid data leakage
+    this.localStorageKey = `work-package-${this.workPackageIdValue}-rescued-editor-data-${this.userIdValue}`;
   }
 
   private setupEventListeners() {
     this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
     this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    this.rescueEditorContent = this.rescueEditorContent.bind(this);
     document.addEventListener('work-package-updated', this.handleWorkPackageUpdate);
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    document.addEventListener('beforeunload', this.rescueEditorContent);
   }
 
   private removeEventListeners() {
     this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
     this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    this.rescueEditorContent = this.rescueEditorContent.bind(this);
     document.removeEventListener('work-package-updated', this.handleWorkPackageUpdate);
     document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    document.removeEventListener('beforeunload', this.rescueEditorContent);
   }
 
   private handleVisibilityChange() {
@@ -91,6 +109,24 @@ export default class IndexController extends Controller {
       const text = await response.text();
       Turbo.renderStreamMessage(text);
       this.setLastUpdateTimestamp();
+    }
+  }
+
+  private rescueEditorContent() {
+    const ckEditorInstance = this.getCkEditorInstance();
+    if (ckEditorInstance) {
+      const data = ckEditorInstance.getData({ trim: false });
+      if (data.length > 0) {
+        localStorage.setItem(this.localStorageKey, data);
+      }
+    }
+  }
+
+  private populateRescuedEditorContent() {
+    const rescuedEditorContent = localStorage.getItem(this.localStorageKey);
+    if (rescuedEditorContent) {
+      this.openEditorWithInitialData(rescuedEditorContent);
+      localStorage.removeItem(this.localStorageKey);
     }
   }
 
@@ -217,7 +253,7 @@ export default class IndexController extends Controller {
     const userName = target.dataset.userNameParam as string;
     const content = target.dataset.contentParam as string;
 
-    this.openEditorWithQuotedText(this.quotedText(content, userName));
+    this.openEditorWithInitialData(this.quotedText(content, userName));
   }
 
   private quotedText(rawComment:string, userName:string) {
@@ -228,7 +264,7 @@ export default class IndexController extends Controller {
     return `${userName}\n${quoted}`;
   }
 
-  openEditorWithQuotedText(quotedText:string) {
+  openEditorWithInitialData(quotedText:string) {
     this.showForm();
     const ckEditorInstance = this.getCkEditorInstance();
     if (ckEditorInstance && ckEditorInstance.getData({ trim: false }).length === 0) {
