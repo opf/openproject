@@ -34,7 +34,7 @@ module OpenProject::GitlabIntegration
     class MergeRequestHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
-      def process(payload_params)
+      def process(payload_params) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
         update_status_on_new_mr = false # true if you only reference one merge by work_package, else false.
         update_status_on_merged = false # true if you only reference one merge by work_package, else false.
         wp_status_id_on_new_mr = 7 # the id of the status.
