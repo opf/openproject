@@ -49,13 +49,33 @@ RSpec.describe Storages::Storages::OneDriveContract, :storage_server_helpers, :w
     end
   end
 
+  context "with tenant that is no UUID" do
+    let(:storage) { build(:one_drive_storage, tenant_id: "123") }
+
+    it "is invalid" do
+      expect(contract).not_to be_valid
+
+      expect(contract.errors[:tenant_id]).to eq(["is invalid."])
+    end
+  end
+
   context "with blank Drive ID" do
     let(:storage) { build(:one_drive_storage, drive_id: "") }
 
     it "is invalid" do
       expect(contract).not_to be_valid
 
-      expect(contract.errors[:drive_id]).to eq(["can't be blank."])
+      expect(contract.errors[:drive_id]).to eq(["can't be blank.", "is too short (minimum is 17 characters)."])
+    end
+  end
+
+  context "with short Drive ID" do
+    let(:storage) { build(:one_drive_storage, drive_id: "1234567890") }
+
+    it "is invalid" do
+      expect(contract).not_to be_valid
+
+      expect(contract.errors[:drive_id]).to eq(["is too short (minimum is 17 characters)."])
     end
   end
 end
