@@ -189,51 +189,94 @@ RSpec.describe "Project list sharing",
     end
   end
 
-  describe "Making a list public " \
-           "and accessing it as a user not allowed to edit it" do
+  describe "Making a list public" do
     shared_let(:global_member) do
       create(:global_member,
              principal: sharer,
              roles: [create(:global_role, permissions: %i[manage_public_project_queries])])
     end
 
-    it "allows the user to view the list" do
-      using_session "shared user" do
-        login_as(shared_user)
+    context "and accessing it as a user without edit permissions" do
+      it "allows the user to view the list" do
+        using_session "shared user" do
+          login_as(shared_user)
 
-        projects_index_page.visit!
-        projects_index_page.expect_no_sidebar_filter("Member-of list")
+          projects_index_page.visit!
+          projects_index_page.expect_no_sidebar_filter("Member-of list")
+        end
+
+        using_session "sharer" do
+          login_as(sharer)
+
+          projects_index_page.visit!
+          projects_index_page.set_sidebar_filter "Member-of list"
+          projects_index_page.open_share_dialog
+
+          share_dialog.expect_open
+          share_dialog.toggle_public
+          share_dialog.close
+        end
+
+        using_session "shared user" do
+          login_as(shared_user)
+          projects_index_page.visit!
+          projects_index_page.expect_sidebar_filter("Member-of list")
+          projects_index_page.set_sidebar_filter("Member-of list")
+          projects_index_page.open_share_dialog
+
+          # View only
+          share_dialog.expect_sharing_forbidden_banner
+          share_dialog.close
+
+          projects_index_page.open_filters
+          projects_index_page.filter_by_active("yes")
+          projects_index_page.expect_can_only_save_as_label
+          projects_index_page.save_query_as("Member-of and active list")
+
+          projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
+        end
       end
+    end
 
-      using_session "sharer" do
-        login_as(sharer)
+    context "and sharing it with a user with edit permissions" do
+      it "allows the user to view, share and edit the list" do
+        using_session "shared user" do
+          login_as(shared_user)
 
-        projects_index_page.visit!
-        projects_index_page.set_sidebar_filter "Member-of list"
-        projects_index_page.open_share_dialog
+          projects_index_page.visit!
+          projects_index_page.expect_no_sidebar_filter("Member-of list")
+        end
+        using_session "sharer" do
+          login_as(sharer)
 
-        share_dialog.expect_open
-        share_dialog.toggle_public
-        share_dialog.close
-      end
+          projects_index_page.visit!
+          projects_index_page.set_sidebar_filter "Member-of list"
+          projects_index_page.open_share_dialog
 
-      using_session "shared user" do
-        login_as(shared_user)
-        projects_index_page.visit!
-        projects_index_page.expect_sidebar_filter("Member-of list")
-        projects_index_page.set_sidebar_filter("Member-of list")
-        projects_index_page.open_share_dialog
+          share_dialog.expect_open
+          share_dialog.toggle_public
+          share_dialog.invite_user!(shared_user, "Edit")
+          share_dialog.close
+        end
 
-        # View only
-        share_dialog.expect_sharing_forbidden_banner
-        share_dialog.close
+        using_session "shared user" do
+          login_as(shared_user)
+          projects_index_page.visit!
+          projects_index_page.expect_sidebar_filter("Member-of list")
+          projects_index_page.set_sidebar_filter("Member-of list")
+          projects_index_page.open_share_dialog
 
-        projects_index_page.open_filters
-        projects_index_page.filter_by_active("yes")
-        projects_index_page.expect_can_only_save_as_label
-        projects_index_page.save_query_as("Member-of and active list")
+          # Allowed to further share the project list
+          share_dialog.invite_user!(wildcard_user, "View")
+          share_dialog.close
 
-        projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
+          projects_index_page.open_filters
+          projects_index_page.filter_by_active("yes")
+
+          # Can save the project list
+          projects_index_page.save_query
+          projects_index_page.expect_toast(message: "The modified list has been saved")
+        end
       end
     end
   end
