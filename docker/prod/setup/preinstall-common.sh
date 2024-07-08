@@ -44,7 +44,6 @@ apt-get install -yq --no-install-recommends \
 	postgresql-client-$NEXT_PGVERSION \
 	libpq5 \
 	libffi8 \
-	libjemalloc2 \
 	unrtf \
 	tesseract-ocr \
 	poppler-utils \
@@ -53,6 +52,18 @@ apt-get install -yq --no-install-recommends \
 	libclang-dev \
 	git
 
+# Use jemalloc as memory allocator
+if [ "$USE_JEMALLOC" = "true" ]; then
+	apt-get install -yq libjemalloc2
+	if [ "$ARCHITECTURE" = "x64" ]; then
+		LIB_ARCH="x86x64"
+	elif [ "$ARCHITECTURE" = "arm64" ]; then
+		LIB_ARCH="aarch64"
+	elif [ "$ARCHITECTURE" = "ppc64le" ]; then
+		LIB_ARCH="powerpc64le"
+	fi
+	export LD_PRELOAD=/usr/lib/${LIB_ARCH}-linux-gnu/libjemalloc.so.2
+fi
 
 # Specifics for BIM edition
 if [ ! "$BIM_SUPPORT" = "false" ]; then
@@ -96,4 +107,3 @@ id $APP_USER || useradd -d /home/$APP_USER -m $APP_USER
 
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 truncate -s 0 /var/log/*log
-

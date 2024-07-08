@@ -5,6 +5,7 @@ LABEL maintainer="operations@openproject.com"
 ARG BUNDLER_VERSION="2.5.13"
 ARG NODE_VERSION="20.9.0"
 ARG BIM_SUPPORT=true
+ARG USE_JEMALLOC=false
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BUNDLE_JOBS=8
 ENV BUNDLE_RETRY=3
@@ -48,8 +49,6 @@ RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
 # system dependencies, nodejs
 COPY ./docker/prod/setup/preinstall-common.sh ./docker/prod/setup/preinstall-common.sh
 RUN ./docker/prod/setup/preinstall-common.sh
-
-ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 # stuff required for gems
 COPY Gemfile Gemfile.* .ruby-version ./
