@@ -56,7 +56,7 @@ apt-get install -yq --no-install-recommends \
 if [ "$USE_JEMALLOC" = "true" ]; then
 	apt-get install -yq libjemalloc2
 	if [ "$ARCHITECTURE" = "x64" ]; then
-		LIB_ARCH="x86x64"
+		LIB_ARCH="x86_64"
 	elif [ "$ARCHITECTURE" = "arm64" ]; then
 		LIB_ARCH="aarch64"
 	elif [ "$ARCHITECTURE" = "ppc64le" ]; then
