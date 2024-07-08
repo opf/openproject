@@ -81,6 +81,11 @@ module Admin
       end
     end
 
+    def breadcrumb_items
+      [{ href: admin_index_path, text: t("label_administration") }]
+    end
+    helper_method :breadcrumb_items
+
     protected
 
     def find_plugin
