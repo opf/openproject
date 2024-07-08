@@ -57,8 +57,12 @@ module Storages
       end
     end
 
-    def manual_management_possible?
-      !automatic_management_enabled?
+    def available_project_folder_modes
+      if automatic_management_enabled?
+        ["inactive", "automatic"]
+      else
+        ["inactive", "manual"]
+      end
     end
 
     def oauth_configuration
