@@ -32,17 +32,66 @@ export default class IndexController extends Controller {
     this.setLastUpdateTimestamp();
     this.setupEventListeners();
     this.handleInitialScroll();
-    this.intervallId = this.pollForUpdates();
+    this.startPolling();
   }
 
   disconnect() {
-    document.removeEventListener('work-package-updated', this.handleWorkPackageUpdate);
-    window.clearInterval(this.intervallId);
+    this.removeEventListeners();
+    this.stopPolling();
   }
 
   private setupEventListeners() {
     this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
     document.addEventListener('work-package-updated', this.handleWorkPackageUpdate);
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+  }
+
+  private removeEventListeners() {
+    this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    document.removeEventListener('work-package-updated', this.handleWorkPackageUpdate);
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+  }
+
+  private handleVisibilityChange() {
+    if (document.hidden) {
+      this.stopPolling();
+    } else {
+      this.updateActivitiesList();
+      this.startPolling();
+    }
+  }
+
+  private startPolling() {
+    if (this.intervallId) window.clearInterval(this.intervallId);
+    this.intervallId = this.pollForUpdates();
+  }
+
+  private stopPolling() {
+    window.clearInterval(this.intervallId);
+  }
+
+  private pollForUpdates() {
+    return window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
+  }
+
+  async handleWorkPackageUpdate(event:Event) {
+    setTimeout(() => this.updateActivitiesList(), 2000);
+  }
+
+  async updateActivitiesList() {
+    const url = new URL(this.updateStreamsUrlValue);
+    url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
+    url.searchParams.append('filter', this.filterValue);
+
+    const response = await this.fetchWithCSRF(url, 'GET');
+
+    if (response.ok) {
+      const text = await response.text();
+      Turbo.renderStreamMessage(text);
+      this.setLastUpdateTimestamp();
+    }
   }
 
   private handleInitialScroll() {
@@ -66,28 +115,6 @@ export default class IndexController extends Controller {
         scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
       }, 400);
     }
-  }
-
-  async handleWorkPackageUpdate(event:Event) {
-    setTimeout(() => this.updateActivitiesList(), 2000);
-  }
-
-  async updateActivitiesList() {
-    const url = new URL(this.updateStreamsUrlValue);
-    url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
-    url.searchParams.append('filter', this.filterValue);
-
-    const response = await this.fetchWithCSRF(url, 'GET');
-
-    if (response.ok) {
-      const text = await response.text();
-      Turbo.renderStreamMessage(text);
-      this.setLastUpdateTimestamp();
-    }
-  }
-
-  private pollForUpdates() {
-    return window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
   }
 
   setFilterToOnlyComments() { this.filterValue = 'only_comments'; }
@@ -177,6 +204,13 @@ export default class IndexController extends Controller {
     }
   }
 
+  focusEditor() {
+    const ckEditorInstance = this.getCkEditorInstance();
+    if (ckEditorInstance) {
+      setTimeout(() => ckEditorInstance.editing.view.focus(), 10);
+    }
+  }
+
   quote(event:Event) {
     event.preventDefault();
     const target = event.currentTarget as HTMLElement;
@@ -239,6 +273,7 @@ export default class IndexController extends Controller {
 
       if (this.journalsContainerTarget) {
         this.clearEditor();
+        this.focusEditor();
         if (this.journalsContainerTarget) {
           this.journalsContainerTarget.style.marginBottom = '';
           this.journalsContainerTarget.classList.add('with-input-compensation');
