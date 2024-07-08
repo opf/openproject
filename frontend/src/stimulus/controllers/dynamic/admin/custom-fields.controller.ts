@@ -125,7 +125,7 @@ export default class CustomFieldsController extends Controller {
     this.toggleFormat(event.target.value);
   }
 
-  moveUpRow(event:{ target:HTMLElement }) {
+  moveRowUp(event:{ target:HTMLElement }) {
     const row = event.target.closest('tr') as HTMLTableRowElement;
     const idx = this.customOptionRowTargets.indexOf(row);
     if (idx > 0) {
@@ -135,7 +135,7 @@ export default class CustomFieldsController extends Controller {
     return false;
   }
 
-  moveDownRow(event:{ target:HTMLElement }) {
+  moveRowDown(event:{ target:HTMLElement }) {
     const row = event.target.closest('tr') as HTMLTableRowElement;
     const idx = this.customOptionRowTargets.indexOf(row);
     if (idx < this.customOptionRowTargets.length - 1) {
