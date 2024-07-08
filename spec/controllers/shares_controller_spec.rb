@@ -38,7 +38,7 @@ RSpec.describe SharesController do
   shared_let(:view_role) { create(:view_project_query_role) }
   shared_let(:edit_role) { create(:edit_project_query_role) }
   shared_let(:view_member) { create(:member, entity: project_query, principal: view_user, roles: [view_role]) }
-  shared_let(:view_member) { create(:member, entity: project_query, principal: edit_user, roles: [edit_role]) }
+  shared_let(:edit_member) { create(:member, entity: project_query, principal: edit_user, roles: [edit_role]) }
 
   before { login_as(user) }
 
