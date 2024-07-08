@@ -221,8 +221,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-info
     color: $nm-color-info-icon
 
-.op-toast--wrapper,
-#errorExplanation
+.op-toast--wrapper
   position: absolute
   max-width: $nm-toaster-width
   margin: 0 auto
@@ -240,8 +239,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     .op-toast
       margin-bottom: rem-calc(3px)
 
-#errorExplanation
-  top: 1rem
 
 // awesome animations
 .op-toast
@@ -359,7 +356,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   padding: $nm-box-padding
   box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)
   margin-bottom: 0.1875rem
-  margin-top: 0.5rem
 
   &.ng-leave
     @include animation(0.5s fade-out)
@@ -416,11 +412,8 @@ a.op-toast--target-link
   text-decoration: underline
 
 #errorExplanation
-  @extend %error-placeholder
-  top: rem-calc(68px)
-
   &::before
-    color: $nm-color-error-background !important
+    color: $nm-color-error-icon !important
 
   &.-inline
     position: relative
