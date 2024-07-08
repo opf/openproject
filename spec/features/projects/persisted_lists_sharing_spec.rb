@@ -170,6 +170,23 @@ RSpec.describe "Project list sharing",
       share_dialog.expect_open
       share_dialog.expect_toggle_public_disabled
     end
+
+    context "and the list is already public" do
+      before do
+        shared_projects_list.update(public: OpenProject::Database::DB_VALUE_TRUE)
+      end
+
+      it "doesn't allow the owner to edit its public state" do
+        login_as(sharer)
+
+        projects_index_page.visit!
+        projects_index_page.set_sidebar_filter "Member-of list"
+        projects_index_page.open_share_dialog
+
+        share_dialog.expect_open
+        share_dialog.expect_toggle_public_disabled
+      end
+    end
   end
 
   describe "Making a list public " \
