@@ -131,7 +131,6 @@
   --generic-table--header-font-size: 0.875rem;
   --generic-table--header-height: 45px;
   --generic-table--footer-height: 34px;
-  --timeline--header-border-color: #aaaaaa;
   --timeline--type-fallback-color: rgba(150, 150, 150, 0.8);
   --table-timeline--row-height: 40px;
   --status-selector-bg-color: #F99601;
@@ -142,4 +141,6 @@
   --list-item-hover--border-color: transparent;
   --list-item-hover--color: var(--accent-color);
   --link-text-decoration: none;
+  --type-form-conf-attribute--background: var(--gray-light);
+  --select-arrow-bg-color-url: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
 }

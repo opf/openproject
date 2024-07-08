@@ -59,7 +59,6 @@ $inlinelabel-border: $input-border !default
 
 // Select menus
 $select-arrow: true !default
-$select-arrow-color: #000 !default
 
 // Text fields
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -157,6 +156,10 @@ select
 
   &:not(.FormControl-select)
     @if $select-arrow
-      background: transparent url(image-triangle($select-arrow-color)) right 10px center no-repeat
-      background-size: 8px 8px
-      padding-right: rem-calc(18px) + $form-padding
+      background-color: transparent !important
+      background-repeat: no-repeat !important
+      background-position: right !important
+      background-image: var(--select-arrow-bg-color-url) !important
+
+  &>option
+    background-color: var(--body-background)
