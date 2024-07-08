@@ -31,6 +31,8 @@
 module Shares
   module ProjectQueries
     class PublicFlagComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      BOX_PADDING = 3
+      BOX_BORDER_RADIUS = 2
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
