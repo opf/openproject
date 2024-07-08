@@ -178,7 +178,7 @@ jobs:
             ${{ env.REGISTRY_IMAGE }}
       - name: Build image
         id: build
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: ${{ matrix.platform }}
@@ -210,7 +210,7 @@ jobs:
           wget -O- --retry-on-http-error=503,502 --retry-connrefused http://localhost:8080/api/v3
       - name: Push image
         id: push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: ${{ matrix.platform }}
