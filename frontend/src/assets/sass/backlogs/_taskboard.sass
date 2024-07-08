@@ -64,14 +64,13 @@
     width: 107px
     /* Must be the same as min-width */
   #board_header
-    background-color: #EBEBEB
+    background-color: var(--body-background)
+    color: var(--body-font-color)
     border: 1px solid var(--borderColor-default)
     margin-bottom: 0
     margin-right: 10px
     td
-      background-color: #EBEBEB
-      border-right: 1px dotted #CFCFCF
-      color: black
+      border-right: 1px dotted var(--borderColor-default)
       font-weight: var(--base-text-weight-bold)
       text-align: center
       vertical-align: middle
@@ -205,9 +204,7 @@
 
 .task_editor_dialog.ui-dialog
   .ui-widget-header
-    background: none
-    background-color: #FFFFFF
-    opacity: 0.5
+    background-color: var(--bgColor-muted)
     filter: alpha(opacity = 50)
   .ui-dialog-title
     float: right

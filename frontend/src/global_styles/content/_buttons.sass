@@ -55,6 +55,9 @@ a.button
   transition-duration: 0.25s
   transition-timing-function: ease-out
 
+  &:hover, &:focus
+    text-decoration: none
+
   &:disabled,
   &.-disabled
     @include button-disabled
@@ -190,3 +193,8 @@ html.-browser-windows.-browser-chrome
     cursor: not-allowed
     background: none
     color: var(--fgColor-muted)
+
+input::file-selector-button
+  background: var(--button--background-color)
+  color: var(--button--font-color)
+  border: 1px solid var(--button-default-borderColor-rest)

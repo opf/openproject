@@ -261,6 +261,11 @@ RSpec.describe "Admin Create a new file storage",
 
           fill_in "Drive ID", with: "1234567890"
           click_on "Save and continue"
+
+          expect(page).to have_text("Drive ID is too short (minimum is 17 characters).")
+
+          fill_in "Drive ID", with: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY87vnZ6fgfvQanZHX-XCAyw"
+          click_on "Save and continue"
         end
 
         wait_for(page).to have_test_selector("label-name_configured-storage_tenant_drive_configured-status",

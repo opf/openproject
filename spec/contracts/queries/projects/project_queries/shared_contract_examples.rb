@@ -70,7 +70,7 @@ RSpec.shared_examples_for "project queries contract" do
       it_behaves_like "contract is valid"
     end
 
-    context "if the list is public and the editing user has the permission" do
+    context "if the list is public and the editing user has the global permission" do
       let(:query_user) { build_stubbed(:user) }
 
       before do
@@ -86,7 +86,7 @@ RSpec.shared_examples_for "project queries contract" do
       it_behaves_like "contract is valid"
     end
 
-    context "if the list is public and the editing user does not have the permission" do
+    context "if the list is public and the editing user does not have the global permission" do
       let(:query_user) { build_stubbed(:user) }
 
       before do
@@ -98,6 +98,22 @@ RSpec.shared_examples_for "project queries contract" do
       end
 
       it_behaves_like "contract is invalid", base: :need_permission_to_modify_public_query
+    end
+
+    context "if the list is public and the editing user does not have the global permission but has edit rights on the item" do
+      let(:query_user) { build_stubbed(:user) }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project_query :edit_project_query, project_query: query
+        end
+      end
+
+      it_behaves_like "contract is valid"
     end
 
     context "if the list is public and the editing user does not have the permission, even if they are the owner" do
