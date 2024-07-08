@@ -93,7 +93,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   end
 
   def can_access_shares?
-    query.persisted? && OpenProject::FeatureDecisions.project_list_sharing_active?
+    query.persisted?
   end
 
   def can_toggle_favor? = query.persisted?

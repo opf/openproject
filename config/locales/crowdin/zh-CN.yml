@@ -384,15 +384,15 @@ zh-CN:
   my:
     access_token:
       errors:
-        token_name_blank: "请提供一个 APItoken名称"
-        token_name_in_use: "此 API令牌名称已被使用，请选择其他名称"
-      new_access_token_dialog_title: "创建新的 API令牌"
-      new_access_token_dialog_show_button_text: "API令牌"
-      new_access_token_dialog_text_field_placeholder_text: "我的API令牌"
+        token_name_blank: "请提供一个 API 令牌名称"
+        token_name_in_use: "此 API 令牌名称已经在使用，请选择一个不同的名称"
+      new_access_token_dialog_title: "创建新的 API 令牌"
+      new_access_token_dialog_show_button_text: "API 令牌"
+      new_access_token_dialog_text_field_placeholder_text: "我的 API 令牌"
       new_access_token_dialog_text_field_label: "名称"
       new_access_token_dialog_submit_button_text: "创建"
-      new_access_token_dialog_text: "此令牌将允许第三方应用程序与您的实例通信。为了区分新的API令牌，请为其命名。"
-      new_access_token_dialog_attention_text: "将API令牌视为密码。任何使用此链接的人都可以从此实例获取信息，仅与受信任的用户共享。"
+      new_access_token_dialog_text: "此令牌将允许第三方应用程序与您的实例通信。为了区分新的 API 令牌，请为其命名。"
+      new_access_token_dialog_attention_text: "将 API 令牌视为密码。任何使用此链接的人都可以从此实例获取信息，仅与受信任的用户共享。"
       failed_to_reset_token: "无法重置访问令牌: %{error}"
       failed_to_create_token: "创建访问令牌失败： %{error}"
       failed_to_revoke_token: "撤销访问令牌失败： %{error}"
@@ -2001,7 +2001,7 @@ zh-CN:
   label_introduction_video: "自我介绍视频"
   label_invite_user: "邀请用户"
   label_share: "共享"
-  label_share_project_list: "Share project list"
+  label_share_project_list: "共享项目列表"
   label_show_hide: "显示/隐藏"
   label_show_hide_n_items: "显示/隐藏 %{count} 项目"
   label_show_all_registered_users: "显示所有注册用户"
@@ -3398,22 +3398,22 @@ zh-CN:
       additional_privileges_group: "可能有额外的权限(作为组成员)"
       additional_privileges_project_or_group: "可能有额外的权限(作为项目成员或组成员)"
     project_queries:
-      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      access_warning: "用户只能看到他们有权访问的项目。共享项目列表不会影响单个项目的权限。"
       public_flag:
-        label: "Share with everyone at %{instance_name}"
-        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+        label: "通过 %{instance_name}与大家分享"
+        caption: "每个人都可以查看此项目列表。有全局编辑权限的人可以修改它。"
       blank_state:
         public:
-          header: "Shared with everyone"
-          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+          header: "共享给所有人"
+          description: "每个人都可以查看此项目列表。您也可以添加具有额外权限的个别用户。"
         private:
-          header: "Not shared: Private"
-          description: "This project list has not been shared with anyone yet. Only you can access this list."
+          header: "不共享：私有"
+          description: "此项目列表尚未与任何人共享。只有您可以访问此列表。"
       permissions:
-        view: "View"
-        view_description: "Can view this project list."
-        edit: "Edit"
-        edit_description: "Can view, share and edit this project list."
+        view: "查看"
+        view_description: "可以查看此项目列表。"
+        edit: "编辑"
+        edit_description: "可以查看、共享和编辑此项目列表。"
   working_days:
     info: >
       在安排工作包时，未选择的日期将被跳过（且不计入天数）。可以在工作包级别覆盖这些选项。
