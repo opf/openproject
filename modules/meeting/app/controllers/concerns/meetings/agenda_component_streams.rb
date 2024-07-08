@@ -206,10 +206,11 @@ module Meetings
           update_list_via_turbo_stream(form_hidden: true)
 
           update_new_component_via_turbo_stream(
-            hidden: false,
+            hidden: true,
             meeting_section: meeting_agenda_item.meeting_section,
             type: @agenda_item_type
           )
+
         else
           update_section_header_via_turbo_stream(meeting_section: meeting_agenda_item.meeting_section)
 
@@ -224,10 +225,12 @@ module Meetings
           )
 
           update_new_component_via_turbo_stream(
-            hidden: false,
+            hidden: true,
             meeting_section: meeting_agenda_item.meeting_section,
             type: @agenda_item_type
           )
+
+          update_new_button_via_turbo_stream(disabled: false)
 
           update_show_items_via_turbo_stream
         end
