@@ -46,6 +46,16 @@ module Components
         def close
           click_on(class: "Overlay-closeButton")
         end
+
+        def toggle_public
+          find("toggle-switch").click
+        end
+
+        def expect_toggle_public_disabled
+          within("toggle-switch") do
+            expect(find("button")).to be_disabled
+          end
+        end
       end
     end
   end

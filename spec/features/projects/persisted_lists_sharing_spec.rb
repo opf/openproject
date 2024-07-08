@@ -158,4 +158,66 @@ RSpec.describe "Project list sharing",
       end
     end
   end
+
+  context "without the permission to manage public project lists" do
+    it "doesn't allow making a list public" do
+      login_as(sharer)
+
+      projects_index_page.visit!
+      projects_index_page.set_sidebar_filter "Member-of list"
+      projects_index_page.open_share_dialog
+
+      share_dialog.expect_open
+      share_dialog.expect_toggle_public_disabled
+    end
+  end
+
+  describe "Making a list public " \
+           "and accessing it as a user not allowed to edit it" do
+    shared_let(:global_member) do
+      create(:global_member,
+             principal: sharer,
+             roles: [create(:global_role, permissions: %i[manage_public_project_queries])])
+    end
+
+    it "allows the user to view the list" do
+      using_session "shared user" do
+        login_as(shared_user)
+
+        projects_index_page.visit!
+        projects_index_page.expect_no_sidebar_filter("Member-of list")
+      end
+
+      using_session "sharer" do
+        login_as(sharer)
+
+        projects_index_page.visit!
+        projects_index_page.set_sidebar_filter "Member-of list"
+        projects_index_page.open_share_dialog
+
+        share_dialog.expect_open
+        share_dialog.toggle_public
+        share_dialog.close
+      end
+
+      using_session "shared user" do
+        login_as(shared_user)
+        projects_index_page.visit!
+        projects_index_page.expect_sidebar_filter("Member-of list")
+        projects_index_page.set_sidebar_filter("Member-of list")
+        projects_index_page.open_share_dialog
+
+        # View only
+        share_dialog.expect_sharing_forbidden_banner
+        share_dialog.close
+
+        projects_index_page.open_filters
+        projects_index_page.filter_by_active("yes")
+        projects_index_page.expect_can_only_save_as_label
+        projects_index_page.save_query_as("Member-of and active list")
+
+        projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
+      end
+    end
+  end
 end
