@@ -48,7 +48,9 @@ module OpenProject::GitlabIntegration
         return unless (accepted_actions.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
 
         user = User.find_by_id(payload.open_project_user_id)
-        text = payload.object_attributes.title + " - " + payload.object_attributes.description
+        text = [payload.object_attributes.title, payload.object_attributes.description]
+          .select(&:present?)
+          .join(" - ")
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
 
