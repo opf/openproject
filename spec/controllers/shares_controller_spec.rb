@@ -82,7 +82,7 @@ RSpec.describe SharesController do
         get :index, params: { project_query_id: project_query.id }
       end
 
-      context "when the user does not have permission to access the project query" do
+      context "when the user does not have permission to access the project query (as it is not owned by the user)" do
         before do
           mock_permissions_for(user, &:forbid_everything)
         end
