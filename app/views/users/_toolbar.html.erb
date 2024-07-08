@@ -26,42 +26,70 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= breadcrumb_toolbar(@user.name) do %>
-  <li class="toolbar-item">
-    <%= link_to user_path(@user), class: 'button' do %>
-      <%= op_icon('button--icon icon-user') %>
-      <span class="button--text"><%= t(:label_profile) %></span>
-    <% end %>
-  </li>
-  <% if current_user.allowed_globally?(:create_user) %>
-    <li class="toolbar-item hidden-for-tablet">
-      <%= form_for(@user,
-                   url: { action: :resend_invitation },
-                   method: :post) do |_form| %>
-        <button class="button" title="<%= t(:tooltip_resend_invitation) %>">
-          <%= op_icon('button--icon icon-mail1') %>
-          <span class="button--text"><%= t(:label_send_invitation) %></span>
-        </button>
-      <% end %>
-    </li>
-  <% end %>
-  <% if current_user.admin? %>
-    <% unless current_user.id == @user.id %>
-      <li class="toolbar-item">
-        <%= form_for @user,
-                     :url => { :action => :change_status },
-                     :method => :post do %>
-            <%= change_user_status_buttons(@user) %>
-        <% end %>
-      </li>
-    <% end %>
-    <% if Setting.users_deletable_by_admins? %>
-      <li class="toolbar-item">
-        <%= link_to deletion_info_user_path(@user), class: 'button' do %>
-          <%= op_icon('button--icon icon-delete') %>
-          <span class="button--text"><%= t(:button_delete) %></span>
-        <% end %>
-      </li>
-    <% end %>
-  <% end %>
-<% end %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { @user.name }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+                             { href: users_path, text: t(:label_user_plural) },
+                             @user.name])
+
+    header.with_action_button(tag: :a,
+                              mobile_icon: :person,
+                              mobile_label: t(:label_profile),
+                              size: :medium,
+                              href: user_path(@user),
+                              aria: { label: I18n.t(:label_profile) },
+                              title: I18n.t(:label_profile)) do |button|
+      button.with_leading_visual_icon(icon: :person)
+      t(:label_profile)
+    end
+
+    if current_user.allowed_globally?(:create_user)
+      header.with_action_button(tag: :a,
+                                mobile_icon: :mail,
+                                mobile_label: t(:label_send_invitation),
+                                size: :medium,
+                                href: resend_invitation_user_path(@user),
+                                data: { method: :post },
+                                aria: { label: I18n.t(:label_send_invitation) },
+                                title: I18n.t(:tooltip_resend_invitation)) do |button|
+        button.with_leading_visual_icon(icon: :mail)
+        t(:label_send_invitation)
+      end
+    end
+
+    if current_user.admin?
+      unless current_user.id == @user.id
+        iterate_user_statusses(@user) do |title, name|
+          header.with_action_button(tag: :a,
+                                    mobile_icon: change_user_status_icons[name],
+                                    mobile_label: title,
+                                    size: :medium,
+                                    name: name,
+                                    href: change_status_user_path(@user, { name => '' }),
+                                    data: { method: :post },
+                                    aria: { label: title },
+                                    title: title) do |button|
+            button.with_leading_visual_icon(icon: change_user_status_icons[name])
+            title
+          end
+        end
+      end
+
+      if Setting.users_deletable_by_admins?
+        header.with_action_button(tag: :a,
+                                  scheme: :danger,
+                                  mobile_icon: :trash,
+                                  mobile_label: t(:button_delete),
+                                  size: :medium,
+                                  href: deletion_info_user_path(@user),
+                                  aria: { label: I18n.t(:button_delete) },
+                                  title: I18n.t(:button_delete)) do |button|
+          button.with_leading_visual_icon(icon: :trash)
+          t(:button_delete)
+        end
+      end
+    end
+  end
+%>
