@@ -89,6 +89,7 @@ jobs:
         with:
           path: public/
           name: public-assets-${{ github.sha }}
+          overwrite: true
     outputs:
       version: ${{ steps.extract_version.outputs.version }}
       checkout_ref: ${{ steps.extract_version.outputs.checkout_ref }}
@@ -232,6 +233,7 @@ jobs:
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
+          overwrite: true
   merge:
     runs-on: ubuntu-latest
     strategy:
