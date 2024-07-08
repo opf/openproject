@@ -56,6 +56,18 @@ module Shares
       def can_publish?
         User.current.allowed_globally?(:manage_public_project_queries)
       end
+
+      def tooltip
+        return if can_publish?
+
+        I18n.t("sharing.project_queries.publishing_denied")
+      end
+
+      def wrapper_classes
+        return ["d-flex", "flex-column"] if can_publish?
+
+        ["tooltip--bottom", "d-flex", "flex-column"]
+      end
     end
   end
 end
