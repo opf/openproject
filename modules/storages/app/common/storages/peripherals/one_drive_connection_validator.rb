@@ -70,14 +70,30 @@ module Storages
                                       description: I18n.t("storages.health.connection_validation.not_configured")))
       end
 
+      # rubocop:disable Metrics/AbcSize
       def drive_id_wrong
-        return None() if query.result != :not_found
+        return None() if query.success?
 
-        Some(ConnectionValidation.new(type: :error,
-                                      error_code: :err_drive_invalid,
-                                      timestamp: Time.current,
-                                      description: I18n.t("storages.health.connection_validation.drive_id_wrong")))
+        validation_for_invalid_drive = ConnectionValidation.new(
+          type: :error,
+          error_code: :err_drive_invalid,
+          timestamp: Time.current,
+          description: I18n.t("storages.health.connection_validation.drive_id_wrong")
+        )
+
+        error_code = query.result
+        return Some(validation_for_invalid_drive) if error_code == :not_found
+
+        payload = query.error_payload
+        return None() unless error_code == :error && payload.present? && payload.dig(:error, :code) == "invalidRequest"
+
+        malformed_drive_id_string = "provided drive id appears to be malformed" # invalidRequest
+        return None() unless payload.dig(:error, :message).include?(malformed_drive_id_string)
+
+        Some(validation_for_invalid_drive)
       end
+
+      # rubocop:enable Metrics/AbcSize
 
       def tenant_id_wrong
         return None() if query.result != :unauthorized
