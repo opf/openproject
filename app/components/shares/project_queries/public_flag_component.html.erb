@@ -1,6 +1,6 @@
 <%=
 container.with_row do
-  content_tag(:div, class: wrapper_classes, data: { tooltip: tooltip }) do
+  content_tag(:div, class: tooltip_wrapper_classes, data: { tooltip: tooltip_message }) do
     render(Primer::Forms::ToggleSwitchForm.new(
       name: "publish_project_query",
       label: t("sharing.project_queries.public_flag.label", instance_name: Setting.app_title),

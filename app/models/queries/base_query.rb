@@ -51,14 +51,13 @@ module Queries::BaseQuery
       :activerecord
     end
 
-    # Use the Query class' error messages.
-    # So everything under
+    # Also use the Query class' as a lookup ancestor so that error messages, etc can be shared.
+    # So if nothing is defined for the specific query class, we fall back to the generic query class.
     #
+    # This is useful for error messages, because we can fall back to error messages, etc in
     # activerecord.errors.models.query
-    #
-    # is found.
     def lookup_ancestors
-      [Query]
+      super + [Query]
     end
   end
 

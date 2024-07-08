@@ -57,13 +57,13 @@ module Shares
         User.current.allowed_globally?(:manage_public_project_queries)
       end
 
-      def tooltip
+      def tooltip_message
         return if can_publish?
 
         I18n.t("sharing.project_queries.publishing_denied")
       end
 
-      def wrapper_classes
+      def tooltip_wrapper_classes
         return ["d-flex", "flex-column"] if can_publish?
 
         ["tooltip--bottom", "d-flex", "flex-column"]
