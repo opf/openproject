@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,53 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
-  include OpTurbo::ComponentStream
-  include OpTurbo::DialogStreamHelper
+require "support/pages/projects/index"
 
-  layout "admin"
-
-  model_object Storages::Storage
-
-  before_action :require_admin
-  before_action :find_model_object
-  before_action :load_project_storage, only: %i(destroy destroy_confirmation_dialog)
-
-  menu_item :external_file_storages
-
-  def index
-    @project_query = ProjectQuery.new(
-      name: "project-storage-mappings-#{@storage.id}"
-    ) do |query|
-      query.where(:storages, "=", [@storage.id])
-      query.select(:name)
-      query.order("lft" => "asc")
+module Pages
+  module Admin
+    module Storages
+      module ProjectStorages
+        class Index < ::Pages::Projects::Index
+          def path
+            "/admin/settings/storages/#{storage.id}/project_storages"
+          end
+        end
+      end
     end
-  end
-
-  def new; end
-  def create; end
-
-  def destroy_confirmation_dialog
-    respond_with_dialog Storages::ProjectStorages::DestroyConfirmationDialogComponent.new(
-      storage: @storage,
-      project_storage: @project_storage
-    )
-  end
-
-  def destroy
-    @project_storage.destroy
-    redirect_to admin_settings_storage_project_storages_path(@storage)
-  end
-
-  private
-
-  def load_project_storage
-    @project_storage = Storages::ProjectStorage.find(params[:id])
-  end
-
-  def find_model_object(object_id = :storage_id)
-    super
-    @storage = @object
   end
 end

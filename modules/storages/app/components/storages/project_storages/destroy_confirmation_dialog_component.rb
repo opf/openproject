@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,53 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
-  include OpTurbo::ComponentStream
-  include OpTurbo::DialogStreamHelper
+# This components renders a dialog to confirm the deletion of a project from a storage.
+module Storages::ProjectStorages
+  class DestroyConfirmationDialogComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-  layout "admin"
+    def initialize(storage:, project_storage:)
+      super
 
-  model_object Storages::Storage
-
-  before_action :require_admin
-  before_action :find_model_object
-  before_action :load_project_storage, only: %i(destroy destroy_confirmation_dialog)
-
-  menu_item :external_file_storages
-
-  def index
-    @project_query = ProjectQuery.new(
-      name: "project-storage-mappings-#{@storage.id}"
-    ) do |query|
-      query.where(:storages, "=", [@storage.id])
-      query.select(:name)
-      query.order("lft" => "asc")
+      @storage = storage
+      @project_storage = project_storage
     end
-  end
 
-  def new; end
-  def create; end
+    def id
+      "project-storage-#{@project_storage.id}-destroy-confirmation-dialog"
+    end
 
-  def destroy_confirmation_dialog
-    respond_with_dialog Storages::ProjectStorages::DestroyConfirmationDialogComponent.new(
-      storage: @storage,
-      project_storage: @project_storage
-    )
-  end
+    def heading
+      I18n.t("project_storages.remove_project.dialog.heading",
+             storage_type: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name"))
+    end
 
-  def destroy
-    @project_storage.destroy
-    redirect_to admin_settings_storage_project_storages_path(@storage)
-  end
+    def text
+      text = I18n.t("project_storages.remove_project.dialog.text")
+      if @project_storage.project_folder_mode == "automatic"
+        text << " "
+        text << I18n.t("project_storages.remove_project.dialog.automatically_managed_appendix")
+      end
+      text
+    end
 
-  private
-
-  def load_project_storage
-    @project_storage = Storages::ProjectStorage.find(params[:id])
-  end
-
-  def find_model_object(object_id = :storage_id)
-    super
-    @storage = @object
+    def confirmation_text
+      I18n.t("project_storages.remove_project.dialog.confirmation_text")
+    end
   end
 end
