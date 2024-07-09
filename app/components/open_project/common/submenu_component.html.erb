@@ -1,4 +1,4 @@
-<div class="op-sidebar" data-controller="filter--filter-list" data-application-target="dynamic">
+<div class="op-sidebar" data-controller="filter--filter-list" data-application-target="dynamic" data-test-selector="op-submenu">
   <% if @searchable %>
     <div class="op-sidebar--search">
       <%= render Primer::Alpha::TextField.new(name: "search",
@@ -37,7 +37,7 @@
                 <% end %>
                 <span class="op-sidemenu--item-title"><%= menu_item.title %></span>
                 <% if menu_item.count %>
-                  <span class="op-bubble op-bubble_alt_highlighting"><%= menu_item.count %></span>
+                  <span class="op-bubble op-bubble_alt_highlighting" data-test-selector="op-sidemenu--item-count"><%= menu_item.count %></span>
                 <% end %>
               </a>
             </li>
@@ -76,7 +76,7 @@
                 <% end %>
 
                 <% if child_item.count %>
-                  <span class="op-bubble op-bubble_alt_highlighting"><%= child_item.count %></span>
+                  <span class="op-bubble op-bubble_alt_highlighting" data-test-selector="op-sidemenu--item-count"><%= child_item.count %></span>
                 <% end %>
               </a>
             </li>

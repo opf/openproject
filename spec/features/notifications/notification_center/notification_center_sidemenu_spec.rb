@@ -79,7 +79,7 @@ RSpec.describe "Notification center sidemenu",
   end
 
   let(:center) { Pages::Notifications::Center.new }
-  let(:side_menu) { Components::Notifications::Sidemenu.new }
+  let(:side_menu) { Components::Submenu.new }
 
   before do
     notifications
@@ -138,7 +138,7 @@ RSpec.describe "Notification center sidemenu",
     side_menu.expect_item_with_no_count "Watcher"
 
     # ... and show only those projects with a notification
-    side_menu.expect_item_not_visible project.name
+    side_menu.expect_no_item project.name
     side_menu.expect_item_with_count project2.name, 1
     side_menu.expect_item_with_count "... #{project3.name}", 4
 
@@ -159,9 +159,9 @@ RSpec.describe "Notification center sidemenu",
     side_menu.expect_item_with_no_count "Date alert"
     side_menu.expect_item_with_no_count "Shared"
 
-    side_menu.expect_item_not_visible project.name
-    side_menu.expect_item_not_visible project2.name
-    side_menu.expect_item_not_visible "... #{project3.name}"
+    side_menu.expect_no_item project.name
+    side_menu.expect_no_item project2.name
+    side_menu.expect_no_item "... #{project3.name}"
   end
 
   it "updates the content when a filter is clicked" do
