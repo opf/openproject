@@ -325,6 +325,56 @@ RSpec.describe SharesController do
   end
 
   describe "update" do
+    let(:make_request) do
+      patch :update, params: {
+        project_query_id: project_query.id,
+        id: view_member.id,
+        member: { role_id: edit_role.id }
+      }, format: :turbo_stream
+    end
+
+    context "when the strategy allows managing" do
+      before do
+        allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+          .to receive_messages(viewable?: true, manageable?: true)
+
+        allow(controller).to receive(:create_or_update_share).and_call_original
+        allow(controller).to receive(:respond_with_replace_modal).and_call_original
+        allow(controller).to receive(:respond_with_update_permission_button).and_call_original
+        allow(controller).to receive(:respond_with_remove_share).and_call_original
+      end
+
+      context "and the list of filtered shares is now empty" do
+        before do
+          # Only new share
+          allow(controller).to receive_message_chain(:load_query, :results).and_return([])
+        end
+
+        it "calls respond_with_replace_modal" do
+          make_request
+          expect(controller).to have_received(:respond_with_replace_modal)
+        end
+      end
+
+      context "and the share is still within the list of filtered shares" do
+        it "calls respond_with_update_permission_button" do
+          make_request
+          expect(controller).to have_received(:respond_with_update_permission_button)
+        end
+      end
+
+      context "and the share no longer belongs to the list of filtered shares" do
+        before do
+          # Includes other share only, not the one being modified
+          allow(controller).to receive_message_chain(:load_query, :results).and_return([edit_member])
+        end
+
+        it "calls respond_with_remove_share" do
+          make_request
+          expect(controller).to have_received(:respond_with_remove_share)
+        end
+      end
+    end
   end
 
   describe "destroy" do
