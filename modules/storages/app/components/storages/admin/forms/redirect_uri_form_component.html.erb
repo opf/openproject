@@ -8,7 +8,7 @@
       ) do |form|
         flex_layout do |oauth_client_row|
           oauth_client_row.with_row(mb: 3) do
-            concat(render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+            render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
               input_group.with_text_input(
                 name: :oauth_client_redirect_uri,
                 label: I18n.t('storages.label_redirect_uri'),
@@ -24,14 +24,11 @@
                 },
                 test_selector: 'storage-oauth-client-redirect-uri'
               )
-            end)
 
-            # NOTE: Hardcoded `FormControl-caption` class is used to align the text with the input field.
-            #      This is a workaround until Primer::OpenProject::InputGroup supports a caption.
-            #      See https://community.openproject.org/wp/51376
-            concat(render(Primer::Beta::Text.new(classes: 'FormControl-caption')) do
-              I18n.t('storages.instructions.one_drive.oauth_client_redirect_uri')
-            end)
+              input_group.with_caption do
+                I18n.t('storages.instructions.one_drive.oauth_client_redirect_uri')
+              end
+            end
           end
 
           oauth_client_row.with_row do
