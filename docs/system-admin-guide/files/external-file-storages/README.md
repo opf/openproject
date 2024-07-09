@@ -36,7 +36,7 @@ For instructions on using the integration after the setup has been complete plea
 
 For troubleshooting guidance related to file storages, visit
 the [File storage troubleshooting](./health-status) page. Here you will find possible explanations and
-suggested solutions and you are able to conduct health status checks with immediate results. If you encounter any
+suggested solutions and will be able to conduct health status checks with immediate results. If you encounter any
 challenges not addressed here, do not hesitate to reach out to
 the [OpenProject community](https://community.openproject.org/projects/openproject/forums)
 or [support team](https://www.openproject.org/contact/) for further assistance.

@@ -8,46 +8,48 @@ keywords: file storages, health, health status, error, troubleshooting, Nextclou
 
 # Health status checks and troubleshooting
 
-If a file storage is not working as expected, users can find additional information about possible errors in the details
-view of the file storage. The administrator can additionally manually trigger a connection validation. One can access
-this view by clicking on the file storage's name in the list under *Administration* -> *Files* -> *External file
-storages*.
+If a file storage is not working as expected, you can find additional information about possible errors in the details
+view of the file storage. You can access this view by clicking on the file storage's name in the list under *Administration* -> *Files* -> *External file
+storages*.  In addition, administrator can manually trigger a connection validation. 
 
 ## Connection validation
+
+### Connection validation for OneDrive/SharePoint 
 
 Every file storage for OneDrive/SharePoint has the ability to run a connection test. This test is triggered manually by
 clicking on **Recheck connection** in the sidebar on the right side of the file storage's details view. This check is
 available after the file storage is fully configured.
 
-There are a couple of possible errors and warnings that can occur during the connection test. The following table lists
-the error codes with a description of the possible reasons and how to solve them.
+![Recheck connection for OneDrive/SharePoint in OpenProject administration](openproject_file_storages_recheck_connection.png)
 
-| Error code             | Error description                                                                     | Possible reasons                                                                                                                                                                                          | Next steps and solutions                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-|------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| WRN_NOT_CONFIGURED     | The file storage is not fully configured.                                             | Important data is missing, so that the file storage is labeled incomplete.                                                                                                                                | Check the input fields and fill in the missing data.                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ERR_TENANT_INVALID     | The configured directory (tenant) id is invalid.                                      | There might be a typo or the tenant name or id has changed lately.                                                                                                                                        | Go to the correct Microsoft Entra ID overview in the [Azure Portal](https://portal.azure.com/) and copy the correct tenant id to the input field.                                                                                                                                                                                                                                                                                                         |
-| ERR_CLIENT_INVALID     | The configured client credentials are invalid.                                        | Either the client id or the client secret are invalid. The error descriptions should help you finding the culprit.                                                                                        | Go to the correct application overview in the [Azure Portal](https://portal.azure.com/). Copy the correct client id to the input field, or check whether the client secret is still valid. Attention: secrets might have a expiration date. If a secret is expired, you'll have to generate a new one.                                                                                                                                                    |
-| ERR_DRIVE_INVALID      | The configured drive cannot be found.                                                 | The request for the drive id failed with not finding the drive id. The drive might be deleted, or your application has no permissions to see it.                                                          | Consult the [drive guide](../../../integrations/one-drive/drive-guide/) and fetch the desired drive id again, to fill out the input field.                                                                                                                                                                                                                                                                                                                |
-| WRN_UNEXPECTED_CONTENT | The connection request was successful, but unexpected content was found in the drive. | This warning is only shown, if the file storage is configured to automatically manage project folder permissions. There was data found in the drive, that is not a project folder created by OpenProject. | Go to your drive and migrate or delete the data from the drive root, that was not created by OpenProject. Further information about the unexpected data is found in the server logs. A drive configured for usage with the *Automatically managed project folders* option has a disrupted inheritance chain. Any data in here can only be seen by site owner. It is discouraged to use this drive for other purposes as with the OpenProject integration. |
-| ERR_UNKNOWN            | An unknown error occurred.                                                            | There can be multiple reasons and the error source was not foreseen.                                                                                                                                      | Errors of this kind are logged to the server logs. Look for a log entry starting with `Connection validation failed with unknown error:`                                                                                                                                                                                                                                                                                                                  |
+There are several possible errors that can occur during the connection test. The following table lists the error codes with a description of the possible reasons and suggested solutions.
 
-#### Connection validation for Nextcloud
+| Error code             | Error description                                            | Possible reasons                                             | Next steps and solutions                                     |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| WRN_NOT_CONFIGURED     | The file storage is not fully configured.                    | Important data is missing, so that the file storage is labelled incomplete. | Check the input fields and fill in the missing data.         |
+| ERR_TENANT_INVALID     | The configured directory (tenant) id is invalid.             | There might be a typo or the tenant name or ID has changed recently. | Go to the correct Microsoft Entra ID overview in the [Azure Portal](https://portal.azure.com/) and copy the correct tenant id to the input field. |
+| ERR_CLIENT_INVALID     | The configured client credentials are invalid.               | Either the client id or the client secret are invalid. The error descriptions should help you finding the culprit. | Go to the correct application overview in the [Azure Portal](https://portal.azure.com/). Copy the correct client ID to the input field, or check whether the client secret is still valid. Attention: secrets might have an expiration date. If a secret is expired, you will have to generate a new one. |
+| ERR_DRIVE_INVALID      | The configured drive cannot be found.                        | The request for the drive ID failed without finding the drive ID. The drive might be deleted, or your application has no permissions to see it. | Consult the [drive guide](../../../integrations/one-drive/drive-guide/) and fetch the desired drive ID again, to fill out the input field. |
+| WRN_UNEXPECTED_CONTENT | The connection request was successful, but unexpected content was found in the drive. | This warning is only shown, if the file storage is configured to automatically managed project folder permissions. There was data found in the drive, that is not a project folder created by OpenProject. | Go to your drive and migrate or delete the data from the drive root, that was not created by OpenProject. Further information about the unexpected data is found in the server logs. A drive configured for usage with the *Automatically managed project folders* option has a disrupted inheritance chain. Any data in here can only be seen by site owner. It is discouraged to use this drive for other purposes than the OpenProject integration. |
+| ERR_UNKNOWN            | An unknown error occurred.                                   | There can be multiple reasons and the error source was not foreseen. | Errors of this kind are logged to the server logs. Look for a log entry starting with `Connection validation failed with unknown error:` |
 
-This connection validation test is currently only available for OneDrive/SharePoint integrations.
+### Connection validation for Nextcloud
+
+The connection validation test is currently only available for OneDrive/SharePoint integrations.
 
 ## Health checks for automatically managed project folders
 
-File storages configured with the *Automatically managed project folders* option will have reoccurring synchronization
+File storages with the *Automatically managed project folders* option will have reoccurring synchronization
 runs, that update the user permissions on the external system and report possible errors. An additional section is
 displayed for those file storages in the side bar.
 
 ![Health check for automatically managed folders in file storage integrations in OpenProject](openproject_file_storages_health_message.png)
 
-If a problem has been detected, the OpenProject administrators will be notified via email of the detected error.
-Administrators will be notified once a day of the faulty integration, including the specific error description and
+If a problem has been detected, the OpenProject administrators will be notified of the detected error via email.
+Administrators will be notified of the faulty integration once a day, including the specific error description and
 solution suggestions (see the table below).
 
-Once the error has been resolved, the administrators will also receive an email informing him/her/them of this.
+Once the error has been resolved, the administrators will also receive an email informing them of this.
 
 You can choose to subscribe or unsubscribe to these email notifications by clicking the respective button under the
 error message.
