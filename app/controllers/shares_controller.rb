@@ -54,6 +54,8 @@ class SharesController < ApplicationController
     overall_result = []
     @errors = ActiveModel::Errors.new(self)
 
+    had_shares_before_adding = sharing_strategy.shares.present?
+
     find_or_create_users(send_notification: false) do |member_params|
       user = User.find_by(id: member_params[:user_id])
       if user.present? && user.locked?
@@ -64,13 +66,13 @@ class SharesController < ApplicationController
       end
     end
 
-    @new_shares = overall_result.map(&:result).reverse
+    new_shares = overall_result.map(&:result).reverse
 
     if overall_result.present?
-      # In case the number of newly added shares is equal to the whole number of shares,
-      # we have to render the whole modal again to get rid of the blankslate
-      if current_visible_member_count > 1 && @new_shares.size < current_visible_member_count
-        respond_with_prepend_shares
+      # In case we did not have shares before we have to replace the modal to get rid of the blankstate,
+      # otherwise we can prepend the new shares
+      if had_shares_before_adding
+        respond_with_prepend_shares(new_shares)
       else
         respond_with_replace_modal
       end
@@ -96,7 +98,8 @@ class SharesController < ApplicationController
   def destroy
     destroy_share(@share)
 
-    if current_visible_member_count.zero?
+    # When we removed the last share we have to replace the modal to show the blankstate
+    if sharing_strategy.shares(reload: true).empty?
       respond_with_replace_modal
     else
       respond_with_remove_share
@@ -115,16 +118,16 @@ class SharesController < ApplicationController
   def bulk_update
     @selected_shares.each { |share| create_or_update_share(share.principal.id, params[:role_ids]) }
 
-    respond_with_bulk_updated_permission_buttons
+    respond_with_bulk_updated_permission_buttons(@selected_shares)
   end
 
   def bulk_destroy
     @selected_shares.each { |share| destroy_share(share) }
 
-    if current_visible_member_count.zero?
+    if sharing_strategy.shares(reload: true).empty?
       respond_with_replace_modal
     else
-      respond_with_bulk_removed_shares
+      respond_with_bulk_removed_shares(@selected_shares)
     end
   end
 
@@ -177,7 +180,7 @@ class SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def respond_with_prepend_shares
+  def respond_with_prepend_shares(new_shares)
     replace_via_turbo_stream(
       component: Shares::InviteUserFormComponent.new(
         strategy: sharing_strategy,
@@ -188,11 +191,11 @@ class SharesController < ApplicationController
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(
         strategy: sharing_strategy,
-        count: current_visible_member_count
+        count: sharing_strategy.shares(reload: true).count
       )
     )
 
-    @new_shares.each do |share|
+    new_shares.each do |share|
       prepend_via_turbo_stream(
         component: Shares::ShareRowComponent.new(
           share:,
@@ -241,7 +244,7 @@ class SharesController < ApplicationController
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(
         strategy: sharing_strategy,
-        count: current_visible_member_count
+        count: sharing_strategy.shares(reload: true).count
       )
     )
 
@@ -260,8 +263,8 @@ class SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def respond_with_bulk_updated_permission_buttons
-    @selected_shares.each do |share|
+  def respond_with_bulk_updated_permission_buttons(selected_shares)
+    selected_shares.each do |share|
       replace_via_turbo_stream(
         component: Shares::PermissionButtonComponent.new(
           share:,
@@ -274,8 +277,8 @@ class SharesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def respond_with_bulk_removed_shares
-    @selected_shares.each do |share|
+  def respond_with_bulk_removed_shares(selected_shares)
+    selected_shares.each do |share|
       remove_via_turbo_stream(
         component: Shares::ShareRowComponent.new(
           share:,
@@ -286,7 +289,7 @@ class SharesController < ApplicationController
 
     update_via_turbo_stream(
       component: Shares::CounterComponent.new(
-        count: current_visible_member_count,
+        count: sharing_strategy.shares(reload: true).count,
         strategy: sharing_strategy
       )
     )
@@ -315,10 +318,6 @@ class SharesController < ApplicationController
 
   def load_share
     @share = @entity.members.find(params[:id])
-  end
-
-  def current_visible_member_count
-    @current_visible_member_count ||= sharing_strategy.shares.size
   end
 
   def load_selected_shares
