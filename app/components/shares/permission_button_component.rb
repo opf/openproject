@@ -92,5 +92,9 @@ module Shares
 
       ["tooltip--left"]
     end
+
+    def editable?
+      strategy.manageable? && share.principal != User.current
+    end
   end
 end

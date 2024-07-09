@@ -6,7 +6,7 @@
                                               dynamic_label: true,
                                               anchor_align: :end,
                                               color: :subtle }.deep_merge(@system_arguments))) do |menu|
-        menu.with_show_button(disabled: !strategy.manageable?, data: { 'shares--bulk-selection-target': 'userRowRole',
+        menu.with_show_button(disabled: !editable?, data: { 'shares--bulk-selection-target': 'userRowRole',
                                       'share-id': share.id,
                                       'active-role-name': permission_name(active_role.id)}) do |button|
           button.with_trailing_action_icon(icon: :"triangle-down")
