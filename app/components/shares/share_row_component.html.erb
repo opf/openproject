@@ -20,13 +20,13 @@
         render(Shares::UserDetailsComponent.new(share:, manager_mode: share_editable?))
       end
 
-      if share_editable?
-        user_row_grid.with_area(:button, tag: :div, color: :subtle) do
-          render(Shares::PermissionButtonComponent.new(share:,
-                                                       available_roles: @available_roles,
-                                                       data: { 'test-selector': 'op-share-dialog-update-role' }))
-        end
+      user_row_grid.with_area(:button, tag: :div, color: :subtle) do
+        render(Shares::PermissionButtonComponent.new(share:,
+        strategy: strategy,
+                                                      data: { 'test-selector': 'op-share-dialog-update-role' }))
+      end
 
+      if share_editable?
         user_row_grid.with_area(:remove, tag: :div) do
           form_with url: url_for([entity, share]), method: :delete do
             render(Primer::Beta::IconButton.new(icon: "trash",
