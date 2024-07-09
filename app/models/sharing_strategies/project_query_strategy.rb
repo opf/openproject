@@ -76,5 +76,33 @@ module SharingStrategies
     def empty_state_component
       Shares::ProjectQueries::EmptyStateComponent
     end
+
+    def shares(reload: false)
+      results = super
+
+      if results.present?
+        (results + [virtual_owner_share]).sort_by { |share| share.principal.name }
+      else
+        []
+      end
+    end
+
+    private
+
+    def virtual_owner_share
+      @virtual_owner_share ||= Member.new(
+        entity:,
+        principal: entity.user,
+        roles: [ProjectQueryRole.find_by(builtin: owner_role_identifier)]
+      )
+    end
+
+    def owner_role_identifier
+      if !entity.public? || entity.user.allowed_globally?(:manage_public_project_queries)
+        Role::BUILTIN_PROJECT_QUERY_EDIT
+      else
+        Role::BUILTIN_PROJECT_QUERY_VIEW
+      end
+    end
   end
 end
