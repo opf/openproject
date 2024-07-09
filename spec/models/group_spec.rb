@@ -138,7 +138,7 @@ RSpec.describe Group do
     it { expect(group).to validate_uniqueness_of :name }
   end
 
-  include_examples "creates an audit trail on destroy" do
+  it_behaves_like "creates an audit trail on destroy" do
     subject { create(:attachment) }
   end
 
