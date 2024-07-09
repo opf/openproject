@@ -57,19 +57,22 @@ module Notifications
     private
 
     def inbox_menu
-      menu_item(:inbox, I18n.t("notifications.menu.inbox"), nil, {})
+      menu_item(title: I18n.t("notifications.menu.inbox"), icon_key: :inbox)
     end
 
     def reason_filters
       %w[mentioned assigned responsible watched date_alert shared].map do |reason|
         count = unread_by_reason[reason]
-        menu_item(reason, I18n.t("mail.work_packages.reason.#{reason}"), count == 0 ? nil : count, query_params("reason", reason))
+        menu_item(title: I18n.t("mail.work_packages.reason.#{reason}"),
+                  icon_key: reason,
+                  count: count == 0 ? nil : count,
+                  query_params: query_params("reason", reason.camelize(:lower)))
       end
     end
 
     def project_filters
       unread_by_project.map do |project, count|
-        menu_item(nil, project.name, count, query_params("project", project.id))
+        menu_item(title: project.name, count:, query_params: query_params("project", project.id))
       end
     end
 
@@ -85,15 +88,6 @@ module Notifications
       query.where(:read_ian, "=", "f")
       query.group(:project)
       query.group_values
-    end
-
-    def menu_item(key, title, count, query_params)
-      OpenProject::Menu::MenuItem.new(title:,
-                                      href: query_path(query_params),
-                                      icon: icon_map.fetch(key, key),
-                                      count:,
-                                      selected: selected?(query_params),
-                                      favored: favored?(query_params))
     end
 
     def query_params(filter, name)

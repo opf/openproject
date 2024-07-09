@@ -43,8 +43,8 @@ module WorkPackages
         next if params.nil?
 
         menu_item(
-          I18n.t("js.work_packages.default_queries.#{query_key}"),
-          params
+          title: I18n.t("js.work_packages.default_queries.#{query_key}"),
+          query_params: params
         )
       end
     end
