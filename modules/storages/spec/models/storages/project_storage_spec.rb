@@ -119,8 +119,24 @@ RSpec.describe Storages::ProjectStorage do
     end
 
     context "when the storage is not automatically managed" do
-      context "when the storage is a generic storage" do
-        let(:storage) { build_stubbed(:storage, :as_generic, :as_not_automatically_managed) }
+      context "when the storage is a one drive storage" do
+        let(:storage) { build_stubbed(:one_drive_storage, :as_not_automatically_managed) }
+
+        it "returns true for project_folder_mode inactive" do
+          expect(project_storage.project_folder_mode_possible?("inactive")).to be true
+        end
+
+        it "returns false for project_folder_mode automatic" do
+          expect(project_storage.project_folder_mode_possible?("automatic")).to be false
+        end
+
+        it "returns true for project_folder_mode manual" do
+          expect(project_storage.project_folder_mode_possible?("manual")).to be true
+        end
+      end
+
+      context "when the storage is a nextcloud storage" do
+        let(:storage) { build_stubbed(:nextcloud_storage, :as_not_automatically_managed) }
 
         it "returns true for project_folder_mode inactive" do
           expect(project_storage.project_folder_mode_possible?("inactive")).to be true

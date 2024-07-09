@@ -150,11 +150,7 @@ module Storages
     alias automatic_management_enabled automatically_managed
 
     def available_project_folder_modes
-      if automatic_management_enabled?
-        ProjectStorage.project_folder_modes.keys
-      else
-        ["inactive", "manual"]
-      end
+      raise Errors::SubclassResponsibility
     end
 
     def configured?

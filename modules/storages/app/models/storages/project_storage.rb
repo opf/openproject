@@ -58,7 +58,7 @@ module Storages
     end
 
     def project_folder_mode_possible?(project_folder_mode)
-      storage&.available_project_folder_modes&.include?(project_folder_mode)
+      storage.present? && storage.available_project_folder_modes&.include?(project_folder_mode)
     end
 
     def managed_project_folder_path
