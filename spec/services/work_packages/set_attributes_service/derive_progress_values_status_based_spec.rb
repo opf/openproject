@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackages::SetAttributesService::UpdateProgressValuesStatusBased,
+RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBased,
                type: :model do
   shared_let(:status_0_pct_complete) { create(:status, default_done_ratio: 0, name: "0% complete") }
   shared_let(:status_50_pct_complete) { create(:status, default_done_ratio: 50, name: "50% complete") }

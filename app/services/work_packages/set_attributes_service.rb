@@ -285,8 +285,9 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def update_progress_attributes
-    updater = WorkPackage.use_status_for_done_ratio? ? UpdateProgressValuesStatusBased : UpdateProgressValuesWorkBased
-    updater.new(work_package).call
+    derive_progress_values_class =
+      WorkPackage.use_status_for_done_ratio? ? DeriveProgressValuesStatusBased : DeriveProgressValuesWorkBased
+    derive_progress_values_class.new(work_package).call
   end
 
   def set_version_to_nil

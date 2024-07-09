@@ -27,10 +27,10 @@
 #++
 
 class WorkPackages::SetAttributesService
-  class UpdateProgressValuesStatusBased < UpdateProgressValuesBase
+  class DeriveProgressValuesStatusBased < DeriveProgressValuesBase
     private
 
-    def update_progress_attributes
+    def derive_progress_attributes
       raise ArgumentError, "Cannot use #{self.class.name} in work-based mode" if WorkPackage.work_based_mode?
 
       update_percent_complete

@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackages::SetAttributesService::UpdateProgressValuesWorkBased,
+RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased,
                type: :model do
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }

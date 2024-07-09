@@ -27,7 +27,7 @@
 #++
 
 class WorkPackages::SetAttributesService
-  class UpdateProgressValuesBase
+  class DeriveProgressValuesBase
     attr_reader :work_package
 
     def initialize(work_package)
@@ -35,7 +35,7 @@ class WorkPackages::SetAttributesService
     end
 
     def call
-      update_progress_attributes
+      derive_progress_attributes
       round_progress_values
     end
 
