@@ -1,5 +1,5 @@
 <%=
-  flex_layout(data: { turbo: true }) do |show_page|
+  flex_layout(data: { controller: "poll-for-changes", turbo: true }) do |show_page|
     show_page.with_row do
       # prototyical usage of Primer's flash message component wrapped in a component which can be updated via turbo stream
       # empty initially
