@@ -28,8 +28,10 @@
 
 require "spec_helper"
 
+# Scenarios specified in https://community.openproject.org/wp/40749
 RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBased,
-               type: :model do
+               type: :model,
+               with_settings: { work_package_done_ratio: "status" } do
   shared_let(:status_0_pct_complete) { create(:status, default_done_ratio: 0, name: "0% complete") }
   shared_let(:status_50_pct_complete) { create(:status, default_done_ratio: 50, name: "50% complete") }
   shared_let(:status_70_pct_complete) { create(:status, default_done_ratio: 70, name: "70% complete") }
@@ -72,120 +74,108 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
     end
   end
 
-  # Scenarios specified in https://community.openproject.org/wp/40749
-  describe "deriving remaining work attribute (remaining_hours)" do
-    context "in status-based mode",
-            with_settings: { work_package_done_ratio: "status" } do
-      context "given a work package with work, remaining work, and status with % complete being set" do
-        before do
-          work_package.status = status_50_pct_complete
-          work_package.done_ratio = work_package.status.default_done_ratio
-          work_package.estimated_hours = 10.0
-          work_package.remaining_hours = 5.0
-          work_package.send(:clear_changes_information)
-        end
+  context "given a work package with work, remaining work, and status with % complete being set" do
+    before do
+      work_package.status = status_50_pct_complete
+      work_package.done_ratio = work_package.status.default_done_ratio
+      work_package.estimated_hours = 10.0
+      work_package.remaining_hours = 5.0
+      work_package.send(:clear_changes_information)
+    end
 
-        context "when work is unset" do
-          let(:updated_attributes) { { estimated_hours: nil } }
-          let(:expected_attributes) { { remaining_hours: nil } }
+    context "when work is unset" do
+      let(:updated_attributes) { { estimated_hours: nil } }
+      let(:expected_attributes) { { remaining_hours: nil } }
 
-          include_examples "update progress values", description: "unsets remaining work"
-        end
+      include_examples "update progress values", description: "unsets remaining work"
+    end
 
-        context "when work is changed" do
-          let(:updated_attributes) { { estimated_hours: 5.0 } }
-          let(:expected_attributes) { { remaining_hours: 2.5 } }
+    context "when work is changed" do
+      let(:updated_attributes) { { estimated_hours: 5.0 } }
+      let(:expected_attributes) { { remaining_hours: 2.5 } }
 
-          include_examples "update progress values", description: "recomputes remaining work accordingly"
-        end
+      include_examples "update progress values", description: "recomputes remaining work accordingly"
+    end
 
-        context "when work is changed to a negative value" do
-          let(:updated_attributes) { { estimated_hours: -1.0 } }
-          let(:expected_kept_attributes) { %w[remaining_hours] }
+    context "when work is changed to a negative value" do
+      let(:updated_attributes) { { estimated_hours: -1.0 } }
+      let(:expected_kept_attributes) { %w[remaining_hours] }
 
-          include_examples "update progress values",
-                           description: "is an error state (to be detected by contract), and remaining work is kept"
-        end
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), and remaining work is kept"
+    end
 
-        context "when another status is set" do
-          let(:updated_attributes) { { status: status_70_pct_complete } }
-          let(:expected_attributes) { { remaining_hours: 3.0 } }
+    context "when another status is set" do
+      let(:updated_attributes) { { status: status_70_pct_complete } }
+      let(:expected_attributes) { { remaining_hours: 3.0 } }
 
-          include_examples "update progress values",
-                           description: "recomputes remaining work according to the % complete value of the new status"
-        end
+      include_examples "update progress values",
+                       description: "recomputes remaining work according to the % complete value of the new status"
+    end
 
-        context "when floating point operations are inaccurate (2.4000000000000004h)" do
-          let(:updated_attributes) { { estimated_hours: 8.0, status: status_70_pct_complete } }
-          let(:expected_attributes) { { remaining_hours: 2.4 } } # would be 2.4000000000000004 without rounding
+    context "when floating point operations are inaccurate (2.4000000000000004h)" do
+      let(:updated_attributes) { { estimated_hours: 8.0, status: status_70_pct_complete } }
+      let(:expected_attributes) { { remaining_hours: 2.4 } } # would be 2.4000000000000004 without rounding
 
-          include_examples "update progress values", description: "remaining work is computed and rounded (2.4)"
-        end
-      end
-
-      context "given a work package with work and remaining work unset, and a status with 0% complete" do
-        before do
-          work_package.status = status_0_pct_complete
-          work_package.done_ratio = work_package.status.default_done_ratio
-          work_package.estimated_hours = nil
-          work_package.remaining_hours = nil
-          work_package.send(:clear_changes_information)
-        end
-
-        context "when another status with another % complete value is set" do
-          let(:updated_attributes) { { status: status_70_pct_complete } }
-          let(:expected_attributes) { { remaining_hours: nil } }
-
-          include_examples "update progress values",
-                           description: "remaining work remains unset"
-        end
-
-        context "when work is set" do
-          let(:updated_attributes) { { estimated_hours: 10.0 } }
-          let(:expected_attributes) { { remaining_hours: 10.0 } }
-
-          include_examples "update progress values",
-                           description: "remaining work is updated accordingly from work and % complete value of the status"
-        end
-
-        context "when work is set to a negative value" do
-          let(:updated_attributes) { { estimated_hours: -1.0 } }
-          let(:expected_kept_attributes) { %w[remaining_hours] }
-
-          include_examples "update progress values",
-                           description: "is an error state (to be detected by contract), and remaining work is kept"
-        end
-
-        context "when work is set with 2nd decimal rounding up" do
-          let(:updated_attributes) { { estimated_hours: 3.567 } }
-          let(:expected_attributes) { { estimated_hours: 3.57, remaining_hours: 3.57 } }
-
-          include_examples "update progress values",
-                           description: "values are rounded up to 2 decimals and set to the same value"
-        end
-      end
+      include_examples "update progress values", description: "remaining work is computed and rounded (2.4)"
     end
   end
 
-  # Scenarios specified in https://community.openproject.org/wp/40749
-  describe "deriving % complete attribute (done_ratio)" do
-    context "in status-based mode",
-            with_settings: { work_package_done_ratio: "status" } do
-      context "given a work package with a status with 50% complete" do
-        before do
-          work_package.status = status_50_pct_complete
-          work_package.done_ratio = work_package.status.default_done_ratio
-          work_package.send(:clear_changes_information)
-        end
+  context "given a work package with work and remaining work unset, and a status with 0% complete" do
+    before do
+      work_package.status = status_0_pct_complete
+      work_package.done_ratio = work_package.status.default_done_ratio
+      work_package.estimated_hours = nil
+      work_package.remaining_hours = nil
+      work_package.send(:clear_changes_information)
+    end
 
-        context "when another status with another % complete value is set" do
-          let(:updated_attributes) { { status: status_70_pct_complete } }
-          let(:expected_attributes) { { done_ratio: 70 } }
+    context "when another status with another % complete value is set" do
+      let(:updated_attributes) { { status: status_70_pct_complete } }
+      let(:expected_attributes) { { remaining_hours: nil } }
 
-          include_examples "update progress values",
-                           description: "sets the % complete value to the status default % complete value"
-        end
-      end
+      include_examples "update progress values",
+                       description: "remaining work remains unset"
+    end
+
+    context "when work is set" do
+      let(:updated_attributes) { { estimated_hours: 10.0 } }
+      let(:expected_attributes) { { remaining_hours: 10.0 } }
+
+      include_examples "update progress values",
+                       description: "remaining work is updated accordingly from work and % complete value of the status"
+    end
+
+    context "when work is set to a negative value" do
+      let(:updated_attributes) { { estimated_hours: -1.0 } }
+      let(:expected_kept_attributes) { %w[remaining_hours] }
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), and remaining work is kept"
+    end
+
+    context "when work is set with 2nd decimal rounding up" do
+      let(:updated_attributes) { { estimated_hours: 3.567 } }
+      let(:expected_attributes) { { estimated_hours: 3.57, remaining_hours: 3.57 } }
+
+      include_examples "update progress values",
+                       description: "values are rounded up to 2 decimals and set to the same value"
+    end
+  end
+
+  context "given a work package with a status with 50% complete" do
+    before do
+      work_package.status = status_50_pct_complete
+      work_package.done_ratio = work_package.status.default_done_ratio
+      work_package.send(:clear_changes_information)
+    end
+
+    context "when another status with another % complete value is set" do
+      let(:updated_attributes) { { status: status_70_pct_complete } }
+      let(:expected_attributes) { { done_ratio: 70 } }
+
+      include_examples "update progress values",
+                       description: "sets the % complete value to the status default % complete value"
     end
   end
 end
