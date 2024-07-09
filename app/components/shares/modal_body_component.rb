@@ -48,7 +48,7 @@ module Shares
     end
 
     def self.wrapper_key
-      "share_list"
+      "share_modal_body"
     end
 
     private
