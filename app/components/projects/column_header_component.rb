@@ -61,13 +61,7 @@ class Projects::ColumnHeaderComponent < ApplicationComponent # rubocop:disable O
   end
 
   def sort_link(column)
-    order = order_string(column, inverted: true) || "asc"
-
-    orders = [[column.attribute, order]] + ordered_by
-                                             .reject { |o| [column.attribute, :lft].include?(o.attribute) }
-                                             .map { |o| [o.attribute, o.direction] }
-
-    link_to(current_sort_link_params.merge(sortBy: JSON::dump(orders[0..2])),
+    link_to(current_sort_link_params.merge(sortBy: sort_by_param(column)),
             title: sort_link_title(column)) do
       column_caption
     end
@@ -167,5 +161,15 @@ class Projects::ColumnHeaderComponent < ApplicationComponent # rubocop:disable O
 
   def current_sort_link_params
     helpers.safe_query_params(ProjectsHelper::PROJECTS_QUERY_PARAM_NAMES - %i[sortBy page])
+  end
+
+  def sort_by_param(column)
+    order = order_string(column, inverted: true) || "asc"
+
+    orders = [[column.attribute, order]] + ordered_by
+                                    .reject { |o| [column.attribute, :lft].include?(o.attribute) }
+                                    .map { |o| [o.attribute, o.direction] }
+
+    JSON::dump(orders[0..2])
   end
 end

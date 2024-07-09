@@ -45,4 +45,4 @@ class MeetingQuery
 end
 
 # This is necessary to have the filters, orders and selects loaded in dev environment
-require 'queries/meetings'
+require "queries/meetings"
