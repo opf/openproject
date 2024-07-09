@@ -8,8 +8,7 @@ container.with_row do
         csrf_token: form_authenticity_token,
         status_label_position: :start,
         checked: published?,
-        enabled: can_publish?,
-        data: { turbo: true }
+        enabled: can_publish?
       ))
 end
 %>
