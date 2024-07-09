@@ -408,7 +408,7 @@ fr:
       notice_reset_token: "Un nouveau jeton de %{type} a été généré. Votre jeton d’accès est :"
       token_value_warning: "Note : Ceci est la seule fois où vous verrez ce jeton, veuillez le copier maintenant."
       no_results_title_text: Aucun jeton d'accès disponible pour le moment.
-      notice_api_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le lien dans la section API."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le lien dans la section RSS."
       notice_ical_token_revoked: 'Le jeton iCalendar « %{token_name} » pour le calendrier « %{calendar_name} » du projet « %{project_name} » a été révoqué. L''URL iCalendar liée à ce jeton est maintenant invalide.'
   news:

@@ -56,10 +56,6 @@ module Redmine
       end
 
       module InstanceMethods
-        def self.included(base)
-          base.extend ClassMethods
-        end
-
         %w(datetime title description author name type).each do |attr|
           src = <<-END_SRC
             def event_#{attr}
@@ -95,9 +91,6 @@ module Redmine
           else
             option
           end
-        end
-
-        module ClassMethods
         end
       end
     end

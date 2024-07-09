@@ -343,7 +343,7 @@ RSpec.describe WorkPackage do
     end
   end
 
-  include_examples "creates an audit trail on destroy" do
+  it_behaves_like "creates an audit trail on destroy" do
     subject { create(:work_package) }
   end
 

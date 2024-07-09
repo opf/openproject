@@ -80,10 +80,6 @@ module OpenProject
       end
 
       module InstanceMethods
-        def self.prepended(base)
-          base.extend ClassMethods
-        end
-
         def add_favoring_user(user)
           return if favorites.exists?(user_id: user.id)
 

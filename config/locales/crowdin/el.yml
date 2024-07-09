@@ -404,7 +404,7 @@ el:
       notice_reset_token: "Δημιουργήθηκε ένα νέο token %{type}. Το token πρόσβασής σας είναι:"
       token_value_warning: "Σημείωση: Αυτή είναι η μοναδική φορά που θα δείτε αυτό το token, φροντίστε να το αντιγράψετε τώρα."
       no_results_title_text: Δεν υπάρχουν προς το παρόν διαθέσιμα αναγνωριστικά πρόσβασης.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:

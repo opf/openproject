@@ -405,7 +405,7 @@ nl:
       notice_reset_token: "Een nieuwe %{type} -token is gegenereerd. Uw toegangstoken is:"
       token_value_warning: "Opmerking: Dit is de enige keer dat u dit token ziet, zorg ervoor dat u het nu kopiëren."
       no_results_title_text: Er zijn momenteel geen toegangstokens beschikbaar.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" voor kalender "%{calendar_name}" van project "%{project_name}" is ingetrokken. De iCalendar URL met deze token is nu ongeldig.'
   news:

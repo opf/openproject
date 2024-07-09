@@ -417,7 +417,7 @@ lt:
       notice_reset_token: "Naujas %{type} tipo atpažinimo raktas buvo sugeneruotas. Jis dabar yra:"
       token_value_warning: "Pastaba: tai vienintelis kartas, kai matote atpažinimo raktą, todėl būtinai nusikopijuokite jį dabar."
       no_results_title_text: Nėra jokių pasiekiamų prieigos raktų.
-      notice_api_token_revoked: "API žetonas buvo ištrintas. Norėdami sukurti naują žetoną, prašome naudoti nuorodą API sekcijoje."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "RSS žetonas buvo ištrintas. Norėdami sukurti naują žetoną, prašome naudoti nuorodą RSS sekcijoje."
       notice_ical_token_revoked: 'iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas.'
   news:

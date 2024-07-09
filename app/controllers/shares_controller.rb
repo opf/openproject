@@ -223,7 +223,7 @@ class SharesController < ApplicationController
     replace_via_turbo_stream(
       component: Shares::PermissionButtonComponent.new(
         share: @share,
-        available_roles: sharing_strategy.available_roles,
+        strategy: sharing_strategy,
         data: { "test-selector": "op-share-dialog-update-role" }
       )
     )
@@ -265,7 +265,7 @@ class SharesController < ApplicationController
       replace_via_turbo_stream(
         component: Shares::PermissionButtonComponent.new(
           share:,
-          available_roles: sharing_strategy.available_roles,
+          strategy: sharing_strategy,
           data: { "test-selector": "op-share-dialog-update-role" }
         )
       )
@@ -322,22 +322,7 @@ class SharesController < ApplicationController
   end
 
   def load_query
-    return @query if defined?(@query)
-
-    @query = ParamsToQueryService
-               .new(Member, current_user, query_class: Queries::Members::NonInheritedMemberQuery)
-               .call(params)
-
-    # Set default filter on the entity
-    @query.where("entity_id", "=", @entity.id)
-    @query.where("entity_type", "=", @entity.class.name)
-    if @entity.respond_to?(:project)
-      @query.where("project_id", "=", @entity.project.id)
-    end
-
-    @query.order(name: :asc) unless params[:sortBy]
-
-    @query
+    @query = sharing_strategy.shares_query(params)
   end
 
   def load_shares

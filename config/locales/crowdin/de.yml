@@ -405,7 +405,7 @@ de:
       notice_reset_token: "Ein neuer %{type} Token wurde generiert. Der Zutrittstoken lautet:"
       token_value_warning: "Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden."
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
-      notice_api_token_revoked: "Der API-Token wurde gelöscht. Um ein neues Token zu erstellen, benutzen Sie bitte den Link im API-Bereich."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "Der RSS-Token wurde gelöscht. Um ein neues Token zu erstellen, benutzen Sie bitte den Link im RSS-Bereich."
       notice_ical_token_revoked: 'iCalendar-Token „%{token_name}“ für Kalender „%{calendar_name}“ des Projekts „%{project_name}“ wurde widerrufen. Die iCal-URL mit diesem Token ist jetzt ungültig.'
   news:

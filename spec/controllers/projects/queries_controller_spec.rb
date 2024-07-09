@@ -267,7 +267,7 @@ RSpec.describe Projects::QueriesController do
     let(:service_class) { Queries::Projects::ProjectQueries::PublishService }
 
     it "requires login" do
-      post "toggle_public", params: { id: 42 }
+      post "toggle_public", params: { id: "42", value: "1" }
 
       expect(response).not_to be_successful
     end
@@ -275,62 +275,75 @@ RSpec.describe Projects::QueriesController do
     context "when logged in" do
       let(:query) { build_stubbed(:project_query, user:) }
       let(:query_id) { "42" }
-      let(:query_params) { { public: true } }
       let(:service_instance) { instance_double(service_class) }
       let(:service_result) { instance_double(ServiceResult, success?: success?, result: query) }
       let(:success?) { true }
 
-      before do
-        allow(controller).to receive(:permitted_query_params).and_return(query_params)
-        scope = instance_double(ActiveRecord::Relation)
-        allow(ProjectQuery).to receive(:visible).and_return(scope)
-        allow(scope).to receive(:find).with(query_id).and_return(query)
-        allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)
-        allow(service_instance).to receive(:call).with(query_params).and_return(service_result)
+      [true, false].each do |public_value|
+        context "when toggling to #{public_value ? 'public' : 'private'}" do
+          let(:query_params) { { public: public_value } }
+          let(:params) do
+            {
+              id: query_id,
+              value: public_value ? "1" : "0"
+            }
+          end
 
-        login_as user
-      end
+          let(:i18n_scope) { public_value ? "lists.publish" : "lists.unpublish" }
 
-      it "calls publish service on query" do
-        post "toggle_public", params: { id: 42 }
+          before do
+            allow(controller).to receive(:permitted_query_params).and_return(query_params)
+            scope = instance_double(ActiveRecord::Relation)
+            allow(ProjectQuery).to receive(:visible).and_return(scope)
+            allow(scope).to receive(:find).with(query_id).and_return(query)
+            allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)
+            allow(service_instance).to receive(:call).with(query_params).and_return(service_result)
 
-        expect(service_instance).to have_received(:call).with(query_params)
-      end
+            login_as user
+          end
 
-      context "when service call succeeds" do
-        it "redirects to projects" do
-          allow(I18n).to receive(:t).with("lists.publish.success").and_return("foo")
+          it "calls publish service on query" do
+            post("toggle_public", params:)
 
-          post "toggle_public", params: { id: 42 }
+            expect(service_instance).to have_received(:call).with(query_params)
+          end
 
-          expect(flash[:notice]).to eq("foo")
-          expect(response).to redirect_to(projects_path(query_id: query.id))
-        end
-      end
+          context "when service call succeeds" do
+            it "redirects to projects" do
+              allow(I18n).to receive(:t).with("#{i18n_scope}.success").and_return("foo")
 
-      context "when service call fails" do
-        let(:success?) { false }
-        let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["something", "went", "wrong"]) }
+              post("toggle_public", params:)
 
-        before do
-          allow(service_result).to receive(:errors).and_return(errors)
-        end
+              expect(flash[:notice]).to eq("foo")
+              expect(response).to redirect_to(projects_path(query_id: query.id))
+            end
+          end
 
-        it "renders projects/index" do
-          allow(I18n).to receive(:t).with("lists.publish.failure", errors: "something\nwent\nwrong").and_return("bar")
+          context "when service call fails" do
+            let(:success?) { false }
+            let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["something", "went", "wrong"]) }
 
-          post "toggle_public", params: { id: 42 }
+            before do
+              allow(service_result).to receive(:errors).and_return(errors)
+            end
 
-          expect(flash[:error]).to eq("bar")
-          expect(response).to render_template("projects/index")
-        end
+            it "renders projects/index" do
+              allow(I18n).to receive(:t).with("#{i18n_scope}.failure", errors: "something\nwent\nwrong").and_return("bar")
 
-        it "passes variables to template" do
-          allow(controller).to receive(:render).and_call_original
+              post("toggle_public", params:)
 
-          post "toggle_public", params: { id: 42 }
+              expect(flash[:error]).to eq("bar")
+              expect(response).to render_template("projects/index")
+            end
 
-          expect(controller).to have_received(:render).with(include(locals: { query:, state: :edit }))
+            it "passes variables to template" do
+              allow(controller).to receive(:render).and_call_original
+
+              post("toggle_public", params:)
+
+              expect(controller).to have_received(:render).with(include(locals: { query:, state: :edit }))
+            end
+          end
         end
       end
     end

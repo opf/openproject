@@ -8,8 +8,10 @@
         end
       end
 
-      modal_content.with_row do
-        render(Shares::InviteUserFormComponent.new(strategy:, errors: errors))
+      if strategy.manageable?
+        modal_content.with_row do
+          render(Shares::InviteUserFormComponent.new(strategy:, errors: errors))
+        end
       end
 
       modal_content.with_row(data: { 'test-selector': 'op-share-dialog-active-list',
