@@ -398,7 +398,7 @@ zh-TW:
       notice_reset_token: "生成了一個新的 %{type} 權杖(Token)。您權杖是:"
       token_value_warning: "注意: 這是您唯一可以看到此權杖(Token)的時候, 請務必立即複製它。"
       no_results_title_text: 目前沒有存取權杖(Token)
-      notice_api_token_revoked: "API 權杖(Token)已被刪除。 請使用 在API 選項裡提供的連結建立新權杖。"
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "RSS 權杖(Token)已被刪除。 請使用 在RSS 選項裡提供的連結建立新權杖。"
       notice_ical_token_revoked: '專案「%{project_name}」日曆「%{calendar_name}」的 iCalendar 權杖(Token)「%{token_name}」已被撤銷。 帶有此權杖的 iCalendar URL 無效。'
   news:

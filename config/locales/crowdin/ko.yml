@@ -399,7 +399,7 @@ ko:
       notice_reset_token: "새로운 %{type} 토큰이 생성되었습니다. 액세스 토큰:"
       token_value_warning: "참고: 이번에만 이 토큰이 표시됩니다. 지금 이 토큰을 복사해야 합니다."
       no_results_title_text: 가능한 접근 토큰이 없습니다.
-      notice_api_token_revoked: "API 토큰이 삭제되었습니다. 새 토큰을 만들려면 API 섹션의 링크를 사용하세요."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "RSS 토큰이 삭제되었습니다. 새 토큰을 만들려면 RSS 섹션의 링크를 사용하세요."
       notice_ical_token_revoked: '"%{project_name}" 프로젝트의 "%{calendar_name}" 캘린더에 대한 iCalendar 토큰 "%{token_name}"이(가) 취소되었습니다. 이 토큰이 포함된 iCalendar URL이 이제 유효하지 않습니다.'
   news:
