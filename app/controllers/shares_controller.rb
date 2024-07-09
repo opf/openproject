@@ -223,7 +223,7 @@ class SharesController < ApplicationController
     replace_via_turbo_stream(
       component: Shares::PermissionButtonComponent.new(
         share: @share,
-        available_roles: sharing_strategy.available_roles,
+        strategy: sharing_strategy,
         data: { "test-selector": "op-share-dialog-update-role" }
       )
     )
@@ -265,7 +265,7 @@ class SharesController < ApplicationController
       replace_via_turbo_stream(
         component: Shares::PermissionButtonComponent.new(
           share:,
-          available_roles: sharing_strategy.available_roles,
+          strategy: sharing_strategy,
           data: { "test-selector": "op-share-dialog-update-role" }
         )
       )

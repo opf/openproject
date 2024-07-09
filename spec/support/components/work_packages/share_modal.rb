@@ -298,9 +298,10 @@ module Components
                 expect(page).to have_button(role_name),
                                 "Expected share with #{user.name.inspect} to have button #{role_name}."
               end
+
               unless editable
-                expect(page).not_to have_button,
-                                    "Expected share with #{user.name.inspect} not to be editable (expected no buttons)."
+                expect(page).to have_button(role_name, disabled: true),
+                                "Expected share with #{user.name.inspect} not to be editable (expected disabled button)."
               end
             end
           end
@@ -323,8 +324,7 @@ module Components
 
       def expect_no_invite_option
         within_modal do
-          expect(page)
-            .to have_text(I18n.t("sharing.denied", entities: WorkPackage.model_name.human(count: 2)))
+          expect(page).to have_no_css('[data-test-selector="op-share-dialog-invite-autocomplete"]')
         end
       end
 
