@@ -49,6 +49,7 @@ class MeetingsController < ApplicationController
   include SortHelper
 
   include OpTurbo::ComponentStream
+  include OpTurbo::FlashStreamHelper
   include ApplicationComponentStreams
   include Meetings::AgendaComponentStreams
   include MetaTagsHelper
@@ -72,6 +73,10 @@ class MeetingsController < ApplicationController
     elsif @meeting.agenda.present? && @meeting.agenda.locked?
       params[:tab] ||= "minutes"
     end
+  end
+
+  def check_for_updates
+    respond_with_flash(Meetings::UpdateFlashComponent.new(meeting: @meeting))
   end
 
   def create # rubocop:disable Metrics/AbcSize

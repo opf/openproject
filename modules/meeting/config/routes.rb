@@ -57,6 +57,7 @@ Rails.application.routes.draw do
 
   resources :meetings do
     member do
+      get :check_for_updates
       get :cancel_edit
       get :download_ics
       put :update_title
