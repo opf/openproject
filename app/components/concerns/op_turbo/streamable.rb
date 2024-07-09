@@ -43,7 +43,7 @@ module OpTurbo
     included do
       def render_as_turbo_stream(view_context:, action: :update)
         case action
-        when :update, :dialog
+        when :update, *inline_actions
           @inner_html_only = true
           template = render_in(view_context)
         when :replace
@@ -56,7 +56,7 @@ module OpTurbo
           raise ArgumentError, "Unsupported action #{action}"
         end
 
-        if action != :dialog && !wrapped?
+        if inline_actions.exclude?(action) && !wrapped?
           raise MissingComponentWrapper,
                 "Wrap your component in a `component_wrapper` block in order to use turbo-stream methods"
         end
@@ -98,6 +98,10 @@ module OpTurbo
         else
           method ? send(method, wrapper_arguments, &block) : content_tag(tag, wrapper_arguments, &block)
         end
+      end
+
+      def inline_actions
+        %i[dialog flash]
       end
 
       def wrapped?

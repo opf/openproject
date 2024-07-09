@@ -1,0 +1,6 @@
+<%= render(Primer::Alpha::Banner.new(full: false, icon: 'info', scheme: :default)) do |component| %>
+  <% component.with_action_button(
+       src: meeting_path(@meeting),
+       size: :medium) { "Reload page" } %>
+  You really need to update this upage
+<% end %>
