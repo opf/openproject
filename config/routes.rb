@@ -699,10 +699,10 @@ Rails.application.routes.draw do
 
   root to: "account#login"
 
-  resource :notifications do
-    collection do
-      resource :menu, module: :notifications, only: %i[show], as: :notifications_menu
-    end
+  namespace :notifications do
+    resource :menu, only: %i[show]
+  end
+  scope :notifications do
     get "(/*state)", to: "angular#notifications_layout", as: :notifications_center
   end
 

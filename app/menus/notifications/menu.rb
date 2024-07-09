@@ -105,7 +105,7 @@ module Notifications
     end
 
     def query_path(query_params)
-      notifications_path(query_params)
+      notifications_center_path(query_params)
     end
 
     def icon_map
