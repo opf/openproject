@@ -401,7 +401,7 @@ ms:
       notice_reset_token: "Token %{type} yang baharu telah dijanakan. Token akses anda ialah:"
       token_value_warning: "Perhatian: Ini adalah satu-satunya masa anda akan melihat token ini, pastikan untuk menyalinnya sekarang."
       no_results_title_text: Tiada token akses tersedia buat masa ini.
-      notice_api_token_revoked: "Token API telah dipadamkan. Untuk mencipta token baharu sila gunakan pautan di bahagian API."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "Token RSS telah dipadamkan. Untuk mencipta token baharu sila gunakan pautan di bahagian RSS."
       notice_ical_token_revoked: 'Token iCalendar "%{token_name}" untuk kalendar "%{calendar_name}" projek "%{project_name}" telah dibatalkan. URL iCalendar serta token ini sudah tidak sah.'
   news:

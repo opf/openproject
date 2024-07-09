@@ -407,7 +407,7 @@ hu:
       notice_reset_token: "Egy új %{type} token létrehozva. A hozzáférési token:"
       token_value_warning: "Megjegyzés: Ez az egyetlen alkalom, mikor ezt a tokent láthatja, győződjön meg arról, hogy most átmásolta."
       no_results_title_text: Jelenleg nincs elérhető hozzáférési kulcs.
-      notice_api_token_revoked: "Az API-token törlésre került. Új token létrehozásához kérjük, használja az API szakaszban található linket."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "Az RSS-token törlésre került. Új token létrehozásához kérjük, használja az RSS szakaszban található linket."
       notice_ical_token_revoked: 'A "%{project_name}" projekt "%{calendar_name}" naptárához tartozó "%{token_name}" iCalendar token visszavonásra került. Az ezzel a tokennel rendelkező iCalendar URL mostantól érvénytelen.'
   news:

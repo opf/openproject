@@ -400,7 +400,7 @@ ja:
       notice_reset_token: "新しい %{type} トークンが生成されました。アクセストークンは:"
       token_value_warning: "注: これはこのトークンが表示される唯一の機会です。今すぐコピーして確認してください。"
       no_results_title_text: 現在、有効なアクセス トークンはありません。
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
