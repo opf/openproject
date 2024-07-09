@@ -64,9 +64,9 @@ module Shares
       end
 
       def tooltip_wrapper_classes
-        return ["d-flex", "flex-column"] if can_publish?
-
-        ["tooltip--bottom", "d-flex", "flex-column"]
+        ["d-flex", "flex-column"].tap do |classlist|
+          classlist << "tooltip--bottom" unless can_publish?
+        end
       end
     end
   end
