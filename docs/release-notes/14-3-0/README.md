@@ -10,7 +10,9 @@ release_date: 2024-07-17
 
 Release date: 2024-07-17
 
-We released OpenProject [OpenProject 14.3.0](https://community.openproject.org/versions/2053). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+We released OpenProject [OpenProject 14.3.0](https://community.openproject.org/versions/2053). The release contains several bug fixes and we recommend updating to the newest version. 
+
+In these Release Notes, we will give an overview of important technical updates as well as important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 ## Important technical updates
 
@@ -19,6 +21,8 @@ We released OpenProject [OpenProject 14.3.0](https://community.openproject.org/v
 Users now have the ability to create and delete multiple API access keys. This enhancement allows you to distinguish between keys used in different places, providing better organization and security.
 
 When navigating to the Access Tokens page in your account settings, you can add new API access keys to the list of existing keys. These keys become active immediately upon creation. Additionally, you can delete any API access key from the list, which deactivates the key. When adding a new API access key, you will be prompted to give it a name for easier identification.
+
+For more information, see work package https://community.openproject.org/wp/48619.
 
 ### CRUD News API endpoints allow automatic creation of news
 
@@ -38,6 +42,8 @@ Add the following line to the /opt/openproject/config/application.rb file and re
 config.action_mailer.smtp_timeout = 30'
 
 This will extend the SMTP timeout to 30 seconds, accommodating slower mail server responses.
+
+For more information, see work package https://community.openproject.org/wp/55879.
 
 ## Important feature changes
 
