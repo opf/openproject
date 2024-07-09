@@ -32,7 +32,6 @@ class SharesController < ApplicationController
   include MemberHelper
 
   before_action :load_entity
-  before_action :load_shares, only: %i[index dialog]
   before_action :load_selected_shares, only: %i[bulk_update bulk_destroy]
   before_action :load_share, only: %i[destroy update resend_invite]
   before_action :enterprise_check, only: %i[index]
@@ -44,11 +43,11 @@ class SharesController < ApplicationController
   def dialog; end
 
   def index
-    unless @query.valid?
-      flash.now[:error] = query.errors.full_messages
+    unless sharing_strategy.query.valid?
+      flash.now[:error] = sharing_strategy.query.errors.full_messages
     end
 
-    render Shares::ModalBodyComponent.new(strategy: sharing_strategy, shares: @shares, errors: @errors), layout: nil
+    render Shares::ModalBodyComponent.new(strategy: sharing_strategy, errors: @errors), layout: nil
   end
 
   def create # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
@@ -83,11 +82,11 @@ class SharesController < ApplicationController
   def update
     create_or_update_share(@share.principal.id, params[:role_ids])
 
-    load_shares
+    shares = sharing_strategy.shares(reload: true)
 
-    if @shares.empty?
+    if shares.empty?
       respond_with_replace_modal
-    elsif @shares.include?(@share)
+    elsif shares.include?(@share)
       respond_with_update_permission_button
     else
       respond_with_remove_share
@@ -104,6 +103,7 @@ class SharesController < ApplicationController
     end
   end
 
+  # TODO: This is still work package specific
   def resend_invite
     OpenProject::Notifications.send(OpenProject::Events::WORK_PACKAGE_SHARED,
                                     work_package_member: @share,
@@ -165,10 +165,11 @@ class SharesController < ApplicationController
   end
 
   def respond_with_replace_modal
+    sharing_strategy.shares(reload: true)
+
     replace_via_turbo_stream(
       component: Shares::ModalBodyComponent.new(
         strategy: sharing_strategy,
-        shares: @new_shares || load_shares,
         errors: @errors
       )
     )
@@ -199,7 +200,6 @@ class SharesController < ApplicationController
         ),
         target_component: Shares::ModalBodyComponent.new(
           strategy: sharing_strategy,
-          shares: load_shares,
           errors: @errors
         )
       )
@@ -297,10 +297,10 @@ class SharesController < ApplicationController
   def load_entity # rubocop:disable Metrics/AbcSize
     if params["work_package_id"]
       @entity = WorkPackage.visible.find(params["work_package_id"])
-      @sharing_strategy = SharingStrategies::WorkPackageStrategy.new(@entity, user: current_user)
+      @sharing_strategy = SharingStrategies::WorkPackageStrategy.new(@entity, user: current_user, query_params:)
     elsif params["project_query_id"]
       @entity = ProjectQuery.visible.find(params["project_query_id"])
-      @sharing_strategy = SharingStrategies::ProjectQueryStrategy.new(@entity, user: current_user)
+      @sharing_strategy = SharingStrategies::ProjectQueryStrategy.new(@entity, user: current_user, query_params:)
     else
       raise ArgumentError, <<~ERROR
         Nested the SharesController under an entity controller that is not yet configured to support sharing.
@@ -311,10 +311,6 @@ class SharesController < ApplicationController
         Request Path: #{request.path}
       ERROR
     end
-
-    if @entity.respond_to?(:project)
-      @project = @entity.project
-    end
   end
 
   def load_share
@@ -322,20 +318,18 @@ class SharesController < ApplicationController
   end
 
   def current_visible_member_count
-    @current_visible_member_count ||= load_shares.size
-  end
-
-  def load_query
-    @query = sharing_strategy.shares_query(params)
-  end
-
-  def load_shares
-    @shares = load_query.results
+    @current_visible_member_count ||= sharing_strategy.shares.size
   end
 
   def load_selected_shares
     @selected_shares = Member.includes(:principal)
                              .of_entity(@entity)
                              .where(id: params[:share_ids])
+  end
+
+  def query_params
+    params
+      .slice(:filters, :sortBy, :groupBy)
+      .permit! # ParamsToQueryService will parse the data, so we can permit everything here
   end
 end

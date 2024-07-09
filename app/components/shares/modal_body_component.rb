@@ -35,15 +35,13 @@ module Shares
 
     attr_reader :strategy,
                 :entity,
-                :shares,
                 :errors
 
-    def initialize(strategy:, shares:, errors: nil)
+    def initialize(strategy:, errors: nil)
       super
 
       @strategy = strategy
       @entity = strategy.entity
-      @shares = shares
       @errors = errors
     end
 
