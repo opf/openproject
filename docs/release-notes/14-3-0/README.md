@@ -12,14 +12,97 @@ Release date: 2024-07-17
 
 We released OpenProject [OpenProject 14.3.0](https://community.openproject.org/versions/2053). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
+## Important technical updates
+
+### Create multiple API access tokens
+
+Users now have the ability to create and delete multiple API access keys. This enhancement allows you to distinguish between keys used in different places, providing better organization and security.
+
+When navigating to the Access Tokens page in your account settings, you can add new API access keys to the list of existing keys. These keys become active immediately upon creation. Additionally, you can delete any API access key from the list, which deactivates the key. When adding a new API access key, you will be prompted to give it a name for easier identification.
+
+### CRUD News API endpoints allow automatic creation of news
+
+With OpenProject 14.3, we added CRUD News API endpoints. The Devkit is now able to automatically forward release messages to the OpenProject application.
+
+For more information, see work package https://community.openproject.org/wp/55764.
+
+### Configure SMTP timeout over ENV variable
+
+As an admin, you now have the ability to configure the SMTP timeout, allowing you to use your mail server even if it responds slower than 5 seconds per request.
+
+To configure the SMTP timeout, you need to add an environment variable. If this feature is missing or not documented, you can use the following workaround:
+
+Add the following line to the /opt/openproject/config/application.rb file and restart OpenProject:
+
+'# Set the timeout to 30 seconds (the default is 5 seconds)
+config.action_mailer.smtp_timeout = 30'
+
+This will extend the SMTP timeout to 30 seconds, accommodating slower mail server responses.
 
 ## Important feature changes
 
-<!-- Inform about the major features in this section -->
+### Favorite project lists
 
-## Important updates and breaking changes
+In addition to marking individual projects as favorites, users can now mark project lists as favorites. A star icon appears next to saved private project lists, turning yellow when marked as a favorite.
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+![Screenshot of a private project list and highlighted yellow stars - one as a button on the top right, one next to the name in the project lists overview](openproject-14-3-favorite-project-lists-highlighted.png)
+
+### Share project lists (Enterprise add-on)
+
+Continuing our focus on project portfolio management, OpenProject 14.3 introduces the ability to share project lists. Users can now:
+
+- Turn project lists public, making them accessible to everyone on the instance.
+- Share project lists with specific users or groups.
+
+This feature is available as Enterprise add-on.
+
+![Screenshot showing how to share a project list](openproject-14-3-share-project-list-highlighted.png)
+
+### Choose between progress reporting displayed in hours only or days and hours
+
+In response to user feedback, OpenProject 14.3 now allows administrators to choose how to display duration formats for Work, Remaining work, and Spent time:
+
+- Hours only
+- Hours and days
+
+This flexibility aims to accommodate different user preferences and improve the overall user experience.
+
+![Admin settings to choose the progress reporting duration format](openproject-14-3-progress-reporting-hours-only.png)
+
+### Connection validation for OneDrive/SharePoint storages (Enterprise add-on)
+
+With OpenProject 14.3, administrators can now manually trigger and test the connection for OneDrive/SharePoint storages. This feature helps ensure that storage settings are correctly configured and provides feedback if issues are detected. This validation is available once the file storage is fully configured and works for all OneDrive/SharePoint storages, supplementing the Health status check for automatically managed project folders.
+
+Read more about [connection validation for external file storages](https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/#connection-validation).
+
+> [!NOTE]
+> We will start working on connection validation for Nextcloud storages soon. So if you're using Nextcloud as external file storage, stay tuned for our next releases!
+
+![Admin settings for external OneDrive file storages, with Connection validation highlighted](openproject-14-3-storages-connection-validation-highlighted.png)
+
+### Search bar added to submenu component (project lists and Gantt and Boards modules)
+
+The search functionality previously available for work packages has been extended to project lists, Gantt, and boards modules. This enhancement helps users quickly find specific elements within these modules, improving navigation and efficiency.
+
+![Three screenshots for project lists, Gantt module and Boards module – each showing search bars on top](openproject-14-3-submenu-search-bar.png)
+
+### New look with Primer for the user profile page
+
+The user profile page in OpenProject 14.3 has been updated to GitHub's Primer design system, primarily affecting the header and right-hand column. This redesign offers a fresh and modern look.
+
+![Example of a profile page, new look with Primer](openproject-14-3-profile-page-primer-highlighted.png)
+
+### Unselect projects from the project selector
+
+In OpenProject 14.3, users can now easily return to the global modules by unselecting the current project they are in, without needing to click on the grid icon. This improvement is particularly relevant for [openDesk](https://www.openproject.org/blog/sovereign-workplace/) users, where the grid icon is used to switch between apps.
+
+![Dropdown project list, with a small x icon next to the selected project](openproject-14-3-unselect-projects-highlighted.png)
+
+### Gantt chart PDF export: Date zoom based on calendar weeks
+
+When exporting a Gantt chart to PDF, users will now be able to select calendar weeks as date zoom. This feature is particularly helpful for environments that communicate events based on calendar weeks.
+
+![Screenshot of the Gantt chart PDF export, weeks selected as date zoom](openproject-14-3-gantt-chart-pdf-export.png)
 
 <!--more-->
 
