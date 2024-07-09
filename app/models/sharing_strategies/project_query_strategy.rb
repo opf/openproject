@@ -98,7 +98,7 @@ module SharingStrategies
     end
 
     def owner_role_identifier
-      if !entity.public? || entity.user.allowed_globally?(:manage_public_project_queries)
+      if entity.editable?(entity.user)
         Role::BUILTIN_PROJECT_QUERY_EDIT
       else
         Role::BUILTIN_PROJECT_QUERY_VIEW
