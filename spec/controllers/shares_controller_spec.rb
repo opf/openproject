@@ -111,7 +111,11 @@ RSpec.describe SharesController do
     let(:make_request) { get :dialog, params: { project_query_id: project_query.id }, format: :turbo_stream }
 
     context "when the strategy does not allow viewing or managing" do
-      let(:strategy) { instance_double(SharingStrategies::ProjectQueryStrategy, viewable?: false, manageable?: false) }
+      let(:strategy) do
+        instance_double(SharingStrategies::ProjectQueryStrategy,
+                        viewable?: false, manageable?: false,
+                        shares_query: project_query)
+      end
 
       before do
         allow(SharingStrategies::ProjectQueryStrategy).to receive(:new).and_return(strategy)
@@ -124,7 +128,11 @@ RSpec.describe SharesController do
     end
 
     context "when the strategy allows viewing" do
-      let(:strategy) { instance_double(SharingStrategies::ProjectQueryStrategy, viewable?: true, manageable?: false) }
+      let(:strategy) do
+        instance_double(SharingStrategies::ProjectQueryStrategy,
+                        viewable?: true, manageable?: false,
+                        shares_query: project_query)
+      end
 
       before do
         allow(SharingStrategies::ProjectQueryStrategy).to receive(:new).and_return(strategy)
@@ -138,7 +146,11 @@ RSpec.describe SharesController do
     end
 
     context "when the strategy allows managing" do
-      let(:strategy) { instance_double(SharingStrategies::ProjectQueryStrategy, viewable?: false, manageable?: true) }
+      let(:strategy) do
+        instance_double(SharingStrategies::ProjectQueryStrategy,
+                        viewable?: false, manageable?: true,
+                        shares_query: project_query)
+      end
 
       before do
         allow(SharingStrategies::ProjectQueryStrategy).to receive(:new).and_return(strategy)
@@ -163,7 +175,11 @@ RSpec.describe SharesController do
 
     context "when the strategy does not allow viewing or managing but enterprise check succeeds",
             with_ee: %i[work_package_sharing] do
-      let(:strategy) { instance_double(SharingStrategies::ProjectQueryStrategy, viewable?: false, manageable?: false) }
+      let(:strategy) do
+        instance_double(SharingStrategies::ProjectQueryStrategy,
+                        viewable?: false, manageable?: false,
+                        shares_query: project_query)
+      end
 
       before do
         allow(SharingStrategies::ProjectQueryStrategy).to receive(:new).and_return(strategy)
@@ -176,7 +192,11 @@ RSpec.describe SharesController do
     end
 
     context "when the strategy allows viewing but enterprise check fails" do
-      let(:strategy) { instance_double(SharingStrategies::ProjectQueryStrategy, viewable?: true, manageable?: false) }
+      let(:strategy) do
+        instance_double(SharingStrategies::ProjectQueryStrategy,
+                        viewable?: true, manageable?: false,
+                        shares_query: project_query)
+      end
 
       before do
         allow(SharingStrategies::ProjectQueryStrategy).to receive(:new).and_return(strategy)
@@ -209,7 +229,11 @@ RSpec.describe SharesController do
     end
 
     context "when the strategy allows managing but enterprise check fails" do
-      let(:strategy) { instance_double(SharingStrategies::ProjectQueryStrategy, viewable?: false, manageable?: true) }
+      let(:strategy) do
+        instance_double(SharingStrategies::ProjectQueryStrategy,
+                        viewable?: false, manageable?: true,
+                        shares_query: project_query)
+      end
 
       before do
         allow(SharingStrategies::ProjectQueryStrategy).to receive(:new).and_return(strategy)
@@ -243,6 +267,61 @@ RSpec.describe SharesController do
   end
 
   describe "create" do
+    shared_let(:new_shared_user) { create(:user) }
+    shared_let(:new_locked_shared_user) { create(:locked_user) }
+
+    let(:make_request) do
+      post :create, params: {
+        project_query_id: project_query.id,
+        member: { user_ids: [shared_user.id], role_id: view_role.id }
+      }, format: :turbo_stream
+    end
+    let(:shared_user) { new_shared_user }
+
+    context "when the strategy allows managing" do
+      before do
+        allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+          .to receive_messages(viewable?: true, manageable?: true)
+
+        allow(controller).to receive(:create_or_update_share).and_call_original
+        allow(controller).to receive(:respond_with_prepend_shares).and_call_original
+        allow(controller).to receive(:respond_with_replace_modal).and_call_original
+        allow(controller).to receive(:respond_with_new_invite_form).and_call_original
+      end
+
+      context "and there were no shares originally" do
+        before do
+          # Only new share
+          allow(controller).to receive(:current_visible_member_count).and_return(0 + 1)
+        end
+
+        it "calls respond_with_replace_modal" do
+          make_request
+          expect(controller).to have_received(:respond_with_replace_modal)
+        end
+      end
+
+      context "and there was at least a share originally" do
+        before do
+          # Former + new share
+          allow(controller).to receive(:current_visible_member_count).and_return(1 + 1)
+        end
+
+        it "calls respond_with_prepend_shares" do
+          make_request
+          expect(controller).to have_received(:respond_with_prepend_shares)
+        end
+      end
+
+      context "when the user is locked" do
+        let(:shared_user) { new_locked_shared_user }
+
+        it "calls respond_with_new_invite_form" do
+          make_request
+          expect(controller).to have_received(:respond_with_new_invite_form)
+        end
+      end
+    end
   end
 
   describe "update" do
