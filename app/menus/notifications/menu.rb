@@ -33,11 +33,12 @@ module Notifications
     include Rails.application.routes.url_helpers
 
     attr_reader :params, :current_user,
-                :query, :unread_by_reason, :unread_by_project
+                :query, :unread, :unread_by_reason, :unread_by_project
 
     def initialize(params:, current_user:)
       @params = params
       @current_user = current_user
+      @unread = filter_unread
       @unread_by_reason = filter_unread_by_reason
       @unread_by_project = filter_unread_by_project
 
@@ -57,16 +58,17 @@ module Notifications
     private
 
     def inbox_menu
-      menu_item(title: I18n.t("notifications.menu.inbox"), icon_key: :inbox)
+      count = unread
+      menu_item(title: I18n.t("notifications.menu.inbox"), icon_key: :inbox, count: count == 0 ? nil : count)
     end
 
     def reason_filters
-      %w[mentioned assigned responsible watched date_alert shared].map do |reason|
+      %w[mentioned assigned responsible watched dateAlert shared].map do |reason|
         count = unread_by_reason[reason]
         menu_item(title: I18n.t("notifications.reasons.#{reason}"),
                   icon_key: reason,
                   count: count == 0 ? nil : count,
-                  query_params: query_params("reason", reason.camelize(:lower)))
+                  query_params: query_params("reason", reason))
       end
     end
 
@@ -76,16 +78,24 @@ module Notifications
       end
     end
 
+    def base_query
+      Queries::Notifications::NotificationQuery.new(user: current_user)
+                                               .where(:read_ian, "=", "f")
+    end
+
+    def filter_unread
+      query = base_query
+      query.results.count
+    end
+
     def filter_unread_by_reason
-      query = Queries::Notifications::NotificationQuery.new(user: current_user)
-      query.where(:read_ian, "=", "f")
+      query = base_query
       query.group(:reason)
       query.group_values
     end
 
     def filter_unread_by_project
-      query = Queries::Notifications::NotificationQuery.new(user: current_user)
-      query.where(:read_ian, "=", "f")
+      query = base_query
       query.group(:project)
       query.group_values
     end

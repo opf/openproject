@@ -355,6 +355,10 @@ export class IanCenterService extends UntilDestroyedMixin {
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
     if (action.all) {
       this.store.update({ activeCollection: { ids: [] }, activeFacet: 'unread' });
+
+      // Reload the sidemenu frame
+      void this.menuFrame.reload();
+
       return;
     }
 

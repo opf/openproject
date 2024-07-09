@@ -1905,7 +1905,7 @@ en:
   notifications:
     reasons:
       assigned: "Assignee"
-      date_alert: "Date alert"
+      dateAlert: "Date alert"
       mentioned: "Mentioned"
       responsible: "Accountable"
       shared: "Shared"
