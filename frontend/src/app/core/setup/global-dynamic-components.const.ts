@@ -24,7 +24,6 @@ import {
   ToastsContainerComponent,
   toastsContainerSelector,
 } from 'core-app/shared/components/toaster/toasts-container.component';
-import { OpSidemenuComponent, sidemenuSelector } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector,
@@ -174,7 +173,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: customDateActionAdminSelector, cls: CustomDateActionAdminComponent },
   { selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent },
   { selector: toastsContainerSelector, cls: ToastsContainerComponent },
-  { selector: sidemenuSelector, cls: OpSidemenuComponent },
   { selector: adminTypeFormConfigurationSelector, cls: TypeFormConfigurationComponent },
   { selector: ckeditorAugmentedTextareaSelector, cls: CkeditorAugmentedTextareaComponent, embeddable: true },
   { selector: persistentToggleSelector, cls: PersistentToggleComponent },
