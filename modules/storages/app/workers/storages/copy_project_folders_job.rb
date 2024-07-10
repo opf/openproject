@@ -70,39 +70,33 @@ module Storages
       raise Errors::PollingRequired, "Storage #{@source.storage.name} requires polling"
     end
 
-    def polling?
-      polling_info[:polling_url] == :ongoing
-    end
-
     def results_from_polling
       return unless polling_info
 
       response = OpenProject.httpx.get(polling_info[:polling_url]).json(symbolize_keys: true)
 
-      if response[:status] != "completed"
-        polling_info[:polling_state] == :ongoing
+      if response[:status] == "completed"
+        polling_info[:polling_state] = :completed
         batch.save
 
+        result = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(response[:resourceId], nil, false)
+        ServiceResult.success(result:)
+      else
         raise(Errors::PollingRequired, "#{job_id} Polling not completed yet")
       end
-
-      polling_info[:polling_state] == :completed
-      batch.save
-
-      result = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(response[:resourceId], nil, false)
-      ServiceResult.success(result:)
     end
 
     def log_failure(failed)
-      return if failed.success?
+      batch_errors = case failed
+                     in { success: true }
+                       return
+                     in { failure: true, errors: StorageError }
+                       failed.errors.to_active_model_errors.full_messages
+                     else
+                       failed.errors.to_s
+                     end
 
-      if failed.errors.is_a? StorageError
-        errors = failed.errors.to_active_model_errors.full_messages
-        batch.properties[:errors].push(*errors)
-      else
-        batch.properties[:errors].push(*failed.errors.to_s)
-      end
-
+      batch.properties[:errors].push(*batch_errors)
       batch.save
 
       OpenProject.logger.warn failed.errors.to_s

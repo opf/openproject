@@ -1025,6 +1025,7 @@ ca:
         assigned_to_me: "Assignat a mi"
         recently_created: "Creat recentment"
         all_open: "Tots els oberts"
+        overdue: "Overdue"
         summary: "Resum"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

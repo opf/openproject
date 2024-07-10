@@ -101,6 +101,39 @@ RSpec.describe EnvData::LdapSeeder do
     end
   end
 
+  context "when providing seed variables with a complex password",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_LDAP_FOO_HOST: "localhost",
+            OPENPROJECT_SEED_LDAP_FOO_PORT: "12389",
+            OPENPROJECT_SEED_LDAP_FOO_SECURITY: "plain_ldap",
+            OPENPROJECT_SEED_LDAP_FOO_TLS__VERIFY: "false",
+            OPENPROJECT_SEED_LDAP_FOO_TLS__CERTIFICATE: Rails.root.join("spec/fixtures/files/example.com.crt").read,
+            OPENPROJECT_SEED_LDAP_FOO_BINDUSER: "uid=admin,ou=system",
+            OPENPROJECT_SEED_LDAP_FOO_BINDPASSWORD: "*@foo1$2^$§#EXxd!c*!",
+            OPENPROJECT_SEED_LDAP_FOO_BASEDN: "dc=example,dc=com",
+            OPENPROJECT_SEED_LDAP_FOO_FILTER: "(uid=*)",
+            OPENPROJECT_SEED_LDAP_FOO_SYNC__USERS: "true",
+            OPENPROJECT_SEED_LDAP_FOO_LOGIN__MAPPING: "uid",
+            OPENPROJECT_SEED_LDAP_FOO_FIRSTNAME__MAPPING: "givenName",
+            OPENPROJECT_SEED_LDAP_FOO_LASTNAME__MAPPING: "sn",
+            OPENPROJECT_SEED_LDAP_FOO_MAIL__MAPPING: "mail",
+            OPENPROJECT_SEED_LDAP_FOO_ADMIN__MAPPING: "is_openproject_admin"
+          } do
+    it "allows parsing of that password" do
+      reset(:seed_ldap)
+
+      allow(LdapGroups::SynchronizationJob).to receive(:perform_now)
+
+      seeder.seed!
+
+      expect(LdapGroups::SynchronizationJob).to have_received(:perform_now)
+
+      ldap = LdapAuthSource.last
+      expect(ldap.account_password).to eq "*@foo1$2^$§#EXxd!c*!"
+    end
+  end
+
   context "when removing a previously seeded filter",
           :settings_reset,
           with_env: {

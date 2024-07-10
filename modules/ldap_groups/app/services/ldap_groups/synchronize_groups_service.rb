@@ -106,7 +106,11 @@ module LdapGroups
                       filter: memberof_filter(group),
                       attributes: search_attributes) do |entry|
         data = ldap.get_user_attributes_from_ldap_entry(entry)
-        users[data[:login]] = data.except(:dn)
+        if data[:login].present?
+          users[data[:login]] = data.except(:dn)
+        else
+          Rails.logger.warn { "Tried to add user but mapped login is empty for #{entry.dn}. Ignoring this user."}
+        end
       end
 
       users

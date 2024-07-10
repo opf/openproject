@@ -34,17 +34,14 @@ module Shares
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(share:,
-                   available_roles:,
-                   sharing_manageable:,
-                   container: nil)
+    def initialize(share:, strategy:, container: nil)
       super
 
       @share = share
-      @entity = share.entity
+      @strategy = strategy
+      @entity = strategy.entity
       @principal = share.principal
-      @available_roles = available_roles
-      @sharing_manageable = sharing_manageable
+      @available_roles = strategy.available_roles
       @container = container
     end
 
@@ -54,13 +51,15 @@ module Shares
 
     private
 
-    attr_reader :share, :entity, :principal, :container, :available_roles
+    attr_reader :share, :entity, :principal, :container, :available_roles, :strategy
 
     def share_editable?
       @share_editable ||= User.current != share.principal && sharing_manageable?
     end
 
-    def sharing_manageable? = @sharing_manageable
+    def sharing_manageable?
+      strategy.manageable?
+    end
 
     def grid_css_classes
       if sharing_manageable?

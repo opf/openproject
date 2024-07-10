@@ -1025,6 +1025,7 @@ si:
         assigned_to_me: "මට පවරනු ලැබේ"
         recently_created: "මෑතකදී නිර්මාණය"
         all_open: "සියල්ල විවෘතයි"
+        overdue: "Overdue"
         summary: "සාරාංශය"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

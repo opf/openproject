@@ -1025,6 +1025,7 @@ hu:
         assigned_to_me: "Hozzám rendelt"
         recently_created: "Nemrégiben létrehozott"
         all_open: "Nyitottak"
+        overdue: "Overdue"
         summary: "Összegzés"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

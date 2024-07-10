@@ -1025,6 +1025,7 @@ ro:
         assigned_to_me: "Atribuit mie"
         recently_created: "Creat de"
         all_open: "Toate deschise"
+        overdue: "Overdue"
         summary: "Descriere"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

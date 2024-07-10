@@ -19,6 +19,7 @@ jobs:
           rubocop_extensions: >
             rubocop-capybara:gemfile
             rubocop-factory_bot:gemfile
+            rubocop-openproject:gemfile
             rubocop-performance:gemfile
             rubocop-rails:gemfile
             rubocop-rspec:gemfile

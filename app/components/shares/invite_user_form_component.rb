@@ -32,26 +32,24 @@ module Shares
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(entity:,
-                   available_roles:,
-                   sharing_manageable:,
-                   errors: nil)
+    attr_reader :entity, :strategy, :errors
+
+    def initialize(strategy:, errors: nil)
       super
 
-      @entity = entity
-      @available_roles = available_roles
-      @sharing_manageable = sharing_manageable
+      @strategy = strategy
+      @entity = strategy.entity
       @errors = errors
     end
 
     def new_share
-      @new_share ||= Member.new(entity: @entity, roles: [Role.new(id: default_role[:value])])
+      @new_share ||= Member.new(entity:, roles: [Role.new(id: default_role[:value])])
     end
 
     private
 
     def default_role
-      @available_roles.find { |role_hash| role_hash[:default] } || @available_roles.first
+      strategy.available_roles.find { |role_hash| role_hash[:default] } || strategy.available_roles.first
     end
   end
 end

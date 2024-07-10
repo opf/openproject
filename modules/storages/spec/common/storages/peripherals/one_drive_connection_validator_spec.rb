@@ -98,6 +98,24 @@ RSpec.describe Storages::Peripherals::OneDriveConnectionValidator do
     end
   end
 
+  context "if the storage's drive id is malformed" do
+    let(:error_payload) do
+      {
+        error: {
+          code: "invalidRequest",
+          message: "The provided drive id appears to be malformed, or does not represent a valid drive."
+        }
+      }
+    end
+    let(:response) { build_failure(code: :error, payload: error_payload) }
+
+    it "returns a validation failure" do
+      expect(subject.type).to eq(:error)
+      expect(subject.error_code).to eq(:err_drive_invalid)
+      expect(subject.description).to eq("The configured drive id could not be found. Please check the configuration.")
+    end
+  end
+
   context "if the request fails with an unknown error" do
     let(:response) { build_failure(code: :error, payload: nil) }
 

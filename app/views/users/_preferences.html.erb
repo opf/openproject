@@ -35,6 +35,9 @@ See COPYRIGHT and LICENSE files for more details.
   %>
   <div class="form--field">
     <%= pref_fields.select :theme, theme_options_for_select, container_class: '-middle' %>
+    <div class="form--field-instructions">
+      <%= I18n.t("activerecord.attributes.user_preference.mode_guideline") %>
+    </div>
   </div>
   <div class="form--field">
     <%= pref_fields.select :comments_sorting,

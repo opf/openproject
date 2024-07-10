@@ -69,6 +69,12 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
+    shared_context "with application/hal+json content type" do
+      before do
+        header("Content-Type", "application/hal+json")
+      end
+    end
+
     context "user without needed permissions" do
       context "no permission to see the work package" do
         let(:work_package) { create(:work_package) }
@@ -157,6 +163,7 @@ RSpec.describe "API v3 Work package resource",
       context "subject" do
         let(:params) { valid_params.merge(subject: "Updated subject") }
 
+        include_context "with application/hal+json content type"
         include_context "patch request"
 
         it { expect(response).to have_http_status(:ok) }

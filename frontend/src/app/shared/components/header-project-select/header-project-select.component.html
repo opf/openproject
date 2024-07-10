@@ -13,6 +13,7 @@
     type="button"
     slot="trigger"
     (click)="toggleDropModal()"
+    data-test-selector="op-projects-menu"
   >
     <span
       class="op-app-menu--item-title ellipsis"
@@ -60,7 +61,7 @@
         <ul
           *ngIf="anyProjectsFound(projects, (favorites$ | async)); else noResultsTemplate"
           op-header-project-select-list
-          [ngClass]="{ 'spot-list_active': textFieldFocused }"
+          class="spot-list_active"
           [projects]="projects"
           [displayMode]="displayMode"
           [favored]="favorites$ | async"

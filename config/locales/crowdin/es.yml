@@ -246,6 +246,7 @@ es:
       work_package_attachments: "Paquetes de trabajo: archivos adjuntos"
       work_package_categories: "Paquetes de trabajo: categorías"
       work_package_file_links: "Paquetes de trabajo: enlaces de archivos"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Se ha programado la eliminación y se ejecutará en segundo plano. Recibirá una notificación con el resultado."
       schedule_failed: "El proyecto no puede ser eliminado: %{errors}"
@@ -263,6 +264,7 @@ es:
       my: "Mis proyectos"
       favored: "Proyectos favoritos"
       archived: "Proyectos archivados"
+      shared: "Shared project lists"
       public: "Lista públicas de proyectos"
       my_private: "Mis listas de proyectos privados"
       new:
@@ -285,7 +287,7 @@ es:
       project_custom_fields:
         header:
           title: "Atributos del proyecto"
-          description: "Estos atributos del proyecto se mostrarán en su <a href=%{overview_url} target=\"_blank\">página de resumen del proyecto</a> bajo sus respectivas secciones. Puede activar o desactivar atributos individuales. Los atributos y secciones del proyecto son definidos en los <a href=%{admin_settings_url} target=\"_blank\">ajustes de administración</a> por el administrador de la instancia. "
+          description: 'Estos atributos del proyecto se mostrarán en su <a href=%{overview_url} target="_blank">página de resumen del proyecto</a> bajo sus respectivas secciones. Puede activar o desactivar atributos individuales. Los atributos y secciones del proyecto son definidos en los <a href=%{admin_settings_url} target="_blank">ajustes de administración</a> por el administrador de la instancia. '
         filter:
           label: "Buscar atributo de proyecto"
         actions:
@@ -298,10 +300,7 @@ es:
           heading: Obligatorio en todos los proyectos
           description: Este atributo del proyecto está activado en todos los proyectos, ya que la opción «Obligatorio en todos los proyectos» está marcada. No puede desactivarse para proyectos individuales.
         new_project_mapping_form:
-          add_projects: Añadir proyectos
           include_sub_projects: Incluir subproyectos
-        project_mappings:
-          header: Activado en proyectos
       types:
         no_results_title_text: Actualmente no hay tipos disponibles.
         form:
@@ -387,11 +386,23 @@ es:
       will_revoke_access_to_all: "Esta acción revocará su acceso a todos ellos."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "No se pudo restablecer el token de acceso: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Se generó un nuevo token de acceso del tipo %{type}. Su token de acceso es:"
       token_value_warning: "Nota: Esta es la única vez que le mostraremos este token, asegúrese de copiarlo ahora."
       no_results_title_text: Actualmente no hay tokens de acceso disponibles.
-      notice_api_token_revoked: "Se ha eliminado el token de la API. Para crear un nuevo token, utilice el enlace de la sección API."
+      notice_api_token_revoked: "Se ha eliminado el token de la API. Para crear un nuevo token, utilice el botón de la sección API."
       notice_rss_token_revoked: "Se ha eliminado el token RSS. Para crear un nuevo token, utilice el enlace de la sección RSS."
       notice_ical_token_revoked: 'Se ha revocado el token de iCalendar «%{token_name}» para el calendario «%{calendar_name}» del proyecto «%{project_name}». La URL de iCalendar con este token ya no es válida.'
   news:
@@ -465,7 +476,7 @@ es:
         is_readonly: "Solo lectura"
         excluded_from_totals: "Excluido de totales"
   themes:
-    dark: "Oscuro"
+    dark: "Dark (experimental)"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -716,6 +727,7 @@ es:
         auto_hide_popups: "Auto-ocultar notificaciones satisfactorias"
         warn_on_leaving_unsaved: "Avisarme cuando salga de un paquete de trabajo con cambios sin guardar"
         theme: "Modo"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Fecha de finalización"
         sharing: "Compartiendo"
@@ -1098,6 +1110,10 @@ es:
           undeletable_work_packages_attached: "La versión no puede borrarse cuando tiene paquetes de trabajos adjuntos."
         status:
           readonly_default_exlusive: "no se puede activar para los estados marcados como predeterminados."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Por favor revise los siguientes campos:"
         header:
@@ -1121,6 +1137,9 @@ es:
         other: "Notificaciones"
       placeholder_user: "Usuario de marcador de posición"
       project: "Proyecto"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Consulta personalizada"
       role:
         one: "Rol"
@@ -1780,6 +1799,7 @@ es:
   label_add_another_file: "Agregar otro archivo"
   label_add_columns: "Agregar columnas seleccionadas"
   label_add_note: "Añadir una nota"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Añadir paquetes de trabajo relacionados"
   label_add_subtask: "Agregar subtarea"
   label_added: "agregado"
@@ -2016,7 +2036,9 @@ es:
   label_introduction_video: "Vídeo de introducción"
   label_invite_user: "Invitar usuario"
   label_share: "Compartir"
+  label_share_project_list: "Share project list"
   label_show_hide: "Mostrar/ocultar"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostrar todos los usuarios registrados"
   label_journal: "Diario"
   label_journal_diff: "Comparación de la descripción"
@@ -2054,6 +2076,7 @@ es:
   label_custom_touch_icon: "Icono táctil personalizado"
   label_logout: "Cerrar sesión"
   label_main_menu: "Menú lateral"
+  label_manage: "Manage"
   label_manage_groups: "Administrar grupos"
   label_managed_repositories_vendor: "Repositorios de %{vendor} administrados"
   label_max_size: "Tamaño máximo"
@@ -2172,6 +2195,7 @@ es:
   label_project_latest: "Últimos proyectos"
   label_project_default_type: "Permitir tipo vacio"
   label_project_hierarchy: "Jerarquía del proyecto"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nuevo proyecto"
   label_project_plural: "Proyectos"
   label_project_list_plural: "Listas de proyectos"
@@ -2458,12 +2482,12 @@ es:
         plaintext:
           storage: "Almacenamiento"
           healthy:
-            summary: "¡Buenas noticias! El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Sano»."
+            summary: '¡Buenas noticias! El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Sano».'
             error-solved-on: "Resuelto el"
             recommendation: "Seguiremos supervisando el sistema para asegurarnos de que sigue gozando de buena salud. En caso de discrepancias, se lo notificaremos."
             details: "Para más detalles o para realizar las modificaciones necesarias, puede visitar su configuración de almacenamiento"
           unhealthy:
-            summary: "El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Error». Hemos detectado un problema que podría requerir su atención."
+            summary: 'El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Error». Hemos detectado un problema que podría requerir su atención.'
             error-details: "Detalles del error"
             error-message: "Mensaje de error"
             error-occurred-on: "Ocurrido el"
@@ -2472,11 +2496,11 @@ es:
         email_notification_settings: "Ajustes de notificación por correo electrónico de almacenamiento"
         see_storage_settings: "Ver ajustes de almacenamiento"
         healthy:
-          subject: "¡El almacenamiento «%{name}» está ahora sano!"
+          subject: '¡El almacenamiento «%{name}» está ahora sano!'
           solved_at: "resuelto el"
           summary: "El problema con la integración de su almacenamiento %{storage_name} ya está resuelto"
         unhealthy:
-          subject: "¡El almacenamiento «%{name}» no está sano!"
+          subject: '¡El almacenamiento «%{name}» no está sano!'
           since: "desde"
           summary: "Hay un problema con la integración de su almacenamiento %{storage_name}."
           troubleshooting:
@@ -2960,6 +2984,10 @@ es:
   setting_default_projects_public: "Nuevos proyectos son públicos por defecto"
   setting_diff_max_lines_displayed: "Cantidad máxima de diferencias de lineas mostradas"
   setting_display_subprojects_work_packages: "Mostrar paquetes de trabajo de subproyectos en proyectos principales por defecto"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Pie de correos electronicos"
   setting_emails_header: "Encabezado de correos electrónicos"
   setting_email_login: "Usar correo electrónico como nombre de usuario"
@@ -2972,7 +3000,7 @@ es:
   setting_host_name: "Nombre de host"
   setting_hours_per_day: "Horas al día"
   setting_hours_per_day_explanation: >-
-    Esto definirá lo que se considera un «día» a la hora de mostrar la duración de una forma más natural (por ejemplo, si un día son 8 horas, 32 horas serían 4 días).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "El correo electrónico de activación caduca después de"
   setting_work_package_done_ratio: "Cálculo del progreso"
   setting_work_package_done_ratio_field: "Basado en el trabajo"
@@ -3413,6 +3441,24 @@ es:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Los días no seleccionados se omiten al programar los paquetes de trabajo (y no se incluyen en el recuento de días). Esto puede anularse a nivel de paquete de trabajo.

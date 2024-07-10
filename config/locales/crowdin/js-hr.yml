@@ -1026,6 +1026,7 @@ hr:
         assigned_to_me: "Dodijeljeno meni"
         recently_created: "Recently created"
         all_open: "Svi otvoreni"
+        overdue: "Overdue"
         summary: "Sažetak"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

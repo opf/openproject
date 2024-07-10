@@ -32,10 +32,10 @@ module Shares
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(share:, available_roles:, **system_arguments)
+    def initialize(share:, strategy:, **system_arguments)
       super
 
-      @available_roles = available_roles
+      @strategy = strategy
       @share = share
       @system_arguments = system_arguments
     end
@@ -58,7 +58,7 @@ module Shares
 
     private
 
-    attr_reader :share, :available_roles
+    attr_reader :share, :strategy
 
     def active_role
       if share.persisted?
@@ -71,7 +71,7 @@ module Shares
     end
 
     def permission_name(value)
-      available_roles.find { |role_hash| role_hash[:value] == value }[:label]
+      strategy.available_roles.find { |role_hash| role_hash[:value] == value }[:label]
     end
 
     def form_inputs(role_id)
@@ -79,6 +79,22 @@ module Shares
         inputs << { name: "role_ids[]", value: role_id }
         inputs << { name: "filters", value: params[:filters] } if params[:filters]
       end
+    end
+
+    def tooltip_message
+      return if strategy.manageable?
+
+      I18n.t("sharing.denied", entities: strategy.entity.class.model_name.human(count: 2))
+    end
+
+    def tooltip_wrapper_classes
+      return [] if strategy.manageable?
+
+      ["tooltip--left"]
+    end
+
+    def editable?
+      strategy.manageable? && share.principal != User.current
     end
   end
 end

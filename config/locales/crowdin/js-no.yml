@@ -1025,6 +1025,7 @@
         assigned_to_me: "Tildelt meg"
         recently_created: "Nylig opprettet"
         all_open: "Alle åpne"
+        overdue: "Overdue"
         summary: "Sammendrag"
         shared_with_users: "Delt med brukere"
         shared_with_me: "Delt med meg"

@@ -246,6 +246,7 @@ ca:
       work_package_attachments: "Paquets de treball: fitxers adjunts"
       work_package_categories: "Paquets de treball: categories"
       work_package_file_links: "Paquets de treball: enllaços de fitxers"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "L'eliminació s'ha planificat i s'efectuarà de fons. Sereu notificats del resultat."
       schedule_failed: "El projecte no es pot eliminar: %{errors}"
@@ -263,6 +264,7 @@ ca:
       my: "Els meus projectes"
       favored: "Projectes preferits"
       archived: "Projectes arxivats"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "Les meves llistes de projectes privats"
       new:
@@ -285,7 +287,7 @@ ca:
       project_custom_fields:
         header:
           title: "Atributs de projecte"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
         filter:
           label: "Search project attribute"
         actions:
@@ -298,10 +300,7 @@ ca:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Actualment no hi ha cap classe disponible.
         form:
@@ -387,11 +386,23 @@ ca:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "S'ha generat un nou token %{type}. El teu token d'accés és:"
       token_value_warning: "Nota: Aquesta és la única vegada que veuràs aquest token, assegura't de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "S'ha suprimit el token RSS. Per crear un token nou, utilitzeu l'enllaç de la secció RSS."
       notice_ical_token_revoked: 'El token d''iCalendar "%{token_name}" per al calendari "%{calendar_name}" en el projecte "%{project_name}" s''ha revocat. L''URL d''iCalendar amb aquest token és ara invàlida.'
   news:
@@ -465,7 +476,7 @@ ca:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Clar"
     light_high_contrast: "Clar alt contrast"
   types:
@@ -715,6 +726,7 @@ ca:
         auto_hide_popups: "Oculta automàticament les notificacions de succés"
         warn_on_leaving_unsaved: "Avisa quan es deixi un paquet de treball amb canvis no desats"
         theme: "Mode"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Data de finalització"
         sharing: "Compartint"
@@ -1097,6 +1109,10 @@ ca:
           undeletable_work_packages_attached: "La versió no es pot eliminar, ja que té paquets de treball adjunts."
         status:
           readonly_default_exlusive: "no pot ser activat per estats que estan marcats per defecte."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Si us plau, revisi els camps següents:"
         header:
@@ -1120,6 +1136,9 @@ ca:
         other: "Notificacions"
       placeholder_user: "Usuari de marcador de posició"
       project: "Projecte"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Consulta personalitzada"
       role:
         one: "Rol"
@@ -1779,6 +1798,7 @@ ca:
   label_add_another_file: "Afegeix un altre fitxer"
   label_add_columns: "Afegir columnes seleccionades"
   label_add_note: "Afegir una nota"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Afegir paquets de treball relacionats"
   label_add_subtask: "Afegir subtasca"
   label_added: "afegit"
@@ -2015,7 +2035,9 @@ ca:
   label_introduction_video: "Vídeo de presentació"
   label_invite_user: "Invitar usuari"
   label_share: "Compartir"
+  label_share_project_list: "Share project list"
   label_show_hide: "Mostrae/ocultar"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostra tots els usuaris registrats"
   label_journal: "Diari"
   label_journal_diff: "Descripció de comparació"
@@ -2053,6 +2075,7 @@ ca:
   label_custom_touch_icon: "Icona \"touch\" personalitzada"
   label_logout: "Tancar sessió"
   label_main_menu: "Menú lateral"
+  label_manage: "Manage"
   label_manage_groups: "Administrar grups"
   label_managed_repositories_vendor: "Administrar repositoris de %{vendor}"
   label_max_size: "Mida màxima"
@@ -2171,6 +2194,7 @@ ca:
   label_project_latest: "Últims projectes"
   label_project_default_type: "Permetre tipus buit"
   label_project_hierarchy: "Jerarquia de projectes"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nou projecte"
   label_project_plural: "Projectes"
   label_project_list_plural: "Llistes de projectes"
@@ -2457,12 +2481,12 @@ ca:
         plaintext:
           storage: "Emmagatzematge"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            summary: 'Good news! The status of your storage, %{storage_name}, is currently displaying as "Healthy".'
             error-solved-on: "Solved On"
             recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
             details: "For more details or to make any necessary amendments, you can visit your storage configuration"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: 'The status of your storage, %{storage_name}, is currently displaying as "Error". We''ve detected an issue that might require your attention.'
             error-details: "Detalls de l'error"
             error-message: "Missatge d'error"
             error-occurred-on: "Occurred On"
@@ -2471,11 +2495,11 @@ ca:
         email_notification_settings: "Storage email notification settings"
         see_storage_settings: "See storage settings"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: 'Storage "%{name}" is now healthy!'
           solved_at: "solved at"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
+          subject: 'Storage "%{name}" is unhealthy!'
           since: "des de"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
@@ -2953,6 +2977,10 @@ ca:
   setting_default_projects_public: "Els projectes nous són públics per defecte"
   setting_diff_max_lines_displayed: "Nombre màxim de línies mostrades pels diff"
   setting_display_subprojects_work_packages: "Mostrae els paquets de treball dels subprojectes en els projectes principals per defecte"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Peu dels correus electrònics"
   setting_emails_header: "Encapçalament dels correus"
   setting_email_login: "Utilitza correu electrònic per l'inici de sessió"
@@ -2965,7 +2993,7 @@ ca:
   setting_host_name: "Nom del servidor"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "L'activació de correu electrònic caduca després de"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3407,6 +3435,24 @@ ca:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

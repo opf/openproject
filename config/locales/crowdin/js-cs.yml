@@ -1026,6 +1026,7 @@ cs:
         assigned_to_me: "Přiřazeno mně"
         recently_created: "Nedávno vytvořené"
         all_open: "Všechny otevřené"
+        overdue: "Overdue"
         summary: "Souhrn"
         shared_with_users: "Sdíleno s uživateli"
         shared_with_me: "Sdíleno se mnou"

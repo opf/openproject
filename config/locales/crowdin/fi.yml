@@ -249,6 +249,7 @@ fi:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
@@ -266,6 +267,7 @@ fi:
       my: "Omat projektit"
       favored: "Favorite projects"
       archived: "Archived projects"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "My private project lists"
       new:
@@ -288,7 +290,7 @@ fi:
       project_custom_fields:
         header:
           title: "Project attributes"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
         filter:
           label: "Search project attribute"
         actions:
@@ -301,10 +303,7 @@ fi:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Tällä hetkellä tyyppejä ei ole saatavilla.
         form:
@@ -390,11 +389,23 @@ fi:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "API-salasanan resetointi epäonnistui: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Uusi %{type} API-salasana generoitu. Salasanasi on:"
       token_value_warning: "Huomautus: Tämä on ainoa kerta kun näet tämän tunnuksen, varmista että kopio se nyt."
       no_results_title_text: Tällä hetkellä ei ole pääsyavaimia saatavilla.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
@@ -468,7 +479,7 @@ fi:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -719,6 +730,7 @@ fi:
         auto_hide_popups: "Piilota ilmoitukset onnistuneista toiminnoista"
         warn_on_leaving_unsaved: "Varoita tallentamattomista muutoksista"
         theme: "Mode"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Päättymispäivä"
         sharing: "Jakaminen"
@@ -1101,6 +1113,10 @@ fi:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Tarkista seuraavat kentät:"
         header:
@@ -1124,6 +1140,9 @@ fi:
         other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Projekti"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Mukautettu haku"
       role:
         one: "Rooli"
@@ -1783,6 +1802,7 @@ fi:
   label_add_another_file: "Lisää uusi tiedosto"
   label_add_columns: "Lisää valitut sarakkeet"
   label_add_note: "Lisää kommentti"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Lisää tehtävän riippuvuudet"
   label_add_subtask: "Lisätä alitehtävä"
   label_added: "lisätty"
@@ -2019,7 +2039,9 @@ fi:
   label_introduction_video: "Introduction video"
   label_invite_user: "Kutsu käyttäjä"
   label_share: "Jaa"
+  label_share_project_list: "Share project list"
   label_show_hide: "Näytä/piilota"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
   label_journal_diff: "Kuvauksen vertailu"
@@ -2057,6 +2079,7 @@ fi:
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Kirjaudu ulos"
   label_main_menu: "Sivuvalikko"
+  label_manage: "Manage"
   label_manage_groups: "Ryhmien hallinta"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_max_size: "Suurin koko"
@@ -2175,6 +2198,7 @@ fi:
   label_project_latest: "Uusimmat projektit"
   label_project_default_type: "Salli tyhjä tyyppi"
   label_project_hierarchy: "Project hierarchy"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Uusi projekti"
   label_project_plural: "Projektit"
   label_project_list_plural: "Project lists"
@@ -2461,12 +2485,12 @@ fi:
         plaintext:
           storage: "Storage"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            summary: 'Good news! The status of your storage, %{storage_name}, is currently displaying as "Healthy".'
             error-solved-on: "Solved On"
             recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
             details: "For more details or to make any necessary amendments, you can visit your storage configuration"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: 'The status of your storage, %{storage_name}, is currently displaying as "Error". We''ve detected an issue that might require your attention.'
             error-details: "Error Details"
             error-message: "Error Message"
             error-occurred-on: "Occurred On"
@@ -2475,11 +2499,11 @@ fi:
         email_notification_settings: "Storage email notification settings"
         see_storage_settings: "See storage settings"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: 'Storage "%{name}" is now healthy!'
           solved_at: "solved at"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
+          subject: 'Storage "%{name}" is unhealthy!'
           since: "since"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
@@ -2964,6 +2988,10 @@ fi:
   setting_default_projects_public: "Uudet projektit ovat oletuksena julkisia"
   setting_diff_max_lines_displayed: "Max number of diff lines displayed"
   setting_display_subprojects_work_packages: "Oletuksena näytä aliprojektien tehtävät pääprojektissa"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Sähköpostin alatunniste"
   setting_emails_header: "Sähköpostit otsikko"
   setting_email_login: "Käytä sähköpostiosoitetta kirjautumiseen"
@@ -2976,7 +3004,7 @@ fi:
   setting_host_name: "Verkko-osoite"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Sähköpostisi vahvistuslinkki vanhentuu"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3418,6 +3446,24 @@ fi:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

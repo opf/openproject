@@ -49,10 +49,12 @@ RSpec.describe Projects::Menu do
     ProjectQuery.create!(name: "Public query", user: build(:user), public: true)
   end
 
+  shared_let(:view_project_query_role) { create(:view_project_query_role) }
+
   shared_let(:shared_query) do
-    query = ProjectQuery.create!(name: "Shared query", user: build(:user))
-    create(:project_query_member, entity: query, user: current_user, roles: [create(:view_project_query_role)])
-    query
+    ProjectQuery.create!(name: "Shared query", user: build(:user)).tap do |query|
+      create(:project_query_member, entity: query, user: current_user, roles: [view_project_query_role])
+    end
   end
 
   subject(:menu_items) { instance.menu_items }
@@ -103,6 +105,93 @@ RSpec.describe Projects::Menu do
 
     it "contains item for shared query" do
       expect(children_menu_items).to include(have_attributes(title: "Shared query"))
+    end
+  end
+
+  describe "queries order" do
+    subject(:titles) { menu_items.map { _1.children.map(&:title) } }
+
+    shared_let(:another_current_user_query) do
+      ProjectQuery.create!(name: "Another current user query", user: current_user)
+    end
+
+    shared_let(:another_public_query) do
+      ProjectQuery.create!(name: "Another public query", user: build(:user), public: true)
+    end
+
+    shared_let(:another_shared_query) do
+      ProjectQuery.create!(name: "Another shared query", user: build(:user)).tap do |query|
+        create(:project_query_member, entity: query, user: current_user, roles: [view_project_query_role])
+      end
+    end
+
+    before do
+      favored_queries.each do |query|
+        query.add_favoring_user(current_user)
+      end
+    end
+
+    context "when no queries are favored" do
+      let(:favored_queries) { [] }
+
+      it "orders persisted titles alphabetically" do
+        expect(titles).to eq(
+          [
+            ["Active projects", "My projects", "Favorite projects"],
+            ["Another public query", "Public query"],
+            ["Another current user query", "Current user query"],
+            ["Another shared query", "Shared query"],
+            ["On track", "Off track", "At risk"]
+          ]
+        )
+      end
+    end
+
+    context "when some queries are favored" do
+      let(:favored_queries) do
+        [
+          current_user_query,
+          public_query,
+          shared_query
+        ]
+      end
+
+      it "orders persisted titles by favor then alphabetically" do
+        expect(titles).to eq(
+          [
+            ["Active projects", "My projects", "Favorite projects"],
+            ["Public query", "Another public query"],
+            ["Current user query", "Another current user query"],
+            ["Shared query", "Another shared query"],
+            ["On track", "Off track", "At risk"]
+          ]
+        )
+      end
+    end
+
+    context "when all queries are favored" do
+      let(:favored_queries) do
+        [
+          current_user_query,
+          another_current_user_query,
+          public_query,
+          another_public_query,
+          shared_query,
+          another_shared_query
+        ]
+      end
+
+      it "orders persisted titles alphabetically" do
+        expect(titles).to eq(
+          [
+            ["Active projects", "My projects", "Favorite projects"],
+            ["Another public query", "Public query"],
+            ["Another current user query", "Current user query"],
+            ["Another shared query", "Shared query"],
+            ["On track", "Off track", "At risk"]
+          ]
+        )
+      end
     end
   end
 

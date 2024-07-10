@@ -331,7 +331,6 @@ RSpec.describe "history",
 
     show_page.expect_agenda_item(title: "My agenda item")
     item = MeetingAgendaItem.find_by(title: "My agenda item")
-    show_page.cancel_add_form(item)
 
     show_page.select_action(item, "Add notes")
     editor.set_markdown "# Hello there"

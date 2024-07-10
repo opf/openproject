@@ -180,7 +180,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_public_project_queries,
                      {
-                       "projects/queries": %i[publish unpublish]
+                       "projects/queries": %i[toggle_public]
                      },
                      permissible_on: :global,
                      require: :loggedin,
@@ -206,7 +206,8 @@ Rails.application.reloader.to_prepare do
                        work_packages_api: [:get],
                        "work_packages/reports": %i[report report_details],
                        "work_packages/activities_tab": %i[index create update_streams edit cancel_edit update
-                                                          update_sorting update_filter toggle_reaction]
+                                                          update_sorting update_filter toggle_reaction],
+                       "work_packages/menus": %i[show]
                      },
                      permissible_on: %i[work_package project],
                      contract_actions: { work_packages: %i[read] }
@@ -332,17 +333,14 @@ Rails.application.reloader.to_prepare do
 
       map.permission :share_work_packages,
                      {
-                       members: %i[destroy_by_principal],
-                       shares: %i[index create destroy update resend_invite bulk_update bulk_destroy]
+                       members: %i[destroy_by_principal]
                      },
                      permissible_on: :project,
                      dependencies: %i[edit_work_packages view_shared_work_packages],
                      require: :member
 
       map.permission :view_shared_work_packages,
-                     {
-                       shares: %i[index]
-                     },
+                     {},
                      permissible_on: :project,
                      require: :member,
                      contract_actions: { work_package_shares: %i[index] }
