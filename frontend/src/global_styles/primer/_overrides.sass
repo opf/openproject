@@ -48,9 +48,12 @@ action-menu
 ul.tabnav-tabs
   margin-left: 0
 
-ul.UnderlineNav-body
-  margin-left: 0
-  margin-bottom: 12px
+.UnderlineNav
+  @include styled-scroll-bar
+
+  &-body
+    margin-left: 0
+    margin-bottom: 12px
 
 /* Remove margin-left: 2rem from Breadcrumbs */
 #breadcrumb,
