@@ -74,7 +74,9 @@ module Notifications
 
     def project_filters
       unread_by_project.map do |project, count|
-        menu_item(title: project.name, count:, query_params: query_params("project", project.id))
+        menu_item(title: (project.parent.present? ? "... " : "") + project.name,
+                  count:,
+                  query_params: query_params("project", project.id))
       end
     end
 
@@ -118,7 +120,7 @@ module Notifications
         "responsible" => :accountable,
         "watched" => :watching,
         "shared" => :share,
-        "date_alert" => :"date-alert"
+        "dateAlert" => :"date-alert"
       }
     end
   end
