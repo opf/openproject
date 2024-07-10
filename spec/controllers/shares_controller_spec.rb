@@ -422,6 +422,58 @@ RSpec.describe SharesController do
   end
 
   describe "resend_invite" do
+    shared_let(:project) { create(:project) }
+    shared_let(:work_package) { create(:work_package, project:) }
+    shared_let(:view_work_package_role) { create(:view_work_package_role) }
+    shared_let(:view_work_package_member) do
+      create(:member, entity: work_package, principal: view_user, roles: [view_work_package_role])
+    end
+    shared_let(:view_project_role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
+    shared_let(:project_member) do
+      create(:member, project:, principal: user, roles: [view_project_role])
+    end
+    let(:make_request) do
+      post :resend_invite, params: {
+        work_package_id: work_package.id,
+        id: view_work_package_member.id
+      }, format: :turbo_stream
+    end
+
+    context "when the strategy allows managing" do
+      before do
+        allow_any_instance_of(SharingStrategies::WorkPackageStrategy)
+          .to receive_messages(viewable?: true, manageable?: true)
+
+        allow(OpenProject::Notifications).to receive(:send).and_call_original
+        allow(controller).to receive(:respond_with_update_user_details).and_call_original
+      end
+
+      it "calls respond_with_update_user_details" do
+        make_request
+        expect(controller).to have_received(:respond_with_update_user_details)
+      end
+
+      it "sends a notification" do
+        make_request
+        expect(OpenProject::Notifications).to have_received(:send).with(
+          OpenProject::Events::WORK_PACKAGE_SHARED,
+          work_package_member: view_work_package_member,
+          send_notifications: true
+        )
+      end
+    end
+
+    context "when the strategy does not allow managing" do
+      before do
+        allow_any_instance_of(SharingStrategies::WorkPackageStrategy)
+          .to receive_messages(viewable?: true, manageable?: false)
+      end
+
+      it "returns a 403 status" do
+        make_request
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
   end
 
   describe "bulk_update" do
