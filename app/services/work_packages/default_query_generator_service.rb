@@ -61,7 +61,7 @@ module ::WorkPackages
 
       return if params.nil?
 
-      { query_props: params.to_json, name: query_key }
+      { query_props: params.to_json, name: query_key, show_enterprise_icon: self.class.show_enterprise_icon?(query_key) }
     end
 
     class << self
@@ -168,6 +168,10 @@ module ::WorkPackages
         when :shared_with_me
           shared_with_me_query
         end
+      end
+
+      def show_enterprise_icon?(query_key)
+        !EnterpriseToken.allows_to?(:work_package_sharing) && %i[shared_with_users shared_with_me].any?(query_key)
       end
     end
   end

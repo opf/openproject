@@ -68,7 +68,8 @@ module Notifications
         menu_item(title: I18n.t("notifications.reasons.#{reason}"),
                   icon_key: reason,
                   count: count == 0 ? nil : count,
-                  query_params: query_params("reason", reason))
+                  query_params: query_params("reason", reason),
+                  show_enterprise_icon: show_enterprise_icon?(reason))
       end
     end
 
@@ -111,6 +112,12 @@ module Notifications
     end
 
     def query_path(query_params)
+      if query_params[:name] == "shared" && show_enterprise_icon?("shared")
+        return notifications_share_upsale_path(query_params)
+      elsif query_params[:name] == "dateAlert" && show_enterprise_icon?("dateAlert")
+        return notifications_date_alert_upsale_path(query_params)
+      end
+
       notifications_center_path(query_params)
     end
 
@@ -122,6 +129,16 @@ module Notifications
         "shared" => :share,
         "dateAlert" => :"date-alert"
       }
+    end
+
+    def show_enterprise_icon?(reason)
+      if reason == "shared"
+        !EnterpriseToken.allows_to?(:work_package_sharing)
+      elsif reason == "dateAlert"
+        !EnterpriseToken.allows_to?(:date_alerts)
+      else
+        false
+      end
     end
   end
 end

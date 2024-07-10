@@ -44,14 +44,14 @@ module WorkPackages
 
         menu_item(
           title: I18n.t("js.work_packages.default_queries.#{query_key}"),
-          query_params: params
+          query_params: params,
+          show_enterprise_icon: params[:show_enterprise_icon].present?
         )
       end
     end
 
     def query_path(query_params)
-      if !EnterpriseToken.allows_to?(:work_package_sharing) &&
-        %i[shared_with_users shared_with_me].any?(query_params[:name])
+      if query_params[:show_enterprise_icon].present?
         return ee_upsale_path(query_params)
       end
 
