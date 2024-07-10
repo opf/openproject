@@ -1131,6 +1131,8 @@ ms:
         other: "Pemberitahuan"
       placeholder_user: "Pengguna placeholder"
       project: "Projek"
+      project_query:
+        other: "Project lists"
       query: "Pertanyaan tersuai"
       role:
         other: "Peranan\n"
@@ -3405,6 +3407,7 @@ ms:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       public_flag:
         label: "Share with everyone at %{instance_name}"

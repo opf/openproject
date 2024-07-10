@@ -1132,6 +1132,8 @@ zh-TW:
         other: "通知"
       placeholder_user: "虛擬群組"
       project: "專案"
+      project_query:
+        other: "Project lists"
       query: "自訂查詢"
       role:
         other: "角色"
@@ -3407,6 +3409,7 @@ zh-TW:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       public_flag:
         label: "Share with everyone at %{instance_name}"
