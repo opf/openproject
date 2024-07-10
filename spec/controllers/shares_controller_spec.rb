@@ -37,8 +37,8 @@ RSpec.describe SharesController do
   shared_let(:project_query) { create(:project_query, user:) }
   shared_let(:view_role) { create(:view_project_query_role) }
   shared_let(:edit_role) { create(:edit_project_query_role) }
-  shared_let(:view_member) { create(:member, entity: project_query, principal: view_user, roles: [view_role]) }
-  shared_let(:edit_member) { create(:member, entity: project_query, principal: edit_user, roles: [edit_role]) }
+  shared_let(:view_member) { create(:project_query_member, entity: project_query, principal: view_user, roles: [view_role]) }
+  shared_let(:edit_member) { create(:project_query_member, entity: project_query, principal: edit_user, roles: [edit_role]) }
 
   before { login_as(user) }
 
@@ -477,8 +477,100 @@ RSpec.describe SharesController do
   end
 
   describe "bulk_update" do
+    let(:make_request) do
+      post :bulk_update, params: {
+        project_query_id: project_query.id,
+        share_ids: [view_member.id, edit_member.id],
+        role_ids: [edit_role.id]
+      }, format: :turbo_stream
+    end
+
+    context "when the user has permission to manage shares" do
+      before do
+        allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+          .to receive_messages(manageable?: true, viewable?: true)
+        allow(controller).to receive(:respond_with_bulk_updated_permission_buttons)
+      end
+
+      it "updates the roles of the selected shares" do
+        expect { make_request }.to change { view_member.reload.roles }.to([edit_role])
+        expect(edit_member.reload.roles).to eq([edit_role])
+      end
+
+      it "responds with updated permission buttons" do
+        make_request
+        expect(controller).to have_received(:respond_with_bulk_updated_permission_buttons)
+          .with([view_member, edit_member])
+      end
+    end
+
+    context "when the user does not have permission to manage shares" do
+      before do
+        allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+          .to receive_messages(manageable?: false, viewable?: true)
+      end
+
+      it "returns a forbidden status" do
+        make_request
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
   end
 
   describe "bulk_destroy" do
+    let(:removed_share_ids) { [view_member.id, edit_member.id] }
+    let(:make_request) do
+      delete :bulk_destroy, params: {
+        project_query_id: project_query.id,
+        share_ids: removed_share_ids
+      }, format: :turbo_stream
+    end
+
+    context "when the user has permission to manage shares" do
+      before do
+        allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+          .to receive_messages(manageable?: true, viewable?: true)
+        allow(controller).to receive(:respond_with_bulk_removed_shares)
+        allow(controller).to receive(:respond_with_replace_modal)
+      end
+
+      context "and no more shares are left" do
+        before do
+          allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+            .to receive_messages(shares: [])
+        end
+
+        it "calls respond_with_replace_modal" do
+          make_request
+          expect(controller).to have_received(:respond_with_replace_modal)
+        end
+      end
+
+      context "and shares are still left on the filtered list" do
+        let(:removed_share_ids) { [view_member.id] }
+
+        it "responds with removed shares" do
+          make_request
+          expect(controller).to have_received(:respond_with_bulk_removed_shares)
+            .with([view_member])
+        end
+      end
+
+      it "destroys the selected shares" do
+        expect { make_request }.to change(Member, :count).by(-2)
+      end
+    end
+
+    context "when the user does not have permission to manage shares" do
+      before do
+        allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+          .to receive_messages(manageable?: false, viewable?: true)
+      end
+
+      it "returns a forbidden status" do
+        make_request
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
   end
 end
