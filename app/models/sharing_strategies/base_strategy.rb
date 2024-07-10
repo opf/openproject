@@ -62,6 +62,10 @@ module SharingStrategies
       raise NotImplementedError, "Override in a subclass and return the contract class for deleting a share"
     end
 
+    def share_description(share)
+      raise NotImplementedError, "Override in a subclass and return a description for the shared user"
+    end
+
     def custom_body_components?
       !additional_body_components.empty?
     end
