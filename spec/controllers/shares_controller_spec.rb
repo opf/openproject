@@ -383,6 +383,42 @@ RSpec.describe SharesController do
   end
 
   describe "destroy" do
+    let(:make_request) do
+      delete :destroy, params: {
+        project_query_id: project_query.id,
+        id: view_member.id
+      }, format: :turbo_stream
+    end
+
+    context "when the strategy allows managing" do
+      before do
+        allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+          .to receive_messages(viewable?: true, manageable?: true)
+
+        allow(controller).to receive(:respond_with_replace_modal).and_call_original
+        allow(controller).to receive(:respond_with_remove_share).and_call_original
+      end
+
+      context "and the list of filtered shares is now empty" do
+        before do
+          # Only new share
+          allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+            .to receive_messages(shares: [])
+        end
+
+        it "calls respond_with_replace_modal" do
+          make_request
+          expect(controller).to have_received(:respond_with_replace_modal)
+        end
+      end
+
+      context "and there are still shares in the list" do
+        it "calls respond_with_remove_share" do
+          make_request
+          expect(controller).to have_received(:respond_with_remove_share)
+        end
+      end
+    end
   end
 
   describe "resend_invite" do
