@@ -51,6 +51,10 @@ class WorkPackages::SetAttributesService
       work_package.estimated_hours_was
     end
 
+    def work_set?
+      work.present?
+    end
+
     def work_unset?
       work.nil?
     end
@@ -73,6 +77,10 @@ class WorkPackages::SetAttributesService
 
     def remaining_work=(value)
       work_package.remaining_hours = value
+    end
+
+    def remaining_work_set?
+      remaining_work.present?
     end
 
     def remaining_work_unset?

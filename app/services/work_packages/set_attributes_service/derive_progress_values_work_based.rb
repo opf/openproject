@@ -44,7 +44,7 @@ class WorkPackages::SetAttributesService
 
     def only_percent_complete_initially_set?
       return false if percent_complete_unset?
-      return false if remaining_work.present?
+      return false if remaining_work_set?
 
       work_changed? && work.present?
     end
@@ -58,8 +58,9 @@ class WorkPackages::SetAttributesService
     # considered nil.
     def update_percent_complete
       return unless remaining_work_changed? || work_changed?
+      return if work_unset?
 
-      self.percent_complete = if percent_complete_dependent_attribute_unset?
+      self.percent_complete = if remaining_work_unset?
                                 nil
                               else
                                 compute_percent_complete
@@ -71,10 +72,6 @@ class WorkPackages::SetAttributesService
       return if work&.negative?
 
       self.remaining_work = remaining_work_from_percent_complete_and_work
-    end
-
-    def percent_complete_dependent_attribute_unset?
-      remaining_work_unset? || work_unset?
     end
 
     def compute_percent_complete
@@ -98,9 +95,9 @@ class WorkPackages::SetAttributesService
 
     def update_work
       return if work_came_from_user?
-      return unless remaining_work_changed?
+      return unless remaining_work_changed? || percent_complete_changed?
 
-      return if work.present?
+      return if work.present? && !(remaining_work_changed? && percent_complete_changed?)
       return if remaining_work_unset? || remaining_work.negative?
 
       self.work = work_from_percent_complete_and_remaining_work
@@ -108,16 +105,21 @@ class WorkPackages::SetAttributesService
 
     # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     def update_remaining_work
-      return unless work_changed?
+      return unless work_changed? || percent_complete_changed?
       return if remaining_work_came_from_user?
       return if work&.negative?
-      return if work_was_unset? && remaining_work.present? # remaining work is kept and % complete will be set
+      return if work_unset? && percent_complete_unset?
+      return if work_was_unset? && remaining_work_set? # remaining work is kept and % complete will be set
 
-      if work_unset? || remaining_work.nil?
+      if work_set? && remaining_work_unset? && percent_complete_unset?
         self.remaining_work = work
-      else
+      elsif work_unset? || percent_complete_unset?
+        self.remaining_work = nil
+      elsif work_changed? && !percent_complete_changed?
         delta = work - work_was
         self.remaining_work = (remaining_work + delta).clamp(0.0, work)
+      else
+        self.remaining_work = remaining_work_from_percent_complete_and_work
       end
     end
     # rubocop:enable Metrics/AbcSize,Metrics/PerceivedComplexity
