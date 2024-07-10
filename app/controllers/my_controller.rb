@@ -31,6 +31,7 @@ class MyController < ApplicationController
   include Accounts::UserPasswordChange
   include ActionView::Helpers::TagHelper
   include OpTurbo::ComponentStream
+  include FlashMessagesOutputSafetyHelper
 
   layout "my"
 
@@ -163,9 +164,16 @@ class MyController < ApplicationController
     result = APITokens::CreateService.new(user: current_user).call(token_name: params[:token_api][:token_name])
 
     result.on_success do |r|
-      token = Primer::Beta::Text.new(font_weight: :bold).render_in(view_context) { r.result.plain_value }
-      message = "#{t('my.access_token.notice_reset_token', type: 'API')} #{token} #{t('my.access_token.token_value_warning')}"
-      flash[:primer_banner] = { message:, scheme: :success }
+      flash[:primer_banner] = {
+        scheme: :success,
+        message: join_flash_messages(
+          [
+            t("my.access_token.notice_reset_token", type: "API"),
+            Primer::Beta::Text.new(font_weight: :bold).render_in(view_context) { r.result.plain_value },
+            t("my.access_token.token_value_warning")
+          ]
+        )
+      }
 
       redirect_to action: "access_token"
     end
