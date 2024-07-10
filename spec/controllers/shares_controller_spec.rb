@@ -114,7 +114,7 @@ RSpec.describe SharesController do
       let(:strategy) do
         instance_double(SharingStrategies::ProjectQueryStrategy,
                         viewable?: false, manageable?: false,
-                        shares_query: project_query)
+                        query: project_query)
       end
 
       before do
@@ -131,7 +131,7 @@ RSpec.describe SharesController do
       let(:strategy) do
         instance_double(SharingStrategies::ProjectQueryStrategy,
                         viewable?: true, manageable?: false,
-                        shares_query: project_query)
+                        query: project_query)
       end
 
       before do
@@ -149,7 +149,7 @@ RSpec.describe SharesController do
       let(:strategy) do
         instance_double(SharingStrategies::ProjectQueryStrategy,
                         viewable?: false, manageable?: true,
-                        shares_query: project_query)
+                        query: project_query)
       end
 
       before do
@@ -178,7 +178,7 @@ RSpec.describe SharesController do
       let(:strategy) do
         instance_double(SharingStrategies::ProjectQueryStrategy,
                         viewable?: false, manageable?: false,
-                        shares_query: project_query)
+                        query: project_query)
       end
 
       before do
@@ -195,7 +195,7 @@ RSpec.describe SharesController do
       let(:strategy) do
         instance_double(SharingStrategies::ProjectQueryStrategy,
                         viewable?: true, manageable?: false,
-                        shares_query: project_query)
+                        query: project_query)
       end
 
       before do
@@ -232,7 +232,7 @@ RSpec.describe SharesController do
       let(:strategy) do
         instance_double(SharingStrategies::ProjectQueryStrategy,
                         viewable?: false, manageable?: true,
-                        shares_query: project_query)
+                        query: project_query)
       end
 
       before do
@@ -292,7 +292,8 @@ RSpec.describe SharesController do
       context "and there were no shares originally" do
         before do
           # Only new share
-          allow(controller).to receive(:current_visible_member_count).and_return(0 + 1)
+          allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+            .to receive_messages(shares: [])
         end
 
         it "calls respond_with_replace_modal" do
@@ -304,7 +305,9 @@ RSpec.describe SharesController do
       context "and there was at least a share originally" do
         before do
           # Former + new share
-          allow(controller).to receive(:current_visible_member_count).and_return(1 + 1)
+          # Only new share
+          allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+            .to receive_messages(shares: [edit_member])
         end
 
         it "calls respond_with_prepend_shares" do
@@ -347,7 +350,8 @@ RSpec.describe SharesController do
       context "and the list of filtered shares is now empty" do
         before do
           # Only new share
-          allow(controller).to receive_message_chain(:load_query, :results).and_return([])
+          allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+            .to receive_messages(shares: [])
         end
 
         it "calls respond_with_replace_modal" do
@@ -366,7 +370,8 @@ RSpec.describe SharesController do
       context "and the share no longer belongs to the list of filtered shares" do
         before do
           # Includes other share only, not the one being modified
-          allow(controller).to receive_message_chain(:load_query, :results).and_return([edit_member])
+          allow_any_instance_of(SharingStrategies::ProjectQueryStrategy)
+            .to receive_messages(shares: [edit_member])
         end
 
         it "calls respond_with_remove_share" do
