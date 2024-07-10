@@ -76,14 +76,13 @@ class WorkPackages::SetAttributesService
 
     def compute_percent_complete
       # do not change % complete if the progress values are invalid
-      if invalid_progress_values?
-        return percent_complete
-      end
+      return percent_complete if invalid_progress_values?
+      return nil if work.zero?
 
       completed_work = work - remaining_work
       completion_ratio = completed_work.to_f / work
 
-      (completion_ratio * 100).round(2)
+      (completion_ratio * 100).round
     end
 
     def invalid_progress_values?

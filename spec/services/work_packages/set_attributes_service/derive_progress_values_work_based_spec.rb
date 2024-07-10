@@ -149,7 +149,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       # work changed by -2h
       let(:set_attributes) { { estimated_hours: 10.0 - 2.0 } }
       let(:expected_derived_attributes) do
-        { remaining_hours: 3.0 - 2.0, done_ratio: 87 }
+        { remaining_hours: 3.0 - 2.0, done_ratio: 88 }
       end
 
       include_examples "update progress values",
@@ -201,7 +201,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
     context "when work and remaining work are both changed to values with more than 2 decimals" do
       let(:set_attributes) { { estimated_hours: 10.123456, remaining_hours: 5.6789 } }
-      let(:expected_derived_attributes) { { estimated_hours: 10.12, remaining_hours: 5.68, done_ratio: 43 } }
+      let(:expected_derived_attributes) { { estimated_hours: 10.12, remaining_hours: 5.68, done_ratio: 44 } }
 
       include_examples "update progress values", description: "rounds work and remaining work to 2 decimals " \
                                                               "and updates % complete accordingly"
