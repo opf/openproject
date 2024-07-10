@@ -43,7 +43,7 @@ module Storages
                 multiple: true,
                 dropdownPosition: "bottom",
                 disabledProjects: projects_with_storage_mapping,
-                inputName: "project_storage[project_ids]"
+                inputName: "storages_project_storage[project_ids]"
               }
             )
 

@@ -39,17 +39,13 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   before_action :require_admin
   before_action :find_model_object
 
+  before_action :storage_projects_query, only: :index
+  before_action :initialize_project_storage, only: :new
+  before_action :find_projects_to_activate_for_storage, only: :create
+
   menu_item :external_file_storages
 
   def index
-    @project_query = ProjectQuery.new(
-      name: "project-storage-mappings-#{@storage.id}"
-    ) do |query|
-      query.where(:storages, "=", [@storage.id])
-      query.select(:name)
-      query.order("lft" => "asc")
-    end
-
     # Prepare data for project_folder_type column
     @project_folder_modes_per_project = Storages::ProjectStorage
       .where(storage_id: @storage.id)
@@ -58,11 +54,6 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   end
 
   def new
-    @project_storage =
-      ::Storages::ProjectStorages::SetAttributesService
-        .new(user: current_user, model: ::Storages::ProjectStorage.new, contract_class: EmptyContract)
-        .call(storage: @storage)
-        .result
     respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
   end
 
@@ -74,5 +65,44 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   def find_model_object(object_id = :storage_id)
     super
     @storage = @object
+  end
+
+  def find_projects_to_activate_for_storage
+    if (project_ids = params.to_unsafe_h[:storages_project_storage][:project_ids]).present?
+      @projects = Project.find(project_ids)
+    else
+      initialize_project_storage
+      @project_storage.errors.add(:project_ids, :blank)
+      component = Storages::Admin::Storages::AddProjectsFormModalComponent.new(project_storage: @project_storage)
+      update_via_turbo_stream(component:, status: :bad_request)
+      respond_with_turbo_streams
+    end
+  rescue ActiveRecord::RecordNotFound
+    update_flash_message_via_turbo_stream message: t(:notice_project_not_found), full: true, dismiss_scheme: :hide,
+                                          scheme: :danger
+    update_project_list_via_turbo_stream
+
+    respond_with_turbo_streams
+  end
+
+  def update_project_list_via_turbo_stream
+    update_via_turbo_stream(
+      component: Storages::ProjectStorages::Projects::TableComponent.new(query: storage_projects_query, params:)
+    )
+  end
+
+  def storage_projects_query
+    @storage_projects_query = ProjectQuery.new(name: "storage-projects-#{@storage.id}") do |query|
+      query.where(:storages, "=", [@storage.id])
+      query.select(:name)
+      query.order("lft" => "asc")
+    end
+  end
+
+  def initialize_project_storage
+    @project_storage = ::Storages::ProjectStorages::SetAttributesService
+        .new(user: current_user, model: ::Storages::ProjectStorage.new, contract_class: EmptyContract)
+        .call(storage: @storage)
+        .result
   end
 end
