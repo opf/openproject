@@ -36,15 +36,16 @@ module WorkPackages
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(journal:)
+        def initialize(journal:, filter:)
           super
 
           @journal = journal
+          @filter = filter
         end
 
         private
 
-        attr_reader :journal
+        attr_reader :journal, :filter
 
         def wrapper_uniq_by
           journal.id

@@ -1,12 +1,12 @@
 <%=
   component_wrapper(class: "work-packages-activities-tab-journals-item-component-edit") do
-    render(Primer::Box.new(mt: 3)) do
+    render(Primer::Box.new(my: 3)) do
       primer_form_with(
         id: "work-package-journal-form",
         model: journal,
         method: :put,
         data: { turbo: true, turbo_stream: true },
-        url: work_package_activity_path(work_package_id: work_package.id, id: journal.id),
+        url: work_package_activity_path(work_package_id: work_package.id, id: journal.id, filter:),
       ) do |f|
         flex_layout do |form_container|
           form_container.with_row do
@@ -18,7 +18,7 @@
                      scheme: :secondary,
                      size: :medium,
                      tag: :a,
-                     href: cancel_edit_work_package_activity_path(work_package.id, id: journal.id),
+                     href: cancel_edit_work_package_activity_path(work_package.id, id: journal.id, filter:),
                      data: { "turbo-stream": true }
                    )) do
               t("button_cancel")

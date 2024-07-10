@@ -34,11 +34,12 @@ module WorkPackages
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(journal:, state: :show)
+        def initialize(journal:, filter:, state: :show)
           super
 
           @journal = journal
           @state = state
+          @filter = filter
         end
 
         def content
@@ -52,14 +53,14 @@ module WorkPackages
 
         private
 
-        attr_reader :journal, :state
+        attr_reader :journal, :state, :filter
 
         def wrapper_uniq_by
           journal.id
         end
 
         def child_component_params
-          { journal: }.compact
+          { journal:, filter: }.compact
         end
 
         def wrapper_data_attributes
@@ -68,6 +69,10 @@ module WorkPackages
             "application-target": "dynamic",
             "work-packages--activities-tab--item-activity-url-value": activity_url
           }
+        end
+
+        def show_comment_container?
+          journal.notes.present? && filter != :only_changes
         end
 
         def activity_url
@@ -92,6 +97,10 @@ module WorkPackages
           journal.notifications.where(read_ian: false, recipient_id: User.current.id).any?
         end
 
+        def notification_on_details?
+          has_unread_notifications? && journal.notes.blank?
+        end
+
         def copy_url_action_item(menu)
           menu.with_item(label: t("button_copy_link_to_clipboard"),
                          tag: :button,
@@ -106,7 +115,7 @@ module WorkPackages
 
         def edit_action_item(menu)
           menu.with_item(label: t("js.label_edit_comment"),
-                         href: edit_work_package_activity_path(journal.journable, journal),
+                         href: edit_work_package_activity_path(journal.journable, journal, filter:),
                          content_arguments: {
                            data: { "turbo-stream": true }
                          }) do |item|

@@ -1,15 +1,15 @@
 <%=
-  component_wrapper do
+  component_wrapper(class: "work-packages-activities-tab-journals-day-component") do
     flex_layout do |day_container|
-      day_container.with_row(my:2) do
-        render(Primer::Beta::Text.new(color: :muted)) { format_activity_day(day_as_date) }
-      end
+      # day_container.with_row(my:2) do
+      #   render(Primer::Beta::Text.new(color: :muted)) { format_activity_day(day_as_date) }
+      # end
       day_container.with_row do
         flex_layout(id: insert_target_modifier_id) do |journals_of_day_container|
           journals.each do |journal|
             journals_of_day_container.with_row do
               render(
-                WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:)
+                WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:)
               )
             end
           end

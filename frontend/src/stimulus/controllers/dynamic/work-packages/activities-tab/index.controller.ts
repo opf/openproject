@@ -4,7 +4,7 @@ import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { set } from 'lodash';
+import { workPackageFilesCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-files-count.function';
 
 export default class IndexController extends Controller {
   static values = {
@@ -12,6 +12,8 @@ export default class IndexController extends Controller {
     sorting: String,
     pollingIntervalInMs: Number,
     filter: String,
+    userId: Number,
+    workPackageId: Number,
   };
 
   static targets = ['journalsContainer', 'buttonRow', 'formRow', 'form'];
@@ -27,22 +29,107 @@ export default class IndexController extends Controller {
   declare intervallId:number;
   declare pollingIntervalInMsValue:number;
   declare filterValue:string;
+  declare userIdValue:number;
+  declare workPackageIdValue:number;
+  declare localStorageKey:string;
 
   connect() {
+    this.setLocalStorageKey();
     this.setLastUpdateTimestamp();
+    this.hideLastPartOfTimeLineStem();
     this.setupEventListeners();
     this.handleInitialScroll();
-    this.intervallId = this.pollForUpdates();
+    this.startPolling();
+    this.populateRescuedEditorContent();
   }
 
   disconnect() {
-    document.removeEventListener('work-package-updated', this.handleWorkPackageUpdate);
-    window.clearInterval(this.intervallId);
+    this.rescueEditorContent();
+    this.removeEventListeners();
+    this.stopPolling();
+  }
+
+  private setLocalStorageKey() {
+    // scoped by user id in order to avoid data leakage when a user logs out and another user logs in on the same browser
+    // TODO: when a user logs out, the data should be removed anyways in order to avoid data leakage
+    this.localStorageKey = `work-package-${this.workPackageIdValue}-rescued-editor-data-${this.userIdValue}`;
   }
 
   private setupEventListeners() {
     this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    this.rescueEditorContent = this.rescueEditorContent.bind(this);
     document.addEventListener('work-package-updated', this.handleWorkPackageUpdate);
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    document.addEventListener('beforeunload', this.rescueEditorContent);
+  }
+
+  private removeEventListeners() {
+    this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    this.rescueEditorContent = this.rescueEditorContent.bind(this);
+    document.removeEventListener('work-package-updated', this.handleWorkPackageUpdate);
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    document.removeEventListener('beforeunload', this.rescueEditorContent);
+  }
+
+  private handleVisibilityChange() {
+    if (document.hidden) {
+      this.stopPolling();
+    } else {
+      this.updateActivitiesList();
+      this.startPolling();
+    }
+  }
+
+  private startPolling() {
+    if (this.intervallId) window.clearInterval(this.intervallId);
+    this.intervallId = this.pollForUpdates();
+  }
+
+  private stopPolling() {
+    window.clearInterval(this.intervallId);
+  }
+
+  private pollForUpdates() {
+    return window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
+  }
+
+  async handleWorkPackageUpdate(event:Event) {
+    setTimeout(() => this.updateActivitiesList(), 2000);
+  }
+
+  async updateActivitiesList() {
+    const url = new URL(this.updateStreamsUrlValue);
+    url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
+    url.searchParams.append('filter', this.filterValue);
+
+    const response = await this.fetchWithCSRF(url, 'GET');
+
+    if (response.ok) {
+      const text = await response.text();
+      Turbo.renderStreamMessage(text);
+      this.setLastUpdateTimestamp();
+      this.hideLastPartOfTimeLineStem();
+    }
+  }
+
+  private rescueEditorContent() {
+    const ckEditorInstance = this.getCkEditorInstance();
+    if (ckEditorInstance) {
+      const data = ckEditorInstance.getData({ trim: false });
+      if (data.length > 0) {
+        localStorage.setItem(this.localStorageKey, data);
+      }
+    }
+  }
+
+  private populateRescuedEditorContent() {
+    const rescuedEditorContent = localStorage.getItem(this.localStorageKey);
+    if (rescuedEditorContent) {
+      this.openEditorWithInitialData(rescuedEditorContent);
+      localStorage.removeItem(this.localStorageKey);
+    }
   }
 
   private handleInitialScroll() {
@@ -66,28 +153,6 @@ export default class IndexController extends Controller {
         scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
       }, 400);
     }
-  }
-
-  async handleWorkPackageUpdate(event:Event) {
-    setTimeout(() => this.updateActivitiesList(), 2000);
-  }
-
-  async updateActivitiesList() {
-    const url = new URL(this.updateStreamsUrlValue);
-    url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
-    url.searchParams.append('filter', this.filterValue);
-
-    const response = await this.fetchWithCSRF(url, 'GET');
-
-    if (response.ok) {
-      const text = await response.text();
-      Turbo.renderStreamMessage(text);
-      this.setLastUpdateTimestamp();
-    }
-  }
-
-  private pollForUpdates() {
-    return window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
   }
 
   setFilterToOnlyComments() { this.filterValue = 'only_comments'; }
@@ -181,13 +246,20 @@ export default class IndexController extends Controller {
     }
   }
 
+  focusEditor() {
+    const ckEditorInstance = this.getCkEditorInstance();
+    if (ckEditorInstance) {
+      setTimeout(() => ckEditorInstance.editing.view.focus(), 10);
+    }
+  }
+
   quote(event:Event) {
     event.preventDefault();
     const target = event.currentTarget as HTMLElement;
     const userName = target.dataset.userNameParam as string;
     const content = target.dataset.contentParam as string;
 
-    this.openEditorWithQuotedText(this.quotedText(content, userName));
+    this.openEditorWithInitialData(this.quotedText(content, userName));
   }
 
   private quotedText(rawComment:string, userName:string) {
@@ -198,7 +270,7 @@ export default class IndexController extends Controller {
     return `${userName}\n${quoted}`;
   }
 
-  openEditorWithQuotedText(quotedText:string) {
+  openEditorWithInitialData(quotedText:string) {
     this.showForm();
     const ckEditorInstance = this.getCkEditorInstance();
     if (ckEditorInstance && ckEditorInstance.getData({ trim: false }).length === 0) {
@@ -253,6 +325,7 @@ export default class IndexController extends Controller {
             this.journalsContainerTarget,
             this.sortingValue === 'asc',
           );
+          this.hideLastPartOfTimeLineStem();
         }, 100);
       }
     }
@@ -272,5 +345,25 @@ export default class IndexController extends Controller {
 
   setLastUpdateTimestamp() {
     this.lastUpdateTimestamp = new Date().toISOString();
+  }
+
+  hideLastPartOfTimeLineStem() {
+    // TODO: I wasn't able to find a pure CSS solution
+    // Didn't want to identify on server-side which element is last in the list in order to avoid n+1 queries
+    // happy to get rid of this hacky JS solution!
+    //
+    // Note: below works but not if filter is changed, skipping for now
+    //
+    // this.element.querySelectorAll('.details-container--empty--last--asc').forEach((container) => container.classList.remove('details-container--empty--last--asc'));
+
+    // const containers = this.element.querySelectorAll('.details-container--empty--asc');
+    // if (containers.length > 0) {
+    //   const lastContainer = containers[containers.length - 1] as HTMLElement;
+    //   // only apply for stem part after comment box
+    //   if (lastContainer?.parentElement?.parentElement?.previousElementSibling?.classList.contains('comment-border-box')) {
+    //     lastContainer.classList.add('details-container--empty--last--asc');
+    //   }
+    //   // lastContainer.classList.add('details-container--empty--last--asc');
+    // }
   }
 }

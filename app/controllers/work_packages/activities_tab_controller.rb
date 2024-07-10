@@ -77,7 +77,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     update_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
         journal: @journal,
-        state: :edit
+        state: :edit,
+        filter: params[:filter]&.to_sym || :all
       )
     )
 
@@ -88,7 +89,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     update_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
         journal: @journal,
-        state: :show
+        state: :show,
+        filter: params[:filter]&.to_sym || :all
       )
     )
 
@@ -105,11 +107,22 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     ###
 
     if call.success? && call.result
+      if call.result.initial?
+        # we need to update the whole item component for an initial journal entry
+        # and not just the show part as happens in the time based update
+        # as this part is not rendered for initial journal
+        update_via_turbo_stream(
+          component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+            journal: call.result,
+            state: :show,
+            filter: params[:filter]&.to_sym || :all
+          )
+        )
+      end
+
       generate_time_based_journal_update_streams(params[:last_update_timestamp], params[:filter])
       generate_time_based_reaction_update_streams(params[:last_update_timestamp])
     end
-
-    # clear_form_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -123,7 +136,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       update_via_turbo_stream(
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
           journal: call.result,
-          state: :show
+          state: :show,
+          filter: params[:filter]&.to_sym || :all
         )
       )
     end
@@ -154,20 +168,20 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def toggle_reaction
-    if @journal.emoji_reactions.exists?(user: User.current, emoji: params[:emoji])
-      call = EmojiReactions::DeleteService.new(
-        user: User.current,
-        model: @journal.emoji_reactions.find_by(user: User.current, emoji: params[:emoji])
-      ).call
-    else
-      call = EmojiReactions::CreateService.new(
-        user: User.current
-      ).call(
-        user: User.current,
-        reactable: @journal,
-        emoji: params[:emoji]
-      )
-    end
+    call = if @journal.emoji_reactions.exists?(user: User.current, emoji: params[:emoji])
+             EmojiReactions::DeleteService.new(
+               user: User.current,
+               model: @journal.emoji_reactions.find_by(user: User.current, emoji: params[:emoji])
+             ).call
+           else
+             EmojiReactions::CreateService.new(
+               user: User.current
+             ).call(
+               user: User.current,
+               reactable: @journal,
+               emoji: params[:emoji]
+             )
+           end
 
     if call.success?
       update_journal_via_turbo_stream(@journal)
@@ -201,22 +215,27 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def generate_time_based_journal_update_streams(last_update_timestamp, filter)
-    # TODO: prototypical implementation!
+    filter = filter&.to_sym || :all
+    # TODO: prototypical implementation
     journals = @work_package.journals
 
-    if filter == "only_comments"
+    if filter == :only_comments
       journals = journals.where.not(notes: "")
-    end
-
-    if filter == "only_changes"
-      journals = journals.where(notes: "")
     end
 
     journals.where("updated_at > ?", last_update_timestamp).find_each do |journal|
       update_via_turbo_stream(
         # only use the show component in order not to loose an edit state
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
-          journal:
+          journal:,
+          filter:
+        )
+      )
+      update_via_turbo_stream(
+        # only use the show component in order not to loose an edit state
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Details.new(
+          journal:,
+          filter:
         )
       )
     end
@@ -224,7 +243,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     latest_journal_visible_for_user = journals.where(created_at: ..last_update_timestamp).last
 
     journals.where("created_at > ?", last_update_timestamp).find_each do |journal|
-      append_or_prepend_latest_journal_via_turbo_stream(journal, latest_journal_visible_for_user)
+      append_or_prepend_latest_journal_via_turbo_stream(journal, latest_journal_visible_for_user, filter)
     end
   end
 
@@ -233,32 +252,36 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     EmojiReaction
       .where(reactable_id: @work_package.journal_ids)
       .where("updated_at > ?", last_update_timestamp).find_each do |reaction|
-        update_via_turbo_stream(
-          component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(
-            journal: reaction.reactable
-          )
+      update_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(
+          journal: reaction.reactable
         )
+      )
     end
   end
 
-  def append_or_prepend_latest_journal_via_turbo_stream(journal, latest_journal)
+  def append_or_prepend_latest_journal_via_turbo_stream(journal, latest_journal, filter)
     if latest_journal.created_at.to_date == journal.created_at.to_date
       target_component = WorkPackages::ActivitiesTab::Journals::DayComponent.new(
         work_package: @work_package,
         day_as_date: journal.created_at.to_date,
-        journals: [journal] # we don't need to pass all actual journals of this day as we do not really render this component
+        journals: [journal], # we don't need to pass all actual journals of this day as we do not really render this component
+        filter:
       )
       component = WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-        journal:
+        journal:,
+        filter:
       )
     else
       target_component = WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
-        work_package: @work_package
+        work_package: @work_package,
+        filter:
       )
       component = WorkPackages::ActivitiesTab::Journals::DayComponent.new(
         work_package: @work_package,
         day_as_date: journal.created_at.to_date,
-        journals: [journal]
+        journals: [journal],
+        filter:
       )
     end
     stream_config = {
@@ -272,19 +295,5 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     else
       prepend_via_turbo_stream(**stream_config)
     end
-  end
-
-  def update_journal_via_turbo_stream(journal)
-    update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:)
-    )
-  end
-
-  def clear_form_via_turbo_stream
-    update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::Journals::NewComponent.new(
-        work_package: @work_package
-      )
-    )
   end
 end

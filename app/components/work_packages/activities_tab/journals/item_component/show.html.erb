@@ -3,27 +3,18 @@
     if journal.notes.present? || (journal.details.any? && !journal.initial?)
       flex_layout do |journal_container|
         if journal.notes.present?
-          journal_container.with_row(mt: 3) do
+          journal_container.with_row do
             render(Primer::Box.new(mt: 1)) do
               format_text(journal, :notes)
             end
           end
-        end
-        if journal.details.any? && !journal.initial?
-          journal_container.with_row(flex_layout: true, border_radius: 2, p: 3, my: 3, bg: :subtle) do |details_container|
-            journal.details.each do |detail|
-              details_container.with_row(mt: 1, font_size: :small) do
-                render(Primer::Beta::Text.new) { journal.render_detail(detail) }
-              end
+          journal_container.with_row(mt: 3, flex_layout: true) do |reactions_container|
+            reactions_container.with_column do
+              render(WorkPackages::ActivitiesTab::Journals::ItemComponent::AddReactions.new(journal:))
             end
-          end
-        end
-        journal_container.with_row(mt: 3, flex_layout: true) do |reactions_container|
-          reactions_container.with_column do
-            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::AddReactions.new(journal:))
-          end
-          reactions_container.with_column do
-            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(journal:))
+            reactions_container.with_column do
+              render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(journal:))
+            end
           end
         end
       end

@@ -5,7 +5,7 @@
         journals_grouped_by_day.each do |day, journals|
           journals_index_container.with_row do
             render(
-              WorkPackages::ActivitiesTab::Journals::DayComponent.new(day_as_date: day, journals:, work_package:)
+              WorkPackages::ActivitiesTab::Journals::DayComponent.new(day_as_date: day, journals:, work_package:, filter:)
             )
           end
         end

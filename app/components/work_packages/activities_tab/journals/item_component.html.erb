@@ -1,72 +1,79 @@
 <%=
-  component_wrapper(data: wrapper_data_attributes) do
-    render(Primer::Box.new(id: "activity-#{journal.version}", border: true, border_radius: 2, p: 3, my: 2)) do
-      flex_layout do |journal_container|
-        journal_container.with_row(flex_layout: true, align_items: :center, justify_content: :space_between) do |header_container|
-          header_container.with_column(flex_layout: true) do |header_start_container|
-            header_start_container.with_column(mr: 2) do
-              render Users::AvatarComponent.new(user: journal.user, show_name: false)
-            end
-            header_start_container.with_column(flex_layout: true) do |header_text_container|
-              header_text_container.with_row do
-                render(Primer::Beta::Link.new(
-                  href: user_url(journal.user),
-                  target: "_blank",
-                  scheme: :primary,
-                  underline: false, 
-                  font_weight: :bold
-                )) do
-                  journal.user.name
-                end
-              end
-              header_text_container.with_row(flex_layout: true) do |header_text_timestamp_container|
-                header_text_timestamp_container.with_column(mr: 1) do
-                  render(Primer::Beta::Text.new(color: :subtle, mt: 1, font_size: :small)) do
-                    if updated?
-                      I18n.t("attributes.updated_at")
+  component_wrapper(data: wrapper_data_attributes, class: "work-packages-activities-tab-journals-item-component") do
+    flex_layout do |journal_container|
+      if show_comment_container?
+        journal_container.with_row(classes: "comment-border-box") do
+          render(border_box_container(id: "activity-#{journal.version}", padding: :condensed)) do |border_box_component|
+            border_box_component.with_header(px: 2, py: 0) do
+              flex_layout(align_items: :center, justify_content: :space_between) do |header_container|
+                header_container.with_column(flex_layout: true) do |header_start_container|
+                  header_start_container.with_column(mr: 2) do
+                    render Users::AvatarComponent.new(user: journal.user, show_name: false, size: :mini)
+                  end
+                  header_start_container.with_column(mr: 1) do
+                    render(Primer::Beta::Link.new(
+                      href: user_url(journal.user),
+                      target: "_blank",
+                      scheme: :primary,
+                      underline: false, 
+                      font_weight: :bold
+                    )) do
+                      journal.user.name
+                    end
+                  end
+                  header_start_container.with_column(mr: 1, classes: "hidden-for-mobile") do
+                    if journal.initial?
+                      render(Primer::Beta::Text.new(color: :subtle, mt: 1)) do
+                        t("activities.work_packages.activity_tab.created_on")
+                      end
                     else
-                      I18n.t("attributes.created_at")
+                      render(Primer::Beta::Text.new(color: :subtle, mt: 1)) do
+                        t("activities.work_packages.activity_tab.commented_on")
+                      end
+                    end
+                  end
+                  header_start_container.with_column(mr: 1) do
+                    render(Primer::Beta::Text.new(color: :subtle, mt: 1)) { format_time(journal.updated_at) }
+                  end
+                end
+                header_container.with_column(flex_layout: true, align_items: :center) do |header_end_container|
+                  if has_unread_notifications?
+                    header_end_container.with_column(mr: 2, pt: 1) do
+                      bubble_html
+                    end
+                  end
+                  header_end_container.with_column do
+                    render(Primer::Beta::Link.new(
+                      href: activity_anchor,
+                      scheme: :secondary,
+                      underline: false, 
+                      font_size: :small,
+                      data: { turbo: false }
+                    )) do
+                      "##{journal.version}"
+                    end
+                  end
+                  header_end_container.with_column(ml: 2) do
+                    render(Primer::Alpha::ActionMenu.new) do |menu|
+                      menu.with_show_button(icon: "kebab-horizontal",
+                                            'aria-label': I18n.t(:button_actions),
+                                            scheme: :invisible)
+                      copy_url_action_item(menu)
+                      edit_action_item(menu) if editable?
+                      quote_action_item(menu) if journal.notes.present?
                     end
                   end
                 end
-                header_text_timestamp_container.with_column do
-                  render(Primer::Beta::Text.new(color: :subtle, mt: 1, font_size: :small)) { format_time(journal.updated_at) }
-                end
               end
             end
-          end
-          header_container.with_column(flex_layout: true, align_items: :center) do |header_end_container|
-            if has_unread_notifications?
-              header_end_container.with_column(mr: 2, pt: 1) do
-                bubble_html
-              end
-            end
-            header_end_container.with_column do
-              render(Primer::Beta::Link.new(
-                href: activity_anchor,
-                scheme: :secondary,
-                underline: false, 
-                font_size: :small,
-                data: { turbo: false }
-              )) do
-                "##{journal.version}"
-              end
-            end
-            header_end_container.with_column(ml: 2) do
-              render(Primer::Alpha::ActionMenu.new) do |menu|
-                menu.with_show_button(icon: "kebab-horizontal",
-                                      'aria-label': I18n.t(:button_actions),
-                                      scheme: :invisible)
-                copy_url_action_item(menu)
-                edit_action_item(menu) if editable?
-                quote_action_item(menu) if journal.notes.present?
-              end
+            border_box_component.with_body do
+              content
             end
           end
         end
-        journal_container.with_row do
-          content
-        end
+      end
+      journal_container.with_row do
+        render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Details.new(journal:, has_unread_notifications: notification_on_details?, filter:))
       end
     end
   end
