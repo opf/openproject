@@ -43,11 +43,12 @@ import { ZenModeButtonComponent } from 'core-app/features/work-packages/componen
 import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 import { of } from 'rxjs';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
+import { WorkPackageHierarchiesToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-hierarchies-toggle-button/wp-hierarchies-toggle-button.component';
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 import { OpBaselineModalComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-modal/baseline-modal.component';
 
 @Component({
-  selector: 'wp-view-page',
+  selector: 'op-wp-view-page',
   templateUrl: '../partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
     // Absolute paths do not work for styleURLs :-(
@@ -82,6 +83,10 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     {
       component: WorkPackageFoldToggleButtonComponent,
       show: () => !!(this.currentQuery && this.currentQuery.groupBy),
+    },
+    {
+      component: WorkPackageHierarchiesToggleButtonComponent,
+      show: () => !!(this.currentQuery && this.currentQuery.showHierarchies),
     },
     {
       component: WorkPackageDetailsViewButtonComponent,
