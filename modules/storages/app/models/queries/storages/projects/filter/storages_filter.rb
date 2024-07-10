@@ -42,10 +42,8 @@ module Queries::Storages::Projects::Filter
     end
 
     def allowed_values
-      @allowed_values ||= Storages::ProjectStorage
-                            .includes(:storage)
-                            .distinct
-                            .pluck(:name, :storage_id)
+      @allowed_values ||= Storages::Storage
+                            .pluck(:name, :id)
     end
 
     def available?
