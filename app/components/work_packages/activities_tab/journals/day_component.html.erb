@@ -9,7 +9,7 @@
           journals.each do |journal|
             journals_of_day_container.with_row do
               render(
-                WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:)
+                WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:)
               )
             end
           end

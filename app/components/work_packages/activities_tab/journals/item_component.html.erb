@@ -1,8 +1,8 @@
 <%=
   component_wrapper(data: wrapper_data_attributes, class: "work-packages-activities-tab-journals-item-component") do
     flex_layout do |journal_container|
-      if journal.notes.present?
-        journal_container.with_row do
+      if show_comment_container?
+        journal_container.with_row(classes: "comment-border-box") do
           render(border_box_container(id: "activity-#{journal.version}", padding: :condensed)) do |border_box_component|
             border_box_component.with_header(px: 2, py: 0) do
               flex_layout(align_items: :center, justify_content: :space_between) do |header_container|
@@ -73,7 +73,7 @@
         end
       end
       journal_container.with_row do
-        render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Details.new(journal:, has_unread_notifications: notification_on_details?))
+        render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Details.new(journal:, has_unread_notifications: notification_on_details?, filter:))
       end
     end
   end

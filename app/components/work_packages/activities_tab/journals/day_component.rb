@@ -36,17 +36,18 @@ module WorkPackages
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(day_as_date:, journals:, work_package:)
+        def initialize(day_as_date:, journals:, work_package:, filter:)
           super
 
           @work_package = work_package
           @day_as_date = day_as_date
           @journals = journals
+          @filter = filter
         end
 
         private
 
-        attr_reader :work_package, :day_as_date, :journals
+        attr_reader :work_package, :day_as_date, :journals, :filter
 
         def insert_target_modified?
           true

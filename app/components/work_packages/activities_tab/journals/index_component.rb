@@ -63,7 +63,6 @@ module WorkPackages
           result = work_package.journals.includes(:user, :notifications).reorder(version: journal_sorting)
 
           result = result.where.not(notes: "") if filter == :only_comments
-          result = result.where(notes: "") if filter == :only_changes
 
           result.group_by { |journal| journal.created_at.in_time_zone(User.current.time_zone).to_date }
         end

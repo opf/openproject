@@ -347,12 +347,19 @@ export default class IndexController extends Controller {
     // TODO: I wasn't able to find a pure CSS solution
     // Didn't want to identify on server-side which element is last in the list in order to avoid n+1 queries
     // happy to get rid of this hacky JS solution!
-    this.element.querySelectorAll('.details-container--empty--last--asc').forEach((container) => container.classList.remove('details-container--empty--last--asc'));
+    //
+    // Note: below works but not if filter is changed, skipping for now
+    //
+    // this.element.querySelectorAll('.details-container--empty--last--asc').forEach((container) => container.classList.remove('details-container--empty--last--asc'));
 
-    const containers = this.element.querySelectorAll('.details-container--empty--asc');
-    if (containers.length > 0) {
-      const lastContainer = containers[containers.length - 1] as HTMLElement;
-      lastContainer.classList.add('details-container--empty--last--asc');
-    }
+    // const containers = this.element.querySelectorAll('.details-container--empty--asc');
+    // if (containers.length > 0) {
+    //   const lastContainer = containers[containers.length - 1] as HTMLElement;
+    //   // only apply for stem part after comment box
+    //   if (lastContainer?.parentElement?.parentElement?.previousElementSibling?.classList.contains('comment-border-box')) {
+    //     lastContainer.classList.add('details-container--empty--last--asc');
+    //   }
+    //   // lastContainer.classList.add('details-container--empty--last--asc');
+    // }
   }
 }
