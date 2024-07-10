@@ -124,7 +124,7 @@ module WorkPackages
                 details_container_inner.with_row(flex_layout: true, my: 1, align_items: :flex_start) do |detail_container|
                   detail_container.with_column(classes: "detail-stem-line")
                   detail_container.with_column(pl: 1, font_size: :small) do
-                    render(Primer::Beta::Text.new) { journal.render_detail(detail) }
+                    render(Primer::Beta::Text.new(classes: "detail-description")) { journal.render_detail(detail) }
                   end
                 end
               end
