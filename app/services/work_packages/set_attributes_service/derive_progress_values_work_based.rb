@@ -33,64 +33,43 @@ class WorkPackages::SetAttributesService
     def derive_progress_attributes
       raise ArgumentError, "Cannot use #{self.class.name} in status-based mode" if WorkPackage.status_based_mode?
 
-      update_work
-      update_remaining_work
-      update_percent_complete
-    end
+      # do not change anything if some values are invalid: this will be detected
+      # by the contract and errors will be set.
+      return if invalid_progress_values?
 
-    # Compute and update +percent_complete+ if its dependent attributes are being modified.
-    # The dependent attributes for +percent_complete+ are
-    # - +work+
-    # - +remaining_work+
-    #
-    # Unless both +remaining_work+ and +work+ are set, +percent_complete+ will be
-    # considered nil.
-    def update_percent_complete
-      return unless remaining_work_changed? || work_changed?
-      return if remaining_work_came_from_user? && work_came_from_user? && (work_unset? || remaining_work_unset?)
-      return if work_unset?
-      return if work&.negative?
-
-      self.percent_complete = if remaining_work_unset?
-                                nil
-                              else
-                                compute_percent_complete
-                              end
-    end
-
-    def compute_percent_complete
-      # do not change % complete if the progress values are invalid
-      return percent_complete if invalid_progress_values?
-      return nil if work.zero?
-
-      completed_work = work - remaining_work
-      completion_ratio = completed_work.to_f / work
-
-      (completion_ratio * 100).round
+      update_work if derive_work?
+      update_remaining_work if derive_remaining_work?
+      update_percent_complete if derive_percent_complete?
     end
 
     def invalid_progress_values?
-      return true if work.negative?
-      return true if remaining_work.negative?
+      work&.negative? \
+        || remaining_work&.negative? \
+        || remaining_work_set_greater_than_work? \
+        || work_and_remaining_exclusively_unset?
+    end
 
-      work && remaining_work && remaining_work > work
+    def derive_work?
+      (remaining_work_changed? || percent_complete_changed?) && !work_came_from_user?
+    end
+
+    def derive_remaining_work?
+      (work_changed? || percent_complete_changed?) && !remaining_work_came_from_user?
+    end
+
+    def derive_percent_complete?
+      (work_changed? || remaining_work_changed?) && !percent_complete_came_from_user?
     end
 
     def update_work
-      return if work_came_from_user?
-      return unless remaining_work_changed? || percent_complete_changed?
-
       return if work.present? && !(remaining_work_changed? && percent_complete_changed?)
-      return if remaining_work_unset? || remaining_work.negative?
+      return if remaining_work_unset?
 
       self.work = work_from_percent_complete_and_remaining_work
     end
 
     # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     def update_remaining_work
-      return unless work_changed? || percent_complete_changed?
-      return if remaining_work_came_from_user?
-      return if work&.negative?
       return if work_unset? && percent_complete_unset?
       return if work_was_unset? && remaining_work_set? # remaining work is kept and % complete will be set
 
@@ -107,9 +86,38 @@ class WorkPackages::SetAttributesService
     end
     # rubocop:enable Metrics/AbcSize,Metrics/PerceivedComplexity
 
+    def update_percent_complete
+      return if work_unset?
+
+      self.percent_complete = percent_complete_from_work_and_remaining_work
+    end
+
+    def percent_complete_from_work_and_remaining_work
+      return nil if work.zero? || remaining_work_unset?
+
+      completed_work = work - remaining_work
+      completion_ratio = completed_work.to_f / work
+
+      (completion_ratio * 100).round
+    end
+
     def work_from_percent_complete_and_remaining_work
       remaining_percent_complete = 1.0 - ((percent_complete || 0) / 100.0)
       remaining_work / remaining_percent_complete
+    end
+
+    def remaining_work_set_greater_than_work?
+      attributes_from_user == %i[remaining_work] && work && remaining_work && remaining_work > work
+    end
+
+    # Returns true if work is set and remaining_work is unset, or if work is
+    # unset and remaining_work is set.
+    def work_and_remaining_exclusively_unset?
+      remaining_work_came_from_user? && work_came_from_user? && (work_unset? || remaining_work_unset?)
+    end
+
+    def attributes_from_user
+      @attributes_from_user ||= PROGRESS_ATTRIBUTES.filter { |attr| public_send(:"#{attr}_came_from_user?") }
     end
   end
 end
