@@ -46,9 +46,9 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     it description do
-      work_package.attributes = updated_attributes
+      work_package.attributes = set_attributes
       all_expected_attributes = {}
-      all_expected_attributes.merge!(expected_attributes) if defined?(expected_attributes)
+      all_expected_attributes.merge!(expected_derived_attributes) if defined?(expected_derived_attributes)
       if defined?(expected_kept_attributes)
         kept = work_package.attributes.slice(*expected_kept_attributes)
         if kept.size != expected_kept_attributes.size
@@ -79,30 +79,30 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is unset" do
-      let(:updated_attributes) { { estimated_hours: nil } }
-      let(:expected_attributes) { { remaining_hours: nil, done_ratio: nil } }
+      let(:set_attributes) { { estimated_hours: nil } }
+      let(:expected_derived_attributes) { { remaining_hours: nil, done_ratio: nil } }
 
       include_examples "update progress values", description: "unsets remaining work and % complete"
     end
 
     context "when remaining work is unset" do
-      let(:updated_attributes) { { remaining_hours: nil } }
-      let(:expected_attributes) { { estimated_hours: 10.0, done_ratio: nil } }
+      let(:set_attributes) { { remaining_hours: nil } }
+      let(:expected_derived_attributes) { { estimated_hours: 10.0, done_ratio: nil } }
 
       include_examples "update progress values", description: "keeps work, and unsets % complete"
     end
 
     context "when both work and remaining work are unset" do
-      let(:updated_attributes) { { estimated_hours: nil, remaining_hours: nil } }
-      let(:expected_attributes) { { done_ratio: nil } }
+      let(:set_attributes) { { estimated_hours: nil, remaining_hours: nil } }
+      let(:expected_derived_attributes) { { done_ratio: nil } }
 
       include_examples "update progress values", description: "unsets % complete"
     end
 
     context "when work is increased" do
       # work changed by +10h
-      let(:updated_attributes) { { estimated_hours: 10.0 + 10.0 } }
-      let(:expected_attributes) do
+      let(:set_attributes) { { estimated_hours: 10.0 + 10.0 } }
+      let(:expected_derived_attributes) do
         { remaining_hours: 3.0 + 10.0, done_ratio: 35 }
       end
 
@@ -111,8 +111,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is set to 0h" do
-      let(:updated_attributes) { { estimated_hours: 0 } }
-      let(:expected_attributes) do
+      let(:set_attributes) { { estimated_hours: 0 } }
+      let(:expected_derived_attributes) do
         { remaining_hours: 0, done_ratio: nil }
       end
 
@@ -122,8 +122,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
     context "when work is decreased" do
       # work changed by -2h
-      let(:updated_attributes) { { estimated_hours: 10.0 - 2.0 } }
-      let(:expected_attributes) do
+      let(:set_attributes) { { estimated_hours: 10.0 - 2.0 } }
+      let(:expected_derived_attributes) do
         { remaining_hours: 3.0 - 2.0, done_ratio: 87 }
       end
 
@@ -133,8 +133,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
     context "when work is decreased below remaining work value" do
       # work changed by -8h
-      let(:updated_attributes) { { estimated_hours: 10.0 - 8.0 } }
-      let(:expected_attributes) do
+      let(:set_attributes) { { estimated_hours: 10.0 - 8.0 } }
+      let(:expected_derived_attributes) do
         { remaining_hours: 0, done_ratio: 100 }
       end
 
@@ -143,7 +143,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is changed to a negative value" do
-      let(:updated_attributes) { { estimated_hours: -1.0 } }
+      let(:set_attributes) { { estimated_hours: -1.0 } }
       let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
 
       include_examples "update progress values",
@@ -152,15 +152,15 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when remaining work is changed" do
-      let(:updated_attributes) { { remaining_hours: 2 } }
-      let(:expected_attributes) { { done_ratio: 80 } }
+      let(:set_attributes) { { remaining_hours: 2 } }
+      let(:expected_derived_attributes) { { done_ratio: 80 } }
       let(:expected_kept_attributes) { %w[estimated_hours] }
 
       include_examples "update progress values", description: "updates % complete accordingly"
     end
 
     context "when work and remaining work are both changed to negative values" do
-      let(:updated_attributes) { { estimated_hours: -10, remaining_hours: -5 } }
+      let(:set_attributes) { { estimated_hours: -10, remaining_hours: -5 } }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
@@ -168,15 +168,15 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work and remaining work are both changed to values with more than 2 decimals" do
-      let(:updated_attributes) { { estimated_hours: 10.123456, remaining_hours: 5.6789 } }
-      let(:expected_attributes) { { estimated_hours: 10.12, remaining_hours: 5.68, done_ratio: 43 } }
+      let(:set_attributes) { { estimated_hours: 10.123456, remaining_hours: 5.6789 } }
+      let(:expected_derived_attributes) { { estimated_hours: 10.12, remaining_hours: 5.68, done_ratio: 43 } }
 
       include_examples "update progress values", description: "rounds work and remaining work to 2 decimals " \
                                                               "and updates % complete accordingly"
     end
 
     context "when remaining work is changed to a value greater than work" do
-      let(:updated_attributes) { { remaining_hours: 200.0 } }
+      let(:set_attributes) { { remaining_hours: 200.0 } }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
@@ -184,7 +184,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when remaining work is changed to a negative value" do
-      let(:updated_attributes) { { remaining_hours: -1.0 } }
+      let(:set_attributes) { { remaining_hours: -1.0 } }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
@@ -192,15 +192,15 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when both work and remaining work are changed" do
-      let(:updated_attributes) { { estimated_hours: 20, remaining_hours: 2 } }
-      let(:expected_attributes) { updated_attributes.merge(done_ratio: 90) }
+      let(:set_attributes) { { estimated_hours: 20, remaining_hours: 2 } }
+      let(:expected_derived_attributes) { set_attributes.merge(done_ratio: 90) }
 
       include_examples "update progress values", description: "updates % complete accordingly"
     end
 
     context "when work is changed and remaining work is unset" do
-      let(:updated_attributes) { { estimated_hours: 8.0, remaining_hours: nil } }
-      let(:expected_attributes) { updated_attributes.dup }
+      let(:set_attributes) { { estimated_hours: 8.0, remaining_hours: nil } }
+      let(:expected_derived_attributes) { set_attributes.dup }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
@@ -210,8 +210,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
     context "when work is increased and remaining work is set to its current value (to prevent it from being increased)" do
       # work changed by +10h
-      let(:updated_attributes) { { estimated_hours: 10.0 + 10.0, remaining_hours: 3 } }
-      let(:expected_attributes) { { remaining_hours: 3.0, done_ratio: 85 } }
+      let(:set_attributes) { { estimated_hours: 10.0 + 10.0, remaining_hours: 3 } }
+      let(:expected_derived_attributes) { { remaining_hours: 3.0, done_ratio: 85 } }
 
       include_examples "update progress values",
                        description: "remaining work is kept (not increased), and % complete is updated accordingly"
@@ -227,15 +227,15 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is changed" do
-      let(:updated_attributes) { { estimated_hours: 20.0 } }
-      let(:expected_attributes) { { remaining_hours: 14.0 } }
+      let(:set_attributes) { { estimated_hours: 20.0 } }
+      let(:expected_derived_attributes) { { remaining_hours: 14.0 } }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values", description: "% complete is kept and remaining work is updated accordingly"
     end
 
     context "when work is changed to a negative value" do
-      let(:updated_attributes) { { estimated_hours: -1.0 } }
+      let(:set_attributes) { { estimated_hours: -1.0 } }
       let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
 
       include_examples "update progress values",
@@ -244,8 +244,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when remaining work is set" do
-      let(:updated_attributes) { { remaining_hours: 1.0 } }
-      let(:expected_attributes) { updated_attributes.merge(done_ratio: 90.0) }
+      let(:set_attributes) { { remaining_hours: 1.0 } }
+      let(:expected_derived_attributes) { set_attributes.merge(done_ratio: 90.0) }
       let(:expected_kept_attributes) { %w[estimated_hours] }
 
       include_examples "update progress values", description: "work is kept and % complete is updated accordingly"
@@ -261,16 +261,16 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when remaining work is changed" do
-      let(:updated_attributes) { { remaining_hours: 10.0 } }
-      let(:expected_attributes) { updated_attributes.merge(estimated_hours: 20.0) }
+      let(:set_attributes) { { remaining_hours: 10.0 } }
+      let(:expected_derived_attributes) { set_attributes.merge(estimated_hours: 20.0) }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values", description: "% complete is kept and work is updated accordingly"
     end
 
     context "when % complete is 0% and remaining work is changed to a decimal rounded up" do
-      let(:updated_attributes) { { remaining_hours: 5.679 } }
-      let(:expected_attributes) { { estimated_hours: 5.68, remaining_hours: 5.68 } }
+      let(:set_attributes) { { remaining_hours: 5.679 } }
+      let(:expected_derived_attributes) { { estimated_hours: 5.68, remaining_hours: 5.68 } }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       before do
@@ -283,8 +283,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is set" do
-      let(:updated_attributes) { { estimated_hours: 10.0 } }
-      let(:expected_attributes) { updated_attributes.merge(done_ratio: 80.0) }
+      let(:set_attributes) { { estimated_hours: 10.0 } }
+      let(:expected_derived_attributes) { set_attributes.merge(done_ratio: 80.0) }
       let(:expected_kept_attributes) { %w[remaining_hours] }
 
       include_examples "update progress values", description: "remaining work is kept and % complete is updated accordingly"
@@ -300,16 +300,16 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is changed" do
-      let(:updated_attributes) { { estimated_hours: 20.0 } }
-      let(:expected_attributes) { { remaining_hours: 20.0, done_ratio: 0 } }
+      let(:set_attributes) { { estimated_hours: 20.0 } }
+      let(:expected_derived_attributes) { { remaining_hours: 20.0, done_ratio: 0 } }
 
       include_examples "update progress values",
                        description: "remaining work is set to the same value and % complete is set to 0%"
     end
 
     context "when work is changed and remaining work is unset" do
-      let(:updated_attributes) { { estimated_hours: 10.0, remaining_hours: nil } }
-      let(:expected_attributes) { updated_attributes.dup }
+      let(:set_attributes) { { estimated_hours: 10.0, remaining_hours: nil } }
+      let(:expected_derived_attributes) { set_attributes.dup }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
@@ -318,7 +318,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is changed to a negative value" do
-      let(:updated_attributes) { { estimated_hours: -1.0 } }
+      let(:set_attributes) { { estimated_hours: -1.0 } }
       let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
 
       include_examples "update progress values",
@@ -336,8 +336,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is set" do
-      let(:updated_attributes) { { estimated_hours: 10.0 } }
-      let(:expected_attributes) { { done_ratio: 40 } }
+      let(:set_attributes) { { estimated_hours: 10.0 } }
+      let(:expected_derived_attributes) { { done_ratio: 40 } }
       let(:expected_kept_attributes) { %w[remaining_hours] }
 
       include_examples "update progress values",
@@ -345,7 +345,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is changed to a negative value" do
-      let(:updated_attributes) { { estimated_hours: -1.0 } }
+      let(:set_attributes) { { estimated_hours: -1.0 } }
       let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
 
       include_examples "update progress values",
@@ -354,15 +354,15 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when remaining work is changed" do
-      let(:updated_attributes) { { remaining_hours: 12.0 } }
-      let(:expected_attributes) { { estimated_hours: 12.0, done_ratio: 0 } }
+      let(:set_attributes) { { remaining_hours: 12.0 } }
+      let(:expected_derived_attributes) { { estimated_hours: 12.0, done_ratio: 0 } }
 
       include_examples "update progress values",
                        description: "work is set to the same value and % complete is set to 0%"
     end
 
     context "when remaining work is changed to a negative value" do
-      let(:updated_attributes) { { remaining_hours: -1.0 } }
+      let(:set_attributes) { { remaining_hours: -1.0 } }
       let(:expected_kept_attributes) { %w[estimated_hours done_ratio] }
 
       include_examples "update progress values",
@@ -380,16 +380,16 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is set" do
-      let(:updated_attributes) { { estimated_hours: 10.0 } }
-      let(:expected_attributes) { { remaining_hours: 4.0 } }
+      let(:set_attributes) { { estimated_hours: 10.0 } }
+      let(:expected_derived_attributes) { { remaining_hours: 4.0 } }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values", description: "% complete is kept and remaining work is updated accordingly"
     end
 
     context "when work is set to a number with with 4 decimals" do
-      let(:updated_attributes) { { estimated_hours: 2.5678 } }
-      let(:expected_attributes) { { estimated_hours: 2.57, remaining_hours: 1.03 } }
+      let(:set_attributes) { { estimated_hours: 2.5678 } }
+      let(:expected_derived_attributes) { { estimated_hours: 2.57, remaining_hours: 1.03 } }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
@@ -398,12 +398,12 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is set to a string" do
-      let(:updated_attributes) { { estimated_hours: "I am a string" } }
-      let(:expected_attributes) { { estimated_hours: 0.0, remaining_hours: 0.0 } }
+      let(:set_attributes) { { estimated_hours: "I am a string" } }
+      let(:expected_derived_attributes) { { estimated_hours: 0.0, remaining_hours: 0.0 } }
 
       it "keeps the original string value in the _before_type_cast method " \
          "so that validation can detect it is invalid" do
-        work_package.attributes = updated_attributes
+        work_package.attributes = set_attributes
         instance.call
 
         expect(work_package.estimated_hours_before_type_cast).to eq("I am a string")
@@ -411,15 +411,15 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work and remaining work are set" do
-      let(:updated_attributes) { { estimated_hours: 10.0, remaining_hours: 0 } }
-      let(:expected_attributes) { updated_attributes.merge(done_ratio: 100) }
+      let(:set_attributes) { { estimated_hours: 10.0, remaining_hours: 0 } }
+      let(:expected_derived_attributes) { set_attributes.merge(done_ratio: 100) }
 
       include_examples "update progress values", description: "% complete is updated accordingly"
     end
 
     context "when work is set and remaining work is unset" do
-      let(:updated_attributes) { { estimated_hours: 10.0, remaining_hours: nil } }
-      let(:expected_attributes) { updated_attributes.dup }
+      let(:set_attributes) { { estimated_hours: 10.0, remaining_hours: nil } }
+      let(:expected_derived_attributes) { set_attributes.dup }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
@@ -428,7 +428,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work and remaining work are both set to negative values" do
-      let(:updated_attributes) { { estimated_hours: -10, remaining_hours: -5 } }
+      let(:set_attributes) { { estimated_hours: -10, remaining_hours: -5 } }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
@@ -445,8 +445,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is set" do
-      let(:updated_attributes) { { estimated_hours: 10.0 } }
-      let(:expected_attributes) do
+      let(:set_attributes) { { estimated_hours: 10.0 } }
+      let(:expected_derived_attributes) do
         { remaining_hours: 10.0, done_ratio: 0 }
       end
 
@@ -455,7 +455,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when work is set to a negative value" do
-      let(:updated_attributes) { { estimated_hours: -1.0 } }
+      let(:set_attributes) { { estimated_hours: -1.0 } }
       let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
 
       include_examples "update progress values",
@@ -464,14 +464,14 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when remaining work is set" do
-      let(:updated_attributes) { { remaining_hours: 10.0 } }
-      let(:expected_attributes) { { estimated_hours: 10.0, done_ratio: 0 } }
+      let(:set_attributes) { { remaining_hours: 10.0 } }
+      let(:expected_derived_attributes) { { estimated_hours: 10.0, done_ratio: 0 } }
 
       include_examples "update progress values", description: "work is set to the same value and % complete is set to 0%"
     end
 
     context "when remaining work is set to a negative value" do
-      let(:updated_attributes) { { remaining_hours: -1.0 } }
+      let(:set_attributes) { { remaining_hours: -1.0 } }
       let(:expected_kept_attributes) { %w[estimated_hours done_ratio] }
 
       include_examples "update progress values",
@@ -480,8 +480,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
 
     context "when remaining work is set and work is unset" do
-      let(:updated_attributes) { { estimated_hours: nil, remaining_hours: 6.7 } }
-      let(:expected_attributes) { updated_attributes.dup }
+      let(:set_attributes) { { estimated_hours: nil, remaining_hours: 6.7 } }
+      let(:expected_derived_attributes) { set_attributes.dup }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
