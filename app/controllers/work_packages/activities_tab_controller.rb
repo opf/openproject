@@ -203,6 +203,12 @@ class WorkPackages::ActivitiesTabController < ApplicationController
           journal:
         )
       )
+      update_via_turbo_stream(
+        # only use the show component in order not to loose an edit state
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Details.new(
+          journal:
+        )
+      )
     end
 
     latest_journal_visible_for_user = journals.where(created_at: ..last_update_timestamp).last
