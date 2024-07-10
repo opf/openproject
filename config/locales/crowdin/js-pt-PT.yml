@@ -905,6 +905,11 @@ pt-PT:
       preformatted_text: "Texto pré-formatado"
       wiki_link: "Link para uma página Wiki"
       image: "Imagem"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Mudança em massa de projeto"
@@ -1020,6 +1025,7 @@ pt-PT:
         assigned_to_me: "Atribuído a mim"
         recently_created: "Criado recentemente"
         all_open: "Tudo aberto"
+        overdue: "Overdue"
         summary: "Resumo"
         shared_with_users: "Partilhado com utilizadores"
         shared_with_me: "Partilhados comigo"
@@ -1060,12 +1066,8 @@ pt-PT:
         is_parent: "As datas deste pacote de trabalho são deduzidas automaticamente dos seus filhos. Ative o 'Agendamento manual' para definir as datas."
         is_switched_from_manual_to_automatic: "As datas deste pacote de trabalho podem precisar de ser recalculadas após mudar de agendamento manual para automático, devido a relações com outros pacotes de trabalho."
       sharing:
-        share: "Partilhe"
         title: "Partilhar pacote de trabalho"
         show_all_users: "Mostrar todos os utilizadores com quem o pacote de trabalho foi partilhado"
-        selected_count: "%{count} selecionado"
-        selection:
-          mixed: "Misturado"
         upsale:
           description: "Partilhe pacotes de trabalho com utilizadores que não são membros do projeto."
       table:

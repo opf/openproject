@@ -56,6 +56,7 @@ class Member < ApplicationRecord
          :of_any_project,
          :of_work_package,
          :of_any_work_package,
+         :of_entity,
          :of_any_entity,
          :of_anything_in_project,
          :visible,

@@ -905,6 +905,11 @@ hu:
       preformatted_text: "Előre formázott szöveg"
       wiki_link: "Linket egy Wiki oldalhoz"
       image: "Kép"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "A projekt tömeges megváltoztatása"
@@ -1020,6 +1025,7 @@ hu:
         assigned_to_me: "Hozzám rendelt"
         recently_created: "Nemrégiben létrehozott"
         all_open: "Nyitottak"
+        overdue: "Overdue"
         summary: "Összegzés"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
@@ -1060,12 +1066,8 @@ hu:
         is_parent: "A munkacsomag dátumait automatikusan levezetik a gyermekeiből. A dátumok beállításához aktiválja a „Kézi ütemezést”"
         is_switched_from_manual_to_automatic: "Ennek a munkacsomagnak a dátumait újra kell kalkulálni, miután a kézi üzemmódról az automatikus ütemezésre váltott, más munkacsomagokkal való kapcsolat miatt.\n"
       sharing:
-        share: "Megosztás"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

@@ -905,6 +905,11 @@ ja:
       preformatted_text: "整形済みテキスト"
       wiki_link: "Wikiページにリンクする"
       image: "画像"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "プロジェクトの一括変更"
@@ -1020,6 +1025,7 @@ ja:
         assigned_to_me: "私に割り当てられた"
         recently_created: "最近作成された"
         all_open: "未完了"
+        overdue: "Overdue"
         summary: "サマリ"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
@@ -1060,12 +1066,8 @@ ja:
         is_parent: "このワークパッケージの日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。"
         is_switched_from_manual_to_automatic: "他のワークパッケージとの関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。"
       sharing:
-        share: "共有"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

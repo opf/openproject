@@ -247,6 +247,7 @@ ja:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "削除がスケジュールされ、バックグラウンドで実行されます。結果は通知されます。"
       schedule_failed: "プロジェクトを削除できません: %{errors}"
@@ -264,6 +265,7 @@ ja:
       my: "参加しているプロジェクト"
       favored: "Favorite projects"
       archived: "Archived projects"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "My private project lists"
       new:
@@ -286,7 +288,7 @@ ja:
       project_custom_fields:
         header:
           title: "Project attributes"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
         filter:
           label: "Search project attribute"
         actions:
@@ -299,10 +301,7 @@ ja:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: 現在、有効な種類はありません。
         form:
@@ -382,11 +381,23 @@ ja:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "アクセストークンをリセットできませんでした: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "新しい %{type} トークンが生成されました。アクセストークンは:"
       token_value_warning: "注: これはこのトークンが表示される唯一の機会です。今すぐコピーして確認してください。"
       no_results_title_text: 現在、有効なアクセス トークンはありません。
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
@@ -458,7 +469,7 @@ ja:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -708,6 +719,7 @@ ja:
         auto_hide_popups: "成功通知を自動的に隠す"
         warn_on_leaving_unsaved: "変更を保存せずにワークパッケージから移動するときに警告"
         theme: "Mode"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "終了日"
         sharing: "共有"
@@ -1089,6 +1101,10 @@ ja:
           undeletable_work_packages_attached: "ワークパッケージが添付されているため、バージョンを削除できません。"
         status:
           readonly_default_exlusive: "デフォルトとしてマークされている状態では有効にできません。"
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "次のフィールドをチェックしてください："
         header:
@@ -1110,6 +1126,8 @@ ja:
         other: "Notifications"
       placeholder_user: "プレースホルダー ユーザー"
       project: "プロジェクト"
+      project_query:
+        other: "Project lists"
       query: "ユーザのクエリ"
       role:
         other: "ロール"
@@ -1746,6 +1764,7 @@ ja:
   label_add_another_file: "別のファイルを追加"
   label_add_columns: "選択した列を追加"
   label_add_note: "注記を追加"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "関係するワークパッケージを追加"
   label_add_subtask: "子タスクを追加"
   label_added: "追加"
@@ -1982,7 +2001,9 @@ ja:
   label_introduction_video: "紹介ビデオ"
   label_invite_user: "ユーザを招待"
   label_share: "共有"
+  label_share_project_list: "Share project list"
   label_show_hide: "表示/非表示"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "すべての登録ユーザーを表示"
   label_journal: "履歴記述"
   label_journal_diff: "説明の比較"
@@ -2020,6 +2041,7 @@ ja:
   label_custom_touch_icon: "カスタムのタッチアイコン"
   label_logout: "ログアウト"
   label_main_menu: "サイドメニュー"
+  label_manage: "Manage"
   label_manage_groups: "グループを管理"
   label_managed_repositories_vendor: "管理された %{vendor} リポジトリ"
   label_max_size: "最大サイズ"
@@ -2138,6 +2160,7 @@ ja:
   label_project_latest: "最新のプロジェクト"
   label_project_default_type: "空の種類を許可する"
   label_project_hierarchy: "プロジェクトの階層構造"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "新規プロジェクト"
   label_project_plural: "プロジェクト"
   label_project_list_plural: "Project lists"
@@ -2423,12 +2446,12 @@ ja:
         plaintext:
           storage: "Storage"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            summary: 'Good news! The status of your storage, %{storage_name}, is currently displaying as "Healthy".'
             error-solved-on: "Solved On"
             recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
             details: "For more details or to make any necessary amendments, you can visit your storage configuration"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: 'The status of your storage, %{storage_name}, is currently displaying as "Error". We''ve detected an issue that might require your attention.'
             error-details: "Error Details"
             error-message: "Error Message"
             error-occurred-on: "Occurred On"
@@ -2437,11 +2460,11 @@ ja:
         email_notification_settings: "Storage email notification settings"
         see_storage_settings: "See storage settings"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: 'Storage "%{name}" is now healthy!'
           solved_at: "solved at"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
+          subject: 'Storage "%{name}" is unhealthy!'
           since: "since"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
@@ -2925,6 +2948,10 @@ ja:
   setting_default_projects_public: "デフォルトで新しいプロジェクトは公開にする"
   setting_diff_max_lines_displayed: "差分の表示行数の上限"
   setting_display_subprojects_work_packages: "デフォルトで子プロジェクトのワークパッケージを親プロジェクトに表示する"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "電子メールのフッター"
   setting_emails_header: "電子メールのヘッダー"
   setting_email_login: "メールアドレスをログインに使用する"
@@ -2937,7 +2964,7 @@ ja:
   setting_host_name: "ホスト名"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "アクティベーションのメールは次で有効期限切れ"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3327,54 +3354,74 @@ ja:
         work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
-    sharing:
-      count:
-        zero: "0 users"
-        one: "1 user"
-        other: "%{count} users"
-      filter:
-        project_member: "Project member"
-        not_project_member: "Not project member"
-        project_group: "Project group"
-        not_project_group: "Not project group"
-        role: "ロール"
-        type: "タイプ"
-      label_search: "Search for users to invite"
-      label_search_placeholder: "Search by user or email address"
-      label_toggle_all: "Toggle all shares"
+    permissions:
+      comment: "Comment"
+      comment_description: "Can view and comment this work package."
+      edit: "Edit"
+      edit_description: "Can view, comment and edit this work package."
+      view: "View"
+      view_description: "Can view this work package."
+  sharing:
+    count:
+      zero: "0 users"
+      one: "1 user"
+      other: "%{count} users"
+    filter:
+      project_member: "Project member"
+      not_project_member: "Not project member"
+      project_group: "Project group"
+      not_project_group: "Not project group"
+      user: "User"
+      group: "Group"
+      role: "Role"
+      type: "Type"
+    denied: "You don't have permissions to share %{entities}."
+    label_search: "Search for users to invite"
+    label_search_placeholder: "Search by user or email address"
+    label_toggle_all: "Toggle all shares"
+    remove: "Remove"
+    share: "Share"
+    text_empty_search_description: "There are no users with the current filter criteria."
+    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
+    text_empty_state_header: "Not shared"
+    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
+    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    warning_user_limit_reached: >
+      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+    warning_user_limit_reached_admin: >
+      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
+    warning_no_selected_user: "Please select users to share this %{entity} with"
+    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    user_details:
+      locked: "Locked user"
+      invited: "Invite sent. "
+      resend_invite: "Resend."
+      invite_resent: "Invite has been resent"
+      not_project_member: "Not a project member"
+      project_group: "Group members might have additional privileges (as project members)"
+      not_project_group: "Group (shared with all members)"
+      additional_privileges_project: "Might have additional privileges (as project member)"
+      additional_privileges_group: "Might have additional privileges (as group member)"
+      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
-        comment: "コメント"
-        comment_description: "Can view and comment this work package."
-        denied: "You don't have permissions to share work packages."
-        edit: "編集"
-        edit_description: "Can view, comment and edit this work package."
-        view: "表示"
-        view_description: "Can view this work package."
-      remove: "削除"
-      share: "共有"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
-      text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "共有しない"
-      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
-      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
-      warning_user_limit_reached: >
-        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
-      warning_user_limit_reached_admin: >
-        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
-      warning_no_selected_user: "Please select users to share this work package with"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
-      user_details:
-        locked: "Locked user"
-        invited: "Invite sent. "
-        resend_invite: "Resend."
-        invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
-        project_group: "Group members might have additional privileges (as project members)"
-        not_project_group: "Group (shared with all members)"
-        additional_privileges_project: "Might have additional privileges (as project member)"
-        additional_privileges_group: "Might have additional privileges (as group member)"
-        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

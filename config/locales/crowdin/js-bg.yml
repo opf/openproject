@@ -905,6 +905,11 @@ bg:
       preformatted_text: "Предварително форматиран текст"
       wiki_link: "Линк към уики страница"
       image: "Изображение"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Групова промяна на проекта"
@@ -1020,6 +1025,7 @@ bg:
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"
         all_open: "Всичко отворено"
+        overdue: "Overdue"
         summary: "Обобщение"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
@@ -1060,12 +1066,8 @@ bg:
         is_parent: "Датите на този работен пакет се извеждат автоматично от неговите деца. Активирайте „Ръчно планиране“, за да зададете датите."
         is_switched_from_manual_to_automatic: "Датите на този работен пакет може да се наложи да бъдат преизчислени след преминаване от ръчно към автоматично планиране поради връзки с други работни пакети."
       sharing:
-        share: "Споделяне"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

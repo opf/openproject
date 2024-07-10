@@ -37,6 +37,12 @@ example:
         author:
           href: "/api/v3/users/2"
           title: Peggie Feeney
+        updateImmediately:
+          href: "api/v3/news/1"
+          method: "patch"
+        delete:
+          href: "api/v3/news/1"
+          method: "delete"
     - _type: News
       id: 2
       title: terminatio tutamen. Officia adeptio sp
@@ -62,6 +68,12 @@ example:
         author:
           href: "/api/v3/users/2"
           title: Peggie Feeney
+        updateImmediately:
+          href: "api/v3/news/2"
+          method: "patch"
+        delete:
+          href: "api/v3/news/2"
+          method: "delete"
   _links:
     self:
       href: "/api/v3/news?offset=1&pageSize=2"

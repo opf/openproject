@@ -1,0 +1,32 @@
+<%=
+  component_wrapper do
+    content_tag(:div, class: tooltip_wrapper_classes, data: { tooltip: tooltip_message }) do
+      render(Primer::Alpha::ActionMenu.new(**{ select_variant: :single,
+                                              size: :small,
+                                              dynamic_label: true,
+                                              anchor_align: :end,
+                                              color: :subtle }.deep_merge(@system_arguments))) do |menu|
+        menu.with_show_button(disabled: !editable?, data: { 'shares--bulk-selection-target': 'userRowRole',
+                                      'share-id': share.id,
+                                      'active-role-name': permission_name(active_role.id)}) do |button|
+          button.with_trailing_action_icon(icon: :"triangle-down")
+          permission_name(active_role.id)
+        end
+
+        strategy.available_roles.each do |role_hash|
+          menu.with_item(label: role_hash[:label],
+                        href: update_path,
+                        method: :patch,
+                        active: role_active?(role_hash),
+                        data: { value: role_hash[:value] },
+                        form_arguments: {
+                          method: :patch,
+                          inputs: form_inputs(role_hash[:value])
+                        }) do |item|
+            item.with_description.with_content(role_hash[:description])
+          end
+        end
+      end
+    end
+  end
+%>

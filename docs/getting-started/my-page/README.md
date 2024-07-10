@@ -30,7 +30,7 @@ As a default, you will see two lists of all **work packages assigned to you** an
 
 ## Configure the My Page
 
-![Configuting widgets on My Page in OpenProject](openproject-mypage-widgets.gif)
+![Configuring widgets on My Page in OpenProject](openproject-mypage-widgets.gif)
 
 ### Add widgets
 

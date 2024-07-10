@@ -906,6 +906,11 @@ sl:
       preformatted_text: "Predoblikovano besedilo"
       wiki_link: "Povezava do Wiki strani"
       image: "Slika"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Skupna sprememba projekta"
@@ -1021,6 +1026,7 @@ sl:
         assigned_to_me: "Dodeljeno meni"
         recently_created: "Nedavno ustvarjeno"
         all_open: "Vse odprto"
+        overdue: "Overdue"
         summary: "Povzetek"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
@@ -1061,12 +1067,8 @@ sl:
         is_parent: "Datumi tega delovnega paketa so samodejno ugotovljeni od njegovih podrazredov. Za nastavitev datumov aktivirajte 'Ročno razvrščanje'."
         is_switched_from_manual_to_automatic: "Datumi delovnega paketa se bodo lahko, da morali preračunati po menjavi iz ročnega v samodejno razvrščanje zaradi razmerij z ostalimi delovnimi paketi."
       sharing:
-        share: "Share"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

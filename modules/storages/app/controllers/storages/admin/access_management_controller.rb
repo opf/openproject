@@ -29,6 +29,8 @@
 #++
 
 class Storages::Admin::AccessManagementController < ApplicationController
+  include OpTurbo::ComponentStream
+
   layout "admin"
 
   before_action :require_admin
@@ -56,34 +58,36 @@ class Storages::Admin::AccessManagementController < ApplicationController
     service_result = call_update_service
 
     service_result.on_success do
-      respond_to { |format| format.turbo_stream }
+      update_via_turbo_stream(component: Storages::Admin::AccessManagementComponent.new(@storage))
+      update_via_turbo_stream(component: Storages::Admin::Forms::OAuthClientFormComponent.new(
+        oauth_client: @storage.build_oauth_client, storage: @storage
+      ))
     end
 
     service_result.on_failure do
-      respond_to do |format|
-        format.turbo_stream { render :edit }
-      end
+      update_via_turbo_stream(component: Storages::Admin::Forms::AccessManagementFormComponent.new(@storage))
     end
+
+    respond_with_turbo_streams
   end
 
   def update
     service_result = call_update_service
 
     service_result.on_success do
-      respond_to { |format| format.turbo_stream }
+      update_via_turbo_stream(component: Storages::Admin::AccessManagementComponent.new(@storage))
     end
 
     service_result.on_failure do
-      respond_to do |format|
-        format.turbo_stream { render :edit }
-      end
+      update_via_turbo_stream(component: Storages::Admin::Forms::AccessManagementFormComponent.new(@storage))
     end
+
+    respond_with_turbo_streams
   end
 
   def edit
-    respond_to do |format|
-      format.turbo_stream
-    end
+    update_via_turbo_stream(component: Storages::Admin::Forms::AccessManagementFormComponent.new(@storage))
+    respond_with_turbo_streams
   end
 
   def default_breadcrumb

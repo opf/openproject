@@ -1,6 +1,5 @@
 ru:
   js:
-    queries:
-      all_open: 'Все открытые'
-      timeline: 'Хронология'
-      milestones: 'Вехи'
+    work_packages:
+      default_queries:
+        milestones: 'Контрольные точки'

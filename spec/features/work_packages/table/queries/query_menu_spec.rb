@@ -62,7 +62,7 @@ RSpec.describe "Query menu item", :js do
 
     it "shows the query menu with queries stored for the global page" do
       wp_table.visit!
-      expect(page).to have_css(".op-view-select--search-results")
+      expect(page).to have_test_selector("op-sidebar--body")
       expect(page).to have_css(".op-sidemenu--item-action", wait: 20, minimum: 1)
 
       within ".op-sidebar" do

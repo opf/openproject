@@ -86,8 +86,8 @@ class MembersController < ApplicationController
     principal = Principal.find(params[:principal_id])
 
     service_call = Members::DeleteByPrincipalService
-      .new(user: current_user, project: @project, principal:)
-      .call(params.permit(:project, :work_package_shares_role_id))
+                     .new(user: current_user, project: @project, principal:)
+                     .call(params.permit(:project, :work_package_shares_role_id))
 
     if service_call.success?
       flash[:notice] = I18n.t(:notice_member_removed, user: principal.name)
@@ -144,8 +144,8 @@ class MembersController < ApplicationController
       available_roles: roles,
       authorize_update: authorize_for("members", :update),
       authorize_delete: authorize_for("members", :destroy),
-      authorize_work_package_shares_view: authorize_for("work_packages/shares", :update),
-      authorize_work_package_shares_delete: authorize_for("work_packages/shares/bulk", :destroy),
+      authorize_work_package_shares_view: current_user.allowed_in_project?(:view_shared_work_packages, @project),
+      authorize_work_package_shares_delete: current_user.allowed_in_project?(:share_work_packages, @project),
       authorize_manage_user: current_user.allowed_globally?(:manage_user),
       is_filtered: Members::UserFilterComponent.filtered?(params),
       shared_role_name:

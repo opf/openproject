@@ -8,18 +8,18 @@ bg:
   project_module_board_view: "Boards"
   boards:
     label_board: "Board"
-    label_boards: "Boards"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_boards: "Табла"
+    label_create_new_board: "Създайте ново табло"
+    label_board_type: "Тип на таблото"
     board_types:
       free: Основен
-      action: "Action board (%{attribute})"
+      action: "Табло за действие (%{attribute})"
     board_type_attributes:
       assignee: Изпълнител
       status: Състояние
       version: Версия
       subproject: Подпроект
-      subtasks: Parent-child
+      subtasks: Родител-дете
       basic: Основен
     board_type_descriptions:
       basic: >
@@ -35,5 +35,5 @@ bg:
       subtasks: >
         Табло с автоматизирани колони за поделементи. Плъзгането на работни пакети към други списъци актуализира родителя съответно.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: 'Искате ли да автоматизирате работните си процеси с помощта на Табла? Усъвършенстваните табла са добавка само за Enterprise. Моля, преминете към платен план.'
+      upgrade: 'Актуализирайте сега'

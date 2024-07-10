@@ -114,41 +114,4 @@ RSpec.describe UsersHelper do
       end
     end
   end
-
-  describe "#visible_user_information?" do
-    subject { visible_user_information?(user) }
-
-    context "when user has hide_mail = false in their preferences" do
-      let(:user) { build(:user, preferences: { hide_mail: false }) }
-
-      it { is_expected.to be(true) }
-    end
-
-    context "when user has hide_mail = true in their preferences" do
-      let(:user) { build(:user, preferences: { hide_mail: true }) }
-
-      it { is_expected.to be(false) }
-    end
-
-    context "when user has a custom field with a present value" do
-      let(:custom_field) { create(:user_custom_field, :string) }
-      let(:user) { build(:user, custom_values: [build(:custom_value, custom_field:, value: "Hello")]) }
-
-      it { is_expected.to be(true) }
-    end
-
-    context "when user has a custom field with a blank value" do
-      let(:custom_field) { create(:user_custom_field, :string) }
-      let(:user) { build(:user, custom_values: [build(:custom_value, custom_field:, value: "  ")]) }
-
-      it { is_expected.to be(false) }
-    end
-
-    context "when user has a non-visible custom field with a present value" do
-      let(:custom_field) { create(:user_custom_field, :string, visible: false) }
-      let(:user) { build(:user, custom_values: [build(:custom_value, custom_field:, value: "Hello")]) }
-
-      it { is_expected.to be(false) }
-    end
-  end
 end

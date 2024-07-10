@@ -1,6 +1,5 @@
 de:
   js:
-    queries:
-      all_open: 'Alle offenen'
-      timeline: 'Zeitleiste'
-      milestones: 'Meilensteine'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

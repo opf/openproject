@@ -903,6 +903,11 @@ vi:
       preformatted_text: "Preformatted Text"
       wiki_link: "Link to a Wiki page"
       image: "Image"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Bulk change of project"
@@ -1018,6 +1023,7 @@ vi:
         assigned_to_me: "Được phân công cho tôi"
         recently_created: "Đã được tạo gần đây"
         all_open: "Mở tất cả"
+        overdue: "Overdue"
         summary: "Tóm tắt"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
@@ -1058,12 +1064,8 @@ vi:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: "Chia sẻ"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

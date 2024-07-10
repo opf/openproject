@@ -44,7 +44,7 @@ RSpec.shared_examples "module specific query view management" do
       settings_menu.open_and_save_query "My first query"
       query_title.expect_not_changed
       query_title.expect_title "My first query"
-      query_menu.expect_item "My first query"
+      query_menu.expect_item "My first query", selected: true
 
       # Change the filter again
       filters.add_filter_by "% Complete", "is", ["25"], "percentageDone"
@@ -55,7 +55,7 @@ RSpec.shared_examples "module specific query view management" do
       settings_menu.open_and_save_query_as "My second query"
       query_title.expect_not_changed
       query_title.expect_title "My second query"
-      query_menu.expect_item "My second query"
+      query_menu.expect_item "My second query", selected: true
       query_menu.expect_item "My first query"
 
       # Rename a query
@@ -67,7 +67,7 @@ RSpec.shared_examples "module specific query view management" do
 
       query_title.expect_not_changed
       query_title.expect_title "My second query (renamed)"
-      query_menu.expect_item "My second query (renamed)"
+      query_menu.expect_item "My second query (renamed)", selected: true
       query_menu.expect_item "My first query"
 
       # Delete a query

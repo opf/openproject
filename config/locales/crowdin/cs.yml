@@ -249,6 +249,7 @@ cs:
       work_package_attachments: "Pracovní balíčky: přílohy"
       work_package_categories: "Pracovní balíčky: kategorie"
       work_package_file_links: "Pracovní balíčky: odkazy na soubory"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Odstranění bylo naplánováno a je dokončeno na pozadí. Výsledek vám bude oznámen."
       schedule_failed: "Projekt nelze odstranit: %{errors}"
@@ -266,6 +267,7 @@ cs:
       my: "Moje projekty"
       favored: "Oblíbené projekty"
       archived: "Archivované projekty"
+      shared: "Shared project lists"
       public: "Veřejné projekty"
       my_private: "soukromé seznamy  projektů"
       new:
@@ -288,7 +290,7 @@ cs:
       project_custom_fields:
         header:
           title: "Atributy projektu"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
         filter:
           label: "Hledat atribut projektu"
         actions:
@@ -301,10 +303,7 @@ cs:
           heading: Povinné u všech projektů
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Přidat projekty
           include_sub_projects: Zahrnout všechny podprojekty
-        project_mappings:
-          header: Povoleno v projektech
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
@@ -402,11 +401,23 @@ cs:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Nepodařilo se obnovit přístupový token: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Byl vygenerován nový %{type} token. Váš přístupový token je:"
       token_value_warning: "Poznámka: Toto je jedinkrát, kdy uvidíte tento token, ujistěte se, že jste si hozkopírovali."
       no_results_title_text: V současné době nejsou k dispozici žádné přístupové tokeny.
-      notice_api_token_revoked: "Token API byl odstraněn. Pro vytvoření nového tokenu použijte odkaz v sekci API."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "Token API byl odstraněn. Pro vytvoření nového tokenu použijte odkaz v sekci API."
       notice_ical_token_revoked: 'token iCalendar "%{token_name}" pro kalendář "%{calendar_name}" projektu "%{project_name}" byl zrušen. URL iCalendar s tímto tokenem je nyní neplatná.'
   news:
@@ -480,7 +491,7 @@ cs:
         is_readonly: "Pouze pro čtení"
         excluded_from_totals: "Vyloučeno z celkových hodnot"
   themes:
-    dark: "Tmavé"
+    dark: "Dark (experimental)"
     light: "Světlý"
     light_high_contrast: "Světlý kontrast"
   types:
@@ -733,6 +744,7 @@ cs:
         auto_hide_popups: "Automaticky skrýt oznámení o úspěchu"
         warn_on_leaving_unsaved: "Upozornit mě při opuštění pracovního balíčku s neuloženými změnami"
         theme: "Režim"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Datum dokončení"
         sharing: "Sdílení"
@@ -1117,6 +1129,10 @@ cs:
           undeletable_work_packages_attached: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
         status:
           readonly_default_exlusive: "nelze aktivovat pro stavy, které jsou označeny jako výchozí."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Zkontrolujte, prosím, následující pole:"
         header:
@@ -1144,6 +1160,11 @@ cs:
         other: "Oznámení"
       placeholder_user: "placeholder uživatel"
       project: "Projekt"
+      project_query:
+        one: "Project list"
+        few: "Project lists"
+        many: "Project lists"
+        other: "Project lists"
       query: "Vlastní dotaz"
       role:
         one: "Role"
@@ -1849,6 +1870,7 @@ cs:
   label_add_another_file: "Přidat další soubor"
   label_add_columns: "Přidat vybrané sloupce"
   label_add_note: "Přidat poznámku"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Přidání souvisejících pracovních balíčků"
   label_add_subtask: "Přidat podúkol"
   label_added: "přidáno"
@@ -2085,7 +2107,9 @@ cs:
   label_introduction_video: "Seznamovací video"
   label_invite_user: "Pozvat uživatele"
   label_share: "Sdílet"
+  label_share_project_list: "Share project list"
   label_show_hide: "Zobrazit/skrýt"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Zobrazit registrované uživatele"
   label_journal: "Deník"
   label_journal_diff: "Popis porovnání"
@@ -2123,6 +2147,7 @@ cs:
   label_custom_touch_icon: "Vlastní ikona dotyku"
   label_logout: "Odhlásit se"
   label_main_menu: "Boční Menu"
+  label_manage: "Manage"
   label_manage_groups: "Spravovat skupiny"
   label_managed_repositories_vendor: "Spravováno %{vendor} repozitářů"
   label_max_size: "Maximální velikost"
@@ -2241,6 +2266,7 @@ cs:
   label_project_latest: "Nejnovější projekty"
   label_project_default_type: "Povolit prázdný typ"
   label_project_hierarchy: "Hierarchie projektu"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_list_plural: "Seznamy projektů"
@@ -2529,12 +2555,12 @@ cs:
         plaintext:
           storage: "Úložiště"
           healthy:
-            summary: "Dobré zprávy! Stav vašeho úložiště, %{storage_name}, se aktuálně zobrazuje jako \"Zdravý\"."
+            summary: 'Dobré zprávy! Stav vašeho úložiště, %{storage_name}, se aktuálně zobrazuje jako "Zdravý".'
             error-solved-on: "Vyřešeno"
             recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
             details: "For more details or to make any necessary amendments, you can visit your storage configuration"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: 'The status of your storage, %{storage_name}, is currently displaying as "Error". We''ve detected an issue that might require your attention.'
             error-details: "Podrobnosti o chybě"
             error-message: ""
             error-occurred-on: "Vyskytlo se"
@@ -2543,11 +2569,11 @@ cs:
         email_notification_settings: "Nastavení e-mailových oznámení o úložišti"
         see_storage_settings: "Zobrazit nastavení úložiště"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: 'Storage "%{name}" is now healthy!'
           solved_at: "vyřešeno v"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Úložiště \"%{name}\" je nezdravé!"
+          subject: 'Úložiště "%{name}" je nezdravé!'
           since: "od"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
@@ -3033,6 +3059,10 @@ cs:
   setting_default_projects_public: "Nové projekty nastavovat jako veřejné"
   setting_diff_max_lines_displayed: "Maximální počet zobrazených řádků rozdílu"
   setting_display_subprojects_work_packages: "Automaticky zobrazit úkoly podprojektu v hlavním projektu"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Zápatí emailů"
   setting_emails_header: "Záhlaví emailů"
   setting_email_login: "Použít e-mail jako přihlášení"
@@ -3045,7 +3075,7 @@ cs:
   setting_host_name: "Název serveru"
   setting_hours_per_day: "Hodiny za den"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Platnost aktivačního e-mailu vyprší po"
   setting_work_package_done_ratio: "Výpočet průběhu"
   setting_work_package_done_ratio_field: "Na základě práce"
@@ -3438,54 +3468,74 @@ cs:
         work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
-    sharing:
-      count:
-        zero: "0 uživatelů"
-        one: "1 uživatel"
-        other: "%{count} uživatelů"
-      filter:
-        project_member: "Člen projektu"
-        not_project_member: "Není členem projektu"
-        project_group: "Skupina projektů"
-        not_project_group: "Není skupina projektů"
-        role: "Role"
-        type: "Typ"
-      label_search: "Hledat uživatele pro pozvání"
-      label_search_placeholder: "Hledat podle uživatele nebo e-mailové adresy"
-      label_toggle_all: "Přepnout všechny sdílené"
+    permissions:
+      comment: "Comment"
+      comment_description: "Can view and comment this work package."
+      edit: "Edit"
+      edit_description: "Can view, comment and edit this work package."
+      view: "View"
+      view_description: "Can view this work package."
+  sharing:
+    count:
+      zero: "0 users"
+      one: "1 user"
+      other: "%{count} users"
+    filter:
+      project_member: "Project member"
+      not_project_member: "Not project member"
+      project_group: "Project group"
+      not_project_group: "Not project group"
+      user: "User"
+      group: "Group"
+      role: "Role"
+      type: "Type"
+    denied: "You don't have permissions to share %{entities}."
+    label_search: "Search for users to invite"
+    label_search_placeholder: "Search by user or email address"
+    label_toggle_all: "Toggle all shares"
+    remove: "Remove"
+    share: "Share"
+    text_empty_search_description: "There are no users with the current filter criteria."
+    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
+    text_empty_state_header: "Not shared"
+    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
+    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    warning_user_limit_reached: >
+      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+    warning_user_limit_reached_admin: >
+      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
+    warning_no_selected_user: "Please select users to share this %{entity} with"
+    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    user_details:
+      locked: "Locked user"
+      invited: "Invite sent. "
+      resend_invite: "Resend."
+      invite_resent: "Invite has been resent"
+      not_project_member: "Not a project member"
+      project_group: "Group members might have additional privileges (as project members)"
+      not_project_group: "Group (shared with all members)"
+      additional_privileges_project: "Might have additional privileges (as project member)"
+      additional_privileges_group: "Might have additional privileges (as group member)"
+      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
-        comment: "Komentář"
-        comment_description: "Může zobrazit a komentovat tento pracovní balíček."
-        denied: "Nemáte oprávnění ke sdílení pracovních balíčků."
-        edit: "Upravit"
-        edit_description: "Může zobrazovat, komentovat a upravovat tento pracovní balíček."
-        view: "Zobrazit"
-        view_description: "Může zobrazit tento pracovní balíček."
-      remove: "Odebrat"
-      share: "Sdílet"
-      text_empty_search_description: "Neexistují žádní uživatelé s aktuálními kritérii filtru."
-      text_empty_search_header: "Nenašli jsme žádné odpovídající výsledky."
-      text_empty_state_description: "Pracovní balíček zatím nebyl s nikým sdílen."
-      text_empty_state_header: "Není sdíleno"
-      text_user_limit_reached: "Přidáním dalších uživatelů bude aktuální limit překročen. Pro zvýšení limitu uživatelů kontaktujte správce, abyste zajistili přístup externích uživatelů k tomuto pracovnímu balíčku."
-      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
-      warning_user_limit_reached: >
-        Přidáním dalších uživatelů bude aktuální limit překročen. Pro zvýšení limitu uživatelů kontaktujte správce, abyste zajistili přístup externích uživatelů k tomuto pracovnímu balíčku.
-      warning_user_limit_reached_admin: >
-        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
-      warning_no_selected_user: "Vyberte uživatele pro sdílení tohoto pracovního balíčku "
-      warning_locked_user: "Uživatel %{user} je uzamčen a nemůže být s ním sdíleno"
-      user_details:
-        locked: "Uzamčený uživatel"
-        invited: "Pozvánka odeslána"
-        resend_invite: "Znovu odeslat."
-        invite_resent: "Pozvánka byla znovu odeslána"
-        not_project_member: "Není členem projektu"
-        project_group: "Členové skupiny mohou mít dodatečná práva (jako členové projektu)"
-        not_project_group: "Skupina (sdílená se všemi členy)"
-        additional_privileges_project: "Může mít další oprávnění (jako člen projektu)"
-        additional_privileges_group: "Může mít dodatečná oprávnění (jako člen skupiny)"
-        additional_privileges_project_or_group: "Může mít dodatečná oprávnění (jako člen skupiny)"
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

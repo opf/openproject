@@ -5,7 +5,7 @@ homepage: "https://www.openproject.org"
 maintainer: "operations+packaging@openproject.com"
 license: "GPL"
 targets:
-  debian-10: &debian
+  debian-11: &debian
     build_dependencies:
       - libsqlite3-dev
     dependencies:
@@ -15,8 +15,6 @@ targets:
       - tesseract-ocr
       - catdoc
       - imagemagick
-  debian-11:
-    <<: *debian
   debian-12:
     <<: *debian
   ubuntu-20.04:

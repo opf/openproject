@@ -32,7 +32,10 @@ class Queries::Members::Filters::EntityTypeFilter < Queries::Members::Filters::M
   end
 
   def allowed_values
-    [[WorkPackage.name, WorkPackage.name]]
+    [
+      [WorkPackage.name, WorkPackage.name],
+      [ProjectQuery.name, ProjectQuery.name]
+    ]
   end
 
   def self.key

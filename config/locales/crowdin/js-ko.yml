@@ -904,6 +904,11 @@ ko:
       preformatted_text: "서식 설정되어 있는 텍스트"
       wiki_link: "위키 페이지에 연결"
       image: "이미지"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "프로젝트의 일괄 변경"
@@ -1019,6 +1024,7 @@ ko:
         assigned_to_me: "내게 할당됨"
         recently_created: "최근에 만듦"
         all_open: "모두 열림"
+        overdue: "Overdue"
         summary: "요약"
         shared_with_users: "사용자와 공유됨"
         shared_with_me: "나와 공유됨"
@@ -1059,12 +1065,8 @@ ko:
         is_parent: "이 작업 패키지의 날짜는 자식으로부터 자동으로 추정됩니다. '수동 스케줄링'을 활성화하여 날짜를 설정할 수 있습니다."
         is_switched_from_manual_to_automatic: "다른 작업 패키지와의 관계로 인해 수동 스케줄링에서 자동 스케줄링으로 전환한 후 이 작업 패키지의 날짜를 다시 계산해야 할 수 있습니다."
       sharing:
-        share: "공유하기"
         title: "작업 패키지 공유"
         show_all_users: "작업 패키지가 공유된 모든 사용자 표시"
-        selected_count: "%{count}개 선택됨"
-        selection:
-          mixed: "혼합"
         upsale:
           description: "프로젝트 멤버가 아닌 사용자와 작업 패키지를 공유합니다."
       table:

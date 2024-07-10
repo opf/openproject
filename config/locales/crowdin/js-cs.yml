@@ -906,6 +906,11 @@ cs:
       preformatted_text: "Předformátovaný Text"
       wiki_link: "Odkaz na stránku Wiki"
       image: "Obrázek"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Hromadná změna projektu"
@@ -1021,6 +1026,7 @@ cs:
         assigned_to_me: "Přiřazeno mně"
         recently_created: "Nedávno vytvořené"
         all_open: "Všechny otevřené"
+        overdue: "Overdue"
         summary: "Souhrn"
         shared_with_users: "Sdíleno s uživateli"
         shared_with_me: "Sdíleno se mnou"
@@ -1061,12 +1067,8 @@ cs:
         is_parent: "Data tohoto pracovního balíčku jsou automaticky odvozena od jeho dětí. Aktivujte 'Manuální plánování' pro ručné nastavení dat."
         is_switched_from_manual_to_automatic: "Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky."
       sharing:
-        share: "Sdílet"
         title: "Sdílet pracovní balíček"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} vybráno"
-        selection:
-          mixed: "Smíšená"
         upsale:
           description: "Sdílejte pracovní balíčky s uživateli, kteří nejsou členy projektu."
       table:

@@ -28,11 +28,12 @@
 
 class Projects::QueriesController < ApplicationController
   include Projects::QueryLoading
+  include OpTurbo::ComponentStream
 
   # No need for a more specific authorization check. That is carried out in the contracts.
-  no_authorization_required! :show, :new, :create, :rename, :update, :publish, :unpublish, :destroy
+  no_authorization_required! :show, :new, :create, :rename, :update, :toggle_public, :destroy
   before_action :require_login
-  before_action :find_query, only: %i[show rename update destroy publish unpublish]
+  before_action :find_query, only: %i[show rename update destroy toggle_public]
   before_action :build_query_or_deny_access, only: %i[new create]
 
   current_menu_item [:new, :rename, :create, :update] do
@@ -71,20 +72,27 @@ class Projects::QueriesController < ApplicationController
     render_result(call, success_i18n_key: "lists.update.success", error_i18n_key: "lists.update.failure")
   end
 
-  def publish
+  def toggle_public # rubocop:disable Metrics/AbcSize
+    to_be_public = ActiveRecord::Type::Boolean.new.cast(params["value"])
+    i18n_key = to_be_public ? "lists.publish" : "lists.unpublish"
+
     call = Queries::Projects::ProjectQueries::PublishService
              .new(user: current_user, model: @query)
-             .call(public: true)
+             .call(public: to_be_public)
 
-    render_result(call, success_i18n_key: "lists.publish.success", error_i18n_key: "lists.publish.failure")
-  end
+    respond_to do |format|
+      format.turbo_stream do
+        # Load shares and replace the modal
+        strategy = SharingStrategies::ProjectQueryStrategy.new(@query, user: current_user)
+        shares = strategy.shares_query({}).results
+        replace_via_turbo_stream(component: Shares::ModalBodyComponent.new(strategy:, shares:, errors: []))
+        render turbo_stream: turbo_streams, status:
+      end
 
-  def unpublish
-    call = Queries::Projects::ProjectQueries::PublishService
-             .new(user: current_user, model: @query)
-             .call(public: false)
-
-    render_result(call, success_i18n_key: "lists.unpublish.success", error_i18n_key: "lists.unpublish.failure")
+      format.html do
+        render_result(call, success_i18n_key: "#{i18n_key}.success", error_i18n_key: "#{i18n_key}.failure")
+      end
+    end
   end
 
   def destroy

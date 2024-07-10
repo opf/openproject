@@ -67,9 +67,7 @@ RSpec.describe "API v3 Cost Type resource" do
       context "invalid id" do
         let(:get_path) { api_v3_paths.cost_type "bogus" }
 
-        it_behaves_like "param validation error" do
-          let(:id) { "bogus" }
-        end
+        it_behaves_like "not found"
       end
     end
 

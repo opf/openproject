@@ -121,7 +121,7 @@ Read more about creating and editing **Time and cost reports** [here](../../time
 
 ## Meetings
 
-**The Meetings** global module will provide a list of all upcoming and past meetings you have created, been invited to, attended or have administrative privileges to see. The default view will show the **Upcoming meetings**, in chronological order (earliest first).
+**The Meetings** global module will provide a list of all upcoming and past meetings you have created, been invited to, attended or have administrative privileges to see. The default view will show the **Upcoming invitations**, in chronological order (earliest first).
 
 ![The Meetings global module](openproject_global_modules_meetings.png)
 

@@ -1,5 +1,5 @@
 <div
-  class="spot-modal spot-modal_wide op-share-wp-modal"
+  class="spot-modal spot-modal_wide op-share-dialog-modal"
 >
   <div
     class="spot-modal--header"
@@ -13,7 +13,7 @@
       class="button button_no-margin -transparent spot-modal--header-close-button"
       [attr.aria-label]="text.button_close"
       (click)="closeMe($event)"
-      data-test-selector="op-share-wp-modal--close-icon"
+      data-test-selector="op-share-dialog-modal--close-icon"
     >
       <svg
         x-icon
@@ -26,7 +26,7 @@
   <div class="spot-modal--body spot-container">
     <turbo-frame
       #frameElement
-      id="work_package_share_list"
+      id="share_modal_body"
       src="{{this.frameSrc}}">
       <op-content-loader
         viewBox="0 0 180 80"

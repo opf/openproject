@@ -30,6 +30,7 @@ class MyController < ApplicationController
   include PasswordConfirmation
   include Accounts::UserPasswordChange
   include ActionView::Helpers::TagHelper
+  include OpTurbo::ComponentStream
 
   layout "my"
 
@@ -38,6 +39,7 @@ class MyController < ApplicationController
   before_action :check_password_confirmation, only: %i[update_account]
   before_action :set_grouped_ical_tokens, only: %i[access_token]
   before_action :set_ical_token, only: %i[revoke_ical_token]
+  before_action :set_api_token, only: %i[revoke_api_key]
 
   no_authorization_required! :account,
                              :update_account,
@@ -55,12 +57,12 @@ class MyController < ApplicationController
                              :revoke_api_key,
                              :revoke_ical_token
 
-  menu_item :account,             only: [:account]
-  menu_item :settings,            only: [:settings]
-  menu_item :password,            only: [:password]
-  menu_item :access_token,        only: [:access_token]
-  menu_item :notifications,       only: [:notifications]
-  menu_item :reminders,           only: [:reminders]
+  menu_item :account, only: [:account]
+  menu_item :settings, only: [:settings]
+  menu_item :password, only: [:password]
+  menu_item :access_token, only: [:access_token]
+  menu_item :notifications, only: [:notifications]
+  menu_item :reminders, only: [:reminders]
 
   def account; end
 
@@ -97,9 +99,9 @@ class MyController < ApplicationController
 
   def delete_storage_token
     token = OAuthClientToken
-      .preload(:oauth_client)
-      .joins(:oauth_client)
-      .where(user: @user, oauth_client: { integration_type: "Storages::Storage" }).find_by(id: params[:id])
+              .preload(:oauth_client)
+              .joins(:oauth_client)
+              .where(user: @user, oauth_client: { integration_type: "Storages::Storage" }).find_by(id: params[:id])
 
     if token&.destroy
       flash[:info] = I18n.t("my_account.access_tokens.storages.removed")
@@ -156,30 +158,50 @@ class MyController < ApplicationController
     redirect_to action: "access_token"
   end
 
-  # Create a new API key
+  # rubocop:disable Metrics/AbcSize
   def generate_api_key
-    token = Token::API.create!(user: current_user)
-    flash[:info] = [
-      t("my.access_token.notice_reset_token", type: "API").html_safe,
-      content_tag(:strong, token.plain_value),
-      t("my.access_token.token_value_warning")
-    ]
-  rescue StandardError => e
-    Rails.logger.error "Failed to reset user ##{current_user.id} API key: #{e}"
-    flash[:error] = t("my.access_token.failed_to_reset_token", error: e.message)
-  ensure
+    result = APITokens::CreateService.new(user: current_user).call(token_name: params[:token_api][:token_name])
+
+    result.on_success do |r|
+      flash[:info] = [
+        t("my.access_token.notice_reset_token", type: "API").html_safe,
+        content_tag(:strong, r.result.plain_value),
+        t("my.access_token.token_value_warning")
+      ]
+
+      redirect_to action: "access_token"
+    end
+
+    result.on_failure do |r|
+      update_via_turbo_stream(
+        component: My::AccessToken::NewAccessTokenFormComponent.new(token: r.result),
+        status: :bad_request
+      )
+
+      respond_with_turbo_streams
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  # rubocop:disable Metrics/AbcSize
+  def revoke_api_key
+    result = APITokens::DeleteService.new(user: current_user, model: @api_token).call
+
+    # rubocop:disable Rails/ActionControllerFlashBeforeRender
+    result.on_success do
+      flash[:info] = t("my.access_token.notice_api_token_revoked")
+    end
+
+    result.on_failure do
+      Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
+      flash[:error] = t("my.access_token.failed_to_revoke_token", error: e.message)
+    end
+    # rubocop:enable Rails/ActionControllerFlashBeforeRender
+
     redirect_to action: "access_token"
   end
 
-  def revoke_api_key
-    current_user.api_token.destroy
-    flash[:info] = t("my.access_token.notice_api_token_revoked")
-  rescue StandardError => e
-    Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
-    flash[:error] = t("my.access_token.failed_to_reset_token", error: e.message)
-  ensure
-    redirect_to action: "access_token"
-  end
+  # rubocop:enable Metrics/AbcSize
 
   def revoke_ical_token
     message = ical_destroy_info_message
@@ -213,8 +235,8 @@ class MyController < ApplicationController
 
   def write_settings
     result = Users::UpdateService
-             .new(user: current_user, model: current_user)
-             .call(user_params)
+               .new(user: current_user, model: current_user)
+               .call(user_params)
 
     if result&.success
       flash[:notice] = notice_account_updated
@@ -266,15 +288,19 @@ class MyController < ApplicationController
     @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
   end
 
+  def set_api_token
+    @api_token = current_user.api_tokens.find(params[:token_id])
+  end
+
   def set_ical_token
     @ical_token = current_user.ical_tokens.find(params[:id])
   end
 
   def set_grouped_ical_tokens
     @ical_tokens_grouped_by_query = current_user.ical_tokens
-      .joins(ical_token_query_assignment: { query: :project })
-      .select("tokens.*, ical_token_query_assignments.query_id")
-      .group_by(&:query_id)
+                                                .joins(ical_token_query_assignment: { query: :project })
+                                                .select("tokens.*, ical_token_query_assignments.query_id")
+                                                .group_by(&:query_id)
   end
 
   def ical_destroy_info_message

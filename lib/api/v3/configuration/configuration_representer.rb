@@ -63,6 +63,9 @@ module API
                  exec_context: :decorator,
                  render_nil: true
 
+        property :duration_format,
+                 render_nil: true
+
         property :time_format,
                  exec_context: :decorator,
                  render_nil: true

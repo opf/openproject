@@ -73,10 +73,9 @@ class Storages::Admin::StoragesController < ApplicationController
                  .call
                  .result
 
-    respond_to do |format|
-      format.html
-      format.turbo_stream
-    end
+    update_via_turbo_stream(component: Storages::Admin::Forms::GeneralInfoFormComponent.new(@storage))
+
+    respond_with_turbo_streams(&:html)
   end
 
   def upsale; end
@@ -95,7 +94,7 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     service_result = Storages::Storages::CreateService
                        .new(user: current_user)
                        .call(permitted_storage_params)
@@ -104,44 +103,63 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      respond_to do |format|
-        format.turbo_stream { render :new }
-      end
+      update_via_turbo_stream(component: Storages::Admin::Forms::GeneralInfoFormComponent.new(@storage))
     end
 
     service_result.on_success do
       if @storage.provider_type_one_drive?
         prepare_storage_for_access_management_form
+        update_via_turbo_stream(component: Storages::Admin::Forms::AccessManagementFormComponent.new(@storage))
       end
 
-      respond_to do |format|
-        format.turbo_stream
+      update_via_turbo_stream(component: Storages::Admin::GeneralInfoComponent.new(@storage))
+
+      if @storage.provider_type_nextcloud?
+        update_via_turbo_stream(
+          component: Storages::Admin::OAuthApplicationInfoCopyComponent.new(
+            oauth_application: @oauth_application,
+            storage: @storage,
+            submit_button_options: { data: { turbo_stream: true } }
+          )
+        )
       end
     end
+
+    respond_with_turbo_streams
   end
 
   def show_oauth_application
     @oauth_application = @storage.oauth_application
 
-    respond_to do |format|
-      format.turbo_stream
+    update_via_turbo_stream(
+      component: Storages::Admin::OAuthApplicationInfoComponent.new(oauth_application: @oauth_application,
+                                                                    storage: @storage)
+    )
+
+    if @storage.oauth_client.blank?
+      update_via_turbo_stream(
+        component: Storages::Admin::Forms::OAuthClientFormComponent.new(oauth_client: @storage.build_oauth_client,
+                                                                        storage: @storage)
+      )
     end
+
+    respond_with_turbo_streams
   end
 
-  # Edit page is very similar to new page, except that we don't need to set
-  # default attribute values because the object already exists;
-  # Called by: Global app/config/routes.rb to serve Web page
   def edit; end
 
   def edit_host
-    respond_to do |format|
-      format.turbo_stream
-    end
+    update_via_turbo_stream(
+      component: Storages::Admin::Forms::GeneralInfoFormComponent.new(
+        @storage,
+        form_method: :patch,
+        cancel_button_path: edit_admin_settings_storage_path(@storage)
+      )
+    )
+
+    respond_with_turbo_streams
   end
 
-  # Update is similar to create above
-  # See also: create above
-  # Called by: Global app/config/routes.rb to serve Web page
   def update
     service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user, model: @storage)
@@ -149,13 +167,19 @@ class Storages::Admin::StoragesController < ApplicationController
     @storage = service_result.result
 
     if service_result.success?
-      respond_to do |format|
-        format.turbo_stream
-      end
+      respond_to { |format| format.turbo_stream }
     else
-      respond_to do |format|
+      update_via_turbo_stream(
+        component: Storages::Admin::Forms::GeneralInfoFormComponent.new(
+          @storage,
+          form_method: :patch,
+          cancel_button_path: edit_admin_settings_storage_path(@storage)
+        )
+      )
+
+      respond_with_turbo_streams do |format|
+        # FIXME: This should be a partial stream update
         format.html { render :edit }
-        format.turbo_stream { render :edit_host }
       end
     end
   end
@@ -202,8 +226,21 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = service_result.result
 
     if service_result.success?
-      render :replace_oauth_application
+      update_via_turbo_stream(component: Storages::Admin::GeneralInfoComponent.new(@storage))
+
+      update_via_turbo_stream(
+        component: Storages::Admin::OAuthApplicationInfoCopyComponent.new(
+          oauth_application: @oauth_application,
+          storage: @storage,
+          submit_button_options: {
+            data: { turbo_stream: true }
+          }
+        )
+      )
+
+      respond_with_turbo_streams
     else
+      # FIXME: This should be a partial stream update
       render :edit
     end
   end

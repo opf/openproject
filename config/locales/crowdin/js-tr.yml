@@ -904,6 +904,11 @@ tr:
       preformatted_text: "Önceden biçimlendirilmiş metin"
       wiki_link: "Bir Wiki sayfasına bağlantı"
       image: "Görsel"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Projenin toplu değişimi"
@@ -1019,6 +1024,7 @@ tr:
         assigned_to_me: "Bana atananlar"
         recently_created: "Son oluşturulanlar"
         all_open: "Tüm açık"
+        overdue: "Overdue"
         summary: "Özet"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
@@ -1059,12 +1065,8 @@ tr:
         is_parent: "Bu çalışma paketinin tarihleri otomatik olarak çocuklarından çıkarılır. Tarihleri ayarlamak için 'Manuel zamanlama'yı etkinleştirin."
         is_switched_from_manual_to_automatic: "Bu çalışma paketinin tarihlerinin, diğer çalışma paketleriyle olan ilişkiler nedeniyle manuelden otomatik zamanlamaya geçtikten sonra yeniden hesaplanması gerekebilir."
       sharing:
-        share: "Paylaş"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

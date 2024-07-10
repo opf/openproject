@@ -31,7 +31,11 @@
 module Storages::Admin::Forms
   class AutomaticallyManagedProjectFoldersFormComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
     alias_method :storage, :model
+
+    def self.wrapper_key = :automatically_managed_project_folders_section
 
     def form_method
       options[:form_method] || default_form_method

@@ -152,14 +152,20 @@ RSpec.describe "my", :js, :with_cuprite do
             find_test_selector("api-token-add").click
           end
 
+          expect(page).to have_test_selector("new-access-token-dialog")
+
+          # create API token
+          fill_in "token_api[token_name]", with: "Testing Token"
+          find_test_selector("create-api-token-button").click
+
           expect(page).to have_content "A new API token has been generated. Your access token is"
 
           User.current.reload
           visit my_access_token_path
 
-          # only one API token can be created
+          # multiple API tokens can be created
           within "#api-token-section" do
-            expect(page).not_to have_test_selector("api-token-add", text: "API token")
+            expect(page).to have_test_selector("api-token-add", text: "API token")
           end
 
           # revoke API token

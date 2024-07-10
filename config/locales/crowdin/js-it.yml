@@ -905,6 +905,11 @@ it:
       preformatted_text: "Testo preformattato"
       wiki_link: "Collega ad una pagina Wiki"
       image: "Immagine"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Modifica complessiva del progetto"
@@ -1020,6 +1025,7 @@ it:
         assigned_to_me: "Assegnato a me"
         recently_created: "Creato di recente"
         all_open: "Apri tutto"
+        overdue: "Overdue"
         summary: "Sommario"
         shared_with_users: "Condiviso con gli utenti"
         shared_with_me: "Condivisi con me"
@@ -1060,12 +1066,8 @@ it:
         is_parent: "Le date di questa macro-attività vengono automaticamente dedotte dai suoi figli. Attiva 'Programmazione manuale' per impostare le date."
         is_switched_from_manual_to_automatic: "Potrebbe essere necessario ricalcolare le date di questa macro-attività dopo il passaggio dalla programmazione manuale alla programmazione automatica a causa delle relazioni con altre macro-attività."
       sharing:
-        share: "Condividi"
         title: "Condividi macro-attività"
         show_all_users: "Mostra tutti gli utenti con i quali la macro-attività è stata condivisa"
-        selected_count: "%{count} selezionati"
-        selection:
-          mixed: "Misto"
         upsale:
           description: "Condividi macro-attività con utenti che non sono membri del progetto."
       table:

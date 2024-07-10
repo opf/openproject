@@ -82,6 +82,20 @@ RSpec.describe ProjectCustomFieldProjectMappings::BulkCreateService do
         end
       end
     end
+
+    context "with duplicates" do
+      let(:project) { create(:project) }
+      let(:instance) { described_class.new(user:, projects: [project, project], project_custom_field:) }
+
+      it "creates the mappings only once" do
+        expect { instance.call }.to change(ProjectCustomFieldProjectMapping, :count).by(1)
+
+        aggregate_failures "creates the mapping for the correct project and custom field" do
+          expect(ProjectCustomFieldProjectMapping.last.project).to eq(project)
+          expect(ProjectCustomFieldProjectMapping.last.project_custom_field).to eq(project_custom_field)
+        end
+      end
+    end
   end
 
   context "with non-admin but sufficient permissions" do

@@ -905,6 +905,11 @@ si:
       preformatted_text: "පෙර ආකෘතිකරණය කරන ලද පෙළ"
       wiki_link: "විකි පිටුවකට සබැඳිය"
       image: "පින්තූරය"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "ව්යාපෘතියේ තොග වෙනසක්"
@@ -1020,6 +1025,7 @@ si:
         assigned_to_me: "මට පවරනු ලැබේ"
         recently_created: "මෑතකදී නිර්මාණය"
         all_open: "සියල්ල විවෘතයි"
+        overdue: "Overdue"
         summary: "සාරාංශය"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
@@ -1060,12 +1066,8 @@ si:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: "Share"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

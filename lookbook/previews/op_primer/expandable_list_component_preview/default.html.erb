@@ -1,0 +1,7 @@
+<%=
+  render(OpPrimer::ExpandableListComponent.new(cutoff_limit:)) do |list|
+    elements.each do |item|
+      list.with_element { item }
+    end
+  end
+%>

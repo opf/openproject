@@ -11,6 +11,6 @@ bg:
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'припокриване.'
+          outside: 'е извън мрежата.'
+          end_before_start: 'крайната стойност трябва да е по-голяма от началната.'

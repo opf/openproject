@@ -41,7 +41,7 @@ module Storages
           when :oauth_user_token
             AuthenticationStrategies::OAuthUserToken.new(strategy.user)
           when :oauth_client_credentials
-            AuthenticationStrategies::OAuthClientCredentials.new
+            AuthenticationStrategies::OAuthClientCredentials.new(strategy.use_cache)
           else
             raise "Invalid authentication strategy '#{strategy}'"
           end
