@@ -24,7 +24,7 @@
     </div>
   <% end %>
 
-  <div class="op-sidebar--body">
+  <div class="op-sidebar--body" data-test-selector="op-sidebar--body">
     <% if top_level_sidebar_menu_items.any? %>
       <div class="op-sidemenu">
         <ul class="op-sidemenu--items">
@@ -62,6 +62,9 @@
               <% selected = child_item.selected ? 'selected' : '' %>
               <a class="op-sidemenu--item-action <%= selected %>" href="<%= child_item.href %>" data-test-selector="op-sidemenu--item-action">
                 <span class="op-sidemenu--item-title"><%= child_item.title %></span>
+                <% if child_item.favored %>
+                  <%= render Primer::Beta::Octicon.new(icon: "star-fill", "aria-label": I18n.t(:label_favorite), classes: %w[op-sidemenu--item-mark op-primer--star-icon]) %>
+                <% end %>
               </a>
             </li>
           <% end %>

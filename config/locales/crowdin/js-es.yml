@@ -150,7 +150,7 @@ es:
         attribute_reference:
           macro_help_tooltip: "Este segmento de texto está siendo renderizado dinámicamente por una macro."
           not_found: "No se encuentra el recurso solicitado"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "Esta macro hace referencia recursivamente a %{model} %{id}."
           invalid_attribute: "El atributo seleccionado («%{name}») no existe."
         child_pages:
           button: "Enlaces a páginas secundarias"
@@ -906,10 +906,10 @@ es:
       wiki_link: "Vincular a una página Wiki"
       image: "Imagen"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Compartir"
+      selected_count: "%{count} seleccionados"
       selection:
-        mixed: "Mixed"
+        mixed: "Mixto"
     work_packages:
       bulk_actions:
         move: "Cambio masivo del proyecto"
@@ -1025,6 +1025,7 @@ es:
         assigned_to_me: "Asignado a mí"
         recently_created: "Creado recientemente"
         all_open: "Todo abierto"
+        overdue: "Vencido"
         summary: "Resumen"
         shared_with_users: "Compartido con usuarios"
         shared_with_me: "Compartido conmigo"

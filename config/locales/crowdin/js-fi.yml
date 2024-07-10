@@ -1025,6 +1025,7 @@ fi:
         assigned_to_me: "Minulle määritetyt"
         recently_created: "Äskettäin luodut"
         all_open: "Avoimet tehtävät"
+        overdue: "Overdue"
         summary: "Yhteenveto"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

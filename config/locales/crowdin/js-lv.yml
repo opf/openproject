@@ -1026,6 +1026,7 @@ lv:
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"
         all_open: "All open"
+        overdue: "Overdue"
         summary: "Kopsavilkums"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

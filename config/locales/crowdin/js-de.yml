@@ -1024,6 +1024,7 @@ de:
         assigned_to_me: "Mir zugewiesen"
         recently_created: "Kürzlich erstellt"
         all_open: "Alle offenen"
+        overdue: "Overdue"
         summary: "Zusammenfassung"
         shared_with_users: "Geteilt mit Benutzern"
         shared_with_me: "Mit mir geteilt"

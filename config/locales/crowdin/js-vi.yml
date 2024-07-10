@@ -1023,6 +1023,7 @@ vi:
         assigned_to_me: "Được phân công cho tôi"
         recently_created: "Đã được tạo gần đây"
         all_open: "Mở tất cả"
+        overdue: "Overdue"
         summary: "Tóm tắt"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

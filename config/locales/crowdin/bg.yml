@@ -23,43 +23,43 @@ bg:
   no_results_title_text: В момента няма нищо за показване.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: В рамките на този период от време по проекта не са извършвани никакви дейности.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: В момента няма инсталирани приставки.
+      no_results_content_text: За повече информация вижте нашата страница за интеграции и плъгини.
     custom_styles:
       color_theme: "Цвят на темата"
       color_theme_custom: "Потребителски"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
-      custom_colors: "Custom colors"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+        primary-button-color: "Основен бутон"
+        accent-color: "Акцент"
+        header-bg-color: "Фон на заглавната част"
+        header-item-bg-hover-color: "Фон на заглавието при поставяне на мишката"
+        header-item-font-color: "Шрифт на заглавието"
+        header-item-font-hover-color: "Шрифт на заглавието при преминаване върху него"
+        header-border-bottom-color: "Рамка на заглавието"
+        main-menu-bg-color: "Фон на главното меню"
+        main-menu-bg-selected-background: "Основно меню, когато е избрано"
+        main-menu-bg-hover-background: "Основно меню при преминаване върху него"
+        main-menu-font-color: "Шрифт на главното меню"
+        main-menu-selected-font-color: "Основно меню, когато е избрано"
+        main-menu-hover-font-color: "Шрифт на главното меню при преминаване върху него"
+        main-menu-border-color: "Очертание на главното меню"
+      custom_colors: "Персонализирани цветове"
+      customize: "Персонализирайте инсталацията на OpenProject със собственото си лого и цветове."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
-      manage_colors: "Edit color select options"
+      enterprise_more_info: "Забележка: използваното лого ще бъде публично достъпно."
+      manage_colors: "Редактиране на опциите за избор на цвят"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
-        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
-        header-item-font-color: "Font color of clickable header items."
-        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
-        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
-        main-menu-bg-color: "Left side menu's background color."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+        primary-button-color: "Силен акцентен цвят, използван за най-важния бутон на екрана."
+        accent-color: "Цвят за връзки и други добре подчертани елементи."
+        header-item-bg-hover-color: "Цвят на фона на елементите на заглавието, върху които може да се кликне, когато се премине с мишката."
+        header-item-font-color: "Цвят на шрифта на елементите на заглавието, върху които може да се кликне."
+        header-item-font-hover-color: "Цвят на шрифта на елементите на заглавието, върху които може да се кликне, когато се премине с мишката."
+        header-border-bottom-color: "Тънка линия под заглавието. Оставете това поле празно, ако не искате да има никаква линия."
+        main-menu-bg-color: "Цвят на фона на менюто от лявата страна."
+      theme_warning: Промяната на темата ще презапише потребителския ви стил. Тогава дизайнът ще бъде загубен. Сигурни ли сте, че искате да продължите?
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise edition"
       add_token: "Upload an Enterprise edition support token"
@@ -186,30 +186,30 @@ bg:
     label_no_color: "No color"
     label_properties: "Свойства"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Сигурни ли сте, че искате да изтриете следния цвят? Типовете, които използват този цвят, няма да бъдат изтрити.
   custom_actions:
     actions:
       name: "Действия"
-      add: "Add action"
+      add: "Добавете действие"
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "(Присвояване на изпълняващ потребител)"
     conditions: "Условия"
-    plural: "Custom actions"
-    new: "New custom action"
-    edit: "Edit custom action %{name}"
-    execute: "Execute %{name}"
+    plural: "Персонализирани действия"
+    new: "Ново персонализирано действие"
+    edit: "Редактиране на персонализирано действие %{name}"
+    execute: "Изпълнение на %{name}"
     upsale:
-      title: "Custom actions"
-      description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
+      title: "Персонализирани действия"
+      description: "Потребителските действия са преки пътища с едно кликване до набор от предварително дефинирани действия, които можете да направите достъпни за определени работни пакети въз основа на статус, роля, тип или проект."
   custom_fields:
     text_add_new_custom_field: >
-      To add new custom fields to a project you first need to create them before you can add them to this project.
-    is_enabled_globally: "Is enabled globally"
-    enabled_in_project: "Enabled in project"
-    contained_in_type: "Contained in type"
-    confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
-    reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+      За да добавите нови потребителски полета към даден проект, първо трябва да ги създадете, преди да можете да ги добавите към този проект.
+    is_enabled_globally: "Активирано е глобално"
+    enabled_in_project: "Разрешено в проекта"
+    contained_in_type: "Съдържа се в тип"
+    confirm_destroy_option: "Изтриването на опция ще изтрие всички нейни срещания (напр. в работните пакети). Сигурни ли сте, че искате да я изтриете?"
+    reorder_alphabetical: "Пренареждане на стойностите по азбучен ред"
+    reorder_confirmation: "Внимание: Текущият ред на наличните стойности ще бъде загубен. Желаете ли да продължите?"
     instructions:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
       is_for_all: "Mark the custom field as available in all existing and new projects."
@@ -224,7 +224,7 @@ bg:
   concatenation:
     single: "или"
   global_search:
-    placeholder: "Search in %{app_title}"
+    placeholder: "Търсене в %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Форум"
@@ -238,48 +238,50 @@ bg:
       no_results_title_text: В момента има няма проекти част от тази група.
   incoming_mails:
     ignore_filenames: >
-      Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
+      Посочете списък с имена, които да се игнорират при обработката на прикачени файлове за входящи писма (напр. подписи или икони). Въведете по едно име на файл на ред.
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: "Project members"
-      overviews: "Project overview"
-      queries: "Work packages: saved views"
-      wiki_page_attachments: "Wiki pages: attachments"
-      work_package_attachments: "Work packages: attachments"
-      work_package_categories: "Work packages: categories"
-      work_package_file_links: "Work packages: file links"
+      members: "Членове на проекта"
+      overviews: "Преглед на проекта"
+      queries: "Работни пакети: запазени изгледи"
+      wiki_page_attachments: "Страници на Уикипедия: прикачени файлове"
+      work_package_attachments: "Работни пакети: прикачени файлове"
+      work_package_categories: "Работни пакети: категории"
+      work_package_file_links: "Работни пакети: връзки към файлове"
+      work_package_shares: "Работни пакети: споделяния"
     delete:
       scheduled: "Изтриването е планирано и се извършва във фонов режим. Ще бъдете уведомени за резултата."
-      schedule_failed: "Project cannot be deleted: %{errors}"
-      failed: "Deletion of project %{name} has failed"
-      failed_text: "The request to delete project %{name} has failed. The project was left archived."
-      completed: "Deletion of project %{name} completed"
-      completed_text: "The request to delete project '%{name}' has been completed."
+      schedule_failed: "Проектът не може да бъде изтрит: %{errors}"
+      failed: "Изтриването на проект %{name} е неуспешно"
+      failed_text: "Заявката за изтриване на проект %{name} е неуспешна. Проектът е преместен в архива."
+      completed: "Изтриването на проект %{name} е завършен"
+      completed_text: "Искането за изтриване на проект '%{name}' е изпълнено."
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Отваря се като изглед на Гант"
       no_results_title_text: В момента няма проекти
       no_results_content_text: Създаване на нов проект
     lists:
-      active: "Active projects"
+      active: "Активни проекти"
       my: "Моите проекти"
-      favored: "Favorite projects"
-      archived: "Archived projects"
-      public: "Public project lists"
-      my_private: "My private project lists"
+      favored: "Любими проекти"
+      archived: "Архивирани проекти"
+      shared: "Споделени списъци с проекти"
+      public: "Публични списъци с проекти"
+      my_private: "Моите лични списъци с проекти"
       new:
-        placeholder: "New project list"
+        placeholder: "Нов списък с проекти"
       delete_modal:
-        title: "Delete project list"
-        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
+        title: "Изтриване на списъка с проекти"
+        text: "Това действие няма да изтрие нито един проект, който списъкът съдържа. Сигурни ли сте, че искате да изтриете този списък с проекти?"
     settings:
-      change_identifier: Change identifier
+      change_identifier: Промяна на идентификатора
       activities:
         no_results_title_text: В момента има няма дейности на разположение.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: В момента няма форум/и за този проект.
+        no_results_content_text: Създайте нов форум
       categories:
         no_results_title_text: В момента има няма категории работни пакети.
         no_results_content_text: Създаване на нова категория работни пакети
@@ -287,24 +289,21 @@ bg:
         no_results_title_text: В момента няма налични потребителски полета.
       project_custom_fields:
         header:
-          title: "Project attributes"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          title: "Атрибути на проекта"
+          description: 'Тези атрибути на проекта ще бъдат показани във вашата <a href=%{overview_url} target="_blank">страница за преглед на проекта</a> в съответните им раздели. Можете да активирате или деактивирате отделните атрибути. Атрибутите и разделите на проекта се определят в <a href=%{admin_settings_url} target="_blank">настройките за администриране</a> от администратора на инстанцията. '
         filter:
-          label: "Search project attribute"
+          label: "Намерете атрибут на проекта"
         actions:
-          label_enable_single: "Active in this project, click to disable"
-          label_disable_single: "Inactive in this project, click to enable"
-          deactivate_for_project: "Deactivate for this project"
-          label_enable_all: "Enable all"
+          label_enable_single: "Активен в този проект, щракнете за да деактивирате"
+          label_disable_single: "Неактивен в този проект, щракнете, за да разрешите"
+          deactivate_for_project: "Деактивирайте за този проект"
+          label_enable_all: "Разрешете всички"
           label_disable_all: "Disable all"
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: В момента има няма типове на разположение.
         form:
@@ -387,52 +386,64 @@ bg:
       cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
       will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
-      will_revoke_access_to_all: "This action will revoke their access to all of them."
+      will_revoke_access_to_all: "Това действие ще отнеме достъпа им до всички тях."
   my:
     access_token:
-      failed_to_reset_token: "Failed to reset access token: %{error}"
-      notice_reset_token: "A new %{type} token has been generated. Your access token is:"
-      token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
+      errors:
+        token_name_blank: "Моля, посочете име на API токен"
+        token_name_in_use: "Този API токен вече се използва, моля изберете друго."
+      new_access_token_dialog_title: "Създайте нов API токен"
+      new_access_token_dialog_show_button_text: "API токен"
+      new_access_token_dialog_text_field_placeholder_text: "Моят API токен"
+      new_access_token_dialog_text_field_label: "Име"
+      new_access_token_dialog_submit_button_text: "Създай"
+      new_access_token_dialog_text: "Този токен ще позволи на приложенията на трети страни да комуникират с вашата инстанция. За да разграничите новия API токен, дайте му име."
+      new_access_token_dialog_attention_text: "Отнасяйте се към токените на API като към пароли. Всеки, който има тази връзка, ще има достъп до информацията от този случай, споделяйте я само с доверени потребители."
+      failed_to_reset_token: "Неуспешно нулиране на токена за достъп: %{error}"
+      failed_to_create_token: "Неуспешно създаване на токен за достъп: %{error}"
+      failed_to_revoke_token: "Неуспешно нулиране на токена за достъп: %{error}"
+      notice_reset_token: "Генериран е нов %{type} токен. Вашият токен за достъп е:"
+      token_value_warning: "Забележка: Това е единственият път, в който ще видите този символ, затова не забравяйте да го копирате сега."
       no_results_title_text: В момента няма възможност за достъп на повече потребители.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
-      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
+      notice_rss_token_revoked: "RSS токенът е изтрит. За да създадете нов токен, използвайте връзката в раздела RSS."
+      notice_ical_token_revoked: 'iCalendar токенът "%{token_name}" за календара "%{calendar_name}" на проекта "%{project_name}" е отменен. URL адресът на iCalendar с този токен, вече е невалиден.'
   news:
     index:
       no_results_title_text: Няма новини за докладване.
       no_results_content_text: Добави новина
   users:
     autologins:
-      prompt: "Stay logged in for %{num_days}"
+      prompt: "Останете в системата за %{num_days}"
     sessions:
-      remembered_devices: "Remembered devices"
-      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
-      session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: "Browser"
-      device: "Device / OS"
-      unknown_browser: "unknown browser"
-      unknown_os: "unknown operating system"
-      current: "Current session"
-      title: "Session management"
-      instructions: "This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to."
-      may_not_delete_current: "You cannot delete your current session."
+      remembered_devices: "Запомнени устройства"
+      remembered_devices_caption: "Списък на всички устройства, които са влезли в този акаунт, като са използвали опцията \"Остани влязъл\"."
+      session_name: "%{browser_name} %{browser_version} на %{os_name}"
+      browser: "Браузър"
+      device: "Устройство / операционна система"
+      unknown_browser: "Неизвестен браузър"
+      unknown_os: "непозната операционна система"
+      current: "Текуща сесия"
+      title: "Управление на сесии"
+      instructions: "Това е списък на устройствата, които са влизали с вашия акаунт. Отменете всички сесии, които не разпознавате или до които вече нямате достъп."
+      may_not_delete_current: "Не можете да изтриете текущата си сесия."
     groups:
-      member_in_these_groups: "This user is currently a member of the following groups:"
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: "В момента този потребител е член на следните групи:"
+      no_results_title_text: В момента този потребител не е член на нито една група.
     memberships:
       no_results_title_text: Този потребител в момента не е член на проекта.
   page:
     text: "Текст"
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+      Нямате право да изтривате заместващия потребител. Нямате право да менажирате членове всички проекти, на които е член и заместващия потребител.
+    delete_tooltip: "Изтриване на заместващ потребител"
     deletion_info:
       heading: "Изтриване на потребител на заместител %{name}"
       data_consequences: >
         Всички повторения на потребителя на резервоар (напр. Като правоприемник, отговорник или други потребителски стойности) ще бъдат преназначени към акаунт, наречен „Изтрит потребител“. Тъй като данните от всеки изтрит акаунт се пренасочват към този акаунт, няма да е възможно да се разграничат данните, създадени от потребителя, от данните на друг изтрит акаунт.
       irreversible: "Това действие е необратимо"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "Въведете заместващото потребителско име %{name} , за да потвърдите изтриването."
     upsale:
       title: Потребители на резервни части
       description: >
@@ -440,8 +451,8 @@ bg:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Щракнете, за да зададете или промените цвета на този приоритет.
+        Той може да се използва за подчертаване на работните пакети в таблицата.
   reportings:
     index:
       no_results_title_text: В момента няма отчети за статуси.
@@ -449,28 +460,28 @@ bg:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Отбележете тази опция, за да маркирате работните пакети с този статус като такива само за четене.
+        Не могат да се променят никакви атрибути, с изключение на статуса.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Забележка</strong>: Наследените стойности (например от деца или връзки) все още ще се прилагат.
       status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
+        Отбележете тази опция, за да изключите работните пакети с този статус от общите стойности на Работа,
+        Оставаща работа и % Завършено в йерархията.
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Щракнете, за да зададете или промените цвета на това състояние.
+        То се показва в бутона за състоянието и може да се използва за подчертаване на работните пакети в таблицата.
     index:
       no_results_title_text: Има в момента няма статуси за работни пакети.
       no_results_content_text: Добавяне на ново състояние
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
-        excluded_from_totals: "Excluded from totals"
+        is_default: "По подразбиране"
+        is_closed: "Затворен"
+        is_readonly: "Само за четене"
+        excluded_from_totals: "Изключени от тоталите"
   themes:
-    dark: "Dark"
-    light: "Light"
-    light_high_contrast: "Light high contrast"
+    dark: "Тъмно (експериментално)"
+    light: "Светъл"
+    light_high_contrast: "Светъл с висок контраст"
   types:
     index:
       no_results_title_text: В момента няма типове.
@@ -481,10 +492,10 @@ bg:
       more_info_text_html: >
         Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Проекти"
-      enabled_projects: "Enabled projects"
-      edit_query: "Edit table"
-      query_group_placeholder: "Give the table a name"
-      reset: "Reset to defaults"
+      enabled_projects: "Активирани проекти"
+      edit_query: "Редактиране на таблица"
+      query_group_placeholder: "Дайте име на таблицата"
+      reset: "Възстановяване по подразбиране"
       type_color_text: |
         The selected color distinguishes different types
         in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
@@ -695,32 +706,33 @@ bg:
       type:
         description: "Default text for description"
         attribute_groups: ""
-        is_in_roadmap: "Displayed in roadmap by default"
-        is_default: "Activated for new projects by default"
+        is_in_roadmap: "Показване в пътната карта по подразбиране"
+        is_default: "Активирано за нови проекти по подразбиране"
         is_milestone: "Е крайъгълен камък"
         color: "Цвят"
       user:
         admin: "Администратор"
         auth_source: "Authentication source"
-        ldap_auth_source: "LDAP connection"
-        identity_url: "Identity URL"
+        ldap_auth_source: "LDAP връзка"
+        identity_url: "URL адрес на идентичност"
         current_password: "Текуща парола"
         force_password_change: "Смяна на паролата при следващото влизане"
         language: "Език"
         last_login_on: "Последно влизане"
         new_password: "Нова парола"
         password_confirmation: "Потвърждение"
-        consented_at: "Consented at"
+        consented_at: "Съгласие в"
       user_preference:
         comments_sorting: "Покажи коментарите"
         hide_mail: "Скрий моя имейл адрес"
         impaired: "Достъпен режим"
         time_zone: "Часова зона"
-        auto_hide_popups: "Auto-hide success notifications"
-        warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
-        theme: "Mode"
+        auto_hide_popups: "Автоматично скриване на успешните известия"
+        warn_on_leaving_unsaved: "Предупреждавайте ме при напускане на работен пакет с незаписани промени"
+        theme: "Режим"
+        mode_guideline: "Някои режими ще пренапишат цветовете на персонализираната тема за достъпност и четливост. За пълна персонализирана тема изберете режим Light."
       version:
-        effective_date: "Finish date"
+        effective_date: "Крайна дата"
         sharing: "Споделяне"
       wiki_content:
         text: "Текст"
@@ -730,33 +742,33 @@ bg:
       planning_element_type_color:
         hexcode: Шестнадесетичен код
       project_custom_field:
-        custom_field_section: Section
+        custom_field_section: Раздел
       work_package:
         begin_insertion: "Начало на вмъкване"
         begin_deletion: "Начало на изтриване"
-        children: "Subelements"
+        children: "Поделементи"
         derived_done_ratio: "Total % complete"
         derived_remaining_hours: "Total remaining work"
         derived_remaining_time: "Total remaining work"
-        done_ratio: "% Complete"
+        done_ratio: "% Завършено"
         duration: "Продължителност"
         end_insertion: "Край на вмъкване"
         end_deletion: "Края на изтриване"
-        ignore_non_working_days: "Ignore non working days"
+        ignore_non_working_days: "Игнориране на неработни дни"
         include_non_working_days:
-          title: "Working days"
-          false: "working days only"
-          true: "include non-working days"
-        notify: "Notify" #used in custom actions
+          title: "Работни дни"
+          false: "само в работни дни"
+          true: "включват неработни дни"
+        notify: "Уведомяване" #used in custom actions
         parent: "Горна категория"
         parent_issue: "Горна категория"
         parent_work_package: "Горна категория"
         priority: "Приоритет"
-        progress: "% Complete"
-        readonly: "Read only"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        shared_with_users: "Shared with"
+        progress: "% Завършено"
+        readonly: "Само за четене"
+        remaining_hours: "Оставаща работа"
+        remaining_time: "Оставаща работа"
+        shared_with_users: "Споделено с"
         schedule_manually: "Ръчно планиране"
         spent_hours: "Отработено време"
         spent_time: "Отработено време"
@@ -769,9 +781,9 @@ bg:
         uid: "№ на клиент"
         secret: "Тайна на клиента"
         owner: "Собственик"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
+        redirect_uri: "Пренасочване на URI"
+        client_credentials_user_id: "Клиентски идентификационни данни Потребителски ИД"
+        scopes: "Обхвати"
         confidential: "Поверително"
     errors:
       messages:
@@ -781,58 +793,58 @@ bg:
         before: "трябва да бъде преди %{date}."
         before_or_equal_to: "трябва да бъде преди или е равно на %{date}."
         blank: "не може да бъде празно."
-        blank_nested: "needs to have the property '%{property}' set."
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        blank_nested: "трябва да бъде зададено свойството '%{property}'."
+        cannot_delete_mapping: "е необходимо. Не може да бъде изтрит."
         cant_link_a_work_package_with_a_descendant: "Работния пакет не може да бъде свързан с една от неговите подзадачи."
         circular_dependency: "Тази връзка ще доведе до циклична зависимост."
         confirmation: "не съвпада с %{attribute}."
         could_not_be_copied: "%{dependency} не може да бъде (напълно) копирана."
         does_not_exist: "не съществува."
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
-        error_unauthorized: "may not be accessed."
-        error_readonly: "was attempted to be written but is not writable."
+        error_unauthorized: "не може да бъде осъществен достъп."
+        error_readonly: "направен е неуспешен опит за запис"
         error_conflict: "Информацията е актуализирана от поне един друг потребител в същото време."
-        email: "is not a valid email address."
+        email: "е невалидна електронна поща."
         empty: "не може да бъде празно."
         even: "трябва да бъде четно число."
         exclusion: "е запазено."
         file_too_large: "е твърде голям (максимален размер %{count} байта)."
-        filter_does_not_exist: "filter does not exist."
-        format: "does not match the expected format '%{expected}'."
-        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        filter_does_not_exist: "филтърът не съществува."
+        format: "не съответства на очаквания формат '%{expected}'."
+        format_nested: "не отговаря на очаквания формат '%{expected}' при път '%{path}'."
         greater_than: "трябва да бъде по-голямо от %{count}."
         greater_than_or_equal_to: "трябва да бъде по-голямо от или равно на %{count}."
         greater_than_or_equal_to_start_date: "трябва да бъде по-голяма от или равна на началната дата."
         greater_than_start_date: "трябва да бъде по-голяма от началната дата."
         inclusion: "не е зададена, като позволена стойност."
-        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        inclusion_nested: "не е зададена на една от разрешените стойности в пътя '%{path}'."
         invalid: "е невалиден."
         invalid_url: "невалиден URL адрес."
-        invalid_url_scheme: "is not a supported protocol (allowed: %{allowed_schemes})."
+        invalid_url_scheme: "не е поддържан протокол (разрешен: %{allowed_schemes})."
         less_than_or_equal_to: "трябва да бъде по-малка или равна на %{count}."
-        not_available: "is not available due to a system configuration."
+        not_available: "не е наличен поради системна конфигурация."
         not_deletable: "не може да бъде изтрито."
         not_current_user: "не е текущият потребител."
-        not_a_date: "is not a valid date."
-        not_a_datetime: "is not a valid date time."
+        not_a_date: "е невалидна дата"
+        not_a_datetime: "не е валидна дата и час."
         not_a_number: "не е число."
-        not_allowed: "is invalid because of missing permissions."
+        not_allowed: "е невалиден поради липса на достъп."
         not_an_integer: "не е цяло число."
         not_an_iso_date: "не е валидна дата. Изискван формат: ГГГГ-ММ-ДД."
         not_same_project: "не принадлежат към един и същ проект."
         odd: "трябва да бъде нечетен."
-        regex_match_failed: "does not match the regular expression %{expression}."
-        regex_invalid: "could not be validated with the associated regular expression."
+        regex_match_failed: "не съответства на регулярния израз %{expression}."
+        regex_invalid: "не може да бъде валидиран със съответния регулярен израз."
         smaller_than_or_equal_to_max_length: "трябва да бъде по-малка от или равна на максималната дължина."
         taken: "вече съществува."
         too_long: "е твърде дълго (максимума е %{count} знаци)."
         too_short: "е твърде кратък (минимум е %{count} знаци)."
-        type_mismatch: "is not of type '%{type}'"
-        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
-        unchangeable: "cannot be changed."
-        unknown_property: "is not a known property."
-        unknown_property_nested: "has the unknown path '%{path}'."
-        unremovable: "cannot be removed."
+        type_mismatch: "не е от тип '%{type}'"
+        type_mismatch_nested: "не е от тип '%{type}' по пътя '%{path}'"
+        unchangeable: "не може да бъде променен."
+        unknown_property: "е неизвестно свойство."
+        unknown_property_nested: "има неизвестен път '%{path}'."
+        unremovable: "не може да бъде премахнат."
         url_not_secure_context: >
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "е грешна дължина (трябва да бъде %{count} знаци)."
@@ -840,12 +852,12 @@ bg:
         ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Предоставеният SSL сертификат е невалиден: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
             content_type:
-              blank: "The content type of the file cannot be blank."
+              blank: "Типът на съдържанието на файла не може да бъде празен."
               not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
               format: "%{message}"
         capability:
@@ -878,9 +890,9 @@ bg:
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: "overlap."
-          outside: "is outside of the grid."
-          end_before_start: "end value needs to be larger than the start value."
+          overlaps: "припокриване."
+          outside: "е извън мрежата."
+          end_before_start: "крайната стойност трябва да е по-голяма от началната."
         ical_token_query_assignment:
           attributes:
             name:
@@ -970,46 +982,46 @@ bg:
         repository:
           not_available: "SCM доставчик не е наличен"
           not_whitelisted: "не е позволено от конфигурацията."
-          invalid_url: "is not a valid repository URL or path."
-          must_not_be_ssh: "must not be an SSH url."
+          invalid_url: "не е валиден URL адрес или път на хранилището."
+          must_not_be_ssh: "не трябва да бъде SSH url."
           no_directory: "не е директория."
         role:
           attributes:
             permissions:
-              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+              dependency_missing: "е необходимо да включите и \"%{dependency}\", тъй като е избран \"%{permission}\"."
         setting:
           attributes:
             base:
-              working_days_are_missing: "At least one day of the week must be defined as a working day."
-              previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
-              hours_per_day_are_missing: "The number of hours per day must be defined."
-              durations_are_not_positive_numbers: "The durations must be positive numbers."
-              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              working_days_are_missing: "Поне един ден от седмицата, трябва да бъде определен като работен ден."
+              previous_working_day_changes_unprocessed: "Предишните промени в конфигурацията на работните дни все още не са приложени."
+              hours_per_day_are_missing: "Трябва да се определи броят на часовете на ден."
+              durations_are_not_positive_numbers: "Продължителността трябва да е положително число."
+              hours_per_day_is_out_of_bounds: "Часовете на ден не могат да бъдат повече от 24"
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "е твърде висока, тъй като за една дата могат да се регистрират максимум 24 часа."
         user_preference:
           attributes:
             pause_reminders:
-              invalid_range: "can only be a valid date range."
+              invalid_range: "може да бъде само валиден диапазон от дати."
             daily_reminders:
-              full_hour: "can only be configured to be delivered at a full hour."
+              full_hour: "могат да бъдат конфигурирани да се доставят само на цял час."
             notification_settings:
-              only_one_global_setting: "There must only be one global notification setting."
-              email_alerts_global: "The email notification settings can only be set globally."
+              only_one_global_setting: "Трябва да има само една глобална настройка за уведомяване."
+              email_alerts_global: "Настройките за имейл известия могат да се задават само глобално."
               format: "%{message}"
-              wrong_date: "Wrong value for Start date, Due date, or Overdue."
+              wrong_date: "Неправилна стойност за начална дата, дата на плащане или просрочие."
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              not_allowed_to_view: "не е разрешено да разглежда този ресурс."
+              locked: "е заключен."
         wiki_page:
-          error_conflict: "The wiki page has been updated by someone else while you were editing it."
+          error_conflict: "Страницата в уикипедията е била актуализирана от някой друг, докато сте я редактирали."
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "не може да се заключи от заглавието \"%{title}\"."
         work_package:
           is_not_a_valid_target_for_time_entries: "Работен пакет #%{id} не е валидна цел за преразпределяне на времевите записи."
           attributes:
@@ -1017,25 +1029,25 @@ bg:
               format: "%{message}"
             due_date:
               not_start_date: "не е на начална дата, въпреки че това е необходимо за важни събития."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "не може да бъде зададена като нула, тъй като началната дата и продължителността са известни."
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
-              not_available_for_milestones: "is not available for milestone typed work packages."
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              larger_than_dates: "е по-голям от интервала между началната и крайната дата."
+              smaller_than_dates: "е по-малък от интервала между началната и крайната дата."
+              not_available_for_milestones: "не е налична за работни пакети, вписани като етап."
+              cannot_be_null: "не може да бъде зададена като нула, тъй като началната и крайната дата са известни."
             parent:
               cannot_be_milestone: "не може да бъде крайъгълен камък."
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "не може да бъде присвоен на себе си."
               cannot_be_in_another_project: "не може да бъде в друг проект."
               not_a_valid_parent: "е невалиден."
             start_date:
               violates_relationships: "може да се зададе само до %{soonest_start} или по-късно, за да не нарушават взаймоотношения на работни пакети."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              cannot_be_null: "не може да бъде зададена като нула, тъй като датата на завършване и продължителността са известни."
             status_id:
               status_transition_invalid: "е невалидно, защото не съществува валиден преход от старото към новото състояние за текущите потребителски роли."
-              status_invalid_in_type: "is invalid because the current status does not exist in this type."
+              status_invalid_in_type: "е невалиден, тъй като текущото състояние не съществува в този тип."
             type:
-              cannot_be_milestone_due_to_children: "cannot be a milestone because this work package has children."
+              cannot_be_milestone_due_to_children: "не може да бъде крайъгълен камък, защото този работен пакет има под-пакети."
             priority_id:
               only_active_priorities_allowed: "трябва да бъде активен."
             category:
@@ -1043,31 +1055,31 @@ bg:
               does_not_exist: "Определената категория не съществува."
             estimated_hours:
               not_a_number: "is not a valid duration."
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Не може да бъде по-ниско от Оставащата работа."
+              must_be_set_when_remaining_work_is_set: "Изисква се, когато е зададена Оставаща работа."
+              only_values_greater_or_equal_zeroes_allowed: "Трябва да е >= 0."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "Не може да бъде по-високо от Работа."
+              must_be_set_when_work_is_set: "Изисква се, когато е зададена Работа."
               format: "%{message}"
-          readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
+          readonly_status: "Работният пакет е в състояние само за четене, така че атрибутите му не могат да бъдат променяни."
         type:
           attributes:
             attribute_groups:
-              attribute_unknown: "Invalid work package attribute used."
-              attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
-              duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
-              query_invalid: "The embedded query '%{group}' is invalid: %{details}"
-              group_without_name: "Unnamed groups are not allowed."
+              attribute_unknown: "Използван е невалиден атрибут на работния пакет."
+              attribute_unknown_name: "Използван е невалиден атрибут на работния пакет: %{attribute}"
+              duplicate_group: "Името на групата '%{group}' се използва повече от веднъж. Имената на групите трябва да са уникални."
+              query_invalid: "Вградената заявка '%{group}' е невалидна: %{details}"
+              group_without_name: "Не са разрешени неименовани групи."
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
-              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
+              user_limit_reached: "Лимитът на потребителя е достигнат. Не могат да се създават повече акаунти в текущия план."
+              one_must_be_active: "Администраторския акаунт не може да бъде заключен/премахнат. Поне един администратор трябва да е активен."
             password_confirmation:
-              confirmation: "Password confirmation does not match password."
+              confirmation: "Потвърждението на паролата не съвпада с паролата."
               format: "%{message}"
             password:
               weak: "Трябва да съдържа знаци от следните класове (най-малко %{min_count} на %{all_count}): %{rules}."
@@ -1082,25 +1094,29 @@ bg:
                 confirm: "Потвърдете новата парола."
                 description: "\"Потвърждаване на паролата\" трябва да съответства на въведеното в поле \"нова парола\"."
             status:
-              invalid_on_create: "is not a valid status for new users."
+              invalid_on_create: "не е валиден статус за нови потребители."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "не е намерен"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "не е намерен"
         member:
           principal_blank: "Моля изберете поне един потребител или група."
-          role_blank: "need to be assigned."
+          role_blank: "е необходимо да бъдат назначени."
           attributes:
             roles:
-              ungrantable: "has an unassignable role."
-              more_than_one: "has more than one role."
+              ungrantable: "има неприсъща роля."
+              more_than_one: "има повече от една роля."
             principal:
-              unassignable: "cannot be assigned to a project."
+              unassignable: "не може да бъде прекрипен към проект."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
-          undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Версията не може да бъде изтрита, тъй като към нея са прикрепени работни пакети."
+          undeletable_work_packages_attached: "Версията не може да бъде изтрита, тъй като към нея са прикрепени работни пакети."
         status:
           readonly_default_exlusive: "не може да се активира за състояния, които са маркирани по подразбиране."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Моля проверете следните полета:"
         header:
@@ -1124,6 +1140,9 @@ bg:
         other: "Notifications"
       placeholder_user: "Потребител на заместител"
       project: "Проект"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Потребителска заявка"
       role:
         one: "Роля"
@@ -1266,8 +1285,8 @@ bg:
     error:
       invalid_token: Invalid or missing backup token
       token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      backup_pending: Вече има резервно копие в процес на създаване.
+      limit_reached: Можете да правите само %{limit} резервни копия на ден.
   button_actions: "Действия"
   button_add: "Добави"
   button_add_comment: "Добави коментар"
@@ -1283,26 +1302,26 @@ bg:
   button_change_password: "Смяна на паролата"
   button_check_all: "Избери всички"
   button_clear: "Изчистване"
-  button_click_to_reveal: "Click to reveal"
+  button_click_to_reveal: "Кликнете, за да разкриете"
   button_close: "Close"
   button_collapse_all: "Свиване на всички"
   button_configure: "Конфигуриране"
   button_continue: "Продължаване"
   button_copy: "Копиране"
   button_copy_to_clipboard: "Копирай в буфер"
-  button_copy_link_to_clipboard: "Copy link to clipboard"
+  button_copy_link_to_clipboard: "Копиране на връзката в клипборда"
   button_copy_and_follow: "Копирате и следвайте"
   button_create: "Създаване"
   button_create_and_continue: "Създаване и продължи"
   button_delete: "Изтрий"
-  button_decline: "Decline"
+  button_decline: "Отказване"
   button_delete_watcher: "Изтриване на наблюдател %{name}"
   button_download: "Изтегли"
   button_duplicate: "Дублиране"
   button_edit: "Редактиране"
   button_edit_associated_wikipage: "Редактиране на свързани Wiki страница: %{page_title}"
   button_expand_all: "Разгъване на всички"
-  button_favorite: "Add to favorites"
+  button_favorite: "Добавяне към любими"
   button_filter: "Филтър"
   button_generate: "Генерирай"
   button_list: "Списък"
@@ -1314,14 +1333,14 @@ bg:
   button_quote: "Цитат"
   button_remove: Премахване
   button_rename: "Преименуване"
-  button_replace: "Replace"
-  button_revoke: "Revoke"
+  button_replace: "Замени"
+  button_revoke: "Отмени"
   button_reply: "Отговор"
   button_reset: "Нулиране"
   button_rollback: "Връщане към тази версия"
   button_save: "Запази"
   button_save_as: "Запиши като"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Приложи промените"
   button_save_back: "Записване и обратно"
   button_show: "Покажи"
   button_sort: "Сортиране"
@@ -1330,7 +1349,7 @@ bg:
   button_unarchive: "Разархивиране"
   button_uncheck_all: "Размаркирай всички"
   button_unlock: "Отключване"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Премахване от любими"
   button_unwatch: "Спри наблюдение"
   button_update: "Обнови"
   button_upgrade: "Надграждане"
@@ -1341,40 +1360,40 @@ bg:
   button_add_menu_entry: "Добавяне на елемент на меню"
   button_configure_menu_entry: "Конфигуриране на елемент от меню"
   button_delete_menu_entry: "Изтриване на елемент от меню"
-  button_view_shared_work_packages: "View shared work packages"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
-  button_remove_member_and_shares: "Remove member and shares"
-  button_revoke_work_package_shares: "Revoke work package shares"
-  button_revoke_access: "Revoke access"
-  button_revoke_all: "Revoke all"
-  button_revoke_only: "Revoke only %{shared_role_name}"
-  button_publish: "Make public"
-  button_unpublish: "Make private"
+  button_view_shared_work_packages: "Преглед на споделени работни пакети"
+  button_manage_roles: "Управление на роли"
+  button_remove_member: "Премахване на член"
+  button_remove_member_and_shares: "Премахване на член и споделяния"
+  button_revoke_work_package_shares: "Отмяна споделянията на работния пакет"
+  button_revoke_access: "Отмяна на достъпа"
+  button_revoke_all: "Отмяна на всички"
+  button_revoke_only: "Отмяна само на %{shared_role_name}"
+  button_publish: "Направи публично"
+  button_unpublish: "Направи поверително"
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: "Last update of consent: %{update_time}"
+    checkbox_label: Запознах се с горното и се съгласявам с него.
+    failure_message: Съгласието не е дадено, не може да се продължи.
+    title: Съгласие на потребителя
+    decline_warning_message: Отказали сте да се съгласите и сте бил изведен от системата.
+    user_has_consented: Потребителят се е съгласил с конфигурираните от вас изявления в дадения момент.
+    not_yet_consented: Потребителят все още не е дал съгласието си, то ще бъде поискано при следващото влизане.
+    contact_mail_instructions: Определете пощенския адрес, на който потребителите могат да се свържат с администратора на данни, за да изпълняват заявки за промяна или премахване на данни.
+    contact_your_administrator: Моля, свържете се с вашия администратор, ако искате да изтриете профила си.
+    contact_this_mail_address: Моля, свържете се с %{mail_address} , ако искате да изтриете профила си.
+    text_update_consent_time: Поставете отметка в това поле, за да накарате потребителите да се съгласят отново. Разрешете, когато сте променили правния аспект на информацията за съгласие по-горе.
+    update_consent_last_time: "Последна актуализация на съгласието: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Копиране на проект "%{source_project_name}"'
     started: 'Започна копиране на проект "%{source_project_name}" в "%{target_project_name}". Ще бъдете информирани по пощата веднага, след като "%{target_project_name}" е достъпен.'
     failed: "Не може да се копира проект %{source_project_name}"
-    failed_internal: "Copying failed due to an internal error."
+    failed_internal: "Копирането е неуспешно поради вътрешна грешка."
     succeeded: "Създаден проект %{target_project_name}"
     errors: "Грешка"
-    project_custom_fields: "Custom fields on project"
+    project_custom_fields: "Персонализирани полета в проекта"
     x_objects_of_this_type:
-      zero: "No objects of this type"
-      one: "One object of this type"
-      other: "%{count} objects of this type"
+      zero: "Няма обекти от този тип"
+      one: "Един обект от този тип"
+      other: "%{count} обекти от този тип"
     text:
       failed: 'Не можа да се копира проект "%{source_project_name}" в проект "%{target_project_name}".'
       succeeded: 'Копиран проект "%{source_project_name}" в "%{target_project_name}".'
@@ -1468,29 +1487,29 @@ bg:
         one: "1 минута"
         other: "%{count} минути"
       x_minutes_abbreviated:
-        one: "1 min"
-        other: "%{count} mins"
+        one: "1 мин."
+        other: "%{count} минути"
       x_hours:
         one: "1 час"
         other: "%{count} часа"
       x_hours_abbreviated:
         one: "1 hr"
-        other: "%{count} hrs"
+        other: "%{count} часа"
       x_weeks:
         one: "1 week"
-        other: "%{count} weeks"
+        other: "%{count} седмици"
       x_months:
         one: "1 месец"
         other: "%{count} месеца"
       x_years:
         one: "1 year"
-        other: "%{count} years"
+        other: "%{count} години"
       x_seconds:
         one: "1 секунда"
         other: "%{count} секунди"
       x_seconds_abbreviated:
         one: "1 s"
-        other: "%{count} s"
+        other: "%{count} секунди"
     units:
       hour:
         one: "час"
@@ -1501,9 +1520,9 @@ bg:
     Това поле използва Автодовършване. Докато пишете заглавието на работен пакет ще получите списък на възможните кандидати. Изберете един използване на стрелка и стрелка надолу ключ и го изберете с tab или въведете. Като алтернатива можете да въведете номера на работния пакет директно.
   description_available_columns: "Достъпни колони"
   description_choose_project: "Проекти"
-  description_compare_from: "Compare from"
-  description_compare_to: "Compare to"
-  description_current_position: "You are here: "
+  description_compare_from: "Сравнете от"
+  description_compare_to: "Сравнете с"
+  description_current_position: "Вие сте тук:"
   description_date_from: "Въведете начална дата"
   description_date_to: "Въведете крайна дата"
   description_enter_number: "Въведете номер"
@@ -1530,15 +1549,15 @@ bg:
     upsale:
       form_configuration:
         description: "Customize the form configuration with these additional add-ons:"
-        add_groups: "Add new attribute groups"
-        rename_groups: "Rename attributes groups"
+        add_groups: "Добавяне на нови групи атрибути"
+        rename_groups: "Преименуване на групи атрибути"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Дейности за проследяване на времето"
   enumeration_work_package_priorities: "Приоритети на работни пакети"
   enumeration_reported_project_statuses: "Докладвани статуси на проект"
-  error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_auth_source_sso_failed: "Неуспешно единично влизане (SSO) за потребител '%{value}'"
+  error_can_not_archive_project: "Този проект не може да бъде архивиран: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Не може да изтриете това потребителско поле"
   error_can_not_delete_in_use_archived_undisclosed: "There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
@@ -1671,58 +1690,58 @@ bg:
       shortcuts: "Кратки клавишни комбинации"
       blog: "OpenProject блог"
       forums: "Форум на Общността"
-      newsletter: "Security alerts / Newsletter"
+      newsletter: "Сигнали за сигурност / Бюлетин"
   image_conversion:
     imagemagick: "Магия на изображението"
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "Промените бяха оттеглени."
     caused_changes:
-      dates_changed: "Dates changed"
-      default_attribute_written: "Read-only attributes written"
-      progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_changed: "Status '%{status_name}'"
-      system_update: "OpenProject system update:"
+      dates_changed: "Промяна на датите"
+      default_attribute_written: "Записани атрибути само за четене"
+      progress_mode_changed_to_status_based: "Актуализирано изчисление на напредъка"
+      status_changed: "Състояние '%{status_name}'"
+      system_update: "Актуализация на системата OpenProject:"
     cause_descriptions:
-      work_package_predecessor_changed_times: by changes to predecessor %{link}
-      work_package_parent_changed_times: by changes to parent %{link}
-      work_package_children_changed_times: by changes to child %{link}
-      work_package_related_changed_times: by changes to related %{link}
-      unaccessable_work_package_changed: by changes to a related work package
+      work_package_predecessor_changed_times: чрез промени в предшественика %{link}
+      work_package_parent_changed_times: чрез промени в родителския %{link}
+      work_package_children_changed_times: чрез промени в под-родителския %{link}
+      work_package_related_changed_times: чрез промени в свързаните %{link}
+      unaccessable_work_package_changed: чрез промени в свързан работен пакет
       working_days_changed:
-        changed: "by changes to working days (%{changes})"
+        changed: "чрез промени в работните дни (%{changes})"
         days:
-          working: "%{day} is now working"
-          non_working: "%{day} is now non-working"
+          working: "%{day} вече работи"
+          non_working: "%{day} вече не работи"
         dates:
-          working: "%{date} is now working"
-          non_working: "%{date} is now non-working"
-      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
-      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+          working: "%{date} вече работи"
+          non_working: "%{date} вече не работи"
+      progress_mode_changed_to_status_based: Режим на изчисление на напредъка, зададен на базата на състоянието
+      status_excluded_from_totals_set_to_false_message: сега са включени в общите суми на йерархията
+      status_excluded_from_totals_set_to_true_message: сега са изключени от общите стойности на йерархията
+      status_percent_complete_changed: "% завършеност променен от %{old_value}% на %{new_value}%"
       system_update:
         file_links_journal: >
-          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+          Отсега нататък дейностите, свързани с файлови връзки (файлове, съхранявани във външни хранилища), ще се показват тук, в раздела Дейности. По-долу е представена дейност, свързана с връзки, които вече са съществували:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Изчисляването на напредъка автоматично се <a href="%{href}" target="_blank">настройва на режим, базиран на работата, и се коригира при актуализиране на версията</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Изчисляването на напредъка <a href="%{href}" target="_blank">се коригира</a> автоматично <a href=" %{href} " target="_blank">при актуализиране на версията</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Автоматично премахване на общите суми за работа и напредък за работни пакети, които не са родителски, при <a href="%{href}" target="_blank">актуализиране на версията</a>. Това е задача по поддръжката и може спокойно да бъде пренебрегната.
   links:
-    configuration_guide: "Configuration guide"
-    get_in_touch: "You have questions? Get in touch with us."
+    configuration_guide: "Ръководство за конфигуриране"
+    get_in_touch: "Имате въпроси? Свържете се с нас."
   instructions_after_registration: "Можете да влезете веднага след като вашият акаунт е бил активиран като щракнете %{signin}."
   instructions_after_logout: "Можете да влезете в отново като щракнете %{signin}."
   instructions_after_error: "Можете да опитате да влезете отново като щракнете %{signin}. Ако грешката продължава, помолете вашия администратор за помощ."
   menus:
     admin:
       mail_notification: "Известия по имейл"
-      mails_and_notifications: "Emails and notifications"
+      mails_and_notifications: "Имейли и известия"
       aggregation: "Aggregation"
-      api_and_webhooks: "API and webhooks"
+      api_and_webhooks: "API и уеб куки"
     quick_add:
-      label: "Open quick add menu"
+      label: "Отворете менюто за бързо добавяне"
     breadcrumb:
       nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
@@ -1730,36 +1749,36 @@ bg:
       no_results:
         title: "Няма налични билети за показване"
         description: "Всички от тях са забранени. Те могат да бъдат повторно разрешени в меню за администриране."
-      access_tokens: "Access tokens"
+      access_tokens: "Токени за достъп"
       headers:
         action: "Действие"
         expiration: "Изтича на"
       indefinite_expiration: "Никога"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      simple_revoke_confirmation: "Наистина ли искате да анулирате този токен?"
       api:
         title: "API"
-        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
-        static_token_name: "API token"
-        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "Токените за API позволяват на приложения от трети страни да комуникират с тази инстанция на OpenProject чрез REST API."
+        static_token_name: "API токен"
+        disabled_text: "API токените не са разрешени от администратора. Моля, свържете се с администратора си, за да използвате тази функция."
       ical:
         title: "iCalendar"
-        text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
-        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
-        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+        text_hint: 'iCalendar токените позволяват на потребителите да <a href="%{path}" target="_blank">се абонират за календарите на OpenProject</a> и да виждат актуална информация за работните пакети от външни клиенти.'
+        disabled_text: "Абонаментите за iCalendar не са разрешени от администратора. Моля, свържете се с администратора си, за да използвате тази функция."
+        empty_text_hint: "За да добавите токен на iCalendar, абонирайте се за нов или съществуващ календар от модула Календар на проекта. Трябва да имате необходимите разрешения."
       oauth:
         title: "OAuth"
-        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        text_hint: "Токените OAuth позволяват на приложения от трети страни да се свързват с тази инстанция на OpenProject."
+        empty_text_hint: "Няма конфигуриран и активен достъп до приложения на трети страни. Моля, свържете се с вашия администратор, за да активирате тази функция."
       rss:
         title: "RSS"
-        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
-        static_token_name: "RSS token"
-        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "RSS токените позволяват на потребителите да следят последните промени в тази инстанция на OpenProject чрез външен RSS четец."
+        static_token_name: "RSS токен"
+        disabled_text: "RSS токените не са разрешени от администратора. Моля, свържете се с администратора си, за да използвате тази функция."
       storages:
-        title: "File Storages"
-        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
-        empty_text_hint: "There is no storage access linked to your account."
-        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        title: "Файлови Хранилища"
+        text_hint: "Токените за файловите хранилища свързват тази инстанция на OpenProject с външно хранилище на файлове."
+        empty_text_hint: "С акаунта ви не е свързан достъп до хранилище."
+        revoke_token: "Наистина ли искате да премахнете този символ? Ще трябва да влезете отново на %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
@@ -1783,6 +1802,7 @@ bg:
   label_add_another_file: "Добавяне на друг файл"
   label_add_columns: "Добавяне на избраните колони"
   label_add_note: "Добавяне на бележка"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Добави свързани работни пакети"
   label_add_subtask: "Добави подзадача"
   label_added: "добавено"
@@ -1935,10 +1955,10 @@ bg:
   label_download_plural: "%{count} изтегляния"
   label_downloads_abbr: "D/L"
   label_duplicated_by: "дублирано от"
-  label_duplicate: "duplicate"
+  label_duplicate: "дубликат"
   label_duplicates: "дублирания"
   label_edit: "Редактиране"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Редактиране: %{x}"
   label_enable_multi_select: "Превключване към множествен избор"
   label_enabled_project_custom_fields: "Разрешени потребителски полета"
   label_enabled_project_modules: "Разрешени модули"
@@ -1946,29 +1966,29 @@ bg:
   label_end_to_end: "край до край"
   label_end_to_start: "край към начало"
   label_enumeration_new: "Нова списъчна стойност"
-  label_enumeration_value: "Enumeration value"
+  label_enumeration_value: "Изброена стойност"
   label_enumerations: "Списъци"
-  label_enterprise: "Enterprise"
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise: "За големи организации"
+  label_enterprise_active_users: "%{current}/%{limit} резервирани активни потребители"
   label_enterprise_edition: "Enterprise edition"
-  label_enterprise_support: "Enterprise support"
-  label_enterprise_addon: "Enterprise add-on"
+  label_enterprise_support: "Поддръжка за големи предприятия"
+  label_enterprise_addon: "Добавка за големи предприятия"
   label_environment: "Среда"
-  label_estimates_and_progress: "Estimates and progress"
+  label_estimates_and_progress: "Оценки и напредък"
   label_equals: "е"
   label_everywhere: "навсякъде"
   label_example: "Пример"
-  label_experimental: "Experimental"
-  label_i_am_member: "I am member"
-  label_ifc_viewer: "Ifc Viewer"
-  label_ifc_model_plural: "Ifc Models"
-  label_import: "Import"
-  label_export_to: "Also available in:"
+  label_experimental: "Експериментален"
+  label_i_am_member: "Аз съм член"
+  label_ifc_viewer: "Ifc Четец"
+  label_ifc_model_plural: "Модели на Ifc"
+  label_import: "Импортиране"
+  label_export_to: "Предлага се и в:"
   label_expand: "Разтвори"
-  label_expanded_click_to_collapse: "Expanded. Click to collapse"
+  label_expanded_click_to_collapse: "Разширен. Кликнете, за да се сгъне"
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часа"
-  label_favorite: "Favorite"
+  label_favorite: "Любим"
   label_feed_plural: "Информационни канали"
   label_feeds_access_key: "RSS ключ за достъп"
   label_feeds_access_key_created_on: "RSS ключ за достъп създаден преди %{value}"
@@ -1977,14 +1997,14 @@ bg:
   label_filter_add: "Добавяне на филтър"
   label_filter: "Филтри"
   label_filter_plural: "Филтри"
-  label_filters_toggle: "Show/hide filters"
+  label_filters_toggle: "Покажи/скрий филтрите"
   label_float: "Плаващ"
   label_folder: "Папка"
   label_follows: "следва"
   label_force_user_language_to_default: "Задаване на език по подразбиране за потребителите с липсващи в системата езици"
   label_form_configuration: "Конфигурация на формата"
-  label_gantt_chart: "Gantt chart"
-  label_gantt_chart_plural: "Gantt charts"
+  label_gantt_chart: "Диаграма на Гант"
+  label_gantt_chart_plural: "Диаграми на Гант"
   label_general: "Общ"
   label_generate_key: "Генериране на ключ"
   label_git_path: "Път до .git директория"
@@ -2001,14 +2021,14 @@ bg:
   label_hierarchy_leaf: "Йерархично листо"
   label_home: "Начална страница"
   label_subject_or_id: "Тема или №"
-  label_calendar_subscriptions: "Calendar subscriptions"
+  label_calendar_subscriptions: "Абонаменти за календари"
   label_identifier: "Идентификатор"
   label_in: "в"
   label_in_less_than: "в по-малко от"
   label_in_more_than: "в повече от"
-  label_inactive: "Inactive"
+  label_inactive: "Неактивен"
   label_incoming_emails: "Входящи имейли"
-  label_includes: "includes"
+  label_includes: "включва"
   label_index_by_date: "Индекс по дата"
   label_index_by_title: "Индекс по заглавие"
   label_information: "Информация"
@@ -2016,15 +2036,17 @@ bg:
   label_installation_guides: "Installation guides"
   label_integer: "Цяло число"
   label_internal: "Вътрешен"
-  label_introduction_video: "Introduction video"
+  label_introduction_video: "Въвеждащо видео"
   label_invite_user: "Покани потребител"
   label_share: "Споделяне"
+  label_share_project_list: "Споделяне на списък с проекти"
   label_show_hide: "Покажи/Скрий"
+  label_show_hide_n_items: "Показване/скриване елементите на %{count}"
   label_show_all_registered_users: "Показване на всички регистрирани потребители"
   label_journal: "Дневник"
   label_journal_diff: "Сравнение на описание"
   label_language: "Език"
-  label_languages: "Languages"
+  label_languages: "Езици"
   label_jump_to_a_project: "Отиди на проект..."
   label_keyword_plural: "Ключови думи"
   label_language_based: "Въз основа на езика на потребителя"
@@ -2041,39 +2063,40 @@ bg:
   label_learn_more: "Научете повече"
   label_less_or_equal: "<="
   label_less_than_ago: "по-скоро от няколко дни"
-  label_link_url: "Link (URL)"
+  label_link_url: "URL-адрес на връзката:"
   label_list: "Списък"
   label_loading: "Зареждане..."
   label_lock_user: "Заключване на потребител"
   label_logged_as: "Влезли сте като"
   label_login: "Влизане"
-  label_custom_logo: "Custom logo"
-  label_custom_export_logo: "Custom export logo"
-  label_custom_export_cover: "Custom export cover background"
-  label_custom_export_cover_overlay: "Custom export cover background overlay"
-  label_custom_export_cover_text_color: "Text color"
-  label_custom_pdf_export_settings: "Custom PDF export settings"
-  label_custom_favicon: "Custom favicon"
-  label_custom_touch_icon: "Custom touch icon"
+  label_custom_logo: "Персонализирано лого"
+  label_custom_export_logo: "Персонализирано експортиране на лого"
+  label_custom_export_cover: "Персонализирано експортиране на корицата"
+  label_custom_export_cover_overlay: "Персонализирано експортиране овърлея на корицата"
+  label_custom_export_cover_text_color: "Цвят на текста"
+  label_custom_pdf_export_settings: "Потребителски настройки за експортиране на PDF"
+  label_custom_favicon: "Персонализиран favicon"
+  label_custom_touch_icon: "Потребителска икона за докосване"
   label_logout: "Изход"
   label_main_menu: "Главното меню"
+  label_manage: "Управление"
   label_manage_groups: "Управление на групи"
   label_managed_repositories_vendor: "Управлявани %{vendor} хранилища"
   label_max_size: "Максимален размер"
   label_me: "мен"
   label_member_new: "Нов потребител"
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Всички роли се дължат на статута на администратор)"
   label_member_plural: "Потребители"
-  label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
-  label_menu: "Menu"
+  label_membership_plural: "Членства"
+  lable_membership_added: "Добавен член"
+  lable_membership_updated: "Актуализиран член"
+  label_menu: "Меню"
   label_menu_badge:
-    pre_alpha: "pre-alpha"
-    alpha: "alpha"
-    beta: "beta"
+    pre_alpha: "предварителна фаза"
+    alpha: "алфа"
+    beta: "бета"
   label_menu_item_name: "Име на елемент от меню"
-  label_message: "Message"
+  label_message: "Съобщение"
   label_message_last: "Последно съобщение"
   label_message_new: "Ново съобщение"
   label_message_plural: "Съобщения"
@@ -2091,14 +2114,14 @@ bg:
   label_more_than_ago: "повече от преди дни"
   label_move_work_package: "Премести работен пакет"
   label_my_account: "Моят профил"
-  label_my_activity: "My activity"
+  label_my_activity: "Моята дейност"
   label_my_account_data: "Данни за моят акаунт"
-  label_my_avatar: "My avatar"
+  label_my_avatar: "Моят аватар"
   label_my_queries: "Моите потребителски заявки"
   label_name: "Име"
   label_never: "Никога"
   label_new: "Нов"
-  label_new_features: "New features"
+  label_new_features: "Нови функционалности"
   label_new_statuses_allowed: "Новите статуси за разрешени"
   label_news_singular: "Новини"
   label_news_added: "Добавени новини"
@@ -2110,9 +2133,9 @@ bg:
   label_news_view_all: "Покажи всички новини"
   label_next: "Следващо"
   label_next_week: "Следващата седмица"
-  label_no_change_option: "(No change)"
+  label_no_change_option: "(Без промяна)"
   label_no_data: "Няма данни за показване"
-  label_no_parent_page: "No parent page"
+  label_no_parent_page: "Няма родителска страница"
   label_nothing_display: "Нищо за показване"
   label_nobody: "nobody"
   label_not_found: "not found"
@@ -2175,6 +2198,7 @@ bg:
   label_project_latest: "Последни проекти"
   label_project_default_type: "Разреши празни типове"
   label_project_hierarchy: "Йерархия на проекта"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Нов проект"
   label_project_plural: "Проекти"
   label_project_list_plural: "Project lists"
@@ -2274,7 +2298,7 @@ bg:
   label_this_week: "тази седмица"
   label_this_year: "тази година"
   label_time_entry_plural: "Отработено време"
-  label_time_entry_activity_plural: "Spent time activities"
+  label_time_entry_activity_plural: "Прекарано време"
   label_title: "Заглавие"
   label_projects_menu: "Проекти"
   label_today: "днес"
@@ -2287,13 +2311,13 @@ bg:
   label_updated_time: "Актуализиран преди %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Актуализирана от %{author} преди %{age}"
-  label_upgrade_guides: "Upgrade guides"
+  label_upgrade_guides: "Ръководства за надграждане"
   label_used_by: "Използван от"
-  label_used_by_types: "Used by types"
-  label_used_in_projects: "Used in projects"
+  label_used_by_types: "Използва се от типове"
+  label_used_in_projects: "Използвани в проекти"
   label_user: "Потребител"
-  label_user_and_permission: "Users and permissions"
-  label_user_named: "User %{name}"
+  label_user_and_permission: "Потребители и правомощия"
+  label_user_named: "Потребител %{name}"
   label_user_activity: "дейност на %{value}"
   label_user_anonymous: "Анонимен"
   label_user_mail_option_all: "За всяко събитие на всичките ми проекти"
@@ -2306,7 +2330,7 @@ bg:
   label_user_plural: "Потребители"
   label_user_search: "Търсене на потребител"
   label_user_settings: "Потребителски настройки"
-  label_users_settings: "Users settings"
+  label_users_settings: "Потребителски настройки"
   label_version_new: "Нова версия"
   label_version_plural: "Версии"
   label_version_sharing_descendants: "С подпроектите"
@@ -2328,8 +2352,8 @@ bg:
   label_wiki_dont_show_menu_item: "Не показвай този wikipage в проектната навигация"
   label_wiki_edit: "Редактиране на Wiki"
   label_wiki_edit_plural: "Wiki редакции"
-  label_wiki_page_attachments: "Wiki page attachments"
-  label_wiki_page_id: "Wiki page ID"
+  label_wiki_page_attachments: "Прикачени файлове към страници в Уикипедия"
+  label_wiki_page_id: "Идентификатор на страницата в Уикипедия"
   label_wiki_navigation: "Wiki навигация"
   label_wiki_page: "Wiki страница"
   label_wiki_page_plural: "Wiki страници"
@@ -2338,12 +2362,12 @@ bg:
   label_wiki_show_new_page_link: "Показване на елемент от подменю \"Създай нова подстраница\""
   label_wiki_show_submenu_item: "Покажи като елемент от подменюто на "
   label_wiki_start: "Начална страница"
-  label_work: "Work"
+  label_work: "Работа"
   label_work_package: "Работен пакет"
-  label_work_package_attachments: "Work package attachments"
+  label_work_package_attachments: "Приложения към работния пакет"
   label_work_package_category_new: "Нова категория"
   label_work_package_category_plural: "Категории работни пакети"
-  label_work_package_hierarchy: "Work package hierarchy"
+  label_work_package_hierarchy: "Йерархия на работните пакети"
   label_work_package_new: "Нов работен пакет"
   label_work_package_edit: "Редактиране на работен пакет %{name}"
   label_work_package_plural: "Работни пакети"
@@ -2356,79 +2380,79 @@ bg:
   label_workflow: "Работен поток"
   label_workflow_plural: "Работни потоци"
   label_workflow_summary: "Обобщение"
-  label_working_days_and_hours: "Working days and hours"
+  label_working_days_and_hours: "Работни дни и часове"
   label_x_closed_work_packages_abbr:
     one: "1 затворен"
     other: "%{count} затворено"
-    zero: "0 closed"
+    zero: "0 затворени"
   label_x_comments:
     one: "1 коментар"
     other: "%{count} коментара"
-    zero: "no comments"
+    zero: "няма коментари"
   label_x_open_work_packages_abbr:
     one: "1 отворен"
     other: "%{count} отворени"
-    zero: "0 open"
+    zero: "0 отворени"
   label_x_work_packages:
-    one: "1 work package"
-    other: "%{count} work packages"
-    zero: "No work packages"
+    one: "1 работен пакет"
+    other: "%{count} работни пакети"
+    zero: "Няма работни пакети"
   label_x_projects:
     one: "1 проект"
     other: "%{count} проекти"
-    zero: "no projects"
+    zero: "няма проекти"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
-    zero: "no files"
+    one: "1 файл"
+    other: "%{count} файла"
+    zero: "няма файлове"
   label_yesterday: "вчера"
-  label_zen_mode: "Zen mode"
+  label_zen_mode: "Режим Дзен"
   label_role_type: "Тип"
   label_member_role: "Project role"
   label_global_role: "Global role"
   label_not_changeable: "(не може да се променя)"
-  label_global: "Global"
-  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
-  macro_execution_error: "Error executing the macro %{macro_name}"
-  macro_unavailable: "Macro %{macro_name} cannot be displayed."
+  label_global: "Глобален"
+  label_seeded_from_env_warning: Този запис е създаден чрез настройка/променлива на средата. Той не може да се редактира чрез потребителския интерфейс.
+  macro_execution_error: "Грешка при изпълнението на макроса %{macro_name}"
+  macro_unavailable: "Не може да се покаже макрос %{macro_name} ."
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: "[Заместител] Макрос %{macro_name}"
     errors:
-      missing_or_invalid_parameter: "Missing or invalid macro parameter."
+      missing_or_invalid_parameter: "Липсващ или невалиден макропараметър."
     legacy_warning:
-      timeline: "This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro."
+      timeline: "Този наследен макрос на времевата линия е премахнат и вече не е наличен. Можете да замените функционалността с макрос за вградена таблица."
     include_wiki_page:
       removed: "Макросът вече не съществува."
     wiki_child_pages:
       errors:
-        page_not_found: "Cannot find the wiki page '%{name}'."
+        page_not_found: "Не мога да намеря страницата в уикито '%{name}'."
     create_work_package_link:
       errors:
-        no_project_context: "Calling create_work_package_link macro from outside project context."
-        invalid_type: "No type found with name '%{type}' in project '%{project}'."
+        no_project_context: "Извикване на макроса create_work_package_link извън контекста на проекта."
+        invalid_type: "Не е намерен тип с име '%{type}' в проекта '%{project}'."
       link_name: "Нов работен пакет"
-      link_name_type: "New %{type_name}"
+      link_name_type: "Нов %{type_name}"
   mail:
     actions: "Действия"
     digests:
-      including_mention_singular: "including a mention"
-      including_mention_plural: "including %{number_mentioned} mentions"
-      unread_notification_singular: "1 unread notification"
-      unread_notification_plural: "%{number_unread} unread notifications"
-      you_have: "You have"
-    logo_alt_text: "Logo"
+      including_mention_singular: "включително споменаване на"
+      including_mention_plural: "включително споменавания на %{number_mentioned}"
+      unread_notification_singular: "1 непрочетено известие"
+      unread_notification_plural: "%{number_unread} непрочетени известия"
+      you_have: "Имате"
+    logo_alt_text: "Лого"
     mention:
-      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+      subject: "%{user_name} ви споменах в #%{id} - %{subject}"
     notification:
-      center: "To notification center"
-      see_in_center: "See comment in notification center"
-      settings: "Change email settings"
-    salutation: "Hello %{user}"
-    salutation_full_name: "Full name"
+      center: "Към центъра за известия"
+      see_in_center: "Вижте коментар в центъра за уведомяване"
+      settings: "Промяна на настройките за имейл"
+    salutation: "Здравейте %{user}"
+    salutation_full_name: "Пълно име"
     work_packages:
-      created_at: "Created at %{timestamp} by %{user} "
-      login_to_see_all: "Log in to see all notifications."
-      mentioned: "You have been <b>mentioned in a comment</b>"
+      created_at: "Създадено в %{timestamp} от %{user} "
+      login_to_see_all: "Влезте, за да видите всички известия."
+      mentioned: "Вие сте <b>споменати в коментар</b>"
       mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
         one: "There is 1 more work package with notifications."
@@ -2461,12 +2485,12 @@ bg:
         plaintext:
           storage: "Storage"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            summary: 'Good news! The status of your storage, %{storage_name}, is currently displaying as "Healthy".'
             error-solved-on: "Solved On"
             recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
             details: "For more details or to make any necessary amendments, you can visit your storage configuration"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: 'The status of your storage, %{storage_name}, is currently displaying as "Error". We''ve detected an issue that might require your attention.'
             error-details: "Error Details"
             error-message: "Error Message"
             error-occurred-on: "Occurred On"
@@ -2475,11 +2499,11 @@ bg:
         email_notification_settings: "Storage email notification settings"
         see_storage_settings: "See storage settings"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: 'Storage "%{name}" is now healthy!'
           solved_at: "solved at"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
+          subject: 'Storage "%{name}" is unhealthy!'
           since: "since"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
@@ -2506,82 +2530,82 @@ bg:
   mail_body_register_header_title: "Имейл с покана за участник в проекта"
   mail_body_register_user: "Уважаеми %{name},"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Моля, не се колебайте да разгледате нашия канал в youtube (%{youtube_link}), където предоставяме уебинар (%{webinar_link})
+    и видеоклипове "Започнете" (%{get_started_link}), за да направим първите ви стъпки в OpenProject възможно най-лесни.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
+    Ако имате допълнителни въпроси, консултирайте се с нашата документация (%{documentation_link}) или се свържете с вашия администратор.
   mail_body_register_closing: "Вашият екип на OpenProject"
   mail_body_register_ending: "Останете свързани! Поздрави,"
-  mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
-  mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
-  mail_subject_account_activation_request: "%{value} account activation request"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Backup token reset"
-  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
+  mail_body_reminder: "%{count} работни пакета, които са ви възложени, трябва да бъдат готови през следващите %{days} дни:"
+  mail_body_group_reminder: '%{count} работни пакети, които са възложени на група "%{group}", трябва да бъдат изпълнени през следващите %{days} дни:'
+  mail_body_wiki_page_added: "Wiki страницата '%{id}' беше обновена от %{author}."
+  mail_body_wiki_page_updated: "Wiki страницата '%{id}' беше обновена от %{author}."
+  mail_subject_account_activation_request: "%{value} заявка/и за активиране на акаунт/и"
+  mail_subject_backup_ready: "Вашето резервно копие е готово"
+  mail_subject_backup_token_reset: "Нулиране на токена за резервно копие"
+  mail_subject_incoming_email_error: "Имейлът, който изпратихте до OpenProject, не можа да бъде обработен"
   mail_subject_lost_password: "Вашата парола %{value}"
-  mail_subject_register: "Your %{value} account activation"
-  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
-  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_subject_register: "Активация на профил (%{value})"
+  mail_subject_wiki_content_added: "'%{id}' страницата в уикито е добавена"
+  mail_subject_wiki_content_updated: "'%{id}' страницата в уикипедията е актуализирана"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} - Добавен сте като член"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+        without_message: "%{user} ви добави като член на проекта '%{project}'."
+        with_message: "%{user} ви добави като член на проекта '%{project}'."
+      roles: "Имате следните роли:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Ролите ви са актуализирани"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} актуализирахте ролите, които имате в проекта '%{project}'."
+        with_message: "%{user} актуализирайте ролите, които имате в проекта '%{project}' писане:"
+      roles: "Сега имате следните роли:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "Вашите глобални достъпи са актуализирани"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
-        with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} актуализирайте ролите, които имате в глобален мащаб."
+        with_message: "%{user} актуализирайте ролите, които имате в глобален мащаб:"
+      roles: "Сега имате следните роли:"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: Достигнат лимит за активиране на потребители
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      Нов потребител (%{email}) се опита да създаде акаунт в среда на OpenProject, която управлявате (%{host}).
+      Потребителят не може да активира своя акаунт, тъй като лимитът на потребителите е достигнат.
     steps:
-      label: "To allow the user to sign in you can either: "
-      a: "Upgrade your payment plan ([here](upgrade_url))" #here turned into a link
-      b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
+      label: "За да разрешите на потребителя да влезе, можете да: "
+      a: "Актуализирайте плана си за плащане ([тук](upgrade_url))" #here turned into a link
+      b: "Заключване или изтриване на съществуващ потребител ([тук](users_url))" #here turned into a link
   more_actions: "Още функции"
   noscript_description: "Трябва да активирате JavaScript за да ползвате OpenProject!"
   noscript_heading: "JavaScript е изключен"
   noscript_learn_more: "Научете повече"
   notice_accessibility_mode: Режим на достъпност може да бъде активиран във вашия профил [settings](url).
-  notice_account_activated: "Your account has been activated. You can now log in."
+  notice_account_activated: "Вашият акаунт е активиран. Вече можете да влезете в профила си."
   notice_account_already_activated: Този потребител вече е потвърден.
   notice_account_invalid_token: Невалиден маркер за активиране
-  notice_account_invalid_credentials: "Invalid user or password"
-  notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
-  notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
-  notice_account_new_password_forced: "A new password is required."
-  notice_account_password_expired: "Your password expired after %{days} days. Please set a new one."
-  notice_account_password_updated: "Password was successfully updated."
-  notice_account_pending: "Your account was created and is now pending administrator approval."
-  notice_account_register_done: "Account was successfully created. To activate your account, click on the link that was emailed to you."
+  notice_account_invalid_credentials: "Невалиден потребителски достъп или парола"
+  notice_account_invalid_credentials_or_blocked: "Невалиден потребител или парола или акаунтът е блокиран поради многобройни неуспешни опити за влизане. Ако е така, акаунтът ще бъде деблокиран автоматично за кратко време."
+  notice_account_lost_email_sent: "Изпратен ви е имейл с инструкции за избор на нова парола."
+  notice_account_new_password_forced: "Необходима е нова парола."
+  notice_account_password_expired: "Паролата ви изтича след %{days} дни. Моля, задайте нова."
+  notice_account_password_updated: "Паролата беше успешно актуализирана."
+  notice_account_pending: "Вашият акаунт е създаден. Очаквайте одобрение от администратор."
+  notice_account_register_done: "Акаунтът е създаден успешно. За да активирате акаунта си, кликнете върху връзката, която е изпратена на вашия имейл."
   notice_account_unknown_email: "Неизвестен потребител."
   notice_account_update_failed: "Настройка на акаунт не могат да бъдат записани. Моля погледнете страницата на акаунта си."
-  notice_account_updated: "Account was successfully updated."
-  notice_account_other_session_expired: "All other sessions tied to your account have been invalidated."
+  notice_account_updated: "Акаунтът беше успешно актуализиран."
+  notice_account_other_session_expired: "Всички други сесии, свързани с вашия акаунт, са анулирани."
   notice_account_wrong_password: "Грешна парола"
   notice_account_registered_and_logged_in: "Добре дошли вашият акаунт е активиран. Вие сте влезли в момента."
   notice_activation_failed: Акаунтът не може да бъде активиран.
-  notice_auth_stage_verification_error: "Could not verify stage '%{stage}'."
-  notice_auth_stage_wrong_stage: "Expected to finish authentication stage '%{expected}', but '%{actual}' returned."
-  notice_auth_stage_error: "Authentication stage '%{stage}' failed."
+  notice_auth_stage_verification_error: "Не може да се провери етап '%{stage}'."
+  notice_auth_stage_wrong_stage: "Очакваше се да завърши етапа на удостоверяване на автентичността '%{expected}', но се върна '%{actual}'."
+  notice_auth_stage_error: "Етапът на удостоверяване на автентичността '%{stage}' се провали."
   notice_can_t_change_password: "Този профил е с външен метод за аутентикация. Невъзможна смяна на паролата."
-  notice_custom_options_deleted: "Option '%{option_value}' and its %{num_deleted} occurrences were deleted."
+  notice_custom_options_deleted: "Опцията '%{option_value}' и нейните появявания в %{num_deleted} бяха заличени."
   notice_email_error: "Възникна грешка при изпращане на поща (%{value})"
   notice_email_sent: "Имейл е изпратен до %{value}"
   notice_failed_to_save_work_packages: "Неуспешно записване на %{count} работни пакети от %{total} избрани: %{ids}."
@@ -2594,25 +2618,25 @@ bg:
   notice_locking_conflict_additional_information: "Обновленията са от %{users}."
   notice_locking_conflict_reload_page: "Моля презаредете страницата, прегледайте промените и приложете отново вашите обновления."
   notice_member_added: Добавен %{name} в проекта.
-  notice_members_added: Added %{number} users to the project.
+  notice_members_added: Добавяне са %{number} потребителя към проекта.
   notice_member_removed: "Премахнат %{user} от проект."
   notice_member_deleted: "%{user} е отстранен от проекта и изтрит."
   notice_no_principals_found: "Не са намерени разултати."
   notice_bad_request: "Грешна заявка."
   notice_not_authorized: "Нямате право на достъп до тази страница."
   notice_not_authorized_archived_project: "Проектът, до който се опитвате да получите достъп е бил архивиран."
-  notice_password_confirmation_failed: "Your password is not correct. Cannot continue."
-  notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
-  notice_principals_found_single: "There is one result. \n Tab to focus it."
+  notice_password_confirmation_failed: "Паролата ви е неправилна! Не може да продължите!"
+  notice_principals_found_multiple: "Има намерени %{number} резултата. \n Таб, за да се фокусира първият резултат."
+  notice_principals_found_single: "Резултатът е един. \n Таб, за да го фокусирате."
   notice_project_not_deleted: "Проектът не е изтрит."
-  notice_project_not_found: "Project not found."
+  notice_project_not_found: "Проектът не е намерен."
   notice_successful_connection: "Успешна връзка."
   notice_successful_create: "Успешно създаване."
   notice_successful_delete: "Успешно изтриване."
   notice_successful_update: "Успешно обновяване."
   notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    Успешна актуализация. Потребителските полета на активираните типове се активират автоматично
+    във формуляра на работния пакет. <a href="%{url}" target="_blank">Вижте още.</a>
   notice_successful_update_custom_fields_added_to_type: |
     Successful update. The active custom fields are automatically activated for
     the associated projects of this type.
@@ -2706,59 +2730,59 @@ bg:
   permission_manage_project_activities: "Manage project activities"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Manage repository"
-  permission_manage_subtasks: "Manage work package hierarchies"
-  permission_manage_versions: "Manage versions"
-  permission_manage_wiki: "Manage wiki"
-  permission_manage_wiki_menu: "Manage wiki menu"
-  permission_move_work_packages: "Move work packages"
-  permission_protect_wiki_pages: "Protect wiki pages"
-  permission_rename_wiki_pages: "Rename wiki pages"
-  permission_save_queries: "Save views"
-  permission_search_project: "Search project"
-  permission_select_custom_fields: "Select custom fields"
-  permission_select_project_custom_fields: "Select project attributes"
-  permission_select_project_modules: "Select project modules"
-  permission_share_work_packages: "Share work packages"
-  permission_manage_types: "Select types"
-  permission_view_project: "View projects"
-  permission_view_changesets: "View repository revisions in OpenProject"
-  permission_view_commit_author_statistics: "View commit author statistics"
-  permission_view_dashboards: "View dashboards"
-  permission_view_work_package_watchers: "View watchers list"
-  permission_view_work_packages: "View work packages"
-  permission_view_messages: "View messages"
-  permission_view_news: "View news"
-  permission_view_members: "View members"
-  permission_view_reportings: "View reportings"
-  permission_view_shared_work_packages: "View work package shares"
-  permission_view_time_entries: "View spent time"
-  permission_view_timelines: "View timelines"
-  permission_view_wiki_edits: "View wiki history"
-  permission_view_wiki_pages: "View wiki"
-  permission_work_package_assigned: "Become assignee/responsible"
-  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
-  permission_view_project_activity: "View project activity"
-  permission_save_bcf_queries: "Save BCF queries"
-  permission_manage_public_bcf_queries: "Manage public BCF queries"
-  permission_edit_attribute_help_texts: "Edit attribute help texts"
-  permission_manage_public_project_queries: "Manage public project lists"
-  permission_view_project_query: "View project query"
-  permission_edit_project_query: "Edit project query"
+  permission_manage_subtasks: "Управление йерархията на работните пакети"
+  permission_manage_versions: "Управление на версиите"
+  permission_manage_wiki: "Управление на уикипедия"
+  permission_manage_wiki_menu: "Управление на менюто на уикипедия"
+  permission_move_work_packages: "Преместване на работни пакети"
+  permission_protect_wiki_pages: "Защита на страници в уикипедия"
+  permission_rename_wiki_pages: "Преименуване на страници в уикипедия"
+  permission_save_queries: "Запазване на изгледи"
+  permission_search_project: "Търесене на проект"
+  permission_select_custom_fields: "Изберете потребителски полета"
+  permission_select_project_custom_fields: "Избор атрибути на проекта"
+  permission_select_project_modules: "Избор модули на проекта"
+  permission_share_work_packages: "Споделяне на работни пакети"
+  permission_manage_types: "Изберете видове"
+  permission_view_project: "Преглед на проекти"
+  permission_view_changesets: "Преглед на ревизиите на хранилището в OpenProject"
+  permission_view_commit_author_statistics: "Преглед статистиката за авторите на ангажименти"
+  permission_view_dashboards: "Преглед на табла за управление"
+  permission_view_work_package_watchers: "Преглед на списъка с наблюдатели"
+  permission_view_work_packages: "Преглед на работните пакети"
+  permission_view_messages: "Преглед на съобщенията"
+  permission_view_news: "Преглед на новини"
+  permission_view_members: "Преглед на членовете"
+  permission_view_reportings: "Преглед на отчетите"
+  permission_view_shared_work_packages: "Преглед споеделянията на работния пакет"
+  permission_view_time_entries: "Преглед на прекараното време"
+  permission_view_timelines: "Преглед на хронологиите"
+  permission_view_wiki_edits: "Преглед на историята на уикипедията"
+  permission_view_wiki_pages: "Преглед на уикипедия"
+  permission_work_package_assigned: "Станете правоприемник/отговорник"
+  permission_work_package_assigned_explanation: "Работните пакети могат да бъдат възлагани на потребители и групи, които притежават тази роля в съответния проект."
+  permission_view_project_activity: "Преглед на дейностите по проекта"
+  permission_save_bcf_queries: "Запазване на заявките на BCF"
+  permission_manage_public_bcf_queries: "Управление на публични запитвания за BCF"
+  permission_edit_attribute_help_texts: "Редактиране помощните текстове на атрибутите"
+  permission_manage_public_project_queries: "Управление на публични списъци с проекти"
+  permission_view_project_query: "Преглед на заявката за проект"
+  permission_edit_project_query: "Редактиране на заявката за проект"
   placeholders:
     default: "-"
   project:
     destroy:
-      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
-      project_delete_result_1: "Delete all related data."
-      project_delete_result_2: "Delete all managed project folders in the attached storages."
-      info: "Deleting the project is an irreversible action."
-      project_verification: "Enter the project's name %{name} to verify the deletion."
-      subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
-      title: "Delete the project %{name}"
+      confirmation: "Ако продължите, проектът %{identifier} ще бъде окончателно унищожен. За да потвърдите това действие, моля въведете името на проекта в полето по-долу, това ще:"
+      project_delete_result_1: "Изтрийте всички свързани данни."
+      project_delete_result_2: "Изтрийте всички управлявани папки на проекта в приложените хранилища."
+      info: "Изтриването на проекта е необратимо действие."
+      project_verification: "Въведете името на проекта %{name} , за да потвърдите изтриването."
+      subprojects_confirmation: "Неговият(те) подпроект(и): %{value} също ще бъде изтрит(и)."
+      title: "Изтриване на проекта %{name}"
     identifier:
-      warning_one: Members of the project will have to relocate the project's repositories.
-      warning_two: Existing links to the project will no longer work.
-      title: Change the project's identifier
+      warning_one: Членовете на проекта ще трябва да преместят хранилищата на проекта.
+      warning_two: Съществуващите връзки към проекта вече няма да работят.
+      title: Промяна на идентификатора на проекта
     template:
       copying: >
         Вашият проект се създава от избрания шаблон на проект. Ще бъдете уведомени по пощата, веднага щом проектът стане наличен.
@@ -2767,9 +2791,9 @@ bg:
       remove_from_templates: "Премахване от шаблоните"
     archive:
       are_you_sure: "Наистина ли искате да архивирате на проекта \"%{name}\"?"
-      archived: "Archived"
+      archived: "Архивирано"
     count:
-      zero: "0 Projects"
+      zero: "0 Проекти"
       one: "1 Project"
       other: "%{count} Projects"
   project_module_activity: "Активност"
@@ -2881,7 +2905,7 @@ bg:
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
       setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      setup_documentation_details_link_text: "Настройка на хранилища за файлове"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Съществуващо хранилище за подверсии"
@@ -2889,7 +2913,7 @@ bg:
       existing_url: "Съществуващ URL адрес"
       instructions:
         managed_url: "Това е URL на управляваните (локални) хранилища за подпроекти."
-        url: "Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.\nThe following URL schemes are supported:"
+        url: "Въведете URL адреса на хранилището. Той може да бъде насочен към локално хранилище (започвайки с %{local_proto} ) или към отдалечено хранилище.\nПоддържат се следните схеми на URL адреси:"
       managed_title: "Subversion repository integrated into OpenProject"
       managed_introduction: "Let OpenProject create and integrate a local Subversion repository automatically."
       managed_url: "Managed URL"
@@ -2964,6 +2988,10 @@ bg:
   setting_default_projects_public: "New projects are public by default"
   setting_diff_max_lines_displayed: "Max number of diff lines displayed"
   setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
   setting_email_login: "Използвайте имейла като вход"
@@ -2976,7 +3004,7 @@ bg:
   setting_host_name: "Име на хост"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Имейлът за активиране изтича след"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3418,6 +3446,24 @@ bg:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

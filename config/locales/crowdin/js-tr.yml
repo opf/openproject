@@ -1024,6 +1024,7 @@ tr:
         assigned_to_me: "Bana atananlar"
         recently_created: "Son oluşturulanlar"
         all_open: "Tüm açık"
+        overdue: "Overdue"
         summary: "Özet"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

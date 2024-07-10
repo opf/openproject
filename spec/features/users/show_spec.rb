@@ -50,13 +50,13 @@ RSpec.describe "index users", :js, :with_cuprite do
 
     visit user_path(user)
 
-    expect(page).to have_css("li", text: "Project: #{project.name}")
+    expect(page).to have_text("Project: #{project.name}")
     expected_work_package_title = "#{work_package.type.name} ##{work_package.id}: #{work_package.subject} " \
                                   "(Project: #{work_package.project.name})"
-    expect(page).to have_css("li", text: expected_work_package_title)
+    expect(page).to have_text(expected_work_package_title)
 
     # Expect group visible
-    expect(page).to have_css("li", text: group.name)
+    expect(page).to have_text(group.name)
   end
 
   context "as another user" do

@@ -1024,6 +1024,7 @@ el:
         assigned_to_me: "Έχουν ανατεθεί σε εμένα"
         recently_created: "Δημιουργήθηκαν πρόσφατα"
         all_open: "Όλα τα ανοιχτά"
+        overdue: "Overdue"
         summary: "Περίληψη"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

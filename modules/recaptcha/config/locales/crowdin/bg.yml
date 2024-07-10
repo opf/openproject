@@ -4,21 +4,21 @@ bg:
     name: "OpenProject ReCaptcha"
     description: "This module provides recaptcha checks during login."
   recaptcha:
-    label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Please wait ...'
-    verify_account: "Verify your account"
-    error_captcha: "Your account could not be verified. Please contact an administrator."
+    label_recaptcha: ""
+    button_please_wait: 'Моля, изчакайте...'
+    verify_account: "Потвърждаване на профила ви"
+    error_captcha: "Вашият акаунт не може да бъде проверен. Моля, свържете се с администратор."
     settings:
-      website_key: 'Website key'
-      response_limit: 'Response limit for HCaptcha'
-      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
-      secret_key: 'Secret key'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
-      type: 'Use reCAPTCHA'
-      type_disabled: 'Disable reCAPTCHA'
+      website_key: 'Ключ на страница'
+      response_limit: 'Ограничение на отговора за HCaptcha'
+      response_limit_text: 'Максималният брой символи, с които отговорът на HCaptcha се счита за валиден.'
+      website_key_text: 'Въведете ключа за уебсайта, който сте създали в конзолата за администриране на reCAPTCHA за този домейн.'
+      secret_key: 'Таен ключ'
+      secret_key_text: 'Въведете тайния ключ, който сте създали в администраторската конзола на reCAPTCHA.'
+      type: 'Използвайте reCAPTCHA'
+      type_disabled: 'Деактивиране на reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}
+        reCAPTCHA е безплатна услуга на Google, която може да бъде активирана за вашата инстанция на OpenProject. Ако е активирана, при влизане в системата ще се визуализира форма с captcha за всички потребители, които все още не са потвърдили captcha. <br/> Моля, вижте следния линк за повече подробности относно reCAPTCHA и техните версии, както и как да създадете уебсайта и тайните ключове: %{recaptcha_link} <br/> HCaptcha е безплатна алтернатива на Google, която можете да използвате, ако не искате да използвате reCAPTCHA. Вижте тази връзка за повече информация: %{hcaptcha_link}

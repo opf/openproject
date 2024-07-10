@@ -1025,6 +1025,7 @@ nl:
         assigned_to_me: "Toegewezen aan mij"
         recently_created: "Onlangs gecreëerd"
         all_open: "Alles open"
+        overdue: "Overdue"
         summary: "Samenvatting"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

@@ -1024,6 +1024,7 @@ sv:
         assigned_to_me: "Tilldelad till mig"
         recently_created: "Nyligen skapade"
         all_open: "Alla öppna"
+        overdue: "Overdue"
         summary: "Sammanfattning"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

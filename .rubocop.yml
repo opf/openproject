@@ -1,10 +1,8 @@
 require:
+  - rubocop-openproject
   - rubocop-rails
   - rubocop-rspec
   - rubocop-rspec_rails
-  - ./lib_static/rubocop/cop/open_project/add_preview_for_view_component.rb
-  - ./lib_static/rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect.rb
-  - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
   - rubocop-capybara
   - rubocop-factory_bot
   - rubocop-performance
@@ -238,6 +236,8 @@ RSpec/DescribeMethod:
 # Don't force the second argument of describe
 # to match the exact file name
 RSpec/SpecFilePathFormat:
+  CustomTransform:
+    OAuthClients: oauth_clients
   IgnoreMethods: true
 
 # Prevent  "fit" or similar to be committed

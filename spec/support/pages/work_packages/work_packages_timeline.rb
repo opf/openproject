@@ -83,6 +83,7 @@ module Pages
       else
         expect(page).to have_no_css(".wp-table-timeline--container .wp-timeline-cell", visible: true)
       end
+      wait_for_network_idle
     end
 
     def timeline_row(wp_id)

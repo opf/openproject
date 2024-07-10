@@ -246,6 +246,7 @@ zh-CN:
       work_package_attachments: "工作包：附件"
       work_package_categories: "工作包：类别"
       work_package_file_links: "工作包：文件链接"
+      work_package_shares: "工作包：共享"
     delete:
       scheduled: "删除已安排并且将在后台执行。您将收到结果通知。"
       schedule_failed: "项目不能删除: %{errors}"
@@ -263,6 +264,7 @@ zh-CN:
       my: "我的项目"
       favored: "收藏的项目"
       archived: "归档项目"
+      shared: "共享项目列表"
       public: "公开项目列表"
       my_private: "我的私有项目列表"
       new:
@@ -285,7 +287,7 @@ zh-CN:
       project_custom_fields:
         header:
           title: "项目属性"
-          description: "这些项目属性将显示在<a href=%{overview_url} target=\"_blank\">项目概览页面</a> 的相应部分下。您可以启用或禁用单个属性。项目属性和部分由实例管理员在 <a href=%{admin_settings_url} target=\"_blank\"> 管理设置</a> 中定义。 "
+          description: '这些项目属性将显示在<a href=%{overview_url} target="_blank">项目概览页面</a> 的相应部分下。您可以启用或禁用单个属性。项目属性和部分由实例管理员在 <a href=%{admin_settings_url} target="_blank"> 管理设置</a> 中定义。 '
         filter:
           label: "搜索项目属性"
         actions:
@@ -298,10 +300,7 @@ zh-CN:
           heading: 所有项目中需要
           description: 此项目属性已在所有项目中激活，因为选中了“所有项目中需要”的选项。它在单个项目中不能被停用。
         new_project_mapping_form:
-          add_projects: 添加项目
           include_sub_projects: 包含子项目
-        project_mappings:
-          header: 已在项目中启用
       types:
         no_results_title_text: 目前有可用的类型。
         form:
@@ -381,7 +380,19 @@ zh-CN:
       will_revoke_access_to_all: "此操作将撤销他们对所有这些系统的访问权限。"
   my:
     access_token:
+      errors:
+        token_name_blank: "请提供一个 API 令牌名称"
+        token_name_in_use: "此 API 令牌名称已经在使用，请选择一个不同的名称"
+      new_access_token_dialog_title: "创建新的 API 令牌"
+      new_access_token_dialog_show_button_text: "API 令牌"
+      new_access_token_dialog_text_field_placeholder_text: "我的 API 令牌"
+      new_access_token_dialog_text_field_label: "名称"
+      new_access_token_dialog_submit_button_text: "创建"
+      new_access_token_dialog_text: "此令牌将允许第三方应用程序与您的实例通信。为了区分新的 API 令牌，请为其命名。"
+      new_access_token_dialog_attention_text: "将 API 令牌视为密码。任何使用此链接的人都可以从此实例获取信息，仅与受信任的用户共享。"
       failed_to_reset_token: "无法重置访问令牌: %{error}"
+      failed_to_create_token: "创建访问令牌失败： %{error}"
+      failed_to_revoke_token: "撤销访问令牌失败： %{error}"
       notice_reset_token: "生成了一个新的%{type} 令牌。您的访问令牌是:"
       token_value_warning: "注意: 这将是您唯一机会看到这个令牌, 请务必立即复制它。"
       no_results_title_text: 目前没有可用的访问令牌。
@@ -459,7 +470,7 @@ zh-CN:
         is_readonly: "只读"
         excluded_from_totals: "不包括在总计中"
   themes:
-    dark: "暗黑模式"
+    dark: "暗色（测试）"
     light: "浅色模式"
     light_high_contrast: "高对比度模式"
   types:
@@ -708,6 +719,7 @@ zh-CN:
         auto_hide_popups: "自动隐藏成功通知"
         warn_on_leaving_unsaved: "离开未保存更改的工作包时提示我"
         theme: "模式"
+        mode_guideline: "某些模式会覆盖自定义主题的颜色，以便于访问和阅读。如需完整的自定义主题，请选择 \"浅色 \"模式。"
       version:
         effective_date: "完成日期"
         sharing: "共享"
@@ -1089,6 +1101,10 @@ zh-CN:
           undeletable_work_packages_attached: "无法删除该版本，因为它连接了工作包。"
         status:
           readonly_default_exlusive: "无法激活（对于标记为默认的状态）。"
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "请检查以下字段："
         header:
@@ -1110,6 +1126,8 @@ zh-CN:
         other: "通知"
       placeholder_user: "占位符用户"
       project: "项目"
+      project_query:
+        other: "Project lists"
       query: "自定义查询"
       role:
         other: "角色"
@@ -1746,6 +1764,7 @@ zh-CN:
   label_add_another_file: "添加另一个文件"
   label_add_columns: "添加所选的列"
   label_add_note: "添加注释"
+  label_add_projects: "添加项目"
   label_add_related_work_packages: "添加相关的工作包"
   label_add_subtask: "添加子任务"
   label_added: "已添加"
@@ -1982,7 +2001,9 @@ zh-CN:
   label_introduction_video: "自我介绍视频"
   label_invite_user: "邀请用户"
   label_share: "共享"
+  label_share_project_list: "共享项目列表"
   label_show_hide: "显示/隐藏"
+  label_show_hide_n_items: "显示/隐藏 %{count} 项目"
   label_show_all_registered_users: "显示所有注册用户"
   label_journal: "日志"
   label_journal_diff: "描述的对比"
@@ -2020,6 +2041,7 @@ zh-CN:
   label_custom_touch_icon: "自定义触摸图标"
   label_logout: "注销"
   label_main_menu: "侧边菜单"
+  label_manage: "管理"
   label_manage_groups: "组管理"
   label_managed_repositories_vendor: "托管的 %{vendor} 存储库"
   label_max_size: "最大"
@@ -2138,6 +2160,7 @@ zh-CN:
   label_project_latest: "最新的项目"
   label_project_default_type: "允许为空类型"
   label_project_hierarchy: "项目层次结构"
+  label_project_mappings: "已在项目中启用"
   label_project_new: "新的项目"
   label_project_plural: "项目"
   label_project_list_plural: "项目列表"
@@ -2423,12 +2446,12 @@ zh-CN:
         plaintext:
           storage: "存储"
           healthy:
-            summary: "好消息！您的存储 %{storage_name}当前显示为 \"健康\"。"
+            summary: '好消息！您的存储 %{storage_name}当前显示为 "健康"。'
             error-solved-on: "解决于"
             recommendation: "我们将继续监测该系统，确保其保持良好的健康状态。若出现任何故障，我们将通知您。"
             details: "如需了解更多详情或进行必要的修改，请访问您的存储配置"
           unhealthy:
-            summary: "您的存储设备 %{storage_name}的状态目前显示为 \"错误\"。我们检测到一个可能需要您注意的问题。"
+            summary: '您的存储设备 %{storage_name}的状态目前显示为 "错误"。我们检测到一个可能需要您注意的问题。'
             error-details: "错误详情"
             error-message: "错误消息"
             error-occurred-on: "发生于"
@@ -2437,11 +2460,11 @@ zh-CN:
         email_notification_settings: "存储电子邮件通知设置"
         see_storage_settings: "查看存储设置"
         healthy:
-          subject: "存储 \"%{name}\" 现在很健康！"
+          subject: '存储 "%{name}" 现在很健康！'
           solved_at: "解决时间"
           summary: "%{storage_name} 存储集成的问题已经解决"
         unhealthy:
-          subject: "存储 \"%{name}\" 不是健康状态！"
+          subject: '存储 "%{name}" 不是健康状态！'
           since: "从"
           summary: "%{storage_name} 存储集成存在问题"
           troubleshooting:
@@ -2919,6 +2942,10 @@ zh-CN:
   setting_default_projects_public: "新项目默认公开"
   setting_diff_max_lines_displayed: "最大差异显示行数"
   setting_display_subprojects_work_packages: "默认在主项目上显示子项目工作包"
+  setting_duration_format: "持续时间格式"
+  setting_duration_format_hours_only: "仅限小时"
+  setting_duration_format_days_and_hours: "天数和小时数"
+  setting_duration_format_instructions: "这定义了如何显示工时、剩余工时和已耗工时"
   setting_emails_footer: "电子邮件页脚"
   setting_emails_header: "电子邮件页眉"
   setting_email_login: "使用电子邮件作为登录名"
@@ -2931,7 +2958,7 @@ zh-CN:
   setting_host_name: "主机名"
   setting_hours_per_day: "每天小时数"
   setting_hours_per_day_explanation: >-
-    这将以更自然的方式在显示持续时间时定义什么是 "一天"（例如，如果一天是8小时，32小时就是4天）。
+    这定义了在以天和小时为单位显示持续时间时，什么是一"天"（例如，如果一天是 8 小时，32 小时就是 4 天）。
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
   setting_work_package_done_ratio: "进度计算"
   setting_work_package_done_ratio_field: "基于工时"
@@ -3342,7 +3369,7 @@ zh-CN:
       group: "组"
       role: "角色"
       type: "类型"
-    denied: "You don't have permissions to share %{entities}."
+    denied: "您没有权限共享 %{entities}。"
     label_search: "搜索要邀请的用户"
     label_search_placeholder: "按用户名或电子邮件地址搜索"
     label_toggle_all: "切换所有共享"
@@ -3371,6 +3398,24 @@ zh-CN:
       additional_privileges_project: "可能有额外的权限(作为项目成员)"
       additional_privileges_group: "可能有额外的权限(作为组成员)"
       additional_privileges_project_or_group: "可能有额外的权限(作为项目成员或组成员)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "用户只能看到他们有权访问的项目。共享项目列表不会影响单个项目的权限。"
+      public_flag:
+        label: "通过 %{instance_name}与大家分享"
+        caption: "每个人都可以查看此项目列表。有全局编辑权限的人可以修改它。"
+      blank_state:
+        public:
+          header: "共享给所有人"
+          description: "每个人都可以查看此项目列表。您也可以添加具有额外权限的个别用户。"
+        private:
+          header: "不共享：私有"
+          description: "此项目列表尚未与任何人共享。只有您可以访问此列表。"
+      permissions:
+        view: "查看"
+        view_description: "可以查看此项目列表。"
+        edit: "编辑"
+        edit_description: "可以查看、共享和编辑此项目列表。"
   working_days:
     info: >
       在安排工作包时，未选择的日期将被跳过（且不计入天数）。可以在工作包级别覆盖这些选项。

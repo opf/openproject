@@ -234,7 +234,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
 
       # Check row after header row
       hours = sheet.rows[1].values_at(2)
-      expect(hours).to include("3d 3.5h")
+      expect(hours).to include("27.5h")
     end
   end
 
@@ -326,7 +326,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     it "adapts the datetime fields to the user time zone" do
       work_package.reload
       estimated_cell = sheet.rows.last.to_a.last
-      expect(estimated_cell).to eq "· Σ 1d 7h"
+      expect(estimated_cell).to eq "· Σ 15h"
     end
   end
 
@@ -347,8 +347,8 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     it "outputs both values" do
       work_package.reload
       estimated_cell, remaining_cell = sheet.rows.last.to_a.last(2)
-      expect(estimated_cell).to eq "0h · Σ 1d 7h"
-      expect(remaining_cell).to eq "0h · Σ 1d 0h"
+      expect(estimated_cell).to eq "0h · Σ 15h"
+      expect(remaining_cell).to eq "0h · Σ 8h"
     end
   end
 end

@@ -34,6 +34,10 @@ RSpec.describe ProjectQuery do
   shared_let(:user) { create(:user) }
   shared_let(:admin) { create(:admin) }
 
+  it_behaves_like "acts_as_favorable included" do
+    let(:instance) { create(:project_query) }
+  end
+
   context "when persisting" do
     let(:properties) do
       {

@@ -79,12 +79,13 @@ Rails.application.routes.draw do
   # Shared route concerns
   # TODO: Add description how to configure controller to support shares
   concern :shareable do
-    resources :members, path: :shares, controller: "shares", only: %i[index create update destroy] do
+    resources :members, path: "shares", controller: "shares", only: %i[index create update destroy] do
       member do
         post "resend_invite" => "shares#resend_invite"
       end
 
       collection do
+        get :dialog, to: "shares#dialog"
         patch :bulk, to: "shares#bulk_update"
         put :bulk, to: "shares#bulk_update"
         delete :bulk, to: "shares#bulk_destroy"
@@ -184,23 +185,23 @@ Rails.application.routes.draw do
   end
 
   # generic route for adding/removing watchers
-  scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::Routes do
+  scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::RouteConstraint do
     post "/watch" => "watchers#watch"
     delete "/unwatch" => "watchers#unwatch"
   end
 
   # generic route for adding/removing favorites
-  scope ":object_type/:object_id", constraints: OpenProject::Acts::Favorable::Routes do
+  scope ":object_type/:object_id", constraints: OpenProject::Acts::Favorable::RouteConstraint do
     post "/favorite" => "favorites#favorite"
     delete "/favorite" => "favorites#unfavorite"
   end
 
   resources :project_queries, only: %i[show new create update destroy], controller: "projects/queries" do
+    concerns :shareable
+
     member do
       get :rename
-
-      post :publish
-      post :unpublish
+      post :toggle_public
     end
   end
 
@@ -300,6 +301,7 @@ Rails.application.routes.draw do
       collection do
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
+        get "menu" => "work_packages/menus#show"
       end
 
       # states managed by client-side routing on work_package#index
@@ -530,6 +532,8 @@ Rails.application.routes.draw do
   end
 
   namespace :work_packages do
+    get "menu" => "menus#show"
+
     match "auto_complete" => "auto_completes#index", via: %i[get post]
     resource :bulk, controller: "bulk", only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and
@@ -537,7 +541,9 @@ Rails.application.routes.draw do
     get "/bulk" => "bulk#destroy"
   end
 
-  resources :work_packages, only: [:index], concerns: [:shareable] do
+  resources :work_packages, only: [:index] do
+    concerns :shareable
+
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"

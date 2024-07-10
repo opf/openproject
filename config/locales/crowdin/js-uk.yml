@@ -1027,6 +1027,7 @@ uk:
         assigned_to_me: "Призначено мені"
         recently_created: "Нещодавно створений"
         all_open: "Всі відкрити"
+        overdue: "Overdue"
         summary: "Резюме"
         shared_with_users: "Надано доступ користувачам"
         shared_with_me: "Доступ надано мені"

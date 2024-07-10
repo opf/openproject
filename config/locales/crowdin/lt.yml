@@ -246,6 +246,7 @@ lt:
       work_package_attachments: "Darbo paketai: pridėti failai"
       work_package_categories: "Darbo paketai: kategorijos"
       work_package_file_links: "Darbo paketai: failų nuorodos"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Naikinimas suplanuotas ir vykdomas fone. Jums bus pranešta apie rezultatą."
       schedule_failed: "Projekto negalima ištrinti: %{errors}"
@@ -263,6 +264,7 @@ lt:
       my: "Mano projektai"
       favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
+      shared: "Shared project lists"
       public: "Public project lists"
       my_private: "Mano privatūs projektų sąrašai"
       new:
@@ -285,7 +287,7 @@ lt:
       project_custom_fields:
         header:
           title: "Projekto atributai"
-          description: "Šie projekto atributai bus rodomi jūsų <a href=%{overview_url} target=\"_blank\">projekto apžvalgos puslapyje</a> savo atitinkamose skiltyse. Galite įjungti ar išjungti konkrečius atributus. Projekto atributus ir skiltys egzemplioriaus administratorius apibrėžia <a href=%{admin_settings_url} target=\"_blank\">administravimo nustatymuose</a>. "
+          description: 'Šie projekto atributai bus rodomi jūsų <a href=%{overview_url} target="_blank">projekto apžvalgos puslapyje</a> savo atitinkamose skiltyse. Galite įjungti ar išjungti konkrečius atributus. Projekto atributus ir skiltys egzemplioriaus administratorius apibrėžia <a href=%{admin_settings_url} target="_blank">administravimo nustatymuose</a>. '
         filter:
           label: "Ieškoti projekto atributo"
         actions:
@@ -298,10 +300,7 @@ lt:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Nėra prieinamų tipų.
         form:
@@ -399,11 +398,23 @@ lt:
       will_revoke_access_to_all: "Šis veiksmas atšauks jų prieigą prie jų visų."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Naujas %{type} tipo atpažinimo raktas buvo sugeneruotas. Jis dabar yra:"
       token_value_warning: "Pastaba: tai vienintelis kartas, kai matote atpažinimo raktą, todėl būtinai nusikopijuokite jį dabar."
       no_results_title_text: Nėra jokių pasiekiamų prieigos raktų.
-      notice_api_token_revoked: "API žetonas buvo ištrintas. Norėdami sukurti naują žetoną, prašome naudoti nuorodą API sekcijoje."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "RSS žetonas buvo ištrintas. Norėdami sukurti naują žetoną, prašome naudoti nuorodą RSS sekcijoje."
       notice_ical_token_revoked: 'iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas.'
   news:
@@ -477,7 +488,7 @@ lt:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Šviesi"
     light_high_contrast: "Šviesi kontrastinga"
   types:
@@ -730,6 +741,7 @@ lt:
         auto_hide_popups: "Automatiškai slėpti sėkmės pranešimus"
         warn_on_leaving_unsaved: "Įspėti mane, kai palieku darbų paketą su neišsaugotais pakeitimais"
         theme: "Režimas"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Pabaigos data"
         sharing: "Pasidalijimas"
@@ -1114,6 +1126,10 @@ lt:
           undeletable_work_packages_attached: "Versija negali būti pašalinta, nes prie jos yra prijungtų darbo paketų."
         status:
           readonly_default_exlusive: "negali būti aktyvuotas būsenoms, kurios yra pažymėtos kaip numatytosios."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Prašome patikrinti šiuos laukelius:"
         header:
@@ -1141,6 +1157,11 @@ lt:
         other: "Pranešimų"
       placeholder_user: "Statytinis naudotojas"
       project: "Projektas"
+      project_query:
+        one: "Project list"
+        few: "Project lists"
+        many: "Project lists"
+        other: "Project lists"
       query: "Sava užklausa"
       role:
         one: "Vaidmuo"
@@ -1846,6 +1867,7 @@ lt:
   label_add_another_file: "Pridėti kitą failą"
   label_add_columns: "Pridėti pažymėtus stulpelius"
   label_add_note: "Pridėti pastabą"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Pridėti susijusių darbų paketų"
   label_add_subtask: "Pridėti antrinę užduotį"
   label_added: "pridėtas"
@@ -2082,7 +2104,9 @@ lt:
   label_introduction_video: "Įvado video"
   label_invite_user: "Pakviesti vartotoją"
   label_share: "Dalintis"
+  label_share_project_list: "Share project list"
   label_show_hide: "Rodyti/slėpti"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Rodyti visus registruotus vartotojus"
   label_journal: "Žurnalas"
   label_journal_diff: "Aprašymų palyginimas"
@@ -2120,6 +2144,7 @@ lt:
   label_custom_touch_icon: "Pasirinktinė prisilietimo piktograma"
   label_logout: "Atsijungti"
   label_main_menu: "Šoninis meniu"
+  label_manage: "Manage"
   label_manage_groups: "Valdyti grupes"
   label_managed_repositories_vendor: "Valdomos %{vendor} saugyklos"
   label_max_size: "Maksimalus dydis"
@@ -2238,6 +2263,7 @@ lt:
   label_project_latest: "Naujausi projektai"
   label_project_default_type: "Leisti tuščią tipą"
   label_project_hierarchy: "Projekto hierarchija"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
   label_project_list_plural: "Projektų sąrašai"
@@ -2526,12 +2552,12 @@ lt:
         plaintext:
           storage: "Saugykla"
           healthy:
-            summary: "Geros naujienos! Jūsų saugyklos „%{storage_name}“ būsena dabar rodoma kaip „Sveika“."
+            summary: 'Geros naujienos! Jūsų saugyklos „%{storage_name}“ būsena dabar rodoma kaip „Sveika“.'
             error-solved-on: "Išspręsta"
             recommendation: "Mes ir toliau stebėsime sistemą, kad įsitikintumėme, kad ji išlieka geroje būklėje. Jei pastebėsime kažką negero, pranešime jums."
             details: "Jei norite daugiau informacijos arba padaryti kokius nors pakeitimus, galite aplankyti saugyklos konfigūraciją"
           unhealthy:
-            summary: "Šiuo metu jūsų saugyklos „%{storage_name}“ būsena rodoma kaip „Klaida“. Aptikome problemą, kuriai gali prireikti jūsų dėmesio."
+            summary: 'Šiuo metu jūsų saugyklos „%{storage_name}“ būsena rodoma kaip „Klaida“. Aptikome problemą, kuriai gali prireikti jūsų dėmesio.'
             error-details: "Klaidos informacija"
             error-message: "Klaidos pranešimas"
             error-occurred-on: "Įvyko"
@@ -2540,11 +2566,11 @@ lt:
         email_notification_settings: "Saugyklos e-pašto pranešimų nustatymai"
         see_storage_settings: "Žiūrėkite saugyklos nustatymus"
         healthy:
-          subject: "Saugykla „%{name}“ dabar sveika!"
+          subject: 'Saugykla „%{name}“ dabar sveika!'
           solved_at: "išspręsta"
           summary: "Problema su jūsų saugyklos „%{storage_name}“ integracija dabar išspręsta"
         unhealthy:
-          subject: "Saugykla „%{name}“ nesveika!"
+          subject: 'Saugykla „%{name}“ nesveika!'
           since: "nuo"
           summary: "Yra problema su jūsų saugyklos „%{storage_name}“ integracija"
           troubleshooting:
@@ -3027,6 +3053,10 @@ lt:
   setting_default_projects_public: "Nauji projektai yra vieši pagal nutylėjimą"
   setting_diff_max_lines_displayed: "Maksimalus rodomas pakeitimų eilučių skaičius"
   setting_display_subprojects_work_packages: "Pagal nutylėjimą rodyti sub-projektų darbų paketus pagrindiniuose projektuose."
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "El. laiškų poraštė"
   setting_emails_header: "El. laiškų antraštė"
   setting_email_login: "Naudokite e-paštą prisijungimui"
@@ -3039,7 +3069,7 @@ lt:
   setting_host_name: "Serverio vardas"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Aktyvavimo laiško galiojimas baigiasi po"
   setting_work_package_done_ratio: "Eigos skaičiavimas"
   setting_work_package_done_ratio_field: "Pagal-darbą"
@@ -3482,6 +3512,24 @@ lt:
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

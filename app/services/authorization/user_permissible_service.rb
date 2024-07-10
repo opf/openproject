@@ -112,7 +112,9 @@ module Authorization
       return false if entity.nil?
       return true if admin_and_all_granted_to_admin?(permissions)
 
-      cached_permissions(entity).intersect?(permissions)
+      permission_names = permissions.map { |perm| perm.name.to_sym }
+
+      cached_permissions(entity).intersect?(permission_names)
     end
 
     def allowed_in_any_project_scoped_entity?(permissions, entity_class, in_project:)

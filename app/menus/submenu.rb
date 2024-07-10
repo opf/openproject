@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,6 +49,7 @@ class Submenu
       .where("starred" => "t")
       .pluck(:id, :name)
       .map { |id, name| menu_item(name, query_params(id)) }
+      .sort_by(&:title)
   end
 
   def default_queries
@@ -61,6 +62,7 @@ class Submenu
       .where("public" => "t")
       .pluck(:id, :name)
       .map { |id, name| menu_item(name, query_params(id)) }
+      .sort_by(&:title)
   end
 
   def custom_queries
@@ -69,6 +71,7 @@ class Submenu
       .where("public" => "f")
       .pluck(:id, :name)
       .map { |id, name| menu_item(name, query_params(id)) }
+      .sort_by(&:title)
   end
 
   def base_query
@@ -92,7 +95,8 @@ class Submenu
   def menu_item(name, query_params)
     OpenProject::Menu::MenuItem.new(title: name,
                                     href: query_path(query_params),
-                                    selected: selected?(query_params))
+                                    selected: selected?(query_params),
+                                    favored: favored?(query_params))
   end
 
   def selected?(query_params)
@@ -102,11 +106,15 @@ class Submenu
       end
     end
 
-    if query_params.empty? && params[:filters].present?
+    if query_params.empty? && (%i[filters query_props query_id name].any? { |k| params.key? k })
       return false
     end
 
     true
+  end
+
+  def favored?(_query_params)
+    false
   end
 
   def query_path(query_params)

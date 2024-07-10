@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,11 @@ module Members::Scopes
     class_methods do
       # Find all members of a specific Work Package
       def of_entity(entity)
-        of_any_entity
-          .where(entity:)
+        if entity.respond_to?(:project)
+          where(project: entity.project, entity:)
+        else
+          where(project: nil, entity:)
+        end
       end
     end
   end

@@ -18,7 +18,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3.3'
-      - uses: MeilCli/danger-action@v5
+      - uses: MeilCli/danger-action@v6
         with:
           danger_file: 'Dangerfile'
           danger_id: 'danger-pr'

@@ -60,7 +60,7 @@ module Redmine
 
       module InstanceMethods
         def self.included(base)
-          base.extend ClassMethods
+          base.extend AddClassMethods
           base.extend HumanAttributeName
         end
 
@@ -438,7 +438,7 @@ module Redmine
           @custom_field_values_cache ||= {}
         end
 
-        module ClassMethods
+        module AddClassMethods
           def available_custom_fields(_model)
             RequestStore.fetch(:"#{name.underscore}_custom_fields") do
               CustomField.where(type: "#{name}CustomField").order(:position)

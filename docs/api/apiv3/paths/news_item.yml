@@ -96,7 +96,7 @@ patch:
     content:
       application/json:
         schema:
-          $ref: '../components/schemas/news_model.yml'
+          $ref: '../components/schemas/news_create_model.yml'
   responses:
     '200':
       content:

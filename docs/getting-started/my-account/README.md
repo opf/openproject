@@ -163,9 +163,9 @@ Access tokens allow you to grant external applications access to resources in Op
 
 ### API
 
-API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If you have not yet created an API token, this list will be empty. You may need admin privileges to be able to create an API.
+API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If you have not yet created an API token, this list will be empty. You may need admin privileges to be able to create an API token.
 
-You can enable an API token under [*Administration -> API and webhooks*](../../system-admin-guide/api-and-webhooks/). Please note that you can only create a single API token.
+You can enable an API token under [*Administration -> API and webhooks*](../../system-admin-guide/api-and-webhooks/).
 
 ### iCalendar
 

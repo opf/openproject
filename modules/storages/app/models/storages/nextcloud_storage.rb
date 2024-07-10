@@ -54,6 +54,14 @@ module Storages
       end
     end
 
+    def available_project_folder_modes
+      if automatic_management_enabled?
+        ProjectStorage.project_folder_modes.keys
+      else
+        ["inactive", "manual"]
+      end
+    end
+
     def configuration_checks
       {
         storage_oauth_client_configured: oauth_client.present?,

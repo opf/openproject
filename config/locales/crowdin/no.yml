@@ -249,6 +249,7 @@
       work_package_attachments: "Arbeidspakker: vedlegg"
       work_package_categories: "Arbeidspakker: kategorier"
       work_package_file_links: "Arbeidspakker: fillinker"
+      work_package_shares: "Delte arbeidspakker"
     delete:
       scheduled: "Sletting har blitt planlagt og blir utført i bakgrunnen. Du vil bli varslet om resultatet."
       schedule_failed: "Prosjektet kan ikke slettes: %{errors}"
@@ -266,6 +267,7 @@
       my: "Mine prosjekter"
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
+      shared: "Offentlige prosjektlister"
       public: "Offentlige prosjektlister"
       my_private: "Mine private prosjektlister"
       new:
@@ -288,7 +290,7 @@
       project_custom_fields:
         header:
           title: "Prosjektegenskaper"
-          description: "Disse prosjektegenskapene vil bli vist i din <a href=%{overview_url} target=\"_blank\">oversiktsside for prosjekt</a> under deres respektive seksjoner.  Du kan aktivere eller deaktivere individuelle egenskaper.  Prosjektegenskaper og seksjoner er definert i  <a href=%{admin_settings_url} target=\"_blank\">administrasjonsinnstillingene</a> av en administrator."
+          description: 'Disse prosjektegenskapene vil bli vist i din <a href=%{overview_url} target="_blank">oversiktsside for prosjekt</a> under deres respektive seksjoner.  Du kan aktivere eller deaktivere individuelle egenskaper.  Prosjektegenskaper og seksjoner er definert i  <a href=%{admin_settings_url} target="_blank">administrasjonsinnstillingene</a> av en administrator.'
         filter:
           label: "Søk etter prosjektegenskap"
         actions:
@@ -301,10 +303,7 @@
           heading: Påkrevd i alle prosjekter
           description: Prosjektattributten er aktivert i alle prosjekter fordi "Påkrevd i alle prosjekter"-alternativet er valgt. Attributten kan ikke deaktiveres for hvert enkelt prosjekt.
         new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
+          include_sub_projects: Inkluder underprosjekter
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -390,11 +389,23 @@
       will_revoke_access_to_all: "Denne handlingen vil fjerne deres tilgang til alle."
   my:
     access_token:
+      errors:
+        token_name_blank: "Vennligst oppgi navn på API-token"
+        token_name_in_use: "Dette API-token-navnet er allerede i bruk, velg et annet"
+      new_access_token_dialog_title: "Opprett nytt API-token"
+      new_access_token_dialog_show_button_text: "API-token"
+      new_access_token_dialog_text_field_placeholder_text: "Mitt API-token"
+      new_access_token_dialog_text_field_label: "Navn"
+      new_access_token_dialog_submit_button_text: "Opprett"
+      new_access_token_dialog_text: "Dette tokenet tillater tredjepartsprogrammer å kommunisere med forekomsten. For å differensiere den nye API-token, vennligst gi den et navn."
+      new_access_token_dialog_attention_text: "Behandle API-token som passord. Alle med denne lenken vil ha tilgang til informasjon fra denne forekomsten, del den bare med pålitelige brukere."
       failed_to_reset_token: "Tilgangstoken kunne ikke tilbakestilles: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "En ny %{type} token har blitt generert. Din tilgangstoken er:"
       token_value_warning: "Merk: Du vil ikke kunne se denne token på nytt, sørg for å kopiere den nå."
       no_results_title_text: Det er ingen tilgangsnøkler tilgjengelig.
-      notice_api_token_revoked: "API-tokenet er slettet. For å opprette et nytt token, bruk lenken i API-avsnittet."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "RSS-koden er slettet. For å opprette et nytt token må du bruke linken i RSS-avsnittet."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for kalender "%{calendar_name}" i prosjekt "%{project_name}" er trukket tilbake. iCalendar-URL''en med dette tokenet er nå ugyldig.'
   news:
@@ -467,7 +478,7 @@
         is_readonly: "Kun lesetilgang"
         excluded_from_totals: "Unntatt fra totaler"
   themes:
-    dark: "Dark"
+    dark: "Dark (experimental)"
     light: "Lyst"
     light_high_contrast: "Lys høy kontrast"
   types:
@@ -718,6 +729,7 @@
         auto_hide_popups: "Auto-skjul suksessvarsler"
         warn_on_leaving_unsaved: "Varsle meg når jeg forlater en arbeidspakke med ulagrede endringer"
         theme: "Modus"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Sluttdato"
         sharing: "Deling"
@@ -1100,6 +1112,10 @@
           undeletable_work_packages_attached: "Versjonen kan ikke slettes ettersom den har arbeidspakker knyttet til den."
         status:
           readonly_default_exlusive: "kan ikke aktiveres for statuser som er merket som standard."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Kontroller følgende felter:"
         header:
@@ -1123,6 +1139,9 @@
         other: "Varsler"
       placeholder_user: "Plassholder bruker"
       project: "Prosjekt"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Egendefinert spørring"
       role:
         one: "Rolle"
@@ -1782,6 +1801,7 @@
   label_add_another_file: "Legg til en annen fil"
   label_add_columns: "Legg til valgte kolonner"
   label_add_note: "Legg til et notat"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Legg til relaterte arbeidspakker"
   label_add_subtask: "Legg til underoppgave"
   label_added: "lagt til"
@@ -2018,7 +2038,9 @@
   label_introduction_video: "Introduksjonsvideo"
   label_invite_user: "Inviter bruker"
   label_share: "Del"
+  label_share_project_list: "Share project list"
   label_show_hide: "Vis/Skjul"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Vis alle registrerte brukere"
   label_journal: "Journal"
   label_journal_diff: "Sammenligning av beskrivelse"
@@ -2056,6 +2078,7 @@
   label_custom_touch_icon: "Egendefinert berøringsikon"
   label_logout: "Logg av"
   label_main_menu: "Sidemeny"
+  label_manage: "Manage"
   label_manage_groups: "Administrer grupper"
   label_managed_repositories_vendor: "Administrerte %{vendor} kodelagre"
   label_max_size: "Maks størrelse"
@@ -2174,6 +2197,7 @@
   label_project_latest: "Siste prosjekter"
   label_project_default_type: "Tillatt tom type"
   label_project_hierarchy: "Prosjekthierarki"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nytt prosjekt"
   label_project_plural: "Prosjekter"
   label_project_list_plural: "Prosjektlister"
@@ -2460,12 +2484,12 @@
         plaintext:
           storage: "Lagring"
           healthy:
-            summary: "Gode nyheter! Status for lagringen din, %{storage_name}, vises for øyeblikket som \"Sunn\"."
+            summary: 'Gode nyheter! Status for lagringen din, %{storage_name}, vises for øyeblikket som "Sunn".'
             error-solved-on: "Løst"
             recommendation: "Vi vil fortsette å overvåke systemet for å sikre at det holdes i god helse. Ved eventuelle avvik vil vi varsle deg."
             details: "For mer informasjon eller for å gjøre nødvendige endringer, kan du besøke konfigurasjonen for lagring"
           unhealthy:
-            summary: "Statusen for lagring, %{storage_name}, vises for øyeblikket som \"Feil\". Vi oppdaget et problem som kan kreve oppmerksomheten din."
+            summary: 'Statusen for lagring, %{storage_name}, vises for øyeblikket som "Feil". Vi oppdaget et problem som kan kreve oppmerksomheten din.'
             error-details: "Feildetaljer"
             error-message: "Feilmelding"
             error-occurred-on: "Skjedde"
@@ -2474,11 +2498,11 @@
         email_notification_settings: "Innstillinger for e-postvarsling om lagring"
         see_storage_settings: "Se lagringsinnstillinger"
         healthy:
-          subject: "Lagringsplass \"%{name}\" er nå friskt!"
+          subject: 'Lagringsplass "%{name}" er nå friskt!'
           solved_at: "løst"
           summary: "Problemet med din %{storage_name} lagringsintegrasjon er nå løst"
         unhealthy:
-          subject: "Lagringsplass \"%{name}\" er ikke friskt!"
+          subject: 'Lagringsplass "%{name}" er ikke friskt!'
           since: "siden"
           summary: "Det er et problem med %{storage_name}-lagringsintegrasjonen din"
           troubleshooting:
@@ -2963,6 +2987,10 @@
   setting_default_projects_public: "Nye prosjekter er offentlige som standard"
   setting_diff_max_lines_displayed: "Maks antall linjeforskjeller som vises"
   setting_display_subprojects_work_packages: "Vis arbeidspakker for underprosjekter som standard for hovedprosjekter"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Bunntekst for e-post"
   setting_emails_header: "Topptekst for e-post"
   setting_email_login: "Bruk e-post som innlogging"
@@ -2975,7 +3003,7 @@
   setting_host_name: "Vertsnavn"
   setting_hours_per_day: "Timer per dag"
   setting_hours_per_day_explanation: >-
-    Dette vil definere hva som anses som en "dag" når varigheten vises på en mer naturlig måte (for eksempel hvis dagen er 8 timer, vil 32 timer være 4 dager).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Aktiverings e-post utløper etter"
   setting_work_package_done_ratio: "Beregning av fremdrift"
   setting_work_package_done_ratio_field: "Arbeidsbasert"
@@ -3417,6 +3445,24 @@
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
   working_days:
     info: >
       Hoppet over dager som ikke er valgt ved planlegging av arbeidspakker (og ikke inkludert i antall dager). Disse kan overstyres på arbeidspakkenivå.

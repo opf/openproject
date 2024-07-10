@@ -29,6 +29,8 @@
 require "spec_helper"
 
 RSpec.describe "Work display", :js do
+  include Toasts::Expectations
+
   shared_let(:project) { create(:project) }
   shared_let(:user) { create(:admin) }
   shared_let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
@@ -172,11 +174,29 @@ RSpec.describe "Work display", :js do
       wp_table.visit_query query
 
       # parent
-      expect(page).to have_content("5h·Σ 2d 4h")
-      expect(page).to have_link("Σ 2d 4h")
+      expect(page).to have_content("5h·Σ 20h")
+      expect(page).to have_link("Σ 20h")
       # child 2
-      expect(page).to have_content("3h·Σ 1d 7h")
-      expect(page).to have_link("Σ 1d 7h")
+      expect(page).to have_content("3h·Σ 15h")
+      expect(page).to have_link("Σ 15h")
+    end
+
+    context "when duration format is changed from 'Hours only' to 'Days and hours' in admin" do
+      it "displays a link to a detailed view explaining work calculation in days and hours" do
+        visit admin_settings_working_days_and_hours_path
+        select "Days and hours", from: "Duration format"
+        click_on "Apply changes"
+        expect_and_dismiss_toaster(message: "Successful update.")
+
+        wp_table.visit_query query
+
+        # parent
+        expect(page).to have_content("5h·Σ 2d 4h")
+        expect(page).to have_link("Σ 2d 4h")
+        # child 2
+        expect(page).to have_content("3h·Σ 1d 7h")
+        expect(page).to have_link("Σ 1d 7h")
+      end
     end
 
     context "when clicking the link of a top parent" do
@@ -185,7 +205,7 @@ RSpec.describe "Work display", :js do
       end
 
       it "shows a work package table with a parent filter to list the direct children" do
-        click_on("Σ 2d 4h")
+        click_on("Σ 20h")
 
         wp_table.expect_work_package_count(4)
         wp_table.expect_work_package_listed(parent, child1, child2, child3)
@@ -202,8 +222,8 @@ RSpec.describe "Work display", :js do
       end
 
       it "shows also all ancestors in the work package table" do
-        expect(page).to have_content("Work\n3h·Σ 1d 7h")
-        click_on("Σ 1d 7h")
+        expect(page).to have_content("Work\n3h·Σ 15h")
+        click_on("Σ 15h")
 
         wp_table.expect_work_package_count(3)
         wp_table.expect_work_package_listed(parent, child2, grand_child21)

@@ -1,0 +1,12 @@
+<%=
+  render(OpPrimer::ExpandableListComponent.new(cutoff_limit:)) do |list|
+    elements.each do |item|
+      list.with_element do
+        render(Primer::BaseComponent.new(tag: :span)) do
+          concat render(Primer::Beta::Octicon.new(icon: :person))
+          concat item
+        end
+      end
+    end
+  end
+%>

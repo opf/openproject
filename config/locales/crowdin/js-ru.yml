@@ -907,10 +907,10 @@ ru:
       wiki_link: "Ссылка на wiki страницу"
       image: "Изображение"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Предоставить общий доступ"
+      selected_count: "%{count} выбрано"
       selection:
-        mixed: "Mixed"
+        mixed: "Смешанное"
     work_packages:
       bulk_actions:
         move: "Массовое изменение проекта"
@@ -1026,6 +1026,7 @@ ru:
         assigned_to_me: "Предназначено для меня"
         recently_created: "Недавно созданное"
         all_open: "Все открытые"
+        overdue: "Overdue"
         summary: "Сводка"
         shared_with_users: "Доступно пользователям"
         shared_with_me: "В общем доступе с"

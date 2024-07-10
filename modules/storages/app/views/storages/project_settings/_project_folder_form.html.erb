@@ -75,20 +75,22 @@ See COPYRIGHT and LICENSE files for more details.
                               }
     %>
   <% end %>
-  <div class="form--field-container">
-    <%= f.label :project_folder_mode, value: 'inactive', class: "form--label-with-radio-button" do %>
-      <%= f.radio_button :project_folder_mode,
-                         'inactive',
-                         no_label: true,
-                         data: { action: 'project-storage-form#updateForm' } %>
-      <%= t(:"storages.label_no_specific_folder") %>
-    <% end %>
-  </div>
-  <span class="form--field-instructions -with-bottom-spacing">
-    <%= t(:"storages.instructions.no_specific_folder") %>
-  </span>
+  <% if @project_storage.project_folder_mode_possible?('inactive') %>
+    <div class="form--field-container">
+      <%= f.label :project_folder_mode, value: 'inactive', class: "form--label-with-radio-button" do %>
+        <%= f.radio_button :project_folder_mode,
+                           'inactive',
+                           no_label: true,
+                           data: { action: 'project-storage-form#updateForm' } %>
+        <%= t(:"storages.label_no_specific_folder") %>
+      <% end %>
+    </div>
+    <span class="form--field-instructions -with-bottom-spacing">
+      <%= t(:"storages.instructions.no_specific_folder") %>
+    </span>
+  <% end %>
 
-  <% if @project_storage.automatic_management_possible? %>
+  <% if @project_storage.project_folder_mode_possible?('automatic') %>
     <div class="form--field-container">
       <%= f.label :project_folder_mode, value: 'automatic', class: "form--label-with-radio-button" do %>
         <%= f.radio_button :project_folder_mode,
@@ -103,18 +105,20 @@ See COPYRIGHT and LICENSE files for more details.
     </span>
   <% end %>
 
-  <div class="form--field-container">
-    <%= f.label :project_folder_mode, value: 'manual', class: "form--label-with-radio-button" do %>
-      <%= f.radio_button :project_folder_mode,
-                         'manual',
-                         no_label: true,
-                         data: { action: 'project-storage-form#updateForm' } %>
-      <%= t(:"storages.label_existing_manual_folder") %>
-    <% end %>
-  </div>
-  <span class="form--field-instructions -xwide -with-bottom-spacing">
-    <%= t(:"storages.instructions.existing_manual_folder") %>
-  </span>
+  <% if @project_storage.project_folder_mode_possible?('manual')  %>
+    <div class="form--field-container">
+      <%= f.label :project_folder_mode, value: 'manual', class: "form--label-with-radio-button" do %>
+        <%= f.radio_button :project_folder_mode,
+                           'manual',
+                           no_label: true,
+                           data: { action: 'project-storage-form#updateForm' } %>
+        <%= t(:"storages.label_existing_manual_folder") %>
+      <% end %>
+    </div>
+    <span class="form--field-instructions -xwide -with-bottom-spacing">
+      <%= t(:"storages.instructions.existing_manual_folder") %>
+    </span>
+  <% end %>
 
   <div
     style="display: none;"

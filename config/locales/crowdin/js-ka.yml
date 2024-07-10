@@ -1025,6 +1025,7 @@ ka:
         assigned_to_me: "ჩემზე მონიჭებული"
         recently_created: "Recently created"
         all_open: "ყველა ღია"
+        overdue: "Overdue"
         summary: "შეჯამება"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
