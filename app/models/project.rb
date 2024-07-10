@@ -155,7 +155,8 @@ class Project < ApplicationRecord
 
   friendly_id :identifier, use: :finders
 
-  scopes :allowed_to,
+  scopes :activated_in_storage,
+         :allowed_to,
          :available_custom_fields,
          :visible
 

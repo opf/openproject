@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,44 +24,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
-  include OpTurbo::ComponentStream
+require "spec_helper"
 
-  layout "admin"
-
-  model_object Storages::Storage
-
-  before_action :require_admin
-  before_action :find_model_object
-
-  menu_item :external_file_storages
-
-  def index
-    @project_query = ProjectQuery.new(
-      name: "project-storage-mappings-#{@storage.id}"
-    ) do |query|
-      query.where(:storages, "=", [@storage.id])
-      query.select(:name)
-      query.order("lft" => "asc")
-    end
-
-    # Prepare data for project_folder_type column
-    @project_folder_modes_per_project = Storages::ProjectStorage
-      .where(storage_id: @storage.id)
-      .pluck(:project_id, :project_folder_mode)
-      .to_h
+RSpec.describe Projects::Scopes::ActivatedInStorage do
+  shared_let(:project) { create(:project) }
+  shared_let(:storage) { create(:nextcloud_storage) }
+  shared_let(:project_storage) do
+    create(:project_storage, project:, storage:)
   end
 
-  def new; end
-  def create; end
-  def destroy; end
+  shared_let(:other_project) { create(:project) }
+  shared_let(:other_storage) { create(:one_drive_storage) }
+  shared_let(:other_project_storage) do
+    create(:project_storage, project: other_project, storage: other_storage)
+  end
 
-  private
+  shared_let(:project_without_storage) { create(:project) }
 
-  def find_model_object(object_id = :storage_id)
-    super
-    @storage = @object
+  describe ".activated_in_storage" do
+    it "returns projects which use the given storage id" do
+      expect(Project.activated_in_storage([storage.id])).to contain_exactly(project)
+    end
+  end
+
+  describe ".not_activated_in_storage" do
+    it "returns projects which do not use the given storage id" do
+      expect(Project.not_activated_in_storage([storage.id])).to contain_exactly(other_project, project_without_storage)
+    end
   end
 end

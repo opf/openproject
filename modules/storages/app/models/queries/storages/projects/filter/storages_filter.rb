@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,44 +26,43 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
-  include OpTurbo::ComponentStream
-
-  layout "admin"
-
-  model_object Storages::Storage
-
-  before_action :require_admin
-  before_action :find_model_object
-
-  menu_item :external_file_storages
-
-  def index
-    @project_query = ProjectQuery.new(
-      name: "project-storage-mappings-#{@storage.id}"
-    ) do |query|
-      query.where(:storages, "=", [@storage.id])
-      query.select(:name)
-      query.order("lft" => "asc")
+# This filter is used to find projects (including archived projects) that use one
+# of the given storages ids.
+module Queries::Storages::Projects::Filter
+  class StoragesFilter < ::Queries::Projects::Filters::ProjectFilter
+    def self.key
+      :storages
     end
 
-    # Prepare data for project_folder_type column
-    @project_folder_modes_per_project = Storages::ProjectStorage
-      .where(storage_id: @storage.id)
-      .pluck(:project_id, :project_folder_mode)
-      .to_h
-  end
+    def type
+      :list
+    end
 
-  def new; end
-  def create; end
-  def destroy; end
+    def allowed_values
+      @allowed_values ||= Storages::Storage
+                            .pluck(:name, :id)
+    end
 
-  private
+    def available?
+      User.current.admin?
+    end
 
-  def find_model_object(object_id = :storage_id)
-    super
-    @storage = @object
+    def apply_to(_query_scope)
+      case operator
+      when "="
+        super.activated_in_storage(values)
+      when "!"
+        super.not_activated_in_storage(values)
+      else
+        raise "unsupported operator"
+      end
+    end
+
+    def where
+      nil
+    end
   end
 end
