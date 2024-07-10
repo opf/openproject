@@ -54,7 +54,7 @@ class SharesController < ApplicationController
     overall_result = []
     @errors = ActiveModel::Errors.new(self)
 
-    had_shares_before_adding = sharing_strategy.shares.present?
+    visible_shares_before_adding = sharing_strategy.shares.present?
 
     find_or_create_users(send_notification: false) do |member_params|
       user = User.find_by(id: member_params[:user_id])
@@ -71,7 +71,7 @@ class SharesController < ApplicationController
     if overall_result.present?
       # In case we did not have shares before we have to replace the modal to get rid of the blankstate,
       # otherwise we can prepend the new shares
-      if had_shares_before_adding
+      if visible_shares_before_adding
         respond_with_prepend_shares(new_shares)
       else
         respond_with_replace_modal
