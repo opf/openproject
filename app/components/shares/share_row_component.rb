@@ -30,6 +30,8 @@
 
 module Shares
   class ShareRowComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    VIRTUAL_SHARE_ID = "virtual-share-id"
+
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers

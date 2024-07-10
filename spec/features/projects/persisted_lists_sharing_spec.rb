@@ -104,7 +104,7 @@ RSpec.describe "Project list sharing",
         projects_index_page.set_sidebar_filter("Member-of list")
         projects_index_page.open_share_dialog
 
-        share_dialog.expect_sharing_forbidden_banner
+        share_dialog.expect_unable_to_manage
         share_dialog.close
 
         projects_index_page.open_filters
@@ -145,6 +145,7 @@ RSpec.describe "Project list sharing",
         projects_index_page.set_sidebar_filter("Member-of list")
         projects_index_page.open_share_dialog
 
+        share_dialog.expect_open
         # Allowed to further share the project list
         share_dialog.invite_user!(wildcard_user, "View")
         share_dialog.close
@@ -225,7 +226,7 @@ RSpec.describe "Project list sharing",
           projects_index_page.open_share_dialog
 
           # View only
-          share_dialog.expect_sharing_forbidden_banner
+          share_dialog.expect_unable_to_manage(only_invite: true)
           share_dialog.close
 
           projects_index_page.open_filters

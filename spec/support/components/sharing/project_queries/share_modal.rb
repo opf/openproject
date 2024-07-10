@@ -39,12 +39,15 @@ module Components
         end
         # rubocop:enable Lint/MissingSuper
 
-        def expect_sharing_forbidden_banner
-          expect(page).to have_text("You don't have permissions to share Custom query.")
+        def expect_unable_to_manage(only_invite: false)
+          expect(page).to have_no_css("[data-test-selector='invite-user-form']")
+          expect(page).to have_css("[data-tooltip=\"You don't have permissions to share Project lists.\"]") unless only_invite
         end
 
         def close
-          click_on(class: "Overlay-closeButton")
+          # Tooltips interfere with the driver's ability
+          # to fire a click event. Using node#trigger
+          find(".Overlay-closeButton").trigger("click")
         end
 
         def toggle_public
