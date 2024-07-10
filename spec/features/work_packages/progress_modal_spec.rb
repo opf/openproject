@@ -352,7 +352,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
           work_edit_field.expect_modal_field_value("10h")
           remaining_work_edit_field.expect_modal_field_value("2.12h") # 2h 7m
-          percent_complete_edit_field.expect_modal_field_value("78", readonly: true)
+          percent_complete_edit_field.expect_modal_field_value("79", readonly: true)
         end
       end
 
