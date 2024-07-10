@@ -60,6 +60,7 @@ export class WorkPackageHierarchyToggleDropdownMenuDirective extends OpContextMe
   private buildItems() {
     this.items = [
       {
+        disabled: this.wpViewCollapsedHierarchies.allHierarchiesAreCollapsed,
         linkText: this.I18n.t('js.button_collapse_all'),
         icon: 'icon-minus2',
         onClick: (_evt:JQuery.TriggeredEvent) => {
@@ -69,6 +70,7 @@ export class WorkPackageHierarchyToggleDropdownMenuDirective extends OpContextMe
         },
       },
       {
+        disabled: this.wpViewCollapsedHierarchies.allHierarchiesAreExpanded,
         linkText: this.I18n.t('js.button_expand_all'),
         icon: 'icon-plus',
         onClick: (_evt:JQuery.TriggeredEvent) => {

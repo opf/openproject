@@ -44,6 +44,18 @@ export class WorkPackageViewCollapsedHierarchiesService extends WorkPackageViewB
     super(querySpace);
   }
 
+  get allHierarchiesAreCollapsed():boolean {
+    return jQuery('.wp-table--hierarchy-indicator').toArray().every((element) => {
+      return jQuery(element).hasClass('-hierarchy-collapsed');
+    });
+  }
+
+  get allHierarchiesAreExpanded():boolean {
+    return jQuery('.wp-table--hierarchy-indicator').toArray().every((element) => {
+      return !jQuery(element).hasClass('-hierarchy-collapsed');
+    });
+  }
+
   setAllHierarchiesCollapseStateTo(collapsedState:boolean):void {
     const newState = {
       allHierarchiesChanged: true,
@@ -56,6 +68,7 @@ export class WorkPackageViewCollapsedHierarchiesService extends WorkPackageViewB
     hierarchyIndicators.each((index, element) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const wpId:string = jQuery(element).closest(`.${tableRowClassName}`).data('workPackageId');
+
       if (collapsedState) {
         this.workPackageViewHierarchiesService.collapse(wpId);
       } else {
