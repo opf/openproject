@@ -184,7 +184,12 @@ class WorkPackages::ActivitiesTabController < ApplicationController
            end
 
     if call.success?
-      update_journal_via_turbo_stream(@journal)
+      update_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
+          journal: @journal,
+          filter: params[:filter]&.to_sym || :all
+        )
+      )
     else
       # TODO: handle errors
     end

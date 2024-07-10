@@ -246,13 +246,6 @@ export default class IndexController extends Controller {
     }
   }
 
-  focusEditor() {
-    const ckEditorInstance = this.getCkEditorInstance();
-    if (ckEditorInstance) {
-      setTimeout(() => ckEditorInstance.editing.view.focus(), 10);
-    }
-  }
-
   quote(event:Event) {
     event.preventDefault();
     const target = event.currentTarget as HTMLElement;
