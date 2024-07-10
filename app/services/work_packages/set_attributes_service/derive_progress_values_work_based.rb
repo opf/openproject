@@ -33,20 +33,9 @@ class WorkPackages::SetAttributesService
     def derive_progress_attributes
       raise ArgumentError, "Cannot use #{self.class.name} in status-based mode" if WorkPackage.status_based_mode?
 
-      if only_percent_complete_initially_set?
-        update_remaining_work_from_percent_complete
-      else
-        update_work
-        update_remaining_work
-        update_percent_complete
-      end
-    end
-
-    def only_percent_complete_initially_set?
-      return false if percent_complete_unset?
-      return false if remaining_work_set?
-
-      work_changed? && work.present?
+      update_work
+      update_remaining_work
+      update_percent_complete
     end
 
     # Compute and update +percent_complete+ if its dependent attributes are being modified.
@@ -58,20 +47,15 @@ class WorkPackages::SetAttributesService
     # considered nil.
     def update_percent_complete
       return unless remaining_work_changed? || work_changed?
+      return if remaining_work_came_from_user? && work_came_from_user? && (work_unset? || remaining_work_unset?)
       return if work_unset?
+      return if work&.negative?
 
       self.percent_complete = if remaining_work_unset?
                                 nil
                               else
                                 compute_percent_complete
                               end
-    end
-
-    def update_remaining_work_from_percent_complete
-      return if remaining_work_came_from_user?
-      return if work&.negative?
-
-      self.remaining_work = remaining_work_from_percent_complete_and_work
     end
 
     def compute_percent_complete
@@ -114,7 +98,7 @@ class WorkPackages::SetAttributesService
         self.remaining_work = work
       elsif work_unset? || percent_complete_unset?
         self.remaining_work = nil
-      elsif work_changed? && !percent_complete_changed?
+      elsif work_changed? && remaining_work_set? && !percent_complete_changed?
         delta = work - work_was
         self.remaining_work = (remaining_work + delta).clamp(0.0, work)
       else
