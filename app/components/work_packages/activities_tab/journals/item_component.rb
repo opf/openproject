@@ -92,6 +92,10 @@ module WorkPackages
           journal.notifications.where(read_ian: false, recipient_id: User.current.id).any?
         end
 
+        def notification_on_details?
+          has_unread_notifications? && journal.notes.blank?
+        end
+
         def copy_url_action_item(menu)
           menu.with_item(label: t("button_copy_link_to_clipboard"),
                          tag: :button,

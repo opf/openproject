@@ -36,6 +36,7 @@ export default class IndexController extends Controller {
   connect() {
     this.setLocalStorageKey();
     this.setLastUpdateTimestamp();
+    this.hideLastPartOfTimeLineStem();
     this.setupEventListeners();
     this.handleInitialScroll();
     this.startPolling();
@@ -109,6 +110,7 @@ export default class IndexController extends Controller {
       const text = await response.text();
       Turbo.renderStreamMessage(text);
       this.setLastUpdateTimestamp();
+      this.hideLastPartOfTimeLineStem();
     }
   }
 
@@ -319,6 +321,7 @@ export default class IndexController extends Controller {
             this.journalsContainerTarget,
             this.sortingValue === 'asc',
           );
+          this.hideLastPartOfTimeLineStem();
         }, 100);
       }
     }
@@ -338,5 +341,18 @@ export default class IndexController extends Controller {
 
   setLastUpdateTimestamp() {
     this.lastUpdateTimestamp = new Date().toISOString();
+  }
+
+  hideLastPartOfTimeLineStem() {
+    // TODO: I wasn't able to find a pure CSS solution
+    // Didn't want to identify on server-side which element is last in the list in order to avoid n+1 queries
+    // happy to get rid of this hacky JS solution!
+    this.element.querySelectorAll('.details-container--empty--last--asc').forEach((container) => container.classList.remove('details-container--empty--last--asc'));
+
+    const containers = this.element.querySelectorAll('.details-container--empty--asc');
+    if (containers.length > 0) {
+      const lastContainer = containers[containers.length - 1] as HTMLElement;
+      lastContainer.classList.add('details-container--empty--last--asc');
+    }
   }
 }

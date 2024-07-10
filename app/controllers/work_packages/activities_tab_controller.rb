@@ -104,6 +104,17 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     ###
 
     if call.success? && call.result
+      if call.result.initial?
+        # we need to update the whole item component for an initial journal entry
+        # and not just the show part as happens in the time based update
+        # as this part is not rendered for initial journal
+        update_via_turbo_stream(
+          component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+            journal: call.result,
+            state: :show
+          )
+        )
+      end
       generate_time_based_update_streams(params[:last_update_timestamp], params[:filter])
     end
 
