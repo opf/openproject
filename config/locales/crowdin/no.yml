@@ -1139,6 +1139,9 @@
         other: "Varsler"
       placeholder_user: "Plassholder bruker"
       project: "Prosjekt"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Egendefinert spørring"
       role:
         one: "Rolle"
@@ -3443,6 +3446,7 @@
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       public_flag:
         label: "Share with everyone at %{instance_name}"

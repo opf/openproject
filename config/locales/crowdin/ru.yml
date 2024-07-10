@@ -1159,6 +1159,11 @@ ru:
         other: "Уведомлений"
       placeholder_user: "Пользователь-заполнитель"
       project: "Проект"
+      project_query:
+        one: "Project list"
+        few: "Project lists"
+        many: "Project lists"
+        other: "Project lists"
       query: "Настраиваемый запрос"
       role:
         one: "Роль"
@@ -3511,6 +3516,7 @@ ru:
       additional_privileges_group: "Может иметь дополнительные привилегии (как участник группы)"
       additional_privileges_project_or_group: "Может иметь дополнительные привилегии (как участник проекта или группы)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       public_flag:
         label: "Share with everyone at %{instance_name}"

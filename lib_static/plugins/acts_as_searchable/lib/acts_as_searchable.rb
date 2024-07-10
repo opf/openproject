@@ -74,10 +74,10 @@ module Redmine
 
       module InstanceMethods
         def self.included(base)
-          base.extend ClassMethods
+          base.extend AddClassMethods
         end
 
-        module ClassMethods
+        module AddClassMethods
           # Searches the model for the given tokens
           # projects argument can be either nil (will search all projects), a project or an array of projects
           # Returns the results and the results count

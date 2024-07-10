@@ -1126,6 +1126,8 @@ zh-CN:
         other: "通知"
       placeholder_user: "占位符用户"
       project: "项目"
+      project_query:
+        other: "Project lists"
       query: "自定义查询"
       role:
         other: "角色"
@@ -3397,6 +3399,7 @@ zh-CN:
       additional_privileges_group: "可能有额外的权限(作为组成员)"
       additional_privileges_project_or_group: "可能有额外的权限(作为项目成员或组成员)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "用户只能看到他们有权访问的项目。共享项目列表不会影响单个项目的权限。"
       public_flag:
         label: "通过 %{instance_name}与大家分享"
