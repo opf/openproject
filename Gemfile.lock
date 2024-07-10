@@ -8,8 +8,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 32603f09a249999a00e8ca23eb17215b46a26c0f
-  ref: 32603f09a249999a00e8ca23eb17215b46a26c0f
+  revision: 83c354187787f200bc39ee9b2ddc5d9ac72203e0
+  ref: 83c354187787f200bc39ee9b2ddc5d9ac72203e0
   specs:
     md_to_pdf (0.1.1)
       color_conversion (~> 0.1)
