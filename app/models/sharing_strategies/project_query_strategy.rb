@@ -76,5 +76,55 @@ module SharingStrategies
     def empty_state_component
       Shares::ProjectQueries::EmptyStateComponent
     end
+
+    def shares(reload: false)
+      results = super
+      return results if filter_for_groups?
+
+      if (!filtered_by_role? && results.present?) || owner_matches_role_filter?
+        (results + [virtual_owner_share]).sort_by { |share| share.principal.name }
+      else
+        results
+      end
+    end
+
+    private
+
+    def virtual_owner_share
+      @virtual_owner_share ||= Member.new(
+        entity:,
+        principal: entity.user,
+        roles: [owner_role]
+      )
+    end
+
+    def owner_role
+      @owner_role ||= if entity.editable?(entity.user)
+                        ProjectQueryRole.find_by(builtin: Role::BUILTIN_PROJECT_QUERY_EDIT)
+                      else
+                        ProjectQueryRole.find_by(builtin: Role::BUILTIN_PROJECT_QUERY_VIEW)
+                      end
+    end
+
+    def filtered_by_role?
+      role_filter.present?
+    end
+
+    def role_filter
+      @role_filter ||= query.filters.find { |filter| filter.is_a?(Queries::Members::Filters::RoleFilter) }
+    end
+
+    def owner_matches_role_filter?
+      return false unless filtered_by_role?
+
+      role_filter.values.include?(owner_role.id.to_s) # rubocop:disable Performance/InefficientHashSearch
+    end
+
+    def filter_for_groups?
+      principal_filter = query.filters.find { |filter| filter.is_a?(Queries::Members::Filters::PrincipalTypeFilter) }
+      return false if principal_filter.nil?
+
+      principal_filter.values.count == 1 && principal_filter.values.include?("Group") # rubocop:disable Performance/InefficientHashSearch
+    end
   end
 end

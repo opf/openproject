@@ -34,16 +34,15 @@ module Shares
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(shares:, strategy:, errors:)
+    def initialize(strategy:, errors:)
       super
 
-      @shares = shares
       @strategy = strategy
       @errors = errors
     end
 
     private
 
-    attr_reader :shares, :strategy, :errors
+    attr_reader :strategy, :errors
   end
 end

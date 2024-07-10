@@ -21,7 +21,7 @@
           border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-dialog-header' }) do
             grid_layout('op-share-dialog-modal-body--header', tag: :div, align_items: :center) do |header_grid|
               header_grid.with_area(:counter, tag: :div) do
-                render(Shares::CounterComponent.new(strategy:, count: @shares.size))
+                render(Shares::CounterComponent.new(strategy:, count: strategy.shares.size))
               end
 
               header_grid.with_area(:actions,
@@ -99,7 +99,7 @@
             end
           end
 
-          if @shares.none?
+          if strategy.shares.none?
             border_box.with_row do
               if strategy.custom_empty_state_component?
                 render(strategy.empty_state_component.new(strategy: strategy))
@@ -108,7 +108,7 @@
               end
             end
           else
-            @shares.each do |share|
+            strategy.shares.each do |share|
               render(Shares::ShareRowComponent.new(share:, strategy:, container: border_box))
             end
           end
