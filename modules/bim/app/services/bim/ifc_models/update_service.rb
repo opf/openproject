@@ -38,7 +38,6 @@ module Bim
       end
 
       def after_perform(service_result)
-        puts "update the model: #{service_result.result}"
         if service_result.success?
           # As the attachments association does not have the autosave option, we need to remove the
           # attachments ourselves
