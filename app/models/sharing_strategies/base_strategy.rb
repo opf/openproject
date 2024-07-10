@@ -30,9 +30,10 @@ module SharingStrategies
   class BaseStrategy
     attr_reader :entity, :user
 
-    def initialize(entity, user: User.current)
+    def initialize(entity, query_params:, user: User.current)
       @entity = entity
       @user = user
+      @query_params = query_params
     end
 
     def available_roles
@@ -80,12 +81,12 @@ module SharingStrategies
       nil
     end
 
-    def shares_query(params) # rubocop:disable Metrics/AbcSize
+    def query # rubocop:disable Metrics/AbcSize
       return @query if defined?(@query)
 
       @query = ParamsToQueryService
                  .new(Member, user, query_class: Queries::Members::NonInheritedMemberQuery)
-                 .call(params)
+                 .call(@query_params)
 
       # Set default filter on the entity
       @query.where("entity_id", "=", entity.id)
@@ -94,9 +95,14 @@ module SharingStrategies
         @query.where("project_id", "=", entity.project.id)
       end
 
-      @query.order(name: :asc) unless params[:sortBy]
+      @query.order(name: :asc) unless @query_params[:sortBy]
 
       @query
+    end
+
+    def shares(reload: false)
+      @shares = nil if reload
+      @shares ||= query.results
     end
   end
 end

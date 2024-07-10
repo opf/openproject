@@ -42,7 +42,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export class ViewpointsService {
-  topicUUID:string|number;
+  topicUUID:string|number|null = null;
 
   @InjectField() bcfApi:BcfApiService;
 
@@ -114,8 +114,12 @@ export class ViewpointsService {
       );
   }
 
+  public resetBcfTopic():void {
+    this.topicUUID = null;
+  }
+
   public setBcfTopic$(workPackage:WorkPackageResource):Observable<string|number> {
-    if (this.topicUUID) {
+    if (this.topicUUID !== null) {
       return of(this.topicUUID);
     }
     const topicHref = (workPackage.bcfTopic as HalResource)?.href;

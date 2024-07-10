@@ -1132,6 +1132,8 @@ ko:
         other: "알림"
       placeholder_user: "플레이스홀더 사용자"
       project: "프로젝트"
+      project_query:
+        other: "Project lists"
       query: "사용자 지정 쿼리"
       role:
         other: "역할"
@@ -3405,6 +3407,7 @@ ko:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       public_flag:
         label: "Share with everyone at %{instance_name}"
