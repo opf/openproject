@@ -53,6 +53,38 @@ module SharingStrategies
       user.allowed_in_project?(:view_shared_work_packages, @entity.project)
     end
 
+    def share_description(share) # rubocop:disable Metrics/PerceivedComplexity,Metrics/AbcSize
+      return I18n.t("sharing.user_details.invited") if !manageable? && share.principal.invited?
+      return "" if !manageable?
+
+      if share.principal.is_a?(Group)
+        if project_member?(share)
+          I18n.t("sharing.user_details.project_group")
+        else
+          I18n.t("sharing.user_details.not_project_group")
+        end
+
+      elsif group_member?(share)
+        if has_roles_via_group_membership?(share)
+          if project_member?(share)
+            I18n.t("sharing.user_details.additional_privileges_project_or_group")
+          else
+            I18n.t("sharing.user_details.additional_privileges_group")
+          end
+        elsif inherited_project_member?(share)
+          I18n.t("sharing.user_details.additional_privileges_project_or_group")
+        elsif project_member?(share)
+          I18n.t("sharing.user_details.additional_privileges_project")
+        else
+          I18n.t("sharing.user_details.not_project_member")
+        end
+      elsif project_member?(share)
+        I18n.t("sharing.user_details.additional_privileges_project")
+      else
+        I18n.t("sharing.user_details.not_project_member")
+      end
+    end
+
     def create_contract_class
       Shares::WorkPackages::CreateContract
     end
@@ -63,6 +95,28 @@ module SharingStrategies
 
     def delete_contract_class
       Shares::WorkPackages::DeleteContract
+    end
+
+    private
+
+    def project_member?(share)
+      Member.exists?(project: share.entity.project, principal: share.principal, entity: nil)
+    end
+
+    def group_member?(share)
+      GroupUser.where(user_id: share.principal.id).any?
+    end
+
+    def has_roles_via_group_membership?(share)
+      share.member_roles.where.not(inherited_from: nil).any?
+    end
+
+    def inherited_project_member?(share)
+      Member.includes(:roles)
+            .references(:member_roles)
+            .where(project: share.project, principal: share.principal, entity: nil)
+            .merge(MemberRole.only_inherited)
+            .any?
     end
   end
 end

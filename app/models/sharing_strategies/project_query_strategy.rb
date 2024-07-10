@@ -88,6 +88,21 @@ module SharingStrategies
       end
     end
 
+    def share_description(share) # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
+      return I18n.t("sharing.user_details.invited") if !manageable? && share.principal.invited?
+      return "" if !manageable?
+
+      if share.principal == entity.user
+        I18n.t("sharing.project_queries.user_details.owner")
+      elsif entity.public?
+        if share.principal.is_a?(User) && share.principal.allowed_globally?(:manage_public_project_queries)
+          I18n.t("sharing.project_queries.user_details.can_manage_public_lists")
+        elsif share.roles.any? { |role| role.builtin == Role::BUILTIN_PROJECT_QUERY_VIEW }
+          I18n.t("sharing.project_queries.user_details.can_view_because_public")
+        end
+      end
+    end
+
     private
 
     def virtual_owner_share

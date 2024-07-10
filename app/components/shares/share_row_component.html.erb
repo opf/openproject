@@ -17,13 +17,13 @@
       end
 
       user_row_grid.with_area(:user_details, tag: :div, classes: 'ellipsis') do
-        render(Shares::UserDetailsComponent.new(share:, manager_mode: share_editable?))
+        render(Shares::UserDetailsComponent.new(share:, strategy:))
       end
 
       user_row_grid.with_area(:button, tag: :div, color: :subtle) do
         render(Shares::PermissionButtonComponent.new(share:,
-        strategy: strategy,
-                                                      data: { 'test-selector': 'op-share-dialog-update-role' }))
+                                                     strategy: strategy,
+                                                     data: { 'test-selector': 'op-share-dialog-update-role' }))
       end
 
       if share_editable?
