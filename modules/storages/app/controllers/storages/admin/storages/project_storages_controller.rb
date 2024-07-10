@@ -31,6 +31,7 @@
 class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
   include OpTurbo::ComponentStream
   include OpTurbo::DialogStreamHelper
+  include FlashMessagesOutputSafetyHelper
 
   layout "admin"
 
@@ -57,7 +58,25 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
   end
 
-  def create; end
+  def create
+    create_service = ::Storages::ProjectStorages::BulkCreateService
+                         .new(user: current_user, projects: @projects, storage: @storage,
+                              project_folder_mode: params.to_unsafe_h[:storages_project_storage][:project_folder_mode],
+                              include_sub_projects: include_sub_projects?)
+                         .call
+
+    create_service.on_success { update_project_list_via_turbo_stream(url_for_action: :index) }
+
+    create_service.on_failure do
+      update_flash_message_via_turbo_stream(
+        message: join_flash_messages(create_service.errors),
+        full: true, dismiss_scheme: :hide, scheme: :danger
+      )
+    end
+
+    respond_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
+  end
+
   def destroy; end
 
   private
@@ -85,9 +104,12 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     respond_with_turbo_streams
   end
 
-  def update_project_list_via_turbo_stream
+  def update_project_list_via_turbo_stream(url_for_action: action_name)
     update_via_turbo_stream(
-      component: Storages::ProjectStorages::Projects::TableComponent.new(query: storage_projects_query, params:)
+      component: Storages::ProjectStorages::Projects::TableComponent.new(
+        query: storage_projects_query,
+        params: { url_for_action: }
+      )
     )
   end
 
@@ -104,5 +126,9 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
         .new(user: current_user, model: ::Storages::ProjectStorage.new, contract_class: EmptyContract)
         .call(storage: @storage)
         .result
+  end
+
+  def include_sub_projects?
+    ActiveRecord::Type::Boolean.new.cast(params.to_unsafe_h[:storages_project_storage][:include_sub_projects])
   end
 end
