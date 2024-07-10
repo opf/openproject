@@ -54,34 +54,36 @@ module SharingStrategies
     end
 
     def share_description(share) # rubocop:disable Metrics/PerceivedComplexity,Metrics/AbcSize
-      return I18n.t("sharing.user_details.invited") if !manageable? && share.principal.invited?
+      scope = %i[sharing user_details]
+
+      return I18n.t(:invited, scope:) if !manageable? && share.principal.invited?
       return "" if !manageable?
 
       if share.principal.is_a?(Group)
         if project_member?(share)
-          I18n.t("sharing.user_details.project_group")
+          I18n.t(:project_group, scope:)
         else
-          I18n.t("sharing.user_details.not_project_group")
+          I18n.t(:not_project_group, scope:)
         end
 
       elsif group_member?(share)
         if has_roles_via_group_membership?(share)
           if project_member?(share)
-            I18n.t("sharing.user_details.additional_privileges_project_or_group")
+            I18n.t(:additional_privileges_project_or_group, scope:)
           else
-            I18n.t("sharing.user_details.additional_privileges_group")
+            I18n.t(:additional_privileges_group, scope:)
           end
         elsif inherited_project_member?(share)
-          I18n.t("sharing.user_details.additional_privileges_project_or_group")
+          I18n.t(:additional_privileges_project_or_group, scope:)
         elsif project_member?(share)
-          I18n.t("sharing.user_details.additional_privileges_project")
+          I18n.t(:additional_privileges_project, scope:)
         else
-          I18n.t("sharing.user_details.not_project_member")
+          I18n.t(:not_project_member, scope:)
         end
       elsif project_member?(share)
-        I18n.t("sharing.user_details.additional_privileges_project")
+        I18n.t(:additional_privileges_project, scope:)
       else
-        I18n.t("sharing.user_details.not_project_member")
+        I18n.t(:not_project_member, scope:)
       end
     end
 

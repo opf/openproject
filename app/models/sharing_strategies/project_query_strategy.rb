@@ -92,13 +92,15 @@ module SharingStrategies
       return I18n.t("sharing.user_details.invited") if !manageable? && share.principal.invited?
       return "" if !manageable?
 
+      scope = %i[sharing project_queries user_details]
+
       if share.principal == entity.user
-        I18n.t("sharing.project_queries.user_details.owner")
+        I18n.t(:owner, scope:)
       elsif entity.public?
         if share.principal.is_a?(User) && share.principal.allowed_globally?(:manage_public_project_queries)
-          I18n.t("sharing.project_queries.user_details.can_manage_public_lists")
+          I18n.t(:can_manage_public_lists, scope:)
         elsif share.roles.any? { |role| role.builtin == Role::BUILTIN_PROJECT_QUERY_VIEW }
-          I18n.t("sharing.project_queries.user_details.can_view_because_public")
+          I18n.t(:can_view_because_public, scope:)
         end
       end
     end
