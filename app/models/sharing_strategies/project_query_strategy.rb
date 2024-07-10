@@ -80,10 +80,10 @@ module SharingStrategies
     def shares(reload: false)
       results = super
 
-      if results.present?
+      if (!filtered_by_role? && results.present?) || owner_matches_role_filter?
         (results + [virtual_owner_share]).sort_by { |share| share.principal.name }
       else
-        []
+        results
       end
     end
 
@@ -93,16 +93,30 @@ module SharingStrategies
       @virtual_owner_share ||= Member.new(
         entity:,
         principal: entity.user,
-        roles: [ProjectQueryRole.find_by(builtin: owner_role_identifier)]
+        roles: [owner_role]
       )
     end
 
-    def owner_role_identifier
-      if entity.editable?(entity.user)
-        Role::BUILTIN_PROJECT_QUERY_EDIT
-      else
-        Role::BUILTIN_PROJECT_QUERY_VIEW
-      end
+    def owner_role
+      @owner_role ||= if entity.editable?(entity.user)
+                        ProjectQueryRole.find_by(builtin: Role::BUILTIN_PROJECT_QUERY_EDIT)
+                      else
+                        ProjectQueryRole.find_by(builtin: Role::BUILTIN_PROJECT_QUERY_VIEW)
+                      end
+    end
+
+    def filtered_by_role?
+      role_filter.present?
+    end
+
+    def role_filter
+      @role_filter ||= query.filters.find { |filter| filter.is_a?(Queries::Members::Filters::RoleFilter) }
+    end
+
+    def owner_matches_role_filter?
+      return false unless filtered_by_role?
+
+      role_filter.values.include?(owner_role.id.to_s) # rubocop:disable Performance/InefficientHashSearch
     end
   end
 end
