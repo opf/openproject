@@ -41,9 +41,6 @@ module Storages
               radio_group.radio_button(value: "automatic", label: I18n.t(:"storages.label_automatic_folder"),
                                        caption: I18n.t(:"storages.instructions.automatic_folder"))
             end
-
-            radio_group.radio_button(value: "manual", label: I18n.t(:"storages.label_existing_manual_folder"),
-                                     caption: I18n.t(:"storages.instructions.existing_manual_folder"))
           end
         end
 
