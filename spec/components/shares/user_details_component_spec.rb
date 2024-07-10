@@ -47,7 +47,7 @@ RSpec.describe Shares::UserDetailsComponent, type: :component do
   let(:invite_resent) { false }
 
   before do
-    allow(strategy).to receive(:manageable?).and_return(manager_mode)
+    allow(strategy).to receive(:manageable?).and_return(manageable)
   end
 
   def build_inherited_membership(group_membership:, user_membership:, role: work_package_role)
@@ -58,7 +58,7 @@ RSpec.describe Shares::UserDetailsComponent, type: :component do
   end
 
   describe "when not in manager mode" do
-    let(:manager_mode) { false }
+    let(:manageable) { false }
 
     describe "rendering for a user in a non-active state" do
       context "when the user is locked" do
@@ -212,7 +212,7 @@ RSpec.describe Shares::UserDetailsComponent, type: :component do
   end
 
   describe "when in manager mode" do
-    let(:manager_mode) { true }
+    let(:manageable) { true }
 
     describe "rendering for a user in a non-active state" do
       context "when the user is locked" do
