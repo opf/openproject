@@ -232,12 +232,19 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
     context "when work is changed and remaining work is unset" do
       let(:set_attributes) { { estimated_hours: 8.0, remaining_hours: nil } }
-      let(:expected_derived_attributes) { set_attributes.dup }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
                        description: "% complete is kept and remaining work is kept unset and not recomputed" \
                                     "(error state to be detected by contract)"
+    end
+
+    context "when work is set to the same value and remaining work is changed" do
+      let(:set_attributes) { { estimated_hours: 10.0, remaining_hours: 1.0 } }
+      let(:expected_derived_attributes) { { done_ratio: 90 } }
+
+      include_examples "update progress values",
+                       description: "% complete is updated accordingly"
     end
 
     context "when work is increased and remaining work is set to its current value (to prevent it from being increased)" do
@@ -380,7 +387,6 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
     context "when work is changed and remaining work is unset" do
       let(:set_attributes) { { estimated_hours: 10.0, remaining_hours: nil } }
-      let(:expected_derived_attributes) { set_attributes.dup }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
@@ -507,7 +513,6 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
     context "when work is set and remaining work is unset" do
       let(:set_attributes) { { estimated_hours: 10.0, remaining_hours: nil } }
-      let(:expected_derived_attributes) { set_attributes.dup }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
@@ -577,7 +582,6 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
     context "when remaining work is set and work is unset" do
       let(:set_attributes) { { estimated_hours: nil, remaining_hours: 6.7 } }
-      let(:expected_derived_attributes) { set_attributes.dup }
       let(:expected_kept_attributes) { %w[done_ratio] }
 
       include_examples "update progress values",
