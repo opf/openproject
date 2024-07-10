@@ -58,7 +58,11 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   end
 
   def new
-    @project_storage = ::Storages::ProjectStorage.new(storage: @storage)
+    @project_storage =
+      ::Storages::ProjectStorages::SetAttributesService
+        .new(user: current_user, model: ::Storages::ProjectStorage.new, contract_class: EmptyContract)
+        .call(storage: @storage)
+        .result
     respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
   end
 
