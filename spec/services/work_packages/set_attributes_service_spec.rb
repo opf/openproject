@@ -228,7 +228,7 @@ RSpec.describe WorkPackages::SetAttributesService,
 
         context "when work and remaining work are both changed to values with more than 2 decimals" do
           let(:call_attributes) { { estimated_hours: 10.123456, remaining_hours: 5.6789 } }
-          let(:expected_attributes) { { estimated_hours: 10.12, remaining_hours: 5.68, done_ratio: 43 } }
+          let(:expected_attributes) { { estimated_hours: 10.12, remaining_hours: 5.68, done_ratio: 44 } }
 
           it_behaves_like "service call", description: "rounds work and remaining work to 2 decimals " \
                                                        "and updates % complete accordingly"
