@@ -94,3 +94,44 @@ The goal is to use Primer variables all over the application. Once we get to tha
  --primary-button-color: var(--button-primary-bgColor-rest);
  ...
 ```
+
+### Dark mode
+
+Dark mode is designed to reduce eye strain, especially in low-light environments, by using dark backgrounds and light text. It also helps in conserving battery life on devices by reducing the amount of light emitted.
+Dark mode is part of our commitment to enhancing user experience by providing flexible and user-friendly interface options. Whether you are using the application for extended periods or simply prefer a darker aesthetic, dark mode is designed to meet your needs and improve your overall experience.
+
+OpenProject dark mode offers an aesthetically pleasing alternative to the default light mode, providing a modern and sleek user interface. Please note, that the dark mode is a **personal** setting, meaning that user can easily switch between dark and light modes through the user's settings, so it only affects that user and not the whole instance.
+The dark mode should be activated in My account/Settings by changing Mode to 'Dark (experimental)'. As you see, it is still in experimental state, so there may be some buggy issues in current stage.
+
+#### Technical notes
+
+The goal is to use Primer variables all over the application. Once we get to that state, we can simply switch between the modes and Primer offers the correct colors. Working on dark mode helps us to get closer to this goal by replacing our custom css variables with Primer css variables and removing custom color values throughout the application. Since we are currently **not** using Primer variables everywhere yet, we have to map some of OpenProject's global color variables to the Primer color variables. We do that in [app/views/custom_styles/_primer_color_mapping.erb](https://github.com/opf/openproject/blob/dev/app/views/custom_styles/_primer_color_mapping.erb). The following is only an excerpt of that:
+
+```css
+--accent-color: var(--accent-color--dark-mode);
+--content-icon-color: var(--accent-color--dark-mode);
+--primary-button-color: var(--primary-button-color--dark-mode);
+--main-menu-bg-color: var(--overlay-bgColor);
+--type-form-conf-attribute--background: var(--overlay-bgColor);
+...
+```
+
+As mentioned above, we are following the rule of using dark backgrounds and light text in dark mode, therefore if in Administration/Design page you change any color except **accent** and **primary button** color, nothing will change.
+We force header and main menu colors to use Primer css variables, so if you change any color of them, it won't change.
+
+```css
+--header-bg-color: var(--page-header-bgColor);
+--header-item-font-color: var(--fgColor-default);
+--header-item-bg-hover-color: var(--control-transparent-bgColor-hover);
+--header-item-font-hover-color: var(--fgColor-default);
+--header-border-bottom-color: var(--borderColor-muted) !important;
+--main-menu-hover-font-color: var(--fgColor-default);
+--main-menu-bg-selected-background: var(--control-transparent-bgColor-hover);
+--main-menu-bg-hover-background: var(--control-transparent-bgColor-hover);
+--main-menu-border-color: var(--borderColor-muted);
+--main-menu-resizer-color: var(--borderColor-muted);
+--main-menu-fieldset-header-color: var(--fgColor-muted) !important;
+--main-menu-font-color: var(--fgColor-default);
+--main-menu-selected-font-color: var(--fgColor-default);
+--main-menu-bg-color: var(--page-header-bgColor);
+```
