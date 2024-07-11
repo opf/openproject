@@ -59,6 +59,10 @@ module Components
             expect(find("button")).to be_disabled
           end
         end
+
+        def expect_upsale_banner
+          expect(page).to have_css("[data-test-selector='op-share-dialog-upsale-block']")
+        end
       end
     end
   end

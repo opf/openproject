@@ -76,92 +76,8 @@ RSpec.describe "Project list sharing",
   let(:projects_index_page) { Pages::Projects::Index.new }
   let(:share_dialog) { Components::Sharing::ProjectQueries::ShareModal.new(shared_projects_list) }
 
-  describe "Sharing with View permissions with a user " \
-           "and accessing the list as the shared user" do
-    it "allows the shared user to view the project list but not edit it" do
-      using_session "shared user" do
-        login_as(shared_user)
-
-        projects_index_page.visit!
-        projects_index_page.expect_no_sidebar_filter("Member-of list")
-      end
-
-      using_session "sharer" do
-        login_as(sharer)
-
-        projects_index_page.visit!
-        projects_index_page.set_sidebar_filter "Member-of list"
-        projects_index_page.open_share_dialog
-
-        share_dialog.expect_open
-        share_dialog.invite_user!(shared_user, "View")
-      end
-
-      using_session "shared user" do
-        login_as(shared_user)
-        projects_index_page.visit!
-        projects_index_page.expect_sidebar_filter("Member-of list")
-        projects_index_page.set_sidebar_filter("Member-of list")
-        projects_index_page.open_share_dialog
-
-        share_dialog.expect_unable_to_manage
-        share_dialog.close
-
-        projects_index_page.open_filters
-        projects_index_page.filter_by_active("yes")
-        projects_index_page.expect_can_only_save_as_label
-        projects_index_page.save_query_as("Member-of and active list")
-
-        projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
-      end
-    end
-  end
-
-  describe "Sharing with Edit permissions with a user " \
-           "and accessing the list as the shared user" do
-    it "allows the shared user to view, share and edit the project list" do
-      using_session "shared user" do
-        login_as(shared_user)
-
-        projects_index_page.visit!
-        projects_index_page.expect_no_sidebar_filter("Member-of list")
-      end
-
-      using_session "sharer" do
-        login_as(sharer)
-
-        projects_index_page.visit!
-        projects_index_page.set_sidebar_filter "Member-of list"
-        projects_index_page.open_share_dialog
-
-        share_dialog.expect_open
-        share_dialog.invite_user!(shared_user, "Edit")
-      end
-
-      using_session "shared user" do
-        login_as(shared_user)
-        projects_index_page.visit!
-        projects_index_page.expect_sidebar_filter("Member-of list")
-        projects_index_page.set_sidebar_filter("Member-of list")
-        projects_index_page.open_share_dialog
-
-        share_dialog.expect_open
-        # Allowed to further share the project list
-        share_dialog.invite_user!(wildcard_user, "View")
-        share_dialog.close
-
-        projects_index_page.open_filters
-        projects_index_page.filter_by_active("yes")
-
-        # Can save the project list
-        projects_index_page.save_query
-        projects_index_page.expect_toast(message: "The modified list has been saved")
-      end
-    end
-  end
-
-  context "without the permission to manage public project lists" do
-    it "doesn't allow making a list public" do
+  describe "without the enterprise edition" do
+    it "renders an upsale modal" do
       login_as(sharer)
 
       projects_index_page.visit!
@@ -169,36 +85,14 @@ RSpec.describe "Project list sharing",
       projects_index_page.open_share_dialog
 
       share_dialog.expect_open
-      share_dialog.expect_toggle_public_disabled
-    end
-
-    context "and the list is already public" do
-      before do
-        shared_projects_list.update(public: OpenProject::Database::DB_VALUE_TRUE)
-      end
-
-      it "doesn't allow the owner to edit its public state" do
-        login_as(sharer)
-
-        projects_index_page.visit!
-        projects_index_page.set_sidebar_filter "Member-of list"
-        projects_index_page.open_share_dialog
-
-        share_dialog.expect_open
-        share_dialog.expect_toggle_public_disabled
-      end
+      share_dialog.expect_upsale_banner
     end
   end
 
-  describe "Making a list public" do
-    shared_let(:global_member) do
-      create(:global_member,
-             principal: sharer,
-             roles: [create(:global_role, permissions: %i[manage_public_project_queries])])
-    end
-
-    context "and accessing it as a user without edit permissions" do
-      it "allows the user to view the list" do
+  describe "with the enterprise edition", with_ee: %i[project_list_sharing] do
+    describe "Sharing with View permissions with a user " \
+             "and accessing the list as the shared user" do
+      it "allows the shared user to view the project list but not edit it" do
         using_session "shared user" do
           login_as(shared_user)
 
@@ -214,8 +108,7 @@ RSpec.describe "Project list sharing",
           projects_index_page.open_share_dialog
 
           share_dialog.expect_open
-          share_dialog.toggle_public
-          share_dialog.close
+          share_dialog.invite_user!(shared_user, "View")
         end
 
         using_session "shared user" do
@@ -225,8 +118,7 @@ RSpec.describe "Project list sharing",
           projects_index_page.set_sidebar_filter("Member-of list")
           projects_index_page.open_share_dialog
 
-          # View only
-          share_dialog.expect_unable_to_manage(only_invite: true)
+          share_dialog.expect_unable_to_manage
           share_dialog.close
 
           projects_index_page.open_filters
@@ -239,14 +131,16 @@ RSpec.describe "Project list sharing",
       end
     end
 
-    context "and sharing it with a user with edit permissions" do
-      it "allows the user to view, share and edit the list" do
+    describe "Sharing with Edit permissions with a user " \
+             "and accessing the list as the shared user" do
+      it "allows the shared user to view, share and edit the project list" do
         using_session "shared user" do
           login_as(shared_user)
 
           projects_index_page.visit!
           projects_index_page.expect_no_sidebar_filter("Member-of list")
         end
+
         using_session "sharer" do
           login_as(sharer)
 
@@ -255,9 +149,7 @@ RSpec.describe "Project list sharing",
           projects_index_page.open_share_dialog
 
           share_dialog.expect_open
-          share_dialog.toggle_public
           share_dialog.invite_user!(shared_user, "Edit")
-          share_dialog.close
         end
 
         using_session "shared user" do
@@ -267,6 +159,7 @@ RSpec.describe "Project list sharing",
           projects_index_page.set_sidebar_filter("Member-of list")
           projects_index_page.open_share_dialog
 
+          share_dialog.expect_open
           # Allowed to further share the project list
           share_dialog.invite_user!(wildcard_user, "View")
           share_dialog.close
@@ -277,6 +170,128 @@ RSpec.describe "Project list sharing",
           # Can save the project list
           projects_index_page.save_query
           projects_index_page.expect_toast(message: "The modified list has been saved")
+        end
+      end
+    end
+
+    context "without the permission to manage public project lists" do
+      it "doesn't allow making a list public" do
+        login_as(sharer)
+
+        projects_index_page.visit!
+        projects_index_page.set_sidebar_filter "Member-of list"
+        projects_index_page.open_share_dialog
+
+        share_dialog.expect_open
+        share_dialog.expect_toggle_public_disabled
+      end
+
+      context "and the list is already public" do
+        before do
+          shared_projects_list.update(public: OpenProject::Database::DB_VALUE_TRUE)
+        end
+
+        it "doesn't allow the owner to edit its public state" do
+          login_as(sharer)
+
+          projects_index_page.visit!
+          projects_index_page.set_sidebar_filter "Member-of list"
+          projects_index_page.open_share_dialog
+
+          share_dialog.expect_open
+          share_dialog.expect_toggle_public_disabled
+        end
+      end
+    end
+
+    describe "Making a list public" do
+      shared_let(:global_member) do
+        create(:global_member,
+               principal: sharer,
+               roles: [create(:global_role, permissions: %i[manage_public_project_queries])])
+      end
+
+      context "and accessing it as a user without edit permissions" do
+        it "allows the user to view the list" do
+          using_session "shared user" do
+            login_as(shared_user)
+
+            projects_index_page.visit!
+            projects_index_page.expect_no_sidebar_filter("Member-of list")
+          end
+
+          using_session "sharer" do
+            login_as(sharer)
+
+            projects_index_page.visit!
+            projects_index_page.set_sidebar_filter "Member-of list"
+            projects_index_page.open_share_dialog
+
+            share_dialog.expect_open
+            share_dialog.toggle_public
+            share_dialog.close
+          end
+
+          using_session "shared user" do
+            login_as(shared_user)
+            projects_index_page.visit!
+            projects_index_page.expect_sidebar_filter("Member-of list")
+            projects_index_page.set_sidebar_filter("Member-of list")
+            projects_index_page.open_share_dialog
+
+            # View only
+            share_dialog.expect_unable_to_manage(only_invite: true)
+            share_dialog.close
+
+            projects_index_page.open_filters
+            projects_index_page.filter_by_active("yes")
+            projects_index_page.expect_can_only_save_as_label
+            projects_index_page.save_query_as("Member-of and active list")
+
+            projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
+          end
+        end
+      end
+
+      context "and sharing it with a user with edit permissions" do
+        it "allows the user to view, share and edit the list" do
+          using_session "shared user" do
+            login_as(shared_user)
+
+            projects_index_page.visit!
+            projects_index_page.expect_no_sidebar_filter("Member-of list")
+          end
+          using_session "sharer" do
+            login_as(sharer)
+
+            projects_index_page.visit!
+            projects_index_page.set_sidebar_filter "Member-of list"
+            projects_index_page.open_share_dialog
+
+            share_dialog.expect_open
+            share_dialog.toggle_public
+            share_dialog.invite_user!(shared_user, "Edit")
+            share_dialog.close
+          end
+
+          using_session "shared user" do
+            login_as(shared_user)
+            projects_index_page.visit!
+            projects_index_page.expect_sidebar_filter("Member-of list")
+            projects_index_page.set_sidebar_filter("Member-of list")
+            projects_index_page.open_share_dialog
+
+            # Allowed to further share the project list
+            share_dialog.invite_user!(wildcard_user, "View")
+            share_dialog.close
+
+            projects_index_page.open_filters
+            projects_index_page.filter_by_active("yes")
+
+            # Can save the project list
+            projects_index_page.save_query
+            projects_index_page.expect_toast(message: "The modified list has been saved")
+          end
         end
       end
     end
