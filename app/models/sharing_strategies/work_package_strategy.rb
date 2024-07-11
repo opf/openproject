@@ -107,6 +107,10 @@ module SharingStrategies
       end
     end
 
+    def title
+      I18n.t(:label_share_work_package)
+    end
+
     private
 
     def project_member?(share)

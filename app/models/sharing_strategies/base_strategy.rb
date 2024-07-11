@@ -66,6 +66,10 @@ module SharingStrategies
       raise NotImplementedError, "Override in a subclass and return a description for the shared user"
     end
 
+    def title
+      raise NotImplementedError, "Override in a subclass and return a title for the sharing dialog"
+    end
+
     def custom_body_components?
       !additional_body_components.empty?
     end
