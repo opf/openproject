@@ -160,7 +160,11 @@ module Storages
     def uri
       return unless host
 
-      @uri ||= URI(host).normalize
+      @uri ||= if host.end_with?("/")
+                 URI(host).normalize
+               else
+                 URI("#{host}/").normalize
+               end
     end
 
     def connect_src
