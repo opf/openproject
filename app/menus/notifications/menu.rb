@@ -124,10 +124,11 @@ module Notifications
     def icon_map
       {
         "mentioned" => :mention,
-        "responsible" => :accountable,
-        "watched" => :watching,
-        "shared" => :share,
-        "dateAlert" => :"date-alert"
+        "assigned" => :"op-person-assigned",
+        "responsible" => :"op-person-accountable",
+        "watched" => :eye,
+        "shared" => :"share-android",
+        "dateAlert" => :"op-calendar-alert"
       }
     end
 

@@ -33,12 +33,15 @@
               <% selected = menu_item.selected ? 'selected' : '' %>
               <a class="op-sidemenu--item-action <%= selected %>" href="<%= menu_item.href %>" data-test-selector="op-sidemenu--item-action">
                 <% if menu_item.icon %>
-                  <span class="op-sidemenu--item-icon icon-<%= menu_item.icon %>"></span>
+                  <%= render Primer::Beta::Octicon.new(icon: menu_item.icon, classes: "op-sidemenu--item-icon", mr: 2) %>
                 <% end %>
-                <span class="op-sidemenu--item-title"><%= menu_item.title %></span>
-                <% if menu_item.show_enterprise_icon %>
-                  <%= render Primer::Beta::Octicon.new(icon: "op-enterprise-addons", "aria-label": "TODO", classes: "upsale-colored", ml: 2) %>
-                <% end %>
+                <span class="op-sidemenu--item-title">
+                  <%= menu_item.title %>
+
+                  <% if menu_item.show_enterprise_icon %>
+                    <%= render Primer::Beta::Octicon.new(icon: "op-enterprise-addons", "aria-label": I18n.t(:label_enterprise_edition), classes: "upsale-colored", ml: 2) %>
+                  <% end %>
+                </span>
 
                 <% if menu_item.count %>
                   <span class="op-bubble op-bubble_alt_highlighting" data-test-selector="op-sidemenu--item-count"><%= menu_item.count %></span>
@@ -72,16 +75,19 @@
               <% selected = child_item.selected ? 'selected' : '' %>
               <a class="op-sidemenu--item-action <%= selected %>" href="<%= child_item.href %>" data-test-selector="op-sidemenu--item-action">
                 <% if child_item.icon %>
-                  <span class="op-sidemenu--item-icon icon-<%= child_item.icon %>"></span>
+                  <%= render Primer::Beta::Octicon.new(icon: child_item.icon, classes: "op-sidemenu--item-icon", mr: 2) %>
                 <% end %>
-                <span class="op-sidemenu--item-title"><%= child_item.title %></span>
+                <span class="op-sidemenu--item-title">
+                  <%= child_item.title %>
 
-                <% if child_item.show_enterprise_icon %>
-                  <%= render Primer::Beta::Octicon.new(icon: "op-enterprise-addons", "aria-label": "TODO", classes: "upsale-colored", ml: 2) %>
-                <% end %>
-                <% if child_item.favored %>
-                  <%= render Primer::Beta::Octicon.new(icon: "star-fill", "aria-label": I18n.t(:label_favorite), classes: %w[op-sidemenu--item-mark op-primer--star-icon]) %>
-                <% end %>
+                  <% if child_item.show_enterprise_icon %>
+                    <%= render Primer::Beta::Octicon.new(icon: "op-enterprise-addons", "aria-label": I18n.t(:label_enterprise_edition), classes: "upsale-colored", ml: 2) %>
+                  <% end %>
+
+                  <% if child_item.favored %>
+                    <%= render Primer::Beta::Octicon.new(icon: "star-fill", "aria-label": I18n.t(:label_favorite), classes: %w[op-sidemenu--item-mark op-primer--star-icon], ml: 2) %>
+                  <% end %>
+                </span>
 
                 <% if child_item.count %>
                   <span class="op-bubble op-bubble_alt_highlighting" data-test-selector="op-sidemenu--item-count"><%= child_item.count %></span>
