@@ -31,6 +31,7 @@ module Shares
     include ApplicationHelper
     include MemberHelper
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
     attr_reader :strategy,
                 :entity,
@@ -47,7 +48,7 @@ module Shares
     end
 
     def self.wrapper_key
-      "share_modal_body"
+      "share_modal_management_table"
     end
 
     private

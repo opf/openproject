@@ -163,12 +163,7 @@ class SharesController < ApplicationController
   def respond_with_replace_modal
     sharing_strategy.shares(reload: true)
 
-    replace_via_turbo_stream(
-      component: Shares::ModalBodyComponent.new(
-        strategy: sharing_strategy,
-        errors: @errors
-      )
-    )
+    replace_via_turbo_stream(component: sharing_strategy.modal_body_component(@errors))
 
     respond_with_turbo_streams
   end
@@ -190,14 +185,8 @@ class SharesController < ApplicationController
 
     new_shares.each do |share|
       prepend_via_turbo_stream(
-        component: Shares::ShareRowComponent.new(
-          share:,
-          strategy: sharing_strategy
-        ),
-        target_component: Shares::ModalBodyComponent.new(
-          strategy: sharing_strategy,
-          errors: @errors
-        )
+        component: Shares::ShareRowComponent.new(share:, strategy: sharing_strategy),
+        target_component: Shares::ManageSharesComponent.new(strategy: sharing_strategy, modal_content: nil, errors: @errors)
       )
     end
 
