@@ -29,6 +29,8 @@
 require "open_project/repository_authentication"
 
 class SysController < ActionController::Base
+  include Security::DefaultUrlOptions
+
   before_action :check_enabled
   before_action :require_basic_auth, only: [:repo_auth]
   before_action :find_project, only: [:update_required_storage]
