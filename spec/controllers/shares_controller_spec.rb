@@ -174,7 +174,7 @@ RSpec.describe SharesController do
     end
 
     context "when the strategy does not allow viewing or managing but enterprise check succeeds",
-            with_ee: %i[work_package_sharing] do
+            with_ee: %i[project_list_sharing] do
       let(:strategy) do
         instance_double(SharingStrategies::ProjectQueryStrategy,
                         viewable?: false, manageable?: false,
@@ -192,25 +192,20 @@ RSpec.describe SharesController do
     end
 
     context "when the strategy allows viewing but enterprise check fails" do
-      let(:strategy) do
-        instance_double(SharingStrategies::ProjectQueryStrategy,
-                        viewable?: true, manageable?: false,
-                        query: project_query)
-      end
-
       before do
-        allow(SharingStrategies::ProjectQueryStrategy).to receive(:new).and_return(strategy)
+        allow_any_instance_of(SharingStrategies::ProjectQueryStrategy).to receive_messages(viewable?: true, manageable?: false)
+        allow(Shares::ProjectQueries::UpsaleComponent).to receive(:new).and_call_original
       end
 
       it "renders the upsale component" do
         make_request
         expect(response).to have_http_status(:ok)
-        expect(controller).to have_received(:render).with(an_instance_of(Shares::ModalUpsaleComponent))
+        expect(Shares::ProjectQueries::UpsaleComponent).to have_received(:new)
       end
     end
 
     context "when the strategy allows viewing and enterprise check passes",
-            with_ee: %i[work_package_sharing] do
+            with_ee: %i[project_list_sharing] do
       before do
         # Since this goes through and renders, we only care about
         # stubbing permission related methods
@@ -229,25 +224,22 @@ RSpec.describe SharesController do
     end
 
     context "when the strategy allows managing but enterprise check fails" do
-      let(:strategy) do
-        instance_double(SharingStrategies::ProjectQueryStrategy,
-                        viewable?: false, manageable?: true,
-                        query: project_query)
-      end
-
       before do
-        allow(SharingStrategies::ProjectQueryStrategy).to receive(:new).and_return(strategy)
+        allow_any_instance_of(SharingStrategies::ProjectQueryStrategy).to receive_messages(
+          viewable?: false, manageable?: true
+        )
+        allow(Shares::ProjectQueries::UpsaleComponent).to receive(:new).and_call_original
       end
 
       it "renders the upsale component" do
         make_request
         expect(response).to have_http_status(:ok)
-        expect(controller).to have_received(:render).with(an_instance_of(Shares::ModalUpsaleComponent))
+        expect(Shares::ProjectQueries::UpsaleComponent).to have_received(:new)
       end
     end
 
     context "when the strategy allows managing and enterprise check passes",
-            with_ee: %i[work_package_sharing] do
+            with_ee: %i[project_list_sharing] do
       before do
         # Since this goes through and renders, we only care about
         # stubbing permission related methods
