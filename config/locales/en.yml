@@ -1104,6 +1104,9 @@ en:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and wemaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
               cannot_be_null: "can not be set to null as start date and duration are known."

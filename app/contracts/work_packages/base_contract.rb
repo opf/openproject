@@ -53,7 +53,10 @@ module WorkPackages
     attribute :project_id
 
     attribute :done_ratio,
-              writable: ->(*) { WorkPackage.work_based_mode? }
+              writable: ->(*) { WorkPackage.work_based_mode? } do
+      validate_done_ratio_matches_work_and_remaining_work
+      validate_done_ratio_is_unset_when_work_is_zero
+    end
     attribute :derived_done_ratio,
               writable: false
 
@@ -347,8 +350,38 @@ module WorkPackages
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
+    def validate_done_ratio_matches_work_and_remaining_work
+      return if WorkPackage.status_based_mode? || percent_complete_unset? || work == 0
+      return unless work_set? && remaining_work_set?
+
+      work_done = work - remaining_work
+      expected_done_ratio = (100 * work_done / work).round
+
+      if done_ratio != expected_done_ratio
+        errors.add(:done_ratio, :does_not_match_work_and_remaining_work)
+      end
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    def validate_done_ratio_is_unset_when_work_is_zero
+      return if WorkPackage.status_based_mode?
+
+      if work == 0 && done_ratio.present?
+        errors.add(:done_ratio, :cannot_be_set_when_work_is_zero)
+      end
+    end
+
+    def work
+      model.estimated_hours
+    end
+
     def work_set?
       model.estimated_hours.present?
+    end
+
+    def remaining_work
+      model.remaining_hours
     end
 
     def remaining_work_set?
@@ -357,6 +390,10 @@ module WorkPackages
 
     def remaining_work_exceeds_work?
       model.remaining_hours > model.estimated_hours
+    end
+
+    def percent_complete_unset?
+      model.done_ratio.nil?
     end
 
     def validate_no_reopen_on_closed_version
