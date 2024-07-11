@@ -40,19 +40,15 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   before_action :require_admin
   before_action :find_model_object
 
-  before_action :storage_projects_query, only: :index
+  before_action :storage_projects_query,
+                :project_folder_modes_per_project,
+                only: :index
   before_action :initialize_project_storage, only: :new
   before_action :find_projects_to_activate_for_storage, only: :create
 
   menu_item :external_file_storages
 
-  def index
-    # Prepare data for project_folder_type column
-    @project_folder_modes_per_project = Storages::ProjectStorage
-      .where(storage_id: @storage.id)
-      .pluck(:project_id, :project_folder_mode)
-      .to_h
-  end
+  def index; end
 
   def new
     respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
@@ -108,6 +104,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     update_via_turbo_stream(
       component: Storages::ProjectStorages::Projects::TableComponent.new(
         query: storage_projects_query,
+        project_folder_modes_per_project:,
         params: { url_for_action: }
       )
     )
@@ -119,6 +116,13 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       query.select(:name)
       query.order("lft" => "asc")
     end
+  end
+
+  def project_folder_modes_per_project
+    @project_folder_modes_per_project ||= Storages::ProjectStorage
+      .where(storage_id: @storage.id)
+      .pluck(:project_id, :project_folder_mode)
+      .to_h
   end
 
   def initialize_project_storage
