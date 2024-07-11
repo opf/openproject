@@ -667,12 +667,26 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe "percentageDone" do
-      it_behaves_like "has basic schema properties" do
-        let(:path) { "percentageDone" }
-        let(:type) { "Integer" }
-        let(:name) { I18n.t("activerecord.attributes.work_package.done_ratio") }
-        let(:required) { false }
-        let(:writable) { false }
+      context "in work-based progress calculation mode",
+              with_settings: { work_package_done_ratio: "field" } do
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "percentageDone" }
+          let(:type) { "Integer" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.done_ratio") }
+          let(:required) { false }
+          let(:writable) { true }
+        end
+      end
+
+      context "in status-based progress calculation mode",
+              with_settings: { work_package_done_ratio: "status" } do
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "percentageDone" }
+          let(:type) { "Integer" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.done_ratio") }
+          let(:required) { false }
+          let(:writable) { false }
+        end
       end
     end
 

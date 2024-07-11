@@ -169,7 +169,13 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
   describe "#writable?" do
     describe "% Complete" do
-      it "is not writable" do
+      it "is writable in work-based progress calculation mode",
+         with_settings: { work_package_done_ratio: "field" } do
+        expect(subject).to be_writable(:done_ratio)
+      end
+
+      it "is not writable in status-based progress calculation mode",
+         with_settings: { work_package_done_ratio: "status" } do
         expect(subject).not_to be_writable(:done_ratio)
       end
     end
