@@ -27,10 +27,19 @@
 #++
 
 module Meetings
-  class Sidebar::DetailsFormComponent < ApplicationComponent
+  class SidePanel::ParticipantsComponent < ApplicationComponent
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+
+    MAX_SHOWN_PARTICIPANTS = 5
+
+    def wrapper_data_attributes
+      {
+        controller: "expandable-list",
+        "application-target": "dynamic"
+      }
+    end
 
     def initialize(meeting:)
       super
@@ -38,18 +47,35 @@ module Meetings
       @meeting = meeting
     end
 
-    def render?
-      User.current.allowed_in_project?(:edit_meetings, @meeting.project)
+    def elements
+      @elements ||= @meeting.invited_or_attended_participants.sort
     end
 
-    private
-
-    def start_date_initial_value
-      @meeting.start_time&.strftime("%Y-%m-%d")
+    def count
+      @count ||= elements.count
     end
 
-    def start_time_initial_value
-      @meeting.start_time&.strftime("%H:%M")
+    def render_participant(participant)
+      flex_layout(align_items: :center) do |flex|
+        flex.with_column(classes: "ellipsis") do
+          render(Users::AvatarComponent.new(user: participant.user,
+                                            size: :medium,
+                                            classes: "op-principal_flex"))
+        end
+        render_participant_state(participant, flex)
+      end
+    end
+
+    def render_participant_state(participant, flex)
+      if participant.attended?
+        flex.with_column(ml: 1) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("description_attended").capitalize }
+        end
+      elsif participant.invited?
+        flex.with_column(ml: 1) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { t("description_invite").capitalize }
+        end
+      end
     end
   end
 end

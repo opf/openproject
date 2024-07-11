@@ -162,6 +162,8 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def details_dialog; end
+
   def participants_dialog; end
 
   def update_participants

@@ -225,7 +225,7 @@ module Pages::StructuredMeeting
     end
 
     def meeting_details_container
-      find_by_id("meetings-sidebar-details-component")
+      find_by_id("meetings-side-panel-details-component")
     end
 
     def in_latest_section_form(&)

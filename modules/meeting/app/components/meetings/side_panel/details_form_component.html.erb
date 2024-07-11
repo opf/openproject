@@ -3,6 +3,7 @@
     primer_form_with(
       model: @meeting,
       method: :put,
+      data: { turbo: true, turbo_stream: true },
       url: update_details_meeting_path(@meeting)
     ) do |f|
       component_collection do |collection|

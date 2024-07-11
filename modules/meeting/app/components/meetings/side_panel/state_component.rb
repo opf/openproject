@@ -27,7 +27,7 @@
 #++
 
 module Meetings
-  class Sidebar::AttachmentsComponent < ApplicationComponent
+  class SidePanel::StateComponent < ApplicationComponent
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
@@ -36,6 +36,12 @@ module Meetings
       super
 
       @meeting = meeting
+    end
+
+    private
+
+    def edit_enabled?
+      User.current.allowed_in_project?(:close_meeting_agendas, @meeting.project)
     end
   end
 end
