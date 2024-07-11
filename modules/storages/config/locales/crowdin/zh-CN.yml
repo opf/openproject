@@ -53,6 +53,11 @@ zh-CN:
   permission_view_file_links: 查看文件链接
   permission_write_files: '自动管理项目文件夹：写入文件'
   project_module_storages: 文件
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: 没有它就完成

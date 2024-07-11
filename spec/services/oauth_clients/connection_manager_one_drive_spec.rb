@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
+RSpec.describe OAuthClients::ConnectionManager, :oauth_connection_helpers, :webmock, type: :model do
   let(:user) { create(:user) }
   let(:storage) { create(:one_drive_storage, :with_oauth_client, tenant_id: "consumers") }
   let(:token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
@@ -50,31 +50,14 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
         refresh_token: "AwABAAAAvPM1KaPlrEqdFSBzjqfTGAMxZGUTdM0t4B4..."
       }.to_json
     end
-    let(:me_response) do
-      {
-        businessPhones: [
-          "+45 123 4567 8901"
-        ],
-        displayName: "Sheev Palpatine ",
-        givenName: "Sheev",
-        jobTitle: "Galatic Senator",
-        mail: "palpatine@senate.com",
-        mobilePhone: "+45 123 4567 8901",
-        officeLocation: "500 Republica",
-        preferredLanguage: "en-US",
-        surname: "Palpatine",
-        userPrincipalName: "palpatine@senate.com",
-        id: "87d349ed-44d7-43e1-9a83-5f2406dee5bd"
-      }.to_json
-    end
 
     before do
       stub_request(:post, "https://login.microsoftonline.com/consumers/oauth2/v2.0/token")
         .to_return(status: 200, body: code_to_token_response, headers: { "Content-Type" => "application/json" })
 
-      stub_request(:get, "https://graph.microsoft.com/v1.0/me")
-        .with(headers: { Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q..." })
-        .to_return(status: 200, body: me_response, headers: { "Content-Type" => "application/json" })
+      mock_one_drive_authorization_validation(
+        with: { headers: { Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q..." } }
+      )
     end
 
     it "fills in the origin_user_id" do

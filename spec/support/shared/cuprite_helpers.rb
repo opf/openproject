@@ -36,6 +36,9 @@
 # being present or gone. Instead the execution is halted until
 # requested data is done being fetched.
 def wait_for_network_idle(...)
+  # `wait_for_network_idle` is available only when driver is Cuprite.
+  return unless page.driver.respond_to?(:wait_for_network_idle)
+
   page.driver.wait_for_network_idle(...)
 end
 

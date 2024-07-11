@@ -53,6 +53,11 @@ lt:
   permission_view_file_links: Žiūrėti failo nuorodas
   permission_write_files: 'Automatiškai valdomi projekto aplankai: Rašyti failus'
   project_module_storages: Failai
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: Baigti be jo

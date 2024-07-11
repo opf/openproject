@@ -401,7 +401,7 @@ vi:
       notice_reset_token: "Một mã %{type} truy cập mới vừa được tạo. Mã truy cập của bạn là:"
       token_value_warning: "Chú ý: Mã này chỉ hiện duy nhất một lần, bạn nên sao chép lại để lưu trữ."
       no_results_title_text: Không có thẻ truy cập hiện hữu.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
@@ -1132,6 +1132,8 @@ vi:
         other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Dự án"
+      project_query:
+        other: "Project lists"
       query: "Truy vấn riêng"
       role:
         other: "Vai trò"
@@ -3409,7 +3411,12 @@ vi:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."

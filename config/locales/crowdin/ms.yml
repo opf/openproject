@@ -398,7 +398,7 @@ ms:
       notice_reset_token: "Token %{type} yang baharu telah dijanakan. Token akses anda ialah:"
       token_value_warning: "Perhatian: Ini adalah satu-satunya masa anda akan melihat token ini, pastikan untuk menyalinnya sekarang."
       no_results_title_text: Tiada token akses tersedia buat masa ini.
-      notice_api_token_revoked: "Token API telah dipadamkan. Untuk mencipta token baharu sila gunakan pautan di bahagian API."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "Token RSS telah dipadamkan. Untuk mencipta token baharu sila gunakan pautan di bahagian RSS."
       notice_ical_token_revoked: 'Token iCalendar "%{token_name}" untuk kalendar "%{calendar_name}" projek "%{project_name}" telah dibatalkan. URL iCalendar serta token ini sudah tidak sah.'
   news:
@@ -1128,6 +1128,8 @@ ms:
         other: "Pemberitahuan"
       placeholder_user: "Pengguna placeholder"
       project: "Projek"
+      project_query:
+        other: "Project lists"
       query: "Pertanyaan tersuai"
       role:
         other: "Peranan\n"
@@ -3404,7 +3406,12 @@ ms:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."

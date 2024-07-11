@@ -404,7 +404,7 @@ hu:
       notice_reset_token: "Egy új %{type} token létrehozva. A hozzáférési token:"
       token_value_warning: "Megjegyzés: Ez az egyetlen alkalom, mikor ezt a tokent láthatja, győződjön meg arról, hogy most átmásolta."
       no_results_title_text: Jelenleg nincs elérhető hozzáférési kulcs.
-      notice_api_token_revoked: "Az API-token törlésre került. Új token létrehozásához kérjük, használja az API szakaszban található linket."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "Az RSS-token törlésre került. Új token létrehozásához kérjük, használja az RSS szakaszban található linket."
       notice_ical_token_revoked: 'A "%{project_name}" projekt "%{calendar_name}" naptárához tartozó "%{token_name}" iCalendar token visszavonásra került. Az ezzel a tokennel rendelkező iCalendar URL mostantól érvénytelen.'
   news:
@@ -1137,6 +1137,9 @@ hu:
         other: "Értesítések"
       placeholder_user: "Teszt felhasználó"
       project: "Projekt"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Egyéni lekérdezés"
       role:
         one: "Szerepkör"
@@ -3440,7 +3443,12 @@ hu:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."

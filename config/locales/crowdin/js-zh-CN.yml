@@ -1023,7 +1023,7 @@ zh-CN:
         assigned_to_me: "分配给我"
         recently_created: "最近创建"
         all_open: "全部打开"
-        overdue: "已超时"
+        overdue: "逾期"
         summary: "摘要"
         shared_with_users: "与用户共享"
         shared_with_me: "与我分享"

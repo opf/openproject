@@ -41,12 +41,11 @@ module Storages
 
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
           def call(auth_strategy:, folder:)
             Authentication[auth_strategy].call(storage: @storage) do |http|
-              call = http.get(Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS))
+              call = http.get(Util.join_uri_path(@storage.uri, children_uri_path_for(folder) + FIELDS))
               response = handle_response(call, :value)
 
               if response.result.empty?
@@ -59,10 +58,14 @@ module Storages
 
           private
 
+          # rubocop:disable Metrics/AbcSize
           def handle_response(response, map_value)
             case response
             in { status: 200..299 }
               ServiceResult.success(result: response.json(symbolize_keys: true).fetch(map_value))
+            in { status: 400 }
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(response:, code: :error, source: self.class))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
                                     errors: Util.storage_error(response:, code: :not_found, source: self.class))
@@ -78,6 +81,8 @@ module Storages
             end
           end
 
+          # rubocop:enable Metrics/AbcSize
+
           def storage_files(json_files)
             files = json_files.map { |json| Util.storage_file_from_json(json) }
 
@@ -86,7 +91,7 @@ module Storages
           end
 
           def empty_response(http, folder)
-            response = http.get(Util.join_uri_path(@uri, location_uri_path_for(folder) + FIELDS))
+            response = http.get(Util.join_uri_path(@storage.uri, location_uri_path_for(folder) + FIELDS))
             handle_response(response, :id).map do |parent_location_id|
               empty_storage_files(folder.path, parent_location_id)
             end

@@ -23,7 +23,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Bugfix: Waiting modal doesn't time out \[[#55016](https://community.openproject.org/wp/55016)\]
 - Bugfix: ScheduleReminderMailsNotificationsJob constantly broken after 24 hour outage - no reminder mails send \[[#55223](https://community.openproject.org/wp/55223)\]
 - Bugfix: The available\_projects api endpoint displays custom project fields incorrectly \[[#55381](https://community.openproject.org/wp/55381)\]
-- Bugfix: Typo in historic migation \[[#55421](https://community.openproject.org/wp/55421)\]
+- Bugfix: Typo in historic migration \[[#55421](https://community.openproject.org/wp/55421)\]
 
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
