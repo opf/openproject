@@ -89,6 +89,10 @@ module SharingStrategies
       Shares::ModalBodyComponent.new(strategy: self, errors:)
     end
 
+    def manage_shares_component(modal_content:, errors:)
+      Shares::ManageSharesComponent.new(strategy: self, modal_content:, errors:)
+    end
+
     def query # rubocop:disable Metrics/AbcSize
       return @query if defined?(@query)
 
