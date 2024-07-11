@@ -10,7 +10,7 @@
           tag: :a,
           href: details_dialog_meeting_path(@meeting),
           data: { controller: 'async-dialog' },
-          'aria-label': t("label_meeting_manage_participants"),
+          'aria-label': t(:label_meeting_details_edit),
           test_selector: "edit-meeting-details-button",
         )
       end
@@ -81,7 +81,7 @@
 
         details.with_row(mt: 2, classes: 'meeting-detail-participants', display: [nil, nil, :none]) do
           render_meeting_attribute_row(:people) do
-            flex_layout do |people|
+            flex_layout(align_items: :center) do |people|
               people.with_column(mr: 2) do
                 render(Primer::Beta::Text.new) do
                   Meeting.human_attribute_name(
