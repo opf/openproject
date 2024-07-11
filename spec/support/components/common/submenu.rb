@@ -41,9 +41,9 @@ module Components
         selected_specifier = selected ? ".selected" : ":not(.selected)"
 
         if favored.nil?
-          expect(page).to have_css(".op-sidemenu--item-action#{selected_specifier}", text: name, visible:)
+          expect(page).to have_css(".op-submenu--item-action#{selected_specifier}", text: name, visible:)
         else
-          item = page.find(".op-sidemenu--item-action#{selected_specifier}", text: name, visible:)
+          item = page.find(".op-submenu--item-action#{selected_specifier}", text: name, visible:)
 
           if favored
             expect(item).to have_css(".op-primer--star-icon")
@@ -56,18 +56,18 @@ module Components
 
     def expect_no_item(name)
       within "#main-menu" do
-        expect(page).not_to have_test_selector("op-sidemenu--item-action", text: name)
+        expect(page).not_to have_test_selector("op-submenu--item-action", text: name)
       end
     end
 
     def expect_item_with_count(item, count)
-      within page.find_test_selector("op-sidemenu--item-action", text: item) do
+      within page.find_test_selector("op-submenu--item-action", text: item) do
         expect_count count
       end
     end
 
     def expect_item_with_no_count(item)
-      within page.find_test_selector("op-sidemenu--item-action", text: item) do
+      within page.find_test_selector("op-submenu--item-action", text: item) do
         expect_no_count
       end
     end
@@ -80,13 +80,13 @@ module Components
 
     def expect_no_items
       within "#main-menu" do
-        expect(page).not_to have_test_selector("op-sidemenu--item-action")
+        expect(page).not_to have_test_selector("op-submenu--item-action")
       end
     end
 
     def search_for_item(name)
       within "#main-menu" do
-        page.find_test_selector("op-sidebar--search-input").set(name)
+        page.find_test_selector("op-submenu--search-input").set(name)
       end
     end
 
@@ -96,16 +96,16 @@ module Components
 
     def expect_no_results_text
       within "#main-menu" do
-        expect(page).to have_test_selector("op-sidebar--search-no-results", text: "No items found")
+        expect(page).to have_test_selector("op-submenu--search-no-results", text: "No items found")
       end
     end
 
     def expect_count(count)
-      expect(page).to have_test_selector("op-sidemenu--item-count", text: count)
+      expect(page).to have_test_selector("op-submenu--item-count", text: count)
     end
 
     def expect_no_count
-      expect(page).not_to have_test_selector("op-sidemenu--item-count")
+      expect(page).not_to have_test_selector("op-submenu--item-count")
     end
   end
 end
