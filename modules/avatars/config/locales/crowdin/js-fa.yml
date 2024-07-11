@@ -1,7 +1,7 @@
 #English strings go here
 fa:
   js:
-    label_preview: 'پيش نمايش'
+    label_preview: 'پیش‌نمایش'
     button_update: 'به روز رسانی'
     avatars:
       label_choose_avatar: "انتخاب آواتار از فایل"

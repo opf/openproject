@@ -1025,6 +1025,7 @@ eo:
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"
         all_open: "Ĉio malfermita"
+        overdue: "Overdue"
         summary: "Resumo"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

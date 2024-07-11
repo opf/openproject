@@ -53,6 +53,11 @@ pl:
   permission_view_file_links: Wyświetl linki do plików
   permission_write_files: 'Automatycznie zarządzane foldery projektu: zapis plików'
   project_module_storages: Pliki
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: Ukończ bez tego

@@ -412,7 +412,7 @@ uk:
       notice_reset_token: "Нове %{type} генерований маркер. Ваш маркер доступу:"
       token_value_warning: "Примітка. Це єдиний раз, коли ви побачите цей маркер, переконайтеся, що його зараз скопіюйте."
       no_results_title_text: Наразі немає доступних маркерів доступу.
-      notice_api_token_revoked: "Маркер API видалено. Щоб створити новий, скористайтеся посиланням у розділі API."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "Маркер RSS видалено. Щоб створити новий, скористайтеся посиланням у розділі RSS."
       notice_ical_token_revoked: 'Маркер iCalendar «%{token_name}» для календаря «%{calendar_name}» проєкту «%{project_name}» відкликано. URL-адреса iCalendar із цим маркером зараз недійсна.'
   news:
@@ -1154,6 +1154,11 @@ uk:
         other: "Сповіщення"
       placeholder_user: "Прототип користувача"
       project: "Проект"
+      project_query:
+        one: "Project list"
+        few: "Project lists"
+        many: "Project lists"
+        other: "Project lists"
       query: "Частковий запит"
       role:
         one: "роль"
@@ -2090,7 +2095,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції із встановлення"
+  label_installation_guides: "Інструкції зі встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -3506,7 +3511,12 @@ uk:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."

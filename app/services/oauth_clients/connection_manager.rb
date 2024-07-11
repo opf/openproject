@@ -155,12 +155,19 @@ module OAuthClients
       OAuthClientToken.find_by(user_id: @user, oauth_client_id: @oauth_client.id)
     end
 
+    # rubocop:disable Metrics/AbcSize
     def request_new_token(options = {})
       rack_access_token = rack_oauth_client(options).access_token!(:body)
 
       ServiceResult.success(result: rack_access_token)
     rescue Rack::OAuth2::Client::Error => e
-      service_result_with_error(:bad_request, e.response, i18n_rack_oauth2_error_message(e))
+      if e.status == 429
+        service_result_with_error(:too_many_requests,
+                                  e.response,
+                                  "#{I18n.t('oauth_client.errors.oauth_reported')}: too many requests")
+      else
+        service_result_with_error(:bad_request, e.response, i18n_rack_oauth2_error_message(e))
+      end
     rescue Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::ParsingError, Faraday::SSLError => e
       service_result_with_error(
         :internal_server_error,
@@ -174,6 +181,8 @@ module OAuthClients
         "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}"
       )
     end
+
+    # rubocop:enable Metrics/AbcSize
 
     def i18n_rack_oauth2_error_message(rack_oauth2_client_exception)
       i18n_key = "oauth_client.errors.rack_oauth2.#{rack_oauth2_client_exception.message}"

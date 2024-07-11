@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Storages::Admin::EditFormHeaderComponent.new(
       storage: @storage,
-      selected: :project_mappings
+      selected: :project_storages
     )
   )
 %>
@@ -49,4 +49,12 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
   end
+%>
+
+<%=
+  render(Storages::ProjectStorages::Projects::TableComponent.new(
+    query: @project_query,
+    project_folder_modes_per_project: @project_folder_modes_per_project,
+    params:)
+  )
 %>

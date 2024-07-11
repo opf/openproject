@@ -249,7 +249,7 @@
       work_package_attachments: "Arbeidspakker: vedlegg"
       work_package_categories: "Arbeidspakker: kategorier"
       work_package_file_links: "Arbeidspakker: fillinker"
-      work_package_shares: "Work packages: shares"
+      work_package_shares: "Delte arbeidspakker"
     delete:
       scheduled: "Sletting har blitt planlagt og blir utført i bakgrunnen. Du vil bli varslet om resultatet."
       schedule_failed: "Prosjektet kan ikke slettes: %{errors}"
@@ -267,7 +267,7 @@
       my: "Mine prosjekter"
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
-      shared: "Shared project lists"
+      shared: "Offentlige prosjektlister"
       public: "Offentlige prosjektlister"
       my_private: "Mine private prosjektlister"
       new:
@@ -303,7 +303,7 @@
           heading: Påkrevd i alle prosjekter
           description: Prosjektattributten er aktivert i alle prosjekter fordi "Påkrevd i alle prosjekter"-alternativet er valgt. Attributten kan ikke deaktiveres for hvert enkelt prosjekt.
         new_project_mapping_form:
-          include_sub_projects: Include sub-projects
+          include_sub_projects: Inkluder underprosjekter
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -390,22 +390,22 @@
   my:
     access_token:
       errors:
-        token_name_blank: "Please provide an API token name"
-        token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
-      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
-      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
+        token_name_blank: "Vennligst oppgi navn på API-token"
+        token_name_in_use: "Dette API-token-navnet er allerede i bruk, velg et annet"
+      new_access_token_dialog_title: "Opprett nytt API-token"
+      new_access_token_dialog_show_button_text: "API-token"
+      new_access_token_dialog_text_field_placeholder_text: "Mitt API-token"
+      new_access_token_dialog_text_field_label: "Navn"
+      new_access_token_dialog_submit_button_text: "Opprett"
+      new_access_token_dialog_text: "Dette tokenet tillater tredjepartsprogrammer å kommunisere med forekomsten. For å differensiere den nye API-token, vennligst gi den et navn."
+      new_access_token_dialog_attention_text: "Behandle API-token som passord. Alle med denne lenken vil ha tilgang til informasjon fra denne forekomsten, del den bare med pålitelige brukere."
       failed_to_reset_token: "Tilgangstoken kunne ikke tilbakestilles: %{error}"
       failed_to_create_token: "Failed to create access token: %{error}"
       failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "En ny %{type} token har blitt generert. Din tilgangstoken er:"
       token_value_warning: "Merk: Du vil ikke kunne se denne token på nytt, sørg for å kopiere den nå."
       no_results_title_text: Det er ingen tilgangsnøkler tilgjengelig.
-      notice_api_token_revoked: "API-tokenet er slettet. For å opprette et nytt token, bruk lenken i API-avsnittet."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "RSS-koden er slettet. For å opprette et nytt token må du bruke linken i RSS-avsnittet."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for kalender "%{calendar_name}" i prosjekt "%{project_name}" er trukket tilbake. iCalendar-URL''en med dette tokenet er nå ugyldig.'
   news:
@@ -1139,6 +1139,9 @@
         other: "Varsler"
       placeholder_user: "Plassholder bruker"
       project: "Prosjekt"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Egendefinert spørring"
       role:
         one: "Rolle"
@@ -3443,7 +3446,12 @@
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."

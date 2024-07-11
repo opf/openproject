@@ -53,6 +53,11 @@ ko:
   permission_view_file_links: 파일 링크 보기
   permission_write_files: '자동으로 관리되는 프로젝트 폴더: 파일 쓰기'
   project_module_storages: 파일
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: 이것 없이 완료

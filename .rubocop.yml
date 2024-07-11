@@ -236,6 +236,8 @@ RSpec/DescribeMethod:
 # Don't force the second argument of describe
 # to match the exact file name
 RSpec/SpecFilePathFormat:
+  CustomTransform:
+    OAuthClients: oauth_clients
   IgnoreMethods: true
 
 # Prevent  "fit" or similar to be committed

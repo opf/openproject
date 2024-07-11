@@ -1029,6 +1029,7 @@ ar:
         assigned_to_me: "مخصص لي"
         recently_created: "Recently created"
         all_open: "All open"
+        overdue: "Overdue"
         summary: "مُلخّص"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

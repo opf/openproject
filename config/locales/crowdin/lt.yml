@@ -414,7 +414,7 @@ lt:
       notice_reset_token: "Naujas %{type} tipo atpažinimo raktas buvo sugeneruotas. Jis dabar yra:"
       token_value_warning: "Pastaba: tai vienintelis kartas, kai matote atpažinimo raktą, todėl būtinai nusikopijuokite jį dabar."
       no_results_title_text: Nėra jokių pasiekiamų prieigos raktų.
-      notice_api_token_revoked: "API žetonas buvo ištrintas. Norėdami sukurti naują žetoną, prašome naudoti nuorodą API sekcijoje."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "RSS žetonas buvo ištrintas. Norėdami sukurti naują žetoną, prašome naudoti nuorodą RSS sekcijoje."
       notice_ical_token_revoked: 'iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas.'
   news:
@@ -1157,6 +1157,11 @@ lt:
         other: "Pranešimų"
       placeholder_user: "Statytinis naudotojas"
       project: "Projektas"
+      project_query:
+        one: "Project list"
+        few: "Project lists"
+        many: "Project lists"
+        other: "Project lists"
       query: "Sava užklausa"
       role:
         one: "Vaidmuo"
@@ -3508,7 +3513,12 @@ lt:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."

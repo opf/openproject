@@ -403,7 +403,7 @@ pt-PT:
       notice_reset_token: "Foi gerado um novo token de %{type}. O seu token de acesso é:"
       token_value_warning: "Nota: Esta é a única vez que irá ver este token, certifique-se que o copia agora."
       no_results_title_text: Atualmente, não existem fichas de acesso disponíveis.
-      notice_api_token_revoked: "O token da API foi eliminado. Para criar um novo token, utilize o link na secção da API."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "O token de RSS foi eliminado. Para criar um novo token, utilize o link na secção de RSS."
       notice_ical_token_revoked: 'O token iCalendar "%{token_name}" para o calendário "%{calendar_name}" do projeto "%{project_name}" foi revogado. O URL do iCalendar com este token agora é inválido.'
   news:
@@ -1138,6 +1138,9 @@ pt-PT:
         other: "Notificações"
       placeholder_user: "Utilizador de espaço reservado"
       project: "Projecto"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Consulta personalizada"
       role:
         one: "Função"
@@ -3439,7 +3442,12 @@ pt-PT:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."

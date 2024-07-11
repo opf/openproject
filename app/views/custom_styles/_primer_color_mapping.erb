@@ -61,15 +61,15 @@
     --main-menu-resizer-color: var(--borderColor-muted);
     --main-menu-fieldset-header-color: var(--fgColor-muted) !important;
     --main-menu-border-width: 1px;
+    --main-menu-font-color: var(--fgColor-default);
+    --main-menu-selected-font-color: var(--fgColor-default);
+    --main-menu-bg-color: var(--page-header-bgColor);
   }
 
   /* For accessibility themes we are also overriding the header and the sidebar */
   [data-light-theme=light_high_contrast] {
     --main-menu-hover-border-color: var(--fgColor-default) !important;
     --main-menu-bg-selected-border: var(--fgColor-default);
-    --main-menu-bg-color: var(--page-header-bgColor);
-    --main-menu-font-color: var(--fgColor-default);
-    --main-menu-selected-font-color: var(--fgColor-default);
     --accent-color: var(--fgColor-accent);
     --link-text-decoration: underline;
     --button--primary-font-color:  var(--button-primary-fgColor-rest);
@@ -84,5 +84,7 @@
       --content-icon-color: var(--accent-color--dark-mode);
       --primary-button-color: var(--primary-button-color--dark-mode);
       --main-menu-bg-color: var(--overlay-bgColor);
+      --type-form-conf-attribute--background: var(--overlay-bgColor);
+      --select-arrow-bg-color-url: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
   }
 </style>

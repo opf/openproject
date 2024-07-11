@@ -53,6 +53,11 @@ de:
   permission_view_file_links: Datei-Links anzeigen
   permission_write_files: 'Automatisch verwaltete Projektordner: Dateien schreiben'
   project_module_storages: Dateien
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: Ohne fortfahren
