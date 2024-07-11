@@ -29,12 +29,13 @@
 #++
 
 require "vcr"
+require "httpx"
 
 module VCRTimeoutHelper
   def stub_request_with_timeout(method, path_matcher)
-    request_mock = HTTPX::Request.new(method.to_s.upcase, "https://example.com")
+    request_mock = OpenProject.httpx.build_request(method.to_s.upcase, "https://example.com")
     error_response_mock = HTTPX::ErrorResponse.new(request_mock,
-                                                   HTTPX::ConnectTimeoutError.new(60, "timed out while waiting on select"), {})
+                                                   HTTPX::ConnectTimeoutError.new(60, "timed out while waiting on select"))
     allow_any_instance_of(HTTPX::Session).to receive(method.to_sym).with(any_args).and_call_original
     allow_any_instance_of(HTTPX::Session).to receive(method.to_sym).with(path_matcher, any_args).and_return(error_response_mock)
   end
