@@ -137,13 +137,11 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   def render_text_field(group,
                         name:,
-                        label:,
-                        placeholder: nil)
+                        label:)
     text_field_options = {
       name:,
       value: field_value(name),
-      label:,
-      placeholder:
+      label:
     }
     text_field_options.reverse_merge!(default_field_options(name))
 
