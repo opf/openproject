@@ -1,0 +1,17 @@
+<%=
+  modal_content.with_row(data: { 'test-selector': 'op-share-dialog-upsale-block' }) do
+    render Primer::Beta::Blankslate.new(border: true) do |component|
+      component.with_visual_icon(icon: :'op-enterprise-addons', classes: 'upsale-colored')
+      component.with_heading(tag: :h2, classes: 'upsale-colored').with_content(I18n.t(:label_enterprise_addon))
+      component.with_description { I18n.t('sharing.project_queries.upsale.message') }
+
+      href = "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=project-list-sharing-modal"
+      component.with_secondary_action(href:) do
+        flex_layout(justify_content: :center) do |flex|
+          flex.with_column(mr: 1) { I18n.t("admin.enterprise.enterprise_link") }
+          flex.with_column { render(Primer::Beta::Octicon.new(icon: :'link-external')) }
+        end
+      end
+    end
+  end
+%>
