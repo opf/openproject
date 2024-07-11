@@ -29,7 +29,7 @@
 module Queries
   module Projects
     module Filters
-      class ProjectStatusFilter < ::Queries::Projects::Filters::ProjectFilter
+      class ProjectStatusFilter < ::Queries::Projects::Filters::Base
         include ProjectStatusHelper
 
         def allowed_values

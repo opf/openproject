@@ -29,7 +29,7 @@
 module Queries
   module Projects
     module Filters
-      class UserActionFilter < ::Queries::Projects::Filters::ProjectFilter
+      class UserActionFilter < ::Queries::Projects::Filters::Base
         def allowed_values
           @allowed_values ||= Action.default.pluck(:id, :id)
         end

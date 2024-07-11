@@ -29,7 +29,7 @@
 module Queries
   module Projects
     module Filters
-      class AncestorFilter < ::Queries::Projects::Filters::ProjectFilter
+      class AncestorFilter < ::Queries::Projects::Filters::Base
         def apply_to(_query_scope)
           case operator
           when "="

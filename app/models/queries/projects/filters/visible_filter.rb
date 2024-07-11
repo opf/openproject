@@ -32,7 +32,7 @@
 module Queries
   module Projects
     module Filters
-      class VisibleFilter < ::Queries::Projects::Filters::ProjectFilter
+      class VisibleFilter < ::Queries::Projects::Filters::Base
         validate :validate_only_single_value
 
         def allowed_values

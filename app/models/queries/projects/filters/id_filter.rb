@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::IdFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::IdFilter < Queries::Projects::Filters::Base
   def type
     :integer
   end

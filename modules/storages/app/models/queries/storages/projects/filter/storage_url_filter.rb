@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module Queries::Storages::Projects::Filter
-  class StorageUrlFilter < ::Queries::Projects::Filters::ProjectFilter
+  class StorageUrlFilter < ::Queries::Projects::Filters::Base
     include StorageFilterMixin
 
     private

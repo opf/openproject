@@ -29,7 +29,7 @@
 module Queries
   module Projects
     module Filters
-      class TypeFilter < ::Queries::Projects::Filters::ProjectFilter
+      class TypeFilter < ::Queries::Projects::Filters::Base
         def allowed_values
           @allowed_values ||= Type.pluck(:name, :id)
         end
