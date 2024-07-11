@@ -109,9 +109,9 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @icon = new_icon
   end
 
-  def badge(project = nil)
+  def badge(**)
     if @badge.is_a?(Proc)
-      @badge.call(project).to_s
+      @badge.call(**).to_s
     else
       @badge
     end

@@ -1,15 +1,19 @@
 <%=
   content_tag("turbo-frame", id: "work-package-details-#{@id}") do
-    flex_layout(h: :full) do |flex|
-      flex.with_row do
-        render(WorkPackages::Details::TabComponent.new(id: @id, tab: @tab))
-      end
-      flex.with_row(flex: 1) do
-        helpers.angular_component_tag "opce-wp-split-view",
-                                      inputs: {
-                                        work_package_id: params[:work_package_id],
-                                        activeTab: @tab
-                                      }
+    if @work_package.nil?
+      "Work Package #{@id} could not be found."
+    else
+      flex_layout(h: :full) do |flex|
+        flex.with_row do
+          render(WorkPackages::Details::TabComponent.new(work_package: @work_package, tab: @tab))
+        end
+        flex.with_row(flex: 1) do
+          helpers.angular_component_tag "opce-wp-split-view",
+                                        inputs: {
+                                          work_package_id: params[:work_package_id],
+                                          activeTab: @tab
+                                        }
+        end
       end
     end
   end

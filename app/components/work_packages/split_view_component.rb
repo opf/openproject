@@ -7,5 +7,6 @@ class WorkPackages::SplitViewComponent < ApplicationComponent
   def initialize(id:, tab: 'overview')
     @id = id
     @tab = tab
+    @work_package = WorkPackage.visible.find_by(id:)
   end
 end

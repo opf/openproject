@@ -640,3 +640,27 @@ Redmine::MenuManager.map :project_menu do |menu|
               parent: :settings
   end
 end
+
+Redmine::MenuManager.map :work_package_split_view do |menu|
+  menu.push :overview,
+            { tab: :overview },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.overview"
+  menu.push :activity,
+            { tab: :activity },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) { 123 },
+            caption: :"js.work_packages.tabs.activity"
+  menu.push :files,
+            { tab: :files },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.files"
+  menu.push :relations,
+            { tab: :relations },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.relations"
+  menu.push :watchers,
+            { tab: :watchers },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.watchers"
+end

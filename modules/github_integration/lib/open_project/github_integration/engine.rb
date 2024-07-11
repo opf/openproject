@@ -82,6 +82,16 @@ module OpenProject::GithubIntegration
            parent: :admin_github_integration,
            caption: :label_deploy_target_plural,
            icon: "cloud"
+
+      menu :work_package_split_view,
+           :github,
+           { tab: :github },
+           if: ->(project) {
+             User.current.allowed_in_project?(:show_github_content, project)
+           },
+           parent: :admin_github_integration,
+           caption: :label_deploy_target_plural,
+           icon: "cloud"
     end
 
     initializer "github.register_hook" do

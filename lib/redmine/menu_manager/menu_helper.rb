@@ -236,7 +236,7 @@ module Redmine::MenuManager::MenuHelper
                           ))
     end
 
-    badge_class = item.badge(project).present? ? " #{menu_class}--item-title_has-badge" : ""
+    badge_class = item.badge(project:).present? ? " #{menu_class}--item-title_has-badge" : ""
 
     link_text << content_tag(:span,
                              class: "#{menu_class}--item-title#{badge_class}",
@@ -472,8 +472,9 @@ module Redmine::MenuManager::MenuHelper
   def badge_for(item)
     badge = "".html_safe
 
-    if item.badge(@project).present?
-      badge += content_tag("span", I18n.t(item.badge(@project)), class: "main-item--badge")
+    key = item.badge(project: @project)
+    if badge.present?
+      badge += content_tag("span", I18n.t(key), class: "main-item--badge")
     end
     badge
   end
