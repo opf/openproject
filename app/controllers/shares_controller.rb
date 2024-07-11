@@ -56,7 +56,7 @@ class SharesController < ApplicationController
 
     visible_shares_before_adding = sharing_strategy.shares.present?
 
-    find_or_create_users(send_notification: false) do |member_params|
+    find_or_create_users(send_notification: send_notification?) do |member_params|
       user = User.find_by(id: member_params[:user_id])
       if user.present? && user.locked?
         @errors.add(:base, I18n.t("sharing.warning_locked_user", user: user.name))
@@ -295,6 +295,12 @@ class SharesController < ApplicationController
     )
 
     respond_with_turbo_streams
+  end
+
+  def send_notification?
+    return false if @entity.is_a?(WorkPackage) # For WorkPackages we have a custom notification
+
+    true
   end
 
   def load_entity # rubocop:disable Metrics/AbcSize
