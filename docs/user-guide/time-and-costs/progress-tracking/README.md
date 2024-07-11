@@ -26,7 +26,9 @@ OpenProject lets you track and monitor the progress of your work packages.
 
 ## Units of measurement
 
-[OpenProject 14.2](../../../release-notes/14-2-0/) transformed the measurement units of Work and Remaining Work from hours to **days and hours**. This allows you to input values for Work and Remaining work in different units. See the examples below:
+Work and Remaining Work can be measured either in **hours** or **days and hours** (this needs to be set by your administrator). 
+
+You can input values for Work and Remaining work in different units. See the examples below:
 
 - Valid inputs for 2 hours and 30 minutes:
 
@@ -42,7 +44,7 @@ OpenProject lets you track and monitor the progress of your work packages.
   - "6d 0h"
   - "6 days"
 
-The default setting is set to be 8 hours per day. Your administrator can change [how many hours are considered a day](../../../system-admin-guide/calendars-and-dates/#working-days-and-hours).
+The default setting is set to be 8 hours per day. Your administrator can change [how many hours are considered a day and select the duration format](../../../system-admin-guide/calendars-and-dates/#working-days-and-hours).
 
 ## Progress reporting modes
 
