@@ -255,7 +255,7 @@ class SharesController < ApplicationController
     update_via_turbo_stream(
       component: Shares::UserDetailsComponent.new(
         share: @share,
-        manager_mode: sharing_strategy.manageable?,
+        strategy: sharing_strategy,
         invite_resent: true
       )
     )
