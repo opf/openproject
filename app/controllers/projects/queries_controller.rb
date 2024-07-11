@@ -83,10 +83,9 @@ class Projects::QueriesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         # Load shares and replace the modal
-        strategy = SharingStrategies::ProjectQueryStrategy.new(@query, user: current_user)
-        shares = strategy.shares_query({}).results
-        replace_via_turbo_stream(component: Shares::ModalBodyComponent.new(strategy:, shares:, errors: []))
-        render turbo_stream: turbo_streams, status:
+        strategy = SharingStrategies::ProjectQueryStrategy.new(@query, user: current_user, query_params: {})
+        replace_via_turbo_stream(component: Shares::ModalBodyComponent.new(strategy:, errors: []))
+        render turbo_stream: turbo_streams
       end
 
       format.html do

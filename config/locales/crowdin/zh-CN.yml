@@ -3401,6 +3401,10 @@ zh-CN:
     project_queries:
       publishing_denied: "You do not have permission to make project lists public."
       access_warning: "用户只能看到他们有权访问的项目。共享项目列表不会影响单个项目的权限。"
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "通过 %{instance_name}与大家分享"
         caption: "每个人都可以查看此项目列表。有全局编辑权限的人可以修改它。"

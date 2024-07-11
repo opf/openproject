@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe Shares::UserDetailsComponent, type: :component do
-  subject { render_inline(described_class.new(share:, manager_mode:, invite_resent:)) }
+  subject { render_inline(described_class.new(share:, strategy:, invite_resent:)) }
 
   shared_let(:project)      { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
@@ -40,8 +40,15 @@ RSpec.describe Shares::UserDetailsComponent, type: :component do
   shared_let(:user_firstname) { "Richard" }
   shared_let(:user_lastname)  { "Hendricks" }
   shared_let(:group_name)     { "Cool group" }
+  shared_let(:strategy) do
+    SharingStrategies::WorkPackageStrategy.new(work_package, query_params: {})
+  end
 
   let(:invite_resent) { false }
+
+  before do
+    allow(strategy).to receive(:manageable?).and_return(manageable)
+  end
 
   def build_inherited_membership(group_membership:, user_membership:, role: work_package_role)
     create(:member_role,
@@ -51,7 +58,7 @@ RSpec.describe Shares::UserDetailsComponent, type: :component do
   end
 
   describe "when not in manager mode" do
-    let(:manager_mode) { false }
+    let(:manageable) { false }
 
     describe "rendering for a user in a non-active state" do
       context "when the user is locked" do
@@ -205,7 +212,7 @@ RSpec.describe Shares::UserDetailsComponent, type: :component do
   end
 
   describe "when in manager mode" do
-    let(:manager_mode) { true }
+    let(:manageable) { true }
 
     describe "rendering for a user in a non-active state" do
       context "when the user is locked" do

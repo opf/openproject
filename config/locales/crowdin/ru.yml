@@ -3518,6 +3518,10 @@ ru:
     project_queries:
       publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
