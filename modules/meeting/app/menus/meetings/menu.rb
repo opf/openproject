@@ -56,13 +56,6 @@ module Meetings
     end
 
     def involvement_sidebar_menu_items
-      past_filter = [
-        { time: { operator: "=", values: ["past"] } },
-        { invited_user_id: { operator: "=", values: [User.current.id.to_s] } }
-      ].to_json
-      attendee_filter = [{ attended_user_id: { operator: "=", values: [User.current.id.to_s] } }].to_json
-      author_filter = [{ author_id: { operator: "=", values: [User.current.id.to_s] } }].to_json
-
       [
         menu_item(title: I18n.t(:label_upcoming_invitations)),
         menu_item(title: I18n.t(:label_past_invitations),
@@ -80,6 +73,21 @@ module Meetings
       else
         meetings_path(params.permit(query_params.keys).merge!(query_params))
       end
+    end
+
+    def past_filter
+      [
+        { time: { operator: "=", values: ["past"] } },
+        { invited_user_id: { operator: "=", values: [User.current.id.to_s] } }
+      ].to_json
+    end
+
+    def attendee_filter
+      [{ attended_user_id: { operator: "=", values: [User.current.id.to_s] } }].to_json
+    end
+
+    def author_filter
+      [{ author_id: { operator: "=", values: [User.current.id.to_s] } }].to_json
     end
   end
 end
