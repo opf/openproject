@@ -45,7 +45,8 @@ RSpec.describe WorkPackages::ProgressController do
           "remaining_hours" => "4h",
           "done_ratio" => "90",
           "estimated_hours_touched" => "false",
-          "remaining_hours_touched" => "false"
+          "remaining_hours_touched" => "false",
+          "done_ratio_touched" => "false"
         }
       }
     end
@@ -56,6 +57,7 @@ RSpec.describe WorkPackages::ProgressController do
 
       expect(work_package.estimated_hours).to be_nil
       expect(work_package.remaining_hours).to be_nil
+      expect(work_package.done_ratio).to be_nil
     end
 
     it "updates the work package progress values with touched values (only work touched)" do
@@ -68,9 +70,21 @@ RSpec.describe WorkPackages::ProgressController do
       # when not supplied by the user, the remaining work is set to the same
       # value as work
       expect(work_package.remaining_hours).to eq(42)
+      expect(work_package.done_ratio).to eq(0)
     end
 
-    it "updates the work package progress values (all values touched)" do
+    it "updates the work package progress values with touched values (only done_ratio touched)" do
+      params["work_package"]["done_ratio_touched"] = "true"
+
+      patch("update", params:, as: :turbo_stream)
+      work_package.reload
+
+      expect(work_package.estimated_hours).to be_nil
+      expect(work_package.remaining_hours).to be_nil
+      expect(work_package.done_ratio).to eq(90)
+    end
+
+    it "updates the work package progress values (work and remaining work)" do
       params["work_package"]["estimated_hours_touched"] = "true"
       params["work_package"]["remaining_hours_touched"] = "true"
 
@@ -79,6 +93,7 @@ RSpec.describe WorkPackages::ProgressController do
 
       expect(work_package.estimated_hours).to eq(42)
       expect(work_package.remaining_hours).to eq(4)
+      expect(work_package.done_ratio).to eq(90)
     end
   end
 end

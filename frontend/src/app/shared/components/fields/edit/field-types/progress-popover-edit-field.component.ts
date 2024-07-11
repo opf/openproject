@@ -123,6 +123,14 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
       .removeEventListener('turbo:submit-end', this.contextBasedListener.bind(this));
   }
 
+  public get asHoursOrPercent():string {
+    return this.name === 'percentageDone' ? this.asPercent : this.asHours;
+  }
+
+  public get asPercent():string {
+    return this.value ? `${this.value}%` : this.text.placeholder;
+  }
+
   public get asHours():string {
     if (this.value) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -139,7 +147,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     return `${this.timezoneService.toHours(value)}`;
   }
 
-  public statusFormatter(value:null|string):string {
+  public nullAsEmptyStringFormatter(value:null|string):string {
     if (value === null) {
       return '';
     }
@@ -214,8 +222,10 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     url.searchParams.set('work_package[estimated_hours]', this.formatter(this.resource.estimatedTime));
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     url.searchParams.set('work_package[remaining_hours]', this.formatter(this.resource.remainingTime));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+    url.searchParams.set('work_package[done_ratio]', this.nullAsEmptyStringFormatter(this.resource.percentageDone));
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[status_id]', this.statusFormatter(this.resource.status?.id as string));
+    url.searchParams.set('work_package[status_id]', this.nullAsEmptyStringFormatter(this.resource.status?.id as string));
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (this.resource?.id === 'new') {
       url.searchParams.set('work_package[status_id_touched]', 'true');

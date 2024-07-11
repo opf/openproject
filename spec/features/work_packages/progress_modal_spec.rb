@@ -516,7 +516,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
         clear_input_field_contents(work_edit_field.input_element)
         page.driver.wait_for_network_idle # Wait for live-update to finish
 
-        remaining_work_edit_field.expect_modal_field_value("", disabled: true)
+        remaining_work_edit_field.expect_modal_field_value("")
       end
 
       specify "Case 2: when work is set to 12h, " \

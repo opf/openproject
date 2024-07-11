@@ -93,10 +93,12 @@ export default class PreviewProgressController extends Controller {
     const wpParams = [
       ['work_package[remaining_hours]', formParams.get('work_package[remaining_hours]') || ''],
       ['work_package[estimated_hours]', formParams.get('work_package[estimated_hours]') || ''],
+      ['work_package[done_ratio]', formParams.get('work_package[done_ratio]') || ''],
       ['work_package[status_id]', formParams.get('work_package[status_id]') || ''],
       ['field', field?.name ?? ''],
-      ['work_package[remaining_hours_touched]', formParams.get('work_package[remaining_hours_touched]') || ''],
       ['work_package[estimated_hours_touched]', formParams.get('work_package[estimated_hours_touched]') || ''],
+      ['work_package[remaining_hours_touched]', formParams.get('work_package[remaining_hours_touched]') || ''],
+      ['work_package[done_ratio_touched]', formParams.get('work_package[done_ratio_touched]') || ''],
       ['work_package[status_id_touched]', formParams.get('work_package[status_id_touched]') || ''],
     ];
 

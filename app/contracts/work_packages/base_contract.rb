@@ -53,7 +53,7 @@ module WorkPackages
     attribute :project_id
 
     attribute :done_ratio,
-              writable: false
+              writable: ->(*) { WorkPackage.work_based_mode? }
     attribute :derived_done_ratio,
               writable: false
 

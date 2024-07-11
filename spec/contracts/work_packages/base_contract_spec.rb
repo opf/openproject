@@ -725,6 +725,15 @@ RSpec.describe WorkPackages::BaseContract do
             with_settings: { work_package_done_ratio: "status" } do
       it_behaves_like "invalid if changed", :done_ratio
     end
+
+    context "when in work-based progress calculation mode",
+            with_settings: { work_package_done_ratio: "field" } do
+      before do
+        work_package.done_ratio = 42
+      end
+
+      it_behaves_like "contract is valid"
+    end
   end
 
   describe "version" do

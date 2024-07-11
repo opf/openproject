@@ -36,7 +36,6 @@ class WorkPackages::ProgressController < ApplicationController
 
   layout false
   before_action :set_work_package
-  before_action :extract_persisted_progress_attributes, only: %i[edit create update]
   authorization_checked! :new, :edit, :create, :update
 
   helper_method :modal_class
@@ -121,15 +120,10 @@ class WorkPackages::ProgressController < ApplicationController
     params.require(:work_package)
           .slice("estimated_hours_touched",
                  "remaining_hours_touched",
+                 "done_ratio_touched",
                  "status_id_touched")
           .transform_values { _1 == "true" }
           .permit!
-  end
-
-  def extract_persisted_progress_attributes
-    @persisted_progress_attributes = @work_package
-                                       .attributes
-                                       .slice("estimated_hours", "remaining_hours", "status_id")
   end
 
   def work_package_params
@@ -146,7 +140,7 @@ class WorkPackages::ProgressController < ApplicationController
     if WorkPackage.use_status_for_done_ratio?
       %i[estimated_hours status_id]
     else
-      %i[estimated_hours remaining_hours]
+      %i[estimated_hours remaining_hours done_ratio]
     end
   end
 
