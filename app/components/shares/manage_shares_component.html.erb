@@ -1,0 +1,109 @@
+<%=
+  if strategy.manageable?
+    modal_content.with_row do
+      render(Shares::InviteUserFormComponent.new(strategy:, errors: errors))
+    end
+  end
+
+  modal_content.with_row(data: { 'test-selector': 'op-share-dialog-active-list',
+                                  controller: 'shares--bulk-selection',
+                                  application_target: 'dynamic' }) do
+    render(border_box_container(list_id: insert_target_modifier_id)) do |border_box|
+      border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-dialog-header' }) do
+        grid_layout('op-share-dialog-modal-body--header', tag: :div, align_items: :center) do |header_grid|
+          header_grid.with_area(:counter, tag: :div) do
+            render(Shares::CounterComponent.new(strategy:, count: strategy.shares.size))
+          end
+
+          header_grid.with_area(:actions,
+                                tag: :div,
+                                data: { 'shares--bulk-selection-target': 'defaultActions' }) do
+            flex_layout do |header_actions|
+              header_actions.with_column(mr: 2) do
+                render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
+                                                      select_variant: :single,
+                                                      size: :small,
+                                                      dynamic_label: true,
+                                                      dynamic_label_prefix: I18n.t('sharing.filter.type'),
+                                                      color: :muted,
+                                                      data: { 'test-selector': 'op-share-dialog-filter-type' })) do |menu|
+                  menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-dialog-filter-type-button' }) do |button|
+                    button.with_trailing_action_icon(icon: "triangle-down")
+                    I18n.t('sharing.filter.type')
+                  end
+                  type_filter_options.each do |option|
+                    menu.with_item(label: option[:label],
+                                    href: filter_url(type_option: option),
+                                    method: :get,
+                                    tag: :a,
+                                    active: type_filter_option_active?(option),
+                                    role: "menuitem")
+                  end
+                end
+              end
+
+              header_actions.with_column do
+                render(Primer::Alpha::ActionMenu.new(anchor_align: :end,
+                                                      select_variant: :single,
+                                                      size: :small,
+                                                      dynamic_label: true,
+                                                      dynamic_label_prefix: I18n.t('sharing.filter.role'),
+                                                      color: :muted,
+                                                      data: { 'test-selector': 'op-share-dialog-filter-role' })) do |menu|
+                  menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-dialog-filter-role-button' }) do |button|
+                    button.with_trailing_action_icon(icon: "triangle-down")
+                    I18n.t('sharing.filter.role')
+                  end
+                  strategy.available_roles.each do |role_hash|
+                    menu.with_item(label: role_hash[:label],
+                                    href: filter_url(role_option: role_hash),
+                                    method: :get,
+                                    tag: :a,
+                                    active: role_filter_option_active?(role_hash),
+                                    role: "menuitem")
+                  end
+                end
+              end
+            end
+          end
+
+          header_grid.with_area(:actions,
+                                tag: :div,
+                                hidden: true, # Prevent flicker on initial render
+                                data: { 'shares--bulk-selection-target': 'bulkActions' }) do
+            if strategy.manageable?
+              concat(render(Shares::BulkPermissionButtonComponent.new(strategy:)))
+
+              concat(
+                form_with(url: url_for([:bulk, entity, Member]),
+                          method: :delete,
+                          data: { 'shares--bulk-selection-target': 'bulkForm' }) do
+                  render(Primer::Beta::IconButton.new(icon: "trash",
+                                                      type: :submit,
+                                                      scheme: :danger,
+                                                      "aria-label": I18n.t('sharing.remove'),
+                                                      test_selector: 'op-share-dialog--bulk-remove'))
+                end
+              )
+            end
+          end
+        end
+      end
+
+      if strategy.shares.none?
+        border_box.with_row do
+          if strategy.custom_empty_state_component?
+            render(strategy.empty_state_component.new(strategy: strategy))
+          else
+            render(Shares::EmptyStateComponent.new(strategy: strategy))
+          end
+        end
+      else
+        strategy.shares.each do |share|
+          render(Shares::ShareRowComponent.new(share:, strategy:, container: border_box))
+        end
+      end
+    end
+  end
+
+%>

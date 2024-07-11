@@ -99,6 +99,14 @@ module SharingStrategies
       Shares::WorkPackages::DeleteContract
     end
 
+    def modal_body_component(errors)
+      if EnterpriseToken.allows_to?(:work_package_sharing)
+        super
+      else
+        Shares::WorkPackages::ModalUpsaleComponent.new
+      end
+    end
+
     private
 
     def project_member?(share)

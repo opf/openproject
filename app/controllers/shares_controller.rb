@@ -34,7 +34,6 @@ class SharesController < ApplicationController
   before_action :load_entity
   before_action :load_selected_shares, only: %i[bulk_update bulk_destroy]
   before_action :load_share, only: %i[destroy update resend_invite]
-  before_action :enterprise_check, only: %i[index]
 
   before_action :check_if_manageable, except: %i[index dialog]
   before_action :check_if_viewable, only: %i[index dialog]
@@ -47,7 +46,7 @@ class SharesController < ApplicationController
       flash.now[:error] = sharing_strategy.query.errors.full_messages
     end
 
-    render Shares::ModalBodyComponent.new(strategy: sharing_strategy, errors: @errors), layout: nil
+    render sharing_strategy.modal_body_component(@errors), layout: nil
   end
 
   def create # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
@@ -147,12 +146,6 @@ class SharesController < ApplicationController
     render_403
   end
 
-  def enterprise_check
-    return if EnterpriseToken.allows_to?(:work_package_sharing)
-
-    render Shares::ModalUpsaleComponent.new
-  end
-
   def destroy_share(share)
     Shares::DeleteService
       .new(user: current_user, model: share, contract_class: sharing_strategy.delete_contract_class)
@@ -170,12 +163,7 @@ class SharesController < ApplicationController
   def respond_with_replace_modal
     sharing_strategy.shares(reload: true)
 
-    replace_via_turbo_stream(
-      component: Shares::ModalBodyComponent.new(
-        strategy: sharing_strategy,
-        errors: @errors
-      )
-    )
+    replace_via_turbo_stream(component: sharing_strategy.modal_body_component(@errors))
 
     respond_with_turbo_streams
   end
@@ -197,14 +185,8 @@ class SharesController < ApplicationController
 
     new_shares.each do |share|
       prepend_via_turbo_stream(
-        component: Shares::ShareRowComponent.new(
-          share:,
-          strategy: sharing_strategy
-        ),
-        target_component: Shares::ModalBodyComponent.new(
-          strategy: sharing_strategy,
-          errors: @errors
-        )
+        component: Shares::ShareRowComponent.new(share:, strategy: sharing_strategy),
+        target_component: Shares::ManageSharesComponent.new(strategy: sharing_strategy, modal_content: nil, errors: @errors)
       )
     end
 
