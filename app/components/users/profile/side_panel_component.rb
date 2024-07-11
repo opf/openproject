@@ -28,7 +28,7 @@
 
 module Users
   module Profile
-    class SidebarComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    class SidePanelComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
