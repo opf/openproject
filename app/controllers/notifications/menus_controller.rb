@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,33 +25,18 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-module Bim
-  class Menu < Submenu
-    attr_reader :view_type, :project, :params
+module Notifications
+  class MenusController < ApplicationController
+    # No authorize as every user (or logged in user)
+    # is allowed to see the menu.
+    no_authorization_required! :show
 
-    def initialize(project: nil, params: nil)
-      @view_type = "bim"
-      @project = project
-      @params = params
+    def show
+      menu = Notifications::Menu.new(params:, current_user:)
 
-      super(view_type:, project:, params:)
-    end
+      @sidebar_menu_items = menu.menu_items
 
-    def default_queries
-      query_generator = Bim::Menus::DefaultQueryGeneratorService.new
-      Bim::Menus::DefaultQueryGeneratorService::QUERY_OPTIONS.filter_map do |query_key|
-        params = query_generator.call(query_key:)
-        next if params.nil?
-
-        menu_item(
-          title: I18n.t("js.work_packages.default_queries.#{query_key}"),
-          query_params: params
-        )
-      end
-    end
-
-    def query_path(query_params)
-      bcf_project_frontend_path(project, query_params)
+      render layout: nil
     end
   end
 end

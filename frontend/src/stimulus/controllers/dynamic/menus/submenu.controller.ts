@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 
-export default class ExpandableSideMenuController extends Controller {
+export default class SubmenuController extends Controller {
   static targets = [
     'indicator',
     'container',
@@ -22,12 +22,12 @@ export default class ExpandableSideMenuController extends Controller {
   }
 
   private expand() {
-    this.containerTarget.classList.replace('op-sidemenu--items_collapsed', 'op-sidemenu--items');
+    this.containerTarget.classList.replace('op-submenu--items_collapsed', 'op-submenu--items');
     this.indicatorTarget.classList.replace('icon-arrow-down1', 'icon-arrow-up1');
   }
 
   private collapse() {
-    this.containerTarget.classList.replace('op-sidemenu--items', 'op-sidemenu--items_collapsed');
+    this.containerTarget.classList.replace('op-submenu--items', 'op-submenu--items_collapsed');
     this.indicatorTarget.classList.replace('icon-arrow-up1', 'icon-arrow-down1');
   }
 }

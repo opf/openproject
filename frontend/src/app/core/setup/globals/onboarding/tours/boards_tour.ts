@@ -51,7 +51,7 @@ export function navigateToBoardStep(edition:'basic'|'enterprise'):OnboardingStep
     onNext() {
       jQuery('#boards-wrapper>.boards-menu-item ~ .toggler')[0].click();
       waitForElement(
-        '.op-sidemenu--item-action',
+        '.op-submenu--item-action',
         '#main-menu',
         (match) => match.click(),
         (match) => !!match.textContent?.includes(boardName),
