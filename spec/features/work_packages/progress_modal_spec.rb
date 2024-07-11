@@ -131,17 +131,15 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
         update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil)
       end
 
-      it "opens the modal with work in focus and remaining work disabled" do
+      it "opens the modal with remaining work in focus" do
         work_package_table.visit_query(progress_query)
         work_package_table.expect_work_package_listed(work_package)
 
-        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
         remaining_work_field = ProgressEditField.new(work_package_row, :remainingTime)
 
         remaining_work_field.activate!
 
-        work_edit_field.expect_modal_field_in_focus
-        remaining_work_field.expect_modal_field_disabled
+        remaining_work_field.expect_modal_field_in_focus
       end
     end
 
@@ -352,7 +350,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
           work_edit_field.expect_modal_field_value("10h")
           remaining_work_edit_field.expect_modal_field_value("2.12h") # 2h 7m
-          percent_complete_edit_field.expect_modal_field_value("79", readonly: true)
+          percent_complete_edit_field.expect_modal_field_value("79%")
         end
       end
 
@@ -390,9 +388,11 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       end
 
       context "with unset values" do
-        before { update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil) }
+        before do
+          update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil, done_ratio: nil)
+        end
 
-        it "populates fields with blank values and % Complete as '-'" do
+        it "populates all fields with blank values" do
           work_package_table.visit_query(progress_query)
           work_package_table.expect_work_package_listed(work_package)
 
@@ -403,8 +403,8 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           work_edit_field.activate!
 
           work_edit_field.expect_modal_field_value("")
-          remaining_work_edit_field.expect_modal_field_value("", disabled: true)
-          percent_complete_edit_field.expect_modal_field_value("-", readonly: true)
+          remaining_work_edit_field.expect_modal_field_value("")
+          percent_complete_edit_field.expect_modal_field_value("")
         end
       end
 
@@ -451,20 +451,6 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       work_edit_field.reactivate!
       work_edit_field.expect_modal_field_in_focus
       work_edit_field.expect_trigger_field_disabled
-    end
-  end
-
-  describe "% Complete field" do
-    it "renders as readonly" do
-      work_package_table.visit_query(progress_query)
-      work_package_table.expect_work_package_listed(work_package)
-
-      work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
-      percent_complete_edit_field = ProgressEditField.new(work_package_row, :percentageDone)
-
-      work_edit_field.activate!
-
-      percent_complete_edit_field.expect_read_only_modal_field
     end
   end
 
