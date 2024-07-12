@@ -76,7 +76,7 @@ module ::Overviews
 
     def update_sidebar_component
       update_via_turbo_stream(
-        component: ProjectCustomFields::SidebarComponent.new(project: @project)
+        component: ProjectCustomFields::SidePanelComponent.new(project: @project)
       )
     end
   end
