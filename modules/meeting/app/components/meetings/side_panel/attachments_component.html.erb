@@ -6,7 +6,7 @@
       section.with_counter { @meeting.attachments.count }
 
       flex_layout do |attachments_container|
-        attachments_container.with_row(mt: 2) do
+        attachments_container.with_row do
           resource = ::API::V3::Meetings::MeetingRepresenter.new(@meeting, current_user: User.current, embed_links: false)
           helpers.list_attachments(resource,
                                    inputs: {
