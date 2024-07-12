@@ -3,7 +3,6 @@
     render Primer::Beta::Blankslate.new(border: true) do |component|
       component.with_visual_icon(icon: :'op-enterprise-addons', classes: 'upsale-colored')
       component.with_heading(tag: :h2, classes: 'upsale-colored').with_content(I18n.t(:label_enterprise_addon))
-      # TODO: Generalize this text
       component.with_description { I18n.t('mail.sharing.work_packages.enterprise_text') }
 
       href = "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=work-package-sharing-modal"

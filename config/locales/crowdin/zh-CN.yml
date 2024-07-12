@@ -3431,6 +3431,8 @@ zh-CN:
         view_description: "可以查看此项目列表。"
         edit: "编辑"
         edit_description: "可以查看、共享和编辑此项目列表。"
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       在安排工作包时，未选择的日期将被跳过（且不计入天数）。可以在工作包级别覆盖这些选项。

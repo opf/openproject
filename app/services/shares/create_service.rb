@@ -55,7 +55,8 @@ class Shares::CreateService < BaseServices::Create
   end
 
   def send_notification(share)
-    # TODO: We should select what sort of notification is sent out based on the shared entity
+    return unless share.entity.is_a?(WorkPackage)
+
     OpenProject::Notifications.send(OpenProject::Events::WORK_PACKAGE_SHARED,
                                     work_package_member: share,
                                     send_notifications: true)

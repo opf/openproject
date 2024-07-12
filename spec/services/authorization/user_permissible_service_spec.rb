@@ -6,6 +6,7 @@ RSpec.describe Authorization::UserPermissibleService do
   shared_let(:anonymous_user) { create(:anonymous) }
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:project_query) { create(:project_query) }
   shared_let(:non_member_role) { create(:non_member, permissions: [:view_news]) }
   shared_let(:anonymous_role) { create(:anonymous_role, permissions: [:view_meetings]) }
 
@@ -328,93 +329,117 @@ RSpec.describe Authorization::UserPermissibleService do
       end
     end
 
-    context "when asking for a permission that is defined" do
-      let(:permission) { :view_work_packages }
+    context "with an entity that is not project scoped" do
+      let(:permission) { :view_project_query }
 
-      context "and the user is not a member of the project or the work package" do
-        it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+      context "and the user is not a member of the entity" do
+        it { is_expected.not_to be_allowed_in_entity(permission, project_query, ProjectQuery) }
       end
 
-      context "and the user is admin" do
+      context "and the user is an admin (with a permission granted to admin)" do
         let(:queried_user) { admin }
 
-        it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+        it { is_expected.to be_allowed_in_entity(permission, project_query, ProjectQuery) }
+      end
 
-        context "and the account is locked" do
-          before { admin.locked! }
+      context "and the user is member of the project query" do
+        let(:role) { create(:project_query_role, permissions: [permission]) }
+        let!(:project_member) { create(:member, user:, project: nil, entity: project_query, roles: [role]) }
 
+        it { is_expected.to be_allowed_in_entity(permission, project_query, ProjectQuery) }
+      end
+    end
+
+    context "with an entity that is project scoped" do
+      context "when asking for a permission that is defined" do
+        let(:permission) { :view_work_packages }
+
+        context "and the user is not a member of the project or the work package" do
           it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
         end
 
-        context "and the module the permission belongs to is disabled" do
-          before do
-            project.enabled_module_names = project.enabled_module_names - ["work_package_tracking"]
-            project.reload
+        context "and the user is admin" do
+          let(:queried_user) { admin }
+
+          it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+
+          context "and the account is locked" do
+            before { admin.locked! }
+
+            it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
           end
 
-          it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
-        end
-      end
+          context "and the module the permission belongs to is disabled" do
+            before do
+              project.enabled_module_names = project.enabled_module_names - ["work_package_tracking"]
+              project.reload
+            end
 
-      context "and the user is a member of the project" do
-        let(:role) { create(:project_role, permissions: [permission]) }
-        let!(:project_member) { create(:member, user:, project:, roles: [role]) }
-
-        it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
-
-        context "with the project being archived" do
-          before { project.update(active: false) }
-
-          it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+            it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+          end
         end
 
-        context "without the module enabled in the project" do
-          before do
-            project.enabled_module_names = project.enabled_module_names - ["work_package_tracking"]
-            project.reload
+        context "and the user is a member of the project" do
+          let(:role) { create(:project_role, permissions: [permission]) }
+          let!(:project_member) { create(:member, user:, project:, roles: [role]) }
+
+          it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+
+          context "with the project being archived" do
+            before { project.update(active: false) }
+
+            it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
           end
 
-          it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+          context "without the module enabled in the project" do
+            before do
+              project.enabled_module_names = project.enabled_module_names - ["work_package_tracking"]
+              project.reload
+            end
+
+            it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+          end
+
+          it_behaves_like "the Authorization.roles scope used" do
+            let(:context) { project }
+            subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
+          end
         end
 
-        it_behaves_like "the Authorization.roles scope used" do
-          let(:context) { project }
-          subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
+        context "and the user is a member of the work package" do
+          let(:role) { create(:work_package_role, permissions: [permission]) }
+          let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [role]) }
+
+          it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+
+          context "with the project being archived" do
+            before { project.update(active: false) }
+
+            it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+          end
+
+          it_behaves_like "the Authorization.roles scope used" do
+            let(:context) { work_package }
+            subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
+          end
         end
-      end
 
-      context "and the user is a member of the work package" do
-        let(:role) { create(:work_package_role, permissions: [permission]) }
-        let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [role]) }
+        context "and user is member in the project (not granting the permission) and the work package " \
+                "(granting the permission)" do
+          let(:permission) { :edit_work_packages }
 
-        it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+          let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+          let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
-        context "with the project being archived" do
-          before { project.update(active: false) }
+          let(:wp_role) { create(:work_package_role, permissions: [permission]) }
+          let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [wp_role]) }
 
-          it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
-        end
+          it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
 
-        it_behaves_like "the Authorization.roles scope used" do
-          let(:context) { work_package }
-          subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
-        end
-      end
-
-      context "and user is member in the project (not granting the permission) and the work package (granting the permission)" do
-        let(:permission) { :edit_work_packages }
-
-        let(:role) { create(:project_role, permissions: [:view_work_packages]) }
-        let!(:project_member) { create(:member, user:, project:, roles: [role]) }
-
-        let(:wp_role) { create(:work_package_role, permissions: [permission]) }
-        let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [wp_role]) }
-
-        it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
-
-        it_behaves_like "the Authorization.roles scope used" do
-          let(:context) { work_package }
-          subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
+          it_behaves_like "the Authorization.roles scope used" do
+            let(:context) { work_package }
+            subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
+          end
         end
       end
     end

@@ -27,13 +27,15 @@
 #++
 
 module Shares
-  class ModalUpsaleComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+  module WorkPackages
+    class ModalUpsaleComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-    def self.wrapper_key
-      "share_modal_body"
+      def self.wrapper_key
+        "share_modal_body"
+      end
     end
   end
 end
