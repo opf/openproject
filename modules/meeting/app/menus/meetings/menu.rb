@@ -68,5 +68,18 @@ module Meetings
     def query_path(query_params)
       polymorphic_path([@project, :meetings], query_params)
     end
+
+    def selected?(query_params)
+      case params[:query_id]
+      when nil
+        query_params[:query_id].to_s == MeetingQueries::Static::UPCOMING_INVITATIONS
+      else
+        query_params[:query_id].to_s == params[:query_id] unless modification_params?
+      end
+    end
+
+    def modification_params?
+      params.values_at(:filters, :columns, :sortBy).any?
+    end
   end
 end

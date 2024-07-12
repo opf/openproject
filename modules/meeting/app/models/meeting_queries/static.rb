@@ -94,7 +94,7 @@ class MeetingQueries::Static
     end
 
     def static_query_creator
-      list_with(:label_creator) do |query|
+      list_with(:label_author) do |query|
         query.where("author_id", "=", [User.current.id.to_s])
         query.order(start_time: :asc)
       end
