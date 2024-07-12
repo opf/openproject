@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters::Shared::ProjectFilter
+module Queries::Filters::Shared::ProjectFilter::Required
   def self.included(base)
     base.include(InstanceMethods)
     base.extend(ClassMethods)
@@ -39,7 +39,7 @@ module Queries::Filters::Shared::ProjectFilter
     end
 
     def type
-      :list_optional
+      :list
     end
 
     def type_strategy
@@ -47,7 +47,7 @@ module Queries::Filters::Shared::ProjectFilter
       # to see we only check that the value is an integer.  Non valid ids
       # will then simply create an empty result but will not cause any
       # harm.
-      @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
+      @type_strategy ||= ::Queries::Filters::Strategies::IntegerList.new(self)
     end
   end
 
