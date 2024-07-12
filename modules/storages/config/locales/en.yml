@@ -23,6 +23,8 @@ en:
           attributes:
             project_folder_mode:
               mode_unavailable: is not available for this storage.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
