@@ -66,6 +66,7 @@
           end
 
           if edit_enabled?
+            section.with_footer_button(
             closed_state.with_row(mt: [0, 3, 3, 3, 3]) do
               form_for(@meeting, method: "put", url: change_state_meeting_path(@meeting),
                        data: { 'turbo-stream': true }) do |f|
