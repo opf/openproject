@@ -29,7 +29,7 @@
 module Storages
   module Admin
     module Storages
-      class AddProjectsModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      class AddProjectsModalComponent < ApplicationComponent
         include OpTurbo::Streamable
 
         DIALOG_ID = "storages--add-projects-modal".freeze

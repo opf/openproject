@@ -29,7 +29,7 @@
 module Storages
   module Admin
     module Storages
-      class AddProjectsFormModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      class AddProjectsFormModalComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
