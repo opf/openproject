@@ -54,7 +54,7 @@ RSpec.describe "Work package sharing invited users",
     create(:work_package, project:)
   end
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
+  let(:share_modal) { Components::Sharing::WorkPackages::ShareModal.new(work_package) }
 
   it "allows to invite and activate the account" do
     login_with(editor.login, "adminADMIN!")

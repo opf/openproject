@@ -113,6 +113,10 @@ module SharingStrategies
       end
     end
 
+    def title
+      I18n.t(:label_share_project_list)
+    end
+
     private
 
     def virtual_owner_share

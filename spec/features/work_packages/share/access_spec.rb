@@ -47,7 +47,7 @@ RSpec.describe "Shared Work Package Access",
   let(:global_work_packages_page) { Pages::WorkPackagesTable.new }
   let(:work_packages_page) { Pages::WorkPackagesTable.new(project) }
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
+  let(:share_modal) { Components::Sharing::WorkPackages::ShareModal.new(work_package) }
   let(:add_comment_button_selector) { ".work-packages--activity--add-comment" }
   let(:attach_files_button_selector) { "op-attachments--upload-button" }
 
