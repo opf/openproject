@@ -26,12 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::IdFilter < Queries::Projects::Filters::Base
-  include Queries::Filters::Shared::ProjectFilter::Required
+require "spec_helper"
 
-  def self.key = :id
+RSpec.describe Queries::Projects::Filters::IdFilter do
+  it_behaves_like "basic query filter" do
+    let(:model) { Project }
+    let(:class_key) { :id }
+    let(:type) { :list }
+    let(:human_name) { "Project" }
 
-  def human_name
-    I18n.t(:label_project, default: :"attributes.project")
+    before do
+      visible_scope = instance_double(ActiveRecord::Relation)
+      allow(Project).to receive(:visible).and_return(visible_scope)
+      allow(visible_scope).to receive(:pluck).with(:id).and_return([1234])
+    end
+
+    describe "#allowed_values" do
+      it "is a list of the possible values" do
+        expect(instance.allowed_values).to eq([[1234, "1234"]])
+      end
+    end
+  end
+
+  it_behaves_like "list query filter" do
+    let(:model) { Project }
+    let(:attribute) { :id }
+    let(:valid_values) { ["42"] }
   end
 end
