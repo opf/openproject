@@ -212,12 +212,12 @@ module Pages::StructuredMeeting
 
     def close_meeting
       click_on("Close meeting")
-      expect(page).to have_button("Reopen meeting")
+      expect(page).to have_link("Reopen meeting")
     end
 
     def reopen_meeting
       click_on("Reopen meeting")
-      expect(page).to have_button("Close meeting")
+      expect(page).to have_link("Close meeting")
     end
 
     def close_dialog

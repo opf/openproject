@@ -208,7 +208,7 @@ class MeetingsController < ApplicationController
   end
 
   def change_state
-    case structured_meeting_params[:state]
+    case params[:state]
     when "open"
       @meeting.open!
     when "closed"

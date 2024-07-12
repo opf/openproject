@@ -22,28 +22,13 @@
           end
 
           if edit_enabled?
-            open_state.with_row(mt: [0, 3, 3, 3, 3]) do
-              form_for(@meeting, method: "put", url: change_state_meeting_path(@meeting),
-                       data: { 'turbo-stream': true }) do |f|
-                flex_layout do |open_state_actions|
-                  open_state_actions.with_row do
-                    f.hidden_field :state, value: "closed"
-                  end
-
-                  open_state_actions.with_row do
-                    render(Primer::Beta::Button.new(
-                      scheme: :link,
-                      color: :default,
-                      underline: false,
-                      font_weight: :bold,
-                      type: :submit
-                    )) do |button|
-                      button.with_leading_visual_icon(icon: :lock)
-                      t("label_meeting_close_action")
-                    end
-                  end
-                end
-              end
+            section.with_footer_button(
+              tag: :a,
+              href: change_state_meeting_path(@meeting, state: 'closed'),
+              data: { 'turbo-stream': true, 'turbo-method': 'put' }
+            ) do |button|
+              button.with_leading_visual_icon(icon: :unlock)
+              t("label_meeting_close_action")
             end
           end
         end
@@ -67,28 +52,12 @@
 
           if edit_enabled?
             section.with_footer_button(
-            closed_state.with_row(mt: [0, 3, 3, 3, 3]) do
-              form_for(@meeting, method: "put", url: change_state_meeting_path(@meeting),
-                       data: { 'turbo-stream': true }) do |f|
-                flex_layout do |closed_state_actions|
-                  closed_state_actions.with_row do
-                    f.hidden_field :state, value: "open"
-                  end
-
-                  closed_state_actions.with_row do
-                    render(Primer::Beta::Button.new(
-                      scheme: :link,
-                      color: :default,
-                      underline: false,
-                      font_weight: :bold,
-                      type: :submit
-                    )) do |button|
-                      button.with_leading_visual_icon(icon: :unlock)
-                      t("label_meeting_reopen_action")
-                    end
-                  end
-                end
-              end
+              tag: :a,
+              href: change_state_meeting_path(@meeting, state: 'open'),
+              data: { 'turbo-stream': true, 'turbo-method': 'put' }
+            ) do |button|
+              button.with_leading_visual_icon(icon: :unlock)
+              t("label_meeting_reopen_action")
             end
           end
         end
