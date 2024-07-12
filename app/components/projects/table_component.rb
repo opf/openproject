@@ -29,59 +29,12 @@
 #++
 
 module Projects
-  # Not inheriting from TableComponent as that is AR scope based and here the model
-  # is an OP query. The intend is to distill the common parts into an abstract TableComponent again once
-  # another table is implemented with the same pattern.
-  class TableComponent < ::ApplicationComponent
-    options :params # We read collapsed state from params
-    options :current_user # adds this option to those of the base class
-    options :query
-
-    def before_render
-      @model = projects(query)
-      super
-    end
-
-    def table_id
-      "project-table"
-    end
-
-    def container_class
-      "generic-table--container_visible-overflow generic-table--container_height-100"
-    end
-
-    # We don't return the project row
-    # but the [project, level] array from the helper
-    def rows
-      @rows ||= begin
-        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a }
-        instance_exec(model, &projects_enumerator)
-      end
-    end
-
-    def paginated?
-      true
-    end
-
-    def pagination_options
-      default_pagination_options.merge(optional_pagination_options)
-    end
-
-    def default_pagination_options
-      { allowed_params: %i[query_id filters columns sortBy] }
-    end
-
-    def optional_pagination_options
-      {}
-    end
-
-    def sortable_column?(select)
-      sortable? && query.known_order?(select.attribute)
-    end
+  class TableComponent < Tables::QueryComponent
+    self.eager_load = :enabled_modules
 
     def columns
       @columns ||= begin
-        columns = query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
+        columns = super
 
         index = columns.index { |column| column.attribute == :name }
         columns.insert(index, ::Queries::Projects::Selects::Default.new(:lft)) if index
@@ -90,11 +43,11 @@ module Projects
       end
     end
 
-    def projects(query)
-      query
-        .results
-        .includes(:enabled_modules)
-        .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+    # We don't return the project row
+    # but the [project, level] array from the helper
+    def render_rows
+      render(Projects::RowComponent.with_collection(to_enum(:projects_with_levels_order_sensitive, rows).to_a,
+                                                    table: self))
     end
 
     def projects_with_levels_order_sensitive(projects, &)
@@ -121,36 +74,6 @@ module Projects
 
     def favored_project_ids
       @favored_project_ids ||= Favorite.where(user: current_user, favored_type: "Project").pluck(:favored_id)
-    end
-
-    def render_rows
-      render(self.class.row_class.with_collection(rows, table: self))
-    end
-
-    def render_column_headers
-      render(Projects::ColumnHeaderComponent.with_collection(columns, query:))
-    end
-
-    def inline_create_link
-      nil
-    end
-
-    def empty_row_message
-      I18n.t :no_results_title_text
-    end
-
-    class << self
-      def row_class
-        mod = name.deconstantize
-
-        "#{mod}::RowComponent".constantize
-      rescue NameError
-        raise(
-          NameError,
-          "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
-            "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
-        )
-      end
     end
 
     def sorted_by_lft?

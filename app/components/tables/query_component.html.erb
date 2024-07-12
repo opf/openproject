@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,39 +33,33 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="generic-table--results-container">
         <table class="generic-table" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
           <colgroup>
-            <% (columns.length + 1).times do %>
-              <col opHighlightCol>
+            <% columns.each do |column| %>
+              <col <%= "opHighlightCol" unless column.attribute == :lft %> >
             <% end %>
+            <col opHighlightCol>
           </colgroup>
           <thead class="-sticky">
-          <tr>
-            <%= render_column_headers %>
-            <th class="-right">
-              <div class="generic-table--header-outer">
-              </div>
-            </th>
-          </tr>
+            <tr>
+              <%= render_column_headers %>
+              <th class="-right">
+                <div class="generic-table--header-outer">
+                </div>
+              </th>
+            </tr>
           </thead>
           <tbody>
-          <% if rows.empty? %>
-            <tr class="generic-table--empty-row">
-              <td colspan="<%= columns.length + 1 %>"><%= empty_row_message %></td>
-            </tr>
-          <% end %>
-          <%= render_rows %>
+            <% if rows.empty? %>
+              <tr class="generic-table--empty-row">
+                <td colspan="<%= columns.length + 1 %>"><%= empty_row_message %></td>
+              </tr>
+            <% else %>
+              <%= render_rows %>
+            <% end %>
           </tbody>
         </table>
-
-        <% if inline_create_link && show_inline_create %>
-          <div class="wp-inline-create-button">
-            <%= inline_create_link %>
-          </div>
-        <% end %>
       </div>
     </div>
   </div>
 </div>
 
-<% if paginated? %>
-  <%= helpers.pagination_links_full rows, pagination_options %>
-<% end %>
+<%= helpers.pagination_links_full rows, pagination_options %>

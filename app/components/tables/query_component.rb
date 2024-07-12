@@ -28,14 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class TableComponent < ApplicationComponent
+module Tables
+  class QueryComponent < ::ApplicationComponent
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
     options :query
 
+    class_attribute :eager_load
+
+    # TODO: Is this id still required?
     def table_id
-      "meeting-table"
+      "#{model_name.underscore}-table"
     end
 
     def container_class
@@ -43,35 +46,29 @@ module Meetings
     end
 
     def rows
-      @rows ||= query.results.paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
-    end
+      @rows ||= begin
+        scope = query.results
 
-    def paginated?
-      true
-    end
+        scope = scope.includes(eager_load) if eager_load
 
-    def pagination_options
-      default_pagination_options.merge(optional_pagination_options)
-    end
-
-    def default_pagination_options
-      { allowed_params: %i[query_id filters columns sortBy] }
-    end
-
-    def optional_pagination_options
-      {}
-    end
-
-    def sortable_column?(select)
-      sortable? && query.known_order?(select.attribute)
+        scope.paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+      end
     end
 
     def columns
       @columns ||= query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
     end
 
+    def pagination_options
+      { allowed_params: %i[query_id filters columns sortBy] }
+    end
+
+    def empty_row_message
+      I18n.t :no_results_title_text
+    end
+
     def render_rows
-      render(self.class.row_class.with_collection(rows, table: self))
+      render(row_class.with_collection(rows, table: self))
     end
 
     def render_column_headers
@@ -79,26 +76,22 @@ module Meetings
       render(Projects::ColumnHeaderComponent.with_collection(columns, query:))
     end
 
-    def inline_create_link
-      nil
+    private
+
+    def model_name
+      query.class.to_s.gsub("Query", "")
     end
 
-    def empty_row_message
-      I18n.t :no_results_title_text
-    end
+    def row_class
+      mod = model_name.pluralize
 
-    class << self
-      def row_class
-        mod = name.deconstantize
-
-        "#{mod}::RowComponent".constantize
-      rescue NameError
-        raise(
-          NameError,
-          "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
-            "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
-        )
-      end
+      "#{mod}::RowComponent".constantize
+    rescue NameError
+      raise(
+        NameError,
+        "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
+          "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
+      )
     end
   end
 end

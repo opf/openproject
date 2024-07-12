@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% if @query.results.empty? -%>
   <%= no_results_box %>
 <% else -%>
-  <%= render Meetings::TableComponent.new(
+  <%= render Tables::QueryComponent.new(
     query: @query,
     current_user: current_user,
     params:) %>
