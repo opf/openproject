@@ -31,8 +31,7 @@
 module WorkPackages
   module Progress
     module WorkBased
-      # rubocop:disable OpenProject/AddPreviewForViewComponent
-      class ModalBodyComponent < BaseModalComponent
+      class ModalBodyComponent < BaseModalComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         def initialize(work_package,
                        focused_field: nil,
                        touched_field_map: {})
@@ -40,13 +39,7 @@ module WorkPackages
 
           @mode = :work_based
         end
-
-        def should_display_migration_warning?
-          work_package.done_ratio.present? && work_package.estimated_hours.nil? && work_package.remaining_hours.nil?
-        end
       end
-
-      # rubocop:enable OpenProject/AddPreviewForViewComponent
     end
   end
 end

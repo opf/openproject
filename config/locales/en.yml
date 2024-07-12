@@ -3648,7 +3648,6 @@ en:
       modal:
         work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
-        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     permissions:
       comment: "Comment"
       comment_description: "Can view and comment this work package."

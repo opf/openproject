@@ -177,18 +177,6 @@ class ProgressEditField < EditField
     end
   end
 
-  def expect_migration_warning_banner(should_render: true)
-    within modal_element do
-      if should_render
-        expect(page)
-          .to have_text(I18n.t("work_package.progress.modal.migration_warning_text"))
-      else
-        expect(page)
-          .to have_no_text(I18n.t("work_package.progress.modal.migration_warning_text"))
-      end
-    end
-  end
-
   private
 
   attr_reader :field_name

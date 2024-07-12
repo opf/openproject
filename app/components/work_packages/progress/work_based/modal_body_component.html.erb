@@ -20,12 +20,6 @@
                                                   touched_field_map:)) %>
       <% end %>
 
-      <% if should_display_migration_warning? %>
-        <% modal_body.with_row(mt: 3) do |_migration_warning| %>
-          <%= render(Primer::Alpha::Banner.new) { t("work_package.progress.modal.migration_warning_text") } %>
-        <% end %>
-      <% end %>
-
       <% modal_body.with_row(mt: 3) do |_tooltip| %>
         <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { t("work_package.progress.label_note") } %>
         <%= render(Primer::Beta::Text.new) { t("work_package.progress.modal.work_based_help_text") } %>
