@@ -29,7 +29,7 @@
 #++
 
 module Meetings
-  class TableComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class TableComponent < ApplicationComponent
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
     options :query

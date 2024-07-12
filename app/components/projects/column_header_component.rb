@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::ColumnHeaderComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+class Projects::ColumnHeaderComponent < ApplicationComponent
   attr_reader :query
 
   with_collection_parameter :column

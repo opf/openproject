@@ -32,7 +32,7 @@ module Projects
   # Not inheriting from TableComponent as that is AR scope based and here the model
   # is an OP query. The intend is to distill the common parts into an abstract TableComponent again once
   # another table is implemented with the same pattern.
-  class TableComponent < ::ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class TableComponent < ::ApplicationComponent
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
     options :query
