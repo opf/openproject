@@ -78,7 +78,7 @@ class Queries::Factory
       query_namespace(query_class)::SetAttributesService
         .new(user:,
              model: query,
-             contract_class: query_loading_contract_class(query_class))
+             contract_class: query_loading_contract_class(query))
         .call(params)
         .result
     end
@@ -87,8 +87,8 @@ class Queries::Factory
       query_class.name.pluralize.constantize
     end
 
-    def query_loading_contract_class(query_class)
-      if query_class.is_a?(ApplicationRecord)
+    def query_loading_contract_class(query)
+      if query.is_a?(ApplicationRecord)
         Queries::LoadingContract
       else
         EmptyContract
