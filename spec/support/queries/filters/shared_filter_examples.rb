@@ -35,7 +35,13 @@ RSpec.shared_context "filter tests" do
     described_class.create!(name: instance_key, context:, operator:, values:)
   end
   let(:name) { model.human_attribute_name((instance_key || expected_class_key).to_s.gsub("_id", "")) }
-  let(:model) { WorkPackage }
+  let(:model) do
+    if /^Queries::(?<model_plural>(?:[A-Z][a-z]+)+)::Filters?::(?:[A-Z][a-z]+)+Filter$/ =~ described_class.name
+      model_plural.singularize.constantize
+    else
+      raise "needs to be defined"
+    end
+  end
 end
 
 RSpec.shared_examples_for "basic query filter" do
