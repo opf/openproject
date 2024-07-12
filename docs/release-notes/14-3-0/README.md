@@ -53,14 +53,14 @@ In addition to marking individual projects as favorites, users can now mark proj
 
 ![Screenshot of a private project list and highlighted yellow stars - one as a button on the top right, one next to the name in the project lists overview](openproject-14-3-favorite-project-lists-highlighted.png)
 
-### Share project lists (Enterprise add-on)
+### Share project lists (Enterprise add-on) or turn them public 
 
 Continuing our focus on project portfolio management, OpenProject 14.3 introduces the ability to share project lists. Users can now:
 
 - Turn project lists public, making them accessible to everyone on the instance.
 - Share project lists with specific users or groups.
 
-This feature is available as Enterprise add-on.
+Please note that sharing project lists with individuals or groups is, just like sharing work packages with individuals or groups, an Enterprise add-on.
 
 ![Screenshot showing how to share a project list](openproject-14-3-share-project-list-highlighted.png)
 
