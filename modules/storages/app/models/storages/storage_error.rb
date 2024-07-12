@@ -40,9 +40,10 @@ module Storages
       @data = data
     end
 
-    def to_active_model_errors
-      errors = ActiveModel::Errors.new(self)
-      errors.add(:storage_error, code, message: log_message)
+    def to_active_model_errors(klass = self)
+      errors = ActiveModel::Errors.new(klass)
+      attr = data.source.to_s.demodulize.underscore.to_sym
+      errors.add(attr, code)
       errors
     end
 
@@ -53,9 +54,9 @@ module Storages
       output
     end
 
-    def storage_error = "storage error"
-
-    def read_attribute_for_validation(attr) = send(attr)
+    def read_attribute_for_validation(attr)
+      attr.to_s
+    end
 
     def self.human_attribute_name(attr, _options = {}) = attr
 

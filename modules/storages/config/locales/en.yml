@@ -1,5 +1,15 @@
 ---
 en:
+  services:
+    errors:
+      models:
+        storages/nextcloud_group_folder_properties_sync_service:
+          unauthorized: "Please check if your AMPF password is correct"
+          error: "An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information"
+          attributes:
+            remote_folder_properties:
+              not_found: "The Group Folder %{group} wasn't found. Please check your Nextcloud setup."
+
   activerecord:
     attributes:
       storages/file_link:

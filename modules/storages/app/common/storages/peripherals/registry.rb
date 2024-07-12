@@ -28,6 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require "dry/auto_inject"
+
 module Storages
   module Peripherals
     class Registry
@@ -35,6 +37,7 @@ module Storages
 
       class Resolver < Dry::Container::Resolver
         def call(container, key)
+          Rails.logger.tagged("Registry").info("Resolving #{key}")
           super
         rescue Dry::Container::KeyError
           raise Errors.registry_error_for(key)

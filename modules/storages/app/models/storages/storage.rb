@@ -54,6 +54,7 @@ module Storages
 
     store_attribute :provider_fields, :automatically_managed, :boolean
     store_attribute :provider_fields, :health_notifications_enabled, :boolean, default: true
+    store_attribute :provider_fields, :detailed_logging_enabled, :boolean, default: false
 
     has_many :file_links, class_name: "Storages::FileLink"
     belongs_to :creator, class_name: "User"
@@ -118,11 +119,7 @@ module Storages
 
     def health_notifications_should_be_sent?
       # it is a fallback for already created storages without health_notifications_enabled configured.
-      if health_notifications_enabled.nil?
-        automatic_management_enabled?
-      else
-        health_notifications_enabled
-      end
+      (health_notifications_enabled.nil? && automatic_management_enabled?) || health_notifications_enabled?
     end
 
     def automatically_managed?
