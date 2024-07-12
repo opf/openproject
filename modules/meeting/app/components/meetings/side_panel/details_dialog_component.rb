@@ -27,8 +27,9 @@
 #++
 
 module Meetings
-  class Sidebar::DetailsComponent < ApplicationComponent
+  class SidePanel::DetailsDialogComponent < ApplicationComponent
     include ApplicationHelper
+    include OpenProject::FormTagHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
@@ -38,24 +39,8 @@ module Meetings
       @meeting = meeting
     end
 
-    private
-
-    def render_truncated_location
-      render(Primer::Beta::Truncate.new) do |component|
-        component.with_item(max_width: 250) do
-          @meeting.location
-        end
-      end
-    end
-
-    def render_meeting_attribute_row(icon, &)
-      flex_layout(align_items: :center, justify_content: :space_between) do |flex|
-        flex.with_column do
-          render(Primer::Beta::Octicon.new(icon:))
-        end
-
-        flex.with_column(flex: 1, ml: 1, &)
-      end
+    def render?
+      User.current.allowed_in_project?(:edit_meetings, @meeting.project)
     end
   end
 end

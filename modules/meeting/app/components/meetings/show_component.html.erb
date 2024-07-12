@@ -33,7 +33,7 @@
         end
 
         content.with_sidebar(row_placement: :start, col_placement: :end) do
-          render(Meetings::SidebarComponent.new(meeting: @meeting))
+          render(Meetings::SidePanelComponent.new(meeting: @meeting))
         end
       end
     end

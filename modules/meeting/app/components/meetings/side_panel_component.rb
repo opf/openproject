@@ -27,7 +27,7 @@
 #++
 
 module Meetings
-  class SidebarComponent < ApplicationComponent
+  class SidePanelComponent < ApplicationComponent
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
