@@ -70,7 +70,7 @@ module CostQuery::Cache
     end
 
     def caching_disabled?
-      !OpenProject::Configuration.cost_reporting_cache_filter_classes
+      !Setting.cost_reporting_cache_filter_classes
     end
 
     def reset_required?

@@ -146,7 +146,7 @@ class AccountController < ApplicationController
   end
 
   def allow_registration?
-    allow = Setting::SelfRegistration.enabled? && !OpenProject::Configuration.disable_password_login?
+    allow = Setting::SelfRegistration.enabled? && !Setting.disable_password_login?
 
     invited = session[:invitation_token].present?
     get = request.get? && allow
@@ -156,7 +156,7 @@ class AccountController < ApplicationController
   end
 
   def allow_lost_password_recovery?
-    Setting.lost_password? && !OpenProject::Configuration.disable_password_login?
+    Setting.lost_password? && !Setting.disable_password_login?
   end
 
   # Token based account activation
@@ -234,7 +234,7 @@ class AccountController < ApplicationController
   def activate_user(user)
     if omniauth_direct_login?
       direct_login user
-    elsif OpenProject::Configuration.disable_password_login?
+    elsif Setting.disable_password_login?
       flash[:notice] = I18n.t("account.omniauth_login")
 
       redirect_to signin_path
@@ -401,7 +401,7 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    if OpenProject::Configuration.disable_password_login?
+    if Setting.disable_password_login?
       render_404
     else
       password_authentication(params[:username]&.strip, params[:password])

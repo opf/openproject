@@ -456,7 +456,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
           expect(subject.headers["Content-Type"])
             .to eql expected_content_type
 
-          max_age = OpenProject::Configuration.fog_download_url_expires_in.to_i - 10
+          max_age = Setting.fog_download_url_expires_in.to_i - 10
 
           expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{max_age}"
           expect(subject.headers["Expires"]).to be_present
@@ -524,7 +524,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
           expect(subject.headers["Location"])
             .to eql external_url
 
-          max_age = OpenProject::Configuration.fog_download_url_expires_in.to_i - 10
+          max_age = Setting.fog_download_url_expires_in.to_i - 10
 
           expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{max_age}"
           expect(subject.headers["Expires"]).to be_present

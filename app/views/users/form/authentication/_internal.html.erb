@@ -1,4 +1,4 @@
-<% if OpenProject::Configuration.disable_password_login? %>
+<% if Setting.disable_password_login? %>
   <div id="no_password_info">
     <div class="form--field">
       <%= styled_label_tag nil, I18n.t(:warning) %>

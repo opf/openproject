@@ -125,7 +125,7 @@ module API
       def fog_cache_seconds
         [
           0,
-          OpenProject::Configuration.fog_download_url_expires_in.to_i - 10
+          Setting.fog_download_url_expires_in.to_i - 10
         ].max
       end
 
@@ -140,7 +140,7 @@ module API
       end
 
       def avatar_link_expiry_seconds
-        @avatar_link_expiry_seconds ||= OpenProject::Configuration.avatar_link_expiry_seconds.to_i
+        @avatar_link_expiry_seconds ||= Setting.avatar_link_expiry_seconds.to_i
       end
     end
   end

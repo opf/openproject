@@ -5,7 +5,7 @@ class Backup < Export
     end
 
     def include_attachments?
-      val = OpenProject::Configuration.backup_include_attachments
+      val = Setting.backup_include_attachments
 
       val.nil? ? true : val.to_s.to_bool # default to true
     end
@@ -14,7 +14,7 @@ class Backup < Export
     # Don't include attachments in archive if they are larger than
     # this value combined.
     def attachment_size_max_sum_mb
-      (OpenProject::Configuration.backup_attachment_size_max_sum_mb.presence || 1024).to_i
+      (Setting.backup_attachment_size_max_sum_mb.presence || 1024).to_i
     end
 
     def attachments_query

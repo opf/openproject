@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
   <h1><%= I18n.t(:label_login) %></h1>
 
   <hr class="form--separator" />
-  <% unless OpenProject::Configuration.disable_password_login? %>
+  <% unless Setting.disable_password_login? %>
     <%= render partial: 'password_login_form' %>
   <% end %>
   <%= render partial: 'auth_providers' %>

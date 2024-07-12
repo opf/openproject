@@ -7,7 +7,7 @@ module OpenProject
         # indicate that invalid basic auth credentials were provided.
         class BasicAuthFailure < ::Warden::Strategies::BasicAuth
           def valid?
-            OpenProject::Configuration.apiv3_enable_basic_auth? && super
+            Setting.apiv3_enable_basic_auth? && super
           end
 
           def authenticate_user(_username, _password)

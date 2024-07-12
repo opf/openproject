@@ -49,7 +49,7 @@ Rails.application.reloader.to_prepare do
                      },
                      permissible_on: :global,
                      require: :loggedin,
-                     enabled: -> { OpenProject::Configuration.backup_enabled? }
+                     enabled: -> { Setting.backup_enabled? }
 
       map.permission :create_user,
                      {

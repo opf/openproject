@@ -36,7 +36,7 @@ module Attachments
       @text = nil
       @file = nil
       @filename = nil
-      @language = OpenProject::Configuration.main_content_language
+      @language = Setting.main_content_language
 
       return unless OpenProject::Database.allows_tsv?
       return unless @attachment = find_attachment(attachment_id)

@@ -105,7 +105,7 @@ class AdminController < ApplicationController
   private
 
   def hidden_admin_menu_items
-    OpenProject::Configuration.hidden_menu_items[:admin_menu.to_s] || []
+    Setting.hidden_menu_items[:admin_menu.to_s] || []
   end
 
   def plaintext_extraction_checks

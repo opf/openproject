@@ -85,7 +85,7 @@ class Admin::BackupsController < ApplicationController
   end
 
   def check_enabled
-    render_404 unless OpenProject::Configuration.backup_enabled?
+    render_404 unless Setting.backup_enabled?
   end
 
   private

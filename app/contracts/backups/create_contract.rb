@@ -49,7 +49,7 @@ module Backups
 
     def check_waiting_period(token)
       if token.waiting?
-        valid_at = token.created_at + OpenProject::Configuration.backup_initial_waiting_period
+        valid_at = token.created_at + Setting.backup_initial_waiting_period
         hours = ((valid_at - Time.zone.now) / 60.0 / 60.0).round
 
         errors.add :base, :token_cooldown, message: I18n.t("backup.error.token_cooldown", hours:)
@@ -57,7 +57,7 @@ module Backups
     end
 
     def backup_limit
-      limit = OpenProject::Configuration.backup_daily_limit
+      limit = Setting.backup_daily_limit
       if Backup.where("created_at >= ?", Time.zone.today).count > limit
         errors.add :base, :limit_reached, message: I18n.t("backup.error.limit_reached", limit:)
       end

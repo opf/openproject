@@ -235,7 +235,7 @@ class LdapAuthSource < ApplicationRecord
     {
       host:,
       port:,
-      force_no_page: OpenProject::Configuration.ldap_force_no_page,
+      force_no_page: Setting.ldap_force_no_page,
       encryption: ldap_encryption
     }
   end

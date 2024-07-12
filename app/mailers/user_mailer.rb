@@ -45,7 +45,7 @@ class UserMailer < ApplicationMailer
     send_localized_mail(user) { I18n.t(:mail_subject_backup_ready) }
   end
 
-  def backup_token_reset(recipient, user:, waiting_period: OpenProject::Configuration.backup_initial_waiting_period)
+  def backup_token_reset(recipient, user:, waiting_period: Setting.backup_initial_waiting_period)
     @admin_notification = recipient != user # notification for other admins rather than oneself
     @user_login = user.login
     @waiting_period = waiting_period

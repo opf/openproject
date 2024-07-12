@@ -213,7 +213,7 @@ class User < Principal
   def self.try_authentication_for_existing_user(user, password, session = nil)
     activate_user! user, session if session
 
-    return nil if !user.active? || OpenProject::Configuration.disable_password_login?
+    return nil if !user.active? || Setting.disable_password_login?
 
     if user.ldap_auth_source
       # user has an external authentication method
@@ -242,7 +242,7 @@ class User < Principal
 
   # Tries to authenticate with available sources and creates user on success
   def self.try_authentication_and_create_user(login, password)
-    return nil if OpenProject::Configuration.disable_password_login?
+    return nil if Setting.disable_password_login?
 
     user = LdapAuthSource.authenticate(login, password)
 
@@ -344,7 +344,7 @@ class User < Principal
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
     return false if uses_external_authentication? ||
-                    OpenProject::Configuration.disable_password_login?
+                    Setting.disable_password_login?
 
     ldap_auth_source_id.blank?
   end

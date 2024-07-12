@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:passwords, scope: [:settings]) %></legend>
-      <% if !OpenProject::Configuration.disable_password_login? %>
+      <% if !Setting.disable_password_login? %>
         <div class="form--field -wide-label"><%= setting_text_field :password_min_length, size: 6, container_class: '-xslim' %></div>
         <div class="form--field -wide-label">
           <% rules = OpenProject::Passwords::Evaluator.known_rules.map do |rule|
@@ -91,7 +91,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </fieldset>
 
-    <% unless OpenProject::Configuration.disable_password_login? %>
+    <% unless Setting.disable_password_login? %>
       <fieldset class="form--fieldset">
         <legend class="form--fieldset-legend"><%= I18n.t(:brute_force_prevention, scope: [:settings]) %></legend>
         <div class="form--field -wide-label"><%= setting_text_field :brute_force_block_after_failed_logins, container_class: '-xslim' %>
@@ -127,7 +127,7 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="form--field -wide-label"><%= setting_check_box :log_requesting_user %></div>
     </fieldset>
   </section>
-  <% unless OpenProject::Configuration.disable_password_login? %>
+  <% unless Setting.disable_password_login? %>
     <div style="float:right;">
       <%= link_to t(:label_ldap_authentication), {controller: '/ldap_auth_sources', action: 'index'}, class: 'icon icon-server-key' %>
     </div>

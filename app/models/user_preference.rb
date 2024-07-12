@@ -79,7 +79,7 @@ class UserPreference < ApplicationRecord
   end
 
   def comments_sorting
-    settings.fetch(:comments_sorting, OpenProject::Configuration.default_comment_sort_order)
+    settings.fetch(:comments_sorting, Setting.default_comment_sort_order)
   end
 
   def comments_in_reverse_order?
