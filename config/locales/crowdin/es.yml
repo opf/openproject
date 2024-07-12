@@ -3464,6 +3464,8 @@ es:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Los días no seleccionados se omiten al programar los paquetes de trabajo (y no se incluyen en el recuento de días). Esto puede anularse a nivel de paquete de trabajo.

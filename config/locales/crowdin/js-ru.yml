@@ -365,10 +365,10 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                Выпуск содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Установка большего количества единиц работы, оставшейся работы и рабочего времени</li> <li>Настройка, для каких проектов активируются атрибуты проекта</li> <li>Переименовывание списков частных проектов</li> <li>Исключение повторных напоминаний по электронной почте в случае @mentions</li> <li>Приглашение участников встречи по электронной почте</li> <li>Отображение встроенных атрибутов пакета работ при экспорте в PDF</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."

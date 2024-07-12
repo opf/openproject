@@ -3428,6 +3428,8 @@ ms:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Hari yang tidak dipilih akan dilangkau semasa penjadualan pakej kerja (dan tidak termasuk dalam kiraan hari). Ini boleh digantikan di peringkat pakej-kerja.
