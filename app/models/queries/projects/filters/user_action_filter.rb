@@ -26,50 +26,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries
-  module Projects
-    module Filters
-      class UserActionFilter < ::Queries::Projects::Filters::Base
-        def allowed_values
-          @allowed_values ||= Action.default.pluck(:id, :id)
-        end
+class Queries::Projects::Filters::UserActionFilter < Queries::Projects::Filters::Base
+  def allowed_values
+    @allowed_values ||= Action.default.pluck(:id, :id)
+  end
 
-        def type
-          :list_all
-        end
+  def type
+    :list_all
+  end
 
-        def where
-          operator = if operator_class <= ::Queries::Operators::Equals || operator_class <= ::Queries::Operators::EqualsAll
-                       "IN"
-                     elsif operator_class <= ::Queries::Operators::NotEquals
-                       "NOT IN"
-                     else
-                       raise ArgumentError
-                     end
+  def where
+    operator = if operator_class <= ::Queries::Operators::Equals || operator_class <= ::Queries::Operators::EqualsAll
+                 "IN"
+               elsif operator_class <= ::Queries::Operators::NotEquals
+                 "NOT IN"
+               else
+                 raise ArgumentError
+               end
 
-          capability_select_queries
-            .map { |query| "#{Project.table_name}.id #{operator} (#{query.to_sql})" }
-            .join(" AND ")
-        end
+    capability_select_queries
+      .map { |query| "#{Project.table_name}.id #{operator} (#{query.to_sql})" }
+      .join(" AND ")
+  end
 
-        private
+  private
 
-        def capability_select_queries
-          if operator_class <= ::Queries::Operators::EqualsAll
-            values.map do |val|
-              Capability
-                .where(action: val)
-                .where(principal: User.current)
-                .reselect(:context_id)
-            end
-          else
-            [Capability
-               .where(action: values)
-               .where(principal: User.current)
-               .reselect(:context_id)]
-          end
-        end
+  def capability_select_queries
+    if operator_class <= ::Queries::Operators::EqualsAll
+      values.map do |val|
+        Capability
+          .where(action: val)
+          .where(principal: User.current)
+          .reselect(:context_id)
       end
+    else
+      [Capability
+         .where(action: values)
+         .where(principal: User.current)
+         .reselect(:context_id)]
     end
   end
 end
