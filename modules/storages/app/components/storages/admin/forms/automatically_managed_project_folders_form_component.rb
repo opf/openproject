@@ -94,8 +94,8 @@ module Storages::Admin::Forms
     def provider_credentials_instructions_link
       render(
         Primer::Beta::Link.new(
-          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
-                                                                                         "settings/admin/openproject"),
+          href: Storages::Peripherals::StorageInteraction::RequestUrlBuilder.build(storage,
+                                                                                   "settings/admin/openproject"),
           target: "_blank"
         )
       ) { I18n.t("storages.instructions.#{storage.short_provider_type}.integration") }

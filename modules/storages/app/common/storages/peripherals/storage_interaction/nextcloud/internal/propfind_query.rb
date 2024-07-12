@@ -73,7 +73,10 @@ module Storages
             end
 
             def call(http:, username:, path:, props:)
-              request_uri = Util.join_uri_path(base_uri, CGI.escapeURIComponent(username), Util.escape_path(path))
+              request_uri = RequestUrlBuilder.build(@storage,
+                                                    "remote.php/dav/files",
+                                                    username,
+                                                    path)
               response = http.request(:propfind, request_uri, xml: request_body(props))
 
               handle_response(response, username)
@@ -125,11 +128,9 @@ module Storages
 
             # rubocop:enable Metrics/AbcSize
 
-            def base_uri = "#{@storage.uri}remote.php/dav/files"
-
             def resource_path(section, username)
               path = CGI.unescape(section.xpath("d:href").text.strip)
-                        .gsub!(Util.join_uri_path(URI(base_uri).path, username), "")
+                        .gsub!(RequestUrlBuilder.path(@storage.uri.path, "remote.php/dav/files", username), "")
 
               path.end_with?("/") && path.length > 1 ? path.chop : path
             end

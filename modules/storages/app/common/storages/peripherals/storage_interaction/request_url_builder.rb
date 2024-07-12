@@ -31,26 +31,45 @@
 module Storages
   module Peripherals
     module StorageInteraction
-      module RequestUrl
-        Builder = ->(storage, *path_fragments) do
-          host_uri = storage.uri
+      class RequestUrlBuilder
+        class << self
+          def build(storage, *path_fragments)
+            host_uri = storage.uri
 
-          ensure_sub_path = ->(fragment) { fragment.ends_with?("/") ? fragment : "#{fragment}/" }
-          ensure_relative_path = ->(fragment) { fragment.starts_with?("/") ? fragment[1..] : fragment }
-
-          ensure_fragments_are_relative_sub_paths = ->(fragments) do
-            return nil if fragments.nil?
-
-            fragments[..-2]
-              .map(&ensure_sub_path)
-              .push(fragments.last)
-              .map(&ensure_relative_path)
+            URI.join(host_uri.origin,
+                     ensure_sub_path(host_uri.path),
+                     *split_and_escape(path_fragments))
+               .to_s
           end
 
-          URI.join(host_uri.origin,
-                   ensure_sub_path.(host_uri.path),
-                   *ensure_fragments_are_relative_sub_paths.(path_fragments))
-             .to_s
+          def path(*path_fragments)
+            URI.join(URI("https://drop.me"), *split_and_escape(path_fragments)).path
+          end
+
+          private
+
+          def ensure_sub_path(fragment)
+            fragment.ends_with?("/") ? fragment : "#{fragment}/"
+          end
+
+          def split_and_escape(fragments)
+            return fragments if fragments.empty?
+
+            single_fragments = fragments
+                                 .map { |f| f.split("/") }
+                                 .flatten
+                                 .reject(&:empty?)
+                                 .each { |f| ensure_unescaped_fragments(f) }
+                                 .map { |f| CGI.escapeURIComponent(f) }
+
+            single_fragments[..-2]
+              .map { |f| "#{f}/" }
+              .push(single_fragments.last)
+          end
+
+          def ensure_unescaped_fragments(fragment)
+            raise ArgumentError, "URL-escaped character found: #{fragment}" if CGI.unescape(fragment) != fragment
+          end
         end
       end
     end

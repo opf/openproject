@@ -42,15 +42,13 @@ module Storages
 
             def call(auth_strategy:, location:)
               origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
-              if origin_user_id.failure?
-                return origin_user_id
-              end
+                                   .on_failure { |error| return error }
+                                   .result
 
               Authentication[auth_strategy].call(storage: @storage) do |http|
-                handle_response http.delete(Util.join_uri_path(@storage.uri,
-                                                               "remote.php/dav/files",
-                                                               CGI.escapeURIComponent(origin_user_id.result),
-                                                               Util.escape_path(location)))
+                handle_response http.delete(
+                  RequestUrlBuilder.build(@storage, "remote.php/dav/files", origin_user_id, location)
+                )
               end
             end
 

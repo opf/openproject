@@ -45,15 +45,17 @@ module Storages
 
           def call(auth_strategy:, folder_name:, parent_location:)
             origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
-            if origin_user_id.failure?
-              return origin_user_id
-            end
+                                 .on_failure { |error| return error }
+                                 .result
 
-            folder_path = Util.join_uri_path(parent_location, folder_name)
-            path_prefix = URI.parse(Util.join_uri_path(base_uri, CGI.escapeURIComponent(origin_user_id.result))).path
-            request_url = Util.join_uri_path(base_uri,
-                                             CGI.escapeURIComponent(origin_user_id.result),
-                                             Util.escape_path(folder_path))
+            path_prefix = RequestUrlBuilder.path(@storage.uri.path,
+                                                 "remote.php/dav/files",
+                                                 origin_user_id)
+            request_url = RequestUrlBuilder.build(@storage,
+                                                  "remote.php/dav/files",
+                                                  origin_user_id,
+                                                  parent_location.path,
+                                                  folder_name)
 
             create_folder_request(auth_strategy, request_url, path_prefix)
           end
@@ -132,8 +134,6 @@ module Storages
           end
 
           # rubocop:enable Metrics/AbcSize
-
-          def base_uri = Util.join_uri_path(@storage.uri, "remote.php", "dav", "files")
         end
       end
     end

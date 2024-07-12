@@ -28,68 +28,72 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class AddUserToGroupCommand
-    def initialize(storage)
-      @uri = storage.uri
-      @username = storage.username
-      @password = storage.password
-      @group = storage.group
-    end
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class AddUserToGroupCommand
+          def initialize(storage)
+            @storage = storage
+            @username = storage.username
+            @password = storage.password
+            @group = storage.group
+          end
 
-    # rubocop:disable Metrics/AbcSize
-    def self.call(storage:, user:, group: storage.group)
-      new(storage).call(user:, group:)
-    end
+          # rubocop:disable Metrics/AbcSize
+          def self.call(storage:, user:, group: storage.group)
+            new(storage).call(user:, group:)
+          end
 
-    def call(user:, group: @group)
-      response = OpenProject
-                   .httpx
-                   .basic_auth(@username, @password)
-                   .with(headers: { "OCS-APIRequest" => "true" })
-                   .post(
-                     Util.join_uri_path(
-                       @uri,
-                       "ocs/v1.php/cloud/users",
-                       CGI.escapeURIComponent(user),
-                       "groups"
-                     ),
-                     form: { "groupid" => CGI.escapeURIComponent(group) }
-                   )
+          def call(user:, group: @group)
+            response = OpenProject
+                         .httpx
+                         .basic_auth(@username, @password)
+                         .with(headers: { "OCS-APIRequest" => "true" })
+                         .post(
+                           RequestUrlBuilder.build(@storage,
+                                                   "ocs/v1.php/cloud/users",
+                                                   user,
+                                                   "groups"),
+                           form: { "groupid" => CGI.escapeURIComponent(group) }
+                         )
 
-      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+            error_data = StorageErrorData.new(source: self.class, payload: response)
 
-      case response
-      in { status: 200..299 }
-        statuscode = Nokogiri::XML(response.body.to_s).xpath("/ocs/meta/statuscode").text
+            case response
+            in { status: 200..299 }
+              statuscode = Nokogiri::XML(response.body.to_s).xpath("/ocs/meta/statuscode").text
 
-        case statuscode
-        when "100"
-          ServiceResult.success(message: "User has been added successfully")
-        when "101"
-          Util.error(:error, "No group specified", error_data)
-        when "102"
-          Util.error(:error, "Group does not exist", error_data)
-        when "103"
-          Util.error(:error, "User does not exist", error_data)
-        when "104"
-          Util.error(:error, "Insufficient privileges", error_data)
-        when "105"
-          Util.error(:error, "Failed to add user to group", error_data)
+              case statuscode
+              when "100"
+                ServiceResult.success(message: "User has been added successfully")
+              when "101"
+                Util.error(:error, "No group specified", error_data)
+              when "102"
+                Util.error(:error, "Group does not exist", error_data)
+              when "103"
+                Util.error(:error, "User does not exist", error_data)
+              when "104"
+                Util.error(:error, "Insufficient privileges", error_data)
+              when "105"
+                Util.error(:error, "Failed to add user to group", error_data)
+              end
+            in { status: 405 }
+              Util.error(:not_allowed, "Outbound request method not allowed", error_data)
+            in { status: 401 }
+              Util.error(:not_found, "Outbound request destination not found", error_data)
+            in { status: 404 }
+              Util.error(:unauthorized, "Outbound request not authorized", error_data)
+            in { status: 409 }
+              Util.error(:conflict, Util.error_text_from_response(response), error_data)
+            else
+              Util.error(:error, "Outbound request failed", error_data)
+            end
+          end
+
+          # rubocop:enable Metrics/AbcSize
         end
-      in { status: 405 }
-        Util.error(:not_allowed, "Outbound request method not allowed", error_data)
-      in { status: 401 }
-        Util.error(:not_found, "Outbound request destination not found", error_data)
-      in { status: 404 }
-        Util.error(:unauthorized, "Outbound request not authorized", error_data)
-      in { status: 409 }
-        Util.error(:conflict, Util.error_text_from_response(response), error_data)
-      else
-        Util.error(:error, "Outbound request failed", error_data)
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

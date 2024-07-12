@@ -61,14 +61,14 @@ module Storages
           private
 
           def make_request(auth_strategy, user, file_info, name)
-            source_path = Util.join_uri_path(@storage.uri,
-                                             "remote.php/dav/files",
-                                             user,
-                                             file_info.location)
-            destination = Util.join_uri_path(@storage.uri.path,
-                                             "remote.php/dav/files",
-                                             user,
-                                             target_path(file_info, name))
+            source_path = RequestUrlBuilder.build(@storage,
+                                                  "remote.php/dav/files",
+                                                  user,
+                                                  CGI.unescape(file_info.location))
+            destination = RequestUrlBuilder.path(@storage.uri.path,
+                                                 "remote.php/dav/files",
+                                                 user,
+                                                 CGI.unescape(target_path(file_info, name)))
 
             Authentication[auth_strategy].call(storage: @storage) do |http|
               handle_response http.request("MOVE", source_path, headers: { "Destination" => destination })

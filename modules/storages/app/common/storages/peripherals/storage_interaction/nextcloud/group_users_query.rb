@@ -33,7 +33,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      @uri = storage.uri
+      @storage = storage
       @username = storage.username
       @password = storage.password
     end
@@ -48,7 +48,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                    .httpx
                    .basic_auth(@username, @password)
                    .with(headers: { "OCS-APIRequest" => "true" })
-                   .get(Util.join_uri_path(@uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)))
+                   .get(
+                     Storages::Peripherals::StorageInteraction::RequestUrlBuilder.build(
+                       @storage,
+                       "ocs/v1.php/cloud/groups",
+                       CGI.escapeURIComponent(group)
+                     )
+                   )
 
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 

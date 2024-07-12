@@ -44,7 +44,8 @@ module Storages
           # rubocop:disable Lint/UnusedMethodArgument
           def call(auth_strategy:, file_id:, open_location: false)
             location_flag = open_location ? 0 : 1
-            ServiceResult.success(result: Util.join_uri_path(@storage.uri, "index.php/f/#{file_id}?openfile=#{location_flag}"))
+            url = RequestUrlBuilder.build(@storage, "index.php/f/#{file_id}") + "?openfile=#{location_flag}"
+            ServiceResult.success(result: url)
           end
 
           # rubocop:enable Lint/UnusedMethodArgument

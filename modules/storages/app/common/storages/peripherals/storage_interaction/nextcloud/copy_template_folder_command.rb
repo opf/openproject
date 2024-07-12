@@ -67,21 +67,15 @@ module Storages
           end
 
           def build_origin_urls(source_path:, destination_path:)
-            escaped_username = CGI.escapeURIComponent(@storage.username)
+            source_url = RequestUrlBuilder.build(@storage,
+                                                 "remote.php/dav/files",
+                                                 @storage.username,
+                                                 source_path)
 
-            source_url = Util.join_uri_path(
-              @storage.uri,
-              "remote.php/dav/files",
-              escaped_username,
-              Util.escape_path(source_path)
-            )
-
-            destination_url = Util.join_uri_path(
-              @storage.uri,
-              "remote.php/dav/files",
-              escaped_username,
-              Util.escape_path(destination_path)
-            )
+            destination_url = RequestUrlBuilder.build(@storage,
+                                                      "remote.php/dav/files",
+                                                      @storage.username,
+                                                      destination_path)
 
             { source_url:, destination_url: }
           end
@@ -144,9 +138,11 @@ module Storages
           end
 
           def get_folder_id(destination_path)
-            Registry
-              .resolve("#{@storage.short_provider_type}.queries.file_ids")
-              .call(storage: @storage, path: destination_path).map { |result| @data.with(id: result[destination_path]["fileid"]) }
+            call = Registry
+                     .resolve("#{@storage.short_provider_type}.queries.file_ids")
+                     .call(storage: @storage, path: destination_path)
+
+            call.map { |result| @data.with(id: result[destination_path]["fileid"]) }
           end
         end
       end

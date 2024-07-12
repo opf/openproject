@@ -31,7 +31,7 @@
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class RemoveUserFromGroupCommand
     def initialize(storage)
-      @uri = storage.uri
+      @storage = storage
       @username = storage.username
       @password = storage.password
       @group = storage.group
@@ -48,10 +48,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                    .basic_auth(@username, @password)
                    .with(headers: { "OCS-APIRequest" => "true" })
                    .delete(
-                     Util.join_uri_path(@uri,
-                                        "ocs/v1.php/cloud/users",
-                                        CGI.escapeURIComponent(user),
-                                        "groups?groupid=#{CGI.escapeURIComponent(group)}")
+                     Storages::Peripherals::StorageInteraction::RequestUrlBuilder.build(
+                       @storage,
+                       "ocs/v1.php/cloud/users",
+                       user,
+                       "groups"
+                     ) + "?groupid=#{CGI.escapeURIComponent(group)}"
                    )
 
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)

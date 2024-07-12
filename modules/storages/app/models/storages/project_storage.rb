@@ -124,7 +124,7 @@ module Storages
     end
 
     def escape_path(path)
-      Peripherals::StorageInteraction::Nextcloud::Util.escape_path(path)
+      Peripherals::StorageInteraction::RequestUrlBuilder.path(path)
     end
   end
 end
