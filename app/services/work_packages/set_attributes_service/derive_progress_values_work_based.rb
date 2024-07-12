@@ -45,8 +45,7 @@ class WorkPackages::SetAttributesService
     def invalid_progress_values?
       work&.negative? \
         || remaining_work&.negative? \
-        || remaining_work_set_greater_than_work? \
-        || work_and_remaining_exclusively_unset?
+        || remaining_work_set_greater_than_work?
     end
 
     def derive_work?
@@ -62,8 +61,8 @@ class WorkPackages::SetAttributesService
     end
 
     def update_work
-      return if work.present? && !(remaining_work_changed? && percent_complete_changed?)
-      return if remaining_work_unset?
+      return if work_set? && !(remaining_work_came_from_user? && percent_complete_came_from_user?)
+      return if remaining_work_unset? && percent_complete_unset?
 
       self.work = work_from_percent_complete_and_remaining_work
     end
@@ -102,18 +101,14 @@ class WorkPackages::SetAttributesService
     end
 
     def work_from_percent_complete_and_remaining_work
+      return if remaining_work_unset?
+
       remaining_percent_complete = 1.0 - ((percent_complete || 0) / 100.0)
       remaining_work / remaining_percent_complete
     end
 
     def remaining_work_set_greater_than_work?
       attributes_from_user == %i[remaining_work] && work && remaining_work && remaining_work > work
-    end
-
-    # Returns true if work is set and remaining_work is unset, or if work is
-    # unset and remaining_work is set.
-    def work_and_remaining_exclusively_unset?
-      remaining_work_came_from_user? && work_came_from_user? && (work_unset? || remaining_work_unset?)
     end
 
     def attributes_from_user

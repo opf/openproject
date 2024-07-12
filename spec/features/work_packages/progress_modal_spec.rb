@@ -477,7 +477,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       specify "Case 2: when work is set to 12h, " \
               "remaining work is automatically set to 6h " \
               "and subsequently work is set to 14h, " \
-              "remaining work updates to 1d" do
+              "remaining work updates to 8h" do
         work_package_table.visit_query(progress_query)
         work_package_table.expect_work_package_listed(work_package)
 

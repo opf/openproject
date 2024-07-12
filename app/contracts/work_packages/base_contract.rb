@@ -54,21 +54,22 @@ module WorkPackages
 
     attribute :done_ratio,
               writable: ->(*) { WorkPackage.work_based_mode? } do
-      validate_done_ratio_matches_work_and_remaining_work
-      validate_done_ratio_is_unset_when_work_is_zero
+      validate_percent_complete_matches_work_and_remaining_work
+      validate_percent_complete_is_unset_when_work_is_zero
+      validate_percent_complete_is_set_when_work_and_remaining_work_are_not_set
     end
     attribute :derived_done_ratio,
               writable: false
 
     attribute :estimated_hours do
-      validate_work_is_set_when_remaining_work_is_set
+      validate_work_is_set_when_remaining_work_and_percent_complete_are_set
     end
     attribute :derived_estimated_hours,
               writable: false
 
     attribute :remaining_hours do
       validate_remaining_work_is_lower_than_work
-      validate_remaining_work_is_set_when_work_is_set
+      validate_remaining_work_is_set_when_work_and_percent_complete_are_set
     end
     attribute :derived_remaining_hours,
               writable: false
@@ -327,7 +328,7 @@ module WorkPackages
     end
 
     def validate_remaining_work_is_lower_than_work
-      if work_set? && remaining_work_set? && remaining_work_exceeds_work?
+      if remaining_work_exceeds_work?
         if model.changed.include?("estimated_hours")
           errors.add(:estimated_hours, :cant_be_inferior_to_remaining_work)
         end
@@ -338,36 +339,43 @@ module WorkPackages
       end
     end
 
-    def validate_remaining_work_is_set_when_work_is_set
-      if work_set? && !remaining_work_set?
-        errors.add(:remaining_hours, :must_be_set_when_work_is_set)
+    def validate_work_is_set_when_remaining_work_and_percent_complete_are_set
+      if remaining_work_set? && percent_complete_set? && work_unset?
+        errors.add(:estimated_hours, :must_be_set_when_remaining_work_and_percent_complete_are_set)
       end
     end
 
-    def validate_work_is_set_when_remaining_work_is_set
-      if remaining_work_set? && !work_set?
-        errors.add(:estimated_hours, :must_be_set_when_remaining_work_is_set)
+    def validate_remaining_work_is_set_when_work_and_percent_complete_are_set
+      if work_set? && percent_complete_set? && remaining_work_unset?
+        errors.add(:remaining_hours, :must_be_set_when_work_and_percent_complete_are_set)
+      end
+    end
+
+    def validate_percent_complete_is_set_when_work_and_remaining_work_are_not_set
+      if work_set? && remaining_work_set? && work != 0 && percent_complete_unset?
+        errors.add(:done_ratio, :must_be_set_when_work_and_remaining_work_are_set)
       end
     end
 
     # rubocop:disable Metrics/AbcSize
-    def validate_done_ratio_matches_work_and_remaining_work
+    def validate_percent_complete_matches_work_and_remaining_work
       return if WorkPackage.status_based_mode? || percent_complete_unset? || work == 0
+      return if remaining_work_exceeds_work? # avoid too many error messages at the same time
       return unless work_set? && remaining_work_set?
 
       work_done = work - remaining_work
-      expected_done_ratio = (100 * work_done / work).round
+      expected_percent_complete = (100 * work_done.to_f / work).round
 
-      if done_ratio != expected_done_ratio
+      if percent_complete != expected_percent_complete
         errors.add(:done_ratio, :does_not_match_work_and_remaining_work)
       end
     end
     # rubocop:enable Metrics/AbcSize
 
-    def validate_done_ratio_is_unset_when_work_is_zero
+    def validate_percent_complete_is_unset_when_work_is_zero
       return if WorkPackage.status_based_mode?
 
-      if work == 0 && done_ratio.present?
+      if work == 0 && percent_complete_set?
         errors.add(:done_ratio, :cannot_be_set_when_work_is_zero)
       end
     end
@@ -380,6 +388,10 @@ module WorkPackages
       model.estimated_hours.present?
     end
 
+    def work_unset?
+      model.estimated_hours.nil?
+    end
+
     def remaining_work
       model.remaining_hours
     end
@@ -388,8 +400,20 @@ module WorkPackages
       model.remaining_hours.present?
     end
 
+    def remaining_work_unset?
+      model.remaining_hours.nil?
+    end
+
     def remaining_work_exceeds_work?
-      model.remaining_hours > model.estimated_hours
+      work_set? && remaining_work_set? && model.remaining_hours > model.estimated_hours
+    end
+
+    def percent_complete
+      model.done_ratio
+    end
+
+    def percent_complete_set?
+      model.done_ratio.present?
     end
 
     def percent_complete_unset?

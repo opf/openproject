@@ -109,6 +109,10 @@ class WorkPackages::SetAttributesService
       work_package.done_ratio = value
     end
 
+    def percent_complete_set?
+      percent_complete.present?
+    end
+
     def percent_complete_unset?
       percent_complete.nil?
     end
