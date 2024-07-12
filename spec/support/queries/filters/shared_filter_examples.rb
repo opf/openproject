@@ -75,6 +75,7 @@ end
 RSpec.shared_examples_for "list query filter" do |scope: true|
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
+  let(:valid_values) { raise "needs to be defined" }
   let(:type) { :list }
 
   if scope
@@ -134,6 +135,7 @@ end
 RSpec.shared_examples_for "list_optional query filter" do
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
+  let(:valid_values) { raise "needs to be defined" }
   let(:type) { :list_optional }
   let(:joins) { nil }
   let(:expected_base_scope) do
@@ -224,6 +226,8 @@ end
 
 RSpec.shared_examples_for "list_optional group query filter" do
   include_context "filter tests"
+  let(:valid_values) { raise "needs to be defined" }
+
   describe "#apply_to" do
     let(:values) { valid_values }
 
@@ -293,6 +297,7 @@ end
 RSpec.shared_examples_for "list_all query filter" do
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
+  let(:valid_values) { raise "needs to be defined" }
   let(:type) { :list_all }
   let(:joins) { nil }
   let(:expected_base_scope) do
