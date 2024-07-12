@@ -28,23 +28,26 @@
 
 module Projects
   class UpdateContract < BaseContract
-    private
 
-    def unauthenticated_changed
+    def writable_attributes
       permissions = {
-        edit_project_attributes: user.allowed_in_project?(:edit_project_attributes, model),
-        edit_project: user.allowed_in_project?(:edit_project, model)
+        project_attributes_only: options[:project_attributes_only],
+        edit_project: user.allowed_in_project?(:edit_project, model),
+        edit_project_attributes: user.allowed_in_project?(:edit_project_attributes, model)
       }
 
       case permissions
-      in { edit_project_attributes: true, edit_project: false }
-        super + without_custom_fields(changed_by_user)
-      in { edit_project_attributes: false, edit_project: true }
-        super + with_custom_fields_only(changed_by_user)
+      in { project_attributes_only: true } |
+         { edit_project: false, edit_project_attributes: true }
+        with_custom_fields_only(super)
+      in { edit_project: true, edit_project_attributes: false }
+        without_custom_fields(super)
       else
         super
       end
     end
+
+    private
 
     def without_custom_fields(changes)
       changes.grep_v(/^custom_field_/)
