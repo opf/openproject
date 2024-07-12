@@ -615,17 +615,17 @@ pt-BR:
       title: "Notificações"
       no_unread: "Nenhuma notificação não lida"
       reasons:
-        mentioned: "mencionado"
-        watched: "observador"
-        assigned: " cessionário"
-        responsible: "responsável"
-        created: "criado"
-        scheduled: "planejado"
-        commented: "comentado"
-        processed: "processado"
-        prioritized: "priorizado"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Alerta de data"
-        shared: "compartilhado"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Data de marco"
         overdue: "Atrasado"
@@ -662,15 +662,6 @@ pt-BR:
         new_notifications:
           message: "Há novas notificações."
           link_text: "Clique aqui para carregá-las."
-      menu:
-        accountable: "Responsável"
-        by_project: "Não lido por projeto"
-        by_reason: "Motivo"
-        inbox: "Caixa de entrada"
-        mentioned: "Mencionado"
-        watched: "Observador"
-        date_alert: "Alerta de data"
-        shared: "Compartilhado"
       settings:
         change_notification_settings: 'Você pode modificar suas <a target="_blank" href="%{url}">configurações de notificação</a> para se certificar de nunca perder nenhuma atualização importante.'
         title: "Configurações de notificação"

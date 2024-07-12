@@ -616,17 +616,17 @@ uk:
       title: "Сповіщення"
       no_unread: "Немає непрочитаних сповіщень"
       reasons:
-        mentioned: "згадано"
-        watched: "спостерігач"
-        assigned: "виконавець"
-        responsible: "відповідальний"
-        created: "створено"
-        scheduled: "заплановано"
-        commented: "прокоментовано"
-        processed: "оброблено"
-        prioritized: "надано пріоритет"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Оповіщення про дату"
-        shared: "спільні"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Дата віхи"
         overdue: "Прострочено"
@@ -665,15 +665,6 @@ uk:
         new_notifications:
           message: "Немає нових сповіщень."
           link_text: "Натисніть тут, щоб завантажити."
-      menu:
-        accountable: "Відповідальний"
-        by_project: "Непрочитані проєктом"
-        by_reason: "Причина"
-        inbox: "Вхідні"
-        mentioned: "Згадано"
-        watched: "Спостерігач"
-        date_alert: "Оповіщення про дату"
-        shared: "Спільні"
       settings:
         change_notification_settings: 'Ви можете змінити <a target="_blank" href="%{url}">налаштування сповіщень</a>, щоб ніколи не пропускати важливі оновлення.'
         title: "Налаштування сповіщень"

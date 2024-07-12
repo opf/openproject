@@ -1748,6 +1748,17 @@ ko:
         failed: "오류가 발생하여 토큰을 제거할 수 없습니다. 나중에 다시 시도하세요."
         unknown_storage: "알 수 없는 저장소"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "이 작업에 대한 알림 보내기"
     work_packages:
       subject:

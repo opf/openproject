@@ -615,17 +615,17 @@ ro:
       title: "Notificări"
       no_unread: "Nu sunt notificari necitite"
       reasons:
-        mentioned: "Menţionate"
-        watched: "observator"
-        assigned: "atribuit"
-        responsible: "Responsabil"
-        created: "creat"
-        scheduled: "programat"
-        commented: "comentat"
-        processed: "prelucrate"
-        prioritized: "prioritizat"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Alertă de dată"
-        shared: "shared"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Data etapa"
         overdue: "Restanțe"
@@ -663,15 +663,6 @@ ro:
         new_notifications:
           message: "Există notificări noi."
           link_text: "Click here to load them."
-      menu:
-        accountable: "Responsabil"
-        by_project: "Necitit după proiect"
-        by_reason: "Descriere"
-        inbox: "Cutie poștală"
-        mentioned: "Menţionat"
-        watched: "Observator"
-        date_alert: "Alertă de dată"
-        shared: "Shared"
       settings:
         change_notification_settings: 'Puteți modifica setările <a target="_blank" href="%{url}">de notificare</a> pentru a vă asigura că nu pierdeți niciodată o actualizare importantă.'
         title: "Setări de notificare"

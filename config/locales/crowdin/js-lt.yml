@@ -616,17 +616,17 @@ lt:
       title: "Pranešimai"
       no_unread: "Nėra neperskaitytų pranešimų"
       reasons:
-        mentioned: "paminėtas"
-        watched: "stebėtojas"
-        assigned: "paskirtas"
-        responsible: "atsakingas"
-        created: "sukurta"
-        scheduled: "suplanuota"
-        commented: "komentuota"
-        processed: "apdorota"
-        prioritized: "prioritetizuota"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Datos įspėjimas"
-        shared: "bendrinta"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Gairės data"
         overdue: "Vėluojama"
@@ -665,15 +665,6 @@ lt:
         new_notifications:
           message: "Yra naujų pranešimų."
           link_text: "Spauskite čia, kad juos įkeltumėte."
-      menu:
-        accountable: "Atsakingas"
-        by_project: "Neperskaityti pagal projektą"
-        by_reason: "Priežastis"
-        inbox: "Gauti"
-        mentioned: "Paminėtas"
-        watched: "Stebėtojas"
-        date_alert: "Datos įspėjimas"
-        shared: "Bendrinta"
       settings:
         change_notification_settings: 'Jūs galite keisti savo <a target="_blank" href="%{url}">pranešimų nustatymus</a>, kad užtikrintumėte, jog niekada nepraleisite svarbaus atnaujinimo.'
         title: "Pranešimų nustatymai"

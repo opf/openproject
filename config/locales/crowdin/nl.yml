@@ -1780,6 +1780,17 @@ nl:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Onbekende opslag"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Stuur meldingen voor deze actie"
     work_packages:
       subject:

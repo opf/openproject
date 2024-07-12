@@ -616,17 +616,17 @@ nl:
       title: "Meldingen"
       no_unread: "Geen ongelezen meldingen"
       reasons:
-        mentioned: "vermeld"
-        watched: "watcher"
-        assigned: "Toegewezene"
-        responsible: "verantwoordelijk"
-        created: "aangemaakt"
-        scheduled: "gepland"
-        commented: "Becommentarieerd"
-        processed: "verwerkt"
-        prioritized: "prioriteren"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Date alert"
-        shared: "shared"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Milestone date"
         overdue: "Te laat"
@@ -663,15 +663,6 @@ nl:
         new_notifications:
           message: "Er zijn nieuwe meldingen."
           link_text: "Click here to load them."
-      menu:
-        accountable: "Verantwoording afleggen"
-        by_project: "Ongelezen per project"
-        by_reason: "Reden"
-        inbox: "Inkomend"
-        mentioned: "Genoemd"
-        watched: "Kijker"
-        date_alert: "Date alert"
-        shared: "Shared"
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Instellingen voor meldingen"

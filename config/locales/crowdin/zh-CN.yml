@@ -1745,6 +1745,17 @@ zh-CN:
         failed: "出错了，无法移除令牌。请稍后再试。"
         unknown_storage: "未知存储"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "发送此操作的通知"
     work_packages:
       subject:

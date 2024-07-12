@@ -616,17 +616,17 @@
       title: "Varsler"
       no_unread: "Ingen uleste varsler"
       reasons:
-        mentioned: "nevnt"
-        watched: "overvåker"
-        assigned: "utførende"
-        responsible: "ansvarlig"
-        created: "opprettet"
-        scheduled: "planlagt"
-        commented: "kommentert"
-        processed: "behandlet"
-        prioritized: "prioritert"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Dato varsel"
-        shared: "delt"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Milepæl dato"
         overdue: "Forfalt"
@@ -663,15 +663,6 @@
         new_notifications:
           message: "Det finnes nye varsler."
           link_text: "Klikk her for å laste dem"
-      menu:
-        accountable: "Ansvarlig"
-        by_project: "Ulest av prosjektet"
-        by_reason: "Grunn"
-        inbox: "Innboks"
-        mentioned: "Nevnt"
-        watched: "Overvåker"
-        date_alert: "Dato varsel"
-        shared: "Delt"
       settings:
         change_notification_settings: 'Du kan endre <a target="_blank" href="%{url}">varslingsinnstillinger</a> for å sikre at du aldri går glipp av en viktig oppdatering.'
         title: "Varslingsinnstillinger"
@@ -772,7 +763,7 @@
           wiki_page_updated: "Wiki-side oppdatert"
           membership_added: "Medlemskap lagt til"
           membership_updated: "Medlemskapet er oppdatert"
-        title: "E-post påminnelser"
+        title: "E-postpåminnelser"
         pause:
           label: "pause daglige e-postpåminnelser midlertidig"
           first_day: "Første dag "

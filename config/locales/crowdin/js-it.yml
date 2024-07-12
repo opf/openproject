@@ -616,17 +616,17 @@ it:
       title: "Notifiche"
       no_unread: "Nessuna nuova notifica"
       reasons:
-        mentioned: "menzionato"
-        watched: "osservatore"
-        assigned: "assegnatario"
-        responsible: "responsabile"
-        created: "creato"
-        scheduled: "programmato"
-        commented: "commentato"
-        processed: "elaborato"
-        prioritized: "prioritizzato"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Avviso data"
-        shared: "condiviso"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Data inizio"
         overdue: "In ritardo"
@@ -663,15 +663,6 @@ it:
         new_notifications:
           message: "Ci sono nuove notifiche."
           link_text: "Clicca qui per caricarli."
-      menu:
-        accountable: "Responsabile"
-        by_project: "Non letto dal progetto"
-        by_reason: "Motivo"
-        inbox: "Posta In Arrivo"
-        mentioned: "Menzionato"
-        watched: "Osservatore"
-        date_alert: "Avviso data"
-        shared: "Condiviso"
       settings:
         change_notification_settings: 'Puoi modificare le tue <a target="_blank" href="%{url}">impostazioni di notifica</a> per assicurarti di non perderti mai un aggiornamento importante.'
         title: "Impostazioni notifiche"

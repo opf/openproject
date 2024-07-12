@@ -615,17 +615,17 @@ zh-CN:
       title: "通知"
       no_unread: "没有未读通知"
       reasons:
-        mentioned: "被提及"
-        watched: "关注者"
-        assigned: "受理人"
-        responsible: "负责人"
-        created: "已创建"
-        scheduled: "已安排"
-        commented: "已评论"
-        processed: "已处理"
-        prioritized: "已优先安排"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "日期提醒"
-        shared: "共享"
+        shared: "Shared"
       date_alerts:
         milestone_date: "里程碑日期"
         overdue: "逾期"
@@ -661,15 +661,6 @@ zh-CN:
         new_notifications:
           message: "有新的通知。"
           link_text: "点击此处加载。"
-      menu:
-        accountable: "负责人"
-        by_project: "按项目筛选未读通知"
-        by_reason: "原因"
-        inbox: "收件箱"
-        mentioned: "被提及"
-        watched: "关注者"
-        date_alert: "日期提醒"
-        shared: "共享"
       settings:
         change_notification_settings: '您可以修改您的<a target="_blank" href="%{url}">通知设置</a>，以确保您不会错过重要的更新。'
         title: "通知设置"

@@ -1845,6 +1845,17 @@ uk:
         failed: "Сталася помилка, і не вдалося вилучити маркет. Повторіть спробу пізніше."
         unknown_storage: "Невідоме сховище"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Надсилати сповіщення щодо цієї дії"
     work_packages:
       subject:

@@ -616,17 +616,17 @@ pl:
       title: "Powiadomienia"
       no_unread: "Brak nieprzeczytanych powiadomień"
       reasons:
-        mentioned: "wzmianka"
-        watched: "obserwator"
-        assigned: "przypisana osoba"
-        responsible: "osoba odpowiedzialna"
-        created: "utworzono"
-        scheduled: "zaplanowano"
-        commented: "skomentowano"
-        processed: "przetworzono"
-        prioritized: "priorytetowo"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Alert dotyczący daty"
-        shared: "udostępniono"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Data  kamienia milowego"
         overdue: "Przekroczony termin"
@@ -665,15 +665,6 @@ pl:
         new_notifications:
           message: "Masz nowe powiadomienia."
           link_text: "Kliknij tutaj, aby je załadować."
-      menu:
-        accountable: "Osoba odpowiedzialna"
-        by_project: "Nieprzeczytane wg projektu"
-        by_reason: "Przyczyna"
-        inbox: "Inbox"
-        mentioned: "Wzmianka"
-        watched: "Obserwator"
-        date_alert: "Data ostrzeżenia"
-        shared: "Udostępniono"
       settings:
         change_notification_settings: 'Możesz zmodyfikować <a target="_blank" href="%{url}">ustawienia powiadomień</a>, aby upewnić się, że nigdy nie przegapisz ważnej aktualizacji.'
         title: "Ustawienia powiadomień"

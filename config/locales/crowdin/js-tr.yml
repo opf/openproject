@@ -615,17 +615,17 @@ tr:
       title: "Bildirimler"
       no_unread: "Okunmamış bildirim yok"
       reasons:
-        mentioned: "adı geçen, bahsedilen"
-        watched: "izleyici"
-        assigned: "vekil"
-        responsible: "sorumlu"
-        created: "oluşturuldu"
-        scheduled: "zamanlandı"
-        commented: "yorumlandı"
-        processed: "işlem uygulandı"
-        prioritized: "öncelik verildi"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Tarih uyarısı"
-        shared: "shared"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Kilometre taşı tarihi"
         overdue: "Süresi geçmiş"
@@ -662,15 +662,6 @@ tr:
         new_notifications:
           message: "Yeni bildirimler var"
           link_text: "Click here to load them."
-      menu:
-        accountable: "Sorumlu"
-        by_project: "Proje tarafından okunmadı"
-        by_reason: "Sebep"
-        inbox: "Gelen Kutusu"
-        mentioned: "Bahsedilen"
-        watched: "İzleyici"
-        date_alert: "Tarih uyarısı"
-        shared: "Shared"
       settings:
         change_notification_settings: 'Önemli bir güncellemeyi asla kaçırmamak için <a target="_blank" href="%{url}">bildirim ayarlarınızı</a> değiştirebilirsiniz.'
         title: "Bildirim ayarları"
