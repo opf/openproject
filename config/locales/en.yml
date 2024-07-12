@@ -2209,8 +2209,8 @@ en:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Members"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
