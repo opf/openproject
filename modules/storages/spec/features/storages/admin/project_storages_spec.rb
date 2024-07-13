@@ -106,8 +106,8 @@ RSpec.describe "Admin lists project mappings for a storage",
 
       aggregate_failures "shows the correct project mappings including archived projects and their folder modes" do
         within "#project-table" do
-          expect(page).to have_text("#{project.name} Automatically managed")
-          expect(page).to have_text("#{archived_project.name} No specific folder")
+          expect(page).to have_text(project.name.to_s).and have_text("Automatically managed")
+          expect(page).to have_text("ARCHIVED #{archived_project.name}").and have_text("No specific folder")
         end
       end
     end
