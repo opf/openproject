@@ -2036,6 +2036,7 @@ de:
   label_invite_user: "Nutzer einladen"
   label_share: "Teilen"
   label_share_project_list: "Projektliste teilen"
+  label_share_work_package: "Share work package"
   label_show_hide: "Einblenden / Ausblenden"
   label_show_hide_n_items: "%{count} weitere anzeigen/ausblenden"
   label_show_all_registered_users: "Alle registrierten Benutzer anzeigen"

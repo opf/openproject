@@ -2038,6 +2038,7 @@ ca:
   label_invite_user: "Invitar usuari"
   label_share: "Compartir"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Mostrae/ocultar"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostra tots els usuaris registrats"

@@ -2107,6 +2107,7 @@ lt:
   label_invite_user: "Pakviesti vartotoją"
   label_share: "Dalintis"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Rodyti/slėpti"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Rodyti visus registruotus vartotojus"

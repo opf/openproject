@@ -368,7 +368,7 @@ zh-CN:
           "14_3":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                该版本包含的新功能和改进： <br> <ul class="%{list_styling_class}"> <li>共享项目列表并将其公开（企业附加功能）</li> <li>将项目列表添加收藏</li> <li>OneDrive/SharePoint 存储的连接验证（企业附加功能）</li> <li>用户配置文件页面采用全新的 Primer 外观</li> <li>甘特图 PDF 导出：基于日历周的额外日期缩放</li> <li>子菜单组件搜索栏（项目列表、甘特图和和看板模块）</li> <li>可选择仅以小时为单位或以天和小时为单位显示进度报告</li> <li>从项目选择器中取消选择项目</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"

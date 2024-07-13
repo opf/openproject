@@ -2042,6 +2042,7 @@ fil:
   label_invite_user: "Imbitahan ang user"
   label_share: "Ibahagi"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Ipakita/itago"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Ipakita lahay ang mga nakarehistrong gumagamit"

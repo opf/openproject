@@ -2004,6 +2004,7 @@ ja:
   label_invite_user: "ユーザを招待"
   label_share: "共有"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "表示/非表示"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "すべての登録ユーザーを表示"

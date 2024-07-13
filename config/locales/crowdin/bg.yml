@@ -2042,6 +2042,7 @@ bg:
   label_invite_user: "Покани потребител"
   label_share: "Споделяне"
   label_share_project_list: "Споделяне на списък с проекти"
+  label_share_work_package: "Share work package"
   label_show_hide: "Покажи/Скрий"
   label_show_hide_n_items: "Показване/скриване елементите на %{count}"
   label_show_all_registered_users: "Показване на всички регистрирани потребители"

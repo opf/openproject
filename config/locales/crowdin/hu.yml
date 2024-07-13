@@ -2039,6 +2039,7 @@ hu:
   label_invite_user: "Felhasználó meghívása"
   label_share: "Megosztás"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Megjelenítés/Elrejtés"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Minden regisztrált felhasználó megjelenítése"
