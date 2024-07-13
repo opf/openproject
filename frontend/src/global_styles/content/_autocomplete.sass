@@ -130,6 +130,12 @@ div.autocomplete
   .ng-value-label
     display: initial !important
 
+  .ng-placeholder
+    // Fix overflow by providing a max width to the input
+    //
+    // We subtract the width and right padding of the dropdown arrow
+    max-width: calc(100% - 25px - 5px)
+
 // Ensure dropdown is above modals
 .ng-dropdown-panel
   z-index: 9500 !important
