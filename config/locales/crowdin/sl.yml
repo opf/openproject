@@ -2116,6 +2116,7 @@ sl:
   label_invite_user: "Povabi uporabnika"
   label_share: "Share"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Pokaži / skrij"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Prikaži vse registrirane uporabnike"
@@ -2164,8 +2165,8 @@ sl:
   label_member_all_admin: "(Vse vloge zaradi statusa skrbnika)"
   label_member_plural: "Člani"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Član dodan"
-  lable_membership_updated: "Član posodobljen"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"

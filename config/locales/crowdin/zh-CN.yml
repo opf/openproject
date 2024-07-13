@@ -1127,7 +1127,7 @@ zh-CN:
       placeholder_user: "占位符用户"
       project: "项目"
       project_query:
-        other: "Project lists"
+        other: "项目列表"
       query: "自定义查询"
       role:
         other: "角色"
@@ -1746,16 +1746,16 @@ zh-CN:
         unknown_storage: "未知存储"
   notifications:
     reasons:
-      assigned: "Assignee"
-      dateAlert: "Date alert"
-      mentioned: "Mentioned"
-      responsible: "Accountable"
-      shared: "Shared"
-      watched: "Watcher"
+      assigned: "指定人"
+      dateAlert: "日期提醒"
+      mentioned: "被提及"
+      responsible: "负责人"
+      shared: "共享"
+      watched: "参与人"
     menu:
-      by_project: "Unread by project"
-      by_reason: "Reason"
-      inbox: "Inbox"
+      by_project: "未读项目"
+      by_reason: "原因"
+      inbox: "收件箱"
     send_notifications: "发送此操作的通知"
     work_packages:
       subject:
@@ -2013,6 +2013,7 @@ zh-CN:
   label_invite_user: "邀请用户"
   label_share: "共享"
   label_share_project_list: "共享项目列表"
+  label_share_work_package: "Share work package"
   label_show_hide: "显示/隐藏"
   label_show_hide_n_items: "显示/隐藏 %{count} 项目"
   label_show_all_registered_users: "显示所有注册用户"
@@ -2061,8 +2062,8 @@ zh-CN:
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_plural: "成员"
   label_membership_plural: "成员资格"
-  lable_membership_added: "已添加成员"
-  lable_membership_updated: "已更新成员"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "菜单"
   label_menu_badge:
     pre_alpha: "pre-beta"
@@ -3410,12 +3411,12 @@ zh-CN:
       additional_privileges_group: "可能有额外的权限(作为组成员)"
       additional_privileges_project_or_group: "可能有额外的权限(作为项目成员或组成员)"
     project_queries:
-      publishing_denied: "You do not have permission to make project lists public."
+      publishing_denied: "您没有权限公开项目列表。"
       access_warning: "用户只能看到他们有权访问的项目。共享项目列表不会影响单个项目的权限。"
       user_details:
-        owner: "List owner"
-        can_view_because_public: "Can already view because list is shared with everyone"
-        can_manage_public_lists: "Can edit due to global permissions"
+        owner: "列表所有者"
+        can_view_because_public: "已经可以查看，因为列表与所有人共享"
+        can_manage_public_lists: "可根据全局权限进行编辑"
       public_flag:
         label: "通过 %{instance_name}与大家分享"
         caption: "每个人都可以查看此项目列表。有全局编辑权限的人可以修改它。"
@@ -3432,7 +3433,7 @@ zh-CN:
         edit: "编辑"
         edit_description: "可以查看、共享和编辑此项目列表。"
       upsale:
-        message: "Sharing project lists with individual users is an enterprise add-on."
+        message: "与单个用户共享项目列表是一项企业附加功能。"
   working_days:
     info: >
       在安排工作包时，未选择的日期将被跳过（且不计入天数）。可以在工作包级别覆盖这些选项。

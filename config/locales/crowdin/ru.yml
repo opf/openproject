@@ -2118,6 +2118,7 @@ ru:
   label_invite_user: "Пригласить пользователя"
   label_share: "Поделиться"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Показать/скрыть"
   label_show_hide_n_items: "Показать/скрыть %{count} элементов"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
@@ -2166,8 +2167,8 @@ ru:
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
   label_membership_plural: "Членство"
-  lable_membership_added: "Участник добавлен"
-  lable_membership_updated: "Участник обновлен"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "пред-альфа"

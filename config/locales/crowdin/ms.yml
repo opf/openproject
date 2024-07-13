@@ -2015,6 +2015,7 @@ ms:
   label_invite_user: "Jemput pengguna"
   label_share: "Kongsi"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Papar/sembunyi"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Paparkan semua pengguna berdaftar"
@@ -2063,8 +2064,8 @@ ms:
   label_member_all_admin: "(Semua peranan disebabkan oleh status pentadbir)"
   label_member_plural: "Ahli-ahli"
   label_membership_plural: "Keahlian"
-  lable_membership_added: "Ahli ditambah"
-  lable_membership_updated: "Ahli dikemas kini"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pra-alpha"

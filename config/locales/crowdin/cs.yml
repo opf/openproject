@@ -2119,6 +2119,7 @@ cs:
   label_invite_user: "Pozvat uživatele"
   label_share: "Sdílet"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Zobrazit/skrýt"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Zobrazit registrované uživatele"
@@ -2167,8 +2168,8 @@ cs:
   label_member_all_admin: "(Všechny role z důvodu stavu správce)"
   label_member_plural: "Členové"
   label_membership_plural: "Členství"
-  lable_membership_added: "Člen přidán"
-  lable_membership_updated: "Člen aktualizován"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Nabídka"
   label_menu_badge:
     pre_alpha: "pre-alpha"

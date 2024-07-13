@@ -2051,6 +2051,7 @@ si:
   label_invite_user: "පරිශීලකයාට ආරාධනා කරන්න"
   label_share: "Share"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "පෙන්වන්න/සඟවන්න"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "සියලුම ලියාපදිංචි පරිශීලකයන් පෙන්වන්න"
@@ -2099,8 +2100,8 @@ si:
   label_member_all_admin: "(පරිපාලක තත්ත්වය නිසා සියලුම භූමිකාවන්)"
   label_member_plural: "සාමාජිකයන්"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"

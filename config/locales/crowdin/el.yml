@@ -2047,6 +2047,7 @@ el:
   label_invite_user: "Προσκαλέστε χρήστη"
   label_share: "Share"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Εμφάνιση/απόκρυψη"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Εμφάνιση όλων των εγγεγραμμένων χρηστών"
@@ -2095,8 +2096,8 @@ el:
   label_member_all_admin: "(Όλοι οι ρόλοι λόγω κατάστασης διαχειριστή)"
   label_member_plural: "Μέλη"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Το μέλος προστέθηκε"
-  lable_membership_updated: "Το μέλος ενημερώθηκε"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"

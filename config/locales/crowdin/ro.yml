@@ -2085,6 +2085,7 @@ ro:
   label_invite_user: "Invitare utilizator"
   label_share: "Distribuiți"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Afișare/ascundere"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Afișați toți utilizatorii înregistrați"
@@ -2133,8 +2134,8 @@ ro:
   label_member_all_admin: "(Toate rolurile datorită statutului de administrator)"
   label_member_plural: "Membri"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Membru adăugat"
-  lable_membership_updated: "Membru actualizat"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"

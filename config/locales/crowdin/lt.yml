@@ -2116,6 +2116,7 @@ lt:
   label_invite_user: "Pakviesti vartotoją"
   label_share: "Dalintis"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Rodyti/slėpti"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Rodyti visus registruotus vartotojus"
@@ -2164,8 +2165,8 @@ lt:
   label_member_all_admin: "(Visi vaidmenys, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
   label_membership_plural: "Narystės"
-  lable_membership_added: "Narys pridėtas"
-  lable_membership_updated: "Narys atnaujintas"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Meniu"
   label_menu_badge:
     pre_alpha: "pre-alfa"

@@ -2048,6 +2048,7 @@ es:
   label_invite_user: "Invitar usuario"
   label_share: "Compartir"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Mostrar/ocultar"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostrar todos los usuarios registrados"
@@ -2096,8 +2097,8 @@ es:
   label_member_all_admin: "(Todos los roles se deben al estado del administrador)"
   label_member_plural: "Miembros"
   label_membership_plural: "Afiliaciones"
-  lable_membership_added: "Miembro añadido"
-  lable_membership_updated: "Miembro actualizado"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menú"
   label_menu_badge:
     pre_alpha: "pre-alfa"

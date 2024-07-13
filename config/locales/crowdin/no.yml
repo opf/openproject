@@ -2050,6 +2050,7 @@
   label_invite_user: "Inviter bruker"
   label_share: "Del"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Vis/Skjul"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Vis alle registrerte brukere"
@@ -2098,8 +2099,8 @@
   label_member_all_admin: "(Alle roller på grunn av administratorstatus)"
   label_member_plural: "Medlemmer"
   label_membership_plural: "Medlemskap"
-  lable_membership_added: "Medlem lagt til"
-  lable_membership_updated: "Medlem oppdatert"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Meny"
   label_menu_badge:
     pre_alpha: "pre-alpha"

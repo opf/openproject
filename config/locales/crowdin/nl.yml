@@ -2048,6 +2048,7 @@ nl:
   label_invite_user: "Gebruiker uitnodigen"
   label_share: "Deel"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Weergeven/verbergen"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Toon alle geregistreerde gebruikers"
@@ -2096,8 +2097,8 @@ nl:
   label_member_all_admin: "(Alle rollen vanwege de admin status)"
   label_member_plural: "Leden"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Lid toegevoegd"
-  lable_membership_updated: "Lid bijgewerkt"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"

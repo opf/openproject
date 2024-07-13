@@ -2010,6 +2010,7 @@ id:
   label_invite_user: "Invite user"
   label_share: "Share"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Show/hide"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Menampilkan semua pengguna teregistrasi"
@@ -2058,8 +2059,8 @@ id:
   label_member_all_admin: "(Semua peran karena status admin)"
   label_member_plural: "Member"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Anggota ditambahkan"
-  lable_membership_updated: "Anggota diperbarui"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pra-alfa"

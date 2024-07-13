@@ -2016,6 +2016,7 @@ ko:
   label_invite_user: "사용자 초대"
   label_share: "공유"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "표시/숨기기"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "등록된 사용자 모두 표시"
@@ -2064,8 +2065,8 @@ ko:
   label_member_all_admin: "(관리 상태에 따른 모든 역할)"
   label_member_plural: "멤버"
   label_membership_plural: "멤버십"
-  lable_membership_added: "멤버 추가됨"
-  lable_membership_updated: "멤버 갱신됨"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "메뉴"
   label_menu_badge:
     pre_alpha: "프리 알파"

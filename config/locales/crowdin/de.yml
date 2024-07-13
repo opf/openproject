@@ -2045,6 +2045,7 @@ de:
   label_invite_user: "Nutzer einladen"
   label_share: "Teilen"
   label_share_project_list: "Projektliste teilen"
+  label_share_work_package: "Share work package"
   label_show_hide: "Einblenden / Ausblenden"
   label_show_hide_n_items: "%{count} weitere anzeigen/ausblenden"
   label_show_all_registered_users: "Alle registrierten Benutzer anzeigen"
@@ -2093,8 +2094,8 @@ de:
   label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_plural: "Mitglieder"
   label_membership_plural: "Mitgliedschaften"
-  lable_membership_added: "Mitglied hinzugefügt"
-  lable_membership_updated: "Mitglied aktualisiert"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menü"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -3472,6 +3473,8 @@ de:
         view_description: "Kann diese Projektliste ansehen."
         edit: "Bearbeiten"
         edit_description: "Kann diese Projektliste anzeigen, teilen und bearbeiten."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.

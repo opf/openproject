@@ -2051,6 +2051,7 @@ bg:
   label_invite_user: "Покани потребител"
   label_share: "Споделяне"
   label_share_project_list: "Споделяне на списък с проекти"
+  label_share_work_package: "Share work package"
   label_show_hide: "Покажи/Скрий"
   label_show_hide_n_items: "Показване/скриване елементите на %{count}"
   label_show_all_registered_users: "Показване на всички регистрирани потребители"
@@ -2099,8 +2100,8 @@ bg:
   label_member_all_admin: "(Всички роли се дължат на статута на администратор)"
   label_member_plural: "Потребители"
   label_membership_plural: "Членства"
-  lable_membership_added: "Добавен член"
-  lable_membership_updated: "Актуализиран член"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "предварителна фаза"
