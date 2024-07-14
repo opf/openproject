@@ -55,7 +55,7 @@ zh-CN:
   project_module_storages: 文件
   project_storages:
     project_folder_mode:
-      automatic: 自动管理
+      automatic: 自动托管
       inactive: 没有指定文件夹
       manual: 手动管理现有文件夹
   storages:

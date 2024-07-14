@@ -616,7 +616,7 @@ zh-CN:
       no_unread: "没有未读通知"
       reasons:
         mentioned: "被提及"
-        watched: "参与人"
+        watched: "关注者"
         assigned: "指定人"
         responsible: "负责人"
         created: "已创建"

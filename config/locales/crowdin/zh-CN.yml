@@ -1751,7 +1751,7 @@ zh-CN:
       mentioned: "被提及"
       responsible: "负责人"
       shared: "共享"
-      watched: "参与人"
+      watched: "关注人"
     menu:
       by_project: "未读项目"
       by_reason: "原因"
@@ -2013,7 +2013,7 @@ zh-CN:
   label_invite_user: "邀请用户"
   label_share: "共享"
   label_share_project_list: "共享项目列表"
-  label_share_work_package: "Share work package"
+  label_share_work_package: "共享工作包"
   label_show_hide: "显示/隐藏"
   label_show_hide_n_items: "显示/隐藏 %{count} 项目"
   label_show_all_registered_users: "显示所有注册用户"
@@ -2062,8 +2062,8 @@ zh-CN:
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_plural: "成员"
   label_membership_plural: "成员资格"
-  label_membership_added: "Member added"
-  label_membership_updated: "Member updated"
+  label_membership_added: "成员已添加"
+  label_membership_updated: "成员已更新"
   label_menu: "菜单"
   label_menu_badge:
     pre_alpha: "pre-beta"
@@ -3411,7 +3411,7 @@ zh-CN:
       additional_privileges_group: "可能有额外的权限(作为组成员)"
       additional_privileges_project_or_group: "可能有额外的权限(作为项目成员或组成员)"
     project_queries:
-      publishing_denied: "您没有权限公开项目列表。"
+      publishing_denied: "您没有公开项目列表的权限。"
       access_warning: "用户只能看到他们有权访问的项目。共享项目列表不会影响单个项目的权限。"
       user_details:
         owner: "列表所有者"
