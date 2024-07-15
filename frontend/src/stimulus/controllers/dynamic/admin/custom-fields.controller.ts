@@ -54,6 +54,7 @@ export default class CustomFieldsController extends Controller {
   };
 
   declare readonly formatValue:string;
+  declare readonly formatTarget:HTMLInputElement;
   declare readonly dragContainerTarget:HTMLElement;
   declare readonly hasDragContainerTarget:boolean;
 
@@ -119,8 +120,8 @@ export default class CustomFieldsController extends Controller {
       .forEach((target) => (target.checked = false));
   }
 
-  formatChanged(event:{ target:HTMLInputElement }) {
-    this.toggleFormat(event.target.value);
+  formatChanged() {
+    this.toggleFormat(this.formatTarget.value);
   }
 
   moveRowUp(event:{ target:HTMLElement }) {
