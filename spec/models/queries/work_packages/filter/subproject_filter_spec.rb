@@ -41,7 +41,7 @@ RSpec.describe Queries::WorkPackages::Filter::SubprojectFilter do
     before do
       if project
         allow(project)
-        .to receive_message_chain(:descendants, :visible)
+        .to receive_message_chain(:descendants, :visible, :active) # rubocop:disable RSpec/MessageChain
         .and_return relation
       end
 
