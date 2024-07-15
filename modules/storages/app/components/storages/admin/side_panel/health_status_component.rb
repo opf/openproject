@@ -30,7 +30,7 @@
 
 module Storages
   module Admin
-    module Sidebar
+    module SidePanel
       class HealthStatusComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         include ApplicationHelper
         include OpTurbo::Streamable

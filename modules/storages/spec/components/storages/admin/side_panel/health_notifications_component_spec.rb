@@ -29,7 +29,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Admin::Sidebar::HealthNotificationsComponent, type: :component do
+RSpec.describe Storages::Admin::SidePanel::HealthNotificationsComponent, type: :component do
   context "when subscribed to email notifications" do
     let(:storage) { build_stubbed(:nextcloud_storage, :with_health_notifications_enabled, :as_automatically_managed) }
 

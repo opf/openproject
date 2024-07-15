@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,15 +30,30 @@
 
 module Storages
   module Admin
-    class SidebarComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-      include ApplicationHelper
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
+    module SidePanel
+      class ValidationResultComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-      def initialize(storage:)
-        super
+        def initialize(result:)
+          super(result)
+          @result = result
+        end
 
-        @storage = storage
+        private
+
+        def status_indicator
+          case @result.type
+          when :healthy
+            { scheme: :success, label: I18n.t("storages.health.label_healthy") }
+          when :warning
+            { scheme: :attention, label: I18n.t("storages.health.label_warning") }
+          when :error
+            { scheme: :danger, label: I18n.t("storages.health.label_error") }
+          else
+            raise ArgumentError, "Unknown validation result type for status indicator: #{@result.type}"
+          end
+        end
       end
     end
   end
