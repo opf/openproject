@@ -102,7 +102,7 @@ module Projects
     def my_filters
       persisted_filters
         .select { |query| !query.public? && query.user == current_user }
-        .map { |query| menu_item(query.name, query_params: { query_id: query.id }) }
+        .map { |query| menu_item(title: query.name, query_params: { query_id: query.id }) }
     end
 
     def shared_filters
