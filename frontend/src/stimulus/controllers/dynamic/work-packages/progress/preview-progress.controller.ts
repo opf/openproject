@@ -91,6 +91,9 @@ export default class PreviewProgressController extends Controller {
     const formData = new FormData(form) as unknown as undefined;
     const formParams = new URLSearchParams(formData);
     const wpParams = [
+      ['work_package[initial][remaining_hours]', formParams.get('work_package[initial][remaining_hours]') || ''],
+      ['work_package[initial][estimated_hours]', formParams.get('work_package[initial][estimated_hours]') || ''],
+      ['work_package[initial][done_ratio]', formParams.get('work_package[initial][done_ratio]') || ''],
       ['work_package[remaining_hours]', formParams.get('work_package[remaining_hours]') || ''],
       ['work_package[estimated_hours]', formParams.get('work_package[estimated_hours]') || ''],
       ['work_package[done_ratio]', formParams.get('work_package[done_ratio]') || ''],
@@ -103,8 +106,9 @@ export default class PreviewProgressController extends Controller {
     ];
 
     const wpPath = this.ensureValidPathname(form.action);
+    const wpAction = wpPath.endsWith('/work_packages/new/progress') ? 'new' : 'edit';
 
-    const editUrl = `${wpPath}/edit?${new URLSearchParams(wpParams).toString()}`;
+    const editUrl = `${wpPath}/${wpAction}?${new URLSearchParams(wpParams).toString()}`;
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
 
     if (turboFrame) {

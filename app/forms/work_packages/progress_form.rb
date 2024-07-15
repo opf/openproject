@@ -44,7 +44,7 @@ class WorkPackages::ProgressForm < ApplicationForm
     # no-op
   end
 
-  attr_reader :work_package
+  attr_reader :work_package, :mode
 
   def initialize(work_package:,
                  mode: :work_based,
@@ -61,7 +61,7 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   form do |query_form|
     query_form.group(layout: :horizontal) do |group|
-      if @mode == :status_based
+      if mode == :status_based
         select_field_options =
           default_field_options(:status_id)
             .merge(
@@ -112,6 +112,9 @@ class WorkPackages::ProgressForm < ApplicationForm
                      value: @touched_field_map["done_ratio_touched"] || false,
                      data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
                              "referrer-field": "work_package[done_ratio]" })
+      end
+      group.fields_for(:initial) do |builder|
+        InitialValuesForm.new(builder, work_package:, mode:)
       end
     end
   end

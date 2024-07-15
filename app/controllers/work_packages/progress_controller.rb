@@ -35,13 +35,13 @@ class WorkPackages::ProgressController < ApplicationController
                               done_ratio].freeze
 
   layout false
-  before_action :set_work_package
   authorization_checked! :new, :edit, :create, :update
 
   helper_method :modal_class
 
   def new
-    build_up_brand_new_work_package
+    make_fake_initial_work_package
+    set_progress_attributes_to_work_package
 
     render modal_class.new(@work_package,
                            focused_field: params[:field],
@@ -49,7 +49,8 @@ class WorkPackages::ProgressController < ApplicationController
   end
 
   def edit
-    build_up_work_package
+    find_work_package
+    set_progress_attributes_to_work_package
 
     render modal_class.new(@work_package,
                            focused_field: params[:field],
@@ -57,7 +58,8 @@ class WorkPackages::ProgressController < ApplicationController
   end
 
   def create
-    service_call = build_up_brand_new_work_package
+    make_fake_initial_work_package
+    service_call = set_progress_attributes_to_work_package
 
     if service_call.errors
                    .map(&:attribute)
@@ -73,15 +75,17 @@ class WorkPackages::ProgressController < ApplicationController
       end
     else
       render json: { estimatedTime: formatted_duration(@work_package.estimated_hours),
-                     remainingTime: formatted_duration(@work_package.remaining_hours) }
+                     remainingTime: formatted_duration(@work_package.remaining_hours),
+                     percentageDone: @work_package.done_ratio }
     end
   end
 
   def update
+    find_work_package
     service_call = WorkPackages::UpdateService
                      .new(user: current_user,
                           model: @work_package)
-                     .call(work_package_params)
+                     .call(work_package_progress_params)
 
     if service_call.success?
       respond_to do |format|
@@ -110,10 +114,16 @@ class WorkPackages::ProgressController < ApplicationController
     end
   end
 
-  def set_work_package
+  def find_work_package
     @work_package = WorkPackage.visible.find(params[:work_package_id])
-  rescue ActiveRecord::RecordNotFound
-    @work_package = WorkPackage.new
+  end
+
+  def make_fake_initial_work_package
+    initial_params = params["work_package"]["initial"]
+      .slice(*%w[estimated_hours remaining_hours done_ratio status_id])
+      .permit!
+    @work_package = WorkPackage.new(initial_params)
+    @work_package.clear_changes_information
   end
 
   def touched_field_map
@@ -126,7 +136,7 @@ class WorkPackages::ProgressController < ApplicationController
           .permit!
   end
 
-  def work_package_params
+  def work_package_progress_params
     params.require(:work_package)
           .slice(*allowed_touched_params)
           .permit!
@@ -148,20 +158,12 @@ class WorkPackages::ProgressController < ApplicationController
     touched_field_map[:"#{field}_touched"]
   end
 
-  def build_up_work_package
+  def set_progress_attributes_to_work_package
     WorkPackages::SetAttributesService
       .new(user: current_user,
            model: @work_package,
            contract_class: WorkPackages::CreateContract)
-      .call(work_package_params)
-  end
-
-  def build_up_brand_new_work_package
-    WorkPackages::SetAttributesService
-      .new(user: current_user,
-           model: @work_package,
-           contract_class: WorkPackages::CreateContract)
-      .call(work_package_params)
+      .call(work_package_progress_params)
   end
 
   def formatted_duration(hours)

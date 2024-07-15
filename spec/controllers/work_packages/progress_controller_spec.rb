@@ -96,4 +96,35 @@ RSpec.describe WorkPackages::ProgressController do
       expect(work_package.done_ratio).to eq(90)
     end
   end
+
+  # Used on new work package creation form
+  describe "POST /work_packages/progress" do
+    let(:params) do
+      {
+        "work_package" => {
+          "initial" => {
+            "estimated_hours" => "",
+            "remaining_hours" => "",
+            "done_ratio" => ""
+          },
+          "estimated_hours" => "4h",
+          "remaining_hours" => "3",
+          "done_ratio" => "0",
+          "estimated_hours_touched" => "true",
+          "remaining_hours_touched" => "true",
+          "done_ratio_touched" => "false"
+        }
+      }
+    end
+
+    it "sends back the entered and derived progress values" do
+      post("create", params:, as: :turbo_stream)
+
+      expect(response.body).to be_json_eql({
+        estimatedTime: "PT4H",
+        remainingTime: "PT3H",
+        percentageDone: 25
+      }.to_json)
+    end
+  end
 end

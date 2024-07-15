@@ -156,7 +156,11 @@ class ProgressEditField < EditField
       if @property_name == "percentageDone" && value.to_s == "-"
         expect(page).to have_field(field_name, readonly:, placeholder: value.to_s)
       elsif @property_name == "statusWithinProgressModal"
-        expect(page).to have_select(field_name, disabled:, with_selected: value.to_s)
+        if value == :empty_without_any_options
+          expect(page).to have_select(field_name, disabled:, options: [])
+        else
+          expect(page).to have_select(field_name, disabled:, with_selected: value.to_s)
+        end
       else
         expect(page).to have_field(field_name, disabled:, readonly:, with: value.to_s)
       end

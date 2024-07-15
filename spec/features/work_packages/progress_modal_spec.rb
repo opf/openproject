@@ -254,6 +254,9 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
         work_field = work_package_create_page.edit_field(:estimatedTime)
         work_field.activate!
+
+        modal_status_field = work_package_create_page.edit_field(:statusWithinProgressModal)
+        modal_status_field.expect_modal_field_value(:empty_without_any_options, disabled: true)
       end
 
       context "with a default status set for new work packages" do
@@ -279,6 +282,12 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           work_package_create_page.set_progress_attributes({ estimatedTime: "10h" })
           work_package_create_page.save!
           work_package_table.expect_and_dismiss_toaster(message: "Successful creation.", wait: 5)
+
+          expect(WorkPackage.order(id: :asc).last).to have_attributes(
+            estimated_hours: 10.0,
+            remaining_hours: 10.0,
+            done_ratio: 0
+          )
         end
 
         it "renders the status selection field inside the modal as disabled " \
@@ -351,6 +360,44 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           work_edit_field.expect_modal_field_value("10h")
           remaining_work_edit_field.expect_modal_field_value("2.12h") # 2h 7m
           percent_complete_edit_field.expect_modal_field_value("79%")
+        end
+      end
+
+      context "on create page" do
+        it "can create work package after setting progress values multiple times" do
+          work_package_create_page.visit!
+
+          work_package_create_page.set_attributes({ subject: "hello" })
+          work_edit_field = ProgressEditField.new("#content", :estimatedTime)
+          remaining_work_edit_field = ProgressEditField.new("#content", :remainingTime)
+          percent_complete_edit_field = ProgressEditField.new("#content", :percentageDone)
+          expect(work_edit_field.trigger_element.value).to eq("-")
+          expect(remaining_work_edit_field.trigger_element.value).to eq("-")
+          expect(percent_complete_edit_field.trigger_element.value).to eq("-")
+
+          work_package_create_page.set_progress_attributes({ estimatedTime: "0h" })
+          expect(work_edit_field.trigger_element.value).to eq("0h")
+          expect(remaining_work_edit_field.trigger_element.value).to eq("0h")
+          expect(percent_complete_edit_field.trigger_element.value).to eq("-")
+
+          work_package_create_page.set_progress_attributes({ estimatedTime: "5h" })
+          expect(work_edit_field.trigger_element.value).to eq("5h")
+          expect(remaining_work_edit_field.trigger_element.value).to eq("5h")
+          expect(percent_complete_edit_field.trigger_element.value).to eq("0%")
+
+          work_package_create_page.set_progress_attributes({ percentageDone: "40%" })
+          expect(work_edit_field.trigger_element.value).to eq("5h")
+          expect(remaining_work_edit_field.trigger_element.value).to eq("3h")
+          expect(percent_complete_edit_field.trigger_element.value).to eq("40%")
+
+          work_package_create_page.save!
+          work_package_table.expect_and_dismiss_toaster(message: "Successful creation.", wait: 5)
+
+          expect(WorkPackage.order(id: :asc).last).to have_attributes(
+            estimated_hours: 5.0,
+            remaining_hours: 3.0,
+            done_ratio: 40
+          )
         end
       end
 

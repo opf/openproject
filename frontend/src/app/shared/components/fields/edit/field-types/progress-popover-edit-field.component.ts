@@ -128,16 +128,18 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
   }
 
   public get asPercent():string {
-    return this.value ? `${this.value}%` : this.text.placeholder;
+    if (this.value === null || this.value === undefined) {
+      return this.text.placeholder;
+    }
+    return `${this.value}%`;
   }
 
   public get asHours():string {
-    if (this.value) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      return this.timezoneService.formattedChronicDuration(this.value);
+    if (this.value === null || this.value === undefined) {
+      return this.text.placeholder;
     }
-
-    return this.text.placeholder;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return this.timezoneService.formattedChronicDuration(this.value);
   }
 
   public formatter(value:undefined|null|string):string {
@@ -148,7 +150,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
   }
 
   public nullAsEmptyStringFormatter(value:null|string):string {
-    if (value === null) {
+    if (value === undefined || value === null) {
       return '';
     }
     return value;
@@ -176,6 +178,8 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
       this.resource.estimatedTime = JSONresponse.estimatedTime;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
       this.resource.remainingTime = JSONresponse.remainingTime;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+      this.resource.percentageDone = JSONresponse.percentageDone;
 
       this.onModalClosed();
 
@@ -219,6 +223,15 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
 
     url.searchParams.set('field', this.name);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+    url.searchParams.set('work_package[initial][estimated_hours]', this.formatter(this.resource.estimatedTime));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+    url.searchParams.set('work_package[initial][remaining_hours]', this.formatter(this.resource.remainingTime));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+    url.searchParams.set('work_package[initial][done_ratio]', this.nullAsEmptyStringFormatter(this.resource.percentageDone));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    url.searchParams.set('work_package[initial][status_id]', this.nullAsEmptyStringFormatter(this.resource.status?.id as string));
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     url.searchParams.set('work_package[estimated_hours]', this.formatter(this.resource.estimatedTime));
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     url.searchParams.set('work_package[remaining_hours]', this.formatter(this.resource.remainingTime));
@@ -233,7 +246,6 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.frameSrc = url.toString();
-    // this.frameElement.nativeElement.src = this.frameSrc;
   }
 
   public onInputClick(event:MouseEvent) {
