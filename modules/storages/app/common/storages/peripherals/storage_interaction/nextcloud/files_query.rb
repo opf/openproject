@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -222,7 +224,7 @@ module Storages
             # https://github.com/nextcloud/server/blob/66648011c6bc278ace57230db44fd6d63d67b864/lib/public/Files/DavUtil.php
             result = []
             result << :readable if permissions_string.include?("G")
-            result << :writeable if %w[CK W].reduce(false) { |s, v| s || permissions_string.include?(v) }
+            result << :writeable if permissions_string.match?(/W|CK/)
             result
           end
         end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 #++
 
@@ -10,6 +12,10 @@ module Storages
         def initialize(project_storage)
           @project_storage = project_storage
           @project = project_storage.project
+        end
+
+        def name
+          path
         end
 
         def path

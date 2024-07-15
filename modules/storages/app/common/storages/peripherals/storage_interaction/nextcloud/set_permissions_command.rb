@@ -28,87 +28,113 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class SetPermissionsCommand
-    using Storages::Peripherals::ServiceResultRefinements
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class SetPermissionsCommand
+          using ServiceResultRefinements
 
-    def initialize(storage)
-      @storage = storage
-      @username = storage.username
-      @password = storage.password
-    end
+          SUCCESS_XPATH = "/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list"
+          def self.call(storage:, path:, permissions:)
+            new(storage).call(path:, permissions:)
+          end
 
-    def self.call(storage:, path:, permissions:)
-      new(storage).call(path:, permissions:)
-    end
+          def initialize(storage)
+            @storage = storage
+            @username = storage.username
+            @password = storage.password
+          end
 
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/PerceivedComplexity
-    def call(path:, permissions:)
-      raise ArgumentError if path.blank?
+          def call(path:, permissions:)
+            if path.blank?
+              return ServiceResult.failure(errors: StorageError.new(code: :invalid_path))
+            end
 
-      users_permissions = permissions.fetch(:users)
-      groups_permissions = permissions.fetch(:groups)
+            with_tagged_logger do
+              info "Setting permissions #{permissions.inspect} on #{path}"
 
-      body = Nokogiri::XML::Builder.new do |xml|
-        xml["d"].propertyupdate(
-          "xmlns:d" => "DAV:",
-          "xmlns:nc" => "http://nextcloud.org/ns"
-        ) do
-          xml["d"].set do
-            xml["d"].prop do
-              xml["nc"].send(:"acl-list") do
-                groups_permissions.each do |group, group_permissions|
-                  xml["nc"].acl do
-                    xml["nc"].send(:"acl-mapping-type", "group")
-                    xml["nc"].send(:"acl-mapping-id", group)
-                    xml["nc"].send(:"acl-mask", "31")
-                    xml["nc"].send(:"acl-permissions", group_permissions.to_s)
-                  end
-                end
-                users_permissions.each do |user, user_permissions|
-                  xml["nc"].acl do
-                    xml["nc"].send(:"acl-mapping-type", "user")
-                    xml["nc"].send(:"acl-mapping-id", user)
-                    xml["nc"].send(:"acl-mask", "31")
-                    xml["nc"].send(:"acl-permissions", user_permissions.to_s)
+              body = request_xml_body(permissions[:groups], permissions[:users])
+              # This can raise KeyErrors, we probably should just default to enpty Arrays.
+              response = OpenProject
+                .httpx
+                .basic_auth(@username, @password)
+                .request(
+                  "PROPPATCH",
+                  UrlBuilder.url(@storage.uri, "remote.php/dav/files", @username, path),
+                  xml: body
+                )
+
+              handle_response(response)
+            end
+          end
+
+          private
+
+          # rubocop:disable Metrics/AbcSize
+          def handle_response(response)
+            error_data = StorageErrorData.new(source: self.class, payload: response)
+
+            case response
+            in { status: 200..299 }
+              doc = Nokogiri::XML(response.body.to_s)
+              if doc.xpath(SUCCESS_XPATH).present?
+                info "Permissions set"
+                ServiceResult.success(result: :success)
+              else
+                Util.error(:permission_not_set, "nc:acl properly has not been set for #{path}", error_data)
+              end
+            in { status: 404 }
+              Util.error(:not_found, "Outbound request destination not found", error_data)
+            in { status: 401 }
+              Util.error(:unauthorized, "Outbound request not authorized", error_data)
+            else
+              Util.error(:error, "Outbound request failed", error_data)
+            end
+          end
+
+          def request_xml_body(groups_permissions, users_permissions)
+            Nokogiri::XML::Builder.new do |xml|
+              xml["d"].propertyupdate(
+                "xmlns:d" => "DAV:",
+                "xmlns:nc" => "http://nextcloud.org/ns"
+              ) do
+                xml["d"].set do
+                  xml["d"].prop do
+                    xml["nc"].send(:"acl-list") do
+                      groups_permissions.each do |group, group_permissions|
+                        xml["nc"].acl do
+                          xml["nc"].send(:"acl-mapping-type", "group")
+                          xml["nc"].send(:"acl-mapping-id", group)
+                          xml["nc"].send(:"acl-mask", "31")
+                          xml["nc"].send(:"acl-permissions", group_permissions.to_s)
+                        end
+                      end
+                      users_permissions.each do |user, user_permissions|
+                        xml["nc"].acl do
+                          xml["nc"].send(:"acl-mapping-type", "user")
+                          xml["nc"].send(:"acl-mapping-id", user)
+                          xml["nc"].send(:"acl-mask", "31")
+                          xml["nc"].send(:"acl-permissions", user_permissions.to_s)
+                        end
+                      end
+                    end
                   end
                 end
               end
-            end
+            end.to_xml
+          end
+          # rubocop:enable Metrics/AbcSize
+
+          def with_tagged_logger(&)
+            Rails.logger.tagged(self.class, &)
+          end
+
+          def info(message)
+            Rails.logger.info message
           end
         end
-      end.to_xml
-
-      response = OpenProject
-                   .httpx
-                   .basic_auth(@username, @password)
-                   .request(
-                     "PROPPATCH",
-                     Storages::UrlBuilder.url(@storage.uri, "remote.php/dav/files", @username, path),
-                     xml: body
-                   )
-
-      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
-
-      case response
-      in { status: 200..299 }
-        doc = Nokogiri::XML(response.body.to_s)
-        if doc.xpath("/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list").present?
-          ServiceResult.success(result: :success)
-        else
-          Util.error(:error, "nc:acl properly has not been set for #{path}", error_data)
-        end
-      in { status: 404 }
-        Util.error(:not_found, "Outbound request destination not found", error_data)
-      in { status: 401 }
-        Util.error(:unauthorized, "Outbound request not authorized", error_data)
-      else
-        Util.error(:error, "Outbound request failed", error_data)
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/PerceivedComplexity
   end
 end

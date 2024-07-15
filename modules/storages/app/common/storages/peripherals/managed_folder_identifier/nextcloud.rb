@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 #++
 
@@ -10,8 +12,12 @@ module Storages
           @project = project_storage.project
         end
 
+        def name
+          "#{@project.name.tr('/', '|')} (#{@project.id})"
+        end
+
         def path
-          "/#{@storage.group_folder}/#{@project.name.tr('/', '|')} (#{@project.id})/"
+          "/#{@storage.group_folder}/#{name}/"
         end
 
         def location

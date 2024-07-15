@@ -701,8 +701,9 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
             result = described_class.new(storage).call
 
             expect(result).to be_failure
-            expect(result.errors[:remote_folder_properties])
-              .to contain_exactly(I18n.t("#{prefix}.attributes.remote_folder_properties.not_found", group: storage.group))
+            expect(result.errors[:remote_folders])
+              .to contain_exactly(I18n.t("#{prefix}.attributes.remote_folders.not_found",
+                                         group_folder: storage.group_folder))
           end
         end
 

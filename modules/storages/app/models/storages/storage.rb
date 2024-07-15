@@ -54,7 +54,6 @@ module Storages
 
     store_attribute :provider_fields, :automatically_managed, :boolean
     store_attribute :provider_fields, :health_notifications_enabled, :boolean, default: true
-    store_attribute :provider_fields, :detailed_logging_enabled, :boolean, default: false
 
     has_many :file_links, class_name: "Storages::FileLink"
     belongs_to :creator, class_name: "User"

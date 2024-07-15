@@ -40,10 +40,9 @@ module Storages
       @data = data
     end
 
-    def to_active_model_errors(klass = self)
-      errors = ActiveModel::Errors.new(klass)
-      attr = data.source.to_s.demodulize.underscore.to_sym
-      errors.add(attr, code)
+    def to_active_model_errors
+      errors = ActiveModel::Errors.new(self)
+      errors.add(:storage_error, code, message: log_message)
       errors
     end
 

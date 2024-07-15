@@ -91,10 +91,13 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
       allow(Storages::HealthStatusMailerJob).to receive(:set).and_return(job)
       allow(job).to receive(:perform_later)
 
+      errors = ActiveModel::Errors.new(Storages::NextcloudGroupFolderPropertiesSyncService.new(managed_nextcloud))
+      errors.add(:group_folder, :not_found, group_folder: managed_nextcloud.group_folder)
+
       allow(Storages::NextcloudGroupFolderPropertiesSyncService)
         .to receive(:call)
               .with(managed_nextcloud)
-              .and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :not_found)))
+              .and_return(ServiceResult.failure(errors:))
 
       Timecop.freeze("2023-03-14T15:17:00Z") do
         expect do
@@ -103,16 +106,19 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
         end.to(
           change(managed_nextcloud, :health_changed_at).to(Time.now.utc)
                                               .and(change(managed_nextcloud, :health_status).from("pending").to("unhealthy"))
-                                              .and(change(managed_nextcloud, :health_reason).from(nil).to("not_found"))
+                                              .and(change(managed_nextcloud, :health_reason).from(nil).to(/wasn't found/))
         )
       end
     end
 
     context "when Storages::Errors::IntegrationJobError is raised" do
       before do
+        errors = ActiveModel::Errors.new(Storages::NextcloudGroupFolderPropertiesSyncService.new(managed_nextcloud))
+        errors.add(:base, :error)
+
         allow(Storages::NextcloudGroupFolderPropertiesSyncService)
           .to receive(:call).with(managed_nextcloud)
-                            .and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :custom_error)))
+                            .and_return(ServiceResult.failure(errors:))
 
         allow(OpenProject::Notifications).to receive(:send)
       end
@@ -130,7 +136,7 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
         expect(OpenProject::Notifications).to have_received(:send).with(
           OpenProject::Events::STORAGE_TURNED_UNHEALTHY,
           storage: managed_nextcloud,
-          reason: "custom_error"
+          reason: /unexpected error occurred/
         )
       end
     end

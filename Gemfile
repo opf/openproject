@@ -209,9 +209,9 @@ gem "mini_magick", "~> 4.13.0", require: false
 gem "validate_url"
 
 # Storages support code
+gem "dry-auto_inject"
 gem "dry-container"
 gem "dry-monads"
-gem "dry-auto_inject"
 
 # ActiveRecord extension which adds typecasting to store accessors
 gem "store_attribute", "~> 1.0"

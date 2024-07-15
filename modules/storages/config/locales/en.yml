@@ -1,14 +1,22 @@
 ---
 en:
   services:
+    attributes:
+      storages/nextcloud_group_folder_properties_sync_service:
+        remote_folders: 'Reading contents of the group folder:'
+        ensure_root_folder_permissions: 'Setting Basic Permissions:'
+        create_folder: 'Managed Project Folder Creation:'
+        rename_project_folder: 'Renaming managed project Folder:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
     errors:
       models:
         storages/nextcloud_group_folder_properties_sync_service:
-          unauthorized: "Please check if your AMPF password is correct"
+          unauthorized: "OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration"
           error: "An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information"
           attributes:
-            remote_folder_properties:
-              not_found: "The Group Folder %{group} wasn't found. Please check your Nextcloud setup."
+            remote_folders:
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud setup."
+              not_allowed: "The %{username} doesn't have access to the %{group_folder}. Please check the folder permissions on Nextcloud"
 
   activerecord:
     attributes:
@@ -24,6 +32,7 @@ en:
     errors:
       messages:
         not_linked_to_project: is not linked to project.
+        invalid_url: is not a valid URL.
       models:
         storages/file_link:
           attributes:

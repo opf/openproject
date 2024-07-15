@@ -34,45 +34,15 @@ module Storages
       module Nextcloud
         module Internal
           class PropfindQueryLegacy
-            # Only for information purposes currently.
-            # Probably a bit later we could validate `#call` parameters.
-            #
-            # DEPTH = %w[0 1 infinity].freeze
-            # POSSIBLE_PROPS = %w[
-            #   d:getlastmodified
-            #   d:getetag
-            #   d:getcontenttype
-            #   d:resourcetype
-            #   d:getcontentlength
-            #   d:permissions
-            #   d:size
-            #   oc:id
-            #   oc:fileid
-            #   oc:favorite
-            #   oc:comments-href
-            #   oc:comments-count
-            #   oc:comments-unread
-            #   oc:owner-id
-            #   oc:owner-display-name
-            #   oc:share-types
-            #   oc:checksums
-            #   oc:size
-            #   nc:has-preview
-            #   nc:rich-workspace
-            #   nc:contained-folder-count
-            #   nc:contained-file-count
-            #   nc:acl-list
-            # ].freeze
+            def self.call(storage:, depth:, path:, props:)
+              new(storage).call(depth:, path:, props:)
+            end
 
             def initialize(storage)
               @storage = storage
               @username = storage.username
               @password = storage.password
               @group = storage.group
-            end
-
-            def self.call(storage:, depth:, path:, props:)
-              new(storage).call(depth:, path:, props:)
             end
 
             # rubocop:disable Metrics/AbcSize
@@ -87,32 +57,33 @@ module Storages
                     xml["d"].prop do
                       props.each do |prop|
                         namespace, property = prop.split(":")
-                        xml[namespace].send(property)
+                        xml[namespace].public_send(property)
                       end
                     end
                   end
                 end.to_xml
 
-              response = OpenProject
-                           .httpx
-                           .basic_auth(@username, @password)
-                           .with(headers: { "Depth" => depth })
-                           .request(
-                             "PROPFIND",
-                             UrlBuilder.url(@storage.uri, "remote.php/dav/files", @username, path),
-                             xml: body
-                           )
+                response = OpenProject
+                             .httpx
+                             .basic_auth(@username, @password)
+                             .with(headers: { "Depth" => depth })
+                             .request(
+                               "PROPFIND",
+                               UrlBuilder.url(@storage.uri, "remote.php/dav/files", @username, path),
+                               xml: body
+                             )
 
                 error_data = StorageErrorData.new(source: self.class, payload: response)
 
-              case response
-              in { status: 200..299 }
-                log_response(response)
-                doc = Nokogiri::XML(response.body.to_s)
-                Rails.logger.info "Parsing response body"
-                result = doc.xpath("/d:multistatus/d:response").each_with_object({}) do |resource_section, hash|
-                  source_path = UrlBuilder.path(@storage.uri.path, "/remote.php/dav/files", @username)
-                  resource = CGI.unescape(resource_section.xpath("d:href").text.strip).gsub!(source_path, "")
+                case response
+                in { status: 200..299 }
+                  log_response(response)
+                  log_message "Parsing XML response body"
+                  doc = Nokogiri::XML(response.body.to_s)
+                  Rails.logger.info "Parsing response body"
+                  result = doc.xpath("/d:multistatus/d:response").each_with_object({}) do |resource_section, hash|
+                    source_path = UrlBuilder.path(@storage.uri.path, "/remote.php/dav/files", @username)
+                    resource = CGI.unescape(resource_section.xpath("d:href").text.strip).gsub!(source_path, "")
 
                     hash[resource] = {}
 
@@ -123,7 +94,7 @@ module Storages
                     end
                   end
 
-                  Rails.logger.info "Response parsed found: #{result.inspect}"
+                  log_message "Response parsed found: #{result.inspect}"
                   ServiceResult.success(result:)
                 in { status: 405 }
                   log_response(response)
@@ -142,7 +113,11 @@ module Storages
             # rubocop:enable Metrics/AbcSize
 
             def log_response(response)
-              Rails.logger.info "Storage responded with a #{response.status} code."
+              log_message "Storage responded with a #{response.status} code."
+            end
+
+            def log_message(message)
+              Rails.logger.info message
             end
           end
         end

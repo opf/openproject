@@ -372,15 +372,17 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
 
       context "when forbidden values are given as folder" do
         it "raises an ArgumentError on nil" do
-          expect do
-            registry.resolve("nextcloud.commands.set_permissions").call(storage:, path: nil, permissions:)
-          end.to raise_error(ArgumentError)
+          result = registry.resolve("nextcloud.commands.set_permissions").call(storage:, path: nil, permissions:)
+
+          expect(result).to be_failure
+          expect(result.errors.code).to eq(:invalid_path)
         end
 
-        it "raises an ArgumentError on empty string" do
-          expect do
-            registry.resolve("nextcloud.commands.set_permissions").call(path: "", permissions:)
-          end.to raise_error(ArgumentError)
+        it "returns a :invalid_path Failure on empty string" do
+          result = registry.resolve("nextcloud.commands.set_permissions").call(storage:, path: "", permissions:)
+
+          expect(result).to be_failure
+          expect(result.errors.code).to eq(:invalid_path)
         end
       end
     end
