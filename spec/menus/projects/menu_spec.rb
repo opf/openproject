@@ -61,7 +61,7 @@ RSpec.describe Projects::Menu do
 
   it "returns 4 menu groups" do
     expect(menu_items).to all(be_a(OpenProject::Menu::MenuGroup))
-    expect(menu_items.length).to eq(5)
+    expect(menu_items.length).to eq(4)
   end
 
   describe "children items" do
@@ -138,9 +138,8 @@ RSpec.describe Projects::Menu do
         expect(titles).to eq(
           [
             ["Active projects", "My projects", "Favorite projects"],
-            ["Another public query", "Public query"],
             ["Another current user query", "Current user query"],
-            ["Another shared query", "Shared query"],
+            ["Another public query",  "Another shared query", "Public query", "Shared query"],
             ["On track", "Off track", "At risk"]
           ]
         )
@@ -160,9 +159,8 @@ RSpec.describe Projects::Menu do
         expect(titles).to eq(
           [
             ["Active projects", "My projects", "Favorite projects"],
-            ["Public query", "Another public query"],
             ["Current user query", "Another current user query"],
-            ["Shared query", "Another shared query"],
+            ["Public query", "Shared query", "Another public query", "Another shared query"],
             ["On track", "Off track", "At risk"]
           ]
         )
@@ -185,9 +183,8 @@ RSpec.describe Projects::Menu do
         expect(titles).to eq(
           [
             ["Active projects", "My projects", "Favorite projects"],
-            ["Another public query", "Public query"],
             ["Another current user query", "Current user query"],
-            ["Another shared query", "Shared query"],
+            ["Another public query",  "Another shared query", "Public query", "Shared query"],
             ["On track", "Off track", "At risk"]
           ]
         )
