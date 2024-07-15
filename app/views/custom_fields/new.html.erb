@@ -30,9 +30,12 @@ See COPYRIGHT and LICENSE files for more details.
 <% content_controller 'admin--custom-fields', dynamic: true %>
 
 <% html_title t(:label_administration), t(:label_custom_field_new) %>
-<% local_assigns[:additional_breadcrumb] = link_to(I18n.t(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
-                       t(:label_custom_field_new) %>
+<% local_assigns[:additional_breadcrumb] = [
+  link_to(I18n.t(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
+  t(:label_custom_field_new)
+] %>
 <%= breadcrumb_toolbar t(:label_custom_field_new) %>
+
 <%= error_messages_for 'custom_field' %>
 
 <%= labelled_tabular_form_for @custom_field, as: :custom_field,
