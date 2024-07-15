@@ -104,6 +104,7 @@ class Submenu
 
   def selected?(query_params)
     query_params.each_key do |filter_key|
+      next if filter_key == :show_enterprise_icon
       if params[filter_key] != query_params[filter_key].to_s
         return false
       end
