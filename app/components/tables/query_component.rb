@@ -36,11 +36,6 @@ module Tables
 
     class_attribute :eager_load
 
-    # TODO: Is this id still required?
-    def table_id
-      "#{model_name.underscore}-table"
-    end
-
     def container_class
       "generic-table--container_visible-overflow generic-table--container_height-100"
     end
@@ -59,6 +54,11 @@ module Tables
       @columns ||= query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
     end
 
+    # Should the column be highlighted when hovering over them. Can be overwritten to disable one or the other.
+    def highlight_column?(_column)
+      true
+    end
+
     def pagination_options
       { allowed_params: %i[query_id filters columns sortBy] }
     end
@@ -72,8 +72,7 @@ module Tables
     end
 
     def render_column_headers
-      # TODO: turn the Projects::ColumnHeaderComponent into generic component
-      render(Projects::ColumnHeaderComponent.with_collection(columns, query:))
+      render(column_header_class.with_collection(columns, query:))
     end
 
     private
@@ -92,6 +91,12 @@ module Tables
         "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
           "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
       )
+    end
+
+    def column_header_class
+      "#{model_name.pluralize}::ColumnHeaderComponent".constantize
+    rescue NameError
+      Tables::ColumnHeaderComponent
     end
   end
 end

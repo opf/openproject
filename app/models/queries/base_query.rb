@@ -29,6 +29,8 @@
 module Queries::BaseQuery
   extend ActiveSupport::Concern
 
+  PARAM_NAMES = %i[query_id filters columns sortBy per_page page].freeze
+
   included do
     include Queries::Filters::AvailableFilters
     include Queries::Selects::AvailableSelects

@@ -29,8 +29,6 @@
 module ProjectsHelper
   include WorkPackagesFilterHelper
 
-  PROJECTS_QUERY_PARAM_NAMES = %i[query_id filters columns sortBy per_page page].freeze
-
   def short_project_description(project, length = 255)
     if project.description.blank?
       return ""
@@ -61,6 +59,6 @@ module ProjectsHelper
   end
 
   def projects_query_params
-    safe_query_params(PROJECTS_QUERY_PARAM_NAMES)
+    safe_query_params(Queries::BaseQuery::PARAM_NAMES)
   end
 end

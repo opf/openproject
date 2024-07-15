@@ -43,6 +43,12 @@ module Projects
       end
     end
 
+    def highlight_column?(column)
+      return false if column.attribute == :lft
+
+      super
+    end
+
     # We don't return the project row
     # but the [project, level] array from the helper
     def render_rows
