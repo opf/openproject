@@ -32,7 +32,7 @@
 # This filter is used to find projects (including archived projects) that use one
 # of the given storages ids.
 module Queries::Storages::Projects::Filter
-  class StoragesFilter < ::Queries::Projects::Filters::ProjectFilter
+  class StoragesFilter < ::Queries::Projects::Filters::Base
     def self.key
       :storages
     end

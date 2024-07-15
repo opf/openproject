@@ -29,7 +29,7 @@
 # ++
 #
 
-class Queries::Projects::Filters::MemberOfFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::MemberOfFilter < Queries::Projects::Filters::Base
   include Queries::Filters::Shared::BooleanFilter
 
   def self.key

@@ -27,5 +27,5 @@
 #++
 
 class Queries::News::Filters::ProjectFilter < Queries::News::Filters::NewsFilter
-  include Queries::Filters::Shared::ProjectFilter
+  include Queries::Filters::Shared::ProjectFilter::Optional
 end

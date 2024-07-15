@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::ParentFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::ParentFilter < Queries::Projects::Filters::Base
   def type
     :list_optional
   end

@@ -30,11 +30,13 @@ require "spec_helper"
 
 RSpec.describe Queries::Storages::Projects::Filter::StoragesFilter do
   it_behaves_like "basic query filter" do
+    let(:model) { Project }
     let(:class_key) { :storages }
     let(:type) { :list }
   end
 
   it_behaves_like "list query filter", scope: false do
+    let(:model) { Project }
     shared_let(:project) { create(:project) }
     shared_let(:storage1) { create(:storage, :as_generic) }
     shared_let(:storage2) { create(:storage, :as_generic) }
