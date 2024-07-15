@@ -43,6 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
                                  aria: { label: I18n.t(:label_role_new) },
                                  title: I18n.t(:label_role_new),
                                  tag: :a,
+                                 test_selector: "roles--create-button",
                                  href: new_role_path) do |button|
       button.with_leading_visual_icon(icon: :plus)
       Role.model_name.human

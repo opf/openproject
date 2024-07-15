@@ -35,11 +35,11 @@ RSpec.describe "delete placeholder user", :js do
     it "can delete name" do
       visit placeholder_user_path(placeholder_user)
 
-      expect(page).to have_css ".button", text: "Delete"
+      expect(page).to have_test_selector "placeholder-user--delete-button", text: "Delete"
 
       visit edit_placeholder_user_path(placeholder_user)
 
-      expect(page).to have_css ".button", text: "Delete"
+      expect(page).to have_test_selector "placeholder-user--delete-button", text: "Delete"
       click_on "Delete"
 
       # Expect to be on delete confirmation
@@ -89,11 +89,11 @@ RSpec.describe "delete placeholder user", :js do
 
       visit placeholder_user_path(placeholder_user)
 
-      expect(page).to have_css ".button.-disabled", text: "Delete"
+      expect(page).to have_css("[data-test-selector='placeholder-user--delete-button'][disabled='disabled']", text: "Delete")
 
       visit edit_placeholder_user_path(placeholder_user)
 
-      expect(page).to have_css ".button.-disabled", text: "Delete"
+      expect(page).to have_css("[data-test-selector='placeholder-user--delete-button'][disabled='disabled']", text: "Delete")
     end
   end
 

@@ -57,6 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
                                 disabled: !deletable,
                                 href: deletable ? deletion_info_placeholder_user_path(@placeholder_user) : "#",
                                 aria: { label: I18n.t(:button_delete) },
+                                data: { "test-selector": "placeholder-user--delete-button" },
                                 title: deletable ?
                                          I18n.t(:button_delete) :
                                          I18n.t("placeholder_users.right_to_manage_members_missing")) do |button|

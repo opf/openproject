@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title {  @group.name }
+    header.with_title(test_selector: "groups--title") {  @group.name }
     header.with_breadcrumbs(
       [
         { href: groups_path, text: t(:label_group_plural) },
@@ -44,6 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
                                 size: :medium,
                                 href: edit_group_path(@group),
                                 aria: { label: I18n.t(:button_edit) },
+                                data: { "test-selector": "groups--edit-group-button" },
                                 title: I18n.t(:button_edit)) do |button|
         button.with_leading_visual_icon(icon: :pencil)
         t(:button_edit)
