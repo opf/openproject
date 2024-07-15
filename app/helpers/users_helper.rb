@@ -113,7 +113,7 @@ module UsersHelper
 
   def change_user_status_buttons(user)
     build_change_user_status_action(user) do |title, name|
-      Primer::Beta::Button.new(name:, type: :submit, title:) do |button|
+      render Primer::Beta::Button.new(name:, type: :submit, title:) do |button|
         button.with_leading_visual_icon(icon: change_user_status_icons[name])
         title
       end
