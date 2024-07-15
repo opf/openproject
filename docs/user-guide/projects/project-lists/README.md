@@ -13,12 +13,14 @@ In OpenProject you can create projects to collaborate with your team members, tr
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community edition nor in the Enterprise cloud or in Enterprise on-premises edition.
 
-| Topic                                                       | Content                                                      |
-| ----------------------------------------------------------- | ------------------------------------------------------------ |
-| [Select project lists](#select-project-lists)               | Get an overview of all your projects in the project lists.   |
-| [Filter project lists](#project-lists-filters)              | Adjust filters in the project lists.                         |
-| [Export project list](#export-project-lists)                | You can export the project list to XLS or CSV.               |
-| [Project overarching reports](#project-overarching-reports) | How to create project overarching reports across multiple projects. |
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Select project lists](#select-project-lists)                | Get an overview of all your projects in the project lists.   |
+| [Filter project lists](#project-lists-filters)               | Adjust filters in the project lists.                         |
+| [Favor project lists](#favor-project-lists)                  | Mark project lists as favorite.                              |
+| [Share project lists](#share-project-lists-enterprise-add-on) | Share project lists                                          |
+| [Export project list](#export-project-lists)                 | You can export the project list to XLS or CSV.               |
+| [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects. |
 
 ## Select project lists
 
@@ -147,6 +149,20 @@ Alternatively you can also use the **Activity module** from the [global modules 
 By selecting *Overall activity* you can open a view in which all the latest global project activities are documented. In the menu on the left side you can filter the activity by different areas to control e.g. the activity of work packages, wiki pages or meetings.
 
 ![overall activity meeting filter](actvity-global-filter.png)
+
+## Favor project lists
+
+You can mark your private project lists as favorites. This includes shared, public and private project lists, but not the static ones, e.g. *Active projects* or *Archived projects*. To mark a project list as favorite click the star icon in the top right corner. 
+
+![Mark project list as favorite in OpenProject](star-project-list.png)
+
+The star will turn yellow and the favorite project list will move to the top of the list within the respective sidebar section. If multiple project lists are favored, they will be listed alphabetically.
+
+![Favorite project list in OpenProject](star-yellow-project-list.png)
+
+You can remove the star by clicking on the star icon again. 
+
+## Share project lists (Enterprise add-on)
 
 ## Export project lists
 
