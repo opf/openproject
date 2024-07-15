@@ -26,22 +26,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
+import {
+  IProjectAutocompleteItem,
+} from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -69,6 +64,9 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
 
   ngOnInit():void {
     const projectID = this.currentProjectService.id;
+
+    this.additionalProjectApiFilters.push({ name: 'active', operator: '=', values: ['t'] });
+
     if (projectID && (this.filter.id === 'subprojectId' || this.filter.id === 'onlySubproject')) {
       this.additionalProjectApiFilters.push({ name: 'ancestor', operator: '=', values: [projectID] });
     }
