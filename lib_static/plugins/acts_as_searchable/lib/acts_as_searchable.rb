@@ -97,13 +97,19 @@ module Redmine
               token_clauses += Array(searchable_custom_fields_conditions)
             end
 
-            sql = (["(#{token_clauses.join(' OR ')})"] * tokens.size).join(" AND ")
+            sql = Array.new(tokens.size) do |index|
+              "(#{token_clauses.join(' OR ').gsub('?', ":token_#{index}")})"
+            end.join(" AND ")
 
             if tsv_clauses.present?
               sql << (" OR #{tsv_clauses.join(' OR ')}")
             end
 
-            find_conditions = [sql, *(tokens.map { |w| "%#{w.downcase}%" } * token_clauses.size).sort]
+            named_tokens = tokens.each_with_object({}).with_index do |(token, acc), index|
+              acc[:"token_#{index}"] = "%#{token.downcase}%"
+            end
+
+            find_conditions = [sql, named_tokens]
 
             project_conditions = [searchable_projects_condition]
 
@@ -171,13 +177,16 @@ module Redmine
           end
 
           def searchable_custom_fields_conditions
-            searchable_custom_field_ids = CustomField.where(type: "#{name}CustomField",
-                                                            searchable: true).pluck(:id)
+            searchable_custom_field_ids = CustomField.where(type: "#{name}CustomField", searchable: true).pluck(:id)
             if searchable_custom_field_ids.any?
               custom_field_condition =
                 CustomValue.select("1").where(customized_type: name)
-                           .where("customized_id=#{table_name}.id AND value ILIKE ?")
+                           .joins("LEFT JOIN custom_options
+                              ON custom_options.id = custom_values.value::bigint
+                              AND custom_options.custom_field_id = custom_values.custom_field_id")
+                           .where("customized_id=#{table_name}.id")
                            .where(custom_field_id: searchable_custom_field_ids)
+                           .where("(custom_values.value ILIKE ?) OR (custom_options.value ILIKE ?)")
 
               "EXISTS ( #{custom_field_condition.to_sql} )"
             end
