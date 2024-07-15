@@ -484,6 +484,23 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
     end
   end
 
+  context "given a work package with work and remaining work set to 0h, and % complete being unset" do
+    before do
+      work_package.estimated_hours = 0
+      work_package.remaining_hours = 0
+      work_package.done_ratio = nil
+      work_package.send(:clear_changes_information)
+    end
+
+    context "when work is set" do
+      let(:set_attributes) { { estimated_hours: 5.0 } }
+      let(:expected_derived_attributes) { { remaining_hours: 5.0, done_ratio: 0 } }
+
+      include_examples "update progress values",
+                       description: "remaining work is set to same value as work, and % complete is set to 0%"
+    end
+  end
+
   context "given a work package with work and remaining work unset, and % complete being set" do
     before do
       work_package.estimated_hours = nil

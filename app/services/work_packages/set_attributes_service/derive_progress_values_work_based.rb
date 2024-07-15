@@ -74,11 +74,11 @@ class WorkPackages::SetAttributesService
 
       if work_set? && remaining_work_unset? && percent_complete_unset?
         self.remaining_work = work
-      elsif work_unset? || percent_complete_unset?
-        self.remaining_work = nil
-      elsif work_changed? && remaining_work_set? && !percent_complete_changed?
+      elsif work_changed? && work_set? && remaining_work_set? && !percent_complete_changed?
         delta = work - work_was
         self.remaining_work = (remaining_work + delta).clamp(0.0, work)
+      elsif work_unset? || percent_complete_unset?
+        self.remaining_work = nil
       else
         self.remaining_work = remaining_work_from_percent_complete_and_work
       end
