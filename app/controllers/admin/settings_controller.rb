@@ -70,7 +70,7 @@ module Admin
     end
 
     def show_local_breadcrumb
-      true
+      false
     end
 
     def default_breadcrumb
@@ -80,11 +80,6 @@ module Admin
         I18n.t(:label_setting_plural)
       end
     end
-
-    def breadcrumb_items
-      [{ href: admin_index_path, text: t("label_administration") }]
-    end
-    helper_method :breadcrumb_items
 
     protected
 
