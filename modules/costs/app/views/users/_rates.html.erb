@@ -27,7 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<h2><%= t(:caption_rate_history) %></h2>
 <%
   @rates = HourlyRate.history_for_user(@user)
   @rates_default = @rates.delete(nil)
