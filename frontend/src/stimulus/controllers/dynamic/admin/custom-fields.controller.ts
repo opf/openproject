@@ -32,21 +32,22 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class CustomFieldsController extends Controller {
   static targets = [
-    'dragContainer',
     'format',
-    'length',
-    'regexp',
-    'multiSelect',
+    'dragContainer',
+
     'allowNonOpenVersions',
-    'possibleValues',
-    'defaultValue',
-    'defaultText',
-    'defaultLongText',
-    'defaultBool',
-    'textOrientation',
-    'searchable',
-    'customOptionRow',
     'customOptionDefaults',
+    'customOptionRow',
+    'defaultBool',
+    'defaultLongText',
+    'defaultText',
+    'defaultValue',
+    'length',
+    'multiSelect',
+    'possibleValues',
+    'regexp',
+    'searchable',
+    'textOrientation',
   ];
 
   declare readonly formatTarget:HTMLInputElement;
@@ -55,19 +56,19 @@ export default class CustomFieldsController extends Controller {
 
   // Lots of the option fields are optionally, so we use the
   // array notation to loop through instead of a lot of if (has...Target) calls
-  declare readonly lengthTargets:HTMLElement[];
-  declare readonly regexpTargets:HTMLElement[];
-  declare readonly multiSelectTargets:HTMLElement[];
   declare readonly allowNonOpenVersionsTargets:HTMLElement[];
-  declare readonly possibleValuesTargets:HTMLElement[];
-  declare readonly defaultValueTargets:HTMLElement[];
-  declare readonly defaultTextTargets:HTMLElement[];
-  declare readonly defaultLongTextTargets:HTMLElement[];
-  declare readonly defaultBoolTargets:HTMLElement[];
-  declare readonly textOrientationTargets:HTMLElement[];
-  declare readonly searchableTargets:HTMLInputElement[];
-  declare readonly customOptionRowTargets:HTMLTableRowElement[];
   declare readonly customOptionDefaultsTargets:HTMLInputElement[];
+  declare readonly customOptionRowTargets:HTMLTableRowElement[];
+  declare readonly defaultBoolTargets:HTMLElement[];
+  declare readonly defaultLongTextTargets:HTMLElement[];
+  declare readonly defaultTextTargets:HTMLElement[];
+  declare readonly defaultValueTargets:HTMLElement[];
+  declare readonly lengthTargets:HTMLElement[];
+  declare readonly multiSelectTargets:HTMLElement[];
+  declare readonly possibleValuesTargets:HTMLElement[];
+  declare readonly regexpTargets:HTMLElement[];
+  declare readonly searchableTargets:HTMLInputElement[];
+  declare readonly textOrientationTargets:HTMLElement[];
 
   connect() {
     if (this.hasDragContainerTarget) {
