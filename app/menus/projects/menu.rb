@@ -43,7 +43,6 @@ module Projects
     def menu_items
       [
         OpenProject::Menu::MenuGroup.new(header: nil, children: main_static_filters),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.public"), children: public_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.my_private"), children: my_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.shared"), children: shared_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"activerecord.attributes.project.status_code"),
@@ -100,23 +99,15 @@ module Projects
       end
     end
 
-    def public_filters
-      persisted_filters
-        .select(&:public?)
-        .map { |query| menu_item(query.name, query_id: query.id) }
-    end
-
     def my_filters
       persisted_filters
-        .reject(&:public?)
-        .select { |query| query.user == current_user }
+        .select { |query| !query.public? && query.user == current_user }
         .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
     def shared_filters
       persisted_filters
-        .reject(&:public?)
-        .reject { |query| query.user == current_user }
+        .select { |query| query.public? || query.user != current_user }
         .map { |query| menu_item(query.name, query_id: query.id) }
     end
 
