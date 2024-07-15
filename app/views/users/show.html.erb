@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
-    if current_user.allowed_globally?(:create_user)
+    if current_user.allowed_globally?(:create_user) && current_user != @user
       header.with_action_button(tag: :a,
                                 mobile_icon: :pencil,
                                 mobile_label: t(:label_send_invitation),

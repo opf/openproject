@@ -303,10 +303,7 @@ ro:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: În acest moment nu există tipuri disponibile.
         form:
@@ -1820,6 +1817,17 @@ ro:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Trimite notificări pentru această acțiune"
     work_packages:
       subject:
@@ -1839,6 +1847,7 @@ ro:
   label_add_another_file: "Adăugare alt fișier"
   label_add_columns: "Adăugați coloanele selectate"
   label_add_note: "Adăugare notă"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Adăugare pachet de lucru asociat"
   label_add_subtask: "Adăugare sub-activitate"
   label_added: "adăugat"
@@ -2125,8 +2134,8 @@ ro:
   label_member_all_admin: "(Toate rolurile datorită statutului de administrator)"
   label_member_plural: "Membri"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Membru adăugat"
-  lable_membership_updated: "Membru actualizat"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2235,6 +2244,7 @@ ro:
   label_project_latest: "Ultimele proiecte"
   label_project_default_type: "Tip gol permis"
   label_project_hierarchy: "Ierarhie de proiecte"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Proiect nou"
   label_project_plural: "Proiecte"
   label_project_list_plural: "Project lists"

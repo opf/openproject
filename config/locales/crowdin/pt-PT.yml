@@ -301,10 +301,7 @@ pt-PT:
           heading: Necessário em todos os projetos
           description: Este atributo de projeto é ativado em todos os projetos, uma vez que a opção "Necessário em todos os projetos" está assinalada. Não pode ser desativado para projetos individuais.
         new_project_mapping_form:
-          add_projects: Adicionar projetos
           include_sub_projects: Incluir subprojetos
-        project_mappings:
-          header: Ativado nos projetos
       types:
         no_results_title_text: Atualmente, não existem tipos disponíveis.
         form:
@@ -1784,6 +1781,17 @@ pt-PT:
         failed: "Ocorreu um erro e não foi possível remover o token. Tente novamente mais tarde."
         unknown_storage: "Armazenamento desconhecido"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Enviar notificações para esta ação"
     work_packages:
       subject:
@@ -1803,6 +1811,7 @@ pt-PT:
   label_add_another_file: "Adicione outro ficheiro"
   label_add_columns: "Adicionar colunas selecionadas"
   label_add_note: "Adicionar uma nota"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Adicionar tarefas relacionada"
   label_add_subtask: "Adicionar subtarefa"
   label_added: "adicionado"
@@ -2089,8 +2098,8 @@ pt-PT:
   label_member_all_admin: "(Todas as funções devidas ao status do administrador)"
   label_member_plural: "Membros"
   label_membership_plural: "Associações"
-  lable_membership_added: "Membro adicionado"
-  lable_membership_updated: "Membro atualizado"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2199,6 +2208,7 @@ pt-PT:
   label_project_latest: "Últimos projetos"
   label_project_default_type: "Permitir tipo vazio"
   label_project_hierarchy: "Hierarquia do projeto"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Novo Projecto"
   label_project_plural: "Projetos"
   label_project_list_plural: "Listas do projeto"

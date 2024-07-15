@@ -168,7 +168,7 @@ Redmine::MenuManager.map :global_menu do |menu|
   menu.push :work_packages_query_select,
             { controller: "/work_packages", action: "index" },
             parent: :work_packages,
-            partial: "work_packages/menu_query_select"
+            partial: "work_packages/menus/menu"
 
   # News
   menu.push :news,
@@ -185,7 +185,7 @@ end
 Redmine::MenuManager.map :notifications_menu do |menu|
   menu.push :notification_grouping_select,
             { controller: "/my", action: "notifications" },
-            partial: "notifications/menu_notification_center"
+            partial: "notifications/menus/menu"
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
@@ -580,7 +580,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :work_packages_query_select,
             { controller: "/work_packages", action: "index" },
             parent: :work_packages,
-            partial: "work_packages/menu_query_select",
+            partial: "work_packages/menus/menu",
             last: true,
             caption: :label_all_open_wps
 

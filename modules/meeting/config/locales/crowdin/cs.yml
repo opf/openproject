@@ -138,7 +138,7 @@ cs:
     types:
       classic: "Klasické"
       classic_text: "Uspořádat schůzku do formátů textového programu a protokolu."
-      structured: "Dynamický"
+      structured: "Dynamická"
       structured_text: "Uspořádat schůzku jako seznam bodů pořadu jednání, případně je propojit s pracovním balíčkem."
       structured_text_copy: "Kopírování schůzky v současné době nezkopíruje související body pořadu jednání, jen podrobnosti"
     copied: "Zkopírováno ze schůzky #%{id}"
@@ -151,7 +151,7 @@ cs:
   notice_timezone_missing: Není nastaveno žádné časové pásmo a předpokládá se %{zone} . Chcete-li vybrat časové pásmo, klikněte prosím zde.
   permission_create_meetings: "Vytvořit schůzku\n"
   permission_edit_meetings: "Upravit schůzku"
-  permission_delete_meetings: "Odstranit schůzky"
+  permission_delete_meetings: "Smazat schůzku"
   permission_view_meetings: "Zobrazit schůzky"
   permission_create_meeting_agendas: "Vytvořit agendy schůzek"
   permission_create_meeting_agendas_explanation: "Umožňuje upravovat obsah programu klasické schůzky."

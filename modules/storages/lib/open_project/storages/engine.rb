@@ -48,6 +48,7 @@ module OpenProject::Storages
 
     initializer "openproject_storages.feature_decisions" do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
+      OpenProject::FeatureDecisions.add :enable_storage_for_multiple_projects
     end
 
     initializer "openproject_storages.event_subscriptions" do
@@ -251,6 +252,7 @@ module OpenProject::Storages
         ::Queries::Register.register(::ProjectQuery) do
           filter ::Queries::Storages::Projects::Filter::StorageIdFilter
           filter ::Queries::Storages::Projects::Filter::StorageUrlFilter
+          filter ::Queries::Storages::Projects::Filter::StoragesFilter
         end
 
         ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do

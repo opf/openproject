@@ -13,7 +13,7 @@
     end
 
     content.with_sidebar(row_placement: :start, col_placement: :end) do
-      render(Users::Profile::SidebarComponent.new(user: @user))
+      render(Users::Profile::SidePanelComponent.new(user: @user))
     end
   end
 %>

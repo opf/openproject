@@ -53,6 +53,11 @@ cs:
   permission_view_file_links: Zobrazit odkazy na soubor
   permission_write_files: 'Automaticky spravované složky projektů: Zapisovat soubory'
   project_module_storages: Soubory
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: Dokončit bez něj

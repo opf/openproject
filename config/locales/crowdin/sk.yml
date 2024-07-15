@@ -303,10 +303,7 @@ sk:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Momentálne nie sú k dispozícii žiadne typy.
         form:
@@ -1854,6 +1851,17 @@ sk:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1873,6 +1881,7 @@ sk:
   label_add_another_file: "Pridať ďalší súbor"
   label_add_columns: "Pridať vybraté stĺpce"
   label_add_note: "Pridať poznámku"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Pridať naviazaný pracovný balíček"
   label_add_subtask: "Pridať podúlohu"
   label_added: "pridané"
@@ -2159,8 +2168,8 @@ sk:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Členovia"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2269,6 +2278,7 @@ sk:
   label_project_latest: "Najnovšie projekty"
   label_project_default_type: "Povoliť prázdny typ"
   label_project_hierarchy: "Hierarchia projektu"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_list_plural: "Project lists"

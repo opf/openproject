@@ -53,6 +53,11 @@ ms:
   permission_view_file_links: Lihat pautan fail
   permission_write_files: 'Folder projek yang dikendalikan secara automatik: Tulis fail'
   project_module_storages: Fail-fail
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: Lengkap tanpanya

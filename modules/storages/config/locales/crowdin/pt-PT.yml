@@ -53,6 +53,11 @@ pt-PT:
   permission_view_file_links: Mostrar hiperligações de ficheiros
   permission_write_files: 'Pastas do projeto geridas automaticamente: Escrever ficheiros'
   project_module_storages: Ficheiros
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: Concluir sem isso

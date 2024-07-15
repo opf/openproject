@@ -53,6 +53,11 @@ uk:
   permission_view_file_links: Перегляд посилань на файл
   permission_write_files: 'Папки проєкту з автоматичним керуванням: записування файлів'
   project_module_storages: Файли
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: Завершити без налаштування

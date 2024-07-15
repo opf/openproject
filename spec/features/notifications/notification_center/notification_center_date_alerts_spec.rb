@@ -166,7 +166,7 @@ RSpec.describe "Notification center date alerts", :js, :with_cuprite,
   end
 
   let(:center) { Pages::Notifications::Center.new }
-  let(:side_menu) { Components::Notifications::Sidemenu.new }
+  let(:side_menu) { Components::Submenu.new }
   let(:toaster) { PageObjects::Notifications.new(page) }
   let(:activity_tab) { Components::WorkPackages::Activities.new(notification_wp_due_today) }
 

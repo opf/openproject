@@ -48,11 +48,8 @@ module Pages::StructuredMeeting
       end
     end
 
-    def cancel_add_form(item)
-      page.within("#meeting-agenda-items-new-component-#{item.meeting_section_id}") do
-        click_on I18n.t(:button_cancel)
-        expect(page).to have_no_link I18n.t(:button_cancel)
-      end
+    def expect_no_add_form
+      expect(page).not_to have_test_selector("#meeting-agenda-items-form-component")
     end
 
     def add_agenda_item_to_section(section:, type: MeetingAgendaItem, save: true, &)
@@ -215,12 +212,12 @@ module Pages::StructuredMeeting
 
     def close_meeting
       click_on("Close meeting")
-      expect(page).to have_button("Reopen meeting")
+      expect(page).to have_link("Reopen meeting")
     end
 
     def reopen_meeting
       click_on("Reopen meeting")
-      expect(page).to have_button("Close meeting")
+      expect(page).to have_link("Close meeting")
     end
 
     def close_dialog
@@ -228,7 +225,7 @@ module Pages::StructuredMeeting
     end
 
     def meeting_details_container
-      find_by_id("meetings-sidebar-details-component")
+      find_by_id("meetings-side-panel-details-component")
     end
 
     def in_latest_section_form(&)

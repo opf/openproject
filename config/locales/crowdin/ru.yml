@@ -302,10 +302,7 @@ ru:
           heading: Требуется во всех проектах
           description: Этот атрибут проекта активирован во всех проектах, поскольку установлен флажок «Требуется во всех проектах». Его нельзя отключить для отдельных проектов.
         new_project_mapping_form:
-          add_projects: Добавить проекты
           include_sub_projects: Включить подпроекты
-        project_mappings:
-          header: Включено в проектах
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -1853,6 +1850,17 @@ ru:
         failed: "Произошла ошибка, и токен не удалось удалить.  Пожалуйста, повторите попытку позже."
         unknown_storage: "Неизвестное хранилище"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
       subject:
@@ -1872,6 +1880,7 @@ ru:
   label_add_another_file: "Добавьте еще один файл"
   label_add_columns: "Добавить выбранные столбцы"
   label_add_note: "Добавить заметку"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Добавить связанные пакеты работ"
   label_add_subtask: "Добавить подзадачу"
   label_added: "Добавлено"
@@ -2158,8 +2167,8 @@ ru:
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
   label_membership_plural: "Членство"
-  lable_membership_added: "Участник добавлен"
-  lable_membership_updated: "Участник обновлен"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "пред-альфа"
@@ -2268,6 +2277,7 @@ ru:
   label_project_latest: "Последние проекты"
   label_project_default_type: "Разрешить пустой тип"
   label_project_hierarchy: "Иерархия проектов"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_list_plural: "Списки проектов"

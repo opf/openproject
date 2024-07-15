@@ -34,7 +34,7 @@ RSpec.describe "Notification center", :js, :with_cuprite,
   end
 
   let(:center) { Pages::Notifications::Center.new }
-  let(:side_menu) { Components::Notifications::Sidemenu.new }
+  let(:side_menu) { Components::Submenu.new }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
   let(:split_screen) { Pages::SplitWorkPackage.new work_package }
   let(:split_screen2) { Pages::SplitWorkPackage.new work_package2 }

@@ -47,8 +47,8 @@ module Members
         OpenProject::Menu::MenuItem.new(title: I18n.t("members.menu.all"),
                                         href: project_members_path(project),
                                         selected: active_filter_count == 0),
-        menu_item(I18n.t("members.menu.locked"), status: :locked),
-        menu_item(I18n.t("members.menu.invited"), status: :invited)
+        menu_item(title: I18n.t("members.menu.locked"), query_params: { status: :locked }),
+        menu_item(title: I18n.t("members.menu.invited"), query_params: { status: :invited })
       ]
     end
 
@@ -57,13 +57,13 @@ module Members
         .where(id: MemberRole.where(member_id: @project.members.select(:id)).select(:role_id))
         .distinct
         .pluck(:id, :name)
-        .map { |id, name| menu_item(name, role_id: id) }
+        .map { |id, name| menu_item(title: name, query_params: { role_id: id }) }
     end
 
     def permission_menu_entries
       Members::UserFilterComponent
         .share_options
-        .map { |name, id| menu_item(name, shared_role_id: id) }
+        .map { |name, id| menu_item(title: name, query_params: { shared_role_id: id }) }
     end
 
     def project_group_entries
@@ -72,7 +72,7 @@ module Members
         .order(lastname: :asc)
         .distinct
         .pluck(:id, :lastname)
-        .map { |id, name| menu_item(name, group_id: id) }
+        .map { |id, name| menu_item(title: name, query_params: { group_id: id }) }
     end
 
     def selected?(query_params)

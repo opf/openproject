@@ -26,13 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  HostBinding,
-  Injector,
-  Input,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, HostBinding, Injector, Input, ViewEncapsulation } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
@@ -56,9 +50,11 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
 
   @Input() public group:GroupDescriptor;
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     public wpEditForm:EditFormComponent,
-    protected injector:Injector) {
+    protected injector:Injector,
+  ) {
     super();
   }
 
@@ -73,12 +69,5 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
   public shouldHideField(descriptor:FieldDescriptor) {
     const field = descriptor.field || descriptor.fields![0];
     return this.wpEditForm.editMode && !field.writable;
-  }
-
-  public fieldName(name:string) {
-    if (name === 'startDate') {
-      return 'combinedDate';
-    }
-    return name;
   }
 }

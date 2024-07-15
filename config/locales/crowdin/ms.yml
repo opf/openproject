@@ -302,10 +302,7 @@ ms:
           heading: Diperlukan dalam semua projek
           description: Atribut projek ini telah diaktifkan dalam semua projek sejak pilihan "Diperlukan dalam semua projek" telah ditandakan. Ia tidak boleh dinyahaktifkan untuk projek individu.
         new_project_mapping_form:
-          add_projects: Tambah projek
           include_sub_projects: Sertakan sub-projek
-        project_mappings:
-          header: Didayakan dalam projek
       types:
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
         form:
@@ -1750,6 +1747,17 @@ ms:
         failed: "Sebuah ralat telah berlaku dan token tidak dapat dipadam. Sila cuba lagi kemudian."
         unknown_storage: "Storan tidak dikenal pasti"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Hantar pemberitahuan untuk tindakan ini"
     work_packages:
       subject:
@@ -1769,6 +1777,7 @@ ms:
   label_add_another_file: "Tambah fail yang lain"
   label_add_columns: "Tambah kolum yang dipilih"
   label_add_note: "Tambah nota"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Tambah pakej kerja yang berkaitan"
   label_add_subtask: "Tambah subtugas"
   label_added: "ditambah"
@@ -2055,8 +2064,8 @@ ms:
   label_member_all_admin: "(Semua peranan disebabkan oleh status pentadbir)"
   label_member_plural: "Ahli-ahli"
   label_membership_plural: "Keahlian"
-  lable_membership_added: "Ahli ditambah"
-  lable_membership_updated: "Ahli dikemas kini"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pra-alpha"
@@ -2165,6 +2174,7 @@ ms:
   label_project_latest: "Projek terkini"
   label_project_default_type: "Benarkan jenis kosong"
   label_project_hierarchy: "Hierarki projek"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Projek baharu"
   label_project_plural: "Projek"
   label_project_list_plural: "Senarai projek"
