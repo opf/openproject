@@ -268,6 +268,24 @@ JJ Abrams</textarea>
     end
   end
 
+  describe "#date_picker" do
+    let(:options) { { title: "Last logged in", name: "user[custom_field_values][12]" } }
+
+    subject(:output) do
+      builder.date_picker :last_login_on, options
+    end
+
+    it_behaves_like "labelled by default"
+    it_behaves_like "wrapped in field-container by default"
+
+    it "outputs element" do
+      puts output
+      expect(output).to have_css "op-basic-single-date-picker"
+      # Regression test, allow for the name to be passed through
+      expect(output).to have_css "op-basic-single-date-picker[data-name='\"#{options[:name]}\"']"
+    end
+  end
+
   describe "#date_select" do
     let(:options) { { title: "Last logged in on" } }
 
