@@ -1,0 +1,34 @@
+<% sidebar_menu_items =
+     [
+       OpenProject::Menu::MenuGroup.new(
+         header: nil,
+         children: [
+           OpenProject::Menu::MenuItem.new(title: "Global query", href: "", selected: true),
+           OpenProject::Menu::MenuItem.new(title: "A second query", href: "", selected: false)
+         ]
+       ),
+       OpenProject::Menu::MenuGroup.new(
+         header: "Favourite",
+         children: [
+           OpenProject::Menu::MenuItem.new(title: "Very important version", href: "", selected: false),
+           OpenProject::Menu::MenuItem.new(title: "A baseline view", href: "", selected: true)
+         ]
+       ),
+       OpenProject::Menu::MenuGroup.new(
+         header: "Private",
+         children: [
+           OpenProject::Menu::MenuItem.new(title: "My query", href: "", selected: false),
+           OpenProject::Menu::MenuItem.new(title: "An awesome query", href: "", selected: false),
+           OpenProject::Menu::MenuItem.new(title: "A third query", href: "", selected: false)
+         ]
+       )
+     ] %>
+
+<div class="main-menu">
+  <!-- Meant to be rendered inside the left-handed sidebar and is currently depending on that -->
+  <!-- Please note, that due to that not all styles are correctly applied in the lookbook -->
+  <%= render OpenProject::Common::SubmenuComponent.new(
+    sidebar_menu_items: sidebar_menu_items
+  )
+  %>
+</div>
