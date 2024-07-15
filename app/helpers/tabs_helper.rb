@@ -41,12 +41,6 @@ module TabsHelper
     tabs.detect { |t| t[:name] == params[:tab] } || tabs.first
   end
 
-  # Render tabs from the ui/extensible tabs manager
-  def render_extensible_tabs(key, params = {})
-    tabs = tabs_for_key(key, params)
-    render_tabs(tabs)
-  end
-
   def tabs_for_key(key, params = {})
     ::OpenProject::Ui::ExtensibleTabs.enabled_tabs(key, params.reverse_merge(current_user:)).map do |tab|
       path = tab[:path].respond_to?(:call) ? instance_exec(params, &tab[:path]) : tab[:path]
