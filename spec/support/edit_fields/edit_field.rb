@@ -52,7 +52,7 @@ class EditField
   end
 
   def display_trigger_element
-    if display_element.has_selector?(".inline-edit--display-trigger")
+    if display_element.has_selector?(".inline-edit--display-trigger", wait: 0)
       display_element.find(".inline-edit--display-trigger")
     else
       display_element
