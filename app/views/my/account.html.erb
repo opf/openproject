@@ -29,8 +29,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t(:label_my_account), t(:label_profile)) -%>
 
-<% breadcrumb_paths(t(:label_my_account), t(:label_profile)) %>
-<%= toolbar title: t(:label_profile) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_profile) }
+    header.with_breadcrumbs([{ href: my_account_path, text: t(t(:label_my_account)) },
+                             t(:label_profile)])
+  end
+%>
+
 <%= error_messages_for 'user' %>
 
 <%= password_confirmation_form_for @user,
