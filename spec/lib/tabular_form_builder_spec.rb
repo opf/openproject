@@ -279,7 +279,6 @@ JJ Abrams</textarea>
     it_behaves_like "wrapped in field-container by default"
 
     it "outputs element" do
-      puts output
       expect(output).to have_css "op-basic-single-date-picker"
       # Regression test, allow for the name to be passed through
       expect(output).to have_css "op-basic-single-date-picker[data-name='\"#{options[:name]}\"']"
