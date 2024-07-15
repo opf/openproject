@@ -17,8 +17,9 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Select project lists](#select-project-lists)                | Get an overview of all your projects in the project lists.   |
 | [Filter project lists](#project-lists-filters)               | Adjust filters in the project lists.                         |
-| [Favor project lists](#favor-project-lists)                  | Mark project lists as favorite.                              |
-| [Share project lists](#share-project-lists-enterprise-add-on) | Share project lists                                          |
+| [Favorite project lists](#favorite-project-lists)            | Mark project lists as favorite.                              |
+| [Share project lists](#share-project-lists-with-users-and-groups-enterprise-add-on) | Share project lists                                          |
+| [Public project lists](#share-with-everyone-in-openproject)                |                                                              |
 | [Export project list](#export-project-lists)                 | You can export the project list to XLS or CSV.               |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects. |
 
@@ -150,7 +151,7 @@ By selecting *Overall activity* you can open a view in which all the latest glob
 
 ![overall activity meeting filter](actvity-global-filter.png)
 
-## Favor project lists
+## Favorite project lists
 
 You can mark your private project lists as favorites. This includes shared, public and private project lists, but not the static ones, e.g. *Active projects* or *Archived projects*. To mark a project list as favorite click the star icon in the top right corner. 
 
@@ -162,7 +163,15 @@ The star will turn yellow and the favorite project list will move to the top of 
 
 You can remove the star by clicking on the star icon again. 
 
-## Share project lists (Enterprise add-on)
+## Share project lists 
+
+### Share with everyone in OpenProject
+Within the instance, with registered users 
+include public as keyword 
+ Will be added to your public  project list
+ 
+### Share project lists with users and groups (Enterprise add-on)
+
 
 ## Export project lists
 
