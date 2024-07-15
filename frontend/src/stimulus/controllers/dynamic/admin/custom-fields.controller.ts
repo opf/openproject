@@ -49,11 +49,6 @@ export default class CustomFieldsController extends Controller {
     'customOptionDefaults',
   ];
 
-  static values = {
-    format: String,
-  };
-
-  declare readonly formatValue:string;
   declare readonly formatTarget:HTMLInputElement;
   declare readonly dragContainerTarget:HTMLElement;
   declare readonly hasDragContainerTarget:boolean;
@@ -79,7 +74,7 @@ export default class CustomFieldsController extends Controller {
       this.setupDragAndDrop();
     }
 
-    this.toggleFormat(this.formatValue);
+    this.formatChanged();
   }
 
   activate(elements:HTMLElement[], active = true) {

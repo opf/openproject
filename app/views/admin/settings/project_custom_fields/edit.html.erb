@@ -28,10 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_administration), t("settings.project_attributes.heading"), @custom_field.name %>
 
-<% content_controller 'admin--custom-fields',
-                      dynamic: true,
-                      'admin--custom-fields-format-value': @custom_field.field_format
-%>
+<% content_controller 'admin--custom-fields', dynamic: true %>
 
 <% local_assigns[:additional_breadcrumb] = @custom_field.name %>
 
