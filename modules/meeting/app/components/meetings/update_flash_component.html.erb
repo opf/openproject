@@ -11,6 +11,6 @@
        tag: :a,
        href: meeting_path(@meeting),
        data: { turbo: false },
-       size: :medium) { "Reload page" } %>
-  You really need to update this upage
+       size: :medium) { I18n.t("label_meeting_reload") } %>
+  <%= I18n.t("notice_meeting_updated") %>
 <% end %>

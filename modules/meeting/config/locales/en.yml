@@ -166,6 +166,7 @@ en:
 
   notice_successful_notification: "Notification sent successfully"
   notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
 
   permission_create_meetings: "Create meetings"
   permission_edit_meetings: "Edit meetings"
@@ -202,6 +203,7 @@ en:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "Created by"
   label_meeting_last_updated: "Last updated"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Agenda items"
   label_agenda_items_reordered: "reordered"
 
