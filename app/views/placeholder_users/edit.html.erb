@@ -31,11 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title(t(:label_administration), "#{t(:label_edit)} #{PlaceholderUser.model_name.human} #{h(@placeholder_user.name)}") -%>
 
 <% tabs = tabs_for_key(:placeholder_user, placeholder_user: @placeholder_user) %>
-<% selected_tab = selected_tab(tabs) %>
 
 <%= render partial: 'toolbar', locals: { tabs: tabs } %>
 
-<%= content_tag 'div',
-                render(partial: selected_tab[:partial], locals: { tab: selected_tab } ),
-                id: "tab-content-#{selected_tab[:name]}",
-                class: 'tab-content' %>
+<%= render_tabs tabs, with_tab_nav: false %>
