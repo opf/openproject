@@ -1,6 +1,15 @@
-<%= render(Primer::Alpha::Banner.new(full: false, icon: 'info', scheme: :default)) do |component| %>
+<%= render(Primer::Alpha::Banner.new(
+  full: false,
+  icon: 'info',
+  scheme: :default,
+  data: {
+    singleton: true
+  }
+)) do |component| %>
   <% component.with_action_button(
-       src: meeting_path(@meeting),
+       tag: :a,
+       href: meeting_path(@meeting),
+       data: { turbo: false },
        size: :medium) { "Reload page" } %>
   You really need to update this upage
 <% end %>

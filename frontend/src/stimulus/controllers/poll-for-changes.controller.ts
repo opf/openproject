@@ -32,20 +32,43 @@ import { ApplicationController } from 'stimulus-use';
 import { renderStreamMessage } from '@hotwired/turbo';
 
 export default class PollForChangesController extends ApplicationController {
+  static values = {
+    url: String,
+    interval: Number,
+    updatedAt: String,
+  };
+
+  declare updatedAtValue:string;
+  declare urlValue:string;
+  declare intervalValue:number;
+
+  private interval:number;
+
   connect() {
     super.connect();
-    setTimeout(() => {
-      console.log("Checking");
-      this.triggerTurboStream();
-    }, 2000);
+
+    this.interval = setInterval(() => {
+      void this.triggerTurboStream();
+    }, this.intervalValue || 10_000);
+  }
+
+  disconnect() {
+    super.disconnect();
+    clearInterval(this.interval);
   }
 
   async triggerTurboStream():Promise<void> {
-    await fetch(`/meetings/2512/check_for_updates`, {
+    await fetch(`${this.urlValue}?updatedAt=${this.updatedAtValue}`, {
       headers: {
         Accept: 'text/vnd.turbo-stream.html',
       },
-    }).then((r) => r.text())
-      .then((html) => renderStreamMessage(html));
+    }).then(async (r) => {
+      if (r.status === 200) {
+        clearInterval(this.interval);
+
+        const html = await r.text();
+        renderStreamMessage(html);
+      }
+    });
   }
 }

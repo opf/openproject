@@ -1,6 +1,12 @@
 <%=
   component_wrapper do
-    render(Primer::OpenProject::PageHeader.new) do |header|
+    render(Primer::OpenProject::PageHeader.new(
+      data: {
+        controller: "poll-for-changes",
+        poll_for_changes_updated_at_value: @meeting.updated_at.iso8601,
+        poll_for_changes_url_value: check_for_updates_meeting_path(@meeting),
+      }
+    )) do |header|
       if show_state?
         header.with_title { @meeting.title }
         header.with_breadcrumbs(breadcrumb_items)

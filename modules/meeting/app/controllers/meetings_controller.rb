@@ -76,7 +76,11 @@ class MeetingsController < ApplicationController
   end
 
   def check_for_updates
-    respond_with_flash(Meetings::UpdateFlashComponent.new(meeting: @meeting))
+    if Time.parse(params[:updatedAt]) < @meeting.updated_at.change(usec: 0)
+      respond_with_flash(Meetings::UpdateFlashComponent.new(meeting: @meeting))
+    else
+      head :no_content
+    end
   end
 
   def create # rubocop:disable Metrics/AbcSize
