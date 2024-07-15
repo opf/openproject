@@ -65,6 +65,7 @@ class MeetingAgendaItem < ApplicationRecord
   before_validation :add_to_latest_meeting_section
 
   after_create :trigger_meeting_agenda_item_time_slots_calculation
+  after_save :touch_meeting
   after_save :trigger_meeting_agenda_item_time_slots_calculation, if: Proc.new { |item|
     item.duration_in_minutes_previously_changed? || item.position_previously_changed?
   }
@@ -87,6 +88,10 @@ class MeetingAgendaItem < ApplicationRecord
 
   def trigger_meeting_agenda_item_time_slots_calculation
     meeting.calculate_agenda_item_time_slots
+  end
+
+  def touch_meeting
+    meeting.touch
   end
 
   # def delete_meeting_section_if_empty
