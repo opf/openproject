@@ -104,7 +104,7 @@ In OpenProject 14.3, users can now easily return to the global modules by unsele
 
 ![Dropdown project list, with a small x icon next to the selected project](openproject-14-3-unselect-projects-highlighted.png)
 
-### Gantt chart PDF export: Date zoom based on calendar weeks
+### Gantt chart PDF export (Enterprise add-on): Date zoom based on calendar weeks
 
 When exporting a Gantt chart to PDF, users will now be able to select calendar weeks as date zoom. This feature is particularly helpful for environments that communicate events based on calendar weeks.
 
