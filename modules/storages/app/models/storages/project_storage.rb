@@ -70,7 +70,7 @@ module Storages
     end
 
     def project_folder_path_escaped
-      escape_path(managed_project_folder_path)
+      UrlBuilder.path(managed_project_folder_path)
     end
 
     def file_inside_project_folder?(escaped_file_path)
@@ -121,10 +121,6 @@ module Storages
       project_folder_inactive? ||
         (project_folder_automatic? && !user.allowed_in_project?(:read_files, project)) ||
         project_folder_id.blank?
-    end
-
-    def escape_path(path)
-      Peripherals::StorageInteraction::Nextcloud::Util.escape_path(path)
     end
   end
 end
