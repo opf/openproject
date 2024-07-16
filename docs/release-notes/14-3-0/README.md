@@ -16,6 +16,18 @@ In these Release Notes, we will give an overview of important technical updates 
 
 ## Important technical updates
 
+### Host header validation
+
+Starting with this release, OpenProject will validate that the request HOST header to the application will match the `host_name` setting. In all installation methods, this should not require changes if you already proxy to the application with the Host header being forwarded to the application.
+
+In some cases, you may need to set `ProxyPreserveHost On` (Apache2) or `proxy_set_header Host $host;` (nginx) to avoid receiving errors.
+
+For more information on these changes, see the installation guides for your installation method of choice:
+https://www.openproject.org/docs/installation-and-operations/installation/
+
+
+This choice will reduce the chance of errors in configuration while preventing the possibility of a host header injection from within the application - a common security vulnerability if not prevented at the proxying server itself.
+
 ### Create multiple API access tokens
 
 Users now have the ability to create and delete multiple API access keys. This enhancement allows you to distinguish between keys used in different places, providing better organization and security.
