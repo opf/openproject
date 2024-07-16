@@ -28,14 +28,14 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title(t(:label_my_account), I18n.t('my_account.access_tokens.access_tokens')) -%>
-
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { I18n.t('my_account.access_tokens.access_tokens') }
-    header.with_breadcrumbs([{ href: my_account_path, text: t(t(:label_my_account)) },
-                             I18n.t('my_account.access_tokens.access_tokens')])
-  end
-%>
+<div class="access-token-page--container">
+  <%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title { I18n.t('my_account.access_tokens.access_tokens') }
+      header.with_breadcrumbs([{ href: my_account_path, text: t(t(:label_my_account)) },
+                               I18n.t('my_account.access_tokens.access_tokens')])
+    end
+  %>
 
 	<%= render partial: 'my/access_token_partials/api_tokens_section',
 							locals: { api_tokens: @user.api_tokens }

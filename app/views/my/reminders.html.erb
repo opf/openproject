@@ -26,7 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+
 <% html_title(t(:label_my_account), I18n.t("js.reminders.settings.title")) -%>
+
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { I18n.t("js.reminders.settings.title") }
@@ -34,4 +36,5 @@ See COPYRIGHT and LICENSE files for more details.
                              I18n.t("js.reminders.settings.title")])
   end
 %>
+
 <%= angular_component_tag "opce-reminder-settings" %>
