@@ -303,7 +303,7 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
             )
           end
 
-          it "does not set the custom field in the payload" do
+          it "does not prefill the custom field in the payload" do
             expect(subject.body)
               .not_to have_json_path("_embedded/payload/customField#{text_custom_field.id}/raw")
           end
@@ -321,10 +321,9 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
             expect(subject.body).to have_json_size(0).at_path("_embedded/validationErrors")
           end
 
-          it "sets the custom field in the payload" do
+          it "does not prefill the custom field in the payload" do
             expect(subject.body)
-              .to be_json_eql("CF text".to_json)
-              .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+              .not_to have_json_path("_embedded/payload/customField#{text_custom_field.id}/raw")
           end
         end
 
@@ -342,10 +341,9 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
             expect(subject.body).to have_json_size(1).at_path("_embedded/validationErrors")
           end
 
-          it "sets the custom field in the payload" do
+          it "does not prefill the custom field in the payload" do
             expect(subject.body)
-              .to be_json_eql("new CF text".to_json)
-              .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+              .not_to have_json_path("_embedded/payload/customField#{text_custom_field.id}/raw")
           end
 
           it "has a validation error on name" do
