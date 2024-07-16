@@ -18,7 +18,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Select project lists](#select-project-lists)                | Get an overview of all your projects in the project lists.   |
 | [Filter project lists](#project-lists-filters)               | Adjust filters in the project lists.                         |
 | [Favorite project lists](#favorite-project-lists)            | Mark project lists as favorite.                              |
-| [Share project lists with users and groups (Enterprise add-on)](#share-project-lists-with-users-and-groups-enterprise-add-on) | Share project lists with users and groups.                   |
+| [Share project lists with individual users and groups (Enterprise add-on)](#share-project-lists-with-individual-users-and-groups-enterprise-add-on) | Share project lists with individual users and groups.                   |
 | [Share project lists with everyone](#share-with-everyone-at-openproject) | Share project lists with everyone within your OpenProject instance. |
 | [Export project list](#export-project-lists)                 | You can export the project list to XLS or CSV.               |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects. |
@@ -180,12 +180,12 @@ The project list will move from *My project lists* section to *Shared project li
 
 ![Public project lists in OpenProject](project-lists-share-with-everyone-list.png)
 
-You can reverse the action by unselecting the star icon. The project list will return to *My project lists*. 
+You can reverse the action by unselecting the *Share with everyone* toggle. The project list will return to *My project lists*. 
 
 > ![TIP]
 > Using this function requires a *Manage public project lists* permission. This permission is automatically activated for administrators. If you want to grant this permission to other users, we recommend creating a [global role](../../../system-admin-guide/users-permissions/roles-permissions/#global-role) to assign this permission.
 
-### Share project lists with users and groups (Enterprise add-on)
+### Share project lists with individual users and groups (Enterprise add-on)
 > [!NOTE] 
 > Sharing project lists with users and groups is an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
