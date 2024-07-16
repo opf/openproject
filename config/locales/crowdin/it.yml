@@ -264,7 +264,7 @@ it:
       my: "I miei progetti"
       favored: "Progetti preferiti"
       archived: "Progetti archiviati"
-      shared: "Shared project lists"
+      shared: "Elenchi di progetti condivisi"
       my_lists: "My project lists"
       new:
         placeholder: "Nuovo elenco progetti"
@@ -3425,39 +3425,39 @@ it:
     text_empty_search_header: "Non abbiamo trovato alcun risultato corrispondente."
     text_empty_state_description: "Il %{entity} non è stato ancora condiviso con nessuno."
     text_empty_state_header: "Non condiviso"
-    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
-    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    text_user_limit_reached: "Con l'aggiunta di ulteriori utenti, verrà superato il limite attuale. Contatta un amministratore per incrementare il limite di utenti e garantire che gli utenti esterni possano accedere a questo %{entity}."
+    text_user_limit_reached_admins: 'Con l''aggiunta di ulteriori utenti, verrà superato il limite attuale. <a href="%{upgrade_url}">Passa a un altro piano</a> per poter aggiungere altri utenti.'
     warning_user_limit_reached: >
-      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+      Con l'aggiunta di ulteriori utenti, verrà superato il limite attuale. Contatta un amministratore per incrementare il limite di utenti e garantire che gli utenti esterni possano accedere a questo %{entity}.
     warning_user_limit_reached_admin: >
-      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
-    warning_no_selected_user: "Please select users to share this %{entity} with"
-    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      Con l'aggiunta di ulteriori utenti, verrà superato il limite attuale. <a href="%{upgrade_url}">Passa a un altro piano</a> per garantire che gli utenti esterni possano accedere a questo %{entity}.
+    warning_no_selected_user: "Seleziona gli utenti con cui condividere questo %{entity}"
+    warning_locked_user: "Non è possibile condividere con l'utente %{user}: l'utente è bloccato"
     user_details:
-      locked: "Locked user"
-      invited: "Invite sent. "
-      resend_invite: "Resend."
-      invite_resent: "Invite has been resent"
-      not_project_member: "Not a project member"
-      project_group: "Group members might have additional privileges (as project members)"
-      not_project_group: "Group (shared with all members)"
-      additional_privileges_project: "Might have additional privileges (as project member)"
-      additional_privileges_group: "Might have additional privileges (as group member)"
-      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+      locked: "Utente bloccato"
+      invited: "Invito inviato."
+      resend_invite: "Invia di nuovo."
+      invite_resent: "L'invito è stato inviato di nuovo"
+      not_project_member: "Non è un membro del progetto"
+      project_group: "I membri del gruppo possono avere privilegi aggiuntivi (in quanto membri del progetto)"
+      not_project_group: "Gruppo (condiviso con tutti i membri)"
+      additional_privileges_project: "Può avere privilegi aggiuntivi (in quanto membro del progetto)"
+      additional_privileges_group: "Può avere privilegi aggiuntivi (in quanto membro del gruppo)"
+      additional_privileges_project_or_group: "Può avere privilegi aggiuntivi (in quanto membro del progetto o del gruppo)"
     project_queries:
       publishing_denied: "You do not have permission to make project lists public."
-      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      access_warning: "Gli utenti vedranno solo i progetti a cui hanno accesso. La condivisione degli elenchi di progetti non influisce sulle autorizzazioni per i singoli progetti."
       user_details:
         owner: "List owner"
         can_view_because_public: "Can already view because list is shared with everyone"
         can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
-        label: "Share with everyone at %{instance_name}"
-        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+        label: "Condivida con tutti in %{instance_name}"
+        caption: "Tutti possono visualizzare questo elenco di progetti. Chi ha un permesso globale di modifica può modificarlo."
       blank_state:
         public:
-          header: "Shared with everyone"
-          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+          header: "Condiviso con tutti"
+          description: "Tutti possono visualizzare questo elenco di progetti. Puoi aggiungere anche singoli utenti con autorizzazioni aggiuntive."
         private:
           header: "Non condiviso: Privato"
           description: "This project list has not been shared with anyone yet. Only you can access this list."

@@ -116,9 +116,9 @@ it:
       label_error: Errore
       label_healthy: Tutto ok
       label_pending: In sospeso
-      label_warning: Warning
+      label_warning: Avviso
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Cartelle di progetto gestite automaticamente
       since: dal giorno %{datetime}
       title: Stato di salute
     health_email_notifications:
