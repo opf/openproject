@@ -26,6 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+
+<% format_dependent = CustomFieldsHelper::FormatDependent.new(@custom_field.field_format) %>
+
 <section class="form--section" id="custom_field_form">
   <div class="form--field -required" id="custom_field_name_attributes">
     <%= f.text_field :name, required: true, container_class: '-middle' %>
@@ -50,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
                  }
     %>
   </div>
-  <div class="form--grouping" id="custom_field_length" data-admin--custom-fields-target="length">
+  <div class="form--grouping" id="custom_field_length" <%= format_dependent.attributes(:length) %>>
     <div class="form--grouping-label">
       <%= t(:label_min_max_length) %> <br>
       <small>(<%= t(:text_min_max_length_info) %>)</small>
@@ -67,7 +70,7 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
 
-  <div class="form--field" data-admin--custom-fields-target="regexp">
+  <div class="form--field" <%= format_dependent.attributes(:regexp) %>>
     <%= f.text_field :regexp,
                      size: 50,
                      container_class: '-wide' %>
@@ -77,12 +80,12 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <% if @custom_field.new_record? || @custom_field.list? || @custom_field.multi_value_possible? %>
-    <div class="form--field" data-admin--custom-fields-target="multiSelect" hidden>
+    <div class="form--field" <%= format_dependent.attributes(:multiSelect) %>>
       <%= f.check_box :multi_value,
                       data: { action: 'admin--custom-fields#checkOnlyOne' } %>
     </div>
 
-    <fieldset class="form--fieldset" data-admin--custom-fields-target="possibleValues" hidden>
+    <fieldset class="form--fieldset" <%= format_dependent.attributes(:possibleValues) %>>
       <legend class="form--fieldset-legend"><%= I18n.t("activerecord.attributes.custom_field.possible_values") %></legend>
       <% if @custom_field.persisted? %>
         <div class="form--toolbar">
@@ -110,13 +113,13 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% if @custom_field.new_record? || @custom_field.version? || @custom_field.allow_non_open_versions_possible? %>
-    <div class="form--field" data-admin--custom-fields-target="allowNonOpenVersions" hidden>
+    <div class="form--field" <%= format_dependent.attributes(:allowNonOpenVersions) %>>
       <%= f.check_box :allow_non_open_versions %>
     </div>
   <% end %>
 
   <% if @custom_field.new_record? || !%w[text bool].include?(@custom_field.field_format) %>
-    <div class="form--field" id="default_value_text" data-admin--custom-fields-target="defaultText">
+    <div class="form--field" id="default_value_text" <%= format_dependent.attributes(:defaultText) %>>
       <%= f.text_field :default_value,
                        id: 'custom_fields_default_value_text',
                        for: 'custom_fields_default_value_text',
@@ -124,14 +127,14 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   <% end %>
   <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
-    <div class="form--field" data-admin--custom-fields-target="defaultBool" hidden>
+    <div class="form--field" <%= format_dependent.attributes(:defaultBool) %>>
       <%= f.check_box :default_value,
                       id: 'custom_fields_default_value_bool',
                       for: 'custom_fields_default_value_bool' %>
     </div>
   <% end %>
   <% if @custom_field.new_record? || @custom_field.field_format == 'text' %>
-    <div class="form--field" data-admin--custom-fields-target="defaultLongText" hidden>
+    <div class="form--field" <%= format_dependent.attributes(:defaultLongText) %>>
       <%= f.text_area :default_value,
                       id: 'custom_fields_default_value_longtext',
                       for: 'custom_fields_default_value_longtext',
@@ -166,13 +169,13 @@ See COPYRIGHT and LICENSE files for more details.
         <p><%= t('custom_fields.instructions.is_filter') %></p>
       </div>
     </div>
-    <div class="form--field" data-admin--custom-fields-target="searchable">
+    <div class="form--field" <%= format_dependent.attributes(:searchable) %>>
       <%= f.check_box :searchable %>
       <div class="form--field-instructions">
         <p><%= t('custom_fields.instructions.searchable') %></p>
       </div>
     </div>
-    <div class="form--field" data-admin--custom-fields-target="textOrientation" hidden>
+    <div class="form--field" <%= format_dependent.attributes(:textOrientation) %>>
       <%= f.check_box :content_right_to_left %>
     </div>
   <% when "UserCustomField" %>
@@ -207,7 +210,7 @@ See COPYRIGHT and LICENSE files for more details.
         <p><%= t('custom_fields.instructions.visible') %></p>
       </div>
     </div>
-    <div class="form--field" data-admin--custom-fields-target="searchable">
+    <div class="form--field" <%= format_dependent.attributes(:searchable) %>>
       <%= f.check_box :searchable %>
       <div class="form--field-instructions">
         <p><%= t('custom_fields.instructions.searchable') %></p>

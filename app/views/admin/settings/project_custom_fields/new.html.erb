@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% content_controller 'admin--custom-fields', dynamic: true %>
+<% content_controller 'admin--custom-fields', dynamic: true, 'admin--custom-fields-format-config-value': custom_fields_format_config %>
 
 <% html_title t(:label_administration), t("settings.project_attributes.heading"), t('settings.project_attributes.new.heading') %>
 <% local_assigns[:additional_breadcrumb] = t('settings.project_attributes.new.heading') %>

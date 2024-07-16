@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% content_controller 'admin--custom-fields', dynamic: true %>
+<% content_controller 'admin--custom-fields', dynamic: true, 'admin--custom-fields-format-config-value': custom_fields_format_config %>
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{CustomField.model_name.human} #{h @custom_field.name}" %>
 <% local_assigns[:additional_breadcrumb] = [
