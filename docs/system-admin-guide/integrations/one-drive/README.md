@@ -17,7 +17,8 @@ keywords: One Drive, SharePoint, file storage, integration
 | [Edit a OneDrive/SharePoint file storage](#edit-a-onedrivesharepoint-file-storage)      | Edit a OneDrive/SharePoint file storage                                   |
 | [Delete an OneDrive/SharePoint file storage](#delete-a-onedrivesharepoint-file-storage) | Delete a OneDrive/SharePoint file storage                                 |
 
-> **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used
+> [!NOTE]
+> OneDrive/SharePoint integration is an Enterprise add-on and can only be used
 > with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/)
 > or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free
 > Community edition is easy and helps support OpenProject.
@@ -34,7 +35,8 @@ The standard integration is supposed to work with a SharePoint subscription. The
 OneDrive for Business plan as well. There might be some differences in the setup, which are not covered by this
 documentation.
 
-> Note: This guide only covers the integration setup. Please go to
+> [!NOTE]
+> This guide only covers the integration setup. Please go to
 > our [OneDrive/SharePoint integration user guide](../../../user-guide/file-management/nextcloud-integration/) to learn
 > more about how to work with the OneDrive/SharePoint integration.
 
@@ -50,7 +52,8 @@ features.
 
 ## Set up the integration
 
-> **Important**: You need administrator privileges in the Azure portal for your Microsoft Entra ID and in your
+> [!IMPORTANT]
+> You need administrator privileges in the Azure portal for your Microsoft Entra ID and in your
 > OpenProject instance to set up this integration.
 >
 > Please make sure that you configure your Azure application to have the following **API permissions**:
@@ -87,7 +90,8 @@ You will see the following message confirming the successful setup on top of the
 
 ![System message on successful OneDrive/SharePoint file storages setup in OpenProject](openproject_system_guide_new_onedrive_message_successful_setup.png)
 
-> **Important note**: in Sharepoint you can add (custom) columns in addition to the ones shown by default (*Modified* and *Modified by*). Please keep in mind if these custom columns are added, OpenProject integration can no longer copy the automatically managed project folders. The columns will have to be de-activated, or ideally not be created in the first place.
+> [!IMPORTANT
+> In Sharepoint you can add (custom) columns in addition to the ones shown by default (*Modified* and *Modified by*). Please keep in mind if these custom columns are added, OpenProject integration can no longer copy the automatically managed project folders. The columns will have to be de-activated, or ideally not be created in the first place.
 
 ## Using the integration
 
@@ -139,7 +143,8 @@ You will be asked to confirm the exact file storage name.
 
 ![Delete a SharePoint integration from OpenProject system settings](openproject_system_guide_delete_onedrive_storage.png)
 
-> **Important:** Deleting a file storage as an instance administrator will also delete all settings and links between
+> [!IMPORTANT]
+> Deleting a file storage as an instance administrator will also delete all settings and links between
 > work packages and OneDrive/SharePoint files/folders. This means that should you want to reconnect your
 > OneDrive/SharePoint instance with OpenProject, you will need complete the entire setup process once again.
 

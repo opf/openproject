@@ -10,7 +10,7 @@ keywords: agile boards, Kanban, Scrum, agile project management, action boards
 
 Boards support Agile project management methodologies, such as Scrum or Kanban. OpenProject Agile boards enable you to keep track tasks, bugs, features, risks and any other work package types. Boards consist of lists (columns) and cards (work packages). You can choose between a Basic board and various advanced Action boards.
 
-> ![NOTE]
+> [!NOTE]
 > The Basic board is included in the OpenProject Community edition. OpenProject Action boards are an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 | Topic                                                     | Content                                                      |
@@ -43,7 +43,8 @@ You can also view the boards on the instance level via [the global modules menu]
 
 You can create as many Agile boards in a project as you need and configure them to your needs. First, you need to create a new Board. To do that, click on the green **+Board** button.
 
-> **Note**: to use this functionality, you need to [activate the Boards module](../projects/project-settings/modules) within your project. We also recommend to verify [Roles and Permissions](../../system-admin-guide/users-permissions/roles-permissions/) within your instance administration. 
+> [!NOTE]
+> To use this functionality, you need to [activate the Boards module](../projects/project-settings/modules) within your project. We also recommend to verify [Roles and Permissions](../../system-admin-guide/users-permissions/roles-permissions/) within your instance administration. 
 
 ![create a new board in the boards module](create-a-new-board-in-the-boards-module.png)
 
@@ -71,7 +72,8 @@ There are several **types of Action boards** available in OpenProject:
 Each list represents a status. That means that all work packages with the status "New" will be automatically displayed in the column "New".
 When creating a new Status board a list of all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
 
-> **Please note**: You can not move work packages from or to every status. Please find out more about the [workflow rules and restrictions here](../../system-admin-guide/manage-work-packages/work-package-workflows/).
+> [!TIP]
+> You can not move work packages from or to every status. Please find out more about the [workflow rules and restrictions here](../../system-admin-guide/manage-work-packages/work-package-workflows/).
 
 ![create status board](create-status-board.png)
 
