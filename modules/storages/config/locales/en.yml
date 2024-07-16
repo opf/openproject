@@ -137,7 +137,8 @@ en:
       title: Email notifications
       unsubscribe: Unsubscribe
     help_texts:
-      project_folder: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
+      project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: All available storages are already added to the project.
       automatic_folder: This will automatically create a root folder for this project and manage the access permissions for each project member.
