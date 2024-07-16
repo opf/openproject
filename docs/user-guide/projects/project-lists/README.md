@@ -183,7 +183,7 @@ The project list will move from *My project lists* section to *Shared project li
 You can reverse the action by unselecting the star icon. The project list will return to *My project lists*. 
 
 > ![TIP]
-> Using this function requires a *Manage public project lists* permission. This permission is automatically activated for administrators. If you want to grant this permission to other users, we recommend creating a [global role](../../../system-user-guide/users-permissions/roles-permissions/#global-role) to assign this permission.
+> Using this function requires a *Manage public project lists* permission. This permission is automatically activated for administrators. If you want to grant this permission to other users, we recommend creating a [global role](../../../system-admin-guide/users-permissions/roles-permissions/#global-role) to assign this permission.
 
 ### Share project lists with users and groups (Enterprise add-on)
 > [!NOTE] 
