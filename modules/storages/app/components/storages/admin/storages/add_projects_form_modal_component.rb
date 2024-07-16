@@ -35,7 +35,6 @@ module Storages
 
         def initialize(project_storage:, **)
           @project_storage = project_storage
-          @storage = project_storage.storage
           super(@project_storage, **)
         end
 

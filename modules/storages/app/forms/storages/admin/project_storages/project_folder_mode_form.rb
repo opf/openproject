@@ -31,9 +31,7 @@ module Storages
     module ProjectStorages
       class ProjectFolderModeForm < ApplicationForm
         form do |radio_form|
-          radio_form.radio_button_group(
-            name: :project_folder_mode
-          ) do |radio_group|
+          radio_form.radio_button_group(name: :project_folder_mode) do |radio_group|
             if @project_storage.project_folder_mode_possible?("inactive")
               radio_group.radio_button(value: "inactive", label: I18n.t(:"storages.label_no_specific_folder"),
                                        caption: I18n.t(:"storages.instructions.no_specific_folder"))

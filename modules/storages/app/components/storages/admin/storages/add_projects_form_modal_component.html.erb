@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     primer_form_with(
       class: "op-new-project-storage-form",
       model: @project_storage,
-      url: admin_settings_storage_project_storages_path(@storage),
+      url: admin_settings_storage_project_storages_path(project_storage.storage),
       data: { turbo: true },
       method: :post
     ) do |form|
