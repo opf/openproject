@@ -45,8 +45,7 @@ module Storages
 
           def call(auth_strategy:, folder:)
             Authentication[auth_strategy].call(storage: @storage) do |http|
-              call = http.get(Util.join_uri_path(@storage.uri, children_uri_path_for(folder) + FIELDS))
-              response = handle_response(call, :value)
+              response = handle_response(http.get(children_url_for(folder) + FIELDS), :value)
 
               if response.result.empty?
                 empty_response(http, folder)
@@ -91,8 +90,7 @@ module Storages
           end
 
           def empty_response(http, folder)
-            response = http.get(Util.join_uri_path(@storage.uri, location_uri_path_for(folder) + FIELDS))
-            handle_response(response, :id).map do |parent_location_id|
+            handle_response(http.get(location_url_for(folder) + FIELDS), :id).map do |parent_location_id|
               empty_storage_files(folder.path, parent_location_id)
             end
           end
@@ -146,20 +144,18 @@ module Storages
                             permissions: %i[readable writeable])
           end
 
-          def children_uri_path_for(folder)
-            return "/v1.0/drives/#{@storage.drive_id}/root/children" if folder.root?
+          def children_url_for(folder)
+            base_uri = Util.drive_base_uri(@storage)
+            return UrlBuilder.url(base_uri, "/root/children") if folder.root?
 
-            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}:/children"
+            "#{UrlBuilder.url(base_uri, '/root')}:#{UrlBuilder.path(folder.path)}:/children"
           end
 
-          def location_uri_path_for(folder)
-            return "/v1.0/drives/#{@storage.drive_id}/root" if folder.root?
+          def location_url_for(folder)
+            base_uri = UrlBuilder.url(Util.drive_base_uri(@storage), "/root")
+            return base_uri if folder.root?
 
-            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}"
-          end
-
-          def encode_path(path)
-            path.split("/").map { |fragment| URI.encode_uri_component(fragment) }.join("/")
+            "#{base_uri}:#{UrlBuilder.path(folder.path)}"
           end
         end
       end
