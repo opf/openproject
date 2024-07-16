@@ -268,7 +268,7 @@
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
       shared: "Offentlige prosjektlister"
-      my_private: "Mine private prosjektlister"
+      my_lists: "My project lists"
       new:
         placeholder: "Ny prosjektliste"
       delete_modal:

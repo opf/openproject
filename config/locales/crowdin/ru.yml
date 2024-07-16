@@ -267,7 +267,7 @@ ru:
       favored: "Избранные проекты"
       archived: "Архивные проекты"
       shared: "Общедоступные проекты"
-      my_private: "Списки моих личных проектов"
+      my_lists: "My project lists"
       new:
         placeholder: "Список новых проектов"
       delete_modal:

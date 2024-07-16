@@ -266,7 +266,7 @@ pt-PT:
       favored: "Projetos favoritos"
       archived: "Projetos arquivados"
       shared: "Shared project lists"
-      my_private: "As minhas listas de projetos privados"
+      my_lists: "My project lists"
       new:
         placeholder: "Nova lista de projetos"
       delete_modal:

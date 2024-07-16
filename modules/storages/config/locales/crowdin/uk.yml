@@ -116,7 +116,7 @@ uk:
       label_error: Помилка
       label_healthy: Справність
       label_pending: Очікування
-      label_warning: Warning
+      label_warning: Попередження
       project_folders:
         subtitle: Automatically managed project folders
       since: з %{datetime}

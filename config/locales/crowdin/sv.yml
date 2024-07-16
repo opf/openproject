@@ -268,7 +268,7 @@ sv:
       favored: "Favorite projects"
       archived: "Arkiverade projekt"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "Ny projektlista"
       delete_modal:

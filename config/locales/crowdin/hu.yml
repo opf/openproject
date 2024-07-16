@@ -267,7 +267,7 @@ hu:
       favored: "Favorite projects"
       archived: "Archivált projektek"
       shared: "Shared project lists"
-      my_private: "Privát projektlistáim"
+      my_lists: "My project lists"
       new:
         placeholder: "Új projektlista"
       delete_modal:

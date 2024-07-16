@@ -262,8 +262,8 @@ uk:
       my: "Мої проєкти"
       favored: "Обрані проєкти"
       archived: "Заархівовані проєкти"
-      shared: "Shared project lists"
-      my_private: "Особисті списки проєктів"
+      shared: "Загальнодоступні проєкти"
+      my_lists: "My project lists"
       new:
         placeholder: "Новий список проєктів"
       delete_modal:
@@ -399,18 +399,18 @@ uk:
   my:
     access_token:
       errors:
-        token_name_blank: "Please provide an API token name"
-        token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
-      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
-      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
+        token_name_blank: "Укажіть ім’я маркера API"
+        token_name_in_use: "Це ім’я маркера API уже використовується; виберіть інше"
+      new_access_token_dialog_title: "Створити новий маркер API"
+      new_access_token_dialog_show_button_text: "Маркер API"
+      new_access_token_dialog_text_field_placeholder_text: "Мій маркер API"
+      new_access_token_dialog_text_field_label: "Ім’я"
+      new_access_token_dialog_submit_button_text: "Створити"
+      new_access_token_dialog_text: "За допомогою цього маркера сторонні додатки зможуть взаємодіяти з вашим екземпляром. Призначте йому ім’я, щоб ідентифікувати новий інтерфейс API."
+      new_access_token_dialog_attention_text: "Маркери API – це щось на кшталт паролів. Будь-хто, маючи це посилання, може отримати доступ до даних цього екземпляра. Тому надавайте його тільки користувачам, яким довіряєте."
       failed_to_reset_token: "Не вдалося відновити маркер доступу: %{error}"
-      failed_to_create_token: "Failed to create access token: %{error}"
-      failed_to_revoke_token: "Failed to revoke access token: %{error}"
+      failed_to_create_token: "Не вдалося створити маркер доступу: %{error}"
+      failed_to_revoke_token: "Не вдалося відкликати маркер доступу: %{error}"
       notice_reset_token: "Нове %{type} генерований маркер. Ваш маркер доступу:"
       token_value_warning: "Примітка. Це єдиний раз, коли ви побачите цей маркер, переконайтеся, що його зараз скопіюйте."
       no_results_title_text: Наразі немає доступних маркерів доступу.
@@ -487,7 +487,7 @@ uk:
         is_readonly: "Лише для перегляду"
         excluded_from_totals: "Виключено з підсумків"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Темна (експериментальна)"
     light: "Світла"
     light_high_contrast: "Світла, високий контраст"
   types:
@@ -538,9 +538,9 @@ uk:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
       unsupported_for_multiple_projects: "Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        Поточний тип пакета робіт не ввімкнено в цільовому проєкті. Увімкніть його в цільовому проєкті, якщо не хочете, щоб він зазнав змін. Інакше тип пакета робіт буде автоматично перепризначено, що може призвести до втрати даних.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        Поточні типи пакетів робіт не ввімкнено в цільовому проєкті. Увімкніть їх у цільовому проєкті, якщо не хочете, щоб вони зазнали змін. Інакше типи пакетів робіт буде автоматично перепризначено, що може призвести до втрати даних.
     sharing:
       missing_workflow_warning:
         title: "Відсутній робочий процес для надання доступу до пакета робіт"
@@ -740,7 +740,7 @@ uk:
         auto_hide_popups: "Автоматичне приховування сповіщень про успіх"
         warn_on_leaving_unsaved: "Попереджати мене, коли залишив робочий пакет із незбереженими змінами"
         theme: "Режим"
-        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
+        mode_guideline: "У деяких режимах кольори користувацької теми замінюються, щоб полегшити взаємодію з користувачем і зробити її зручнішою. Якщо потрібна повністю користувацька тему, виберіть світлий режим."
       version:
         effective_date: "Дата закінчення"
         sharing: "Поширення"
@@ -944,7 +944,7 @@ uk:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "Виберіть проєкт."
         query:
           attributes:
             project:
@@ -1157,10 +1157,10 @@ uk:
       placeholder_user: "Прототип користувача"
       project: "Проект"
       project_query:
-        one: "Project list"
-        few: "Project lists"
-        many: "Project lists"
-        other: "Project lists"
+        one: "Список проєктів"
+        few: "Списки проєктів"
+        many: "Списки проєктів"
+        other: "Списки проєктів"
       query: "Частковий запит"
       role:
         one: "роль"
@@ -2105,7 +2105,7 @@ uk:
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
   label_show_hide: "Показати сховати"
-  label_show_hide_n_items: "Show/hide %{count} items"
+  label_show_hide_n_items: "Показати / приховати елементи (%{count})"
   label_show_all_registered_users: "Усі зареєстровані користувачі"
   label_journal: "Журнал"
   label_journal_diff: "Опис Порівняння"
@@ -2143,7 +2143,7 @@ uk:
   label_custom_touch_icon: "Призначений для користувача значок логотипу"
   label_logout: "Вийти"
   label_main_menu: "Бокове меню"
-  label_manage: "Manage"
+  label_manage: "Керувати"
   label_manage_groups: "Керувати групами"
   label_managed_repositories_vendor: "Керований %{vendor} repositories"
   label_max_size: "Максимальний розмір"
@@ -2693,7 +2693,7 @@ uk:
   notice_principals_found_multiple: "There are %{number} знайдені результати. \nВкладка для фокусування першого результату."
   notice_principals_found_single: "Знайдений один результат. Натисніть <TAB> для переходу до нього."
   notice_project_not_deleted: "Проект не був видалений."
-  notice_project_not_found: "Project not found."
+  notice_project_not_found: "Проєкт не знайдено."
   notice_successful_connection: "Підключення успішно встановлене."
   notice_successful_create: "Створення успішно завершене."
   notice_successful_delete: "Видалення успішно завершене."
@@ -2830,8 +2830,8 @@ uk:
   permission_manage_public_bcf_queries: "Керування загальнодоступними запитами BCF"
   permission_edit_attribute_help_texts: "Редагування текстів довідки для атрибутів"
   permission_manage_public_project_queries: "Керування списками загальнодоступних проєктів"
-  permission_view_project_query: "View project query"
-  permission_edit_project_query: "Edit project query"
+  permission_view_project_query: "Перегляд запиту проєкту"
+  permission_edit_project_query: "Редагування запиту проєкту"
   placeholders:
     default: "-"
   project:
@@ -3052,10 +3052,10 @@ uk:
   setting_default_projects_public: "Нові проекти є загальнодоступними"
   setting_diff_max_lines_displayed: "Відображається максимальна кількість рядків diff"
   setting_display_subprojects_work_packages: "Дисплей підпроекти пакети робіт на основні проекти за замовчуванням"
-  setting_duration_format: "Duration format"
-  setting_duration_format_hours_only: "Hours only"
-  setting_duration_format_days_and_hours: "Days and hours"
-  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
+  setting_duration_format: "Формат тривалості"
+  setting_duration_format_hours_only: "Тільки години"
+  setting_duration_format_days_and_hours: "Дні й години"
+  setting_duration_format_instructions: "Визначає спосіб відобрадення значень «Робота», «Залишок роботи» і «Витрачений час»."
   setting_emails_footer: "Листи до нижнього колонтитула"
   setting_emails_header: "Заголовок листа"
   setting_email_login: "Використовуйте електронну пошту як логін"
@@ -3068,7 +3068,7 @@ uk:
   setting_host_name: "Ім'я хоста"
   setting_hours_per_day: "Годин на день"
   setting_hours_per_day_explanation: >-
-    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
+    Визначає, що вважати днем, якщо тривалість представлено в днях і годинах (наприклад, якщо день триває 8 годин, то 32 години – це 4 дні).
   setting_invitation_expiration_days: "Повідомлення про активацію закінчується"
   setting_work_package_done_ratio: "Обчислення прогресу"
   setting_work_package_done_ratio_field: "На основі роботи"
@@ -3462,60 +3462,60 @@ uk:
         status_based_help_text: "Значення параметра «% завершення» визначається статусом пакета робіт."
         migration_warning_text: "У режимі обчислення прогресу на основі робіт значення параметра «% завершення» не можна встановити вручну й прив’язати до значення параметра «Робота». Наявне значення збережено, але його не можна змінити. Спочатку визначте параметр «Робота»."
     permissions:
-      comment: "Comment"
-      comment_description: "Can view and comment this work package."
-      edit: "Edit"
-      edit_description: "Can view, comment and edit this work package."
-      view: "View"
-      view_description: "Can view this work package."
+      comment: "Коментування"
+      comment_description: "Може переглядати й коментувати цей пакет робіт."
+      edit: "Редагування"
+      edit_description: "Може переглядати, коментувати й редагувати цей пакет робіт."
+      view: "Перегляд"
+      view_description: "Можна переглядати цей пакет робіт."
   sharing:
     count:
-      zero: "0 users"
-      one: "1 user"
-      other: "%{count} users"
+      zero: "0 користувачів"
+      one: "1 користувач"
+      other: "Користувачів: %{count}"
     filter:
-      project_member: "Project member"
-      not_project_member: "Not project member"
-      project_group: "Project group"
-      not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
-      role: "Role"
-      type: "Type"
-    denied: "You don't have permissions to share %{entities}."
-    label_search: "Search for users to invite"
-    label_search_placeholder: "Search by user or email address"
+      project_member: "Учасник проєкту"
+      not_project_member: "Не учасник проєкту"
+      project_group: "Група проєкту"
+      not_project_group: "Не група проєкту"
+      user: "Користувач"
+      group: "Група"
+      role: "Роль"
+      type: "Тип"
+    denied: "У вас немає дозволу надавати доступ до %{entities}."
+    label_search: "Шукати й запрошувати користувачів"
+    label_search_placeholder: "Пошук за користувачем або електронною адресою"
     label_toggle_all: "Toggle all shares"
-    remove: "Remove"
+    remove: "Вилучити"
     share: "Share"
-    text_empty_search_description: "There are no users with the current filter criteria."
-    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_search_description: "Користувачів за поточними умовами фільтра не знайдено."
+    text_empty_search_header: "Результатів за запитом не знайдено."
     text_empty_state_description: "The %{entity} has not been shared with anyone yet."
     text_empty_state_header: "Not shared"
-    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
-    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    text_user_limit_reached: "Додавання користувачів призведе до перевищення поточного ліміту. Зверніться до адміністратора, щоб збільшити ліміт користувачів і таким чином забезпечити доступ до цього %{entity} зовнішнім користувачам."
+    text_user_limit_reached_admins: 'Додавання користувачів призведе до перевищення поточного ліміту. <a href="%{upgrade_url}">Підвищте рівень свого плану</a>, щоб додати користувачів.'
     warning_user_limit_reached: >
-      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+      Додавання користувачів призведе до перевищення поточного ліміту. Зверніться до адміністратора, щоб збільшити ліміт користувачів і таким чином забезпечити доступ до цього %{entity} зовнішнім користувачам.
     warning_user_limit_reached_admin: >
-      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
-    warning_no_selected_user: "Please select users to share this %{entity} with"
-    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      Додавання користувачів призведе до перевищення поточного ліміту. <a href="%{upgrade_url}">Підвищте рівень свого плану</a>, щоб забезпечити доступ до цього %{entity} зовнішнім користувачам.
+    warning_no_selected_user: "Виберіть користувачів, яким потрібно надати доступ до цього %{entity}"
+    warning_locked_user: "Користувача %{user} заблоковано, і йому не можна надати доступ"
     user_details:
-      locked: "Locked user"
-      invited: "Invite sent. "
-      resend_invite: "Resend."
-      invite_resent: "Invite has been resent"
-      not_project_member: "Not a project member"
-      project_group: "Group members might have additional privileges (as project members)"
-      not_project_group: "Group (shared with all members)"
-      additional_privileges_project: "Might have additional privileges (as project member)"
-      additional_privileges_group: "Might have additional privileges (as group member)"
-      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+      locked: "Заблокований користувач"
+      invited: "Запрошення надіслано. "
+      resend_invite: "Переслати."
+      invite_resent: "Запрошення надіслано повторно"
+      not_project_member: "Не учасник проєкту"
+      project_group: "Учасники групи можуть мати додаткові повноваження (як учасники проєкту)"
+      not_project_group: "Група (спільна для всіх учасників)"
+      additional_privileges_project: "Може мати додаткові повноваження (як учасник проєкту)"
+      additional_privileges_group: "Може мати додаткові повноваження (як учасник групи)"
+      additional_privileges_project_or_group: "Може мати додаткові повноваження (як учасник проєкту або групи)"
     project_queries:
       publishing_denied: "You do not have permission to make project lists public."
-      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      access_warning: "Користувачі бачитимуть лише ті проєкти, до яких вони мають доступ. Спільний доступ до списків проєктів не впливає на індивідуальні дозволи на проєкти."
       user_details:
-        owner: "List owner"
+        owner: "Власник списку"
         can_view_because_public: "Can already view because list is shared with everyone"
         can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
@@ -3530,8 +3530,8 @@ uk:
           description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
         view: "View"
-        view_description: "Can view this project list."
-        edit: "Edit"
+        view_description: "Може переглянути цей список проєкту."
+        edit: "Редагування"
         edit_description: "Can view, share and edit this project list."
       upsale:
         message: "Sharing project lists with individual users is an enterprise add-on."

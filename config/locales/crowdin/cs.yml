@@ -268,7 +268,7 @@ cs:
       favored: "Oblíbené projekty"
       archived: "Archivované projekty"
       shared: "Shared project lists"
-      my_private: "soukromé seznamy  projektů"
+      my_lists: "My project lists"
       new:
         placeholder: "Nový seznam projektů"
       delete_modal:

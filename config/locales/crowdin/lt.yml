@@ -265,7 +265,7 @@ lt:
       favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
       shared: "Shared project lists"
-      my_private: "Mano privatūs projektų sąrašai"
+      my_lists: "My project lists"
       new:
         placeholder: "Naujas projektų sąrašas"
       delete_modal:

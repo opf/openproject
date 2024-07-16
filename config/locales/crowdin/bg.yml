@@ -268,7 +268,7 @@ bg:
       favored: "Любими проекти"
       archived: "Архивирани проекти"
       shared: "Споделени списъци с проекти"
-      my_private: "Моите лични списъци с проекти"
+      my_lists: "My project lists"
       new:
         placeholder: "Нов списък с проекти"
       delete_modal:

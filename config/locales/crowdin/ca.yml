@@ -265,7 +265,7 @@ ca:
       favored: "Projectes preferits"
       archived: "Projectes arxivats"
       shared: "Shared project lists"
-      my_private: "Les meves llistes de projectes privats"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:

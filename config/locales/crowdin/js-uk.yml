@@ -909,7 +909,7 @@ uk:
       image: "Зображення"
     sharing:
       share: "Share"
-      selected_count: "%{count} selected"
+      selected_count: "Вибрано: %{count}"
       selection:
         mixed: "Mixed"
     work_packages:

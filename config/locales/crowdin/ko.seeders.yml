@@ -43,9 +43,9 @@ ko:
           name: 기타
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: 프로젝트 쿼리 뷰어
         item_1:
-          name: Project query editor
+          name: 프로젝트 쿼리 편집기
       work_package_roles:
         item_0:
           name: 작업 패키지 편집자

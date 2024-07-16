@@ -267,7 +267,7 @@ zh-TW:
       favored: "Favorite projects"
       archived: "封存專案"
       shared: "Shared project lists"
-      my_private: "我的私人專案"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
