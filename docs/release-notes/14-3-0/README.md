@@ -49,16 +49,16 @@ For more information, see work package https://community.openproject.org/wp/5587
 
 ### Favorite project lists
 
-In addition to marking individual projects as favorites, users can now mark project lists as favorites. A star icon appears next to saved private project lists, turning yellow when marked as a favorite.
+In addition to marking individual projects as favorites, users can now mark project lists as favorites. A star icon appears next to saved private project lists, turning yellow when marked as a favorite. [Read more about favorite project lists in our user guide](https://www.openproject.org/docs/user-guide/projects/project-lists/#favorite-project-lists).
 
 ![Screenshot of a private project list and highlighted yellow stars - one as a button on the top right, one next to the name in the project lists overview](openproject-14-3-favorite-project-lists-highlighted.png)
 
-### Share project lists (Enterprise add-on) or turn them public 
+### Share project lists with users and groups (Enterprise add-on) or instance-wide 
 
 Continuing our focus on project portfolio management, OpenProject 14.3 introduces the ability to share project lists. Users can now:
 
-- Turn project lists public, making them accessible to everyone on the instance.
-- Share project lists with specific users or groups.
+- [Share project lists with everyone on your instance](https://www.openproject.org/docs/user-guide/projects/project-lists/#share-with-everyone-at-openproject).
+- [Share project lists with specific users or groups](https://www.openproject.org/docs/user-guide/projects/project-lists/#share-project-lists-with-users-and-groups-enterprise-add-on).
 
 Please note that sharing project lists with individuals or groups is, just like sharing work packages with individuals or groups, an Enterprise add-on.
 
@@ -71,7 +71,7 @@ In response to user feedback, OpenProject 14.3 now allows administrators to choo
 - Hours only
 - Hours and days
 
-This flexibility aims to accommodate different user preferences and improve the overall user experience.
+This flexibility aims to accommodate different user preferences and improve the overall user experience. Read more about [units of measurement for progress reporting with OpenProject](https://www.openproject.com/docs/user-guide/time-and-costs/progress-tracking/#units-of-measurement).
 
 ![Admin settings to choose the progress reporting duration format](openproject-14-3-progress-reporting-hours-only.png)
 
@@ -79,7 +79,7 @@ This flexibility aims to accommodate different user preferences and improve the 
 
 With OpenProject 14.3, administrators can now manually trigger and test the connection for OneDrive/SharePoint storages. This feature helps ensure that storage settings are correctly configured and provides feedback if issues are detected. This validation is available once the file storage is fully configured and works for all OneDrive/SharePoint storages, supplementing the Health status check for automatically managed project folders.
 
-Read more about [connection validation for external file storages](https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/#connection-validation).
+Read more about [connection validation for external file storages](https://www.openproject.com/docs/system-admin-guide/files/external-file-storages/health-status/#connection-validation).
 
 > [!NOTE]
 > We will start working on connection validation for Nextcloud storages soon. So if you're using Nextcloud as external file storage, stay tuned for our next releases!
@@ -106,7 +106,7 @@ In OpenProject 14.3, users can now easily return to the global modules by unsele
 
 ### Gantt chart PDF export (Enterprise add-on): Date zoom based on calendar weeks
 
-When exporting a Gantt chart to PDF, users will now be able to select calendar weeks as date zoom. This feature is particularly helpful for environments that communicate events based on calendar weeks.
+When exporting a Gantt chart to PDF, users will now be able to select calendar weeks as date zoom. This feature is particularly helpful for environments that communicate events based on calendar weeks. Read more about how to [export data from a Gantt diagram in OpenProject](https://www.openproject.com/docs/user-guide/gantt-chart/#how-to-export-data-from-a-gantt-diagram).
 
 ![Screenshot of the Gantt chart PDF export, weeks selected as date zoom](openproject-14-3-gantt-chart-pdf-export.png)
 
