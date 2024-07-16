@@ -616,15 +616,15 @@ uk:
       title: "Сповіщення"
       no_unread: "Немає непрочитаних сповіщень"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
-        processed: "Processed"
-        prioritized: "Prioritized"
+        mentioned: "Згадано"
+        watched: "Спостерігач"
+        assigned: "Виконавець"
+        responsible: "Відповідальний"
+        created: "Створено"
+        scheduled: "Заплановано"
+        commented: "Прокоментовано"
+        processed: "Оброблено"
+        prioritized: "Надано пріоритет"
         dateAlert: "Оповіщення про дату"
         shared: "Shared"
       date_alerts:
@@ -900,7 +900,7 @@ uk:
       image: "Зображення"
     sharing:
       share: "Share"
-      selected_count: "%{count} selected"
+      selected_count: "Вибрано: %{count}"
       selection:
         mixed: "Mixed"
     work_packages:

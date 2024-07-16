@@ -56,7 +56,7 @@ uk:
   project_storages:
     project_folder_mode:
       automatic: Automatically managed
-      inactive: No specific folder
+      inactive: Немає конкретної папки
       manual: Existing folder manually managed
   storages:
     buttons:
@@ -121,7 +121,7 @@ uk:
       label_error: Помилка
       label_healthy: Справність
       label_pending: Очікування
-      label_warning: Warning
+      label_warning: Попередження
       project_folders:
         subtitle: Automatically managed project folders
       since: з %{datetime}

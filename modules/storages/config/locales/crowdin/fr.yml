@@ -55,9 +55,9 @@ fr:
   project_module_storages: Fichiers
   project_storages:
     project_folder_mode:
-      automatic: Automatically managed
-      inactive: No specific folder
-      manual: Existing folder manually managed
+      automatic: Géré automatiquement
+      inactive: Aucun dossier spécifique
+      manual: Dossier existant géré manuellement
   storages:
     buttons:
       complete_without_setup: Compléter sans
@@ -108,10 +108,10 @@ fr:
     health:
       checked: Dernière vérification %{datetime}
       connection_validation:
-        action: Recheck connection
-        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        action: Revérifier la connexion
+        client_id_wrong: L'identifiant du client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
+        client_secret_wrong: Le secret client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
+        drive_id_wrong: L'identifiant du Drive configuré est introuvable. Veuillez vérifier la configuration.
         not_configured: The connection could not be validated. Please finish configuration first.
         placeholder: Check your connection against the server.
         subtitle: Connection validation
