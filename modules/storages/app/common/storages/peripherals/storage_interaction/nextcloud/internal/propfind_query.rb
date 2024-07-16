@@ -73,10 +73,7 @@ module Storages
             end
 
             def call(http:, username:, path:, props:)
-              request_uri = RequestUrlBuilder.build(@storage,
-                                                    "remote.php/dav/files",
-                                                    username,
-                                                    path)
+              request_uri = UrlBuilder.url(@storage.uri, "remote.php/dav/files", username, path)
               response = http.request(:propfind, request_uri, xml: request_body(props))
 
               handle_response(response, username)
@@ -130,7 +127,7 @@ module Storages
 
             def resource_path(section, username)
               path = CGI.unescape(section.xpath("d:href").text.strip)
-                        .gsub!(RequestUrlBuilder.path(@storage.uri.path, "remote.php/dav/files", username), "")
+                        .gsub!(UrlBuilder.path(@storage.uri.path, "remote.php/dav/files", username), "")
 
               path.end_with?("/") && path.length > 1 ? path.chop : path
             end

@@ -55,8 +55,7 @@ module Storages::Admin::ManagedProjectFolders
     def provider_type_link
       render(
         Primer::Beta::Link.new(
-          href: Storages::Peripherals::StorageInteraction::RequestUrlBuilder.build(@storage,
-                                                                                   "settings/admin/openproject"),
+          href: Storages::UrlBuilder.url(@storage.uri, "settings/admin/openproject"),
           target: "_blank"
         )
       ) { I18n.t("storages.instructions.#{@storage.short_provider_type}.integration") }

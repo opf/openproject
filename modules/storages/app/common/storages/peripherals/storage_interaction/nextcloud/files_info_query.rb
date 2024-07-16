@@ -63,7 +63,7 @@ module Storages
           private
 
           def files_info(http, file_ids)
-            response = http.post(RequestUrlBuilder.build(@storage, FILES_INFO_PATH), json: { fileIds: file_ids })
+            response = http.post(UrlBuilder.url(@storage.uri, FILES_INFO_PATH), json: { fileIds: file_ids })
             error_data = StorageErrorData.new(source: self.class, payload: response)
 
             case response
@@ -143,7 +143,7 @@ module Storages
             # in all supported versions of OpenProjectIntegation Nextcloud App.
             file_path << "/" if mimetype == "application/x-op-directory" && file_path[-1] != "/"
 
-            RequestUrlBuilder.path(file_path[idx..])
+            UrlBuilder.path(file_path[idx..])
           end
         end
       end

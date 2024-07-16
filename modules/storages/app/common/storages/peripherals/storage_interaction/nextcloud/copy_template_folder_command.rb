@@ -67,15 +67,8 @@ module Storages
           end
 
           def build_origin_urls(source_path:, destination_path:)
-            source_url = RequestUrlBuilder.build(@storage,
-                                                 "remote.php/dav/files",
-                                                 @storage.username,
-                                                 source_path)
-
-            destination_url = RequestUrlBuilder.build(@storage,
-                                                      "remote.php/dav/files",
-                                                      @storage.username,
-                                                      destination_path)
+            source_url = UrlBuilder.url(@storage.uri, "remote.php/dav/files", @storage.username, source_path)
+            destination_url = UrlBuilder.url(@storage.uri, "remote.php/dav/files", @storage.username, destination_path)
 
             { source_url:, destination_url: }
           end

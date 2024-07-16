@@ -58,11 +58,11 @@ module Storages
           private
 
           def base_uri
-            RequestUrlBuilder.build(@storage, "index.php/apps/integration_openproject/direct-upload-token")
+            UrlBuilder.url(@storage.uri, "index.php/apps/integration_openproject/direct-upload-token")
           end
 
           def upload_base_uri
-            RequestUrlBuilder.build(@storage, "index.php/apps/integration_openproject/direct-upload")
+            UrlBuilder.url(@storage.uri, "index.php/apps/integration_openproject/direct-upload")
           end
 
           def upload_data_failure

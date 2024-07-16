@@ -47,7 +47,7 @@ module Storages
 
               Authentication[auth_strategy].call(storage: @storage) do |http|
                 handle_response http.delete(
-                  RequestUrlBuilder.build(@storage, "remote.php/dav/files", origin_user_id, location)
+                  UrlBuilder.url(@storage.uri, "remote.php/dav/files", origin_user_id, location)
                 )
               end
             end

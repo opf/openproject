@@ -85,8 +85,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                    .basic_auth(@username, @password)
                    .request(
                      "PROPPATCH",
-                     Storages::Peripherals::StorageInteraction::RequestUrlBuilder
-                       .build(@storage, "remote.php/dav/files", @username, path),
+                     Storages::UrlBuilder.url(@storage.uri, "remote.php/dav/files", @username, path),
                      xml: body
                    )
 

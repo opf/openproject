@@ -49,8 +49,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                    .basic_auth(@username, @password)
                    .with(headers: { "OCS-APIRequest" => "true" })
                    .get(
-                     Storages::Peripherals::StorageInteraction::RequestUrlBuilder.build(
-                       @storage,
+                     Storages::UrlBuilder.url(
+                       @storage.uri,
                        "ocs/v1.php/cloud/groups",
                        CGI.escapeURIComponent(group)
                      )

@@ -98,10 +98,7 @@ module Storages
                            .with(headers: { "Depth" => depth })
                            .request(
                              "PROPFIND",
-                             RequestUrlBuilder.build(@storage,
-                                                     "remote.php/dav/files",
-                                                     @username,
-                                                     path),
+                             UrlBuilder.url(@storage.uri, "remote.php/dav/files", @username, path),
                              xml: body
                            )
 
@@ -112,7 +109,7 @@ module Storages
                 doc = Nokogiri::XML(response.body.to_s)
                 result = {}
                 doc.xpath("/d:multistatus/d:response").each do |resource_section|
-                  source_path = RequestUrlBuilder.path(@storage.uri.path, "/remote.php/dav/files", @username)
+                  source_path = UrlBuilder.path(@storage.uri.path, "/remote.php/dav/files", @username)
                   resource = CGI.unescape(resource_section.xpath("d:href").text.strip).gsub!(source_path, "")
 
                   result[resource] = {}

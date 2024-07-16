@@ -71,7 +71,7 @@ module Storages
           end
 
           def file_info(http, file_id)
-            response = http.get(RequestUrlBuilder.build(@storage, FILE_INFO_PATH, file_id))
+            response = http.get(UrlBuilder.url(@storage.uri, FILE_INFO_PATH, file_id))
             error_data = StorageErrorData.new(source: self.class, payload: response)
 
             case response
@@ -140,7 +140,7 @@ module Storages
 
             idx += prefix.length - 1
 
-            RequestUrlBuilder.path(file_path[idx..])
+            UrlBuilder.path(file_path[idx..])
           end
         end
       end

@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal:true
 
 #-- copyright
 # OpenProject is an open source project management software.
@@ -29,27 +29,42 @@
 #++
 
 module Storages
-  module Peripherals
-    module StorageInteraction
-      module Nextcloud
-        class OpenFileLinkQuery
-          def self.call(storage:, auth_strategy:, file_id:, open_location: false)
-            new(storage).call(auth_strategy:, file_id:, open_location:)
-          end
+  class UrlBuilder
+    class << self
+      def url(uri, *path_fragments)
+        URI.join(uri.origin,
+                 ensure_sub_path(uri.path),
+                 *split_and_escape(path_fragments))
+           .to_s
+      end
 
-          def initialize(storage)
-            @storage = storage
-          end
+      def path(*path_fragments)
+        URI.join(URI("https://drop.me"), *split_and_escape(path_fragments)).path
+      end
 
-          # rubocop:disable Lint/UnusedMethodArgument
-          def call(auth_strategy:, file_id:, open_location: false)
-            location_flag = open_location ? 0 : 1
-            url = UrlBuilder.url(@storage.uri, "index.php/f/#{file_id}") + "?openfile=#{location_flag}"
-            ServiceResult.success(result: url)
-          end
+      private
 
-          # rubocop:enable Lint/UnusedMethodArgument
-        end
+      def ensure_sub_path(fragment)
+        fragment.ends_with?("/") ? fragment : "#{fragment}/"
+      end
+
+      def split_and_escape(fragments)
+        return fragments if fragments.empty?
+
+        single_fragments = fragments
+                             .map { |f| f.split("/") }
+                             .flatten
+                             .reject(&:empty?)
+                             .each { |f| ensure_unescaped_fragments(f) }
+                             .map { |f| CGI.escapeURIComponent(f) }
+
+        single_fragments[..-2]
+          .map { |f| "#{f}/" }
+          .push(single_fragments.last)
+      end
+
+      def ensure_unescaped_fragments(fragment)
+        raise ArgumentError, "URL-escaped character found: #{fragment}" if CGI.unescape(fragment) != fragment
       end
     end
   end

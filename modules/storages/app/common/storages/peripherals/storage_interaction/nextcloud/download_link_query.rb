@@ -61,8 +61,7 @@ module Storages
 
           def direct_download_request(auth_strategy:, file_link:)
             Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
-              result = handle_response http.post(RequestUrlBuilder.build(@storage,
-                                                                         "/ocs/v2.php/apps/dav/api/v1/direct"),
+              result = handle_response http.post(UrlBuilder.url(@storage.uri, "/ocs/v2.php/apps/dav/api/v1/direct"),
                                                  json: { fileId: file_link.origin_id })
 
               result.bind do |resp|
@@ -96,7 +95,7 @@ module Storages
           end
 
           def download_link(token, origin_name)
-            RequestUrlBuilder.build(@storage, "index.php/apps/integration_openproject/direct", token, origin_name)
+            UrlBuilder.url(@storage.uri, "index.php/apps/integration_openproject/direct", token, origin_name)
           end
 
           def direct_download_token(body:)

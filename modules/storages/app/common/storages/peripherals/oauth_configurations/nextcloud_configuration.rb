@@ -52,13 +52,10 @@ module Storages
         end
 
         def to_httpx_oauth_config
-          issuer = URI(StorageInteraction::RequestUrlBuilder.build(@storage,
-                                                                   "/index.php/apps/oauth2/api/v1")).normalize
-
           StorageInteraction::AuthenticationStrategies::OAuthConfiguration.new(
             client_id: @oauth_client.client_id,
             client_secret: @oauth_client.client_secret,
-            issuer:,
+            issuer: URI(UrlBuilder.url(@storage.uri, "/index.php/apps/oauth2/api/v1")).normalize,
             scope: []
           )
         end
@@ -77,8 +74,8 @@ module Storages
             scheme: uri.scheme,
             host: uri.host,
             port: uri.port,
-            authorization_endpoint: StorageInteraction::RequestUrlBuilder.path(uri.path, "/index.php/apps/oauth2/authorize"),
-            token_endpoint: StorageInteraction::RequestUrlBuilder.path(uri.path, "/index.php/apps/oauth2/api/v1/token")
+            authorization_endpoint: UrlBuilder.path(uri.path, "/index.php/apps/oauth2/authorize"),
+            token_endpoint: UrlBuilder.path(uri.path, "/index.php/apps/oauth2/api/v1/token")
           )
         end
       end

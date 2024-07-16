@@ -45,7 +45,7 @@ module Storages
 
           def call(auth_strategy:)
             Authentication[auth_strategy].call(storage: @storage, http_options: Util.ocs_api_request) do |http|
-              handle_response http.get(RequestUrlBuilder.build(@storage, "/ocs/v1.php/cloud/user"))
+              handle_response http.get(UrlBuilder.url(@storage.uri, "/ocs/v1.php/cloud/user"))
             end
           end
 

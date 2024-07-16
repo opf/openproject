@@ -48,14 +48,12 @@ module Storages
                                  .on_failure { |error| return error }
                                  .result
 
-            path_prefix = RequestUrlBuilder.path(@storage.uri.path,
-                                                 "remote.php/dav/files",
-                                                 origin_user_id)
-            request_url = RequestUrlBuilder.build(@storage,
-                                                  "remote.php/dav/files",
-                                                  origin_user_id,
-                                                  parent_location.path,
-                                                  folder_name)
+            path_prefix = UrlBuilder.path(@storage.uri.path, "remote.php/dav/files", origin_user_id)
+            request_url = UrlBuilder.url(@storage.uri,
+                                         "remote.php/dav/files",
+                                         origin_user_id,
+                                         parent_location.path,
+                                         folder_name)
 
             create_folder_request(auth_strategy, request_url, path_prefix)
           end

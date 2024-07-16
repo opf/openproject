@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 class NextcloudApplicationCredentialsValidator
-  BUILDER = Storages::Peripherals::StorageInteraction::RequestUrlBuilder
-
   attr_reader :contract, :uri
 
   def initialize(contract)
@@ -41,7 +39,7 @@ class NextcloudApplicationCredentialsValidator
     response = OpenProject
                  .httpx
                  .basic_auth(contract.username, contract.password)
-                 .head(BUILDER.build(contract.model, "remote.php/dav"))
+                 .head(Storages::UrlBuilder.url(contract.model.uri, "remote.php/dav"))
     case response
     in { status: 200..299 }
       true

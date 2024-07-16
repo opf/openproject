@@ -30,31 +30,31 @@
 
 require "spec_helper"
 
-RSpec.describe Storages::Peripherals::StorageInteraction::RequestUrlBuilder do
-  describe "build" do
+RSpec.describe Storages::UrlBuilder do
+  describe "url" do
     context "if storage is of Nextcloud provider type" do
       context "with a standard host url" do
         let(:storage) { create(:nextcloud_storage, host: "https://example.com/") }
 
         it "returns the correct request URL" do
-          expect(described_class.build(storage, "/path/")).to eq("https://example.com/path")
-          expect(described_class.build(storage, "/path")).to eq("https://example.com/path")
-          expect(described_class.build(storage, "path/")).to eq("https://example.com/path")
-          expect(described_class.build(storage, "path")).to eq("https://example.com/path")
+          expect(described_class.url(storage.uri, "/path/")).to eq("https://example.com/path")
+          expect(described_class.url(storage.uri, "/path")).to eq("https://example.com/path")
+          expect(described_class.url(storage.uri, "path/")).to eq("https://example.com/path")
+          expect(described_class.url(storage.uri, "path")).to eq("https://example.com/path")
 
-          expect(described_class.build(storage, "path", "/another/fragment/"))
+          expect(described_class.url(storage.uri, "path", "/another/fragment/"))
             .to eq("https://example.com/path/another/fragment")
-          expect(described_class.build(storage, "/path/", "/another/fragment/"))
+          expect(described_class.url(storage.uri, "/path/", "/another/fragment/"))
             .to eq("https://example.com/path/another/fragment")
-          expect(described_class.build(storage, "/path/", "another/fragment"))
+          expect(described_class.url(storage.uri, "/path/", "another/fragment"))
             .to eq("https://example.com/path/another/fragment")
-          expect(described_class.build(storage, "/path/", "/another/", "/fragment/"))
+          expect(described_class.url(storage.uri, "/path/", "/another/", "/fragment/"))
             .to eq("https://example.com/path/another/fragment")
 
-          expect(described_class.build(storage, "path", "//with-double-slash/"))
+          expect(described_class.url(storage.uri, "path", "//with-double-slash/"))
             .to eq("https://example.com/path/with-double-slash")
 
-          expect(described_class.build(storage, "path", "new folder/stærforge"))
+          expect(described_class.url(storage.uri, "path", "new folder/stærforge"))
             .to eq("https://example.com/path/new%20folder/st%C3%A6rforge")
         end
       end
@@ -63,8 +63,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::RequestUrlBuilder do
         let(:storage) { create(:nextcloud_storage, host: "https://example.com") }
 
         it "returns the correct request URL" do
-          expect(described_class.build(storage, "/path/")).to eq("https://example.com/path")
-          expect(described_class.build(storage, "path")).to eq("https://example.com/path")
+          expect(described_class.url(storage.uri, "/path/")).to eq("https://example.com/path")
+          expect(described_class.url(storage.uri, "path")).to eq("https://example.com/path")
         end
       end
 
@@ -72,8 +72,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::RequestUrlBuilder do
         let(:storage) { create(:nextcloud_storage, host: "https://example.com/html/") }
 
         it "returns the correct request URL" do
-          expect(described_class.build(storage, "/path/")).to eq("https://example.com/html/path")
-          expect(described_class.build(storage, "path")).to eq("https://example.com/html/path")
+          expect(described_class.url(storage.uri, "/path/")).to eq("https://example.com/html/path")
+          expect(described_class.url(storage.uri, "path")).to eq("https://example.com/html/path")
         end
       end
 
@@ -81,8 +81,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::RequestUrlBuilder do
         let(:storage) { create(:nextcloud_storage, host: "https://example.com/html") }
 
         it "returns the correct request URL" do
-          expect(described_class.build(storage, "/path/")).to eq("https://example.com/html/path")
-          expect(described_class.build(storage, "path")).to eq("https://example.com/html/path")
+          expect(described_class.url(storage.uri, "/path/")).to eq("https://example.com/html/path")
+          expect(described_class.url(storage.uri, "path")).to eq("https://example.com/html/path")
         end
       end
     end
@@ -91,12 +91,12 @@ RSpec.describe Storages::Peripherals::StorageInteraction::RequestUrlBuilder do
       let(:storage) { create(:one_drive_storage) }
 
       it "returns the correct request URL" do
-        expect(described_class.build(storage, "/path/")).to eq("https://graph.microsoft.com/path")
-        expect(described_class.build(storage, "/path")).to eq("https://graph.microsoft.com/path")
-        expect(described_class.build(storage, "path/")).to eq("https://graph.microsoft.com/path")
-        expect(described_class.build(storage, "path")).to eq("https://graph.microsoft.com/path")
+        expect(described_class.url(storage.uri, "/path/")).to eq("https://graph.microsoft.com/path")
+        expect(described_class.url(storage.uri, "/path")).to eq("https://graph.microsoft.com/path")
+        expect(described_class.url(storage.uri, "path/")).to eq("https://graph.microsoft.com/path")
+        expect(described_class.url(storage.uri, "path")).to eq("https://graph.microsoft.com/path")
 
-        expect(described_class.build(storage, "path", "/to/", "/request"))
+        expect(described_class.url(storage.uri, "path", "/to/", "/request"))
           .to eq("https://graph.microsoft.com/path/to/request")
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::RequestUrlBuilder do
       let(:storage) { create(:nextcloud_storage) }
 
       it "raises an exception" do
-        expect { described_class.build(storage, "/path/", "/i%20am%20escaped/") }.to raise_error(ArgumentError)
+        expect { described_class.url(storage.uri, "/path/", "/i%20am%20escaped/") }.to raise_error(ArgumentError)
       end
     end
 
@@ -113,7 +113,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::RequestUrlBuilder do
       let(:storage) { create(:nextcloud_storage, host: "https://example.com/html/") }
 
       it "returns only the storage uri" do
-        expect(described_class.build(storage)).to eq("https://example.com/html/")
+        expect(described_class.url(storage.uri)).to eq("https://example.com/html/")
       end
     end
   end
@@ -131,6 +131,12 @@ RSpec.describe Storages::Peripherals::StorageInteraction::RequestUrlBuilder do
       expect(described_class.path("/path/", "/to", "file/")).to eq("/path/to/file")
 
       expect(described_class.path("/path/", "/new folder/stærforge/")).to eq("/path/new%20folder/st%C3%A6rforge")
+    end
+
+    context "if a fragment with an url escaped character is given" do
+      it "raises an error" do
+        expect { described_class.path("/path/", "/i%20am%20escaped/") }.to raise_error(ArgumentError)
+      end
     end
   end
 end

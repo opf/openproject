@@ -51,10 +51,7 @@ module Storages
                          .basic_auth(@username, @password)
                          .with(headers: { "OCS-APIRequest" => "true" })
                          .post(
-                           RequestUrlBuilder.build(@storage,
-                                                   "ocs/v1.php/cloud/users",
-                                                   user,
-                                                   "groups"),
+                           UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/users", user, "groups"),
                            form: { "groupid" => CGI.escapeURIComponent(group) }
                          )
 

@@ -46,9 +46,7 @@ module Storages
             end
 
             origin_user = origin_user_id(auth_strategy.user)
-            @location_prefix = RequestUrlBuilder.path(@storage.uri.path,
-                                                      "remote.php/dav/files",
-                                                      origin_user)
+            @location_prefix = UrlBuilder.path(@storage.uri.path, "remote.php/dav/files", origin_user)
 
             result = make_request(auth_strategy:, folder:, user: auth_strategy.user)
             storage_files(result)
@@ -62,10 +60,10 @@ module Storages
             Authentication[auth_strategy].call(storage: @storage,
                                                http_options: Util.webdav_request_with_depth(1)) do |http|
               response = http.request("PROPFIND",
-                                      RequestUrlBuilder.build(@storage,
-                                                              "remote.php/dav/files",
-                                                              origin_user,
-                                                              folder.path),
+                                      UrlBuilder.url(@storage.uri,
+                                                     "remote.php/dav/files",
+                                                     origin_user,
+                                                     folder.path),
                                       xml: requested_properties)
               handle_response(response)
             end
