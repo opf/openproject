@@ -58,10 +58,6 @@ module WikiHelper
     breadcrumb_paths(*paths)
   end
 
-  def nl2br(content)
-    content.gsub(/(?:\n\r?|\r\n?)/, "<br />").html_safe
-  end
-
   private
 
   def wiki_page_options_for_select_of_level(pages,
