@@ -45,7 +45,12 @@ class WorkPackages::SetAttributesService
     def invalid_progress_values?
       work&.negative? \
         || remaining_work&.negative? \
+        || percent_complete_out_of_range? \
         || remaining_work_set_greater_than_work?
+    end
+
+    def percent_complete_out_of_range?
+      percent_complete && !percent_complete.between?(0, 100)
     end
 
     def derive_work?

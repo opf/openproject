@@ -27,7 +27,7 @@ RSpec.shared_context "ModelContract shared context" do # rubocop:disable RSpec/C
     example_title = "contract is invalid"
     example_title << " with #{error_symbols.inspect}" if error_symbols.any?
 
-    it example_title do
+    it example_title, :aggregate_failures do
       expect_contract_invalid error_symbols
     end
   end

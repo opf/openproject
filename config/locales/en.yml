@@ -1108,6 +1108,7 @@ en:
               does_not_match_work_and_remaining_work: "does not match work and remaining work"
               cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
               must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
               cannot_be_null: "can not be set to null as start date and duration are known."
@@ -1138,7 +1139,6 @@ en:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."

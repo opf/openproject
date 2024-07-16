@@ -775,6 +775,10 @@ RSpec.describe WorkPackage do
     it "disallows negative values" do
       work_package.remaining_hours = "-1"
       expect(work_package).not_to be_valid
+
+      work_package.remaining_hours = "-1h"
+      expect(work_package.remaining_hours).to eq(-1)
+      expect(work_package).not_to be_valid
     end
 
     it "disallows string values, that are not numbers" do
