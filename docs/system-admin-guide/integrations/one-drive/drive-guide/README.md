@@ -87,7 +87,8 @@ With this value you can fully configure the OneDrive/SharePoint integration in O
 
 In this section we provide a few examples, in which we demonstrate how to go through the steps mentioned above with a
 specific toolset.
-> Note: following examples are explicitly written for this toolset and other mentioned preconditions, hence deviating
+> [!NOTE]
+> Following examples are explicitly written for this toolset and other mentioned preconditions, hence deviating
 > from the preconditions will cause the example to deviate.
 
 ### Example 1: Microsoft GRAPH explorer

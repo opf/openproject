@@ -41,7 +41,8 @@ You will then get a list of all your active projects in OpenProject.
 
 You can use the Project overview page to **create a multi-project status dashboard** if you include your own [project attributes](../../../system-admin-guide/projects/project-attributes), e.g. custom status options, project duration or any relevant project information.
 
-> **Please note:** Project attributes are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
+> [!NOTE]
+> Project attributes are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
 Each project is displayed in a single line, starting with the **Favorite** column, marking favorite projects. For the the fields where the text is too long to be displayed completely, please use the **Expand** icon.
 
@@ -125,7 +126,8 @@ Your saved project lists filter will appear on the left side under **My project 
 
 You can always rename or remove your project lists by using the respective option.
 
-> **Note:** Static lists cannot be renamed, so the option will not be displayed here.
+> [!NOTE]
+> Static lists cannot be renamed, so the option will not be displayed here.
 
 ![Delete a personal projects filter in OpenProject](private-project-filter-rename-delete.png)
 
@@ -182,7 +184,7 @@ The project list will move from *My project lists* section to *Shared project li
 
 You can reverse the action by unselecting the *Share with everyone* toggle. The project list will return to *My project lists*. 
 
-> ![TIP]
+> [!TIP]
 > Using this function requires a *Manage public project lists* permission. This permission is automatically activated for administrators. If you want to grant this permission to other users, we recommend creating a [global role](../../../system-admin-guide/users-permissions/roles-permissions/#global-role) to assign this permission.
 
 ### Share project lists with individual users and groups (Enterprise add-on)
