@@ -228,14 +228,22 @@ RSpec.describe "Projects", "editing settings", :js, :with_cuprite do
     context "with edit_project permission only" do
       let!(:custom_field) { create(:string_project_custom_field, projects: [project]) }
       let(:foo_field) { FormFields::InputFormField.new custom_field }
+      let(:role) { Role.first }
+
+      it "does not show custom fields" do
+        role.update(permissions: permissions - %i(edit_project_attributes))
+
+        visit project_settings_general_path(project)
+        expect(page).to have_no_content(custom_field.name)
+      end
 
       it "does not allow saving custom fields" do
         visit project_settings_general_path(project.id)
 
+        expect(page).to have_content(custom_field.name)
+
         # Remove edit_project_attributes after loading the form
-        role = Role.first
-        role.permissions -= [:edit_project_attributes]
-        role.save
+        role.update(permissions: permissions - %i(edit_project_attributes))
         current_user.reload
 
         foo_field.set_value "1234"

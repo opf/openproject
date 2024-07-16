@@ -100,7 +100,8 @@ RSpec.describe "Projects copy", :js, :with_cuprite,
          manage_files_in_project
          manage_file_links
          work_package_assigned
-         view_project_attributes)
+         view_project_attributes
+         edit_project_attributes)
     end
     let(:wp_user) do
       user = create(:user)
