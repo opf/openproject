@@ -26,31 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines a table based on TableComponent for listing the
-# Projects for a given Storage.
-# See also: row_component.rb, which contains a method
-# for every "column" defined below.
-module Storages::ProjectStorages::Projects
-  class TableComponent < Projects::TableComponent
-    include OpTurbo::Streamable
+module Storages
+  module Admin
+    module Storages
+      class AddProjectsFormModalComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-    options :project_folder_modes_per_project
+        def initialize(project_storage:, **)
+          @project_storage = project_storage
+          super(@project_storage, **)
+        end
 
-    def columns
-      @columns ||= query
-        .selects
-        .insert(1, ::Queries::Projects::Selects::Default.new(:project_folder_type))
-    end
+        private
 
-    def sortable?
-      false
-    end
+        attr_reader :project_storage, :storage
 
-    # Overwritten to avoid loading data that is not needed in this context
-    def projects(query)
-      query
-        .results
-        .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+        def dialog_id = Storages::AddProjectsModalComponent::DIALOG_ID
+        def dialog_body_id = Storages::AddProjectsModalComponent::DIALOG_BODY_ID
+
+        def title
+          I18n.t(:label_add_projects)
+        end
+
+        def cancel_button_text
+          I18n.t("button_cancel")
+        end
+
+        def submit_button_text
+          I18n.t("button_add")
+        end
+      end
     end
   end
 end

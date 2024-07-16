@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines a table based on TableComponent for listing the
-# Projects for a given Storage.
-# See also: row_component.rb, which contains a method
-# for every "column" defined below.
-module Storages::ProjectStorages::Projects
-  class TableComponent < Projects::TableComponent
-    include OpTurbo::Streamable
+module Storages
+  module Admin
+    module Storages
+      class AddProjectsModalComponent < ApplicationComponent
+        include OpTurbo::Streamable
 
-    options :project_folder_modes_per_project
+        DIALOG_ID = "storages--add-projects-modal".freeze
+        DIALOG_BODY_ID = "storages--add-projects-modal-body".freeze
 
-    def columns
-      @columns ||= query
-        .selects
-        .insert(1, ::Queries::Projects::Selects::Default.new(:project_folder_type))
-    end
+        def initialize(project_storage:, **)
+          @project_storage = project_storage
+          @storage = project_storage.storage
+          super(@project_storage, **)
+        end
 
-    def sortable?
-      false
-    end
+        private
 
-    # Overwritten to avoid loading data that is not needed in this context
-    def projects(query)
-      query
-        .results
-        .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+        def dialog_id = DIALOG_ID
+        def dialog_body_id = DIALOG_BODY_ID
+
+        attr_reader :project_storage, :storage
+
+        def title
+          I18n.t(:label_add_projects)
+        end
+      end
     end
   end
 end

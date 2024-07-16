@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,30 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Storages::Admin::EditFormHeaderComponent.new(storage: @storage, selected: :project_storages)) %>
-
-<%=
-  render(Primer::OpenProject::SubHeader.new) do |component|
-    component.with_action_component do
-      render(Primer::Beta::Button.new(
-        scheme: :primary,
-        tag: :a,
-        href: new_admin_settings_storage_project_storage_path(@storage),
-        data: { controller: "async-dialog" }
-      )) do |button|
-        button.with_leading_visual_icon(icon: 'op-include-projects')
-        I18n.t(:label_add_projects)
-      end
-    end
-  end
-%>
-
-<%=
-  render(
-    Storages::ProjectStorages::Projects::TableComponent.new(
-      query: @storage_projects_query,
-      project_folder_modes_per_project: @project_folder_modes_per_project,
-      params:
-    )
-  )
-%>
+<%= component_wrapper(tag: "div", data: { turbo: true }) do %>
+  <%= render_parent %>
+<% end %>

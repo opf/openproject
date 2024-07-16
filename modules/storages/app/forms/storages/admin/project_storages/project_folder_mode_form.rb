@@ -26,31 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines a table based on TableComponent for listing the
-# Projects for a given Storage.
-# See also: row_component.rb, which contains a method
-# for every "column" defined below.
-module Storages::ProjectStorages::Projects
-  class TableComponent < Projects::TableComponent
-    include OpTurbo::Streamable
+module Storages
+  module Admin
+    module ProjectStorages
+      class ProjectFolderModeForm < ApplicationForm
+        form do |radio_form|
+          radio_form.radio_button_group(name: :project_folder_mode) do |radio_group|
+            if @project_storage.project_folder_mode_possible?("inactive")
+              radio_group.radio_button(value: "inactive", label: I18n.t(:"storages.label_no_specific_folder"),
+                                       caption: I18n.t(:"storages.instructions.no_specific_folder"))
+            end
 
-    options :project_folder_modes_per_project
+            if @project_storage.project_folder_mode_possible?("automatic")
+              radio_group.radio_button(value: "automatic", label: I18n.t(:"storages.label_automatic_folder"),
+                                       caption: I18n.t(:"storages.instructions.automatic_folder"))
+            end
+          end
+        end
 
-    def columns
-      @columns ||= query
-        .selects
-        .insert(1, ::Queries::Projects::Selects::Default.new(:project_folder_type))
-    end
-
-    def sortable?
-      false
-    end
-
-    # Overwritten to avoid loading data that is not needed in this context
-    def projects(query)
-      query
-        .results
-        .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+        def initialize(project_storage:)
+          super()
+          @project_storage = project_storage
+        end
+      end
     end
   end
 end

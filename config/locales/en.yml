@@ -335,8 +335,6 @@ en:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -2160,6 +2158,7 @@ en:
   label_inactive: "Inactive"
   label_incoming_emails: "Incoming emails"
   label_includes: "includes"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"
   label_information: "Information"
