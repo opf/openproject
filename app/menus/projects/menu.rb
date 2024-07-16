@@ -43,7 +43,7 @@ module Projects
     def menu_items
       [
         OpenProject::Menu::MenuGroup.new(header: nil, children: main_static_filters),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.my_private"), children: my_filters),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.my_lists"), children: my_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.shared"), children: shared_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"activerecord.attributes.project.status_code"),
                                          children: status_static_filters)
