@@ -82,7 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
                       data: { action: 'admin--custom-fields#checkOnlyOne' } %>
     </div>
 
-    <fieldset class="form--fieldset" data-admin--custom-fields-target="possibleValues">
+    <fieldset class="form--fieldset" data-admin--custom-fields-target="possibleValues" hidden>
       <legend class="form--fieldset-legend"><%= I18n.t("activerecord.attributes.custom_field.possible_values") %></legend>
       <% if @custom_field.persisted? %>
         <div class="form--toolbar">
