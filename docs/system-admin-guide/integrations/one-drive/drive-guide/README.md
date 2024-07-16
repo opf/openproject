@@ -15,6 +15,7 @@ option, there are some preliminary steps to take. Otherwise, if the drive will t
 permission management still based within OneDrive/SharePoint, you should skip these steps and continue
 with [obtaining the drive id](./#how-to-obtain-a-drive-id).
 
+> [!IMPORTANT]
 > **Disclaimer**: Some of the following descriptions are very tightly connected to the current (2024-02-13) state of
 > SharePoint configuration. This may easily change in future, as we do not control nor foresee changes to the
 > configuration UI developed by Microsoft.
@@ -30,7 +31,8 @@ selecting the *Settings gear icon* to the top right, selecting *Library Settings
 Settings*. In the category of *Permissions and Management*, there should be the option to select *Permissions for this
 document library*. Within the new page, in the top menu, you need to select the option *Stop Inheriting Permissions*.
 
-> **Hint**: If you are using OneDrive for Business instead of SharePoint, there will be no site overriding the
+> [!TIP]
+> If you are using OneDrive for Business instead of SharePoint, there will be no site overriding the
 > permissions. Therefore, you can skip this step. You might still want to remove the previously set permissions, as
 > described in the next section.
 
