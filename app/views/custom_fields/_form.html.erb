@@ -115,23 +115,23 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   <% end %>
 
-  <div class="form--field" id="default_value_text" data-admin--custom-fields-target="defaultText">
-    <% if @custom_field.new_record? || !%w[text bool].include?(@custom_field.field_format) %>
+  <% if @custom_field.new_record? || !%w[text bool].include?(@custom_field.field_format) %>
+    <div class="form--field" id="default_value_text" data-admin--custom-fields-target="defaultText">
       <%= f.text_field :default_value,
                        id: 'custom_fields_default_value_text',
                        for: 'custom_fields_default_value_text',
                        container_class: '-wide' %>
-    <% end %>
-  </div>
-  <div class="form--field" data-admin--custom-fields-target="defaultBool" hidden>
-    <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
+    </div>
+  <% end %>
+  <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
+    <div class="form--field" data-admin--custom-fields-target="defaultBool" hidden>
       <%= f.check_box :default_value,
                       id: 'custom_fields_default_value_bool',
                       for: 'custom_fields_default_value_bool' %>
-    <% end %>
-  </div>
-  <div class="form--field" data-admin--custom-fields-target="defaultLongText" hidden>
-    <% if @custom_field.new_record? || @custom_field.field_format == 'text' %>
+    </div>
+  <% end %>
+  <% if @custom_field.new_record? || @custom_field.field_format == 'text' %>
+    <div class="form--field" data-admin--custom-fields-target="defaultLongText" hidden>
       <%= f.text_area :default_value,
                       id: 'custom_fields_default_value_longtext',
                       for: 'custom_fields_default_value_longtext',
@@ -140,8 +140,8 @@ See COPYRIGHT and LICENSE files for more details.
                       class: 'wiki-edit',
                       macros: "none",
                       with_text_formatting: true %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
   <%= call_hook(:view_custom_fields_form_upper_box, custom_field: @custom_field, form: f) %>
 </section>
 
