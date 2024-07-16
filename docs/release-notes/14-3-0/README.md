@@ -23,7 +23,7 @@ Starting with this release, OpenProject will validate that the request HOST head
 In some cases, you may need to set `ProxyPreserveHost On` (Apache2) or `proxy_set_header Host $host;` (nginx) to avoid receiving errors.
 
 For more information on these changes, see the installation guides for your installation method of choice:
-https://www.openproject.org/docs/installation-and-operations/installation/
+[Installation documentation](../../installation-and-operations/installation/)
 
 
 This choice will reduce the chance of errors in configuration while preventing the possibility of a host header injection from within the application - a common security vulnerability if not prevented at the proxying server itself.
@@ -61,7 +61,7 @@ For more information, see work package https://community.openproject.org/wp/5587
 
 ### Favorite project lists
 
-In addition to marking individual projects as favorites, users can now mark project lists as favorites. A star icon appears next to saved private project lists, turning yellow when marked as a favorite. [Read more about favorite project lists in our user guide](https://www.openproject.org/docs/user-guide/projects/project-lists/#favorite-project-lists).
+In addition to marking individual projects as favorites, users can now mark project lists as favorites. A star icon appears next to saved private project lists, turning yellow when marked as a favorite. [Read more about favorite project lists in our user guide](../../user-guide/projects/project-lists/#favorite-project-lists).
 
 ![Screenshot of a private project list and highlighted yellow stars - one as a button on the top right, one next to the name in the project lists overview](openproject-14-3-favorite-project-lists-highlighted.png)
 
@@ -69,8 +69,8 @@ In addition to marking individual projects as favorites, users can now mark proj
 
 Continuing our focus on project portfolio management, OpenProject 14.3 introduces the ability to share project lists. Users can now:
 
-- [Share project lists with everyone on your instance](https://www.openproject.org/docs/user-guide/projects/project-lists/#share-with-everyone-at-openproject).
-- [Share project lists with specific users or groups](https://www.openproject.org/docs/user-guide/projects/project-lists/#share-project-lists-with-users-and-groups-enterprise-add-on).
+- [Share project lists with everyone on your instance](../../user-guide/projects/project-lists/#share-with-everyone-at-openproject).
+- [Share project lists with specific users or groups](../../user-guide/projects/project-lists/#share-project-lists-with-individual-users-and-groups-enterprise-add-on).
 
 Please note that sharing project lists with individuals or groups is, just like sharing work packages with individuals or groups, an Enterprise add-on.
 
