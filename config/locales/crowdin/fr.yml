@@ -3412,38 +3412,38 @@ fr:
       edit: "Éditer"
       edit_description: "Peut consulter, commenter et modifier ce lot de travaux."
       view: "Voir"
-      view_description: "Can view this work package."
+      view_description: "Peut consulter ce lot de travaux."
   sharing:
     count:
-      zero: "0 users"
-      one: "1 user"
-      other: "%{count} users"
+      zero: "0 utilisateur"
+      one: "1 utilisateur"
+      other: "%{count} utilisateurs"
     filter:
-      project_member: "Project member"
-      not_project_member: "Not project member"
-      project_group: "Project group"
-      not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
-      role: "Role"
+      project_member: "Membre du projet"
+      not_project_member: "Non membre du projet"
+      project_group: "Groupe de projet"
+      not_project_group: "Non groupe du projet"
+      user: "Utilisateur"
+      group: "Groupe"
+      role: "Rôle"
       type: "Type"
-    denied: "You don't have permissions to share %{entities}."
-    label_search: "Search for users to invite"
-    label_search_placeholder: "Search by user or email address"
-    label_toggle_all: "Toggle all shares"
-    remove: "Remove"
-    share: "Share"
-    text_empty_search_description: "There are no users with the current filter criteria."
-    text_empty_search_header: "We couldn't find any matching results."
-    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
-    text_empty_state_header: "Not shared"
-    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
-    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    denied: "Vous n'avez pas l'autorisation de partager %{entities}."
+    label_search: "Rechercher des utilisateurs à inviter"
+    label_search_placeholder: "Recherche par utilisateur ou par adresse e-mail"
+    label_toggle_all: "Activer/désactiver tous les partages"
+    remove: "Supprimer"
+    share: "Partager"
+    text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
+    text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
+    text_empty_state_description: "L'entité %{entity} n'a encore été partagée avec personne."
+    text_empty_state_header: "Non partagé"
+    text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à cette entité %{entity}."
+    text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre formule d''abonnement</a> pour ajouter d''autres utilisateurs.'
     warning_user_limit_reached: >
-      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à cette entité %{entity}.
     warning_user_limit_reached_admin: >
-      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
-    warning_no_selected_user: "Please select users to share this %{entity} with"
+      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à jour votre formule d'abonnement</a> pour que les utilisateurs externes puissent accéder à cette entité %{entity}.
+    warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels vous souhaitez partager cette entité %{entity}"
     warning_locked_user: "The user %{user} is locked and cannot be shared with"
     user_details:
       locked: "Locked user"

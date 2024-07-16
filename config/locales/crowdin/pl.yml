@@ -246,7 +246,7 @@ pl:
       work_package_attachments: "Pakiety robocze: załączniki"
       work_package_categories: "Pakiety robocze: kategorie"
       work_package_file_links: "Pakiety robocze: linki do pliku"
-      work_package_shares: "Work packages: shares"
+      work_package_shares: "Pakiet roboczy: udostępnienia"
     delete:
       scheduled: "Usunięcie zostało zaplanowane i jest wykonywane w tle. Otrzymasz powiadomienie o wyniku."
       schedule_failed: "Nie można usunąc projektu: %{errors}"
@@ -264,7 +264,7 @@ pl:
       my: "Moje projekty"
       favored: "Ulubione projekty"
       archived: "Zarchiwizowane projekty"
-      shared: "Shared project lists"
+      shared: "Udostępnione listy projektów"
       my_private: "Moje prywatne listy projektów"
       new:
         placeholder: "Nowa lista projektów"
@@ -398,18 +398,18 @@ pl:
   my:
     access_token:
       errors:
-        token_name_blank: "Please provide an API token name"
-        token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
-      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
-      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
+        token_name_blank: "Podaj nazwę tokena API"
+        token_name_in_use: "Ta nazwa tokena API jest już używana, wybierz inną"
+      new_access_token_dialog_title: "Utwórz nowy token API"
+      new_access_token_dialog_show_button_text: "Token API"
+      new_access_token_dialog_text_field_placeholder_text: "Mój token API"
+      new_access_token_dialog_text_field_label: "Nazwa"
+      new_access_token_dialog_submit_button_text: "Utwórz"
+      new_access_token_dialog_text: "Ten token umożliwi aplikacjom innych firm komunikację z Twoim wystąpieniem. Aby odróżnić nowy token API, nadaj mu nazwę."
+      new_access_token_dialog_attention_text: "Traktuj tokeny API jak hasła. Każdy z tym linkiem będzie miał dostęp do informacji z tego wystąpienia, udostępniaj je więc tylko zaufanym użytkownikom."
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"
-      failed_to_create_token: "Failed to create access token: %{error}"
-      failed_to_revoke_token: "Failed to revoke access token: %{error}"
+      failed_to_create_token: "Nie można utworzyć tokena dostępu: %{error}"
+      failed_to_revoke_token: "Nie można unieważnić tokena dostępu: %{error}"
       notice_reset_token: "Nowy token typu %{type} został wygenerowany. Twój token dostępu to:"
       token_value_warning: "Uwaga: jest to jedyny raz, gdy zobaczysz ten token, koniecznie skopiuj go teraz."
       no_results_title_text: Aktualnie nie ma dostępnych tokenów.
@@ -487,7 +487,7 @@ pl:
         is_readonly: "Tylko do odczytu"
         excluded_from_totals: "Wyłączono z sum"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Ciemny (eksperymentalny)"
     light: "Jasny"
     light_high_contrast: "Jasny, wysoki kontrast"
   types:
@@ -538,9 +538,9 @@ pl:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: "Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        Bieżący typ pakietu roboczego nie jest włączony w projekcie docelowym. Włącz typ w projekcie docelowym, jeśli chcesz, aby pozostał niezmieniony. W przeciwnym razie typ pakietu roboczego zostanie automatycznie przypisany ponownie, co może doprowadzić do utraty danych.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        Bieżące typy pakietów roboczych nie są włączone w projekcie docelowym. Włącz typy w projekcie docelowym, jeśli chcesz, aby pozostały niezmienione. W przeciwnym razie typy pakietów roboczych zostaną automatycznie ponownie przypisane, co może doprowadzić do utraty danych.
     sharing:
       missing_workflow_warning:
         title: "Brak przepływu pracy udostępniania pakietu roboczego"
@@ -740,7 +740,7 @@ pl:
         auto_hide_popups: "Automatyczne ukrycie powiadomień o sukcesie"
         warn_on_leaving_unsaved: "Ostrzegaj mnie, gdy opuszczam zadanie z niezapisanymi zmianami"
         theme: "Tryb"
-        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
+        mode_guideline: "Niektóre tryby zastąpią niestandardowe kolory motywu w celu zapewnienia dostępności i czytelności. Aby stosować pełny motyw niestandardowy, wybierz tryb Jasny."
       version:
         effective_date: "Data zakończenia"
         sharing: "Udostępnianie"
@@ -944,7 +944,7 @@ pl:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "Wybierz projekt."
         query:
           attributes:
             project:
@@ -1848,16 +1848,16 @@ pl:
         unknown_storage: "Nieznany magazyn"
   notifications:
     reasons:
-      assigned: "Assignee"
-      dateAlert: "Date alert"
-      mentioned: "Mentioned"
-      responsible: "Accountable"
-      shared: "Shared"
-      watched: "Watcher"
+      assigned: "Przypisana osoba"
+      dateAlert: "Alert dotyczący daty"
+      mentioned: "Wzmianka"
+      responsible: "Osoba odpowiedzialna"
+      shared: "Udostępniono"
+      watched: "Obserwator"
     menu:
-      by_project: "Unread by project"
-      by_reason: "Reason"
-      inbox: "Inbox"
+      by_project: "Nieprzeczytane wg projektu"
+      by_reason: "Powód"
+      inbox: "Skrzynka odbiorcza"
     send_notifications: "Wyślij powiadomienia dla tej czynności"
     work_packages:
       subject:
@@ -1877,7 +1877,7 @@ pl:
   label_add_another_file: "Dodaj plik"
   label_add_columns: "Dodaj wybrane kolumny"
   label_add_note: "Dodaj notatkę"
-  label_add_projects: "Add projects"
+  label_add_projects: "Dodaj projekty"
   label_add_related_work_packages: "Dodaj powiązane pakiety robocze"
   label_add_subtask: "Dodać zadanie podrzędne"
   label_added: "dodane"
@@ -2114,10 +2114,10 @@ pl:
   label_introduction_video: "Film wprowadzający"
   label_invite_user: "Zaproś użytkownika"
   label_share: "Udostępnij"
-  label_share_project_list: "Share project list"
-  label_share_work_package: "Share work package"
+  label_share_project_list: "Udostępnij listę projektów"
+  label_share_work_package: "Udostępnij pakiet roboczy"
   label_show_hide: "Pokaż/Ukryj"
-  label_show_hide_n_items: "Show/hide %{count} items"
+  label_show_hide_n_items: "Pokaż/ukryj elementy (%{count})"
   label_show_all_registered_users: "Pokaż wszystkich zarejestrowanych użytkowników"
   label_journal: "Dziennik"
   label_journal_diff: "Opis porównania"
@@ -2155,7 +2155,7 @@ pl:
   label_custom_touch_icon: "Własny touch icon"
   label_logout: "Wyloguj"
   label_main_menu: "Menu boczne"
-  label_manage: "Manage"
+  label_manage: "Zarządzaj"
   label_manage_groups: "Zarządzaj grupami"
   label_managed_repositories_vendor: "Zarządzane %{vendor} repozytoria"
   label_max_size: "Maksymalny rozmiar"
@@ -2164,8 +2164,8 @@ pl:
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_plural: "Członkowie"
   label_membership_plural: "Uczestnictwa"
-  label_membership_added: "Member added"
-  label_membership_updated: "Member updated"
+  label_membership_added: "Dodano członka"
+  label_membership_updated: "Zaktualizowano członka"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "wczesna alfa"
@@ -2266,7 +2266,7 @@ pl:
   label_product_version: "Wersja produktu"
   label_profile: "Profil"
   label_percent_complete: "% ukończenia"
-  label_project: "Project"
+  label_project: "Projekt"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
   label_project_attribute_manage_link: "Zarządzaj atrybutami projektu"
@@ -2275,7 +2275,7 @@ pl:
   label_project_latest: "Najnowsze projekty"
   label_project_default_type: "Pozwalaj na pusty typ"
   label_project_hierarchy: "Hierarchia projektu"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Włączone w projektach"
   label_project_new: "Nowy projekt"
   label_project_plural: "Projekty"
   label_project_list_plural: "Listy projektów"
@@ -2707,7 +2707,7 @@ pl:
   notice_principals_found_multiple: "Znaleziono %{number} wyników.\nNaciśnij Tab, aby wybrać pierwszy rezultat."
   notice_principals_found_single: "Znaleziono 1 wynik.\nNaciśnij Tab, aby go wybrać."
   notice_project_not_deleted: "Projekt nie został usunięty."
-  notice_project_not_found: "Project not found."
+  notice_project_not_found: "Nie znaleziono projektu."
   notice_successful_connection: "Połączenie zakończone sukcesem."
   notice_successful_create: "Tworzenie zakończone sukcesem."
   notice_successful_delete: "Usuwanie zakończone sukcesem."
@@ -2846,8 +2846,8 @@ pl:
   permission_manage_public_bcf_queries: "Zarządzanie publicznymi zapytaniami BCF"
   permission_edit_attribute_help_texts: "Edytuj teksty pomocy dotyczące atrybutów"
   permission_manage_public_project_queries: "Zarządzaj listami projektów publicznych"
-  permission_view_project_query: "View project query"
-  permission_edit_project_query: "Edit project query"
+  permission_view_project_query: "Wyświetl zapytanie dotyczące projektu"
+  permission_edit_project_query: "Edytuj zapytanie dotyczące projektu"
   placeholders:
     default: "-"
   project:
@@ -3066,9 +3066,9 @@ pl:
   setting_default_projects_public: "Nowe projekty są publiczne (domyślnie)"
   setting_diff_max_lines_displayed: "Maksymalna wyświetlana liczba linii różnic"
   setting_display_subprojects_work_packages: "Domyślnie wyświetlaj pakiety robocze podprojektów na głównym projekcie"
-  setting_duration_format: "Duration format"
-  setting_duration_format_hours_only: "Hours only"
-  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format: "Format czasu trwania"
+  setting_duration_format_hours_only: "Tylko godziny"
+  setting_duration_format_days_and_hours: "Dni i godziny"
   setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Stopka wiadomości e-mail"
   setting_emails_header: "Nagłówek wiadomości e-mail"
