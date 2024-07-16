@@ -42,7 +42,6 @@ export default class CustomFieldsController extends Controller {
     'defaultBool',
     'defaultLongText',
     'defaultText',
-    'defaultValue',
     'length',
     'multiSelect',
     'possibleValues',
@@ -62,7 +61,6 @@ export default class CustomFieldsController extends Controller {
   declare readonly defaultBoolTargets:HTMLElement[];
   declare readonly defaultLongTextTargets:HTMLElement[];
   declare readonly defaultTextTargets:HTMLElement[];
-  declare readonly defaultValueTargets:HTMLElement[];
   declare readonly lengthTargets:HTMLElement[];
   declare readonly multiSelectTargets:HTMLElement[];
   declare readonly possibleValuesTargets:HTMLElement[];
@@ -241,8 +239,7 @@ export default class CustomFieldsController extends Controller {
     this.setActive(this.allowNonOpenVersionsTargets, format === 'version');
     this.setActive(this.defaultBoolTargets, format === 'bool');
     this.setActive(this.defaultLongTextTargets, format === 'text');
-    this.setActive(this.defaultTextTargets, !['bool', 'text'].includes(format));
-    this.setActive(this.defaultValueTargets, !['list', 'date', 'user', 'version'].includes(format));
+    this.setActive(this.defaultTextTargets, !['list', 'bool', 'date', 'text', 'user', 'version'].includes(format));
     this.setActive(this.lengthTargets, !['list', 'bool', 'date', 'user', 'version', 'link'].includes(format));
     this.setActive(this.multiSelectTargets, ['list', 'user', 'version'].includes(format));
     this.setActive(this.possibleValuesTargets, format === 'list');

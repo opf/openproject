@@ -115,34 +115,32 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   <% end %>
 
-  <div data-admin--custom-fields-target="defaultValue">
-    <div class="form--field" id="default_value_text" data-admin--custom-fields-target="defaultText">
-      <% if @custom_field.new_record? || !%w[text bool].include?(@custom_field.field_format) %>
-        <%= f.text_field :default_value,
-                         id: 'custom_fields_default_value_text',
-                         for: 'custom_fields_default_value_text',
-                         container_class: '-wide' %>
-      <% end %>
-    </div>
-    <div class="form--field" data-admin--custom-fields-target="defaultBool" hidden>
-      <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
-        <%= f.check_box :default_value,
-                        id: 'custom_fields_default_value_bool',
-                        for: 'custom_fields_default_value_bool' %>
-      <% end %>
-    </div>
-    <div class="form--field" data-admin--custom-fields-target="defaultLongText" hidden>
-      <% if @custom_field.new_record? || @custom_field.field_format == 'text' %>
-        <%= f.text_area :default_value,
-                        id: 'custom_fields_default_value_longtext',
-                        for: 'custom_fields_default_value_longtext',
-                        cols: 100,
-                        rows: 20,
-                        class: 'wiki-edit',
-                        macros: "none",
-                        with_text_formatting: true %>
-      <% end %>
-    </div>
+  <div class="form--field" id="default_value_text" data-admin--custom-fields-target="defaultText">
+    <% if @custom_field.new_record? || !%w[text bool].include?(@custom_field.field_format) %>
+      <%= f.text_field :default_value,
+                       id: 'custom_fields_default_value_text',
+                       for: 'custom_fields_default_value_text',
+                       container_class: '-wide' %>
+    <% end %>
+  </div>
+  <div class="form--field" data-admin--custom-fields-target="defaultBool" hidden>
+    <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
+      <%= f.check_box :default_value,
+                      id: 'custom_fields_default_value_bool',
+                      for: 'custom_fields_default_value_bool' %>
+    <% end %>
+  </div>
+  <div class="form--field" data-admin--custom-fields-target="defaultLongText" hidden>
+    <% if @custom_field.new_record? || @custom_field.field_format == 'text' %>
+      <%= f.text_area :default_value,
+                      id: 'custom_fields_default_value_longtext',
+                      for: 'custom_fields_default_value_longtext',
+                      cols: 100,
+                      rows: 20,
+                      class: 'wiki-edit',
+                      macros: "none",
+                      with_text_formatting: true %>
+    <% end %>
   </div>
   <%= call_hook(:view_custom_fields_form_upper_box, custom_field: @custom_field, form: f) %>
 </section>
