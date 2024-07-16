@@ -19,7 +19,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Filter project lists](#project-lists-filters)               | Adjust filters in the project lists.                         |
 | [Favorite project lists](#favorite-project-lists)            | Mark project lists as favorite.                              |
 | [Share project lists with users and groups (Enterprise add-on)](#share-project-lists-with-users-and-groups-enterprise-add-on) | Share project lists with users and groups.                   |
-| [Share project lists with everyone](#share-with-everyone-at-openproject) | Share project lists with everyone at your OpenProject instance. |
+| [Share project lists with everyone](#share-with-everyone-at-openproject) | Share project lists with everyone within your OpenProject instance. |
 | [Export project list](#export-project-lists)                 | You can export the project list to XLS or CSV.               |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects. |
 
@@ -81,7 +81,7 @@ You will then need to name the project list and click the green **Save** button.
 
 ![Name and save a new project list in OpenProject](name-new-project-list.png)
 
-If it is a newly created list then it will appear under **My private project lists**, same as if you adjust the filters and save the list.
+If it is a newly created list then it will appear under **My project lists**, same as if you adjust the filters and save the list.
 
 ### Project lists filters
 
@@ -95,7 +95,7 @@ Projects can be filtered in OpenProject. The default view will list all currentl
 
 **Archived projects** - returns all projects that are not active, of which you were a member or have the right to see.
 
-**My private project lists** - shows all the project lists that you have customized and saved.
+**My project lists** - shows all the project lists that you have customized and saved.
 
 **Shared project lists** - shows all the project lists that were shared with you or you shared with others.. 
 
@@ -119,15 +119,15 @@ You will then need to enter the name for the filtered view and click the green *
 
 ![Name and save a private projects filter in OpenProject](Name-private-projects-filter.png)
 
-Your saved project lists filter will appear on the left side under **My private project lists**.
+Your saved project lists filter will appear on the left side under **My project lists**.
 
 ![Name and save a private projects filter in OpenProject](private-project-filter-saved.png)
 
-You can always rename or remove your private project lists by using the respective option.
+You can always rename or remove your project lists by using the respective option.
 
 > **Note:** Static lists cannot be renamed, so the option will not be displayed here.
 
-![Delete a private projects filter in OpenProject](private-project-filter-rename-delete.png)
+![Delete a personal projects filter in OpenProject](private-project-filter-rename-delete.png)
 
 ### Gantt chart view
 
@@ -176,19 +176,22 @@ You can share a project list with everyone within your OpenProject instance. Thi
 To do that click the **Share** icon and turn on the **Share with everyone at your instance** switch.
 
 ![Share a project list with everyone in OpenProject](project-lists-share-with-everyone-button.png)
-It will be added to the menu on the left under *Shared project lists*.
+The project list will move from *My project lists* section to *Shared project lists* section in the lefthand menu.
 
-![Public project lists in OpenProject]()
+![Public project lists in OpenProject](project-lists-share-with-everyone-list.png)
 
-UPDATE SCREENSHOT
+You can reverse the action by unselecting the star icon. The project list will return to *My project lists*. 
+
+> ![TIP]
+> Using this function requires a *Manage public project lists* permission. This permission is automatically activated for administrators. If you want to grant this permission to other users, we recommend creating a [global role](../../../system-user-guide/users-permissions/roles-permissions/#global-role) to assign this permission.
 
 ### Share project lists with users and groups (Enterprise add-on)
 > [!NOTE] 
 > Sharing project lists with users and groups is an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
-You can share private project lists with specific users or groups in OpenProject. To do that navigate to a project list and click the **Share** icon. Then specify a user or a group using the search field, define whether they can only view or edit a project list and finally click the **Share** button. That user or group will see that shared project list under **Shared project lists**.  
+You can share non-static project lists with specific users or groups in OpenProject. To do that navigate to a project list and click the **Share** icon. Then specify a user or a group using the search field, define whether they can only view or edit a project list and finally click the **Share** button. That user or group will see that shared project list under **Shared project lists**.  
 
-If a project list has already been shared, you will see the list of users that have access to the project list, including the list owner. You will can modify or revoke project list sharing privileges at any time.
+If a project list has already been shared, you will see the list of users that have access to the project list, including the list owner. You can modify or revoke project list sharing privileges at any time.
 
 ![Share project lists with users or groups in OpenProject](projects-list-share-enterprise.png)
 
