@@ -31,12 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <section class="form--section">
   <div class="form--field -required"><%= f.text_field "name", required: true, container_class: "-middle" %></div>
-  <div class="form--field">
-    <%= f.select :default_done_ratio,
-                 (0..100).step(10).map { |r| ["#{r} %", r] },
-                 container_class: "-xslim",
-                 label: WorkPackage.human_attribute_name(:done_ratio) %>
-  </div>
+  <div class="form--field"><%= f.number_field "default_done_ratio", min: 0, max: 100, container_class: "-tiny" %></div>
   <div class="form--field"><%= f.check_box "is_closed" %></div>
   <% unless @status.is_default? %>
     <div class="form--field"><%= f.check_box "is_default" %></div>
