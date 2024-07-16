@@ -29,8 +29,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t(:label_role_new) %>
 
-<% local_assigns[:additional_breadcrumb] = t(:label_role_new) %>
-<%= breadcrumb_toolbar t(:label_role_new) %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { I18n.t(:label_role_new) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+                             { href: roles_path, text: t(:label_role_and_permissions) },
+                             I18n.t(:label_role_new)])
+  end
+%>
 
 <%= labelled_tabular_form_for @role, :url => { :action => 'create' }, :html => {:id => 'role_form'}, :as => :role do |f| %>
 <%= render partial: 'form', locals: { f: f, role: @role, roles: @roles } %>

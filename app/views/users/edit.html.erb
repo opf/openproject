@@ -30,7 +30,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t(:label_administration), "#{t(:label_edit)} #{User.model_name.human} #{h(@user.name)}") -%>
 
-<% local_assigns[:additional_breadcrumb] = @user.name %>
-<%= render partial: 'toolbar', locals: { new_user: false } %>
+<% tabs = tabs_for_key(:user, user: @user) %>
 
-<%= render_extensible_tabs :user, user: @user %>
+<%= render partial: 'toolbar', locals: { tabs: tabs } %>
+
+<%= render_tabs tabs, with_tab_nav: false %>

@@ -1,5 +1,3 @@
-<h2><%= t(:button_change_avatar) %></h2>
-
 <% @manager = ::OpenProject::Avatars::AvatarManager %>
 <% @target_avatar_path = edit_user_avatar_path(@user) %>
 <%= form_tag(edit_user_avatar_path(@user), method: :put, name: 'avatar_form', multipart: true) do %>
