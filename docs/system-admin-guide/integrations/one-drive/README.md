@@ -20,15 +20,19 @@ keywords: One Drive, SharePoint, file storage, integration
 > **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used
 > with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/)
 > or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free
-> Community
-> edition is easy and helps support OpenProject.
+> Community edition is easy and helps support OpenProject.
 
 OpenProject offers an integration with OneDrive/SharePoint to allow users to:
 
 - Link files and folders stored in OneDrive/SharePoint with OpenProject work packages
 - View, open and download files and folder linked to a work package via the Files tab
 
-The goal here is to provide a *Document Library*, embedded in a SharePoint site, as a file storage system for OpenProject.
+The goal here is to provide a *Document Library*, embedded in a SharePoint site, as a file storage system for
+OpenProject.
+
+The standard integration is supposed to work with a SharePoint subscription. The integration though can work with a
+OneDrive for Business plan as well. There might be some differences in the setup, which are not covered by this
+documentation.
 
 > Note: This guide only covers the integration setup. Please go to
 > our [OneDrive/SharePoint integration user guide](../../../user-guide/file-management/nextcloud-integration/) to learn
