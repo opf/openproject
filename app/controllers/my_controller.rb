@@ -124,15 +124,7 @@ class MyController < ApplicationController
   end
 
   # Configure user's mail reminders
-  def reminders
-    render html: "",
-           layout: "angular/angular",
-           locals: {
-             menu_name: :my_menu,
-             component: "opce-reminder-settings",
-             page_title: [I18n.t(:label_my_account), I18n.t("js.reminders.settings.title")]
-           }
-  end
+  def reminders; end
 
   # Create a new feeds key
   def generate_rss_key
