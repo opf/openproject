@@ -90,7 +90,7 @@ You will see the following message confirming the successful setup on top of the
 
 ![System message on successful OneDrive/SharePoint file storages setup in OpenProject](openproject_system_guide_new_onedrive_message_successful_setup.png)
 
-> [!IMPORTANT
+> [!IMPORTANT]
 > In Sharepoint you can add (custom) columns in addition to the ones shown by default (*Modified* and *Modified by*). Please keep in mind if these custom columns are added, OpenProject integration can no longer copy the automatically managed project folders. The columns will have to be de-activated, or ideally not be created in the first place.
 
 ## Using the integration
