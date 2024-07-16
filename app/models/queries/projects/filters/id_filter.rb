@@ -26,8 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::IdFilter < Queries::Projects::Filters::ProjectFilter
-  def type
-    :integer
+class Queries::Projects::Filters::IdFilter < Queries::Projects::Filters::Base
+  include Queries::Filters::Shared::ProjectFilter::Required
+
+  def self.key = :id
+
+  def human_name
+    I18n.t(:label_project, default: :"attributes.project")
   end
 end

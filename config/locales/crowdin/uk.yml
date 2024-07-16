@@ -297,10 +297,7 @@ uk:
           heading: Обов’язково для всіх проєктів
           description: Цей атрибут проєкту активовано в усіх проєктах, оскільки встановлено прапорець «Обов’язково для всіх проєктів». Його не можна деактивувати для окремих проєктів.
         new_project_mapping_form:
-          add_projects: Додати проєкти
           include_sub_projects: Включити підпроєкти
-        project_mappings:
-          header: Увімкнено в проєктах
       types:
         no_results_title_text: Наразі немає доступних типів.
         form:
@@ -1847,6 +1844,17 @@ uk:
         failed: "Сталася помилка, і не вдалося вилучити маркет. Повторіть спробу пізніше."
         unknown_storage: "Невідоме сховище"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Надсилати сповіщення щодо цієї дії"
     work_packages:
       subject:
@@ -1866,6 +1874,7 @@ uk:
   label_add_another_file: "Додати ще один файл"
   label_add_columns: "Додати вибрані стовпці"
   label_add_note: "Додати зауваження"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Додати відповідні робочі пакети"
   label_add_subtask: "Додати підзавдання"
   label_added: "додано"
@@ -2096,7 +2105,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції із встановлення"
+  label_installation_guides: "Інструкції зі встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -2152,8 +2161,8 @@ uk:
   label_member_all_admin: "(Усі ролі через статус адміністратора)"
   label_member_plural: "Учасники"
   label_membership_plural: "Членство"
-  lable_membership_added: "Учасника додано"
-  lable_membership_updated: "Учасника оновлено"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "попередня альфа"
@@ -2254,6 +2263,7 @@ uk:
   label_product_version: "Версія продукту"
   label_profile: "Профіль"
   label_percent_complete: "% завершення"
+  label_project: "Project"
   label_project_activity: "Дії в проєкті"
   label_project_attribute_plural: "Атрибути проєкту"
   label_project_attribute_manage_link: "Керувати атрибутами проєкту"
@@ -2262,6 +2272,7 @@ uk:
   label_project_latest: "Останні проекти"
   label_project_default_type: "Дозволити порожній тип"
   label_project_hierarchy: "Ієрархія проектів"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Новий проект"
   label_project_plural: "Проекти"
   label_project_list_plural: "Списки проєкту"

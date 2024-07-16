@@ -301,10 +301,7 @@ zh-TW:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: 目前沒有可用的類型
         form:
@@ -1750,6 +1747,17 @@ zh-TW:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "不明的儲存區"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "發送此操作的通知"
     work_packages:
       subject:
@@ -1769,6 +1777,7 @@ zh-TW:
   label_add_another_file: "新增另一個檔案"
   label_add_columns: "新增所選欄"
   label_add_note: "新增註記"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "新增相關的工作項目"
   label_add_subtask: "新增子任務"
   label_added: "已新增"
@@ -1962,7 +1971,7 @@ zh-TW:
   label_file_plural: "檔案"
   label_filter_add: "新增條件"
   label_filter: "篩選條件"
-  label_filter_plural: "篩選條件"
+  label_filter_plural: "篩選器"
   label_filters_toggle: "顯示/隱藏篩選條件"
   label_float: "浮點數"
   label_folder: "資料夾"
@@ -1986,7 +1995,7 @@ zh-TW:
   label_history: "歷史"
   label_hierarchy_leaf: "頁面結構頁"
   label_home: "Home"
-  label_subject_or_id: "名稱或 id"
+  label_subject_or_id: "主旨或 id"
   label_calendar_subscriptions: "訂閱行事曆"
   label_identifier: "識別碼"
   label_in: "在"
@@ -2028,7 +2037,7 @@ zh-TW:
   label_latest_revision_plural: "最新版本"
   label_ldap_authentication: "LDAP 認證"
   label_learn_more: "了解更多"
-  label_less_or_equal: "之後"
+  label_less_or_equal: "<="
   label_less_than_ago: "幾天內"
   label_link_url: "Link (URL)"
   label_list: "清單"
@@ -2055,8 +2064,8 @@ zh-TW:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "成員"
   label_membership_plural: "Memberships"
-  lable_membership_added: "成員加入"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "早期開發版本"
@@ -2157,6 +2166,7 @@ zh-TW:
   label_product_version: "產品版本"
   label_profile: "個人資料"
   label_percent_complete: "(%)完成"
+  label_project: "Project"
   label_project_activity: "專案活動"
   label_project_attribute_plural: "專案屬性"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2165,6 +2175,7 @@ zh-TW:
   label_project_latest: "最新的專案"
   label_project_default_type: "允許空類型"
   label_project_hierarchy: "專案結構"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "新增專案"
   label_project_plural: "專案"
   label_project_list_plural: "專案列表"

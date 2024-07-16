@@ -1,22 +1,22 @@
-<div class="op-sidebar" data-controller="filter--filter-list" data-application-target="dynamic">
+<div class="op-submenu" data-controller="filter--filter-list" data-application-target="dynamic" data-test-selector="op-submenu">
   <% if @searchable %>
-    <div class="op-sidebar--search">
+    <div class="op-submenu--search">
       <%= render Primer::Alpha::TextField.new(name: "search",
                                               label: I18n.t("label_search"),
                                               placeholder: I18n.t("label_search"),
                                               leading_visual: { icon: :search },
                                               visually_hide_label: true,
-                                              classes: "op-sidebar--search-input",
+                                              classes: "op-submenu--search-input",
                                               data: {
                                                 action: "input->filter--filter-list#filterLists",
                                                 "filter--filter-list-target": "filter",
-                                                "test-selector": "op-sidebar--search-input"
+                                                "test-selector": "op-submenu--search-input"
                                               },)  %>
 
       <%= render Primer::Beta::Text.new(display: :none,
-                                        classes: "op-sidebar--search-no-results-container",
+                                        classes: "op-submenu--search-no-results-container",
                                         data: {
-                                          "test-selector": "op-sidebar--search-no-results",
+                                          "test-selector": "op-submenu--search-no-results",
                                           "filter--filter-list-target": "noResultsText",
                                         }) do
         I18n.t("js.autocompleter.notFoundText")
@@ -24,46 +24,70 @@
     </div>
   <% end %>
 
-  <div class="op-sidebar--body">
+  <div class="op-submenu--body" data-test-selector="op-submenu--body">
     <% if top_level_sidebar_menu_items.any? %>
-      <div class="op-sidemenu">
-        <ul class="op-sidemenu--items">
-          <% top_level_sidebar_menu_items.first.children.each do |menu_item| %>
-            <li class="op-sidemenu--item" data-filter--filter-list-target="searchItem">
-              <% selected = menu_item.selected ? 'selected' : '' %>
-              <a class="op-sidemenu--item-action <%= selected %>" href="<%= menu_item.href %>" data-test-selector="op-sidemenu--item-action">
-                <span class="op-sidemenu--item-title"><%= menu_item.title %></span>
-              </a>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+      <ul class="op-submenu--items">
+        <% top_level_sidebar_menu_items.first.children.each do |menu_item| %>
+          <li class="op-submenu--item" data-filter--filter-list-target="searchItem">
+            <% selected = menu_item.selected ? 'selected' : '' %>
+            <a class="op-submenu--item-action <%= selected %>" href="<%= menu_item.href %>" data-test-selector="op-submenu--item-action">
+              <% if menu_item.icon %>
+                <%= render Primer::Beta::Octicon.new(icon: menu_item.icon, classes: "op-submenu--item-icon", mr: 2) %>
+              <% end %>
+              <span class="op-submenu--item-title">
+                <%= menu_item.title %>
+
+                <% if menu_item.show_enterprise_icon %>
+                  <%= render Primer::Beta::Octicon.new(icon: "op-enterprise-addons", "aria-label": I18n.t(:label_enterprise_edition), classes: "upsale-colored", ml: 2) %>
+                <% end %>
+              </span>
+
+              <% if menu_item.count %>
+                <span class="op-bubble op-bubble_alt_highlighting" data-test-selector="op-submenu--item-count"><%= menu_item.count %></span>
+              <% end %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
     <% end %>
 
     <% nested_sidebar_menu_items.each do |menu_item| %>
-      <div class="op-sidemenu"
-           data-controller="menus--expandable-sidemenu"
+      <div data-controller="menus--submenu"
            data-application-target="dynamic">
 
-        <button class="op-sidemenu--title"
+        <button class="op-submenu--title"
                 type="button"
-                data-action="click->menus--expandable-sidemenu#toggleContainer">
+                data-action="click->menus--submenu#toggleContainer">
           <%= menu_item.header %>
           <span class="icon-small icon-arrow-up1"
                 aria-hidden="true"
-                data-menus--expandable-sidemenu-target="indicator">
+                data-menus--submenu-target="indicator">
           </span>
         </button>
 
-        <ul class="op-sidemenu--items"
-            data-menus--expandable-sidemenu-target="container">
+        <ul class="op-submenu--items"
+            data-menus--submenu-target="container">
           <% menu_item.children.each do |child_item| %>
-            <li class="op-sidemenu--item" data-filter--filter-list-target="searchItem">
+            <li class="op-submenu--item" data-filter--filter-list-target="searchItem">
               <% selected = child_item.selected ? 'selected' : '' %>
-              <a class="op-sidemenu--item-action <%= selected %>" href="<%= child_item.href %>" data-test-selector="op-sidemenu--item-action">
-                <span class="op-sidemenu--item-title"><%= child_item.title %></span>
-                <% if child_item.favored %>
-                  <%= render Primer::Beta::Octicon.new(icon: "star-fill", "aria-label": I18n.t(:label_favorite), classes: %w[op-sidemenu--item-mark op-primer--star-icon]) %>
+              <a class="op-submenu--item-action <%= selected %>" href="<%= child_item.href %>" data-test-selector="op-submenu--item-action">
+                <% if child_item.icon %>
+                  <%= render Primer::Beta::Octicon.new(icon: child_item.icon, classes: "op-submenu--item-icon", mr: 2) %>
+                <% end %>
+                <span class="op-submenu--item-title">
+                  <%= child_item.title %>
+
+                  <% if child_item.show_enterprise_icon %>
+                    <%= render Primer::Beta::Octicon.new(icon: "op-enterprise-addons", "aria-label": I18n.t(:label_enterprise_edition), classes: "upsale-colored", ml: 2) %>
+                  <% end %>
+
+                  <% if child_item.favored %>
+                    <%= render Primer::Beta::Octicon.new(icon: "star-fill", "aria-label": I18n.t(:label_favorite), classes: %w[op-submenu--item-mark op-primer--star-icon], ml: 2) %>
+                  <% end %>
+                </span>
+
+                <% if child_item.count %>
+                  <span class="op-bubble op-bubble_alt_highlighting" data-test-selector="op-submenu--item-count"><%= child_item.count %></span>
                 <% end %>
               </a>
             </li>
@@ -74,12 +98,12 @@
   </div>
 
   <% if @create_btn_options.present? %>
-    <div class="op-sidebar--footer">
+    <div class="op-submenu--footer">
       <%= render Primer::Beta::Button.new(scheme: :primary,
                                           tag: :a,
                                           href: @create_btn_options[:href],
                                           test_selector: "#{@create_btn_options[:module_key]}--create-button",
-                                          classes: "op-sidebar--footer-action") do |button|
+                                          classes: "op-submenu--footer-action") do |button|
         button.with_leading_visual_icon(icon: "plus")
         if @create_btn_options[:btn_text].present?
           @create_btn_options[:btn_text]

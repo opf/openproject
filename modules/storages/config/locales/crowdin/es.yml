@@ -53,6 +53,11 @@ es:
   permission_view_file_links: Ver enlaces de archivos
   permission_write_files: 'Carpetas de proyecto gestionadas automáticamente: Escribir archivos'
   project_module_storages: Archivos
+  project_storages:
+    project_folder_mode:
+      automatic: Gestionado automáticamente
+      inactive: Ninguna carpeta específica
+      manual: Carpeta existente gestionada manualmente
   storages:
     buttons:
       complete_without_setup: Completar sin usar

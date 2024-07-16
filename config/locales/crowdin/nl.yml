@@ -299,10 +299,7 @@ nl:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Er zijn momenteel geen types beschikbaar.
         form:
@@ -1782,6 +1779,17 @@ nl:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Onbekende opslag"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Stuur meldingen voor deze actie"
     work_packages:
       subject:
@@ -1801,6 +1809,7 @@ nl:
   label_add_another_file: "Toevoegen van een ander bestand"
   label_add_columns: "Geselecteerde kolommen toevoegen"
   label_add_note: "Een notitie toevoegen"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Toevoegen van verwante werkpakketten"
   label_add_subtask: "Subtaak toevoegen"
   label_added: "toegevoegd"
@@ -2087,8 +2096,8 @@ nl:
   label_member_all_admin: "(Alle rollen vanwege de admin status)"
   label_member_plural: "Leden"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Lid toegevoegd"
-  lable_membership_updated: "Lid bijgewerkt"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2189,6 +2198,7 @@ nl:
   label_product_version: "Versie van het product"
   label_profile: "Profiel"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Projectactiviteit"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2197,6 +2207,7 @@ nl:
   label_project_latest: "Meest recente projecten"
   label_project_default_type: "Lege type toestaan"
   label_project_hierarchy: "Projecthiërarchie"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nieuw project"
   label_project_plural: "Projecten"
   label_project_list_plural: "Project lists"

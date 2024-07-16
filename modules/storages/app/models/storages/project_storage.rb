@@ -57,8 +57,8 @@ module Storages
         .where(storage: Storage.automatic_management_enabled)
     end
 
-    def automatic_management_possible?
-      storage.present? && storage.automatic_management_enabled?
+    def project_folder_mode_possible?(project_folder_mode)
+      storage.present? && storage.available_project_folder_modes&.include?(project_folder_mode)
     end
 
     def managed_project_folder_path

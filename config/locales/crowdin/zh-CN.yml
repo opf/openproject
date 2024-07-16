@@ -67,7 +67,7 @@ zh-CN:
         text: "您确定要删除当前使用的企业版令牌吗？"
         title: "删除令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "订购本地部署版的 Enterprise edition"
+      order: "订购本地部署的 Enterprise edition"
       paste: "粘贴您企业版的支持令牌"
       required_for_feature: "此功能仅限具激活的企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -299,10 +299,7 @@ zh-CN:
           heading: 所有项目中需要
           description: 此项目属性已在所有项目中激活，因为选中了“所有项目中需要”的选项。它在单个项目中不能被停用。
         new_project_mapping_form:
-          add_projects: 添加项目
           include_sub_projects: 包含子项目
-        project_mappings:
-          header: 已在项目中启用
       types:
         no_results_title_text: 目前有可用的类型。
         form:
@@ -1747,6 +1744,17 @@ zh-CN:
         failed: "出错了，无法移除令牌。请稍后再试。"
         unknown_storage: "未知存储"
   notifications:
+    reasons:
+      assigned: "指定人"
+      dateAlert: "日期提醒"
+      mentioned: "被提及"
+      responsible: "负责人"
+      shared: "共享"
+      watched: "关注人"
+    menu:
+      by_project: "未读项目"
+      by_reason: "原因"
+      inbox: "收件箱"
     send_notifications: "发送此操作的通知"
     work_packages:
       subject:
@@ -1766,6 +1774,7 @@ zh-CN:
   label_add_another_file: "添加另一个文件"
   label_add_columns: "添加所选的列"
   label_add_note: "添加注释"
+  label_add_projects: "添加项目"
   label_add_related_work_packages: "添加相关的工作包"
   label_add_subtask: "添加子任务"
   label_added: "已添加"
@@ -2052,8 +2061,8 @@ zh-CN:
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_plural: "成员"
   label_membership_plural: "成员资格"
-  lable_membership_added: "已添加成员"
-  lable_membership_updated: "已更新成员"
+  label_membership_added: "成员已添加"
+  label_membership_updated: "成员已更新"
   label_menu: "菜单"
   label_menu_badge:
     pre_alpha: "pre-beta"
@@ -2154,6 +2163,7 @@ zh-CN:
   label_product_version: "产品版本"
   label_profile: "配置文件"
   label_percent_complete: "% 完成"
+  label_project: "Project"
   label_project_activity: "项目活动"
   label_project_attribute_plural: "项目属性"
   label_project_attribute_manage_link: "管理项目属性"
@@ -2162,6 +2172,7 @@ zh-CN:
   label_project_latest: "最新的项目"
   label_project_default_type: "允许为空类型"
   label_project_hierarchy: "项目层次结构"
+  label_project_mappings: "已在项目中启用"
   label_project_new: "新的项目"
   label_project_plural: "项目"
   label_project_list_plural: "项目列表"
@@ -2212,7 +2223,7 @@ zh-CN:
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
   label_roadmap: "路线图"
-  label_roadmap_edit: "编辑路线图%{name}"
+  label_roadmap_edit: "编辑路线图 %{name}"
   label_roadmap_due_in: "%{value} 到期"
   label_roadmap_no_work_packages: "该版本没有工作包。"
   label_roadmap_overdue: "%{value} 超时"
@@ -2856,7 +2867,7 @@ zh-CN:
       managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
-      update_timeout: "在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
+      update_timeout: "在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
       oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中："
       oauth_application_details_link_text: "转到设置页面"
       setup_documentation_details: "如果您在配置新文件存储方面需要帮助，请查看文档："
@@ -3005,7 +3016,7 @@ zh-CN:
   setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
-  setting_sys_api_enabled: "启用存储库管理网页服务"
+  setting_sys_api_enabled: "启用版本库管理 web 服务"
   setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
@@ -3317,7 +3328,7 @@ zh-CN:
   warning_user_limit_reached_admin: >
     添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此实例。
   warning_user_limit_reached_instructions: >
-    您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
+    您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
   warning_protocol_mismatch_html: >
 
   warning_bar:

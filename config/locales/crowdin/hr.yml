@@ -302,10 +302,7 @@ hr:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Trenutno nema dostupnih tipova.
         form:
@@ -1819,6 +1816,17 @@ hr:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1838,6 +1846,7 @@ hr:
   label_add_another_file: "Nova datoteka"
   label_add_columns: "Dodaj odabrani stupac"
   label_add_note: "Nova bilješka"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Dodaj odgovarajuće radne pakete"
   label_add_subtask: "Novi pod radni zadatak"
   label_added: "dodano"
@@ -2124,8 +2133,8 @@ hr:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Članovi"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2226,6 +2235,7 @@ hr:
   label_product_version: "Verzija proizvoda"
   label_profile: "Profil"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2234,6 +2244,7 @@ hr:
   label_project_latest: "Najnoviji projekti"
   label_project_default_type: "Dopusti prazan tip"
   label_project_hierarchy: "Hijerarhija projekta"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Novi projekt"
   label_project_plural: "Projekti"
   label_project_list_plural: "Project lists"

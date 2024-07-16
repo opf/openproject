@@ -53,6 +53,11 @@ pt-BR:
   permission_view_file_links: Exibir vínculos de arquivos
   permission_write_files: 'Pastas do projeto gerenciadas automaticamente: Gravar arquivos'
   project_module_storages: Arquivos
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: Concluir sem isso

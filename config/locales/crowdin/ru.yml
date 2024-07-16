@@ -301,10 +301,7 @@ ru:
           heading: Требуется во всех проектах
           description: Этот атрибут проекта активирован во всех проектах, поскольку установлен флажок «Требуется во всех проектах». Его нельзя отключить для отдельных проектов.
         new_project_mapping_form:
-          add_projects: Добавить проекты
           include_sub_projects: Включить подпроекты
-        project_mappings:
-          header: Включено в проектах
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -1852,6 +1849,17 @@ ru:
         failed: "Произошла ошибка, и токен не удалось удалить.  Пожалуйста, повторите попытку позже."
         unknown_storage: "Неизвестное хранилище"
   notifications:
+    reasons:
+      assigned: "Назначенный"
+      dateAlert: "Дата оповещения"
+      mentioned: "Упомянутый"
+      responsible: "Ответственный"
+      shared: "Общий доступ"
+      watched: "Наблюдатель"
+    menu:
+      by_project: "Непрочитано по проекту"
+      by_reason: "Причина"
+      inbox: "Входящие"
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
       subject:
@@ -1871,6 +1879,7 @@ ru:
   label_add_another_file: "Добавьте еще один файл"
   label_add_columns: "Добавить выбранные столбцы"
   label_add_note: "Добавить заметку"
+  label_add_projects: "Добавить проекты"
   label_add_related_work_packages: "Добавить связанные пакеты работ"
   label_add_subtask: "Добавить подзадачу"
   label_added: "Добавлено"
@@ -2157,8 +2166,8 @@ ru:
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
   label_membership_plural: "Членство"
-  lable_membership_added: "Участник добавлен"
-  lable_membership_updated: "Участник обновлен"
+  label_membership_added: "Участник добавлен"
+  label_membership_updated: "Участник обновлен"
   label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "пред-альфа"
@@ -2259,6 +2268,7 @@ ru:
   label_product_version: "Версия продукта"
   label_profile: "Профиль"
   label_percent_complete: "% Готово"
+  label_project: "Project"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
   label_project_attribute_manage_link: "Управление атрибутами проекта"
@@ -2267,6 +2277,7 @@ ru:
   label_project_latest: "Последние проекты"
   label_project_default_type: "Разрешить пустой тип"
   label_project_hierarchy: "Иерархия проектов"
+  label_project_mappings: "Включено в проектах"
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_list_plural: "Списки проектов"

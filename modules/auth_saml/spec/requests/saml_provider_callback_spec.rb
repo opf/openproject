@@ -88,7 +88,7 @@ RSpec.describe "SAML provider callback", with_ee: %i[openid_providers] do
 
   it "redirects user when no errors occured" do
     expect(subject.status).to eq(302)
-    expect(subject.headers["Location"]).to eq("http://example.org/two_factor_authentication/request")
+    expect(subject.headers["Location"]).to eq("http://#{Setting.host_name}/two_factor_authentication/request")
   end
 
   context "with an invalid timestamp" do
@@ -114,7 +114,7 @@ RSpec.describe "SAML provider callback", with_ee: %i[openid_providers] do
 
     it "redirects the user to 2FA, but with back_url present in session" do
       expect(subject.status).to eq(302)
-      expect(subject.headers["Location"]).to eq("http://example.org/two_factor_authentication/request")
+      expect(subject.headers["Location"]).to eq("http://test.host/two_factor_authentication/request")
 
       session = Sessions::SqlBypass.lookup_data(subject.cookies["_open_project_session"].first)
       expect(session["back_url"]).to eq "/projects?some_param=true"
@@ -123,7 +123,7 @@ RSpec.describe "SAML provider callback", with_ee: %i[openid_providers] do
     context "when 2FA is disabled", :skip_2fa_stage do
       it "redirects directly" do
         expect(subject.status).to eq(302)
-        expect(subject.headers["Location"]).to eq("http://example.org/projects?some_param=true")
+        expect(subject.headers["Location"]).to eq("http://test.host/projects?some_param=true")
       end
     end
   end

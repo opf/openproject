@@ -85,7 +85,7 @@ export class InAppNotificationCenterComponent implements OnInit {
   reasonMenuItems = [
     {
       key: 'mentioned',
-      title: this.I18n.t('js.notifications.menu.mentioned'),
+      title: this.I18n.t('js.notifications.reasons.mentioned'),
     },
     {
       key: 'assigned',
@@ -93,19 +93,19 @@ export class InAppNotificationCenterComponent implements OnInit {
     },
     {
       key: 'responsible',
-      title: this.I18n.t('js.notifications.menu.accountable'),
+      title: this.I18n.t('js.notifications.reasons.accountable'),
     },
     {
       key: 'watched',
-      title: this.I18n.t('js.notifications.menu.watched'),
+      title: this.I18n.t('js.notifications.reasons.watched'),
     },
     {
       key: 'dateAlert',
-      title: this.I18n.t('js.notifications.menu.date_alert'),
+      title: this.I18n.t('js.notifications.reasons.dateAlert'),
     },
     {
       key: 'shared',
-      title: this.I18n.t('js.notifications.menu.shared'),
+      title: this.I18n.t('js.notifications.reasons.shared'),
     },
   ];
 

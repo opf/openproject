@@ -216,7 +216,7 @@ gem "dry-monads"
 gem "store_attribute", "~> 1.0"
 
 # Appsignal integration
-gem "appsignal", "~> 3.8.1", require: false
+gem "appsignal", "~> 3.10.0", require: false
 
 gem "view_component"
 # Lookbook
@@ -331,6 +331,7 @@ group :development, :test do
   gem "rubocop", require: false
   gem "rubocop-capybara", require: false
   gem "rubocop-factory_bot", require: false
+  gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
@@ -389,6 +390,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.14.1"
-gem "openproject-octicons_helper", "~>19.14.1"
-gem "openproject-primer_view_components", "~>0.35.2"
+gem "openproject-octicons", "~>19.15.0"
+gem "openproject-octicons_helper", "~>19.15.0"
+gem "openproject-primer_view_components", "~>0.37.1"

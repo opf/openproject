@@ -1,0 +1,13 @@
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::SidePanel.new(spacious: true)) do |panel|
+      [
+        Users::Profile::AttributesComponent.new(user: @user),
+        Users::Profile::GroupsComponent.new(user: @user),
+        Users::Profile::ProjectsComponent.new(user: @user)
+      ].each do |component|
+        panel.with_section(component)
+      end
+    end
+  end
+%>

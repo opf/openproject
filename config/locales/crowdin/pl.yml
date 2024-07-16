@@ -299,10 +299,7 @@ pl:
           heading: Wymagane we wszystkich projektach
           description: Ten atrybut projektu jest aktywowany we wszystkich projektach, ponieważ zaznaczona jest opcja „Wymagane we wszystkich projektach”. Nie można go dezaktywować dla poszczególnych projektów.
         new_project_mapping_form:
-          add_projects: Dodaj projekty
           include_sub_projects: Uwzględnij podprojekty
-        project_mappings:
-          header: Włączone w projektach
       types:
         no_results_title_text: Nie ma dostępnych typów.
         form:
@@ -813,7 +810,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         error_conflict: "Information has been updated by at least one other user in the meantime."
@@ -1850,6 +1847,17 @@ pl:
         failed: "Wystąpił błąd i nie można było usunąć tokena. Spróbuj ponownie później."
         unknown_storage: "Nieznany magazyn"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Wyślij powiadomienia dla tej czynności"
     work_packages:
       subject:
@@ -1869,6 +1877,7 @@ pl:
   label_add_another_file: "Dodaj plik"
   label_add_columns: "Dodaj wybrane kolumny"
   label_add_note: "Dodaj notatkę"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Dodaj powiązane pakiety robocze"
   label_add_subtask: "Dodać zadanie podrzędne"
   label_added: "dodane"
@@ -2155,8 +2164,8 @@ pl:
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_plural: "Członkowie"
   label_membership_plural: "Uczestnictwa"
-  lable_membership_added: "Dodano członka"
-  lable_membership_updated: "Zaktualizowano członka"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "wczesna alfa"
@@ -2257,6 +2266,7 @@ pl:
   label_product_version: "Wersja produktu"
   label_profile: "Profil"
   label_percent_complete: "% ukończenia"
+  label_project: "Project"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
   label_project_attribute_manage_link: "Zarządzaj atrybutami projektu"
@@ -2265,6 +2275,7 @@ pl:
   label_project_latest: "Najnowsze projekty"
   label_project_default_type: "Pozwalaj na pusty typ"
   label_project_hierarchy: "Hierarchia projektu"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nowy projekt"
   label_project_plural: "Projekty"
   label_project_list_plural: "Listy projektów"

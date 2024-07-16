@@ -301,10 +301,7 @@ pt-BR:
           heading: Obrigatório em todos os projetos
           description: Este atributo do projeto está ativado em todos os projetos porque a opção "Obrigatório em todos os projetos" está selecionada. Ele não pode ser desativado em projetos individuais.
         new_project_mapping_form:
-          add_projects: Adicionar projetos
           include_sub_projects: Incluir subprojetos
-        project_mappings:
-          header: Habilitado em projetos
       types:
         no_results_title_text: Atualmente, não há tipos disponíveis.
         form:
@@ -1783,6 +1780,17 @@ pt-BR:
         failed: "Ocorreu um erro e o token não pôde ser removido. Tente novamente mais tarde."
         unknown_storage: "Armazenamento desconhecido"
   notifications:
+    reasons:
+      assigned: "Cessionário"
+      dateAlert: "Alerta de data"
+      mentioned: "Mencionado"
+      responsible: "Responsável"
+      shared: "Compartilhado"
+      watched: "Observador"
+    menu:
+      by_project: "Não lido por projeto"
+      by_reason: "Motivo"
+      inbox: "Caixa de entrada"
     send_notifications: "Enviar notificações para está ação "
     work_packages:
       subject:
@@ -1802,6 +1810,7 @@ pt-BR:
   label_add_another_file: "Adicionar outro arquivo"
   label_add_columns: "Adicionar colunas selecionadas"
   label_add_note: "Adicionar uma nota"
+  label_add_projects: "Adicionar projetos"
   label_add_related_work_packages: "Adicionar pacotes de trabalho relacionados"
   label_add_subtask: "Adicionar subtarefa"
   label_added: "adicionado"
@@ -2088,8 +2097,8 @@ pt-BR:
   label_member_all_admin: "(Todos os papéis devidos ao status de administrador)"
   label_member_plural: "Membros"
   label_membership_plural: "Associações"
-  lable_membership_added: "Membro adicionado"
-  lable_membership_updated: "Membro atualizado"
+  label_membership_added: "Membro adicionado"
+  label_membership_updated: "Membro atualizado"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pré-alfa"
@@ -2190,6 +2199,7 @@ pt-BR:
   label_product_version: "Versão do produto"
   label_profile: "Perfil"
   label_percent_complete: "% de conclusão"
+  label_project: "Project"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
   label_project_attribute_manage_link: "Gerenciar atributos do projeto"
@@ -2198,6 +2208,7 @@ pt-BR:
   label_project_latest: "Últimos projetos"
   label_project_default_type: "Permitir tipo vazio"
   label_project_hierarchy: "Hierarquia de projeto"
+  label_project_mappings: "Habilitado em projetos"
   label_project_new: "Novo projeto"
   label_project_plural: "Projetos"
   label_project_list_plural: "Listas de projeto"

@@ -302,10 +302,7 @@ he:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -1853,6 +1850,17 @@ he:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1872,6 +1880,7 @@ he:
   label_add_another_file: "הוספת קובץ נוסף"
   label_add_columns: "הוסף עמודות נבחרות"
   label_add_note: "הוספת הערה"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "הוסף חבילות עבודה קשורות"
   label_add_subtask: "הוסף תת משימה"
   label_added: "התווסף"
@@ -2158,8 +2167,8 @@ he:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "חברים"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2260,6 +2269,7 @@ he:
   label_product_version: "Product version"
   label_profile: "פרופיל"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2268,6 +2278,7 @@ he:
   label_project_latest: "Latest projects"
   label_project_default_type: "Allow empty type"
   label_project_hierarchy: "Project hierarchy"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "פרוייקט חדש"
   label_project_plural: "פרויקטים"
   label_project_list_plural: "Project lists"

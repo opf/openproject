@@ -188,7 +188,7 @@ Rails.application.configure do
         base = OpenProject::Configuration["rails_relative_url_root"]
         request.path.start_with?("#{base}/health_check", "#{base}/sys")
       end,
-      response_app: -> do
+      response_app: ->(_env) do
         [400, { "Content-Type" => "text/plain" }, ["Invalid host_name configuration"]]
       end
     }

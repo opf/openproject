@@ -85,7 +85,7 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
         )
 
         expect(last_response.cookies["oauth_state_#{nonce}"])
-          .to eq([CGI.escape({ href: "http://example.org/projects/#{project.id}/settings/project_storages/external_file_storages",
+          .to eq([CGI.escape({ href: "http://#{Setting.host_name}/projects/#{project.id}/settings/project_storages/external_file_storages",
                                storageId: project_storage.storage_id }.to_json)])
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
 
         storage.oauth_client
         expect(last_response).to have_http_status(:found)
-        expect(last_response.location).to eq("http://example.org/projects/#{project.id}/settings/project_storages/external_file_storages")
+        expect(last_response.location).to eq("http://#{Setting.host_name}/projects/#{project.id}/settings/project_storages/external_file_storages")
         expect(last_response.cookies.keys).to eq(["_open_project_session"])
       end
     end

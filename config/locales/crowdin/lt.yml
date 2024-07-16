@@ -299,10 +299,7 @@ lt:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Nėra prieinamų tipų.
         form:
@@ -1850,6 +1847,17 @@ lt:
         failed: "Įvyko klaida ir žetono išimti nepavyko. Prašome pabandyti dar kartą vėliau."
         unknown_storage: "Nežinoma saugykla"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Siųsti pranešimus apie šį veiksmą"
     work_packages:
       subject:
@@ -1869,6 +1877,7 @@ lt:
   label_add_another_file: "Pridėti kitą failą"
   label_add_columns: "Pridėti pažymėtus stulpelius"
   label_add_note: "Pridėti pastabą"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Pridėti susijusių darbų paketų"
   label_add_subtask: "Pridėti antrinę užduotį"
   label_added: "pridėtas"
@@ -2155,8 +2164,8 @@ lt:
   label_member_all_admin: "(Visi vaidmenys, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
   label_membership_plural: "Narystės"
-  lable_membership_added: "Narys pridėtas"
-  lable_membership_updated: "Narys atnaujintas"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Meniu"
   label_menu_badge:
     pre_alpha: "pre-alfa"
@@ -2257,6 +2266,7 @@ lt:
   label_product_version: "Produkto versija"
   label_profile: "Profilis"
   label_percent_complete: "% baigta"
+  label_project: "Project"
   label_project_activity: "Projekto aktyvumas"
   label_project_attribute_plural: "Projekto atributai"
   label_project_attribute_manage_link: "Valdyti projekto atributus"
@@ -2265,6 +2275,7 @@ lt:
   label_project_latest: "Naujausi projektai"
   label_project_default_type: "Leisti tuščią tipą"
   label_project_hierarchy: "Projekto hierarchija"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
   label_project_list_plural: "Projektų sąrašai"

@@ -29,70 +29,25 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Injectable } from '@angular/core';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { StateService } from '@uirouter/core';
-import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
-import { ViewType } from 'core-app/shared/components/op-view-select/op-view-select.component';
-import { BannersService } from 'core-app/core/enterprise/banners.service';
-
-interface IStaticQuery extends IOpSidemenuItem {
-  view:ViewType;
-}
 
 @Injectable()
 export class StaticQueriesService {
-  private staticQueries:IStaticQuery[] = [];
-
   constructor(
     private readonly I18n:I18nService,
     private readonly $state:StateService,
-    private readonly CurrentProject:CurrentProjectService,
-    private readonly PathHelper:PathHelperService,
-    private readonly CurrentUser:CurrentUserService,
-    private readonly bannersService:BannersService,
   ) {
-    this.staticQueries = this.buildQueries();
   }
 
   public text = {
-    assignee: this.I18n.t('js.work_packages.properties.assignee'),
-    author: this.I18n.t('js.work_packages.properties.author'),
-    created_at: this.I18n.t('js.work_packages.properties.createdAt'),
-    updated_at: this.I18n.t('js.work_packages.properties.updatedAt'),
-    status: this.I18n.t('js.work_packages.properties.status'),
     work_packages: this.I18n.t('js.label_work_package_plural'),
-    gantt: this.I18n.t('js.gantt_chart.label'),
-    latest_activity: this.I18n.t('js.work_packages.default_queries.latest_activity'),
-    created_by_me: this.I18n.t('js.work_packages.default_queries.created_by_me'),
-    assigned_to_me: this.I18n.t('js.work_packages.default_queries.assigned_to_me'),
-    recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
-    shared_with_users: this.I18n.t('js.work_packages.default_queries.shared_with_users'),
-    shared_with_me: this.I18n.t('js.work_packages.default_queries.shared_with_me'),
-    summary: this.I18n.t('js.work_packages.default_queries.summary'),
-    overdue: this.I18n.t('js.notifications.date_alerts.overdue'),
   };
 
   public getStaticName(query:QueryResource):string {
     if (this.$state.params.query_props) {
-      const queryProps = JSON.parse(this.$state.params.query_props) as { pa:unknown, pp:unknown }&unknown;
-      delete queryProps.pp;
-      delete queryProps.pa;
-      const queryPropsString = JSON.stringify(queryProps);
-
-      const matched = this.staticQueries.find((item) => {
-        const uiParams = item.uiParams as { query_id:string, query_props:string };
-        return uiParams && uiParams.query_props === queryPropsString;
-      });
-
-      if (matched) {
-        return matched.title;
-      }
-
-      if (this.$state.params.name) {
-        const nameKey = this.$state.params.name as string;
+      const nameKey = this.$state.params.name as string;
+      if (nameKey) {
         return this.I18n.t(`js.work_packages.default_queries.${nameKey}`);
       }
     }
@@ -106,138 +61,5 @@ export class StaticQueriesService {
 
     // Otherwise, fall back to work packages
     return this.text.work_packages;
-  }
-
-  public buildQueries():IStaticQuery[] {
-    let items:IStaticQuery[] = [
-      {
-        title: this.text.all_open,
-        uiSref: 'work-packages',
-        uiParams: { query_id: undefined, query_props: undefined },
-        view: 'WorkPackagesTable',
-      },
-      {
-        title: this.text.latest_activity,
-        uiSref: 'work-packages',
-        uiParams: {
-          query_id: undefined,
-          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"*","v":[]}]}',
-        },
-        view: 'WorkPackagesTable',
-      },
-      {
-        title: this.text.recently_created,
-        uiSref: 'work-packages',
-        uiParams: {
-          query_id: undefined,
-          query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
-        },
-        view: 'WorkPackagesTable',
-      },
-      {
-        title: this.text.overdue,
-        uiSref: 'work-packages',
-        uiParams: {
-          query_id: undefined,
-          query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"dueDate","o":"<t-","v":["1"]},{"n":"status","o":"o","v":[]}]}',
-        },
-        view: 'WorkPackagesTable',
-      },
-    ];
-
-    const projectIdentifier = this.CurrentProject.identifier;
-    if (projectIdentifier) {
-      items = [
-        ...items,
-        ...this.projectDependentQueries(projectIdentifier),
-      ];
-    }
-
-    if (this.CurrentUser.isLoggedIn) {
-      items = [
-        ...items,
-        ...this.userDependentQueries(),
-      ];
-    }
-
-    return items;
-  }
-
-  public getStaticQueriesForView(view:ViewType):IOpSidemenuItem[] {
-    return this.staticQueries
-      .filter((query) => query.view === view);
-  }
-
-  private projectDependentQueries(projectIdentifier:string):IStaticQuery[] {
-    return [
-      {
-        title: this.text.summary,
-        href: `${this.PathHelper.projectWorkPackagesPath(projectIdentifier)}/report`,
-        view: 'WorkPackagesTable',
-      },
-    ];
-  }
-
-  private userDependentQueries():IStaticQuery[] {
-    return [
-      {
-        title: this.text.created_by_me,
-        uiSref: 'work-packages',
-        uiParams: {
-          query_id: undefined,
-          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
-        },
-        view: 'WorkPackagesTable',
-      },
-      {
-        title: this.text.assigned_to_me,
-        uiSref: 'work-packages',
-        uiParams: {
-          query_id: undefined,
-          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
-        },
-        view: 'WorkPackagesTable',
-      },
-      {
-        title: this.text.shared_with_users,
-        view: 'WorkPackagesTable',
-        isEnterprise: true,
-        ...this.eeGuardedShareRoute,
-      },
-      {
-        title: this.text.shared_with_me,
-        view: 'WorkPackagesTable',
-        isEnterprise: true,
-        ...this.eeGuardedShareWithMeRoute,
-      },
-    ];
-  }
-
-  private get eeGuardedShareWithMeRoute() {
-    if (this.bannersService.eeShowBanners) {
-      return { uiSref: 'work-packages.share_upsale', uiParams: null, uiOptions: { inherit: false } };
-    }
-
-    return {
-      uiSref: 'work-packages',
-      uiParams: {
-        query_id: undefined,
-        query_props: '{"c":["id","subject","type","project"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"sharedWithMe","o":"=","v":"t"}]}',
-      },
-    };
-  }
-
-  private get eeGuardedShareRoute() {
-    if (this.bannersService.eeShowBanners) {
-      return { uiSref: 'work-packages.share_upsale', uiParams: null, uiOptions: { inherit: false } };
-    }
-
-    return {
-      uiSref: 'work-packages',
-      uiParams: {
-        query_id: undefined,
-        query_props: '{"c":["id","subject","type","project","sharedWithUsers"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"sharedWithUser","o":"*","v":[]}]}',
-      },
-    };
   }
 }

@@ -302,10 +302,7 @@ th:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -1751,6 +1748,17 @@ th:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1770,6 +1778,7 @@ th:
   label_add_another_file: "เพิ่มไฟล์อื่น"
   label_add_columns: "เพิ่มคอลัมน์ที่เลือก"
   label_add_note: "เพิ่มหมายเหตุ"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "เพิ่มชุดภารกิจที่เกี่ยวข้อง"
   label_add_subtask: "เพิ่มงานย่อย"
   label_added: "เพิ่มแล้ว"
@@ -2056,8 +2065,8 @@ th:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "สมาชิก"
   label_membership_plural: "Memberships"
-  lable_membership_added: "เพิ่มสมาชิกแล้ว"
-  lable_membership_updated: "ปรับปรุงข้อมูลสมาชิกแล้ว"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2158,6 +2167,7 @@ th:
   label_product_version: "Product version"
   label_profile: "ข้อมูลส่วนตัว"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2166,6 +2176,7 @@ th:
   label_project_latest: "โครงการล่าสุด"
   label_project_default_type: "อนุญาตให้ใช้ชนิดว่าง"
   label_project_hierarchy: "Project hierarchy"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "โครงการใหม่"
   label_project_plural: "โครงการ"
   label_project_list_plural: "Project lists"

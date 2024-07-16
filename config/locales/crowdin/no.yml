@@ -302,10 +302,7 @@
           heading: Påkrevd i alle prosjekter
           description: Prosjektattributten er aktivert i alle prosjekter fordi "Påkrevd i alle prosjekter"-alternativet er valgt. Attributten kan ikke deaktiveres for hvert enkelt prosjekt.
         new_project_mapping_form:
-          add_projects: Add projects
           include_sub_projects: Inkluder underprosjekter
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -1784,6 +1781,17 @@
         failed: "En feil oppstod, nøkkelen kunne ikke fjernes. Prøv igjen senere."
         unknown_storage: "Ukjent lagring"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send varsler for denne handlingen"
     work_packages:
       subject:
@@ -1803,6 +1811,7 @@
   label_add_another_file: "Legg til en annen fil"
   label_add_columns: "Legg til valgte kolonner"
   label_add_note: "Legg til et notat"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Legg til relaterte arbeidspakker"
   label_add_subtask: "Legg til underoppgave"
   label_added: "lagt til"
@@ -2089,8 +2098,8 @@
   label_member_all_admin: "(Alle roller på grunn av administratorstatus)"
   label_member_plural: "Medlemmer"
   label_membership_plural: "Medlemskap"
-  lable_membership_added: "Medlem lagt til"
-  lable_membership_updated: "Medlem oppdatert"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Meny"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2191,6 +2200,7 @@
   label_product_version: "Produktversjon"
   label_profile: "Profil"
   label_percent_complete: "% Ferdig"
+  label_project: "Project"
   label_project_activity: "Aktivitet i prosjektet"
   label_project_attribute_plural: "Prosjekt egenskaper"
   label_project_attribute_manage_link: "Administrer prosjektegenskaper"
@@ -2199,6 +2209,7 @@
   label_project_latest: "Siste prosjekter"
   label_project_default_type: "Tillatt tom type"
   label_project_hierarchy: "Prosjekthierarki"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nytt prosjekt"
   label_project_plural: "Prosjekter"
   label_project_list_plural: "Prosjektlister"
