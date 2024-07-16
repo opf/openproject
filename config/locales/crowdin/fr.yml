@@ -268,7 +268,6 @@ fr:
       favored: "Projets favoris"
       archived: "Projets archivés"
       shared: "Shared project lists"
-      public: "Listes de projets publics"
       my_private: "Mes listes de projets privés"
       new:
         placeholder: "Nouvelle liste de projets"
@@ -2201,6 +2200,7 @@ fr:
   label_product_version: "Version du produit"
   label_profile: "Profil"
   label_percent_complete: "% réalisé"
+  label_project: "Project"
   label_project_activity: "Activité du projet"
   label_project_attribute_plural: "Attributs du projet"
   label_project_attribute_manage_link: "Gérer les attributs de projet"

@@ -1010,6 +1010,7 @@ de:
         workAlternative: "Geschätzter Aufwand"
         remainingTime: "Verbleibender Aufwand"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Letzte Änderungen"
         created_by_me: "Erstellt von mir"
         assigned_to_me: "Mir zugewiesen"

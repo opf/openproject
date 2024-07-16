@@ -1010,6 +1010,7 @@ ms:
         workAlternative: "Anggaran masa"
         remainingTime: "Kerja yang berbaki"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Aktiviti terkini"
         created_by_me: "Dicipta oleh saya"
         assigned_to_me: "Ditugaskan kepada saya"

@@ -265,7 +265,6 @@ lt:
       favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
       shared: "Shared project lists"
-      public: "Public project lists"
       my_private: "Mano privatūs projektų sąrašai"
       new:
         placeholder: "Naujas projektų sąrašas"
@@ -2267,6 +2266,7 @@ lt:
   label_product_version: "Produkto versija"
   label_profile: "Profilis"
   label_percent_complete: "% baigta"
+  label_project: "Project"
   label_project_activity: "Projekto aktyvumas"
   label_project_attribute_plural: "Projekto atributai"
   label_project_attribute_manage_link: "Valdyti projekto atributus"

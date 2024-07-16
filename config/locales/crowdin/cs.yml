@@ -268,7 +268,6 @@ cs:
       favored: "Oblíbené projekty"
       archived: "Archivované projekty"
       shared: "Shared project lists"
-      public: "Veřejné projekty"
       my_private: "soukromé seznamy  projektů"
       new:
         placeholder: "Nový seznam projektů"
@@ -2270,6 +2269,7 @@ cs:
   label_product_version: "Verze produktu"
   label_profile: "Profil"
   label_percent_complete: "% Dokončeno"
+  label_project: "Project"
   label_project_activity: "Aktivita projektu"
   label_project_attribute_plural: "Atributy projektu"
   label_project_attribute_manage_link: "Správa atributů produktu"

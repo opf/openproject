@@ -268,7 +268,6 @@ ka:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -2202,6 +2201,7 @@ ka:
   label_product_version: "Product version"
   label_profile: "პროფილი"
   label_percent_complete: "% დასრულებულია"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"

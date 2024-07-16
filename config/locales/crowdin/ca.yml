@@ -265,7 +265,6 @@ ca:
       favored: "Projectes preferits"
       archived: "Projectes arxivats"
       shared: "Shared project lists"
-      public: "Public project lists"
       my_private: "Les meves llistes de projectes privats"
       new:
         placeholder: "New project list"
@@ -2198,6 +2197,7 @@ ca:
   label_product_version: "Versió del producte"
   label_profile: "Perfil"
   label_percent_complete: "% Complet"
+  label_project: "Project"
   label_project_activity: "Activitat del projecte"
   label_project_attribute_plural: "Atributs de projecte"
   label_project_attribute_manage_link: "Gestionar els atributs del projecte"

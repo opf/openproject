@@ -265,7 +265,6 @@ de:
       favored: "Favorisierte Projekte"
       archived: "Archivierte Projekte"
       shared: "Geteilte Projektlisten"
-      public: "Öffentliche Projekte"
       my_private: "Meine privaten Projektlisten"
       new:
         placeholder: "Neue Projektliste"
@@ -300,7 +299,7 @@ de:
           heading: In allen Projekten erforderlich
           description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Benötigt in allen Projekten" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
         new_project_mapping_form:
-          include_sub_projects: Andere Projekte einbeziehen
+          include_sub_projects: Unterprojekte einbeziehen
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -2196,6 +2195,7 @@ de:
   label_product_version: "Produktversion"
   label_profile: "Profil"
   label_percent_complete: "% abgeschlossen"
+  label_project: "Project"
   label_project_activity: "Projektaktivität"
   label_project_attribute_plural: "Projekt-Attribute"
   label_project_attribute_manage_link: "Projektattribute verwalten"

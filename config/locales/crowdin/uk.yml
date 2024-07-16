@@ -263,7 +263,6 @@ uk:
       favored: "Обрані проєкти"
       archived: "Заархівовані проєкти"
       shared: "Shared project lists"
-      public: "Списки загальнодоступних проєктів"
       my_private: "Особисті списки проєктів"
       new:
         placeholder: "Новий список проєктів"
@@ -2264,6 +2263,7 @@ uk:
   label_product_version: "Версія продукту"
   label_profile: "Профіль"
   label_percent_complete: "% завершення"
+  label_project: "Project"
   label_project_activity: "Дії в проєкті"
   label_project_attribute_plural: "Атрибути проєкту"
   label_project_attribute_manage_link: "Керувати атрибутами проєкту"

@@ -268,7 +268,6 @@ ko:
       favored: "즐겨 찾는 프로젝트"
       archived: "보관된 프로젝트"
       shared: "Shared project lists"
-      public: "공개 프로젝트 목록"
       my_private: "내 비공개 프로젝트 목록"
       new:
         placeholder: "새 프로젝트 목록"
@@ -2167,6 +2166,7 @@ ko:
   label_product_version: "제품 버전"
   label_profile: "프로필"
   label_percent_complete: "완료 %"
+  label_project: "Project"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
   label_project_attribute_manage_link: "프로젝트 특성 관리"

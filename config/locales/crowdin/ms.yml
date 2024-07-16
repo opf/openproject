@@ -267,7 +267,6 @@ ms:
       favored: "Projek kegemaran"
       archived: "Projek yang diarkibkan"
       shared: "Shared project lists"
-      public: "Senarai projek umum"
       my_private: "Senarai projek peribadi saya"
       new:
         placeholder: "Senarai projek baharu"
@@ -2166,6 +2165,7 @@ ms:
   label_product_version: "Versi produk"
   label_profile: "Profil"
   label_percent_complete: "% Selesai"
+  label_project: "Project"
   label_project_activity: "Aktiviti projek"
   label_project_attribute_plural: "Atribut projek"
   label_project_attribute_manage_link: "Urus atribut projek"

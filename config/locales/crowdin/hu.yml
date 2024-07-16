@@ -267,7 +267,6 @@ hu:
       favored: "Favorite projects"
       archived: "Archivált projektek"
       shared: "Shared project lists"
-      public: "Public project lists"
       my_private: "Privát projektlistáim"
       new:
         placeholder: "Új projektlista"
@@ -2199,6 +2198,7 @@ hu:
   label_product_version: "Termékverzió"
   label_profile: "Profil"
   label_percent_complete: "%-ban kész"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Projekt attribútumok"
   label_project_attribute_manage_link: "Manage project attributes"

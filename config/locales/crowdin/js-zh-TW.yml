@@ -1009,6 +1009,7 @@ zh-TW:
         workAlternative: "預估時間"
         remainingTime: "剩餘工時"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "最新活動"
         created_by_me: "由我建立"
         assigned_to_me: "分配給我"

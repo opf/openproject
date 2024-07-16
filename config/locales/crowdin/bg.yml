@@ -268,7 +268,6 @@ bg:
       favored: "Любими проекти"
       archived: "Архивирани проекти"
       shared: "Споделени списъци с проекти"
-      public: "Публични списъци с проекти"
       my_private: "Моите лични списъци с проекти"
       new:
         placeholder: "Нов списък с проекти"
@@ -2202,6 +2201,7 @@ bg:
   label_product_version: "Версия на продукта"
   label_profile: "Профил"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"

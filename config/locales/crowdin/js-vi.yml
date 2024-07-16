@@ -1009,6 +1009,7 @@ vi:
         workAlternative: "Thời gian dự kiến"
         remainingTime: "Số giờ làm việc còn lại"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Hoạt động mới nhất"
         created_by_me: "Do tôi tạo ra"
         assigned_to_me: "Được phân công cho tôi"

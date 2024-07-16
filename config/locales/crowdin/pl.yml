@@ -265,7 +265,6 @@ pl:
       favored: "Ulubione projekty"
       archived: "Zarchiwizowane projekty"
       shared: "Shared project lists"
-      public: "Listy projektów publicznych"
       my_private: "Moje prywatne listy projektów"
       new:
         placeholder: "Nowa lista projektów"
@@ -2267,6 +2266,7 @@ pl:
   label_product_version: "Wersja produktu"
   label_profile: "Profil"
   label_percent_complete: "% ukończenia"
+  label_project: "Project"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
   label_project_attribute_manage_link: "Zarządzaj atrybutami projektu"

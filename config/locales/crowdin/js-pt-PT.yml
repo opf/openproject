@@ -1011,6 +1011,7 @@ pt-PT:
         workAlternative: "Tempo estimado"
         remainingTime: "Trabalho restante"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Atividade mais recente"
         created_by_me: "Criado por mim"
         assigned_to_me: "Atribuído a mim"

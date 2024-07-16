@@ -1012,6 +1012,7 @@ cs:
         workAlternative: "Odhadovaný čas"
         remainingTime: "Zbývající práce"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Poslední aktivita"
         created_by_me: "Vytvořeno mnou"
         assigned_to_me: "Přiřazeno mně"

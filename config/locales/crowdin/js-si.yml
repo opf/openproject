@@ -1011,6 +1011,7 @@ si:
         workAlternative: "ඇස්තමේන්තුගත කාලය"
         remainingTime: "Remaining work"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "නවතම ක්රියාකාරකම්"
         created_by_me: "මා විසින් නිර්මාණය කරන ලදී"
         assigned_to_me: "මට පවරනු ලැබේ"

@@ -55,9 +55,9 @@ es:
   project_module_storages: Archivos
   project_storages:
     project_folder_mode:
-      automatic: Automatically managed
-      inactive: No specific folder
-      manual: Existing folder manually managed
+      automatic: Gestionado automáticamente
+      inactive: Ninguna carpeta específica
+      manual: Carpeta existente gestionada manualmente
   storages:
     buttons:
       complete_without_setup: Completar sin usar

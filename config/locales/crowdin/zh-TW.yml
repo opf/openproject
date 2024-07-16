@@ -267,7 +267,6 @@ zh-TW:
       favored: "Favorite projects"
       archived: "封存專案"
       shared: "Shared project lists"
-      public: "Public project lists"
       my_private: "我的私人專案"
       new:
         placeholder: "New project list"
@@ -2167,6 +2166,7 @@ zh-TW:
   label_product_version: "產品版本"
   label_profile: "個人資料"
   label_percent_complete: "(%)完成"
+  label_project: "Project"
   label_project_activity: "專案活動"
   label_project_attribute_plural: "專案屬性"
   label_project_attribute_manage_link: "Manage project attributes"

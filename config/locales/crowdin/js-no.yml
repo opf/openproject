@@ -1011,6 +1011,7 @@
         workAlternative: "Estimert tid"
         remainingTime: "Gjenstående arbeid"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Siste aktivitet"
         created_by_me: "Opprettet av meg"
         assigned_to_me: "Tildelt meg"

@@ -1010,6 +1010,7 @@ tr:
         workAlternative: "Tahmini süre"
         remainingTime: "Kalan çalışma"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "En son etkinlik"
         created_by_me: "Benim oluşturduklarım"
         assigned_to_me: "Bana atananlar"

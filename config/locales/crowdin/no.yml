@@ -268,7 +268,6 @@
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
       shared: "Offentlige prosjektlister"
-      public: "Offentlige prosjektlister"
       my_private: "Mine private prosjektlister"
       new:
         placeholder: "Ny prosjektliste"
@@ -2201,6 +2200,7 @@
   label_product_version: "Produktversjon"
   label_profile: "Profil"
   label_percent_complete: "% Ferdig"
+  label_project: "Project"
   label_project_activity: "Aktivitet i prosjektet"
   label_project_attribute_plural: "Prosjekt egenskaper"
   label_project_attribute_manage_link: "Administrer prosjektegenskaper"
