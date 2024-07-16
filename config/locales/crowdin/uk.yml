@@ -263,7 +263,6 @@ uk:
       favored: "Обрані проєкти"
       archived: "Заархівовані проєкти"
       shared: "Shared project lists"
-      public: "Списки загальнодоступних проєктів"
       my_private: "Особисті списки проєктів"
       new:
         placeholder: "Новий список проєктів"

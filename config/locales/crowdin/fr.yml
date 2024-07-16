@@ -268,7 +268,6 @@ fr:
       favored: "Projets favoris"
       archived: "Projets archivés"
       shared: "Shared project lists"
-      public: "Listes de projets publics"
       my_private: "Mes listes de projets privés"
       new:
         placeholder: "Nouvelle liste de projets"

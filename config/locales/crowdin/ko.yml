@@ -268,7 +268,6 @@ ko:
       favored: "즐겨 찾는 프로젝트"
       archived: "보관된 프로젝트"
       shared: "Shared project lists"
-      public: "공개 프로젝트 목록"
       my_private: "내 비공개 프로젝트 목록"
       new:
         placeholder: "새 프로젝트 목록"

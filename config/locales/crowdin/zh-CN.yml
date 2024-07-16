@@ -265,7 +265,6 @@ zh-CN:
       favored: "收藏的项目"
       archived: "归档项目"
       shared: "共享项目列表"
-      public: "公开项目列表"
       my_private: "我的私有项目列表"
       new:
         placeholder: "新项目列表"

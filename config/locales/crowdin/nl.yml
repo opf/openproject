@@ -265,7 +265,6 @@ nl:
       favored: "Favorite projects"
       archived: "Gearchiveerde projecten"
       shared: "Shared project lists"
-      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"

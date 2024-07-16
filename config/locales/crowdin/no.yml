@@ -268,7 +268,6 @@
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
       shared: "Offentlige prosjektlister"
-      public: "Offentlige prosjektlister"
       my_private: "Mine private prosjektlister"
       new:
         placeholder: "Ny prosjektliste"

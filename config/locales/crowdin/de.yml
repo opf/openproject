@@ -265,7 +265,6 @@ de:
       favored: "Favorisierte Projekte"
       archived: "Archivierte Projekte"
       shared: "Geteilte Projektlisten"
-      public: "Öffentliche Projekte"
       my_private: "Meine privaten Projektlisten"
       new:
         placeholder: "Neue Projektliste"
@@ -301,7 +300,7 @@ de:
           description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Benötigt in allen Projekten" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
         new_project_mapping_form:
           add_projects: Projekte erstellen
-          include_sub_projects: Andere Projekte einbeziehen
+          include_sub_projects: Unterprojekte einbeziehen
         project_mappings:
           header: Verwendung in Projekten
       types:

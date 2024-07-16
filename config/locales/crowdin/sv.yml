@@ -268,7 +268,6 @@ sv:
       favored: "Favorite projects"
       archived: "Arkiverade projekt"
       shared: "Shared project lists"
-      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "Ny projektlista"

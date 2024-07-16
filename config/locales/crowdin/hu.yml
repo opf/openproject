@@ -267,7 +267,6 @@ hu:
       favored: "Favorite projects"
       archived: "Archivált projektek"
       shared: "Shared project lists"
-      public: "Public project lists"
       my_private: "Privát projektlistáim"
       new:
         placeholder: "Új projektlista"

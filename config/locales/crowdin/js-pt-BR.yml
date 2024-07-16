@@ -905,10 +905,10 @@ pt-BR:
       wiki_link: "Link para uma página Wiki"
       image: "Imagem"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Compartilhar"
+      selected_count: "%{count} selecionado"
       selection:
-        mixed: "Mixed"
+        mixed: "Misturado"
     work_packages:
       bulk_actions:
         move: "Mudança em massa de projeto"

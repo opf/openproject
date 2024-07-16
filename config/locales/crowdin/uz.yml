@@ -268,7 +268,6 @@ uz:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"

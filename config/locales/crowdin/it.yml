@@ -265,7 +265,6 @@ it:
       favored: "Progetti preferiti"
       archived: "Progetti archiviati"
       shared: "Shared project lists"
-      public: "Elenchi di progetti pubblici"
       my_private: "I miei elenchi di progetti privati"
       new:
         placeholder: "Nuovo elenco progetti"
