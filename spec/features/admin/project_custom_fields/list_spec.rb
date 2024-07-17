@@ -26,29 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-RSpec.describe 'List project custom fields', :js do
-  include_context 'with seeded project custom fields'
+RSpec.describe "List project custom fields", :js do
+  include_context "with seeded project custom fields"
 
-  context 'with unsufficient permissions' do
-    it 'is not accessible' do
+  context "with unsufficient permissions" do
+    it "is not accessible" do
       login_as(non_admin)
       visit admin_settings_project_custom_fields_path
 
-      expect(page).to have_text('You are not authorized to access this page.')
+      expect(page).to have_text("You are not authorized to access this page.")
     end
   end
 
-  context 'with sufficient permissions' do
+  context "with sufficient permissions" do
     before do
       login_as(admin)
       visit admin_settings_project_custom_fields_path
     end
 
-    it 'shows all sections in the correct order and allows reordering via menu or drag and drop' do
-      containers = page.all('.op-project-custom-field-section-container')
+    it "shows all sections in the correct order and allows reordering via menu or drag and drop" do
+      containers = page.all(".op-project-custom-field-section-container")
 
       expect(containers[0].text).to include(section_for_input_fields.name)
       expect(containers[1].text).to include(section_for_select_fields.name)
@@ -58,7 +58,7 @@ RSpec.describe 'List project custom fields', :js do
 
       visit admin_settings_project_custom_fields_path
 
-      containers = page.all('.op-project-custom-field-section-container')
+      containers = page.all(".op-project-custom-field-section-container")
 
       expect(containers[0].text).to include(section_for_input_fields.name)
       expect(containers[1].text).to include(section_for_multi_select_fields.name)
@@ -67,9 +67,9 @@ RSpec.describe 'List project custom fields', :js do
       # TODO: Add drag and drop test
     end
 
-    it 'allows to delete a section only if no project custom fields are assigned to it' do
+    it "allows to delete a section only if no project custom fields are assigned to it" do
       within_project_custom_field_section_menu(section_for_multi_select_fields) do
-        expect(page).to have_css("button[aria-disabled='true']", text: 'Delete')
+        expect(page).to have_css("button[aria-disabled='true']", text: "Delete")
       end
 
       multi_list_project_custom_field.destroy
@@ -79,11 +79,11 @@ RSpec.describe 'List project custom fields', :js do
       visit admin_settings_project_custom_fields_path
 
       within_project_custom_field_section_menu(section_for_multi_select_fields) do
-        expect(page).to have_no_css("button[aria-disabled='true']", text: 'Delete')
-        expect(page).to have_button('Delete')
+        expect(page).to have_no_css("button[aria-disabled='true']", text: "Delete")
+        expect(page).to have_button("Delete")
 
         accept_confirm do
-          click_on('Delete')
+          click_on("Delete")
         end
       end
 
@@ -91,42 +91,42 @@ RSpec.describe 'List project custom fields', :js do
         .to have_no_css("[data-test-selector='project-custom-field-section-container-#{section_for_multi_select_fields.id}']")
     end
 
-    it 'allows to edit a section' do
+    it "allows to edit a section" do
       within_project_custom_field_section_menu(section_for_input_fields) do
-        click_on('Edit title')
+        click_on("Edit title")
       end
 
-      fill_in('project_custom_field_section_name', with: 'Updated section name')
+      fill_in("project_custom_field_section_name", with: "Updated section name")
 
-      click_on('Save')
+      click_on("Save")
 
       expect(page).to have_no_text(section_for_input_fields.name)
-      expect(page).to have_text('Updated section name')
+      expect(page).to have_text("Updated section name")
     end
 
-    it 'allows to create a new section' do
-      within '#settings-project-custom-fields-header-component' do
-        click_on('dialog-show-project-custom-field-section-dialog')
+    it "allows to create a new section" do
+      within "#settings-project-custom-fields-header-component" do
+        click_on("dialog-show-project-custom-field-section-dialog")
       end
 
-      fill_in('project_custom_field_section_name', with: 'New section name')
+      fill_in("project_custom_field_section_name", with: "New section name")
 
-      click_on('Save')
+      click_on("Save")
 
-      expect(page).to have_text('New section name')
+      expect(page).to have_text("New section name")
 
-      containers = page.all('.op-project-custom-field-section-container')
+      containers = page.all(".op-project-custom-field-section-container")
 
-      expect(containers[0].text).to include('New section name')
+      expect(containers[0].text).to include("New section name")
       expect(containers[1].text).to include(section_for_input_fields.name)
       expect(containers[2].text).to include(section_for_select_fields.name)
       expect(containers[3].text).to include(section_for_multi_select_fields.name)
     end
 
-    describe 'managing project custom fields' do
-      it 'shows all custom fields in the correct order within their section and allows reordering via menu or drag and drop' do
+    describe "managing project custom fields" do
+      it "shows all custom fields in the correct order within their section and allows reordering via menu or drag and drop" do
         within_project_custom_field_section_container(section_for_input_fields) do
-          containers = page.all('.op-project-custom-field-container')
+          containers = page.all(".op-project-custom-field-container")
 
           expect(containers[0].text).to include(boolean_project_custom_field.name)
           expect(containers[1].text).to include(string_project_custom_field.name)
@@ -137,7 +137,7 @@ RSpec.describe 'List project custom fields', :js do
         end
 
         within_project_custom_field_section_container(section_for_select_fields) do
-          containers = page.all('.op-project-custom-field-container')
+          containers = page.all(".op-project-custom-field-container")
 
           expect(containers[0].text).to include(list_project_custom_field.name)
           expect(containers[1].text).to include(version_project_custom_field.name)
@@ -145,7 +145,7 @@ RSpec.describe 'List project custom fields', :js do
         end
 
         within_project_custom_field_section_container(section_for_multi_select_fields) do
-          containers = page.all('.op-project-custom-field-container')
+          containers = page.all(".op-project-custom-field-container")
 
           expect(containers[0].text).to include(multi_list_project_custom_field.name)
           expect(containers[1].text).to include(multi_version_project_custom_field.name)
@@ -157,7 +157,7 @@ RSpec.describe 'List project custom fields', :js do
         visit admin_settings_project_custom_fields_path
 
         within_project_custom_field_section_container(section_for_multi_select_fields) do
-          containers = page.all('.op-project-custom-field-container')
+          containers = page.all(".op-project-custom-field-container")
 
           expect(containers[0].text).to include(multi_list_project_custom_field.name)
           expect(containers[1].text).to include(multi_user_project_custom_field.name)
@@ -167,9 +167,9 @@ RSpec.describe 'List project custom fields', :js do
         # TODO: Add drag and drop test
       end
 
-      it 'shows the number of projects using a custom field' do
+      it "shows the number of projects using a custom field" do
         within_project_custom_field_container(boolean_project_custom_field) do
-          expect(page).to have_text('0 Projects')
+          expect(page).to have_text("0 Projects")
         end
 
         project = create(:project)
@@ -178,29 +178,29 @@ RSpec.describe 'List project custom fields', :js do
         visit admin_settings_project_custom_fields_path
 
         within_project_custom_field_container(boolean_project_custom_field) do
-          expect(page).to have_text('1 Project')
+          expect(page).to have_text("1 Project")
         end
       end
 
-      it 'allows to delete a custom field' do
+      it "allows to delete a custom field" do
         within_project_custom_field_menu(boolean_project_custom_field) do
           accept_confirm do
-            click_on('Delete')
+            click_on("Delete")
           end
         end
 
         expect(page).to have_no_css("[data-test-selector='project-custom-field-container-#{boolean_project_custom_field.id}']")
       end
 
-      it 'redirects to the custom field edit page via menu item' do
+      it "redirects to the custom field edit page via menu item" do
         within_project_custom_field_menu(boolean_project_custom_field) do
-          click_on('Edit')
+          click_on("Edit")
         end
 
         expect(page).to have_current_path(edit_admin_settings_project_custom_field_path(boolean_project_custom_field))
       end
 
-      it 'redirects to the custom field edit page via click on the name of the custom field' do
+      it "redirects to the custom field edit page via click on the name of the custom field" do
         within_project_custom_field_container(boolean_project_custom_field) do
           click_on(boolean_project_custom_field.name)
         end
@@ -208,13 +208,13 @@ RSpec.describe 'List project custom fields', :js do
         expect(page).to have_current_path(edit_admin_settings_project_custom_field_path(boolean_project_custom_field))
       end
 
-      it 'redirects to the custom field new page via header menu button' do
+      it "redirects to the custom field new page via header menu button" do
         page.find("[data-test-selector='new-project-custom-field-button']").click
 
-        expect(page).to have_current_path(new_admin_settings_project_custom_field_path(type: 'ProjectCustomField'))
+        expect(page).to have_current_path(new_admin_settings_project_custom_field_path(type: "ProjectCustomField"))
       end
 
-      it 'redirects to the custom field new page via button in empty sections' do
+      it "redirects to the custom field new page via button in empty sections" do
         within_project_custom_field_section_container(section_for_multi_select_fields) do
           expect(page).to have_no_css("[data-test-selector='new-project-custom-field-button']")
         end
@@ -230,7 +230,7 @@ RSpec.describe 'List project custom fields', :js do
         end
 
         expect(page).to have_current_path(new_admin_settings_project_custom_field_path(
-                                            type: 'ProjectCustomField',
+                                            type: "ProjectCustomField",
                                             custom_field_section_id: section_for_multi_select_fields.id
                                           ))
       end
@@ -246,7 +246,7 @@ RSpec.describe 'List project custom fields', :js do
   def within_project_custom_field_section_menu(section, &block)
     within_project_custom_field_section_container(section) do
       page.find("[data-test-selector='project-custom-field-section-action-menu']").click
-      within('anchored-position', &block)
+      within("anchored-position", &block)
     end
   end
 
@@ -264,7 +264,7 @@ RSpec.describe 'List project custom fields', :js do
   def within_project_custom_field_menu(section, &block)
     within_project_custom_field_container(section) do
       page.find("[data-test-selector='project-custom-field-action-menu']").click
-      within('anchored-position', &block)
+      within("anchored-position", &block)
     end
   end
 

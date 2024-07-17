@@ -150,6 +150,7 @@ zh-CN:
         attribute_reference:
           macro_help_tooltip: "此文本段正由宏动态呈现。"
           not_found: "无法找到请求的资源"
+          nested_macro: "该宏递归引用 %{model} %{id}。"
           invalid_attribute: "所选属性 '%{name}' 不存在。"
         child_pages:
           button: "链接至子页面"
@@ -364,10 +365,10 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>为工作、剩余工时和工作时间设置更多单位</li> <li>为项目属性配置激活哪些项目</li> <li>重命名私人项目列表</li> <li>在出现 @mentions 的情况下避免多余的电子邮件提醒</li> <li>通过电子邮件邀请会议与会者</li> <li>在 PDF 导出中显示嵌入的工作包属性</li> </ul>
+                该版本包含的新功能和改进： <br> <ul class="%{list_styling_class}"> <li>共享项目列表并将其公开（企业附加功能）</li> <li>将项目列表添加收藏</li> <li>OneDrive/SharePoint 存储的连接验证（企业附加功能）</li> <li>用户配置文件页面采用全新的 Primer 外观</li> <li>甘特图 PDF 导出：基于日历周的额外日期缩放</li> <li>子菜单组件搜索栏（项目列表、甘特图和和看板模块）</li> <li>可选择仅以小时为单位或以天和小时为单位显示进度报告</li> <li>从项目选择器中取消选择项目</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -902,6 +903,11 @@ zh-CN:
       preformatted_text: "预格式化文本"
       wiki_link: "链接到一个维基页面"
       image: "图片"
+    sharing:
+      share: "共享"
+      selected_count: "%{count} 已选择"
+      selection:
+        mixed: "混合"
     work_packages:
       bulk_actions:
         move: "批量更改项目"
@@ -1057,12 +1063,8 @@ zh-CN:
         is_parent: "此工作包的日期会自动从其子项推导出。可激活“手动计划”来设置日期。"
         is_switched_from_manual_to_automatic: "由于与其他工作包的关系，在从手动计划切换为自动计划后，此工作包的日期可能需要重新计算。"
       sharing:
-        share: "共享"
         title: "共享工作包"
         show_all_users: "显示与之共享工作包的所有用户"
-        selected_count: "%{count} 已选择"
-        selection:
-          mixed: "混合"
         upsale:
           description: "与非此项目成员的用户共享工作包。"
       table:

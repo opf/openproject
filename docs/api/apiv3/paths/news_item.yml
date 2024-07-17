@@ -76,3 +76,125 @@ get:
   description: ''
   operationId: View_news
   summary: View news
+patch:
+  summary: Update news
+  operationId: update_news
+  tags:
+    - News
+  description: |-
+    Updates the news's writable attributes.
+    When calling this endpoint the client provides a single object, containing the properties and links to be updated, in the body.
+  parameters:
+    - description: News id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/news_create_model.yml'
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/news_model.yml'
+      description: OK
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to update this news.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Administrators, Manage news permission
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified news does not exist or you do not have permission to view it.
+      description: |-
+        Returned if the news entry does not exist or if the API user does not have the necessary permissions to update it.
+
+        **Required permission:** Administrators, Manage news permission
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: title
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Title can't be blank.
+      description: |-
+        Returned if:
+
+        * the client tries to modify a read-only property (`PropertyIsReadOnly`)
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+delete:
+  summary: Delete news
+  operationId: delete_news
+  description: Permanently deletes the specified news entry.
+  tags:
+    - News
+  parameters:
+    - description: News id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '202':
+      description: |-
+        Returned if the news was deleted successfully.
+
+        Note that the response body is empty as of now. In future versions of the API a body
+        *might* be returned, indicating the progress of deletion.
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to delete this news entry
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Administrators and Manage news permission
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified news does not exist.
+      description: Returned if the news does not exist.

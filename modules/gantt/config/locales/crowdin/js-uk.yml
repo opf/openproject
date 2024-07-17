@@ -1,6 +1,5 @@
 uk:
   js:
-    queries:
-      all_open: 'Усі відкриті'
-      timeline: 'Часова шкала'
-      milestones: 'Віхи'
+    work_packages:
+      default_queries:
+        milestones: 'Віхи'

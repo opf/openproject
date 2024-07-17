@@ -150,6 +150,7 @@ de:
         attribute_reference:
           macro_help_tooltip: "Dieser Textabschnitt wird dynamisch durch ein Makro erzeugt."
           not_found: "Die angeforderte Ressource konnte nicht gefunden werden"
+          nested_macro: "Dieses Makro verweist rekursiv auf %{model} %{id}."
           invalid_attribute: "Das ausgewählte Attribut '%{name}' existiert nicht."
         child_pages:
           button: "Auflistung untergeordneter Seiten"
@@ -364,10 +365,10 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                Diese Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Legen Sie mehr Einheiten für Aufwand, Verbleibender Aufwand und Arbeitszeit fest</li> <li>Konfigurieren Sie in der Administration, in welchen Projekte Projektattribute aktiviert sind</li> <li>Umbenennen von privaten Projektlisten</li> <li>Vermeiden Sie überflüssige E-Mail-Erinnerungen bei @Mentions</li> <li>Einladung per E-Mail an Teilnehmer einer neuen Besprechung</li> <li>Eingebettete Arbeitspaketattribute in PDF-Exporten anzeigen</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Projektlisten teilen (Enterprise Add-on)</li> <li>Projektlisten als Favoriten markieren</li> <li>Verbindungsprüfung für OneDrive/SharePoint-Speicher (Enterprise Add-on)</li> <li>Neuer Look mit Primer für die Benutzerprofilseite</li> <li>Gantt-Diagramm PDF-Export: Zusätzlicher Datums-Zoom auf Basis von Kalenderwochen</li> <li>Suchleiste in Untermenüs (Projektlisten und Gantt- und Boards-Module)</li> <li>Fortschrittsberichte können nun in Stunden oder in Tagen und Stunden angezeigt werden</li> <li>Abwählen von Projekten aus der Projektauswahl</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -903,6 +904,11 @@ de:
       preformatted_text: "Präformatierter Text"
       wiki_link: "Link zu einer Wikiseite"
       image: "Bild"
+    sharing:
+      share: "Teilen"
+      selected_count: "%{count} ausgewählt"
+      selection:
+        mixed: "Gemischt"
     work_packages:
       bulk_actions:
         move: "In anderes Projekt verschieben"
@@ -1058,12 +1064,8 @@ de:
         is_parent: "Die Termine dieses Arbeitspakets werden automatisch von seinen Kindern aggregiert. Aktivieren Sie \"Manuelle Planung\", um die Termine frei zu setzen."
         is_switched_from_manual_to_automatic: "Die Termine dieses Arbeitspakets müssen nach dem Wechsel auf automatische Planung neu berechnet werden."
       sharing:
-        share: "Teilen"
         title: "Arbeitspaket teilen"
         show_all_users: "Alle Benutzer anzeigen, für die das Arbeitspaket geteilt wurde"
-        selected_count: "%{count} ausgewählt"
-        selection:
-          mixed: "Gemischt"
         upsale:
           description: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
       table:

@@ -48,7 +48,7 @@ RSpec.describe API::V3::WorkPackages::CreateProjectFormAPI do
   subject(:response) { last_response }
 
   it "returns 200(OK)" do
-    expect(response.status).to eq(200)
+    expect(response).to have_http_status(:ok)
   end
 
   it "is of type form" do

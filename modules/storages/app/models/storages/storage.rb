@@ -66,7 +66,7 @@ module Storages
     validates_uniqueness_of :name
 
     scope :visible, ->(user = User.current) do
-      if user.allowed_in_any_project?(:manage_storages_in_project)
+      if user.allowed_in_any_project?(:manage_files_in_project)
         all
       else
         where(
@@ -82,6 +82,8 @@ module Storages
     end
 
     scope :automatic_management_enabled, -> { where("provider_fields->>'automatically_managed' = 'true'") }
+
+    scope :in_project, ->(project_id) { joins(project_storages: :project).where(project_storages: { project_id: }) }
 
     enum health_status: {
       pending: "pending",
@@ -158,7 +160,11 @@ module Storages
     def uri
       return unless host
 
-      @uri ||= URI(host).normalize
+      @uri ||= if host.end_with?("/")
+                 URI(host).normalize
+               else
+                 URI("#{host}/").normalize
+               end
     end
 
     def connect_src

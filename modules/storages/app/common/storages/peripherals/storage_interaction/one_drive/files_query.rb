@@ -34,9 +34,6 @@ module Storages
       module OneDrive
         class FilesQuery
           FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
-          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
-
-          using ServiceResultRefinements
 
           def self.call(storage:, auth_strategy:, folder:)
             new(storage).call(auth_strategy:, folder:)
@@ -44,12 +41,11 @@ module Storages
 
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
           def call(auth_strategy:, folder:)
-            Auth[auth_strategy].call(storage: @storage, http_options: { headers: { "OCS-APIRequest" => "true" } }) do |http|
-              call = http.get(Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS))
+            Authentication[auth_strategy].call(storage: @storage) do |http|
+              call = http.get(Util.join_uri_path(@storage.uri, children_uri_path_for(folder) + FIELDS))
               response = handle_response(call, :value)
 
               if response.result.empty?
@@ -62,46 +58,40 @@ module Storages
 
           private
 
+          # rubocop:disable Metrics/AbcSize
           def handle_response(response, map_value)
             case response
             in { status: 200..299 }
               ServiceResult.success(result: response.json(symbolize_keys: true).fetch(map_value))
+            in { status: 400 }
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(response:, code: :error, source: self.class))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: Util.storage_error(response:, code: :not_found, source: self))
+                                    errors: Util.storage_error(response:, code: :not_found, source: self.class))
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(response:, code: :forbidden, source: self.class))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: Util.storage_error(response:, code: :unauthorized, source: self))
+                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
             else
-              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
+              data = StorageErrorData.new(source: self.class, payload: response)
+              ServiceResult.failure(result: :error, errors: StorageError.new(code: :error, data:))
             end
           end
 
+          # rubocop:enable Metrics/AbcSize
+
           def storage_files(json_files)
-            files = json_files.map { |json| storage_file(json) }
+            files = json_files.map { |json| Util.storage_file_from_json(json) }
 
             parent_reference = json_files.first[:parentReference]
             StorageFiles.new(files, parent(parent_reference), forge_ancestors(parent_reference))
           end
 
-          def storage_file(json_file)
-            StorageFile.new(
-              id: json_file[:id],
-              name: json_file[:name],
-              size: json_file[:size],
-              mime_type: Util.mime_type(json_file),
-              created_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :createdDateTime)),
-              last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
-              created_by_name: json_file.dig(:createdBy, :user, :displayName),
-              last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
-              location: Util.extract_location(json_file[:parentReference], json_file[:name]),
-              permissions: %i[readable writeable]
-            )
-          end
-
           def empty_response(http, folder)
-            response = http.get(Util.join_uri_path(@uri, location_uri_path_for(folder) + FIELDS))
+            response = http.get(Util.join_uri_path(@storage.uri, location_uri_path_for(folder) + FIELDS))
             handle_response(response, :id).map do |parent_location_id|
               empty_storage_files(folder.path, parent_location_id)
             end

@@ -1,0 +1,3 @@
+<%= turbo_stream.dialog do
+  render(Shares::ShareDialogComponent.new(strategy: @sharing_strategy, errors: @errors))
+end %>

@@ -28,11 +28,15 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Projects::ProjectQuery do
+RSpec.describe ProjectQuery do
   let(:instance) { described_class.new }
 
   shared_let(:user) { create(:user) }
   shared_let(:admin) { create(:admin) }
+
+  it_behaves_like "acts_as_favorable included" do
+    let(:instance) { create(:project_query) }
+  end
 
   context "when persisting" do
     let(:properties) do
@@ -441,6 +445,92 @@ RSpec.describe Queries::Projects::ProjectQuery do
         let(:public) { false }
 
         it { is_expected.not_to be_visible(user) }
+      end
+
+      context "and the query has been shared with the user" do
+        before do
+          mock_permissions_for(user) do |mock|
+            mock.allow_in_project_query(:view_project_query, project_query: subject)
+          end
+        end
+
+        it { is_expected.to be_visible(user) }
+      end
+    end
+  end
+
+  describe "#editable?" do
+    subject { build(:project_query, user: owner, public:) }
+
+    context "when the query is private" do
+      let(:public) { false }
+
+      context "and the user is the owner" do
+        let(:owner) { user }
+
+        it { is_expected.to be_editable(user) }
+      end
+
+      context "and the user is not the owner" do
+        let(:owner) { build(:user) }
+
+        it { is_expected.not_to be_editable(user) }
+
+        context "and the query has been shared with the user" do
+          before do
+            mock_permissions_for(user) do |mock|
+              mock.allow_in_project_query(:edit_project_query, project_query: subject)
+            end
+          end
+
+          it { is_expected.to be_editable(user) }
+        end
+      end
+    end
+
+    context "when the query is public" do
+      let(:public) { true }
+
+      context "and the user is the owner" do
+        let(:owner) { user }
+
+        it { is_expected.not_to be_editable(user) }
+
+        context "and the user has the global permission" do
+          before do
+            mock_permissions_for(user) do |mock|
+              mock.allow_globally(:manage_public_project_queries)
+            end
+          end
+
+          it { is_expected.to be_editable(user) }
+        end
+      end
+
+      context "and the user is not the owner" do
+        let(:owner) { build(:user) }
+
+        it { is_expected.not_to be_editable(user) }
+
+        context "and the user has the global permission" do
+          before do
+            mock_permissions_for(user) do |mock|
+              mock.allow_globally(:manage_public_project_queries)
+            end
+          end
+
+          it { is_expected.to be_editable(user) }
+        end
+
+        context "and the query has been shared with the user" do
+          before do
+            mock_permissions_for(user) do |mock|
+              mock.allow_in_project_query(:edit_project_query, project_query: subject)
+            end
+          end
+
+          it { is_expected.to be_editable(user) }
+        end
       end
     end
   end

@@ -39,6 +39,8 @@ module Bim
       before_action :authorize, except: %i[direct_upload_finished set_direct_upload_file_name]
       before_action :require_login, only: [:set_direct_upload_file_name]
       skip_before_action :verify_authenticity_token, only: [:set_direct_upload_file_name] # AJAX request in page, so skip authenticity token
+      no_authorization_required! :set_direct_upload_file_name,
+                                 :direct_upload_finished
 
       menu_item :ifc_models
 
@@ -195,9 +197,10 @@ module Bim
       end
 
       def frontend_redirect(model_ids)
-        props = '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc"}'
+        props = Bim::Menus::DefaultQueryGeneratorService.new.call
         redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)),
-                                              query_props: props)
+                                              query_props: props[:query_props],
+                                              name: props[:name])
       end
 
       def find_all_ifc_models

@@ -150,6 +150,7 @@ ko:
         attribute_reference:
           macro_help_tooltip: "이 텍스트 세그먼트는 매크로에 의해 동적으로 렌더링되고 있습니다."
           not_found: "요청한 리소스를 찾을 수 없습니다."
+          nested_macro: "이 매크로는 %{model} %{id}을(를) 재귀적으로 참조하고 있습니다."
           invalid_attribute: "선택한 특성 '%{name}'이(가) 없습니다."
         child_pages:
           button: "자식 페이지의 링크"
@@ -365,10 +366,10 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>작업, 남은 작업 및 작업 시간에 대한 추가적인 단위 설정</li> <li>프로젝트 특성에 대해 활성화되는 프로젝트 구성</li> <li>비공개 프로젝트 목록 이름 바꾸기</li> <li>@mentions의 경우 중복 이메일 미리 알림 방지</li> <li>이메일로 미팅 참석자 초대</li> <li>PDF 내보내기에 포함된 작업 패키지 특성 표시</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>프로젝트 목록 공유 및 공개로 전환(Enterprise 추가 기능)</li> <li>프로젝트 목록을 즐겨찾기로 표시</li> <li>OneDrive/SharePoint 저장소에 대한 연결 유효성 검사(Enterprise 추가 기능)</li> <li>사용자 프로필 페이지에서 Primer로 선보이는 새로운 디자인</li> <li>Gantt 차트 PDF 내보내기: 달력 주에 기반한 추가적인 날짜 확대/축소</li> <li>하위 메뉴 구성 요소에 대한 검색 표시줄(프로젝트 목록과 Gantt 및 보드 모듈)</li> <li>시간만 또는 일 및 시간으로 표시되는 진행률 보고 중에서 선택</li> <li>프로젝트 선택기에서 프로젝트 선택 해제</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -903,6 +904,11 @@ ko:
       preformatted_text: "서식 설정되어 있는 텍스트"
       wiki_link: "위키 페이지에 연결"
       image: "이미지"
+    sharing:
+      share: "공유"
+      selected_count: "%{count}개 선택됨"
+      selection:
+        mixed: "혼합"
     work_packages:
       bulk_actions:
         move: "프로젝트의 일괄 변경"
@@ -1058,12 +1064,8 @@ ko:
         is_parent: "이 작업 패키지의 날짜는 자식으로부터 자동으로 추정됩니다. '수동 스케줄링'을 활성화하여 날짜를 설정할 수 있습니다."
         is_switched_from_manual_to_automatic: "다른 작업 패키지와의 관계로 인해 수동 스케줄링에서 자동 스케줄링으로 전환한 후 이 작업 패키지의 날짜를 다시 계산해야 할 수 있습니다."
       sharing:
-        share: "공유하기"
         title: "작업 패키지 공유"
         show_all_users: "작업 패키지가 공유된 모든 사용자 표시"
-        selected_count: "%{count}개 선택됨"
-        selection:
-          mixed: "혼합"
         upsale:
           description: "프로젝트 멤버가 아닌 사용자와 작업 패키지를 공유합니다."
       table:

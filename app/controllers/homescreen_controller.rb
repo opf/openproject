@@ -28,6 +28,8 @@
 
 class HomescreenController < ApplicationController
   skip_before_action :check_if_login_required, only: [:robots]
+  no_authorization_required! :index, :robots
+  before_action :jump_to_module
 
   layout "global"
 
@@ -50,6 +52,13 @@ class HomescreenController < ApplicationController
       render template: "homescreen/robots-login-required", format: :text
     else
       @projects = Project.active.public_projects
+    end
+  end
+
+  def jump_to_module
+    if params[:jump]
+      # try to redirect to the requested menu item
+      redirect_to_global_menu_item(params[:jump]) && return
     end
   end
 end

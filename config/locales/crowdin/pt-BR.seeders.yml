@@ -41,6 +41,11 @@ pt-BR:
           name: Especificação
         item_2:
           name: Outro
+      project_query_roles:
+        item_0:
+          name: Visualizador de consulta do projeto
+        item_1:
+          name: Editor de consulta de projeto
       work_package_roles:
         item_0:
           name: Editor de pacotes de trabalho

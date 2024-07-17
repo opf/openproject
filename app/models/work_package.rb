@@ -40,6 +40,7 @@ class WorkPackage < ApplicationRecord
   include WorkPackages::Costs
   include WorkPackages::Relations
   include ::Scopes::Scoped
+  include HasMembers
 
   include OpenProject::Journal::AttachmentHelper
 
@@ -66,9 +67,6 @@ class WorkPackage < ApplicationRecord
   }
 
   has_and_belongs_to_many :github_pull_requests # rubocop:disable Rails/HasAndBelongsToMany
-
-  has_many :members, as: :entity, dependent: :destroy
-  has_many :member_principals, through: :members, class_name: "Principal", source: :principal
 
   has_many :meeting_agenda_items, dependent: :nullify
   # The MeetingAgendaItem has a default order, but the ordered field is not part of the select

@@ -34,7 +34,7 @@ RSpec.describe Queries::Projects::Factory,
   before do
     scope = instance_double(ActiveRecord::Relation)
 
-    allow(Queries::Projects::ProjectQuery)
+    allow(ProjectQuery)
       .to receive(:visible)
             .with(current_user)
             .and_return(scope)
@@ -87,7 +87,7 @@ RSpec.describe Queries::Projects::Factory,
     context "without id" do
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has a name" do
@@ -135,7 +135,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has a name" do
@@ -166,7 +166,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has a name" do
@@ -197,7 +197,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has a name" do
@@ -228,7 +228,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has a name" do
@@ -259,7 +259,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has a name" do
@@ -290,7 +290,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has a name" do
@@ -389,7 +389,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has no name" do
@@ -421,7 +421,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has no name" do
@@ -468,7 +468,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has no name" do
@@ -515,7 +515,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has no name" do
@@ -551,7 +551,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has no name" do
@@ -583,7 +583,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has no name" do
@@ -632,7 +632,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "keeps the name" do
@@ -677,7 +677,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "keeps the name" do
@@ -713,7 +713,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "keeps the name" do
@@ -781,7 +781,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "has no name" do
@@ -838,7 +838,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "returns a project query" do
         expect(find)
-          .to be_a(Queries::Projects::ProjectQuery)
+          .to be_a(ProjectQuery)
       end
 
       it "keeps the name" do
@@ -888,7 +888,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "returns a project query" do
       expect(find)
-        .to be_a(Queries::Projects::ProjectQuery)
+        .to be_a(ProjectQuery)
     end
 
     it "has a name" do
@@ -917,7 +917,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "returns a project query" do
       expect(find)
-        .to be_a(Queries::Projects::ProjectQuery)
+        .to be_a(ProjectQuery)
     end
 
     it "has a name" do
@@ -946,7 +946,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "returns a project query" do
       expect(find)
-        .to be_a(Queries::Projects::ProjectQuery)
+        .to be_a(ProjectQuery)
     end
 
     it "has a name" do
@@ -975,7 +975,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "returns a project query" do
       expect(find)
-        .to be_a(Queries::Projects::ProjectQuery)
+        .to be_a(ProjectQuery)
     end
 
     it "has a name" do
@@ -1004,7 +1004,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "returns a project query" do
       expect(find)
-        .to be_a(Queries::Projects::ProjectQuery)
+        .to be_a(ProjectQuery)
     end
 
     it "has a name" do
@@ -1033,7 +1033,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "returns a project query" do
       expect(find)
-        .to be_a(Queries::Projects::ProjectQuery)
+        .to be_a(ProjectQuery)
     end
 
     it "has a name" do

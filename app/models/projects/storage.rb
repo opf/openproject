@@ -65,7 +65,7 @@ module Projects::Storage
       Project
         .from("#{Project.table_name} projects")
         .joins("LEFT JOIN (#{wiki_storage_sql}) wiki ON projects.id = wiki.project_id")
-        .joins("LEFT JOIN (#{work_package_sql}) wp ON projects.id = wp.project_id")
+        .joins("LEFT JOIN (#{work_package_storage_sql}) wp ON projects.id = wp.project_id")
         .joins("LEFT JOIN #{Repository.table_name} repos ON repos.project_id = projects.id")
         .select("projects.*")
         .select("wiki.filesize AS wiki_required_space")
@@ -86,27 +86,25 @@ module Projects::Storage
       "(COALESCE(wiki.filesize, 0) + COALESCE(wp.filesize, 0) + COALESCE(repos.required_storage_bytes, 0))"
     end
 
-    private
-
     def wiki_storage_sql
-      <<-SQL
-      SELECT wiki.project_id, SUM(wiki_attached.filesize) AS filesize
-      FROM #{Wiki.table_name} wiki
-      JOIN #{WikiPage.table_name} pages
-        ON pages.wiki_id = wiki.id
-      JOIN #{Attachment.table_name} wiki_attached
-        ON (wiki_attached.container_id = pages.id AND wiki_attached.container_type = 'WikiPage')
-      GROUP BY wiki.project_id
+      <<~SQL.squish
+        SELECT wiki.project_id, SUM(wiki_attached.filesize) AS filesize
+        FROM #{Wiki.table_name} wiki
+        JOIN #{WikiPage.table_name} pages
+          ON pages.wiki_id = wiki.id
+        JOIN #{Attachment.table_name} wiki_attached
+          ON (wiki_attached.container_id = pages.id AND wiki_attached.container_type = 'WikiPage')
+        GROUP BY wiki.project_id
       SQL
     end
 
-    def work_package_sql
-      <<-SQL
-      SELECT wp.project_id, SUM(wp_attached.filesize) AS filesize
-      FROM #{WorkPackage.table_name} wp
-      JOIN #{Attachment.table_name} wp_attached
-        ON (wp_attached.container_id = wp.id AND wp_attached.container_type = 'WorkPackage')
-      GROUP BY wp.project_id
+    def work_package_storage_sql
+      <<~SQL.squish
+        SELECT wp.project_id, SUM(wp_attached.filesize) AS filesize
+        FROM #{WorkPackage.table_name} wp
+        JOIN #{Attachment.table_name} wp_attached
+          ON (wp_attached.container_id = wp.id AND wp_attached.container_type = 'WorkPackage')
+        GROUP BY wp.project_id
       SQL
     end
   end

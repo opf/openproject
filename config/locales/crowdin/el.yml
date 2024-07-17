@@ -245,6 +245,7 @@ el:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Η διαγραφή έχει προγραμματιστεί και εκτελείται στο παρασκήνιο. Θα ειδοποιηθείτε για το αποτέλεσμα."
       schedule_failed: "Το έργο δεν μπορεί να διαγραφεί: %{errors}"
@@ -262,8 +263,8 @@ el:
       my: "Τα έργα μου"
       favored: "Favorite projects"
       archived: "Archived projects"
-      public: "Public project lists"
-      my_private: "My private project lists"
+      shared: "Shared project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -284,7 +285,7 @@ el:
       project_custom_fields:
         header:
           title: "Project attributes"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
         filter:
           label: "Search project attribute"
         actions:
@@ -386,11 +387,23 @@ el:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Αποτυχία επαναφοράς του token πρόσβασης: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Δημιουργήθηκε ένα νέο token %{type}. Το token πρόσβασής σας είναι:"
       token_value_warning: "Σημείωση: Αυτή είναι η μοναδική φορά που θα δείτε αυτό το token, φροντίστε να το αντιγράψετε τώρα."
       no_results_title_text: Δεν υπάρχουν προς το παρόν διαθέσιμα αναγνωριστικά πρόσβασης.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
@@ -464,6 +477,7 @@ el:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
+    dark: "Dark (experimental)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -511,6 +525,10 @@ el:
     move:
       no_common_statuses_exists: "Δεν υπάρχει διαθέσιμη κατάσταση για όλα τα επιλεγμένα πακέτα εργασίας. Η κατάσταση τους δεν μπορεί να αλλάξει."
       unsupported_for_multiple_projects: "Η μαζική μετακίνηση/αντιγραφή δεν υποστηρίζεται για πακέτα εργασίας από πολλά έργα"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -710,6 +728,7 @@ el:
         auto_hide_popups: "Αυτόματη απόκρυψη ειδοποιήσεων επιτυχίας"
         warn_on_leaving_unsaved: "Προειδοποιήστε με όταν φεύγω από ένα πακέτο εργασίας με μη αποθηκευμένες αλλαγές"
         theme: "Mode"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Ημερομηνία λήξης"
         sharing: "Κοινή Χρήση"
@@ -910,6 +929,10 @@ el:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -1088,6 +1111,10 @@ el:
           undeletable_work_packages_attached: "Η έκδοση δεν μπορεί να διαγραφεί επειδή είναι συνδεδεμένη με πακέτα εργασίας."
         status:
           readonly_default_exlusive: "δεν μπορεί να ενεργοποιηθεί για καταστάσεις που είναι επισημασμένες ως προεπιλογές."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Παρακαλούμε ελέγξτε τα ακόλουθα πεδία:"
         header:
@@ -1111,6 +1138,9 @@ el:
         other: "Notifications"
       placeholder_user: "Placeholder χρήστης"
       project: "Έργο"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Προσαρμοσμένη αναζήτηση"
       role:
         one: "Ρόλος"
@@ -2006,7 +2036,10 @@ el:
   label_introduction_video: "Εισαγωγικό βίντεο"
   label_invite_user: "Προσκαλέστε χρήστη"
   label_share: "Share"
+  label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Εμφάνιση/απόκρυψη"
+  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Εμφάνιση όλων των εγγεγραμμένων χρηστών"
   label_journal: "Ημερολόγιο"
   label_journal_diff: "Σύγκριση Περιγραφών"
@@ -2044,6 +2077,7 @@ el:
   label_custom_touch_icon: "Προσαρμοσμένο εικονίδιο αφής"
   label_logout: "Αποσύνδεση"
   label_main_menu: "Πλευρικό Μενού"
+  label_manage: "Manage"
   label_manage_groups: "Διαχείριση Ομάδων"
   label_managed_repositories_vendor: "Αποθετήρια που διαχειρίζονται από %{vendor}"
   label_max_size: "Μέγιστο μέγεθος"
@@ -2448,12 +2482,12 @@ el:
         plaintext:
           storage: "Αποθηκευτικός χώρος"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            summary: 'Good news! The status of your storage, %{storage_name}, is currently displaying as "Healthy".'
             error-solved-on: "Solved On"
             recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
             details: "For more details or to make any necessary amendments, you can visit your storage configuration"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: 'The status of your storage, %{storage_name}, is currently displaying as "Error". We''ve detected an issue that might require your attention.'
             error-details: "Error Details"
             error-message: "Error Message"
             error-occurred-on: "Occurred On"
@@ -2462,11 +2496,11 @@ el:
         email_notification_settings: "Storage email notification settings"
         see_storage_settings: "See storage settings"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: 'Storage "%{name}" is now healthy!'
           solved_at: "solved at"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
+          subject: 'Storage "%{name}" is unhealthy!'
           since: "since"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
@@ -2591,6 +2625,7 @@ el:
   notice_principals_found_multiple: "Βρέθηκαν %{number} αποτελέσματα. \n Πατήστε Tab για να εστιάσετε στο πρώτο αποτέλεσμα."
   notice_principals_found_single: "Υπάρχει ένα αποτέλεσμα. \n Πατήστε Tab για να εστιάσετε σε αυτό."
   notice_project_not_deleted: "Το έργο δεν διαγράφηκε."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Επιτυχής σύνδεση."
   notice_successful_create: "Επιτυχής δημιουργία."
   notice_successful_delete: "Επιτυχής διαγραφή."
@@ -2727,6 +2762,8 @@ el:
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
   permission_manage_public_project_queries: "Manage public project lists"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:
@@ -2947,6 +2984,10 @@ el:
   setting_default_projects_public: "Τα νέα έργα είναι δημόσια από προεπιλογή"
   setting_diff_max_lines_displayed: "Εμφανίζεται ο μέγιστος αριθμός γραμμών diff"
   setting_display_subprojects_work_packages: "Εμφάνιση πακέτων εργασίας υποέργων στα κύρια έργα από προεπιλογή"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Υποσέλιδο των email"
   setting_emails_header: "Επικεφαλίδα email"
   setting_email_login: "Χρησιμοποιήστε email για είσοδο"
@@ -2959,7 +3000,7 @@ el:
   setting_host_name: "Όνομα εξυπηρετητή"
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά από"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3350,54 +3391,80 @@ el:
         work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
-    sharing:
-      count:
-        zero: "0 users"
-        one: "1 user"
-        other: "%{count} users"
-      filter:
-        project_member: "Project member"
-        not_project_member: "Not project member"
-        project_group: "Project group"
-        not_project_group: "Not project group"
-        role: "Ρόλος"
-        type: "Τύπος"
-      label_search: "Search for users to invite"
-      label_search_placeholder: "Search by user or email address"
-      label_toggle_all: "Toggle all shares"
-      permissions:
-        comment: "Σχόλιο"
-        comment_description: "Can view and comment this work package."
-        denied: "You don't have permissions to share work packages."
-        edit: "Επεξεργασία"
-        edit_description: "Can view, comment and edit this work package."
-        view: "Προβολή"
-        view_description: "Can view this work package."
-      remove: "Αφαίρεση"
-      share: "Share"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
-      text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Δεν μοιράζονται"
-      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
-      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
-      warning_user_limit_reached: >
-        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
-      warning_user_limit_reached_admin: >
-        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
-      warning_no_selected_user: "Please select users to share this work package with"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    permissions:
+      comment: "Comment"
+      comment_description: "Can view and comment this work package."
+      edit: "Edit"
+      edit_description: "Can view, comment and edit this work package."
+      view: "View"
+      view_description: "Can view this work package."
+  sharing:
+    count:
+      zero: "0 users"
+      one: "1 user"
+      other: "%{count} users"
+    filter:
+      project_member: "Project member"
+      not_project_member: "Not project member"
+      project_group: "Project group"
+      not_project_group: "Not project group"
+      user: "User"
+      group: "Group"
+      role: "Role"
+      type: "Type"
+    denied: "You don't have permissions to share %{entities}."
+    label_search: "Search for users to invite"
+    label_search_placeholder: "Search by user or email address"
+    label_toggle_all: "Toggle all shares"
+    remove: "Remove"
+    share: "Share"
+    text_empty_search_description: "There are no users with the current filter criteria."
+    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
+    text_empty_state_header: "Not shared"
+    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
+    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    warning_user_limit_reached: >
+      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+    warning_user_limit_reached_admin: >
+      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
+    warning_no_selected_user: "Please select users to share this %{entity} with"
+    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    user_details:
+      locked: "Locked user"
+      invited: "Invite sent. "
+      resend_invite: "Resend."
+      invite_resent: "Invite has been resent"
+      not_project_member: "Not a project member"
+      project_group: "Group members might have additional privileges (as project members)"
+      not_project_group: "Group (shared with all members)"
+      additional_privileges_project: "Might have additional privileges (as project member)"
+      additional_privileges_group: "Might have additional privileges (as group member)"
+      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       user_details:
-        locked: "Locked user"
-        invited: "Invite sent. "
-        resend_invite: "Resend."
-        invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
-        project_group: "Group members might have additional privileges (as project members)"
-        not_project_group: "Group (shared with all members)"
-        additional_privileges_project: "Might have additional privileges (as project member)"
-        additional_privileges_group: "Might have additional privileges (as group member)"
-        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "View"
+        view_description: "Can view this project list."
+        edit: "Edit"
+        edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

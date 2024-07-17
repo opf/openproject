@@ -50,7 +50,8 @@ module Storages::ProjectStorages
           delete_associated_file_links
           OpenProject::Notifications.send(
             OpenProject::Events::PROJECT_STORAGE_DESTROYED,
-            project_folder_mode: deletion_result.result.project_folder_mode.to_sym
+            project_folder_mode: deletion_result.result.project_folder_mode.to_sym,
+            storage: deletion_result.result.storage
           )
         end
       end

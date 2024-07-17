@@ -41,6 +41,11 @@ ko:
           name: 사양
         item_2:
           name: 기타
+      project_query_roles:
+        item_0:
+          name: 프로젝트 쿼리 뷰어
+        item_1:
+          name: 프로젝트 쿼리 편집기
       work_package_roles:
         item_0:
           name: 작업 패키지 편집자

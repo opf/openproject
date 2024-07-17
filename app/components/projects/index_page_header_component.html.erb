@@ -1,7 +1,7 @@
 <% if show_state? %>
   <%=
     render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title }
+      header.with_title(data: { 'test-selector': 'project-query-name' }) { page_title }
       header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
 
       if can_save?
@@ -9,7 +9,7 @@
           header:,
           message: t("lists.can_be_saved"),
           label: t("button_save"),
-          href: projects_query_path(query, projects_query_params),
+          href: project_query_path(query, projects_query_params),
           method: :patch
         )
       elsif can_save_as?
@@ -17,22 +17,58 @@
           header:,
           message: t("lists.can_be_saved_as"),
           label: t("button_save_as"),
-          href: new_projects_query_path(projects_query_params)
+          href: new_project_query_path(projects_query_params)
         )
       end
 
-      header.with_action_menu(menu_arguments: {
-        anchor_align: :end
-      },
-                              button_arguments: {
-                                icon: "op-kebab-vertical",
-                                "aria-label": t(:label_more),
-                                data: { "test-selector": "project-more-dropdown-menu" }
-                              })  do |menu|
+      if can_access_shares?
+        header.with_action_icon_button(
+          tag: :a,
+          href: dialog_project_query_members_path(query),
+          icon: "share-android",
+          mobile_icon: "share-android",
+          label: t(:label_share),
+          data: { controller: "async-dialog", test_selector: "toggle-share-dialog-button" }
+        )
+      end
+
+      if can_toggle_favor?
+        if currently_favored?
+          header.with_action_icon_button(
+            icon: "star-fill",
+            mobile_icon: "star-fill",
+            label: t(:button_unfavorite),
+            classes: "op-primer--star-icon",
+            tag: :a,
+            href: helpers.build_favorite_path(query, format: :html),
+            data: { method: :delete, "test-selector": "project-query-unfavorite" },
+          )
+        else
+          header.with_action_icon_button(
+            icon: "star",
+            mobile_icon: "star",
+            label: t(:button_favorite),
+            tag: :a,
+            href: helpers.build_favorite_path(query, format: :html),
+            data: { method: :post, "test-selector": "project-query-favorite" },
+          )
+        end
+      end
+
+      header.with_action_menu(
+        menu_arguments: {
+          anchor_align: :end
+        },
+        button_arguments: {
+          icon: "op-kebab-vertical",
+          "aria-label": t(:label_more),
+          data: { "test-selector": "project-more-dropdown-menu" }
+        }
+      ) do |menu|
         if can_rename?
           menu.with_item(
             label: t('button_rename'),
-            href: rename_projects_query_path(query),
+            href: rename_project_query_path(query),
           ) do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end
@@ -62,7 +98,7 @@
           menu_save_item(
             menu:,
             label: t('button_save'),
-            href: projects_query_path(query, projects_query_params),
+            href: project_query_path(query, projects_query_params),
             method: :patch
           )
         end
@@ -71,7 +107,7 @@
           menu_save_item(
             menu:,
             label: t('button_save_as'),
-            href: new_projects_query_path(projects_query_params)
+            href: new_project_query_path(projects_query_params)
           )
         end
 
@@ -90,29 +126,6 @@
         end
 
         if query.persisted?
-          # TODO: Remove section when the sharing modal is implemented (https://community.openproject.org/projects/openproject/work_packages/55163)
-          if can_publish?
-            if query.public?
-              menu.with_item(
-                label: t(:button_unpublish),
-                scheme: :danger,
-                href: unpublish_projects_query_path(query),
-                content_arguments: { data: { method: :post } }
-              ) do |item|
-                item.with_leading_visual_icon(icon: 'eye-closed')
-              end
-            else
-              menu.with_item(
-                label: t(:button_publish),
-                scheme: :default,
-                href: publish_projects_query_path(query),
-                content_arguments: { data: { method: :post } }
-              ) do |item|
-                item.with_leading_visual_icon(icon: 'eye')
-              end
-            end
-          end
-
           menu.with_item(
             label: t(:button_delete),
             scheme: :danger,
@@ -130,9 +143,9 @@
 <% else %>
   <%=
     render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title(data: { 'test-selector': 'project-query-name'}) do
+      header.with_title(data: { 'test-selector': 'project-query-name' }) do
         primer_form_with(model: query,
-                         url: @query.new_record? ? projects_queries_path(projects_query_params) : projects_query_path(@query, projects_query_params),
+                         url: @query.new_record? ? project_queries_path(projects_query_params) : project_query_path(@query, projects_query_params),
                          scope: 'query',
                          id: 'project-save-form') do |f|
           render(

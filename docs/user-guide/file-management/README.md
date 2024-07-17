@@ -17,8 +17,6 @@ keywords: files, attachment, Nextcloud, OneDrive, SharePoint
 
 There are several ways of adding or linking files to work packages in OpenProject. You can manually attach files directly to work packages or use one of the integrations with file management systems.
 
-> Note: in order to use Nextcloud or OneDrive/SharePoint integrations you first need to activate the [File storages module](../projects/project-settings/files/) in your project settings.
-
 ## Manual upload
 
 For the manual upload please refer to documentation on [attaching files to work packages](../work-packages/create-work-package/#add-attachments-to-work-packages).

@@ -45,6 +45,6 @@ module AttachmentsHelper
     options[:inputs] = (options[:inputs] || {})
       .reverse_merge(resource:, allowUploading: false, destroyImmediately: true)
 
-    angular_component_tag("op-attachments", **options)
+    angular_component_tag("opce-attachments", **options)
   end
 end

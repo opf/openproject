@@ -114,7 +114,7 @@ RSpec.describe "Admin Create a new file storage",
           expect(warning_section).to have_link("Nextcloud OpenProject Integration settings",
                                                href: "https://example.com/settings/admin/openproject")
 
-          storage = Storages::NextcloudStorage.find_by(host: "https://example.com")
+          storage = Storages::NextcloudStorage.find_by(host: "https://example.com/")
           expect(page).to have_css("#openproject_oauth_application_uid",
                                    value: storage.reload.oauth_application.uid)
           expect(page).to have_css("#openproject_oauth_application_secret",
@@ -260,6 +260,11 @@ RSpec.describe "Admin Create a new file storage",
           expect(page).to have_text("Drive ID can't be blank.")
 
           fill_in "Drive ID", with: "1234567890"
+          click_on "Save and continue"
+
+          expect(page).to have_text("Drive ID is too short (minimum is 17 characters).")
+
+          fill_in "Drive ID", with: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY87vnZ6fgfvQanZHX-XCAyw"
           click_on "Save and continue"
         end
 

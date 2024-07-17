@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ module Acts::Journalized
         get_association_changes(original, changed, *)
       end
 
-    def association_changes_multiple_attributes(original, changed, association, association_name, key, values)
+      def association_changes_multiple_attributes(original, changed, association, association_name, key, values)
         list = {}
         values.each do |value|
           list.store(value, get_association_changes(original, changed, association, association_name, key, value))
@@ -69,7 +69,7 @@ module Acts::Journalized
 
       def no_nil_to_empty_strings?(normalized_old_data, attribute, new_value)
         old_value = normalized_old_data[attribute]
-        new_value != old_value && ([new_value, old_value] - ['', nil]).present?
+        new_value != old_value && ([new_value, old_value] - ["", nil]).present?
       end
 
       def journaled_attributes(object)
@@ -133,7 +133,7 @@ module Acts::Journalized
         if selected_journals.empty?
           nil
         else
-          selected_journals.sort.join(',')
+          selected_journals.sort.join(",")
         end
       end
     end

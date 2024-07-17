@@ -1,0 +1,8 @@
+<%=
+  render(Primer::Alpha::Dialog.new(title: strategy.title, id: 'sharing-modal', data: { 'keep-open-on-submit': true }, size: :xlarge, open: open)) do |d|
+    d.with_header(variant: :large, mb: 3)
+    d.with_body do
+      render(strategy.modal_body_component(errors))
+    end
+  end
+%>

@@ -41,6 +41,11 @@ it:
           name: Specifiche
         item_2:
           name: Altro
+      project_query_roles:
+        item_0:
+          name: Visualizzatore di query del progetto
+        item_1:
+          name: Editor di query del progetto
       work_package_roles:
         item_0:
           name: Editor di macro-attività

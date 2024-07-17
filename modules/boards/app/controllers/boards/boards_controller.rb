@@ -2,10 +2,7 @@ module ::Boards
   class BoardsController < BaseController
     include Layout
 
-    before_action :find_optional_project
-
-    before_action :authorize_global, if: -> { @project.nil? }
-    before_action :authorize, if: -> { @project.present? }
+    before_action :load_and_authorize_in_optional_project
 
     # The boards permission alone does not suffice
     # to view work packages

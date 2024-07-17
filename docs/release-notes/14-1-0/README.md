@@ -24,7 +24,7 @@ For more information, [please see our security advisory](https://github.com/opf/
 We unfortunately can no longer provide the OpenProject app for the Univention app center due to incompatibility of their PostgreSQL version in app center 5.0. They have announced that a newer PostgreSQL version will be available in a newer version of the app center.
 This means that we are unable to provide new versions of OpenProject in the Univention app center. The last version available in the app center is OpenProject 13.4.1.
 
-As OpenProject currently does not provide its own multi-container setup, the app is no longer upgradable. We recommend you switch to a docker- or packaged-based installation instead. Please use the [integrated backup functionality](https://www.openproject.org/docs/system-admin-guide/backup/) to extract a backup from your installation. See the [restoration guide](https://www.openproject.org/docs/installation-and-operations/operation/restoring/) on how to restore this backup to a new installation.
+As OpenProject currently does not provide its own multi-container setup, the app is no longer upgradable. We recommend you switch to a docker- or packaged-based installation instead. Please use the [integrated backup functionality](../../system-admin-guide/backup/) to extract a backup from your installation. See the [restoration guide](../../installation-and-operations/operation/restoring/) on how to restore this backup to a new installation.
 
 In the future, we are collaborating with Univention to provide a connector app for OpenProject, allowing you to integrate their IDM solution
 into an existing deployed OpenProject application.
@@ -150,7 +150,7 @@ Apart from the features mentioned above, there have been a lot of other changes,
 - Bugfix: Pages have unnecessary "..." collapsing between 1st and 2nd page \[[#46116](https://community.openproject.org/wp/46116)\]
 - Bugfix: Creating new/Editing existing Custom action dialogue fails \[[#48964](https://community.openproject.org/wp/48964)\]
 - Bugfix: Misleading error message: IFC upload (file size) \[[#52098](https://community.openproject.org/wp/52098)\]
-- Bugfix: OpenProject behind prefix some assests still loaded from web root  \[[#52292](https://community.openproject.org/wp/52292)\]
+- Bugfix: OpenProject behind prefix some assets still loaded from web root  \[[#52292](https://community.openproject.org/wp/52292)\]
 - Bugfix: BIM-Model View - Context Menu/Pop Up in Viewer \[[#52600](https://community.openproject.org/wp/52600)\]
 - Bugfix: Inconsistent interpolations in translation files \[[#53466](https://community.openproject.org/wp/53466)\]
 - Bugfix: Removing a project custom field stored as a filter in a project list leads to wrong counter value \[[#53585](https://community.openproject.org/wp/53585)\]

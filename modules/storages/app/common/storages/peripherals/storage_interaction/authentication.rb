@@ -32,7 +32,7 @@ module Storages
   module Peripherals
     module StorageInteraction
       class Authentication
-        using ::Storages::Peripherals::ServiceResultRefinements
+        using ServiceResultRefinements
 
         def self.[](strategy)
           case strategy.key
@@ -41,7 +41,7 @@ module Storages
           when :oauth_user_token
             AuthenticationStrategies::OAuthUserToken.new(strategy.user)
           when :oauth_client_credentials
-            AuthenticationStrategies::OAuthClientCredentials.new
+            AuthenticationStrategies::OAuthClientCredentials.new(strategy.use_cache)
           else
             raise "Invalid authentication strategy '#{strategy}'"
           end
@@ -55,7 +55,7 @@ module Storages
         def self.authorization_state(storage:, user:)
           auth_strategy = AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
 
-          ::Storages::Peripherals::Registry
+          Registry
             .resolve("#{storage.short_provider_type}.queries.auth_check")
             .call(storage:, auth_strategy:)
             .match(

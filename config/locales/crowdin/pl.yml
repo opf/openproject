@@ -246,6 +246,7 @@ pl:
       work_package_attachments: "Pakiety robocze: załączniki"
       work_package_categories: "Pakiety robocze: kategorie"
       work_package_file_links: "Pakiety robocze: linki do pliku"
+      work_package_shares: "Pakiet roboczy: udostępnienia"
     delete:
       scheduled: "Usunięcie zostało zaplanowane i jest wykonywane w tle. Otrzymasz powiadomienie o wyniku."
       schedule_failed: "Nie można usunąc projektu: %{errors}"
@@ -263,8 +264,8 @@ pl:
       my: "Moje projekty"
       favored: "Ulubione projekty"
       archived: "Zarchiwizowane projekty"
-      public: "Listy projektów publicznych"
-      my_private: "Moje prywatne listy projektów"
+      shared: "Udostępnione listy projektów"
+      my_lists: "Moje listy projektów"
       new:
         placeholder: "Nowa lista projektów"
       delete_modal:
@@ -285,7 +286,7 @@ pl:
       project_custom_fields:
         header:
           title: "Atrybuty projektu"
-          description: "Te atrybuty projektu będą wyświetlane w odpowiednich sekcjach Twojej <a href=%{overview_url} target=\"_blank\">strony przeglądu projektu</a>. Możesz włączyć lub wyłączyć poszczególne atrybuty. Atrybuty i sekcje projektu są definiowane w <a href=%{admin_settings_url} target=\"_blank\">ustawieniach administracyjnych</a> przez administratora wystąpienia. "
+          description: 'Te atrybuty projektu będą wyświetlane w odpowiednich sekcjach Twojej <a href=%{overview_url} target="_blank">strony przeglądu projektu</a>. Możesz włączyć lub wyłączyć poszczególne atrybuty. Atrybuty i sekcje projektu są definiowane w <a href=%{admin_settings_url} target="_blank">ustawieniach administracyjnych</a> przez administratora wystąpienia. '
         filter:
           label: "Wyszukaj atrybut projektu"
         actions:
@@ -399,11 +400,23 @@ pl:
       will_revoke_access_to_all: "To działanie unieważni jego dostęp do nich wszystkich."
   my:
     access_token:
+      errors:
+        token_name_blank: "Podaj nazwę tokena API"
+        token_name_in_use: "Ta nazwa tokena API jest już używana, wybierz inną"
+      new_access_token_dialog_title: "Utwórz nowy token API"
+      new_access_token_dialog_show_button_text: "Token API"
+      new_access_token_dialog_text_field_placeholder_text: "Mój token API"
+      new_access_token_dialog_text_field_label: "Nazwa"
+      new_access_token_dialog_submit_button_text: "Utwórz"
+      new_access_token_dialog_text: "Ten token umożliwi aplikacjom innych firm komunikację z Twoim wystąpieniem. Aby odróżnić nowy token API, nadaj mu nazwę."
+      new_access_token_dialog_attention_text: "Traktuj tokeny API jak hasła. Każdy z tym linkiem będzie miał dostęp do informacji z tego wystąpienia, udostępniaj je więc tylko zaufanym użytkownikom."
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"
+      failed_to_create_token: "Nie można utworzyć tokena dostępu: %{error}"
+      failed_to_revoke_token: "Nie można unieważnić tokena dostępu: %{error}"
       notice_reset_token: "Nowy token typu %{type} został wygenerowany. Twój token dostępu to:"
       token_value_warning: "Uwaga: jest to jedyny raz, gdy zobaczysz ten token, koniecznie skopiuj go teraz."
       no_results_title_text: Aktualnie nie ma dostępnych tokenów.
-      notice_api_token_revoked: "Token API został usunięty. Aby utworzyć nowy token użyj linku w sekcji API."
+      notice_api_token_revoked: "Token API został usunięty. Aby utworzyć nowy token, użyj przycisku w sekcji API."
       notice_rss_token_revoked: "Token RSS został usunięty. Aby utworzyć nowy token użyj linku w sekcji RSS."
       notice_ical_token_revoked: 'Token iCalendar „%{token_name}” kalendarza „%{calendar_name}” projektu „%{project_name}” został unieważniony. Adres URL iCalendar z tym tokenem jest teraz nieprawidłowy.'
   news:
@@ -477,6 +490,7 @@ pl:
         is_readonly: "Tylko do odczytu"
         excluded_from_totals: "Wyłączono z sum"
   themes:
+    dark: "Ciemny (eksperymentalny)"
     light: "Jasny"
     light_high_contrast: "Jasny, wysoki kontrast"
   types:
@@ -526,6 +540,10 @@ pl:
     move:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: "Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów"
+      current_type_not_available_in_target_project: >
+        Bieżący typ pakietu roboczego nie jest włączony w projekcie docelowym. Włącz typ w projekcie docelowym, jeśli chcesz, aby pozostał niezmieniony. W przeciwnym razie typ pakietu roboczego zostanie automatycznie przypisany ponownie, co może doprowadzić do utraty danych.
+      bulk_current_type_not_available_in_target_project: >
+        Bieżące typy pakietów roboczych nie są włączone w projekcie docelowym. Włącz typy w projekcie docelowym, jeśli chcesz, aby pozostały niezmienione. W przeciwnym razie typy pakietów roboczych zostaną automatycznie ponownie przypisane, co może doprowadzić do utraty danych.
     sharing:
       missing_workflow_warning:
         title: "Brak przepływu pracy udostępniania pakietu roboczego"
@@ -725,6 +743,7 @@ pl:
         auto_hide_popups: "Automatyczne ukrycie powiadomień o sukcesie"
         warn_on_leaving_unsaved: "Ostrzegaj mnie, gdy opuszczam zadanie z niezapisanymi zmianami"
         theme: "Tryb"
+        mode_guideline: "Niektóre tryby zastąpią niestandardowe kolory motywu w celu zapewnienia dostępności i czytelności. Aby stosować pełny motyw niestandardowy, wybierz tryb Jasny."
       version:
         effective_date: "Data zakończenia"
         sharing: "Udostępnianie"
@@ -925,6 +944,10 @@ pl:
             enabled_modules:
               dependency_missing: "Moduł „%{dependency}” musi również zostać włączony, ponieważ zależny jest od niego moduł „%{module}”."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Wybierz projekt."
         query:
           attributes:
             project:
@@ -1105,6 +1128,10 @@ pl:
           undeletable_work_packages_attached: "Wersji nie można usunąć, ponieważ dołączone są do niej pakiety robocze."
         status:
           readonly_default_exlusive: "nie można aktywować dla statusów, które są oznaczone jako domyślne."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Sprawdź następujące pola:"
         header:
@@ -1132,6 +1159,11 @@ pl:
         other: "Powiadomień"
       placeholder_user: "Użytkownik zastępczy"
       project: "Projekt"
+      project_query:
+        one: "Lista projektów"
+        few: "Listy projektów"
+        many: "List projektów"
+        other: "Listy projektów"
       query: "Kwerenda użytkownika"
       role:
         one: "Rola"
@@ -2073,7 +2105,10 @@ pl:
   label_introduction_video: "Film wprowadzający"
   label_invite_user: "Zaproś użytkownika"
   label_share: "Udostępnij"
+  label_share_project_list: "Udostępnij listę projektów"
+  label_share_work_package: "Udostępnij pakiet roboczy"
   label_show_hide: "Pokaż/Ukryj"
+  label_show_hide_n_items: "Pokaż/ukryj elementy (%{count})"
   label_show_all_registered_users: "Pokaż wszystkich zarejestrowanych użytkowników"
   label_journal: "Dziennik"
   label_journal_diff: "Opis porównania"
@@ -2111,6 +2146,7 @@ pl:
   label_custom_touch_icon: "Własny touch icon"
   label_logout: "Wyloguj"
   label_main_menu: "Menu boczne"
+  label_manage: "Zarządzaj"
   label_manage_groups: "Zarządzaj grupami"
   label_managed_repositories_vendor: "Zarządzane %{vendor} repozytoria"
   label_max_size: "Maksymalny rozmiar"
@@ -2517,12 +2553,12 @@ pl:
         plaintext:
           storage: "Magazyn"
           healthy:
-            summary: "Dobre wieści! Status magazynu %{storage_name} jest obecnie wyświetlany jako „Zdrowe”."
+            summary: 'Dobre wieści! Status magazynu %{storage_name} jest obecnie wyświetlany jako „Zdrowe”.'
             error-solved-on: "Rozwiązano w dniu"
             recommendation: "Będziemy nadal monitorować system, aby zapewnić jego dobrą kondycję. W przypadku jakichkolwiek rozbieżności powiadomimy Cię."
             details: "Aby uzyskać więcej informacji lub wprowadzić wszelkie niezbędne zmiany, możesz odwiedzić konfigurację magazynu"
           unhealthy:
-            summary: "Status magazynu %{storage_name} jest obecnie wyświetlany jako „Błąd”. Wykryliśmy problem, który może wymagać Twojej uwagi."
+            summary: 'Status magazynu %{storage_name} jest obecnie wyświetlany jako „Błąd”. Wykryliśmy problem, który może wymagać Twojej uwagi.'
             error-details: "Szczegóły błędu"
             error-message: "Komunikat o błędzie"
             error-occurred-on: "Wystąpił w dniu"
@@ -2531,11 +2567,11 @@ pl:
         email_notification_settings: "Ustawienia powiadomień e-mail dotyczących magazynu"
         see_storage_settings: "Sprawdź ustawienia magazynu"
         healthy:
-          subject: "Magazyn „%{name}” jest już w dobrej kondycji!"
+          subject: 'Magazyn „%{name}” jest już w dobrej kondycji!'
           solved_at: "rozwiązano o"
           summary: "Problem z integracją magazynu %{storage_name} został już rozwiązany"
         unhealthy:
-          subject: "Magazyn „%{name}” jest w złej kondycji!"
+          subject: 'Magazyn „%{name}” jest w złej kondycji!'
           since: "od"
           summary: "Wystąpił problem z integracją magazynu %{storage_name}"
           troubleshooting:
@@ -2660,6 +2696,7 @@ pl:
   notice_principals_found_multiple: "Znaleziono %{number} wyników.\nNaciśnij Tab, aby wybrać pierwszy rezultat."
   notice_principals_found_single: "Znaleziono 1 wynik.\nNaciśnij Tab, aby go wybrać."
   notice_project_not_deleted: "Projekt nie został usunięty."
+  notice_project_not_found: "Nie znaleziono projektu."
   notice_successful_connection: "Połączenie zakończone sukcesem."
   notice_successful_create: "Tworzenie zakończone sukcesem."
   notice_successful_delete: "Usuwanie zakończone sukcesem."
@@ -2798,6 +2835,8 @@ pl:
   permission_manage_public_bcf_queries: "Zarządzanie publicznymi zapytaniami BCF"
   permission_edit_attribute_help_texts: "Edytuj teksty pomocy dotyczące atrybutów"
   permission_manage_public_project_queries: "Zarządzaj listami projektów publicznych"
+  permission_view_project_query: "Wyświetl zapytanie dotyczące projektu"
+  permission_edit_project_query: "Edytuj zapytanie dotyczące projektu"
   placeholders:
     default: "-"
   project:
@@ -3016,6 +3055,10 @@ pl:
   setting_default_projects_public: "Nowe projekty są publiczne (domyślnie)"
   setting_diff_max_lines_displayed: "Maksymalna wyświetlana liczba linii różnic"
   setting_display_subprojects_work_packages: "Domyślnie wyświetlaj pakiety robocze podprojektów na głównym projekcie"
+  setting_duration_format: "Format czasu trwania"
+  setting_duration_format_hours_only: "Tylko godziny"
+  setting_duration_format_days_and_hours: "Dni i godziny"
+  setting_duration_format_instructions: "Określa sposób wyświetlania pracy, pozostałej pracy i czasu pracy."
   setting_emails_footer: "Stopka wiadomości e-mail"
   setting_emails_header: "Nagłówek wiadomości e-mail"
   setting_email_login: "Użyj adresu e-mail jako loginu"
@@ -3028,7 +3071,7 @@ pl:
   setting_host_name: "Nazwa hosta"
   setting_hours_per_day: "Liczba godzin dziennie"
   setting_hours_per_day_explanation: >-
-    To zdefiniuje, co jest uważane za „dzień” podczas wyświetlania czasu trwania w naturalniejszy sposób (na przykład, jeśli dzień ma 8 godzin, 32 godziny będą 4 dniami).
+    To definiuje, co jest uważane za „dzień” podczas wyświetlania czasu trwania w dniach i godzinach (na przykład, jeśli dzień ma 8 godzin, 32 godziny będą 4 dniami).
   setting_invitation_expiration_days: "Ważność aktywacyjnej waidomości e-mail wygasa po"
   setting_work_package_done_ratio: "Obliczenie postępu"
   setting_work_package_done_ratio_field: "Oparte na pracy"
@@ -3422,54 +3465,80 @@ pl:
         work_based_help_text: "% ukończenia jest automatycznie wyprowadzany z wartości Praca i Pozostała praca."
         status_based_help_text: "% ukończenia jest ustawiany na podstawie statusu pakietu roboczego."
         migration_warning_text: "W trybie obliczania postępu na podstawie pracy wartości % ukończenia nie można ustawić ręcznie i jest ona powiązana z wartością Praca. Istniejąca wartość została zachowana, ale nie można jej edytować. Najpierw wprowadź wartość Praca."
-    sharing:
-      count:
-        zero: "0 użytkowników"
-        one: "1 użytkownik"
-        other: "%{count} użytkowników"
-      filter:
-        project_member: "Członek projektu"
-        not_project_member: "Nie jest członkiem projektu"
-        project_group: "Grupa projektu"
-        not_project_group: "Nie jest grupą projektu"
-        role: "Rola"
-        type: "Typ"
-      label_search: "Wyszukaj użytkowników do zaproszenia"
-      label_search_placeholder: "Wyszukaj użytkownika lub adres e-mail"
-      label_toggle_all: "Przełącz wszystkie udostępnienia"
-      permissions:
-        comment: "Komentarz"
-        comment_description: "Może wyświetlać i komentować ten pakiet roboczy."
-        denied: "Nie masz uprawnień do udostępniania pakietów roboczych."
-        edit: "Edycja"
-        edit_description: "Może wyświetlać, komentować i edytować ten pakiet roboczy."
-        view: "Widok"
-        view_description: "Może wyświetlić ten pakiet roboczy."
-      remove: "Usuń"
-      share: "Udostępnij"
-      text_empty_search_description: "Brak użytkowników spełniających bieżące kryteria filtrowania."
-      text_empty_search_header: "Nie mogliśmy znaleźć żadnych pasujących wyników."
-      text_empty_state_description: "Pakiet roboczy nie został jeszcze nikomu udostępniony."
-      text_empty_state_header: "Nie udostępniono"
-      text_user_limit_reached: "Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego pakietu roboczego, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników."
-      text_user_limit_reached_admins: 'Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby móc dodać więcej użytkowników, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.'
-      warning_user_limit_reached: >
-        Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego pakietu roboczego, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników.
-      warning_user_limit_reached_admin: >
-        Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego pakietu roboczego, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.
-      warning_no_selected_user: "Wybierz użytkowników, którym chcesz udostępnić ten pakiet roboczy"
-      warning_locked_user: "Użytkownik %{user} jest zablokowany i nie może być udostępniony"
+    permissions:
+      comment: "Komentarz"
+      comment_description: "Może wyświetlać i komentować ten pakiet roboczy."
+      edit: "Edycja"
+      edit_description: "Może wyświetlać, komentować i edytować ten pakiet roboczy."
+      view: "Wyświetlanie"
+      view_description: "Może wyświetlić ten pakiet roboczy."
+  sharing:
+    count:
+      zero: "0 użytkowników"
+      one: "1 użytkownik"
+      other: "%{count} użytkowników"
+    filter:
+      project_member: "Członek projektu"
+      not_project_member: "Nie jest członkiem projektu"
+      project_group: "Grupa projektu"
+      not_project_group: "Nie jest grupą projektu"
+      user: "Użytkownik"
+      group: "Grupa"
+      role: "Rola"
+      type: "Typ"
+    denied: "Nie masz uprawnień do udostępniania %{entities}."
+    label_search: "Wyszukaj użytkowników do zaproszenia"
+    label_search_placeholder: "Wyszukaj użytkownika lub adres e-mail"
+    label_toggle_all: "Przełącz wszystkie udostępnienia"
+    remove: "Usuń"
+    share: "Udostępnij"
+    text_empty_search_description: "Brak użytkowników spełniających bieżące kryteria filtrowania."
+    text_empty_search_header: "Nie mogliśmy znaleźć żadnych pasujących wyników."
+    text_empty_state_description: "%{entity} jeszcze nikomu nie udostępniono."
+    text_empty_state_header: "Nie udostępniono"
+    text_user_limit_reached: "Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego %{entity}, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników."
+    text_user_limit_reached_admins: 'Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby móc dodać więcej użytkowników, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.'
+    warning_user_limit_reached: >
+      Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego %{entity}, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników.
+    warning_user_limit_reached_admin: >
+      Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego %{entity}, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.
+    warning_no_selected_user: "Wybierz użytkowników, którym chcesz udostępnić ten %{entity}"
+    warning_locked_user: "Użytkownik %{user} jest zablokowany i nie można mu udostępniać"
+    user_details:
+      locked: "Zablokowany użytkownik"
+      invited: "Wysłano zaproszenie. "
+      resend_invite: "Wyślij ponownie. "
+      invite_resent: "Zaproszenie zostało ponownie wysłane"
+      not_project_member: "Nie jest członkiem projektu"
+      project_group: "Członkowie grupy mogą mieć dodatkowe uprawnienia (jako członkowie projektu)"
+      not_project_group: "Grupa (udostępniona wszystkim członkom)"
+      additional_privileges_project: "Może mieć dodatkowe uprawnienia (jako członek projektu)"
+      additional_privileges_group: "Może mieć dodatkowe uprawnienia (jako członek grupy)"
+      additional_privileges_project_or_group: "Może mieć dodatkowe uprawnienia (jako członek projektu lub grupy)"
+    project_queries:
+      publishing_denied: "Nie masz uprawnień do upubliczniania list projektów."
+      access_warning: "Użytkownicy będą widzieć tylko projekty, do których mają dostęp. Udostępnianie list projektów nie ma wpływu na uprawnienia do poszczególnych projektów."
       user_details:
-        locked: "Zablokowany użytkownik"
-        invited: "Wysłano zaproszenie. "
-        resend_invite: "Wyślij ponownie. "
-        invite_resent: "Zaproszenie zostało ponownie wysłane"
-        not_project_member: "Nie jest członkiem projektu"
-        project_group: "Członkowie grupy mogą mieć dodatkowe uprawnienia (jako członkowie projektu)"
-        not_project_group: "Grupa (udostępniona wszystkim członkom)"
-        additional_privileges_project: "Może mieć dodatkowe uprawnienia (jako członek projektu)"
-        additional_privileges_group: "Może mieć dodatkowe uprawnienia (jako członek grupy)"
-        additional_privileges_project_or_group: "Może mieć dodatkowe uprawnienia (jako członek projektu lub grupy)"
+        owner: "Właściciel listy"
+        can_view_because_public: "Może już wyświetlać, ponieważ lista jest udostępniona wszystkim"
+        can_manage_public_lists: "Może edytować dzięki uprawnieniom globalnym"
+      public_flag:
+        label: "Udostępnij wszystkim w wystąpieniu %{instance_name}"
+        caption: "Każdy może wyświetlić tę listę projektów. Osoby z globalnymi uprawnieniami do edycji mogą ją modyfikować."
+      blank_state:
+        public:
+          header: "Udostępniono wszystkim"
+          description: "Każdy może wyświetlić tę listę projektów. Można również dodać indywidualnych użytkowników z dodatkowymi uprawnieniami."
+        private:
+          header: "Nie udostępniono: prywatna"
+          description: "Ta lista projektów nie została jeszcze nikomu udostępniona. Tylko Ty możesz uzyskać dostęp do tej listy."
+      permissions:
+        view: "Wyświetlanie"
+        view_description: "Może wyświetlić tę listę projektów."
+        edit: "Edycja"
+        edit_description: "Może wyświetlać, udostępniać i edytować tę listę projektów."
+      upsale:
+        message: "Udostępnianie list projektów poszczególnym użytkownikom jest dodatkiem wersji Enterprise."
   working_days:
     info: >
       Dni, które nie zostały wybrane, są pomijane podczas planowania pakietów roboczych (i nie są uwzględnione w liczbie dni). Mogą one zostać zastąpione na poziomie pakietu roboczego.

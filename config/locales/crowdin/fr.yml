@@ -249,6 +249,7 @@ fr:
       work_package_attachments: "Lots de Travaux : pièces jointes"
       work_package_categories: "Lots de travaux : catégories"
       work_package_file_links: "Lots de Travaux : liens vers des fichiers"
+      work_package_shares: "Lots de travaux : partages"
     delete:
       scheduled: "La suppression a été planifiée et est effectuée en arrière-plan. Vous serez notifié du résultat."
       schedule_failed: "Le projet ne peut pas être supprimé : %{errors}"
@@ -266,8 +267,8 @@ fr:
       my: "Mes projets"
       favored: "Projets favoris"
       archived: "Projets archivés"
-      public: "Listes de projets publics"
-      my_private: "Mes listes de projets privés"
+      shared: "Listes de projets partagées"
+      my_lists: "Mes listes de projets"
       new:
         placeholder: "Nouvelle liste de projets"
       delete_modal:
@@ -288,7 +289,7 @@ fr:
       project_custom_fields:
         header:
           title: "Attributs du projet"
-          description: "Ces attributs de projet seront affichés dans votre <a href=%{overview_url} target=\"_blank\">page d'aperçu du projet</a> sous leurs sections respectives. Vous pouvez activer ou désactiver des attributs individuels. Les attributs et les sections du projet sont définis dans les <a href=%{admin_settings_url} target=\"_blank\">paramètres d'administration</a> par l'administrateur de l'instance. "
+          description: 'Ces attributs de projet seront affichés dans votre <a href=%{overview_url} target="_blank">page d''aperçu du projet</a> sous leurs sections respectives. Vous pouvez activer ou désactiver des attributs individuels. Les attributs et les sections du projet sont définis dans les <a href=%{admin_settings_url} target="_blank">paramètres d''administration</a> par l''administrateur de l''instance. '
         filter:
           label: "Rechercher un attribut de projet"
         actions:
@@ -390,11 +391,23 @@ fr:
       will_revoke_access_to_all: "Cette action aura pour effet de révoquer l'accès de ces personnes à l'ensemble de ces éléments."
   my:
     access_token:
+      errors:
+        token_name_blank: "Veuillez fournir un nom de jeton d'API"
+        token_name_in_use: "Ce nom de jeton d'API est déjà utilisé, veuillez en choisir un autre"
+      new_access_token_dialog_title: "Créer un nouveau jeton d'API"
+      new_access_token_dialog_show_button_text: "Jeton d'API"
+      new_access_token_dialog_text_field_placeholder_text: "Mon jeton d'API"
+      new_access_token_dialog_text_field_label: "Nom"
+      new_access_token_dialog_submit_button_text: "Créer"
+      new_access_token_dialog_text: "Ce jeton permettra aux applications tierces de communiquer avec votre instance. Pour différencier le nouveau jeton d'API, veuillez lui donner un nom."
+      new_access_token_dialog_attention_text: "Traitez les jetons d'API comme des mots de passe. Toute personne possédant ce lien aura accès aux informations de cette instance. Partagez-les uniquement avec des utilisateurs de confiance."
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
+      failed_to_create_token: "Impossible de créer le jeton d'accès : %{error}"
+      failed_to_revoke_token: "Impossible de révoquer le jeton d'accès : %{error}"
       notice_reset_token: "Un nouveau jeton de %{type} a été généré. Votre jeton d’accès est :"
       token_value_warning: "Note : Ceci est la seule fois où vous verrez ce jeton, veuillez le copier maintenant."
       no_results_title_text: Aucun jeton d'accès disponible pour le moment.
-      notice_api_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le lien dans la section API."
+      notice_api_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le bouton dans la section API."
       notice_rss_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le lien dans la section RSS."
       notice_ical_token_revoked: 'Le jeton iCalendar « %{token_name} » pour le calendrier « %{calendar_name} » du projet « %{project_name} » a été révoqué. L''URL iCalendar liée à ce jeton est maintenant invalide.'
   news:
@@ -467,6 +480,7 @@ fr:
         is_readonly: "Lecture seule"
         excluded_from_totals: "Exclus des totaux"
   themes:
+    dark: "Sombre (expérimental)"
     light: "Clair"
     light_high_contrast: "Clair avec contraste élevé"
   types:
@@ -514,6 +528,10 @@ fr:
     move:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: "Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets"
+      current_type_not_available_in_target_project: >
+        Le type actuel du lot de travaux n'est pas activé dans le projet cible. Veuillez activer le type dans le projet cible si vous souhaitez qu'il reste inchangé. Sinon, le type du lot de travaux sera automatiquement réaffecté, ce qui conduira à une perte potentielle de données.
+      bulk_current_type_not_available_in_target_project: >
+        Les types actuels des lots de travaux ne sont pas activés dans le projet cible. Veuillez activer les types dans le projet cible si vous souhaitez qu'ils restent inchangés. Dans le cas contraire, les types des lots de travaux seront automatiquement réaffectés et entraîneront une perte potentielle de données.
     sharing:
       missing_workflow_warning:
         title: "Flux de travail manquant pour le partage de lots de travaux"
@@ -713,6 +731,7 @@ fr:
         auto_hide_popups: "Masquer automatiquement les notifications de succès"
         warn_on_leaving_unsaved: "M'avertir lorsque je quitte un lot de travaux contenant des modifications non enregistrées"
         theme: "Mode"
+        mode_guideline: "Certains modes écraseront les couleurs personnalisées du thème pour l'accessibilité et la lisibilité. Pour le thème personnalisé complet, veuillez sélectionner le mode Clair."
       version:
         effective_date: "Date de fin"
         sharing: "Partage"
@@ -913,6 +932,10 @@ fr:
             enabled_modules:
               dependency_missing: "Le module « %{dependency} » doit également être activé car le module « %{module} » en dépend."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Veuillez sélectionner un projet."
         query:
           attributes:
             project:
@@ -1091,6 +1114,10 @@ fr:
           undeletable_work_packages_attached: "La version ne peut pas être supprimée car des lots de travaux y sont attachés."
         status:
           readonly_default_exlusive: "ne peut pas être activé pour les statuts qui sont marqués par défaut."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Veuillez vérifier les champs suivants :"
         header:
@@ -1114,6 +1141,9 @@ fr:
         other: "Notifications"
       placeholder_user: "Utilisateur de remplacement"
       project: "Projet"
+      project_query:
+        one: "Liste de projets"
+        other: "Listes de projets"
       query: "Requête personnalisée"
       role:
         one: "Rôle"
@@ -2009,7 +2039,10 @@ fr:
   label_introduction_video: "Vidéo de présentation"
   label_invite_user: "Inviter utilisateur"
   label_share: "Partager"
+  label_share_project_list: "Partager la liste des projets"
+  label_share_work_package: "Partager le lot de travaux"
   label_show_hide: "Afficher/masquer"
+  label_show_hide_n_items: "Afficher/masquer %{count} éléments"
   label_show_all_registered_users: "Afficher tous les utilisateurs enregistrés"
   label_journal: "Journal"
   label_journal_diff: "Comparaison de description"
@@ -2047,6 +2080,7 @@ fr:
   label_custom_touch_icon: "Icône de contact personnalisé"
   label_logout: "Déconnexion"
   label_main_menu: "Menu principal"
+  label_manage: "Gérer"
   label_manage_groups: "Gérer les groupes"
   label_managed_repositories_vendor: "Référentiels %{vendor} gérés"
   label_max_size: "Taille maximale"
@@ -2451,12 +2485,12 @@ fr:
         plaintext:
           storage: "Espace de stockage"
           healthy:
-            summary: "Bonne nouvelle ! Le statut de votre espace de stockage, %{storage_name}, est actuellement « Sain »."
+            summary: 'Bonne nouvelle ! Le statut de votre espace de stockage, %{storage_name}, est actuellement « Sain ».'
             error-solved-on: "Résolu le"
             recommendation: "Nous continuerons à surveiller le système pour nous assurer qu'il reste performant. Nous vous informerons en cas d'anomalie."
             details: "Pour plus de détails ou pour apporter les modifications nécessaires, vous pouvez consulter la configuration de votre espace de stockage."
           unhealthy:
-            summary: "Le statut de votre espace de stockage, %{storage_name}, est actuellement « Erreur ». Nous avons détecté un problème qui pourrait nécessiter votre attention."
+            summary: 'Le statut de votre espace de stockage, %{storage_name}, est actuellement « Erreur ». Nous avons détecté un problème qui pourrait nécessiter votre attention.'
             error-details: "Détails de l'erreur"
             error-message: "Message d'erreur"
             error-occurred-on: "Survenu le"
@@ -2465,11 +2499,11 @@ fr:
         email_notification_settings: "Paramètres de notification par e-mail concernant l'espace de stockage"
         see_storage_settings: "Voir les paramètres de l'espace de stockage"
         healthy:
-          subject: "L'espace de stockage « %{name} » est maintenant sain !"
+          subject: 'L''espace de stockage « %{name} » est maintenant sain !'
           solved_at: "résolu à"
           summary: "Le problème lié à l'intégration de votre espace de stockage %{storage_name} est désormais résolu"
         unhealthy:
-          subject: "L'espace de stockage « %{name} » n'est pas en bonne santé !"
+          subject: 'L''espace de stockage « %{name} » n''est pas en bonne santé !'
           since: "depuis"
           summary: "Il y a un problème avec l'intégration de votre espace de stockage %{storage_name}"
           troubleshooting:
@@ -2595,6 +2629,7 @@ fr:
   notice_principals_found_multiple: "Il y a %{number} résultats trouvés. Tabulation pour sélectionner le premier résultat."
   notice_principals_found_single: "Il y a un seul résultat. Tabulation pour le sélectionner."
   notice_project_not_deleted: "Le projet n'a pas été supprimé."
+  notice_project_not_found: "Projet introuvable."
   notice_successful_connection: "Connection réussie."
   notice_successful_create: "Création réussie."
   notice_successful_delete: "Suppression réussie."
@@ -2731,6 +2766,8 @@ fr:
   permission_manage_public_bcf_queries: "Gérer les requêtes publiques BCF"
   permission_edit_attribute_help_texts: "Modifier les textes d'aide des attributs"
   permission_manage_public_project_queries: "Gérer les listes de projets publics"
+  permission_view_project_query: "Voir la requête du projet"
+  permission_edit_project_query: "Modifier la requête du projet"
   placeholders:
     default: "-"
   project:
@@ -2951,6 +2988,10 @@ fr:
   setting_default_projects_public: "Les nouveaux projets sont publics par défaut"
   setting_diff_max_lines_displayed: "Nombre maximal de lignes de «diff» affichées"
   setting_display_subprojects_work_packages: "Par défaut, afficher les lots de travaux des sous-projets dans les projets parents"
+  setting_duration_format: "Format de durée"
+  setting_duration_format_hours_only: "Heures seulement"
+  setting_duration_format_days_and_hours: "Jours et heures"
+  setting_duration_format_instructions: "Cette option définit l'affichage des durées de travail, de travail restant et de temps passé."
   setting_emails_footer: "Pied de page des courriels"
   setting_emails_header: "En-tête des courriels"
   setting_email_login: "Utiliser l'adresse courriel comme login"
@@ -2963,7 +3004,7 @@ fr:
   setting_host_name: "Nom d'hôte"
   setting_hours_per_day: "Heures par jour"
   setting_hours_per_day_explanation: >-
-    Ceci permettra de définir ce qui est considéré comme un « jour » lors de l'affichage de la durée d'une manière plus naturelle (par exemple, si un jour est de 8 heures, 32 heures équivalent à 4 jours).
+    Cela définit ce qui est considéré comme un « jour » lors de l'affichage de la durée en jours et en heures (par exemple, si un jour dure 8 heures, 32 heures représentent 4 jours).
   setting_invitation_expiration_days: "L'émail d’activation expire après"
   setting_work_package_done_ratio: "Calcul de la progression"
   setting_work_package_done_ratio_field: "Basé sur le travail"
@@ -3354,54 +3395,80 @@ fr:
         work_based_help_text: "Le % réalisé est automatiquement dérivé de Travail et Travail restant."
         status_based_help_text: "Le % réalisé est défini par le statut du lot de travaux."
         migration_warning_text: "Dans le mode de calcul de la progression basé sur le travail, le % réalisé ne peut pas être défini manuellement et est lié au travail. La valeur existante a été conservée mais ne peut pas être modifiée. Veuillez d'abord renseigner Travail."
-    sharing:
-      count:
-        zero: "0 utilisateur"
-        one: "1 utilisateur"
-        other: "%{count} utilisateurs"
-      filter:
-        project_member: "Membre du projet"
-        not_project_member: "Non membre du projet"
-        project_group: "Groupe de projet"
-        not_project_group: "Non groupe du projet"
-        role: "Rôle"
-        type: "Type"
-      label_search: "Rechercher des utilisateurs à inviter"
-      label_search_placeholder: "Rechercher par nom ou par adresse mail..."
-      label_toggle_all: "Activer/désactiver tous les partages"
-      permissions:
-        comment: "Commentaire"
-        comment_description: "Peut voir et commenter ce lot de travaux."
-        denied: "Vous n'avez pas l'autorisation de partager des lots de travaux. "
-        edit: "Éditer"
-        edit_description: "Peut voir, commenter et modifier ce lot de travaux."
-        view: "Afficher"
-        view_description: "Peut voir ce lot de travaux."
-      remove: "Supprimer"
-      share: "Partager"
-      text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
-      text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
-      text_empty_state_description: "Le lot de travaux n'a encore été partagé avec personne."
-      text_empty_state_header: "Non partagé"
-      text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce lot de travaux."
-      text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour pouvoir ajouter d''autres utilisateurs.'
-      warning_user_limit_reached: >
-        L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin de garantir que les utilisateurs externes puissent accéder à ce work package.
-      warning_user_limit_reached_admin: >
-        L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour que les utilisateurs externes puissent accéder à ce work package.
-      warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels partager ce lot de travaux"
-      warning_locked_user: "Impossible de partager avec %{user} dont le compte est verrouillé"
+    permissions:
+      comment: "Commentaire"
+      comment_description: "Peut consulter et commenter ce lot de travaux."
+      edit: "Éditer"
+      edit_description: "Peut consulter, commenter et modifier ce lot de travaux."
+      view: "Voir"
+      view_description: "Peut consulter ce lot de travaux."
+  sharing:
+    count:
+      zero: "0 utilisateur"
+      one: "1 utilisateur"
+      other: "%{count} utilisateurs"
+    filter:
+      project_member: "Membre du projet"
+      not_project_member: "Non membre du projet"
+      project_group: "Groupe de projet"
+      not_project_group: "Non groupe du projet"
+      user: "Utilisateur"
+      group: "Groupe"
+      role: "Rôle"
+      type: "Type"
+    denied: "Vous n'avez pas l'autorisation de partager %{entities}."
+    label_search: "Rechercher des utilisateurs à inviter"
+    label_search_placeholder: "Recherche par utilisateur ou par adresse e-mail"
+    label_toggle_all: "Activer/désactiver tous les partages"
+    remove: "Supprimer"
+    share: "Partager"
+    text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
+    text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
+    text_empty_state_description: "Le/la %{entity} n'a encore été partagé(e) avec personne."
+    text_empty_state_header: "Non partagé"
+    text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce(tte) %{entity}."
+    text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre formule d''abonnement</a> pour ajouter d''autres utilisateurs.'
+    warning_user_limit_reached: >
+      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce(tte) %{entity}.
+    warning_user_limit_reached_admin: >
+      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à jour votre formule d'abonnement</a> pour que les utilisateurs externes puissent accéder à ce(tte) %{entity}.
+    warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels vous souhaitez partager ce(tte) %{entity}"
+    warning_locked_user: "L'utilisateur %{user} est verrouillé et ne peut pas être partagé avec"
+    user_details:
+      locked: "Utilisateur verrouillé"
+      invited: "Invitation envoyée."
+      resend_invite: "Renvoyer."
+      invite_resent: "L'Invitation a été renvoyée"
+      not_project_member: "Non membre du projet"
+      project_group: "Les membres du groupe peuvent avoir des privilèges supplémentaires (en tant que membres du projet)"
+      not_project_group: "Groupe (partagé avec tous les membres)"
+      additional_privileges_project: "Peut avoir des privilèges supplémentaires (en tant que membre d'un projet)"
+      additional_privileges_group: "Peut avoir des privilèges supplémentaires (en tant que membre d'un groupe)"
+      additional_privileges_project_or_group: "Peut avoir des privilèges supplémentaires (en tant que membre d'un projet ou d'un groupe)"
+    project_queries:
+      publishing_denied: "Vous n'avez pas la permission de rendre les listes de projets publiques."
+      access_warning: "Les utilisateurs ne verront que les projets auxquels ils ont accès. Le partage des listes de projets n'a pas d'incidence sur les autorisations des projets individuels."
       user_details:
-        locked: "Utilisateur verrouillé"
-        invited: "Invitation envoyée."
-        resend_invite: "Renvoyer."
-        invite_resent: "L'Invitation a été renvoyée."
-        not_project_member: "Non membre du projet"
-        project_group: "Les membres du groupe peuvent avoir des privilèges supplémentaires (en tant que membres du projet)"
-        not_project_group: ""
-        additional_privileges_project: "Peut avoir des privilèges supplémentaires (en tant que membre du projet)"
-        additional_privileges_group: "Peut avoir des privilèges supplémentaires (en tant que membre d'un group)"
-        additional_privileges_project_or_group: "Peut avoir des privilèges supplémentaires (en tant que membre du projet ou d'un groupe)"
+        owner: "Propriétaire de la liste"
+        can_view_because_public: "Peut déjà consulter, car la liste est partagée avec tout le monde"
+        can_manage_public_lists: "Peut modifier en raison des permissions globales"
+      public_flag:
+        label: "Partager avec tout le monde sur %{instance_name}"
+        caption: "Tout le monde peut consulter cette liste de projets. Les personnes disposant de droits d'édition globaux peuvent la modifier."
+      blank_state:
+        public:
+          header: "Partagé avec tout le monde"
+          description: "Tout le monde peut consulter cette liste de projets. Vous pouvez également ajouter des utilisateurs individuels avec des autorisations supplémentaires."
+        private:
+          header: "Non partagé : privé"
+          description: "Cette liste de projets n'a encore été partagée avec personne. Vous êtes la seule personne à pouvoir y accéder."
+      permissions:
+        view: "Voir"
+        view_description: "Peut consulter cette liste de projets."
+        edit: "Éditer"
+        edit_description: "Peut consulter, partager et éditer cette liste de projets."
+      upsale:
+        message: "Le partage des listes de projets avec des utilisateurs individuels est un module complémentaire pour les entreprises."
   working_days:
     info: >
       Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.

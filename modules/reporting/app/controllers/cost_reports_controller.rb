@@ -40,7 +40,7 @@ class CostReportsController < ApplicationController
 
   before_action :check_cache
   before_action :load_all
-  before_action :find_optional_project
+  before_action :load_and_authorize_in_optional_project
   before_action :find_optional_user
 
   include Layout
@@ -109,7 +109,7 @@ class CostReportsController < ApplicationController
   end
 
   def menu_item_to_highlight_on_index
-    @project ? :costs : :cost_reports_global_report_menu
+    @project ? :costs : :cost_reports_global
   end
 
   ##

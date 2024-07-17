@@ -38,6 +38,7 @@ RSpec.describe OpenProject::Events do
 
   before do
     allow(Storages::ManageStorageIntegrationsJob).to receive(:debounce)
+    allow(Storages::AutomaticallyManagedStorageSyncJob).to receive(:debounce)
   end
 
   %w[
@@ -53,16 +54,16 @@ RSpec.describe OpenProject::Events do
 
         it do
           subject
-          expect(Storages::ManageStorageIntegrationsJob).not_to have_received(:debounce)
+          expect(Storages::AutomaticallyManagedStorageSyncJob).not_to have_received(:debounce)
         end
       end
 
       context "when payload contains automatic project_folder_mode" do
-        let(:payload) { { project_folder_mode: :automatic } }
+        let(:payload) { { project_folder_mode: :automatic, storage: create(:nextcloud_storage) } }
 
         it do
           subject
-          expect(Storages::ManageStorageIntegrationsJob).to have_received(:debounce)
+          expect(Storages::AutomaticallyManagedStorageSyncJob).to have_received(:debounce).with(payload[:storage])
         end
 
         it do
@@ -78,19 +79,36 @@ RSpec.describe OpenProject::Events do
     MEMBER_CREATED
     MEMBER_UPDATED
     MEMBER_DESTROYED
-    PROJECT_UPDATED
-    PROJECT_RENAMED
-    PROJECT_ARCHIVED
-    PROJECT_UNARCHIVED
   ].each do |event|
     describe(event) do
-      subject { fire_event(event) }
+      let(:project_role) { create(:existing_project_role) }
+      let(:project_storage) { create(:project_storage) }
+      let(:member) { create(:work_package_member, roles: [project_role], project: project_storage.project) }
 
-      let(:payload) { {} }
+      let(:payload) { { member: } }
+
+      subject { fire_event(event) }
 
       it do
         subject
-        expect(Storages::ManageStorageIntegrationsJob).to have_received(:debounce)
+        expect(Storages::AutomaticallyManagedStorageSyncJob).to have_received(:debounce).with(project_storage.storage)
+      end
+    end
+  end
+
+  %w[PROJECT_UPDATED
+     PROJECT_RENAMED
+     PROJECT_ARCHIVED
+     PROJECT_UNARCHIVED].each do |event|
+    describe(event) do
+      let(:project_storage) { create(:project_storage, :as_automatically_managed) }
+      let(:payload) { { project: project_storage.project } }
+
+      subject { fire_event(event) }
+
+      it do
+        subject
+        expect(Storages::AutomaticallyManagedStorageSyncJob).to have_received(:debounce).with(project_storage.storage)
       end
     end
   end

@@ -150,6 +150,7 @@ fr:
         attribute_reference:
           macro_help_tooltip: "Ce segment de texte est rendu dynamiquement par une macro."
           not_found: "La ressource demandée est introuvable"
+          nested_macro: "Cette macro fait référence de manière récursive à %{model} %{id}."
           invalid_attribute: "L'attribut « %{name} » n'existe pas."
         child_pages:
           button: "Liens vers les pages enfants"
@@ -365,10 +366,10 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Définir plus d'unités pour le travail, le travail restant et le temps de travail</li> <li>Configurer quels projets sont activés pour les attributs de projet</li> <li>Renommer les listes de projets privés</li> <li>Éviter les rappels redondants par e-mail en cas de @mentions</li> <li>Inviter les participants à une réunion par e-mail</li> <li>Afficher les attributs de lots de travaux intégrés dans les exportations PDF</li> </ul>
+                Cette version contient plusieurs nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Vous pouvez partager les listes de projets et les rendre publiques (module complémentaire Enterprise)</li> <li>Vous pouvez marquer des listes de projets comme favorites</li> <li>Validation de la connexion pour les stockages OneDrive/SharePoint (module complémentaire Enterprise)</li> <li>Nouveau look avec Primer pour la page de profil de l'utilisateur</li> <li>Exportation du diagramme de Gantt au format PDF : zoom supplémentaire sur les dates en fonction des semaines du calendrier</li> <li>Barre de recherche dans les sous-menus (listes de projets et modules Gantt et Tableaux)</li> <li>Choix entre l'affichage des rapports d'avancement en heures seulement ou en jours et en heures</li> <li>Vous pouvez désélectionner les projets dans le sélecteur de projets</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -904,6 +905,11 @@ fr:
       preformatted_text: "Texte préformaté"
       wiki_link: "Lien vers une page wiki"
       image: "Image"
+    sharing:
+      share: "Partager"
+      selected_count: "Sélection : %{count}"
+      selection:
+        mixed: "Mixte"
     work_packages:
       bulk_actions:
         move: "Changement de projet en bloc"
@@ -1059,12 +1065,8 @@ fr:
         is_parent: "Les dates de ce lot de travaux sont automatiquement déduites de ses enfants. Activez la « Planification manuelle » pour définir les dates."
         is_switched_from_manual_to_automatic: "Les dates de ce lot de travaux peuvent avoir besoin d'être recalculées après avoir passé de la planification manuelle à la planification automatique en raison de relations avec d'autres lots de travaux."
       sharing:
-        share: "Partager"
         title: "Partager le lot de travaux"
         show_all_users: "Afficher tous les utilisateurs avec lesquels le lot de travaux a été partagé"
-        selected_count: "%{count} sélectionné"
-        selection:
-          mixed: "Mixte"
         upsale:
           description: "Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet."
       table:

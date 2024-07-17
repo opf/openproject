@@ -40,9 +40,9 @@ RSpec.describe ProjectsHelper do
       Queries::Projects::Selects::Status.new(:project_status)
     ]
 
-    query_instance = instance_double(Queries::Projects::ProjectQuery, available_selects: selects)
+    query_instance = instance_double(ProjectQuery, available_selects: selects)
 
-    allow(Queries::Projects::ProjectQuery)
+    allow(ProjectQuery)
       .to receive(:new)
             .and_return(query_instance)
   end

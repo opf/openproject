@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,7 @@ RSpec.describe "Work package sharing",
   end
 
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
+  let(:share_modal) { Components::Sharing::WorkPackages::ShareModal.new(work_package) }
 
   current_user { create(:user, firstname: "Signed in", lastname: "User") }
 

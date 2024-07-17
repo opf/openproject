@@ -2,13 +2,18 @@ import { wpOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/to
 import {
   OnboardingTourNames,
   onboardingTourStorageKey,
-  ProjectName,
   waitForElement,
 } from 'core-app/core/setup/globals/onboarding/helpers';
-import { boardTourSteps } from 'core-app/core/setup/globals/onboarding/tours/boards_tour';
+import {
+  boardTourSteps,
+  navigateToBoardStep,
+} from 'core-app/core/setup/globals/onboarding/tours/boards_tour';
 import { menuTourSteps } from 'core-app/core/setup/globals/onboarding/tours/menu_tour';
 import { homescreenOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/homescreen_tour';
-import { teamPlannerTourSteps } from 'core-app/core/setup/globals/onboarding/tours/team_planners_tour';
+import {
+  navigateToTeamPlannerStep,
+  teamPlannerTourSteps,
+} from 'core-app/core/setup/globals/onboarding/tours/team_planners_tour';
 import { ganttOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/gantt_tour';
 
 require('core-vendor/enjoyhint');
@@ -36,9 +41,11 @@ export type OnboardingStep = {
 };
 
 function initializeTour(storageValue:string) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
   window.onboardingTourInstance = new window.EnjoyHint({
     onStart() {
       jQuery('#content-wrapper, #menu-sidebar').addClass('-hidden-overflow');
+      sessionStorage.setItem(onboardingTourStorageKey, storageValue);
     },
     onEnd() {
       sessionStorage.setItem(onboardingTourStorageKey, storageValue);
@@ -56,8 +63,8 @@ function startTour(steps:OnboardingStep[]) {
   window.onboardingTourInstance.run();
 }
 
-function moduleVisible(name:string):boolean {
-  return document.getElementsByClassName(`${name}-menu-item`).length > 0;
+export function moduleVisible(name:string):boolean {
+  return document.querySelector(`#menu-sidebar .${name}-menu-item`) !== null;
 }
 
 function workPackageTour() {
@@ -68,8 +75,9 @@ function workPackageTour() {
     startTour(steps);
   });
 }
-function mainTour(project:ProjectName = ProjectName.demo) {
-  initializeTour('mainTourFinished');
+
+function ganttTour() {
+  initializeTour('ganttTourFinished');
 
   const boardsDemoDataAvailable = jQuery('meta[name=boards_demo_data_available]').attr('content') === 'true';
   const teamPlannerDemoDataAvailable = jQuery('meta[name=demo_view_of_type_team_planner_seeded]').attr('content') === 'true';
@@ -77,30 +85,59 @@ function mainTour(project:ProjectName = ProjectName.demo) {
 
   waitForElement('.work-package--results-tbody', '#content', () => {
     let steps:OnboardingStep[] = ganttOnboardingTourSteps();
-
     // Check for EE edition
     if (eeTokenAvailable) {
       // ... and available seed data of boards.
       // Then add boards to the tour, otherwise skip it.
       if (boardsDemoDataAvailable && moduleVisible('boards')) {
-        steps = steps.concat(boardTourSteps('enterprise', project));
-      }
-
-      // ... same for team planners
-      if (teamPlannerDemoDataAvailable && moduleVisible('team-planner-view')) {
-        steps = steps.concat(teamPlannerTourSteps());
+        steps = steps.concat(navigateToBoardStep('enterprise'));
+      } else if (teamPlannerDemoDataAvailable && moduleVisible('team-planner-view')) {
+        steps = steps.concat(navigateToTeamPlannerStep());
+      } else {
+        steps = steps.concat(menuTourSteps());
       }
     } else if (boardsDemoDataAvailable && moduleVisible('boards')) {
-      steps = steps.concat(boardTourSteps('basic', project));
+      steps = steps.concat(navigateToBoardStep('basic'));
+    } else {
+      steps = steps.concat(menuTourSteps());
     }
 
+    startTour(steps);
+  });
+}
+
+function boardTour() {
+  initializeTour('boardsTourFinished');
+
+  const teamPlannerDemoDataAvailable = jQuery('meta[name=demo_view_of_type_team_planner_seeded]').attr('content') === 'true';
+  const eeTokenAvailable = !jQuery('body').hasClass('ee-banners-visible');
+
+  waitForElement('wp-single-card', '#content', () => {
+    let steps:OnboardingStep[] = eeTokenAvailable ? boardTourSteps('enterprise') : boardTourSteps('basic');
+
+    // Available seed data of team planner.
+    // Then add Team planner to the tour, otherwise skip it.
+    if (teamPlannerDemoDataAvailable && moduleVisible('team-planner-view')) {
+      steps = steps.concat(navigateToTeamPlannerStep());
+    } else {
+      steps = steps.concat(menuTourSteps());
+    }
+
+    startTour(steps);
+  });
+}
+
+function teamPlannerTour() {
+  initializeTour('teamPlannerTourFinished');
+  waitForElement('full-calendar', '#content', () => {
+    let steps:OnboardingStep[] = teamPlannerTourSteps();
     steps = steps.concat(menuTourSteps());
 
     startTour(steps);
   });
 }
 
-export function start(name:OnboardingTourNames, project?:ProjectName):void {
+export function start(name:OnboardingTourNames):void {
   switch (name) {
     case 'homescreen':
       initializeTour('startProjectTour');
@@ -109,8 +146,14 @@ export function start(name:OnboardingTourNames, project?:ProjectName):void {
     case 'workPackages':
       workPackageTour();
       break;
-    case 'main':
-      mainTour(project);
+    case 'gantt':
+      ganttTour();
+      break;
+    case 'boards':
+      boardTour();
+      break;
+    case 'teamPlanner':
+      teamPlannerTour();
       break;
     default:
       break;

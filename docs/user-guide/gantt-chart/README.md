@@ -41,7 +41,7 @@ Alternatively, you can also use the **Include projects** filter.
 
 ## Gantt charts views
 
-Once you opened the Gantt charts module, the default view will show all open work packages. You can adjust the view using the filters or  select one the following view options:
+Once you opened the Gantt charts module, the default view will show all open work packages. You can search for a specific Gantt chart using the search bar on the left. You can adjust the view using the filters or  select one the following view options:
 
 ![View options in OpenProject Gantt charts](openproject-user-guide-gantt-charts-views.png)
 
@@ -54,7 +54,7 @@ Once you opened the Gantt charts module, the default view will show all open wor
 
 **Public**: lists all Gantt charts views set to be public
 
-**Private***: lists all your personal saved Gantt charts views
+**Private**: lists all your personal saved Gantt charts views
 
 ## Quick context menu in Gantt chart view
 
@@ -177,7 +177,7 @@ To synchronize your work package data between OpenProject and Excel (two-way syn
 
 ### Gantt chart PDF Export (Enterprise add-on)
 
-> **Note**: Gantt chart PDF export is an Enterprise add-on and can only be used with [Enterprise cloud](https://www.openproject.org/docs/enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](https://www.openproject.org/docs/enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easy and helps support OpenProject.
+> **Note**: Gantt chart PDF export is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easy and helps support OpenProject.
 
 To export a Gantt chart in a PDF format click the **More** (three dots) icon in the top right corner and select *Export*.
 

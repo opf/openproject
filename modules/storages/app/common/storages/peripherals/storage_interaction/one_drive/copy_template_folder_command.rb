@@ -33,7 +33,7 @@ module Storages
     module StorageInteraction
       module OneDrive
         class CopyTemplateFolderCommand
-          def self.call(storage:, source_path:, destination_path:)
+          def self.call(auth_strategy:, storage:, source_path:, destination_path:)
             if source_path.blank? || destination_path.blank?
               return ServiceResult.failure(
                 result: :error,
@@ -42,7 +42,7 @@ module Storages
               )
             end
 
-            new(storage).call(source_location: source_path, destination_name: destination_path)
+            new(storage).call(auth_strategy:, source_location: source_path, destination_name: destination_path)
           end
 
           def initialize(storage)
@@ -50,8 +50,8 @@ module Storages
             @data = ResultData::CopyTemplateFolder.new(id: nil, polling_url: nil, requires_polling: true)
           end
 
-          def call(source_location:, destination_name:)
-            Util.using_admin_token(@storage) do |httpx|
+          def call(auth_strategy:, source_location:, destination_name:)
+            Authentication[auth_strategy].call(storage: @storage) do |httpx|
               handle_response(
                 httpx.post(copy_path_for(source_location), json: { name: destination_name })
               )
@@ -61,24 +61,35 @@ module Storages
           private
 
           def handle_response(response)
+            source = self.class
+
             case response
             in { status: 202 }
               ServiceResult.success(result: @data.with(polling_url: response.headers[:location]))
             in { status: 401 }
-              ServiceResult.failure(result: :unauthorized)
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: Util.storage_error(response:, code: :unauthorized, source:))
             in { status: 403 }
-              ServiceResult.failure(result: :forbidden)
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(response:, code: :forbidden, source:))
             in { status: 404 }
-              ServiceResult.failure(result: :not_found, message: "Template folder not found")
+              ServiceResult.failure(result: :not_found,
+                                    errors: Util.storage_error(response:, code: :not_found, source:,
+                                                               log_message: "Template folder not found"))
             in { status: 409 }
-              ServiceResult.failure(result: :conflict, message: "The copy would overwrite an already existing folder")
+              ServiceResult.failure(result: :conflict,
+                                    errors: Util.storage_error(
+                                      response:, code: :conflict, source:,
+                                      log_message: "The copy would overwrite an already existing folder"
+                                    ))
             else
-              ServiceResult.failure(result: :error)
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(response:, code: :error, source:))
             end
           end
 
           def copy_path_for(source_location)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{source_location}/copy?@microsoft.graph.conflictBehavior=fail"
+            "#{@storage.uri}v1.0/drives/#{@storage.drive_id}/items/#{source_location}/copy?@microsoft.graph.conflictBehavior=fail"
           end
         end
       end

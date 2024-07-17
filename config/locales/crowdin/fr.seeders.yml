@@ -41,6 +41,11 @@ fr:
           name: Spécification
         item_2:
           name: Autre
+      project_query_roles:
+        item_0:
+          name: Visionneuse de requêtes du projet
+        item_1:
+          name: Éditeur de requêtes de projet
       work_package_roles:
         item_0:
           name: Éditeur de lot de travaux

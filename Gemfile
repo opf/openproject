@@ -59,7 +59,7 @@ gem "will_paginate", "~> 4.0.0"
 
 gem "friendly_id", "~> 5.5.0"
 
-gem "acts_as_list", "~> 1.1.0"
+gem "acts_as_list", "~> 1.2.0"
 gem "acts_as_tree", "~> 2.9.0"
 gem "awesome_nested_set", "~> 3.6.0"
 gem "closure_tree", "~> 7.4.0"
@@ -93,7 +93,7 @@ gem "deckar01-task_list", "~> 2.3.1"
 # Requires escape-utils for faster escaping
 gem "escape_utils", "~> 1.3"
 # Syntax highlighting used in html-pipeline with rouge
-gem "rouge", "~> 4.2.0"
+gem "rouge", "~> 4.3.0"
 # HTML sanitization used for html-pipeline
 gem "sanitize", "~> 6.1.0"
 # HTML autolinking for mails and urls (replaces autolink)
@@ -107,7 +107,7 @@ gem "svg-graph", "~> 2.2.0"
 
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
-gem "json_schemer", "~> 2.2.0"
+gem "json_schemer", "~> 2.3.0"
 gem "ruby-duration", "~> 3.2.0"
 
 # `config/initializers/mail_starttls_patch.rb` has also been patched to
@@ -118,7 +118,7 @@ gem "mail", "= 2.8.1"
 gem "csv", "~> 3.3"
 
 # provide compatible filesystem information for available storage
-gem "sys-filesystem", "~> 1.4.0", require: false
+gem "sys-filesystem", "~> 1.5.0", require: false
 
 gem "bcrypt", "~> 3.1.6"
 
@@ -158,7 +158,7 @@ gem "structured_warnings", "~> 0.4.0"
 gem "airbrake", "~> 13.0.0", require: false
 
 gem "markly", "~> 0.10" # another markdown parser like commonmarker, but with AST support used in PDF export
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "8f14736a88ad0064d2a97be108fe7061ffbcee91"
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "32603f09a249999a00e8ca23eb17215b46a26c0f"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 
@@ -182,7 +182,7 @@ gem "i18n-js", "~> 4.2.3"
 gem "rails-i18n", "~> 7.0.0"
 
 gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
-gem "sprockets-rails", "~> 3.4.2"
+gem "sprockets-rails", "~> 3.5.1"
 
 gem "puma", "~> 6.4"
 gem "puma-plugin-statsd", "~> 2.0"
@@ -204,12 +204,13 @@ gem "plaintext", "~> 0.3.2"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 4.12.0", require: false
+gem "mini_magick", "~> 4.13.0", require: false
 
 gem "validate_url"
 
 # Storages support code
 gem "dry-container"
+gem "dry-monads"
 
 # ActiveRecord extension which adds typecasting to store accessors
 gem "store_attribute", "~> 1.0"
@@ -328,10 +329,12 @@ group :development, :test do
 
   # ruby linting
   gem "rubocop", require: false
-  gem "rubocop-inflector", require: false
+  gem "rubocop-capybara", require: false
+  gem "rubocop-factory_bot", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "rubocop-rspec_rails", require: false
 
   # erb linting
   gem "erb_lint", require: false
@@ -347,7 +350,7 @@ end
 gem "bootsnap", "~> 1.18.0", require: false
 
 # API gems
-gem "grape", "~> 2.0.0"
+gem "grape", "~> 2.1.0"
 gem "grape_logging", "~> 1.8.4"
 gem "roar", "~> 1.2.0"
 
@@ -386,6 +389,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.14.0"
-gem "openproject-octicons_helper", "~>19.14.0"
-gem "openproject-primer_view_components", "~>0.33.1"
+gem "openproject-octicons", "~>19.14.1"
+gem "openproject-octicons_helper", "~>19.14.1"
+gem "openproject-primer_view_components", "~>0.35.2"

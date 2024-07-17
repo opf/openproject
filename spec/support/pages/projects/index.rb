@@ -75,18 +75,24 @@ module Pages
         expect(page).to have_css('[data-test-selector="project-query-name"]', text: name)
       end
 
-      def expect_sidebar_filter(filter_name, selected: false)
-        within "#main-menu" do
-          selected_specifier = selected ? ".selected" : ":not(.selected)"
-
-          expect(page).to have_css(".op-sidemenu--item-action#{selected_specifier}", text: filter_name)
-        end
+      def expect_sidebar_filter(filter_name, selected: false, favored: false, visible: true)
+        submenu.expect_item(filter_name, selected:, favored:, visible:)
       end
 
       def expect_no_sidebar_filter(filter_name)
-        within "#main-menu" do
-          expect(page).to have_no_css(".op-sidemenu--item-action", text: filter_name)
-        end
+        submenu.expect_no_item(filter_name)
+      end
+
+      def search_for_sidebar_filter(filter_name)
+        submenu.search_for_item(filter_name)
+      end
+
+      def expect_no_search_results_in_sidebar
+        submenu.expect_no_results_text
+      end
+
+      def set_sidebar_filter(filter_name)
+        submenu.click_item(filter_name)
       end
 
       def expect_current_page_number(number)
@@ -99,12 +105,6 @@ module Pages
         within ".op-pagination--pages" do
           expect(page).to have_css(".op-pagination--item", text: number)
           expect(page).to have_no_css(".op-pagination--item", text: number + 1)
-        end
-      end
-
-      def set_sidebar_filter(filter_name)
-        within "#main-menu" do
-          click_on text: filter_name
         end
       end
 
@@ -303,8 +303,18 @@ module Pages
         end
       end
 
+      def mark_query_favorite
+        page.find('[data-test-selector="project-query-favorite"]').click
+      end
+
+      def unmark_query_favorite
+        page.find('[data-test-selector="project-query-unfavorite"]').click
+      end
+
       def click_more_menu_item(item)
+        wait_for_network_idle if using_cuprite?
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
+        wait_for_network_idle if using_cuprite?
         page.find(".ActionListItem", text: item, exact_text: true).click
       end
 
@@ -340,6 +350,10 @@ module Pages
         fill_in_the_name(name)
 
         click_on "Save"
+      end
+
+      def expect_can_only_save_as_label
+        expect(page).to have_text(I18n.t("lists.can_be_saved_as"))
       end
 
       def fill_in_the_name(name)
@@ -438,10 +452,18 @@ module Pages
         end
       end
 
+      def open_share_dialog
+        find_test_selector("toggle-share-dialog-button").click
+      end
+
       private
 
       def boolean_filter?(filter)
         %w[active member_of favored public templated].include?(filter.to_s)
+      end
+
+      def submenu
+        Components::Submenu.new
       end
     end
   end

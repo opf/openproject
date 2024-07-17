@@ -71,12 +71,11 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
 
   subject(:response) { last_response }
 
-  # rubocop:disable RSpecRails/HaveHttpStatus
   # those are mock responses that don't deal well with the rails helpers
   describe "#POST /api/v3/projects/:id/copy" do
     describe "with empty params" do
       it "returns 422", :aggregate_failures do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
 
         expect(response.body)
           .to be_json_eql("Error".to_json)
@@ -99,7 +98,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
 
       it "returns with a redirect to job" do
         aggregate_failures do
-          expect(response.status).to eq(302)
+          expect(response).to have_http_status(:found)
 
           expect(response).to be_redirect
 
@@ -108,7 +107,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
 
         get response.location
 
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(:ok)
 
         expect(last_response.body)
           .to be_json_eql("in_queue".to_json)
@@ -118,7 +117,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
 
         get response.location
 
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(:ok)
 
         expect(last_response.body)
           .to be_json_eql("success".to_json)
@@ -199,9 +198,8 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
       end
 
       it "returns 403 Not Authorized" do
-        expect(response.status).to eq(403)
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end
-  # rubocop:enable RSpecRails/HaveHttpStatus
 end

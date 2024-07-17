@@ -30,7 +30,7 @@ require "spec_helper"
 
 require_relative "../support/pages/meetings/index"
 
-RSpec.describe "Meetings", "Index", :with_cuprite do
+RSpec.describe "Meetings", "Index", :js, :with_cuprite do
   # The order the Projects are created in is important. By naming `project` alphanumerically
   # after `other_project`, we can ensure that subsequent specs that assert sorting is
   # correct for the right reasons (sorting by Project name and not id)
@@ -209,7 +209,7 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
       invite_to_meeting(yesterdays_meeting)
       invite_to_meeting(other_project_meeting)
 
-      meetings_page.navigate_by_modules_menu
+      meetings_page.visit!
       meetings_page.expect_meetings_listed(meeting, other_project_meeting)
       meetings_page.expect_meetings_not_listed(yesterdays_meeting)
     end
@@ -234,7 +234,7 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
       let(:permissions) { %i(view_meetings create_meetings) }
 
       it "shows the create new buttons" do
-        meetings_page.navigate_by_modules_menu
+        meetings_page.visit!
 
         meetings_page.expect_create_new_buttons
       end
@@ -244,7 +244,7 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
       let(:permissions) { %i[view_meetings] }
 
       it "doesn't show a create new button" do
-        meetings_page.navigate_by_modules_menu
+        meetings_page.visit!
 
         meetings_page.expect_no_create_new_buttons
       end

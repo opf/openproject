@@ -38,7 +38,7 @@ module Overviews
                   { controller: "/overviews/overviews", action: "show" },
                   caption: :"overviews.label",
                   first: true,
-                  icon: "info1")
+                  icon: "info")
       end
     end
 

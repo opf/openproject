@@ -63,7 +63,7 @@ RSpec.describe "Team planner index", :js, :with_cuprite, with_ee: %i[team_planne
   end
 
   it "can create an action through the sidebar" do
-    find_test_selector("team-planner--create-button").click
+    find_test_selector("team_planner--create-button").click
 
     team_planner.expect_no_toaster
     team_planner.expect_title

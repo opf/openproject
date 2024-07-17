@@ -179,11 +179,18 @@ Rails.application.configure do
     }
   end
 
-  # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
-  # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  if OpenProject::Configuration.host_name.present?
+    # Enable DNS rebinding protection and other `Host` header attacks.
+    config.hosts = [OpenProject::Configuration.host_name] + OpenProject::Configuration.additional_host_names
+    # Skip DNS rebinding protection for the default health check endpoint.
+    config.host_authorization = {
+      exclude: ->(request) do
+        base = OpenProject::Configuration["rails_relative_url_root"]
+        request.path.start_with?("#{base}/health_check", "#{base}/sys")
+      end,
+      response_app: ->(_env) do
+        [400, { "Content-Type" => "text/plain" }, ["Invalid host_name configuration"]]
+      end
+    }
+  end
 end

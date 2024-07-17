@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,8 @@ require "spec_helper"
 RSpec.describe "Work package sharing invited users",
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
+  shared_let(:edit_work_package_role) { create(:edit_work_package_role) }
+  shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:editor) { create(:admin, firstname: "Mr.", lastname: "Sharer") }
 
@@ -52,7 +54,7 @@ RSpec.describe "Work package sharing invited users",
     create(:work_package, project:)
   end
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
+  let(:share_modal) { Components::Sharing::WorkPackages::ShareModal.new(work_package) }
 
   it "allows to invite and activate the account" do
     login_with(editor.login, "adminADMIN!")

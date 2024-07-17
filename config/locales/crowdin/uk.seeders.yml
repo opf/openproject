@@ -41,6 +41,11 @@ uk:
           name: Специфікація
         item_2:
           name: Інше
+      project_query_roles:
+        item_0:
+          name: Засіб перегляду запиту проєктів
+        item_1:
+          name: Редактор запиту проєктів
       work_package_roles:
         item_0:
           name: Редактор пакета робіт

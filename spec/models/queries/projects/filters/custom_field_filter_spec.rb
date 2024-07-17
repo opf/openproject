@@ -29,7 +29,7 @@
 require "spec_helper"
 
 RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
-  let(:query) { Queries::Projects::ProjectQuery.new }
+  let(:query) { ProjectQuery.new }
   let(:bool_project_custom_field) { build_stubbed(:boolean_project_custom_field) }
   let(:int_project_custom_field) { build_stubbed(:integer_project_custom_field) }
   let(:float_project_custom_field) { build_stubbed(:float_project_custom_field) }

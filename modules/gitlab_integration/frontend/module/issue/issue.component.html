@@ -4,8 +4,11 @@
 ></div>
 
 <span class='op-issue--state' [ngClass]="'op-issue--state_' + state">
-  <svg class="op-issue--iconsize"><use [attr.xlink:href]="'#issue_' + state" /></svg>
-  {{state}} | 
+
+  <svg *ngIf="state === 'open'" op-gitlab-issue-open-icon size="small"></svg>
+  <svg *ngIf="state !== 'open'" op-gitlab-issue-closed-icon size="small"></svg>
+
+  {{state}} |
   <a
   [ngClass]="'op-issue--link_' + state"
   [href]="gitlabIssue.htmlUrl"
@@ -15,7 +18,7 @@
 </span>
 
 <button *ngIf="gitlabIssue.labels && gitlabIssue.labels.length > 0" (click)="toggleLabels(gitlabIssue.number)" class='op-issue--label_icon' title="Show/Hide labels">
-  <svg class="op-issue--iconsize op-issue--label_icon_style"><use xlink:href="#labels" /></svg>
+   <svg class="op-issue--label_icon_style" op-gitlab-labels-icon size="small"></svg>
 </button>
 
 <div class="op-issue--info_created">
@@ -26,7 +29,7 @@
     [src]="gitlabIssue.gitlabUser.avatarUrl"
     *ngIf="gitlabIssue.gitlabUser"
   />&nbsp; -->
-  <span class='op-issue--user'> 
+  <span class='op-issue--user'>
     <a
       [href]="'mailto:' + gitlabIssue.gitlabUser.email"
       class='op-issue--username'
@@ -40,7 +43,7 @@
   </span>.
 </div>
 
-<div 
+<div
   class="op-issue--labels"
   [ngClass]="'op-issue--labels-' + gitlabIssue.number" style="display: none;">
   <span *ngFor="let label of gitlabIssue.labels">

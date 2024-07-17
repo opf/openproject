@@ -6,52 +6,52 @@ bg:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        ldap_auth_source: 'LDAP connection'
-        sync_users: 'Sync users'
+        ldap_auth_source: 'LDAP връзка'
+        sync_users: 'Синхронизиране на потребителите'
       ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
-        ldap_auth_source: 'LDAP connection'
-        group_name_attribute: "Group name attribute"
-        sync_users: 'Sync users'
-        base_dn: "Search base DN"
+        filter_string: 'LDAP филтър'
+        ldap_auth_source: 'LDAP връзка'
+        group_name_attribute: "Атрибут за гуповото име"
+        sync_users: 'Синхронизиране на потребителите'
+        base_dn: "База за търсене DN"
     models:
-      ldap_groups/synchronized_group: 'Synchronized LDAP group'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+      ldap_groups/synchronized_group: 'Синхронизирана LDAP група'
+      ldap_groups/synchronized_filter: 'Филтър за синхронизиране на LDAP групи'
     errors:
       models:
         ldap_groups/synchronized_filter:
-          must_contain_base_dn: "Filter base DN must be contained within the LDAP connection's base DN"
+          must_contain_base_dn: "Основният DN на филтъра трябва да се съдържа в основния DN на LDAP връзката"
   ldap_groups:
-    label_menu_item: 'LDAP group synchronization'
-    label_group_key: 'LDAP group filter key'
-    label_synchronize: 'Synchronize'
+    label_menu_item: 'Синхронизиране на LDAP групи'
+    label_group_key: 'Ключ за филтриране на LDAP група'
+    label_synchronize: 'Синхронизирайте'
     settings:
-      name_attribute: 'LDAP groups name attribute'
-      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+      name_attribute: 'Атрибут за LDAP имена на групи'
+      name_attribute_text: 'Атрибут за LDAP, използван за именуване на OpenProject група, когато е създаден чрез филтър'
     synchronized_filters:
-      add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
-      plural: 'LDAP Group synchronization filters'
+      add_new: 'Добавяне на синхронизиран LDAP филтър'
+      singular: 'Филтър за синхронизиране на LDAP групи'
+      plural: 'Филтър за синхронизиране на LDAP групи'
       label_n_groups_found:
-        one: "1 group found by the filter"
-        other: "%{count} groups found by the filter"
-        zero: "No groups were found by the filter"
+        one: "филтъра откри 1 група"
+        other: "%{count} група/и, открити от филтъра"
+        zero: "Филтърът не откри групи"
       destroy:
-        title: 'Remove synchronized filter %{name}'
-        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
-        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
-        verification: "Enter the filter name %{name} to verify the deletion."
+        title: 'Премахване на синхронизирания филтър %{name}'
+        confirmation: "Ако продължите, синхронизираният филтър %{name} и всички групи %{groups_count} , създадени чрез него, ще бъдат премахнати."
+        removed_groups: "Предупреждение: Това ще премахне следните групи от OpenProject, и ще ги премахне от всички проекти!"
+        verification: "Въведете името на филтъра %{name} за да потвърдите изтриването."
       form:
-        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
-        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+        group_name_attribute_text: 'Въведете атрибута на LDAP групата, използвана за задаване на името на OpenProject групата.'
+        filter_string_text: 'Въведете филтъра RFC4515 LDAP, който връща групи в LDAP, за да се синхронизира с OpenProject.'
         base_dn_text: >
-          Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection. Leave this option empty to reuse the base DN of the connection
+          Въведете базовия DN за търсене, който да използвате за този филтър. То трябва да е под базовия DN на избраната LDAP връзка. Оставете тази опция празна, за да използвате отново базовия DN на връзката
     synchronized_groups:
-      add_new: 'Add synchronized LDAP group'
+      add_new: 'Добавяне на синхронизирана LDAP група'
       destroy:
-        title: 'Remove synchronized group %{name}'
-        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
-        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
+        title: 'Премахване на синхронизирана група %{name}'
+        confirmation: "Ако продължите, синхронизираната група %{name} и всички  %{users_count} потребители синхронизирани чрез нея, ще бъдат премахнати."
+        info: "Забележка: Група OpenProject и членовете, добавени извън LDAP синхронизацията, няма да бъдат премахнати."
         verification: "Enter the group's name %{name} to verify the deletion."
       help_text_html: |
         This module allows you to set up a synchronization between LDAP and OpenProject groups.

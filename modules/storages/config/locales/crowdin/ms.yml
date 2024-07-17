@@ -46,7 +46,7 @@ ms:
   permission_delete_files_explanation: Kebenaran ini hanya tersedia untuk storan Nextcloud
   permission_header_for_project_module_storages: Folder projek yang dikendalikan secara automatik
   permission_manage_file_links: Urus pautan fail
-  permission_manage_storages_in_project: Urus storan fail dalam projek
+  permission_manage_files_in_project: Uruskan fail dalam projek
   permission_read_files: 'Folder projek yang dikendalikan secara automatik: Baca fail'
   permission_share_files: 'Folder projek yang dikendalikan secara automatik: Kongsi fail'
   permission_share_files_explanation: Kebenaran ini hanya tersedia untuk storan Nextcloud
@@ -102,11 +102,24 @@ ms:
       storage_provider: Penyedia storan
     health:
       checked: Terakhir disemak %{datetime}
+      connection_validation:
+        action: Recheck connection
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Ralat
       label_healthy: Sihat
       label_pending: Dalam proses
+      label_warning: Warning
+      project_folders:
+        subtitle: Automatically managed project folders
       since: sejak %{datetime}
-      subtitle: Folder projek yang dikendalikan secara automatik
       title: Status kesihatan
     health_email_notifications:
       description_subscribed: Semua pentadbir menerima pemberitahuan e-mel status kesihatan bagi storan ini.

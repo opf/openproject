@@ -34,7 +34,7 @@ module Queries::Projects::ProjectQueries
     attribute :orders
 
     def self.model
-      Queries::Projects::ProjectQuery
+      ProjectQuery
     end
 
     validates :name,
@@ -42,7 +42,8 @@ module Queries::Projects::ProjectQueries
               length: { maximum: 255 }
 
     validate :name_select_included
-    validate :existing_selects
+    # When we only changed the name, we don't need to validate the selects
+    validate :existing_selects, unless: :only_changed_name?
     validate :user_is_logged_in
     validate :allowed_to_modify_private_query
     validate :allowed_to_modify_public_query
@@ -57,18 +58,18 @@ module Queries::Projects::ProjectQueries
 
     def allowed_to_modify_private_query
       return if model.public?
+      return if model.user == user
+      return if user.allowed_in_project_query?(:edit_project_query, model)
 
-      if model.user != user
-        errors.add :base, :can_only_be_modified_by_owner
-      end
+      errors.add :base, :can_only_be_modified_by_owner
     end
 
     def allowed_to_modify_public_query
       return unless model.public?
+      return if user.allowed_in_project_query?(:edit_project_query, model)
+      return if user.allowed_globally?(:manage_public_project_queries)
 
-      unless user.allowed_globally?(:manage_public_project_queries)
-        errors.add :base, :need_permission_to_modify_public_query
-      end
+      errors.add :base, :need_permission_to_modify_public_query
     end
 
     def name_select_included
@@ -81,6 +82,10 @@ module Queries::Projects::ProjectQueries
       model.selects.select { |s| s.is_a?(Queries::Selects::NotExistingSelect) }.each do |s|
         errors.add :selects, :nonexistent, column: s.attribute
       end
+    end
+
+    def only_changed_name?
+      model.changed == ["name"]
     end
   end
 end

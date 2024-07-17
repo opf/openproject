@@ -112,7 +112,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                 size: value.size,
                 owner_name: value.owner_name,
                 owner_id: value.owner_id,
-                trashed: value.trashed,
                 last_modified_by_name: value.modifier_name,
                 last_modified_by_id: value.modifier_id,
                 permissions: value.dav_permissions,

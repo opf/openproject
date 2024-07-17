@@ -18,44 +18,73 @@
     --button-primary-bgColor-hover: var(--button--primary-background-hover-color) !important;
     --button-primary-bgColor-disabled: var(--button--primary-background-disabled-color) !important;
     --button-primary-borderColor-disabled: var(--button--primary-border-disabled-color) !important;
+    --fc-page-bg-color: var(--body-background) !important;
+    --fc-list-event-hover-bg-color: var(--control-transparent-bgColor-hover) !important;
   }
-  [data-light-theme=light_high_contrast]{
+
+  /* Generic color mapping for content variables */
+  [data-light-theme=light_high_contrast],
+  [data-dark-theme=dark] {
     --avatar-border-color: var(--avatar-borderColor);
     --list-item-hover--border-color: var(--control-transparent-borderColor-hover);
     --list-item-hover--color: var(--fgColor-default);
     --inplace-edit--border-color: var(--borderColor-default);
     --ck-color-toolbar-border: var(--borderColor-default);
+    --ck-color-list-background: var(--overlay-bgColor);
     --ck-color-base-border: var(--borderColor-default);
+    --ck-color-button-default-hover-background: var(--button-default-bgColor-hover);
+    --ck-color-toolbar-background: var(--body-background);
+    --ck-color-text: var(--body-font-color);
+    --ck-color-dropdown-panel-background: var(--overlay-bgColor);
+    --ck-color-list-button-hover-background: var(--control-transparent-bgColor-hover);
+    --ck-color-panel-background: var(--overlay-bgColor);
+    --ck-color-input-background: var(--overlay-bgColor);
     --table-border-color: var(--borderColor-default);
     --toolbar-item--bg-color: var(--button-default-bgColor-rest);
     --toolbar-item--border-color: var(--borderColor-default);
+    --status-selector-border-color: var(--button-default-borderColor-rest);
+    --grid-background-color: var(--bgColor-inset);
+    --button--active-border-color: var(--button-default-borderColor-rest);
+    --button--font-color: var(--button-default-fgColor-rest);
+    --button--background-hover-color: var(--button-default-bgColor-hover);
+    --button--background-color: var(--button-default-bgColor-rest);
     --header-border-bottom-width: 1px;
     --header-bg-color: var(--page-header-bgColor);
     --header-item-font-color: var(--fgColor-default);
     --header-item-bg-hover-color: var(--control-transparent-bgColor-hover);
     --header-item-font-hover-color: var(--fgColor-default);
     --header-border-bottom-color: var(--borderColor-muted) !important;
-    --main-menu-bg-color: var(--page-header-bgColor);
     --main-menu-hover-font-color: var(--fgColor-default);
     --main-menu-bg-selected-background: var(--control-transparent-bgColor-hover);
     --main-menu-bg-hover-background: var(--control-transparent-bgColor-hover);
-    --main-menu-font-color: var(--fgColor-default);
-    --main-menu-selected-font-color: var(--fgColor-default);
     --main-menu-border-color: var(--borderColor-muted);
     --main-menu-resizer-color: var(--borderColor-muted);
-    --main-menu-bg-selected-border: var(--fgColor-default);
-    --main-menu-hover-border-color: var(--fgColor-default) !important;
     --main-menu-fieldset-header-color: var(--fgColor-muted) !important;
     --main-menu-border-width: 1px;
-    --button-default-borderColor-rest: var(--borderColor-default);
+    --main-menu-font-color: var(--fgColor-default);
+    --main-menu-selected-font-color: var(--fgColor-default);
+    --main-menu-bg-color: var(--page-header-bgColor);
+  }
+
+  /* For accessibility themes we are also overriding the header and the sidebar */
+  [data-light-theme=light_high_contrast] {
+    --main-menu-hover-border-color: var(--fgColor-default) !important;
+    --main-menu-bg-selected-border: var(--fgColor-default);
+    --accent-color: var(--fgColor-accent);
+    --link-text-decoration: underline;
+    --button--primary-font-color:  var(--button-primary-fgColor-rest);
     --button--primary-background-hover-color: var(--button-primary-bgColor-hover);
     --button--primary-background-color: var(--button-primary-bgColor-rest);
-    --button--active-border-color: var(--borderColor-default);
-    --button--background-hover-color: var(--button-default-bgColor-hover);
-    --button--background-color: var(--button-default-bgColor-rest);
-    --accent-color: var(--fgColor-accent);
     --primary-button-color: var(--button-primary-bgColor-rest);
-    --status-selector-border-color: var(--button-default-borderColor-rest);
-    --link-text-decoration: underline;
+  }
+
+  /* For dark themes we are using a lighter version of the accent and primary color. Otherwise they will not be seen */
+  [data-dark-theme=dark] {
+      --accent-color: var(--accent-color--dark-mode);
+      --content-icon-color: var(--accent-color--dark-mode);
+      --primary-button-color: var(--primary-button-color--dark-mode);
+      --main-menu-bg-color: var(--overlay-bgColor);
+      --type-form-conf-attribute--background: var(--overlay-bgColor);
+      --select-arrow-bg-color-url: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
   }
 </style>

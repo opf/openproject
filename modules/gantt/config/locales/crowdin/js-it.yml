@@ -1,6 +1,5 @@
 it:
   js:
-    queries:
-      all_open: 'Tutti aperti'
-      timeline: 'Sequenza temporale'
-      milestones: 'Pietre miliari'
+    work_packages:
+      default_queries:
+        milestones: 'Traguardi'

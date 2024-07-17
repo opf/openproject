@@ -14,7 +14,6 @@ import { TeamPlannerPageComponent } from 'core-app/features/team-planner/team-pl
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { AddExistingPaneComponent } from './add-work-packages/add-existing-pane.component';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
-import { TeamPlannerSidemenuComponent } from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
 import { TeamPlannerViewSelectMenuDirective } from 'core-app/features/team-planner/team-planner/view-select/view-select-menu.directive';
 
 @NgModule({
@@ -23,7 +22,6 @@ import { TeamPlannerViewSelectMenuDirective } from 'core-app/features/team-plann
     TeamPlannerPageComponent,
     AddAssigneeComponent,
     AddExistingPaneComponent,
-    TeamPlannerSidemenuComponent,
     TeamPlannerViewSelectMenuDirective,
   ],
   imports: [

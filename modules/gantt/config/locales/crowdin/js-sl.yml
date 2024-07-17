@@ -1,6 +1,5 @@
 sl:
   js:
-    queries:
-      all_open: 'Vse odprto'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

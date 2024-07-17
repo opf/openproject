@@ -200,6 +200,7 @@
 
 <ng-template let-item let-search="search" let-clear="clear" #defaultLabel>
   <ng-container *ngIf="resource === 'work_packages'">
+    <span class="ng-value-icon left" (click)="clear(item)">×</span>
     <span
       *ngIf="item.id"
       class="ng-value-label"

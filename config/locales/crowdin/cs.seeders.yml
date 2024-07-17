@@ -41,6 +41,11 @@ cs:
           name: Specifikace
         item_2:
           name: Ostatní
+      project_query_roles:
+        item_0:
+          name: Prohlížeč dotazů na projekt
+        item_1:
+          name: Editor dotazů na projekt
       work_package_roles:
         item_0:
           name: Editor pracovních balíčků

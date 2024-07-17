@@ -150,6 +150,7 @@ es:
         attribute_reference:
           macro_help_tooltip: "Este segmento de texto está siendo renderizado dinámicamente por una macro."
           not_found: "No se encuentra el recurso solicitado"
+          nested_macro: "Esta macro hace referencia recursivamente a %{model} %{id}."
           invalid_attribute: "El atributo seleccionado («%{name}») no existe."
         child_pages:
           button: "Enlaces a páginas secundarias"
@@ -365,10 +366,10 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                La versión contiene varias novedades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Establecer más unidades para el trabajo, el trabajo restante y el tiempo de trabajo</li> <li>Configurar qué proyectos se activan para los atributos de proyecto</li> <li>Cambiar el nombre de las listas de proyectos privadas</li> <li>Evitar los recordatorios redundantes por correo electrónico en caso de @menciones</li> <li>Invitar a los asistentes a reuniones por correo electrónico</li> <li>Mostrar los atributos del paquete de trabajo incrustados en las exportaciones de PDF</li> </ul>
+                La versión contiene varias nuevas funcionalidades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Compartir listas de proyectos y hacerlas públicas (extensión Enterprise)</li> <li>Marque las listas de proyectos como favoritas</li> <li>Validación de la conexión para los almacenamientos de OneDrive/SharePoint (extensión Enterprise)</li> <li>Nuevo aspecto con Primer para la página de perfil de usuario</li> <li>Exportación del diagrama de Gantt a PDF: Nivel de zoom de fecha adicional basado en semanas del calendario</li> <li>Barra de búsqueda a nivel del componente de submenú (listas de proyectos y módulos Gantt y Tablas)</li> <li>Elija entre que el informe de progreso se muestre sólo en horas o en días y horas</li> <li>Desmarque proyectos en el selector de proyectos</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -904,6 +905,11 @@ es:
       preformatted_text: "Texto Preformateado"
       wiki_link: "Vincular a una página Wiki"
       image: "Imagen"
+    sharing:
+      share: "Compartir"
+      selected_count: "%{count} seleccionados"
+      selection:
+        mixed: "Mixto"
     work_packages:
       bulk_actions:
         move: "Cambio masivo del proyecto"
@@ -1059,12 +1065,8 @@ es:
         is_parent: "Las fechas de este paquete de trabajo son deducidas automáticamente de sus sub-elementos. Active 'Programación manual' para establecer las fechas."
         is_switched_from_manual_to_automatic: "Las fechas de este paquete de trabajo pueden necesitar ser recalculadas después de pasar de programación manual a programación automática debido a las relaciones con otros paquetes de trabajo."
       sharing:
-        share: "Compartir"
         title: "Compartir paquete de trabajo"
         show_all_users: "Mostrar todos los usuarios con los que se ha compartido el paquete de trabajo"
-        selected_count: "%{count} seleccionados"
-        selection:
-          mixed: "Mixto"
         upsale:
           description: "Compartir paquetes de trabajo con usuarios que no son miembros del proyecto."
       table:

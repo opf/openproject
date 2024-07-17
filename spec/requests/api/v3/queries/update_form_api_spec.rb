@@ -65,7 +65,7 @@ RSpec.describe "POST /api/v3/queries/form",
   end
 
   it "returns 200(OK)" do
-    expect(last_response.status).to eq(200)
+    expect(last_response).to have_http_status(:ok)
   end
 
   it "is of type form" do

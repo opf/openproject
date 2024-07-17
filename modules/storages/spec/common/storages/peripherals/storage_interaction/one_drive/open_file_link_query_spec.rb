@@ -38,7 +38,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenFileLink
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
   let(:file_id) { "01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU" }
   let(:auth_strategy) do
-    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
+    Storages::Peripherals::Registry.resolve("one_drive.authentication.userbound").call(user:)
   end
 
   subject { described_class.new(storage) }
@@ -79,11 +79,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenFileLink
         result = subject.call(auth_strategy:, file_id:)
         expect(result).to be_failure
         expect(result.error_source).to be(Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:not_found) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
+        expect(result.result).to eq(:not_found)
       end
     end
   end

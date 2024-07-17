@@ -28,5 +28,12 @@
 
 module Token
   class API < HashedToken
+    store_attribute :data, :token_name, :string
+
+    private
+
+    def single_value?
+      false
+    end
   end
 end

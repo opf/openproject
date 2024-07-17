@@ -59,7 +59,7 @@ RSpec.describe "API v3 Root resource with the github integration extension", wit
       end
 
       it "responds with 200" do
-        expect(response.status).to eq(200) # rubocop:disable RSpecRails/HaveHttpStatus
+        expect(response).to have_http_status(:ok)
       end
 
       it "does not include the core SHA in the res" do
@@ -79,7 +79,7 @@ RSpec.describe "API v3 Root resource with the github integration extension", wit
       end
 
       it "responds with 200" do
-        expect(response.status).to eq(200) # rubocop:disable RSpecRails/HaveHttpStatus
+        expect(response).to have_http_status(:ok)
       end
 
       it "does includes the core SHA in the response" do

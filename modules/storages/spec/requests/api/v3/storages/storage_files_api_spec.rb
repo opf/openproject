@@ -31,7 +31,6 @@
 require "spec_helper"
 require_module_spec_helper
 
-# rubocop:disable RSpecRails/HaveHttpStatus
 RSpec.describe "API v3 storage files", :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
   include StorageServerHelpers
@@ -137,20 +136,20 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
       context "with authorization failure" do
         let(:error) { :unauthorized }
 
-        it { expect(last_response.status).to be(500) }
+        it { expect(last_response).to have_http_status(:internal_server_error) }
       end
 
       context "with internal error" do
         let(:error) { :error }
 
-        it { expect(last_response.status).to be(500) }
+        it { expect(last_response).to have_http_status(:internal_server_error) }
       end
 
       context "with not found" do
         let(:error) { :not_found }
 
         it "fails with outbound request failure" do
-          expect(last_response.status).to be(500)
+          expect(last_response).to have_http_status(:internal_server_error)
 
           body = JSON.parse(last_response.body)
           expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
@@ -177,7 +176,6 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
           size: 1108864,
           owner_name: "Darth Vader",
           owner_id: "darthvader",
-          trashed: false,
           last_modified_by_name: "Darth Sidious",
           last_modified_by_id: "palpatine",
           permissions: "RGDNVCK",
@@ -219,7 +217,7 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
         let(:error) { :forbidden }
 
         it "fails with outbound request failure" do
-          expect(last_response.status).to be(500)
+          expect(last_response).to have_http_status(:internal_server_error)
 
           body = JSON.parse(last_response.body)
           expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 403))
@@ -230,14 +228,14 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
       context "with internal error" do
         let(:error) { :error }
 
-        it { expect(last_response.status).to be(500) }
+        it { expect(last_response).to have_http_status(:internal_server_error) }
       end
 
       context "with not found" do
         let(:error) { :not_found }
 
         it "fails with outbound request failure" do
-          expect(last_response.status).to be(500)
+          expect(last_response).to have_http_status(:internal_server_error)
 
           body = JSON.parse(last_response.body)
           expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
@@ -289,20 +287,20 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
       describe "due to authorization failure" do
         let(:error) { :unauthorized }
 
-        it { expect(last_response.status).to be(500) }
+        it { expect(last_response).to have_http_status(:internal_server_error) }
       end
 
       describe "due to internal error" do
         let(:error) { :error }
 
-        it { expect(last_response.status).to be(500) }
+        it { expect(last_response).to have_http_status(:internal_server_error) }
       end
 
       describe "due to not found" do
         let(:error) { :not_found }
 
         it "fails with outbound request failure" do
-          expect(last_response.status).to be(500)
+          expect(last_response).to have_http_status(:internal_server_error)
 
           body = JSON.parse(last_response.body)
           expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
@@ -314,15 +312,13 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
     context "with invalid request body" do
       let(:body) { { fileNam_: "ape.png", parent: "/Pictures", projectId: project.id }.to_json }
 
-      it { expect(last_response.status).to be(400) }
+      it { expect(last_response).to have_http_status(:bad_request) }
     end
 
     context "without ee token", with_ee: false do
       let(:storage) { create(:one_drive_storage, creator: current_user) }
 
-      it { expect(last_response.status).to be(500) }
+      it { expect(last_response).to have_http_status(:internal_server_error) }
     end
   end
 end
-
-# rubocop:enable RSpecRails/HaveHttpStatus

@@ -1,4 +1,5 @@
 ms:
+  label_job_status_plural: "Status pekerjaan"
   plugin_openproject_job_status:
     name: "Status Pekerjaan OpenProject"
     description: "Senarai dan status latar belakang pekerjaan."

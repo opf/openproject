@@ -42,7 +42,7 @@ class AddLdapTlsOptions < ActiveRecord::Migration[7.0]
         # Current LDAP library default is to not verify the certificate
         MigratingAuthSource.reset_column_information
 
-        ldap_settings = Setting.find_by(name: 'ldap_tls_options')&.value
+        ldap_settings = Setting.find_by(name: "ldap_tls_options")&.value
         migrate_ldap_settings(ldap_settings)
       end
     end
@@ -54,7 +54,7 @@ class AddLdapTlsOptions < ActiveRecord::Migration[7.0]
     return if ldap_settings.blank?
 
     parsed = Setting.deserialize_hash(ldap_settings)
-    verify_peer = parsed['verify_mode'] == OpenSSL::SSL::VERIFY_PEER
+    verify_peer = parsed["verify_mode"] == OpenSSL::SSL::VERIFY_PEER
 
     MigratingAuthSource.update_all(verify_peer:)
   rescue StandardError => e

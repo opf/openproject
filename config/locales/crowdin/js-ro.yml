@@ -150,6 +150,7 @@ ro:
         attribute_reference:
           macro_help_tooltip: "Acest segment de text este redat în mod dinamic de o macro."
           not_found: "Resursa solicitată nu a fost găsită."
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Atributul selectat \"%{name}\" nu există."
         child_pages:
           button: "Legături către paginile pentru copii"
@@ -364,10 +365,10 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -904,6 +905,11 @@ ro:
       preformatted_text: "Text preformatat"
       wiki_link: "Link la o pagină Wiki"
       image: "Imagine"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Modificare identificator proiect"
@@ -1059,12 +1065,8 @@ ro:
         is_parent: "Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați \"Programare manuală\" pentru a stabili datele."
         is_switched_from_manual_to_automatic: "Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru."
       sharing:
-        share: "Distribuiți"
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:

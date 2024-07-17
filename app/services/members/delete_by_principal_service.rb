@@ -61,21 +61,15 @@ class Members::DeleteByPrincipalService
   def delete_project_member
     project_member = Member.of_project(project).find_by!(principal:)
 
-    Members::DeleteService
-      .new(user:, model: project_member)
-      .call
+    Members::DeleteService.new(user:, model: project_member).call
   end
 
   def delete_work_package_share(model)
-    WorkPackageMembers::DeleteService
-      .new(user:, model:)
-      .call
+    Shares::DeleteService.new(user:, model:, contract_class: Shares::WorkPackages::DeleteContract).call
   end
 
   def delete_work_package_share_with_role_id(model, role_id)
-    WorkPackageMembers::DeleteRoleService
-      .new(user:, model:)
-      .call(role_id:)
+    Shares::DeleteRoleService.new(user:, model:, contract_class: Shares::WorkPackages::DeleteContract).call(role_id:)
   end
 
   def work_package_shares_scope

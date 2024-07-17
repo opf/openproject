@@ -65,7 +65,7 @@ fa:
         item_4:
           name: هماهنگ کنندگان ارشد BIM
         item_5:
-          name: MEP Engineers
+          name: مهندسین برق، مکانیک و لوله‌کشی
         item_6:
           name: برنامه‌ریز
         item_7:
@@ -87,7 +87,7 @@ fa:
           شما می توانید متن خوش آمد گویی را تغییر دهید از [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
+          name: "(دمو) پروژه عمرانی"
           status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo construction project.
           news:

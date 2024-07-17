@@ -107,7 +107,7 @@ class Queries::Projects::Factory
     private
 
     def list_with(name)
-      Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
+      ProjectQuery.new(name: I18n.t(name)) do |query|
         query.order("lft" => "asc")
         query.select(*Setting.enabled_projects_columns, add_not_existing: false)
 
@@ -133,7 +133,7 @@ class Queries::Projects::Factory
     end
 
     def find_persisted_query_and_set_attributes(id, params, user, duplicate:)
-      query = Queries::Projects::ProjectQuery.visible(user).find_by(id:)
+      query = ProjectQuery.visible(user).find_by(id:)
 
       return unless query
 
@@ -150,7 +150,7 @@ class Queries::Projects::Factory
     end
 
     def duplicate_query(query)
-      Queries::Projects::ProjectQuery.new(query.attributes.slice("filters", "orders", "selects"))
+      ProjectQuery.new(query.attributes.slice("filters", "orders", "selects"))
     end
 
     def set_query_attributes(query, params, user)

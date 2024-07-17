@@ -38,5 +38,5 @@ require_relative "../../lib_static/open_project/feature_decisions"
 #   initializer 'the_engine.feature_decisions' do
 #     OpenProject::FeatureDecisions.add :some_flag
 #   end
-
-OpenProject::FeatureDecisions.add :project_list_sharing
+OpenProject::FeatureDecisions.add :favorite_projects
+OpenProject::FeatureDecisions.add :dark_mode

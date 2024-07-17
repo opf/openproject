@@ -46,7 +46,7 @@ pl:
   permission_delete_files_explanation: To uprawnienie jest dostępne tylko dla magazynów Nextcloud
   permission_header_for_project_module_storages: Automatycznie zarządzane foldery projektu
   permission_manage_file_links: Zarządzaj linkami do plików
-  permission_manage_storages_in_project: Zarządzaj magazynami plików w projekcie
+  permission_manage_files_in_project: Zarządzaj plikami w projekcie
   permission_read_files: 'Automatycznie zarządzane foldery projektu: odczyt plików'
   permission_share_files: 'Automatycznie zarządzane foldery projektu: udostępnianie plików'
   permission_share_files_explanation: To uprawnienie jest dostępne tylko dla magazynów Nextcloud
@@ -102,11 +102,24 @@ pl:
       storage_provider: Dostawca magazynu
     health:
       checked: Ostatnio sprawdzono %{datetime}
+      connection_validation:
+        action: Sprawdź ponownie połączenie
+        client_id_wrong: Skonfigurowany identyfikator klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
+        client_secret_wrong: Skonfigurowany klucz tajny klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
+        drive_id_wrong: Nie można znaleźć skonfigurowanego identyfikatora dysku. Sprawdź konfigurację.
+        not_configured: Nie można zweryfikować połączenia. Najpierw zakończ konfigurację.
+        placeholder: Sprawdź połączenie z serwerem.
+        subtitle: Weryfikacja połączenia
+        tenant_id_wrong: Skonfigurowany katalog (dzierżawca) jest nieprawidłowy. Sprawdź konfigurację.
+        unexpected_content: Na dysku znaleziono nieoczekiwaną zawartość.
+        unknown_error: Nie można zweryfikować połączenia. Wystąpił nieznany błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
       label_error: Błąd
       label_healthy: Zdrowe
       label_pending: Oczekujący
+      label_warning: Ostrzeżenie
+      project_folders:
+        subtitle: Automatycznie zarządzane foldery projektu
       since: od %{datetime}
-      subtitle: Automatycznie zarządzane foldery projektu
       title: Status kondycji
     health_email_notifications:
       description_subscribed: Wszyscy administratorzy otrzymują powiadomienia e-mail o kondycji tego magazynu.

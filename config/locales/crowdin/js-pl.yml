@@ -150,6 +150,7 @@ pl:
         attribute_reference:
           macro_help_tooltip: "Ten segment tekstowy jest renderowany dynamicznie przez makro."
           not_found: "Nie można znaleźć żądanego zasobu"
+          nested_macro: "To makro odwołuje się rekurencyjnie do %{model} %{id}."
           invalid_attribute: "Wybrany atrybut „%{name}” nie istnieje."
         child_pages:
           button: "Łącza do stron podrzędnych"
@@ -365,10 +366,10 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Ustawianie większej liczby jednostek pracy, pozostałej pracy i czasu pracy</li> <li>Konfiguracja, które projekty są aktywowane dla atrybutów projektu</li> <li>Zmiana nazwy list projektów prywatnych</li> <li>Unikanie zbędnych przypomnień e-mail w przypadku @wzmianek</li> <li>Zapraszanie uczestników spotkań pocztą elektroniczną</li> <li>Wyświetlanie osadzonych atrybutów pakietu roboczego w eksportach PDF</li> </ul>
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Udostępnianie list projektów i upublicznianie ich (dodatek Enterprise)</li> <li>Oznaczanie list projektów jako ulubionych</li> <li>Weryfikacja połączenia dla magazynów OneDrive/SharePoint (dodatek Enterprise)</li> <li>Nowy wygląd z Primer dla strony profilu użytkownika</li> <li>Eksport wykresu Gantta w formacie PDF: dodatkowe powiększenie daty na podstawie tygodni kalendarzowych</li> <li>Pasek wyszukiwania do składnika podmenu (listy projektów oraz moduły Wykres Gantta i Tablice)</li> <li>Możliwość wyboru między raportowaniem postępu wyświetlanym tylko w godzinach albo w dniach i godzinach</li> <li>Usunięcie wyboru projektów z selektora projektów</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -906,6 +907,11 @@ pl:
       preformatted_text: "Tekst wstępnie sformatowany"
       wiki_link: "Adres strony Wiki"
       image: "Obraz"
+    sharing:
+      share: "Udostępnij"
+      selected_count: "Wybrano %{count}"
+      selection:
+        mixed: "Mieszane"
     work_packages:
       bulk_actions:
         move: "Masowa zmiana projektu"
@@ -1061,12 +1067,8 @@ pl:
         is_parent: "Daty tego pakietu roboczego są automatycznie odejmowane od jego elementów podrzędnych. Włącz funkcję Planowanie ręczne, aby ustawić daty."
         is_switched_from_manual_to_automatic: "Po przełączeniu planowania z ręcznego na automatyczne konieczne może być ponowne obliczenie dat tego pakietu roboczego ze względu na jego powiązania z innymi pakietami roboczymi."
       sharing:
-        share: "Udostępnij"
         title: "Udostępnij pakiet roboczy"
         show_all_users: "Pokaż wszystkich użytkowników, którym udostępniono pakiet roboczy"
-        selected_count: "Wybrano %{count}"
-        selection:
-          mixed: "Mieszane"
         upsale:
           description: "Udostępnij pakiety robocze użytkownikom, którzy nie są członkami projektu."
       table:

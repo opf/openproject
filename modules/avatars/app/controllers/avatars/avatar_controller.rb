@@ -3,6 +3,8 @@ module ::Avatars
     before_action :ensure_enabled
     before_action :find_avatar
 
+    no_authorization_required! :show
+
     def show
       send_file @avatar.diskfile,
                 filename: filename_for_content_disposition(@avatar.filename),

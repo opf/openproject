@@ -46,7 +46,7 @@ de:
   permission_delete_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
   permission_header_for_project_module_storages: Automatisch verwaltete Projektordner
   permission_manage_file_links: Datei-Links verwalten
-  permission_manage_storages_in_project: Dateispeicher im Projekt verwalten
+  permission_manage_files_in_project: Dateien in OpenProject verwalten.
   permission_read_files: 'Automatisch verwaltete Projektordner: Dateien lesen'
   permission_share_files: 'Automatisch verwaltete Projektordner: Dateien freigeben'
   permission_share_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
@@ -102,11 +102,24 @@ de:
       storage_provider: Speicheranbieter
     health:
       checked: Zuletzt geprüft %{datetime}
+      connection_validation:
+        action: Verbindung erneut überprüfen
+        client_id_wrong: Die konfigurierte OAuth 2-Client-ID ist ungültig. Bitte überprüfen Sie die Konfiguration.
+        client_secret_wrong: Das konfigurierte OAuth 2-Client-Geheimnis ist ungültig. Bitte überprüfen Sie die Konfiguration.
+        drive_id_wrong: Die konfigurierte Laufwerks-ID konnte nicht gefunden werden. Bitte überprüfen Sie die Konfiguration.
+        not_configured: Die Verbindung konnte nicht validiert werden. Bitte schließen Sie zuerst die Konfiguration ab.
+        placeholder: Überprüfen Sie Ihre Verbindung mit dem Server.
+        subtitle: Verbindungsvalidierung
+        tenant_id_wrong: Die konfigurierte Verzeichnis-(Mandanten-)ID ist ungültig. Bitte überprüfen Sie die Konfiguration.
+        unexpected_content: Unerwarteter Inhalt auf dem Laufwerk gefunden.
+        unknown_error: Die Verbindung konnte nicht validiert werden. Es ist ein unbekannter Fehler aufgetreten. Bitte prüfen Sie die Serverprotokolle für weitere Informationen.
       label_error: Fehler
       label_healthy: Fehlerfrei
       label_pending: Ausstehend
+      label_warning: Warnung
+      project_folders:
+        subtitle: Automatisch verwaltete Projektordner
       since: seit %{datetime}
-      subtitle: Automatisch verwaltete Projektordner
       title: Verbindungsstatus
     health_email_notifications:
       description_subscribed: Alle Administratoren erhalten E-Mail-Benachrichtigungen über den Zustand dieses Dateispeichers.

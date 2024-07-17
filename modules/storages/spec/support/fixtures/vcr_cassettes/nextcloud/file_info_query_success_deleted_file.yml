@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/fileinfo/47
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Ocs-Apirequest:
+      - 'true'
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.5
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 17 Jun 2024 11:39:18 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=e1159d217b1a2c60643d94b7d7a82944; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=rCjW7PVMs0Wm7Cw%2FcEI51lR1%2FV%2Bx%2BWCIx8VrzECdrUbW53QVoxVHHN4nK4fbwOe9vyJEehUu8U5sdNoLYL%2FbIcRTh9H29kT8XzeNQ8yDIV9S7AtMuL%2B3kTDCUTSlhQwS;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=e1159d217b1a2c60643d94b7d7a82944;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=e1159d217b1a2c60643d94b7d7a82944;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=e1159d217b1a2c60643d94b7d7a82944;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=e1159d217b1a2c60643d94b7d7a82944;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=e1159d217b1a2c60643d94b7d7a82944;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=e1159d217b1a2c60643d94b7d7a82944;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=e1159d217b1a2c60643d94b7d7a82944;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=e1159d217b1a2c60643d94b7d7a82944;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.18
+      X-Request-Id:
+      - im6fmMY2IdNhzoANEckx
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '115'
+    body:
+      encoding: UTF-8
+      string: '{"ocs":{"meta":{"status":"failure","statuscode":404,"message":"","totalitems":"","itemsperpage":""},"data":{"status":"Not
+        Found","statuscode":404}}}'
+  recorded_at: Mon, 17 Jun 2024 11:39:18 GMT
+recorded_with: VCR 6.2.0

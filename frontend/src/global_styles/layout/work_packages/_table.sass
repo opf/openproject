@@ -53,9 +53,11 @@
 //
 // This makes use of more specific rules overwriting less specific ones.
 // Per default, the height is always 100
-.openproject-base--ui-view,
-.work-packages-page--ui-view
-  height: 100%
+// TODO: remove this whole block once the angular router is removed
+body[class*="router--"]
+  .openproject-base--ui-view,
+  .work-packages-page--ui-view
+    height: 100%
 
 .work-packages-partitioned-query-space--container
   > .toolbar-container
@@ -69,7 +71,7 @@
   div.row-hovered
     // Use important to override the background styles from __hl classes
     // That also have to be important (cf. 30863)
-    background: var(--gray-light) !important
+    background: var(--bgColor-muted) !important
 
 // Left part of the split view
 // == flex container for (table|timeline)
@@ -119,7 +121,7 @@
 
 // TIMELINE half of the tabletimeline flexbox
 .work-packages-tabletimeline--timeline-side
-  border-left: 3px solid #E7E7E7
+  border-left: 3px solid var(--borderColor-default)
   flex-basis: 50%
   // Show the horizontal scrollbar _always_ (same as table)
   overflow-x: scroll
@@ -134,9 +136,6 @@
   contain: strict
 
 .router--work-packages-base
-  #content
-    height: 100%
-
   .work-packages-partitioned-page--content-left
     overflow: hidden
 

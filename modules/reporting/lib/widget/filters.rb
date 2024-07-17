@@ -26,16 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# rubocop:disable Metrics/AbcSize
 class Widget::Filters < Widget::Base
   def render
     spacer = content_tag :li, "", class: "advanced-filters--spacer hide-when-print"
 
     add_filter = content_tag :li, id: "add_filter_block", class: "advanced-filters--add-filter hide-when-print" do
-      add_filter_label = label_tag "add_filter_select", I18n.t(:label_filter_add),
-                                   class: "advanced-filters--add-filter-label"
-      add_filter_label += label_tag "add_filter_select", I18n.t("js.filter.description.text_open_filter") + " " +
-                                                         I18n.t("js.filter.description.text_close_filter"),
-                                    class: "hidden-for-sighted"
+      add_filter_label = label_tag(
+        "add_filter_select",
+        I18n.t(:label_filter_add),
+        class: "advanced-filters--add-filter-label"
+      )
+      add_filter_label += label_tag(
+        "add_filter_select",
+        "#{I18n.t('js.filter.description.text_open_filter')} #{I18n.t('js.filter.description.text_close_filter')}",
+        class: "hidden-for-sighted"
+      )
 
       add_filter_value = content_tag :div, class: "advanced-filters--add-filter-value" do
         select_tag "add_filter_select",
@@ -44,7 +50,7 @@ class Widget::Filters < Widget::Base
                    name: nil
       end
 
-      (add_filter_label + add_filter_value).html_safe
+      add_filter_label + add_filter_value
     end
 
     list = content_tag :ul, id: "filter_table", class: "advanced-filters--filters" do
@@ -63,7 +69,7 @@ class Widget::Filters < Widget::Base
 
   def render_filters
     active_filters = @subject.filters.select(&:display?)
-    engine::Filter.all.select(&:selectable?).map do |filter|
+    filters = engine::Filter.all.select(&:selectable?).map do |filter|
       opts = { id: "filter_#{filter.underscore_name}",
                class: "#{filter.underscore_name} advanced-filters--filter",
                "data-filter-name": filter.underscore_name }
@@ -76,9 +82,12 @@ class Widget::Filters < Widget::Base
       content_tag :li, opts do
         render_filter filter, active_instance
       end
-    end.join.html_safe
+    end
+
+    safe_join(filters)
   end
 
+  # rubocop:disable Metrics/PerceivedComplexity
   def render_filter(f_cls, f_inst)
     f = f_inst || f_cls
     html = "".html_safe
@@ -106,4 +115,7 @@ class Widget::Filters < Widget::Base
     end
     render_widget RemoveButton, f, to: html
   end
+  # rubocop:enable Metrics/PerceivedComplexity
 end
+
+# rubocop:enable Metrics/AbcSize

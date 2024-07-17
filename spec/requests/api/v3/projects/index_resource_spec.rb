@@ -320,7 +320,7 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
       current_user { admin }
 
       it "responds with 200 OK" do
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(:ok)
       end
 
       it_behaves_like "API V3 collection response", 1, 1, "Project" do
@@ -332,7 +332,7 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
       it_behaves_like "API V3 collection response", 0, 0, "Project"
 
       it "responds with 200" do
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(:ok)
       end
     end
   end

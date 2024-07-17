@@ -149,7 +149,7 @@ export class TimezoneService {
   }
 
   public formattedChronicDuration(durationString:string, opts = {
-    format: 'daysAndHours',
+    format: this.configurationService.durationFormat(),
     hoursPerDay: this.configurationService.hoursPerDay(),
     daysPerMonth: this.configurationService.daysPerMonth(),
   }):string {

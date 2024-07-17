@@ -46,7 +46,7 @@ cs:
   permission_delete_files_explanation: This permission is only available for Nextcloud storages
   permission_header_for_project_module_storages: Automaticky spravované projektové složky
   permission_manage_file_links: Správa odkazů souborů
-  permission_manage_storages_in_project: Spravovat úložiště souborů v projektu
+  permission_manage_files_in_project: Spravovat soubory v projektu
   permission_read_files: 'Automatically managed project folders: Read files'
   permission_share_files: 'Automatically managed project folders: Share files'
   permission_share_files_explanation: Toto oprávnění je dostupné pouze pro Nextcloud úložiště
@@ -102,11 +102,24 @@ cs:
       storage_provider: Poskytovatel úložiště
     health:
       checked: Poslední kontrola %{datetime}
+      connection_validation:
+        action: Recheck connection
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Chyba
       label_healthy: Zdravé
       label_pending: Nevyřízeno
+      label_warning: Warning
+      project_folders:
+        subtitle: Automatically managed project folders
       since: od %{datetime}
-      subtitle: Automaticky spravované projektové složky
       title: Zdravotní stav
     health_email_notifications:
       description_subscribed: Všichni administrátoři dostávají e-mailová oznámení o zdravotním stavu pro toto úložiště.

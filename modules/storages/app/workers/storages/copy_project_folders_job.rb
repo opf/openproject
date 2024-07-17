@@ -42,6 +42,7 @@ module Storages
       user = batch.properties[:user]
 
       project_folder_result = results_from_polling || initiate_copy(target)
+      project_folder_result.on_failure { |failed| return log_failure(failed) }
 
       ProjectStorages::UpdateService.new(user:, model: target)
                                     .call(project_folder_id: project_folder_result.result.id,
@@ -69,33 +70,36 @@ module Storages
       raise Errors::PollingRequired, "Storage #{@source.storage.name} requires polling"
     end
 
-    def polling?
-      polling_info[:polling_url] == :ongoing
-    end
-
     def results_from_polling
       return unless polling_info
 
       response = OpenProject.httpx.get(polling_info[:polling_url]).json(symbolize_keys: true)
 
-      if response[:status] != "completed"
-        polling_info[:polling_state] == :ongoing
+      if response[:status] == "completed"
+        polling_info[:polling_state] = :completed
         batch.save
 
+        result = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(response[:resourceId], nil, false)
+        ServiceResult.success(result:)
+      else
         raise(Errors::PollingRequired, "#{job_id} Polling not completed yet")
       end
-
-      polling_info[:polling_state] == :completed
-      batch.save
-
-      result = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(response[:resourceId], nil, false)
-      ServiceResult.success(result:)
     end
 
     def log_failure(failed)
-      return if failed.success?
+      batch_errors = case failed
+                     in { success: true }
+                       return
+                     in { failure: true, errors: StorageError }
+                       failed.errors.to_active_model_errors.full_messages
+                     else
+                       failed.errors.to_s
+                     end
 
-      OpenProject.logger.warn failed.errors.inspect.to_s
+      batch.properties[:errors].push(*batch_errors)
+      batch.save
+
+      OpenProject.logger.warn failed.errors.to_s
     end
 
     def polling_info

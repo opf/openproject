@@ -30,7 +30,7 @@ class Widget::Table < Widget::Base
   extend Report::InheritedAttribute
   include ReportingHelper
 
-  attr_accessor :debug, :fields, :mapping
+  attr_accessor :fields, :mapping
 
   def initialize(query)
     raise ArgumentError, "Tables only work on CostQuery!" unless query.is_a? CostQuery
@@ -47,15 +47,14 @@ class Widget::Table < Widget::Base
   end
 
   def render
-    write("<!-- table start -->")
+    write("<!-- table start -->".html_safe)
     if @subject.result.count <= 0
       write(content_tag(:div, "", class: "generic-table--no-results-container") do
         content_tag(:i, "", class: "icon-info1") +
           content_tag(:span, I18n.t(:no_results_title_text), class: "generic-table--no-results-title")
       end)
     else
-      str = render_widget(resolve_table, @subject, @options.reverse_merge(to: @output))
-      @cache_output.write(str.html_safe) if @cache_output
+      render_widget(resolve_table, @subject, @options.reverse_merge(to: @output))
     end
   end
 end

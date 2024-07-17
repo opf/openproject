@@ -31,6 +31,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       title: this.i18n.t('js.modals.destroy_time_entry.title'),
     },
     noResults: this.i18n.t('js.grid.widgets.time_entries_list.no_results'),
+    placeholder: this.i18n.t('js.placeholders.default'),
   };
 
   public entries:TimeEntryResource[] = [];
@@ -84,7 +85,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   public activityName(entry:TimeEntryResource):string {
-    return entry.activity.name;
+    return entry.activity ? entry.activity.name : this.text.placeholder;
   }
 
   public projectName(entry:TimeEntryResource):string {

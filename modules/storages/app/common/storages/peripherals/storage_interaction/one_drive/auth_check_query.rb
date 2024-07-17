@@ -33,10 +33,6 @@ module Storages
     module StorageInteraction
       module OneDrive
         class AuthCheckQuery
-          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
-
-          using ServiceResultRefinements
-
           def self.call(storage:, auth_strategy:)
             new(storage).call(auth_strategy:)
           end
@@ -46,7 +42,7 @@ module Storages
           end
 
           def call(auth_strategy:)
-            Auth[auth_strategy].call(storage: @storage) do |http|
+            Authentication[auth_strategy].call(storage: @storage) do |http|
               handle_response http.get(Util.join_uri_path(@storage.uri, "/v1.0/me"))
             end
           end
@@ -58,10 +54,12 @@ module Storages
             in { status: 200..299 }
               ServiceResult.success
             in { status: 401 }
-              ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
+              ServiceResult.failure(result: :unauthorized, errors: StorageError.new(code: :unauthorized))
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden, errors: StorageError.new(code: :forbidden))
             else
-              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
+              data = StorageErrorData.new(source: self.class, payload: response)
+              ServiceResult.failure(result: :error, errors: StorageError.new(code: :error, data:))
             end
           end
         end

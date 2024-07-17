@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Projects::ProjectQuery, "results" do
+RSpec.describe ProjectQuery, "results" do
   let(:instance) { described_class.new }
   let(:base_scope) { Project.order(id: :desc) }
 

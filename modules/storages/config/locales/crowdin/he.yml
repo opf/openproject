@@ -46,7 +46,7 @@ he:
   permission_delete_files_explanation: This permission is only available for Nextcloud storages
   permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Manage file links
-  permission_manage_storages_in_project: Manage file storages in project
+  permission_manage_files_in_project: Manage files in project
   permission_read_files: 'Automatically managed project folders: Read files'
   permission_share_files: 'Automatically managed project folders: Share files'
   permission_share_files_explanation: This permission is only available for Nextcloud storages
@@ -102,11 +102,24 @@ he:
       storage_provider: Storage provider
     health:
       checked: Last checked %{datetime}
+      connection_validation:
+        action: Recheck connection
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: שגיאה
       label_healthy: Healthy
       label_pending: Pending
+      label_warning: Warning
+      project_folders:
+        subtitle: Automatically managed project folders
       since: since %{datetime}
-      subtitle: Automatically managed project folders
       title: Health status
     health_email_notifications:
       description_subscribed: All administrators receive health status email notifications for this storage.

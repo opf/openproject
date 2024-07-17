@@ -1,4 +1,4 @@
-FROM ruby:3.3.2-bullseye as develop
+FROM ruby:3.3.3-bullseye as develop
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
@@ -8,7 +8,7 @@ ENV USER=dev
 ENV RAILS_ENV=development
 ENV NODE_MAJOR=20
 
-ENV BUNDLER_VERSION "2.5.11"
+ENV BUNDLER_VERSION "2.5.13"
 
 # `--no-log-init` is required as a workaround to avoid disk exhaustion.
 #
@@ -46,6 +46,7 @@ RUN apt update
 RUN apt install watchexec-cli
 
 COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
+COPY ./docker/dev/backend/scripts/setup-bim /usr/sbin/setup-bim
 COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app
 
 # The following lines are needed to make sure the file permissions are setup correctly after the volumes are mounted

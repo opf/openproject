@@ -246,6 +246,7 @@ it:
       work_package_attachments: "Macroattività: allegati"
       work_package_categories: "Unità di lavoro: categorie"
       work_package_file_links: "Unità di lavoro: collegamenti ai documenti"
+      work_package_shares: "Macro-attività: condivisioni"
     delete:
       scheduled: "L'eliminazione è stata programmata e verrà eseguita in background. Verrai avvisato del risultato."
       schedule_failed: "Il progetto non può essere eliminato: %{errors}"
@@ -263,8 +264,8 @@ it:
       my: "I miei progetti"
       favored: "Progetti preferiti"
       archived: "Progetti archiviati"
-      public: "Elenchi di progetti pubblici"
-      my_private: "I miei elenchi di progetti privati"
+      shared: "Elenchi di progetti condivisi"
+      my_lists: "I miei elenchi di progetti"
       new:
         placeholder: "Nuovo elenco progetti"
       delete_modal:
@@ -285,7 +286,7 @@ it:
       project_custom_fields:
         header:
           title: "Attributi del progetto"
-          description: "Questi attributi del progetto saranno visualizzati nella tua <a href=%{overview_url} target=\"_blank\">pagina di panoramica del progetto</a> sotto le rispettive sezioni. Puoi attivare o disattivare i singoli attributi. Gli attributi e le sezioni del progetto sono definiti nelle <a href=%{admin_settings_url} target=\"_blank\">impostazioni di amministrazione</a> dall'amministratore dell'istanza. "
+          description: 'Questi attributi del progetto saranno visualizzati nella tua <a href=%{overview_url} target="_blank">pagina di panoramica del progetto</a> sotto le rispettive sezioni. Puoi attivare o disattivare i singoli attributi. Gli attributi e le sezioni del progetto sono definiti nelle <a href=%{admin_settings_url} target="_blank">impostazioni di amministrazione</a> dall''amministratore dell''istanza. '
         filter:
           label: "Cerca l'attributo del progetto"
         actions:
@@ -387,11 +388,23 @@ it:
       will_revoke_access_to_all: "Quest'azione revocherà l'accesso a tutti loro."
   my:
     access_token:
+      errors:
+        token_name_blank: "Indica un nome per il token API"
+        token_name_in_use: "Questo nome di token API è già utilizzato, scegline uno differente"
+      new_access_token_dialog_title: "Crea nuovo token API"
+      new_access_token_dialog_show_button_text: "Token API"
+      new_access_token_dialog_text_field_placeholder_text: "Il mio token API"
+      new_access_token_dialog_text_field_label: "Nome"
+      new_access_token_dialog_submit_button_text: "Crea"
+      new_access_token_dialog_text: "Questo token consentirà alle applicazioni di terzi di comunicare con la tua istanza. Per distinguere il nuovo token API, assegnagli un nome."
+      new_access_token_dialog_attention_text: "Tratta i token API come password. Chiunque sia in possesso di questo link potrà accedere alle informazioni di questa istanza. Condividilo solo con utenti fidati."
       failed_to_reset_token: "Impossibile reimpostare il token di accesso: %{error}"
+      failed_to_create_token: "Creazione del token di accesso non riuscita: %{error}"
+      failed_to_revoke_token: "Revoca del token di accesso non riuscita: %{error}"
       notice_reset_token: "È stato generato un nuovo token %{type}. Il tuo token di accesso è:"
       token_value_warning: "Nota: Questa è l'unica volta in cui vedrai questo token, assicurati di copiarlo subito."
       no_results_title_text: Al momento non sono disponibili token di accesso.
-      notice_api_token_revoked: "Il token API è stato eliminato. Per creare un nuovo token utilizza il link nella sezione API."
+      notice_api_token_revoked: "Il token API è stato eliminato. Per creare un nuovo token utilizza il pulsante nella sezione API."
       notice_rss_token_revoked: "Il token RSS è stato eliminato. Per creare un nuovo token utilizza il link nella sezione RSS."
       notice_ical_token_revoked: 'Il token di iCalendar "%{token_name}" per il calendario "%{calendar_name}" del progetto "%{project_name}" è stato revocato. L''URL di iCalendar con questo token non è ora valido.'
   news:
@@ -465,6 +478,7 @@ it:
         is_readonly: "Sola lettura"
         excluded_from_totals: "Escluso dai totali"
   themes:
+    dark: "Scuro (sperimentale)"
     light: "Chiaro"
     light_high_contrast: "Chiaro ad alto contrasto"
   types:
@@ -512,6 +526,10 @@ it:
     move:
       no_common_statuses_exists: "Nessuno stato disponibile per tutte le macro-attività selezionate. Non è possibile cambiare lo stato."
       unsupported_for_multiple_projects: "Il comando sposta/copia multiplo non è supportato per macroattività da più progetti"
+      current_type_not_available_in_target_project: >
+        Il tipo attuale di macro-attività non è abilitato nel progetto di destinazione. Abilita il tipo nel progetto di destinazione se desideri che rimanga invariato. In caso contrario, il tipo di macro-attività verrà riassegnato automaticamente, con conseguente potenziale perdita di dati.
+      bulk_current_type_not_available_in_target_project: >
+        I tipi attuali di macro-attività non sono abilitati nel progetto di destinazione. Abilita i tipi nel progetto di destinazione se desideri che rimangano invariati. In caso contrario, i tipi di macro-attività verranno riassegnati automaticamente, con conseguente potenziale perdita di dati.
     sharing:
       missing_workflow_warning:
         title: "Flusso di lavoro mancante per la condivisione di macro-attività"
@@ -711,6 +729,7 @@ it:
         auto_hide_popups: "Nascondi automaticamente le notifiche di successo"
         warn_on_leaving_unsaved: "Avvisami quando sto lasciando una macro-attività non salvata"
         theme: "Modalità"
+        mode_guideline: "Alcune modalità sovrascrivono i colori del tema personalizzato per ragioni di accessibilità e leggibilità. Per usare il tema personalizzato completo, seleziona la modalità Chiaro."
       version:
         effective_date: "Data di fine"
         sharing: "Condivisione"
@@ -911,6 +930,10 @@ it:
             enabled_modules:
               dependency_missing: "Anche il modulo '%{dependency}' deve essere abilitato dal momento che il modulo '%{module}' dipende da esso."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Seleziona un progetto."
         query:
           attributes:
             project:
@@ -1089,6 +1112,10 @@ it:
           undeletable_work_packages_attached: "Questa versione non può essere eliminata perché vi sono macro-attività collegate a essa."
         status:
           readonly_default_exlusive: "non può essere attivato per gli stati che sono contrassegnati come predefiniti."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Perfavore controlla i seguenti campi:"
         header:
@@ -1112,6 +1139,9 @@ it:
         other: "Notifiche"
       placeholder_user: "Utente segnaposto"
       project: "Progetto"
+      project_query:
+        one: "Elenco di progetti"
+        other: "Elenchi di progetti"
       query: "Query personalizzata"
       role:
         one: "Ruolo"
@@ -2007,7 +2037,10 @@ it:
   label_introduction_video: "Video introduttivo"
   label_invite_user: "Invita utente"
   label_share: "Condividi"
+  label_share_project_list: "Condividi elenco progetti"
+  label_share_work_package: "Condividi macro-attività"
   label_show_hide: "Mostra/Nascondi"
+  label_show_hide_n_items: "Mostra/nascondi %{count} elementi"
   label_show_all_registered_users: "Mostra tutti gli utenti registrati"
   label_journal: "Diario"
   label_journal_diff: "Confronto Descrizione"
@@ -2045,6 +2078,7 @@ it:
   label_custom_touch_icon: "Icona del touch personalizzata"
   label_logout: "Disconnetti"
   label_main_menu: "Menu laterale"
+  label_manage: "Gestisci"
   label_manage_groups: "Gestisci i gruppi"
   label_managed_repositories_vendor: "Archivio gestito %{vendor}"
   label_max_size: "Dimensione massima"
@@ -2449,12 +2483,12 @@ it:
         plaintext:
           storage: "Archivio"
           healthy:
-            summary: "Ottime notizie! Lo stato del tuo archivio %{storage_name} è attualmente visualizzato come \"Tutto ok\"."
+            summary: 'Ottime notizie! Lo stato del tuo archivio %{storage_name} è attualmente visualizzato come "Tutto ok".'
             error-solved-on: "Risolto il"
             recommendation: "Continueremo a monitorare il sistema per assicurarci che rimanga in buona salute. In caso di discrepanze, ti informeremo."
             details: "Per maggiori dettagli o per apportare le modifiche necessarie, puoi visitare la configurazione del tuo archivio"
           unhealthy:
-            summary: "Lo stato del tuo archivio, %{storage_name}, è attualmente visualizzato come \"Errore\". Abbiamo rilevato un problema che potrebbe richiedere la tua attenzione."
+            summary: 'Lo stato del tuo archivio, %{storage_name}, è attualmente visualizzato come "Errore". Abbiamo rilevato un problema che potrebbe richiedere la tua attenzione.'
             error-details: "Dettagli dell'errore"
             error-message: "Messaggio di errore"
             error-occurred-on: "Si è verificato il"
@@ -2463,11 +2497,11 @@ it:
         email_notification_settings: "Impostazioni di notifica e-mail di archiviazione"
         see_storage_settings: "Vedi le impostazioni di archiviazione"
         healthy:
-          subject: "L'archivio \"%{name}\" è ora ok!"
+          subject: 'L''archivio "%{name}" è ora ok!'
           solved_at: "risolto il"
           summary: "Il problema con l'integrazione dell'archivio %{storage_name} è ora risolto."
         unhealthy:
-          subject: "L'archivio \"%{name}\" non è ok!"
+          subject: 'L''archivio "%{name}" non è ok!'
           since: "dal"
           summary: "C'è un problema con l'integrazione dell'archivio %{storage_name}"
           troubleshooting:
@@ -2593,6 +2627,7 @@ it:
   notice_principals_found_multiple: "Trovati %{number} risultati. \n Premi Tab per evidenziare il primo."
   notice_principals_found_single: "Trovato un solo risultato. \n Premi Tab per evidenziarlo."
   notice_project_not_deleted: "Il progetto non è stato eliminato."
+  notice_project_not_found: "Progetto non trovato."
   notice_successful_connection: "Connesso con successo."
   notice_successful_create: "Creato con successo."
   notice_successful_delete: "Cancellato con successo."
@@ -2729,6 +2764,8 @@ it:
   permission_manage_public_bcf_queries: "Gestisci query BCF pubbliche"
   permission_edit_attribute_help_texts: "Modifica i testi guida dell'attributo"
   permission_manage_public_project_queries: "Gestisci elenchi di progetti pubblici"
+  permission_view_project_query: "Visualizza query del progetto"
+  permission_edit_project_query: "Modifica query del progetto"
   placeholders:
     default: "-"
   project:
@@ -2949,6 +2986,10 @@ it:
   setting_default_projects_public: "I nuovi progetti sono pubblici come impostazione predefinita"
   setting_diff_max_lines_displayed: "Numero massimo di linee diff visualizzate"
   setting_display_subprojects_work_packages: "Visualizza le macro-attività dei sotto-progetti nei progetti principali come impostazione predefinita"
+  setting_duration_format: "Formato durata"
+  setting_duration_format_hours_only: "Solo ore"
+  setting_duration_format_days_and_hours: "Giorni e ore"
+  setting_duration_format_instructions: "Indica come verranno visualizzate le durate per Lavoro, Lavoro rimanente e Tempo impiegato."
   setting_emails_footer: "Piè di pagina delle  e-mail"
   setting_emails_header: "Intestazione e-mail"
   setting_email_login: "Usa email come login"
@@ -2961,7 +3002,7 @@ it:
   setting_host_name: "Nome dell'Host"
   setting_hours_per_day: "Ore al giorno"
   setting_hours_per_day_explanation: >-
-    Questo definirà ciò che è considerato un "giorno" quando si visualizza la durata in modo più naturale (ad esempio, se un giorno è 8 ore, 32 ore sarebbero 4 giorni).
+    Definisce ciò che viene considerato un "giorno" quando si visualizza la durata in giorni e ore (per esempio, se un giorno è di 8 ore, 32 ore sono 4 giorni).
   setting_invitation_expiration_days: "L'email di attivazione scade dopo"
   setting_work_package_done_ratio: "Calcolo dei progressi"
   setting_work_package_done_ratio_field: "Basato sul lavoro"
@@ -3353,54 +3394,80 @@ it:
         work_based_help_text: "La % completamento viene ricavata automaticamente dal lavoro e dal lavoro residuo."
         status_based_help_text: "La % completamento è stabilita dallo stato della macro-attività."
         migration_warning_text: "Nella modalità di calcolo basata sul lavoro, la % completamento non può essere impostata manualmente ed è legata al lavoro. Il valore esistente è stato mantenuto ma non può essere modificato. Specifica prima il lavoro."
-    sharing:
-      count:
-        zero: "0 utenti"
-        one: "1 utente"
-        other: "%{count} utenti"
-      filter:
-        project_member: "Membro del progetto"
-        not_project_member: "Non è membro del progetto"
-        project_group: "Gruppo di progetto"
-        not_project_group: "Non è gruppo di progetto"
-        role: "Ruolo"
-        type: "Tipo"
-      label_search: "Cerca gli utenti da invitare"
-      label_search_placeholder: "Cerca per utente o indirizzo e-mail"
-      label_toggle_all: "Attiva/disattiva tutte le condivisioni"
-      permissions:
-        comment: "Commentare"
-        comment_description: "Può visualizzare e commentare questa macro-attività."
-        denied: "Non hai i permessi per condividere macro-attività."
-        edit: "Modificare"
-        edit_description: "Può visualizzare, commentare e modificare questa macro-attività."
-        view: "Vedere"
-        view_description: "Può visualizzare questa macro-attività."
-      remove: "Rimuovi"
-      share: "Condividi"
-      text_empty_search_description: "Non ci sono utenti con i criteri di filtro attuali."
-      text_empty_search_header: "Non siamo riusciti a trovare alcun risultato corrispondente."
-      text_empty_state_description: "La macro-attività non è stata ancora condivisa con nessuno."
-      text_empty_state_header: "Non condiviso"
-      text_user_limit_reached: "L'aggiunta di ulteriori utenti supererà il limite attuale. Contatta un amministratore per aumentare il limite di utenti e garantire che gli utenti esterni possano accedere a questa  macro-attività."
-      text_user_limit_reached_admins: 'L''aggiunta di ulteriori utenti supererà il limite attuale. <a href="%{upgrade_url}">Aggiorna il tuo piano</a> per aggiungere più utenti.'
-      warning_user_limit_reached: >
-        L'aggiunta di ulteriori utenti supererà il limite attuale. Contatta un amministratore per aumentare il limite di utenti e garantire che gli utenti esterni possano accedere a questa  macro-attività.
-      warning_user_limit_reached_admin: >
-        L'aggiunta di ulteriori utenti supererà il limite attuale. <a href="%{upgrade_url}">Aggiorna il tuo piano</a> per poter garantire che gli utenti esterni possano accedere a questa macro-attività.
-      warning_no_selected_user: "Seleziona gli utenti con cui condividere questa macro-attività"
-      warning_locked_user: "L'utente %{user} è bloccato e non può essere condiviso con"
+    permissions:
+      comment: "Commentare"
+      comment_description: "Può visualizzare e commentare questa macro-attività."
+      edit: "Modificare"
+      edit_description: "Può visu"
+      view: "Visualizzare"
+      view_description: "Può visualizzare questa macro-attività."
+  sharing:
+    count:
+      zero: "0 utenti"
+      one: "1 utente"
+      other: "%{count} utenti"
+    filter:
+      project_member: "Membro del progetto"
+      not_project_member: "Non è membro del progetto"
+      project_group: "Gruppo del progetto"
+      not_project_group: "Non gruppo del progetto"
+      user: "Utente"
+      group: "Gruppo"
+      role: "Ruolo"
+      type: "Tipo"
+    denied: "Non sei autorizzato a condividere %{entities}."
+    label_search: "Cerca utenti da invitare"
+    label_search_placeholder: "Cerca per utente o indirizzo e-mail"
+    label_toggle_all: "Attiva/disattiva tutte le condivisioni"
+    remove: "Rimuovi"
+    share: "Condividi"
+    text_empty_search_description: "Non ci sono utenti con i criteri di filtro attuali."
+    text_empty_search_header: "Non abbiamo trovato alcun risultato corrispondente."
+    text_empty_state_description: "Il/la %{entity} non è stato/a ancora condiviso/a con nessuno."
+    text_empty_state_header: "Non condiviso"
+    text_user_limit_reached: "Con l'aggiunta di ulteriori utenti, verrà superato il limite attuale. Contatta un amministratore per incrementare il limite di utenti e garantire che gli utenti esterni possano accedere a questo/a %{entity}."
+    text_user_limit_reached_admins: 'Con l''aggiunta di ulteriori utenti, verrà superato il limite attuale. <a href="%{upgrade_url}">Passa a un piano superiore</a> per poter aggiungere altri utenti.'
+    warning_user_limit_reached: >
+      Con l'aggiunta di ulteriori utenti, verrà superato il limite attuale. Contatta un amministratore per incrementare il limite di utenti e garantire che gli utenti esterni possano accedere a questo %{entity}.
+    warning_user_limit_reached_admin: >
+      Con l'aggiunta di ulteriori utenti, verrà superato il limite attuale. <a href="%{upgrade_url}">Passa a un piano superiore</a> per garantire che gli utenti esterni possano accedere a questo %{entity}.
+    warning_no_selected_user: "Seleziona gli utenti con cui condividere questo %{entity}"
+    warning_locked_user: "Non è possibile condividere con l'utente %{user}: l'utente è bloccato"
+    user_details:
+      locked: "Utente bloccato"
+      invited: "Invito inviato."
+      resend_invite: "Invia di nuovo."
+      invite_resent: "L'invito è stato inviato nuovamente"
+      not_project_member: "Non è un membro del progetto"
+      project_group: "I membri del gruppo possono avere privilegi aggiuntivi (in quanto membri del progetto)"
+      not_project_group: "Gruppo (condiviso con tutti i membri)"
+      additional_privileges_project: "Può avere privilegi aggiuntivi (in quanto membro del progetto)"
+      additional_privileges_group: "Può avere privilegi aggiuntivi (in quanto membro del gruppo)"
+      additional_privileges_project_or_group: "Può avere privilegi aggiuntivi (in quanto membro del progetto o del gruppo)"
+    project_queries:
+      publishing_denied: "Non sei autorizzato a rendere pubblici gli elenchi di progetti."
+      access_warning: "Gli utenti vedranno solo i progetti a cui hanno accesso. La condivisione degli elenchi di progetti non influisce sulle autorizzazioni per i singoli progetti."
       user_details:
-        locked: "Utente bloccato"
-        invited: "Invito inviato."
-        resend_invite: "Invia di nuovo."
-        invite_resent: "L'invito è stato inviato di nuovo"
-        not_project_member: "Non è un membro del progetto"
-        project_group: "I membri del gruppo potrebbero avere privilegi aggiuntivi (in quanto membri del progetto)"
-        not_project_group: "Gruppo (condiviso con tutti i membri)"
-        additional_privileges_project: "Potrebbe avere privilegi aggiuntivi (in quanto membro del progetto)"
-        additional_privileges_group: "Potrebbe avere privilegi aggiuntivi (in quanto membro del gruppo)"
-        additional_privileges_project_or_group: "Potrebbe avere privilegi aggiuntivi (in quanto membro del progetto o del gruppo)"
+        owner: "Proprietario elenco"
+        can_view_because_public: "Può già visualizzare perché l'elenco è condiviso con tutti"
+        can_manage_public_lists: "Può modificare grazie alle autorizzazioni globali"
+      public_flag:
+        label: "Condividi con tutti in %{instance_name}"
+        caption: "Tutti possono visualizzare questo elenco di progetti. Chi ha un permesso globale di modifica può modificarlo."
+      blank_state:
+        public:
+          header: "Condiviso con tutti"
+          description: "Tutti possono visualizzare questo elenco di progetti. Puoi aggiungere anche singoli utenti con autorizzazioni aggiuntive."
+        private:
+          header: "Non condiviso: Privato"
+          description: "Questo elenco di progetti non è stato ancora condiviso con nessuno. Solo tu può accedere a questo elenco."
+      permissions:
+        view: "Visualizzare"
+        view_description: "Può visualizzare questo elenco di progetti."
+        edit: "Modificare"
+        edit_description: "Può visualizzare, condividere e modificare questo elenco di progetti."
+      upsale:
+        message: "La condivisione degli elenchi di progetti con i singoli utenti è un modulo aggiuntivo Enterprise."
   working_days:
     info: >
       I giorni non selezionati vengono saltati durante la pianificazione delle macro-attività (e non inclusi nel conteggio dei giorni). Questi possono essere sovrascritti a livello di macro-attività.

@@ -46,7 +46,7 @@ uk:
   permission_delete_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
   permission_header_for_project_module_storages: Папки проєкту з автоматичним керуванням
   permission_manage_file_links: Керування посиланнями на файл
-  permission_manage_storages_in_project: Керування файловими сховищами в проєкті
+  permission_manage_files_in_project: Керування файлами в проєкті
   permission_read_files: 'Папки проєкту з автоматичним керуванням: читання файлів'
   permission_share_files: 'Папки проєкту з автоматичним керуванням: надання доступу до файлів'
   permission_share_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
@@ -102,11 +102,24 @@ uk:
       storage_provider: Постачальник сховища
     health:
       checked: 'Востаннє перевірено: %{datetime}'
+      connection_validation:
+        action: Перевірити підключення знову
+        client_id_wrong: Налаштований ідентифікатор клієнта OAuth 2 недійсний. Перевірте конфігурацію.
+        client_secret_wrong: Налаштований секретний ключ клієнта OAuth 2 недійсний. Перевірте конфігурацію.
+        drive_id_wrong: Налаштований ідентифікатор диска OAuth 2 не знайдено. Перевірте конфігурацію.
+        not_configured: Не вдалося перевірити підключення. Спочатку налаштуйте конфігурацію.
+        placeholder: Перевірте підключення до сервера.
+        subtitle: Перевірка підключення
+        tenant_id_wrong: Налаштований ідентифікатор каталогу (клієнта) недійсний. Перевірте конфігурацію.
+        unexpected_content: На диску виявлено неочікуваний вміст.
+        unknown_error: Не вдалося перевірити підключення. Сталася невідома помилка. Щоб дізнатися більше, перегляньте журнали сервера.
       label_error: Помилка
       label_healthy: Справність
       label_pending: Очікування
+      label_warning: Попередження
+      project_folders:
+        subtitle: Папки проєкту з автоматичним керуванням
       since: з %{datetime}
-      subtitle: Папки проєкту з автоматичним керуванням
       title: Стан справності
     health_email_notifications:
       description_subscribed: Усі адміністратори отримують сповіщення електронною поштою про стан справності цього сховища.

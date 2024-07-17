@@ -210,8 +210,8 @@ RSpec.describe "API v3 storages resource", :webmock, content_type: :json do
       end
     end
 
-    context "if user has :manage_storages_in_project permission in any project" do
-      let(:permissions) { %i(manage_storages_in_project) }
+    context "if user has :manage_files_in_project permission in any project" do
+      let(:permissions) { %i(manage_files_in_project) }
 
       it_behaves_like "successful storage response"
     end

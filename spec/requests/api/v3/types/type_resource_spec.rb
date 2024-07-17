@@ -82,16 +82,13 @@ RSpec.describe "API v3 Type resource" do
         end
 
         context "valid type id" do
-          it { expect(response.status).to eq(200) }
+          it { expect(response).to have_http_status(:ok) }
         end
 
         context "invalid type id" do
           let(:get_path) { api_v3_paths.type "bogus" }
 
-          it_behaves_like "param validation error" do
-            let(:id) { "bogus" }
-            let(:type) { "Type" }
-          end
+          it_behaves_like "not found"
         end
       end
 

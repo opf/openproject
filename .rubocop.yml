@@ -8,7 +8,6 @@ require:
   - rubocop-capybara
   - rubocop-factory_bot
   - rubocop-performance
-  - rubocop-inflector
   - ./config/initializers/inflections.rb
 
 <% if File.exist?('.rubocop-local.yml') %>
@@ -199,6 +198,10 @@ RSpec/DescribeClass:
   Exclude:
     - 'spec/features/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
+
+# Allow number HTTP status codes in specs
+RSpecRails/HttpStatus:
+  Enabled: false
 
 # dynamic finders cop clashes with capybara ID cop
 Rails/DynamicFindBy:

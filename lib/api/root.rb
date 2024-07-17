@@ -31,11 +31,12 @@ module API
     content_type "hal+json", "application/hal+json; charset=utf-8"
     format "hal+json"
     formatter "hal+json", API::Formatter.new
+    parser "hal+json", Grape::Parser::Json
     default_format "hal+json"
 
     parser :json, API::V3::Parser.new
 
-    error_representer ::API::V3::Errors::ErrorRepresenter, "hal+json"
+    error_representer ::API::V3::Errors::ErrorRepresenter, "application/hal+json; charset=utf-8"
     authentication_scope OpenProject::Authentication::Scope::API_V3
 
     OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, _opts|
@@ -44,7 +45,7 @@ module API
       api_error = ::API::Errors::Unauthenticated.new error_message
       representer = ::API::V3::Errors::ErrorRepresenter.new api_error
 
-      e.error_response status: 401, message: representer.to_json, headers: warden.headers, log: false
+      e.error! representer.to_json, 401, warden.headers
     end
 
     version "v3", using: :path do

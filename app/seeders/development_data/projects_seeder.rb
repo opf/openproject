@@ -47,7 +47,13 @@ module DevelopmentData
     end
 
     def applicable?
-      Project.where(identifier: project_identifiers).count == 0
+      recent_installation? && Project.where(identifier: project_identifiers).count == 0
+    end
+
+    # returns true if no projects have been created more than 1 hour ago,
+    # meaning this is a recent installation
+    def recent_installation?
+      Project.where(created_at: ..1.hour.ago).none?
     end
 
     def project_identifiers

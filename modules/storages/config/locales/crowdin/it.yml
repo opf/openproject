@@ -46,7 +46,7 @@ it:
   permission_delete_files_explanation: Questa autorizzazione è disponibile solo per gli archivi Nextcloud.
   permission_header_for_project_module_storages: Cartelle di progetto gestite automaticamente
   permission_manage_file_links: Gestire link ai file
-  permission_manage_storages_in_project: Gestisci archivi di file nel progetto
+  permission_manage_files_in_project: Gestisci i file del progetto
   permission_read_files: 'Cartelle di progetto gestite automaticamente: Leggere file'
   permission_share_files: 'Cartelle di progetto gestite automaticamente: Condividere file'
   permission_share_files_explanation: Questa autorizzazione è disponibile solo per gli archivi Nextcloud.
@@ -102,11 +102,24 @@ it:
       storage_provider: Fornitore di archiviazione
     health:
       checked: Ultimo controllo %{datetime}
+      connection_validation:
+        action: Verifica nuovamente la connessione
+        client_id_wrong: L'ID del client OAuth 2 non è valido. Verifica la configurazione.
+        client_secret_wrong: Il codice segreto del client OAuth 2 non è valido. Verifica la configurazione.
+        drive_id_wrong: L'ID dello spazio di archiviazione non è stato trovato. Verifica la configurazione.
+        not_configured: Non è stato possibile verificare la connessione. Prima è necessario completare la configurazione.
+        placeholder: Verifica la tua connessione con il server.
+        subtitle: Verifica della connessione
+        tenant_id_wrong: L'ID della directory non è valido. Verifica la configurazione.
+        unexpected_content: Contenuto inatteso nello spazio di archiviazione.
+        unknown_error: Non è stato possibile verificare la connessione. Si è verificato un errore sconosciuto. Per maggiori informazioni consulta i log del server.
       label_error: Errore
       label_healthy: Tutto ok
       label_pending: In sospeso
+      label_warning: Avviso
+      project_folders:
+        subtitle: Cartelle di progetto gestite automaticamente
       since: dal giorno %{datetime}
-      subtitle: Cartelle di progetto gestite automaticamente
       title: Stato di salute
     health_email_notifications:
       description_subscribed: Tutti gli amministratori ricevono notifiche e-mail sullo stato di salute di questo archivio.
