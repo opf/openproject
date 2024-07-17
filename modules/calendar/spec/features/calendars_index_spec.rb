@@ -86,9 +86,9 @@ RSpec.describe "Calendars", "index", :with_cuprite do
 
     context "with the modules menu" do
       before do
-        find("a[title='Modules']").click
+        page.find_test_selector("op-app-header--modules-menu-button").click
 
-        within "#more-menu" do
+        within "#op-app-header--modules-menu-list" do
           click_on "Calendars"
         end
       end
