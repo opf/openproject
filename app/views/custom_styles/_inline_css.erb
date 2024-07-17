@@ -42,6 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
         --primary-button-color--minor1: <%= design_color.lighten 0.8 %>;
         --primary-button-color--minor2: <%= design_color.lighten 0.6 %>;
         --primary-button-color--dark-mode: <%= design_color.lighten 0.4 %>;
+        --font-color-on-primary: <%= design_color.contrasting_font_color %>;
     <% end %>
     <% if design_color.variable == "accent-color" %>
         --accent-color--major1: <%= design_color.darken 0.2 %>;
