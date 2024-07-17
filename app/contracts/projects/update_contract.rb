@@ -28,7 +28,6 @@
 
 module Projects
   class UpdateContract < BaseContract
-
     def writable_attributes
       permissions = {
         project_attributes_only: options[:project_attributes_only],
