@@ -3,11 +3,11 @@
   border-collapse: collapse
   border-spacing: 0
   width: 100%
-  border: 1px solid var(--table-border-color)
+  border: 1px solid var(--borderColor-default)
 
   &--row
     &:not(:last-child)
-      border-bottom: 1px solid var(--table-border-color)
+      border-bottom: 1px solid var(--borderColor-default)
 
     @at-root .op-uc-container:not(.op-uc-container_editing) &:hover
       background: rgba(26, 103, 163, 0.05)
@@ -18,7 +18,7 @@
     padding: 0.75rem
 
     &:not(:last-child):not([colspan])
-      border-right: 1px solid var(--table-border-color)
+      border-right: 1px solid var(--borderColor-default)
 
     @include user-content-children
 
@@ -26,9 +26,8 @@
       background: rgba(26, 103, 163, 0.05)
 
     &_head
-      background: rgb(242, 242, 242)
-      background-clip: padding-box
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+      background: var(--display-gray-bgColor-muted)
+      border-bottom: 1px solid var(--borderColor-default)
 
     &.ck-editor__editable_selected
       background: rgba(26, 103, 163, 0.1)
