@@ -186,6 +186,8 @@ When exporting a Gantt chart to PDF, users will now be able to select calendar w
 
 A very special thank you goes to the City of Cologne for sponsoring features on project lists. Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Bill Bai, Alexander Hosmann, Alexander Aleschenko, and Sven Kunze.
 
+A thank you to also goes to Eric Guo for contributing the Date zoom based on calendar weeks in the Gantt chart PDF export.
+
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [Todor Belov](https://crowdin.com/profile/todor.belov), who has done an outstanding number of translations for the Bulgarian language in recent weeks.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
