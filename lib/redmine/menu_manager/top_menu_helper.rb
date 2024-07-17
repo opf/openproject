@@ -164,12 +164,24 @@ module Redmine::MenuManager::TopMenuHelper
 
   def render_module_top_menu_node(items = more_top_menu_items)
     unless items.empty?
-      render_menu_dropdown_with_items(
-        label: "",
-        label_options: { icon: "icon-menu", title: I18n.t("label_modules") },
-        items:,
-        options: { drop_down_id: "more-menu", drop_down_class: "drop-down--modules ", menu_item_class: "hidden-for-mobile" }
-      )
+      render Primer::Alpha::ActionMenu.new(classes: "op-app-menu--item",
+                                           menu_id: "op-app-header--modules-menu",
+                                           anchor_align: :end) do |menu|
+        menu.with_show_button(icon: "op-grid-menu",
+                              scheme: :invisible,
+                              classes: "op-app-menu--item-action op-app-header--primer-button hidden-for-mobile",
+                              title: I18n.t("label_modules"),
+                              test_selector: "op-app-header--modules-menu-button",
+                              "aria-label": I18n.t("label_modules"))
+        items.each do |item|
+          menu.with_item(tag: :a,
+                         href: url_for(item.url),
+                         label: item.caption,
+                         test_selector: "op-menu--item-action") do |menu_item|
+            menu_item.with_leading_visual_icon(icon: item.icon) if item.icon
+          end
+        end
+      end
     end
   end
 
