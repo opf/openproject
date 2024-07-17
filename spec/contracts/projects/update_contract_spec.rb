@@ -33,6 +33,7 @@ RSpec.describe Projects::UpdateContract do
   it_behaves_like "project contract" do
     let(:custom_field) do
       build_stubbed(:integer_project_custom_field).tap do |cf|
+        cf.id = "1001"
         allow_any_instance_of(CustomValue) # rubocop:disable RSpec/AnyInstance
           .to receive(:custom_field).and_return(cf)
       end
@@ -54,7 +55,7 @@ RSpec.describe Projects::UpdateContract do
         p.identifier = project_identifier
       end
     end
-    let(:project_permissions) { [:edit_project] }
+    let(:project_permissions) { %i(edit_project) }
     let(:project_changed) { true }
     let(:options) { {} }
 
@@ -70,7 +71,7 @@ RSpec.describe Projects::UpdateContract do
 
     describe "permissions" do
       context "with edit_project_attributes" do
-        let(:project_permissions) { [:edit_project_attributes] }
+        let(:project_permissions) { %i(edit_project_attributes) }
 
         context "when project_attributes_only flag is true" do
           let(:options) { { project_attributes_only: true } }
@@ -140,6 +141,44 @@ RSpec.describe Projects::UpdateContract do
       context "with both edit_project and edit_project_attributes are set" do
         let(:project_permissions) { %i(edit_project edit_project_attributes) }
 
+        context "when project_attributes_only flag is true" do
+          let(:options) { { project_attributes_only: true } }
+
+          context "and only project attributes are changed" do
+            let(:project_changed) { true }
+
+            it "is invalid" do
+              expect_valid(false, { name: %i(error_readonly),
+                                    parent_id: %i(error_readonly),
+                                    identifier: %i(error_readonly) })
+            end
+          end
+
+          context "and only project_custom_fields are changed" do
+            let(:project_changed) { false }
+
+            before do
+              project.custom_field_values = { custom_field.id => "1" }
+            end
+
+            it_behaves_like "is valid"
+          end
+
+          context "when both project attributes and project custom_fields are changed" do
+            let(:project_changed) { true }
+
+            before do
+              project.custom_field_values = { custom_field.id => "1" }
+            end
+
+            it "is invalid" do
+              expect_valid(false, { name: %i(error_readonly),
+                                    parent_id: %i(error_readonly),
+                                    identifier: %i(error_readonly) })
+            end
+          end
+        end
+
         context "when project_attributes_only flag is false" do
           let(:options) { { project_attributes_only: false } }
 
@@ -167,6 +206,92 @@ RSpec.describe Projects::UpdateContract do
 
         it "is invalid" do
           expect_valid(false, base: %i(error_unauthorized))
+        end
+      end
+    end
+
+    describe "#writable_attributes" do
+      let(:project_changed) { false }
+
+      shared_examples "can write" do |attribute|
+        it "can write #{attribute}" do
+          expect(contract.writable_attributes).to include(attribute.to_s)
+        end
+      end
+
+      shared_examples "can not write" do |attribute|
+        it "can not write #{attribute}" do
+          expect(contract.writable_attributes).not_to include(attribute.to_s)
+        end
+      end
+
+      context "with edit_project_attributes" do
+        let(:project_permissions) { %i(edit_project_attributes) }
+
+        context "when project_attributes_only flag is true" do
+          let(:options) { { project_attributes_only: true } }
+
+          it_behaves_like "can write", :custom_field_1001
+          it_behaves_like "can not write", :name
+        end
+
+        context "when project_attributes_only flag is false" do
+          let(:options) { { project_attributes_only: false } }
+
+          it_behaves_like "can write", :custom_field_1001
+          it_behaves_like "can not write", :name
+        end
+      end
+
+      context "with edit_project" do
+        context "when project_attributes_only flag is true" do
+          let(:options) { { project_attributes_only: true } }
+
+          it_behaves_like "can not write", :custom_field_1001
+          it_behaves_like "can not write", :name
+        end
+
+        context "when project_attributes_only flag is false" do
+          let(:options) { { project_attributes_only: false } }
+
+          it_behaves_like "can not write", :custom_field_1001, "1"
+          it_behaves_like "can write", :name
+        end
+      end
+
+      context "with both edit_project and edit_project_attributes are set" do
+        let(:project_permissions) { %i(edit_project edit_project_attributes) }
+
+        context "when project_attributes_only flag is true" do
+          let(:options) { { project_attributes_only: true } }
+
+          it_behaves_like "can write", :custom_field_1001
+          it_behaves_like "can not write", :name
+        end
+
+        context "when project_attributes_only flag is false" do
+          let(:options) { { project_attributes_only: false } }
+
+          it_behaves_like "can write", :custom_field_1001
+          it_behaves_like "can write", :name
+        end
+      end
+
+      context "without permissions" do
+        let(:project_permissions) { [] }
+
+        context "when project_attributes_only flag is true" do
+          let(:options) { { project_attributes_only: true } }
+
+          it_behaves_like "can not write", :custom_field_1001
+          it_behaves_like "can not write", :name
+        end
+
+        context "when project_attributes_only flag is false" do
+          let(:options) { { project_attributes_only: false } }
+
+          it_behaves_like "can not write", :custom_field_1001
+          it_behaves_like "can not write", :name
         end
       end
     end

@@ -36,10 +36,13 @@ module Projects
       }
 
       case permissions
-      in { project_attributes_only: true } |
+      in { project_attributes_only: true, edit_project_attributes: true } |
          { edit_project: false, edit_project_attributes: true }
         with_custom_fields_only(super)
-      in { edit_project: true, edit_project_attributes: false }
+      in { project_attributes_only: true, edit_project_attributes: false } |
+         { edit_project: false, edit_project_attributes: false }
+        []
+      in { project_attributes_only: false, edit_project: true, edit_project_attributes: false }
         without_custom_fields(super)
       else
         super
