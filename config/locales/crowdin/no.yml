@@ -268,7 +268,7 @@
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
       shared: "Offentlige prosjektlister"
-      my_private: "Mine private prosjektlister"
+      my_lists: "My project lists"
       new:
         placeholder: "Ny prosjektliste"
       delete_modal:
@@ -414,7 +414,7 @@
       prompt: "Forbli innlogget for %{num_days}"
     sessions:
       remembered_devices: "Lagrede enheter"
-      remembered_devices_caption: "En liste over alle enheter som er logget på denne kontoen ved hjelp av \"Hold deg innlogget\" alternativet."
+      remembered_devices_caption: 'En liste over alle enheter som er logget på denne kontoen ved hjelp av "Hold deg innlogget" alternativet.'
       session_name: "%{browser_name} %{browser_version} på %{os_name}"
       browser: "Nettleser"
       device: "Enhet / Operativsystem"
@@ -530,7 +530,7 @@
     sharing:
       missing_workflow_warning:
         title: "Arbeidsflyt mangler for deling av arbeidspakker"
-        message: "Ingen arbeidsflyt er konfigurert for rollen 'Arbeidspakke redaktør'. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. 'oppgave') og en kilderolle (f.eks. 'medlem'). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du \"Redigeringsprogrammet for arbeidspakke\" som mål og klikk \"Kopier\". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for enhver annen rolle."
+        message: 'Ingen arbeidsflyt er konfigurert for rollen ''Arbeidspakke redaktør''. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. ''oppgave'') og en kilderolle (f.eks. ''medlem''). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du "Redigeringsprogrammet for arbeidspakke" som mål og klikk "Kopier". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for enhver annen rolle.'
         link_message: "Konfigurer arbeidsmetodene i administrasjonen."
     summary:
       reports:
@@ -970,10 +970,10 @@
             circular_dependency: "Forholdet skaper en sirkel av forhold."
           attributes:
             to:
-              error_not_found: "Arbeidspakke i \"til\"-posisjonen er ikke funnet eller ikke synlig"
+              error_not_found: 'Arbeidspakke i "til"-posisjonen er ikke funnet eller ikke synlig'
               error_readonly: "en eksisterende relasjons 'til'-lenke er uforanderlig"
             from:
-              error_not_found: "arbeidspakke i \"fra\"-posisjonen er ikke funnet eller ikke synlig"
+              error_not_found: 'arbeidspakke i "fra"-posisjonen er ikke funnet eller ikke synlig'
               error_readonly: "en eksisterende relasjon `fra`-lenke er uforanderlig"
         repository:
           not_available: "SCM leverandør er ikke tilgjengelig"
@@ -1079,10 +1079,10 @@
               format: "%{message}"
             password:
               weak: "Må inneholde tegn fra de følgende klassene (minst %{min_count} av %{all_count}): %{rules}."
-              lowercase: "små bokstaver (f.eks. \"a\")"
-              uppercase: "store bokstaver (f.eks. \"A\")"
-              numeric: "numerisk (f.eks. \"1\")"
-              special: "spesialtegn (f.eks. \"%\")"
+              lowercase: 'små bokstaver (f.eks. "a")'
+              uppercase: 'store bokstaver (f.eks. "A")'
+              numeric: 'numerisk (f.eks. "1")'
+              special: 'spesialtegn (f.eks. "%")'
               reused:
                 one: "har blitt brukt tidligere. Vennligst velg en som er forskjellig fra den forrige."
                 other: "har blitt brukt tidligere. Vennligst velg et som er forskjellig fra dine siste %{count}."
@@ -1434,7 +1434,7 @@
       long: "%d. %B %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Januar"
       - "Februar"
@@ -1449,8 +1449,8 @@
       - "November"
       - "Desember"
     order:
-      - ':år'
-      - ':måned'
+      - ":år"
+      - ":måned"
       - :dag
   datetime:
     distance_in_words:
@@ -3519,7 +3519,7 @@
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (enhver kompatibel ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Forventet at INNHOLDSTYPE skulle være '%{content_type}', men mottok i stedet '%{actual}'."
-      invalid_format: "Ugyldig format for '%{property}': forventet format som \"%{expected_format}\", men fikk '%{actual}'."
+      invalid_format: 'Ugyldig format for ''%{property}'': forventet format som "%{expected_format}", men fikk ''%{actual}''.'
       invalid_json: "Forespørselen kan ikke analyseres som JSON."
       invalid_relation: "Relasjonen er ugyldig."
       invalid_resource: "For '%{property}' er en link som '%{expected}' forventet, men fikk '%{actual}'."
@@ -3636,7 +3636,7 @@
       client_credentials: "Kundens innloggingsflyt"
     client_credentials: "Brukeren brukes til klientpåloggingsinformasjon"
     client_credentials_impersonation_set_to: "Klientens påloggingsinformasjon satt til"
-    client_credentials_impersonation_warning: "Merk: Klienter som bruker \"Klient-legitimasjonsflyten\" i denne applikasjonen vil ha rettighetene til denne brukeren"
+    client_credentials_impersonation_warning: 'Merk: Klienter som bruker "Klient-legitimasjonsflyten" i denne applikasjonen vil ha rettighetene til denne brukeren'
     client_credentials_impersonation_html: >
       Som standard gir OpenProject OAuth 2.0 autorisasjon via %{authorization_code_flow_link}. Du kan eventuelt aktivere %{client_credentials_flow_link}, men du må oppgi en bruker som forespørselen blir utført på vegne av.
     authorization_error: "Det oppstod en godkjenningsfeil."

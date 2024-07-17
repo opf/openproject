@@ -268,7 +268,7 @@ ar:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -1499,7 +1499,7 @@ ar:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "كانون الثاني"
       - "شباط"
@@ -1514,9 +1514,9 @@ ar:
       - "تشرين الثاني"
       - "كانون الأول"
     order:
-      - ':السنة'
-      - ':الشهر'
-      - ':اليوم'
+      - ":السنة"
+      - ":الشهر"
+      - ":اليوم"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1706,7 +1706,7 @@ ar:
   error_check_user_and_role: "الرجاءاختر مستخدم ودور."
   error_code: "Error %{code}"
   error_color_could_not_be_saved: "تعذر حفظ الألوان"
-  error_cookie_missing: "ملف تعريف الارتباط \"كوكي\" لأوبن بروجكت مفقود. من فضلك تأكد من أن يتم تمكين ملفات تعريف الارتباط \"كوكيز\"، لأن هذا التطبيق لن يعمل بشكل صحيح دون ذلك."
+  error_cookie_missing: 'ملف تعريف الارتباط "كوكي" لأوبن بروجكت مفقود. من فضلك تأكد من أن يتم تمكين ملفات تعريف الارتباط "كوكيز"، لأن هذا التطبيق لن يعمل بشكل صحيح دون ذلك.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
@@ -2404,7 +2404,7 @@ ar:
   label_role_new: "دور جديد"
   label_role_plural: "دور"
   label_role_search: "تعيين دور للأعضاء الجدد"
-  label_scm: "اختصاراً لِ:\"Supply Chain Management\" إدارة سلسة الإمداد"
+  label_scm: 'اختصاراً لِ:"Supply Chain Management" إدارة سلسة الإمداد'
   label_search: "البحث"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "إرسال رسالة اختبار"

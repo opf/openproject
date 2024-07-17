@@ -256,7 +256,7 @@ ro:
       failed: "Ștergerea proiectului %{name} a eșuat"
       failed_text: "Solicitarea de ștergere a proiectului %{name} a eșuat. Proiectul a rămas arhivat."
       completed: "Ștergerea proiectului %{name} finalizată"
-      completed_text: "Cererea de ștergere a proiectului \"%{name}\" a fost finalizată."
+      completed_text: 'Cererea de ștergere a proiectului "%{name}" a fost finalizată.'
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Deschideți ca vizualizare Gantt"
@@ -268,7 +268,7 @@ ro:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -304,7 +304,7 @@ ro:
       types:
         no_results_title_text: În acest moment nu există tipuri disponibile.
         form:
-          enable_type_in_project: 'Activare tip %{type}'
+          enable_type_in_project: "Activare tip %{type}"
       versions:
         no_results_title_text: În acest moment nu există versiuni pentru acest proiect.
         no_results_content_text: Creare versiune nouă
@@ -869,7 +869,7 @@ ro:
             global: "Global"
           query:
             filters:
-              minimum: "trebuie să includeți cel puțin un filtru pentru principal, context sau id cu operatorul \"=\"."
+              minimum: 'trebuie să includeți cel puțin un filtru pentru principal, context sau id cu operatorul "=".'
         custom_field:
           at_least_one_custom_option: "Cel puțin o opțiune trebuie să fie disponibilă."
         custom_actions:
@@ -923,7 +923,7 @@ ro:
             base:
               unsupported_operator: "Operatorul nu este acceptat."
               invalid_values: "O valoare nu este valabilă."
-              id_filter_required: "Este necesar un filtru \"id\"."
+              id_filter_required: 'Este necesar un filtru "id".'
         project:
           archived_ancestor: "Proiectul are un strămoș arhivat."
           foreign_wps_reference_version: "Pachetele de lucru din proiectele care nu sunt descendente fac trimitere la versiuni ale proiectului sau la descendenți ai acestuia."
@@ -933,7 +933,7 @@ ro:
             types:
               in_use_by_work_packages: "încă în uz în pachetele de lucru: %{types}"
             enabled_modules:
-              dependency_missing: "Modulul \"%{dependency}\" trebuie, de asemenea, să fie activat, deoarece modulul \"%{module}\" depinde de el."
+              dependency_missing: 'Modulul "%{dependency}" trebuie, de asemenea, să fie activat, deoarece modulul "%{module}" depinde de el.'
               format: "%{message}"
         project_custom_field_project_mapping:
           attributes:
@@ -962,7 +962,7 @@ ro:
               name_not_included: "The 'Name' column needs to be included"
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
-          group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
+          group_by_hierarchies_exclusive: 'se exclude reciproc cu grupul de "%{group_by}". Nu le puteți activa pe amândouă.'
           can_only_be_modified_by_owner: "The query can only be modified by its owner."
           need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
@@ -992,7 +992,7 @@ ro:
         role:
           attributes:
             permissions:
-              dependency_missing: "trebuie să includă și \"%{dependency}\", deoarece este selectat \"%{permission}\"."
+              dependency_missing: 'trebuie să includă și "%{dependency}", deoarece este selectat "%{permission}".'
         setting:
           attributes:
             base:
@@ -1025,7 +1025,7 @@ ro:
           error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
-              undeducible: "nu poate fi dedusă din titlul \"%{title}\"."
+              undeducible: 'nu poate fi dedusă din titlul "%{title}".'
         work_package:
           is_not_a_valid_target_for_time_entries: "Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru."
           attributes:
@@ -1074,8 +1074,8 @@ ro:
             attribute_groups:
               attribute_unknown: "A fost utilizat un atribut de pachet de lucru nevalabil."
               attribute_unknown_name: "A fost utilizat un atribut de pachet de lucru nevalabil: %{attribute}"
-              duplicate_group: "Numele grupului \"%{group}\" este utilizat de mai multe ori. Numele grupurilor trebuie să fie unice."
-              query_invalid: "Interogarea încorporată \"%{group}\" nu este valabilă: %{details}"
+              duplicate_group: 'Numele grupului "%{group}" este utilizat de mai multe ori. Numele grupurilor trebuie să fie unice.'
+              query_invalid: 'Interogarea încorporată "%{group}" nu este valabilă: %{details}'
               group_without_name: "Grupurile fără nume nu sunt permise."
         user:
           attributes:
@@ -1451,7 +1451,7 @@ ro:
       long: "%d %B %Y"
       short: "%d %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Ianuarie"
       - "Februarie"
@@ -2598,14 +2598,14 @@ ro:
     subject: "%{project} - Ați fost adăugat ca membru"
     body:
       added_by:
-        without_message: "%{user} te-a adăugat ca membru în proiectul \"%{project}\"."
+        without_message: '%{user} te-a adăugat ca membru în proiectul "%{project}".'
         with_message: "%{user} te-a adăugat ca membru în proiectul '%{project}':"
       roles: "Aveți următoarele roluri:"
   mail_member_updated_project:
     subject: "%{project} - Rolurile dvs. au fost actualizate"
     body:
       updated_by:
-        without_message: "%{user} a actualizat rolurile pe care le aveți în proiectul \"%{project}\"."
+        without_message: '%{user} a actualizat rolurile pe care le aveți în proiectul "%{project}".'
         with_message: "%{user} a actualizat rolurile pe care le aveți în scrierea proiectului '%{project}':"
       roles: "Acum aveți următoarele roluri:"
   mail_member_updated_global:
@@ -2647,10 +2647,10 @@ ro:
   notice_account_registered_and_logged_in: "Bun venit, contul a fost activat. Sunteți autentificat."
   notice_activation_failed: Contul nu a putut fi activat.
   notice_auth_stage_verification_error: "Nu s-a putut verifica etapa '%{stage}'."
-  notice_auth_stage_wrong_stage: "S-a așteptat să se finalizeze etapa de autentificare \"%{expected}\", dar a fost returnată \"%{actual}\"."
+  notice_auth_stage_wrong_stage: 'S-a așteptat să se finalizeze etapa de autentificare "%{expected}", dar a fost returnată "%{actual}".'
   notice_auth_stage_error: "Etapa de autentificare '%{stage}' a eșuat."
   notice_can_t_change_password: "Acest cont folosește o sursă externă de autentificare. Nu se poate modifica parola."
-  notice_custom_options_deleted: "Opțiunea \"%{option_value}\" și aparițiile sale %{num_deleted} au fost șterse."
+  notice_custom_options_deleted: 'Opțiunea "%{option_value}" și aparițiile sale %{num_deleted} au fost șterse.'
   notice_email_error: "A apărut o eroare la trimiterea mail-ului (%{value})"
   notice_email_sent: "A fost trimis un e-mail la %{value}"
   notice_failed_to_save_work_packages: "Nu au putut fi salvate %{count} pachete de lucru din %{total} selectate: %{ids}."
@@ -2662,7 +2662,7 @@ ro:
   notice_locking_conflict: "Informaţia a fost actualizată de cel puţin un alt utilizator între timp."
   notice_locking_conflict_additional_information: "Modificările au fost făcute de %{users}."
   notice_locking_conflict_reload_page: "Vă rugăm să reîncărcaţi pagina, examinaţi modificările şi reaplicați actualizările."
-  notice_member_added: '%{name} a fost adăugat în proiect.'
+  notice_member_added: "%{name} a fost adăugat în proiect."
   notice_members_added: A adăugat %{number} utilizatori la proiect.
   notice_member_removed: "%{user} a fost eliminat din proiect."
   notice_member_deleted: "%{user} a fost eliminat din proiect și șters."
@@ -2866,7 +2866,7 @@ ro:
   repositories:
     at_identifier: "la %{identifier}"
     atom_revision_feed: "Lista de revizii Atom"
-    autofetch_information: "Bifați dacă doriţi ca repo-urile să fie actualizate automat la accesarea paginii din modulul \"Repo\". Această operațiune cuprinde obținerea commit-urilor din repo si recalcularea spațiului de disc necesar."
+    autofetch_information: 'Bifați dacă doriţi ca repo-urile să fie actualizate automat la accesarea paginii din modulul "Repo". Această operațiune cuprinde obținerea commit-urilor din repo si recalcularea spațiului de disc necesar.'
     checkout:
       access:
         readwrite: "Citire + Scriere"
@@ -2992,7 +2992,7 @@ ro:
   setting_attachment_whitelist: "Lista albă de încărcare a atașamentelor"
   setting_email_delivery_method: "Metoda de livrare e-mail"
   setting_emails_salutation: "Address user in emails with"
-  setting_sendmail_location: "Locația executabilului \"sendmail\""
+  setting_sendmail_location: 'Locația executabilului "sendmail"'
   setting_smtp_enable_starttls_auto: "Utilizează automat STARTTLS dacă este disponibil"
   setting_smtp_ssl: "Utilizați conexiunea SSL"
   setting_smtp_address: "Server SMTP"
@@ -3104,9 +3104,9 @@ ro:
   setting_user_default_timezone: "Fusul orar implicit al utilizatorilor"
   setting_users_deletable_by_admins: "Utilizatorii pot fi șterși de administratori"
   setting_users_deletable_by_self: "Utilizatorii își pot șterge contul propriu"
-  setting_welcome_text: "Text bloc \"bun venit\""
-  setting_welcome_title: "Titlu bloc \"bun venit\""
-  setting_welcome_on_homescreen: "Afişare bloc \"bun venit\" pe ecranul de start"
+  setting_welcome_text: 'Text bloc "bun venit"'
+  setting_welcome_title: 'Titlu bloc "bun venit"'
+  setting_welcome_on_homescreen: 'Afişare bloc "bun venit" pe ecranul de start'
   setting_work_package_list_default_highlighting_mode: "Mod de evidențiere implicit"
   setting_work_package_list_default_highlighted_attributes: "Atributele evidențiate implicit în linie"
   setting_working_days: "Zile lucrătoare"
@@ -3321,7 +3321,7 @@ ro:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publicați această vizualizare, permițând altor utilizatori să vă acceseze vizualizarea. Utilizatorii cu permisiunea \"Manage public views\" pot modifica sau elimina interogarea publică. Acest lucru nu afectează vizibilitatea rezultatelor pachetului de lucru în vizualizarea respectivă și, în funcție de permisiunile lor, utilizatorii pot vedea rezultate diferite."
+      public: 'Publicați această vizualizare, permițând altor utilizatori să vă acceseze vizualizarea. Utilizatorii cu permisiunea "Manage public views" pot modifica sau elimina interogarea publică. Acest lucru nu afectează vizibilitatea rezultatelor pachetului de lucru în vizualizarea respectivă și, în funcție de permisiunile lor, utilizatorii pot vedea rezultate diferite.'
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "AM"
@@ -3377,7 +3377,7 @@ ro:
       one: "blocat temporar (o tentativă de autentificare eșuată)"
       few: "blocat temporar (%{count} tentative de autentificare eșuate)"
       other: "blocat temporar (%{count} tentative de autentificare eșuate)"
-    confirm_status_change: "Sunteți pe cale să modificați statutul lui \"%{name}\". Sunteți sigur că doriți să continuați?"
+    confirm_status_change: 'Sunteți pe cale să modificați statutul lui "%{name}". Sunteți sigur că doriți să continuați?'
     deleted: "Utilizator șters"
     error_status_change_failed: "Modificarea stării utilizatorului a eșuat din cauza următoarelor erori: %{errors}"
     invite: Invitare utilizator prin e-mail
@@ -3567,7 +3567,7 @@ ro:
       missing_content_type: "nespecificat"
       missing_property: "Proprietate lipsă '%{property}'."
       missing_request_body: "Cererea nu are conținut."
-      missing_or_malformed_parameter: "Parametrul de interogare \"%{parameter}\" lipsește sau este deformat."
+      missing_or_malformed_parameter: 'Parametrul de interogare "%{parameter}" lipsește sau este deformat.'
       multipart_body_error: "Conținutul nu cuprinde componentele multipart așteptate."
       multiple_errors: "Au fost încălcate multiple constrângeri pentru câmpuri."
       unable_to_create_attachment: "Atașamentul nu a putut fi creat"
@@ -3674,7 +3674,7 @@ ro:
       client_credentials: "Credențiale client ID utilizator"
     client_credentials: "Credențiale client ID utilizator"
     client_credentials_impersonation_set_to: "Credențiale client ID utilizator"
-    client_credentials_impersonation_warning: "Notă: Clienții care utilizează fluxul \"Client credentials\" în această aplicație vor avea drepturile acestui utilizator"
+    client_credentials_impersonation_warning: 'Notă: Clienții care utilizează fluxul "Client credentials" în această aplicație vor avea drepturile acestui utilizator'
     client_credentials_impersonation_html: >
       În mod implicit, OpenProject oferă autorizare OAuth 2.0 prin %{authorization_code_flow_link}. Puteți activa opțional %{client_credentials_flow_link}, dar trebuie să furnizați un utilizator în numele căruia vor fi efectuate cererile.
     authorization_error: "A apărut o eroare internă."

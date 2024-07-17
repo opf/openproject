@@ -267,7 +267,7 @@ ms:
       favored: "Projek kegemaran"
       archived: "Projek yang diarkibkan"
       shared: "Shared project lists"
-      my_private: "Senarai projek peribadi saya"
+      my_lists: "My project lists"
       new:
         placeholder: "Senarai projek baharu"
       delete_modal:
@@ -407,7 +407,7 @@ ms:
       prompt: "Kekal log masuk selama %{num_days}"
     sessions:
       remembered_devices: "Peranti yang disimpan"
-      remembered_devices_caption: "Senarai semua peranti yang log masuk ke dalam akaun ini dengan menggunakan pilihan \"Kekal log masuk\"."
+      remembered_devices_caption: 'Senarai semua peranti yang log masuk ke dalam akaun ini dengan menggunakan pilihan "Kekal log masuk".'
       session_name: "%{browser_name}%{browser_version} pada %{os_name}"
       browser: "Pelayar"
       device: "Peranti / OS"
@@ -1417,7 +1417,7 @@ ms:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Januari"
       - "Februari"

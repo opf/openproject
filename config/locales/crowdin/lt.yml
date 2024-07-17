@@ -265,7 +265,7 @@ lt:
       favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
       shared: "Shared project lists"
-      my_private: "Mano privatūs projektų sąrašai"
+      my_lists: "My project lists"
       new:
         placeholder: "Naujas projektų sąrašas"
       delete_modal:
@@ -301,7 +301,7 @@ lt:
       types:
         no_results_title_text: Nėra prieinamų tipų.
         form:
-          enable_type_in_project: 'Įjungti tipą „%{type}“'
+          enable_type_in_project: "Įjungti tipą „%{type}“"
       versions:
         no_results_title_text: Projektas neturi jokių laidų.
         no_results_content_text: Sukurti naują versiją
@@ -413,7 +413,7 @@ lt:
       no_results_title_text: Nėra jokių pasiekiamų prieigos raktų.
       notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "RSS žetonas buvo ištrintas. Norėdami sukurti naują žetoną, prašome naudoti nuorodą RSS sekcijoje."
-      notice_ical_token_revoked: 'iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas.'
+      notice_ical_token_revoked: "iCalendar žetonas „%{token_name}“ projekto „%{project_name}“ kalendoriui „%{calendar_name}“ buvo atšauktas. iCalendar URL su šituo žetonu dabar nebetinkamas."
   news:
     index:
       no_results_title_text: Nėra jokių naujienų.
@@ -567,8 +567,8 @@ lt:
     deletion_pending: "Paskyra užrakinta ir pažymėta pašalinimui. Pastebėtina, kad šis procesas vyksta fone. Gali užtrukti kelias akimirkas, kol naudotojas bus pilnai pašalintas."
     deletion_info:
       data_consequences:
-        other: 'Naudotojo duomenys (pvz., el. paštas, nustatymai, darbo paketai, wiki įrašai) bus ištrinti kiek įmanoma. Tačiau duomenys, kaip darbo paketai, viki įrašai, negali būti ištrinti nepaveikiant kitų naudotojų darbo. Taigi, tokie duomenys priskiriami ištrinto naudotojo paskyrai „Ištrintas naudotojas“. Kadangi kiekvieno ištrinto naudotojo duomenys priskiriami tam pačiam naudotojui, nėra įmanoma išskirti atskirų ištrintojo naudotojo duomenų.'
-        self: 'Jūsų naudotojo duomenys (pvz., el. paštas, nustatymai, darbo paketai, wiki įrašai) bus ištrinti kiek įmanoma. Tačiau duomenys, kaip darbo paketai, viki įrašai, negali būti ištrinti nepaveikiant kitų naudotojų darbo. Taigi, tokie duomenys priskiriami ištrinto naudotojo paskyrai „Ištrintas naudotojas“. Kadangi kiekvieno ištrinto naudotojo duomenys priskiriami tam pačiam naudotojui, nebus įmanoma išskirti jūsų ir kitų ištrintų naudotojų duomenų.'
+        other: "Naudotojo duomenys (pvz., el. paštas, nustatymai, darbo paketai, wiki įrašai) bus ištrinti kiek įmanoma. Tačiau duomenys, kaip darbo paketai, viki įrašai, negali būti ištrinti nepaveikiant kitų naudotojų darbo. Taigi, tokie duomenys priskiriami ištrinto naudotojo paskyrai „Ištrintas naudotojas“. Kadangi kiekvieno ištrinto naudotojo duomenys priskiriami tam pačiam naudotojui, nėra įmanoma išskirti atskirų ištrintojo naudotojo duomenų."
+        self: "Jūsų naudotojo duomenys (pvz., el. paštas, nustatymai, darbo paketai, wiki įrašai) bus ištrinti kiek įmanoma. Tačiau duomenys, kaip darbo paketai, viki įrašai, negali būti ištrinti nepaveikiant kitų naudotojų darbo. Taigi, tokie duomenys priskiriami ištrinto naudotojo paskyrai „Ištrintas naudotojas“. Kadangi kiekvieno ištrinto naudotojo duomenys priskiriami tam pačiam naudotojui, nebus įmanoma išskirti jūsų ir kitų ištrintų naudotojų duomenų."
       heading: "Ištrinti paskyrą %{name}"
       info:
         other: "Paskyros ištrynimas yra negrįžtamas veiksmas."
@@ -891,7 +891,7 @@ lt:
               fragment_present: "negali turėti fragmento."
               invalid_uri: "turi būti tinkamas URI."
               relative_uri: "turi būti absoliutus URI."
-              secured_uri: 'neteikia „Saugaus konteksto“. Arba naudokite HTTPS, arba atgalinį adresą, tokį kaip localhost.'
+              secured_uri: "neteikia „Saugaus konteksto“. Arba naudokite HTTPS, arba atgalinį adresą, tokį kaip localhost."
               forbidden_uri: "yra uždraustas serverio."
             scopes:
               not_match_configured: "neatitinka galimų apimčių."
@@ -1409,8 +1409,8 @@ lt:
     text_update_consent_time: Įjunkite šią varnelę jei norite, kad naudotojai būtų priversti iš naujo sutikti. Įjunkite, kai pakeitėte teisinius aukščiau esančio sutikimo aspektus.
     update_consent_last_time: "Paskutinis sutikimo atnaujinimas: %{update_time}"
   copy_project:
-    title: 'Kopijuoti projektą „%{source_project_name}“'
-    started: 'Pradėtas kopijuoti „%{source_project_name}“ projektas į „%{target_project_name}“. Jums bus pranešta laišku, kai tik „%{target_project_name}“ projektas taps pasiekiamas.'
+    title: "Kopijuoti projektą „%{source_project_name}“"
+    started: "Pradėtas kopijuoti „%{source_project_name}“ projektas į „%{target_project_name}“. Jums bus pranešta laišku, kai tik „%{target_project_name}“ projektas taps pasiekiamas."
     failed: "Negalima kopijuoti „%{source_project_name}“ projekto"
     failed_internal: "Kopijavimas nepavyko dėl vidinės klaidos."
     succeeded: "Sukurtas projektas pavadinimu „%{target_project_name}“"
@@ -1421,8 +1421,8 @@ lt:
       one: "Vienas šio tipo objektas"
       other: "%{count} šio tipo objektų"
     text:
-      failed: 'Nepavyko nukopijuoti „%{source_project_name}“ projekto į „%{target_project_name}“ projektą.'
-      succeeded: 'Projektas „%{source_project_name}“ sėkmingai nukopijuotas į „%{target_project_name}“.'
+      failed: "Nepavyko nukopijuoti „%{source_project_name}“ projekto į „%{target_project_name}“ projektą."
+      succeeded: "Projektas „%{source_project_name}“ sėkmingai nukopijuotas į „%{target_project_name}“."
   create_new_page: "Wiki puslapis"
   date:
     abbr_day_names:
@@ -1464,7 +1464,7 @@ lt:
       long: "%Y %d, %B"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Sausis"
       - "Vasaris"
@@ -1480,7 +1480,7 @@ lt:
       - "Gruodis"
     order:
       - :metai
-      - ':mėnuo'
+      - ":mėnuo"
       - :diena
   datetime:
     distance_in_words:
@@ -1651,7 +1651,7 @@ lt:
   error_must_be_project_member: "turi būti projekto narys"
   error_migrations_are_pending: "Jūsų OpenProject instaliacijai trūksta duomenų bazės migracijos. Greičiausiai atnaujinimo metu buvo nepaleistas migravimas. Atnaujinimo gide aprašyta kaip tinkamai atnaujinti jūsų instaliaciją."
   error_migrations_visit_upgrade_guides: "Prašome perskaityti dokumentaciją atnaujinimo vadove"
-  error_no_default_work_package_status: 'Numatytoji darbų paketo būsena nenustatyta. Prašome patikrinti nustatymus (Eiti į „Administravimas“->„Darbų paketų būsenos“).'
+  error_no_default_work_package_status: "Numatytoji darbų paketo būsena nenustatyta. Prašome patikrinti nustatymus (Eiti į „Administravimas“->„Darbų paketų būsenos“)."
   error_no_type_in_project: "Joks tipas nepriskirtas šiam projektui. Prašome patikrinti projekto nustatymus."
   error_omniauth_registration_timed_out: "Registracijos, naudojant išorinį autentifikacijos teikėją, laikas pasibaigė. Bandykite dar kartą."
   error_omniauth_invalid_auth: "Autentifikavimo informacija, atėjusi iš tapatybės tiekėjo, buvo neteisinga. Dėl tolesnės pagalbos prašome kreiptis į savo administratorių."
@@ -1898,7 +1898,7 @@ lt:
   label_api_access_key_created_on: "API prieigos raktas sukurtas prieš %{value}"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: 'iCalendar žetonas „%{token_name}“ skirtas „%{calendar_name}“ projekte „%{project_name}“'
+  label_ical_access_key_description: "iCalendar žetonas „%{token_name}“ skirtas „%{calendar_name}“ projekte „%{project_name}“"
   label_ical_access_key_not_present: "iCalendar žetono(ų) nėra."
   label_ical_access_key_generation_hint: "Automatiškai sukurta prenumeruojant kalendorių."
   label_ical_access_key_latest: "vėliausias"
@@ -2563,12 +2563,12 @@ lt:
         plaintext:
           storage: "Saugykla"
           healthy:
-            summary: 'Geros naujienos! Jūsų saugyklos „%{storage_name}“ būsena dabar rodoma kaip „Sveika“.'
+            summary: "Geros naujienos! Jūsų saugyklos „%{storage_name}“ būsena dabar rodoma kaip „Sveika“."
             error-solved-on: "Išspręsta"
             recommendation: "Mes ir toliau stebėsime sistemą, kad įsitikintumėme, kad ji išlieka geroje būklėje. Jei pastebėsime kažką negero, pranešime jums."
             details: "Jei norite daugiau informacijos arba padaryti kokius nors pakeitimus, galite aplankyti saugyklos konfigūraciją"
           unhealthy:
-            summary: 'Šiuo metu jūsų saugyklos „%{storage_name}“ būsena rodoma kaip „Klaida“. Aptikome problemą, kuriai gali prireikti jūsų dėmesio.'
+            summary: "Šiuo metu jūsų saugyklos „%{storage_name}“ būsena rodoma kaip „Klaida“. Aptikome problemą, kuriai gali prireikti jūsų dėmesio."
             error-details: "Klaidos informacija"
             error-message: "Klaidos pranešimas"
             error-occurred-on: "Įvyko"
@@ -2577,11 +2577,11 @@ lt:
         email_notification_settings: "Saugyklos e-pašto pranešimų nustatymai"
         see_storage_settings: "Žiūrėkite saugyklos nustatymus"
         healthy:
-          subject: 'Saugykla „%{name}“ dabar sveika!'
+          subject: "Saugykla „%{name}“ dabar sveika!"
           solved_at: "išspręsta"
           summary: "Problema su jūsų saugyklos „%{storage_name}“ integracija dabar išspręsta"
         unhealthy:
-          subject: 'Saugykla „%{name}“ nesveika!'
+          subject: "Saugykla „%{name}“ nesveika!"
           since: "nuo"
           summary: "Yra problema su jūsų saugyklos „%{storage_name}“ integracija"
           troubleshooting:
@@ -2615,7 +2615,7 @@ lt:
   mail_body_register_closing: "Jūsų OpenProject komanda"
   mail_body_register_ending: "Likite prisijungę! Su geriausiais linkėjimais,"
   mail_body_reminder: "%{count} darbų paketai, kurie yra jums priskirti, baigiasi per artimiausias %{days} dienų (-ą, -as):"
-  mail_body_group_reminder: '%{count} darbo paketas(ai), kurie priskirti grupei „%{group}“ turi būti baigti per kitas %{days} dienas:'
+  mail_body_group_reminder: "%{count} darbo paketas(ai), kurie priskirti grupei „%{group}“ turi būti baigti per kitas %{days} dienas:"
   mail_body_wiki_page_added: "%{author} pridėjo '%{id}' wiki puslapį."
   mail_body_wiki_page_updated: "%{author} atnaujino '%{id}' wiki puslapį."
   mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
@@ -3455,7 +3455,7 @@ lt:
         Jūsų programa veikia su serverio vardo reikšme <code>%{set_hostname}</code>, tačiau užklausa atėjo į <code>%{actual_hostname}</code>. Tai lems klaidas! Eikite į <a href="%{setting_path}">Sistemos nustatymus</a> ir pakeiskite „Serverio vardas“ nustatymus.
   menu_item: "Meniu punktas"
   menu_item_setting: "Matomumas"
-  wiki_menu_item_for: 'Meniu punktas wiki puslapiui „%{title}“'
+  wiki_menu_item_for: "Meniu punktas wiki puslapiui „%{title}“"
   wiki_menu_item_setting: "Matomumas"
   wiki_menu_item_new_main_item_explanation: >
     Jūs ketinate šalinti tik pagrindinį wiki meniu punktą. Jūs dabar turėsite pasirinkti wiki puslapį, kuriam naujas pagrindinis punktas bus sugeneruotas. Jei norite ištrinti wiki, wiki modulį gali išjungti projekto administratoriai.
@@ -3655,7 +3655,7 @@ lt:
         revoke:
           unauthorized: "Jūs neturite teisių atšaukti šį žetoną."
         forbidden_token:
-          missing_scope: 'Prieigai prie šio resurso reikia apimties „%{oauth_scopes}“.'
+          missing_scope: "Prieigai prie šio resurso reikia apimties „%{oauth_scopes}“."
   unsupported_browser:
     title: "Jūsų naršyklė pasenusi ir nepalaikoma."
     message: "Šiame puslapyje jums gali kilti problemų ar jis gali prastai veikti."

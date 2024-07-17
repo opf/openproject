@@ -268,7 +268,7 @@ sv:
       favored: "Favorite projects"
       archived: "Arkiverade projekt"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "Ny projektlista"
       delete_modal:
@@ -1079,8 +1079,8 @@ sv:
               format: "%{message}"
             password:
               weak: "Måste innehålla följande teckentyper (minst %{min_count} av %{all_count}): %{rules}."
-              lowercase: "gemener (t.ex. \"a\")"
-              uppercase: "versal (t.ex. \"A\")"
+              lowercase: 'gemener (t.ex. "a")'
+              uppercase: 'versal (t.ex. "A")'
               numeric: "numeriska (t.ex. ' 1')"
               special: "specialtecken (t.ex. ' %')"
               reused:
@@ -1434,7 +1434,7 @@ sv:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Januari"
       - "Februari"
@@ -1449,8 +1449,8 @@ sv:
       - "November"
       - "December"
     order:
-      - ':år'
-      - ':månad'
+      - ":år"
+      - ":månad"
       - :dag
   datetime:
     distance_in_words:
@@ -2367,9 +2367,9 @@ sv:
   label_wiki_navigation: "Wiki-navigering"
   label_wiki_page: "Wiki-sida"
   label_wiki_page_plural: "Wiki-sidor"
-  label_wiki_show_index_page_link: "Visa undermenyn \"Innehållsförteckning\""
+  label_wiki_show_index_page_link: 'Visa undermenyn "Innehållsförteckning"'
   label_wiki_show_menu_item: "Visa som menyobjekt i projektets meny"
-  label_wiki_show_new_page_link: "Visa undermenyn \"Skapa ny underordnad sida\""
+  label_wiki_show_new_page_link: 'Visa undermenyn "Skapa ny underordnad sida"'
   label_wiki_show_submenu_item: "Visa som undermenyalternativ för "
   label_wiki_start: "Startsida"
   label_work: "Work"
@@ -3251,7 +3251,7 @@ sv:
   text_notice_security_badge_displayed_html: >
     Obs: om aktiverad, kommer detta att visa ett märke med din installationsstatus i administrationspanelen <a href="%{information_panel_path}">%{information_panel_label}</a> och på startsidan. Det visas endast för administratörer. <br/> Emblemet kommer att kontrollera din nuvarande OpenProject-version mot den officiella OpenProject-utgåvans databas för att varna dig om eventuella uppdateringar eller kända sårbarheter. För mer information om vad kontrollen ger, vilka uppgifter som behövs för att tillhandahålla tillgängliga uppdateringar, och hur du inaktiverar denna kontroll, besök <a href="%{more_info_url}">konfigurationsdokumentationen</a>.
   text_own_membership_delete_confirmation: "Du håller på att ta bort några eller alla av dina behörigheter och kommer därefter inte längre att kunna redigera detta projekt. Är du säker på att du vill fortsätta?"
-  text_plugin_assets_writable: "Katalogen \"Plugin assets\" skrivbar"
+  text_plugin_assets_writable: 'Katalogen "Plugin assets" skrivbar'
   text_powered_by: "Drivs av %{link}"
   text_project_identifier_info: "Bara gemena bokstäver (a-z), siffror, bindestreck och understreck tillåts och måste dessutom börja med en gemen bokstav."
   text_reassign: "Tilldela till arbetspaket:"
@@ -3283,7 +3283,7 @@ sv:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publicera den här vyn så att andra användare kan komma åt vyn. Användare med behörigheten \"Hantera offentliga vyer\" kan ändra eller ta bort offentlig fråga. Detta påverkar inte synligheten av arbetspaketet resultat i den vyn och beroende på deras behörigheter kan användare se olika resultat."
+      public: 'Publicera den här vyn så att andra användare kan komma åt vyn. Användare med behörigheten "Hantera offentliga vyer" kan ändra eller ta bort offentlig fråga. Detta påverkar inte synligheten av arbetspaketet resultat i den vyn och beroende på deras behörigheter kan användare se olika resultat.'
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "fm"
@@ -3515,11 +3515,11 @@ sv:
         date: "ÅÅÅÅ-MM-DD (endast datum enligt ISO 8601)"
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 varaktighet"
-      invalid_content_type: "Förväntade att CONTENT-TYPE var \"%{content_type}\" men erhöll istället \"%{actual}\"."
+      invalid_content_type: 'Förväntade att CONTENT-TYPE var "%{content_type}" men erhöll istället "%{actual}".'
       invalid_format: "Ogiltigt format för egenskapen '%{property}': förväntat format är '%{expected_format}', men fick '%{actual}'."
       invalid_json: "Begäran kunde inte tolkas som JSON."
       invalid_relation: "Relationen är ogiltig."
-      invalid_resource: "För egenskapen '%{property}' är en länk av typen '%{expected}' väntad, men fick \"%{actual}\"."
+      invalid_resource: 'För egenskapen ''%{property}'' är en länk av typen ''%{expected}'' väntad, men fick "%{actual}".'
       invalid_signal:
         embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
@@ -3538,7 +3538,7 @@ sv:
         context_object_not_found: "Kan inte hitta den angivna resursen som kontext."
       validation:
         due_date: "Slutdatum kan inte anges på överordnade arbetspaket."
-        invalid_user_assigned_to_work_package: "Den valda användaren tillåts inte att vara \"%{property}\" för detta arbetspaket."
+        invalid_user_assigned_to_work_package: 'Den valda användaren tillåts inte att vara "%{property}" för detta arbetspaket.'
         start_date: "Startdatum kan inte anges för överordnade arbetspaket."
       eprops:
         invalid_gzip: "är ogiltig gzip: %{message}"
@@ -3633,7 +3633,7 @@ sv:
       client_credentials: "Flöde för klientuppgifter"
     client_credentials: "Användare som används för klientuppgifter"
     client_credentials_impersonation_set_to: "Användare av klientuppgifter inställd på"
-    client_credentials_impersonation_warning: "Obs: Klienter som använder flödet \"Klientuppgifter\" i denna applikation kommer att ha rättigheter för denna användare"
+    client_credentials_impersonation_warning: 'Obs: Klienter som använder flödet "Klientuppgifter" i denna applikation kommer att ha rättigheter för denna användare'
     client_credentials_impersonation_html: >
       Som standard ger OpenProject OAuth 2.0-auktorisering via %{authorization_code_flow_link}. Du kan valfritt aktivera %{client_credentials_flow_link}, men du måste tillhandahålla en användare för vars räkning förfrågningar kommer att utföras.
     authorization_error: "Ett auktoriseringsfel har inträffat."

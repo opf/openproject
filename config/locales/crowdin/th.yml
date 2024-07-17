@@ -268,7 +268,7 @@ th:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -1419,7 +1419,7 @@ th:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "มกราคม"
       - "กุมภาพันธ์"
@@ -1434,9 +1434,9 @@ th:
       - "พฤศจิกายน"
       - "ธันวาคม"
     order:
-      - ': ปี'
-      - ': เดือน'
-      - ': วัน'
+      - ": ปี"
+      - ": เดือน"
+      - ": วัน"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -3028,7 +3028,7 @@ th:
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Time"
-  setting_accessibility_mode_for_anonymous: "เปิดใช้งาน \"โหมดจำกัดการใช้งาน\" สำหรับผู้ใช้ที่ไม่ระบุชื่อ"
+  setting_accessibility_mode_for_anonymous: 'เปิดใช้งาน "โหมดจำกัดการใช้งาน" สำหรับผู้ใช้ที่ไม่ระบุชื่อ'
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "บัญชีผู้ใช้ที่สามารถลบโดยผู้ดูแลระบบ"

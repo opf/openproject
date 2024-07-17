@@ -268,7 +268,7 @@ ne:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -1435,7 +1435,7 @@ ne:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "January"
       - "February"

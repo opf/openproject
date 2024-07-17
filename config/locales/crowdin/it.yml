@@ -265,7 +265,7 @@ it:
       favored: "Progetti preferiti"
       archived: "Progetti archiviati"
       shared: "Elenchi di progetti condivisi"
-      my_private: "I miei elenchi di progetti privati"
+      my_lists: "I miei elenchi di progetti"
       new:
         placeholder: "Nuovo elenco progetti"
       delete_modal:
@@ -411,7 +411,7 @@ it:
       prompt: "Mantieni la connessione per %{num_days}"
     sessions:
       remembered_devices: "Dispositivi ricordati"
-      remembered_devices_caption: "Un elenco di tutti i dispositivi che hanno effettuato l'accesso a questo account utilizzando l'opzione \"Resta connesso\"."
+      remembered_devices_caption: 'Un elenco di tutti i dispositivi che hanno effettuato l''accesso a questo account utilizzando l''opzione "Resta connesso".'
       session_name: "%{browser_name} %{browser_version} su %{os_name}"
       browser: "Browser"
       device: "Dispositivo / SO"
@@ -528,7 +528,7 @@ it:
     sharing:
       missing_workflow_warning:
         title: "Flusso di lavoro mancante per la condivisione di macro-attività"
-        message: "Nessun flusso di lavoro è configurato per il ruolo \"Editor di macro-attività\". Senza un flusso di lavoro, la condivisione con l'utente non può alterare lo stato della macro-attività. I flussi di lavoro possono essere copiati. Seleziona un tipo di origine (ad esempio \"Attività\") e un ruolo di origine (ad esempio \"Membro\"). Quindi seleziona i tipi obiettivo. Per cominciare, potresti selezionare tutti i tipi come obiettivi. Infine, seleziona il ruolo \"Editor di macro-attività\" come destinazione e premi \"Copia\". Dopo aver creato le impostazioni predefinite, perfeziona i flussi di lavoro come fai per ogni altro ruolo."
+        message: 'Nessun flusso di lavoro è configurato per il ruolo "Editor di macro-attività". Senza un flusso di lavoro, la condivisione con l''utente non può alterare lo stato della macro-attività. I flussi di lavoro possono essere copiati. Seleziona un tipo di origine (ad esempio "Attività") e un ruolo di origine (ad esempio "Membro"). Quindi seleziona i tipi obiettivo. Per cominciare, potresti selezionare tutti i tipi come obiettivi. Infine, seleziona il ruolo "Editor di macro-attività" come destinazione e premi "Copia". Dopo aver creato le impostazioni predefinite, perfeziona i flussi di lavoro come fai per ogni altro ruolo.'
         link_message: "Configura i flussi di lavoro nell'amministrazione."
     summary:
       reports:
@@ -913,7 +913,7 @@ it:
             base:
               unsupported_operator: "Operatore non supportato."
               invalid_values: "Valore non valido."
-              id_filter_required: "Il filtro \"id\" è obbligatorio."
+              id_filter_required: 'Il filtro "id" è obbligatorio.'
         project:
           archived_ancestor: "Il progetto ha un antenato archiviato."
           foreign_wps_reference_version: "Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti."
@@ -968,11 +968,11 @@ it:
             circular_dependency: "La relazione crea un riferimento circolare."
           attributes:
             to:
-              error_not_found: "impossibile trovare o visualizzare la macro-attività in posizione \"a\""
-              error_readonly: "impossibile modificare il collegamento ad una relazione esistente \"a\""
+              error_not_found: 'impossibile trovare o visualizzare la macro-attività in posizione "a"'
+              error_readonly: 'impossibile modificare il collegamento ad una relazione esistente "a"'
             from:
-              error_not_found: "impossibile trovare o visualizzare la macro-attività in posizione \"da\""
-              error_readonly: "impossibile modificare il collegamento ad una relazione esistente \"da\""
+              error_not_found: 'impossibile trovare o visualizzare la macro-attività in posizione "da"'
+              error_readonly: 'impossibile modificare il collegamento ad una relazione esistente "da"'
         repository:
           not_available: "Il gestore SCM non è disponibile"
           not_whitelisted: "non è consentito dalla configurazione."
@@ -1064,8 +1064,8 @@ it:
             attribute_groups:
               attribute_unknown: "Attributo di macro-attività non valido utilizzato."
               attribute_unknown_name: "Attributo di macro-attività non valido utilizzato: %{attribute}"
-              duplicate_group: "Il nome di gruppo \"%{group}\" è usato più di una volta. I nomi dei gruppi devono essere univoci."
-              query_invalid: "La query incorporata \"%{group}\" non è valida: %{details}"
+              duplicate_group: 'Il nome di gruppo "%{group}" è usato più di una volta. I nomi dei gruppi devono essere univoci.'
+              query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
               group_without_name: "Non sono ammessi gruppi senza nome."
         user:
           attributes:
@@ -1432,7 +1432,7 @@ it:
       long: "%B %d %y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Gennaio"
       - "Febbraio"
@@ -1846,7 +1846,7 @@ it:
   label_ldap_auth_source_new: "Nuova connessione LDAP"
   label_ldap_auth_source: "Connessione LDAP"
   label_ldap_auth_source_plural: "Connessioni LDAP"
-  label_attribute_expand_text: "Testo completo per \"%{attribute}\""
+  label_attribute_expand_text: 'Testo completo per "%{attribute}"'
   label_authentication: "Autenticazione"
   label_available_global_roles: "Ruoli globali disponibili"
   label_available_project_attributes: "Attributi del progetto disponibili"
@@ -2433,7 +2433,7 @@ it:
       removed: "La macro non esiste più."
     wiki_child_pages:
       errors:
-        page_not_found: "Impossibile trovare la pagina del wiki \"%{name}\"."
+        page_not_found: 'Impossibile trovare la pagina del wiki "%{name}".'
     create_work_package_link:
       errors:
         no_project_context: "Chiamando dal contesto progettuale esterno la macro crea_lavoro_pacchetto_link."
@@ -2625,7 +2625,7 @@ it:
   notice_locking_conflict: "L'informazione è stata aggiornata da almeno un altro utente nel frattempo."
   notice_locking_conflict_additional_information: "L'aggiornamento(i) proviene da %{users}."
   notice_locking_conflict_reload_page: "Si prega di ricaricare la pagina, rivedere le modifiche e riapplicare gli aggiornamenti."
-  notice_member_added: '%{name} aggiunto al progetto.'
+  notice_member_added: "%{name} aggiunto al progetto."
   notice_members_added: Aggiunti %{number} utenti al progetto.
   notice_member_removed: "%{user} rimosso dal progetto."
   notice_member_deleted: "%{user} è stato rimosso dal progetto ed eliminato."
@@ -3283,7 +3283,7 @@ it:
     views:
       project: >
         %{plural} sono sempre allegati a un progetto. Qui puoi selezionare solo progetti in cui il modulo %{plural} è attivo. Dopo aver creato un %{singular} puoi aggiungervi macro-attività da altri progetti.
-      public: "Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso \"Gestisci viste pubbliche\" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi."
+      public: 'Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso "Gestisci viste pubbliche" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi.'
       favoured: "Segna questa vista come preferita e aggiungila alla barra laterale delle viste salvate a sinistra."
   time:
     am: "AM"
@@ -3596,7 +3596,7 @@ it:
     application:
       singular: "Applicazione OAuth"
       plural: "Applicazioni OAuth"
-      named: "Applicazione OAuth \"%{name}\""
+      named: 'Applicazione OAuth "%{name}"'
       new: "Nuova Applicazione OAuth"
       default_scopes: "(Ambiti predefiniti)"
       instructions:
@@ -3634,7 +3634,7 @@ it:
       client_credentials: "Flusso delle credenziali client"
     client_credentials: "Utente usato per le credenziali del client"
     client_credentials_impersonation_set_to: "Credenziali del client impostate dall'utente"
-    client_credentials_impersonation_warning: "Nota: i clienti che utilizzano il flusso \"Credenziali client\" di questa applicazione avranno i diritti di questo utente"
+    client_credentials_impersonation_warning: 'Nota: i clienti che utilizzano il flusso "Credenziali client" di questa applicazione avranno i diritti di questo utente'
     client_credentials_impersonation_html: >
       Per impostazione predefinita, OpenProject fornisce l'autorizzazione OAuth 2.0 tramite %{authorization_code_flow_link}. È possibile abilitare facoltativamente %{client_credentials_flow_link}, ma è necessario fornire un utente a cui nome verranno eseguite le richieste.
     authorization_error: "Si è verificato un errore di autorizzazione."
