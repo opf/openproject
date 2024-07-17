@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
       <span class="button--text"><%= t(:label_profile) %></span>
     <% end %>
   </li>
-  <% if current_user.allowed_globally?(:create_user) %>
+  <% if current_user.allowed_globally?(:create_user) && current_user.id != @user.id %>
     <li class="toolbar-item hidden-for-tablet">
       <%= form_for(@user,
                    url: { action: :resend_invitation },
