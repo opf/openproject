@@ -83,7 +83,7 @@ In response to user feedback, OpenProject 14.3 now allows administrators to choo
 - Hours only
 - Hours and days
 
-This flexibility aims to accommodate different user preferences and improve the overall user experience. Read more about [units of measurement for progress reporting with OpenProject](https://www.openproject.com/docs/user-guide/time-and-costs/progress-tracking/#units-of-measurement).
+This flexibility aims to accommodate different user preferences and improve the overall user experience. Read more about [units of measurement for progress reporting with OpenProject](../../user-guide/time-and-costs/progress-tracking/#units-of-measurement).
 
 ![Admin settings to choose the progress reporting duration format](openproject-14-3-progress-reporting-hours-only.png)
 
@@ -91,7 +91,7 @@ This flexibility aims to accommodate different user preferences and improve the 
 
 With OpenProject 14.3, administrators can now manually trigger and test the connection for OneDrive/SharePoint storages. This feature helps ensure that storage settings are correctly configured and provides feedback if issues are detected. This validation is available once the file storage is fully configured and works for all OneDrive/SharePoint storages, supplementing the Health status check for automatically managed project folders.
 
-Read more about [connection validation for external file storages](https://www.openproject.com/docs/system-admin-guide/files/external-file-storages/health-status/#connection-validation).
+Read more about [connection validation for external file storages](../../system-admin-guide/files/external-file-storages/health-status/#connection-validation).
 
 > [!NOTE]
 > We will start working on connection validation for Nextcloud storages soon. So if you're using Nextcloud as external file storage, stay tuned for our next releases!
@@ -118,7 +118,7 @@ In OpenProject 14.3, users can now easily return to the global modules by unsele
 
 ### Gantt chart PDF export (Enterprise add-on): Date zoom based on calendar weeks
 
-When exporting a Gantt chart to PDF, users will now be able to select calendar weeks as date zoom. This feature is particularly helpful for environments that communicate events based on calendar weeks. Read more about how to [export data from a Gantt diagram in OpenProject](https://www.openproject.com/docs/user-guide/gantt-chart/#how-to-export-data-from-a-gantt-diagram).
+When exporting a Gantt chart to PDF, users will now be able to select calendar weeks as date zoom. This feature is particularly helpful for environments that communicate events based on calendar weeks. Read more about how to [export data from a Gantt diagram in OpenProject](../../user-guide/gantt-chart/#how-to-export-data-from-a-gantt-diagram).
 
 ![Screenshot of the Gantt chart PDF export, weeks selected as date zoom](openproject-14-3-gantt-chart-pdf-export.png)
 
