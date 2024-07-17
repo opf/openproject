@@ -150,7 +150,7 @@ pl:
         attribute_reference:
           macro_help_tooltip: "Ten segment tekstowy jest renderowany dynamicznie przez makro."
           not_found: "Nie można znaleźć żądanego zasobu"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "To makro odwołuje się rekurencyjnie do %{model} %{id}."
           invalid_attribute: "Wybrany atrybut „%{name}” nie istnieje."
         child_pages:
           button: "Łącza do stron podrzędnych"
@@ -369,7 +369,7 @@ pl:
           "14_3":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Udostępnianie list projektów i upublicznianie ich (dodatek Enterprise)</li> <li>Oznaczanie list projektów jako ulubionych</li> <li>Weryfikacja połączenia dla magazynów OneDrive/SharePoint (dodatek Enterprise)</li> <li>Nowy wygląd z Primer dla strony profilu użytkownika</li> <li>Eksport wykresu Gantta w formacie PDF: dodatkowe powiększenie daty na podstawie tygodni kalendarzowych</li> <li>Pasek wyszukiwania do składnika podmenu (listy projektów oraz moduły Wykres Gantta i Tablice)</li> <li>Możliwość wyboru między raportowaniem postępu wyświetlanym tylko w godzinach albo w dniach i godzinach</li> <li>Usunięcie wyboru projektów z selektora projektów</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -908,10 +908,10 @@ pl:
       wiki_link: "Adres strony Wiki"
       image: "Obraz"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Udostępnij"
+      selected_count: "Wybrano %{count}"
       selection:
-        mixed: "Mixed"
+        mixed: "Mieszane"
     work_packages:
       bulk_actions:
         move: "Masowa zmiana projektu"

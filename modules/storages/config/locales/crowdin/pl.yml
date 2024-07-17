@@ -103,22 +103,22 @@ pl:
     health:
       checked: Ostatnio sprawdzono %{datetime}
       connection_validation:
-        action: Recheck connection
-        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        placeholder: Check your connection against the server.
-        subtitle: Connection validation
-        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content: Unexpected content found in the drive.
-        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        action: Sprawdź ponownie połączenie
+        client_id_wrong: Skonfigurowany identyfikator klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
+        client_secret_wrong: Skonfigurowany klucz tajny klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
+        drive_id_wrong: Nie można znaleźć skonfigurowanego identyfikatora dysku. Sprawdź konfigurację.
+        not_configured: Nie można zweryfikować połączenia. Najpierw zakończ konfigurację.
+        placeholder: Sprawdź połączenie z serwerem.
+        subtitle: Weryfikacja połączenia
+        tenant_id_wrong: Skonfigurowany katalog (dzierżawca) jest nieprawidłowy. Sprawdź konfigurację.
+        unexpected_content: Na dysku znaleziono nieoczekiwaną zawartość.
+        unknown_error: Nie można zweryfikować połączenia. Wystąpił nieznany błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
       label_error: Błąd
       label_healthy: Zdrowe
       label_pending: Oczekujący
-      label_warning: Warning
+      label_warning: Ostrzeżenie
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Automatycznie zarządzane foldery projektu
       since: od %{datetime}
       title: Status kondycji
     health_email_notifications:

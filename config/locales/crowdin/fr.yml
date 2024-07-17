@@ -3424,15 +3424,15 @@ fr:
     share: "Partager"
     text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
     text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
-    text_empty_state_description: "L'entité %{entity} n'a encore été partagée avec personne."
+    text_empty_state_description: "Le/la %{entity} n'a encore été partagé(e) avec personne."
     text_empty_state_header: "Non partagé"
-    text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à cette entité %{entity}."
+    text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce(tte) %{entity}."
     text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre formule d''abonnement</a> pour ajouter d''autres utilisateurs.'
     warning_user_limit_reached: >
-      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à cette entité %{entity}.
+      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce(tte) %{entity}.
     warning_user_limit_reached_admin: >
-      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à jour votre formule d'abonnement</a> pour que les utilisateurs externes puissent accéder à cette entité %{entity}.
-    warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels vous souhaitez partager cette entité %{entity}"
+      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à jour votre formule d'abonnement</a> pour que les utilisateurs externes puissent accéder à ce(tte) %{entity}.
+    warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels vous souhaitez partager ce(tte) %{entity}"
     warning_locked_user: "L'utilisateur %{user} est verrouillé et ne peut pas être partagé avec"
     user_details:
       locked: "Utilisateur verrouillé"

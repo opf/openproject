@@ -265,7 +265,7 @@ zh-CN:
       favored: "收藏的项目"
       archived: "归档项目"
       shared: "共享项目列表"
-      my_lists: "My project lists"
+      my_lists: "我的项目列表"
       new:
         placeholder: "新项目列表"
       delete_modal:

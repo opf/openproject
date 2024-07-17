@@ -103,22 +103,22 @@ pt-BR:
     health:
       checked: Última verificação em %{datetime}
       connection_validation:
-        action: Recheck connection
-        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        placeholder: Check your connection against the server.
-        subtitle: Connection validation
-        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content: Unexpected content found in the drive.
-        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        action: Verifique novamente a conexão
+        client_id_wrong: O ID do cliente OAuth 2 configurado é inválido. Verifique a configuração.
+        client_secret_wrong: O segredo do cliente OAuth 2 configurado é inválido. Verifique a configuração.
+        drive_id_wrong: O ID do drive configurado não foi encontrado. Verifique a configuração.
+        not_configured: A conexão não pôde ser validada. Conclua a configuração primeiro.
+        placeholder: Verifique sua conexão com o servidor.
+        subtitle: Validação de conexão
+        tenant_id_wrong: O ID do diretório (inquilino) configurado é inválido. Verifique a configuração.
+        unexpected_content: Conteúdo inesperado encontrado na unidade.
+        unknown_error: A conexão não pôde ser validada. Ocorreu um erro desconhecido. Verifique os registros do servidor para obter mais informações.
       label_error: Erro
       label_healthy: Saudável
       label_pending: Pendente
-      label_warning: Warning
+      label_warning: Aviso
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Pastas do projeto gerenciadas automaticamente
       since: desde %{datetime}
       title: Status de saúde
     health_email_notifications:
