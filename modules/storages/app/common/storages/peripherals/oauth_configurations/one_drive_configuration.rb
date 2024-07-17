@@ -39,7 +39,6 @@ module Storages
         # rubocop:disable Lint/MissingSuper
         def initialize(storage)
           @storage = storage
-          @uri = storage.uri
 
           raise(ArgumentError, "Storage must have configured OAuth client credentials") if storage.oauth_client.blank?
 
@@ -54,7 +53,7 @@ module Storages
 
         def extract_origin_user_id(rack_access_token)
           OpenProject.httpx.get(
-            Util.join_uri_path(@uri, "/v1.0/me"),
+            UrlBuilder.url(@storage.uri, "/v1.0/me"),
             headers: { "Authorization" => "Bearer #{rack_access_token.access_token}", "Accept" => "application/json" }
           ).raise_for_status.json["id"]
         end
