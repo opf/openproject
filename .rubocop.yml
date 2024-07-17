@@ -461,3 +461,10 @@ Style/HashTransformValues:
 
 Performance/Casecmp:
   Enabled: false
+
+OpenProject/AddPreviewForViewComponent:
+  Include:
+    - app/components/op_turbo/**.rb
+    - app/components/op_primer/**.rb
+    - app/components/open_project/**.rb
+    - app/components/concerns/**.rb

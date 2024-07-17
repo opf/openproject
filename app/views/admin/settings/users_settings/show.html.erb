@@ -28,7 +28,14 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_administration), t(:label_user_settings) -%>
 
-<%= toolbar title: t(:label_user_settings) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_user_settings) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+                             t(:label_user_settings)])
+  end
+%>
 
 <%= styled_form_tag(admin_settings_users_path, method: :patch, class: 'admin-settings--form') do %>
 

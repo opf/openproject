@@ -87,41 +87,51 @@ module UsersHelper
 
   # Create buttons to lock/unlock a user and reset failed logins
   def build_change_user_status_action(user)
-    status = user.status.to_sym
-    blocked = !!user.failed_too_many_recent_login_attempts?
-
     result = "".html_safe
-    (STATUS_CHANGE_ACTIONS[[status, blocked]] || []).each do |title, name|
-      result << ((yield I18n.t(title, scope: :user), name) + " ".html_safe)
+    iterate_user_statusses(user) do |title, name|
+      result << ((yield title, name) + " ".html_safe)
     end
     result
   end
 
+  def iterate_user_statusses(user)
+    status = user.status.to_sym
+    blocked = !!user.failed_too_many_recent_login_attempts?
+
+    (STATUS_CHANGE_ACTIONS[[status, blocked]] || []).each do |title, name|
+      yield I18n.t(title, scope: :user), name
+    end
+  end
+
   def change_user_status_icons
     {
-      "unlock" => "unlocked",
-      "activate" => "unlocked",
-      "lock" => "locked"
+      "unlock" => "unlock",
+      "activate" => "unlock",
+      "lock" => "lock"
     }
   end
 
   def change_user_status_buttons(user)
     build_change_user_status_action(user) do |title, name|
-      button_tag(class: "button", name:, type: "submit", title:) do
-        concat op_icon("button--icon icon-#{change_user_status_icons[name]}")
-        concat content_tag(:span, title, class: "button--text")
+      render Primer::Beta::Button.new(name:, type: :submit, title:) do |button|
+        button.with_leading_visual_icon(icon: change_user_status_icons[name])
+        title
       end
     end
   end
 
   def change_user_status_links(user)
     build_change_user_status_action(user) do |title, name|
-      link_to title,
-              change_status_user_path(user,
-                                      name.to_sym => "1",
-                                      back_url: request.fullpath),
-              method: :post,
-              class: "icon icon-#{change_user_status_icons[name]}"
+      render Primer::Beta::Button.new(tag: :a,
+                                      scheme: :link,
+                                      title:,
+                                      href: change_status_user_path(user,
+                                                                    name.to_sym => "1",
+                                                                    back_url: request.fullpath),
+                                      data: { method: :post }) do |button|
+        button.with_leading_visual_icon(icon: change_user_status_icons[name])
+        title
+      end
     end
   end
 

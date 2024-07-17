@@ -77,6 +77,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { FrameElement } from '@hotwired/turbo';
 
 @Injectable()
 @EffectHandler
@@ -92,6 +93,8 @@ export class IanCenterService extends UntilDestroyedMixin {
   notLoaded$ = this.query.select('notLoaded');
 
   activeCollection$ = this.query.select('activeCollection');
+
+  menuFrame = document.getElementById('notifications_sidemenu') as FrameElement;
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   activeReason$:Observable<string|null> = this.uiRouterGlobals.params$!.pipe(
@@ -352,6 +355,10 @@ export class IanCenterService extends UntilDestroyedMixin {
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
     if (action.all) {
       this.store.update({ activeCollection: { ids: [] }, activeFacet: 'unread' });
+
+      // Reload the sidemenu frame
+      void this.menuFrame.reload();
+
       return;
     }
 
@@ -365,6 +372,9 @@ export class IanCenterService extends UntilDestroyedMixin {
     if (!this.deviceService.isMobile && this.state.includes('**.details.*')) {
       this.showNextNotification();
     }
+
+    // Reload the sidemenu frame
+    void this.menuFrame.reload();
   }
 
   private sideLoadInvolvedWorkPackages(elements:INotification[]):Promise<unknown> {

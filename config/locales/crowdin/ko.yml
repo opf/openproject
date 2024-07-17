@@ -249,7 +249,7 @@ ko:
       work_package_attachments: "작업 패키지: 첨부 파일"
       work_package_categories: "작업 패키지: 카테고리"
       work_package_file_links: "작업 패키지: 파일 링크"
-      work_package_shares: "Work packages: shares"
+      work_package_shares: "작업 패키지: 공유"
     delete:
       scheduled: "삭제가 예약되었으며 백그라운드에서 수행됩니다. 결과 알림이 제공될 것입니다."
       schedule_failed: "프로젝트를 삭제할 수 없습니다: %{errors}"
@@ -267,8 +267,7 @@ ko:
       my: "내 프로젝트"
       favored: "즐겨 찾는 프로젝트"
       archived: "보관된 프로젝트"
-      shared: "Shared project lists"
-      public: "공개 프로젝트 목록"
+      shared: "공유된 프로젝트 목록"
       my_private: "내 비공개 프로젝트 목록"
       new:
         placeholder: "새 프로젝트 목록"
@@ -384,22 +383,22 @@ ko:
   my:
     access_token:
       errors:
-        token_name_blank: "Please provide an API token name"
-        token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
-      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
-      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
+        token_name_blank: "API 토큰 이름을 입력하세요"
+        token_name_in_use: "이 API 토큰 이름은 이미 사용 중입니다. 다른 이름을 선택하세요."
+      new_access_token_dialog_title: "새 API 토큰 만들기"
+      new_access_token_dialog_show_button_text: "API 토큰"
+      new_access_token_dialog_text_field_placeholder_text: "내 API 토큰"
+      new_access_token_dialog_text_field_label: "이름"
+      new_access_token_dialog_submit_button_text: "만들기"
+      new_access_token_dialog_text: "이 토큰을 사용하면 타사 애플리케이션이 해당 인스턴스와 통신할 수 있습니다. 새 API 토큰을 구별하려면 이름을 지정하세요."
+      new_access_token_dialog_attention_text: "API 토큰을 암호처럼 취급하세요. 이 링크를 가진 사람은 누구나 이 인스턴스의 정보에 액세스할 수 있습니다. 신뢰할 수 있는 사용자와만 공유하세요."
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"
-      failed_to_create_token: "Failed to create access token: %{error}"
-      failed_to_revoke_token: "Failed to revoke access token: %{error}"
+      failed_to_create_token: "액세스 토큰을 만들지 못했습니다: %{error}"
+      failed_to_revoke_token: "액세스 토큰을 취소하지 못했습니다: %{error}"
       notice_reset_token: "새로운 %{type} 토큰이 생성되었습니다. 액세스 토큰:"
       token_value_warning: "참고: 이번에만 이 토큰이 표시됩니다. 지금 이 토큰을 복사해야 합니다."
       no_results_title_text: 가능한 접근 토큰이 없습니다.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
+      notice_api_token_revoked: "API 토큰이 삭제되었습니다. 새 토큰을 만들려면 API 섹션의 버튼을 사용하세요."
       notice_rss_token_revoked: "RSS 토큰이 삭제되었습니다. 새 토큰을 만들려면 RSS 섹션의 링크를 사용하세요."
       notice_ical_token_revoked: '"%{project_name}" 프로젝트의 "%{calendar_name}" 캘린더에 대한 iCalendar 토큰 "%{token_name}"이(가) 취소되었습니다. 이 토큰이 포함된 iCalendar URL이 이제 유효하지 않습니다.'
   news:
@@ -472,7 +471,7 @@ ko:
         is_readonly: "읽기 전용"
         excluded_from_totals: "합계에서 제외됨"
   themes:
-    dark: "Dark (experimental)"
+    dark: "다크(실험적)"
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
   types:
@@ -520,9 +519,9 @@ ko:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: "여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다."
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 작업 패키지의 유형이 자동으로 재할당되어 잠재적인 데이터 손실로 이어질 수 있습니다.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 작업 패키지의 유형이 자동으로 재할당되어 잠재적인 데이터 손실로 이어질 수 있습니다.
     sharing:
       missing_workflow_warning:
         title: "작업 패키지 공유에 대한 워크플로 누락"
@@ -722,7 +721,7 @@ ko:
         auto_hide_popups: "자동 숨김 성공 알림"
         warn_on_leaving_unsaved: "저장하지 않고 작업 패키지를 벗어날 때 알려주세요."
         theme: "모드"
-        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
+        mode_guideline: "일부 모드는 접근성과 가독성을 위해 사용자 지정 테마 색상을 덮어씁니다. 전체 사용자 지정 테마의 경우 라이트 모드를 선택하세요."
       version:
         effective_date: "완료 날짜"
         sharing: "공유"
@@ -926,7 +925,7 @@ ko:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "프로젝트를 선택하세요."
         query:
           attributes:
             project:
@@ -1130,7 +1129,7 @@ ko:
       placeholder_user: "플레이스홀더 사용자"
       project: "프로젝트"
       project_query:
-        other: "Project lists"
+        other: "프로젝트 목록"
       query: "사용자 지정 쿼리"
       role:
         other: "역할"
@@ -1748,6 +1747,17 @@ ko:
         failed: "오류가 발생하여 토큰을 제거할 수 없습니다. 나중에 다시 시도하세요."
         unknown_storage: "알 수 없는 저장소"
   notifications:
+    reasons:
+      assigned: "담당자"
+      dateAlert: "날짜 알림"
+      mentioned: "멘션됨"
+      responsible: "담당"
+      shared: "공유됨"
+      watched: "주시자"
+    menu:
+      by_project: "프로젝트 기준 읽지 않음"
+      by_reason: "이유"
+      inbox: "받은 편지함"
     send_notifications: "이 작업에 대한 알림 보내기"
     work_packages:
       subject:
@@ -1767,7 +1777,7 @@ ko:
   label_add_another_file: "다른 파일 추가"
   label_add_columns: "선택된 열 추가"
   label_add_note: "메모 추가"
-  label_add_projects: "Add projects"
+  label_add_projects: "프로젝트 추가"
   label_add_related_work_packages: "관련 작업 패키지 추가"
   label_add_subtask: "하위 작업 추가"
   label_added: "추가됨"
@@ -2004,9 +2014,10 @@ ko:
   label_introduction_video: "소개 동영상"
   label_invite_user: "사용자 초대"
   label_share: "공유"
-  label_share_project_list: "Share project list"
+  label_share_project_list: "프로젝트 목록 공유"
+  label_share_work_package: "작업 패키지 공유"
   label_show_hide: "표시/숨기기"
-  label_show_hide_n_items: "Show/hide %{count} items"
+  label_show_hide_n_items: "%{count}개 항목 표시/숨기기"
   label_show_all_registered_users: "등록된 사용자 모두 표시"
   label_journal: "기록일지"
   label_journal_diff: "설명 비교"
@@ -2044,7 +2055,7 @@ ko:
   label_custom_touch_icon: "사용자 지정 터치 아이콘"
   label_logout: "로그아웃"
   label_main_menu: "측면 메뉴"
-  label_manage: "Manage"
+  label_manage: "관리"
   label_manage_groups: "그룹 관리"
   label_managed_repositories_vendor: "관리 되는 %{vendor} 저장소"
   label_max_size: "최대 크기"
@@ -2053,8 +2064,8 @@ ko:
   label_member_all_admin: "(관리 상태에 따른 모든 역할)"
   label_member_plural: "멤버"
   label_membership_plural: "멤버십"
-  lable_membership_added: "멤버 추가됨"
-  lable_membership_updated: "멤버 갱신됨"
+  label_membership_added: "멤버 추가됨"
+  label_membership_updated: "멤버 업데이트됨"
   label_menu: "메뉴"
   label_menu_badge:
     pre_alpha: "프리 알파"
@@ -2155,6 +2166,7 @@ ko:
   label_product_version: "제품 버전"
   label_profile: "프로필"
   label_percent_complete: "완료 %"
+  label_project: "프로젝트"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
   label_project_attribute_manage_link: "프로젝트 특성 관리"
@@ -2163,7 +2175,7 @@ ko:
   label_project_latest: "최근 프로젝트"
   label_project_default_type: "빈 유형 허용"
   label_project_hierarchy: "프로젝트 계층 구조"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "프로젝트에서 활성화됨"
   label_project_new: "새 프로젝트"
   label_project_plural: "프로젝트"
   label_project_list_plural: "프로젝트 목록"
@@ -2593,7 +2605,7 @@ ko:
   notice_principals_found_multiple: "%{number} 개의 결과가 발견되었습니다.\n첫번째 결과를 보려면 탭 해주세요."
   notice_principals_found_single: "한 개의 결과가 있습니다.\n보려면 탭 해주세요."
   notice_project_not_deleted: "프로젝트가 삭제되지 않았습니다."
-  notice_project_not_found: "Project not found."
+  notice_project_not_found: "프로젝트를 찾을 수 없습니다."
   notice_successful_connection: "연결에 성공했습니다."
   notice_successful_create: "생성에 성공했습니다."
   notice_successful_delete: "삭제에 성공했습니다."
@@ -2728,8 +2740,8 @@ ko:
   permission_manage_public_bcf_queries: "공용 BCF 쿼리 관리"
   permission_edit_attribute_help_texts: "특성 도움말 텍스트 편집"
   permission_manage_public_project_queries: "공개 프로젝트 목록 관리"
-  permission_view_project_query: "View project query"
-  permission_edit_project_query: "Edit project query"
+  permission_view_project_query: "프로젝트 쿼리 보기"
+  permission_edit_project_query: "프로젝트 쿼리 편집"
   placeholders:
     default: "-"
   project:
@@ -2948,10 +2960,10 @@ ko:
   setting_default_projects_public: "새 프로젝트는 기본적으로 공용입니다."
   setting_diff_max_lines_displayed: "표시되는 최대 차이점 줄 수"
   setting_display_subprojects_work_packages: "기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시"
-  setting_duration_format: "Duration format"
-  setting_duration_format_hours_only: "Hours only"
-  setting_duration_format_days_and_hours: "Days and hours"
-  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
+  setting_duration_format: "기간 형식"
+  setting_duration_format_hours_only: "시간만"
+  setting_duration_format_days_and_hours: "일 및 시간"
+  setting_duration_format_instructions: "작업, 남은 작업 및 소요 시간이 표시되는 방식을 정의합니다."
   setting_emails_footer: "이메일 바닥글"
   setting_emails_header: "이메일 머리글"
   setting_email_login: "이메일로 로그인하기"
@@ -2964,7 +2976,7 @@ ko:
   setting_host_name: "호스트 이름"
   setting_hours_per_day: "일별 시간"
   setting_hours_per_day_explanation: >-
-    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
+    일 및 시간으로 기간을 표시할 때 "하루"로 간주되는 시간을 정의합니다(예: 하루가 8시간이면 32시간은 4일이 됩니다).
   setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
   setting_work_package_done_ratio: "진행률 계산"
   setting_work_package_done_ratio_field: "작업 기반"
@@ -3356,77 +3368,79 @@ ko:
         status_based_help_text: "완료 %는 작업 패키지 상태에 따라 설정됩니다."
         migration_warning_text: "작업 기반 진행률 계산 모드에서 완료 %는 수동으로 설정할 수 없으며 작업에 연결됩니다. 기존 값은 유지되지만 편집할 수 없습니다. 먼저 작업을 입력하세요."
     permissions:
-      comment: "Comment"
-      comment_description: "Can view and comment this work package."
-      edit: "Edit"
-      edit_description: "Can view, comment and edit this work package."
-      view: "View"
-      view_description: "Can view this work package."
+      comment: "코멘트"
+      comment_description: "이 작업 패키지를 보고 코멘트를 작성할 수 있습니다."
+      edit: "편집"
+      edit_description: "이 작업 패키지 보기, 코멘트 작성 및 편집을 할 수 있습니다."
+      view: "보기"
+      view_description: "이 작업 패키지를 볼 수 있습니다."
   sharing:
     count:
-      zero: "0 users"
-      one: "1 user"
-      other: "%{count} users"
+      zero: "사용자 0명"
+      one: "사용자 1명"
+      other: "사용자 %{count}명"
     filter:
-      project_member: "Project member"
-      not_project_member: "Not project member"
-      project_group: "Project group"
-      not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
-      role: "Role"
-      type: "Type"
-    denied: "You don't have permissions to share %{entities}."
-    label_search: "Search for users to invite"
-    label_search_placeholder: "Search by user or email address"
-    label_toggle_all: "Toggle all shares"
-    remove: "Remove"
-    share: "Share"
-    text_empty_search_description: "There are no users with the current filter criteria."
-    text_empty_search_header: "We couldn't find any matching results."
-    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
-    text_empty_state_header: "Not shared"
-    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
-    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      project_member: "프로젝트 멤버"
+      not_project_member: "프로젝트 멤버 아님"
+      project_group: "프로젝트 그룹"
+      not_project_group: "프로젝트 그룹 아님"
+      user: "사용자"
+      group: "그룹"
+      role: "역할"
+      type: "유형"
+    denied: "%{entities} 공유를 할 수 있는 권한이 없습니다."
+    label_search: "초대할 사용자 검색"
+    label_search_placeholder: "사용자 또는 이메일 주소로 검색"
+    label_toggle_all: "모든 공유 토글"
+    remove: "제거"
+    share: "공유"
+    text_empty_search_description: "현재 필터 기준에 맞는 사용자가 없습니다."
+    text_empty_search_header: "일치하는 결과를 찾을 수 없습니다."
+    text_empty_state_description: "%{entity}은(는) 아직 누구와도 공유되지 않았습니다."
+    text_empty_state_header: "공유 안 됨"
+    text_user_limit_reached: "사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 %{entity}에 액세스할 수 있도록 관리자에게 문의하여 사용자 한도를 늘리세요."
+    text_user_limit_reached_admins: '사용자를 더 추가하면 현재 한도가 초과됩니다. 사용자를 더 추가할 수 있도록 하려면 <a href="%{upgrade_url}">플랜을 업그레이드</a>하세요.'
     warning_user_limit_reached: >
-      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+      사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 %{entity}에 액세스할 수 있도록 관리자에게 문의하여 사용자 한도를 늘리세요.
     warning_user_limit_reached_admin: >
-      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
-    warning_no_selected_user: "Please select users to share this %{entity} with"
-    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      사용자를 더 추가하면 현재 한도가 초과됩니다. 외부 사용자가 이 %{entity}에 액세스할 수 있도록 하려면 <a href="%{upgrade_url}">플랜을 업그레이드</a>하세요.
+    warning_no_selected_user: "이 %{entity}을(를) 공유할 사용자를 선택하세요"
+    warning_locked_user: "%{user} 사용자는 잠겨 있어서 공유할 수 없습니다"
     user_details:
-      locked: "Locked user"
-      invited: "Invite sent. "
-      resend_invite: "Resend."
-      invite_resent: "Invite has been resent"
-      not_project_member: "Not a project member"
-      project_group: "Group members might have additional privileges (as project members)"
-      not_project_group: "Group (shared with all members)"
-      additional_privileges_project: "Might have additional privileges (as project member)"
-      additional_privileges_group: "Might have additional privileges (as group member)"
-      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+      locked: "잠긴 사용자"
+      invited: "초대장을 보냈습니다. "
+      resend_invite: "다시 보내기."
+      invite_resent: "초대장을 다시 보냈습니다"
+      not_project_member: "프로젝트 멤버 아님"
+      project_group: "그룹 멤버는 (프로젝트 멤버로서) 추가적인 권한을 가질 수 있습니다"
+      not_project_group: "그룹(모든 멤버와 공유됨)"
+      additional_privileges_project: "(프로젝트 멤버로서) 추가적인 권한을 가질 수 있습니다"
+      additional_privileges_group: "(그룹 멤버로서) 추가적인 권한을 가질 수 있습니다"
+      additional_privileges_project_or_group: "(프로젝트 또는 그룹 멤버로서) 추가적인 권한을 가질 수 있습니다"
     project_queries:
-      publishing_denied: "You do not have permission to make project lists public."
-      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      publishing_denied: "프로젝트 목록을 공개로 지정할 수 있는 권한이 없습니다."
+      access_warning: "사용자는 자신이 액세스할 수 있는 프로젝트만 볼 수 있습니다. 프로젝트 목록을 공유해도 개별 프로젝트 권한에 영향을 미치지 않습니다."
       user_details:
-        owner: "List owner"
-        can_view_because_public: "Can already view because list is shared with everyone"
-        can_manage_public_lists: "Can edit due to global permissions"
+        owner: "목록 소유자"
+        can_view_because_public: "목록이 모두와 공유되므로 이미 볼 수 있습니다"
+        can_manage_public_lists: "글로벌 권한이 있으므로 편집할 수 있습니다"
       public_flag:
-        label: "Share with everyone at %{instance_name}"
-        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+        label: "%{instance_name}에서 모두와 공유"
+        caption: "누구나 이 프로젝트 목록을 볼 수 있습니다. 글로벌 편집 권한이 있는 사용자는 이 목록을 수정할 수 있습니다."
       blank_state:
         public:
-          header: "Shared with everyone"
-          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+          header: "모두와 공유됨"
+          description: "누구나 이 프로젝트 목록을 볼 수 있습니다. 별도로 권한이 있는 개별 사용자를 추가할 수도 있습니다."
         private:
-          header: "Not shared: Private"
-          description: "This project list has not been shared with anyone yet. Only you can access this list."
+          header: "공유 안 됨: 비공개"
+          description: "이 프로젝트 목록은 아직 누구와도 공유되지 않았습니다. 나만 이 목록에 액세스할 수 있습니다."
       permissions:
-        view: "View"
-        view_description: "Can view this project list."
-        edit: "Edit"
-        edit_description: "Can view, share and edit this project list."
+        view: "보기"
+        view_description: "이 프로젝트 목록을 볼 수 있습니다."
+        edit: "편집"
+        edit_description: "이 프로젝트 목록을 보고, 공유하고, 편집할 수 있습니다."
+      upsale:
+        message: "개별 사용자와의 프로젝트 목록 공유는 Enterprise 추가 기능입니다."
   working_days:
     info: >
       선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.

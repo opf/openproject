@@ -66,6 +66,10 @@ module SharingStrategies
       raise NotImplementedError, "Override in a subclass and return a description for the shared user"
     end
 
+    def title
+      raise NotImplementedError, "Override in a subclass and return a title for the sharing dialog"
+    end
+
     def custom_body_components?
       !additional_body_components.empty?
     end
@@ -83,6 +87,14 @@ module SharingStrategies
     # when there is no share yet
     def empty_state_component
       nil
+    end
+
+    def modal_body_component(errors)
+      Shares::ModalBodyComponent.new(strategy: self, errors:)
+    end
+
+    def manage_shares_component(modal_content:, errors:)
+      Shares::ManageSharesComponent.new(strategy: self, modal_content:, errors:)
     end
 
     def query # rubocop:disable Metrics/AbcSize

@@ -185,7 +185,7 @@ end
 Redmine::MenuManager.map :notifications_menu do |menu|
   menu.push :notification_grouping_select,
             { controller: "/my", action: "notifications" },
-            partial: "notifications/menu_notification_center"
+            partial: "notifications/menus/menu"
 end
 
 Redmine::MenuManager.map :my_menu do |menu|

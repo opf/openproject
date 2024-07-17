@@ -365,10 +365,10 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
     ical_sharing_modal:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"
@@ -615,17 +615,17 @@ zh-TW:
       title: "通知"
       no_unread: "無未讀通知"
       reasons:
-        mentioned: "被提及"
-        watched: "監看者"
-        assigned: "執行者"
-        responsible: "負責人"
-        created: "已建立"
-        scheduled: "已排程"
-        commented: "已留言"
-        processed: "已處理"
-        prioritized: "優先"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "日期提醒"
-        shared: "共享"
+        shared: "Shared"
       date_alerts:
         milestone_date: "里程碑日期"
         overdue: "逾期"
@@ -661,15 +661,6 @@ zh-TW:
         new_notifications:
           message: "There are new notifications."
           link_text: "Click here to load them."
-      menu:
-        accountable: "負責人"
-        by_project: "未讀(依專案)"
-        by_reason: "原由"
-        inbox: "收件匣"
-        mentioned: "被標記"
-        watched: "監看者\n"
-        date_alert: "日期提醒"
-        shared: "共享"
       settings:
         change_notification_settings: '您可以修改 <a target="_blank" href="%{url}">通知設定</a>，以確保您不會錯過重要更新。'
         title: "通知設定"
@@ -1018,6 +1009,7 @@ zh-TW:
         workAlternative: "預估時間"
         remainingTime: "剩餘工時"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "最新活動"
         created_by_me: "由我建立"
         assigned_to_me: "分配給我"

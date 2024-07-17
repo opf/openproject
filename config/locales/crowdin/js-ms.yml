@@ -366,10 +366,10 @@ ms:
           learn_about: "Ketahui lebih lanjut mengenai fitur-fitur baharu."
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                Pelancaran tersebut mengandungi pelbagai fitur dan penambahbaikan baharu: <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li>Tetapkan lebih banyak unit pada kerja, kerja yang berbaki dan masa yang berbaki</li><li>Konfigurasikan projek yang manakah yang telah diaktifkan bagi atribut projek</li> <li>Namakan semula senarai projek peribadi</li> <li>Elakkan daripada peringatan e-mel yang tidak diperlukan sekiranya @sebutan</li> <li>Jemput penghadir mesyuarat melalui e-mel</li> <li> Paparkan atribut pakej kerja yang tersemat di eksport PDF</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
     ical_sharing_modal:
       title: "Langgan kalendar"
       inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."
@@ -616,17 +616,17 @@ ms:
       title: "Pemberitahuan"
       no_unread: "Tiada pemberitahuan yang belum dibaca"
       reasons:
-        mentioned: "disebutkan"
-        watched: "pemerhati"
-        assigned: "penerima tugasan"
-        responsible: "bertanggungjawab"
-        created: "dicipta"
-        scheduled: "dijadualkan"
-        commented: "telah komen"
-        processed: "diproses"
-        prioritized: "telah diutamakan"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Peringatan tarikh"
-        shared: "telah dikongsi"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Tarikh pencapaian"
         overdue: "Tertangguh"
@@ -662,15 +662,6 @@ ms:
         new_notifications:
           message: "Terdapat pemberitahuan baharu."
           link_text: "Klik sini untuk memuatkan mereka."
-      menu:
-        accountable: "Bertanggungjawab"
-        by_project: "Belum dibaca oleh projek"
-        by_reason: "Sebab"
-        inbox: "Peti masuk"
-        mentioned: "Disebutkan"
-        watched: "Pemerhati"
-        date_alert: "Peringatan tarikh"
-        shared: "Dikongsi"
       settings:
         change_notification_settings: 'Anda boleh mengubah suai <a target="_blank" href="%{url}">tetapan pemberitahuan</a> anda untuk memastikan anda tidak terlepas tarikh yang penting.'
         title: "Tetapan pemberitahuan"
@@ -1019,6 +1010,7 @@ ms:
         workAlternative: "Anggaran masa"
         remainingTime: "Kerja yang berbaki"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Aktiviti terkini"
         created_by_me: "Dicipta oleh saya"
         assigned_to_me: "Ditugaskan kepada saya"

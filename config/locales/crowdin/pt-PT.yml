@@ -266,7 +266,6 @@ pt-PT:
       favored: "Projetos favoritos"
       archived: "Projetos arquivados"
       shared: "Shared project lists"
-      public: "Listas públicas de projetos"
       my_private: "As minhas listas de projetos privados"
       new:
         placeholder: "Nova lista de projetos"
@@ -1781,6 +1780,17 @@ pt-PT:
         failed: "Ocorreu um erro e não foi possível remover o token. Tente novamente mais tarde."
         unknown_storage: "Armazenamento desconhecido"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Enviar notificações para esta ação"
     work_packages:
       subject:
@@ -2038,6 +2048,7 @@ pt-PT:
   label_invite_user: "Convidar utilizador"
   label_share: "Partilhar"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Mostrar/ocultar"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostrar todos utilizadores registrados"
@@ -2086,8 +2097,8 @@ pt-PT:
   label_member_all_admin: "(Todas as funções devidas ao status do administrador)"
   label_member_plural: "Membros"
   label_membership_plural: "Associações"
-  lable_membership_added: "Membro adicionado"
-  lable_membership_updated: "Membro atualizado"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2188,6 +2199,7 @@ pt-PT:
   label_product_version: "Versão do produto"
   label_profile: "Perfil"
   label_percent_complete: "% de conclusão"
+  label_project: "Project"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
   label_project_attribute_manage_link: "Gerir atributos do projeto"
@@ -3463,6 +3475,8 @@ pt-PT:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Os dias não selecionados são ignorados ao agendar pacotes de trabalho (e não são incluídos na contagem de dias). Podem ser substituídos ao nível dos pacotes de trabalho.

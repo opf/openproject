@@ -352,6 +352,10 @@ module Pages
         click_on "Save"
       end
 
+      def expect_can_only_save_as_label
+        expect(page).to have_text(I18n.t("lists.can_be_saved_as"))
+      end
+
       def fill_in_the_name(name)
         within '[data-test-selector="project-query-name"]' do
           fill_in "Name", with: name
@@ -446,6 +450,10 @@ module Pages
         within row do
           yield row
         end
+      end
+
+      def open_share_dialog
+        find_test_selector("toggle-share-dialog-button").click
       end
 
       private

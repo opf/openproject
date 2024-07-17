@@ -268,7 +268,6 @@
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
       shared: "Offentlige prosjektlister"
-      public: "Offentlige prosjektlister"
       my_private: "Mine private prosjektlister"
       new:
         placeholder: "Ny prosjektliste"
@@ -1782,6 +1781,17 @@
         failed: "En feil oppstod, nøkkelen kunne ikke fjernes. Prøv igjen senere."
         unknown_storage: "Ukjent lagring"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send varsler for denne handlingen"
     work_packages:
       subject:
@@ -2039,6 +2049,7 @@
   label_invite_user: "Inviter bruker"
   label_share: "Del"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Vis/Skjul"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Vis alle registrerte brukere"
@@ -2087,8 +2098,8 @@
   label_member_all_admin: "(Alle roller på grunn av administratorstatus)"
   label_member_plural: "Medlemmer"
   label_membership_plural: "Medlemskap"
-  lable_membership_added: "Medlem lagt til"
-  lable_membership_updated: "Medlem oppdatert"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Meny"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2189,6 +2200,7 @@
   label_product_version: "Produktversjon"
   label_profile: "Profil"
   label_percent_complete: "% Ferdig"
+  label_project: "Project"
   label_project_activity: "Aktivitet i prosjektet"
   label_project_attribute_plural: "Prosjekt egenskaper"
   label_project_attribute_manage_link: "Administrer prosjektegenskaper"
@@ -3467,6 +3479,8 @@
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Hoppet over dager som ikke er valgt ved planlegging av arbeidspakker (og ikke inkludert i antall dager). Disse kan overstyres på arbeidspakkenivå.

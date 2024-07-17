@@ -248,7 +248,7 @@ pt-BR:
       work_package_attachments: "Pacote de trabalho: anexos"
       work_package_categories: "Pacote de trabalho: categorias"
       work_package_file_links: "Pacote de trabalho: links de arquivo"
-      work_package_shares: "Work packages: shares"
+      work_package_shares: "Pacotes de trabalho: compartilhamento"
     delete:
       scheduled: "Exclusão foi agendada e será realizada em segundo plano. Você será notificado do resultado."
       schedule_failed: "Projeto não pode ser excluído: %{errors}"
@@ -266,8 +266,7 @@ pt-BR:
       my: "Meus projetos"
       favored: "Projetos favoritos"
       archived: "Projetos arquivados"
-      shared: "Shared project lists"
-      public: "Listas públicas de projetos"
+      shared: "Listas de projetos compartilhados"
       my_private: "Minhas listas de projetos privados"
       new:
         placeholder: "Nova lista de projetos"
@@ -389,22 +388,22 @@ pt-BR:
   my:
     access_token:
       errors:
-        token_name_blank: "Please provide an API token name"
-        token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
-      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
-      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
+        token_name_blank: "Forneça um nome para o token de API."
+        token_name_in_use: "Este nome de token de API já está em uso, escolha outro."
+      new_access_token_dialog_title: "Criar novo token de API"
+      new_access_token_dialog_show_button_text: "Token de API"
+      new_access_token_dialog_text_field_placeholder_text: "Meu token de API"
+      new_access_token_dialog_text_field_label: "Nome"
+      new_access_token_dialog_submit_button_text: "Criar"
+      new_access_token_dialog_text: "Este token permitirá que aplicativos de terceiros se comuniquem com sua instância. Para diferenciar o novo token de API, de um nome a ela."
+      new_access_token_dialog_attention_text: "Trate os tokens de API como senhas. Qualquer pessoa com este link terá acesso às informações desta instância, compartilhe-o apenas com usuários de confiança."
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
-      failed_to_create_token: "Failed to create access token: %{error}"
-      failed_to_revoke_token: "Failed to revoke access token: %{error}"
+      failed_to_create_token: "Falha ao criar o token de acesso: %{error}"
+      failed_to_revoke_token: "Falha ao revogar o token de acesso: %{error}"
       notice_reset_token: "Foi gerado um novo token de %{type}. Seu token de acesso é:"
       token_value_warning: "Nota: Esta é a única vez que você verá este token, certifique-se de copiá-lo agora."
       no_results_title_text: Atualmente não há tokens de acesso disponíveis.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
+      notice_api_token_revoked: "O token de API foi excluído. Para criar um novo token, use o botão na seção de API."
       notice_rss_token_revoked: "O token RSS foi excluído. Para criar um novo token, use o link na seção do RSS."
       notice_ical_token_revoked: 'O token iCalendar "%{token_name}" para o calendário "%{calendar_name}" do projeto "%{project_name}" foi revogado. O URL do iCalendar com este token agora é inválido.'
   news:
@@ -477,7 +476,7 @@ pt-BR:
         is_readonly: "Somente leitura"
         excluded_from_totals: "Excluído dos totais"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Escuro (experimental)"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -526,9 +525,9 @@ pt-BR:
       no_common_statuses_exists: "Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada."
       unsupported_for_multiple_projects: "Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        O tipo atual do pacote de trabalho não está habilitado no projeto de destino. Habilite o tipo no projeto de destino se desejar que ele permaneça inalterado. Caso contrário, o tipo do pacote de trabalho será automaticamente reatribuído, o que pode levar à perda de dados.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        Os tipos atual do pacotes de trabalho não estão habilitados no projeto de destino. Habilite os tipos no projeto de destino se desejar que eles permaneçam inalterados. Caso contrário, os tipos do pacotes de trabalho serão automaticamente reatribuídos, o que pode levar à perda de dados.
     sharing:
       missing_workflow_warning:
         title: "Fluxo de trabalho ausente para compartilhamento de pacotes de trabalho"
@@ -728,7 +727,7 @@ pt-BR:
         auto_hide_popups: "Auto-ocultar notificações de sucesso"
         warn_on_leaving_unsaved: "Alertar-me ao sair de um pacote de trabalho sem salvar as alterações"
         theme: "Modo"
-        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
+        mode_guideline: "Alguns modos substituirão as cores personalizadas do tema para melhorar a acessibilidade e a legibilidade. Para usar o tema totalmente personalizado, selecione o modo Claro."
       version:
         effective_date: "Data de conclusão"
         sharing: "Compartilhamento"
@@ -932,7 +931,7 @@ pt-BR:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "Selecione um projeto."
         query:
           attributes:
             project:
@@ -1139,8 +1138,8 @@ pt-BR:
       placeholder_user: "Usuário do espaço reservado"
       project: "Projeto"
       project_query:
-        one: "Project list"
-        other: "Project lists"
+        one: "Lista de projetos"
+        other: "Listas de projeto"
       query: "Consulta personalizada"
       role:
         one: "Papel"
@@ -1781,6 +1780,17 @@ pt-BR:
         failed: "Ocorreu um erro e o token não pôde ser removido. Tente novamente mais tarde."
         unknown_storage: "Armazenamento desconhecido"
   notifications:
+    reasons:
+      assigned: "Cessionário"
+      dateAlert: "Alerta de data"
+      mentioned: "Mencionado"
+      responsible: "Responsável"
+      shared: "Compartilhado"
+      watched: "Observador"
+    menu:
+      by_project: "Não lido por projeto"
+      by_reason: "Motivo"
+      inbox: "Caixa de entrada"
     send_notifications: "Enviar notificações para está ação "
     work_packages:
       subject:
@@ -1800,7 +1810,7 @@ pt-BR:
   label_add_another_file: "Adicionar outro arquivo"
   label_add_columns: "Adicionar colunas selecionadas"
   label_add_note: "Adicionar uma nota"
-  label_add_projects: "Add projects"
+  label_add_projects: "Adicionar projetos"
   label_add_related_work_packages: "Adicionar pacotes de trabalho relacionados"
   label_add_subtask: "Adicionar subtarefa"
   label_added: "adicionado"
@@ -2037,9 +2047,10 @@ pt-BR:
   label_introduction_video: "Vídeo de introdução"
   label_invite_user: "Convidar usuário"
   label_share: "Compartilhar"
-  label_share_project_list: "Share project list"
+  label_share_project_list: "Compartilhar lista de projeto"
+  label_share_work_package: "Compartilhar pacote de trabalho"
   label_show_hide: "Mostrar/ocultar"
-  label_show_hide_n_items: "Show/hide %{count} items"
+  label_show_hide_n_items: "Exibir/ocultar itens de %{count}"
   label_show_all_registered_users: "Mostrar todos usuários registrados"
   label_journal: "Diário"
   label_journal_diff: "Comparação de Descrição"
@@ -2077,7 +2088,7 @@ pt-BR:
   label_custom_touch_icon: "Ícone de toque personalizado"
   label_logout: "Desconectar"
   label_main_menu: "Menu lateral"
-  label_manage: "Manage"
+  label_manage: "Gerenciar"
   label_manage_groups: "Gerenciar grupos"
   label_managed_repositories_vendor: "Repositórios gerenciados %{vendor}"
   label_max_size: "Tamanho máximo"
@@ -2086,8 +2097,8 @@ pt-BR:
   label_member_all_admin: "(Todos os papéis devidos ao status de administrador)"
   label_member_plural: "Membros"
   label_membership_plural: "Associações"
-  lable_membership_added: "Membro adicionado"
-  lable_membership_updated: "Membro atualizado"
+  label_membership_added: "Membro adicionado"
+  label_membership_updated: "Membro atualizado"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pré-alfa"
@@ -2188,6 +2199,7 @@ pt-BR:
   label_product_version: "Versão do produto"
   label_profile: "Perfil"
   label_percent_complete: "% de conclusão"
+  label_project: "Project"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
   label_project_attribute_manage_link: "Gerenciar atributos do projeto"
@@ -2196,7 +2208,7 @@ pt-BR:
   label_project_latest: "Últimos projetos"
   label_project_default_type: "Permitir tipo vazio"
   label_project_hierarchy: "Hierarquia de projeto"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Habilitado em projetos"
   label_project_new: "Novo projeto"
   label_project_plural: "Projetos"
   label_project_list_plural: "Listas de projeto"
@@ -2626,7 +2638,7 @@ pt-BR:
   notice_principals_found_multiple: "Existe(m) %{number} resultado(s) encontrado(s).\nTecle tab para ir ao primeiro resultado."
   notice_principals_found_single: "Existe um resultado. Tecle tab para ir para ele."
   notice_project_not_deleted: "O projeto não foi excluído."
-  notice_project_not_found: "Project not found."
+  notice_project_not_found: "Projeto não encontrado."
   notice_successful_connection: "Conectado com sucesso."
   notice_successful_create: "Criado com sucesso."
   notice_successful_delete: "Exclusão bem sucedida."
@@ -2762,8 +2774,8 @@ pt-BR:
   permission_manage_public_bcf_queries: "Gerenciar consultas públicas a BCF"
   permission_edit_attribute_help_texts: "Editar textos de ajuda do atributos"
   permission_manage_public_project_queries: "Gerenciar listas de projetos públicos"
-  permission_view_project_query: "View project query"
-  permission_edit_project_query: "Edit project query"
+  permission_view_project_query: "Ver consulta do projeto"
+  permission_edit_project_query: "Editar consulta do projeto"
   placeholders:
     default: "-"
   project:
@@ -2984,10 +2996,10 @@ pt-BR:
   setting_default_projects_public: "Novos projetos são públicos por padrão"
   setting_diff_max_lines_displayed: "Número máximo de linhas diferentes exibidas"
   setting_display_subprojects_work_packages: "Exibir pacotes de trabalho de subprojetos no projeto principal por padrão"
-  setting_duration_format: "Duration format"
-  setting_duration_format_hours_only: "Hours only"
-  setting_duration_format_days_and_hours: "Days and hours"
-  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
+  setting_duration_format: "formato de duração"
+  setting_duration_format_hours_only: "Apenas horas"
+  setting_duration_format_days_and_hours: "Dias e horas"
+  setting_duration_format_instructions: "Isso define como o Trabalho, Trabalho Restante e Durações  de empo gasto são exibidas."
   setting_emails_footer: "Rodapé de e-mails"
   setting_emails_header: "Cabeçalho de e-mails"
   setting_email_login: "Usar e-mail como login"
@@ -3000,7 +3012,7 @@ pt-BR:
   setting_host_name: "Nome do servidor"
   setting_hours_per_day: "Horas por dia"
   setting_hours_per_day_explanation: >-
-    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
+    Isso define o que é considerado um "dia" ao exibir a duração em dias e horas (por exemplo, se um dia tem 8 horas, 32 horas serão exibidas como 4 dias).
   setting_invitation_expiration_days: "E-mail de ativação expira após"
   setting_work_package_done_ratio: "Cálculo de progresso"
   setting_work_package_done_ratio_field: "Com base no trabalho"
@@ -3392,12 +3404,12 @@ pt-BR:
         status_based_help_text: "A % de conclusão é definida pelo estado do pacote de trabalho."
         migration_warning_text: "No modo de cálculo de progresso com base no trabalho, a % conclusão não pode ser definida manualmente e está vinculada ao Trabalho. O valor existente foi mantido, mas não pode ser editado. Favor inserir o Trabalho primeiro."
     permissions:
-      comment: "Comment"
-      comment_description: "Can view and comment this work package."
-      edit: "Edit"
-      edit_description: "Can view, comment and edit this work package."
-      view: "View"
-      view_description: "Can view this work package."
+      comment: "Comentário"
+      comment_description: "Pode visualizar e comentar neste pacote de trabalho."
+      edit: "Editar"
+      edit_description: "Pode visualizar, comentar e editar este pacote de trabalho."
+      view: "Ver"
+      view_description: "Pode visualizar este pacote de trabalho."
   sharing:
     count:
       zero: "0 users"
@@ -3442,10 +3454,10 @@ pt-BR:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
-      publishing_denied: "You do not have permission to make project lists public."
+      publishing_denied: "Você não possui permissão para tornar as listas de projetos públicas."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       user_details:
-        owner: "List owner"
+        owner: "Proprietário da lista"
         can_view_because_public: "Can already view because list is shared with everyone"
         can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
@@ -3463,6 +3475,8 @@ pt-BR:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Dias não selecionados são ignorados ao agendar pacotes de trabalho (e não são incluídos na contagem de dias). Isso pode ser alterado individualmente em cada pacote de trabalho.

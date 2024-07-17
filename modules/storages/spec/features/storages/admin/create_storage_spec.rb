@@ -114,7 +114,7 @@ RSpec.describe "Admin Create a new file storage",
           expect(warning_section).to have_link("Nextcloud OpenProject Integration settings",
                                                href: "https://example.com/settings/admin/openproject")
 
-          storage = Storages::NextcloudStorage.find_by(host: "https://example.com")
+          storage = Storages::NextcloudStorage.find_by(host: "https://example.com/")
           expect(page).to have_css("#openproject_oauth_application_uid",
                                    value: storage.reload.oauth_application.uid)
           expect(page).to have_css("#openproject_oauth_application_secret",

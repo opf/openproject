@@ -27,5 +27,5 @@
 #++
 
 class Queries::TimeEntries::Filters::ProjectFilter < Queries::TimeEntries::Filters::TimeEntryFilter
-  include Queries::Filters::Shared::ProjectFilter
+  include Queries::Filters::Shared::ProjectFilter::Optional
 end

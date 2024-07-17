@@ -43,9 +43,9 @@ fr:
           name: Autre
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: Visionneuse de requêtes du projet
         item_1:
-          name: Project query editor
+          name: Éditeur de requêtes de projet
       work_package_roles:
         item_0:
           name: Éditeur de lot de travaux

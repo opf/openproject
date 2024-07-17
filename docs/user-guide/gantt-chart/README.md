@@ -41,7 +41,7 @@ Alternatively, you can also use the **Include projects** filter.
 
 ## Gantt charts views
 
-Once you opened the Gantt charts module, the default view will show all open work packages. You can adjust the view using the filters or  select one the following view options:
+Once you opened the Gantt charts module, the default view will show all open work packages. You can search for a specific Gantt chart using the search bar on the left. You can adjust the view using the filters or  select one the following view options:
 
 ![View options in OpenProject Gantt charts](openproject-user-guide-gantt-charts-views.png)
 
@@ -54,7 +54,7 @@ Once you opened the Gantt charts module, the default view will show all open wor
 
 **Public**: lists all Gantt charts views set to be public
 
-**Private***: lists all your personal saved Gantt charts views
+**Private**: lists all your personal saved Gantt charts views
 
 ## Quick context menu in Gantt chart view
 

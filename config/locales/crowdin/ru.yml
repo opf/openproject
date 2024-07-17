@@ -267,7 +267,6 @@ ru:
       favored: "Избранные проекты"
       archived: "Архивные проекты"
       shared: "Общедоступные проекты"
-      public: "Списки общедоступных проектов"
       my_private: "Списки моих личных проектов"
       new:
         placeholder: "Список новых проектов"
@@ -416,7 +415,7 @@ ru:
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
+      notice_api_token_revoked: "API токен был удален. Чтобы создать новый токен, пожалуйста, используйте кнопку в разделе API."
       notice_rss_token_revoked: "Ключ RSS был удален. Чтобы создать новый токен, пожалуйста, используйте ссылку в разделе RSS."
       notice_ical_token_revoked: 'токен iCalendar "%{token_name}" для календаря "%{calendar_name}" проекта "%{project_name}" был отозван. URL-адрес iCalendar с этим токеном недействителен.'
   news:
@@ -1160,7 +1159,7 @@ ru:
       placeholder_user: "Пользователь-заполнитель"
       project: "Проект"
       project_query:
-        one: "Project list"
+        one: "Список проектов"
         few: "Project lists"
         many: "Project lists"
         other: "Project lists"
@@ -1850,6 +1849,17 @@ ru:
         failed: "Произошла ошибка, и токен не удалось удалить.  Пожалуйста, повторите попытку позже."
         unknown_storage: "Неизвестное хранилище"
   notifications:
+    reasons:
+      assigned: "Назначенный"
+      dateAlert: "Дата оповещения"
+      mentioned: "Упомянутый"
+      responsible: "Ответственный"
+      shared: "Общий доступ"
+      watched: "Наблюдатель"
+    menu:
+      by_project: "Непрочитано по проекту"
+      by_reason: "Причина"
+      inbox: "Входящие"
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
       subject:
@@ -1869,7 +1879,7 @@ ru:
   label_add_another_file: "Добавьте еще один файл"
   label_add_columns: "Добавить выбранные столбцы"
   label_add_note: "Добавить заметку"
-  label_add_projects: "Add projects"
+  label_add_projects: "Добавить проекты"
   label_add_related_work_packages: "Добавить связанные пакеты работ"
   label_add_subtask: "Добавить подзадачу"
   label_added: "Добавлено"
@@ -2106,7 +2116,8 @@ ru:
   label_introduction_video: "Вводное видео"
   label_invite_user: "Пригласить пользователя"
   label_share: "Поделиться"
-  label_share_project_list: "Share project list"
+  label_share_project_list: "Поделитесь списком проектов"
+  label_share_work_package: "Поделиться пакетом работ"
   label_show_hide: "Показать/скрыть"
   label_show_hide_n_items: "Показать/скрыть %{count} элементов"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
@@ -2155,8 +2166,8 @@ ru:
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
   label_membership_plural: "Членство"
-  lable_membership_added: "Участник добавлен"
-  lable_membership_updated: "Участник обновлен"
+  label_membership_added: "Участник добавлен"
+  label_membership_updated: "Участник обновлен"
   label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "пред-альфа"
@@ -2257,6 +2268,7 @@ ru:
   label_product_version: "Версия продукта"
   label_profile: "Профиль"
   label_percent_complete: "% Готово"
+  label_project: "Project"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
   label_project_attribute_manage_link: "Управление атрибутами проекта"
@@ -2265,7 +2277,7 @@ ru:
   label_project_latest: "Последние проекты"
   label_project_default_type: "Разрешить пустой тип"
   label_project_hierarchy: "Иерархия проектов"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Включено в проектах"
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_list_plural: "Списки проектов"
@@ -3516,27 +3528,29 @@ ru:
       additional_privileges_group: "Может иметь дополнительные привилегии (как участник группы)"
       additional_privileges_project_or_group: "Может иметь дополнительные привилегии (как участник проекта или группы)"
     project_queries:
-      publishing_denied: "You do not have permission to make project lists public."
-      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      publishing_denied: "У Вас нет разрешения делать списки проектов общедоступными."
+      access_warning: "Пользователи будут видеть только те проекты, к которым у них есть доступ. Совместное использование списков проектов не влияет на разрешения отдельных проектов."
       user_details:
-        owner: "List owner"
-        can_view_because_public: "Can already view because list is shared with everyone"
-        can_manage_public_lists: "Can edit due to global permissions"
+        owner: "Владелец списка"
+        can_view_because_public: "Уже можно просматривать, потому что список открыт для всех"
+        can_manage_public_lists: "Можно редактировать благодаря глобальным разрешениям"
       public_flag:
-        label: "Share with everyone at %{instance_name}"
-        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+        label: "Поделиться со всеми на %{instance_name}"
+        caption: "Все могут просматривать этот список проектов. Те, у кого есть глобальные права на редактирование, могут изменять его."
       blank_state:
         public:
-          header: "Shared with everyone"
-          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+          header: "Поделиться со всеми"
+          description: "Каждый может просматривать этот список проектов. Вы также можете добавить отдельных пользователей с дополнительными правами."
         private:
-          header: "Not shared: Private"
-          description: "This project list has not been shared with anyone yet. Only you can access this list."
+          header: "Не общедоступно: приватный"
+          description: "Этот список проектов еще никому не доступен. Только Вы можете получить доступ к этому списку."
       permissions:
-        view: "View"
-        view_description: "Can view this project list."
-        edit: "Edit"
-        edit_description: "Can view, share and edit this project list."
+        view: "Просмотр"
+        view_description: "Может просматривать этот список проектов."
+        edit: "Редактировать"
+        edit_description: "Может просматривать и редактировать этот список проектов."
+      upsale:
+        message: "Совместное использование списков проектов с отдельными пользователями является корпоративным дополнением."
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.

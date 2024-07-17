@@ -268,7 +268,6 @@ sk:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -1851,6 +1850,17 @@ sk:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -2108,6 +2118,7 @@ sk:
   label_invite_user: "Pozvať používateľa"
   label_share: "Zdieľať"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Zobraziť/skryť"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Zobraziť všetkých registrovaných užívateľov"
@@ -2156,8 +2167,8 @@ sk:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Členovia"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2258,6 +2269,7 @@ sk:
   label_product_version: "Verzia produktu"
   label_profile: "Profil"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -3541,6 +3553,8 @@ sk:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

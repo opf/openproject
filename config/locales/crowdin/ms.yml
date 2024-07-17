@@ -267,7 +267,6 @@ ms:
       favored: "Projek kegemaran"
       archived: "Projek yang diarkibkan"
       shared: "Shared project lists"
-      public: "Senarai projek umum"
       my_private: "Senarai projek peribadi saya"
       new:
         placeholder: "Senarai projek baharu"
@@ -1747,6 +1746,17 @@ ms:
         failed: "Sebuah ralat telah berlaku dan token tidak dapat dipadam. Sila cuba lagi kemudian."
         unknown_storage: "Storan tidak dikenal pasti"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Hantar pemberitahuan untuk tindakan ini"
     work_packages:
       subject:
@@ -2004,6 +2014,7 @@ ms:
   label_invite_user: "Jemput pengguna"
   label_share: "Kongsi"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Papar/sembunyi"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Paparkan semua pengguna berdaftar"
@@ -2052,8 +2063,8 @@ ms:
   label_member_all_admin: "(Semua peranan disebabkan oleh status pentadbir)"
   label_member_plural: "Ahli-ahli"
   label_membership_plural: "Keahlian"
-  lable_membership_added: "Ahli ditambah"
-  lable_membership_updated: "Ahli dikemas kini"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pra-alpha"
@@ -2154,6 +2165,7 @@ ms:
   label_product_version: "Versi produk"
   label_profile: "Profil"
   label_percent_complete: "% Selesai"
+  label_project: "Project"
   label_project_activity: "Aktiviti projek"
   label_project_attribute_plural: "Atribut projek"
   label_project_attribute_manage_link: "Urus atribut projek"
@@ -3427,6 +3439,8 @@ ms:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Hari yang tidak dipilih akan dilangkau semasa penjadualan pakej kerja (dan tidak termasuk dalam kiraan hari). Ini boleh digantikan di peringkat pakej-kerja.

@@ -65,9 +65,9 @@ module Pages
 
     def expect_menu_item(text, selected: false)
       if selected
-        expect(page).to have_css(".op-sidemenu--item-action.selected", text:)
+        expect(page).to have_css(".op-submenu--item-action.selected", text:)
       else
-        expect(page).to have_css(".op-sidemenu--item-action", text:)
+        expect(page).to have_css(".op-submenu--item-action", text:)
       end
     end
 

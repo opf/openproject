@@ -376,7 +376,7 @@ You have setup the *Project folder* in both environments (Nextcloud and OpenProj
       If you do not posses the application password anymore, you can reset it. Make sure not to forget updating the settings of the file storage in OpenProject accordingly. The following cURL command should respond with an XML containing details for the **OpenProject** user (**Please make sure to use the right application-password and Nextcloud host name**):
 
       ```shell
-      curl -u 'OpenProject:<application-password>' https://<nextcloud-host-name>/ocs/v1.php/cloud/users/OpenProject -H 'OCS-APIRequest: true' -v`
+      curl -u 'OpenProject:<application-password>' https://<nextcloud-host-name>/ocs/v1.php/cloud/users/OpenProject -H 'OCS-APIRequest: true' -v
       ```
 
 ## Getting support
