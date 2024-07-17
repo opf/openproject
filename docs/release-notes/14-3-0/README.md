@@ -175,8 +175,6 @@ When exporting a Gantt chart to PDF, users will now be able to select calendar w
 - Bugfix: File Upload fails if exactly 4096 Byte \[[#56032](https://community.openproject.org/wp/56032)\]
 - Bugfix: LDAP seeder: Password interpreted as YAML \[[#56039](https://community.openproject.org/wp/56039)\]
 - Bugfix: hal+json requests treated as plain html requests \[[#56040](https://community.openproject.org/wp/56040)\]
-- Bugfix: \[BUG\] Gantt Diagrams not sorted alphabetically in the left side menu \[[#56042](https://community.openproject.org/wp/56042)\]
-- Bugfix: Spacing between title and tabs in page headers is too small \[[#56060](https://community.openproject.org/wp/56060)\]
 - Bugfix: Filter autocompleter not loading results \[[#56188](https://community.openproject.org/wp/56188)\]
 - Bugfix: Sharing ProjectLists (at least with individuals) should only be available for enterprise \[[#56249](https://community.openproject.org/wp/56249)\]
 - Bugfix: Share modal subheader text is misplaced on mobile + user placeholder text overlaps \[[#56251](https://community.openproject.org/wp/56251)\]
