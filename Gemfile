@@ -319,6 +319,9 @@ group :development, :test do
   gem "ruby-prof", require: false
   gem "stackprof", require: false
 
+  # Output a stack trace anytime, useful when a process is stuck
+  gem "rbtrace"
+
   # REPL with debug commands
   gem "debug"
 
