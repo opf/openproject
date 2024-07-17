@@ -176,8 +176,6 @@ When exporting a Gantt chart to PDF, users will now be able to select calendar w
 - Bugfix: hal+json requests treated as plain html requests \[[#56040](https://community.openproject.org/wp/56040)\]
 - Bugfix: \[BUG\] Gantt Diagrams not sorted alphabetically in the left side menu \[[#56042](https://community.openproject.org/wp/56042)\]
 - Bugfix: Spacing between title and tabs in page headers is too small \[[#56060](https://community.openproject.org/wp/56060)\]
-- Bugfix: Loading gif in notification center and enterprise videos have white background in dark mode \[[#56157](https://community.openproject.org/wp/56157)\]
-- Bugfix: Work package description disappears if user edits title at the same time \[[#56159](https://community.openproject.org/wp/56159)\]
 
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
