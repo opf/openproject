@@ -70,6 +70,7 @@ When implementing colors in the application, we should ensure compliance with Pr
 
 ## Type and Status colors
 
+In order to increase the contrast of the attribute(status or type) color against background color in dark and light modes, we calculate correct values for styling attribute element.
 It's notable that the current class name structure is kept, but we are following the same approach GitHub is doing for their labels. For all configured colors, based on their hex codes and the selected mode, new values will be generated. The highlighting color values should be always visible and readable for:
 - Font color
 - Complete row highlighting
@@ -77,8 +78,7 @@ It's notable that the current class name structure is kept, but we are following
 - Status selector
 - Highlighting via bubble
 
-
-For calculation of new values, we need to decompose the color hex code into the rgb and hsl values. Since we need correct brightness in dark and light modes, some default styles are defined. following is an example of default styles for dark mode:
+For calculation of new values, we should decompose the color hex code into the rgb and hsl values. Since we need correct brightness in dark and light modes, some default styles are defined to be assigned to the attribute element. Following is an example of default styles for dark mode:
 
 ```
 --lightness-threshold: 0.6;
