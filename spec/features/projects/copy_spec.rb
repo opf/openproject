@@ -358,6 +358,53 @@ RSpec.describe "Projects copy", :js, :with_cuprite,
       end
     end
 
+    context "when the user has a view_project_attributes only" do
+      let(:permissions) do
+        %i(copy_projects
+           edit_project
+           add_subprojects
+           manage_types
+           view_work_packages
+           select_custom_fields
+           manage_files_in_project
+           manage_file_links
+           work_package_assigned
+           view_project_attributes)
+      end
+
+      it "copies the project attributes" do
+        original_settings_page = Pages::Projects::Settings.new(project)
+        original_settings_page.visit!
+
+        find(".toolbar a", text: "Copy").click
+
+        expect(page).to have_text "Copy project \"#{project.name}\""
+
+        fill_in "Name", with: "Copied project"
+        click_on "Save"
+
+        wait_for_copy_to_finish
+
+        copied_project = Project.find_by(name: "Copied project")
+        expect(copied_project).to be_present
+
+        overview_page = Pages::Projects::Show.new(copied_project)
+        overview_page.visit!
+
+        overview_page.within_async_loaded_sidebar do
+          # User has no permission to edit project attributes.
+          expect(page).to have_no_css("[data-test-selector='project-custom-field-section-edit-button']")
+          # The custom fields are still copied from the parent project.
+          expect(page).to have_content(project_custom_field.name)
+          expect(page).to have_content("some text cf")
+          expect(page).to have_content(optional_project_custom_field.name)
+          expect(page).to have_content("some optional text cf")
+          expect(page).to have_content(optional_project_custom_field_with_default.name)
+          expect(page).to have_content("foo")
+        end
+      end
+    end
+
     it "copies projects and the associated objects" do
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
