@@ -66,5 +66,13 @@ RSpec.describe WorkPackages::Progress::WorkBased::ModalBodyComponent,
         expect(component.focused_field).to eq(:remaining_hours)
       end
     end
+
+    context "when given percentageDone" do
+      let(:focused_field) { "percentageDone" }
+
+      it "returns :done_ratio" do
+        expect(component.focused_field).to eq(:done_ratio)
+      end
+    end
   end
 end
