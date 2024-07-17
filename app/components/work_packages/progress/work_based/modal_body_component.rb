@@ -31,7 +31,8 @@
 module WorkPackages
   module Progress
     module WorkBased
-      class ModalBodyComponent < BaseModalComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      # rubocop:disable OpenProject/AddPreviewForViewComponent
+      class ModalBodyComponent < BaseModalComponent
         def initialize(work_package,
                        focused_field: nil,
                        touched_field_map: {})
@@ -40,6 +41,7 @@ module WorkPackages
           @mode = :work_based
         end
       end
+      # rubocop:enable OpenProject/AddPreviewForViewComponent
     end
   end
 end
