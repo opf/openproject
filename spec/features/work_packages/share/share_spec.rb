@@ -75,7 +75,7 @@ RSpec.describe "Work package sharing",
     end
   end
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
+  let(:share_modal) { Components::Sharing::WorkPackages::ShareModal.new(work_package) }
   let(:members_page) { Pages::Members.new project.identifier }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:columns) { Components::WorkPackages::Columns.new }

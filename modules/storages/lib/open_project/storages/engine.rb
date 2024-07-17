@@ -252,6 +252,7 @@ module OpenProject::Storages
         ::Queries::Register.register(::ProjectQuery) do
           filter ::Queries::Storages::Projects::Filter::StorageIdFilter
           filter ::Queries::Storages::Projects::Filter::StorageUrlFilter
+          filter ::Queries::Storages::Projects::Filter::StoragesFilter
         end
 
         ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do

@@ -26,19 +26,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import {
-  WorkPackageRelationsHierarchyService,
-} from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import { take } from 'rxjs/operators';
+import { withLatestFrom } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Component({
   selector: 'wp-relations-hierarchy',
@@ -54,7 +52,7 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
 
   public workPackagePath:string;
 
-  public canHaveChildren:boolean;
+  public canHaveChildren = false;
 
   public canModifyHierarchy:boolean;
 
@@ -62,10 +60,13 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
 
   public childrenQueryProps:any;
 
-  constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-    protected apiV3Service:ApiV3Service,
-    protected PathHelper:PathHelperService,
-    readonly I18n:I18nService) {
+  constructor(
+    readonly apiV3Service:ApiV3Service,
+    readonly PathHelper:PathHelperService,
+    readonly I18n:I18nService,
+    readonly schemaCache:SchemaCacheService,
+    readonly cdRef:ChangeDetectorRef,
+  ) {
     super();
   }
 
@@ -91,26 +92,15 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
       .id(this.workPackage)
       .requireAndStream()
       .pipe(
+        withLatestFrom(this.schemaCache.requireAndStream(this.schemaCache.getSchemaHref(this.workPackage) as string)),
         this.untilDestroyed(),
       )
-      .subscribe((wp:WorkPackageResource) => {
+      .subscribe(([wp, _]) => {
+        const milestone = this.schemaCache.of(wp).isMilestone as boolean;
         this.workPackage = wp;
+        this.canHaveChildren = !milestone;
 
-        const parentId = this.workPackage.parent?.id?.toString();
-
-        if (parentId) {
-          this
-            .apiV3Service
-            .work_packages
-            .id(parentId)
-            .get()
-            .pipe(
-              take(1),
-            )
-            .subscribe((parent:WorkPackageResource) => {
-              this.workPackage.parent = parent;
-            });
-        }
+        this.cdRef.detectChanges();
       });
   }
 }

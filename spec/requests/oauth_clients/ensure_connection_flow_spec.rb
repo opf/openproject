@@ -85,7 +85,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                 "callback&response_type=code&state=#{nonce}"
               )
               expect(last_response.cookies["oauth_state_#{nonce}"])
-                .to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com" \
+                .to eq(["%7B%22href%22%3A%22http%3A%2F%2F#{CGI.escape(Setting.host_name)}" \
                         "%2F%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
             end
           end
@@ -106,7 +106,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                   "callback&response_type=code&state=#{nonce}"
                 )
                 expect(last_response.cookies["oauth_state_#{nonce}"])
-                  .to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com" \
+                  .to eq(["%7B%22href%22%3A%22http%3A%2F%2F#{CGI.escape(Setting.host_name)}" \
                           "%2F123%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
               end
             end
@@ -126,7 +126,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                   "callback&response_type=code&state=#{nonce}"
                 )
                 expect(last_response.cookies["oauth_state_#{nonce}"])
-                  .to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com" \
+                  .to eq(["%7B%22href%22%3A%22http%3A%2F%2F#{CGI.escape(Setting.host_name)}" \
                           "%2F%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
               end
             end
@@ -154,7 +154,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
               get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id, storage_id: storage.id)
 
               expect(last_response).to have_http_status(:found)
-              expect(last_response.location).to eq("http://www.example.com/")
+              expect(last_response.location).to eq("http://#{Setting.host_name}/")
               expect(last_response.cookies.keys).to eq(["_open_project_session"])
             end
           end
@@ -168,7 +168,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
 
                 storage.oauth_client
                 expect(last_response).to have_http_status(:found)
-                expect(last_response.location).to eq("http://www.example.com/123")
+                expect(last_response.location).to eq("http://#{Setting.host_name}/123")
                 expect(last_response.cookies.keys).to eq(["_open_project_session"])
               end
             end
@@ -181,7 +181,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
 
                 storage.oauth_client
                 expect(last_response).to have_http_status(:found)
-                expect(last_response.location).to eq("http://www.example.com/")
+                expect(last_response.location).to eq("http://#{Setting.host_name}/")
                 expect(last_response.cookies.keys).to eq(["_open_project_session"])
               end
             end

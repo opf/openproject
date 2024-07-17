@@ -65,7 +65,8 @@ module Filter
     # @return [Hash] the additional attributes for the filter, that will be yielded in the each_filter method
     def additional_filter_attributes(filter)
       case filter
-      when Queries::Filters::Shared::ProjectFilter
+      when Queries::Filters::Shared::ProjectFilter::Required,
+           Queries::Filters::Shared::ProjectFilter::Optional
         {
           autocomplete_options: {
             component: "opce-project-autocompleter",

@@ -1,0 +1,91 @@
+.op-submenu
+  height: 100%
+  display: flex
+  flex-direction: column
+  overflow: hidden
+
+  &--search
+    margin: 12px
+    color: var(--main-menu-font-color)
+    display: flex
+    flex-direction: column
+    row-gap: 16px
+
+  &--search-input
+    // Overriding the defult input styles, because of the default dark background of the sidebar
+    color: var(--main-menu-font-color) !important
+    border-color: var(--borderColor-muted) !important
+
+  &--body
+    flex-grow: 1
+    overflow: auto
+    @include styled-scroll-bar
+
+    &:only-child
+      padding-bottom: 10px
+
+  &--footer
+    display: grid
+    text-align: center
+    padding: 1rem
+
+    @supports (-webkit-touch-callout: none)
+      padding: 1rem 1rem 5rem
+
+    .button .spot-icon
+      margin-right: 0.5rem
+
+  &--title
+    display: flex
+    justify-content: space-between
+    background: transparent
+    color: var(--main-menu-fieldset-header-color)
+    border: 1px solid transparent
+    text-transform: uppercase
+    padding: 8px 12px 8px 24px
+    margin-top: 12px
+    font-size: 12px
+    cursor: pointer
+    width: 100%
+
+
+    &:hover
+      background: var(--main-menu-bg-hover-background)
+      color: var(--main-menu-hover-font-color)
+      border-color: var(--main-menu-hover-border-color)
+
+  &--items
+    list-style: none
+
+    &_collapsed
+      display: none
+
+  &--item-action
+    display: flex
+    align-items: center
+    color: var(--main-menu-font-color)
+    padding: 8px 12px 8px 32px
+
+    &:hover
+      background: var(--main-menu-bg-hover-background)
+      color: var(--main-menu-hover-font-color)
+
+    &_active
+      background: var(--main-menu-bg-selected-background)
+      color: var(--main-menu-selected-font-color)
+
+    &_active-child
+      background: var(--main-menu-bg-selected-background)
+      color: var(--main-menu-selected-font-color)
+
+    &_with_icon
+      padding-left: 12px
+
+  &--item-title
+    flex-grow: 1
+    display: inline-block
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+    line-height: 30px
+    text-decoration: none

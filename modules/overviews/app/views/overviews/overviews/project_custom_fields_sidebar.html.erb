@@ -27,5 +27,5 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%= content_tag("turbo-frame", id: "project-custom-fields-sidebar") do %>
-  <%= render(ProjectCustomFields::SidebarComponent.new(project: @project)) %>
+  <%= render(ProjectCustomFields::SidePanelComponent.new(project: @project)) %>
 <% end %>

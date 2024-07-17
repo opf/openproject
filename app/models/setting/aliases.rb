@@ -43,7 +43,13 @@ class Setting
     ##
     # Host name without protocol
     def host_without_protocol
-      Setting.host_name.split(":").first
+      Setting.host_name&.split(":")&.first
+    end
+
+    ##
+    # Port from host_name if set
+    def optional_port_from_host_name
+      Setting.host_name&.split(":")&.[](1)
     end
   end
 end

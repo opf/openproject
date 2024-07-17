@@ -158,16 +158,7 @@ class PlaceholderUsersController < ApplicationController
     end
   end
 
-  def default_breadcrumb
-    if action_name == "index"
-      t("label_placeholder_user_plural")
-    else
-      ActionController::Base.helpers.link_to(t("label_placeholder_user_plural"),
-                                             placeholder_users_path)
-    end
-  end
-
   def show_local_breadcrumb
-    action_name != "show"
+    false
   end
 end

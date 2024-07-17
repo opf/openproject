@@ -115,4 +115,27 @@ RSpec.describe Storages::Storage do
       end
     end
   end
+
+  describe "uri" do
+    it "returns nil if host is nil" do
+      storage = build(:storage, host: nil)
+      expect(storage.uri).to be_nil
+    end
+
+    it "returns host with trailing slash" do
+      storage = build(:storage, host: "https://example.com")
+      expect(storage.uri.to_s).to eq("https://example.com/")
+      storage = build(:storage, host: "https://endor")
+      expect(storage.uri.to_s).to eq("https://endor/")
+      storage = build(:storage, host: "https://deathstar.org/html")
+      expect(storage.uri.to_s).to eq("https://deathstar.org/html/")
+
+      storage = build(:storage, host: "https://example.com/")
+      expect(storage.uri.to_s).to eq("https://example.com/")
+      storage = build(:storage, host: "https://endor/")
+      expect(storage.uri.to_s).to eq("https://endor/")
+      storage = build(:storage, host: "https://deathstar.org/html/")
+      expect(storage.uri.to_s).to eq("https://deathstar.org/html/")
+    end
+  end
 end

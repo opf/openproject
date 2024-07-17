@@ -268,8 +268,7 @@ cs:
       favored: "Oblíbené projekty"
       archived: "Archivované projekty"
       shared: "Shared project lists"
-      public: "Veřejné projekty"
-      my_private: "soukromé seznamy  projektů"
+      my_lists: "My project lists"
       new:
         placeholder: "Nový seznam projektů"
       delete_modal:
@@ -302,8 +301,6 @@ cs:
         is_required_blank_slate:
           heading: Povinné u všech projektů
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Zahrnout všechny podprojekty
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
@@ -573,8 +570,8 @@ cs:
     deletion_pending: "Účet byl uzamčen a byl naplánován na odstranění. Tento proces probíhá na pozadí. Může to chvíli trvat, než bude uživatel plně smazán."
     deletion_info:
       data_consequences:
-        other: 'Z dat, která uživatel vytvořil (např. e-mail, nastavení, pracovní balíčky, wiki položky), bude co nejvíce smazáno. Všimněte si však, že data jako pracovní balíčky a wiki nelze odstranit, aniž by to bránilo práci ostatních uživatelů. Tyto údaje jsou proto přeřazeny na účet nazvaný „Smazaný uživatel“. Vzhledem k tomu, že data každého smazaného účtu jsou znovu přiřazena k tomuto účtu, nebude možné rozlišit data, která uživatel vytvořil od dat jiného smazaného účtu.'
-        self: 'Z údajů, které jste vytvořili (např. e-mail, nastavení, pracovní balíčky, zápisy wiki) bude co nejvíce smazáno. Všimněte si však, že data jako pracovní balíčky a wiki nelze odstranit, aniž by to bránilo práci ostatních uživatelů. Tyto údaje jsou proto přeřazeny na účet nazvaný „Smazaný uživatel“. Vzhledem k tomu, že data každého smazaného účtu jsou převedena na tento účet, nebude možné rozlišit data, která jste vytvořili, od dat jiného smazaného účtu.'
+        other: "Z dat, která uživatel vytvořil (např. e-mail, nastavení, pracovní balíčky, wiki položky), bude co nejvíce smazáno. Všimněte si však, že data jako pracovní balíčky a wiki nelze odstranit, aniž by to bránilo práci ostatních uživatelů. Tyto údaje jsou proto přeřazeny na účet nazvaný „Smazaný uživatel“. Vzhledem k tomu, že data každého smazaného účtu jsou znovu přiřazena k tomuto účtu, nebude možné rozlišit data, která uživatel vytvořil od dat jiného smazaného účtu."
+        self: "Z údajů, které jste vytvořili (např. e-mail, nastavení, pracovní balíčky, zápisy wiki) bude co nejvíce smazáno. Všimněte si však, že data jako pracovní balíčky a wiki nelze odstranit, aniž by to bránilo práci ostatních uživatelů. Tyto údaje jsou proto přeřazeny na účet nazvaný „Smazaný uživatel“. Vzhledem k tomu, že data každého smazaného účtu jsou převedena na tento účet, nebude možné rozlišit data, která jste vytvořili, od dat jiného smazaného účtu."
       heading: "Odstranit účet %{name}"
       info:
         other: "Odstranění uživatelského účtu je nevratná akce."
@@ -969,7 +966,7 @@ cs:
               forbidden: "Časová razítka obsahují zakázané hodnoty: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: "Je třeba uvést sloupec \"Název\"."
+              name_not_included: 'Je třeba uvést sloupec "Název".'
               nonexistent: "Sloupec '%{column}' neexistuje."
               format: "%{message}"
           group_by_hierarchies_exclusive: "je vzájemně exkluzivní se skupinou od '%{group_by}'. Nelze aktivovat obojí."
@@ -1108,7 +1105,7 @@ cs:
                 other: "bylo již použito. Zvolte takové, které není stejné jako %{count} posledních."
               match:
                 confirm: "Potvrzení nového hesla."
-                description: "\"Potvrzení hesla\" musí odpovídat vstupu v poli \"Nové heslo\"."
+                description: '"Potvrzení hesla" musí odpovídat vstupu v poli "Nové heslo".'
             status:
               invalid_on_create: "není platný stav pro nové uživatele."
             ldap_auth_source:
@@ -1417,9 +1414,9 @@ cs:
   copy_project:
     title: 'Kopírovat projekt "%{source_project_name}"'
     started: 'Začalo kopírovat projekt "%{source_project_name}" do "%{target_project_name}". Budete informováni e-mailem, jakmile bude k dispozici "%{target_project_name}".'
-    failed: "Nebylo možné zkopírovat projekt \"%{source_project_name}\""
+    failed: 'Nebylo možné zkopírovat projekt "%{source_project_name}"'
     failed_internal: "Kopírování se nezdařilo kvůli interní chybě."
-    succeeded: "Projekt \"%{target_project_name}\" vytvořen"
+    succeeded: 'Projekt "%{target_project_name}" vytvořen'
     errors: "Chyba"
     project_custom_fields: "Vlastní pole projektu"
     x_objects_of_this_type:
@@ -1470,7 +1467,7 @@ cs:
       long: "%d. %B %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "leden"
       - "únor"
@@ -1486,7 +1483,7 @@ cs:
       - "prosinec"
     order:
       - :rok
-      - ':měsíc'
+      - ":měsíc"
       - :den
   datetime:
     distance_in_words:
@@ -1851,6 +1848,17 @@ cs:
         failed: "Došlo k chybě a token nemohl být odstraněn. Opakujte akci později."
         unknown_storage: "Neznámé úložiště"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Odeslat oznámení pro tuto akci"
     work_packages:
       subject:
@@ -2097,6 +2105,7 @@ cs:
   label_inactive: "Neaktivní"
   label_incoming_emails: "Příchozí e-maily"
   label_includes: "zahrnuje"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index dle data"
   label_index_by_title: "Index dle názvu"
   label_information: "Informace"
@@ -2108,6 +2117,7 @@ cs:
   label_invite_user: "Pozvat uživatele"
   label_share: "Sdílet"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Zobrazit/skrýt"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Zobrazit registrované uživatele"
@@ -2156,8 +2166,8 @@ cs:
   label_member_all_admin: "(Všechny role z důvodu stavu správce)"
   label_member_plural: "Členové"
   label_membership_plural: "Členství"
-  lable_membership_added: "Člen přidán"
-  lable_membership_updated: "Člen aktualizován"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Nabídka"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2258,6 +2268,7 @@ cs:
   label_product_version: "Verze produktu"
   label_profile: "Profil"
   label_percent_complete: "% Dokončeno"
+  label_project: "Project"
   label_project_activity: "Aktivita projektu"
   label_project_attribute_plural: "Atributy projektu"
   label_project_attribute_manage_link: "Správa atributů produktu"
@@ -2427,7 +2438,7 @@ cs:
   label_wiki_page_plural: "Stránky wiki"
   label_wiki_show_index_page_link: "Zobrazit položku podnabídky 'Obsah'"
   label_wiki_show_menu_item: "Zobrazit jako položku nabídky navigaci projektu"
-  label_wiki_show_new_page_link: "Zobrazit položku menu \"Vytvořit novou podřízenou stránku\""
+  label_wiki_show_new_page_link: 'Zobrazit položku menu "Vytvořit novou podřízenou stránku"'
   label_wiki_show_submenu_item: "Zobrazit jako položku podnabídky "
   label_wiki_start: "Úvodní stránka"
   label_work: "Práce"
@@ -2497,7 +2508,7 @@ cs:
     create_work_package_link:
       errors:
         no_project_context: "Volání create_work_package_link makra z kontextu vnějšího projektu."
-        invalid_type: "Nenalezen typ s názvem '%{type}' v projektu '%{project}\"."
+        invalid_type: 'Nenalezen typ s názvem ''%{type}'' v projektu ''%{project}".'
       link_name: "Nový pracovní balíček"
       link_name_type: "Nový %{type_name}"
   mail:
@@ -2670,9 +2681,9 @@ cs:
   notice_account_wrong_password: "Chybné heslo"
   notice_account_registered_and_logged_in: "Vítejte, váš účet byl aktivován. Nyní jste přihlášeni."
   notice_activation_failed: Účet nemohl být aktivován.
-  notice_auth_stage_verification_error: "Nelze ověřit fázi '%{stage}\"."
+  notice_auth_stage_verification_error: 'Nelze ověřit fázi ''%{stage}".'
   notice_auth_stage_wrong_stage: "Očekáváno dokončení ověřovací fáze '%{expected}', ale '%{actual}' se vrátil."
-  notice_auth_stage_error: "Ověřovací fáze \"%{stage}\" selhala."
+  notice_auth_stage_error: 'Ověřovací fáze "%{stage}" selhala.'
   notice_can_t_change_password: "Tento účet používá externí zdroj ověření. Nelze změnit heslo."
   notice_custom_options_deleted: "Možnost '%{option_value}' a jeho %{num_deleted} výskytů byly odstraněny."
   notice_email_error: "Při odesílání emailu nastala chyba (%{value})"
@@ -2686,8 +2697,8 @@ cs:
   notice_locking_conflict: "Informace mezitím aktualizoval alespoň jeden další uživatel."
   notice_locking_conflict_additional_information: "Aktualizace pocházely z %{users}."
   notice_locking_conflict_reload_page: "Prosím obnovte stránku, zkontrolujte změny a znovu aplikujte aktualizace."
-  notice_member_added: '%{name} přidán do projektu.'
-  notice_members_added: '%{number} uživatelů přidáno do projektu.'
+  notice_member_added: "%{name} přidán do projektu."
+  notice_members_added: "%{number} uživatelů přidáno do projektu."
   notice_member_removed: "%{user} odebrán z projektu."
   notice_member_deleted: "%{user} odebrán z projektu a odstraněn."
   notice_no_principals_found: "Nenalezeny žádné výsledky."
@@ -3521,6 +3532,10 @@ cs:
     project_queries:
       publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
@@ -3536,6 +3551,8 @@ cs:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

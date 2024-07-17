@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_breadcrumbs(
       [
         { href: users_path, text: t(:label_user_plural) },
-        { href: user_path(@user), text: @user.name }
+        @user.name
       ])
 
     if current_user.allowed_globally?(:manage_user)
@@ -57,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     if current_user.allowed_globally?(:create_user) && current_user != @user
       header.with_action_button(tag: :a,
-                                mobile_icon: :pencil,
+                                mobile_icon: :mail,
                                 mobile_label: t(:label_send_invitation),
                                 size: :medium,
                                 href: resend_invitation_user_path(@user),

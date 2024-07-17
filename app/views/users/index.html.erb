@@ -38,21 +38,38 @@ See COPYRIGHT and LICENSE files for more details.
 <% users_info = user_limit && content_tag(:div) do %>
   <%= t(:label_enterprise_active_users, current: OpenProject::Enterprise.active_user_count, limit: user_limit) %>
   &nbsp;
-  <a href="<%= OpenProject::Enterprise.upgrade_path %>" class="display-inline button -tiny -primary" title="<%= t(:title_enterprise_upgrade) %>"><%= t(:button_upgrade) %></a>
-<% end %>
-<%= toolbar title: t(:label_user_plural), title_class: 'no-padding-bottom', subtitle: users_info do %>
-  <li class="toolbar-item">
-    <%= link_to new_user_path,
-        { class: 'button -primary',
-          aria: { label: t(:label_user_new) },
-          title: t(:label_user_new) } do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t('activerecord.models.user') %></span>
-    <% end %>
-  </li>
-  <%= call_hook(:user_admin_action_menu) %>
+  <%= render(Primer::Beta::Button.new(scheme: :primary,
+                                      size: :small,
+                                      tag: :a,
+                                      href:  OpenProject::Enterprise.upgrade_path,
+                                      title: t(:title_enterprise_upgrade))) { t(:button_upgrade) } %>
 <% end %>
 
-<%= render Users::UserFilterComponent.new(params, groups: @groups, status: @status) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_user_plural) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+                             t(:label_user_plural)])
+    header.with_description { users_info } if user_limit
+  end
+%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t(:label_user_new) },
+                                 title: I18n.t(:label_user_new),
+                                 tag: :a,
+                                 href: new_user_path) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t('activerecord.models.user')
+    end
+
+    subheader.with_bottom_pane_component do
+      render Users::UserFilterComponent.new(params, groups: @groups, status: @status)
+    end
+  end
+%>
 &nbsp;
 <%= render Users::TableComponent.new(rows: @users, current_user: ) %>

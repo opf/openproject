@@ -266,8 +266,7 @@ ja:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      public: "Public project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -300,12 +299,10 @@ ja:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: 現在、有効な種類はありません。
         form:
-          enable_type_in_project: '「%{type}」型を有効にする'
+          enable_type_in_project: "「%{type}」型を有効にする"
       versions:
         no_results_title_text: 現在、プロジェクトのバージョンはありません。
         no_results_content_text: 新しいバージョンを作成
@@ -548,8 +545,8 @@ ja:
     deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
-        other: 'ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除することはできません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てされます。削除された各アカウントのデータがこのアカウントに再割り当てされるので、そのユーザーが作成したデータと削除された別のユーザーのデータとを区別することができなくなります。'
-        self: 'あなたが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除することはできません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てされます。削除された各アカウントのデータがこのアカウントに再割り当てされるので、あなたが作成したデータと削除された別のユーザーのデータとを区別することができなくなります。'
+        other: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除することはできません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てされます。削除された各アカウントのデータがこのアカウントに再割り当てされるので、そのユーザーが作成したデータと削除された別のユーザーのデータとを区別することができなくなります。"
+        self: "あなたが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除することはできません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てされます。削除された各アカウントのデータがこのアカウントに再割り当てされるので、あなたが作成したデータと削除された別のユーザーのデータとを区別することができなくなります。"
       heading: "アカウント名「 %{name} 」を削除します。"
       info:
         other: "ユーザアカウントの削除は復元できない操作です。"
@@ -1364,7 +1361,7 @@ ja:
     update_consent_last_time: "同意の最終更新日: %{update_time}"
   copy_project:
     title: 'プロジェクト "%{source_project_name}" をコピー'
-    started: 'プロジェクト「%{source_project_name}」を「%{target_project_name}」にコピーを開始しました。「%{target_project_name}」が利用可能になり次第、メールで通知されます。'
+    started: "プロジェクト「%{source_project_name}」を「%{target_project_name}」にコピーを開始しました。「%{target_project_name}」が利用可能になり次第、メールで通知されます。"
     failed: "プロジェクト「%{source_project_name}」をコピーできません。"
     failed_internal: "内部エラーのためコピーできませんでした。"
     succeeded: "「%{target_project_name}」プロジェクトを作成しました。"
@@ -1375,8 +1372,8 @@ ja:
       one: "この種類のオブジェクトは 1 個"
       other: "この種類のオブジェクトは %{count} 個"
     text:
-      failed: 'プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーできませんでした。'
-      succeeded: 'プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーしました。'
+      failed: "プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーできませんでした。"
+      succeeded: "プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーしました。"
   create_new_page: "Wiki ページ"
   date:
     abbr_day_names:
@@ -1418,7 +1415,7 @@ ja:
       long: "%B %d、%Y"
       short: "%b%d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "1月"
       - "2月"
@@ -1433,9 +1430,9 @@ ja:
       - "11月"
       - "12月"
     order:
-      - '：年'
-      - '：月'
-      - '：日'
+      - "：年"
+      - "：月"
+      - "：日"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1551,7 +1548,7 @@ ja:
   error_must_be_project_member: "プロジェクトのメンバーである必要があります。"
   error_migrations_are_pending: "OpenProject のインストールはデータベースの移行が保留中です。前回のアップグレード時に移行の実行を行っていない可能性があります。アップグレードガイドを確認して、適切にインストールをアップグレードしてください。"
   error_migrations_visit_upgrade_guides: "アップグレードガイドのドキュメントをご覧ください"
-  error_no_default_work_package_status: '｀ワークパッケージ目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。'
+  error_no_default_work_package_status: "｀ワークパッケージ目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。"
   error_no_type_in_project: "このプロジェクトには関連付けられているワークパッケージの種類がありません。プロジェクトの設定をご確認してください。"
   error_omniauth_registration_timed_out: "外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。"
   error_omniauth_invalid_auth: "IDプロバイダーから返された認証情報が無効です。詳細については管理者に連絡してください"
@@ -1745,6 +1742,17 @@ ja:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1991,6 +1999,7 @@ ja:
   label_inactive: "非アクティブ"
   label_incoming_emails: "受信メール"
   label_includes: "インクルード"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "索引（日付順）"
   label_index_by_title: "索引（名前順）"
   label_information: "情報"
@@ -2002,6 +2011,7 @@ ja:
   label_invite_user: "ユーザを招待"
   label_share: "共有"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "表示/非表示"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "すべての登録ユーザーを表示"
@@ -2050,8 +2060,8 @@ ja:
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_plural: "メンバー"
   label_membership_plural: "Memberships"
-  lable_membership_added: "メンバーが追加されました"
-  lable_membership_updated: "メンバーが更新されました"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2152,6 +2162,7 @@ ja:
   label_product_version: "製品バージョ​​ン"
   label_profile: "プロファイル"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2578,8 +2589,8 @@ ja:
   notice_locking_conflict: "別のユーザーが同時にデータを更新しています。"
   notice_locking_conflict_additional_information: "ユーザ%{users}により更新されました。"
   notice_locking_conflict_reload_page: "ページをリロードして、変更を確認してから再適用してください。"
-  notice_member_added: '%{name} をプロジェクトに追加しました。'
-  notice_members_added: '%{number} ユーザーをプロジェクトに追加しました。'
+  notice_member_added: "%{name} をプロジェクトに追加しました。"
+  notice_members_added: "%{number} ユーザーをプロジェクトに追加しました。"
   notice_member_removed: "%{user} をプロジェクトから削除しました。"
   notice_member_deleted: "%{user} がプロジェクトから削除されたため、削除します。"
   notice_no_principals_found: "結果がありません。"
@@ -2603,7 +2614,7 @@ ja:
     the associated projects of this type.
   notice_to_many_principals_to_display: "検索結果が多すぎです。新たにメンバー名（またはグループ名）を入力して検索を絞り込んでください。"
   notice_user_missing_authentication_method: ユーザーは、サインインのパスワードまたは別の方法を選択する必要があります。
-  notice_user_invitation_resent: '%{email} に招待状が送信されました。'
+  notice_user_invitation_resent: "%{email} に招待状が送信されました。"
   present_access_key_value: "%{key_name} は: %{value}"
   notice_automatic_set_of_standard_type: "自動的に標準型を設定します。"
   notice_logged_out: "ログアウトしました。"
@@ -3226,7 +3237,7 @@ ja:
   text_wiki_page_destroy_children: "配下の子孫ページも削除する"
   text_wiki_page_destroy_question: "この親ページの配下に%{descendants}ページの子孫ページがあります。どれかを選択してください。"
   text_wiki_page_nullify_children: "子ページをメインページ配下に移動する"
-  text_wiki_page_reassign_children: "\"子ページを次の親ページの配下に移動する"
+  text_wiki_page_reassign_children: '"子ページを次の親ページの配下に移動する'
   text_workflow_edit: "ワークフローを編集する役割とワークパッケージの種類を選択してください。"
   text_zoom_in: "拡大"
   text_zoom_out: "拡大"
@@ -3407,6 +3418,10 @@ ja:
     project_queries:
       publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
@@ -3422,6 +3437,8 @@ ja:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

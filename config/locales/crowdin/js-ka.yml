@@ -366,10 +366,10 @@ ka:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -616,17 +616,17 @@ ka:
       title: "შეტყობინებები"
       no_unread: "No unread notifications"
       reasons:
-        mentioned: "მოხსენიებულები"
-        watched: "მეთვალყურე"
-        assigned: "შემსრულებელი"
-        responsible: "ანგარიშვალდებული"
-        created: "შეიქმნა"
-        scheduled: "დაგეგმილია"
-        commented: "დაკომენტარებულია"
-        processed: "დამუშავებულია"
-        prioritized: "პრიორიტიზებულია"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        assigned: "Assignee"
+        responsible: "Accountable"
+        created: "Created"
+        scheduled: "Scheduled"
+        commented: "Commented"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "გაფრთხილების თარიღი"
-        shared: "გაზიარებული"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Milestone date"
         overdue: "ვადაგადაცილებული"
@@ -663,15 +663,6 @@ ka:
         new_notifications:
           message: "There are new notifications."
           link_text: "Click here to load them."
-      menu:
-        accountable: "ანგარიშვალდებული"
-        by_project: "Unread by project"
-        by_reason: "მიზეზი"
-        inbox: "შემომავალი"
-        mentioned: "მოხსენიებულები"
-        watched: "მეთვალყურე"
-        date_alert: "გაფრთხილების თარიღი"
-        shared: "გაზიარებული"
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -1020,6 +1011,7 @@ ka:
         workAlternative: "სავარაუდო დრო"
         remainingTime: "დარჩენილი სამუშაო"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Latest activity"
         created_by_me: "ჩემი შექმნილები"
         assigned_to_me: "ჩემზე მონიჭებული"

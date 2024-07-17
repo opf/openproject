@@ -22,6 +22,8 @@ pl:
           attributes:
             project_folder_mode:
               mode_unavailable: jest niedostępny dla tego magazynu.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -53,6 +55,11 @@ pl:
   permission_view_file_links: Wyświetl linki do plików
   permission_write_files: 'Automatycznie zarządzane foldery projektu: zapis plików'
   project_module_storages: Pliki
+  project_storages:
+    project_folder_mode:
+      automatic: Automatyczne zarządzanie
+      inactive: Brak konkretnego folderu
+      manual: Istniejący folder zarządzany ręcznie
   storages:
     buttons:
       complete_without_setup: Ukończ bez tego
@@ -103,22 +110,22 @@ pl:
     health:
       checked: Ostatnio sprawdzono %{datetime}
       connection_validation:
-        action: Recheck connection
-        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        placeholder: Check your connection against the server.
-        subtitle: Connection validation
-        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content: Unexpected content found in the drive.
-        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        action: Sprawdź ponownie połączenie
+        client_id_wrong: Skonfigurowany identyfikator klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
+        client_secret_wrong: Skonfigurowany klucz tajny klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
+        drive_id_wrong: Nie można znaleźć skonfigurowanego identyfikatora dysku. Sprawdź konfigurację.
+        not_configured: Nie można zweryfikować połączenia. Najpierw zakończ konfigurację.
+        placeholder: Sprawdź połączenie z serwerem.
+        subtitle: Weryfikacja połączenia
+        tenant_id_wrong: Skonfigurowany katalog (dzierżawca) jest nieprawidłowy. Sprawdź konfigurację.
+        unexpected_content: Na dysku znaleziono nieoczekiwaną zawartość.
+        unknown_error: Nie można zweryfikować połączenia. Wystąpił nieznany błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
       label_error: Błąd
       label_healthy: Zdrowe
       label_pending: Oczekujący
-      label_warning: Warning
+      label_warning: Ostrzeżenie
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Automatycznie zarządzane foldery projektu
       since: od %{datetime}
       title: Status kondycji
     health_email_notifications:
@@ -130,10 +137,10 @@ pl:
       unsubscribe: Anuluj subskrypcję
     help_texts:
       project_folder: Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Wszystkie dostępne magazyny zostały już dodane do projektu.
       automatic_folder: Spowoduje to automatyczne utworzenie katalogu głównego dla tego projektu i zarządzanie uprawnieniami dostępu każdego członka projektu.
-      copy_from: Skopiuj tę wartość z
       empty_project_folder_validation: Wybranie folderu jest obowiązkowe w celu kontynuacji.
       existing_manual_folder: Możesz wyznaczyć istniejący folder jako folder główny tego projektu. Uprawnienia nie są jednak zarządzane automatycznie, administrator musi ręcznie upewnić się, że odpowiedni użytkownicy mają dostęp. Wybrany folder może być używany przez wiele projektów.
       host: Proszę dodać adres hosta magazynu wraz z https://. Nie powinien być dłuższy niż 255 znaków.

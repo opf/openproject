@@ -57,6 +57,14 @@ module Storages
       end
     end
 
+    def available_project_folder_modes
+      if automatic_management_enabled?
+        ["inactive", "automatic"]
+      else
+        ["inactive", "manual"]
+      end
+    end
+
     def oauth_configuration
       Peripherals::OAuthConfigurations::OneDriveConfiguration.new(self)
     end

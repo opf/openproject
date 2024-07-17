@@ -88,13 +88,33 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
       expect(subject.result.provider_type).to eq Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
     end
 
-    context "when setting host" do
+    context "with host" do
       before do
-        params[:host] = "https://some.host.com//"
+        params[:host] = host_input
       end
 
-      it "removes trailing slashes from host" do
-        expect(subject.result.host).to eq("https://some.host.com")
+      context "if host input has a trailing slashes" do
+        let(:host_input) { "https://some.host.com//" }
+
+        it "keeps a trailing slash" do
+          expect(subject.result.host).to eq(host_input)
+        end
+      end
+
+      context "if host input is empty string" do
+        let(:host_input) { "" }
+
+        it "sets host to nil" do
+          expect(subject.result.host).to be_nil
+        end
+      end
+
+      context "if host input has no trailing slash" do
+        let(:host_input) { "https://some.host.com" }
+
+        it "adds a trailing slash" do
+          expect(subject.result.host).to eq("https://some.host.com/")
+        end
       end
     end
   end

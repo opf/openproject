@@ -86,19 +86,5 @@ module Storages::Admin::Forms
     def default_form_url
       admin_settings_storage_automatically_managed_project_folders_path(storage)
     end
-
-    def storage_provider_credentials_copy_instructions
-      "#{I18n.t('storages.instructions.copy_from')}: #{provider_credentials_instructions_link}".html_safe
-    end
-
-    def provider_credentials_instructions_link
-      render(
-        Primer::Beta::Link.new(
-          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
-                                                                                         "settings/admin/openproject"),
-          target: "_blank"
-        )
-      ) { I18n.t("storages.instructions.#{storage.short_provider_type}.integration") }
-    end
   end
 end

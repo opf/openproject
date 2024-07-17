@@ -159,7 +159,7 @@ module Storages
 
     def hide_inactive_folders(remote_folders)
       project_folder_ids = active_project_storages_scope.pluck(:project_folder_id).compact
-      remote_folders.except("#{@storage.group_folder}/").each do |(path, attrs)|
+      remote_folders.except("/#{@storage.group_folder}/").each do |(path, attrs)|
         next if project_folder_ids.include?(attrs["fileid"])
 
         command_params = {

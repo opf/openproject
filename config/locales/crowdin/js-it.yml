@@ -150,7 +150,7 @@ it:
         attribute_reference:
           macro_help_tooltip: "Questo segmento di testo viene renderizzato dinamicamente da una macro."
           not_found: "Impossibile trovare la risorsa richiesta"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "Questa macro fa riferimento in modo ricorsivo a %{model} %{id}."
           invalid_attribute: "L'attributo selezionato '%{name}' non esiste."
         child_pages:
           button: "Collegamenti alle pagine discendenti"
@@ -366,10 +366,10 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Impostazione di ulteriori unità per lavoro, lavoro rimanente e tempo di lavoro</li> <li>Indicazione di quali progetti sono attivati per gli attributi</li> <li>Possibilità di rinominare gli elenchi di progetti privati</li> <li>Possibilità di evitare promemoria email ridondanti in caso di @menzioni</li> <li>Invito dei partecipanti alla riunione via email</li> <li>Visualizzazione degli attributi del pacchetto di lavoro nelle esportazioni PDF</li> </ul>
+                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Condividere e rendere pubblici gli elenchi di progetti (modulo aggiuntivo Enteprise)</li> <li>Contrassegnare gli elenchi di progetti come preferiti</li> <li>Verifica della connessione per gli spazi di archiviazione OneDrive/SharePoint (modulo aggiuntivo Enterprise)</li> <li>Nuovo look con Primer per la pagina del profilo utente</li> <li>Esportazione diagramma di Gantt: nuovo livello di zoom basato sulle settimane</li> <li>Barra di ricerca del sottomenu (elenchi di progetti e moduli Gantt e Bacheche)</li> <li>Possibilità di scegliere come visualizzare l'avanzamento: solo in ore oppure in giorni e ore</li> <li>Deselezionare progetti nel selettore di progetti</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -616,17 +616,17 @@ it:
       title: "Notifiche"
       no_unread: "Nessuna nuova notifica"
       reasons:
-        mentioned: "menzionato"
-        watched: "osservatore"
-        assigned: "assegnatario"
-        responsible: "responsabile"
-        created: "creato"
-        scheduled: "programmato"
-        commented: "commentato"
-        processed: "elaborato"
-        prioritized: "prioritizzato"
+        mentioned: "Menzionato"
+        watched: "Osservatore"
+        assigned: "Assegnatario"
+        responsible: "Responsabile"
+        created: "Creato"
+        scheduled: "Programmato"
+        commented: "Commentato"
+        processed: "Elaborato"
+        prioritized: "Assegnata priorità"
         dateAlert: "Avviso data"
-        shared: "condiviso"
+        shared: "Condiviso"
       date_alerts:
         milestone_date: "Data inizio"
         overdue: "In ritardo"
@@ -663,15 +663,6 @@ it:
         new_notifications:
           message: "Ci sono nuove notifiche."
           link_text: "Clicca qui per caricarli."
-      menu:
-        accountable: "Responsabile"
-        by_project: "Non letto dal progetto"
-        by_reason: "Motivo"
-        inbox: "Posta In Arrivo"
-        mentioned: "Menzionato"
-        watched: "Osservatore"
-        date_alert: "Avviso data"
-        shared: "Condiviso"
       settings:
         change_notification_settings: 'Puoi modificare le tue <a target="_blank" href="%{url}">impostazioni di notifica</a> per assicurarti di non perderti mai un aggiornamento importante.'
         title: "Impostazioni notifiche"
@@ -906,10 +897,10 @@ it:
       wiki_link: "Collega ad una pagina Wiki"
       image: "Immagine"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Condividi"
+      selected_count: "%{count} selezionati"
       selection:
-        mixed: "Mixed"
+        mixed: "Misto"
     work_packages:
       bulk_actions:
         move: "Modifica complessiva del progetto"
@@ -1020,12 +1011,13 @@ it:
         workAlternative: "Tempo stimato"
         remainingTime: "Lavoro rimanente"
       default_queries:
+        manually_sorted: "Nuova query ordinata manualmente"
         latest_activity: "Ultima attività"
         created_by_me: "Creato da me"
         assigned_to_me: "Assegnato a me"
         recently_created: "Creato di recente"
         all_open: "Apri tutto"
-        overdue: "Overdue"
+        overdue: "In ritardo"
         summary: "Sommario"
         shared_with_users: "Condiviso con gli utenti"
         shared_with_me: "Condivisi con me"

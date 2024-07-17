@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
     <% end %>
     <% component.with_sidebar(col_placement: :end, row_placement: :end) do %>
-      <%= render(::Storages::Admin::SidebarComponent.new(storage: @storage)) %>
+      <%= render(::Storages::Admin::SidePanelComponent.new(storage: @storage)) %>
     <% end %>
   <% end %>
 <% else %>

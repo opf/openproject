@@ -25,7 +25,7 @@
         [ngClass]="{'wp-edit-formattable-field': descriptor.field!.isFormattable }"
         [resource]="workPackage"
         [isDropTarget]="descriptor.field!.isFormattable"
-        [fieldName]="fieldName(descriptor.name)"
+        [fieldName]="descriptor.field!.name"
       ></op-editable-attribute-field>
     </div>
   </ng-template>

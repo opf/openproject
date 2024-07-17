@@ -268,8 +268,7 @@
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
       shared: "Offentlige prosjektlister"
-      public: "Offentlige prosjektlister"
-      my_private: "Mine private prosjektlister"
+      my_lists: "My project lists"
       new:
         placeholder: "Ny prosjektliste"
       delete_modal:
@@ -302,8 +301,6 @@
         is_required_blank_slate:
           heading: Påkrevd i alle prosjekter
           description: Prosjektattributten er aktivert i alle prosjekter fordi "Påkrevd i alle prosjekter"-alternativet er valgt. Attributten kan ikke deaktiveres for hvert enkelt prosjekt.
-        new_project_mapping_form:
-          include_sub_projects: Inkluder underprosjekter
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -417,7 +414,7 @@
       prompt: "Forbli innlogget for %{num_days}"
     sessions:
       remembered_devices: "Lagrede enheter"
-      remembered_devices_caption: "En liste over alle enheter som er logget på denne kontoen ved hjelp av \"Hold deg innlogget\" alternativet."
+      remembered_devices_caption: 'En liste over alle enheter som er logget på denne kontoen ved hjelp av "Hold deg innlogget" alternativet.'
       session_name: "%{browser_name} %{browser_version} på %{os_name}"
       browser: "Nettleser"
       device: "Enhet / Operativsystem"
@@ -533,7 +530,7 @@
     sharing:
       missing_workflow_warning:
         title: "Arbeidsflyt mangler for deling av arbeidspakker"
-        message: "Ingen arbeidsflyt er konfigurert for rollen 'Arbeidspakke redaktør'. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. 'oppgave') og en kilderolle (f.eks. 'medlem'). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du \"Redigeringsprogrammet for arbeidspakke\" som mål og klikk \"Kopier\". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for enhver annen rolle."
+        message: 'Ingen arbeidsflyt er konfigurert for rollen ''Arbeidspakke redaktør''. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. ''oppgave'') og en kilderolle (f.eks. ''medlem''). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du "Redigeringsprogrammet for arbeidspakke" som mål og klikk "Kopier". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for enhver annen rolle.'
         link_message: "Konfigurer arbeidsmetodene i administrasjonen."
     summary:
       reports:
@@ -973,10 +970,10 @@
             circular_dependency: "Forholdet skaper en sirkel av forhold."
           attributes:
             to:
-              error_not_found: "Arbeidspakke i \"til\"-posisjonen er ikke funnet eller ikke synlig"
+              error_not_found: 'Arbeidspakke i "til"-posisjonen er ikke funnet eller ikke synlig'
               error_readonly: "en eksisterende relasjons 'til'-lenke er uforanderlig"
             from:
-              error_not_found: "arbeidspakke i \"fra\"-posisjonen er ikke funnet eller ikke synlig"
+              error_not_found: 'arbeidspakke i "fra"-posisjonen er ikke funnet eller ikke synlig'
               error_readonly: "en eksisterende relasjon `fra`-lenke er uforanderlig"
         repository:
           not_available: "SCM leverandør er ikke tilgjengelig"
@@ -1082,10 +1079,10 @@
               format: "%{message}"
             password:
               weak: "Må inneholde tegn fra de følgende klassene (minst %{min_count} av %{all_count}): %{rules}."
-              lowercase: "små bokstaver (f.eks. \"a\")"
-              uppercase: "store bokstaver (f.eks. \"A\")"
-              numeric: "numerisk (f.eks. \"1\")"
-              special: "spesialtegn (f.eks. \"%\")"
+              lowercase: 'små bokstaver (f.eks. "a")'
+              uppercase: 'store bokstaver (f.eks. "A")'
+              numeric: 'numerisk (f.eks. "1")'
+              special: 'spesialtegn (f.eks. "%")'
               reused:
                 one: "har blitt brukt tidligere. Vennligst velg en som er forskjellig fra den forrige."
                 other: "har blitt brukt tidligere. Vennligst velg et som er forskjellig fra dine siste %{count}."
@@ -1437,7 +1434,7 @@
       long: "%d. %B %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Januar"
       - "Februar"
@@ -1452,8 +1449,8 @@
       - "November"
       - "Desember"
     order:
-      - ':år'
-      - ':måned'
+      - ":år"
+      - ":måned"
       - :dag
   datetime:
     distance_in_words:
@@ -1782,6 +1779,17 @@
         failed: "En feil oppstod, nøkkelen kunne ikke fjernes. Prøv igjen senere."
         unknown_storage: "Ukjent lagring"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send varsler for denne handlingen"
     work_packages:
       subject:
@@ -2028,6 +2036,7 @@
   label_inactive: "Inaktiv"
   label_incoming_emails: "Inkommende e-post"
   label_includes: "inkluderer"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeksèr etter dato"
   label_index_by_title: "Indeksèr på tittel"
   label_information: "Informasjon"
@@ -2039,6 +2048,7 @@
   label_invite_user: "Inviter bruker"
   label_share: "Del"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Vis/Skjul"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Vis alle registrerte brukere"
@@ -2087,8 +2097,8 @@
   label_member_all_admin: "(Alle roller på grunn av administratorstatus)"
   label_member_plural: "Medlemmer"
   label_membership_plural: "Medlemskap"
-  lable_membership_added: "Medlem lagt til"
-  lable_membership_updated: "Medlem oppdatert"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Meny"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2189,6 +2199,7 @@
   label_product_version: "Produktversjon"
   label_profile: "Profil"
   label_percent_complete: "% Ferdig"
+  label_project: "Project"
   label_project_activity: "Aktivitet i prosjektet"
   label_project_attribute_plural: "Prosjekt egenskaper"
   label_project_attribute_manage_link: "Administrer prosjektegenskaper"
@@ -3448,6 +3459,10 @@
     project_queries:
       publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
@@ -3463,6 +3478,8 @@
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Hoppet over dager som ikke er valgt ved planlegging av arbeidspakker (og ikke inkludert i antall dager). Disse kan overstyres på arbeidspakkenivå.
@@ -3502,7 +3519,7 @@
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (enhver kompatibel ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Forventet at INNHOLDSTYPE skulle være '%{content_type}', men mottok i stedet '%{actual}'."
-      invalid_format: "Ugyldig format for '%{property}': forventet format som \"%{expected_format}\", men fikk '%{actual}'."
+      invalid_format: 'Ugyldig format for ''%{property}'': forventet format som "%{expected_format}", men fikk ''%{actual}''.'
       invalid_json: "Forespørselen kan ikke analyseres som JSON."
       invalid_relation: "Relasjonen er ugyldig."
       invalid_resource: "For '%{property}' er en link som '%{expected}' forventet, men fikk '%{actual}'."
@@ -3619,7 +3636,7 @@
       client_credentials: "Kundens innloggingsflyt"
     client_credentials: "Brukeren brukes til klientpåloggingsinformasjon"
     client_credentials_impersonation_set_to: "Klientens påloggingsinformasjon satt til"
-    client_credentials_impersonation_warning: "Merk: Klienter som bruker \"Klient-legitimasjonsflyten\" i denne applikasjonen vil ha rettighetene til denne brukeren"
+    client_credentials_impersonation_warning: 'Merk: Klienter som bruker "Klient-legitimasjonsflyten" i denne applikasjonen vil ha rettighetene til denne brukeren'
     client_credentials_impersonation_html: >
       Som standard gir OpenProject OAuth 2.0 autorisasjon via %{authorization_code_flow_link}. Du kan eventuelt aktivere %{client_credentials_flow_link}, men du må oppgi en bruker som forespørselen blir utført på vegne av.
     authorization_error: "Det oppstod en godkjenningsfeil."

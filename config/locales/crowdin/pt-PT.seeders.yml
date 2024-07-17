@@ -43,9 +43,9 @@ pt-PT:
           name: Outro
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: Visualizador de consultas de projetos
         item_1:
-          name: Project query editor
+          name: Editor de consultas de projetos
       work_package_roles:
         item_0:
           name: Editor de pacotes de trabalho

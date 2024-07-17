@@ -19,13 +19,15 @@ Navigate to **Administration → Calendar and dates**.
 
 ## Working days and hours
 
-Administrators are able to define how many hours are considered a day and which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages.
+Administrators are able to define how many hours are considered a day and which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages. 
 
 To change this setting, navigate to **Working days** inside of the **Calendar and dates** settings.
 
 > **Note:** By default, a working day is considered to have 8 hours, the five days from Monday–Friday are considered working days, and Saturday and Sunday are considered non-working days.
 
-![The 'Working days' entry in Calendar and dates settings ](admin-working-days-hours.png)
+Here the **duration format** can also be set for *Work, Remaining work and Time spent* fields. The options include **hours only** and **days and hours**. The default setting is *hours only*.
+
+ ![The 'Working days' entry in Calendar and dates settings ](admin-working-days-hours.png)
 
 To change this setting, unselect days that you would like to define as non-working, and select ones that you would like to consider working, and click on **Save**.
 

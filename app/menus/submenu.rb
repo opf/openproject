@@ -48,7 +48,7 @@ class Submenu
     base_query
       .where("starred" => "t")
       .pluck(:id, :name)
-      .map { |id, name| menu_item(name, query_params(id)) }
+      .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
       .sort_by(&:title)
   end
 
@@ -61,7 +61,7 @@ class Submenu
       .where("starred" => "f")
       .where("public" => "t")
       .pluck(:id, :name)
-      .map { |id, name| menu_item(name, query_params(id)) }
+      .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
       .sort_by(&:title)
   end
 
@@ -70,7 +70,7 @@ class Submenu
       .where("starred" => "f")
       .where("public" => "f")
       .pluck(:id, :name)
-      .map { |id, name| menu_item(name, query_params(id)) }
+      .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
       .sort_by(&:title)
   end
 
@@ -92,15 +92,19 @@ class Submenu
     { query_id: id }
   end
 
-  def menu_item(name, query_params)
-    OpenProject::Menu::MenuItem.new(title: name,
+  def menu_item(title:, icon_key: nil, count: nil, show_enterprise_icon: false, query_params: {})
+    OpenProject::Menu::MenuItem.new(title:,
                                     href: query_path(query_params),
+                                    icon: icon_map.fetch(icon_key, icon_key),
+                                    count:,
                                     selected: selected?(query_params),
-                                    favored: favored?(query_params))
+                                    favored: favored?(query_params),
+                                    show_enterprise_icon:)
   end
 
   def selected?(query_params)
     query_params.each_key do |filter_key|
+      next if filter_key == :show_enterprise_icon
       if params[filter_key] != query_params[filter_key].to_s
         return false
       end
@@ -115,6 +119,10 @@ class Submenu
 
   def favored?(_query_params)
     false
+  end
+
+  def icon_map
+    {}
   end
 
   def query_path(query_params)

@@ -35,7 +35,13 @@ RSpec.shared_context "filter tests" do
     described_class.create!(name: instance_key, context:, operator:, values:)
   end
   let(:name) { model.human_attribute_name((instance_key || expected_class_key).to_s.gsub("_id", "")) }
-  let(:model) { WorkPackage }
+  let(:model) do
+    if /^Queries::(?<model_plural>(?:[A-Z][a-z]+)+)::Filters?::(?:[A-Z][a-z]+)+Filter$/ =~ described_class.name
+      model_plural.singularize.constantize
+    else
+      raise "needs to be defined"
+    end
+  end
 end
 
 RSpec.shared_examples_for "basic query filter" do
@@ -75,6 +81,7 @@ end
 RSpec.shared_examples_for "list query filter" do |scope: true|
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
+  let(:valid_values) { raise "needs to be defined" }
   let(:type) { :list }
 
   if scope
@@ -134,6 +141,7 @@ end
 RSpec.shared_examples_for "list_optional query filter" do
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
+  let(:valid_values) { raise "needs to be defined" }
   let(:type) { :list_optional }
   let(:joins) { nil }
   let(:expected_base_scope) do
@@ -224,6 +232,8 @@ end
 
 RSpec.shared_examples_for "list_optional group query filter" do
   include_context "filter tests"
+  let(:valid_values) { raise "needs to be defined" }
+
   describe "#apply_to" do
     let(:values) { valid_values }
 
@@ -293,6 +303,7 @@ end
 RSpec.shared_examples_for "list_all query filter" do
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
+  let(:valid_values) { raise "needs to be defined" }
   let(:type) { :list_all }
   let(:joins) { nil }
   let(:expected_base_scope) do

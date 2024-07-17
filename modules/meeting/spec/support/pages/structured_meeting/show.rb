@@ -212,12 +212,12 @@ module Pages::StructuredMeeting
 
     def close_meeting
       click_on("Close meeting")
-      expect(page).to have_button("Reopen meeting")
+      expect(page).to have_link("Reopen meeting")
     end
 
     def reopen_meeting
       click_on("Reopen meeting")
-      expect(page).to have_button("Close meeting")
+      expect(page).to have_link("Close meeting")
     end
 
     def close_dialog
@@ -225,7 +225,7 @@ module Pages::StructuredMeeting
     end
 
     def meeting_details_container
-      find_by_id("meetings-sidebar-details-component")
+      find_by_id("meetings-side-panel-details-component")
     end
 
     def in_latest_section_form(&)

@@ -150,7 +150,7 @@ pt-PT:
         attribute_reference:
           macro_help_tooltip: "Este segmento de texto está a ser dinamicamente processado por uma macro."
           not_found: "Não foi possível encontrar o recurso solicitado"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "Esta macro faz referência de forma recursiva a %{model} %{id}."
           invalid_attribute: "O atributo selecionado '%{name}' não existe."
         child_pages:
           button: "Links para páginas filho"
@@ -366,10 +366,10 @@ pt-PT:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                A versão contém várias funcionalidades e melhorias novas: <br> <ul class="%{list_styling_class}"> <li>Definir mais unidades para trabalho, trabalho restante e tempo de trabalho</li> <li>Configurar os projetos que são ativados para atributos do projeto</li> <li>Renomear listas de projetos privados</li> <li>Evitar lembretes de e-mail redundantes no caso de @menções</li> <li>Convidar participantes de reuniões por e-mail</li> <li>Mostrar atributos de pacotes de trabalho incorporados em exportações de PDF</li> </ul>
+                A versão contém várias funcionalidades novas e melhorias: <br> <ul class="%{list_styling_class}"> <li>Partilhe listas de projetos e torne-as públicas (complemento Enterprise)</li> <li>Marque as listas de projetos como favoritas</li> <li>Validação de ligação para armazenamentos OneDrive/SharePoint (complemento Enterprise)</li> <li>Novo visual com Primer para a página de perfil do utilizador</li> <li>Exportação do gráfico de Gantt para PDF: formato de datas adicional com base nas semanas do calendário</li> <li>Barra de pesquisa para componente de submenu (listas de projetos e módulos Gantt e Quadros)</li> <li>Escolha entre o relatório de progresso apresentado apenas em horas ou em dias e horas</li> <li>Anule a seleção de projetos do seletor de projetos</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."
@@ -616,17 +616,17 @@ pt-PT:
       title: "Notificações"
       no_unread: "Nenhuma notificação não lida"
       reasons:
-        mentioned: "mentionado"
-        watched: "observador"
-        assigned: "responsável"
-        responsible: "responsável"
-        created: "criado"
-        scheduled: "agendado"
-        commented: "comentado"
-        processed: "processado"
-        prioritized: "priorizado"
+        mentioned: "Mencionado"
+        watched: "Observador"
+        assigned: "Pessoa atribuída"
+        responsible: "Responsável"
+        created: "Criado"
+        scheduled: "Agendado"
+        commented: "Comentado"
+        processed: "Processado"
+        prioritized: "Priorizado"
         dateAlert: "Alerta de data"
-        shared: "partilhado"
+        shared: "Partilhado"
       date_alerts:
         milestone_date: "Data do marco"
         overdue: "Em atraso"
@@ -663,15 +663,6 @@ pt-PT:
         new_notifications:
           message: "Há novas notificações."
           link_text: "Clique aqui para carregá-las."
-      menu:
-        accountable: "Responsável"
-        by_project: "Não lido por projeto"
-        by_reason: "Motivo"
-        inbox: "Caixa de entrada"
-        mentioned: "Mencionou"
-        watched: "Observador"
-        date_alert: "Alerta de data"
-        shared: "Compartilhado"
       settings:
         change_notification_settings: 'Pode modificar as suas <a target="_blank" href="%{url}">definições de notificações</a> para garantir que nunca perde uma atualização importante.'
         title: "Definições das notificações"
@@ -906,10 +897,10 @@ pt-PT:
       wiki_link: "Link para uma página Wiki"
       image: "Imagem"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Partilhar"
+      selected_count: "%{count} selecionado"
       selection:
-        mixed: "Mixed"
+        mixed: "Misturado"
     work_packages:
       bulk_actions:
         move: "Mudança em massa de projeto"
@@ -1020,12 +1011,13 @@ pt-PT:
         workAlternative: "Tempo estimado"
         remainingTime: "Trabalho restante"
       default_queries:
+        manually_sorted: "Nova consulta ordenada manualmente"
         latest_activity: "Atividade mais recente"
         created_by_me: "Criado por mim"
         assigned_to_me: "Atribuído a mim"
         recently_created: "Criado recentemente"
         all_open: "Tudo aberto"
-        overdue: "Overdue"
+        overdue: "Em atraso"
         summary: "Resumo"
         shared_with_users: "Partilhado com utilizadores"
         shared_with_me: "Partilhados comigo"

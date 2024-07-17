@@ -30,6 +30,8 @@
 
 class Storages::Admin::Storages::ProjectStoragesController < ApplicationController
   include OpTurbo::ComponentStream
+  include OpTurbo::DialogStreamHelper
+  include FlashMessagesOutputSafetyHelper
 
   layout "admin"
 
@@ -38,20 +40,39 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   before_action :require_admin
   before_action :find_model_object
 
+  before_action :storage_projects_query,
+                :project_folder_modes_per_project,
+                only: :index
+  before_action :initialize_project_storage, only: :new
+  before_action :find_projects_to_activate_for_storage, only: :create
+
   menu_item :external_file_storages
 
-  def index
-    @project_query = ProjectQuery.new(
-      name: "project-storage-mappings-#{@storage.id}"
-    ) do |query|
-      query.where(:id, "=", @storage.projects.ids)
-      query.select(:name)
-      query.order("lft" => "asc")
-    end
+  def index; end
+
+  def new
+    respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
   end
 
-  def new; end
-  def create; end
+  def create
+    create_service = ::Storages::ProjectStorages::BulkCreateService
+                         .new(user: current_user, projects: @projects, storage: @storage,
+                              project_folder_mode: params.to_unsafe_h[:storages_project_storage][:project_folder_mode],
+                              include_sub_projects: include_sub_projects?)
+                         .call
+
+    create_service.on_success { update_project_list_via_turbo_stream(url_for_action: :index) }
+
+    create_service.on_failure do
+      update_flash_message_via_turbo_stream(
+        message: join_flash_messages(create_service.errors),
+        full: true, dismiss_scheme: :hide, scheme: :danger
+      )
+    end
+
+    respond_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
+  end
+
   def destroy; end
 
   private
@@ -59,5 +80,59 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   def find_model_object(object_id = :storage_id)
     super
     @storage = @object
+  end
+
+  def find_projects_to_activate_for_storage
+    if (project_ids = params.to_unsafe_h[:storages_project_storage][:project_ids]).present?
+      @projects = Project.find(project_ids)
+    else
+      initialize_project_storage
+      @project_storage.errors.add(:project_ids, :blank)
+      component = Storages::Admin::Storages::AddProjectsFormModalComponent.new(project_storage: @project_storage)
+      update_via_turbo_stream(component:, status: :bad_request)
+      respond_with_turbo_streams
+    end
+  rescue ActiveRecord::RecordNotFound
+    update_flash_message_via_turbo_stream message: t(:notice_project_not_found), full: true, dismiss_scheme: :hide,
+                                          scheme: :danger
+    update_project_list_via_turbo_stream
+
+    respond_with_turbo_streams
+  end
+
+  def update_project_list_via_turbo_stream(url_for_action: action_name)
+    update_via_turbo_stream(
+      component: Storages::ProjectStorages::Projects::TableComponent.new(
+        query: storage_projects_query,
+        project_folder_modes_per_project:,
+        params: { url_for_action: }
+      )
+    )
+  end
+
+  def storage_projects_query
+    @storage_projects_query = ProjectQuery.new(name: "storage-projects-#{@storage.id}") do |query|
+      query.where(:storages, "=", [@storage.id])
+      query.select(:name)
+      query.order("lft" => "asc")
+    end
+  end
+
+  def project_folder_modes_per_project
+    @project_folder_modes_per_project ||= Storages::ProjectStorage
+      .where(storage_id: @storage.id)
+      .pluck(:project_id, :project_folder_mode)
+      .to_h
+  end
+
+  def initialize_project_storage
+    @project_storage = ::Storages::ProjectStorages::SetAttributesService
+        .new(user: current_user, model: ::Storages::ProjectStorage.new, contract_class: EmptyContract)
+        .call(storage: @storage)
+        .result
+  end
+
+  def include_sub_projects?
+    ActiveRecord::Type::Boolean.new.cast(params.to_unsafe_h[:storages_project_storage][:include_sub_projects])
   end
 end

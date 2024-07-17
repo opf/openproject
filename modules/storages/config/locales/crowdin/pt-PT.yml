@@ -22,6 +22,8 @@ pt-PT:
           attributes:
             project_folder_mode:
               mode_unavailable: não está disponível para este armazenamento.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -53,6 +55,11 @@ pt-PT:
   permission_view_file_links: Mostrar hiperligações de ficheiros
   permission_write_files: 'Pastas do projeto geridas automaticamente: Escrever ficheiros'
   project_module_storages: Ficheiros
+  project_storages:
+    project_folder_mode:
+      automatic: Gerido automaticamente
+      inactive: Nenhuma pasta específica
+      manual: Pasta existente gerida manualmente
   storages:
     buttons:
       complete_without_setup: Concluir sem isso
@@ -103,22 +110,22 @@ pt-PT:
     health:
       checked: Última verificação em %{datetime}
       connection_validation:
-        action: Recheck connection
-        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        placeholder: Check your connection against the server.
-        subtitle: Connection validation
-        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content: Unexpected content found in the drive.
-        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        action: Verifique novamente a ligação
+        client_id_wrong: O ID de cliente OAuth 2 configurado é inválido. Verifique a configuração.
+        client_secret_wrong: O segredo do cliente OAuth 2 configurado é inválido. Verifique a configuração.
+        drive_id_wrong: Não foi possível encontrar o ID da unidade configurada. Verifique a configuração.
+        not_configured: Não foi possível validar a ligação.Termine, primeiro, a configuração.
+        placeholder: Verifique a sua ligação com o servidor.
+        subtitle: Validação da ligação
+        tenant_id_wrong: O ID do diretório (inquilino) configurado é inválido. Verifique a configuração.
+        unexpected_content: Conteúdo inesperado encontrado na unidade.
+        unknown_error: Não foi possível validar a ligação. Ocorreu um erro desconhecido. Consulte os registos do servidor para obter mais informações.
       label_error: Erro
       label_healthy: Bom estado
       label_pending: Pendente
-      label_warning: Warning
+      label_warning: Aviso
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Pastas do projeto geridas automaticamente
       since: desde %{datetime}
       title: Estado de funcionamento atual
     health_email_notifications:
@@ -130,10 +137,10 @@ pt-PT:
       unsubscribe: Anular subscrição
     help_texts:
       project_folder: A pasta do projeto é a pasta predefinida para o carregamento de ficheiros para este projeto. Os utilizadores podem, no entanto, carregar ficheiros para outras localizações.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Todos os armazenamentos disponíveis já foram adicionados ao projeto.
       automatic_folder: Isto irá criar automaticamente uma pasta raiz para este projeto e gerir as permissões de acesso para cada membro do projeto.
-      copy_from: Copiar este valor de
       empty_project_folder_validation: Tem de selecionar uma pasta para avançar.
       existing_manual_folder: Pode designar uma pasta existente como a pasta de raiz para este projeto. No entanto, as permissões não são geridas automaticamente, o administrador tem de garantir manualmente que os utilizadores relevantes têm acesso. A pasta selecionada pode ser utilizada por vários projetos.
       host: Adicione o endereço de anfitrião do seu armazenamento, incluindo o https://. Não deve ter mais de 255 caracteres.

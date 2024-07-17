@@ -36,6 +36,8 @@ interface IReminderSettingsFormValue {
 export class ReminderSettingsPageComponent extends UntilDestroyedMixin implements OnInit {
   @Input() userId:string;
 
+  @Input() showToolbar = true;
+
   public form = this.fb.group({
     immediateReminders: this.fb.group({
       mentioned: this.fb.control(false),
