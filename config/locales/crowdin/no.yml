@@ -301,8 +301,6 @@
         is_required_blank_slate:
           heading: Påkrevd i alle prosjekter
           description: Prosjektattributten er aktivert i alle prosjekter fordi "Påkrevd i alle prosjekter"-alternativet er valgt. Attributten kan ikke deaktiveres for hvert enkelt prosjekt.
-        new_project_mapping_form:
-          include_sub_projects: Inkluder underprosjekter
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -2038,6 +2036,7 @@
   label_inactive: "Inaktiv"
   label_incoming_emails: "Inkommende e-post"
   label_includes: "inkluderer"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeksèr etter dato"
   label_index_by_title: "Indeksèr på tittel"
   label_information: "Informasjon"

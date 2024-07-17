@@ -298,8 +298,6 @@ es:
         is_required_blank_slate:
           heading: Obligatorio en todos los proyectos
           description: Este atributo del proyecto está activado en todos los proyectos, ya que la opción «Obligatorio en todos los proyectos» está marcada. No puede desactivarse para proyectos individuales.
-        new_project_mapping_form:
-          include_sub_projects: Incluir subproyectos
       types:
         no_results_title_text: Actualmente no hay tipos disponibles.
         form:
@@ -2036,6 +2034,7 @@ es:
   label_inactive: "Inactivo"
   label_incoming_emails: "Correos electrónicos entrantes"
   label_includes: "incluye"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Índice por fecha"
   label_index_by_title: "Índice por título"
   label_information: "Información"

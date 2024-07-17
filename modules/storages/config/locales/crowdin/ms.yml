@@ -22,6 +22,8 @@ ms:
           attributes:
             project_folder_mode:
               mode_unavailable: tidak tersedia untuk storan ini.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -135,10 +137,10 @@ ms:
       unsubscribe: Berhenti langganan
     help_texts:
       project_folder: Folder projek ialah folder asal untuk muat naik fail bagi projek ini. Pengguna masih boleh muat naik fail ke lokasi lain.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Semua storan yang tersedia sudah ditambah ke projek ini.
       automatic_folder: Ini akan mencipta folder pangkal untuk projek ini dan kendalikan akses kebenaran kepada setiap ahli projek secara automatik.
-      copy_from: Salin nilai ini dari
       empty_project_folder_validation: Memilih folder ialah wajib untuk meneruskan.
       existing_manual_folder: Anda boleh menetapkan folder sedia ada sebagai folder pangkal bagi projek ini. Walau bagaimanapun, kebenarannya bukan dikendalikan secara automatik, ia perlukan pentadbir untuk pastikan pengguna yang berkaitan mempunyai akses secara manual. Folder yang dipilih boleh digunakan oleh pelbagai projek.
       host: Sila tambah alamat hos storan anda termasuk https://. Ia perlulah mengandungi tidak lebih daripada 255 patah perkataan.

@@ -300,8 +300,6 @@ ru:
         is_required_blank_slate:
           heading: Требуется во всех проектах
           description: Этот атрибут проекта активирован во всех проектах, поскольку установлен флажок «Требуется во всех проектах». Его нельзя отключить для отдельных проектов.
-        new_project_mapping_form:
-          include_sub_projects: Включить подпроекты
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -2106,6 +2104,7 @@ ru:
   label_inactive: "Неактивен"
   label_incoming_emails: "Входящие e-mail"
   label_includes: "включает"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Индекс по дате"
   label_index_by_title: "Индекс по названию"
   label_information: "Информация"

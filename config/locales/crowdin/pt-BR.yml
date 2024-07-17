@@ -300,8 +300,6 @@ pt-BR:
         is_required_blank_slate:
           heading: Obrigatório em todos os projetos
           description: Este atributo do projeto está ativado em todos os projetos porque a opção "Obrigatório em todos os projetos" está selecionada. Ele não pode ser desativado em projetos individuais.
-        new_project_mapping_form:
-          include_sub_projects: Incluir subprojetos
       types:
         no_results_title_text: Atualmente, não há tipos disponíveis.
         form:
@@ -2037,6 +2035,7 @@ pt-BR:
   label_inactive: "Inativo"
   label_incoming_emails: "E-mails recebidos"
   label_includes: "inclui"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Índice por data"
   label_index_by_title: "Índice por título"
   label_information: "Informação"
@@ -2199,7 +2198,7 @@ pt-BR:
   label_product_version: "Versão do produto"
   label_profile: "Perfil"
   label_percent_complete: "% de conclusão"
-  label_project: "Project"
+  label_project: "Projeto"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
   label_project_attribute_manage_link: "Gerenciar atributos do projeto"
@@ -3412,71 +3411,71 @@ pt-BR:
       view_description: "Pode visualizar este pacote de trabalho."
   sharing:
     count:
-      zero: "0 users"
-      one: "1 user"
-      other: "%{count} users"
+      zero: "0 usuários"
+      one: "1 usuário"
+      other: "%{count} usuários"
     filter:
-      project_member: "Project member"
-      not_project_member: "Not project member"
-      project_group: "Project group"
-      not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
-      role: "Role"
-      type: "Type"
-    denied: "You don't have permissions to share %{entities}."
-    label_search: "Search for users to invite"
-    label_search_placeholder: "Search by user or email address"
-    label_toggle_all: "Toggle all shares"
-    remove: "Remove"
-    share: "Share"
-    text_empty_search_description: "There are no users with the current filter criteria."
-    text_empty_search_header: "We couldn't find any matching results."
-    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
-    text_empty_state_header: "Not shared"
-    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
-    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      project_member: "Membro do projeto"
+      not_project_member: "Nenhum membro do projeto"
+      project_group: "Grupo do projeto"
+      not_project_group: "Não é um grupo do projeto"
+      user: "Usuário"
+      group: "Grupo"
+      role: "Função"
+      type: "Tipo"
+    denied: "Você não possui permissões para compartilhar %{entities}."
+    label_search: "Buscar usuários para convidar"
+    label_search_placeholder: "Buscar por usuário ou endereço de e-mail"
+    label_toggle_all: "Alternar todos os compartilhamentos"
+    remove: "Remover"
+    share: "Compartilhar"
+    text_empty_search_description: "Não há usuários com o critério de filtro atual."
+    text_empty_search_header: "Não encontramos nenhum resultado correspondente."
+    text_empty_state_description: "O %{entity} ainda não foi compartilhado com ninguém."
+    text_empty_state_header: "Não compartilhado"
+    text_user_limit_reached: "A adição de usuários adicionais fará com que o limite atual seja excedido. Entre em contato com um administrador para aumentar o limite de usuários e garantir que usuários externos possam acessar esta %{entity}."
+    text_user_limit_reached_admins: 'A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder adicionar mais usuários.'
     warning_user_limit_reached: >
-      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+      A adição de usuários adicionais fará com que o limite atual seja excedido. Entre em contato com um administrador para aumentar o limite de usuários e garantir que usuários externos possam acessar esta %{entity}.
     warning_user_limit_reached_admin: >
-      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
-    warning_no_selected_user: "Please select users to share this %{entity} with"
-    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder garantir que os usuários externos possam acessar a esta %{entity}.
+    warning_no_selected_user: "Selecione os usuários com quem compartilhar este %{entity}"
+    warning_locked_user: "O usuário %{user} está bloqueado e não pode receber compartilhamento"
     user_details:
-      locked: "Locked user"
-      invited: "Invite sent. "
-      resend_invite: "Resend."
-      invite_resent: "Invite has been resent"
-      not_project_member: "Not a project member"
-      project_group: "Group members might have additional privileges (as project members)"
-      not_project_group: "Group (shared with all members)"
-      additional_privileges_project: "Might have additional privileges (as project member)"
-      additional_privileges_group: "Might have additional privileges (as group member)"
-      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+      locked: "Usuário bloqueado"
+      invited: "Convite enviado. "
+      resend_invite: "Reenviar."
+      invite_resent: "O convite foi reenviado"
+      not_project_member: "Nenhum membro do projeto"
+      project_group: "Os membros do grupo podem ter privilégios adicionais (como membros do projeto)"
+      not_project_group: "Grupo (compartilhado com todos os membros)"
+      additional_privileges_project: "Poderá ter privilégios adicionais (como membro do projeto)"
+      additional_privileges_group: "Poderá ter privilégios adicionais (como membro do grupo)"
+      additional_privileges_project_or_group: "Poderá ter privilégios adicionais (como membro do projeto ou grupo)"
     project_queries:
       publishing_denied: "Você não possui permissão para tornar as listas de projetos públicas."
-      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      access_warning: "Os usuários só verão os projetos aos quais têm acesso. O compartilhamento de listas de projetos não afeta as permissões individuais do projeto."
       user_details:
         owner: "Proprietário da lista"
-        can_view_because_public: "Can already view because list is shared with everyone"
-        can_manage_public_lists: "Can edit due to global permissions"
+        can_view_because_public: "Já pode ser visualizado porque a lista é compartilhada com todos"
+        can_manage_public_lists: "Pode ser editado devido a permissões globais."
       public_flag:
-        label: "Share with everyone at %{instance_name}"
-        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+        label: "Compartilhe com todos em %{instance_name}"
+        caption: "Todos podem visualizar esta lista de projetos. Aqueles com permissões globais de edição podem modificá-la."
       blank_state:
         public:
-          header: "Shared with everyone"
-          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+          header: "Compartilhado com todos."
+          description: "Todos podem visualizar esta lista de projetos. Você também pode adicionar usuários individuais com permissões adicionais."
         private:
-          header: "Not shared: Private"
-          description: "This project list has not been shared with anyone yet. Only you can access this list."
+          header: "Não compartilhado: Privado"
+          description: "Esta lista de projetos ainda não foi compartilhada com ninguém. Somente você pode acessar esta lista."
       permissions:
-        view: "View"
-        view_description: "Can view this project list."
-        edit: "Edit"
-        edit_description: "Can view, share and edit this project list."
+        view: "Visualizar"
+        view_description: "Pode visualizar esta lista de projetos."
+        edit: "Editar"
+        edit_description: "Pode visualizar, compartilhar e editar esta lista de projetos."
       upsale:
-        message: "Sharing project lists with individual users is an enterprise add-on."
+        message: "Compartilhar listas de projetos com usuários individuais é um complemento Enterprise."
   working_days:
     info: >
       Dias não selecionados são ignorados ao agendar pacotes de trabalho (e não são incluídos na contagem de dias). Isso pode ser alterado individualmente em cada pacote de trabalho.

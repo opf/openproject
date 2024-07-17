@@ -303,8 +303,6 @@ vi:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Không có phân loại.
         form:
@@ -2007,6 +2005,7 @@ vi:
   label_inactive: "Không hoạt động"
   label_incoming_emails: "Các thư đến"
   label_includes: "includes"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Chỉ mục theo ngày"
   label_index_by_title: "Chỉ mục theo tiêu đề"
   label_information: "Thông tin"

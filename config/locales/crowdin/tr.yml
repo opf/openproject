@@ -301,8 +301,6 @@ tr:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Şu anda hiçbir tip mevcut değil.
         form:
@@ -2038,6 +2036,7 @@ tr:
   label_inactive: "Etkin değil"
   label_incoming_emails: "Gelen e-postalar"
   label_includes: "içerir"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Tarihe göre diz"
   label_index_by_title: "Başlığa göre dizin"
   label_information: "Bilgi"

@@ -300,8 +300,6 @@ ms:
         is_required_blank_slate:
           heading: Diperlukan dalam semua projek
           description: Atribut projek ini telah diaktifkan dalam semua projek sejak pilihan "Diperlukan dalam semua projek" telah ditandakan. Ia tidak boleh dinyahaktifkan untuk projek individu.
-        new_project_mapping_form:
-          include_sub_projects: Sertakan sub-projek
       types:
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
         form:
@@ -2003,6 +2001,7 @@ ms:
   label_inactive: "Tidak aktif"
   label_incoming_emails: "E-mel masuk"
   label_includes: "termasuk"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeks mengikut tarikh"
   label_index_by_title: "Indeks mengikut tajuk"
   label_information: "Maklumat"

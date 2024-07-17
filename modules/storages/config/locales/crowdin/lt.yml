@@ -22,6 +22,8 @@ lt:
           attributes:
             project_folder_mode:
               mode_unavailable: negalimas šiai saugyklai.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -135,10 +137,10 @@ lt:
       unsubscribe: Atšaukti prenumeratą
     help_texts:
       project_folder: Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Visos galimos failų saugyklos jau pridėtos į projektą.
       automatic_folder: Tai automatiškai sukurs šakninį aplanką šiam projektui ir tvarkys prieigos teises kiekvienam projekto nariui.
-      copy_from: Kopijuoti reikšmę iš
       empty_project_folder_validation: Norint tęsti būtina parinkti aplanką.
       existing_manual_folder: Jūs galite esamą aplanką paskirti šakniniu šiam projektui. Kaip bebūtų, teisės automatiškai netvarkomos, administratoriui reikia rankiniu būdu užtikrinti, kad atitinkami naudotojai turėtų prieigą. Parintktą aplanką gali naudoti keli projektai.
       host: Prašome pridėti jūsų saugyklos stoties adresą, įskaitant https://. Jis turi būti ne ilgesnis už 255 simbolius.

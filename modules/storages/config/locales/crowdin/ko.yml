@@ -22,6 +22,8 @@ ko:
           attributes:
             project_folder_mode:
               mode_unavailable: '- 이 저장소에 사용할 수 없습니다.'
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -135,10 +137,10 @@ ko:
       unsubscribe: 구독 취소
     help_texts:
       project_folder: 프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: 사용 가능한 모든 저장소가 이미 프로젝트에 추가되었습니다.
       automatic_folder: 이렇게 하면 이 프로젝트의 루트 폴더가 자동으로 생성되고 각 프로젝트 멤버의 액세스 권한이 관리됩니다.
-      copy_from: '다음에서 이 값 복사:'
       empty_project_folder_validation: 계속하려면 폴더 선택이 필수적입니다.
       existing_manual_folder: 기존 폴더를 이 프로젝트의 루트 폴더로 지정할 수 있습니다. 그러나 권한은 자동으로 관리되지 않으며, 관리자는 관련 사용자에게 액세스 권한이 있는지 수동으로 확인해야 합니다. 선택한 폴더는 여러 프로젝트에서 사용할 수 있습니다.
       host: https://를 포함하여 저장소의 호스트 주소를 추가하세요. 255자 이하여야 합니다.

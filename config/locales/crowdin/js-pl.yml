@@ -150,7 +150,7 @@ pl:
         attribute_reference:
           macro_help_tooltip: "Ten segment tekstowy jest renderowany dynamicznie przez makro."
           not_found: "Nie można znaleźć żądanego zasobu"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "To makro odwołuje się rekurencyjnie do %{model} %{id}."
           invalid_attribute: "Wybrany atrybut „%{name}” nie istnieje."
         child_pages:
           button: "Łącza do stron podrzędnych"
@@ -369,7 +369,7 @@ pl:
           "14_3":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Udostępnianie list projektów i upublicznianie ich (dodatek Enterprise)</li> <li>Oznaczanie list projektów jako ulubionych</li> <li>Weryfikacja połączenia dla magazynów OneDrive/SharePoint (dodatek Enterprise)</li> <li>Nowy wygląd z Primer dla strony profilu użytkownika</li> <li>Eksport wykresu Gantta w formacie PDF: dodatkowe powiększenie daty na podstawie tygodni kalendarzowych</li> <li>Pasek wyszukiwania do składnika podmenu (listy projektów oraz moduły Wykres Gantta i Tablice)</li> <li>Możliwość wyboru między raportowaniem postępu wyświetlanym tylko w godzinach albo w dniach i godzinach</li> <li>Usunięcie wyboru projektów z selektora projektów</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -616,17 +616,17 @@ pl:
       title: "Powiadomienia"
       no_unread: "Brak nieprzeczytanych powiadomień"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
-        processed: "Processed"
-        prioritized: "Prioritized"
+        mentioned: "Wzmianka"
+        watched: "Obserwator"
+        assigned: "Przypisana osoba"
+        responsible: "Osoba odpowiedzialna"
+        created: "Utworzono"
+        scheduled: "Zaplanowany"
+        commented: "Skomentował"
+        processed: "Przetworzono"
+        prioritized: "Ma priorytet"
         dateAlert: "Alert dotyczący daty"
-        shared: "Shared"
+        shared: "Udostępniono"
       date_alerts:
         milestone_date: "Data  kamienia milowego"
         overdue: "Przekroczony termin"
@@ -899,10 +899,10 @@ pl:
       wiki_link: "Adres strony Wiki"
       image: "Obraz"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Udostępnij"
+      selected_count: "Wybrano %{count}"
       selection:
-        mixed: "Mixed"
+        mixed: "Mieszane"
     work_packages:
       bulk_actions:
         move: "Masowa zmiana projektu"
@@ -1013,13 +1013,13 @@ pl:
         workAlternative: "Szacowany czas"
         remainingTime: "Pozostała praca"
       default_queries:
-        manually_sorted: "New manually sorted query"
+        manually_sorted: "Nowe ręcznie sortowane zapytanie"
         latest_activity: "Ostatnia aktywność"
         created_by_me: "Utworzone przeze mnie"
         assigned_to_me: "Przypisane do mnie"
         recently_created: "Utworzone niedawno"
         all_open: "Wszystkie otwarte"
-        overdue: "Overdue"
+        overdue: "Przekroczony termin"
         summary: "Podsumowanie"
         shared_with_users: "Udostępnione użytkownikom"
         shared_with_me: "Udostępnione dla mnie"

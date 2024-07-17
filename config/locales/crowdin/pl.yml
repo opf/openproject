@@ -298,8 +298,6 @@ pl:
         is_required_blank_slate:
           heading: Wymagane we wszystkich projektach
           description: Ten atrybut projektu jest aktywowany we wszystkich projektach, ponieważ zaznaczona jest opcja „Wymagane we wszystkich projektach”. Nie można go dezaktywować dla poszczególnych projektów.
-        new_project_mapping_form:
-          include_sub_projects: Uwzględnij podprojekty
       types:
         no_results_title_text: Nie ma dostępnych typów.
         form:
@@ -413,7 +411,7 @@ pl:
       notice_reset_token: "Nowy token typu %{type} został wygenerowany. Twój token dostępu to:"
       token_value_warning: "Uwaga: jest to jedyny raz, gdy zobaczysz ten token, koniecznie skopiuj go teraz."
       no_results_title_text: Aktualnie nie ma dostępnych tokenów.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
+      notice_api_token_revoked: "Token API został usunięty. Aby utworzyć nowy token, użyj przycisku w sekcji API."
       notice_rss_token_revoked: "Token RSS został usunięty. Aby utworzyć nowy token użyj linku w sekcji RSS."
       notice_ical_token_revoked: 'Token iCalendar „%{token_name}” kalendarza „%{calendar_name}” projektu „%{project_name}” został unieważniony. Adres URL iCalendar z tym tokenem jest teraz nieprawidłowy.'
   news:
@@ -1157,10 +1155,10 @@ pl:
       placeholder_user: "Użytkownik zastępczy"
       project: "Projekt"
       project_query:
-        one: "Project list"
-        few: "Project lists"
-        many: "Project lists"
-        other: "Project lists"
+        one: "Lista projektów"
+        few: "Listy projektów"
+        many: "List projektów"
+        other: "Listy projektów"
       query: "Kwerenda użytkownika"
       role:
         one: "Rola"
@@ -2104,6 +2102,7 @@ pl:
   label_inactive: "Nieaktywny"
   label_incoming_emails: "Przychodzące e-maile"
   label_includes: "obejmuje"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeks wg daty"
   label_index_by_title: "Indeks tytułów"
   label_information: "Informacje"
@@ -3069,7 +3068,7 @@ pl:
   setting_duration_format: "Format czasu trwania"
   setting_duration_format_hours_only: "Tylko godziny"
   setting_duration_format_days_and_hours: "Dni i godziny"
-  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
+  setting_duration_format_instructions: "Określa sposób wyświetlania pracy, pozostałej pracy i czasu pracy."
   setting_emails_footer: "Stopka wiadomości e-mail"
   setting_emails_header: "Nagłówek wiadomości e-mail"
   setting_email_login: "Użyj adresu e-mail jako loginu"
@@ -3082,7 +3081,7 @@ pl:
   setting_host_name: "Nazwa hosta"
   setting_hours_per_day: "Liczba godzin dziennie"
   setting_hours_per_day_explanation: >-
-    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
+    To definiuje, co jest uważane za „dzień” podczas wyświetlania czasu trwania w dniach i godzinach (na przykład, jeśli dzień ma 8 godzin, 32 godziny będą 4 dniami).
   setting_invitation_expiration_days: "Ważność aktywacyjnej waidomości e-mail wygasa po"
   setting_work_package_done_ratio: "Obliczenie postępu"
   setting_work_package_done_ratio_field: "Oparte na pracy"
@@ -3477,79 +3476,79 @@ pl:
         status_based_help_text: "% ukończenia jest ustawiany na podstawie statusu pakietu roboczego."
         migration_warning_text: "W trybie obliczania postępu na podstawie pracy wartości % ukończenia nie można ustawić ręcznie i jest ona powiązana z wartością Praca. Istniejąca wartość została zachowana, ale nie można jej edytować. Najpierw wprowadź wartość Praca."
     permissions:
-      comment: "Comment"
-      comment_description: "Can view and comment this work package."
-      edit: "Edit"
-      edit_description: "Can view, comment and edit this work package."
-      view: "View"
-      view_description: "Can view this work package."
+      comment: "Komentarz"
+      comment_description: "Może wyświetlać i komentować ten pakiet roboczy."
+      edit: "Edycja"
+      edit_description: "Może wyświetlać, komentować i edytować ten pakiet roboczy."
+      view: "Wyświetlanie"
+      view_description: "Może wyświetlić ten pakiet roboczy."
   sharing:
     count:
-      zero: "0 users"
-      one: "1 user"
-      other: "%{count} users"
+      zero: "0 użytkowników"
+      one: "1 użytkownik"
+      other: "%{count} użytkowników"
     filter:
-      project_member: "Project member"
-      not_project_member: "Not project member"
-      project_group: "Project group"
-      not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
-      role: "Role"
-      type: "Type"
-    denied: "You don't have permissions to share %{entities}."
-    label_search: "Search for users to invite"
-    label_search_placeholder: "Search by user or email address"
-    label_toggle_all: "Toggle all shares"
-    remove: "Remove"
-    share: "Share"
-    text_empty_search_description: "There are no users with the current filter criteria."
-    text_empty_search_header: "We couldn't find any matching results."
-    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
-    text_empty_state_header: "Not shared"
-    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
-    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      project_member: "Członek projektu"
+      not_project_member: "Nie jest członkiem projektu"
+      project_group: "Grupa projektu"
+      not_project_group: "Nie jest grupą projektu"
+      user: "Użytkownik"
+      group: "Grupa"
+      role: "Rola"
+      type: "Typ"
+    denied: "Nie masz uprawnień do udostępniania %{entities}."
+    label_search: "Wyszukaj użytkowników do zaproszenia"
+    label_search_placeholder: "Wyszukaj użytkownika lub adres e-mail"
+    label_toggle_all: "Przełącz wszystkie udostępnienia"
+    remove: "Usuń"
+    share: "Udostępnij"
+    text_empty_search_description: "Brak użytkowników spełniających bieżące kryteria filtrowania."
+    text_empty_search_header: "Nie mogliśmy znaleźć żadnych pasujących wyników."
+    text_empty_state_description: "%{entity} jeszcze nikomu nie udostępniono."
+    text_empty_state_header: "Nie udostępniono"
+    text_user_limit_reached: "Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego %{entity}, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników."
+    text_user_limit_reached_admins: 'Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby móc dodać więcej użytkowników, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.'
     warning_user_limit_reached: >
-      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+      Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego %{entity}, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników.
     warning_user_limit_reached_admin: >
-      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
-    warning_no_selected_user: "Please select users to share this %{entity} with"
-    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego %{entity}, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.
+    warning_no_selected_user: "Wybierz użytkowników, którym chcesz udostępnić ten %{entity}"
+    warning_locked_user: "Użytkownik %{user} jest zablokowany i nie można mu udostępniać"
     user_details:
-      locked: "Locked user"
-      invited: "Invite sent. "
-      resend_invite: "Resend."
-      invite_resent: "Invite has been resent"
-      not_project_member: "Not a project member"
-      project_group: "Group members might have additional privileges (as project members)"
-      not_project_group: "Group (shared with all members)"
-      additional_privileges_project: "Might have additional privileges (as project member)"
-      additional_privileges_group: "Might have additional privileges (as group member)"
-      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+      locked: "Zablokowany użytkownik"
+      invited: "Wysłano zaproszenie. "
+      resend_invite: "Wyślij ponownie. "
+      invite_resent: "Zaproszenie zostało ponownie wysłane"
+      not_project_member: "Nie jest członkiem projektu"
+      project_group: "Członkowie grupy mogą mieć dodatkowe uprawnienia (jako członkowie projektu)"
+      not_project_group: "Grupa (udostępniona wszystkim członkom)"
+      additional_privileges_project: "Może mieć dodatkowe uprawnienia (jako członek projektu)"
+      additional_privileges_group: "Może mieć dodatkowe uprawnienia (jako członek grupy)"
+      additional_privileges_project_or_group: "Może mieć dodatkowe uprawnienia (jako członek projektu lub grupy)"
     project_queries:
-      publishing_denied: "You do not have permission to make project lists public."
-      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      publishing_denied: "Nie masz uprawnień do upubliczniania list projektów."
+      access_warning: "Użytkownicy będą widzieć tylko projekty, do których mają dostęp. Udostępnianie list projektów nie ma wpływu na uprawnienia do poszczególnych projektów."
       user_details:
-        owner: "List owner"
-        can_view_because_public: "Can already view because list is shared with everyone"
-        can_manage_public_lists: "Can edit due to global permissions"
+        owner: "Właściciel listy"
+        can_view_because_public: "Może już wyświetlać, ponieważ lista jest udostępniona wszystkim"
+        can_manage_public_lists: "Może edytować dzięki uprawnieniom globalnym"
       public_flag:
-        label: "Share with everyone at %{instance_name}"
-        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+        label: "Udostępnij wszystkim w wystąpieniu %{instance_name}"
+        caption: "Każdy może wyświetlić tę listę projektów. Osoby z globalnymi uprawnieniami do edycji mogą ją modyfikować."
       blank_state:
         public:
-          header: "Shared with everyone"
-          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+          header: "Udostępniono wszystkim"
+          description: "Każdy może wyświetlić tę listę projektów. Można również dodać indywidualnych użytkowników z dodatkowymi uprawnieniami."
         private:
-          header: "Not shared: Private"
-          description: "This project list has not been shared with anyone yet. Only you can access this list."
+          header: "Nie udostępniono: prywatna"
+          description: "Ta lista projektów nie została jeszcze nikomu udostępniona. Tylko Ty możesz uzyskać dostęp do tej listy."
       permissions:
-        view: "View"
-        view_description: "Can view this project list."
-        edit: "Edit"
-        edit_description: "Can view, share and edit this project list."
+        view: "Wyświetlanie"
+        view_description: "Może wyświetlić tę listę projektów."
+        edit: "Edycja"
+        edit_description: "Może wyświetlać, udostępniać i edytować tę listę projektów."
       upsale:
-        message: "Sharing project lists with individual users is an enterprise add-on."
+        message: "Udostępnianie list projektów poszczególnym użytkownikom jest dodatkiem wersji Enterprise."
   working_days:
     info: >
       Dni, które nie zostały wybrane, są pomijane podczas planowania pakietów roboczych (i nie są uwzględnione w liczbie dni). Mogą one zostać zastąpione na poziomie pakietu roboczego.

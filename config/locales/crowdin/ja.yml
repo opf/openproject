@@ -299,8 +299,6 @@ ja:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: 現在、有効な種類はありません。
         form:
@@ -2001,6 +1999,7 @@ ja:
   label_inactive: "非アクティブ"
   label_incoming_emails: "受信メール"
   label_includes: "インクルード"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "索引（日付順）"
   label_index_by_title: "索引（名前順）"
   label_information: "情報"

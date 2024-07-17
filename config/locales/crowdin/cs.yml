@@ -301,8 +301,6 @@ cs:
         is_required_blank_slate:
           heading: Povinné u všech projektů
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Zahrnout všechny podprojekty
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
@@ -2107,6 +2105,7 @@ cs:
   label_inactive: "Neaktivní"
   label_incoming_emails: "Příchozí e-maily"
   label_includes: "zahrnuje"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index dle data"
   label_index_by_title: "Index dle názvu"
   label_information: "Informace"

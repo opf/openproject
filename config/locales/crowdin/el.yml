@@ -297,8 +297,6 @@ el:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμοι τύποι.
         form:
@@ -2035,6 +2033,7 @@ el:
   label_inactive: "Ανενεργό"
   label_incoming_emails: "Εισερχόμενα email"
   label_includes: "περιλαμβάνει"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Δείκτης ανά ημερομηνία"
   label_index_by_title: "Δείκτης ανά τίτλο"
   label_information: "Πληροφορίες"

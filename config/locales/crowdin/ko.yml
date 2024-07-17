@@ -301,8 +301,6 @@ ko:
         is_required_blank_slate:
           heading: 모든 프로젝트에서 필수
           description: '"모든 프로젝트에서 필수" 옵션이 선택되어 있으므로 모든 프로젝트에서 이 프로젝트 특성이 활성화됩니다. 개별 프로젝트에 대해 비활성화할 수 없습니다.'
-        new_project_mapping_form:
-          include_sub_projects: 하위 프로젝트 포함
       types:
         no_results_title_text: 사용 가능한 타입이 없습니다.
         form:
@@ -2004,6 +2002,7 @@ ko:
   label_inactive: "비활성화"
   label_incoming_emails: "들어오는 이메일"
   label_includes: "포함"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "날짜별 색인"
   label_index_by_title: "제목별 색인"
   label_information: "정보"

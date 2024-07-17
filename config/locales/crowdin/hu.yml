@@ -300,8 +300,6 @@ hu:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Jelenleg nincs elérhető típus.
         form:
@@ -2036,6 +2034,7 @@ hu:
   label_inactive: "Inaktív"
   label_incoming_emails: "Bejövő e-mailek"
   label_includes: "tartalmazza"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index dátum szerint"
   label_index_by_title: "Index cím szerint"
   label_information: "Információk"

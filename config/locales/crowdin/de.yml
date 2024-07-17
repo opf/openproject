@@ -298,8 +298,6 @@ de:
         is_required_blank_slate:
           heading: In allen Projekten erforderlich
           description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Benötigt in allen Projekten" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
-        new_project_mapping_form:
-          include_sub_projects: Unterprojekte einbeziehen
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -2033,6 +2031,7 @@ de:
   label_inactive: "Inaktiv"
   label_incoming_emails: "Eingehende E-Mails"
   label_includes: "enthält"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Seiten nach Datum"
   label_index_by_title: "Seiten nach Titel"
   label_information: "Information"

@@ -298,8 +298,6 @@ ca:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Actualment no hi ha cap classe disponible.
         form:
@@ -2035,6 +2033,7 @@ ca:
   label_inactive: "Inactiu"
   label_incoming_emails: "Correu electrònics d'entrada"
   label_includes: "inclou"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Índex per data"
   label_index_by_title: "Índex per títol"
   label_information: "Informació"

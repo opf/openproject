@@ -300,8 +300,6 @@ zh-TW:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: 目前沒有可用的類型
         form:
@@ -2004,6 +2002,7 @@ zh-TW:
   label_inactive: "未啟用"
   label_incoming_emails: "接收到的電子郵件"
   label_includes: "包括"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "按日期索引"
   label_index_by_title: "按標題索引"
   label_information: "資訊"
