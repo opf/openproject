@@ -286,7 +286,11 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   def update_progress_attributes
     derive_progress_values_class =
-      WorkPackage.use_status_for_done_ratio? ? DeriveProgressValuesStatusBased : DeriveProgressValuesWorkBased
+      if OpenProject::FeatureDecisions.percent_complete_edition_active?
+        WorkPackage.use_status_for_done_ratio? ? DeriveProgressValuesStatusBased : DeriveProgressValuesWorkBased
+      else
+        Pre144DeriveProgressValues
+      end
     derive_progress_values_class.new(work_package).call
   end
 

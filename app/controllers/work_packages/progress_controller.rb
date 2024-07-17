@@ -57,6 +57,7 @@ class WorkPackages::ProgressController < ApplicationController
                            touched_field_map:)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def create
     make_fake_initial_work_package
     service_call = set_progress_attributes_to_work_package
@@ -73,12 +74,17 @@ class WorkPackages::ProgressController < ApplicationController
           render :update, status: :unprocessable_entity
         end
       end
+    # following 3 lines to be removed in 15.0 with :percent_complete_edition feature flag removal
+    elsif !OpenProject::FeatureDecisions.percent_complete_edition_active?
+      render json: { estimatedTime: formatted_duration(@work_package.estimated_hours),
+                     remainingTime: formatted_duration(@work_package.remaining_hours) }
     else
       render json: { estimatedTime: formatted_duration(@work_package.estimated_hours),
                      remainingTime: formatted_duration(@work_package.remaining_hours),
                      percentageDone: @work_package.done_ratio }
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def update
     find_work_package
@@ -149,6 +155,9 @@ class WorkPackages::ProgressController < ApplicationController
   def allowed_params
     if WorkPackage.use_status_for_done_ratio?
       %i[estimated_hours status_id]
+    # two next lines to be removed in 15.0 with :percent_complete_edition feature flag removal
+    elsif !OpenProject::FeatureDecisions.percent_complete_edition_active?
+      %i[estimated_hours remaining_hours]
     else
       %i[estimated_hours remaining_hours done_ratio]
     end

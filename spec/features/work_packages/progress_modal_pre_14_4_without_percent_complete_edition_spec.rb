@@ -30,8 +30,11 @@
 
 require "spec_helper"
 
+# This file can be safely deleted once the feature flag :percent_complete_edition
+# is removed, which should happen for OpenProject 15.0 release.
+# Copied from commit 109b135b
 RSpec.describe "Progress modal", :js, :with_cuprite,
-               with_flag: { percent_complete_edition: true } do
+               with_flag: { percent_complete_edition: false } do
   shared_let(:user) { create(:admin) }
   shared_let(:role) { create(:project_role) }
 
@@ -132,15 +135,17 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil)
       end
 
-      it "opens the modal with remaining work in focus" do
+      it "opens the modal with work in focus and remaining work disabled" do
         work_package_table.visit_query(progress_query)
         work_package_table.expect_work_package_listed(work_package)
 
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
         remaining_work_field = ProgressEditField.new(work_package_row, :remainingTime)
 
         remaining_work_field.activate!
 
-        remaining_work_field.expect_modal_field_in_focus
+        work_edit_field.expect_modal_field_in_focus
+        remaining_work_field.expect_modal_field_disabled
       end
     end
 
@@ -255,9 +260,6 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
 
         work_field = work_package_create_page.edit_field(:estimatedTime)
         work_field.activate!
-
-        modal_status_field = work_package_create_page.edit_field(:statusWithinProgressModal)
-        modal_status_field.expect_modal_field_value(:empty_without_any_options, disabled: true)
       end
 
       context "with a default status set for new work packages" do
@@ -283,12 +285,6 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
           work_package_create_page.set_progress_attributes({ estimatedTime: "10h" })
           work_package_create_page.save!
           work_package_table.expect_and_dismiss_toaster(message: "Successful creation.", wait: 5)
-
-          expect(WorkPackage.order(id: :asc).last).to have_attributes(
-            estimated_hours: 10.0,
-            remaining_hours: 10.0,
-            done_ratio: 0
-          )
         end
 
         it "renders the status selection field inside the modal as disabled " \
@@ -360,45 +356,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
 
           work_edit_field.expect_modal_field_value("10h")
           remaining_work_edit_field.expect_modal_field_value("2.12h") # 2h 7m
-          percent_complete_edit_field.expect_modal_field_value("79%")
-        end
-      end
-
-      context "on create page" do
-        it "can create work package after setting progress values multiple times" do
-          work_package_create_page.visit!
-
-          work_package_create_page.set_attributes({ subject: "hello" })
-          work_edit_field = ProgressEditField.new("#content", :estimatedTime)
-          remaining_work_edit_field = ProgressEditField.new("#content", :remainingTime)
-          percent_complete_edit_field = ProgressEditField.new("#content", :percentageDone)
-          expect(work_edit_field.trigger_element.value).to eq("-")
-          expect(remaining_work_edit_field.trigger_element.value).to eq("-")
-          expect(percent_complete_edit_field.trigger_element.value).to eq("-")
-
-          work_package_create_page.set_progress_attributes({ estimatedTime: "0h" })
-          expect(work_edit_field.trigger_element.value).to eq("0h")
-          expect(remaining_work_edit_field.trigger_element.value).to eq("0h")
-          expect(percent_complete_edit_field.trigger_element.value).to eq("-")
-
-          work_package_create_page.set_progress_attributes({ estimatedTime: "5h" })
-          expect(work_edit_field.trigger_element.value).to eq("5h")
-          expect(remaining_work_edit_field.trigger_element.value).to eq("5h")
-          expect(percent_complete_edit_field.trigger_element.value).to eq("0%")
-
-          work_package_create_page.set_progress_attributes({ percentageDone: "40%" })
-          expect(work_edit_field.trigger_element.value).to eq("5h")
-          expect(remaining_work_edit_field.trigger_element.value).to eq("3h")
-          expect(percent_complete_edit_field.trigger_element.value).to eq("40%")
-
-          work_package_create_page.save!
-          work_package_table.expect_and_dismiss_toaster(message: "Successful creation.", wait: 5)
-
-          expect(WorkPackage.order(id: :asc).last).to have_attributes(
-            estimated_hours: 5.0,
-            remaining_hours: 3.0,
-            done_ratio: 40
-          )
+          percent_complete_edit_field.expect_modal_field_value("78", readonly: true)
         end
       end
 
@@ -436,11 +394,9 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
       end
 
       context "with unset values" do
-        before do
-          update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil, done_ratio: nil)
-        end
+        before { update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil) }
 
-        it "populates all fields with blank values" do
+        it "populates fields with blank values and % Complete as '-'" do
           work_package_table.visit_query(progress_query)
           work_package_table.expect_work_package_listed(work_package)
 
@@ -451,8 +407,8 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
           work_edit_field.activate!
 
           work_edit_field.expect_modal_field_value("")
-          remaining_work_edit_field.expect_modal_field_value("")
-          percent_complete_edit_field.expect_modal_field_value("")
+          remaining_work_edit_field.expect_modal_field_value("", disabled: true)
+          percent_complete_edit_field.expect_modal_field_value("-", readonly: true)
         end
       end
 
@@ -502,6 +458,51 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
     end
   end
 
+  describe "% Complete field" do
+    it "renders as readonly" do
+      work_package_table.visit_query(progress_query)
+      work_package_table.expect_work_package_listed(work_package)
+
+      work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+      percent_complete_edit_field = ProgressEditField.new(work_package_row, :percentageDone)
+
+      work_edit_field.activate!
+
+      percent_complete_edit_field.expect_read_only_modal_field
+    end
+  end
+
+  describe "When % Complete is set + work and remaining work are unset coming from a migration" do
+    before_all do
+      work_package.reload
+
+      work_package.estimated_hours = nil
+      work_package.remaining_hours = nil
+      work_package.done_ratio = 5.0
+      work_package.save!(validate: false)
+    end
+
+    shared_examples_for "migration warning" do |should_render: false|
+      it "renders a banner with a warning message" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        modal = work_edit_field.activate!
+
+        modal.expect_migration_warning_banner(should_render:)
+      end
+    end
+
+    context "on work based mode" do
+      include_examples "migration warning", should_render: true
+    end
+
+    context "on status based mode", with_settings: { work_package_done_ratio: "status" } do
+      include_examples "migration warning", should_render: false
+    end
+  end
+
   describe "Live-update edge cases" do
     context "given work = 10h, remaining work = 4h, % complete = 60%" do
       before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 4.0) }
@@ -519,13 +520,13 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         clear_input_field_contents(work_edit_field.input_element)
         page.driver.wait_for_network_idle # Wait for live-update to finish
 
-        remaining_work_edit_field.expect_modal_field_value("")
+        remaining_work_edit_field.expect_modal_field_value("", disabled: true)
       end
 
       specify "Case 2: when work is set to 12h, " \
               "remaining work is automatically set to 6h " \
               "and subsequently work is set to 14h, " \
-              "remaining work updates to 8h" do
+              "remaining work updates to 1d" do
         work_package_table.visit_query(progress_query)
         work_package_table.expect_work_package_listed(work_package)
 

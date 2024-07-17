@@ -13,11 +13,29 @@
       ) do |f| %>
     <%= flex_layout do |modal_body| %>
       <% modal_body.with_row(classes: "FormControl-horizontalGroup--sm-vertical") do |_fields| %>
+        <% if OpenProject::FeatureDecisions.percent_complete_edition_active? %>
         <%= render(WorkPackages::ProgressForm.new(f,
                                                   work_package:,
                                                   mode:,
                                                   focused_field:,
                                                   touched_field_map:)) %>
+        <% else %>
+          <%# This condition branch to be removed in 15.0 with :percent_complete_edition feature flag removal %>
+          <%= render(WorkPackages::Pre144ProgressForm.new(f,
+                                                          work_package:,
+                                                          mode:,
+                                                          focused_field:,
+                                                          touched_field_map:)) %>
+        <% end %>
+      <% end %>
+
+      <% if !OpenProject::FeatureDecisions.percent_complete_edition_active? %>
+        <%# This condition branch to be removed in 15.0 with :percent_complete_edition feature flag removal %>
+        <% if should_display_migration_warning? %>
+          <% modal_body.with_row(mt: 3) do |_migration_warning| %>
+            <%= render(Primer::Alpha::Banner.new) { t("work_package.progress.modal.migration_warning_text") } %>
+          <% end %>
+        <% end %>
       <% end %>
 
       <% modal_body.with_row(mt: 3) do |_tooltip| %>

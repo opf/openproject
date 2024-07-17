@@ -53,23 +53,38 @@ module WorkPackages
     attribute :project_id
 
     attribute :done_ratio,
-              writable: ->(*) { WorkPackage.work_based_mode? } do
-      validate_percent_complete_matches_work_and_remaining_work
-      validate_percent_complete_is_unset_when_work_is_zero
-      validate_percent_complete_is_set_when_work_and_remaining_work_are_not_set
+              writable: ->(*) {
+                          OpenProject::FeatureDecisions.percent_complete_edition_active? \
+                            && WorkPackage.work_based_mode?
+                        } do
+      if OpenProject::FeatureDecisions.percent_complete_edition_active?
+        validate_percent_complete_matches_work_and_remaining_work
+        validate_percent_complete_is_unset_when_work_is_zero
+        validate_percent_complete_is_set_when_work_and_remaining_work_are_not_set
+      end
     end
     attribute :derived_done_ratio,
               writable: false
 
     attribute :estimated_hours do
-      validate_work_is_set_when_remaining_work_and_percent_complete_are_set
+      if OpenProject::FeatureDecisions.percent_complete_edition_active?
+        validate_work_is_set_when_remaining_work_and_percent_complete_are_set
+      else
+        # to be removed in 15.0 with :percent_complete_edition feature flag removal
+        validate_work_is_set_when_remaining_work_is_set
+      end
     end
     attribute :derived_estimated_hours,
               writable: false
 
     attribute :remaining_hours do
       validate_remaining_work_is_lower_than_work
-      validate_remaining_work_is_set_when_work_and_percent_complete_are_set
+      if OpenProject::FeatureDecisions.percent_complete_edition_active?
+        validate_remaining_work_is_set_when_work_and_percent_complete_are_set
+      else
+        # to be removed in 15.0 with :percent_complete_edition feature flag removal
+        validate_remaining_work_is_set_when_work_is_set
+      end
     end
     attribute :derived_remaining_hours,
               writable: false
@@ -329,6 +344,20 @@ module WorkPackages
         if model.changed.include?("remaining_hours")
           errors.add(:remaining_hours, :cant_exceed_work)
         end
+      end
+    end
+
+    # to be removed in 15.0 with :percent_complete_edition feature flag removal
+    def validate_remaining_work_is_set_when_work_is_set
+      if work_set? && !remaining_work_set?
+        errors.add(:remaining_hours, :must_be_set_when_work_is_set)
+      end
+    end
+
+    # to be removed in 15.0 with :percent_complete_edition feature flag removal
+    def validate_work_is_set_when_remaining_work_is_set
+      if remaining_work_set? && !work_set?
+        errors.add(:estimated_hours, :must_be_set_when_remaining_work_is_set)
       end
     end
 

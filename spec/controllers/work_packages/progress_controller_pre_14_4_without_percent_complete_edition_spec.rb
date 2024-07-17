@@ -30,8 +30,11 @@
 
 require "spec_helper"
 
+# This file can be safely deleted once the feature flag :percent_complete_edition
+# is removed, which should happen for OpenProject 15.0 release.
+# Copied from commit 109b135b]
 RSpec.describe WorkPackages::ProgressController,
-               with_flag: { percent_complete_edition: true } do
+               with_flag: { percent_complete_edition: false } do
   shared_let(:user) { create(:admin) }
   shared_let(:work_package) { create(:work_package) }
 
@@ -46,8 +49,7 @@ RSpec.describe WorkPackages::ProgressController,
           "remaining_hours" => "4h",
           "done_ratio" => "90",
           "estimated_hours_touched" => "false",
-          "remaining_hours_touched" => "false",
-          "done_ratio_touched" => "false"
+          "remaining_hours_touched" => "false"
         }
       }
     end
@@ -58,7 +60,6 @@ RSpec.describe WorkPackages::ProgressController,
 
       expect(work_package.estimated_hours).to be_nil
       expect(work_package.remaining_hours).to be_nil
-      expect(work_package.done_ratio).to be_nil
     end
 
     it "updates the work package progress values with touched values (only work touched)" do
@@ -71,21 +72,9 @@ RSpec.describe WorkPackages::ProgressController,
       # when not supplied by the user, the remaining work is set to the same
       # value as work
       expect(work_package.remaining_hours).to eq(42)
-      expect(work_package.done_ratio).to eq(0)
     end
 
-    it "updates the work package progress values with touched values (only done_ratio touched)" do
-      params["work_package"]["done_ratio_touched"] = "true"
-
-      patch("update", params:, as: :turbo_stream)
-      work_package.reload
-
-      expect(work_package.estimated_hours).to be_nil
-      expect(work_package.remaining_hours).to be_nil
-      expect(work_package.done_ratio).to eq(90)
-    end
-
-    it "updates the work package progress values (work and remaining work)" do
+    it "updates the work package progress values (all values touched)" do
       params["work_package"]["estimated_hours_touched"] = "true"
       params["work_package"]["remaining_hours_touched"] = "true"
 
@@ -94,38 +83,6 @@ RSpec.describe WorkPackages::ProgressController,
 
       expect(work_package.estimated_hours).to eq(42)
       expect(work_package.remaining_hours).to eq(4)
-      expect(work_package.done_ratio).to eq(90)
-    end
-  end
-
-  # Used on new work package creation form
-  describe "POST /work_packages/progress" do
-    let(:params) do
-      {
-        "work_package" => {
-          "initial" => {
-            "estimated_hours" => "",
-            "remaining_hours" => "",
-            "done_ratio" => ""
-          },
-          "estimated_hours" => "4h",
-          "remaining_hours" => "3",
-          "done_ratio" => "0",
-          "estimated_hours_touched" => "true",
-          "remaining_hours_touched" => "true",
-          "done_ratio_touched" => "false"
-        }
-      }
-    end
-
-    it "sends back the entered and derived progress values" do
-      post("create", params:, as: :turbo_stream)
-
-      expect(response.body).to be_json_eql({
-        estimatedTime: "PT4H",
-        remainingTime: "PT3H",
-        percentageDone: 25
-      }.to_json)
     end
   end
 end

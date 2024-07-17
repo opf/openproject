@@ -1,6 +1,6 @@
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,37 +24,35 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-class WorkPackages::ProgressForm
-  class InitialValuesForm < ApplicationForm
-    attr_reader :work_package, :mode
+require "spec_helper"
 
-    def initialize(work_package:,
-                   mode: :work_based)
-      super()
+# This file can be safely deleted once the feature flag :percent_complete_edition
+# is removed, which should happen for OpenProject 15.0 release.
+RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema,
+               with_flag: { percent_complete_edition: false } do
+  let(:project) { build(:project) }
+  let(:type) { build(:type) }
 
-      @work_package = work_package
-      @mode = mode
+  let(:current_user) { build_stubbed(:user) }
+
+  subject { described_class.new(project:, type:) }
+
+  before do
+    login_as(current_user)
+    mock_permissions_for(current_user, &:allow_everything)
+  end
+
+  describe "#writable?" do
+    it "percentage done is not writable in work-based progress calculation mode",
+       with_settings: { work_package_done_ratio: "field" } do
+      expect(subject).not_to be_writable(:done_ratio)
     end
 
-    form do |form|
-      if mode == :status_based
-        form.hidden(name: :status_id,
-                    value: work_package.status_id_was)
-        form.hidden(name: :estimated_hours,
-                    value: work_package.estimated_hours_was)
-      else
-        form.hidden(name: :estimated_hours,
-                    value: work_package.estimated_hours_was)
-        form.hidden(name: :remaining_hours,
-                    value: work_package.remaining_hours_was)
-        # next line to be removed in 15.0 with :percent_complete_edition feature flag removal
-        next unless OpenProject::FeatureDecisions.percent_complete_edition_active?
-
-        form.hidden(name: :done_ratio,
-                    value: work_package.done_ratio_was)
-      end
+    it "percentage done is not writable in status-based progress calculation mode",
+       with_settings: { work_package_done_ratio: "status" } do
+      expect(subject).not_to be_writable(:done_ratio)
     end
   end
 end
