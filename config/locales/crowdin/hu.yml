@@ -48,7 +48,7 @@ hu:
         main-menu-border-color: "Főmenü kerete"
       custom_colors: "Egyéni színek"
       customize: "Testreszabhatja OpenProject telepítését saját logójával és színeivel."
-      enterprise_notice: "Ez egy különleges \"Köszönöm!\" az OpenProject kifejlesztéséhez nyújtott pénzügyi hozzájárulásért, ami egy aprócska szolgáltatás a Vállalati Verziót használó előfizetők számára."
+      enterprise_notice: 'Ez egy különleges "Köszönöm!" az OpenProject kifejlesztéséhez nyújtott pénzügyi hozzájárulásért, ami egy aprócska szolgáltatás a Vállalati Verziót használó előfizetők számára.'
       enterprise_more_info: "Megjegyzés: a használt logó nyilvánosan elérhető lesz."
       manage_colors: "A színválasztás beállításainak módosítása"
       instructions:
@@ -104,7 +104,7 @@ hu:
     label_plural: "Attribútum-súgószöveg"
     show_preview: "Előnézet mutatása"
     add_new: "Súgószöveg hozzáadása"
-    edit: "Súgószöveg \"%{attribute_caption}\" szerkesztése"
+    edit: 'Súgószöveg "%{attribute_caption}" szerkesztése'
   background_jobs:
     status:
       error_requeue: "A művelet hibát észlelt, de újra próbálkozik. A hiba a következő volt: %{message}\n"
@@ -267,7 +267,7 @@ hu:
       favored: "Favorite projects"
       archived: "Archivált projektek"
       shared: "Shared project lists"
-      my_private: "Privát projektlistáim"
+      my_lists: "My project lists"
       new:
         placeholder: "Új projektlista"
       delete_modal:
@@ -413,7 +413,7 @@ hu:
       prompt: "Maradjon bejelentkezve %{num_days} napig."
     sessions:
       remembered_devices: "Megjegyzett eszközök"
-      remembered_devices_caption: "Az összes olyan eszköz listája, amely a \"Bejelentkezve marad\" opcióval bejelentkezett erre a fiókra."
+      remembered_devices_caption: 'Az összes olyan eszköz listája, amely a "Bejelentkezve marad" opcióval bejelentkezett erre a fiókra.'
       session_name: "%{browser_name} %{browser_version} %{os_name} operációs rendszeren"
       browser: "Böngésző"
       device: "Eszköz / Operációs rendszer"
@@ -913,7 +913,7 @@ hu:
             base:
               unsupported_operator: "Az operátor nem támogatott."
               invalid_values: "Egy érték érvénytelen."
-              id_filter_required: "Egy \"id\" szűrő szükséges."
+              id_filter_required: 'Egy "id" szűrő szükséges.'
         project:
           archived_ancestor: "A projektnek archívált őse van."
           foreign_wps_reference_version: "Munkacsomagok nem leszármazottak a projektekben, a projekt vagy annak leszármazottainak referenciaverziói."
@@ -968,10 +968,10 @@ hu:
             circular_dependency: "A kapcsolat körkörös függőséget hoz létre."
           attributes:
             to:
-              error_not_found: "feladatcsoportban \"a\" pozíció nem található, vagy nem látható"
+              error_not_found: 'feladatcsoportban "a" pozíció nem található, vagy nem látható'
               error_readonly: "egy létező kapcsolat ',' hivatkozása nem változhat"
             from:
-              error_not_found: "feladatcsoportban \"a\" pozíció nem található, vagy nem látható"
+              error_not_found: 'feladatcsoportban "a" pozíció nem található, vagy nem látható'
               error_readonly: "egy létező kapcsolat ',' hivatkozása nem változhat"
         repository:
           not_available: "SCM szolgáltató nem elérhető"
@@ -1086,7 +1086,7 @@ hu:
                 other: "korábban már használta. Kérjük, válasszon egyet, amely eltér a(z) %{count} utolsótól."
               match:
                 confirm: "Új jelszó megerősítése."
-                description: "A \"'Jelszó megerősítés\"-nek meg kell egyeznie az \"Új jelszó\" mezővel."
+                description: 'A "''Jelszó megerősítés"-nek meg kell egyeznie az "Új jelszó" mezővel.'
             status:
               invalid_on_create: "ez nem egy érvényes állapot, az új felhasználó számára."
             ldap_auth_source:
@@ -1377,7 +1377,7 @@ hu:
     text_update_consent_time: Jelölje be ezt a négyzetet, ha újra kérni szeretné a felhasználók beleegyezését. Engedélyezem, ha megváltoztatta a fenti jóváhagyási jogi információt.
     update_consent_last_time: "Utolsó hozzájárulás frissítése: %{update_time}"
   copy_project:
-    title: 'Projekt másolása %{source_project_name}'
+    title: "Projekt másolása %{source_project_name}"
     started: 'Projekt másolása elindult a "%{source_project_name}" nevű projektből a "%{target_project_name}" projektbe. E-mailben értesítjük, amint "%{target_project_name}" elérhető.'
     failed: "Nem lehet másolni a %{source_project_name} projektet "
     failed_internal: "Sikertelen másolás egy belső hiba miatt."
@@ -1432,7 +1432,7 @@ hu:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Január"
       - "Február"
@@ -1447,8 +1447,8 @@ hu:
       - "November"
       - "December"
     order:
-      - ':év'
-      - ':hónap'
+      - ":év"
+      - ":hónap"
       - :nap
   datetime:
     distance_in_words:
@@ -2083,7 +2083,7 @@ hu:
   label_custom_export_cover_text_color: "Text color"
   label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Egyedi favicon"
-  label_custom_touch_icon: "Egyedi \"touch-icon\""
+  label_custom_touch_icon: 'Egyedi "touch-icon"'
   label_logout: "Kijelentkezés"
   label_main_menu: "Oldalsó menü"
   label_manage: "Manage"
@@ -2365,9 +2365,9 @@ hu:
   label_wiki_navigation: "Wiki navigáció"
   label_wiki_page: "Wiki oldal"
   label_wiki_page_plural: "Wiki oldalak"
-  label_wiki_show_index_page_link: "Megjeleníti az almenüpont feladatainak \"Tartalomjegyzékét\""
+  label_wiki_show_index_page_link: 'Megjeleníti az almenüpont feladatainak "Tartalomjegyzékét"'
   label_wiki_show_menu_item: "Megjeleníti mint menüpont a projekt navigációban"
-  label_wiki_show_new_page_link: "Almenüpont megjelenítése \" új gyermekoldal létrehozása\""
+  label_wiki_show_new_page_link: 'Almenüpont megjelenítése " új gyermekoldal létrehozása"'
   label_wiki_show_submenu_item: "Megjelenítés mint: almenüpont "
   label_wiki_start: "Kezdő oldal"
   label_work: "Munka"
@@ -2433,7 +2433,7 @@ hu:
       removed: "A makro nem érvényes a továbbiakban"
     wiki_child_pages:
       errors:
-        page_not_found: "Nem található a wiki oldal \"%{name}\"."
+        page_not_found: 'Nem található a wiki oldal "%{name}".'
     create_work_package_link:
       errors:
         no_project_context: "A create_work_package_link makró hívása külső projektek környezetéből."
@@ -2568,7 +2568,7 @@ hu:
     body:
       updated_by:
         without_message: "%{user} frissítette a '%{project}' projektben betöltött szerepeit.\n"
-        with_message: "%{user} frissítette a \"%{project}\" projektben betöltött szerepeit:"
+        with_message: '%{user} frissítette a "%{project}" projektben betöltött szerepeit:'
       roles: "A következő jogosultságaid vannak :"
   mail_member_updated_global:
     subject: "A globális jogosultságaid frissítve"
@@ -2625,7 +2625,7 @@ hu:
   notice_locking_conflict_additional_information: "A frissítést %{users} végezte el."
   notice_locking_conflict_reload_page: "Töltse újra az oldalt, tekintse át a módosításokat, és a frissítse újra."
   notice_member_added: Hozzáadva %{name} projekthez.
-  notice_members_added: '%{number} felhasználó hozzáadva a projekthez.'
+  notice_members_added: "%{number} felhasználó hozzáadva a projekthez."
   notice_member_removed: "%{user} eltávolítva a projektből."
   notice_member_deleted: "%{user} felhasználó el lett távolítva a projektből és törölve lett."
   notice_no_principals_found: "Nincs találat."
@@ -3164,7 +3164,7 @@ hu:
     array:
       sentence_connector: "és"
       skip_last_comma: "hamis"
-  text_accessibility_hint: "A kisegítő lehetőségek mód vakok és gyengén látók illetve mozgásukban korlátozottak számára lett tervezve. Gyengénlátók számára a fókuszált elemek kivételes kiemeléssel jelennek meg. Vegye figyelembe, hogy a \"Backlogs\" modul nem érhető el ebben a módban."
+  text_accessibility_hint: 'A kisegítő lehetőségek mód vakok és gyengén látók illetve mozgásukban korlátozottak számára lett tervezve. Gyengénlátók számára a fókuszált elemek kivételes kiemeléssel jelennek meg. Vegye figyelembe, hogy a "Backlogs" modul nem érhető el ebben a módban.'
   text_access_token_hint: "Hozzáférés tokennel lehetővé teszi, hogy külső alkalmazások hozzáférhessenek az OpenProject forrásaihoz."
   text_analyze: "További elemzése: %{subject}"
   text_are_you_sure: "Biztos vagy benne?"
@@ -3516,10 +3516,10 @@ hu:
         datetime: "ÉÉÉÉ-HH-NNÓó:pp:ss[.lll][+óó:pp] (bármely kompatibilis ISO 8601 dátumidő)"
         duration: "ISO 8601 időtartam"
       invalid_content_type: "A várt CONTENT-TYPE '%{content_type}', a kapott '%{actual}'."
-      invalid_format: "Érvénytelen formátum tulajdonság \"%{property}\": várható formátum \"%{expected_format}\", de \"%{actual}\" kapott."
+      invalid_format: 'Érvénytelen formátum tulajdonság "%{property}": várható formátum "%{expected_format}", de "%{actual}" kapott.'
       invalid_json: "A kérelem nem értelmezhető JSON -ként."
       invalid_relation: "A kapcsolat érvénytelen."
-      invalid_resource: "A \"%{property}\" tulajdonsághoz hasonló \"%{expected}\" kapcsolat várható, de \"%{actual}\"."
+      invalid_resource: 'A "%{property}" tulajdonsághoz hasonló "%{expected}" kapcsolat várható, de "%{actual}".'
       invalid_signal:
         embed: "A %{invalid} kért beágyazása nem támogatott. A támogatott beágyazások a %{supported}."
         select: "A %{invalid} kért kiválasztása nem támogatott. A támogatott kiválasztások %{supported}."
@@ -3585,7 +3585,7 @@ hu:
         revoke:
           unauthorized: "Nincs jogosultsága ennek a tokennek a visszavonására."
         forbidden_token:
-          missing_scope: 'Az erőforrás eléréséhez „%{oauth_scopes}” hatókör szükséges.'
+          missing_scope: "Az erőforrás eléréséhez „%{oauth_scopes}” hatókör szükséges."
   unsupported_browser:
     title: "A böngésződ elavult és nem támogatott"
     message: "Előfordulhat, hogy hibákba ütközik és romlik az élmény ezen az oldalon."

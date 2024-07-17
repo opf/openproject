@@ -89,10 +89,10 @@ zh-CN:
     is_inactive: 当前未显示
   antivirus_scan:
     not_processed_yet_message: "下载被阻止，因为尚未对文件进行病毒扫描。请稍后再试。"
-    quarantined_message: "在文件 \"%{filename}\"中检测到病毒。该文件已被隔离，无法下载。"
-    deleted_message: "在文件 \"%{filename}\"中检测到病毒。该文件已被删除。"
-    deleted_by_admin: "管理员已删除被隔离的文件 \"%{filename}\"。"
-    overridden_by_admin: "%{user}解除了文件 \"%{filename}\"的隔离。现在可以访问该文件了。"
+    quarantined_message: '在文件 "%{filename}"中检测到病毒。该文件已被隔离，无法下载。'
+    deleted_message: '在文件 "%{filename}"中检测到病毒。该文件已被删除。'
+    deleted_by_admin: '管理员已删除被隔离的文件 "%{filename}"。'
+    overridden_by_admin: '%{user}解除了文件 "%{filename}"的隔离。现在可以访问该文件了。'
     quarantined_attachments:
       container: "容器"
       delete: "删除被隔离的文件"
@@ -265,7 +265,7 @@ zh-CN:
       favored: "收藏的项目"
       archived: "归档项目"
       shared: "共享项目列表"
-      my_private: "我的私有项目列表"
+      my_lists: "我的项目列表"
       new:
         placeholder: "新项目列表"
       delete_modal:
@@ -301,7 +301,7 @@ zh-CN:
       types:
         no_results_title_text: 目前有可用的类型。
         form:
-          enable_type_in_project: '启用类型“%{type}”'
+          enable_type_in_project: "启用类型“%{type}”"
       versions:
         no_results_title_text: 目前这个项目没有版本。
         no_results_content_text: 创建一个新的版本
@@ -395,7 +395,7 @@ zh-CN:
       no_results_title_text: 目前没有可用的访问令牌。
       notice_api_token_revoked: "API 令牌已被删除。要创建新令牌，请使用 API 部分中的链接。"
       notice_rss_token_revoked: "RSS 令牌已被删除。要创建新令牌，请使用 RSS 部分中的链接。"
-      notice_ical_token_revoked: '项目“%{project_name}”的日历“%{calendar_name}”的 iCalendar 令牌“%{token_name}”已被撤销。 此令牌的 iCalendar URL 现在无效。'
+      notice_ical_token_revoked: "项目“%{project_name}”的日历“%{calendar_name}”的 iCalendar 令牌“%{token_name}”已被撤销。 此令牌的 iCalendar URL 现在无效。"
   news:
     index:
       no_results_title_text: 目前没有消息报告。
@@ -520,7 +520,7 @@ zh-CN:
     sharing:
       missing_workflow_warning:
         title: "工作包共享缺少工作流"
-        message: "没有为\"工作包编辑者\"角色配置工作流。没有工作流，共享用户就无法更改工作包的状态。工作流可以复制。选择一个源类型（例如\"任务\"）和源角色（例如\"成员\"）。然后选择目标类型。一开始，您可以将所有类型都选择为目标类型。最后，选择\"工作包编辑者\"角色作为目标，然后点击\"复制\"。在创建默认设置之后，像对其他角色一样进行微调，对工作流进行详细调整。"
+        message: '没有为"工作包编辑者"角色配置工作流。没有工作流，共享用户就无法更改工作包的状态。工作流可以复制。选择一个源类型（例如"任务"）和源角色（例如"成员"）。然后选择目标类型。一开始，您可以将所有类型都选择为目标类型。最后，选择"工作包编辑者"角色作为目标，然后点击"复制"。在创建默认设置之后，像对其他角色一样进行微调，对工作流进行详细调整。'
         link_message: "在管理中配置工作流。"
     summary:
       reports:
@@ -716,7 +716,7 @@ zh-CN:
         auto_hide_popups: "自动隐藏成功通知"
         warn_on_leaving_unsaved: "离开未保存更改的工作包时提示我"
         theme: "模式"
-        mode_guideline: "某些模式会覆盖自定义主题的颜色，以便于访问和阅读。如需完整的自定义主题，请选择 \"浅色 \"模式。"
+        mode_guideline: '某些模式会覆盖自定义主题的颜色，以便于访问和阅读。如需完整的自定义主题，请选择 "浅色 "模式。'
       version:
         effective_date: "完成日期"
         sharing: "共享"
@@ -869,7 +869,7 @@ zh-CN:
               fragment_present: "不能包含片段。"
               invalid_uri: "必须是有效的 URI。"
               relative_uri: "必须是绝对URI。"
-              secured_uri: '未提供“安全上下文”。使用 HTTPS 或环回地址，例如 localhost。'
+              secured_uri: "未提供“安全上下文”。使用 HTTPS 或环回地址，例如 localhost。"
               forbidden_uri: "被服务器禁止。"
             scopes:
               not_match_configured: "与可用范围不匹配。"
@@ -1042,7 +1042,7 @@ zh-CN:
             estimated_hours:
               not_a_number: "不是有效的持续时间。"
               cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
-              must_be_set_when_remaining_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
+              must_be_set_when_remaining_work_is_set: '必须在设置 "剩余工时 "时设置。'
               only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
               format: "%{message}"
             remaining_hours:
@@ -1057,7 +1057,7 @@ zh-CN:
               attribute_unknown: "已使用无效的工作包属性。"
               attribute_unknown_name: "使用了无效的工作包属性：%{attribute}"
               duplicate_group: "组名 %{group} 已多次使用。组名不能重复。"
-              query_invalid: "嵌入式查询 \"%{group}\" 无效: %{details}"
+              query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
               group_without_name: "不允许未命名的组。"
         user:
           attributes:
@@ -1360,8 +1360,8 @@ zh-CN:
     text_update_consent_time: 选中此框可强制用户再次同意。在更改上述同意信息的法律方面时启用。
     update_consent_last_time: "同意的最后更新: %{update_time}"
   copy_project:
-    title: '复制项目“%{source_project_name}”'
-    started: '开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。'
+    title: "复制项目“%{source_project_name}”"
+    started: "开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。"
     failed: "无法复制项目 %{source_project_name}"
     failed_internal: "由于内部错误，复制失败。"
     succeeded: "创建的项目 %{target_project_name}"
@@ -1415,7 +1415,7 @@ zh-CN:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "1月"
       - "2月"
@@ -1430,9 +1430,9 @@ zh-CN:
       - "11 月"
       - "12月"
     order:
-      - '：年'
-      - '：月'
-      - '：日'
+      - "：年"
+      - "：月"
+      - "：日"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1515,7 +1515,7 @@ zh-CN:
   enumeration_activities: "时间跟踪活动"
   enumeration_work_package_priorities: "工作包优先级"
   enumeration_reported_project_statuses: "报告的项目状态"
-  error_auth_source_sso_failed: "用户 \"%{value}\" 的单次登录 (SSO) 失败"
+  error_auth_source_sso_failed: '用户 "%{value}" 的单次登录 (SSO) 失败'
   error_can_not_archive_project: "此项目无法存档：%{errors}"
   error_can_not_delete_entry: "无法删除条目"
   error_can_not_delete_custom_field: "无法删除自定义字段"
@@ -2402,7 +2402,7 @@ zh-CN:
     create_work_package_link:
       errors:
         no_project_context: "从外部项目上下文调用 create_work_package_link 宏。"
-        invalid_type: "在项目 \"%{project}\" 中找不到名称为 \"%{type}\" 的类型。"
+        invalid_type: '在项目 "%{project}" 中找不到名称为 "%{type}" 的类型。'
       link_name: "新工作包"
       link_name_type: "新%{type_name}"
   mail:
@@ -2508,7 +2508,7 @@ zh-CN:
   mail_body_register_closing: "您的 OpenProject 团队"
   mail_body_register_ending: "保持联系！谨致问候，"
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："
-  mail_body_group_reminder: '%{count} 个分配给组“%{group}”的工作包将在 %{days} 天后到期：'
+  mail_body_group_reminder: "%{count} 个分配给组“%{group}”的工作包将在 %{days} 天后到期："
   mail_body_wiki_page_added: "'%{id}' 维基页面已经由%{author} 添加。"
   mail_body_wiki_page_updated: "'%{id}' 维基页面已经由%{author} 更新。"
   mail_subject_account_activation_request: "%{value} 帐户激活请求"
@@ -2833,7 +2833,7 @@ zh-CN:
       exception_title: "不能访问 %{message} 存储库"
       disabled_or_unknown_type: "所选的类型 %{type} 是禁用状态或不再为SCM提供商 %{vendor} 可用。"
       disabled_or_unknown_vendor: "SCM提供商 %{vendor} 是被禁用状态或不再可用。"
-      remote_call_failed: "调用托管的远程失败消息\"%{message}\"(代码: %{code})"
+      remote_call_failed: '调用托管的远程失败消息"%{message}"(代码: %{code})'
       remote_invalid_response: "从托管远程收到无效的响应。"
       remote_save_failed: "不能从远程数据库中检索的参数保存存储库。"
     git:
@@ -3294,7 +3294,7 @@ zh-CN:
     blocked: "暂时锁定"
     blocked_num_failed_logins:
       other: "暂时锁定（%{count} 次尝试登录失败）"
-    confirm_status_change: "您即将更改 \"%{name}\" 的状态。确实要继续吗？"
+    confirm_status_change: '您即将更改 "%{name}" 的状态。确实要继续吗？'
     deleted: "已删除的用户"
     error_status_change_failed: "用户状态更改失败，因为以下错误: %{errors}"
     invite: 通过电子邮件邀请用户
@@ -3341,7 +3341,7 @@ zh-CN:
         您的应用程序正在运行，并且主机名设置为 <code>%{set_hostname}</code>，但请求是 <code>%{actual_hostname}</code>。这将导致错误！转到<a href="%{setting_path}">系统设置</a>并更改“主机名”设置以纠正。
   menu_item: "菜单项"
   menu_item_setting: "可见性"
-  wiki_menu_item_for: '维基页面” %{title} “的菜单项'
+  wiki_menu_item_for: "维基页面” %{title} “的菜单项"
   wiki_menu_item_setting: "可见性"
   wiki_menu_item_new_main_item_explanation: >
     您正在删除唯一的主维基菜单项。您现在需要选择一个维基页面生成新的主项目。若要删除维基，维基模块可以由管理员停用。
@@ -3356,7 +3356,7 @@ zh-CN:
     progress:
       label_note: "注意："
       modal:
-        work_based_help_text: "完成百分比由 \"工时\" 和 \"剩余工时\" 自动得出。"
+        work_based_help_text: '完成百分比由 "工时" 和 "剩余工时" 自动得出。'
         status_based_help_text: "完成百分比由工作包状态设定。"
         migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
     permissions:
@@ -3541,7 +3541,7 @@ zh-CN:
         revoke:
           unauthorized: "您不具备撤销此令牌的权限。"
         forbidden_token:
-          missing_scope: '访问此资源需要范围“%{oauth_scopes}”。'
+          missing_scope: "访问此资源需要范围“%{oauth_scopes}”。"
   unsupported_browser:
     title: "您的浏览器已经过时，或不被支持。"
     message: "此页面可能会发生运行错误和不良用户体验。"

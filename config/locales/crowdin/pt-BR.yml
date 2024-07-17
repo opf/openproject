@@ -267,7 +267,7 @@ pt-BR:
       favored: "Projetos favoritos"
       archived: "Projetos arquivados"
       shared: "Listas de projetos compartilhados"
-      my_private: "Minhas listas de projetos privados"
+      my_lists: "Minhas listas de projetos"
       new:
         placeholder: "Nova lista de projetos"
       delete_modal:
@@ -529,7 +529,7 @@ pt-BR:
     sharing:
       missing_workflow_warning:
         title: "Fluxo de trabalho ausente para compartilhamento de pacotes de trabalho"
-        message: "Nenhum fluxo de trabalho está configurado para a função \"Editor de pacote de trabalho\". Sem um fluxo de trabalho, o usuário compartilhado não pode alterar o status do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de origem (ex.: \"Tarefa\") e uma função de origem (ex.: \"Membro\"). Em seguida, selecione os tipos de destino. Para começar, você pode selecionar todos os tipos como alvos. Por fim, selecione a função \"Editor de pacote de trabalho\" como o destino e pressione \"Copiar\". Depois de criar os padrões, ajuste os fluxos de trabalho da mesma forma que faz para todas as outras funções."
+        message: 'Nenhum fluxo de trabalho está configurado para a função "Editor de pacote de trabalho". Sem um fluxo de trabalho, o usuário compartilhado não pode alterar o status do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de origem (ex.: "Tarefa") e uma função de origem (ex.: "Membro"). Em seguida, selecione os tipos de destino. Para começar, você pode selecionar todos os tipos como alvos. Por fim, selecione a função "Editor de pacote de trabalho" como o destino e pressione "Copiar". Depois de criar os padrões, ajuste os fluxos de trabalho da mesma forma que faz para todas as outras funções.'
         link_message: "Configure os fluxos de trabalho na administração."
     summary:
       reports:
@@ -950,7 +950,7 @@ pt-BR:
               forbidden: "Os carimbos de data/hora contêm valores proibidos: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: "A coluna \"Name\" precisa ser incluída."
+              name_not_included: 'A coluna "Name" precisa ser incluída.'
               nonexistent: "A coluna '%{column}' não existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
@@ -1433,7 +1433,7 @@ pt-BR:
       long: "%d de %B de %Y"
       short: "%d/%b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Janeiro"
       - "Fevereiro"
@@ -1449,7 +1449,7 @@ pt-BR:
       - "Dezembro"
     order:
       - :ano
-      - ':mês'
+      - ":mês"
       - :dia
   datetime:
     distance_in_words:
@@ -2625,7 +2625,7 @@ pt-BR:
   notice_locking_conflict: "Informação foi atualizada por pelo menos um outro usuário."
   notice_locking_conflict_additional_information: "A(s) atualização(ões) chegaram de %{users}."
   notice_locking_conflict_reload_page: "Por favor, recarregue a página, reveja as alterações e aplique novamente suas atualizações."
-  notice_member_added: '%{name} adicionado ao projeto.'
+  notice_member_added: "%{name} adicionado ao projeto."
   notice_members_added: Adicionados %{number} usuários ao projeto.
   notice_member_removed: "%{user} removido do projeto."
   notice_member_deleted: "%{user} foi removido do projeto e excluído."
@@ -3094,7 +3094,7 @@ pt-BR:
         instructions_html: >
           Selecione o que deve ser feito com os arquivos que contêm vírus detectados: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Colocar o arquivo em quarentena, impedindo o acesso dos usuários. Os administradores podem revisar e excluir arquivos em quarentena na administração.</li> <li><strong>%{delete_option}</strong>: Excluir o arquivo imediatamente.</li> </ul>
       modes:
-        clamav_socket_html: 'Digite o caminho para o soquete clamd daemon, por ex.: %{example}.'
+        clamav_socket_html: "Digite o caminho para o soquete clamd daemon, por ex.: %{example}."
         clamav_host_html: Digite o nome do host e a porta clamd daemon separados por dois pontos. Por exemplo, %{example}.
         description_html: >
           Selecione como deseja configurar a verificação de vírus. <br/> <ul> <li><strong>%{disabled_option}</strong>: Os arquivos carregados não serão verificados quanto a vírus.</li> <li><strong>%{socket_option}</strong>: O ClamAV está configurado no mesmo servidor que o OpenProject, com o daemon clamd de verificação em execução em segundo plano</li> <li><strong>%{host_option}</strong>: Os arquivos serão enviados para um host externo para verificação de vírus.</li> </ul>

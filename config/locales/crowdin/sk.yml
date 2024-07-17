@@ -268,7 +268,7 @@ sk:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -571,7 +571,7 @@ sk:
     deletion_info:
       data_consequences:
         other: 'Dáta, ktoré daný používateľ vytvoril (čiže e-mail, nastavenia, pracovné balíčky, wiki stránky a pod.), budú odstránené do takej miery, do akej to bude možné. Pamätajte však, že pracovné balíčky a wiki stránky nemôžu byť odstránené bez skomplikovania prác ostatných používateľov. Takéto dáta budú preto preradené na účet nazvaný "Odstránený používateľ". Keďže dáta všetkých odstránených účtov sú automaticky priraďované na uvedený účet, nebude možné rozlíšiť dáta tohto používateľa od dát ostatných už odstránených používateľov.'
-        self: 'Z dát, ktoré ste vytvorili, (správy, nastavenia, pracovné balíčky, príspevky vo wiki) bude odstránené možné maximum. Upozorňujeme však, že dáta ako pracovné balíčky a príspevky do wiki nemôžu byť odstránené bez toho, aby znehodnotili prácu iných užívateľov. Z toho dôvodu budú takéto dáta priradené účtu nazvanému „Odstránený používateľ“. Keďže k tomuto účtu sú priradené neodstrániteľné dáta všetkých zrušených účtov, nie je možné odlíšiť dáta vytvorené vami od dát vytvorených iným zrušeným používateľom.'
+        self: "Z dát, ktoré ste vytvorili, (správy, nastavenia, pracovné balíčky, príspevky vo wiki) bude odstránené možné maximum. Upozorňujeme však, že dáta ako pracovné balíčky a príspevky do wiki nemôžu byť odstránené bez toho, aby znehodnotili prácu iných užívateľov. Z toho dôvodu budú takéto dáta priradené účtu nazvanému „Odstránený používateľ“. Keďže k tomuto účtu sú priradené neodstrániteľné dáta všetkých zrušených účtov, nie je možné odlíšiť dáta vytvorené vami od dát vytvorených iným zrušeným používateľom."
       heading: "Odstrániť účet %{name}"
       info:
         other: "Odstránenie používateľského konta je nevratná akcia."
@@ -1039,7 +1039,7 @@ sk:
             assigned_to:
               format: "%{message}"
             due_date:
-              not_start_date: "nemá rovnakú hodnotu ako dátum začiatku, aj keď je to požadované pre pracovné balíčky typu \"míľnik\"."
+              not_start_date: 'nemá rovnakú hodnotu ako dátum začiatku, aj keď je to požadované pre pracovné balíčky typu "míľnik".'
               cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
@@ -1047,7 +1047,7 @@ sk:
               not_available_for_milestones: "is not available for milestone typed work packages."
               cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
-              cannot_be_milestone: "nemôže byť previazaný na pracovný balíček typu \"míľnik\"."
+              cannot_be_milestone: 'nemôže byť previazaný na pracovný balíček typu "míľnik".'
               cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "nemôže byť previazaný na pracovný balíček nachádzajúci sa v inom projekte (musí byť povolené správcom systému)."
               not_a_valid_parent: "je neplatný."
@@ -1094,10 +1094,10 @@ sk:
               format: "%{message}"
             password:
               weak: "Musí obsahovať znaky z nasledujúcich tried (najmenej%{min_count} z %{all_count}): %{rules}."
-              lowercase: "malé písmená (napríklad \"a\")"
-              uppercase: "veľké písmená (napríklad \"A\")"
+              lowercase: 'malé písmená (napríklad "a")'
+              uppercase: 'veľké písmená (napríklad "A")'
               numeric: "Čísla (napríklad 1)"
-              special: "Špeciálne znaky (napríklad \"%\")"
+              special: 'Špeciálne znaky (napríklad "%")'
               reused:
                 one: "už bol použitý predtým. Prosím, vyberte odlišnú voľbu ako tú, ktorá bola zvolená naposledy."
                 few: "už bolo použité. Vyberte heslo, ktoré sa líši od posledných %{count}."
@@ -1105,7 +1105,7 @@ sk:
                 other: "už bolo použité. Vyberte heslo, ktoré sa líši od posledných %{count}."
               match:
                 confirm: "Potvrdiť nové heslo."
-                description: "\"Potvrdenie hesla\" musí byť rovnaké ako v poli \"Nové heslo\"."
+                description: '"Potvrdenie hesla" musí byť rovnaké ako v poli "Nové heslo".'
             status:
               invalid_on_create: "nie je platný stav pre nových používateľov."
             ldap_auth_source:
@@ -1467,7 +1467,7 @@ sk:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Január"
       - "Február"
@@ -1484,7 +1484,7 @@ sk:
     order:
       - :rok
       - :mesiac
-      - ':deň'
+      - ":deň"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -2436,9 +2436,9 @@ sk:
   label_wiki_navigation: "Wiki navigácia"
   label_wiki_page: "Wiki stránka"
   label_wiki_page_plural: "Wikistránky"
-  label_wiki_show_index_page_link: "Zobraziť položku podmenu \"Obsah\""
+  label_wiki_show_index_page_link: 'Zobraziť položku podmenu "Obsah"'
   label_wiki_show_menu_item: "Zobraziť ako položku menu v navigácii projektu"
-  label_wiki_show_new_page_link: "Zobraziť položku submenu \"Vytvoriť novú podradenú stránku\""
+  label_wiki_show_new_page_link: 'Zobraziť položku submenu "Vytvoriť novú podradenú stránku"'
   label_wiki_show_submenu_item: "Zobraziť ako položku submenu "
   label_wiki_start: "Úvodná stránka"
   label_work: "Work"
@@ -2508,7 +2508,7 @@ sk:
     create_work_package_link:
       errors:
         no_project_context: "Volanie create_work_package_link makra z kontextu mimo projektu."
-        invalid_type: "Nenašiel sa žiadny typ s názvom '%{type}' v projekte '%{project}\"."
+        invalid_type: 'Nenašiel sa žiadny typ s názvom ''%{type}'' v projekte ''%{project}".'
       link_name: "Nový pracovný balíček"
       link_name_type: "Nový %{type_name}"
   mail:
@@ -2697,7 +2697,7 @@ sk:
   notice_locking_conflict: "Informácia bola medzičasom aktualizovaná aspoň jedným iným používateľom."
   notice_locking_conflict_additional_information: "Aktualizácia (-e) pochádza z %{users}."
   notice_locking_conflict_reload_page: "Znova načítajte stránku, prekontrolujte si zmeny a aplikujte svoje aktualizácie."
-  notice_member_added: '%{name} pridaný do projektu.'
+  notice_member_added: "%{name} pridaný do projektu."
   notice_members_added: Pridaných %{number} užívateľov do projektu.
   notice_member_removed: "Zmazaný %{user} z projektu."
   notice_member_deleted: "%{user} bol odobraný z projektu a odstránený."
@@ -2872,7 +2872,7 @@ sk:
       make_template: "Použiť ako šablónu"
       remove_from_templates: "Remove from templates"
     archive:
-      are_you_sure: "Naozaj chcete archivovať projekt \"%{name}\"?"
+      are_you_sure: 'Naozaj chcete archivovať projekt "%{name}"?'
       archived: "Archivované"
     count:
       zero: "0 Projects"
@@ -3414,7 +3414,7 @@ sk:
       few: "dočasne zamknuté (%{count} neúspešných pokusov o prihlásenie)"
       many: "dočasne zamknuté (%{count} neúspešných pokusov o prihlásenie)"
       other: "dočasne zamknuté (%{count} neúspešných pokusov o prihlásenie)"
-    confirm_status_change: "Chystáte sa zmeniť stav \"%{name}\". Naozaj chcete pokračovať?"
+    confirm_status_change: 'Chystáte sa zmeniť stav "%{name}". Naozaj chcete pokračovať?'
     deleted: "Odstránený používateľ"
     error_status_change_failed: "Uloženie dokumentu zlyhalo s nasledujúcou chybou: %{errors}"
     invite: Pozvať používateľa prostredníctvom e-mailu
@@ -3592,11 +3592,11 @@ sk:
         date: "RRRR-MM-DD (len dátumu ISO 8601)"
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 trvanie"
-      invalid_content_type: "Očakávaný typ obsahu je \"%{content_type}\", dodaný bol však \"%{actual}\"."
-      invalid_format: "Neplatný formát parametra \"%{property}\": systémom očakávaný formát je \"%{expected_format}\", používateľ dodal \"%{actual}\"."
+      invalid_content_type: 'Očakávaný typ obsahu je "%{content_type}", dodaný bol však "%{actual}".'
+      invalid_format: 'Neplatný formát parametra "%{property}": systémom očakávaný formát je "%{expected_format}", používateľ dodal "%{actual}".'
       invalid_json: "Požiadavku nie je možné analyzovať ako JSON."
       invalid_relation: "Vzťah je neplatný."
-      invalid_resource: "Pre vlastnosť \"%{property}\" je odkaz očakávaný v tvare \"%{expected}\",  dodaný tvar však bol \"%{actual}\"."
+      invalid_resource: 'Pre vlastnosť "%{property}" je odkaz očakávaný v tvare "%{expected}",  dodaný tvar však bol "%{actual}".'
       invalid_signal:
         embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
@@ -3615,8 +3615,8 @@ sk:
         context_object_not_found: "Pre vložené vstupné podmienky neboli nájdené žiadne prostriedky."
       validation:
         due_date: "Dátum ukončenia nie je možné nastaviť na rodičovské pracovné balíčky."
-        invalid_user_assigned_to_work_package: "Zvolený používateľ nemôže byť \"%{property}\" v prípade tohto pracovného balíčka."
-        start_date: "Dátum \"Od\" nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
+        invalid_user_assigned_to_work_package: 'Zvolený používateľ nemôže byť "%{property}" v prípade tohto pracovného balíčka.'
+        start_date: 'Dátum "Od" nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky.'
       eprops:
         invalid_gzip: "is invalid gzip: %{message}"
         invalid_json: "is invalid json: %{message}"

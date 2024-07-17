@@ -265,7 +265,7 @@ de:
       favored: "Favorisierte Projekte"
       archived: "Archivierte Projekte"
       shared: "Geteilte Projektlisten"
-      my_private: "Meine privaten Projektlisten"
+      my_lists: "Meine Projektlisten"
       new:
         placeholder: "Neue Projektliste"
       delete_modal:
@@ -298,6 +298,11 @@ de:
         is_required_blank_slate:
           heading: In allen Projekten erforderlich
           description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Benötigt in allen Projekten" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
+        new_project_mapping_form:
+          add_projects: Projekte erstellen
+          include_sub_projects: Unterprojekte einbeziehen
+        project_mappings:
+          header: Verwendung in Projekten
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -401,7 +406,7 @@ de:
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
       notice_api_token_revoked: "Das API-Token wurde gelöscht. Nutzen Sie bitte den Knopf in der API-Sektion für die Erstellung eines neues Token. "
       notice_rss_token_revoked: "Der RSS-Token wurde gelöscht. Um ein neues Token zu erstellen, benutzen Sie bitte den Link im RSS-Bereich."
-      notice_ical_token_revoked: 'iCalendar-Token „%{token_name}“ für Kalender „%{calendar_name}“ des Projekts „%{project_name}“ wurde widerrufen. Die iCal-URL mit diesem Token ist jetzt ungültig.'
+      notice_ical_token_revoked: "iCalendar-Token „%{token_name}“ für Kalender „%{calendar_name}“ des Projekts „%{project_name}“ wurde widerrufen. Die iCal-URL mit diesem Token ist jetzt ungültig."
   news:
     index:
       no_results_title_text: Es gibt aktuell keine Neuigkeiten.
@@ -910,7 +915,7 @@ de:
             base:
               unsupported_operator: "Der Operator wird nicht unterstützt."
               invalid_values: "Ein Wert ist ungültig."
-              id_filter_required: "Ein \"Id\" Filter ist erforderlich."
+              id_filter_required: 'Ein "Id" Filter ist erforderlich.'
         project:
           archived_ancestor: "Das Projekt hat einen archivierten Vorgänger."
           foreign_wps_reference_version: "Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte."
@@ -920,7 +925,7 @@ de:
             types:
               in_use_by_work_packages: "wird noch genutzt von folgenden Arbeitspaketen: %{types}"
             enabled_modules:
-              dependency_missing: "Das Modul \"%{dependency}\" muss ebenfalls aktiviert sein, da das Modul \"%{module}\" dieses benötigt."
+              dependency_missing: 'Das Modul "%{dependency}" muss ebenfalls aktiviert sein, da das Modul "%{module}" dieses benötigt.'
               format: "%{message}"
         project_custom_field_project_mapping:
           attributes:
@@ -949,7 +954,7 @@ de:
               name_not_included: "Die Spalte ‚Name‘ muss enthalten sein"
               nonexistent: "Die Spalte ‚%{column}‘ existiert nicht."
               format: "%{message}"
-          group_by_hierarchies_exclusive: "schließt sich gegenseitig mit der Gruppierung nach \"%{group_by}\" aus. Beide können nicht zeitgleich aktiv sein."
+          group_by_hierarchies_exclusive: 'schließt sich gegenseitig mit der Gruppierung nach "%{group_by}" aus. Beide können nicht zeitgleich aktiv sein.'
           can_only_be_modified_by_owner: "Die Abfrage kann nur vom Besitzer geändert werden"
           need_permission_to_modify_public_query: "Du kannst eine öffentliche Abfrage nicht ändern."
           filters:
@@ -1083,7 +1088,7 @@ de:
                 other: "wurde bereits verwendet. Bitte wählen Sie eines, das sich von Ihren letzten %{count} unterscheidet."
               match:
                 confirm: "Neues Kennwort bestätigen."
-                description: "\"Kennwortbestätigung\" sollte mit \"Neues Kennwort\" übereinstimmen."
+                description: '"Kennwortbestätigung" sollte mit "Neues Kennwort" übereinstimmen.'
             status:
               invalid_on_create: "ist kein gültiger Status für neue Benutzer."
             ldap_auth_source:
@@ -1370,7 +1375,7 @@ de:
     not_yet_consented: Der Benutzer hat seine Einwilligung noch nicht gegeben und wird beim nächsten Login dazu befragt.
     contact_mail_instructions: Definieren Sie die E-Mail-Adresse, über die Benutzer einen Daten-Controller erreichen können, um Anfragen zu Datenänderung oder -löschung einzureichen.
     contact_your_administrator: Bitte kontaktieren Sie Ihren Administrator um bspw. eine Löschung Ihres Accounts zu beantragen.
-    contact_this_mail_address: 'Bitte kontaktieren Sie für Datenänderungs- oder Löschanfragen Ihren Administrator unter: %{mail_address}.'
+    contact_this_mail_address: "Bitte kontaktieren Sie für Datenänderungs- oder Löschanfragen Ihren Administrator unter: %{mail_address}."
     text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
     update_consent_last_time: "Letzte Änderung der Einwilligungsinformationen: %{update_time}"
   copy_project:
@@ -1384,7 +1389,7 @@ de:
     x_objects_of_this_type:
       zero: "Kein Inhalt dieser Art."
       one: "Ein Objekt dieses Typs"
-      other: "\"%{count}\" Ein Objekt dieses Typs"
+      other: '"%{count}" Ein Objekt dieses Typs'
     text:
       failed: 'Das Projekt "%{source_project_name}" konnte nicht nach "%{target_project_name}" kopiert werden.'
       succeeded: 'Das Projekt "%{source_project_name}" wurde nach "%{target_project_name}" kopiert.'
@@ -1429,7 +1434,7 @@ de:
       long: "%d. %B %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Januar"
       - "Februar"
@@ -1827,7 +1832,7 @@ de:
   label_api_access_key_created_on: "Der API-Zugriffsschlüssel wurde vor %{value} erstellt"
   label_api_access_key_type: "Schnittstelle (API)"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: 'iCalendar-Token „%{token_name}“ für „%{calendar_name}“ in „%{project_name}“'
+  label_ical_access_key_description: "iCalendar-Token „%{token_name}“ für „%{calendar_name}“ in „%{project_name}“"
   label_ical_access_key_not_present: "iCalendar-Token(s) nicht vorhanden."
   label_ical_access_key_generation_hint: "Wird automatisch generiert, wenn ein Kalender abonniert wird."
   label_ical_access_key_latest: "neueste"
@@ -2490,12 +2495,12 @@ de:
         plaintext:
           storage: "Speicherung"
           healthy:
-            summary: 'Gute Nachrichten! Der Status Ihres Speichers, %{storage_name}, wird derzeit als „Gesund“ angezeigt.'
+            summary: "Gute Nachrichten! Der Status Ihres Speichers, %{storage_name}, wird derzeit als „Gesund“ angezeigt."
             error-solved-on: "Gelöst am"
             recommendation: "Wir werden das System weiterhin überwachen, um sicherzustellen, dass es in gutem Zustand bleibt. Im Falle von Unstimmigkeiten werden wir Sie benachrichtigen."
             details: "Für weitere Einzelheiten oder um notwendige Änderungen vorzunehmen, können Sie Ihre Speicherkonfiguration aufrufen"
           unhealthy:
-            summary: 'Der Status Ihres Speichers, %{storage_name}, wird derzeit als „Fehler“ angezeigt. Wir haben ein Problem festgestellt, das möglicherweise Ihre Aufmerksamkeit erfordert.'
+            summary: "Der Status Ihres Speichers, %{storage_name}, wird derzeit als „Fehler“ angezeigt. Wir haben ein Problem festgestellt, das möglicherweise Ihre Aufmerksamkeit erfordert."
             error-details: "Fehlerdetails"
             error-message: "Fehlermeldung"
             error-occurred-on: "Aufgetreten am"
@@ -2504,11 +2509,11 @@ de:
         email_notification_settings: "Einstellungen für E-Mail-Benachrichtigungen zur Speicherung"
         see_storage_settings: "Siehe Speicherungseinstellungen"
         healthy:
-          subject: 'Der Speicher „%{name}“ ist jetzt gesund!'
+          subject: "Der Speicher „%{name}“ ist jetzt gesund!"
           solved_at: "gelöst am"
           summary: "Das Problem mit Ihrer %{storage_name}-Speicherintegration ist nun gelöst"
         unhealthy:
-          subject: 'Der Speicher „%{name}“ ist ungesund!'
+          subject: "Der Speicher „%{name}“ ist ungesund!"
           since: "seit"
           summary: "Es gibt ein Problem mit Ihrer %{storage_name}-Speicherintegration"
           troubleshooting:
@@ -2606,11 +2611,11 @@ de:
   notice_account_wrong_password: "Falsches Kennwort."
   notice_account_registered_and_logged_in: "Willkommen, ihr Benutzerkonto wurde aktiviert. Sie sind nun angemeldet."
   notice_activation_failed: Das Konto konnte nicht aktiviert werden.
-  notice_auth_stage_verification_error: "Konnte Stufe \"%{stage}\" nicht verifizieren."
-  notice_auth_stage_wrong_stage: "Erwartet Authentifizierungs-Stufe \"%{expected}\" zu beenden, aber \"%{actual}\" zurückgegeben."
-  notice_auth_stage_error: "Authentifizierungs-Stufe \"%{stage}\" gescheitert."
+  notice_auth_stage_verification_error: 'Konnte Stufe "%{stage}" nicht verifizieren.'
+  notice_auth_stage_wrong_stage: 'Erwartet Authentifizierungs-Stufe "%{expected}" zu beenden, aber "%{actual}" zurückgegeben.'
+  notice_auth_stage_error: 'Authentifizierungs-Stufe "%{stage}" gescheitert.'
   notice_can_t_change_password: "Dieses Konto verwendet eine externe Authentifizierungs-Quelle; das Kennwort kann nicht geändert werden."
-  notice_custom_options_deleted: "Option \"%{option_value}\" und ihre %{num_deleted} Vorkommen wurden gelöscht."
+  notice_custom_options_deleted: 'Option "%{option_value}" und ihre %{num_deleted} Vorkommen wurden gelöscht.'
   notice_email_error: "Beim Senden einer E-Mail ist ein Fehler aufgetreten (%{value})."
   notice_email_sent: "Eine E-Mail wurde an %{value} gesendet."
   notice_failed_to_save_work_packages: "%{count} von %{total} ausgewählten Arbeitspaketen konnte(n) nicht gespeichert werden: %{ids}."
@@ -2622,8 +2627,8 @@ de:
   notice_locking_conflict: "Die Informationen wurde zwischenzeitlich von einem anderen Benutzer geändert."
   notice_locking_conflict_additional_information: "Die Änderung(en) wurde(n) durchgeführt von %{users}."
   notice_locking_conflict_reload_page: "Bitte laden Sie die Seite neu, prüfen Sie die Anpassungen und geben Sie Ihre Änderungen noch einmal ein."
-  notice_member_added: '%{name} zum Projekt hinzugefügt.'
-  notice_members_added: '%{number} Benutzer zum Projekt hinzugefügt.'
+  notice_member_added: "%{name} zum Projekt hinzugefügt."
+  notice_members_added: "%{number} Benutzer zum Projekt hinzugefügt."
   notice_member_removed: "%{user} aus dem Projekt entfernt."
   notice_member_deleted: "%{user} wurde aus dem Projekt entfernt und gelöscht."
   notice_no_principals_found: "Keine Treffer gefunden."
@@ -2873,7 +2878,7 @@ de:
       exception_title: "Kann nicht auf das Projektarchiv zugreifen: %{message}"
       disabled_or_unknown_type: "Der gewählte Typ %{type} ist deaktiviert oder nicht mehr verfügbar für den Versionskontroll-Anbieter %{vendor}."
       disabled_or_unknown_vendor: "Der Versionskontrollsystem-Anbieter %{vendor} ist deaktiviert oder nicht mehr verfügbar."
-      remote_call_failed: "Aufruf des verwalteten Projektarchivs mit Fehlermeldung \"%{message}\" gescheitert (Code: %{code})"
+      remote_call_failed: 'Aufruf des verwalteten Projektarchivs mit Fehlermeldung "%{message}" gescheitert (Code: %{code})'
       remote_invalid_response: "Ungültige Antwort vom verwalteten Projektarchiv erhalten."
       remote_save_failed: "Speicherung des Projektarchivs mit den Parametern der Remote-Verbindung nicht möglich."
     git:
@@ -3017,7 +3022,7 @@ de:
   setting_work_package_done_ratio_explanation_html: >
     Im <b>aufwandsbezogenen</b> Modus wird % Abgeschlossen durch das Verhältnis zu, Gesamtaufwand berechnet. Im <b>statusbezogenen</b> Modus ist mit jedem Status ein fester Wert für % Abgeschlossen verbunden. Wenn Sie den Status ändern, ändert sich dadurch auch das % Abgeschlossen Attribut.
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
-  setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
+  setting_work_package_startdate_is_adddate: 'Neue Arbeitspakete haben "Heute" als Anfangsdatum'
   setting_work_packages_projects_export_limit: "Arbeitspakete / Exportlimit für Projekte"
   setting_journal_aggregation_time_minutes: "Benutzeraktionen aggregiert innerhalb"
   setting_log_requesting_user: "Logge Benutzer Login, Name und Mailadresse für alle Anfragen"
@@ -3093,7 +3098,7 @@ de:
           Wählen Sie die Aktion aus, die für Dateien durchgeführt werden soll, in denen ein Virus erkannt wurde: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Die Datei unter Quarantäne stellen, sodass Benutzer nicht darauf zugreifen können. Administratoren können die unter Quarantäne gestellten Dateien in der Administration überprüfen und löschen.</li> <li><strong>%{delete_option}</strong>: Die Datei sofort löschen.</li> </ul>
       modes:
         clamav_socket_html: Geben Sie den Socket für den clamd-Daemon ein, z.B. %{example}
-        clamav_host_html: 'Geben Sie den Hostnamen und den Port des clamd Daemons ein, getrennt durch einen Doppelpunkt. z.B.: %{example}'
+        clamav_host_html: "Geben Sie den Hostnamen und den Port des clamd Daemons ein, getrennt durch einen Doppelpunkt. z.B.: %{example}"
         description_html: >
           Wählen Sie den Betriebsmodus für die Integration des Antiviren-Scanners aus. <br/> <ul> <li><strong>%{disabled_option}</strong>: Hochgeladene Dateien werden nicht auf Viren gescannt.</li> <li><strong>%{socket_option}</strong>: Sie haben ClamAV auf demselben Server wie OpenProject eingerichtet und der Scan-Daemon clamd läuft im Hintergrund</li> <li><strong>%{host_option}</strong>: Sie streamen Dateien an einen externen Virenscanner.</li> </ul>
     brute_force_prevention: "Automatisches Sperren von Benutzern"
@@ -3280,7 +3285,7 @@ de:
     views:
       project: >
         %{plural} sind immer einem Projekt zugeordnet. Sie können hier nur Projekte auswählen, bei denen das %{plural} -Modul aktiv ist. Nach dem Erstellen eines %{singular} können Sie Arbeitspakete aus anderen Projekten hinzufügen.
-      public: "Veröffentlichen Sie diese Ansicht und erlauben Sie anderen Benutzern, auf sie zuzugreifen. Benutzer mit der Berechtigung \"Öffentliche Ansichten verwalten\" können öffentliche Abfragen ändern oder entfernen. Dies hat keinen Einfluss auf die Sichtbarkeit von Arbeitspaketen in dieser Ansicht und je nach Berechtigung, können Benutzer unterschiedliche Ergebnisse sehen."
+      public: 'Veröffentlichen Sie diese Ansicht und erlauben Sie anderen Benutzern, auf sie zuzugreifen. Benutzer mit der Berechtigung "Öffentliche Ansichten verwalten" können öffentliche Abfragen ändern oder entfernen. Dies hat keinen Einfluss auf die Sichtbarkeit von Arbeitspaketen in dieser Ansicht und je nach Berechtigung, können Benutzer unterschiedliche Ergebnisse sehen.'
       favoured: "Markiert diese Ansicht als Favorit und fügt sie der linken Seitenleiste hinzu."
   time:
     am: "vormittags"
@@ -3524,7 +3529,7 @@ de:
       missing_content_type: "nicht angegeben"
       missing_property: "Fehlende Eigenschaft '%{property}'."
       missing_request_body: "Die Abfrage enthielt keinen Inhalt."
-      missing_or_malformed_parameter: "Der Query-Parameter \"%{parameter}\" fehlt oder ist fehlerhaft."
+      missing_or_malformed_parameter: 'Der Query-Parameter "%{parameter}" fehlt oder ist fehlerhaft.'
       multipart_body_error: "Die Anfrage enthielt nicht die erwarteten mehrteiligen Abschnitte."
       multiple_errors: "Einschränkungen für mehrere Felder wurden verletzt."
       unable_to_create_attachment: "Der Anhang konnte nicht erstellt werden"

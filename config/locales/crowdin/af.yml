@@ -268,7 +268,7 @@ af:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -1435,7 +1435,7 @@ af:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Januarie"
       - "Februarie"
@@ -3031,7 +3031,7 @@ af:
   setting_mail_from: "Emission email address"
   setting_mail_handler_api_key: "API key"
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
-  setting_mail_handler_body_delimiter_regex: "Stomp eposse af wat ooreenstem met hierdie \"regular expression\""
+  setting_mail_handler_body_delimiter_regex: 'Stomp eposse af wat ooreenstem met hierdie "regular expression"'
   setting_mail_handler_ignore_filenames: "Ignored mail attachments"
   setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
   setting_password_active_rules: "Active character classes"

@@ -267,7 +267,7 @@ sl:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -407,7 +407,7 @@ sl:
       new_access_token_dialog_submit_button_text: "Create"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
-      failed_to_reset_token: "Neuspešna poenostavitev \"dostopnega simbola\": %{error}"
+      failed_to_reset_token: 'Neuspešna poenostavitev "dostopnega simbola": %{error}'
       failed_to_create_token: "Failed to create access token: %{error}"
       failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Ustvarjen je bil nov %{type} simbol. Vaš dostopni simbol je:"
@@ -659,7 +659,7 @@ sl:
         to: "Soroden zahtevek"
       status:
         is_closed: "Zahtevek zaprt"
-        is_readonly: "Zahtevek \"samo za branje\""
+        is_readonly: 'Zahtevek "samo za branje"'
         excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Opombe"
@@ -982,8 +982,8 @@ sl:
             circular_dependency: "Odnos ustvarja krog odnosov."
           attributes:
             to:
-              error_not_found: "delovni paket v položaju \"do\" ni najden ali ni viden"
-              error_readonly: "obstoječi odnos \"do\" povezave je nespremenljiv"
+              error_not_found: 'delovni paket v položaju "do" ni najden ali ni viden'
+              error_readonly: 'obstoječi odnos "do" povezave je nespremenljiv'
             from:
               error_not_found: "delovni paket v položaju 'od'  ni najden ali ni viden."
               error_readonly: "obstoječe razmerje 'od' povezave je nespremenljivo"
@@ -1091,8 +1091,8 @@ sl:
               format: "%{message}"
             password:
               weak: "Vsebovati mora znake naslednjih razredov (vsaj %{min_count} od %{all_count}): %{rules}."
-              lowercase: "mala črka (npr. \"a\")"
-              uppercase: "velika črka (npr. \"A\")"
+              lowercase: 'mala črka (npr. "a")'
+              uppercase: 'velika črka (npr. "A")'
               numeric: "številke (npr. '1')"
               special: "posebno (npr. '%')"
               reused:
@@ -1464,7 +1464,7 @@ sl:
       long: "%d. %B, %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Januar"
       - "Februar"

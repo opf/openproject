@@ -268,7 +268,7 @@ fr:
       favored: "Projets favoris"
       archived: "Projets archivés"
       shared: "Listes de projets partagées"
-      my_private: "Mes listes de projets privés"
+      my_lists: "Mes listes de projets"
       new:
         placeholder: "Nouvelle liste de projets"
       delete_modal:
@@ -304,7 +304,7 @@ fr:
       types:
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         form:
-          enable_type_in_project: 'Autorise le type « %{type} »'
+          enable_type_in_project: "Autorise le type « %{type} »"
       versions:
         no_results_title_text: Aucune version du projet pour le moment.
         no_results_content_text: Créer une nouvelle version
@@ -404,7 +404,7 @@ fr:
       no_results_title_text: Aucun jeton d'accès disponible pour le moment.
       notice_api_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le bouton dans la section API."
       notice_rss_token_revoked: "Le jeton d'API a été supprimé. Pour créer un nouveau jeton, veuillez utiliser le lien dans la section RSS."
-      notice_ical_token_revoked: 'Le jeton iCalendar « %{token_name} » pour le calendrier « %{calendar_name} » du projet « %{project_name} » a été révoqué. L''URL iCalendar liée à ce jeton est maintenant invalide.'
+      notice_ical_token_revoked: "Le jeton iCalendar « %{token_name} » pour le calendrier « %{calendar_name} » du projet « %{project_name} » a été révoqué. L'URL iCalendar liée à ce jeton est maintenant invalide."
   news:
     index:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
@@ -414,7 +414,7 @@ fr:
       prompt: "Restez connecté pendant %{num_days}"
     sessions:
       remembered_devices: "Appareils enregistrés"
-      remembered_devices_caption: "Une liste de tous les appareils connectés à ce compte à l'aide de l'option \"rester connecté\"."
+      remembered_devices_caption: 'Une liste de tous les appareils connectés à ce compte à l''aide de l''option "rester connecté".'
       session_name: "%{browser_name} %{browser_version} sur %{os_name}"
       browser: "Navigateur"
       device: "Dispositif/système d'exploitation"
@@ -555,8 +555,8 @@ fr:
     deletion_pending: "Le compte a été verrouillé et a été programmé pour suppression. Notez que ce processus a lieu en arrière-plan. Cela peut prendre quelques instants avant que l'utilisateur soit complètement supprimé."
     deletion_info:
       data_consequences:
-        other: 'Les données créées par l''utilisateur (e.g. e-mail, préférences, lots de travaux, entrées wiki) seront supprimées autant que possible. Notez toutefois que les données comme les lots de travaux et les entrées wiki ne peuvent pas être supprimées sans impacter le travail des autres utilisateurs. Ces données sont donc réaffectées à un compte appelé «Utilisateur supprimé». Étant donné que les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera plus possible de distinguer les données créées par cet utilisateur de celles d''un autre compte supprimé.'
-        self: 'Les données que vous avez créées (e.g. e-mail, préférences, lots de travaux, entrées wiki) seront supprimées autant que possible. Notez toutefois que les données comme les lots de travaux et les entrées wiki ne peuvent pas être supprimées sans impacter le travail des autres utilisateurs. Ces données sont donc réaffectées à un compte appelé «Utilisateur supprimé». Étant donné que les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera plus possible de distinguer les données que vous avez créées de celles d''un autre compte supprimé.'
+        other: "Les données créées par l'utilisateur (e.g. e-mail, préférences, lots de travaux, entrées wiki) seront supprimées autant que possible. Notez toutefois que les données comme les lots de travaux et les entrées wiki ne peuvent pas être supprimées sans impacter le travail des autres utilisateurs. Ces données sont donc réaffectées à un compte appelé «Utilisateur supprimé». Étant donné que les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera plus possible de distinguer les données créées par cet utilisateur de celles d'un autre compte supprimé."
+        self: "Les données que vous avez créées (e.g. e-mail, préférences, lots de travaux, entrées wiki) seront supprimées autant que possible. Notez toutefois que les données comme les lots de travaux et les entrées wiki ne peuvent pas être supprimées sans impacter le travail des autres utilisateurs. Ces données sont donc réaffectées à un compte appelé «Utilisateur supprimé». Étant donné que les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera plus possible de distinguer les données que vous avez créées de celles d'un autre compte supprimé."
       heading: "Supprimer le compte %{name}"
       info:
         other: "Supprimer le compte d'utilisateur est une action irréversible."
@@ -879,7 +879,7 @@ fr:
               fragment_present: "ne peut pas contenir un fragment."
               invalid_uri: "doit être une URI valide."
               relative_uri: "doit être une URI absolue."
-              secured_uri: 'ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.'
+              secured_uri: "ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost."
               forbidden_uri: "est interdit par le serveur."
             scopes:
               not_match_configured: "ne correspond pas aux portées disponibles."
@@ -1066,8 +1066,8 @@ fr:
             attribute_groups:
               attribute_unknown: "Attribut du lot de travaux invalide utilisé."
               attribute_unknown_name: "Attribut du lot de travaux invalide : %{attribute}"
-              duplicate_group: "Le nom de groupe \"%{group}\" est utilisé plus d’une fois. Les noms de groupe doivent être uniques."
-              query_invalid: "La requête intégrée \"%{group}\" est invalide : %{details}"
+              duplicate_group: 'Le nom de groupe "%{group}" est utilisé plus d’une fois. Les noms de groupe doivent être uniques.'
+              query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
               group_without_name: "Les groupes sans nom ne sont pas autorisés."
         user:
           attributes:
@@ -1379,7 +1379,7 @@ fr:
     text_update_consent_time: Cochez cette case pour forcer les utilisateurs à accepter à nouveau. Activer le lorsque vous avez modifié l'aspect juridique des informations de l'accord ci-dessus.
     update_consent_last_time: "Dernière mise à jour de l'accord: %{update_time}"
   copy_project:
-    title: 'Copier le projet « %{source_project_name} »'
+    title: "Copier le projet « %{source_project_name} »"
     started: 'La copie du projet "%{source_project_name}" vers "%{target_project_name}" a débuté. Vous serez informé par courriel dès que "%{target_project_name}" sera disponible.'
     failed: "Impossible de copier le projet %{source_project_name}"
     failed_internal: "La copie a échoué en raison d'une erreur interne."
@@ -1434,7 +1434,7 @@ fr:
       long: "%d %B, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Janvier"
       - "Février"
@@ -1449,7 +1449,7 @@ fr:
       - "Novembre"
       - "Décembre"
     order:
-      - ':année'
+      - ":année"
       - :mois
       - :jour
   datetime:
@@ -1832,7 +1832,7 @@ fr:
   label_api_access_key_created_on: "Clé d'accès API créé il y a %{value}"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: 'Jeton iCalendar « %{token_name} » pour « %{calendar_name} » dans « %{project_name} »'
+  label_ical_access_key_description: "Jeton iCalendar « %{token_name} » pour « %{calendar_name} » dans « %{project_name} »"
   label_ical_access_key_not_present: "Jeton(s) iCalendar absent(s)."
   label_ical_access_key_generation_hint: "Généré automatiquement lors de l'abonnement à un calendrier."
   label_ical_access_key_latest: "Dernier"
@@ -2435,7 +2435,7 @@ fr:
       removed: "La commande n'existe plus."
     wiki_child_pages:
       errors:
-        page_not_found: "Impossible de trouver la page wiki \"%{name}\"."
+        page_not_found: 'Impossible de trouver la page wiki "%{name}".'
     create_work_package_link:
       errors:
         no_project_context: "Appel de la macro create_work_package_link depuis un contexte de projet externe."
@@ -2495,12 +2495,12 @@ fr:
         plaintext:
           storage: "Espace de stockage"
           healthy:
-            summary: 'Bonne nouvelle ! Le statut de votre espace de stockage, %{storage_name}, est actuellement « Sain ».'
+            summary: "Bonne nouvelle ! Le statut de votre espace de stockage, %{storage_name}, est actuellement « Sain »."
             error-solved-on: "Résolu le"
             recommendation: "Nous continuerons à surveiller le système pour nous assurer qu'il reste performant. Nous vous informerons en cas d'anomalie."
             details: "Pour plus de détails ou pour apporter les modifications nécessaires, vous pouvez consulter la configuration de votre espace de stockage."
           unhealthy:
-            summary: 'Le statut de votre espace de stockage, %{storage_name}, est actuellement « Erreur ». Nous avons détecté un problème qui pourrait nécessiter votre attention.'
+            summary: "Le statut de votre espace de stockage, %{storage_name}, est actuellement « Erreur ». Nous avons détecté un problème qui pourrait nécessiter votre attention."
             error-details: "Détails de l'erreur"
             error-message: "Message d'erreur"
             error-occurred-on: "Survenu le"
@@ -2509,11 +2509,11 @@ fr:
         email_notification_settings: "Paramètres de notification par e-mail concernant l'espace de stockage"
         see_storage_settings: "Voir les paramètres de l'espace de stockage"
         healthy:
-          subject: 'L''espace de stockage « %{name} » est maintenant sain !'
+          subject: "L'espace de stockage « %{name} » est maintenant sain !"
           solved_at: "résolu à"
           summary: "Le problème lié à l'intégration de votre espace de stockage %{storage_name} est désormais résolu"
         unhealthy:
-          subject: 'L''espace de stockage « %{name} » n''est pas en bonne santé !'
+          subject: "L'espace de stockage « %{name} » n'est pas en bonne santé !"
           since: "depuis"
           summary: "Il y a un problème avec l'intégration de votre espace de stockage %{storage_name}"
           troubleshooting:
@@ -2627,8 +2627,8 @@ fr:
   notice_locking_conflict: "Cette information a été mise a jour par au moin un autre utilisateur pendant la même session"
   notice_locking_conflict_additional_information: "Le(s) mise(s) à jour(s) ont été faite par %{users}."
   notice_locking_conflict_reload_page: "Veuillez rafraîchir la page, vérifier les changements et rélancer la mise à jour."
-  notice_member_added: '%{name} a été ajouté au projet.'
-  notice_members_added: '%{number} utilisateurs ont été ajoutés au projet.'
+  notice_member_added: "%{name} a été ajouté au projet."
+  notice_members_added: "%{number} utilisateurs ont été ajoutés au projet."
   notice_member_removed: "%{user} a été retiré du projet."
   notice_member_deleted: "%{user} a été retiré du projet et supprimé."
   notice_no_principals_found: "Aucun résultat trouvé."
@@ -3387,7 +3387,7 @@ fr:
         Votre application est en cours d'exécution avec son nom d'hôte défini sur <code>%{set_hostname}</code>, mais la requête est un nom d'hôte <code>%{actual_hostname}</code> . Cela causera des erreurs ! Allez dans <a href="%{setting_path}">Paramètres système</a> et modifiez le paramètre « Nom d'hôte » pour corriger cela.
   menu_item: "Éléments de menu"
   menu_item_setting: "Visibilité"
-  wiki_menu_item_for: 'Élément de menu pour wikipage « %{title} »'
+  wiki_menu_item_for: "Élément de menu pour wikipage « %{title} »"
   wiki_menu_item_setting: "Visibilité"
   wiki_menu_item_new_main_item_explanation: >
     Vous êtes en train de supprimer l'élement principal du menu wiki. Vous devez maintenant choisir une page wiki pour laquelle un nouvel élément principal sera créé. Pour supprimer le wiki, le module wiki peut être désactivé par les administrateurs du projet.
@@ -3518,10 +3518,10 @@ fr:
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (n'importe quelle date heure compatible ISO 8601)"
         duration: "durée ISO 8601"
       invalid_content_type: "CONTENT-TYPE attendu «%{content_type} » , mais est à «%{actual} »."
-      invalid_format: "Format invalide pour la propriété \"%{property}\" : un format de type \"%{expected_format}\" est requis, mais la valeur invalide \"%{actual}\" a été reçue."
+      invalid_format: 'Format invalide pour la propriété "%{property}" : un format de type "%{expected_format}" est requis, mais la valeur invalide "%{actual}" a été reçue.'
       invalid_json: "La demande n'a pas pu être analysée au format JSON."
       invalid_relation: "La relation n'est pas valide."
-      invalid_resource: "\"%{actual}\" est invalide, car la propriété \"%{property}\" requiert un lien de type \"%{expected}\"."
+      invalid_resource: '"%{actual}" est invalide, car la propriété "%{property}" requiert un lien de type "%{expected}".'
       invalid_signal:
         embed: "Les requêtes demandée de %{invalid} ne sont pas prises en charge. Les sélections prises en charge sont %{supported}."
         select: "Les requêtes demandée de %{invalid} ne sont pas prises en charge. Les sélections prises en charge sont %{supported}."
@@ -3587,7 +3587,7 @@ fr:
         revoke:
           unauthorized: "Vous n'êtes pas autorisé à révoquer ce jeton."
         forbidden_token:
-          missing_scope: 'L''accès à cette ressource nécessite la portée « %{oauth_scopes} ».'
+          missing_scope: "L'accès à cette ressource nécessite la portée « %{oauth_scopes} »."
   unsupported_browser:
     title: "Votre navigateur est obsolète et non pris en charge."
     message: "Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page."

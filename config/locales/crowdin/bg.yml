@@ -268,7 +268,7 @@ bg:
       favored: "Любими проекти"
       archived: "Архивирани проекти"
       shared: "Споделени списъци с проекти"
-      my_private: "Моите лични списъци с проекти"
+      my_lists: "My project lists"
       new:
         placeholder: "Нов списък с проекти"
       delete_modal:
@@ -414,7 +414,7 @@ bg:
       prompt: "Останете в системата за %{num_days}"
     sessions:
       remembered_devices: "Запомнени устройства"
-      remembered_devices_caption: "Списък на всички устройства, които са влезли в този акаунт, като са използвали опцията \"Остани влязъл\"."
+      remembered_devices_caption: 'Списък на всички устройства, които са влезли в този акаунт, като са използвали опцията "Остани влязъл".'
       session_name: "%{browser_name} %{browser_version} на %{os_name}"
       browser: "Браузър"
       device: "Устройство / операционна система"
@@ -985,7 +985,7 @@ bg:
         role:
           attributes:
             permissions:
-              dependency_missing: "е необходимо да включите и \"%{dependency}\", тъй като е избран \"%{permission}\"."
+              dependency_missing: 'е необходимо да включите и "%{dependency}", тъй като е избран "%{permission}".'
         setting:
           attributes:
             base:
@@ -1018,7 +1018,7 @@ bg:
           error_conflict: "Страницата в уикипедията е била актуализирана от някой друг, докато сте я редактирали."
           attributes:
             slug:
-              undeducible: "не може да се заключи от заглавието \"%{title}\"."
+              undeducible: 'не може да се заключи от заглавието "%{title}".'
         work_package:
           is_not_a_valid_target_for_time_entries: "Работен пакет #%{id} не е валидна цел за преразпределяне на времевите записи."
           attributes:
@@ -1080,8 +1080,8 @@ bg:
               format: "%{message}"
             password:
               weak: "Трябва да съдържа знаци от следните класове (най-малко %{min_count} на %{all_count}): %{rules}."
-              lowercase: "малки букви (например \"а\")"
-              uppercase: "главни (например \"А\")"
+              lowercase: 'малки букви (например "а")'
+              uppercase: 'главни (например "А")'
               numeric: "цифрова (например ' 1')"
               special: "специални (например ' %')"
               reused:
@@ -1089,7 +1089,7 @@ bg:
                 other: "е бил използван преди. Моля изберете такъв, който е различен от последно използваните %{count}."
               match:
                 confirm: "Потвърдете новата парола."
-                description: "\"Потвърждаване на паролата\" трябва да съответства на въведеното в поле \"нова парола\"."
+                description: '"Потвърждаване на паролата" трябва да съответства на въведеното в поле "нова парола".'
             status:
               invalid_on_create: "не е валиден статус за нови потребители."
             ldap_auth_source:
@@ -1435,7 +1435,7 @@ bg:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Януари"
       - "Февруари"
@@ -1450,9 +1450,9 @@ bg:
       - "Ноември"
       - "Декември"
     order:
-      - ':година'
-      - ': месец'
-      - ': ден'
+      - ":година"
+      - ": месец"
+      - ": ден"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1570,7 +1570,7 @@ bg:
   error_check_user_and_role: "Моля, изберете потребител и роля."
   error_code: "Error %{code}"
   error_color_could_not_be_saved: "Color could not be saved"
-  error_cookie_missing: "\"Бисквитката\" на OpenProject липсва. Моля уверете се че cookies са активирани, тъй като това приложение не функционира правилно без тях."
+  error_cookie_missing: '"Бисквитката" на OpenProject липсва. Моля уверете се че cookies са активирани, тъй като това приложение не функционира правилно без тях.'
   error_custom_option_not_found: "Опцията не съществува."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
@@ -1586,7 +1586,7 @@ bg:
   error_must_be_project_member: "трябва да бъде член проекта"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
-  error_no_default_work_package_status: 'Не е дефиниран работен пакет по подразбиране. Моля проверете конфигурацията ( Отидете на Администрация -> Статуси на работни пакети).'
+  error_no_default_work_package_status: "Не е дефиниран работен пакет по подразбиране. Моля проверете конфигурацията ( Отидете на Администрация -> Статуси на работни пакети)."
   error_no_type_in_project: "Няма тип свързан към този проект. Моля проверете проектните настройки."
   error_omniauth_registration_timed_out: "Изтече времето на изчакване за регистриране чрез удостоверяване на външен доставчик. Моля, опитайте отново."
   error_omniauth_invalid_auth: "Информацията за удостоверяване, върната от доставчика на идентичност, е невалидна. Моля, свържете се с вашия администратор за допълнителна помощ."
@@ -2368,9 +2368,9 @@ bg:
   label_wiki_navigation: "Wiki навигация"
   label_wiki_page: "Wiki страница"
   label_wiki_page_plural: "Wiki страници"
-  label_wiki_show_index_page_link: "Показване на елемент от подменюто \"Съдържание\""
+  label_wiki_show_index_page_link: 'Показване на елемент от подменюто "Съдържание"'
   label_wiki_show_menu_item: "Покажи като меню в проектната навигация"
-  label_wiki_show_new_page_link: "Показване на елемент от подменю \"Създай нова подстраница\""
+  label_wiki_show_new_page_link: 'Показване на елемент от подменю "Създай нова подстраница"'
   label_wiki_show_submenu_item: "Покажи като елемент от подменюто на "
   label_wiki_start: "Начална страница"
   label_work: "Работа"
@@ -2801,7 +2801,7 @@ bg:
       make_template: "Задайте като шаблон"
       remove_from_templates: "Премахване от шаблоните"
     archive:
-      are_you_sure: "Наистина ли искате да архивирате на проекта \"%{name}\"?"
+      are_you_sure: 'Наистина ли искате да архивирате на проекта "%{name}"?'
       archived: "Архивирано"
     count:
       zero: "0 Проекти"
@@ -2868,7 +2868,7 @@ bg:
     errors:
       build_failed: "Не може да създаде хранилище с избраната конфигурация. %{reason}"
       managed_delete: "Не може да изтриете управляваното хранилище."
-      managed_delete_local: "Не може да изтрие местно хранилище на файловата система в \"%{path}\": %{error_message}"
+      managed_delete_local: 'Не може да изтрие местно хранилище на файловата система в "%{path}": %{error_message}'
       empty_repository: "Хранилището съществува, но е празно. То не съдържа никакви корекции все още."
       exists_on_filesystem: "Директорията на хранилище вече съществува във файловата система."
       filesystem_access_failed: "Възникна грешка при достъп до хранилището в файловата система: %{message}"
@@ -2879,7 +2879,7 @@ bg:
       exception_title: "Няма достъп до хранилището: %{message}"
       disabled_or_unknown_type: "Избраният тип %{type} е забранен или вече не е наличен за SCM доставчик %{vendor}."
       disabled_or_unknown_vendor: "SCM доставчик %{vendor} е забранен или вече не е наличен."
-      remote_call_failed: "Извикване на отдалеченото управление пропадна със съобщение \"%{message}\" (код: %{code})"
+      remote_call_failed: 'Извикване на отдалеченото управление пропадна със съобщение "%{message}" (код: %{code})'
       remote_invalid_response: "Получил Невалиден отговор от отдалечено управление."
       remote_save_failed: "Не може да запише хранилище с параметри, получени от отдалеченото."
     git:

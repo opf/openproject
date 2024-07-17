@@ -268,7 +268,7 @@ tr:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -1088,7 +1088,7 @@ tr:
                 other: "daha önce kullanılmıştır. Son %{count} parolanızdan farklı birini seçiniz."
               match:
                 confirm: "Yeni parolayı doğrulayın."
-                description: "\"Parola onayı\" 'yeni parola' alanı girişi aynı olmalıdır."
+                description: '"Parola onayı" ''yeni parola'' alanı girişi aynı olmalıdır.'
             status:
               invalid_on_create: "yeni kullanıcılar için geçerli bir durum değil."
             ldap_auth_source:
@@ -1379,7 +1379,7 @@ tr:
     text_update_consent_time: Kullanıcıları tekrar onaylamaya zorlamak için bu kutuyu işaretleyin. Yukarıdaki izin bilgilerinin yasal yönünü değiştirdiğinizde etkinleştirin.
     update_consent_last_time: "Rıza son güncelleme: %{update_time}"
   copy_project:
-    title: '%{source_project_name} projesini kopyala'
+    title: "%{source_project_name} projesini kopyala"
     started: '"%{source_project_name}" adlı proje "%{target_project_name}" adlı yeni bir projeye kopyalanmaya başladı. "%{target_project_name}" projesi hazır olduğunda e-posta ile bilgilendirileceksiniz.'
     failed: "%{source_project_name} project kopyalanamadı"
     failed_internal: "Dahili bir hata nedeniyle kopyalama başarısız oldu."
@@ -1434,7 +1434,7 @@ tr:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Ocak"
       - "Şubat"
@@ -1449,9 +1449,9 @@ tr:
       - "Kasım"
       - "Aralık"
     order:
-      - ':yıl'
+      - ":yıl"
       - :ay
-      - ':gün'
+      - ":gün"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -2523,7 +2523,7 @@ tr:
   mail_body_account_information: "Hesap bilgilerinizi giriniz"
   mail_body_account_information_external: "Giriş yapmak için %{value} hesabınızı kullanabilirsiniz."
   mail_body_backup_ready: "İstediğiniz yedekleme hazır. Buradan indirebilirsiniz:"
-  mail_body_backup_token_reset_admin_info: '''%{user}'' kullanıcısının yedek simgesi sıfırlandı.'
+  mail_body_backup_token_reset_admin_info: "'%{user}' kullanıcısının yedek simgesi sıfırlandı."
   mail_body_backup_token_reset_user_info: Yedek jetonunuz sıfırlandı.
   mail_body_backup_token_info: Önceki jeton artık geçerli değil.
   mail_body_backup_waiting_period: Yeni jeton %{hours} saat içinde etkinleştirilecek.
@@ -2626,8 +2626,8 @@ tr:
   notice_locking_conflict: "Bu arada, bilgi en az bir başka kullanıcı tarafından güncellendi."
   notice_locking_conflict_additional_information: "Güncelleme(ler) %{users} tarafından yapıldı."
   notice_locking_conflict_reload_page: "Lütfen sayfayı yeniden yükleyin, değişiklikleri inceleyin ve güncellemelerinizi yeniden uygulayın."
-  notice_member_added: '%{name} projeye dahil edildi.'
-  notice_members_added: '%{number} kişi projeye dahil edildi.'
+  notice_member_added: "%{name} projeye dahil edildi."
+  notice_members_added: "%{number} kişi projeye dahil edildi."
   notice_member_removed: "% {Kullanıcı} adlı projeden kaldırıldı. %{user}"
   notice_member_deleted: "% {user}, projeden kaldırıldı ve silindi. %{user}"
   notice_no_principals_found: "Sonuç bulunamadı."
@@ -2649,7 +2649,7 @@ tr:
     Başarılı güncelleme. Etkin özel alanlar, bu türdeki ilgili projeler için otomatik olarak etkinleştirilir.
   notice_to_many_principals_to_display: "Çok fazla sonuç var. Yeni üyenin (veya grubun) adını yazarak aramayı daraltın."
   notice_user_missing_authentication_method: Kullanıcı henüz şifre veya oturum açmak için başka bir yol seçmemiştir.
-  notice_user_invitation_resent: '%{email} adresine bir davet gönderildi.'
+  notice_user_invitation_resent: "%{email} adresine bir davet gönderildi."
   present_access_key_value: "% {Key_name}, şu:% {value} %{key_name} %{value}"
   notice_automatic_set_of_standard_type: "Standart türün otomatik olarak ayarlanması."
   notice_logged_out: "Oturumunuz kapatıldı."
@@ -3663,10 +3663,10 @@ tr:
       refresh_token_updated_failed: "OAuthClientToken güncellemesi sırasında hata"
       oauth_client_not_found_explanation: >
         Bu hata, OpenProject'te client_id ve client_secret'i güncelledikten sonra, ancak OAuth2 sağlayıcısındaki 'Dönüş URI'sı' alanını güncellemedikten sonra görünür.
-      oauth_code_not_present: "OAuth2 \"kodu\", \"geri arama\" bitiş noktasında (redirect_uri) bulunamadı."
+      oauth_code_not_present: 'OAuth2 "kodu", "geri arama" bitiş noktasında (redirect_uri) bulunamadı.'
       oauth_code_not_present_explanation: >
         OAuth2 sağlayıcısında yanlış yanıt_türü seçtiyseniz bu hata görünür. Yanıt_türü 'kod' veya benzeri olmalıdır.
-      oauth_state_not_present: "OAuth2 \"durumu\", \"geri arama\" bitiş noktasında (redirect_uri) bulunamadı."
+      oauth_state_not_present: 'OAuth2 "durumu", "geri arama" bitiş noktasında (redirect_uri) bulunamadı.'
       oauth_state_not_present_explanation: >
         'Durum', OpenProject'e başarılı bir OAuth2 yetkilendirmesinden sonra nereye devam edileceğini belirtmek için kullanılır. Eksik bir "durum", kurulum sırasında görünebilen dahili bir hatadır. Lütfen sistem yöneticinize başvurun.
       rack_oauth2:

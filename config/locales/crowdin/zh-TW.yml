@@ -81,7 +81,7 @@ zh-TW:
       upgrade_info: "請升級到付費版以啟用此功能"
     journal_aggregation:
       explanation:
-        text: "使用者操作（例如\"更新\"工作項目兩次），如果時間差異小於指定的時間間隔，則將整合為單次操作。它們將在應用程序中顯示為單個操作。這也會套用在電子郵件通知，以及 %{webhook_link} delay。"
+        text: '使用者操作（例如"更新"工作項目兩次），如果時間差異小於指定的時間間隔，則將整合為單次操作。它們將在應用程序中顯示為單個操作。這也會套用在電子郵件通知，以及 %{webhook_link} delay。'
         link: "webhook"
   announcements:
     show_until: 只顯示到
@@ -255,7 +255,7 @@ zh-TW:
       failed: "專案 %{name} 的刪除失敗"
       failed_text: "刪除專案 %{name} 的請求失敗。該專案已封存。"
       completed: "專案 %{name} 已完成刪除"
-      completed_text: "刪除專案 \"%{name}\" 的請求已經完成。"
+      completed_text: '刪除專案 "%{name}" 的請求已經完成。'
       completed_text_children: "此外，下列子專案已被刪除："
     index:
       open_as_gantt: "甘特圖檢視"
@@ -267,7 +267,7 @@ zh-TW:
       favored: "Favorite projects"
       archived: "封存專案"
       shared: "Shared project lists"
-      my_private: "我的私人專案"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -397,7 +397,7 @@ zh-TW:
       no_results_title_text: 目前沒有存取權杖(Token)
       notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "RSS 權杖(Token)已被刪除。 請使用 在RSS 選項裡提供的連結建立新權杖。"
-      notice_ical_token_revoked: '專案「%{project_name}」日曆「%{calendar_name}」的 iCalendar 權杖(Token)「%{token_name}」已被撤銷。 帶有此權杖的 iCalendar URL 無效。'
+      notice_ical_token_revoked: "專案「%{project_name}」日曆「%{calendar_name}」的 iCalendar 權杖(Token)「%{token_name}」已被撤銷。 帶有此權杖的 iCalendar URL 無效。"
   news:
     index:
       no_results_title_text: 目前沒有新消息報告
@@ -872,7 +872,7 @@ zh-TW:
               fragment_present: "不能包含片段。"
               invalid_uri: "必須是有效的 uri。"
               relative_uri: "必須是絕對 uri。"
-              secured_uri: '未提供「安全上下文」。使用 HTTPS 或環回地址，例如 localhost。'
+              secured_uri: "未提供「安全上下文」。使用 HTTPS 或環回地址，例如 localhost。"
               forbidden_uri: "被伺服器禁止。"
             scopes:
               not_match_configured: "與可用的範圍不吻合。"
@@ -947,7 +947,7 @@ zh-TW:
               name_not_included: "需要包含欄位名稱"
               nonexistent: "無此欄位 '%{column}'"
               format: "%{message}"
-          group_by_hierarchies_exclusive: "與按照 \"%{group_by}\" 分組的群組相互排斥。不能同時啟動兩者。"
+          group_by_hierarchies_exclusive: '與按照 "%{group_by}" 分組的群組相互排斥。不能同時啟動兩者。'
           can_only_be_modified_by_owner: "The query can only be modified by its owner."
           need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
@@ -1363,8 +1363,8 @@ zh-TW:
     text_update_consent_time: 若更改上述資訊時，請使用者再次同意。
     update_consent_last_time: "同意日期: %{update_time}"
   copy_project:
-    title: '複製專案 %{source_project_name}'
-    started: '開始複製專案從「%{source_project_name}」到 「%{target_project_name}」。當「%{target_project_name}」 可以使用以後，我們會盡快用郵件通知您。'
+    title: "複製專案 %{source_project_name}"
+    started: "開始複製專案從「%{source_project_name}」到 「%{target_project_name}」。當「%{target_project_name}」 可以使用以後，我們會盡快用郵件通知您。"
     failed: "無法複製專案 %{source_project_name}"
     failed_internal: "內部錯誤導致複製失敗。"
     succeeded: "專案 %{target_project_name} 建立成功"
@@ -1418,7 +1418,7 @@ zh-TW:
       long: "%Y年%B%d日"
       short: "%b%d日"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "一月"
       - "二月"
@@ -2390,7 +2390,7 @@ zh-TW:
   label_global: "全域設定"
   label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "執行巨集 (%{macro_name}) 錯誤"
-  macro_unavailable: "巨集 \"%{macro_name}\" 無法顯示"
+  macro_unavailable: '巨集 "%{macro_name}" 無法顯示'
   macros:
     placeholder: "[Placeholder] 巨集 %{macro_name}"
     errors:
@@ -2405,7 +2405,7 @@ zh-TW:
     create_work_package_link:
       errors:
         no_project_context: "從外部專案上下文呼叫 create_work_package_link 巨集。"
-        invalid_type: "在專案 \"%{project}\" 中找不到名稱為 \"%{type}\" 的類型。"
+        invalid_type: '在專案 "%{project}" 中找不到名稱為 "%{type}" 的類型。'
       link_name: "新增工作項目"
       link_name_type: "新增 %{type_name}"
   mail:
@@ -2453,7 +2453,7 @@ zh-TW:
         subject: "有個工作項目 #%{id} 分享給您"
         enterprise_text: "與不是專案成員的使用者共用工作項目。"
         summary:
-          user: "%{user} 分享一個工作項目給您，權限：%{role_rights}\""
+          user: '%{user} 分享一個工作項目給您，權限：%{role_rights}"'
           group: "%{user} 分享一個工作項目給您所在的群組： %{group}"
     storages:
       health:
@@ -2575,9 +2575,9 @@ zh-TW:
   notice_account_wrong_password: "密碼錯誤"
   notice_account_registered_and_logged_in: "歡迎，您的帳號已被啟用。您現在已經登入了。"
   notice_activation_failed: 這個帳號無法被啟用
-  notice_auth_stage_verification_error: "無法驗證 \"%{stage}\" 階段。"
-  notice_auth_stage_wrong_stage: "預計完成身份驗證 \"%{expected}\" 階段, 但卻返回 \"%{actual}\" 。"
-  notice_auth_stage_error: "身份驗證階段 \"%{stage}\" 失敗。"
+  notice_auth_stage_verification_error: '無法驗證 "%{stage}" 階段。'
+  notice_auth_stage_wrong_stage: '預計完成身份驗證 "%{expected}" 階段, 但卻返回 "%{actual}" 。'
+  notice_auth_stage_error: '身份驗證階段 "%{stage}" 失敗。'
   notice_can_t_change_password: "此帳號使用外部身份驗證。無法修改密碼。"
   notice_custom_options_deleted: "選項“%{option_value}”和其“%{num_deleted}”事件已刪除。"
   notice_email_error: "傳送郵件 (%{value}) 的時候發生錯誤"
@@ -2820,7 +2820,7 @@ zh-TW:
     destroy:
       confirmation: "如果你要繼續，這將會永久刪除這個託管的版本庫"
       info: "刪除這個版本庫是不可逆的動作"
-      info_not_managed: "注意: 這將\"不會\"刪除版本庫的內容，因為他不是由 OpenProject 所託管的"
+      info_not_managed: '注意: 這將"不會"刪除版本庫的內容，因為他不是由 OpenProject 所託管的'
       managed_path_note: "以下的資料夾將會被刪除: %{path}"
       repository_verification: "輸入這個專案的識別碼 %{identifier} 以確認刪除它的版本庫"
       subtitle: "你真的想要刪除專案 %{project_name} 的 %{repository_type} 嗎？"
@@ -3302,7 +3302,7 @@ zh-TW:
     blocked: "暫時停用"
     blocked_num_failed_logins:
       other: "暫時鎖定 (%{count} 登錄失敗)"
-    confirm_status_change: "您將更改 \"%{name}\" 的狀態。是否確實要繼續？"
+    confirm_status_change: '您將更改 "%{name}" 的狀態。是否確實要繼續？'
     deleted: "刪除使用者"
     error_status_change_failed: "由於以下錯誤, 更改使用者狀態失敗: %{errors}"
     invite: 透過電子郵件邀請使用者
@@ -3484,7 +3484,7 @@ zh-TW:
       invalid_format: "「%{property}」屬性的格式無效 ︰ 預期格式像 「%{expected_format}」，但 「%{actual}」。"
       invalid_json: "無法將請求解析為 JSON。"
       invalid_relation: "關聯是無效的。"
-      invalid_resource: "對於屬性 \"%{property}\", 希望有一個類似 \"%{expected}\" 的連結, 但得到了 \"%{actual}\"。"
+      invalid_resource: '對於屬性 "%{property}", 希望有一個類似 "%{expected}" 的連結, 但得到了 "%{actual}"。'
       invalid_signal:
         embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
@@ -3492,7 +3492,7 @@ zh-TW:
       missing_content_type: "未指定"
       missing_property: "缺少屬性“%{property}”。"
       missing_request_body: "沒有請求正文。"
-      missing_or_malformed_parameter: "查詢參數 \"%{parameter}\" 遺失或不正確。"
+      missing_or_malformed_parameter: '查詢參數 "%{parameter}" 遺失或不正確。'
       multipart_body_error: "請求正文不包含預期的多段部分。"
       multiple_errors: "已違反多個欄位約束。"
       unable_to_create_attachment: "無法創建附件"
@@ -3550,7 +3550,7 @@ zh-TW:
         revoke:
           unauthorized: "您無權撤銷此裝置。"
         forbidden_token:
-          missing_scope: '存取此資源需要範圍“%{oauth_scopes}”。'
+          missing_scope: "存取此資源需要範圍“%{oauth_scopes}”。"
   unsupported_browser:
     title: "您的瀏覽器已過時且不再支援。"
     message: "您可能會在此頁面上遇到錯誤和降級的體驗。"

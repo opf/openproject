@@ -177,7 +177,7 @@ To synchronize your work package data between OpenProject and Excel (two-way syn
 
 ### Gantt chart PDF Export (Enterprise add-on)
 
-> **Note**: Gantt chart PDF export is an Enterprise add-on and can only be used with [Enterprise cloud](https://www.openproject.org/docs/enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](https://www.openproject.org/docs/enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easy and helps support OpenProject.
+> **Note**: Gantt chart PDF export is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easy and helps support OpenProject.
 
 To export a Gantt chart in a PDF format click the **More** (three dots) icon in the top right corner and select *Export*.
 

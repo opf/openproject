@@ -268,7 +268,7 @@ fi:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -1080,7 +1080,7 @@ fi:
               format: "%{message}"
             password:
               weak: "On sisällettävä merkkejä seuraavista luokista (ainakin %{min_count} %{all_count}): %{rules}."
-              lowercase: "pieniä kirjaimia (esim. \"a\")"
+              lowercase: 'pieniä kirjaimia (esim. "a")'
               uppercase: "isoja kirjaimia (esim. A)"
               numeric: "numeerinen (esim. 1)"
               special: "erikoismerkki (esim. %)"
@@ -1089,7 +1089,7 @@ fi:
                 other: "on käytetty ennenkin. Valitse sellainen, joka poikkeaa %{count} edellisestä."
               match:
                 confirm: "Vahvista uusi salasana."
-                description: "\"Salasanan vahvistus\" -kentän arvon tulee olla identtinen \"Uusi salasana\" -kentän arvon kanssa."
+                description: '"Salasanan vahvistus" -kentän arvon tulee olla identtinen "Uusi salasana" -kentän arvon kanssa.'
             status:
               invalid_on_create: "ei ole kelvollinen tila uusille käyttäjille."
             ldap_auth_source:
@@ -1435,7 +1435,7 @@ fi:
       long: "%A%e. %Bta %Y"
       short: "%e.%m.%Y"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:  #Used in date_select and datetime_select.
+    month_names: #Used in date_select and datetime_select.
       - null
       - "Tammikuu"
       - "Helmikuu"
@@ -1452,7 +1452,7 @@ fi:
     order:
       - :vuosi
       - :kuukausi
-      - ':päivä'
+      - ":päivä"
   datetime:
     distance_in_words:
       about_x_hours:
@@ -2368,7 +2368,7 @@ fi:
   label_wiki_navigation: "Wiki navigaatio"
   label_wiki_page: "Wiki-sivu"
   label_wiki_page_plural: "Wiki sivut"
-  label_wiki_show_index_page_link: "Näytä alivalikon vaihtoehto \"Sisällysluettelo\""
+  label_wiki_show_index_page_link: 'Näytä alivalikon vaihtoehto "Sisällysluettelo"'
   label_wiki_show_menu_item: "Näytä valikon kohta projekti navigaatio"
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
@@ -2801,7 +2801,7 @@ fi:
       make_template: "Aseta malliksi"
       remove_from_templates: "Remove from templates"
     archive:
-      are_you_sure: "Oletko varma, että haluat arkistoida projektin \"%{name}\"?"
+      are_you_sure: 'Oletko varma, että haluat arkistoida projektin "%{name}"?'
       archived: "Archived"
     count:
       zero: "0 Projects"
@@ -3531,7 +3531,7 @@ fi:
       missing_content_type: "not specified"
       missing_property: "Missing property '%{property}'."
       missing_request_body: "Ei ollut pyyntö kehon."
-      missing_or_malformed_parameter: "Kyselyparametri \"%{parameter}\" puuttuu tai on virheellinen."
+      missing_or_malformed_parameter: 'Kyselyparametri "%{parameter}" puuttuu tai on virheellinen.'
       multipart_body_error: "Pyynnön elin ei sisällä odotettavissa moniosaisia osat."
       multiple_errors: "Useita kenttä rajoituksia on rikottu."
       unable_to_create_attachment: "The attachment could not be created"
