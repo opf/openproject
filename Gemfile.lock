@@ -318,7 +318,7 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
-    acts_as_list (1.2.1)
+    acts_as_list (1.2.2)
       activerecord (>= 6.1)
       activesupport (>= 6.1)
     acts_as_tree (2.9.1)
