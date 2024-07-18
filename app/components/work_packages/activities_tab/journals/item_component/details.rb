@@ -54,8 +54,9 @@ module WorkPackages
 
         def render_details_header(details_container)
           details_container.with_row(flex_layout: true, align_items: :center,
-                                     justify_content: :space_between, classes: "details-header-container") do |header_container|
-            header_container.with_column(flex_layout: true, align_items: :center) do |header_start_container|
+                                     justify_content: :space_between, classes: "journal-details-header-container") do |header_container|
+            header_container.with_column(flex_layout: true, align_items: :center,
+                                         classes: "journal-details-header") do |header_start_container|
               header_start_container.with_column(mr: 2, classes: "timeline-icon") do
                 if journal.initial?
                   render Primer::Beta::Octicon.new(icon: "diff-added", size: :small, "aria-label": "Add", color: :subtle)
@@ -122,9 +123,9 @@ module WorkPackages
             else
               journal.details.each do |detail|
                 details_container_inner.with_row(flex_layout: true, my: 1, align_items: :flex_start) do |detail_container|
-                  detail_container.with_column(classes: "detail-stem-line")
+                  detail_container.with_column(classes: "journal-detail-stem-line")
                   detail_container.with_column(pl: 1, font_size: :small) do
-                    render(Primer::Beta::Text.new(classes: "detail-description")) { journal.render_detail(detail) }
+                    render(Primer::Beta::Text.new(classes: "journal-detail-description")) { journal.render_detail(detail) }
                   end
                 end
               end

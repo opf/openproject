@@ -1,7 +1,7 @@
 <%=
   component_wrapper(class: "work-packages-activities-tab-journals-item-component-details") do
     if journal.details.any? && filter != :only_comments
-      flex_layout(my: 0, border: :left, classes: "details-container") do |details_container|
+      flex_layout(my: 0, border: :left, classes: "journal-details-container") do |details_container|
         if journal.notes.present? && filter != :only_changes
           render_details(details_container)
         else
@@ -11,13 +11,13 @@
       end
     elsif journal.details.empty?
       unless filter == :only_changes
-        flex_layout(my: 0, border: :left, classes: "details-container details-container--empty--#{journal_sorting}") do |details_container|
+        flex_layout(my: 0, border: :left, classes: "journal-details-container journal-details-container--empty--#{journal_sorting}") do |details_container|
           # empty row to render the flex layout with its minimal height
           render_empty_line(details_container)
         end
       end
     else
-      flex_layout(my: 0, border: :left, classes: "details-container details-container--empty--#{journal_sorting}") do |details_container|
+      flex_layout(my: 0, border: :left, classes: "journal-details-container journal-details-container--empty--#{journal_sorting}") do |details_container|
         # empty row to render the flex layout with its minimal height
         render_empty_line(details_container)
       end

@@ -68,6 +68,96 @@ module Components
           end
         end
       end
+
+      # helpers for new primerized activities
+
+      def within_journal_entry(journal, &)
+        page.within_test_selector("op-wp-journal-entry-#{journal.id}", &)
+      end
+
+      def expect_journal_changed_attribute(text:)
+        expect(page).to have_css(".journal-detail-description", text:)
+      end
+
+      def expect_no_journal_changed_attribute(text: nil)
+        expect(page).to have_no_css(".journal-detail-description", text:)
+      end
+
+      def expect_no_journal_notes(text: nil)
+        expect(page).to have_no_css(".journal-notes-body", text:)
+      end
+
+      def expect_journal_details_header(text: nil)
+        expect(page).to have_css(".journal-details-header", text:)
+      end
+
+      def expect_no_journal_details_header(text: nil)
+        expect(page).to have_no_css(".journal-details-header", text:)
+      end
+
+      def expect_journal_notes_header(text: nil)
+        expect(page).to have_css(".journal-notes-header", text:)
+      end
+
+      def expect_no_journal_notes_header(text: nil)
+        expect(page).to have_no_css(".journal-notes-header", text:)
+      end
+
+      def expect_journal_notes(text: nil)
+        expect(page).to have_css(".journal-notes-body", text:)
+      end
+
+      def add_comment(text: nil)
+        # TODO: get rid of static sleep
+        sleep 1 # otherwise the stimulus component is not mounted yet and the click does not work
+
+        if page.has_css?("#open-work-package-journal-form")
+          page.find_by_id("open-work-package-journal-form").click
+        else
+          expect(page).to have_css("#work-package-journal-form")
+        end
+
+        within("#work-package-journal-form") do
+          FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form").set_value(text)
+          page.find_test_selector("op-submit-work-package-journal-form").click
+        end
+
+        page.within_test_selector("op-wp-journals-container") do
+          expect(page).to have_text(text)
+        end
+      end
+
+      def get_all_comments_as_arrary
+        page.all(".journal-notes-body").map(&:text)
+      end
+
+      def filter_journals(filter)
+        page.find_test_selector("op-wp-journals-filter-menu").click
+
+        case filter
+        when :all
+          page.find_test_selector("op-wp-journals-filter-show-all").click
+        when :only_comments
+          page.find_test_selector("op-wp-journals-filter-show-only-comments").click
+        when :only_changes
+          page.find_test_selector("op-wp-journals-filter-show-only-changes").click
+        end
+
+        sleep 1 # wait for the journals to be reloaded, TODO: get rid of static sleep
+      end
+
+      def set_journal_sorting(sorting)
+        page.find_test_selector("op-wp-journals-sorting-menu").click
+
+        case sorting
+        when :asc
+          page.find_test_selector("op-wp-journals-sorting-asc").click
+        when :desc
+          page.find_test_selector("op-wp-journals-sorting-desc").click
+        end
+
+        sleep 1 # wait for the journals to be reloaded, TODO: get rid of static sleep
+      end
     end
   end
 end

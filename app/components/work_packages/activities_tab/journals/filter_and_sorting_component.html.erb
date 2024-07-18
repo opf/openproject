@@ -3,7 +3,10 @@
 
     flex_layout(justify_content: :space_between) do |container|
       container.with_column do
-        render(Primer::Alpha::ActionMenu.new(select_variant: :single, dynamic_label: true)) do |menu|
+        render(Primer::Alpha::ActionMenu.new(
+          select_variant: :single, dynamic_label: true,
+          data: { "test_selector": "op-wp-journals-filter-menu" }
+        )) do |menu|
           menu.with_show_button do |button|
             button.with_trailing_action_icon(icon: :"triangle-down")
           end
@@ -11,7 +14,10 @@
             label: t("activities.work_packages.activity_tab.label_activity_show_all"),
             href: update_filter_work_package_activities_path(work_package),
             content_arguments: {
-              data: { "turbo-stream": true, "action": "click->work-packages--activities-tab--index#unsetFilter" }
+              data: { 
+                "turbo-stream": true, "action": "click->work-packages--activities-tab--index#unsetFilter",
+                "test_selector": "op-wp-journals-filter-show-all"
+              }
             },
             active: show_all?
           )
@@ -19,7 +25,10 @@
             label: t("activities.work_packages.activity_tab.label_activity_show_only_changes"),
             href: update_filter_work_package_activities_path(work_package, filter: :only_changes),
             content_arguments: {
-              data: { "turbo-stream": true, "action": "click->work-packages--activities-tab--index#setFilterToOnlyChanges" }
+              data: { 
+                "turbo-stream": true, "action": "click->work-packages--activities-tab--index#setFilterToOnlyChanges",
+                "test_selector": "op-wp-journals-filter-show-only-changes"
+              }
             },
             active: show_only_changes?
           )
@@ -27,7 +36,10 @@
             label: t("activities.work_packages.activity_tab.label_activity_show_only_comments"),
             href: update_filter_work_package_activities_path(work_package, filter: :only_comments),
             content_arguments: {
-              data: { "turbo-stream": true, "action": "click->work-packages--activities-tab--index#setFilterToOnlyComments" }
+              data: { 
+                "turbo-stream": true, "action": "click->work-packages--activities-tab--index#setFilterToOnlyComments",
+                "test_selector": "op-wp-journals-filter-show-only-comments"
+              }
             },
             active: show_only_comments?
           )
@@ -35,7 +47,7 @@
       end
       container.with_column do
         render(Primer::Alpha::ActionMenu.new(select_variant: :single, dynamic_label: true)) do |menu|
-          menu.with_show_button(scheme: :invisible) do |button|
+          menu.with_show_button(scheme: :invisible, data: { "test_selector": "op-wp-journals-sorting-menu" }) do |button|
             button.with_trailing_action_icon(icon: :"triangle-down")
           end
           menu.with_item(
@@ -43,7 +55,7 @@
             href: update_sorting_work_package_activities_path(work_package, sorting: :desc, filter:),
             form_arguments: { method: :put },
             content_arguments: {
-              data: { "turbo-stream": true }
+              data: { "turbo-stream": true, "test_selector": "op-wp-journals-sorting-desc" }
             },
             active: desc_sorting?
           )
@@ -52,7 +64,7 @@
             href: update_sorting_work_package_activities_path(work_package, sorting: :asc, filter:),
             form_arguments: { method: :put },
             content_arguments: {
-              data: { "turbo-stream": true }
+              data: { "turbo-stream": true, "test_selector": "op-wp-journals-sorting-asc" }
             },
             active: asc_sorting?
           )

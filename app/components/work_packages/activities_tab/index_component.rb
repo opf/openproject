@@ -48,6 +48,7 @@ module WorkPackages
 
       def wrapper_data_attributes
         {
+          test_selector: "op-wp-activity-tab",
           controller: "work-packages--activities-tab--index",
           "application-target": "dynamic",
           "work-packages--activities-tab--index-update-streams-url-value": update_streams_work_package_activities_url(work_package),
@@ -55,12 +56,16 @@ module WorkPackages
           "work-packages--activities-tab--index-filter-value": filter,
           "work-packages--activities-tab--index-user-id-value": User.current.id,
           "work-packages--activities-tab--index-work-package-id-value": work_package.id,
-          "work-packages--activities-tab--index-polling-interval-in-ms-value": 10000 # protoypical implementation
+          "work-packages--activities-tab--index-polling-interval-in-ms-value": polling_interval # protoypical implementation
         }
       end
 
       def journal_sorting
         User.current.preference&.comments_sorting || "desc"
+      end
+
+      def polling_interval
+        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] || 10000
       end
     end
   end

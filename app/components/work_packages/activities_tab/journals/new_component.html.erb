@@ -7,6 +7,7 @@
         flex_layout(justify_content: :space_between) do |button_row|
           button_row.with_column(id: "input-trigger-column", mr: 2) do
             render(Primer::Beta::Button.new(
+                id: "open-work-package-journal-form",
                 text_align: :left,
                 scheme: :default,
                 size: :medium,
@@ -48,7 +49,8 @@
                 scheme: :default,
                 icon: :"paper-airplane",
                 "aria-label": t("activities.work_packages.activity_tab.label_submit_comment"),
-                type: :submit
+                type: :submit,
+                data: { "test_selector": "op-submit-work-package-journal-form" }
               ))
             end
           end
