@@ -2,7 +2,9 @@
   render(Primer::Alpha::UnderlineNav.new(align: :left, label: "Tabs")) do |component|
     menu_items.each do |node|
       component.with_tab(selected: @tab == node.name,
-                         href: url_for(node.url)) do |c|
+                         href: url_for(node.url),
+                         data: { turbo: true, turbo_action: "replace" }
+                         ) do |c|
         c.with_text { t("js.work_packages.tabs.#{node.name}") }
         count = node.badge(work_package:).to_i
         c.with_counter(count:) if count > 0
