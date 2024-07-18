@@ -27,6 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<% helpers.content_controller 'project-storage-form',
+                      dynamic: true,
+                      'project-storage-form-folder-mode-value': @project_storage.project_folder_mode,
+                      'project-storage-form-placeholder-folder-name-value': I18n.t(:"storages.label_no_selected_folder"),
+                      'project-storage-form-not-logged-in-validation-value': I18n.t(:"storages.instructions.not_logged_into_storage"),
+                      'project-storage-form-last-project-folders-value': @last_project_folders
+%>
+
 <%=
   component_wrapper do
     primer_form_with(

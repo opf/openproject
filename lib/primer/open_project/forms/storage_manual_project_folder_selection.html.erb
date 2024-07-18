@@ -1,0 +1,28 @@
+<%= render(Primer::BaseComponent.new(tag: :div, display: :none, data: @wrapper_data_attributes)) do %>
+
+  <%= render(FormControl.new(input: @input)) do %>
+    <% if storage_oauth_access_granted? %>
+      <%=
+        render(Primer::Beta::Button.new(
+          scheme: :default,
+          data: {
+            'project-storage-form-target': "selectProjectFolderButton",
+            'action': "project-storage-form#selectProjectFolder"
+          }
+        )) do |button|
+          button.with_leading_visual_icon(icon: 'file-directory')
+          I18n.t(:"storages.buttons.select_folder")
+        end
+      %>
+    <% else %>
+        <%= angular_component_tag 'opce-storage-login-button',
+                                    data: @storage_login_button_options.delete(:data) { {} },
+                                    inputs: @storage_login_button_options.delete(:inputs) { {} }
+        %>
+    <% end %>
+  <% end %>
+
+  <%=
+    render(Primer::BaseComponent.new(tag: :span, data: { "project-storage-form-target": "selectedFolderText"})) { "..." }
+  %>
+<% end %>

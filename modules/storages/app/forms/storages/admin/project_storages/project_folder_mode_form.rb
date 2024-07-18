@@ -45,13 +45,17 @@ module Storages
             end
 
             if @project_storage.project_folder_mode_possible?("manual")
-              radio_group.radio_button(value: "manual", label: I18n.t(:"storages.label_manual_folder"),
-                                       caption: I18n.t(:"storages.instructions.manual_folder"))
+              radio_group.radio_button(value: "manual", label: I18n.t(:"storages.label_existing_manual_folder"),
+                                       caption: I18n.t(:"storages.instructions.existing_manual_folder"))
             end
           end
 
           if @project_storage.project_folder_mode_possible?("manual")
-            radio_form.storage_login_button(
+            radio_form.storage_manual_project_folder_selection(
+              name: :project_folder,
+              label: nil,
+              project_storage: @project_storage,
+              last_project_folders: @last_project_folders,
               storage_login_button_options: {
                 data: {
                   "project-storage-form-target": "loginButton"
@@ -64,9 +68,10 @@ module Storages
           end
         end
 
-        def initialize(project_storage:)
+        def initialize(project_storage:, last_project_folders: {})
           super()
           @project_storage = project_storage
+          @last_project_folders = last_project_folders
         end
       end
     end

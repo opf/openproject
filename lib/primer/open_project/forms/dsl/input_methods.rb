@@ -21,8 +21,8 @@ module Primer
             add_input RichTextAreaInput.new(builder: @builder, form: @form, **)
           end
 
-          def storage_login_button(**)
-            add_input StorageLoginButtonInput.new(builder: @builder, form: @form, **)
+          def storage_manual_project_folder_selection(**)
+            add_input StorageManualProjectFolderSelectionInput.new(builder: @builder, form: @form, **)
           end
         end
       end
