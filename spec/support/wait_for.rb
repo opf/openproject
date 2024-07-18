@@ -25,8 +25,7 @@ module RSpec
     #
     # Examples:
     #   wait_for(ticker.tape).to eq("··-·")
-    #   wait_for(ticker.tape).to eq("··-· ---")
-    #   wait_for(ticker.tape).to eq("··-· --- ---", timeout: 5)
+    #   wait_for { ticker.tape }.to eq("··-· ---")
     def wait_for(value = Target::UndefinedValue, &block)
       Target.for(value, block)
     end
@@ -36,6 +35,10 @@ module RSpec
     # @param timeout [Numeric] time in seconds to wait up for assertions to pass
     # @param delay [Numeric] time in seconds elapsing between two checks of an
     #   assertion
+    # Examples:
+    # with_wait(timeout: 10, delay: 1) do
+    #   wait_for { ticker.tape }.to eq("··-· ---")
+    # end
     def with_wait(timeout: nil, delay: nil)
       original_timeout = RSpec.configuration.wait_timeout
       original_delay = RSpec.configuration.wait_delay
