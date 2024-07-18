@@ -40,7 +40,7 @@ module Pages
       end
 
       def mark_all_read
-        click_button "Mark all as read"
+        click_link_or_button "Mark all as read"
       end
 
       def mark_notification_as_read(notification)

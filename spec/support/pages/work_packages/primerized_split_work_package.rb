@@ -26,56 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/pages/work_packages/abstract_work_package"
-require "support/pages/work_packages/split_work_package_create"
+require_relative "split_work_package"
 
 module Pages
-  class SplitWorkPackage < Pages::AbstractWorkPackage
-    attr_reader :selector
-
-    def initialize(work_package, project = nil)
-      super
-      @selector = ".work-packages--details"
+  class PrimerizedSplitWorkPackage < Pages::SplitWorkPackage
+    def in_split_view(&)
+      page.within("#work-package-details-#{work_package.id}", &)
     end
 
-    def switch_to_fullscreen
-      find(".work-packages--details-fullscreen-icon").click
-      FullWorkPackage.new(work_package, project)
-    end
-
-    def expect_closed
-      expect(page).to have_no_selector(@selector)
-    end
-
-    def expect_open
-      wait_for_reload if using_cuprite?
-      expect(page).to have_selector(@selector)
-      expect_subject
-    end
-
-    def close
-      find(".work-packages--details-close-icon").click
-    end
-
-    def container
-      find(@selector)
-    end
-
-    protected
-
-    def path(tab = "overview")
-      state = "#{work_package.id}/#{tab}"
-
-      if project
-        project_work_packages_path(project, "details/#{state}")
-      else
-        details_work_packages_path(state)
+    def switch_to_tab(tab:)
+      in_split_view do
+        click_link tab
       end
     end
 
-    def create_page(args)
-      args.merge!(project: project || work_package.project)
-      SplitWorkPackageCreate.new(**args)
+    def expect_tab(tab)
+      expect(page).to have_link(tab) do |link|
+        link["data-aria-current"] == "page"
+      end
+    end
+
+    def within_active_tab(&)
+      within(".work-packages--details-content", &)
     end
   end
 end

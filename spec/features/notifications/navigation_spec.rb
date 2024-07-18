@@ -27,7 +27,7 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
 
   let(:center) { Pages::Notifications::Center.new }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
-  let(:split_screen) { Pages::Notifications::SplitScreen.new work_package }
+  let(:split_screen) { Pages::PrimerizedSplitWorkPackage.new work_package }
 
   current_user { recipient }
 
@@ -44,7 +44,7 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
       expect(page).to have_current_path "/notifications/details/#{work_package.id}/activity"
 
       # Switch to the relations tab
-      split_screen.switch_to_tab tab: "relations"
+      split_screen.switch_to_tab tab: "Relations"
       expect(page).to have_current_path "/notifications/details/#{work_package.id}/relations"
 
       # Navigate to full view and back
@@ -69,7 +69,7 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
   it "deep linking to a notification details highlights it" do
     visit "/notifications/details/#{work_package.id}"
 
-    expect(page).to have_current_path "/notifications/details/#{work_package.id}/overview"
+    expect(page).to have_current_path "/notifications/details/#{work_package.id}"
 
     split_screen.expect_open
 
@@ -84,7 +84,7 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
     it "can link to that parent from notifications (Regression #42984)" do
       visit "/notifications/details/#{work_package.id}"
 
-      expect(page).to have_current_path "/notifications/details/#{work_package.id}/overview"
+      expect(page).to have_current_path "/notifications/details/#{work_package.id}"
 
       split_screen.expect_open
 
@@ -92,7 +92,7 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
 
       page.find_test_selector("op-wp-breadcrumb-parent").click
 
-      expect(page).to have_current_path "/work_packages/#{second_work_package.id}/activity"
+      expect(page).to have_current_path /\/work_packages\/#{second_work_package.id}/
 
       # Works with another tab as well
       visit "/notifications/details/#{work_package.id}/relations"
@@ -101,7 +101,7 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
 
       page.find_test_selector("op-wp-breadcrumb-parent").click
 
-      expect(page).to have_current_path "/work_packages/#{second_work_package.id}/relations"
+      expect(page).to have_current_path /\/work_packages\/#{second_work_package.id}/
     end
   end
 end

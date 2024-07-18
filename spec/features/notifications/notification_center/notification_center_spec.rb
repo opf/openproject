@@ -430,7 +430,7 @@ RSpec.describe "Notification center", :js, :with_cuprite,
 
       login_with recipient.login, "adminADMIN!", visit_signin_path: false
 
-      expect(page).to have_current_path /notifications\/details\/#{work_package.id}\/activity/
+      expect(page).to have_current_path /notifications\/details\/#{work_package.id}/
     end
   end
 end
