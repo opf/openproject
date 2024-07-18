@@ -83,7 +83,7 @@ In response to user feedback, OpenProject 14.3 now allows administrators to choo
 - Hours only
 - Hours and days
 
-This flexibility aims to accommodate different user preferences and improve the overall user experience. Read more about [units of measurement for progress reporting with OpenProject](https://www.openproject.com/docs/user-guide/time-and-costs/progress-tracking/#units-of-measurement).
+This flexibility aims to accommodate different user preferences and improve the overall user experience. Read more about [units of measurement for progress reporting with OpenProject](../../user-guide/time-and-costs/progress-tracking/#units-of-measurement).
 
 ![Admin settings to choose the progress reporting duration format](openproject-14-3-progress-reporting-hours-only.png)
 
@@ -91,7 +91,7 @@ This flexibility aims to accommodate different user preferences and improve the 
 
 With OpenProject 14.3, administrators can now manually trigger and test the connection for OneDrive/SharePoint storages. This feature helps ensure that storage settings are correctly configured and provides feedback if issues are detected. This validation is available once the file storage is fully configured and works for all OneDrive/SharePoint storages, supplementing the Health status check for automatically managed project folders.
 
-Read more about [connection validation for external file storages](https://www.openproject.com/docs/system-admin-guide/files/external-file-storages/health-status/#connection-validation).
+Read more about [connection validation for external file storages](../../system-admin-guide/files/external-file-storages/health-status/#connection-validation).
 
 > [!NOTE]
 > We will start working on connection validation for Nextcloud storages soon. So if you're using Nextcloud as external file storage, stay tuned for our next releases!
@@ -118,7 +118,7 @@ In OpenProject 14.3, users can now easily return to the global modules by unsele
 
 ### Gantt chart PDF export (Enterprise add-on): Date zoom based on calendar weeks
 
-When exporting a Gantt chart to PDF, users will now be able to select calendar weeks as date zoom. This feature is particularly helpful for environments that communicate events based on calendar weeks. Read more about how to [export data from a Gantt diagram in OpenProject](https://www.openproject.com/docs/user-guide/gantt-chart/#how-to-export-data-from-a-gantt-diagram).
+When exporting a Gantt chart to PDF, users will now be able to select calendar weeks as date zoom. This feature is particularly helpful for environments that communicate events based on calendar weeks. Read more about how to [export data from a Gantt diagram in OpenProject](../../user-guide/gantt-chart/#how-to-export-data-from-a-gantt-diagram).
 
 ![Screenshot of the Gantt chart PDF export, weeks selected as date zoom](openproject-14-3-gantt-chart-pdf-export.png)
 
@@ -142,7 +142,7 @@ When exporting a Gantt chart to PDF, users will now be able to select calendar w
 - Feature: Gantt chart PDF export: add date zoom based on calendar weeks \[[#55954](https://community.openproject.org/wp/55954)\]
 - Feature: Allow admins to choose between display in hours-only or days and hours \[[#55997](https://community.openproject.org/wp/55997)\]
 - Bugfix: Removing logged activity via spent time widget freezes the site and destroys spent time widget \[[#53200](https://community.openproject.org/wp/53200)\]
-- Bugfix: The label for "Spent time" is still visible after deactiving the module "Time and costs" \[[#53772](https://community.openproject.org/wp/53772)\]
+- Bugfix: The label for "Spent time" is still visible after deactivating the module "Time and costs" \[[#53772](https://community.openproject.org/wp/53772)\]
 - Bugfix: Keyboard navigation for agenda item creation in meetings does not work as expected \[[#54376](https://community.openproject.org/wp/54376)\]
 - Bugfix: Meeting Attachments not visible after changing from open to close - reload required \[[#55144](https://community.openproject.org/wp/55144)\]
 - Bugfix: Set correct guards for action: deactivate\_work\_package\_attachments \[[#55194](https://community.openproject.org/wp/55194)\]
@@ -167,11 +167,11 @@ When exporting a Gantt chart to PDF, users will now be able to select calendar w
 - Bugfix: Handle errors of misconfigured storages during project copy \[[#55805](https://community.openproject.org/wp/55805)\]
 - Bugfix: Project list filter component extends to the width of project columns \[[#55812](https://community.openproject.org/wp/55812)\]
 - Bugfix: Export XLS button is out of screen on Time & Cost page \[[#55874](https://community.openproject.org/wp/55874)\]
-- Bugfix: Star for favourite projects is black \[[#55914](https://community.openproject.org/wp/55914)\]
+- Bugfix: Star for favorite projects is black \[[#55914](https://community.openproject.org/wp/55914)\]
 - Bugfix: Projects list drop down cut off in memberships page \[[#55922](https://community.openproject.org/wp/55922)\]
 - Bugfix: Boards icon in the waffle menu doesn't show all boards \[[#55924](https://community.openproject.org/wp/55924)\]
 - Bugfix: Invalid refresh tokens of Nextcloud are not handled correctly  \[[#56011](https://community.openproject.org/wp/56011)\]
-- Bugfix: BIM-Model - Viewpoint - all Viepoints are saved to the last BCF after the refresh of the Viewer \[[#56012](https://community.openproject.org/wp/56012)\]
+- Bugfix: BIM-Model - Viewpoint - all viewpoints are saved to the last BCF after the refresh of the Viewer \[[#56012](https://community.openproject.org/wp/56012)\]
 - Bugfix: File Upload fails if exactly 4096 Byte \[[#56032](https://community.openproject.org/wp/56032)\]
 - Bugfix: LDAP seeder: Password interpreted as YAML \[[#56039](https://community.openproject.org/wp/56039)\]
 - Bugfix: hal+json requests treated as plain html requests \[[#56040](https://community.openproject.org/wp/56040)\]
@@ -188,7 +188,7 @@ When exporting a Gantt chart to PDF, users will now be able to select calendar w
 
 A very special thank you goes to the City of Cologne for sponsoring features on project lists. Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Bill Bai, Alexander Hosmann, Alexander Aleschenko, and Sven Kunze.
 
-A thank you to also goes to Eric Guo for contributing the Date zoom based on calendar weeks in the Gantt chart PDF export.
+A thank you also goes to Eric Guo for contributing the Date zoom based on calendar weeks in the Gantt chart PDF export.
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [Todor Belov](https://crowdin.com/profile/todor.belov), who has done an outstanding number of translations for the Bulgarian language in recent weeks.
 
