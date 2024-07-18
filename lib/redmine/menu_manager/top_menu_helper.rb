@@ -187,7 +187,6 @@ module Redmine::MenuManager::TopMenuHelper
 
       item_group[:items].each do |item|
         menu_group.with_item(
-          tag: :a,
           href: url_for(item.url),
           label: item.caption,
           test_selector: "op-menu--item-action"
