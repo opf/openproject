@@ -57,6 +57,10 @@ class NotificationsController < ApplicationController
 
   private
 
+  def default_breadcrumb
+    t("js.notifications.title")
+  end
+
   def filtered_query
     query = Queries::Notifications::NotificationQuery.new(user: current_user)
     query.where(:read_ian, "=", "f")
