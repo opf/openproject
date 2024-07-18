@@ -907,7 +907,7 @@ cs:
       wiki_link: "Odkaz na stránku Wiki"
       image: "Obrázek"
     sharing:
-      share: "Share"
+      share: "Sdílet"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

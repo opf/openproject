@@ -43,9 +43,9 @@ it:
           name: Altro
       project_query_roles:
         item_0:
-          name: Visualizzatore di query del progetto
+          name: Autorizzato a visualizzare l'elenco di progetti
         item_1:
-          name: Editor di query del progetto
+          name: Autorizzato a modificare l'elenco di progetti
       work_package_roles:
         item_0:
           name: Editor di macro-attività
