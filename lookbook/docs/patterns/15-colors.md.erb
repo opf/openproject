@@ -68,6 +68,42 @@ The following variables of Primer are overwritten with the `--accent-color`:
 
 When implementing colors in the application, we should ensure compliance with Primer's [accessibility standards](https://primer.style/foundations/color/accessibility).
 
+## Type and Status colors
+
+Currently, users can freely chose the colors for types, status and some other attributes (e.g priority). These are used for:
+
+- Font color
+  - Type
+- Background color
+  - Status selector button
+  - Inline highlighting of complete rows inside the WP table
+  - Inline highlighting via bubbles
+  - Inline highlighting of cards
+
+With the introduction of the dark mode, some of those colors are not readable/visible any more. To ensure that there is always a high enough contrast we calculate brighter (respective darker) versions of these colours. It is notable that the current class name structure is kept,
+
+For the calculation of those values, we decompose the color hex code into the individual `rgb` and `hsl` values. Based on those and on the mode we generate values for:
+
+* background-color
+* font-color
+* border-color
+
+
+Here is an example of defined method for highlighting foreground of an attribute in dark mode:
+
+```css
+--lightness-threshold: 0.6;
+--perceived-lightness: calc( ((var(--color-r) * 0.2126) + (var(--color-g) * 0.7152) + (var(--color-b) * 0.0722)) / 255 );
+--lightness-switch: max(0, min(calc((1/(var(--lightness-threshold) - var(--perceived-lightness)))), 1));
+--lighten-by: calc(((var(--lightness-threshold) - var(--perceived-lightness)) * 100) * var(--lightness-switch));
+```
+
+```rb
+def highlighted_foreground_dark
+  "color: hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%), 1) !important;"
+end
+```
+
 ## Modes
 
 ### High contrast mode
@@ -81,16 +117,39 @@ Please note, that the high contrast mode is a **personal** setting, meaning it w
 
 #### Technical notes
 
-The goal is to use Primer variables all over the application. Once we get to that state, we can simply switch between the modes and Primer offers the correct colors. Since we are currently **not** using Primer variables everywhere yet, we have to map some of OpenProject's global color variables to the Primer color variables. We do that in [app/views/custom_styles/_primer_color_mapping.erb](https://github.com/opf/openproject/blob/dev/app/views/custom_styles/_primer_color_mapping.erb). The following is only an excerpt of that:
+The goal is to use Primer variables all over the application. Once we get to that state, we can simply switch between the modes and Primer offers the correct colors. Since we are currently using Primer variables at **many places** but not still have our own variables in place, we have to map some of OpenProject's global color variables to the Primer color variables. We do that in [app/views/custom\_styles/\_primer\_color\_mapping.erb](https://github.com/opf/openproject/blob/dev/app/views/custom_styles/_primer_color_mapping.erb). The following is only an excerpt of that:
 
 ```css
 /* --openProject-variable: var(--primer-variable) */
 
- --avatar-border-color: var(--avatar-borderColor);
- --ck-color-base-border: var(--borderColor-default);
- --header-bg-color: var(--page-header-bgColor);
- --main-menu-bg-color: var(--page-header-bgColor);
- --accent-color: var(--fgColor-accent);
- --primary-button-color: var(--button-primary-bgColor-rest);
- ...
+--main-menu-hover-border-color: var(--fgColor-default) !important;
+--main-menu-bg-selected-border: var(--fgColor-default);
+--accent-color: var(--fgColor-accent);
+--button--primary-font-color:  var(--button-primary-fgColor-rest);
+...
+```
+
+### Dark mode
+
+Dark mode is designed to reduce eye strain, especially in low-light environments, by using dark backgrounds and light text.
+Please note, that the dark mode is a **personal** setting, meaning that user can easily switch between dark and light modes through the user's settings, so it only affects that user and not the whole instance.
+The dark mode should be activated in My account/Settings by changing Mode to 'Dark'.
+
+#### Technical notes
+
+Since we respect the user-theming, in Administration/Design -> ADVANCED SETTINGS, the values for **accent** and **primary button** colors are kept but brightened, so that they work well on dark backgrounds.
+However, we enforce the header and the main menu colors to use Primer css variables. Otherwise we have no reliable way to ensure that these elements are also dark enough to fit with the dark mode. So any changes made to the colours of the header and the main menu **will be ignored** in the dark mode.
+
+```css.erb
+--accent-color--dark-mode: design_color.lighten 0.4;
+--primary-button-color--dark-mode: design_color.lighten 0.4;
+```
+
+```css
+--accent-color: var(--accent-color--dark-mode);
+--primary-button-color: var(--primary-button-color--dark-mode);
+
+--main-menu-bg-color: var(--overlay-bgColor);
+--header-bg-color: var(--page-header-bgColor);
+...
 ```
