@@ -214,6 +214,7 @@ module Pages
       def apply_filters
         within(".advanced-filters--filters") do
           click_on "Apply"
+          page.driver.wait_for_network_idle if using_cuprite?
         end
       end
 
