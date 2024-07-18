@@ -49,7 +49,7 @@ class Submenu
       .where("starred" => "t")
       .pluck(:id, :name)
       .map { |id, name| menu_item(name, query_params(id)) }
-      .sort_by(&:title)
+      .sort_by { |item| item.title.downcase }
   end
 
   def default_queries
@@ -62,7 +62,7 @@ class Submenu
       .where("public" => "t")
       .pluck(:id, :name)
       .map { |id, name| menu_item(name, query_params(id)) }
-      .sort_by(&:title)
+      .sort_by { |item| item.title.downcase }
   end
 
   def custom_queries
@@ -71,7 +71,7 @@ class Submenu
       .where("public" => "f")
       .pluck(:id, :name)
       .map { |id, name| menu_item(name, query_params(id)) }
-      .sort_by(&:title)
+      .sort_by { |item| item.title.downcase }
   end
 
   def base_query
