@@ -70,25 +70,35 @@ When implementing colors in the application, we should ensure compliance with Pr
 
 ## Type and Status colors
 
-In order to increase the contrast of the attribute(status or type) color against background color in dark and light modes, we calculate correct values for styling attribute element.
-It's notable that the current class name structure is kept, but we are following the same approach GitHub is doing for their labels. For all configured colors, based on their hex codes and the selected mode, new values will be generated. The highlighting color values should be always visible and readable for:
+Currently, users can freely chose the colors for types, status and some other attributes (e.g priority). These are used for:
+
 - Font color
-- Complete row highlighting
-- Card highlighting
-- Status selector
-- Highlighting via bubble
+  - Type
+- Background color
+  - Status selector button
+  - Inline highlighting of complete rows inside the WP table
+  - Inline highlighting via bubbles
+  - Inline highlighting of cards
 
-For calculation of new values, we should decompose the color hex code into the rgb and hsl values. Since we need correct brightness in dark and light modes, some default styles are defined to be assigned to the attribute element. Following is an example of default styles for dark mode:
+With the introduction of the dark mode, some of those colors are not readable/visible any more. To ensure that there is always a high enough contrast we calculate brighter (respective darker) versions of these colours. It is notable that the current class name structure is kept,
 
-```
+For the calculation of those values, we decompose the color hex code into the individual `rgb` and `hsl` values. Based on those and on the mode we generate values for:
+
+* background-color
+* font-color
+* border-color
+
+
+Here is an example of defined method for highlighting foreground of an attribute in dark mode:
+
+```css
 --lightness-threshold: 0.6;
---background-alpha: 0.18;
+--perceived-lightness: calc( ((var(--color-r) * 0.2126) + (var(--color-g) * 0.7152) + (var(--color-b) * 0.0722)) / 255 );
+--lightness-switch: max(0, min(calc((1/(var(--lightness-threshold) - var(--perceived-lightness)))), 1));
 --lighten-by: calc(((var(--lightness-threshold) - var(--perceived-lightness)) * 100) * var(--lightness-switch));
 ```
 
-Based on the calculated rgb and hsl values of attribute hex code color and the selected mode, we generate values for some styles(background, color, border-color) to highlight background and foreground of attribute element. Here is an example of defined method for highlighting foreground of an attribute in dark mode:
-
-```
+```rb
 def highlighted_foreground_dark
   "color: hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%), 1) !important;"
 end
@@ -107,7 +117,7 @@ Please note, that the high contrast mode is a **personal** setting, meaning it w
 
 #### Technical notes
 
-The goal is to use Primer variables all over the application. Once we get to that state, we can simply switch between the modes and Primer offers the correct colors. Since we are currently using Primer variables at **most of places** but not everywhere, we have to map some of OpenProject's global color variables to the Primer color variables. We do that in [app/views/custom_styles/_primer_color_mapping.erb](https://github.com/opf/openproject/blob/dev/app/views/custom_styles/_primer_color_mapping.erb). The following is only an excerpt of that:
+The goal is to use Primer variables all over the application. Once we get to that state, we can simply switch between the modes and Primer offers the correct colors. Since we are currently using Primer variables at **many places** but not still have our own variables in place, we have to map some of OpenProject's global color variables to the Primer color variables. We do that in [app/views/custom\_styles/\_primer\_color\_mapping.erb](https://github.com/opf/openproject/blob/dev/app/views/custom_styles/_primer_color_mapping.erb). The following is only an excerpt of that:
 
 ```css
 /* --openProject-variable: var(--primer-variable) */
@@ -123,12 +133,12 @@ The goal is to use Primer variables all over the application. Once we get to tha
 
 Dark mode is designed to reduce eye strain, especially in low-light environments, by using dark backgrounds and light text.
 Please note, that the dark mode is a **personal** setting, meaning that user can easily switch between dark and light modes through the user's settings, so it only affects that user and not the whole instance.
-The dark mode should be activated in My account/Settings by changing Mode to 'Dark (experimental)'.
+The dark mode should be activated in My account/Settings by changing Mode to 'Dark'.
 
 #### Technical notes
 
 Since we respect the user-theming, in Administration/Design -> ADVANCED SETTINGS, the values for **accent** and **primary button** colors are kept but brightened, so that they work well on dark backgrounds.
-Moreover, we forced header and main menu colors to use Primer css variables, so if you change any color of them, nothing will change.
+However, we enforce the header and the main menu colors to use Primer css variables. Otherwise we have no reliable way to ensure that these elements are also dark enough to fit with the dark mode. So any changes made to the colours of the header and the main menu **will be ignored** in the dark mode.
 
 ```css.erb
 --accent-color--dark-mode: design_color.lighten 0.4;
@@ -139,18 +149,7 @@ Moreover, we forced header and main menu colors to use Primer css variables, so 
 --accent-color: var(--accent-color--dark-mode);
 --primary-button-color: var(--primary-button-color--dark-mode);
 
---header-item-font-hover-color: var(--fgColor-default);
---header-border-bottom-color: var(--borderColor-muted) !important;
---main-menu-hover-font-color: var(--fgColor-default);
---main-menu-bg-selected-background: var(--control-transparent-bgColor-hover);
-...
-```
-By now we have replaced most of our custom css variables and color hex codes with Primer css variables. However, we are currently **not** using Primer variables everywhere yet, but at most of the places, so we have to map some of OpenProject's global color variables to the Primer color variables. We do that in [app/views/custom_styles/_primer_color_mapping.erb](https://github.com/opf/openproject/blob/dev/app/views/custom_styles/_primer_color_mapping.erb). The following is only an excerpt of that:
-
-```css
 --main-menu-bg-color: var(--overlay-bgColor);
---type-form-conf-attribute--background: var(--overlay-bgColor);
+--header-bg-color: var(--page-header-bgColor);
 ...
 ```
-
-
