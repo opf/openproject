@@ -47,12 +47,14 @@ module CostReports
       CostQuery.public(project)
         .pluck(:id, :name)
         .map { |id, name| menu_item(name, query_params(id)) }
+        .sort_by { |item| item.title.downcase }
     end
 
     def custom_queries
       CostQuery.private(project, User.current)
         .pluck(:id, :name)
         .map { |id, name| menu_item(name, query_params(id)) }
+        .sort_by { |item| item.title.downcase }
     end
 
     def selected?(query_params)
