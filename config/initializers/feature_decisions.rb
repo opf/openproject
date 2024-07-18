@@ -42,4 +42,5 @@ OpenProject::FeatureDecisions.add :favorite_projects
 OpenProject::FeatureDecisions.add :dark_mode
 OpenProject::FeatureDecisions.add :percent_complete_edition,
                                   description: "Allow edition of % Complete in work-based progress calculation mode. " \
-                                               "Will be enabled by default in OpenProject 15.0."
+                                               "Will be enabled by default in OpenProject 15.0. " \
+                                               "See work package #52233 for more details."
