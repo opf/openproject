@@ -30,6 +30,8 @@ module Storages
   module Admin
     module ProjectStorages
       class ProjectFolderModeForm < ApplicationForm
+        include StorageLoginHelper
+
         form do |radio_form|
           radio_form.radio_button_group(name: :project_folder_mode) do |radio_group|
             if @project_storage.project_folder_mode_possible?("inactive")
@@ -41,6 +43,24 @@ module Storages
               radio_group.radio_button(value: "automatic", label: I18n.t(:"storages.label_automatic_folder"),
                                        caption: I18n.t(:"storages.instructions.automatic_folder"))
             end
+
+            if @project_storage.project_folder_mode_possible?("manual")
+              radio_group.radio_button(value: "manual", label: I18n.t(:"storages.label_manual_folder"),
+                                       caption: I18n.t(:"storages.instructions.manual_folder"))
+            end
+          end
+
+          if @project_storage.project_folder_mode_possible?("manual")
+            radio_form.storage_login_button(
+              storage_login_button_options: {
+                data: {
+                  "project-storage-form-target": "loginButton"
+                },
+                inputs: {
+                  input: storage_login_input(@project_storage.storage)
+                }
+              }
+            )
           end
         end
 

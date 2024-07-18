@@ -1,0 +1,6 @@
+<%= render(FormControl.new(input: @input)) do %>
+   <%= angular_component_tag 'opce-storage-login-button',
+                              data: @storage_login_button_options.delete(:data) { {} },
+                              inputs: @storage_login_button_options.delete(:inputs) { {} }
+   %>
+<% end %>

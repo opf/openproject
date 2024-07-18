@@ -173,6 +173,9 @@ import {
 } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view-entry.component';
 import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/in-app-notifications/date-alerts-upsale/ian-date-alerts-upsale.component';
 import { ShareUpsaleComponent } from 'core-app/features/enterprise/share-upsale/share-upsale.component';
+import {
+  StorageLoginButtonComponent,
+} from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -362,6 +365,7 @@ export class OpenProjectModule {
     registerCustomElement('opce-attribute-help-text', AttributeHelpTextComponent, { injector });
     registerCustomElement('opce-exclusion-info', OpExclusionInfoComponent, { injector });
     registerCustomElement('opce-attachments', OpAttachmentsComponent, { injector });
+    registerCustomElement('opce-storage-login-button', StorageLoginButtonComponent, { injector });
 
     // TODO: These elements are now registered custom elements, but are actually single-use components. They should be removed when we move these pages to Rails.
     registerCustomElement('opce-new-project', NewProjectComponent, { injector });
