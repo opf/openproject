@@ -1012,7 +1012,7 @@ ru:
         workAlternative: "Приблизительное время"
         remainingTime: "Оставшиеся часы"
       default_queries:
-        manually_sorted: "New manually sorted query"
+        manually_sorted: "Новый запрос с ручной сортировкой"
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"
         assigned_to_me: "Предназначено для меня"

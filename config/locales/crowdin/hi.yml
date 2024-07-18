@@ -593,17 +593,6 @@ hi:
       attribute_help_text:
         attribute_name: "गुण"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "खाता"
-        attr_firstname: "पहला-नाम गुण"
-        attr_lastname: "कुल-नाम गुण"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "बेस डी.एन."
-        host: "होस्ट"
-        onthefly: "Automatic user creation"
-        port: "पोर्ट"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       color:
@@ -628,6 +617,14 @@ hi:
         visible: "दृश्यमान"
       custom_value:
         value: "मान"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -638,20 +635,25 @@ hi:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "कार्य पैकेज"
-        to: "संबंधित कार्य पैकेज"
-      status:
-        is_closed: "कार्य पैकेज बंद"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "टिप्पणियाँ"
+      ldap_auth_source:
+        account: "खाता"
+        attr_firstname: "पहला-नाम गुण"
+        attr_lastname: "कुल-नाम गुण"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "बेस डी.एन."
+        host: "होस्ट"
+        onthefly: "Automatic user creation"
+        port: "पोर्ट"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "भूमिकाएं"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: हेक्स कोड
       project:
         active_value:
           true: "unarchived"
@@ -681,6 +683,8 @@ hi:
         types: "प्रकार"
         versions: "संस्करण"
         work_packages: "कार्य पैकेज"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "स्तंभ"
         relations_to_type_column: "Relations to %{type}"
@@ -688,10 +692,19 @@ hi:
         group_by: "द्वारा परिणाम समूह"
         filters: "फ़िल्टर"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "कार्य पैकेज"
+        to: "संबंधित कार्य पैकेज"
       repository:
         url: "यू आर एल"
       role:
         permissions: "अनुमतियाँ"
+      status:
+        is_closed: "कार्य पैकेज बंद"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "गतिविधी"
         hours: "घंटे"
@@ -734,10 +747,6 @@ hi:
       wiki_page:
         parent_title: "पैरेंट पृष्ठ"
         redirect_existing_links: "मौजूदा लिंक्स पुनर्निर्देशित करें"
-      planning_element_type_color:
-        hexcode: हेक्स कोड
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -772,14 +781,6 @@ hi:
         type: "प्रकार"
         version: "संस्करण"
         watcher: "वॉचर"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "must be accepted."
@@ -992,6 +993,11 @@ hi:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1106,8 +1112,6 @@ hi:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1433,7 +1437,7 @@ hi:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "जनवरी"
       - "फरवरी"
@@ -1448,9 +1452,9 @@ hi:
       - "नवम्बर"
       - "दिसम्बर"
     order:
-      - ":वर्ष"
-      - ":माह"
-      - ":दिन"
+      - ':वर्ष'
+      - ':माह'
+      - ':दिन'
   datetime:
     distance_in_words:
       about_x_hours:

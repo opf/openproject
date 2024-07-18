@@ -411,7 +411,7 @@ it:
       prompt: "Mantieni la connessione per %{num_days}"
     sessions:
       remembered_devices: "Dispositivi ricordati"
-      remembered_devices_caption: 'Un elenco di tutti i dispositivi che hanno effettuato l''accesso a questo account utilizzando l''opzione "Resta connesso".'
+      remembered_devices_caption: "Un elenco di tutti i dispositivi che hanno effettuato l'accesso a questo account utilizzando l'opzione \"Resta connesso\"."
       session_name: "%{browser_name} %{browser_version} su %{os_name}"
       browser: "Browser"
       device: "Dispositivo / SO"
@@ -528,7 +528,7 @@ it:
     sharing:
       missing_workflow_warning:
         title: "Flusso di lavoro mancante per la condivisione di macro-attività"
-        message: 'Nessun flusso di lavoro è configurato per il ruolo "Editor di macro-attività". Senza un flusso di lavoro, la condivisione con l''utente non può alterare lo stato della macro-attività. I flussi di lavoro possono essere copiati. Seleziona un tipo di origine (ad esempio "Attività") e un ruolo di origine (ad esempio "Membro"). Quindi seleziona i tipi obiettivo. Per cominciare, potresti selezionare tutti i tipi come obiettivi. Infine, seleziona il ruolo "Editor di macro-attività" come destinazione e premi "Copia". Dopo aver creato le impostazioni predefinite, perfeziona i flussi di lavoro come fai per ogni altro ruolo.'
+        message: "Nessun flusso di lavoro è configurato per il ruolo \"Editor di macro-attività\". Senza un flusso di lavoro, la condivisione con l'utente non può alterare lo stato della macro-attività. I flussi di lavoro possono essere copiati. Seleziona un tipo di origine (ad esempio \"Attività\") e un ruolo di origine (ad esempio \"Membro\"). Quindi seleziona i tipi obiettivo. Per cominciare, potresti selezionare tutti i tipi come obiettivi. Infine, seleziona il ruolo \"Editor di macro-attività\" come destinazione e premi \"Copia\". Dopo aver creato le impostazioni predefinite, perfeziona i flussi di lavoro come fai per ogni altro ruolo."
         link_message: "Configura i flussi di lavoro nell'amministrazione."
     summary:
       reports:
@@ -592,17 +592,6 @@ it:
       attribute_help_text:
         attribute_name: "Attributo"
         help_text: "Testo guida"
-      ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Attributo nome"
-        attr_lastname: "Attributo cognome"
-        attr_login: "Attributo nome utente"
-        attr_mail: "Attributo email"
-        base_dn: "Nome Dominio (DN) base"
-        host: "Host"
-        onthefly: "Creazione automatica degli utenti"
-        port: "Porta"
-        tls_certificate_string: "Certificato SSL del server LDAP"
       changeset:
         repository: "Archivio"
       color:
@@ -627,6 +616,14 @@ it:
         visible: "Visibile"
       custom_value:
         value: "Valore"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Chiave segreta del client"
+        owner: "Proprietario"
+        redirect_uri: "Reindirizzamento URI"
+        client_credentials_user_id: "ID utente delle credenziali client"
+        scopes: "Ambiti"
+        confidential: "Confidenziale"
       enterprise_token:
         starts_at: "Valido dal"
         subscriber: "Iscritto"
@@ -637,20 +634,25 @@ it:
         row_count: "Numero di righe"
         column_count: "Numero di colonne"
         widgets: "Widget"
-      oauth_client:
-        client: "ID Client"
-      relation:
-        lag: "Ritardo"
-        from: "Macro-attività"
-        to: "Macro-attività correlata"
-      status:
-        is_closed: "Macro-attività chiusa"
-        is_readonly: "Pacchetto di lavoro di sola lettura"
-        excluded_from_totals: "Escludi dal calcolo dei totali nella gerarchia"
       journal:
         notes: "Note"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Attributo nome"
+        attr_lastname: "Attributo cognome"
+        attr_login: "Attributo nome utente"
+        attr_mail: "Attributo email"
+        base_dn: "Nome Dominio (DN) base"
+        host: "Host"
+        onthefly: "Creazione automatica degli utenti"
+        port: "Porta"
+        tls_certificate_string: "Certificato SSL del server LDAP"
       member:
         roles: "Ruoli"
+      oauth_client:
+        client: "ID Client"
+      planning_element_type_color:
+        hexcode: Codice esadecimale
       project:
         active_value:
           true: "Rimosso dall'archivio"
@@ -680,6 +682,8 @@ it:
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
+      project_custom_field:
+        custom_field_section: Sezione
       query:
         column_names: "Colonne"
         relations_to_type_column: "Relazioni con %{type}"
@@ -687,10 +691,19 @@ it:
         group_by: "Raggruppa i risultati per"
         filters: "Filtri"
         timeline_labels: "Etichette di sequenza temporale"
+      relation:
+        lag: "Ritardo"
+        from: "Macro-attività"
+        to: "Macro-attività correlata"
       repository:
         url: "URL"
       role:
         permissions: "Permessi"
+      status:
+        is_closed: "Macro-attività chiusa"
+        is_readonly: "Pacchetto di lavoro di sola lettura"
+        excluded_from_totals: "Escludi dal calcolo dei totali nella gerarchia"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Attività"
         hours: "Ore"
@@ -733,10 +746,6 @@ it:
       wiki_page:
         parent_title: "Pagina padre"
         redirect_existing_links: "Reindirizza i collegamenti esistenti"
-      planning_element_type_color:
-        hexcode: Codice esadecimale
-      project_custom_field:
-        custom_field_section: Sezione
       work_package:
         begin_insertion: "Inizio inserimento"
         begin_deletion: "Inizio cancellazione"
@@ -771,14 +780,6 @@ it:
         type: "Tipo"
         version: "Versione"
         watcher: "Osservatore"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Chiave segreta del client"
-        owner: "Proprietario"
-        redirect_uri: "Reindirizzamento URI"
-        client_credentials_user_id: "ID utente delle credenziali client"
-        scopes: "Ambiti"
-        confidential: "Confidenziale"
     errors:
       messages:
         accepted: "deve essere accettato."
@@ -913,7 +914,7 @@ it:
             base:
               unsupported_operator: "Operatore non supportato."
               invalid_values: "Valore non valido."
-              id_filter_required: 'Il filtro "id" è obbligatorio.'
+              id_filter_required: "Il filtro \"id\" è obbligatorio."
         project:
           archived_ancestor: "Il progetto ha un antenato archiviato."
           foreign_wps_reference_version: "Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti."
@@ -968,11 +969,11 @@ it:
             circular_dependency: "La relazione crea un riferimento circolare."
           attributes:
             to:
-              error_not_found: 'impossibile trovare o visualizzare la macro-attività in posizione "a"'
-              error_readonly: 'impossibile modificare il collegamento ad una relazione esistente "a"'
+              error_not_found: "impossibile trovare o visualizzare la macro-attività in posizione \"a\""
+              error_readonly: "impossibile modificare il collegamento ad una relazione esistente \"a\""
             from:
-              error_not_found: 'impossibile trovare o visualizzare la macro-attività in posizione "da"'
-              error_readonly: 'impossibile modificare il collegamento ad una relazione esistente "da"'
+              error_not_found: "impossibile trovare o visualizzare la macro-attività in posizione \"da\""
+              error_readonly: "impossibile modificare il collegamento ad una relazione esistente \"da\""
         repository:
           not_available: "Il gestore SCM non è disponibile"
           not_whitelisted: "non è consentito dalla configurazione."
@@ -991,6 +992,11 @@ it:
               hours_per_day_are_missing: "Deve essere definito il numero di ore al giorno."
               durations_are_not_positive_numbers: "Le durate devono essere numeri positivi."
               hours_per_day_is_out_of_bounds: "Le ore al giorno non possono essere più di 24."
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "non può essere attivato per gli stati che sono contrassegnati come predefiniti."
         time_entry:
           attributes:
             hours:
@@ -1064,8 +1070,8 @@ it:
             attribute_groups:
               attribute_unknown: "Attributo di macro-attività non valido utilizzato."
               attribute_unknown_name: "Attributo di macro-attività non valido utilizzato: %{attribute}"
-              duplicate_group: 'Il nome di gruppo "%{group}" è usato più di una volta. I nomi dei gruppi devono essere univoci.'
-              query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
+              duplicate_group: "Il nome di gruppo \"%{group}\" è usato più di una volta. I nomi dei gruppi devono essere univoci."
+              query_invalid: "La query incorporata \"%{group}\" non è valida: %{details}"
               group_without_name: "Non sono ammessi gruppi senza nome."
         user:
           attributes:
@@ -1105,8 +1111,6 @@ it:
         version:
           undeletable_archived_projects: "Questa versione non può essere eliminata perché vi sono macro-attività collegate a essa."
           undeletable_work_packages_attached: "Questa versione non può essere eliminata perché vi sono macro-attività collegate a essa."
-        status:
-          readonly_default_exlusive: "non può essere attivato per gli stati che sono contrassegnati come predefiniti."
         token/api:
           attributes:
             token_name:
@@ -1432,7 +1436,7 @@ it:
       long: "%B %d %y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Gennaio"
       - "Febbraio"
@@ -1846,7 +1850,7 @@ it:
   label_ldap_auth_source_new: "Nuova connessione LDAP"
   label_ldap_auth_source: "Connessione LDAP"
   label_ldap_auth_source_plural: "Connessioni LDAP"
-  label_attribute_expand_text: 'Testo completo per "%{attribute}"'
+  label_attribute_expand_text: "Testo completo per \"%{attribute}\""
   label_authentication: "Autenticazione"
   label_available_global_roles: "Ruoli globali disponibili"
   label_available_project_attributes: "Attributi del progetto disponibili"
@@ -2433,7 +2437,7 @@ it:
       removed: "La macro non esiste più."
     wiki_child_pages:
       errors:
-        page_not_found: 'Impossibile trovare la pagina del wiki "%{name}".'
+        page_not_found: "Impossibile trovare la pagina del wiki \"%{name}\"."
     create_work_package_link:
       errors:
         no_project_context: "Chiamando dal contesto progettuale esterno la macro crea_lavoro_pacchetto_link."
@@ -2625,7 +2629,7 @@ it:
   notice_locking_conflict: "L'informazione è stata aggiornata da almeno un altro utente nel frattempo."
   notice_locking_conflict_additional_information: "L'aggiornamento(i) proviene da %{users}."
   notice_locking_conflict_reload_page: "Si prega di ricaricare la pagina, rivedere le modifiche e riapplicare gli aggiornamenti."
-  notice_member_added: "%{name} aggiunto al progetto."
+  notice_member_added: '%{name} aggiunto al progetto.'
   notice_members_added: Aggiunti %{number} utenti al progetto.
   notice_member_removed: "%{user} rimosso dal progetto."
   notice_member_deleted: "%{user} è stato rimosso dal progetto ed eliminato."
@@ -2774,8 +2778,8 @@ it:
   permission_manage_public_bcf_queries: "Gestisci query BCF pubbliche"
   permission_edit_attribute_help_texts: "Modifica i testi guida dell'attributo"
   permission_manage_public_project_queries: "Gestisci elenchi di progetti pubblici"
-  permission_view_project_query: "Visualizza query del progetto"
-  permission_edit_project_query: "Modifica query del progetto"
+  permission_view_project_query: "Visualizza elenco di progetti"
+  permission_edit_project_query: "Modifica elenco di progetti"
   placeholders:
     default: "-"
   project:
@@ -3283,7 +3287,7 @@ it:
     views:
       project: >
         %{plural} sono sempre allegati a un progetto. Qui puoi selezionare solo progetti in cui il modulo %{plural} è attivo. Dopo aver creato un %{singular} puoi aggiungervi macro-attività da altri progetti.
-      public: 'Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso "Gestisci viste pubbliche" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi.'
+      public: "Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso \"Gestisci viste pubbliche\" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi."
       favoured: "Segna questa vista come preferita e aggiungila alla barra laterale delle viste salvate a sinistra."
   time:
     am: "AM"
@@ -3596,7 +3600,7 @@ it:
     application:
       singular: "Applicazione OAuth"
       plural: "Applicazioni OAuth"
-      named: 'Applicazione OAuth "%{name}"'
+      named: "Applicazione OAuth \"%{name}\""
       new: "Nuova Applicazione OAuth"
       default_scopes: "(Ambiti predefiniti)"
       instructions:
@@ -3634,7 +3638,7 @@ it:
       client_credentials: "Flusso delle credenziali client"
     client_credentials: "Utente usato per le credenziali del client"
     client_credentials_impersonation_set_to: "Credenziali del client impostate dall'utente"
-    client_credentials_impersonation_warning: 'Nota: i clienti che utilizzano il flusso "Credenziali client" di questa applicazione avranno i diritti di questo utente'
+    client_credentials_impersonation_warning: "Nota: i clienti che utilizzano il flusso \"Credenziali client\" di questa applicazione avranno i diritti di questo utente"
     client_credentials_impersonation_html: >
       Per impostazione predefinita, OpenProject fornisce l'autorizzazione OAuth 2.0 tramite %{authorization_code_flow_link}. È possibile abilitare facoltativamente %{client_credentials_flow_link}, ma è necessario fornire un utente a cui nome verranno eseguite le richieste.
     authorization_error: "Si è verificato un errore di autorizzazione."

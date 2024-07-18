@@ -301,7 +301,7 @@ es:
       types:
         no_results_title_text: Actualmente no hay tipos disponibles.
         form:
-          enable_type_in_project: "Habilitar tipo «%{type}»"
+          enable_type_in_project: 'Habilitar tipo «%{type}»'
       versions:
         no_results_title_text: Actualmente no hay versiones para este proyecto.
         no_results_content_text: Crear un nueva versión
@@ -401,7 +401,7 @@ es:
       no_results_title_text: Actualmente no hay tokens de acceso disponibles.
       notice_api_token_revoked: "Se ha eliminado el token de la API. Para crear un nuevo token, utilice el botón de la sección API."
       notice_rss_token_revoked: "Se ha eliminado el token RSS. Para crear un nuevo token, utilice el enlace de la sección RSS."
-      notice_ical_token_revoked: "Se ha revocado el token de iCalendar «%{token_name}» para el calendario «%{calendar_name}» del proyecto «%{project_name}». La URL de iCalendar con este token ya no es válida."
+      notice_ical_token_revoked: 'Se ha revocado el token de iCalendar «%{token_name}» para el calendario «%{calendar_name}» del proyecto «%{project_name}». La URL de iCalendar con este token ya no es válida.'
   news:
     index:
       no_results_title_text: No hay noticias sobre las que informar por el momento.
@@ -411,7 +411,7 @@ es:
       prompt: "Permanecer conectado para %{num_days}"
     sessions:
       remembered_devices: "Dispositivos recordados"
-      remembered_devices_caption: 'Una lista de todos los dispositivos que se conectaron a esta cuenta usando la opción "Permanecer conectado".'
+      remembered_devices_caption: "Una lista de todos los dispositivos que se conectaron a esta cuenta usando la opción \"Permanecer conectado\"."
       session_name: "%{browser_name} %{browser_version} en %{os_name}"
       browser: "Navegador"
       device: "Dispositivo / SO"
@@ -528,7 +528,7 @@ es:
     sharing:
       missing_workflow_warning:
         title: "Falta el flujo de trabajo para compartir paquetes de trabajo"
-        message: 'Ningún flujo de trabajo está configurado para el rol ''Editor de paquetes de trabajo''. Sin un flujo de trabajo, el usuario compartido no puede alterar el estado del paquete de trabajo. Los flujos de trabajo pueden ser copiados. Seleccione un tipo de base (por ejemplo, ''Tarea'') y el rol de base (por ejemplo, ''Miembro''). Luego seleccione los tipos de destino. Para empezar, puede seleccionar todos los tipos como objetivos. Por último, seleccione el papel de "Editor de paquetes de trabajo" como objetivo y presione "Copiar". Después de haber creado así los valores predeterminados, ajuste los flujos de trabajo como lo hace para cualquier otro rol.'
+        message: "Ningún flujo de trabajo está configurado para el rol 'Editor de paquetes de trabajo'. Sin un flujo de trabajo, el usuario compartido no puede alterar el estado del paquete de trabajo. Los flujos de trabajo pueden ser copiados. Seleccione un tipo de base (por ejemplo, 'Tarea') y el rol de base (por ejemplo, 'Miembro'). Luego seleccione los tipos de destino. Para empezar, puede seleccionar todos los tipos como objetivos. Por último, seleccione el papel de \"Editor de paquetes de trabajo\" como objetivo y presione \"Copiar\". Después de haber creado así los valores predeterminados, ajuste los flujos de trabajo como lo hace para cualquier otro rol."
         link_message: "Configure un flujo de trabajo en la administración."
     summary:
       reports:
@@ -592,17 +592,6 @@ es:
       attribute_help_text:
         attribute_name: "Atributo"
         help_text: "Texto de ayuda"
-      ldap_auth_source:
-        account: "Cuenta"
-        attr_firstname: "Atributo Nombre"
-        attr_lastname: "Atributo Apellido"
-        attr_login: "Atributo Nombre de usuario"
-        attr_mail: "Atributo Correo electrónico"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Creación automática de usuarios"
-        port: "Puerto"
-        tls_certificate_string: "Certificado SSL del servidor LDAP"
       changeset:
         repository: "Repositorio"
       color:
@@ -627,6 +616,14 @@ es:
         visible: "Visible"
       custom_value:
         value: "Valor"
+      doorkeeper/application:
+        uid: "ID de cliente"
+        secret: "Clave de cliente secreta"
+        owner: "Propietario"
+        redirect_uri: "Redireccionar URI"
+        client_credentials_user_id: "ID de Usuario de Credenciales del Cliente"
+        scopes: "Ámbitos"
+        confidential: "Confidencial"
       enterprise_token:
         starts_at: "Válido desde"
         subscriber: "Suscriptor"
@@ -637,20 +634,25 @@ es:
         row_count: "Número de filas"
         column_count: "Número de columnas"
         widgets: "Widgets"
-      oauth_client:
-        client: "ID de cliente"
-      relation:
-        lag: "Retraso"
-        from: "Paquete de trabajo"
-        to: "Paquete de trabajo relacionado"
-      status:
-        is_closed: "Paquete de trabajo cerrado"
-        is_readonly: "Paquete de trabajo de solo lectura"
-        excluded_from_totals: "Excluir del cálculo de totales en la jerarquía"
       journal:
         notes: "Notas"
+      ldap_auth_source:
+        account: "Cuenta"
+        attr_firstname: "Atributo Nombre"
+        attr_lastname: "Atributo Apellido"
+        attr_login: "Atributo Nombre de usuario"
+        attr_mail: "Atributo Correo electrónico"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Creación automática de usuarios"
+        port: "Puerto"
+        tls_certificate_string: "Certificado SSL del servidor LDAP"
       member:
         roles: "Perfiles"
+      oauth_client:
+        client: "ID de cliente"
+      planning_element_type_color:
+        hexcode: Código hexadecimal
       project:
         active_value:
           true: "desarchivado"
@@ -680,6 +682,8 @@ es:
         types: "Tipos"
         versions: "Versiones"
         work_packages: "Paquetes de trabajo"
+      project_custom_field:
+        custom_field_section: Sección
       query:
         column_names: "Columnas"
         relations_to_type_column: "Relaciones con %{type}"
@@ -687,10 +691,19 @@ es:
         group_by: "Resultados de grupo por"
         filters: "Filtros"
         timeline_labels: "Etiquetas de cronograma"
+      relation:
+        lag: "Retraso"
+        from: "Paquete de trabajo"
+        to: "Paquete de trabajo relacionado"
       repository:
         url: "URL"
       role:
         permissions: "Permisos"
+      status:
+        is_closed: "Paquete de trabajo cerrado"
+        is_readonly: "Paquete de trabajo de solo lectura"
+        excluded_from_totals: "Excluir del cálculo de totales en la jerarquía"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Actividad"
         hours: "Horas"
@@ -733,10 +746,6 @@ es:
       wiki_page:
         parent_title: "Página Padre"
         redirect_existing_links: "Redirigir los enlaces existentes"
-      planning_element_type_color:
-        hexcode: Código hexadecimal
-      project_custom_field:
-        custom_field_section: Sección
       work_package:
         begin_insertion: "Inicio de la inserción"
         begin_deletion: "Inicio de la eliminación"
@@ -771,14 +780,6 @@ es:
         type: "Tipo"
         version: "Versión"
         watcher: "Observador"
-      "doorkeeper/application":
-        uid: "ID de cliente"
-        secret: "Clave de cliente secreta"
-        owner: "Propietario"
-        redirect_uri: "Redireccionar URI"
-        client_credentials_user_id: "ID de Usuario de Credenciales del Cliente"
-        scopes: "Ámbitos"
-        confidential: "Confidencial"
     errors:
       messages:
         accepted: "debe ser aceptado."
@@ -991,6 +992,11 @@ es:
               hours_per_day_are_missing: "Debe definirse el número de horas diarias."
               durations_are_not_positive_numbers: "Las duraciones deben ser números positivos."
               hours_per_day_is_out_of_bounds: "Las horas al día no pueden ser más de 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "no se puede activar para los estados marcados como predeterminados."
         time_entry:
           attributes:
             hours:
@@ -1105,8 +1111,6 @@ es:
         version:
           undeletable_archived_projects: "La versión no puede borrarse cuando tiene paquetes de trabajos adjuntos."
           undeletable_work_packages_attached: "La versión no puede borrarse cuando tiene paquetes de trabajos adjuntos."
-        status:
-          readonly_default_exlusive: "no se puede activar para los estados marcados como predeterminados."
         token/api:
           attributes:
             token_name:
@@ -1377,7 +1381,7 @@ es:
     text_update_consent_time: Marque esta casilla para estimular a los usuarios a dar, nuevamente, su consentimiento. Habilite cuando haya cambiado el aspecto legal de la información relativa al mencionado consentimiento.
     update_consent_last_time: "Última actualización de consentimiento: %{update_time}"
   copy_project:
-    title: "Copiar proyecto «%{source_project_name}»"
+    title: 'Copiar proyecto «%{source_project_name}»'
     started: 'Comenzó la copia del proyecto ''%{source_project_name}'' a "%{target_project_name}". Se le informará por correo tan pronto como esté disponible el proyecto "%{target_project_name}".'
     failed: "No se puede copiar proyecto %{source_project_name}"
     failed_internal: "Copia fallida debido a un error interno."
@@ -1432,7 +1436,7 @@ es:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Enero"
       - "Febrero"
@@ -1447,9 +1451,9 @@ es:
       - "Noviembre"
       - "Diciembre"
     order:
-      - ":año"
+      - ':año'
       - :mes
-      - ":día"
+      - ':día'
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1830,7 +1834,7 @@ es:
   label_api_access_key_created_on: "Código de acceso API creado  hace %{value}"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "Token de iCalendar «%{token_name}» para «%{calendar_name}» en «%{project_name}»"
+  label_ical_access_key_description: 'Token de iCalendar «%{token_name}» para «%{calendar_name}» en «%{project_name}»'
   label_ical_access_key_not_present: "Token(s) de iCalendar no presente(s)."
   label_ical_access_key_generation_hint: "Se genera automáticamente al suscribirse a un calendario."
   label_ical_access_key_latest: "último"
@@ -2493,12 +2497,12 @@ es:
         plaintext:
           storage: "Almacenamiento"
           healthy:
-            summary: "¡Buenas noticias! El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Sano»."
+            summary: '¡Buenas noticias! El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Sano».'
             error-solved-on: "Resuelto el"
             recommendation: "Seguiremos supervisando el sistema para asegurarnos de que sigue gozando de buena salud. En caso de discrepancias, se lo notificaremos."
             details: "Para más detalles o para realizar las modificaciones necesarias, puede visitar su configuración de almacenamiento"
           unhealthy:
-            summary: "El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Error». Hemos detectado un problema que podría requerir su atención."
+            summary: 'El estado de su almacenamiento, %{storage_name}, se muestra actualmente como «Error». Hemos detectado un problema que podría requerir su atención.'
             error-details: "Detalles del error"
             error-message: "Mensaje de error"
             error-occurred-on: "Ocurrido el"
@@ -2507,11 +2511,11 @@ es:
         email_notification_settings: "Ajustes de notificación por correo electrónico de almacenamiento"
         see_storage_settings: "Ver ajustes de almacenamiento"
         healthy:
-          subject: "¡El almacenamiento «%{name}» está ahora sano!"
+          subject: '¡El almacenamiento «%{name}» está ahora sano!'
           solved_at: "resuelto el"
           summary: "El problema con la integración de su almacenamiento %{storage_name} ya está resuelto"
         unhealthy:
-          subject: "¡El almacenamiento «%{name}» no está sano!"
+          subject: '¡El almacenamiento «%{name}» no está sano!'
           since: "desde"
           summary: "Hay un problema con la integración de su almacenamiento %{storage_name}."
           troubleshooting:
@@ -2545,9 +2549,9 @@ es:
   mail_body_register_closing: "Tu equipo de OpenProject"
   mail_body_register_ending: "¡Mantente conectado! Saludos,"
   mail_body_reminder: "%{count} paquete(s) de trabajo que le fueron asignados vencen en los próximos %{days}:"
-  mail_body_group_reminder: "%{count} paquete(s) de trabajo asignado(s) al grupo “%{group}” vencerán en los próximos %{days} días:"
-  mail_body_wiki_page_added: 'La página wiki "%{id}" ha sido añadida por %{author}.'
-  mail_body_wiki_page_updated: 'La página wiki "%{id}" ha sido actualizada por %{author}.'
+  mail_body_group_reminder: '%{count} paquete(s) de trabajo asignado(s) al grupo “%{group}” vencerán en los próximos %{days} días:'
+  mail_body_wiki_page_added: "La página wiki \"%{id}\" ha sido añadida por %{author}."
+  mail_body_wiki_page_updated: "La página wiki \"%{id}\" ha sido actualizada por %{author}."
   mail_subject_account_activation_request: "solicitud de activación de cuenta de %{value}"
   mail_subject_backup_ready: "La copia de seguridad está preparada"
   mail_subject_backup_token_reset: "Resetear token de respaldo"
@@ -3105,7 +3109,7 @@ es:
       first_week_of_year_text_html: >
         Seleccione la fecha de enero contenida en la primera semana del año. Este valor, junto con el primer día de la semana, determina el número total de semanas de un año. Para más información, consulte nuestra <a href="%{link}" target="_blank">documentación</a> sobre este tema.
     experimental:
-      save_confirmation: "¡Precaución! ¡Riesgo de pérdida de datos! Active las funciones experimentales solo si no le importa romper su instalación de OpenProject y perder todos sus datos."
+      save_confirmation: '¡Precaución! ¡Riesgo de pérdida de datos! Active las funciones experimentales solo si no le importa romper su instalación de OpenProject y perder todos sus datos.'
       warning_toast: Las banderas de funciones son ajustes que activan características que aún están en desarrollo. Solo se utilizarán con fines de prueba. Nunca deberán activarse en instalaciones de OpenProject que contengan datos importantes. Es muy probable que estas características corrompan sus datos. Utilícelas bajo su propia responsabilidad.
       feature_flags: Banderas de características
     general: "General"
@@ -3384,7 +3388,7 @@ es:
         La aplicación se ejecuta con el nombre de host <code>%{set_hostname}</code>, pero el nombre de host de la solicitud es <code>%{actual_hostname}</code>. Se producirán errores. Vaya a <a href="%{setting_path}">Ajustes de sistema</a> y cambie la configuración de «Nombre de host» para corregir este problema.
   menu_item: "Elemento de menú"
   menu_item_setting: "Visibilidad"
-  wiki_menu_item_for: "Elemento de menú para wiki '%{title}'"
+  wiki_menu_item_for: 'Elemento de menú para wiki ''%{title}'''
   wiki_menu_item_setting: "Visibilidad"
   wiki_menu_item_new_main_item_explanation: >
     Usted esta eliminando el único elemento de menú wiki principal. Ahora tiene que elegir un wiki para el cual un nuevo elemento de menú principal será generado. Para eliminar el wiki, éste módulo puede ser desactivado por los administradores del proyecto.
@@ -3545,7 +3549,7 @@ es:
     resources:
       schema: "Esquema"
     undisclosed:
-      parent: "Oculto: el elemento primario seleccionado no se muestra porque no tiene los permisos necesarios."
+      parent: 'Oculto: el elemento primario seleccionado no se muestra porque no tiene los permisos necesarios.'
       ancestor: No revelado - El antepasado es invisible por falta de permisos.
   doorkeeper:
     pre_authorization:

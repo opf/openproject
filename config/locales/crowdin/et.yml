@@ -595,17 +595,6 @@ et:
       attribute_help_text:
         attribute_name: "Atribuut"
         help_text: "Abitekst"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Eesnimi"
-        attr_lastname: "Perekonnanimi"
-        attr_login: "Username attribute"
-        attr_mail: "E-posti aadress"
-        base_dn: "Põhiline domeeninimi"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Hoidla"
       color:
@@ -630,6 +619,14 @@ et:
         visible: "Nähtav"
       custom_value:
         value: "Väärtus"
+      doorkeeper/application:
+        uid: "Kliendi ID"
+        secret: "Kliendi salasõna"
+        owner: "Omanik"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Konfidentsiaalne"
       enterprise_token:
         starts_at: "Kehtib alates"
         subscriber: "Tellija"
@@ -640,20 +637,25 @@ et:
         row_count: "Ridade arv"
         column_count: "Veergude arv"
         widgets: "Vidinad"
-      oauth_client:
-        client: "Kliendi ID"
-      relation:
-        lag: "Lag"
-        from: "Teema"
-        to: "Seotud teema"
-      status:
-        is_closed: "Teema on suletud"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Märkmed"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Eesnimi"
+        attr_lastname: "Perekonnanimi"
+        attr_login: "Username attribute"
+        attr_mail: "E-posti aadress"
+        base_dn: "Põhiline domeeninimi"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Rollid"
+      oauth_client:
+        client: "Kliendi ID"
+      planning_element_type_color:
+        hexcode: Hex kood
       project:
         active_value:
           true: "unarchived"
@@ -683,6 +685,8 @@ et:
         types: "Tüübid"
         versions: "Versioonid"
         work_packages: "Teemad"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Väljad"
         relations_to_type_column: "Relations to %{type}"
@@ -690,10 +694,19 @@ et:
         group_by: "Grupeeri tulemused"
         filters: "Filtrid"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "Teema"
+        to: "Seotud teema"
       repository:
         url: "URL"
       role:
         permissions: "Õigused"
+      status:
+        is_closed: "Teema on suletud"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Tegevus"
         hours: "Tunnid"
@@ -736,10 +749,6 @@ et:
       wiki_page:
         parent_title: "Pärineb lehelt"
         redirect_existing_links: "Suuna olemasolevad lingid ümber"
-      planning_element_type_color:
-        hexcode: Hex kood
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Sisestamise algus"
         begin_deletion: "Kustutamise algus"
@@ -774,14 +783,6 @@ et:
         type: "Tüüp"
         version: "Versioon"
         watcher: "Jälgija"
-      "doorkeeper/application":
-        uid: "Kliendi ID"
-        secret: "Kliendi salasõna"
-        owner: "Omanik"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Konfidentsiaalne"
     errors:
       messages:
         accepted: "must be accepted."
@@ -994,6 +995,11 @@ et:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1080,7 +1086,7 @@ et:
               format: "%{message}"
             password:
               weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
-              lowercase: 'väiketäht (näiteks "a")'
+              lowercase: "väiketäht (näiteks \"a\")"
               uppercase: "suurtäht (näiteks 'A')"
               numeric: "arvuline (nt 1, 2, 3)"
               special: "erimärk (nt %, &)"
@@ -1108,8 +1114,6 @@ et:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1316,7 +1320,7 @@ et:
   button_download: "Laadi alla"
   button_duplicate: "Duplitseeri"
   button_edit: "Muuda"
-  button_edit_associated_wikipage: 'Muuda seotud vikilehte "%{page_title}"'
+  button_edit_associated_wikipage: "Muuda seotud vikilehte \"%{page_title}\""
   button_expand_all: "Laienda kõik"
   button_favorite: "Add to favorites"
   button_filter: "Filter"
@@ -1435,7 +1439,7 @@ et:
       long: "%d %B %Y"
       short: "%d %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "jaanuar"
       - "veebruar"
@@ -1452,7 +1456,7 @@ et:
     order:
       - :aasta
       - :kuu
-      - ":päev"
+      - ':päev'
   datetime:
     distance_in_words:
       about_x_hours:
@@ -2368,7 +2372,7 @@ et:
   label_wiki_navigation: "Viki navigeerimine"
   label_wiki_page: "Viki leht"
   label_wiki_page_plural: "Viki lehed"
-  label_wiki_show_index_page_link: 'Kuva alammenüü valik "Sisukord"'
+  label_wiki_show_index_page_link: "Kuva alammenüü valik \"Sisukord\""
   label_wiki_show_menu_item: "Näita lehe nime projektimenüüs"
   label_wiki_show_new_page_link: "Näita alammenüüs valikut 'Loo uus alamleht'"
   label_wiki_show_submenu_item: "Näita kui alammenüüd (<--) "
@@ -2549,16 +2553,16 @@ et:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} Sulle määratud teema tähtaeg jõuab kätte järgmise %{days} päeva jooksul:"
   mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
-  mail_body_wiki_page_added: 'Kasutaja %{author} lisas uue lehekülje "%{id}" vikisse.'
-  mail_body_wiki_page_updated: 'Kasutaja %{author} toimetas lehekülje "%{id}" sisu vikis.'
+  mail_body_wiki_page_added: "Kasutaja %{author} lisas uue lehekülje \"%{id}\" vikisse."
+  mail_body_wiki_page_updated: "Kasutaja %{author} toimetas lehekülje \"%{id}\" sisu vikis."
   mail_subject_account_activation_request: "%{value} konto aktiveerimise nõuet"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
-  mail_subject_lost_password: 'Sinu "%{value}" parool'
-  mail_subject_register: 'Sinu "%{value}" konto aktiveerimine'
-  mail_subject_wiki_content_added: 'Lisatud vikileht "%{id}"'
-  mail_subject_wiki_content_updated: 'Uuendatud vikileht "%{id}"'
+  mail_subject_lost_password: "Sinu \"%{value}\" parool"
+  mail_subject_register: "Sinu \"%{value}\" konto aktiveerimine"
+  mail_subject_wiki_content_added: "Lisatud vikileht \"%{id}\""
+  mail_subject_wiki_content_updated: "Uuendatud vikileht \"%{id}\""
   mail_member_added_project:
     subject: "%{project} - You have been added as a member"
     body:

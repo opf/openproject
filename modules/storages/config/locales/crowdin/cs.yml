@@ -23,7 +23,7 @@ cs:
             project_folder_mode:
               mode_unavailable: není k dispozici pro toto úložiště.
             project_ids:
-              blank: Please select a project.
+              blank: Zvolte prosím skupinu.
         storages/storage:
           attributes:
             host:
@@ -58,7 +58,7 @@ cs:
   project_storages:
     project_folder_mode:
       automatic: Automatically managed
-      inactive: No specific folder
+      inactive: Žádná specifická složka
       manual: Existing folder manually managed
   storages:
     buttons:

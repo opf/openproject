@@ -590,17 +590,6 @@ vi:
       attribute_help_text:
         attribute_name: "Thuộc tính"
         help_text: "Văn bản trợ giúp"
-      ldap_auth_source:
-        account: "Tài khoản"
-        attr_firstname: "Thuộc tính tên"
-        attr_lastname: "Thuộc tính Họ"
-        attr_login: "Thuộc tính tên người dùng"
-        attr_mail: "Thuộc tính Email"
-        base_dn: "DN căn bản"
-        host: "Máy chủ"
-        onthefly: "Tự động tạo người dùng"
-        port: "Cổng"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Kho lưu trữ"
       color:
@@ -625,6 +614,14 @@ vi:
         visible: "Hiển thị"
       custom_value:
         value: "Giá trị"
+      doorkeeper/application:
+        uid: "ID Khách hàng"
+        secret: "Bí mật khách hàng"
+        owner: "Người sở hữu"
+        redirect_uri: "URI đổi hướng"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Phạm vi"
+        confidential: "Bí mật"
       enterprise_token:
         starts_at: "Có hiệu lực kể từ"
         subscriber: "Người đăng ký"
@@ -635,20 +632,25 @@ vi:
         row_count: "Số dòng"
         column_count: "Số cột"
         widgets: "Tiện ích"
-      oauth_client:
-        client: "ID Khách hàng"
-      relation:
-        lag: "Lag"
-        from: "Work Package"
-        to: "Work package liên quan"
-      status:
-        is_closed: "Work package đã đóng"
-        is_readonly: "Work package chỉ đọc"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Ghi chú"
+      ldap_auth_source:
+        account: "Tài khoản"
+        attr_firstname: "Thuộc tính tên"
+        attr_lastname: "Thuộc tính Họ"
+        attr_login: "Thuộc tính tên người dùng"
+        attr_mail: "Thuộc tính Email"
+        base_dn: "DN căn bản"
+        host: "Máy chủ"
+        onthefly: "Tự động tạo người dùng"
+        port: "Cổng"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Vai trò"
+      oauth_client:
+        client: "ID Khách hàng"
+      planning_element_type_color:
+        hexcode: Mã Hex
       project:
         active_value:
           true: "unarchived"
@@ -678,6 +680,8 @@ vi:
         types: "Các loại"
         versions: "Các phiên bản"
         work_packages: "Work Packages"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Cột"
         relations_to_type_column: "Quan hệ với %{type}"
@@ -685,10 +689,19 @@ vi:
         group_by: "Nhóm kết quả bởi"
         filters: "Bộ lọc"
         timeline_labels: "Nhãn dòng thời gian"
+      relation:
+        lag: "Lag"
+        from: "Work Package"
+        to: "Work package liên quan"
       repository:
         url: "Đường dẫn (URL)"
       role:
         permissions: "Phân Quyền"
+      status:
+        is_closed: "Work package đã đóng"
+        is_readonly: "Work package chỉ đọc"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Hoạt động"
         hours: "Giờ"
@@ -731,10 +744,6 @@ vi:
       wiki_page:
         parent_title: "Trang mẹ"
         redirect_existing_links: "Chuyển hướng các liên kết hiện có"
-      planning_element_type_color:
-        hexcode: Mã Hex
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Bắt đầu chèn"
         begin_deletion: "Bắt đầu xóa"
@@ -769,14 +778,6 @@ vi:
         type: "Kiểu"
         version: "Phiên bản"
         watcher: "Người quan sát"
-      "doorkeeper/application":
-        uid: "ID Khách hàng"
-        secret: "Bí mật khách hàng"
-        owner: "Người sở hữu"
-        redirect_uri: "URI đổi hướng"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Phạm vi"
-        confidential: "Bí mật"
     errors:
       messages:
         accepted: "phải được đồng ý"
@@ -989,6 +990,11 @@ vi:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1102,8 +1108,6 @@ vi:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1421,7 +1425,7 @@ vi:
       long: "%d %B, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Tháng Một"
       - "Tháng hai"
@@ -1436,9 +1440,9 @@ vi:
       - "Tháng Mười một"
       - "Tháng mười hai"
     order:
-      - ":năm"
-      - ":tháng"
-      - ":ngày"
+      - ':năm'
+      - ':tháng'
+      - ':ngày'
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1555,7 +1559,7 @@ vi:
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
   error_no_default_work_package_status: 'Không có tình trạng mặc định được định nghĩa cho work package. Vui lòng kiểm tra cấu hình của bạn (đi đến "Quản lý-> các trạng thái của work package").'
-  error_no_type_in_project: 'Không có kiểu được liên kết với dự án này. Hãy kiểm tra lại phần "Thiết Lập Dự Án".'
+  error_no_type_in_project: "Không có kiểu được liên kết với dự án này. Hãy kiểm tra lại phần \"Thiết Lập Dự Án\"."
   error_omniauth_registration_timed_out: "Đăng ký thông qua một nhà cung cấp bên ngoài xác thực hết thời gian. Xin vui lòng thử lại."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_password_change_failed: "An error occurred when trying to change the password."

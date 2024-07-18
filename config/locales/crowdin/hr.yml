@@ -602,17 +602,6 @@ hr:
       attribute_help_text:
         attribute_name: "Atribut"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "Korisnički račun"
-        attr_firstname: "Atribut Ime"
-        attr_lastname: "Atribut Prezime"
-        attr_login: "Username attribute"
-        attr_mail: "Email atribut"
-        base_dn: "Temeljni DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorij"
       color:
@@ -637,6 +626,14 @@ hr:
         visible: "Vidljiv"
       custom_value:
         value: "Vrijednost"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Pretplatnik"
@@ -647,20 +644,25 @@ hr:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "Radni paket"
-        to: "Pripadajući radni paket"
-      status:
-        is_closed: "Radni paket zatvoren"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Bilješke"
+      ldap_auth_source:
+        account: "Korisnički račun"
+        attr_firstname: "Atribut Ime"
+        attr_lastname: "Atribut Prezime"
+        attr_login: "Username attribute"
+        attr_mail: "Email atribut"
+        base_dn: "Temeljni DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Role"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: Heksadecimalni kod
       project:
         active_value:
           true: "unarchived"
@@ -690,6 +692,8 @@ hr:
         types: "Tipovi"
         versions: "Verzije"
         work_packages: "Radni paketi"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Stupci"
         relations_to_type_column: "Relations to %{type}"
@@ -697,10 +701,19 @@ hr:
         group_by: "Grupiraj rezultate po"
         filters: "Filteri"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "Radni paket"
+        to: "Pripadajući radni paket"
       repository:
         url: "URL"
       role:
         permissions: "Dozvole"
+      status:
+        is_closed: "Radni paket zatvoren"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivnost"
         hours: "Sati"
@@ -743,10 +756,6 @@ hr:
       wiki_page:
         parent_title: "Nadređena stranica"
         redirect_existing_links: "Preusmjeri postojeće poveznice"
-      planning_element_type_color:
-        hexcode: Heksadecimalni kod
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Početak umetanja"
         begin_deletion: "Početak brisanja"
@@ -781,14 +790,6 @@ hr:
         type: "Tip"
         version: "Verzija"
         watcher: "Nadglednik"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "mora biti prihvaćeno."
@@ -1001,6 +1002,11 @@ hr:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1116,8 +1122,6 @@ hr:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1451,7 +1455,7 @@ hr:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Siječanj"
       - "Veljača"

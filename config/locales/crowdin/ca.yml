@@ -48,7 +48,7 @@ ca:
         main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Personalitza la teva instal·lació d'OpenProject amb el teu propi logotip i colors."
-      enterprise_notice: 'Com un "Gràcies!" especial per la contribució financera al desenvolupament d''OpenProject, aquesta petita extensió només està disponible pels subscriptors de l''edició Enterprise.'
+      enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquesta petita extensió només està disponible pels subscriptors de l'edició Enterprise."
       enterprise_more_info: "Nota: el logotip utilitzat serà accessible públicament."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
@@ -411,7 +411,7 @@ ca:
       prompt: "Manté la sessió iniciada durant %{num_days}"
     sessions:
       remembered_devices: "Dispositius recordats"
-      remembered_devices_caption: 'Una llista de tots els dispositius que han iniciat sessió en aquest compte mitjançant l''opció "Mantenir la sessió iniciada".'
+      remembered_devices_caption: "Una llista de tots els dispositius que han iniciat sessió en aquest compte mitjançant l'opció \"Mantenir la sessió iniciada\"."
       session_name: "%{browser_name}%{browser_version} en %{os_name}"
       browser: "Navegador"
       device: "Dispositiu / Sistema Operatiu"
@@ -591,17 +591,6 @@ ca:
       attribute_help_text:
         attribute_name: "Atribut"
         help_text: "Text d'ajuda"
-      ldap_auth_source:
-        account: "Compte"
-        attr_firstname: "Atribut Nom"
-        attr_lastname: "Atribut Cognom"
-        attr_login: "Atribut Nom d'usuari"
-        attr_mail: "Atribut de Correu electrònic"
-        base_dn: "Base DN"
-        host: "Servidor"
-        onthefly: "Creació d'usuari automàtica"
-        port: "Port"
-        tls_certificate_string: "Servidor LDAP del certificat SSL"
       changeset:
         repository: "Repositori"
       color:
@@ -626,6 +615,14 @@ ca:
         visible: "Visible"
       custom_value:
         value: "Valor"
+      doorkeeper/application:
+        uid: "ID de Client"
+        secret: "Clau secreta del Client"
+        owner: "Propietari"
+        redirect_uri: "URI de redirecció"
+        client_credentials_user_id: "ID d'Usuari Credencials de Client"
+        scopes: "Àmbits"
+        confidential: "Confidencial"
       enterprise_token:
         starts_at: "Vàlid des de"
         subscriber: "Subscriptor"
@@ -636,20 +633,25 @@ ca:
         row_count: "Nombre de files"
         column_count: "Nombre de columnes"
         widgets: "Widgets"
-      oauth_client:
-        client: "ID de client"
-      relation:
-        lag: "Retard"
-        from: "Paquet de treball"
-        to: "Paquet de treball relacionat"
-      status:
-        is_closed: "Paquet de treball tancat"
-        is_readonly: "Paquet de treball en sols lectura"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notes"
+      ldap_auth_source:
+        account: "Compte"
+        attr_firstname: "Atribut Nom"
+        attr_lastname: "Atribut Cognom"
+        attr_login: "Atribut Nom d'usuari"
+        attr_mail: "Atribut de Correu electrònic"
+        base_dn: "Base DN"
+        host: "Servidor"
+        onthefly: "Creació d'usuari automàtica"
+        port: "Port"
+        tls_certificate_string: "Servidor LDAP del certificat SSL"
       member:
         roles: "Rol"
+      oauth_client:
+        client: "ID de client"
+      planning_element_type_color:
+        hexcode: Codi hexadecimal
       project:
         active_value:
           true: "desarxivat"
@@ -679,6 +681,8 @@ ca:
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
+      project_custom_field:
+        custom_field_section: Secció
       query:
         column_names: "Columnes"
         relations_to_type_column: "Relacions a %{type}"
@@ -686,10 +690,19 @@ ca:
         group_by: "Agrupa els resultats per"
         filters: "Filtres"
         timeline_labels: "Etiquetes de cronologia"
+      relation:
+        lag: "Retard"
+        from: "Paquet de treball"
+        to: "Paquet de treball relacionat"
       repository:
         url: "URL"
       role:
         permissions: "Permisos"
+      status:
+        is_closed: "Paquet de treball tancat"
+        is_readonly: "Paquet de treball en sols lectura"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Activitat"
         hours: "Hores"
@@ -732,10 +745,6 @@ ca:
       wiki_page:
         parent_title: "Pàgina principal"
         redirect_existing_links: "Redirigeix els enllaços existents"
-      planning_element_type_color:
-        hexcode: Codi hexadecimal
-      project_custom_field:
-        custom_field_section: Secció
       work_package:
         begin_insertion: "Inici de la inserció"
         begin_deletion: "Inici de la supressió"
@@ -770,14 +779,6 @@ ca:
         type: "Classe"
         version: "Versió"
         watcher: "Observador"
-      "doorkeeper/application":
-        uid: "ID de Client"
-        secret: "Clau secreta del Client"
-        owner: "Propietari"
-        redirect_uri: "URI de redirecció"
-        client_credentials_user_id: "ID d'Usuari Credencials de Client"
-        scopes: "Àmbits"
-        confidential: "Confidencial"
     errors:
       messages:
         accepted: "hauran de ser acceptats."
@@ -912,7 +913,7 @@ ca:
             base:
               unsupported_operator: "L'operador no és suportat."
               invalid_values: "Un valor és invàlid."
-              id_filter_required: 'Un filtre "ID" és necessari.'
+              id_filter_required: "Un filtre \"ID\" és necessari."
         project:
           archived_ancestor: "El projecte té un ancestre arxivat."
           foreign_wps_reference_version: "Els paquets de treball en projectes no descendents referencien versions del projecte o els seus descendents."
@@ -922,7 +923,7 @@ ca:
             types:
               in_use_by_work_packages: "encara en ús pels paquets de treball: %{types}"
             enabled_modules:
-              dependency_missing: 'El mòdul "%{dependency}" necessita ser activat també, ja que el mòdul "%{module}" en depèn.'
+              dependency_missing: "El mòdul \"%{dependency}\" necessita ser activat també, ja que el mòdul \"%{module}\" en depèn."
               format: "%{message}"
         project_custom_field_project_mapping:
           attributes:
@@ -948,10 +949,10 @@ ca:
               forbidden: "La marca horària conté valors prohibits: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: 'S''ha d''incloure la columna "Nom".'
+              name_not_included: "S'ha d'incloure la columna \"Nom\"."
               nonexistent: "La columna '%{column}' no existeix."
               format: "%{message}"
-          group_by_hierarchies_exclusive: 'és mútuament exclusiu amb el grup per "%{group_by}". No pots activar els dos.'
+          group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
           can_only_be_modified_by_owner: "The query can only be modified by its owner."
           need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
@@ -967,11 +968,11 @@ ca:
             circular_dependency: "La relació crea un cercle de relacions."
           attributes:
             to:
-              error_not_found: 'paquet de treball en posició "cap a" no trobada o no visible'
-              error_readonly: 'una relació d''enllaç existent "cap a" és inamovible'
+              error_not_found: "paquet de treball en posició \"cap a\" no trobada o no visible"
+              error_readonly: "una relació d'enllaç existent \"cap a\" és inamovible"
             from:
-              error_not_found: 'paquet de treball en posició "des de" no trobada o no visible'
-              error_readonly: 'una relació d''enllaç existent "des de" és inamovible'
+              error_not_found: "paquet de treball en posició \"des de\" no trobada o no visible"
+              error_readonly: "una relació d'enllaç existent \"des de\" és inamovible"
         repository:
           not_available: "El proveïdor SCM no està disponible"
           not_whitelisted: "no està permès per la configuració."
@@ -981,7 +982,7 @@ ca:
         role:
           attributes:
             permissions:
-              dependency_missing: 'també ha d''incloure "%{dependency}" ja que "%{permission}" està seleccionat.'
+              dependency_missing: "també ha d'incloure \"%{dependency}\" ja que \"%{permission}\" està seleccionat."
         setting:
           attributes:
             base:
@@ -990,6 +991,11 @@ ca:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "no pot ser activat per estats que estan marcats per defecte."
         time_entry:
           attributes:
             hours:
@@ -1014,7 +1020,7 @@ ca:
           error_conflict: "La pàgina wiki ha estat actualitzada per algú més mentre l'estàs editant."
           attributes:
             slug:
-              undeducible: 'no pot ser deduït del títol "%{title}".'
+              undeducible: "no pot ser deduït del títol \"%{title}\"."
         work_package:
           is_not_a_valid_target_for_time_entries: "Treball paquet #%{id} no és un objectiu vàlid per a reassignar les entrades de temps."
           attributes:
@@ -1063,8 +1069,8 @@ ca:
             attribute_groups:
               attribute_unknown: "L'atribut de paquet de treball utilitzat és invàlid."
               attribute_unknown_name: "L'atribut de paquet de treball utilitzat és invàlid: %{attribute}"
-              duplicate_group: 'El nom del grup "%{group}" ja està utilitzat. El nom del grup ha de ser únic.'
-              query_invalid: 'La consulta incrustrada "%{group}" és invàlida: %{details}'
+              duplicate_group: "El nom del grup \"%{group}\" ja està utilitzat. El nom del grup ha de ser únic."
+              query_invalid: "La consulta incrustrada \"%{group}\" és invàlida: %{details}"
               group_without_name: "No estan permesos els grups sense nom."
         user:
           attributes:
@@ -1076,10 +1082,10 @@ ca:
               format: "%{message}"
             password:
               weak: "Ha de contenir caràcters de les següents classes (com a mínim %{min_count} de %{all_count}): %{rules}."
-              lowercase: 'minúscules (ex. "a")'
+              lowercase: "minúscules (ex. \"a\")"
               uppercase: "majúscules (p. ex. ' A')"
-              numeric: 'numèric (p. ex. "1")'
-              special: 'especials (per exemple "%")'
+              numeric: "numèric (p. ex. \"1\")"
+              special: "especials (per exemple \"%\")"
               reused:
                 one: "s'ha utilitzat abans. Si us plau, tria una que sigui diferent de l'anterior."
                 other: "s'ha utilitzat abans. Si us plau tria una que sigui diferent de les anteriors %{count}."
@@ -1104,8 +1110,6 @@ ca:
         version:
           undeletable_archived_projects: "La versió no es pot eliminar, ja que té paquets de treball adjunts."
           undeletable_work_packages_attached: "La versió no es pot eliminar, ja que té paquets de treball adjunts."
-        status:
-          readonly_default_exlusive: "no pot ser activat per estats que estan marcats per defecte."
         token/api:
           attributes:
             token_name:
@@ -1431,7 +1435,7 @@ ca:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Gener"
       - "Febrer"
@@ -1549,7 +1553,7 @@ ca:
   enumeration_activities: "Activitats de rastrejament del temps"
   enumeration_work_package_priorities: "Prioritats dels paquets de treball"
   enumeration_reported_project_statuses: "Estats de projecte notificats"
-  error_auth_source_sso_failed: 'Inici de sessió únic (SSO) per usuari "%{value}" fallat'
+  error_auth_source_sso_failed: "Inici de sessió únic (SSO) per usuari \"%{value}\" fallat"
   error_can_not_archive_project: "Aquest projecte no es pot arxivar: %{errors}"
   error_can_not_delete_entry: "No s'ha pogut esborrar l'entrada"
   error_can_not_delete_custom_field: "No s'ha pogut suprimir el camp personalitat"
@@ -1577,7 +1581,7 @@ ca:
   error_journal_attribute_not_present: "El diari no conté l'atribut %{attribute}."
   error_pdf_export_too_many_columns: "Masses columnes seleccionades per a l'exportació PDF. Si us plau, redueix el nombre de columnes."
   error_pdf_failed_to_export: "No s'ha pogut guardar l'exportació PDF: %{error}"
-  error_token_authenticity: 'No s''ha pogut verificar el token de "Cross-Site Request Forgery". Has provat de sotmetre les dades en múltiples navegadors o pestanyes? Si us plau, tanca totes les pestanyes i prova-ho de nou.'
+  error_token_authenticity: "No s'ha pogut verificar el token de \"Cross-Site Request Forgery\". Has provat de sotmetre les dades en múltiples navegadors o pestanyes? Si us plau, tanca totes les pestanyes i prova-ho de nou."
   error_work_package_not_found_in_project: "El paquet de treball no s'ha trobat o no pertany a aquest projecte"
   error_must_be_project_member: "ha de ser membre del projecte"
   error_migrations_are_pending: "La teva instal·lació d'OpenProject té migracions de base de dades pendents. Probablement no vas fer les migracions en la teva última actualització. Si us plau, comprova la guia d'actualització per actualitzar la teva instal·lació correctament."
@@ -2082,7 +2086,7 @@ ca:
   label_custom_export_cover_text_color: "Text color"
   label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Favicon personalitzat"
-  label_custom_touch_icon: 'Icona "touch" personalitzada'
+  label_custom_touch_icon: "Icona \"touch\" personalitzada"
   label_logout: "Tancar sessió"
   label_main_menu: "Menú lateral"
   label_manage: "Manage"
@@ -2432,11 +2436,11 @@ ca:
       removed: "La macro ja no existeix."
     wiki_child_pages:
       errors:
-        page_not_found: 'No s''ha pogut trobar la pàgina wiki "%{name}".'
+        page_not_found: "No s'ha pogut trobar la pàgina wiki \"%{name}\"."
     create_work_package_link:
       errors:
-        no_project_context: 'Cridant a la macro "create_work_package_link" des de fora del context del projecte.'
-        invalid_type: 'Cap classe trobada amb el nom "%{type}" en el projecte "%{project}".'
+        no_project_context: "Cridant a la macro \"create_work_package_link\" des de fora del context del projecte."
+        invalid_type: "Cap classe trobada amb el nom \"%{type}\" en el projecte \"%{project}\"."
       link_name: "Paquet de treball nou"
       link_name_type: "Nou %{type_name}"
   mail:
@@ -2557,15 +2561,15 @@ ca:
     subject: "%{project} - S'et ha afegit com a membre"
     body:
       added_by:
-        without_message: '%{user} t''ha afegit com a membre del projecte "%{project}".'
-        with_message: '%{user} t''ha afegit com a membre del projecte "%{project}" escrivint:'
+        without_message: "%{user} t'ha afegit com a membre del projecte \"%{project}\"."
+        with_message: "%{user} t'ha afegit com a membre del projecte \"%{project}\" escrivint:"
       roles: "Tens els següents rols:"
   mail_member_updated_project:
     subject: "%{project} - Els teus rols s'han actualitzat"
     body:
       updated_by:
-        without_message: '%{user} ha actualitzat els rols que tens en el projecte "%{project}".'
-        with_message: '%{user} ha actualitzat els rols que tens en el projecte "%{project}" escrivint:'
+        without_message: "%{user} ha actualitzat els rols que tens en el projecte \"%{project}\"."
+        with_message: "%{user} ha actualitzat els rols que tens en el projecte \"%{project}\" escrivint:"
       roles: "Ara tens els següents rols:"
   mail_member_updated_global:
     subject: "S'han actualitzat els teus permisos globals"
@@ -2605,11 +2609,11 @@ ca:
   notice_account_wrong_password: "Contrasenya errònia"
   notice_account_registered_and_logged_in: "Benvingut, el teu compte s'ha activat. Ara ja estàs connectat."
   notice_activation_failed: El compte no es pot activar.
-  notice_auth_stage_verification_error: 'No s''ha pogut validar l''etapa "%{stage}".'
-  notice_auth_stage_wrong_stage: 'S''esperava acabar l''etapa d''autentificació "%{expected}", però s''ha retornat "%{actual}".'
-  notice_auth_stage_error: 'Etapa d''autentificació "%{stage}" fallida.'
+  notice_auth_stage_verification_error: "No s'ha pogut validar l'etapa \"%{stage}\"."
+  notice_auth_stage_wrong_stage: "S'esperava acabar l'etapa d'autentificació \"%{expected}\", però s'ha retornat \"%{actual}\"."
+  notice_auth_stage_error: "Etapa d'autentificació \"%{stage}\" fallida."
   notice_can_t_change_password: "Aquest compte utilitza una font d'autenticació externa. No és possible canviar la contrasenya."
-  notice_custom_options_deleted: 'L''opció "%{option_value}" i les seves %{num_deleted} ocurrències s''han eliminat.'
+  notice_custom_options_deleted: "L'opció \"%{option_value}\" i les seves %{num_deleted} ocurrències s'han eliminat."
   notice_email_error: "S'ha produït un error en enviar el correu (%{value})"
   notice_email_sent: "S'ha enviat un correu electrònic a %{value}"
   notice_failed_to_save_work_packages: "No s'han pogut desar %{count} paquet(s) de treball de %{total} seleccionats: %{ids}."
@@ -2621,7 +2625,7 @@ ca:
   notice_locking_conflict: "La informació s'ha actualitzat per almenys un altre usuari mentrestant."
   notice_locking_conflict_additional_information: "Les actualitzacions provenen de %{users}."
   notice_locking_conflict_reload_page: "Si us plau, regarrega la pàgina, revisa els canvis i torna a aplicar les actualitzacions."
-  notice_member_added: "%{name} afegit al projecte."
+  notice_member_added: '%{name} afegit al projecte.'
   notice_members_added: Afegits %{number} d'usuaris al projecte.
   notice_member_removed: "%{user} esborrat del projecte."
   notice_member_deleted: "%{user} s'ha eliminat del projecte i s'ha esborrat."
@@ -2792,7 +2796,7 @@ ca:
       make_template: "Estableix com a plantilla"
       remove_from_templates: "Suprimir de les plantilles"
     archive:
-      are_you_sure: 'Estàs segur que vols arxivar el projecte "%{name}"?'
+      are_you_sure: "Estàs segur que vols arxivar el projecte \"%{name}\"?"
       archived: "Arxivat"
     count:
       zero: "0 Projects"
@@ -2857,7 +2861,7 @@ ca:
     errors:
       build_failed: "No es pot crear el repositori amb la configuració seleccionada. %{reason}"
       managed_delete: "No es pot suprimir el repositori administrat."
-      managed_delete_local: 'No es pot suprimir el repositori local en el sistema de fitxers a "%{path}": %{error_message}'
+      managed_delete_local: "No es pot suprimir el repositori local en el sistema de fitxers a \"%{path}\": %{error_message}"
       empty_repository: "El repositori existeix, però és buit. No conté cap revisió encara."
       exists_on_filesystem: "El directori del repositori ja existeix en el sistema de fitxers."
       filesystem_access_failed: "S'ha produït un error a l'accedir al repositori al sistema de fitxers: %{message}"
@@ -2868,7 +2872,7 @@ ca:
       exception_title: "No es pot accedir al repositori: %{message}"
       disabled_or_unknown_type: "La classe seleccionada %{type} està deshabilitada o ja no està disponible per al proveïdor SCM %{vendor}."
       disabled_or_unknown_vendor: "El proveïdor SCM %{vendor} està deshabilitat o ja no està disponible."
-      remote_call_failed: 'La crida a l''administrador remot a fallat amb el missatge "%{message}" (codi: %{code})'
+      remote_call_failed: "La crida a l'administrador remot a fallat amb el missatge \"%{message}\" (codi: %{code})"
       remote_invalid_response: "S'ha rebut una resposta no vàlida des de l'administració remota."
       remote_save_failed: "No ha pogut desar el repositori amb els paràmetres obtinguts des del remot."
     git:
@@ -2902,7 +2906,7 @@ ca:
     storage:
       not_available: "El consum d'emmagatzematge de disc no està disponible per a aquest repositori."
       update_timeout: "Mantenir la darrera informació d'espai de disc necessari per a un dipòsit durant N minuts. Ja que comptar l'espai de disc necessari per un repostori pot ser costós, augmenteu aquest valor per reduir l'impacte en el rendiment."
-      oauth_application_details: 'El valor secret de client no serà accessible de nou un cop tanquis aquesta pestanya. Si us plau, còpia aquests valors a la configuració de "Nextcloud OpenProject Integration":'
+      oauth_application_details: "El valor secret de client no serà accessible de nou un cop tanquis aquesta pestanya. Si us plau, còpia aquests valors a la configuració de \"Nextcloud OpenProject Integration\":"
       oauth_application_details_link_text: "Ves a la pàgina de configuracions"
       setup_documentation_details: "Si necessites ajuda configurant un nou emmagatzematge de fitxer si us plau, comprova la nostra documentació:"
       setup_documentation_details_link_text: "Configuració d'emmagatzematge de fitxers"
@@ -2930,7 +2934,7 @@ ca:
     deactivated: "desactivat"
   search_input_placeholder: "Cerca..."
   setting_apiv3_cors_enabled: "Habilitar CORS"
-  setting_apiv3_cors_origins: '"API V3 Cross-Origin Resource Sharing (CORS)" orígens permesos'
+  setting_apiv3_cors_origins: "\"API V3 Cross-Origin Resource Sharing (CORS)\" orígens permesos"
   setting_apiv3_cors_origins_text_html: >
     Si s'activa el CORS, aquests són els orígens que tenen permís per accedir a l'API d'OpenProject. <br/>Si us plau, valida la <a href="%{origin_link}" target="_blank">Documentació en l'encapçalament d'Origin</a> en com s'ha d'especificar els valors esperats.
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
@@ -3157,7 +3161,7 @@ ca:
     array:
       sentence_connector: "i"
       skip_last_comma: "fals"
-  text_accessibility_hint: 'El mode d''accessibilitat està dissenyat per a usuaris cecs, amb discapacitats motores o problemes de vista. Els elements es focalitzen amb un ressaltat més evident. Si us plau, considera que el mòdul de "Backlogs" no està disponible en aquest mode.'
+  text_accessibility_hint: "El mode d'accessibilitat està dissenyat per a usuaris cecs, amb discapacitats motores o problemes de vista. Els elements es focalitzen amb un ressaltat més evident. Si us plau, considera que el mòdul de \"Backlogs\" no està disponible en aquest mode."
   text_access_token_hint: "Els token d'accés permeten que aplicacions externes accedeixin als recursos d'OpenProject."
   text_analyze: "Analitzar més en profunditat: %{subject}"
   text_are_you_sure: "N'estàs segur?"
@@ -3251,7 +3255,7 @@ ca:
   text_regexp_multiline: 'S''aplica l''expressió regular en mode de múltilínia. Per exemple, ^---\s+'
   text_repository_usernames_mapping: "Seleccioneu l'assignació entre els usuaris del OpenProject i cada nom d'usuari trobat al repositori.\nEls usuaris amb el mateix nom d'usuari o correu del OpenProject i del repositori s'assignaran automàticament."
   text_status_changed_by_changeset: "Aplicat en el conjunt de canvis %{value}."
-  text_table_difference_description: 'En aquesta taula es mostren %{entries} entrades úniques. Pots veure la diferència entre qualsevol de les entrades seleccionant-les a través dels "checkboxes" de la taula. Quan has fet clic en el botó de sota la taula es mostren les diferències.'
+  text_table_difference_description: "En aquesta taula es mostren %{entries} entrades úniques. Pots veure la diferència entre qualsevol de les entrades seleccionant-les a través dels \"checkboxes\" de la taula. Quan has fet clic en el botó de sota la taula es mostren les diferències."
   text_time_logged_by_changeset: "Aplicat en el conjunt de canvis %{value}."
   text_tip_work_package_begin_day: "el paquet de treball comença aquest dia"
   text_tip_work_package_begin_end_day: "treball paquet iniciant i acabant aquest dia"
@@ -3275,7 +3279,7 @@ ca:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: 'Publica aquesta vista permetent a altres usuaris accedir a les teves vistes. Els usuaris amb el permís per "Administrar vistes públiques" poden modificar o eliminar elements públics. Aquesta acció no afecta la visibilitat dels paquets de treball resultants en aquella vista i depenent dels permisos altres usuaris potser veuen resultats diferents.'
+      public: "Publica aquesta vista permetent a altres usuaris accedir a les teves vistes. Els usuaris amb el permís per \"Administrar vistes públiques\" poden modificar o eliminar elements públics. Aquesta acció no afecta la visibilitat dels paquets de treball resultants en aquella vista i depenent dels permisos altres usuaris potser veuen resultats diferents."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "AM"
@@ -3330,7 +3334,7 @@ ca:
     blocked_num_failed_logins:
       one: "bloquejat temporalment (un intent fallit de connexió)"
       other: "bloquejat temporalment (%{count} d'intents de connexió)"
-    confirm_status_change: 'Estàs a punt de canviar l''estat de "%{name}". Estàs segur que vols continuar?'
+    confirm_status_change: "Estàs a punt de canviar l'estat de \"%{name}\". Estàs segur que vols continuar?"
     deleted: "Usuari eliminat"
     error_status_change_failed: "Canviant l'estat de l'usuari ha fallat a causa dels errors següents: %{errors}"
     invite: Invita l'usuari mitjançant e-mail
@@ -3508,19 +3512,19 @@ ca:
         date: "AAAA-MM-DD ( només dates ISO 8601)"
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (qualsevol data o temps compatible amb la ISO 8601)"
         duration: "durada ISO 8601"
-      invalid_content_type: 'La CLASSE-DE-CONTINGUT esperat és ''%{content_type}'' però s''ha trobat "%{actual}".'
-      invalid_format: 'Format no vàlid per a la propietat ''%{property}'': el format esperat és com "%{expected_format}", però s''ha trobat "%{actual}".'
+      invalid_content_type: "La CLASSE-DE-CONTINGUT esperat és '%{content_type}' però s'ha trobat \"%{actual}\"."
+      invalid_format: "Format no vàlid per a la propietat '%{property}': el format esperat és com \"%{expected_format}\", però s'ha trobat \"%{actual}\"."
       invalid_json: "La petició no es pot analitzar com a JSON."
       invalid_relation: "La relació no és vàlida."
-      invalid_resource: 'Per la propietat ''%{property}'' s''espera un enllaç com ''%{expected}'', però s''ha trobat "%{actual}".'
+      invalid_resource: "Per la propietat '%{property}' s'espera un enllaç com '%{expected}', però s'ha trobat \"%{actual}\"."
       invalid_signal:
         embed: "La petició d'incrustació de %{invalid} no està suportada. Les incrustacions suportades són %{supported}."
         select: "La petició de selecció de %{invalid} no està suportada. Les seleccions suportades són %{supported}."
       invalid_user_status_transition: "L'estat de compte de l'usuari actual no permet aquesta operació."
       missing_content_type: "no especificat"
-      missing_property: 'Falta la propietat "%{property}".'
+      missing_property: "Falta la propietat \"%{property}\"."
       missing_request_body: "Hi havia cos a la petició."
-      missing_or_malformed_parameter: 'Falta el paràmetre "%{parameter}" o està mal formulat.'
+      missing_or_malformed_parameter: "Falta el paràmetre \"%{parameter}\" o està mal formulat."
       multipart_body_error: "El cos de la sol·licitud no conté les parts de multiparts que s'esperava."
       multiple_errors: "Diverses restriccions de camp han estat violades."
       unable_to_create_attachment: "No s'ha pogut crear el fitxer adjunt"
@@ -3531,7 +3535,7 @@ ca:
         context_object_not_found: "No puc trobar el recurs proporionat com al context."
       validation:
         due_date: "La data de finalització no es pot establir als paquets de treball pare."
-        invalid_user_assigned_to_work_package: 'L''usuari escollit no pot ser "%{property}" per a aquest paquet de treball.'
+        invalid_user_assigned_to_work_package: "L'usuari escollit no pot ser \"%{property}\" per a aquest paquet de treball."
         start_date: "La data d'inici no es pot definir per paquets de treball del pare."
       eprops:
         invalid_gzip: "el gzip és invàlid: %{message}"
@@ -3588,7 +3592,7 @@ ca:
     application:
       singular: "Aplicació OAuth"
       plural: "Aplicacions OAuth"
-      named: 'Aplicació OAuth "%{name}".'
+      named: "Aplicació OAuth \"%{name}\"."
       new: "Nova aplicació OAuth"
       default_scopes: "(Àmbit per defecte)"
       instructions:
@@ -3626,7 +3630,7 @@ ca:
       client_credentials: "Procés de credencials de client"
     client_credentials: "Usuari utilitzat per a les credencials de client"
     client_credentials_impersonation_set_to: "Usuari de credencials de client establert a"
-    client_credentials_impersonation_warning: 'Nota: Els clients utilitzant el procés "Credencials de client" en aquesta aplicació no tindran els permisos d''aquest usuari'
+    client_credentials_impersonation_warning: "Nota: Els clients utilitzant el procés \"Credencials de client\" en aquesta aplicació no tindran els permisos d'aquest usuari"
     client_credentials_impersonation_html: >
       Per defecte, OpenProject proveeix una autorització OAuth 2.0 via %{authorization_code_flow_link}. Opcional també pots activar %{client_credentials_flow_link}, però hauràs d'especificar un usuari, el qual serà utilitzat per realitzar peticions.
     authorization_error: "S'ha produït un error d'autorització."
@@ -3651,16 +3655,16 @@ ca:
       oauth_returned_standard_error: "L'OAuth2 retorna un error intern"
       wrong_token_type_returned: "L'OAuth2 ha retornat una classe de token invàlida, s'espera un AccessToken::Bearer"
       oauth_issue_contact_admin: "L'OAuth2 reporta un error. Si us plau, contacta amb l'administrador del sistema."
-      oauth_client_not_found: 'No s''ha trobat el client OAuth2 en la "callback" al "endpoint" (redirect_uri).'
+      oauth_client_not_found: "No s'ha trobat el client OAuth2 en la \"callback\" al \"endpoint\" (redirect_uri)."
       refresh_token_called_without_existing_token: >
         Error intern: S'ha demanat refrescar el token sense haver-hi un token existent previ.
       refresh_token_updated_failed: "Error durant l'actualització de l'OAuthClientToken"
       oauth_client_not_found_explanation: >
         Aquest error apareix després d'haver actualitzat "l'ID de client" i el "Client secret" a OpenProject sense haver actualitzat el camp "URI de retorn" en el proveïdor OAuth2.
-      oauth_code_not_present: 'No s''ha trobat el codi OAuth2 en la "callback" al "endpoint" (redirect_uri).'
+      oauth_code_not_present: "No s'ha trobat el codi OAuth2 en la \"callback\" al \"endpoint\" (redirect_uri)."
       oauth_code_not_present_explanation: >
         Aquest error apareix si has seleccionat la classe de resposta (response_type) incorrecte en el proveïdor OAuth2. La classe de resposta ha de ser "codi" o similar.
-      oauth_state_not_present: 'No s''ha trobat l''estat OAuth2 en la "callback" al "endpoint" (redirect_uri).'
+      oauth_state_not_present: "No s'ha trobat l'estat OAuth2 en la \"callback\" al \"endpoint\" (redirect_uri)."
       oauth_state_not_present_explanation: >
         L'estat s'utilitza per indicar a OpenProject on ha de continuar després d'una autorització OAuth2 correcta. La falta d'estat provoca un error intern que pot aparèixer durant la configuració. Si us plau, contacte el teu administrador.
       rack_oauth2:

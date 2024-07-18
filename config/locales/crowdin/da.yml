@@ -593,17 +593,6 @@ da:
       attribute_help_text:
         attribute_name: "Egenskab"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Fornavn"
-        attr_lastname: "Efternavn"
-        attr_login: "Username attribute"
-        attr_mail: "E-mail"
-        base_dn: "DN base"
-        host: "Vært"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Projektarkiv"
       color:
@@ -628,6 +617,14 @@ da:
         visible: "Synlig"
       custom_value:
         value: "Værdi"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -638,20 +635,25 @@ da:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "Arbejdspakke"
-        to: "Sammenhørende arbejdspakker"
-      status:
-        is_closed: "Lukket arbejdspakke"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Kommentarer"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Fornavn"
+        attr_lastname: "Efternavn"
+        attr_login: "Username attribute"
+        attr_mail: "E-mail"
+        base_dn: "DN base"
+        host: "Vært"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Rollee"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: Hex kode
       project:
         active_value:
           true: "unarchived"
@@ -681,6 +683,8 @@ da:
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbejdspakker"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Kolonner"
         relations_to_type_column: "Relations to %{type}"
@@ -688,10 +692,19 @@ da:
         group_by: "Gruppér resultater efter"
         filters: "Filtre"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "Arbejdspakke"
+        to: "Sammenhørende arbejdspakker"
       repository:
         url: "Webadresse"
       role:
         permissions: "Tilladelser"
+      status:
+        is_closed: "Lukket arbejdspakke"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivivtet"
         hours: "Timer"
@@ -734,10 +747,6 @@ da:
       wiki_page:
         parent_title: "Overordnet side"
         redirect_existing_links: "Omdiriger eksisterende links"
-      planning_element_type_color:
-        hexcode: Hex kode
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -772,14 +781,6 @@ da:
         type: "Type"
         version: "Version"
         watcher: "Tilsynsførende"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "skal accepteres."
@@ -992,6 +993,11 @@ da:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1078,10 +1084,10 @@ da:
               format: "%{message}"
             password:
               weak: "Skal indeholde tegn fra følgende klasser (minimum %{min_count} af %{all_count}): %{rules}."
-              lowercase: 'små bogstaver (f.eks. "a")'
-              uppercase: 'store bogstaver (f.eks. "A")'
-              numeric: 'tal (fx "1")'
-              special: 'Speciel (fx "%")'
+              lowercase: "små bogstaver (f.eks. \"a\")"
+              uppercase: "store bogstaver (f.eks. \"A\")"
+              numeric: "tal (fx \"1\")"
+              special: "Speciel (fx \"%\")"
               reused:
                 one: "er blevet benyttet tidligere. Vælg venligst et, der er forskelligt fra dit seneste."
                 other: "er blevet benyttet tidligere. Vælg venligst et, der er forskelligt fra dine seneste %{count}."
@@ -1106,8 +1112,6 @@ da:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1433,7 +1437,7 @@ da:
       long: "%B %d %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Januar"
       - "Februar"
@@ -1448,8 +1452,8 @@ da:
       - "November"
       - "December"
     order:
-      - ":år"
-      - ":måned"
+      - ':år'
+      - ':måned'
       - :dag
   datetime:
     distance_in_words:

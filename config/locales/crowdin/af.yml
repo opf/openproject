@@ -595,17 +595,6 @@ af:
       attribute_help_text:
         attribute_name: "Kenmerk"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "Rekening"
-        attr_firstname: "Eerstenaam kenmerk"
-        attr_lastname: "Van kenmerk"
-        attr_login: "Username attribute"
-        attr_mail: "Epos kenmerk"
-        base_dn: "Basis (Onderskeidende Naam) ON"
-        host: "Gasheer"
-        onthefly: "Automatic user creation"
-        port: "Poort"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       color:
@@ -630,6 +619,14 @@ af:
         visible: "Sigbaar"
       custom_value:
         value: "Waarde"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Eienaar"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -640,20 +637,25 @@ af:
         row_count: "Aantal rye"
         column_count: "Aantal kolomme"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "Werkspakket"
-        to: "Verwante werk pakket"
-      status:
-        is_closed: "Werk pakket geslote"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notas"
+      ldap_auth_source:
+        account: "Rekening"
+        attr_firstname: "Eerstenaam kenmerk"
+        attr_lastname: "Van kenmerk"
+        attr_login: "Username attribute"
+        attr_mail: "Epos kenmerk"
+        base_dn: "Basis (Onderskeidende Naam) ON"
+        host: "Gasheer"
+        onthefly: "Automatic user creation"
+        port: "Poort"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Rolle"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: Hex kode
       project:
         active_value:
           true: "unarchived"
@@ -683,6 +685,8 @@ af:
         types: "Soorte"
         versions: "Weergawes"
         work_packages: "Werk Pakkette"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Kolomme"
         relations_to_type_column: "Relations to %{type}"
@@ -690,10 +694,19 @@ af:
         group_by: "Groepeer resultate by"
         filters: "Filtreerders"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "Werkspakket"
+        to: "Verwante werk pakket"
       repository:
         url: "Bronadres"
       role:
         permissions: "Toestemmings"
+      status:
+        is_closed: "Werk pakket geslote"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktiwiteit"
         hours: "Ure"
@@ -736,10 +749,6 @@ af:
       wiki_page:
         parent_title: "Ouer bladsy"
         redirect_existing_links: "Herlei bestaande skakels"
-      planning_element_type_color:
-        hexcode: Hex kode
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -774,14 +783,6 @@ af:
         type: "Soort"
         version: "Weergawe"
         watcher: "Dophouer"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Eienaar"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "must be accepted."
@@ -994,6 +995,11 @@ af:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1108,8 +1114,6 @@ af:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1435,7 +1439,7 @@ af:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Januarie"
       - "Februarie"
@@ -3031,7 +3035,7 @@ af:
   setting_mail_from: "Emission email address"
   setting_mail_handler_api_key: "API key"
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
-  setting_mail_handler_body_delimiter_regex: 'Stomp eposse af wat ooreenstem met hierdie "regular expression"'
+  setting_mail_handler_body_delimiter_regex: "Stomp eposse af wat ooreenstem met hierdie \"regular expression\""
   setting_mail_handler_ignore_filenames: "Ignored mail attachments"
   setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
   setting_password_active_rules: "Active character classes"

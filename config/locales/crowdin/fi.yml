@@ -595,17 +595,6 @@ fi:
       attribute_help_text:
         attribute_name: "Määre"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "Käyttäjätili"
-        attr_firstname: "Etunimi-tietue"
-        attr_lastname: "Sukunimi-tietue"
-        attr_login: "Username attribute"
-        attr_mail: "Sähköposti-tietue"
-        base_dn: "Base DN"
-        host: "Isäntä"
-        onthefly: "Automatic user creation"
-        port: "Portti"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Tietovarasto"
       color:
@@ -630,6 +619,14 @@ fi:
         visible: "Näkyvissä"
       custom_value:
         value: "Arvo"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Omistaja"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Voimassa alkaen"
         subscriber: "Tilaaja"
@@ -640,20 +637,25 @@ fi:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "Tehtävä"
-        to: "Liittyy tehtävään"
-      status:
-        is_closed: "Tehtävä suljettu"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Kommentit"
+      ldap_auth_source:
+        account: "Käyttäjätili"
+        attr_firstname: "Etunimi-tietue"
+        attr_lastname: "Sukunimi-tietue"
+        attr_login: "Username attribute"
+        attr_mail: "Sähköposti-tietue"
+        base_dn: "Base DN"
+        host: "Isäntä"
+        onthefly: "Automatic user creation"
+        port: "Portti"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Roolit"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: Hex koodi
       project:
         active_value:
           true: "unarchived"
@@ -683,6 +685,8 @@ fi:
         types: "Tehtävätyypit"
         versions: "Versiot"
         work_packages: "Tehtävät"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Sarakkeet"
         relations_to_type_column: "Riippuvuus %{type}"
@@ -690,10 +694,19 @@ fi:
         group_by: "Ryhmittele tulokset"
         filters: "Suodattimet"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "Tehtävä"
+        to: "Liittyy tehtävään"
       repository:
         url: "URL"
       role:
         permissions: "Oikeudet"
+      status:
+        is_closed: "Tehtävä suljettu"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Tapahtumat"
         hours: "Tunnit"
@@ -736,10 +749,6 @@ fi:
       wiki_page:
         parent_title: "Yläsivu"
         redirect_existing_links: "Uudelleenohjaa olemassa olevat linkit"
-      planning_element_type_color:
-        hexcode: Hex koodi
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Lisäyksen alku"
         begin_deletion: "Poistokohdan alku"
@@ -774,14 +783,6 @@ fi:
         type: "Tyyppi"
         version: "Versio"
         watcher: "Seuraajat"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Omistaja"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "täytyy olla hyväksytty."
@@ -994,6 +995,11 @@ fi:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1080,7 +1086,7 @@ fi:
               format: "%{message}"
             password:
               weak: "On sisällettävä merkkejä seuraavista luokista (ainakin %{min_count} %{all_count}): %{rules}."
-              lowercase: 'pieniä kirjaimia (esim. "a")'
+              lowercase: "pieniä kirjaimia (esim. \"a\")"
               uppercase: "isoja kirjaimia (esim. A)"
               numeric: "numeerinen (esim. 1)"
               special: "erikoismerkki (esim. %)"
@@ -1089,7 +1095,7 @@ fi:
                 other: "on käytetty ennenkin. Valitse sellainen, joka poikkeaa %{count} edellisestä."
               match:
                 confirm: "Vahvista uusi salasana."
-                description: '"Salasanan vahvistus" -kentän arvon tulee olla identtinen "Uusi salasana" -kentän arvon kanssa.'
+                description: "\"Salasanan vahvistus\" -kentän arvon tulee olla identtinen \"Uusi salasana\" -kentän arvon kanssa."
             status:
               invalid_on_create: "ei ole kelvollinen tila uusille käyttäjille."
             ldap_auth_source:
@@ -1108,8 +1114,6 @@ fi:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1435,7 +1439,7 @@ fi:
       long: "%A%e. %Bta %Y"
       short: "%e.%m.%Y"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Tammikuu"
       - "Helmikuu"
@@ -1452,7 +1456,7 @@ fi:
     order:
       - :vuosi
       - :kuukausi
-      - ":päivä"
+      - ':päivä'
   datetime:
     distance_in_words:
       about_x_hours:
@@ -2368,7 +2372,7 @@ fi:
   label_wiki_navigation: "Wiki navigaatio"
   label_wiki_page: "Wiki-sivu"
   label_wiki_page_plural: "Wiki sivut"
-  label_wiki_show_index_page_link: 'Näytä alivalikon vaihtoehto "Sisällysluettelo"'
+  label_wiki_show_index_page_link: "Näytä alivalikon vaihtoehto \"Sisällysluettelo\""
   label_wiki_show_menu_item: "Näytä valikon kohta projekti navigaatio"
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
@@ -2801,7 +2805,7 @@ fi:
       make_template: "Aseta malliksi"
       remove_from_templates: "Remove from templates"
     archive:
-      are_you_sure: 'Oletko varma, että haluat arkistoida projektin "%{name}"?'
+      are_you_sure: "Oletko varma, että haluat arkistoida projektin \"%{name}\"?"
       archived: "Archived"
     count:
       zero: "0 Projects"
@@ -3531,7 +3535,7 @@ fi:
       missing_content_type: "not specified"
       missing_property: "Missing property '%{property}'."
       missing_request_body: "Ei ollut pyyntö kehon."
-      missing_or_malformed_parameter: 'Kyselyparametri "%{parameter}" puuttuu tai on virheellinen.'
+      missing_or_malformed_parameter: "Kyselyparametri \"%{parameter}\" puuttuu tai on virheellinen."
       multipart_body_error: "Pyynnön elin ei sisällä odotettavissa moniosaisia osat."
       multiple_errors: "Useita kenttä rajoituksia on rikottu."
       unable_to_create_attachment: "The attachment could not be created"

@@ -595,17 +595,6 @@ eo:
       attribute_help_text:
         attribute_name: "Atributo"
         help_text: "Helpteksto"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Atribuo Nomo"
-        attr_lastname: "Atribuo Familinomo"
-        attr_login: "Atribuo uzantnomo"
-        attr_mail: "Atribuo retpoŝto"
-        base_dn: "Bazo DN"
-        host: "Gastiganto"
-        onthefly: "Automatic user creation"
-        port: "Pordo"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Deponejo"
       color:
@@ -630,6 +619,14 @@ eo:
         visible: "Videbla"
       custom_value:
         value: "Valoro"
+      doorkeeper/application:
+        uid: "ID de la kliento"
+        secret: "Sekreto de la kliento"
+        owner: "Posedanto"
+        redirect_uri: "Alidirekti URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Konfidenca"
       enterprise_token:
         starts_at: "Valida ekde"
         subscriber: "Abonanto"
@@ -640,20 +637,25 @@ eo:
         row_count: "Kvanto da vicoj"
         column_count: "Numero de kolumnoj"
         widgets: "Kromprogrametoj"
-      oauth_client:
-        client: "ID de la kliento"
-      relation:
-        lag: "Lag"
-        from: "Laborpakaĵo"
-        to: "Rilata laborpakaĵo"
-      status:
-        is_closed: "Laborpakaĵo fermita"
-        is_readonly: "Nurlega laborpakaĵo"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notoj"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Atribuo Nomo"
+        attr_lastname: "Atribuo Familinomo"
+        attr_login: "Atribuo uzantnomo"
+        attr_mail: "Atribuo retpoŝto"
+        base_dn: "Bazo DN"
+        host: "Gastiganto"
+        onthefly: "Automatic user creation"
+        port: "Pordo"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Roloj"
+      oauth_client:
+        client: "ID de la kliento"
+      planning_element_type_color:
+        hexcode: Deksesuma kodo
       project:
         active_value:
           true: "unarchived"
@@ -683,6 +685,8 @@ eo:
         types: "Specoj"
         versions: "Versioj"
         work_packages: "Laborpakaĵoj"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Kolumnoj"
         relations_to_type_column: "Rilatoj kun %{type}"
@@ -690,10 +694,19 @@ eo:
         group_by: "Grupaj rezultoj laŭ"
         filters: "Filtriloj"
         timeline_labels: "Kronologiaj etikedoj"
+      relation:
+        lag: "Lag"
+        from: "Laborpakaĵo"
+        to: "Rilata laborpakaĵo"
       repository:
         url: "URL"
       role:
         permissions: "Permesoj"
+      status:
+        is_closed: "Laborpakaĵo fermita"
+        is_readonly: "Nurlega laborpakaĵo"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktiveco"
         hours: "Horoj"
@@ -736,10 +749,6 @@ eo:
       wiki_page:
         parent_title: "Patra paĝo"
         redirect_existing_links: "Alidirekti la ekzistantajn ligilojn"
-      planning_element_type_color:
-        hexcode: Deksesuma kodo
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Komenco de enmeto"
         begin_deletion: "Komenco de forigo"
@@ -774,14 +783,6 @@ eo:
         type: "Tipo"
         version: "Versio"
         watcher: "Atentanto"
-      "doorkeeper/application":
-        uid: "ID de la kliento"
-        secret: "Sekreto de la kliento"
-        owner: "Posedanto"
-        redirect_uri: "Alidirekti URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Konfidenca"
     errors:
       messages:
         accepted: "devas esti akceptita."
@@ -994,6 +995,11 @@ eo:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1108,8 +1114,6 @@ eo:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1435,7 +1439,7 @@ eo:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Januaro"
       - "Februaro"

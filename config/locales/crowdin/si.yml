@@ -556,8 +556,8 @@ si:
     deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
-        other: "පරිශීලකයා විසින් නිර්මාණය කරන ලද දත්ත (උදා: ඊමේල්, මනාපයන්, වැඩ පැකේජ, විකි ඇතුළත් කිරීම්) හැකිතාක් මකා දැමෙනු ඇත. කෙසේ වෙතත්, අනෙකුත් පරිශීලකයින්ගේ කාර්යයට බාධා නොකර වැඩ පැකේජ සහ විකි ඇතුළත් කිරීම් වැනි දත්ත මකා දැමිය නොහැකි බව සලකන්න. එබැවින් එවැනි දත්ත “මකාදැමූ පරිශීලකයා” නමින් ගිණුමකට නැවත පවරනු ලැබේ. මකාදැමූ සෑම ගිණුමකම දත්ත මෙම ගිණුමට නැවත පැවරෙන බැවින් පරිශීලකයා වෙනත් මකාදැමූ ගිණුමක දත්ත වලින් නිර්මාණය කළ දත්ත වෙන්කර හඳුනා ගැනීමට නොහැකි වනු ඇත."
-        self: "ඔබ නිර්මාණය කළ දත්ත වලින් (උදා: ඊමේල්, මනාපයන්, වැඩ පැකේජ, විකි ඇතුළත් කිරීම්) හැකි තරම් මකා දැමෙනු ඇත. කෙසේ වෙතත්, අනෙකුත් පරිශීලකයින්ගේ කාර්යයට බාධා නොකර වැඩ පැකේජ සහ විකි ඇතුළත් කිරීම් වැනි දත්ත මකා දැමිය නොහැකි බව සලකන්න. එබැවින් එවැනි දත්ත “මකාදැමූ පරිශීලකයා” නමින් ගිණුමකට නැවත පවරනු ලැබේ. මකාදැමූ සෑම ගිණුමකම දත්ත මෙම ගිණුමට නැවත පැවරෙන බැවින් ඔබ විසින් නිර්මාණය කරන ලද දත්ත වෙනත් මකාදැමූ ගිණුමක දත්ත වලින් වෙන්කර හඳුනා ගැනීමට නොහැකි වනු ඇත."
+        other: 'පරිශීලකයා විසින් නිර්මාණය කරන ලද දත්ත (උදා: ඊමේල්, මනාපයන්, වැඩ පැකේජ, විකි ඇතුළත් කිරීම්) හැකිතාක් මකා දැමෙනු ඇත. කෙසේ වෙතත්, අනෙකුත් පරිශීලකයින්ගේ කාර්යයට බාධා නොකර වැඩ පැකේජ සහ විකි ඇතුළත් කිරීම් වැනි දත්ත මකා දැමිය නොහැකි බව සලකන්න. එබැවින් එවැනි දත්ත “මකාදැමූ පරිශීලකයා” නමින් ගිණුමකට නැවත පවරනු ලැබේ. මකාදැමූ සෑම ගිණුමකම දත්ත මෙම ගිණුමට නැවත පැවරෙන බැවින් පරිශීලකයා වෙනත් මකාදැමූ ගිණුමක දත්ත වලින් නිර්මාණය කළ දත්ත වෙන්කර හඳුනා ගැනීමට නොහැකි වනු ඇත.'
+        self: 'ඔබ නිර්මාණය කළ දත්ත වලින් (උදා: ඊමේල්, මනාපයන්, වැඩ පැකේජ, විකි ඇතුළත් කිරීම්) හැකි තරම් මකා දැමෙනු ඇත. කෙසේ වෙතත්, අනෙකුත් පරිශීලකයින්ගේ කාර්යයට බාධා නොකර වැඩ පැකේජ සහ විකි ඇතුළත් කිරීම් වැනි දත්ත මකා දැමිය නොහැකි බව සලකන්න. එබැවින් එවැනි දත්ත “මකාදැමූ පරිශීලකයා” නමින් ගිණුමකට නැවත පවරනු ලැබේ. මකාදැමූ සෑම ගිණුමකම දත්ත මෙම ගිණුමට නැවත පැවරෙන බැවින් ඔබ විසින් නිර්මාණය කරන ලද දත්ත වෙනත් මකාදැමූ ගිණුමක දත්ත වලින් වෙන්කර හඳුනා ගැනීමට නොහැකි වනු ඇත.'
       heading: "ගිණුම මකන්න %{name}"
       info:
         other: "පරිශීලක ගිණුම මකා දැමීම ආපසු හැරවිය නොහැකි ක්රියාවකි."
@@ -595,17 +595,6 @@ si:
       attribute_help_text:
         attribute_name: "ගුණාංගය"
         help_text: "උපකාරක පෙළ"
-      ldap_auth_source:
-        account: "ගිණුම"
-        attr_firstname: "පළමු නාමය ලක්ෂණය"
-        attr_lastname: "අවසාන නාමය ලක්ෂණය"
-        attr_login: "පරිශීලක නාමය ගුණාංග"
-        attr_mail: "ඊ-තැපැල් ගුණාංග"
-        base_dn: "ඩී. එන් මූලික"
-        host: "සත්කාරක"
-        onthefly: "Automatic user creation"
-        port: "කෙවෙනිය"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "ගබඩාව"
       color:
@@ -630,6 +619,14 @@ si:
         visible: "දෘශ්යමාන"
       custom_value:
         value: "අගය"
+      doorkeeper/application:
+        uid: "සේවාලාභියා හැඳුනුම්පත"
+        secret: "සේවාලාභියා රහස්"
+        owner: "හිමිකරු"
+        redirect_uri: "නැවත හරවා යැවීමේ URI"
+        client_credentials_user_id: "සේවාලාභියා අක්තපත්ර පරිශීලක හැඳුනුම්පත"
+        scopes: "විෂය පථ"
+        confidential: "රහස්ය"
       enterprise_token:
         starts_at: "එතැන් සිට වලංගු වේ"
         subscriber: "ග්රාහකයා"
@@ -640,20 +637,25 @@ si:
         row_count: "පේළි ගණන"
         column_count: "තීරු ගණන"
         widgets: "විජට්"
-      oauth_client:
-        client: "සේවාලාභියා හැඳුනුම්පත"
-      relation:
-        lag: "Lag"
-        from: "වැඩ පැකේජය"
-        to: "අදාළ වැඩ පැකේජය"
-      status:
-        is_closed: "වැඩ පැකේජය වසා"
-        is_readonly: "වැඩ පැකේජය කියවීමට-පමණි"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "සටහන්"
+      ldap_auth_source:
+        account: "ගිණුම"
+        attr_firstname: "පළමු නාමය ලක්ෂණය"
+        attr_lastname: "අවසාන නාමය ලක්ෂණය"
+        attr_login: "පරිශීලක නාමය ගුණාංග"
+        attr_mail: "ඊ-තැපැල් ගුණාංග"
+        base_dn: "ඩී. එන් මූලික"
+        host: "සත්කාරක"
+        onthefly: "Automatic user creation"
+        port: "කෙවෙනිය"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "භූමිකාවන්"
+      oauth_client:
+        client: "සේවාලාභියා හැඳුනුම්පත"
+      planning_element_type_color:
+        hexcode: Hex කේතය
       project:
         active_value:
           true: "unarchived"
@@ -683,6 +685,8 @@ si:
         types: "වර්ග"
         versions: "අනුවාද"
         work_packages: "වැඩ පැකේජ"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "තීරු"
         relations_to_type_column: "සබඳතා %{type}"
@@ -690,10 +694,19 @@ si:
         group_by: "කණ්ඩායම් ප්රතිඵල විසින්"
         filters: "පෙරහන්"
         timeline_labels: "කාල නියමය ලේබල්"
+      relation:
+        lag: "Lag"
+        from: "වැඩ පැකේජය"
+        to: "අදාළ වැඩ පැකේජය"
       repository:
         url: "සැ. නි."
       role:
         permissions: "අවසර"
+      status:
+        is_closed: "වැඩ පැකේජය වසා"
+        is_readonly: "වැඩ පැකේජය කියවීමට-පමණි"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "ක්‍රියාකාරකම"
         hours: "පැය"
@@ -736,10 +749,6 @@ si:
       wiki_page:
         parent_title: "මව් පිටුව"
         redirect_existing_links: "පවතින සබැඳි නැවත හරවා යැවීම"
-      planning_element_type_color:
-        hexcode: Hex කේතය
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "ඇතුළත් කිරීම ආරම්භ කරන්න"
         begin_deletion: "මකාදැමීම ආරම්භ කරන්න"
@@ -774,14 +783,6 @@ si:
         type: "වර්ගය"
         version: "අනුවාදය"
         watcher: "මුරකරු"
-      "doorkeeper/application":
-        uid: "සේවාලාභියා හැඳුනුම්පත"
-        secret: "සේවාලාභියා රහස්"
-        owner: "හිමිකරු"
-        redirect_uri: "නැවත හරවා යැවීමේ URI"
-        client_credentials_user_id: "සේවාලාභියා අක්තපත්ර පරිශීලක හැඳුනුම්පත"
-        scopes: "විෂය පථ"
-        confidential: "රහස්ය"
     errors:
       messages:
         accepted: "පිළිගත යුතුය."
@@ -994,6 +995,11 @@ si:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1108,8 +1114,6 @@ si:
         version:
           undeletable_archived_projects: "එය අමුණා ඇති වැඩ පැකේජ ඇති බැවින් අනුවාදය මකා දැමිය නොහැක."
           undeletable_work_packages_attached: "එය අමුණා ඇති වැඩ පැකේජ ඇති බැවින් අනුවාදය මකා දැමිය නොහැක."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1435,7 +1439,7 @@ si:
       long: "%Y %B %d"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "ජනවාරි"
       - "පෙබරවාරි"
@@ -1450,9 +1454,9 @@ si:
       - "නොවැම්බර්"
       - "දෙසැම්බර්"
     order:
-      - ":වර්ෂය"
-      - ":මාසය"
-      - ":දවස"
+      - ':වර්ෂය'
+      - ':මාසය'
+      - ':දවස'
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1586,7 +1590,7 @@ si:
   error_must_be_project_member: "ව්යාපෘති සාමාජිකයෙකු විය යුතුය"
   error_migrations_are_pending: "ඔබගේ OpenProject ස්ථාපනයට දත්ත සමුදායන් ඉරුවාරදය ඇත. ඔබගේ අවසාන උත්ශ්රේණි කිරීම මත ඉරුවාරදය ධාවනය කිරීම ඔබට මග හැරී ඇත. කරුණාකර ඔබගේ ස්ථාපනය නිසි උත්ශ්රේණි කිරීම සඳහා උත්ශ්රේණි කිරීමේ මාර්ගෝපදේශය පරීක්ෂා කරන්න."
   error_migrations_visit_upgrade_guides: "කරුණාකර අපගේ උත්ශ්රේණි කිරීමේ මාර්ගෝපදේශ ප්රලේඛනය වෙත පිවිසෙන්න"
-  error_no_default_work_package_status: "පෙරනිමි වැඩ පැකේජ තත්ත්වය අර්ථ දක්වා නැත. කරුණාකර ඔබගේ වින්යාසය පරීක්ෂා කරන්න (“පරිපාලන -> වැඩ පැකේජ තත්වයන්” වෙත යන්න)."
+  error_no_default_work_package_status: 'පෙරනිමි වැඩ පැකේජ තත්ත්වය අර්ථ දක්වා නැත. කරුණාකර ඔබගේ වින්යාසය පරීක්ෂා කරන්න (“පරිපාලන -> වැඩ පැකේජ තත්වයන්” වෙත යන්න).'
   error_no_type_in_project: "මෙම ව්යාපෘතියට කිසිදු වර්ගයක් සම්බන්ධ නොවේ. කරුණාකර ව්යාපෘති සැකසුම් පරීක්ෂා කරන්න."
   error_omniauth_registration_timed_out: "බාහිර සත්යාපන සැපයුම්කරුවෙකු හරහා ලියාපදිංචිය කල් දමා ඇත. කරුණාකර නැවත උත්සාහ කරන්න."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
@@ -2653,7 +2657,7 @@ si:
     the associated projects of this type.
   notice_to_many_principals_to_display: "බොහෝ ප්රතිඵල ඇත.\nනව සාමාජිකයාගේ (හෝ කණ්ඩායමේ) නමින් ටයිප් කිරීමෙන් සෙවුම අඩු කරන්න."
   notice_user_missing_authentication_method: පරිශීලකයාට මුරපදයක් හෝ පුරනය වීමට වෙනත් ක්රමයක් තෝරා ගැනීමට තවමත් නොමැත.
-  notice_user_invitation_resent: "%{email}වෙත ආරාධනයක් යවා ඇත."
+  notice_user_invitation_resent: '%{email}වෙත ආරාධනයක් යවා ඇත.'
   present_access_key_value: "ඔබගේ %{key_name} වේ: %{value}"
   notice_automatic_set_of_standard_type: "සම්මත වර්ගය ස්වයංක්රීයව සකසන්න."
   notice_logged_out: "ඔබ ලොගින් වී ඇත."

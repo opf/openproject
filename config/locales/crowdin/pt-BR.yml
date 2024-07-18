@@ -529,7 +529,7 @@ pt-BR:
     sharing:
       missing_workflow_warning:
         title: "Fluxo de trabalho ausente para compartilhamento de pacotes de trabalho"
-        message: 'Nenhum fluxo de trabalho está configurado para a função "Editor de pacote de trabalho". Sem um fluxo de trabalho, o usuário compartilhado não pode alterar o status do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de origem (ex.: "Tarefa") e uma função de origem (ex.: "Membro"). Em seguida, selecione os tipos de destino. Para começar, você pode selecionar todos os tipos como alvos. Por fim, selecione a função "Editor de pacote de trabalho" como o destino e pressione "Copiar". Depois de criar os padrões, ajuste os fluxos de trabalho da mesma forma que faz para todas as outras funções.'
+        message: "Nenhum fluxo de trabalho está configurado para a função \"Editor de pacote de trabalho\". Sem um fluxo de trabalho, o usuário compartilhado não pode alterar o status do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de origem (ex.: \"Tarefa\") e uma função de origem (ex.: \"Membro\"). Em seguida, selecione os tipos de destino. Para começar, você pode selecionar todos os tipos como alvos. Por fim, selecione a função \"Editor de pacote de trabalho\" como o destino e pressione \"Copiar\". Depois de criar os padrões, ajuste os fluxos de trabalho da mesma forma que faz para todas as outras funções."
         link_message: "Configure os fluxos de trabalho na administração."
     summary:
       reports:
@@ -593,17 +593,6 @@ pt-BR:
       attribute_help_text:
         attribute_name: "Atributo"
         help_text: "Texto de ajuda"
-      ldap_auth_source:
-        account: "Conta"
-        attr_firstname: "Atributo de nome"
-        attr_lastname: "Atributo de sobrenome"
-        attr_login: "Atributo de nome de usuário"
-        attr_mail: "Atributo de e-mail"
-        base_dn: "DN base"
-        host: "Host"
-        onthefly: "Criação automática de usuário"
-        port: "Porta"
-        tls_certificate_string: "Certificado SSL do servidor LDAP"
       changeset:
         repository: "Repositório"
       color:
@@ -628,6 +617,14 @@ pt-BR:
         visible: "Visível"
       custom_value:
         value: "Valor"
+      doorkeeper/application:
+        uid: "ID do cliente"
+        secret: "Segredo do cliente"
+        owner: "Proprietário"
+        redirect_uri: "Redirecionar URI"
+        client_credentials_user_id: "ID do usuário de credenciais do cliente"
+        scopes: "Escopos"
+        confidential: "Confidencial"
       enterprise_token:
         starts_at: "Válido desde"
         subscriber: "Assinante"
@@ -638,20 +635,25 @@ pt-BR:
         row_count: "Número de linhas"
         column_count: "Número de colunas"
         widgets: "Widgets"
-      oauth_client:
-        client: "ID do cliente"
-      relation:
-        lag: "Atraso"
-        from: "Pacote de trabalho"
-        to: "Pacote de trabalho relacionado"
-      status:
-        is_closed: "Pacote de trabalho fechado"
-        is_readonly: "Pacote de trabalho somente leitura"
-        excluded_from_totals: "Excluir do cálculo de totais na hierarquia"
       journal:
         notes: "Anotações"
+      ldap_auth_source:
+        account: "Conta"
+        attr_firstname: "Atributo de nome"
+        attr_lastname: "Atributo de sobrenome"
+        attr_login: "Atributo de nome de usuário"
+        attr_mail: "Atributo de e-mail"
+        base_dn: "DN base"
+        host: "Host"
+        onthefly: "Criação automática de usuário"
+        port: "Porta"
+        tls_certificate_string: "Certificado SSL do servidor LDAP"
       member:
         roles: "Papéis"
+      oauth_client:
+        client: "ID do cliente"
+      planning_element_type_color:
+        hexcode: Código hexadecimal
       project:
         active_value:
           true: "Desarquivada"
@@ -681,6 +683,8 @@ pt-BR:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
+      project_custom_field:
+        custom_field_section: Seção
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -688,10 +692,19 @@ pt-BR:
         group_by: "Agrupar resultados por"
         filters: "Filtros"
         timeline_labels: "Rótulos de linha do tempo"
+      relation:
+        lag: "Atraso"
+        from: "Pacote de trabalho"
+        to: "Pacote de trabalho relacionado"
       repository:
         url: "URL"
       role:
         permissions: "Permissões"
+      status:
+        is_closed: "Pacote de trabalho fechado"
+        is_readonly: "Pacote de trabalho somente leitura"
+        excluded_from_totals: "Excluir do cálculo de totais na hierarquia"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Atividade"
         hours: "horas"
@@ -734,10 +747,6 @@ pt-BR:
       wiki_page:
         parent_title: "Página pai"
         redirect_existing_links: "Redireciona links existentes"
-      planning_element_type_color:
-        hexcode: Código hexadecimal
-      project_custom_field:
-        custom_field_section: Seção
       work_package:
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
@@ -772,14 +781,6 @@ pt-BR:
         type: "Tipo"
         version: "Versão"
         watcher: "Observador"
-      "doorkeeper/application":
-        uid: "ID do cliente"
-        secret: "Segredo do cliente"
-        owner: "Proprietário"
-        redirect_uri: "Redirecionar URI"
-        client_credentials_user_id: "ID do usuário de credenciais do cliente"
-        scopes: "Escopos"
-        confidential: "Confidencial"
     errors:
       messages:
         accepted: "deve ser aceito."
@@ -950,7 +951,7 @@ pt-BR:
               forbidden: "Os carimbos de data/hora contêm valores proibidos: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: 'A coluna "Name" precisa ser incluída.'
+              name_not_included: "A coluna \"Name\" precisa ser incluída."
               nonexistent: "A coluna '%{column}' não existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
@@ -992,6 +993,11 @@ pt-BR:
               hours_per_day_are_missing: "O número de horas por dia deve ser definido."
               durations_are_not_positive_numbers: "As durações devem ser números positivos."
               hours_per_day_is_out_of_bounds: "As horas por dia não podem ultrapassar 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "Não pode ser ativado para estados marcados como padrão."
         time_entry:
           attributes:
             hours:
@@ -1106,8 +1112,6 @@ pt-BR:
         version:
           undeletable_archived_projects: "A versão não pode ser excluída pois tem pacotes de trabalho anexados a ela."
           undeletable_work_packages_attached: "A versão não pode ser excluída pois tem pacotes de trabalho anexados a ela."
-        status:
-          readonly_default_exlusive: "Não pode ser ativado para estados marcados como padrão."
         token/api:
           attributes:
             token_name:
@@ -1433,7 +1437,7 @@ pt-BR:
       long: "%d de %B de %Y"
       short: "%d/%b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Janeiro"
       - "Fevereiro"
@@ -1449,7 +1453,7 @@ pt-BR:
       - "Dezembro"
     order:
       - :ano
-      - ":mês"
+      - ':mês'
       - :dia
   datetime:
     distance_in_words:
@@ -2625,7 +2629,7 @@ pt-BR:
   notice_locking_conflict: "Informação foi atualizada por pelo menos um outro usuário."
   notice_locking_conflict_additional_information: "A(s) atualização(ões) chegaram de %{users}."
   notice_locking_conflict_reload_page: "Por favor, recarregue a página, reveja as alterações e aplique novamente suas atualizações."
-  notice_member_added: "%{name} adicionado ao projeto."
+  notice_member_added: '%{name} adicionado ao projeto.'
   notice_members_added: Adicionados %{number} usuários ao projeto.
   notice_member_removed: "%{user} removido do projeto."
   notice_member_deleted: "%{user} foi removido do projeto e excluído."
@@ -3094,7 +3098,7 @@ pt-BR:
         instructions_html: >
           Selecione o que deve ser feito com os arquivos que contêm vírus detectados: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Colocar o arquivo em quarentena, impedindo o acesso dos usuários. Os administradores podem revisar e excluir arquivos em quarentena na administração.</li> <li><strong>%{delete_option}</strong>: Excluir o arquivo imediatamente.</li> </ul>
       modes:
-        clamav_socket_html: "Digite o caminho para o soquete clamd daemon, por ex.: %{example}."
+        clamav_socket_html: 'Digite o caminho para o soquete clamd daemon, por ex.: %{example}.'
         clamav_host_html: Digite o nome do host e a porta clamd daemon separados por dois pontos. Por exemplo, %{example}.
         description_html: >
           Selecione como deseja configurar a verificação de vírus. <br/> <ul> <li><strong>%{disabled_option}</strong>: Os arquivos carregados não serão verificados quanto a vírus.</li> <li><strong>%{socket_option}</strong>: O ClamAV está configurado no mesmo servidor que o OpenProject, com o daemon clamd de verificação em execução em segundo plano</li> <li><strong>%{host_option}</strong>: Os arquivos serão enviados para um host externo para verificação de vírus.</li> </ul>

@@ -23,7 +23,7 @@ ru:
             project_folder_mode:
               mode_unavailable: не доступен для этого хранилища.
             project_ids:
-              blank: Please select a project.
+              blank: Пожалуйста, выберите проект.
         storages/storage:
           attributes:
             host:
@@ -137,7 +137,7 @@ ru:
       unsubscribe: Отписаться
     help_texts:
       project_folder: Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
-      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
+      project_folder_bulk: Папка проекта - это папка по умолчанию для загрузки файлов для всех выбранных проектов. Вы можете изменить этот параметр в настройках каждого проекта. Тем не менее, пользователи могут загружать файлы в другие места.
     instructions:
       all_available_storages_already_added: Все доступные хранилища уже добавлены в проект.
       automatic_folder: Это автоматически создаст корневую папку для этого проекта и будет управлять правами доступа для каждого участника проекта.

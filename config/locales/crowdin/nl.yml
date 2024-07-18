@@ -592,17 +592,6 @@ nl:
       attribute_help_text:
         attribute_name: "Kenmerk"
         help_text: "Helptekst"
-      ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Voornaam"
-        attr_lastname: "Achternaam attribuut"
-        attr_login: "Gebruikersnaam attribuut"
-        attr_mail: "E-mail attribuut"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatische gebruiker aanmaken"
-        port: "Poort"
-        tls_certificate_string: "LDAP server SSL-certificaat"
       changeset:
         repository: "Repository"
       color:
@@ -627,6 +616,14 @@ nl:
         visible: "zichtbaar"
       custom_value:
         value: "Waarde"
+      doorkeeper/application:
+        uid: "Client-ID"
+        secret: "Client secret"
+        owner: "Eigenaar"
+        redirect_uri: "URI omleiden"
+        client_credentials_user_id: "Client referenties gebruiker ID"
+        scopes: "Reikwijdte"
+        confidential: "Vertrouwelijke"
       enterprise_token:
         starts_at: "Geldig sinds"
         subscriber: "Abonnee"
@@ -637,20 +634,25 @@ nl:
         row_count: "Aantal rijen"
         column_count: "Aantal kolommen"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client-ID"
-      relation:
-        lag: "Lag"
-        from: "Werkpakket"
-        to: "Verwante werkpakket"
-      status:
-        is_closed: "Werkpakket gesloten"
-        is_readonly: "Werkpakket is alleen-lezen"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notities"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Voornaam"
+        attr_lastname: "Achternaam attribuut"
+        attr_login: "Gebruikersnaam attribuut"
+        attr_mail: "E-mail attribuut"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatische gebruiker aanmaken"
+        port: "Poort"
+        tls_certificate_string: "LDAP server SSL-certificaat"
       member:
         roles: "Rollen"
+      oauth_client:
+        client: "Client-ID"
+      planning_element_type_color:
+        hexcode: Hexadecimale code
       project:
         active_value:
           true: "Niet gearchiveerd"
@@ -680,6 +682,8 @@ nl:
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Kolommen"
         relations_to_type_column: "Betrekkingen %{type}"
@@ -687,10 +691,19 @@ nl:
         group_by: "Groepeer resultaten op"
         filters: "Filters"
         timeline_labels: "Tijdlijn etiketten"
+      relation:
+        lag: "Lag"
+        from: "Werkpakket"
+        to: "Verwante werkpakket"
       repository:
         url: "URL"
       role:
         permissions: "Machtigingen"
+      status:
+        is_closed: "Werkpakket gesloten"
+        is_readonly: "Werkpakket is alleen-lezen"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Activiteit"
         hours: "Uren"
@@ -733,10 +746,6 @@ nl:
       wiki_page:
         parent_title: "Bovenliggende pagina"
         redirect_existing_links: "Bestaande koppelingen omleiden"
-      planning_element_type_color:
-        hexcode: Hexadecimale code
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin van het invoegen"
         begin_deletion: "Begin van de verwijdering"
@@ -771,14 +780,6 @@ nl:
         type: "Type"
         version: "Versie"
         watcher: "Kijker"
-      "doorkeeper/application":
-        uid: "Client-ID"
-        secret: "Client secret"
-        owner: "Eigenaar"
-        redirect_uri: "URI omleiden"
-        client_credentials_user_id: "Client referenties gebruiker ID"
-        scopes: "Reikwijdte"
-        confidential: "Vertrouwelijke"
     errors:
       messages:
         accepted: "moet geaccepteerd worden."
@@ -991,6 +992,11 @@ nl:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "kan niet worden geactiveerd voor statussen die standaard zijn gemarkeerd."
         time_entry:
           attributes:
             hours:
@@ -1105,8 +1111,6 @@ nl:
         version:
           undeletable_archived_projects: "De versie kan niet worden verwijderd omdat er werkpakketten aan zijn gekoppeld."
           undeletable_work_packages_attached: "De versie kan niet worden verwijderd omdat er werkpakketten aan zijn gekoppeld."
-        status:
-          readonly_default_exlusive: "kan niet worden geactiveerd voor statussen die standaard zijn gemarkeerd."
         token/api:
           attributes:
             token_name:
@@ -1432,7 +1436,7 @@ nl:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Januari"
       - "Februari"
@@ -1583,7 +1587,7 @@ nl:
   error_must_be_project_member: "moet een project lid zijn"
   error_migrations_are_pending: "Uw OpenProject installatie heeft database migraties in afwachting. U heeft waarschijnlijk de migraties gemist tijdens uw laatste upgrade. Controleer a.u.b. de upgrade gids om uw installatie goed bij te werken."
   error_migrations_visit_upgrade_guides: "Bezoek onze upgrade gids a.u.b."
-  error_no_default_work_package_status: "Geen standaard werkpakket status is gedefinieerd. Controleer uw configuratie (Ga naar 'Administratie-> werkpakket statussen')."
+  error_no_default_work_package_status: 'Geen standaard werkpakket status is gedefinieerd. Controleer uw configuratie (Ga naar ''Administratie-> werkpakket statussen'').'
   error_no_type_in_project: "Er is geen type gekoppeld aan dit project. Controleer de projectinstellingen."
   error_omniauth_registration_timed_out: "De registratie via een externe authenticatie-provider is verlopen. Probeer het opnieuw."
   error_omniauth_invalid_auth: "De verificatie-informatie van de identiteitsprovider was ongeldig. Neem contact op met uw beheerder voor verdere hulp."
@@ -2624,8 +2628,8 @@ nl:
   notice_locking_conflict: "Informatie is in de tussentijd door ten minste één andere gebruiker bijgewerkt."
   notice_locking_conflict_additional_information: "De update kwam van %{users}."
   notice_locking_conflict_reload_page: "Pagina opnieuw laden, bekijk de wijzigingen en uw wijzigingen opnieuw toepassen."
-  notice_member_added: "%{name} is toegevoegd aan het project."
-  notice_members_added: "%{number} gebruikers zijn toegevoegd aan het project."
+  notice_member_added: '%{name} is toegevoegd aan het project.'
+  notice_members_added: '%{number} gebruikers zijn toegevoegd aan het project.'
   notice_member_removed: "%{user} verwijderd uit het project."
   notice_member_deleted: "%{user} is verwijderd uit het project en de gebruiker bestaat niet meer."
   notice_no_principals_found: "Geen resultaten gevonden."

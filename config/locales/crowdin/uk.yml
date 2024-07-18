@@ -263,8 +263,7 @@ uk:
       favored: "Обрані проєкти"
       archived: "Заархівовані проєкти"
       shared: "Спільні проєкти"
-      public: "Списки загальнодоступних проєктів"
-      my_lists: "Особисті списки проєктів"
+      my_lists: "Мої списки проєктів"
       new:
         placeholder: "Новий список проєктів"
       delete_modal:
@@ -300,7 +299,7 @@ uk:
       types:
         no_results_title_text: Наразі немає доступних типів.
         form:
-          enable_type_in_project: "Дозволити тип «%{type}»?"
+          enable_type_in_project: 'Дозволити тип «%{type}»?'
       versions:
         no_results_title_text: Наразі не існує версій для проекту.
         no_results_content_text: Створіть нову версію
@@ -412,7 +411,7 @@ uk:
       no_results_title_text: Наразі немає доступних маркерів доступу.
       notice_api_token_revoked: "Маркер API видалено. Щоб створити новий, скористайтеся кнопкою в розділі API."
       notice_rss_token_revoked: "Маркер RSS видалено. Щоб створити новий, скористайтеся посиланням у розділі RSS."
-      notice_ical_token_revoked: "Маркер iCalendar «%{token_name}» для календаря «%{calendar_name}» проєкту «%{project_name}» відкликано. URL-адреса iCalendar із цим маркером зараз недійсна."
+      notice_ical_token_revoked: 'Маркер iCalendar «%{token_name}» для календаря «%{calendar_name}» проєкту «%{project_name}» відкликано. URL-адреса iCalendar із цим маркером зараз недійсна.'
   news:
     index:
       no_results_title_text: Наразі немає жодної новини.
@@ -604,17 +603,6 @@ uk:
       attribute_help_text:
         attribute_name: "Атрибут"
         help_text: "Довідковий текст"
-      ldap_auth_source:
-        account: "Обліковий запис"
-        attr_firstname: "Атрибут «Ім’я»"
-        attr_lastname: "Атрибут «Прізвище»"
-        attr_login: "Атрибут «Ім’я користувача»"
-        attr_mail: "Атрибут «Електронна адреса»"
-        base_dn: "Базове ім’я DN"
-        host: "Хост"
-        onthefly: "Автоматичне створення користувачів"
-        port: "Порт"
-        tls_certificate_string: "Сертифікат SSL сервера LDAP"
       changeset:
         repository: "Репозиторій"
       color:
@@ -639,6 +627,14 @@ uk:
         visible: "Видиме"
       custom_value:
         value: "Значення"
+      doorkeeper/application:
+        uid: "Ідентифікатор клієнта"
+        secret: "Секретний ключ клієнта"
+        owner: "Власник"
+        redirect_uri: "Перенаправити URI (Automatic Translation)"
+        client_credentials_user_id: "Ідентифікатор користувача для облікових даних клієнта"
+        scopes: "Область дії"
+        confidential: "Конфіденційний"
       enterprise_token:
         starts_at: "Дійсний з"
         subscriber: "Абонент"
@@ -649,20 +645,25 @@ uk:
         row_count: "Кількість рядків"
         column_count: "Кількість стовпців"
         widgets: "Віджети"
-      oauth_client:
-        client: "ID клієнта"
-      relation:
-        lag: "Затримка"
-        from: "Пакет робіт"
-        to: "Пов'язаний робочий пакет"
-      status:
-        is_closed: "Робочий пакет закритий"
-        is_readonly: "Пакет робіт лише для перегляду"
-        excluded_from_totals: "Виключити з підрахунку підсумків в ієрархії"
       journal:
         notes: "Нотатки"
+      ldap_auth_source:
+        account: "Обліковий запис"
+        attr_firstname: "Атрибут «Ім’я»"
+        attr_lastname: "Атрибут «Прізвище»"
+        attr_login: "Атрибут «Ім’я користувача»"
+        attr_mail: "Атрибут «Електронна адреса»"
+        base_dn: "Базове ім’я DN"
+        host: "Хост"
+        onthefly: "Автоматичне створення користувачів"
+        port: "Порт"
+        tls_certificate_string: "Сертифікат SSL сервера LDAP"
       member:
         roles: "Роль"
+      oauth_client:
+        client: "ID клієнта"
+      planning_element_type_color:
+        hexcode: Двійковий код
       project:
         active_value:
           true: "розархівовано"
@@ -692,6 +693,8 @@ uk:
         types: "Типи"
         versions: "Версії"
         work_packages: "Пакет робіт"
+      project_custom_field:
+        custom_field_section: Розділ
       query:
         column_names: "Стовпці"
         relations_to_type_column: "Відносини з %{type}"
@@ -699,10 +702,19 @@ uk:
         group_by: "Групувати результати по"
         filters: "Фільтри"
         timeline_labels: "Мітки часової шкали"
+      relation:
+        lag: "Затримка"
+        from: "Пакет робіт"
+        to: "Пов'язаний робочий пакет"
       repository:
         url: "Посилання"
       role:
         permissions: "Дозволи"
+      status:
+        is_closed: "Робочий пакет закритий"
+        is_readonly: "Пакет робіт лише для перегляду"
+        excluded_from_totals: "Виключити з підрахунку підсумків в ієрархії"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Активність"
         hours: "Години"
@@ -745,10 +757,6 @@ uk:
       wiki_page:
         parent_title: "Головна сторінка"
         redirect_existing_links: "Перенаправити існуючі посилання"
-      planning_element_type_color:
-        hexcode: Двійковий код
-      project_custom_field:
-        custom_field_section: Розділ
       work_package:
         begin_insertion: "Початок вставки"
         begin_deletion: "Початок видалення"
@@ -783,14 +791,6 @@ uk:
         type: "Тип"
         version: "Версія"
         watcher: "Спостерігач"
-      "doorkeeper/application":
-        uid: "Ідентифікатор клієнта"
-        secret: "Секретний ключ клієнта"
-        owner: "Власник"
-        redirect_uri: "Перенаправити URI (Automatic Translation)"
-        client_credentials_user_id: "Ідентифікатор користувача для облікових даних клієнта"
-        scopes: "Область дії"
-        confidential: "Конфіденційний"
     errors:
       messages:
         accepted: "повинні бути прийняті."
@@ -889,7 +889,7 @@ uk:
               fragment_present: "26/5000\nне може містити фрагмент."
               invalid_uri: "має бути дійсним URI."
               relative_uri: "має бути абсолютним URI."
-              secured_uri: "не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost."
+              secured_uri: 'не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.'
               forbidden_uri: "заборонено сервером."
             scopes:
               not_match_configured: "не відповідає доступним областям."
@@ -925,7 +925,7 @@ uk:
             base:
               unsupported_operator: "Оператор не підтримується."
               invalid_values: "Значення недійсне."
-              id_filter_required: 'Необхідний фільтр "id".'
+              id_filter_required: "Необхідний фільтр \"id\"."
         project:
           archived_ancestor: "У проєкту є архівований предок."
           foreign_wps_reference_version: "Пакети робіт у ненащадкових проєктах посилаються на версії цього проєкту або його нащадків."
@@ -1003,6 +1003,11 @@ uk:
               hours_per_day_are_missing: "Потрібно визначити кількість годин на день."
               durations_are_not_positive_numbers: "Тривалість має бути додатним числом."
               hours_per_day_is_out_of_bounds: "Кількість годин на день не може перевищувати 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "– не можна активувати для статусів, позначених як стандартні."
         time_entry:
           attributes:
             hours:
@@ -1100,7 +1105,7 @@ uk:
                 other: "раніше використовувався. Виберіть той, який відрізняється від вашого останнього %{count}."
               match:
                 confirm: "Підтвердіть новий пароль."
-                description: '"Підтвердження пароля" має відповідати введеному в полі "Новий пароль".'
+                description: "\"Підтвердження пароля\" має відповідати введеному в полі \"Новий пароль\"."
             status:
               invalid_on_create: "не є дійсним статусом для нових користувачів."
             ldap_auth_source:
@@ -1119,8 +1124,6 @@ uk:
         version:
           undeletable_archived_projects: "Версію не можна видалити, оскільки до неї долучено пакети робіт."
           undeletable_work_packages_attached: "Версію не можна видалити, оскільки до неї приєднані робочі пакети."
-        status:
-          readonly_default_exlusive: "– не можна активувати для статусів, позначених як стандартні."
         token/api:
           attributes:
             token_name:
@@ -1310,7 +1313,7 @@ uk:
       invalid_token: Недійсний або відсутній маркер резервного копіювання
       token_cooldown: Маркер резервного копіювання буде дійсний протягом %{hours} год.
       backup_pending: Очікується початок резервного копіювання.
-      limit_reached: "Ви можете створити лише стільки резервних копій на день: %{limit}."
+      limit_reached: 'Ви можете створити лише стільки резервних копій на день: %{limit}.'
   button_actions: "Дії"
   button_add: "Додати"
   button_add_comment: "Додати коментар"
@@ -1407,7 +1410,7 @@ uk:
     text_update_consent_time: Установіть цей прапорець, щоб примусити користувачів знову погодитися. Увімкнути, коли ви змінили юридичний аспект інформації про згоду вище.
     update_consent_last_time: "Останнє оновлення згоди: %{update_time}"
   copy_project:
-    title: "Скопіювати проєкт «%{source_project_name}»"
+    title: 'Скопіювати проєкт «%{source_project_name}»'
     started: 'Почалось копіювання проекту "%{source_project_name}" у "%{target_project_name}". Вас буде проінформовано за допомогою електронної пошти як тільки "%{target_project_name}" буде доступний.'
     failed: "Неможливо скопіювати проект %{source_project_name}"
     failed_internal: "Копіювання не вдалося через внутрішню помилку."
@@ -1462,7 +1465,7 @@ uk:
       long: "%d %B %Y"
       short: "%d %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Січень"
       - "Лютий"
@@ -1896,7 +1899,7 @@ uk:
   label_api_access_key_created_on: "Ключ доступу до API створено %{value} тому"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "Маркер iCalendar «%{token_name}» для календаря «%{calendar_name}» у проєкті «%{project_name}»"
+  label_ical_access_key_description: 'Маркер iCalendar «%{token_name}» для календаря «%{calendar_name}» у проєкті «%{project_name}»'
   label_ical_access_key_not_present: "Немає маркерів iCalendar."
   label_ical_access_key_generation_hint: "Автоматично створено під час оформлення підписки на календар."
   label_ical_access_key_latest: "останні"
@@ -2431,9 +2434,9 @@ uk:
   label_wiki_navigation: "Навігація Wiki"
   label_wiki_page: "Сторінка Wiki"
   label_wiki_page_plural: "Сторінки Wiki"
-  label_wiki_show_index_page_link: 'Показати пункт підменю "Зміст"'
+  label_wiki_show_index_page_link: "Показати пункт підменю \"Зміст\""
   label_wiki_show_menu_item: "Показати як пункт меню в навігації по проекту"
-  label_wiki_show_new_page_link: 'Показати елемент підменю "Створити нову початкову сторінку"'
+  label_wiki_show_new_page_link: "Показати елемент підменю \"Створити нову початкову сторінку\""
   label_wiki_show_submenu_item: "Показати як пункт підменю "
   label_wiki_start: "Початкова сторінка"
   label_work: "Робота"
@@ -2561,12 +2564,12 @@ uk:
         plaintext:
           storage: "Сховище"
           healthy:
-            summary: "Чудові новини! Зараз статус вашого сховища «%{storage_name}» – «Справне»."
+            summary: 'Чудові новини! Зараз статус вашого сховища «%{storage_name}» – «Справне».'
             error-solved-on: "Вирішено"
             recommendation: "Ми продовжуватимемо відстежувати систему, щоб переконатися, що вона залишається справною. Ми сповістимо вас, якщо виявимо будь-які невідповідності."
             details: "Щоб дізнатися більше або внести необхідні зміни, перейдіть на сторінку конфігурації свого сховища"
           unhealthy:
-            summary: "Зараз статус вашого сховища, %{storage_name}, – «Помилка». Ми виявили проблему, яка може потребувати вашої уваги."
+            summary: 'Зараз статус вашого сховища, %{storage_name}, – «Помилка». Ми виявили проблему, яка може потребувати вашої уваги.'
             error-details: "Деталі помилки"
             error-message: "Повідомлення про помилку"
             error-occurred-on: "Сталася в"
@@ -2575,11 +2578,11 @@ uk:
         email_notification_settings: "Налаштування сповіщень електронною поштою для сховища"
         see_storage_settings: "Переглянути налаштування сховища"
         healthy:
-          subject: "Сховище «%{name}» зараз справне!"
+          subject: 'Сховище «%{name}» зараз справне!'
           solved_at: "вирішено о"
           summary: "Проблему з інтеграцією вашого сховища «%{storage_name}» вирішено"
         unhealthy:
-          subject: "Сховище «%{name}» несправне!"
+          subject: 'Сховище «%{name}» несправне!'
           since: "з"
           summary: "Існує проблема з інтеграцією вашого сховища «%{storage_name}»"
           troubleshooting:
@@ -2612,7 +2615,7 @@ uk:
   mail_body_register_closing: "Ваша команда OpenProject"
   mail_body_register_ending: "Будьте на зв’язку! З повагою,"
   mail_body_reminder: "%{count} призначених на Вас робочих пакетів на наступні %{days} днів:"
-  mail_body_group_reminder: "Пакети робіт (%{count}), призначені групі «%{group}», потрібно завершити протягом наступних %{days} дн.:"
+  mail_body_group_reminder: 'Пакети робіт (%{count}), призначені групі «%{group}», потрібно завершити протягом наступних %{days} дн.:'
   mail_body_wiki_page_added: "%{author} додав(ла) wiki-сторінку %{id}."
   mail_body_wiki_page_updated: "%{author} оновив(ла) wiki-сторінку %{id}."
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
@@ -3323,7 +3326,7 @@ uk:
   text_project_identifier_info: "Допускаються тільки рядкові малі букви (a-z), цифри, тире та нижнє підкреслення. Початок має бути з малої літери."
   text_reassign: "Перепризначити робочому пакету:"
   text_regexp_info: "наприклад ^[A-Z0-9]+$"
-  text_regexp_multiline: "Реестр застосовується в багаторядковому режимі. наприклад, --- ---"
+  text_regexp_multiline: 'Реестр застосовується в багаторядковому режимі. наприклад, --- ---'
   text_repository_usernames_mapping: "Виберіть або оновіть користувача OpenProject, зіставленого з кожним ім'ям користувача в журналі репозиторію.\nКористувачі з таким самим ім'ям користувача або електронною поштою OpenProject автоматично відображаються."
   text_status_changed_by_changeset: " Застосовується в наборі змін %{value}"
   text_table_difference_description: "У цій таблиці наведений єдиний %{entries}. Ви можете переглянути різницю між будь-якими двома записами, спочатку поставивши відповідні прапорці в таблиці. При натисканні на кнопку внизу таблиці будуть показані відмінності."
@@ -3454,7 +3457,7 @@ uk:
         Ваш додаток запущено з іменем хосту <code>%{set_hostname}</code>, але в запиті використовується <code>%{actual_hostname}</code>. Це призведе до помилок! Виберіть <a href="%{setting_path}">Системні налаштування</a> та змініть параметр «Ім’я хосту» на правильний.
   menu_item: "Пункт меню"
   menu_item_setting: "Видимість"
-  wiki_menu_item_for: "Пункт меню для вікі-сторінки %{title}"
+  wiki_menu_item_for: 'Пункт меню для вікі-сторінки %{title}'
   wiki_menu_item_setting: "Видимість"
   wiki_menu_item_new_main_item_explanation: >
     Ви видаляєте лише головний пункт меню вікі. Тепер ви повинні вибрати вікі-сторінку, для якої буде створено новий головний елемент. Щоб видалити вікі, модуль wiki може бути відключений адміністраторами проекту.
@@ -3654,7 +3657,7 @@ uk:
         revoke:
           unauthorized: "Ви не вповноважені відкликати цей маркер."
         forbidden_token:
-          missing_scope: "Для доступу до цього ресурсу потрібна область «%{oauth_scopes}»."
+          missing_scope: 'Для доступу до цього ресурсу потрібна область «%{oauth_scopes}».'
   unsupported_browser:
     title: "Ваш веб-переглядач застарілий і не підтримується."
     message: "Ви можете зіткнутися з помилками та погіршити досвід роботи на цій сторінці."
@@ -3704,7 +3707,7 @@ uk:
       client_credentials: "Потік облікових даних клієнта"
     client_credentials: "Користувач, який використовується для облікових даних клієнта"
     client_credentials_impersonation_set_to: "Ідентифікатор користувача для облікових даних клієнта"
-    client_credentials_impersonation_warning: 'Примітка: Клієнти, які використовують потік "Клієнтські дані" в цій програмі, матимуть права цього користувача'
+    client_credentials_impersonation_warning: "Примітка: Клієнти, які використовують потік \"Клієнтські дані\" в цій програмі, матимуть права цього користувача"
     client_credentials_impersonation_html: >
       За замовчуванням OpenProject надає авторизацію OAuth 2.0 через %{authorization_code_flow_link}. За бажанням можна включити %{client_credentials_flow_link} але ви повинні надати користувачеві, від імені будуть  кого виконуватися запити.
     authorization_error: "Сталася помилка авторизації."

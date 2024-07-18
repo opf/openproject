@@ -414,7 +414,7 @@
       prompt: "Forbli innlogget for %{num_days}"
     sessions:
       remembered_devices: "Lagrede enheter"
-      remembered_devices_caption: 'En liste over alle enheter som er logget på denne kontoen ved hjelp av "Hold deg innlogget" alternativet.'
+      remembered_devices_caption: "En liste over alle enheter som er logget på denne kontoen ved hjelp av \"Hold deg innlogget\" alternativet."
       session_name: "%{browser_name} %{browser_version} på %{os_name}"
       browser: "Nettleser"
       device: "Enhet / Operativsystem"
@@ -530,7 +530,7 @@
     sharing:
       missing_workflow_warning:
         title: "Arbeidsflyt mangler for deling av arbeidspakker"
-        message: 'Ingen arbeidsflyt er konfigurert for rollen ''Arbeidspakke redaktør''. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. ''oppgave'') og en kilderolle (f.eks. ''medlem''). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du "Redigeringsprogrammet for arbeidspakke" som mål og klikk "Kopier". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for enhver annen rolle.'
+        message: "Ingen arbeidsflyt er konfigurert for rollen 'Arbeidspakke redaktør'. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. 'oppgave') og en kilderolle (f.eks. 'medlem'). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du \"Redigeringsprogrammet for arbeidspakke\" som mål og klikk \"Kopier\". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for enhver annen rolle."
         link_message: "Konfigurer arbeidsmetodene i administrasjonen."
     summary:
       reports:
@@ -594,17 +594,6 @@
       attribute_help_text:
         attribute_name: "Attributt"
         help_text: "Hjelpetekst"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Fornavn-attributt"
-        attr_lastname: "Etternavn-attributt"
-        attr_login: "Brukernavn egenskap"
-        attr_mail: "E-postattributt"
-        base_dn: "Base DN"
-        host: "Vert"
-        onthefly: "Automatisk brukeropprettelse"
-        port: "Port"
-        tls_certificate_string: "LDAP-tjener SSL sertifikat"
       changeset:
         repository: "Pakkebrønn"
       color:
@@ -629,6 +618,14 @@
         visible: "Synlig"
       custom_value:
         value: "Verdi"
+      doorkeeper/application:
+        uid: "Klient ID"
+        secret: "Klient hemmlighet"
+        owner: "Eier"
+        redirect_uri: "Omdiriger URI"
+        client_credentials_user_id: "Klientens bruker-ID"
+        scopes: "Omfang"
+        confidential: "Konfidensiell"
       enterprise_token:
         starts_at: "Gyldig siden"
         subscriber: "Abonnent"
@@ -639,20 +636,25 @@
         row_count: "Antall rader"
         column_count: "Antall kolonner"
         widgets: "Widgeter"
-      oauth_client:
-        client: "Klient ID"
-      relation:
-        lag: "Forsinkelse"
-        from: "Arbeidspakke"
-        to: "Relatert arbeidspakke"
-      status:
-        is_closed: "Arbeidspakke lukket"
-        is_readonly: "Arbeidspakken er skrivebeskyttet"
-        excluded_from_totals: "Unnta fra beregning av totaler i hierarki"
       journal:
         notes: "Notater"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Fornavn-attributt"
+        attr_lastname: "Etternavn-attributt"
+        attr_login: "Brukernavn egenskap"
+        attr_mail: "E-postattributt"
+        base_dn: "Base DN"
+        host: "Vert"
+        onthefly: "Automatisk brukeropprettelse"
+        port: "Port"
+        tls_certificate_string: "LDAP-tjener SSL sertifikat"
       member:
         roles: "Rolle"
+      oauth_client:
+        client: "Klient ID"
+      planning_element_type_color:
+        hexcode: Hexadesimalkode
       project:
         active_value:
           true: "Ikke arkivert"
@@ -682,6 +684,8 @@
         types: "Typer"
         versions: "Versjoner"
         work_packages: "Arbeidspakker"
+      project_custom_field:
+        custom_field_section: Seksjon
       query:
         column_names: "Kolonner"
         relations_to_type_column: "Forbindelser til %{type}"
@@ -689,10 +693,19 @@
         group_by: "Gruppèr resultater etter"
         filters: "Filtre"
         timeline_labels: "Tidslinje etiketter"
+      relation:
+        lag: "Forsinkelse"
+        from: "Arbeidspakke"
+        to: "Relatert arbeidspakke"
       repository:
         url: "URL"
       role:
         permissions: "Tilganger"
+      status:
+        is_closed: "Arbeidspakke lukket"
+        is_readonly: "Arbeidspakken er skrivebeskyttet"
+        excluded_from_totals: "Unnta fra beregning av totaler i hierarki"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivitet"
         hours: "Timer"
@@ -735,10 +748,6 @@
       wiki_page:
         parent_title: "Overordnet side"
         redirect_existing_links: "Omdirigere eksisterende lenker"
-      planning_element_type_color:
-        hexcode: Hexadesimalkode
-      project_custom_field:
-        custom_field_section: Seksjon
       work_package:
         begin_insertion: "Begynnelsen av innsettingen"
         begin_deletion: "Begynnelsen av slettingen"
@@ -773,14 +782,6 @@
         type: "Type"
         version: "Versjon"
         watcher: "Overvåker"
-      "doorkeeper/application":
-        uid: "Klient ID"
-        secret: "Klient hemmlighet"
-        owner: "Eier"
-        redirect_uri: "Omdiriger URI"
-        client_credentials_user_id: "Klientens bruker-ID"
-        scopes: "Omfang"
-        confidential: "Konfidensiell"
     errors:
       messages:
         accepted: "må aksepteres"
@@ -970,10 +971,10 @@
             circular_dependency: "Forholdet skaper en sirkel av forhold."
           attributes:
             to:
-              error_not_found: 'Arbeidspakke i "til"-posisjonen er ikke funnet eller ikke synlig'
+              error_not_found: "Arbeidspakke i \"til\"-posisjonen er ikke funnet eller ikke synlig"
               error_readonly: "en eksisterende relasjons 'til'-lenke er uforanderlig"
             from:
-              error_not_found: 'arbeidspakke i "fra"-posisjonen er ikke funnet eller ikke synlig'
+              error_not_found: "arbeidspakke i \"fra\"-posisjonen er ikke funnet eller ikke synlig"
               error_readonly: "en eksisterende relasjon `fra`-lenke er uforanderlig"
         repository:
           not_available: "SCM leverandør er ikke tilgjengelig"
@@ -993,6 +994,11 @@
               hours_per_day_are_missing: "Antall timer per dag må defineres."
               durations_are_not_positive_numbers: "Varigheten må være positive tall."
               hours_per_day_is_out_of_bounds: "Timer per dag kan ikke være mer enn 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "kan ikke aktiveres for statuser som er merket som standard."
         time_entry:
           attributes:
             hours:
@@ -1079,10 +1085,10 @@
               format: "%{message}"
             password:
               weak: "Må inneholde tegn fra de følgende klassene (minst %{min_count} av %{all_count}): %{rules}."
-              lowercase: 'små bokstaver (f.eks. "a")'
-              uppercase: 'store bokstaver (f.eks. "A")'
-              numeric: 'numerisk (f.eks. "1")'
-              special: 'spesialtegn (f.eks. "%")'
+              lowercase: "små bokstaver (f.eks. \"a\")"
+              uppercase: "store bokstaver (f.eks. \"A\")"
+              numeric: "numerisk (f.eks. \"1\")"
+              special: "spesialtegn (f.eks. \"%\")"
               reused:
                 one: "har blitt brukt tidligere. Vennligst velg en som er forskjellig fra den forrige."
                 other: "har blitt brukt tidligere. Vennligst velg et som er forskjellig fra dine siste %{count}."
@@ -1107,8 +1113,6 @@
         version:
           undeletable_archived_projects: "Versjonen kan ikke slettes ettersom den har arbeidspakker knyttet til den."
           undeletable_work_packages_attached: "Versjonen kan ikke slettes ettersom den har arbeidspakker knyttet til den."
-        status:
-          readonly_default_exlusive: "kan ikke aktiveres for statuser som er merket som standard."
         token/api:
           attributes:
             token_name:
@@ -1434,7 +1438,7 @@
       long: "%d. %B %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Januar"
       - "Februar"
@@ -1449,8 +1453,8 @@
       - "November"
       - "Desember"
     order:
-      - ":år"
-      - ":måned"
+      - ':år'
+      - ':måned'
       - :dag
   datetime:
     distance_in_words:
@@ -3519,7 +3523,7 @@
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (enhver kompatibel ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Forventet at INNHOLDSTYPE skulle være '%{content_type}', men mottok i stedet '%{actual}'."
-      invalid_format: 'Ugyldig format for ''%{property}'': forventet format som "%{expected_format}", men fikk ''%{actual}''.'
+      invalid_format: "Ugyldig format for '%{property}': forventet format som \"%{expected_format}\", men fikk '%{actual}'."
       invalid_json: "Forespørselen kan ikke analyseres som JSON."
       invalid_relation: "Relasjonen er ugyldig."
       invalid_resource: "For '%{property}' er en link som '%{expected}' forventet, men fikk '%{actual}'."
@@ -3636,7 +3640,7 @@
       client_credentials: "Kundens innloggingsflyt"
     client_credentials: "Brukeren brukes til klientpåloggingsinformasjon"
     client_credentials_impersonation_set_to: "Klientens påloggingsinformasjon satt til"
-    client_credentials_impersonation_warning: 'Merk: Klienter som bruker "Klient-legitimasjonsflyten" i denne applikasjonen vil ha rettighetene til denne brukeren'
+    client_credentials_impersonation_warning: "Merk: Klienter som bruker \"Klient-legitimasjonsflyten\" i denne applikasjonen vil ha rettighetene til denne brukeren"
     client_credentials_impersonation_html: >
       Som standard gir OpenProject OAuth 2.0 autorisasjon via %{authorization_code_flow_link}. Du kan eventuelt aktivere %{client_credentials_flow_link}, men du må oppgi en bruker som forespørselen blir utført på vegne av.
     authorization_error: "Det oppstod en godkjenningsfeil."

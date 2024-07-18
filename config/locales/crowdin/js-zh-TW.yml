@@ -659,7 +659,7 @@ zh-TW:
           no_notification_with_current_filter: "看起來您已查看“%{filter}”篩選條件的所有通知。"
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
-          message: "There are new notifications."
+          message: "您有新的通知"
           link_text: "Click here to load them."
       settings:
         change_notification_settings: '您可以修改 <a target="_blank" href="%{url}">通知設定</a>，以確保您不會錯過重要更新。'
@@ -724,7 +724,7 @@ zh-TW:
       relation_description: "按一下以便為此關係添加描述"
     project:
       required_outside_context: >
-        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+        請選擇專案以便新增工作項目以及檢視屬性。您只能選擇啟用中的專案。
       details_activity: "Project details activity"
       context: "專案內容"
       click_to_switch_to_project: "Project: %{projectname}"

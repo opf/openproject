@@ -301,7 +301,7 @@ pl:
       types:
         no_results_title_text: Nie ma dostępnych typów.
         form:
-          enable_type_in_project: "Włącz typ „%{type}”"
+          enable_type_in_project: 'Włącz typ „%{type}”'
       versions:
         no_results_title_text: Nie ma innych wersji tego projektu.
         no_results_content_text: Utwórz nową wersję projektu
@@ -413,7 +413,7 @@ pl:
       no_results_title_text: Aktualnie nie ma dostępnych tokenów.
       notice_api_token_revoked: "Token API został usunięty. Aby utworzyć nowy token, użyj przycisku w sekcji API."
       notice_rss_token_revoked: "Token RSS został usunięty. Aby utworzyć nowy token użyj linku w sekcji RSS."
-      notice_ical_token_revoked: "Token iCalendar „%{token_name}” kalendarza „%{calendar_name}” projektu „%{project_name}” został unieważniony. Adres URL iCalendar z tym tokenem jest teraz nieprawidłowy."
+      notice_ical_token_revoked: 'Token iCalendar „%{token_name}” kalendarza „%{calendar_name}” projektu „%{project_name}” został unieważniony. Adres URL iCalendar z tym tokenem jest teraz nieprawidłowy.'
   news:
     index:
       no_results_title_text: Nie ma jeszcze żadnych wiadomości do wyświetlenia.
@@ -606,17 +606,6 @@ pl:
       attribute_help_text:
         attribute_name: "Atrybut"
         help_text: "Tekst pomocy"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Atrybut imienia"
-        attr_lastname: "Atrybut nazwiska"
-        attr_login: "Atrybut nazwy użytkownika"
-        attr_mail: "Atrybut adresu e-mail"
-        base_dn: "Bazowa nazwa wyróżniająca"
-        host: "Host"
-        onthefly: "Automatyczne tworzenie użytkowników"
-        port: "Port"
-        tls_certificate_string: "Certyfikat SSL serwera LDAP"
       changeset:
         repository: "Repozytorium"
       color:
@@ -641,6 +630,14 @@ pl:
         visible: "Widoczne"
       custom_value:
         value: "Wartość"
+      doorkeeper/application:
+        uid: "Numer klienta"
+        secret: "Hasło klienta"
+        owner: "Właściciel"
+        redirect_uri: "Identyfikator URI przekerowania"
+        client_credentials_user_id: "Identyfikator użytkownika poświadczeń klienta"
+        scopes: "Zakresy"
+        confidential: "Poufne"
       enterprise_token:
         starts_at: "Ważne od"
         subscriber: "Subskrybent"
@@ -651,20 +648,25 @@ pl:
         row_count: "Liczba wierszy"
         column_count: "Liczba kolumn"
         widgets: "Widżety"
-      oauth_client:
-        client: "Identyfikator klienta"
-      relation:
-        lag: "Opóźnienie"
-        from: "Zadanie"
-        to: "Powiązanie zadania"
-      status:
-        is_closed: "Zadanie zamknięte"
-        is_readonly: "Pakiet roboczy tylko do odczytu"
-        excluded_from_totals: "Wyłącz z obliczania sum w hierarchii"
       journal:
         notes: "Notatki"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Atrybut imienia"
+        attr_lastname: "Atrybut nazwiska"
+        attr_login: "Atrybut nazwy użytkownika"
+        attr_mail: "Atrybut adresu e-mail"
+        base_dn: "Bazowa nazwa wyróżniająca"
+        host: "Host"
+        onthefly: "Automatyczne tworzenie użytkowników"
+        port: "Port"
+        tls_certificate_string: "Certyfikat SSL serwera LDAP"
       member:
         roles: "Role"
+      oauth_client:
+        client: "Identyfikator klienta"
+      planning_element_type_color:
+        hexcode: Kod szesnastkowy
       project:
         active_value:
           true: "niezarchiwizowane"
@@ -694,6 +696,8 @@ pl:
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
+      project_custom_field:
+        custom_field_section: Sekcja
       query:
         column_names: "Kolumny"
         relations_to_type_column: "Relacje %{type}"
@@ -701,10 +705,19 @@ pl:
         group_by: "Grupuj wyniki"
         filters: "Filtry"
         timeline_labels: "Etykiety osi czasu"
+      relation:
+        lag: "Opóźnienie"
+        from: "Zadanie"
+        to: "Powiązanie zadania"
       repository:
         url: "ADRES URL"
       role:
         permissions: "Uprawnienia"
+      status:
+        is_closed: "Zadanie zamknięte"
+        is_readonly: "Pakiet roboczy tylko do odczytu"
+        excluded_from_totals: "Wyłącz z obliczania sum w hierarchii"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Działanie"
         hours: "Godziny"
@@ -747,10 +760,6 @@ pl:
       wiki_page:
         parent_title: "Strona nadrzędna"
         redirect_existing_links: "Przekieruj istniejące powiązania"
-      planning_element_type_color:
-        hexcode: Kod szesnastkowy
-      project_custom_field:
-        custom_field_section: Sekcja
       work_package:
         begin_insertion: "Początek wstawiania"
         begin_deletion: "Początek usuwania"
@@ -785,14 +794,6 @@ pl:
         type: "Typ"
         version: "Wersja"
         watcher: "Obserwator"
-      "doorkeeper/application":
-        uid: "Numer klienta"
-        secret: "Hasło klienta"
-        owner: "Właściciel"
-        redirect_uri: "Identyfikator URI przekerowania"
-        client_credentials_user_id: "Identyfikator użytkownika poświadczeń klienta"
-        scopes: "Zakresy"
-        confidential: "Poufne"
     errors:
       messages:
         accepted: "musi być zaakceptowane."
@@ -910,9 +911,9 @@ pl:
           at_least_one_channel: "Należy określić co najmniej jeden kanał dla wysyłania powiadomień."
           attributes:
             read_ian:
-              read_on_creation: 'nie można ustawić na „prawda" przy tworzeniu powiadomień.'
+              read_on_creation: "nie można ustawić na „prawda\" przy tworzeniu powiadomień."
             mail_reminder_sent:
-              set_on_creation: 'nie można ustawić na „prawda" przy tworzeniu powiadomień.'
+              set_on_creation: "nie można ustawić na „prawda\" przy tworzeniu powiadomień."
             reason:
               no_notification_reason: "nie może być puste, ponieważ IAN jest wybrany jako kanał."
             reason_mail_digest:
@@ -966,7 +967,7 @@ pl:
               name_not_included: "Należy uwzględnić kolumnę „Nazwa”"
               nonexistent: "Kolumna „%{column}” nie istnieje."
               format: "%{message}"
-          group_by_hierarchies_exclusive: 'wzajemnie się wykluczają w ramach grupowania wg "%{group_by}". Nie można aktywować równocześnie.'
+          group_by_hierarchies_exclusive: "wzajemnie się wykluczają w ramach grupowania wg \"%{group_by}\". Nie można aktywować równocześnie."
           can_only_be_modified_by_owner: "Zapytanie może zmodyfikować tylko jego właściciel."
           need_permission_to_modify_public_query: "Nie możesz zmodyfikować zapytania publicznego."
           filters:
@@ -982,11 +983,11 @@ pl:
             circular_dependency: "Relacja tworzy krąg relacji."
           attributes:
             to:
-              error_not_found: 'nie można znaleźć lub wizualizować zadania w pozycji "do"'
-              error_readonly: 'nie można zmienić odnośnika bieżącego powiązania "do"'
+              error_not_found: "nie można znaleźć lub wizualizować zadania w pozycji \"do\""
+              error_readonly: "nie można zmienić odnośnika bieżącego powiązania \"do\""
             from:
-              error_not_found: 'nie można znaleźć lub wizualizować zadania w pozycji "od"'
-              error_readonly: 'nie można zmienić odnośnika bieżącego powiązania "of"'
+              error_not_found: "nie można znaleźć lub wizualizować zadania w pozycji \"od\""
+              error_readonly: "nie można zmienić odnośnika bieżącego powiązania \"of\""
         repository:
           not_available: "Producent SCM nie jest dostępny"
           not_whitelisted: "nie jest dozwolone w tej konfiguracji."
@@ -1005,6 +1006,11 @@ pl:
               hours_per_day_are_missing: "Liczba godzin dziennie musi być określona."
               durations_are_not_positive_numbers: "Czasy trwania muszą być liczbami dodatnimi."
               hours_per_day_is_out_of_bounds: "Liczba godzin dziennie nie może przekraczać 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "nie można aktywować dla statusów, które są oznaczone jako domyślne."
         time_entry:
           attributes:
             hours:
@@ -1041,7 +1047,7 @@ pl:
             duration:
               larger_than_dates: "jest większy niż interwał między datą rozpoczęcia i zakończenia."
               smaller_than_dates: "jest krótszy niż interwał między datą rozpoczęcia i zakończenia."
-              not_available_for_milestones: 'nie jest dostępny dla pakietów prac wpisywanych jako "kamienie milowe".'
+              not_available_for_milestones: "nie jest dostępny dla pakietów prac wpisywanych jako \"kamienie milowe\"."
               cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia, zakończenia i czas trwania są znane."
             parent:
               cannot_be_milestone: "nie może być kamieniem milowym."
@@ -1102,7 +1108,7 @@ pl:
                 other: "było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednie."
               match:
                 confirm: "Potwierdź nowe hasło."
-                description: '"Potwierdzenie hasła" powinno być zgodne z wartością w polu ''Nowe hasło''.'
+                description: "\"Potwierdzenie hasła\" powinno być zgodne z wartością w polu 'Nowe hasło'."
             status:
               invalid_on_create: "nie jest prawidłowym statusem dla nowych użytkowników."
             ldap_auth_source:
@@ -1121,8 +1127,6 @@ pl:
         version:
           undeletable_archived_projects: "Wersji nie można usunąć, ponieważ dołączone są do niej pakiety robocze."
           undeletable_work_packages_attached: "Wersji nie można usunąć, ponieważ dołączone są do niej pakiety robocze."
-        status:
-          readonly_default_exlusive: "nie można aktywować dla statusów, które są oznaczone jako domyślne."
         token/api:
           attributes:
             token_name:
@@ -1409,7 +1413,7 @@ pl:
     text_update_consent_time: Zaznacz to pole, aby zmusić użytkowników do ponownego wyrażenia zgody. Włącz, gdy zmieniłeś aspekt prawny powyższych informacji o udzieleniu zgody.
     update_consent_last_time: "Ostatnia aktualizacja: zgody: %{update_time}"
   copy_project:
-    title: "Skopiuj projekt „%{source_project_name}”"
+    title: 'Skopiuj projekt „%{source_project_name}”'
     started: 'Rozpoczęto kopiowanie projektu "%{source_project_name}" do "%{target_project_name}". Poinformujemy Cię przez e-mail tak szybko jak "%{target_project_name}" będzie dostępny.'
     failed: "Nie można skopiować projektu %{source_project_name}"
     failed_internal: "Kopiowanie nie powiodło się z powodu błędu wewnętrznego."
@@ -1464,7 +1468,7 @@ pl:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Styczeń"
       - "Luty"
@@ -1480,8 +1484,8 @@ pl:
       - "Grudzień"
     order:
       - :rok
-      - ":miesiąc"
-      - ":dzień"
+      - ':miesiąc'
+      - ':dzień'
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1651,7 +1655,7 @@ pl:
   error_must_be_project_member: "musi być członkiem projektu"
   error_migrations_are_pending: "Ta instalacja OpenProject oczekuje na migracje baz danych. Prawdopodobnie pominięto uruchomienie migracji przy ostatnim uaktualnieniu. Sprawdź instrukcję uaktualniania, aby prawidłowo uaktualnić tę instalację."
   error_migrations_visit_upgrade_guides: "Przejdź do naszej dokumentacji instrukcji uaktualniania"
-  error_no_default_work_package_status: "Nie zdefiniowano domyślnego statusu pakietu roboczego. Proszę sprawdzić konfigurację (przejdź do „Administracja -> Statusy pakietów roboczych”)."
+  error_no_default_work_package_status: 'Nie zdefiniowano domyślnego statusu pakietu roboczego. Proszę sprawdzić konfigurację (przejdź do „Administracja -> Statusy pakietów roboczych”).'
   error_no_type_in_project: "Żaden typ nie jest związany z tym projektem. Proszę sprawdzić ustawienia projektu."
   error_omniauth_registration_timed_out: "Upłynął limit czasu na zewnętrzną autoryzację. Spróbuj ponownie."
   error_omniauth_invalid_auth: "Dane uwierzytelniające zwrócone od dostawcy tożsamości były nieprawidłowe. Aby uzyskać dodatkową pomoc, skontaktuj się z administratorem."
@@ -1898,7 +1902,7 @@ pl:
   label_api_access_key_created_on: "Klucz API utworzony %{value} temu"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "Token iCalendar „%{token_name}” kalendarza „%{calendar_name}” w projekcie „%{project_name}”"
+  label_ical_access_key_description: 'Token iCalendar „%{token_name}” kalendarza „%{calendar_name}” w projekcie „%{project_name}”'
   label_ical_access_key_not_present: "Brak tokenów iCalendar."
   label_ical_access_key_generation_hint: "Automatycznie wygenerowano podczas subskrypcji kalendarza."
   label_ical_access_key_latest: "najnowszy"
@@ -2433,9 +2437,9 @@ pl:
   label_wiki_navigation: "Nawigacja Wiki"
   label_wiki_page: "Strona wiki"
   label_wiki_page_plural: "Strony wiki"
-  label_wiki_show_index_page_link: 'Pokaż element podmenu "Spis treści"'
+  label_wiki_show_index_page_link: "Pokaż element podmenu \"Spis treści\""
   label_wiki_show_menu_item: "Pokaż jako element menu w nawigacji projektu"
-  label_wiki_show_new_page_link: 'Pokaż element podmenu "Utwórz nową stronę podrzędną"'
+  label_wiki_show_new_page_link: "Pokaż element podmenu \"Utwórz nową stronę podrzędną\""
   label_wiki_show_submenu_item: "Pokaż jako pozycję podmenu "
   label_wiki_start: "Strona startowa"
   label_work: "Praca"
@@ -2563,12 +2567,12 @@ pl:
         plaintext:
           storage: "Magazyn"
           healthy:
-            summary: "Dobre wieści! Status magazynu %{storage_name} jest obecnie wyświetlany jako „Zdrowe”."
+            summary: 'Dobre wieści! Status magazynu %{storage_name} jest obecnie wyświetlany jako „Zdrowe”.'
             error-solved-on: "Rozwiązano w dniu"
             recommendation: "Będziemy nadal monitorować system, aby zapewnić jego dobrą kondycję. W przypadku jakichkolwiek rozbieżności powiadomimy Cię."
             details: "Aby uzyskać więcej informacji lub wprowadzić wszelkie niezbędne zmiany, możesz odwiedzić konfigurację magazynu"
           unhealthy:
-            summary: "Status magazynu %{storage_name} jest obecnie wyświetlany jako „Błąd”. Wykryliśmy problem, który może wymagać Twojej uwagi."
+            summary: 'Status magazynu %{storage_name} jest obecnie wyświetlany jako „Błąd”. Wykryliśmy problem, który może wymagać Twojej uwagi.'
             error-details: "Szczegóły błędu"
             error-message: "Komunikat o błędzie"
             error-occurred-on: "Wystąpił w dniu"
@@ -2577,11 +2581,11 @@ pl:
         email_notification_settings: "Ustawienia powiadomień e-mail dotyczących magazynu"
         see_storage_settings: "Sprawdź ustawienia magazynu"
         healthy:
-          subject: "Magazyn „%{name}” jest już w dobrej kondycji!"
+          subject: 'Magazyn „%{name}” jest już w dobrej kondycji!'
           solved_at: "rozwiązano o"
           summary: "Problem z integracją magazynu %{storage_name} został już rozwiązany"
         unhealthy:
-          subject: "Magazyn „%{name}” jest w złej kondycji!"
+          subject: 'Magazyn „%{name}” jest w złej kondycji!'
           since: "od"
           summary: "Wystąpił problem z integracją magazynu %{storage_name}"
           troubleshooting:
@@ -3657,7 +3661,7 @@ pl:
         revoke:
           unauthorized: "Nie masz uprawnień, aby unieważnić ten token."
         forbidden_token:
-          missing_scope: "Dostęp do tego zasobu wymaga zakresu „%{oauth_scopes}”."
+          missing_scope: 'Dostęp do tego zasobu wymaga zakresu „%{oauth_scopes}”.'
   unsupported_browser:
     title: "Ta przeglądarka jest przestarzała i nieobsługiwana."
     message: "Na tej stronie mogą wystąpić błędy i pogorszenie działania."
@@ -3738,7 +3742,7 @@ pl:
       refresh_token_updated_failed: "Błąd podczas aktualizacji OAuthClientToken"
       oauth_client_not_found_explanation: >
         Ten błąd pojawia się po zaktualizowaniu client_id i client_secret w OpenProject, ale przy braku aktualizacji pola "Return URI" u dostawcy OAuth2.
-      oauth_code_not_present: 'OAuth2 ''code'' nie został znaleziony w punkcie końcowym "callback" (redirect_uri).'
+      oauth_code_not_present: "OAuth2 'code' nie został znaleziony w punkcie końcowym \"callback\" (redirect_uri)."
       oauth_code_not_present_explanation: >
         Ten błąd pojawia się, jeśli wybrano niewłaściwy response_type u dostawcy OAuth2. Response_type powinien być 'code' lub podobny.
       oauth_state_not_present: "OAuth2 'state' nie został znaleziony w punkcie końcowym 'callback' (redirect_uri)."

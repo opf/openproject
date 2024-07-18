@@ -412,7 +412,7 @@ pt-PT:
       prompt: "Manter a sessão iniciada durante %{num_days}"
     sessions:
       remembered_devices: "Dispositivos memorizados"
-      remembered_devices_caption: 'Uma lista de todos os dispositivos que iniciaram sessão nesta conta utilizando a opção "Manter sessão iniciada".'
+      remembered_devices_caption: "Uma lista de todos os dispositivos que iniciaram sessão nesta conta utilizando a opção \"Manter sessão iniciada\"."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Navegador"
       device: "Dispositivo/SO"
@@ -529,7 +529,7 @@ pt-PT:
     sharing:
       missing_workflow_warning:
         title: "Falta um fluxo de trabalho para a partilha de pacotes de trabalho"
-        message: 'Nenhum fluxo de trabalho está configurado para a função "Editor do pacote de trabalho". Sem um fluxo de trabalho, o utilizador não pode alterar o estado do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de fonte (por exemplo, "Tarefa") e uma função da fonte (por exemplo, "Membro"). Em seguida, selecione os tipos de destino. Para começar, pode selecionar todos os tipos como alvos. Por fim, selecione a função "Editor do pacote de trabalho" como destino e prima "Copiar". Depois de ter criado as predefinições, ajuste os fluxos de trabalho como faz para todas as outras funções.'
+        message: "Nenhum fluxo de trabalho está configurado para a função \"Editor do pacote de trabalho\". Sem um fluxo de trabalho, o utilizador não pode alterar o estado do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de fonte (por exemplo, \"Tarefa\") e uma função da fonte (por exemplo, \"Membro\"). Em seguida, selecione os tipos de destino. Para começar, pode selecionar todos os tipos como alvos. Por fim, selecione a função \"Editor do pacote de trabalho\" como destino e prima \"Copiar\". Depois de ter criado as predefinições, ajuste os fluxos de trabalho como faz para todas as outras funções."
         link_message: "Configure os fluxos de trabalho na administração."
     summary:
       reports:
@@ -593,17 +593,6 @@ pt-PT:
       attribute_help_text:
         attribute_name: "Atributo"
         help_text: "Texto de ajuda"
-      ldap_auth_source:
-        account: "Conta"
-        attr_firstname: "Atributo Nome próprio"
-        attr_lastname: "Atributo Sobrenome"
-        attr_login: "Atributo Utilizador"
-        attr_mail: "Atributo E-mail"
-        base_dn: "Base DN"
-        host: "Anfitrião"
-        onthefly: "Criação automática de utilizador"
-        port: "Porta"
-        tls_certificate_string: "Certificado SSL do servidor LDAP"
       changeset:
         repository: "Repositório"
       color:
@@ -628,6 +617,14 @@ pt-PT:
         visible: "Visível"
       custom_value:
         value: "Valor"
+      doorkeeper/application:
+        uid: "ID de cliente"
+        secret: "Segredo do cliente"
+        owner: "Proprietário"
+        redirect_uri: "Redirecionar URI"
+        client_credentials_user_id: "ID de utilizador de Credenciais do Cliente"
+        scopes: "Âmbitos"
+        confidential: "Confidencial"
       enterprise_token:
         starts_at: "Válido desde"
         subscriber: "Assinante"
@@ -638,20 +635,25 @@ pt-PT:
         row_count: "Número de linhas"
         column_count: "Número de colunas"
         widgets: "Widgets"
-      oauth_client:
-        client: "ID de cliente"
-      relation:
-        lag: "Atraso"
-        from: "Pacote de trabalho"
-        to: "Tarefas Relacionadas"
-      status:
-        is_closed: "Tarefa fechada"
-        is_readonly: "Pacote de trabalho só de leitura"
-        excluded_from_totals: "Excluir do cálculo dos totais na hierarquia"
       journal:
         notes: "Notas"
+      ldap_auth_source:
+        account: "Conta"
+        attr_firstname: "Atributo Nome próprio"
+        attr_lastname: "Atributo Sobrenome"
+        attr_login: "Atributo Utilizador"
+        attr_mail: "Atributo E-mail"
+        base_dn: "Base DN"
+        host: "Anfitrião"
+        onthefly: "Criação automática de utilizador"
+        port: "Porta"
+        tls_certificate_string: "Certificado SSL do servidor LDAP"
       member:
         roles: "Papel"
+      oauth_client:
+        client: "ID de cliente"
+      planning_element_type_color:
+        hexcode: Código hex
       project:
         active_value:
           true: "desarquivado"
@@ -681,6 +683,8 @@ pt-PT:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Tarefas"
+      project_custom_field:
+        custom_field_section: Secção
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -688,10 +692,19 @@ pt-PT:
         group_by: "Agrupar resultados por"
         filters: "Filtros"
         timeline_labels: "Etiquetas de cronograma"
+      relation:
+        lag: "Atraso"
+        from: "Pacote de trabalho"
+        to: "Tarefas Relacionadas"
       repository:
         url: "URL"
       role:
         permissions: "Permissões"
+      status:
+        is_closed: "Tarefa fechada"
+        is_readonly: "Pacote de trabalho só de leitura"
+        excluded_from_totals: "Excluir do cálculo dos totais na hierarquia"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Atividade"
         hours: "Horas"
@@ -734,10 +747,6 @@ pt-PT:
       wiki_page:
         parent_title: "Página pai"
         redirect_existing_links: "Redirecionar links existentes"
-      planning_element_type_color:
-        hexcode: Código hex
-      project_custom_field:
-        custom_field_section: Secção
       work_package:
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
@@ -772,14 +781,6 @@ pt-PT:
         type: "Tipo"
         version: "Versão"
         watcher: "Monitor"
-      "doorkeeper/application":
-        uid: "ID de cliente"
-        secret: "Segredo do cliente"
-        owner: "Proprietário"
-        redirect_uri: "Redirecionar URI"
-        client_credentials_user_id: "ID de utilizador de Credenciais do Cliente"
-        scopes: "Âmbitos"
-        confidential: "Confidencial"
     errors:
       messages:
         accepted: "deve ser aceite."
@@ -914,7 +915,7 @@ pt-PT:
             base:
               unsupported_operator: "Este operador não é compatível."
               invalid_values: "Um valor é inválido."
-              id_filter_required: 'É necessário um filtro de "id".'
+              id_filter_required: "É necessário um filtro de \"id\"."
         project:
           archived_ancestor: "O projeto tem um antepassados arquivado."
           foreign_wps_reference_version: "Pacotes de trabalho em versões de referência do projeto não descendentes ou suas descendentes."
@@ -950,7 +951,7 @@ pt-PT:
               forbidden: "Os carimbos de data/hora contêm valores proibidos: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: 'A coluna "Nome" tem de ser incluída'
+              name_not_included: "A coluna \"Nome\" tem de ser incluída"
               nonexistent: "A coluna '%{column}' não existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o grupo '%{group_by}'. Não é possível ativar os dois."
@@ -992,6 +993,11 @@ pt-PT:
               hours_per_day_are_missing: "O número de horas por dia tem de ser definido."
               durations_are_not_positive_numbers: "As durações têm de ser números positivos."
               hours_per_day_is_out_of_bounds: "O número de horas por dia não pode ser superior a 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "não pode ser ativado para os status que estão marcados como padrão."
         time_entry:
           attributes:
             hours:
@@ -1106,8 +1112,6 @@ pt-PT:
         version:
           undeletable_archived_projects: "A versão não pode ser eliminada, porque tem pacotes de trabalho anexados a ela."
           undeletable_work_packages_attached: "A versão não pode ser apagada pois tem pacotes de trabalho anexados a ela."
-        status:
-          readonly_default_exlusive: "não pode ser ativado para os status que estão marcados como padrão."
         token/api:
           attributes:
             token_name:
@@ -1433,7 +1437,7 @@ pt-PT:
       long: "%d de %B de %Y"
       short: "%d/%b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Janeiro"
       - "Fevereiro"
@@ -1449,7 +1453,7 @@ pt-PT:
       - "Dezembro"
     order:
       - :ano
-      - ":mês"
+      - ':mês'
       - :dia
   datetime:
     distance_in_words:
@@ -1694,7 +1698,7 @@ pt-PT:
       dates_changed: "Datas alteradas"
       default_attribute_written: "Escrita de atributos só de leitura"
       progress_mode_changed_to_status_based: "Cálculo do progresso atualizado"
-      status_changed: 'Estado "%{status_name}"'
+      status_changed: "Estado \"%{status_name}\""
       system_update: "Atualização do sistema OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: por alterações no %{link} antecessor
@@ -1847,7 +1851,7 @@ pt-PT:
   label_ldap_auth_source_new: "Nova ligação LDAP"
   label_ldap_auth_source: "Ligação LDAP"
   label_ldap_auth_source_plural: "Ligações LDAP"
-  label_attribute_expand_text: 'O texto completo para "%{attribute}"'
+  label_attribute_expand_text: "O texto completo para \"%{attribute}\""
   label_authentication: "Autenticação"
   label_available_global_roles: "Papéis globais disponíveis"
   label_available_project_attributes: "Atributos do projeto disponíveis"
@@ -2625,7 +2629,7 @@ pt-PT:
   notice_locking_conflict: "A informação foi atualizada entretanto por pelo menos por um outro utilizador."
   notice_locking_conflict_additional_information: "As atualizações vieram de %{users}."
   notice_locking_conflict_reload_page: "Recarregue a página, reveja as alterações e reenvie as suas atualizações."
-  notice_member_added: "%{name} adicionado ao projeto."
+  notice_member_added: '%{name} adicionado ao projeto.'
   notice_members_added: Adicionados %{number} utilizadores ao projeto.
   notice_member_removed: "Removido %{user} do projeto."
   notice_member_deleted: "%{user} foi removido do projeto e apagado."
@@ -3281,7 +3285,7 @@ pt-PT:
     views:
       project: >
         %{plural} sempre estão anexados a um projeto. Você só pode selecionar projetos aqui onde o módulo %{plural} está ativo. Depois de criar um %{singular} você pode adicionar pacotes de trabalho de outros projetos a ele.
-      public: 'Publicar esta visualização, permitindo que outros utilizadores acedam à sua visualização. Utilizadores com a permissão para "Gerir visualizações públicas" podem modificar ou remover a consulta pública. Isto não afeta a visibilidade dos resultados do pacote de trabalho nessa visualização e, dependendo das suas permissões, os utilizadores podem ver resultados diferentes.'
+      public: "Publicar esta visualização, permitindo que outros utilizadores acedam à sua visualização. Utilizadores com a permissão para \"Gerir visualizações públicas\" podem modificar ou remover a consulta pública. Isto não afeta a visibilidade dos resultados do pacote de trabalho nessa visualização e, dependendo das suas permissões, os utilizadores podem ver resultados diferentes."
       favoured: "Marcar esta vista como favorita e adicionar à barra lateral de visualizações guardadas à esquerda."
   time:
     am: "am"

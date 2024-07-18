@@ -609,17 +609,6 @@ he:
       attribute_help_text:
         attribute_name: "תכונה"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "חשבון"
-        attr_firstname: "תכונת שם פרטי"
-        attr_lastname: "תכונת שם משפחה"
-        attr_login: "Username attribute"
-        attr_mail: "תכונת דואר אלקטרוני"
-        base_dn: "תכנון אלמנט"
-        host: "שרת"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       color:
@@ -644,6 +633,14 @@ he:
         visible: "נראה"
       custom_value:
         value: "ערך"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -654,20 +651,25 @@ he:
         row_count: "מספר שורות"
         column_count: "מספר עמודות"
         widgets: "ווידג'טים"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "חבילת עבודה"
-        to: "חבילת עבודה קשורה"
-      status:
-        is_closed: "חבילת עבודה סגורה"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "הערות"
+      ldap_auth_source:
+        account: "חשבון"
+        attr_firstname: "תכונת שם פרטי"
+        attr_lastname: "תכונת שם משפחה"
+        attr_login: "Username attribute"
+        attr_mail: "תכונת דואר אלקטרוני"
+        base_dn: "תכנון אלמנט"
+        host: "שרת"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "תפקידים"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: קוד hex
       project:
         active_value:
           true: "unarchived"
@@ -697,6 +699,8 @@ he:
         types: "סוגים"
         versions: "גירסאות"
         work_packages: "חבילות עבודה"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "עמודות"
         relations_to_type_column: "Relations to %{type}"
@@ -704,10 +708,19 @@ he:
         group_by: "קיבוץ תוצאות לפי"
         filters: "מסננים"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "חבילת עבודה"
+        to: "חבילת עבודה קשורה"
       repository:
         url: "כתובת URL"
       role:
         permissions: "Permissions"
+      status:
+        is_closed: "חבילת עבודה סגורה"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "פעילות"
         hours: "שעות"
@@ -750,10 +763,6 @@ he:
       wiki_page:
         parent_title: "דף אב"
         redirect_existing_links: "ניתוב מחדש של קישורים קיימים"
-      planning_element_type_color:
-        hexcode: קוד hex
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -788,14 +797,6 @@ he:
         type: "סוג"
         version: "גירסה"
         watcher: "צופה"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "must be accepted."
@@ -1008,6 +1009,11 @@ he:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1124,8 +1130,6 @@ he:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1467,7 +1471,7 @@ he:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "ינואר"
       - "פברואר"
@@ -1654,7 +1658,7 @@ he:
   error_must_be_project_member: "חייב להיות חבר בפרוייקט"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
-  error_no_default_work_package_status: "אין הגדרת סטטוס ברירת מחדל לחבילת עבודה. אנא בדוק את ההגדרות שלך (לך אל ״ניהול -> סטטוסי חבילת עבודה״)."
+  error_no_default_work_package_status: 'אין הגדרת סטטוס ברירת מחדל לחבילת עבודה. אנא בדוק את ההגדרות שלך (לך אל ״ניהול -> סטטוסי חבילת עבודה״).'
   error_no_type_in_project: "אין סוג המשויך לפרויקט זה. אנא בדוק את הגדרות הפרוייקט."
   error_omniauth_registration_timed_out: "הרישום באמצעותספק אימות חיצוני פג תוקף. אנא נסה שוב."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
@@ -1801,7 +1805,7 @@ he:
   instructions_after_error: "באפשרותך לנסות לבצע כניסה שוב על ידי לחיצה על %{signin}. אם השגיאה נמשכת, בקש עזרה שלך admin."
   menus:
     admin:
-      mail_notification: 'התראות דוא"ל'
+      mail_notification: "התראות דוא\"ל"
       mails_and_notifications: "Emails and notifications"
       aggregation: "Aggregation"
       api_and_webhooks: "API and webhooks"
@@ -2383,7 +2387,7 @@ he:
   label_today: "today"
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
-  label_total: 'סה"כ'
+  label_total: "סה\"כ"
   label_type_new: "סוג חדש"
   label_type_plural: "סוגים"
   label_ui: "ממשק משתמש"
@@ -3593,7 +3597,7 @@ he:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 duration"
-      invalid_content_type: '"סוג התוכן" הצפוי תריך להיות ''%{content_type}'' אבל הוזן ''%{actual}''.'
+      invalid_content_type: "\"סוג התוכן\" הצפוי תריך להיות '%{content_type}' אבל הוזן '%{actual}'."
       invalid_format: "תבנית לא חוקית של מאפיין '%{property}': תבנית צפוייה לדוגמה '%{expected_format}', אבל נכתב '%{actual}'."
       invalid_json: "The request could not be parsed as JSON."
       invalid_relation: "The relation is invalid."

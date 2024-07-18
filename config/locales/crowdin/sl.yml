@@ -407,7 +407,7 @@ sl:
       new_access_token_dialog_submit_button_text: "Create"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
-      failed_to_reset_token: 'Neuspešna poenostavitev "dostopnega simbola": %{error}'
+      failed_to_reset_token: "Neuspešna poenostavitev \"dostopnega simbola\": %{error}"
       failed_to_create_token: "Failed to create access token: %{error}"
       failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Ustvarjen je bil nov %{type} simbol. Vaš dostopni simbol je:"
@@ -606,17 +606,6 @@ sl:
       attribute_help_text:
         attribute_name: "Atribut"
         help_text: "Besedilo pomoči"
-      ldap_auth_source:
-        account: "Račun"
-        attr_firstname: "Oznaka za ime"
-        attr_lastname: "Oznaka za priimek"
-        attr_login: "Lastnosti uporabnikov"
-        attr_mail: "Atribut elektronskega naslova"
-        base_dn: "Bazni DN"
-        host: "Gostitelj"
-        onthefly: "Samodejno ustvarjanje uporabnika"
-        port: "Vrata"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorij"
       color:
@@ -641,6 +630,14 @@ sl:
         visible: "Vidno"
       custom_value:
         value: "vrednost"
+      doorkeeper/application:
+        uid: "ID odjemalca"
+        secret: "Skrivnost odjemalca"
+        owner: "Lastnik"
+        redirect_uri: "Preusmeritev URI"
+        client_credentials_user_id: "ID uporabnika poverilnic stranke"
+        scopes: "Področja"
+        confidential: "Zaupno"
       enterprise_token:
         starts_at: "Velja od"
         subscriber: "Naročnik"
@@ -651,20 +648,25 @@ sl:
         row_count: "Število vrstic"
         column_count: "Število stolpcev"
         widgets: "Gradniki"
-      oauth_client:
-        client: "ID odjemalca"
-      relation:
-        lag: "Lag"
-        from: "Zahtevek"
-        to: "Soroden zahtevek"
-      status:
-        is_closed: "Zahtevek zaprt"
-        is_readonly: 'Zahtevek "samo za branje"'
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Opombe"
+      ldap_auth_source:
+        account: "Račun"
+        attr_firstname: "Oznaka za ime"
+        attr_lastname: "Oznaka za priimek"
+        attr_login: "Lastnosti uporabnikov"
+        attr_mail: "Atribut elektronskega naslova"
+        base_dn: "Bazni DN"
+        host: "Gostitelj"
+        onthefly: "Samodejno ustvarjanje uporabnika"
+        port: "Vrata"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Vloge"
+      oauth_client:
+        client: "ID odjemalca"
+      planning_element_type_color:
+        hexcode: Šestnajstiška koda
       project:
         active_value:
           true: "unarchived"
@@ -694,6 +696,8 @@ sl:
         types: "Tipi"
         versions: "Različice"
         work_packages: "zahtevki"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Stolpci"
         relations_to_type_column: "Povezave z %{type}"
@@ -701,10 +705,19 @@ sl:
         group_by: "Rezultati grupirani po"
         filters: "Filtri"
         timeline_labels: "Oznake časovnice"
+      relation:
+        lag: "Lag"
+        from: "Zahtevek"
+        to: "Soroden zahtevek"
       repository:
         url: "URL"
       role:
         permissions: "Dovoljenja"
+      status:
+        is_closed: "Zahtevek zaprt"
+        is_readonly: "Zahtevek \"samo za branje\""
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivnost"
         hours: "Ure"
@@ -747,10 +760,6 @@ sl:
       wiki_page:
         parent_title: "Nadrejena stran"
         redirect_existing_links: "Preusmeri obstoječe povezave"
-      planning_element_type_color:
-        hexcode: Šestnajstiška koda
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Začetek vstavitve"
         begin_deletion: "Začetek izbrisa"
@@ -785,14 +794,6 @@ sl:
         type: "Vrsta"
         version: "Različica"
         watcher: "Opazovalec"
-      "doorkeeper/application":
-        uid: "ID odjemalca"
-        secret: "Skrivnost odjemalca"
-        owner: "Lastnik"
-        redirect_uri: "Preusmeritev URI"
-        client_credentials_user_id: "ID uporabnika poverilnic stranke"
-        scopes: "Področja"
-        confidential: "Zaupno"
     errors:
       messages:
         accepted: "mora biti sprejeto."
@@ -982,8 +983,8 @@ sl:
             circular_dependency: "Odnos ustvarja krog odnosov."
           attributes:
             to:
-              error_not_found: 'delovni paket v položaju "do" ni najden ali ni viden'
-              error_readonly: 'obstoječi odnos "do" povezave je nespremenljiv'
+              error_not_found: "delovni paket v položaju \"do\" ni najden ali ni viden"
+              error_readonly: "obstoječi odnos \"do\" povezave je nespremenljiv"
             from:
               error_not_found: "delovni paket v položaju 'od'  ni najden ali ni viden."
               error_readonly: "obstoječe razmerje 'od' povezave je nespremenljivo"
@@ -1005,6 +1006,11 @@ sl:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "aktivacija za privzeta stanja ni možna."
         time_entry:
           attributes:
             hours:
@@ -1091,8 +1097,8 @@ sl:
               format: "%{message}"
             password:
               weak: "Vsebovati mora znake naslednjih razredov (vsaj %{min_count} od %{all_count}): %{rules}."
-              lowercase: 'mala črka (npr. "a")'
-              uppercase: 'velika črka (npr. "A")'
+              lowercase: "mala črka (npr. \"a\")"
+              uppercase: "velika črka (npr. \"A\")"
               numeric: "številke (npr. '1')"
               special: "posebno (npr. '%')"
               reused:
@@ -1121,8 +1127,6 @@ sl:
         version:
           undeletable_archived_projects: "Različice ni mogoče izbrisati, saj so nanjo priloženi delovni paketi."
           undeletable_work_packages_attached: "Različice ni mogoče izbrisati, saj so nanjo priloženi delovni paketi."
-        status:
-          readonly_default_exlusive: "aktivacija za privzeta stanja ni možna."
         token/api:
           attributes:
             token_name:
@@ -1464,7 +1468,7 @@ sl:
       long: "%d. %B, %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Januar"
       - "Februar"
