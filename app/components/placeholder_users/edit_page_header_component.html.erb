@@ -26,18 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% title = @placeholder_user.new_record? ? t(:label_placeholder_user_new) : @placeholder_user.name %>
-<% deletable = can_delete_placeholder_user?(@placeholder_user) %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { title }
-    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
-                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
-                             { href: placeholder_users_path, text: t(:label_placeholder_user_plural) },
-                             title])
+    header.with_breadcrumbs(breadcrumb_items)
 
-    unless @placeholder_user.new_record?
+    unless new_record?
       header.with_action_button(tag: :a,
                                 mobile_icon: :person,
                                 mobile_label: t(:label_profile),
@@ -54,24 +49,22 @@ See COPYRIGHT and LICENSE files for more details.
                                 mobile_icon: :trash,
                                 mobile_label: t(:button_delete),
                                 size: :medium,
-                                disabled: !deletable,
-                                href: deletable ? deletion_info_placeholder_user_path(@placeholder_user) : "#",
+                                disabled: !deletable?,
+                                href: delete_button_href,
                                 aria: { label: I18n.t(:button_delete) },
                                 data: { "test-selector": "placeholder-user--delete-button" },
-                                title: deletable ?
-                                         I18n.t(:button_delete) :
-                                         I18n.t("placeholder_users.right_to_manage_members_missing")) do |button|
+                                title: delete_button_title) do |button|
         button.with_leading_visual_icon(icon: :trash)
         t(:button_delete)
       end
     end
 
     header.with_tab_nav(label: nil) do |tab_nav|
-      tabs.each do |tab|
-        tab_nav.with_tab(selected: selected_tab(tabs) == tab, href: tab[:path]) do |t|
+      @tabs.each do |tab|
+        tab_nav.with_tab(selected: selected_tab(@tabs) == tab, href: tab[:path]) do |t|
           t.with_text { I18n.t("js.#{tab[:label]}") }
         end
       end
-    end if tabs.present?
+    end if @tabs.present?
   end
 %>
