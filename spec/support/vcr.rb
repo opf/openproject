@@ -42,7 +42,6 @@ module VCRTimeoutHelper
 end
 
 VCR.configure do |config|
-  config.cassette_library_dir = "spec/support/fixtures/vcr_cassettes"
   config.hook_into :webmock
   config.configure_rspec_metadata!
   config.before_record do |i|
@@ -80,6 +79,10 @@ RSpec.configure do |config|
     # Only enable VCR's webmock integration for tests tagged with :vcr otherwise interferes with WebMock
     # See: https://github.com/vcr/vcr/issues/146
     #
+    VCR.configure do |vcr_config|
+      cassette_library_dir = example.metadata[:vcr_cassette_library_dir] || "spec/support/fixtures/vcr_cassettes"
+      vcr_config.cassette_library_dir = cassette_library_dir
+    end
     VCR.turn_on!
     example.run
   ensure
