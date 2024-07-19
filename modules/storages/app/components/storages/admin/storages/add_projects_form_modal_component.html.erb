@@ -27,14 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% helpers.content_controller 'project-storage-form',
-                      dynamic: true,
-                      'project-storage-form-folder-mode-value': @project_storage.project_folder_mode,
-                      'project-storage-form-placeholder-folder-name-value': I18n.t(:"storages.label_no_selected_folder"),
-                      'project-storage-form-not-logged-in-validation-value': I18n.t(:"storages.instructions.not_logged_into_storage"),
-                      'project-storage-form-last-project-folders-value': @last_project_folders
-%>
-
 <%=
   component_wrapper do
     primer_form_with(
@@ -66,7 +58,17 @@ See COPYRIGHT and LICENSE files for more details.
             render(Primer::Beta::Text.new) { t(:"storages.help_texts.project_folder_bulk") }
           end
 
-          flex.with_row do
+          flex.with_row(
+            data: {
+              "application-target": "dynamic",
+              controller: "storages--project-folder-mode-form",
+              "storages--project-folder-mode-form-folder-mode-value": @project_storage.project_folder_mode,
+              "storages--project-folder-mode-form-placeholder-folder-name-value": I18n.t(:"storages.label_no_selected_folder"),
+              "storages--project-folder-mode-form-not-logged-in-validation-value": I18n.t(:"storages.instructions.not_logged_into_storage"),
+              "storages--project-folder-mode-form-last-project-folders-value": @last_project_folders,
+              "storages--project-folder-mode-form-target": "projectFolderSection"
+            }
+          ) do
             render(Storages::Admin::ProjectStorages::ProjectFolderModeForm.new(form, project_storage:))
           end
         end
