@@ -38,7 +38,6 @@ require "dry/container/stub"
 
 # Record Storages Cassettes in module
 VCR.configure do |config|
-  config.cassette_library_dir = "modules/storages/spec/support/fixtures/vcr_cassettes"
   config.filter_sensitive_data("<ACCESS_TOKEN>") do
     ENV.fetch("ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN", "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN")
   end
@@ -53,4 +52,8 @@ Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
 RSpec.configure do |config|
   config.prepend_before { Storages::Peripherals::Registry.enable_stubs! }
   config.append_after { Storages::Peripherals::Registry.unstub }
+
+  config.define_derived_metadata(file_path: %r{/modules/storages/spec}) do |metadata|
+    metadata[:vcr_cassette_library_dir] = "modules/storages/spec/support/fixtures/vcr_cassettes"
+  end
 end
