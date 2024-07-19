@@ -36,20 +36,20 @@ module Storages
           radio_form.radio_button_group(name: :project_folder_mode) do |radio_group|
             if @project_storage.project_folder_mode_possible?("inactive")
               radio_group.radio_button(value: "inactive", label: I18n.t(:"storages.label_no_specific_folder"),
-                                       caption: I18n.t(:"storages.instructions.no_specific_folder",
-                                                       data: { action: "project-storage-form#updateForm" }))
+                                       caption: I18n.t(:"storages.instructions.no_specific_folder"),
+                                       data: { action: "storages--project-folder-mode-form#updateForm" })
             end
 
             if @project_storage.project_folder_mode_possible?("automatic")
               radio_group.radio_button(value: "automatic", label: I18n.t(:"storages.label_automatic_folder"),
-                                       caption: I18n.t(:"storages.instructions.automatic_folder",
-                                                       data: { action: "project-storage-form#updateForm" }))
+                                       caption: I18n.t(:"storages.instructions.automatic_folder"),
+                                       data: { action: "storages--project-folder-mode-form#updateForm" })
             end
 
             if @project_storage.project_folder_mode_possible?("manual")
               radio_group.radio_button(value: "manual", label: I18n.t(:"storages.label_existing_manual_folder"),
-                                       caption: I18n.t(:"storages.instructions.existing_manual_folder",
-                                                       data: { action: "project-storage-form#updateForm" }))
+                                       caption: I18n.t(:"storages.instructions.existing_manual_folder"),
+                                       data: { action: "storages--project-folder-mode-form#updateForm" })
             end
           end
 
@@ -61,7 +61,7 @@ module Storages
               last_project_folders: @last_project_folders,
               storage_login_button_options: {
                 data: {
-                  "project-storage-form-target": "loginButton"
+                  "storages--project-folder-mode-form-target": "storageLoginButton"
                 },
                 inputs: {
                   input: storage_login_input(@project_storage.storage)
@@ -74,9 +74,15 @@ module Storages
                 },
                 selected_folder_label_options: {
                   data: {
-                    "storages--project-folder-mode-form-target": "selectedFolderText"
+                    "storages--project-folder-mode-form-target": "selectedFolderLabel"
                   }
                 }
+              },
+              wrapper_arguments: {
+                data: {
+                  "storages--project-folder-mode-form-target": "projectFolderSection"
+                },
+                classes: ["d-none"]
               }
             )
           end

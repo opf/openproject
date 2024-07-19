@@ -8,13 +8,14 @@ module Primer
           attr_reader :name, :label
 
           def initialize(name:, label:, project_storage:, last_project_folders: {}, storage_login_button_options: {},
-                         select_folder_button_options: {}, **system_arguments)
+                         select_folder_button_options: {}, wrapper_arguments: {}, **system_arguments)
             @name = name
             @label = label
             @project_storage = project_storage
             @last_project_folders = last_project_folders
             @storage_login_button_options = storage_login_button_options
             @select_folder_button_options = select_folder_button_options
+            @wrapper_arguments = wrapper_arguments
 
             super(**system_arguments)
           end
@@ -25,12 +26,13 @@ module Primer
               project_storage: @project_storage,
               last_project_folders: @last_project_folders,
               storage_login_button_options: @storage_login_button_options,
-              select_folder_button_options: @select_folder_button_options
+              select_folder_button_options: @select_folder_button_options,
+              wrapper_arguments: @wrapper_arguments
             )
           end
 
           def type
-            :storage_login_button
+            :storage_manual_project_folder_selection
           end
 
           def focusable?

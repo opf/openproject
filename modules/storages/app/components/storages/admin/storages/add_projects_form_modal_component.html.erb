@@ -62,11 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
             data: {
               "application-target": "dynamic",
               controller: "storages--project-folder-mode-form",
-              "storages--project-folder-mode-form-folder-mode-value": @project_storage.project_folder_mode,
-              "storages--project-folder-mode-form-placeholder-folder-name-value": I18n.t(:"storages.label_no_selected_folder"),
-              "storages--project-folder-mode-form-not-logged-in-validation-value": I18n.t(:"storages.instructions.not_logged_into_storage"),
-              "storages--project-folder-mode-form-last-project-folders-value": @last_project_folders,
-              "storages--project-folder-mode-form-target": "projectFolderSection"
+              'storages--project-folder-mode-form-project-folder-mode-value': @project_storage.project_folder_mode
             }
           ) do
             render(Storages::Admin::ProjectStorages::ProjectFolderModeForm.new(form, project_storage:))

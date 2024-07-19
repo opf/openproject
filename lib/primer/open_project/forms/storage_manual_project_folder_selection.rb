@@ -8,8 +8,7 @@ module Primer
         delegate :builder, :form, to: :@input
 
         def initialize(input:, project_storage:, last_project_folders: {},
-                       storage_login_button_options: {}, select_folder_button_options: {},
-                       wrapper_data_attributes: {})
+                       storage_login_button_options: {}, select_folder_button_options: {}, wrapper_arguments: {})
           super()
           @input = input
 
@@ -20,7 +19,8 @@ module Primer
           @selected_folder_label_options = select_folder_button_options.delete(:selected_folder_label_options) { {} }
           @select_folder_button_options = select_folder_button_options
 
-          @wrapper_data_attributes = wrapper_data_attributes
+          @wrapper_data_attributes = wrapper_arguments.delete(:data) { {} }
+          @wrapper_classes = wrapper_arguments.delete(:classes) { [] }
         end
 
         private
