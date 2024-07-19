@@ -144,7 +144,6 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
     it "adds user to the group" do
       result = registry.resolve("nextcloud.commands.add_user_to_group").call(storage:, user: origin_user_id)
       expect(result).to be_success
-      expect(result.message).to eq("User has been added successfully")
     end
   end
 
@@ -186,7 +185,6 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
     it "removes user from the group" do
       result = registry.resolve("nextcloud.commands.remove_user_from_group").call(storage:, user: origin_user_id)
       expect(result).to be_success
-      expect(result.message).to eq("User has been removed from group")
     end
 
     context "when Nextcloud reponds with 105 code in the response body" do
@@ -210,8 +208,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
         result = registry.resolve("nextcloud.commands.remove_user_from_group").call(storage:, user: origin_user_id)
         expect(result).to be_failure
         expect(result.errors.log_message)
-          .to eq("Failed to remove user #{origin_user_id} from group OpenProject: " \
-                 "Not viable to remove user from the last group you are SubAdmin of")
+          .to eq("Not viable to remove user from the last group you are SubAdmin of")
       end
     end
   end

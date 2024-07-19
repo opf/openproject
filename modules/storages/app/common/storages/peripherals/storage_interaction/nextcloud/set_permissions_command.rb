@@ -33,6 +33,7 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class SetPermissionsCommand
+          include Snitch
           using ServiceResultRefinements
 
           SUCCESS_XPATH = "/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list"
@@ -125,14 +126,6 @@ module Storages
             end.to_xml
           end
           # rubocop:enable Metrics/AbcSize
-
-          def with_tagged_logger(&)
-            Rails.logger.tagged(self.class, &)
-          end
-
-          def info(message)
-            Rails.logger.info message
-          end
         end
       end
     end

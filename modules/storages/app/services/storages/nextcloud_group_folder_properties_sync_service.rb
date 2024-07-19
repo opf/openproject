@@ -32,6 +32,7 @@ module Storages
   class NextcloudGroupFolderPropertiesSyncService
     extend ActiveModel::Naming
     extend ActiveModel::Translation
+    include Snitch
 
     using Peripherals::ServiceResultRefinements
 
@@ -59,21 +60,27 @@ module Storages
     end
 
     def call
-      with_logging do
+      with_tagged_logger([self.class, "storage-#{@storage.id}"]) do
         info "Starting AMPF Sync for Nextcloud Storage #{@storage.id}"
-        prepare_remote_folders.on_failure { return @result }
+        prepare_remote_folders.on_failure { return epilogue }
         apply_permissions_to_folders
+        epilogue
       end
     end
 
     private
+
+    def epilogue
+      info "Synchronization process for Nextcloud Storage #{@storage.id} has ended. #{@result.errors.count} errors found."
+      @result
+    end
 
     # @param attribute [Symbol] attribute to which the error will be tied to
     # @param storage_error [Storages::StorageError] an StorageError instance
     # @param options [Hash<Symbol, Object>] optional extra parameters for the message generation
     # @return [ServiceResult]
     def add_error(attribute, storage_error, options: {})
-      case storage_error
+      case storage_error.code
       when :error, :unauthorized
         @result.errors.add(:base, storage_error.code, **options)
       else
@@ -96,31 +103,35 @@ module Storages
     end
 
     def apply_permissions_to_folders
+      info "Setting permissions to project folders"
       remote_admins = admin_client_tokens_scope.pluck(:origin_user_id)
 
       active_project_storages_scope.where.not(project_folder_id: nil).find_each do |project_storage|
         set_folders_permissions(remote_admins, project_storage)
       end
 
-      add_remove_users_to_group
+      info "Updating user access on automatically managed project folders"
+      add_remove_users_to_group(@storage.group, @storage.username)
 
       ServiceResult.success
     end
 
-    def add_remove_users_to_group
+    def add_remove_users_to_group(group, username)
       remote_users = remote_group_users.result_or do |error|
-        return format_and_log_error(error, group: @storage.group)
+        format_and_log_error(error, group:)
+        return add_error(:remote_group_users, error, options: { group: }).fail!
       end
 
       local_users = client_tokens_scope.order(:id).pluck(:origin_user_id)
 
-      remove_users_from_remote_group(remote_users - local_users - [@storage.username])
-      add_users_to_remote_group(local_users - remote_users - [@storage.username])
+      remove_users_from_remote_group(remote_users - local_users - [username])
+      add_users_to_remote_group(local_users - remote_users - [username])
     end
 
     def add_users_to_remote_group(users_to_add)
       users_to_add.each do |user|
         add_user_to_group.call(storage: @storage, user:).error_and do |error|
+          add_error(:add_user_to_group, error, options: { user:, group: @storage.group, reason: error.log_message })
           format_and_log_error(error, group: @storage.group, user:)
         end
       end
@@ -129,6 +140,7 @@ module Storages
     def remove_users_from_remote_group(users_to_remove)
       users_to_remove.each do |user|
         remove_user_from_group.call(storage: @storage, user:).error_and do |error|
+          add_error(:remove_user_from_group, error, options: { user:, group: @storage.group, reason: error.log_message })
           format_and_log_error(error, group: @storage.group, user:)
         end
       end
@@ -288,6 +300,7 @@ module Storages
     end
 
     def remote_group_users
+      info "Retrieving users that a part of the #{@storage.group} group"
       group_users.call(storage: @storage, group: @storage.group)
     end
 
@@ -321,20 +334,8 @@ module Storages
           payload.to_s
         end
 
-      error_message = context.merge({ command: error.data.source, message: error.log_message, data: })
-      logger.error error_message
-    end
-
-    def info(message)
-      logger.info(message)
-    end
-
-    def with_logging(&)
-      logger.tagged(self.class, "storage-#{@storage.id}", &)
-    end
-
-    def logger
-      Rails.logger
+      error_message = context.merge({ error_code: error.code, data: })
+      error error_message
     end
   end
 end

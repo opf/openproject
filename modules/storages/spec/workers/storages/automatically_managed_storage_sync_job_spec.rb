@@ -92,7 +92,7 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
       allow(job).to receive(:perform_later)
 
       errors = ActiveModel::Errors.new(Storages::NextcloudGroupFolderPropertiesSyncService.new(managed_nextcloud))
-      errors.add(:group_folder, :not_found, group_folder: managed_nextcloud.group_folder)
+      errors.add(:remote_folders, :not_found, group_folder: managed_nextcloud.group_folder)
 
       allow(Storages::NextcloudGroupFolderPropertiesSyncService)
         .to receive(:call)

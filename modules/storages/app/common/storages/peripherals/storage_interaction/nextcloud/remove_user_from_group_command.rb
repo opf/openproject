@@ -28,67 +28,73 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class RemoveUserFromGroupCommand
-    def initialize(storage)
-      @storage = storage
-      @username = storage.username
-      @password = storage.password
-      @group = storage.group
-    end
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class RemoveUserFromGroupCommand
+          include Snitch
+          def self.call(storage:, user:, group: storage.group)
+            new(storage).call(user:, group:)
+          end
 
-    def self.call(storage:, user:, group: storage.group)
-      new(storage).call(user:, group:)
-    end
+          def initialize(storage)
+            @storage = storage
+            @username = storage.username
+            @password = storage.password
+            @group = storage.group
+          end
 
-    # rubocop:disable Metrics/AbcSize
-    def call(user:, group: @group)
-      response = OpenProject
-                   .httpx
-                   .basic_auth(@username, @password)
-                   .with(headers: { "OCS-APIRequest" => "true" })
-                   .delete(
-                     Storages::UrlBuilder.url(
-                       @storage.uri,
-                       "ocs/v1.php/cloud/users",
-                       user,
-                       "groups"
-                     ) + "?groupid=#{CGI.escapeURIComponent(group)}"
-                   )
+          # rubocop:disable Metrics/AbcSize
+          def call(user:, group: @group)
+            with_tagged_logger do
+              url = UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/users", user, "groups") +
+                "?groupid=#{CGI.escapeURIComponent(group)}"
 
-      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+              info "Removing #{user} from #{group} through #{url}"
 
-      case response
-      in { status: 200..299 }
-        statuscode = Nokogiri::XML(response.body.to_s).xpath("/ocs/meta/statuscode").text
-        case statuscode
-        when "100"
-          ServiceResult.success(message: "User has been removed from group")
-        when "101"
-          Util.error(:error, "No group specified", error_data)
-        when "102"
-          Util.error(:error, "Group does not exist", error_data)
-        when "103"
-          Util.error(:error, "User does not exist", error_data)
-        when "104"
-          Util.error(:error, "Insufficient privileges", error_data)
-        when "105"
-          message = Nokogiri::XML(response.body).xpath("/ocs/meta/message").text
-          Util.error(:error, "Failed to remove user #{user} from group #{group}: #{message}", error_data)
+              response = OpenProject.httpx.basic_auth(@username, @password)
+                                    .with(headers: { "OCS-APIRequest" => "true" })
+                                    .delete(url)
+
+              error_data = StorageErrorData.new(source: self.class, payload: response)
+
+              case response
+              in { status: 200..299 }
+                statuscode = Nokogiri::XML(response.body.to_s).xpath("/ocs/meta/statuscode").text
+                case statuscode
+                when "100"
+                  info "User has been removed from group"
+                  ServiceResult.success
+                when "101"
+                  Util.error(:error, "No group specified", error_data)
+                when "102"
+                  Util.error(:group_does_not_exist, "Group does not exist", error_data)
+                when "103"
+                  Util.error(:user_does_not_exist, "User does not exist", error_data)
+                when "104"
+                  Util.error(:insufficient_privileges, "Insufficient privileges", error_data)
+                when "105"
+                  message = Nokogiri::XML(response.body).xpath("/ocs/meta/message").text
+                  Util.error(:failed_to_remove, message, error_data)
+                end
+              in { status: 405 }
+                Util.error(:not_allowed, "Outbound request method not allowed", error_data)
+              in { status: 401 }
+                Util.error(:unauthorized, "Outbound request not authorized", error_data)
+              in { status: 404 }
+                Util.error(:not_found, "Outbound request destination not found", error_data)
+              in { status: 409 }
+                Util.error(:conflict, Util.error_text_from_response(response), error_data)
+              else
+                Util.error(:error, "Outbound request failed", error_data)
+              end
+            end
+          end
+
+          # rubocop:enable Metrics/AbcSize
         end
-      in { status: 405 }
-        Util.error(:not_allowed, "Outbound request method not allowed", error_data)
-      in { status: 401 }
-        Util.error(:unauthorized, "Outbound request not authorized", error_data)
-      in { status: 404 }
-        Util.error(:not_found, "Outbound request destination not found", error_data)
-      in { status: 409 }
-        Util.error(:conflict, Util.error_text_from_response(response), error_data)
-      else
-        Util.error(:error, "Outbound request failed", error_data)
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end
