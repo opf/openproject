@@ -255,7 +255,4 @@ RSpec.describe BaseContract do
       it_behaves_like "the parent writable parameter is overridden by the child writable parameter"
     end
   end
-
-  describe "#reduce_by_writable_conditions"
-  describe "#reduce_writable_attributes"
 end
