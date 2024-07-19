@@ -50,7 +50,8 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
       project.save
     end
   end
-  let(:role) { create(:project_role) }
+  let(:permissions) { [] }
+  let(:role) { create(:project_role, permissions:) }
   let(:second_role) { create(:project_role) }
   let(:filters) { [] }
   let(:get_path) do
@@ -386,6 +387,43 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
     it "has projects with links to their work packages" do
       expect(last_response.body)
         .to be_json_eql(expected.to_json).at_path("_embedded/elements/0/_links/workPackages/href")
+    end
+  end
+
+  describe "permissions" do
+    context "when a project without view project permission is present" do
+      shared_let(:other_project) { create(:project) }
+      shared_let(:project) { create(:project) }
+      shared_let(:project_custom_field) do
+        create(:project_custom_field_project_mapping, project:).project_custom_field
+      end
+      shared_let(:other_project_custom_field) do
+        create(:project_custom_field_project_mapping, project: other_project).project_custom_field
+      end
+
+      let(:permissions) { [] }
+      let(:other_permissions) { %i(view_project_attributes) }
+      let(:other_role) { create(:project_role, permissions: other_permissions) }
+      let(:current_user) do
+        create(:user, member_with_roles: { project => role,
+                                           other_project => other_role })
+      end
+
+      it_behaves_like "API V3 collection response", 2, 2, "Project" do
+        let(:elements) { [project, other_project] }
+
+        it "does not return the project attributes for the project" do
+          expect(subject).not_to have_json_path(
+            "_embedded/elements/0/#{project_custom_field.attribute_name(:camel_case)}"
+          )
+        end
+
+        it "returns project attributes for other project with the view project permissions" do
+          expect(subject).to have_json_path(
+            "_embedded/elements/1/#{other_project_custom_field.attribute_name(:camel_case)}"
+          )
+        end
+      end
     end
   end
 end
