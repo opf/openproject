@@ -150,7 +150,7 @@ RSpec.describe BaseContract do
         expect(contract.writable_attributes).to contain_exactly("name", "name_id")
       end
 
-      it "does not returns it when redefined as `writable: false` in the child class" do
+      it "does not return it when redefined as `writable: false` in the child class" do
         child_contract_class = Class.new(parent_contract_class) do
           attribute :name, writable: false
         end
