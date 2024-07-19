@@ -158,7 +158,9 @@ module Storages
         return None() if query.success?
 
         Rails.logger.error("Connection validation failed with unknown error:\n\t" \
-                           "status: #{query.result}\n\tresponse: #{query.error_payload}")
+                           "storage: ##{@storage.id} #{@storage.name}\n\t" \
+                           "status: #{query.result}\n\t" \
+                           "response: #{query.error_payload}")
 
         Some(ConnectionValidation.new(type: :error,
                                       error_code: :err_unknown,
