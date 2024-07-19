@@ -35,30 +35,30 @@ class Journal < ApplicationRecord
   include ::Acts::Journalized::FormatHooks
   include Journal::Timestamps
 
-  register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
-  register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
-  register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
-  register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
-  register_journal_formatter :ignore_non_working_days, OpenProject::JournalFormatter::IgnoreNonWorkingDays
-  register_journal_formatter :active_status, OpenProject::JournalFormatter::ActiveStatus
-  register_journal_formatter :project_status_code, OpenProject::JournalFormatter::ProjectStatusCode
-  register_journal_formatter :template, OpenProject::JournalFormatter::Template
-  register_journal_formatter :visibility, OpenProject::JournalFormatter::Visibility
-  register_journal_formatter :subproject_named_association, OpenProject::JournalFormatter::SubprojectNamedAssociation
-  register_journal_formatter :time_entry_hours, OpenProject::JournalFormatter::TimeEntryHours
-  register_journal_formatter :wiki_diff, OpenProject::JournalFormatter::WikiDiff
-  register_journal_formatter :time_entry_named_association, OpenProject::JournalFormatter::TimeEntryNamedAssociation
-  register_journal_formatter :cause, OpenProject::JournalFormatter::Cause
-  register_journal_formatter :file_link, OpenProject::JournalFormatter::FileLink
-  register_journal_formatter :meeting_start_time, OpenProject::JournalFormatter::MeetingStartTime
-  register_journal_formatter :agenda_item_position, OpenProject::JournalFormatter::AgendaItemPosition
-  register_journal_formatter :agenda_item_duration, OpenProject::JournalFormatter::AgendaItemDuration
-  register_journal_formatter :agenda_item_diff, OpenProject::JournalFormatter::AgendaItemDiff
-  register_journal_formatter :agenda_item_title, OpenProject::JournalFormatter::AgendaItemTitle
-  register_journal_formatter :meeting_work_package_id, OpenProject::JournalFormatter::MeetingWorkPackageId
-  register_journal_formatter :meeting_state, OpenProject::JournalFormatter::MeetingState
-  register_journal_formatter :agenda_item_diff, OpenProject::JournalFormatter::AgendaItemDiff
-  register_journal_formatter :agenda_item_title, OpenProject::JournalFormatter::AgendaItemTitle
+  register_journal_formatter OpenProject::JournalFormatter::Diff
+  register_journal_formatter OpenProject::JournalFormatter::Attachment
+  register_journal_formatter OpenProject::JournalFormatter::CustomField
+  register_journal_formatter OpenProject::JournalFormatter::ScheduleManually
+  register_journal_formatter OpenProject::JournalFormatter::IgnoreNonWorkingDays
+  register_journal_formatter OpenProject::JournalFormatter::ActiveStatus
+  register_journal_formatter OpenProject::JournalFormatter::ProjectStatusCode
+  register_journal_formatter OpenProject::JournalFormatter::Template
+  register_journal_formatter OpenProject::JournalFormatter::Visibility
+  register_journal_formatter OpenProject::JournalFormatter::SubprojectNamedAssociation
+  register_journal_formatter OpenProject::JournalFormatter::TimeEntryHours
+  register_journal_formatter OpenProject::JournalFormatter::WikiDiff
+  register_journal_formatter OpenProject::JournalFormatter::TimeEntryNamedAssociation
+  register_journal_formatter OpenProject::JournalFormatter::Cause
+  register_journal_formatter OpenProject::JournalFormatter::FileLink
+  register_journal_formatter OpenProject::JournalFormatter::MeetingStartTime
+  register_journal_formatter OpenProject::JournalFormatter::AgendaItemPosition
+  register_journal_formatter OpenProject::JournalFormatter::AgendaItemDuration
+  register_journal_formatter OpenProject::JournalFormatter::AgendaItemDiff
+  register_journal_formatter OpenProject::JournalFormatter::AgendaItemTitle
+  register_journal_formatter OpenProject::JournalFormatter::MeetingWorkPackageId
+  register_journal_formatter OpenProject::JournalFormatter::MeetingState
+  register_journal_formatter OpenProject::JournalFormatter::AgendaItemDiff
+  register_journal_formatter OpenProject::JournalFormatter::AgendaItemTitle
 
   # Attributes related to the cause are stored in a JSONB column so we can easily add new relations and related
   # attributes without a heavy database migration. Fields will be prefixed with `cause_` but are stored in the JSONB

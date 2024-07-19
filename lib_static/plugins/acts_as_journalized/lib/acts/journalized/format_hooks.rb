@@ -60,7 +60,7 @@ module Acts::Journalized
         end
       end
 
-      def register_journal_formatter(formatter_key, formatter_class)
+      def register_journal_formatter(formatter_class, formatter_key: formatter_class.name.demodulize.underscore)
         JournalFormatter.register formatter_key.to_sym => formatter_class
       end
     end
