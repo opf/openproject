@@ -682,8 +682,8 @@ ro:
         description: "Descriere"
         status_explanation: "Project status description"
         status_codes:
-          not_started: "Neîncepută"
-          on_track: "Urmărește"
+          not_started: "Neînceput"
+          on_track: "În lucru"
           at_risk: "În pericol"
           off_track: "În afara pistei"
           finished: "Finalizat"

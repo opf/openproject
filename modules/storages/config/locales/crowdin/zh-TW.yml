@@ -163,9 +163,9 @@ zh-TW:
         provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
         tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: 姓名或UUID
-      setting_up_additional_storages: For setting up additional file storages, please visit
+      setting_up_additional_storages: 額外設定檔案儲存裝置，請參閱
       setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File Storages.
-      setting_up_storages: For setting up file storages, please visit
+      setting_up_storages: 設定檔案儲存裝置，請參閱
       setting_up_storages_non_admin: Administrators can set up file storages in Administration / File Storages.
       type: '請確保您在 Nextcloud 實例中具有管理權限，並在進行設置之前安裝了以下應用程序：'
       type_link_text: "“整合 OpenProject”"
