@@ -36,6 +36,8 @@
 require "spec_helper"
 require "dry/container/stub"
 
+STORAGES_CASSETTE_LIBRARY_DIR = "modules/storages/spec/support/fixtures/vcr_cassettes"
+
 # Record Storages Cassettes in module
 VCR.configure do |config|
   config.filter_sensitive_data("<ACCESS_TOKEN>") do
@@ -46,6 +48,16 @@ VCR.configure do |config|
   end
 end
 
+def use_storages_vcr_cassette(name, options = {}, &)
+  WebMock.enable! && VCR.turn_on!
+  VCR.configure do |vcr_config|
+    vcr_config.cassette_library_dir = STORAGES_CASSETTE_LIBRARY_DIR
+  end
+  VCR.use_cassette(name, options, &)
+ensure
+  VCR.turn_off! && WebMock.disable!
+end
+
 # Loads files from relative support/ directory
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
 
@@ -54,6 +66,6 @@ RSpec.configure do |config|
   config.append_after { Storages::Peripherals::Registry.unstub }
 
   config.define_derived_metadata(file_path: %r{/modules/storages/spec}) do |metadata|
-    metadata[:vcr_cassette_library_dir] = "modules/storages/spec/support/fixtures/vcr_cassettes"
+    metadata[:vcr_cassette_library_dir] = STORAGES_CASSETTE_LIBRARY_DIR
   end
 end
