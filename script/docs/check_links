@@ -168,7 +168,8 @@ class DocsChecker
     full_path = File.expand_path(uri.path.sub("/docs", "."), @root_path)
 
     relative_url = Pathname.new(full_path).relative_path_from("#{path}/").to_s
-    "#{relative_url}/##{uri.fragment}" unless uri.fragment.nil?
+    return "#{relative_url}/##{uri.fragment}" unless uri.fragment.nil?
+
     relative_url
   end
 

@@ -22,6 +22,8 @@ zh-TW:
           attributes:
             project_folder_mode:
               mode_unavailable: 不可用於此儲存空間。
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -135,10 +137,10 @@ zh-TW:
       unsubscribe: 取消訂閱
     help_texts:
       project_folder: 項目資料夾是該項目文件上傳的預設資料夾。 儘管如此，用戶仍然可以將文件上傳到其他位置。
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: 所有可用的儲存都已新增至專案。
       automatic_folder: 這將自動為此專案建立一個根資料夾並管理每個專案成員的存取權限。
-      copy_from: 從以下位置複製此值：
       empty_project_folder_validation: 必須選擇資料夾才能繼續。
       existing_manual_folder: 您可以指定現有資料夾作為該專案的根資料夾。 然而，權限不會自動管理，管理員需要手動確保相關使用者俱有存取權限。 所選資料夾可由多個項目使用。
       host: 請添加存儲區的主機地址，包括 https://。不應超過 255 個字符。
@@ -168,9 +170,9 @@ zh-TW:
         provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
         tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: 姓名或UUID
-      setting_up_additional_storages: For setting up additional file storages, please visit
+      setting_up_additional_storages: 額外設定檔案儲存裝置，請參閱
       setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File Storages.
-      setting_up_storages: For setting up file storages, please visit
+      setting_up_storages: 設定檔案儲存裝置，請參閱
       setting_up_storages_non_admin: Administrators can set up file storages in Administration / File Storages.
       type: '請確保您在 Nextcloud 實例中具有管理權限，並在進行設置之前安裝了以下應用程序：'
       type_link_text: "“整合 OpenProject”"

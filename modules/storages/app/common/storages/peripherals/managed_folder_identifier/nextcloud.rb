@@ -11,7 +11,7 @@ module Storages
         end
 
         def path
-          "#{@storage.group_folder}/#{@project.name.tr('/', '|')} (#{@project.id})/"
+          "/#{@storage.group_folder}/#{@project.name.tr('/', '|')} (#{@project.id})/"
         end
 
         def location

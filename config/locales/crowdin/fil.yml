@@ -268,7 +268,7 @@ fil:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -301,8 +301,6 @@ fil:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Sa kasalukuyan ay walang mga uri na available.
         form:
@@ -597,17 +595,6 @@ fil:
       attribute_help_text:
         attribute_name: "Katangian"
         help_text: "Tekstong tulong"
-      ldap_auth_source:
-        account: "Akawnt"
-        attr_firstname: "Ang katangian ng unang pangalan"
-        attr_lastname: "Ang huling katangian ng apelyido"
-        attr_login: "Username attribute"
-        attr_mail: "Ang katangian ng Email"
-        base_dn: "Ang Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositoryo"
       color:
@@ -632,6 +619,14 @@ fil:
         visible: "Nakikita"
       custom_value:
         value: "Halaga"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Balido mula noon"
         subscriber: "Taga -subaybay"
@@ -642,20 +637,25 @@ fil:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "Work package"
-        to: "Ang kaugnayan sa pakete na ginagawa"
-      status:
-        is_closed: "Sarado na ang pagawaan ng pakete"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Ang mga tala"
+      ldap_auth_source:
+        account: "Akawnt"
+        attr_firstname: "Ang katangian ng unang pangalan"
+        attr_lastname: "Ang huling katangian ng apelyido"
+        attr_login: "Username attribute"
+        attr_mail: "Ang katangian ng Email"
+        base_dn: "Ang Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Ang mga tungkulin"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: Hex code
       project:
         active_value:
           true: "unarchived"
@@ -685,6 +685,8 @@ fil:
         types: "Mga uri"
         versions: "Mga bersyon"
         work_packages: "Ang mga pakete na ginawa"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Mga hanay"
         relations_to_type_column: "Mga relasyon sa %{type}"
@@ -692,10 +694,19 @@ fil:
         group_by: "Mga resulta sa grupo sa pamamagitan ng"
         filters: "Mga nasala"
         timeline_labels: "Ang mga label ng timeline"
+      relation:
+        lag: "Lag"
+        from: "Work package"
+        to: "Ang kaugnayan sa pakete na ginagawa"
       repository:
         url: "Ang URL"
       role:
         permissions: "Mga pahintulot"
+      status:
+        is_closed: "Sarado na ang pagawaan ng pakete"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktibidad"
         hours: "Mga oras"
@@ -738,10 +749,6 @@ fil:
       wiki_page:
         parent_title: "Pahina ng magulang"
         redirect_existing_links: "Pag-redirect sa umiiral ng mga link"
-      planning_element_type_color:
-        hexcode: Hex code
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Nagsimula na ang pagpasok"
         begin_deletion: "Nagsimula na ang pagbubura"
@@ -776,14 +783,6 @@ fil:
         type: "Uri"
         version: "Bersyon"
         watcher: "Tagapagmasid"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "kailangang tanggapin."
@@ -996,6 +995,11 @@ fil:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1110,8 +1114,6 @@ fil:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -2039,6 +2041,7 @@ fil:
   label_inactive: "Hindi aktibo"
   label_incoming_emails: "Papasok na mga email"
   label_includes: "kasama ang mga"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index sa petsa"
   label_index_by_title: "Index sa pamagat"
   label_information: "Impormasyon"

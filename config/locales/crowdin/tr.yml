@@ -268,7 +268,7 @@ tr:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -301,8 +301,6 @@ tr:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Şu anda hiçbir tip mevcut değil.
         form:
@@ -596,17 +594,6 @@ tr:
       attribute_help_text:
         attribute_name: "Özellik"
         help_text: "Yardım metni"
-      ldap_auth_source:
-        account: "Hesap"
-        attr_firstname: "Ad özniteliği"
-        attr_lastname: "Soyad özniteliği"
-        attr_login: "Kullanıcı adı özelliği"
-        attr_mail: "E-posta özniteliği"
-        base_dn: "Temel DN"
-        host: "Sunucu"
-        onthefly: "Otomatik kullanıcı oluşturma"
-        port: "Port"
-        tls_certificate_string: "LDAP sunucusu SSL sertifikası"
       changeset:
         repository: "Depo"
       color:
@@ -631,6 +618,14 @@ tr:
         visible: "Görünür"
       custom_value:
         value: "Değer"
+      doorkeeper/application:
+        uid: "Müşteri Kimliği"
+        secret: "Müşteri gizliliği"
+        owner: "Ürün Sahibi"
+        redirect_uri: "Yönlendirme URI'si"
+        client_credentials_user_id: "Müşteri Kimlik Bilgileri ve Kullanıcı Kimliği gereklidir"
+        scopes: "Kapsamlar"
+        confidential: "Gizli"
       enterprise_token:
         starts_at: "Beri geçerli"
         subscriber: "Abone"
@@ -641,20 +636,25 @@ tr:
         row_count: "Satır sayısı"
         column_count: "Sütun sayısı"
         widgets: "Araçlar"
-      oauth_client:
-        client: "Müşteri Kimliği"
-      relation:
-        lag: "Lag"
-        from: "İş paketi"
-        to: "İlgili iş paketi"
-      status:
-        is_closed: "İş paketi kapalı"
-        is_readonly: "İş paketi salt okunur"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notlar"
+      ldap_auth_source:
+        account: "Hesap"
+        attr_firstname: "Ad özniteliği"
+        attr_lastname: "Soyad özniteliği"
+        attr_login: "Kullanıcı adı özelliği"
+        attr_mail: "E-posta özniteliği"
+        base_dn: "Temel DN"
+        host: "Sunucu"
+        onthefly: "Otomatik kullanıcı oluşturma"
+        port: "Port"
+        tls_certificate_string: "LDAP sunucusu SSL sertifikası"
       member:
         roles: "Yetkiler"
+      oauth_client:
+        client: "Müşteri Kimliği"
+      planning_element_type_color:
+        hexcode: Hex kodu
       project:
         active_value:
           true: "arşivden çıkartıldı"
@@ -684,6 +684,8 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"
@@ -691,10 +693,19 @@ tr:
         group_by: "Sonuçları grupla"
         filters: "Filtreler"
         timeline_labels: "Zaman çizelgesi etiketleri"
+      relation:
+        lag: "Lag"
+        from: "İş paketi"
+        to: "İlgili iş paketi"
       repository:
         url: "URL"
       role:
         permissions: "İzinler"
+      status:
+        is_closed: "İş paketi kapalı"
+        is_readonly: "İş paketi salt okunur"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Etkinlik"
         hours: "Saat"
@@ -737,10 +748,6 @@ tr:
       wiki_page:
         parent_title: "Üst sayfa"
         redirect_existing_links: "Varolan bağlantıları yönlendirme"
-      planning_element_type_color:
-        hexcode: Hex kodu
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Eklemeye başlama"
         begin_deletion: "Silme işleminin başlangıcı"
@@ -775,14 +782,6 @@ tr:
         type: "Tür"
         version: "Sürüm"
         watcher: "Takipçi"
-      "doorkeeper/application":
-        uid: "Müşteri Kimliği"
-        secret: "Müşteri gizliliği"
-        owner: "Ürün Sahibi"
-        redirect_uri: "Yönlendirme URI'si"
-        client_credentials_user_id: "Müşteri Kimlik Bilgileri ve Kullanıcı Kimliği gereklidir"
-        scopes: "Kapsamlar"
-        confidential: "Gizli"
     errors:
       messages:
         accepted: "kabul edilmelidir."
@@ -995,6 +994,11 @@ tr:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "varsayılan olarak işaretlenen durumlar için etkinleştirilemez."
         time_entry:
           attributes:
             hours:
@@ -1109,8 +1113,6 @@ tr:
         version:
           undeletable_archived_projects: "Eklenmiş iş paketleri olduğu için sürüm silinemez."
           undeletable_work_packages_attached: "Eklenmiş iş paketleri olduğu için sürüm silinemez."
-        status:
-          readonly_default_exlusive: "varsayılan olarak işaretlenen durumlar için etkinleştirilemez."
         token/api:
           attributes:
             token_name:
@@ -2038,6 +2040,7 @@ tr:
   label_inactive: "Etkin değil"
   label_incoming_emails: "Gelen e-postalar"
   label_includes: "içerir"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Tarihe göre diz"
   label_index_by_title: "Başlığa göre dizin"
   label_information: "Bilgi"

@@ -265,7 +265,7 @@ lt:
       favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
       shared: "Shared project lists"
-      my_private: "Mano privatūs projektų sąrašai"
+      my_lists: "My project lists"
       new:
         placeholder: "Naujas projektų sąrašas"
       delete_modal:
@@ -298,8 +298,6 @@ lt:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Nėra prieinamų tipų.
         form:
@@ -608,17 +606,6 @@ lt:
       attribute_help_text:
         attribute_name: "Atributas"
         help_text: "Pagalbos tekstas"
-      ldap_auth_source:
-        account: "Paskyra"
-        attr_firstname: "Vardo atributas"
-        attr_lastname: "Pavardės atributas"
-        attr_login: "Naudotojo atributas"
-        attr_mail: "El. paštos atributas"
-        base_dn: "Bazinis DN"
-        host: "Serveris"
-        onthefly: "Automatinis naudotojų kūrimas"
-        port: "Prievadas"
-        tls_certificate_string: "LDAP serverio SSL sertifikatas"
       changeset:
         repository: "Repozitorija"
       color:
@@ -643,6 +630,14 @@ lt:
         visible: "Matomas"
       custom_value:
         value: "Reikšmė"
+      doorkeeper/application:
+        uid: "Kliento ID"
+        secret: "Kliento paslaptis"
+        owner: "Savininkas"
+        redirect_uri: "Peradresavimo URI"
+        client_credentials_user_id: "Kliento įgaliojimų naudotojo ID"
+        scopes: "Apimtys"
+        confidential: "Konfidencialu"
       enterprise_token:
         starts_at: "Galioja nuo"
         subscriber: "Prenumeruotojas"
@@ -653,20 +648,25 @@ lt:
         row_count: "Eilučių skaičius"
         column_count: "Stulpelių skaičius"
         widgets: "Valdikliai"
-      oauth_client:
-        client: "Kliento ID"
-      relation:
-        lag: "Vėlavimas"
-        from: "Darbų paketas"
-        to: "Susijusių darbų paketas"
-      status:
-        is_closed: "Darbų paketas uždarytas"
-        is_readonly: "Darbų paketas nekeičiamas"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Pastabos"
+      ldap_auth_source:
+        account: "Paskyra"
+        attr_firstname: "Vardo atributas"
+        attr_lastname: "Pavardės atributas"
+        attr_login: "Naudotojo atributas"
+        attr_mail: "El. paštos atributas"
+        base_dn: "Bazinis DN"
+        host: "Serveris"
+        onthefly: "Automatinis naudotojų kūrimas"
+        port: "Prievadas"
+        tls_certificate_string: "LDAP serverio SSL sertifikatas"
       member:
         roles: "Vaidmenys"
+      oauth_client:
+        client: "Kliento ID"
+      planning_element_type_color:
+        hexcode: Šešioliktainis kodas
       project:
         active_value:
           true: "išarchyvuota"
@@ -696,6 +696,8 @@ lt:
         types: "Tipai"
         versions: "Versijos"
         work_packages: "Darbų paketai"
+      project_custom_field:
+        custom_field_section: Skiltis
       query:
         column_names: "Stulpeliai"
         relations_to_type_column: "Ryšiai su %{type}"
@@ -703,10 +705,19 @@ lt:
         group_by: "Grupuoti rezultatus pagal"
         filters: "Filtrai"
         timeline_labels: "Laiko juostos etiketės"
+      relation:
+        lag: "Vėlavimas"
+        from: "Darbų paketas"
+        to: "Susijusių darbų paketas"
       repository:
         url: "URL"
       role:
         permissions: "Leidimai"
+      status:
+        is_closed: "Darbų paketas uždarytas"
+        is_readonly: "Darbų paketas nekeičiamas"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Veikla"
         hours: "Valandų"
@@ -749,10 +760,6 @@ lt:
       wiki_page:
         parent_title: "Pagrindinis puslapis"
         redirect_existing_links: "Peradresuoti egzistuojančias nuorodas"
-      planning_element_type_color:
-        hexcode: Šešioliktainis kodas
-      project_custom_field:
-        custom_field_section: Skiltis
       work_package:
         begin_insertion: "Įterpimo pradžioje"
         begin_deletion: "Ištrynimo pradžioje"
@@ -787,14 +794,6 @@ lt:
         type: "Tipas"
         version: "Versija"
         watcher: "Stebėtojas"
-      "doorkeeper/application":
-        uid: "Kliento ID"
-        secret: "Kliento paslaptis"
-        owner: "Savininkas"
-        redirect_uri: "Peradresavimo URI"
-        client_credentials_user_id: "Kliento įgaliojimų naudotojo ID"
-        scopes: "Apimtys"
-        confidential: "Konfidencialu"
     errors:
       messages:
         accepted: "turi būti patvirtinta."
@@ -1007,6 +1006,11 @@ lt:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "negali būti aktyvuotas būsenoms, kurios yra pažymėtos kaip numatytosios."
         time_entry:
           attributes:
             hours:
@@ -1123,8 +1127,6 @@ lt:
         version:
           undeletable_archived_projects: "Versija negali būti pašalinta, nes prie jos yra prijungtų darbo paketų."
           undeletable_work_packages_attached: "Versija negali būti pašalinta, nes prie jos yra prijungtų darbo paketų."
-        status:
-          readonly_default_exlusive: "negali būti aktyvuotas būsenoms, kurios yra pažymėtos kaip numatytosios."
         token/api:
           attributes:
             token_name:
@@ -2104,6 +2106,7 @@ lt:
   label_inactive: "Neaktyvus"
   label_incoming_emails: "Gauti el. laiškai"
   label_includes: "turi savyje"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Rūšiuoti pagal datą"
   label_index_by_title: "Rūšiuoti pagal pavadinimą"
   label_information: "Informacija"

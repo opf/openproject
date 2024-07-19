@@ -22,6 +22,8 @@ uk:
           attributes:
             project_folder_mode:
               mode_unavailable: '– недоступно для цього сховища.'
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -55,9 +57,9 @@ uk:
   project_module_storages: Файли
   project_storages:
     project_folder_mode:
-      automatic: Automatically managed
-      inactive: Немає конкретної папки
-      manual: Existing folder manually managed
+      automatic: Автоматичне керування
+      inactive: Немає визначеної папки
+      manual: Наявна папка має ручне керування
   storages:
     buttons:
       complete_without_setup: Завершити без налаштування
@@ -108,22 +110,22 @@ uk:
     health:
       checked: 'Востаннє перевірено: %{datetime}'
       connection_validation:
-        action: Recheck connection
-        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        placeholder: Check your connection against the server.
-        subtitle: Connection validation
-        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content: Unexpected content found in the drive.
-        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        action: Перевірити підключення знову
+        client_id_wrong: Налаштований ідентифікатор клієнта OAuth 2 недійсний. Перевірте конфігурацію.
+        client_secret_wrong: Налаштований секретний ключ клієнта OAuth 2 недійсний. Перевірте конфігурацію.
+        drive_id_wrong: Налаштований ідентифікатор диска OAuth 2 не знайдено. Перевірте конфігурацію.
+        not_configured: Не вдалося перевірити підключення. Спочатку налаштуйте конфігурацію.
+        placeholder: Перевірте підключення до сервера.
+        subtitle: Перевірка підключення
+        tenant_id_wrong: Налаштований ідентифікатор каталогу (клієнта) недійсний. Перевірте конфігурацію.
+        unexpected_content: На диску виявлено неочікуваний вміст.
+        unknown_error: Не вдалося перевірити підключення. Сталася невідома помилка. Щоб дізнатися більше, перегляньте журнали сервера.
       label_error: Помилка
       label_healthy: Справність
       label_pending: Очікування
       label_warning: Попередження
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Папки проєкту з автоматичним керуванням
       since: з %{datetime}
       title: Стан справності
     health_email_notifications:
@@ -135,10 +137,10 @@ uk:
       unsubscribe: Відписатися
     help_texts:
       project_folder: Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: У проєкт уже додано всі доступні сховища.
       automatic_folder: Буде автоматично створено кореневу папку для цього проєкту й налаштовано дозволи на доступ для кожного учасника проєкту.
-      copy_from: Копіювати це значення з
       empty_project_folder_validation: Щоб продовжити, потрібно вибрати папку.
       existing_manual_folder: Ви можете призначити наявну папку як кореневу папку для цього проєкту. Однак дозволи автоматично не налаштовуються, і адміністратор має вручну надати користувачам відповідні дозволи на доступ. Вибрану папку зможуть використовувати кілька проєктів.
       host: Додайте адресу хосту для свого сховища, включно з https://. Її довжина не може перевищувати 255 символів.

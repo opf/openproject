@@ -267,7 +267,7 @@ zh-TW:
       favored: "Favorite projects"
       archived: "封存專案"
       shared: "Shared project lists"
-      my_private: "我的私人專案"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -300,8 +300,6 @@ zh-TW:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: 目前沒有可用的類型
         form:
@@ -589,17 +587,6 @@ zh-TW:
       attribute_help_text:
         attribute_name: "属性"
         help_text: "說明文字"
-      ldap_auth_source:
-        account: "帳號"
-        attr_firstname: "名"
-        attr_lastname: "姓"
-        attr_login: "使用者名稱屬性。"
-        attr_mail: "Email"
-        base_dn: "Base DN"
-        host: "主機"
-        onthefly: "自動新增用戶"
-        port: "埠"
-        tls_certificate_string: "LDAP伺服器SSL證書"
       changeset:
         repository: "版本庫"
       color:
@@ -624,6 +611,14 @@ zh-TW:
         visible: "可見"
       custom_value:
         value: "值"
+      doorkeeper/application:
+        uid: "用戶端 ID"
+        secret: "用戶端密鑰"
+        owner: "擁有者"
+        redirect_uri: "轉址 uri"
+        client_credentials_user_id: "用戶端憑證使用者 id"
+        scopes: "範圍"
+        confidential: "機密的"
       enterprise_token:
         starts_at: "生效自"
         subscriber: "訂閱者"
@@ -634,20 +629,25 @@ zh-TW:
         row_count: "列數"
         column_count: "欄數："
         widgets: "小工具"
-      oauth_client:
-        client: "客戶端 ID"
-      relation:
-        lag: "Lag"
-        from: "工作項目"
-        to: "相關的工作項目"
-      status:
-        is_closed: "關閉工作項目"
-        is_readonly: "設定「工作項目」唯讀"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "備註"
+      ldap_auth_source:
+        account: "帳號"
+        attr_firstname: "名"
+        attr_lastname: "姓"
+        attr_login: "使用者名稱屬性。"
+        attr_mail: "Email"
+        base_dn: "Base DN"
+        host: "主機"
+        onthefly: "自動新增用戶"
+        port: "埠"
+        tls_certificate_string: "LDAP伺服器SSL證書"
       member:
         roles: "角色"
+      oauth_client:
+        client: "客戶端 ID"
+      planning_element_type_color:
+        hexcode: 十六進位碼
       project:
         active_value:
           true: "解除封存"
@@ -677,6 +677,8 @@ zh-TW:
         types: "類型"
         versions: "版本"
         work_packages: "工作項目"
+      project_custom_field:
+        custom_field_section: 區段
       query:
         column_names: "欄"
         relations_to_type_column: "與 %{type} 的關連"
@@ -684,10 +686,19 @@ zh-TW:
         group_by: "分組依據"
         filters: "篩選條件"
         timeline_labels: "時間軸標籤"
+      relation:
+        lag: "Lag"
+        from: "工作項目"
+        to: "相關的工作項目"
       repository:
         url: "URL"
       role:
         permissions: "權限"
+      status:
+        is_closed: "關閉工作項目"
+        is_readonly: "設定「工作項目」唯讀"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "活動"
         hours: "小時"
@@ -730,10 +741,6 @@ zh-TW:
       wiki_page:
         parent_title: "上層頁面"
         redirect_existing_links: "將現有的連結重定向"
-      planning_element_type_color:
-        hexcode: 十六進位碼
-      project_custom_field:
-        custom_field_section: 區段
       work_package:
         begin_insertion: "開始插入"
         begin_deletion: "開始刪除"
@@ -768,14 +775,6 @@ zh-TW:
         type: "類型"
         version: "版本"
         watcher: "監看者"
-      "doorkeeper/application":
-        uid: "用戶端 ID"
-        secret: "用戶端密鑰"
-        owner: "擁有者"
-        redirect_uri: "轉址 uri"
-        client_credentials_user_id: "用戶端憑證使用者 id"
-        scopes: "範圍"
-        confidential: "機密的"
     errors:
       messages:
         accepted: "必須被接受"
@@ -988,6 +987,11 @@ zh-TW:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "，是無法生效的(因其設定為「預設」狀態)"
         time_entry:
           attributes:
             hours:
@@ -1101,8 +1105,6 @@ zh-TW:
         version:
           undeletable_archived_projects: "該版本無法刪除，因為包含工作項目。"
           undeletable_work_packages_attached: "該版本無法刪除，因為它附帶了工作項目。"
-        status:
-          readonly_default_exlusive: "，是無法生效的(因其設定為「預設」狀態)"
         token/api:
           attributes:
             token_name:
@@ -2004,6 +2006,7 @@ zh-TW:
   label_inactive: "未啟用"
   label_incoming_emails: "接收到的電子郵件"
   label_includes: "包括"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "按日期索引"
   label_index_by_title: "按標題索引"
   label_information: "資訊"

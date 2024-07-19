@@ -27,22 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if can_delete_placeholder_user?(@placeholder_user) %>
-  <li class="toolbar-item">
-    <%= link_to deletion_info_placeholder_user_path(@placeholder_user),
-                class: 'button' do %>
-      <%= op_icon('button--icon icon-delete') %>
-      <span class="button--text"><%= t(:button_delete) %></span>
-    <% end %>
-  </li>
-<% else %>
-  <li class="toolbar-item">
-    <%= content_tag :span, title: I18n.t('placeholder_users.right_to_manage_members_missing') do %>
-      <%= link_to '#',
-                  class: 'button -disabled' do %>
-        <%= op_icon('button--icon icon-delete') %>
-        <span class="button--text"><%= t(:button_delete) %></span>
-      <% end %>
-    <% end %>
-  </li>
+<%= component_wrapper(tag: "div", data: { turbo: true }) do %>
+  <%= render_parent %>
 <% end %>

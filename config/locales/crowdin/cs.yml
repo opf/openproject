@@ -267,8 +267,8 @@ cs:
       my: "Moje projekty"
       favored: "Oblíbené projekty"
       archived: "Archivované projekty"
-      shared: "Shared project lists"
-      my_private: "soukromé seznamy  projektů"
+      shared: "Sdílené seznamy projektů"
+      my_lists: "My project lists"
       new:
         placeholder: "Nový seznam projektů"
       delete_modal:
@@ -301,8 +301,6 @@ cs:
         is_required_blank_slate:
           heading: Povinné u všech projektů
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Zahrnout všechny podprojekty
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
@@ -401,13 +399,13 @@ cs:
   my:
     access_token:
       errors:
-        token_name_blank: "Please provide an API token name"
+        token_name_blank: "Zadejte prosím název tokenu API"
         token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_title: "Vytvořit nový API token"
       new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text_field_placeholder_text: "Můj API token"
+      new_access_token_dialog_text_field_label: "Název"
+      new_access_token_dialog_submit_button_text: "Vytvořit"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Nepodařilo se obnovit přístupový token: %{error}"
@@ -611,17 +609,6 @@ cs:
       attribute_help_text:
         attribute_name: "Atribut"
         help_text: "Text nápovědy"
-      ldap_auth_source:
-        account: "Účet"
-        attr_firstname: "Jméno (atribut)"
-        attr_lastname: "Příjmení (atribut)"
-        attr_login: "Atribut uživatelského jména"
-        attr_mail: "Email (atribut)"
-        base_dn: "Base DN"
-        host: "Hostitel"
-        onthefly: "Automatické vytváření uživatele"
-        port: "Port"
-        tls_certificate_string: "SSL certifikát LDAP serveru"
       changeset:
         repository: "Repozitář"
       color:
@@ -646,6 +633,14 @@ cs:
         visible: "Viditelný"
       custom_value:
         value: "Hodnota"
+      doorkeeper/application:
+        uid: "ID klienta"
+        secret: "Tajný klíč klienta"
+        owner: "Vlastník"
+        redirect_uri: "Přesměrovací URI"
+        client_credentials_user_id: "Uživatelské ID klienta"
+        scopes: "Rozsah"
+        confidential: "Důvěrnost"
       enterprise_token:
         starts_at: "Platné od"
         subscriber: "Odběratel"
@@ -656,20 +651,25 @@ cs:
         row_count: "Počet řádků"
         column_count: "Počet sloupců"
         widgets: "Widgety"
-      oauth_client:
-        client: "ID klienta"
-      relation:
-        lag: "Lag"
-        from: "Pracovní balíček"
-        to: "Související pracovní balíček"
-      status:
-        is_closed: "Pracovní balíček uzavřen"
-        is_readonly: "Pracovní balíček jen pro čtení"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Poznámky"
+      ldap_auth_source:
+        account: "Účet"
+        attr_firstname: "Jméno (atribut)"
+        attr_lastname: "Příjmení (atribut)"
+        attr_login: "Atribut uživatelského jména"
+        attr_mail: "Email (atribut)"
+        base_dn: "Base DN"
+        host: "Hostitel"
+        onthefly: "Automatické vytváření uživatele"
+        port: "Port"
+        tls_certificate_string: "SSL certifikát LDAP serveru"
       member:
         roles: "Role"
+      oauth_client:
+        client: "ID klienta"
+      planning_element_type_color:
+        hexcode: Hex kód
       project:
         active_value:
           true: "odarchivováno"
@@ -699,6 +699,8 @@ cs:
         types: "Typy"
         versions: "Verze"
         work_packages: "Pracovní balíčky"
+      project_custom_field:
+        custom_field_section: Sekce
       query:
         column_names: "Sloupce"
         relations_to_type_column: "Vztahy s %{type}"
@@ -706,10 +708,19 @@ cs:
         group_by: "Seskupit výsledky podle"
         filters: "Filtry"
         timeline_labels: "Štítky časové osy"
+      relation:
+        lag: "Lag"
+        from: "Pracovní balíček"
+        to: "Související pracovní balíček"
       repository:
         url: "URL"
       role:
         permissions: "Práva"
+      status:
+        is_closed: "Pracovní balíček uzavřen"
+        is_readonly: "Pracovní balíček jen pro čtení"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivita"
         hours: "Hodiny"
@@ -752,10 +763,6 @@ cs:
       wiki_page:
         parent_title: "Nadřazená stránka"
         redirect_existing_links: "Přesměrovat existující odkazy"
-      planning_element_type_color:
-        hexcode: Hex kód
-      project_custom_field:
-        custom_field_section: Sekce
       work_package:
         begin_insertion: "Začátek vložení"
         begin_deletion: "Začátek odstranění"
@@ -790,14 +797,6 @@ cs:
         type: "Typ"
         version: "Verze"
         watcher: "Sledující"
-      "doorkeeper/application":
-        uid: "ID klienta"
-        secret: "Tajný klíč klienta"
-        owner: "Vlastník"
-        redirect_uri: "Přesměrovací URI"
-        client_credentials_user_id: "Uživatelské ID klienta"
-        scopes: "Rozsah"
-        confidential: "Důvěrnost"
     errors:
       messages:
         accepted: "musí být přijato."
@@ -947,7 +946,7 @@ cs:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "Vyberte prosím projekt."
         query:
           attributes:
             project:
@@ -1010,6 +1009,11 @@ cs:
               hours_per_day_are_missing: "Musí být stanoven počet hodin denně."
               durations_are_not_positive_numbers: "Doba trvání musí být kladná čísla."
               hours_per_day_is_out_of_bounds: "Počet hodin za den nesmí být více než 24."
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "nelze aktivovat pro stavy, které jsou označeny jako výchozí."
         time_entry:
           attributes:
             hours:
@@ -1126,8 +1130,6 @@ cs:
         version:
           undeletable_archived_projects: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
           undeletable_work_packages_attached: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
-        status:
-          readonly_default_exlusive: "nelze aktivovat pro stavy, které jsou označeny jako výchozí."
         token/api:
           attributes:
             token_name:
@@ -1160,7 +1162,7 @@ cs:
       placeholder_user: "placeholder uživatel"
       project: "Projekt"
       project_query:
-        one: "Project list"
+        one: "Seznam projektů"
         few: "Project lists"
         many: "Project lists"
         other: "Project lists"
@@ -1851,16 +1853,16 @@ cs:
         unknown_storage: "Neznámé úložiště"
   notifications:
     reasons:
-      assigned: "Assignee"
-      dateAlert: "Date alert"
-      mentioned: "Mentioned"
-      responsible: "Accountable"
-      shared: "Shared"
-      watched: "Watcher"
+      assigned: "Řešitel"
+      dateAlert: "Upozornění na datum"
+      mentioned: "Zmíněné"
+      responsible: "Odpovědný"
+      shared: "Sdíleno"
+      watched: "Sledující"
     menu:
       by_project: "Unread by project"
-      by_reason: "Reason"
-      inbox: "Inbox"
+      by_reason: "Důvod"
+      inbox: "Doručená pošta"
     send_notifications: "Odeslat oznámení pro tuto akci"
     work_packages:
       subject:
@@ -1880,7 +1882,7 @@ cs:
   label_add_another_file: "Přidat další soubor"
   label_add_columns: "Přidat vybrané sloupce"
   label_add_note: "Přidat poznámku"
-  label_add_projects: "Add projects"
+  label_add_projects: "Přidat projekty"
   label_add_related_work_packages: "Přidání souvisejících pracovních balíčků"
   label_add_subtask: "Přidat podúkol"
   label_added: "přidáno"
@@ -2107,6 +2109,7 @@ cs:
   label_inactive: "Neaktivní"
   label_incoming_emails: "Příchozí e-maily"
   label_includes: "zahrnuje"
+  label_include_sub_projects: Zahrnout všechny podprojekty
   label_index_by_date: "Index dle data"
   label_index_by_title: "Index dle názvu"
   label_information: "Informace"
@@ -2269,7 +2272,7 @@ cs:
   label_product_version: "Verze produktu"
   label_profile: "Profil"
   label_percent_complete: "% Dokončeno"
-  label_project: "Project"
+  label_project: "Projekt"
   label_project_activity: "Aktivita projektu"
   label_project_attribute_plural: "Atributy projektu"
   label_project_attribute_manage_link: "Správa atributů produktu"
@@ -2278,7 +2281,7 @@ cs:
   label_project_latest: "Nejnovější projekty"
   label_project_default_type: "Povolit prázdný typ"
   label_project_hierarchy: "Hierarchie projektu"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Povoleno v projektech"
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_list_plural: "Seznamy projektů"
@@ -2710,7 +2713,7 @@ cs:
   notice_principals_found_multiple: "Nalezeno %{number} výsledků. \nStiskněte Tab pro přechod na první výsledek."
   notice_principals_found_single: "Existuje jeden výsledek. \n Záložka pro zaměření."
   notice_project_not_deleted: "Projekt nebyl odstraněn."
-  notice_project_not_found: "Project not found."
+  notice_project_not_found: "Projekt nebyl nalezen."
   notice_successful_connection: "Úspěšné připojení."
   notice_successful_create: "Úspěšné vytvoření."
   notice_successful_delete: "Úspěšné odstranění."
@@ -3481,31 +3484,31 @@ cs:
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     permissions:
-      comment: "Comment"
+      comment: "Komentář"
       comment_description: "Can view and comment this work package."
-      edit: "Edit"
+      edit: "Upravit"
       edit_description: "Can view, comment and edit this work package."
-      view: "View"
+      view: "Zobrazit"
       view_description: "Can view this work package."
   sharing:
     count:
-      zero: "0 users"
-      one: "1 user"
+      zero: "0 uživatelů"
+      one: "1 uživatel"
       other: "%{count} users"
     filter:
       project_member: "Project member"
       not_project_member: "Not project member"
       project_group: "Project group"
       not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
+      user: "Uživatel"
+      group: "Skupina"
       role: "Role"
-      type: "Type"
+      type: "Typ"
     denied: "You don't have permissions to share %{entities}."
     label_search: "Search for users to invite"
     label_search_placeholder: "Search by user or email address"
     label_toggle_all: "Toggle all shares"
-    remove: "Remove"
+    remove: "Odstranit"
     share: "Share"
     text_empty_search_description: "There are no users with the current filter criteria."
     text_empty_search_header: "We couldn't find any matching results."
@@ -3520,11 +3523,11 @@ cs:
     warning_no_selected_user: "Please select users to share this %{entity} with"
     warning_locked_user: "The user %{user} is locked and cannot be shared with"
     user_details:
-      locked: "Locked user"
-      invited: "Invite sent. "
-      resend_invite: "Resend."
-      invite_resent: "Invite has been resent"
-      not_project_member: "Not a project member"
+      locked: "Uzamčený uživatel"
+      invited: "Pozvánka odeslána"
+      resend_invite: "Znovu odeslat."
+      invite_resent: "Pozvánka byla znovu odeslána"
+      not_project_member: "Není členem projektu"
       project_group: "Group members might have additional privileges (as project members)"
       not_project_group: "Group (shared with all members)"
       additional_privileges_project: "Might have additional privileges (as project member)"
@@ -3542,7 +3545,7 @@ cs:
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
       blank_state:
         public:
-          header: "Shared with everyone"
+          header: "Sdíleno se všemi"
           description: "Everyone can view this project list. You can also add individual users with extra permissions."
         private:
           header: "Not shared: Private"

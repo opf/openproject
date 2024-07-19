@@ -1009,7 +1009,7 @@ zh-CN:
         workAlternative: "估算工时"
         remainingTime: "剩余的工作"
       default_queries:
-        manually_sorted: "New manually sorted query"
+        manually_sorted: "新的手动排序查询"
         latest_activity: "最新活动"
         created_by_me: "我创建的"
         assigned_to_me: "分配给我"

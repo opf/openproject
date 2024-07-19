@@ -268,7 +268,7 @@ th:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -301,8 +301,6 @@ th:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -590,17 +588,6 @@ th:
       attribute_help_text:
         attribute_name: "คุณลักษณะ"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "บัญชี"
-        attr_firstname: "แอตทริบิวต์ของชื่อ"
-        attr_lastname: "คุณสมบัติของนามสกุล"
-        attr_login: "Username attribute"
-        attr_mail: "คุณสมบัติของอีเมล"
-        base_dn: "Base DN"
-        host: "โฮสต์"
-        onthefly: "Automatic user creation"
-        port: "พอร์ต"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "ที่เก็บข้อมูล"
       color:
@@ -625,6 +612,14 @@ th:
         visible: "มองเห็นได้"
       custom_value:
         value: "ค่า"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -635,20 +630,25 @@ th:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "ชุดภารกิจ"
-        to: "ชุดภารกิจที่เกี่ยวข้อง"
-      status:
-        is_closed: "ปิดชุดภารกิจแล้ว"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "หมายเหตุ"
+      ldap_auth_source:
+        account: "บัญชี"
+        attr_firstname: "แอตทริบิวต์ของชื่อ"
+        attr_lastname: "คุณสมบัติของนามสกุล"
+        attr_login: "Username attribute"
+        attr_mail: "คุณสมบัติของอีเมล"
+        base_dn: "Base DN"
+        host: "โฮสต์"
+        onthefly: "Automatic user creation"
+        port: "พอร์ต"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "บทบาท"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: Hex code
       project:
         active_value:
           true: "unarchived"
@@ -678,6 +678,8 @@ th:
         types: "ประเภท"
         versions: "เวอร์ชั่น"
         work_packages: "ชุดภารกิจ"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "คอลัมน์"
         relations_to_type_column: "Relations to %{type}"
@@ -685,10 +687,19 @@ th:
         group_by: "จัดกลุ่มผลลัพธ์โดย"
         filters: "ตัวกรอง"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "ชุดภารกิจ"
+        to: "ชุดภารกิจที่เกี่ยวข้อง"
       repository:
         url: "URL"
       role:
         permissions: "สิทธิ์"
+      status:
+        is_closed: "ปิดชุดภารกิจแล้ว"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "กิจกรรม"
         hours: "ชั่วโมง"
@@ -731,10 +742,6 @@ th:
       wiki_page:
         parent_title: "หน้าหลัก"
         redirect_existing_links: "Redirect Link ที่ใช้อยู่"
-      planning_element_type_color:
-        hexcode: Hex code
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -769,14 +776,6 @@ th:
         type: "ประเภท"
         version: "เวอร์ชัน"
         watcher: "ผู้ดูข้อมูล"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "must be accepted."
@@ -989,6 +988,11 @@ th:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1102,8 +1106,6 @@ th:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -2005,6 +2007,7 @@ th:
   label_inactive: "Inactive"
   label_incoming_emails: "อีเมลขาเข้า"
   label_includes: "includes"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "จัดเรียงตามวันที่"
   label_index_by_title: "จัดเรียงตามชื่อเรื่อง"
   label_information: "ข้อมูล"

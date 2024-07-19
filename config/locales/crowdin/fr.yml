@@ -268,7 +268,7 @@ fr:
       favored: "Projets favoris"
       archived: "Projets archivés"
       shared: "Listes de projets partagées"
-      my_private: "Mes listes de projets privés"
+      my_lists: "Mes listes de projets"
       new:
         placeholder: "Nouvelle liste de projets"
       delete_modal:
@@ -301,8 +301,6 @@ fr:
         is_required_blank_slate:
           heading: Requis dans tous les projets
           description: Cet attribut de projet est activé dans tous les projets, car l'option « Requis dans tous les projets » est cochée. Il ne peut pas être désactivé pour des projets individuels.
-        new_project_mapping_form:
-          include_sub_projects: Inclure les sous-projets
       types:
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         form:
@@ -596,17 +594,6 @@ fr:
       attribute_help_text:
         attribute_name: "Attribut"
         help_text: "Texte d’aide"
-      ldap_auth_source:
-        account: "Compte"
-        attr_firstname: "Attribut Prénom"
-        attr_lastname: "Attribut Nom"
-        attr_login: "Attribut Nom d'utilisateur"
-        attr_mail: "Attribut Adresse électronique"
-        base_dn: "DN de base"
-        host: "Hôte"
-        onthefly: "Création automatique des utilisateurs"
-        port: "Port"
-        tls_certificate_string: "Certificat SSL du serveur LDAP"
       changeset:
         repository: "Référentiel"
       color:
@@ -631,6 +618,14 @@ fr:
         visible: "Visible"
       custom_value:
         value: "Valeur"
+      doorkeeper/application:
+        uid: "Id du client"
+        secret: "Clé secrète du client"
+        owner: "Propriétaire"
+        redirect_uri: "URI de redirection"
+        client_credentials_user_id: "ID d'utilisateur d'informations d'identification client"
+        scopes: "Portées"
+        confidential: "Confidentiel"
       enterprise_token:
         starts_at: "Valable depuis"
         subscriber: "Abonné"
@@ -641,20 +636,25 @@ fr:
         row_count: "Nombre de lignes"
         column_count: "Nombre de colonnes"
         widgets: "Widgets"
-      oauth_client:
-        client: "ID client"
-      relation:
-        lag: "Délai"
-        from: "Lot de travaux"
-        to: "Lot de travaux associé"
-      status:
-        is_closed: "Lot de travaux clôturé"
-        is_readonly: "Paquet de travail en lecture seule"
-        excluded_from_totals: "Exclure du calcul des totaux dans la hiérarchie"
       journal:
         notes: "Notes"
+      ldap_auth_source:
+        account: "Compte"
+        attr_firstname: "Attribut Prénom"
+        attr_lastname: "Attribut Nom"
+        attr_login: "Attribut Nom d'utilisateur"
+        attr_mail: "Attribut Adresse électronique"
+        base_dn: "DN de base"
+        host: "Hôte"
+        onthefly: "Création automatique des utilisateurs"
+        port: "Port"
+        tls_certificate_string: "Certificat SSL du serveur LDAP"
       member:
         roles: "Rôles"
+      oauth_client:
+        client: "ID client"
+      planning_element_type_color:
+        hexcode: Code hexadécimal
       project:
         active_value:
           true: "désarchivé"
@@ -684,6 +684,8 @@ fr:
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Colonnes"
         relations_to_type_column: "Relations avec %{type}"
@@ -691,10 +693,19 @@ fr:
         group_by: "Grouper les résultats par"
         filters: "Filtres"
         timeline_labels: "Étiquettes de chronologie"
+      relation:
+        lag: "Délai"
+        from: "Lot de travaux"
+        to: "Lot de travaux associé"
       repository:
         url: "URL"
       role:
         permissions: "Autorisations"
+      status:
+        is_closed: "Lot de travaux clôturé"
+        is_readonly: "Paquet de travail en lecture seule"
+        excluded_from_totals: "Exclure du calcul des totaux dans la hiérarchie"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Activité"
         hours: "Heures"
@@ -737,10 +748,6 @@ fr:
       wiki_page:
         parent_title: "Page parente"
         redirect_existing_links: "Rediriger les liens existants"
-      planning_element_type_color:
-        hexcode: Code hexadécimal
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Début de l’insertion"
         begin_deletion: "Début de la suppression"
@@ -775,14 +782,6 @@ fr:
         type: "Type"
         version: "Version"
         watcher: "Observateur"
-      "doorkeeper/application":
-        uid: "Id du client"
-        secret: "Clé secrète du client"
-        owner: "Propriétaire"
-        redirect_uri: "URI de redirection"
-        client_credentials_user_id: "ID d'utilisateur d'informations d'identification client"
-        scopes: "Portées"
-        confidential: "Confidentiel"
     errors:
       messages:
         accepted: "doi(ven)t être accepté(e)(s)."
@@ -995,6 +994,11 @@ fr:
               hours_per_day_are_missing: "Le nombre d'heures par jour doit être défini."
               durations_are_not_positive_numbers: "Les durées doivent être des nombres positifs."
               hours_per_day_is_out_of_bounds: "Le nombre d'heures par jour ne peut être supérieur à 24."
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "ne peut pas être activé pour les statuts qui sont marqués par défaut."
         time_entry:
           attributes:
             hours:
@@ -1109,8 +1113,6 @@ fr:
         version:
           undeletable_archived_projects: "La version ne peut pas être supprimée, car des lots de travaux y sont attachés."
           undeletable_work_packages_attached: "La version ne peut pas être supprimée car des lots de travaux y sont attachés."
-        status:
-          readonly_default_exlusive: "ne peut pas être activé pour les statuts qui sont marqués par défaut."
         token/api:
           attributes:
             token_name:
@@ -2038,6 +2040,7 @@ fr:
   label_inactive: "Désactivé"
   label_incoming_emails: "Courriels entrants"
   label_includes: "comporte"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index par date"
   label_index_by_title: "Index par titre"
   label_information: "Information"
@@ -3435,49 +3438,49 @@ fr:
     share: "Partager"
     text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
     text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
-    text_empty_state_description: "L'entité %{entity} n'a encore été partagée avec personne."
+    text_empty_state_description: "Le/la %{entity} n'a encore été partagé(e) avec personne."
     text_empty_state_header: "Non partagé"
-    text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à cette entité %{entity}."
+    text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce(tte) %{entity}."
     text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre formule d''abonnement</a> pour ajouter d''autres utilisateurs.'
     warning_user_limit_reached: >
-      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à cette entité %{entity}.
+      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce(tte) %{entity}.
     warning_user_limit_reached_admin: >
-      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à jour votre formule d'abonnement</a> pour que les utilisateurs externes puissent accéder à cette entité %{entity}.
-    warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels vous souhaitez partager cette entité %{entity}"
-    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à jour votre formule d'abonnement</a> pour que les utilisateurs externes puissent accéder à ce(tte) %{entity}.
+    warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels vous souhaitez partager ce(tte) %{entity}"
+    warning_locked_user: "L'utilisateur %{user} est verrouillé et ne peut pas être partagé avec"
     user_details:
-      locked: "Locked user"
-      invited: "Invite sent. "
-      resend_invite: "Resend."
-      invite_resent: "Invite has been resent"
-      not_project_member: "Not a project member"
-      project_group: "Group members might have additional privileges (as project members)"
-      not_project_group: "Group (shared with all members)"
-      additional_privileges_project: "Might have additional privileges (as project member)"
-      additional_privileges_group: "Might have additional privileges (as group member)"
-      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+      locked: "Utilisateur verrouillé"
+      invited: "Invitation envoyée."
+      resend_invite: "Renvoyer."
+      invite_resent: "L'Invitation a été renvoyée"
+      not_project_member: "Non membre du projet"
+      project_group: "Les membres du groupe peuvent avoir des privilèges supplémentaires (en tant que membres du projet)"
+      not_project_group: "Groupe (partagé avec tous les membres)"
+      additional_privileges_project: "Peut avoir des privilèges supplémentaires (en tant que membre d'un projet)"
+      additional_privileges_group: "Peut avoir des privilèges supplémentaires (en tant que membre d'un groupe)"
+      additional_privileges_project_or_group: "Peut avoir des privilèges supplémentaires (en tant que membre d'un projet ou d'un groupe)"
     project_queries:
       publishing_denied: "Vous n'avez pas la permission de rendre les listes de projets publiques."
-      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      access_warning: "Les utilisateurs ne verront que les projets auxquels ils ont accès. Le partage des listes de projets n'a pas d'incidence sur les autorisations des projets individuels."
       user_details:
         owner: "Propriétaire de la liste"
         can_view_because_public: "Peut déjà consulter, car la liste est partagée avec tout le monde"
         can_manage_public_lists: "Peut modifier en raison des permissions globales"
       public_flag:
-        label: "Share with everyone at %{instance_name}"
-        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+        label: "Partager avec tout le monde sur %{instance_name}"
+        caption: "Tout le monde peut consulter cette liste de projets. Les personnes disposant de droits d'édition globaux peuvent la modifier."
       blank_state:
         public:
-          header: "Shared with everyone"
-          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+          header: "Partagé avec tout le monde"
+          description: "Tout le monde peut consulter cette liste de projets. Vous pouvez également ajouter des utilisateurs individuels avec des autorisations supplémentaires."
         private:
-          header: "Not shared: Private"
-          description: "This project list has not been shared with anyone yet. Only you can access this list."
+          header: "Non partagé : privé"
+          description: "Cette liste de projets n'a encore été partagée avec personne. Vous êtes la seule personne à pouvoir y accéder."
       permissions:
-        view: "View"
-        view_description: "Can view this project list."
-        edit: "Edit"
-        edit_description: "Can view, share and edit this project list."
+        view: "Voir"
+        view_description: "Peut consulter cette liste de projets."
+        edit: "Éditer"
+        edit_description: "Peut consulter, partager et éditer cette liste de projets."
       upsale:
         message: "Le partage des listes de projets avec des utilisateurs individuels est un module complémentaire pour les entreprises."
   working_days:

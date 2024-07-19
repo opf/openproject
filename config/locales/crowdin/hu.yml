@@ -267,7 +267,7 @@ hu:
       favored: "Favorite projects"
       archived: "Archivált projektek"
       shared: "Shared project lists"
-      my_private: "Privát projektlistáim"
+      my_lists: "My project lists"
       new:
         placeholder: "Új projektlista"
       delete_modal:
@@ -300,8 +300,6 @@ hu:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Jelenleg nincs elérhető típus.
         form:
@@ -594,17 +592,6 @@ hu:
       attribute_help_text:
         attribute_name: "Attribútum"
         help_text: "Súgószöveg"
-      ldap_auth_source:
-        account: "Felhasználói fiók"
-        attr_firstname: "Keresztnév attribútum"
-        attr_lastname: "Vezetéknév attribútum"
-        attr_login: "Felhasználónév attribútum"
-        attr_mail: "Email attribútum"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatikus felhasználó készítés"
-        port: "Port szám"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Csomagtároló"
       color:
@@ -629,6 +616,14 @@ hu:
         visible: "Látható"
       custom_value:
         value: "Érték"
+      doorkeeper/application:
+        uid: "Ügyfél azonosító"
+        secret: "Kliens titok"
+        owner: "Tulajdonos"
+        redirect_uri: "Átirányítás URI"
+        client_credentials_user_id: "Ügyféladatok Felhasználói azonosító\n"
+        scopes: "Hatáskörök"
+        confidential: "Bizalmas"
       enterprise_token:
         starts_at: "Érvényes"
         subscriber: "Előfizető"
@@ -639,20 +634,25 @@ hu:
         row_count: "Sorok száma"
         column_count: "Oszlopok száma"
         widgets: "Kisalkalmazások"
-      oauth_client:
-        client: "Ügyfél azonosító"
-      relation:
-        lag: "Lag"
-        from: "Feladatcsoport"
-        to: "Kapcsolódó feladatcsoport"
-      status:
-        is_closed: "Lezárt feladatcsoport"
-        is_readonly: "Munkacsomag csak olvasható"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Jegyzet"
+      ldap_auth_source:
+        account: "Felhasználói fiók"
+        attr_firstname: "Keresztnév attribútum"
+        attr_lastname: "Vezetéknév attribútum"
+        attr_login: "Felhasználónév attribútum"
+        attr_mail: "Email attribútum"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatikus felhasználó készítés"
+        port: "Port szám"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Szerepkörök"
+      oauth_client:
+        client: "Ügyfél azonosító"
+      planning_element_type_color:
+        hexcode: Hexa kód
       project:
         active_value:
           true: "unarchived"
@@ -682,6 +682,8 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Oszlopok"
         relations_to_type_column: "Kapcsolatok %{type}-hoz"
@@ -689,10 +691,19 @@ hu:
         group_by: "Csoport szintű eredmények"
         filters: "Szürő"
         timeline_labels: "Idővonal címkék"
+      relation:
+        lag: "Lag"
+        from: "Feladatcsoport"
+        to: "Kapcsolódó feladatcsoport"
       repository:
         url: "URL"
       role:
         permissions: "Jogosultságok"
+      status:
+        is_closed: "Lezárt feladatcsoport"
+        is_readonly: "Munkacsomag csak olvasható"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Tevékenység"
         hours: "órák"
@@ -735,10 +746,6 @@ hu:
       wiki_page:
         parent_title: "Szülő oldal"
         redirect_existing_links: "A létező link átirányítása"
-      planning_element_type_color:
-        hexcode: Hexa kód
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Beillesztés kezdete"
         begin_deletion: "Törlés kezdete"
@@ -773,14 +780,6 @@ hu:
         type: "Típus"
         version: "Verzió"
         watcher: "Megfigyelő"
-      "doorkeeper/application":
-        uid: "Ügyfél azonosító"
-        secret: "Kliens titok"
-        owner: "Tulajdonos"
-        redirect_uri: "Átirányítás URI"
-        client_credentials_user_id: "Ügyféladatok Felhasználói azonosító\n"
-        scopes: "Hatáskörök"
-        confidential: "Bizalmas"
     errors:
       messages:
         accepted: "el kell fogadni."
@@ -993,6 +992,11 @@ hu:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "nem aktiválható az alapértelmezettként megjelölt állapotokhoz."
         time_entry:
           attributes:
             hours:
@@ -1107,8 +1111,6 @@ hu:
         version:
           undeletable_archived_projects: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
           undeletable_work_packages_attached: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
-        status:
-          readonly_default_exlusive: "nem aktiválható az alapértelmezettként megjelölt állapotokhoz."
         token/api:
           attributes:
             token_name:
@@ -2036,6 +2038,7 @@ hu:
   label_inactive: "Inaktív"
   label_incoming_emails: "Bejövő e-mailek"
   label_includes: "tartalmazza"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index dátum szerint"
   label_index_by_title: "Index cím szerint"
   label_information: "Információk"

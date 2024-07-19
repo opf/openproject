@@ -267,7 +267,7 @@ ru:
       favored: "Избранные проекты"
       archived: "Архивные проекты"
       shared: "Общедоступные проекты"
-      my_private: "Списки моих личных проектов"
+      my_lists: "Мои списки проектов"
       new:
         placeholder: "Список новых проектов"
       delete_modal:
@@ -300,8 +300,6 @@ ru:
         is_required_blank_slate:
           heading: Требуется во всех проектах
           description: Этот атрибут проекта активирован во всех проектах, поскольку установлен флажок «Требуется во всех проектах». Его нельзя отключить для отдельных проектов.
-        new_project_mapping_form:
-          include_sub_projects: Включить подпроекты
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -610,17 +608,6 @@ ru:
       attribute_help_text:
         attribute_name: "Атрибут"
         help_text: "Текст справки"
-      ldap_auth_source:
-        account: "Аккаунт"
-        attr_firstname: "Атрибут имени"
-        attr_lastname: "Атрибут Фамилия"
-        attr_login: "Имя пользователя"
-        attr_mail: "Атрибут Email"
-        base_dn: "Базовый DN"
-        host: "Хост"
-        onthefly: "Автоматическое создание пользователя"
-        port: "Порт"
-        tls_certificate_string: "SSL-сертификат сервера LDAP"
       changeset:
         repository: "Репозиторий"
       color:
@@ -645,6 +632,14 @@ ru:
         visible: "Видимый"
       custom_value:
         value: "Значение"
+      doorkeeper/application:
+        uid: "ID клиента"
+        secret: "Секрет клиента"
+        owner: "Владелец"
+        redirect_uri: "Перенаправить URI"
+        client_credentials_user_id: "ID пользователя клиента"
+        scopes: "Области"
+        confidential: "Конфиденциально"
       enterprise_token:
         starts_at: "Действует с"
         subscriber: "Подписчик"
@@ -655,20 +650,25 @@ ru:
         row_count: "Количество строк"
         column_count: "Количество столбцов"
         widgets: "Виджеты"
-      oauth_client:
-        client: "ID клиента"
-      relation:
-        lag: "Задержка"
-        from: "Пакет работ"
-        to: "Похожий пакет работ"
-      status:
-        is_closed: "Пакет работ закрыт"
-        is_readonly: "Пакет работ только для просмотра"
-        excluded_from_totals: "Исключить из расчета итогов в иерархии"
       journal:
         notes: "Примечания"
+      ldap_auth_source:
+        account: "Аккаунт"
+        attr_firstname: "Атрибут имени"
+        attr_lastname: "Атрибут Фамилия"
+        attr_login: "Имя пользователя"
+        attr_mail: "Атрибут Email"
+        base_dn: "Базовый DN"
+        host: "Хост"
+        onthefly: "Автоматическое создание пользователя"
+        port: "Порт"
+        tls_certificate_string: "SSL-сертификат сервера LDAP"
       member:
         roles: "Роль"
+      oauth_client:
+        client: "ID клиента"
+      planning_element_type_color:
+        hexcode: Шестнадцатеричный код
       project:
         active_value:
           true: "Разархивирован"
@@ -698,6 +698,8 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
+      project_custom_field:
+        custom_field_section: Раздел
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -705,10 +707,19 @@ ru:
         group_by: "Результаты группы по"
         filters: "Фильтры"
         timeline_labels: "Временные метки"
+      relation:
+        lag: "Задержка"
+        from: "Пакет работ"
+        to: "Похожий пакет работ"
       repository:
         url: "URL"
       role:
         permissions: "Разрешения"
+      status:
+        is_closed: "Пакет работ закрыт"
+        is_readonly: "Пакет работ только для просмотра"
+        excluded_from_totals: "Исключить из расчета итогов в иерархии"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Деятельность"
         hours: "Часы"
@@ -751,10 +762,6 @@ ru:
       wiki_page:
         parent_title: "Родительская страница"
         redirect_existing_links: "Перенаправление существующих ссылок"
-      planning_element_type_color:
-        hexcode: Шестнадцатеричный код
-      project_custom_field:
-        custom_field_section: Раздел
       work_package:
         begin_insertion: "Начало вставки"
         begin_deletion: "Начало удаления"
@@ -789,14 +796,6 @@ ru:
         type: "Тип"
         version: "Этапы"
         watcher: "Наблюдатель"
-      "doorkeeper/application":
-        uid: "ID клиента"
-        secret: "Секрет клиента"
-        owner: "Владелец"
-        redirect_uri: "Перенаправить URI"
-        client_credentials_user_id: "ID пользователя клиента"
-        scopes: "Области"
-        confidential: "Конфиденциально"
     errors:
       messages:
         accepted: "нужно подтвердить."
@@ -1009,6 +1008,11 @@ ru:
               hours_per_day_are_missing: "Необходимо указать количество часов в день."
               durations_are_not_positive_numbers: "Длительность должна быть положительным числом."
               hours_per_day_is_out_of_bounds: "Количество часов в день не может быть больше 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
         time_entry:
           attributes:
             hours:
@@ -1125,8 +1129,6 @@ ru:
         version:
           undeletable_archived_projects: "Версия не может быть удалена, так как она имеет связанные с ней пакеты работ."
           undeletable_work_packages_attached: "Версия не может быть удалена, так как имеет пакеты работ, прикрепленные к ней."
-        status:
-          readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
         token/api:
           attributes:
             token_name:
@@ -1823,9 +1825,9 @@ ru:
       simple_revoke_confirmation: "Вы уверены, что хотите отменить этот токен?"
       api:
         title: "API"
-        text_hint: "Маркеры API позволяют приложениям общаться с этим экземпляром OpenProject через REST API."
+        text_hint: "Токены API позволяют приложениям общаться с этим экземпляром OpenProject через REST API."
         static_token_name: "API-токен"
-        disabled_text: "Маркеры API не включены администратором. Пожалуйста, обратитесь к администратору для использования этой функции."
+        disabled_text: "Токены API не включены администратором. Пожалуйста, обратитесь к администратору для использования этой функции."
       ical:
         title: "iCalendar"
         text_hint: 'Токены iCalendar позволяют пользователям <a href="%{path}" target="_blank"> подписываться на календари OpenProject</a> и просматривать актуальную информацию о рабочих пакетах от внешних клиентов.'
@@ -2106,6 +2108,7 @@ ru:
   label_inactive: "Неактивен"
   label_incoming_emails: "Входящие e-mail"
   label_includes: "включает"
+  label_include_sub_projects: Включить подпроекты
   label_index_by_date: "Индекс по дате"
   label_index_by_title: "Индекс по названию"
   label_information: "Информация"
@@ -2268,7 +2271,7 @@ ru:
   label_product_version: "Версия продукта"
   label_profile: "Профиль"
   label_percent_complete: "% Готово"
-  label_project: "Project"
+  label_project: "Проект"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
   label_project_attribute_manage_link: "Управление атрибутами проекта"

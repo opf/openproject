@@ -268,7 +268,7 @@ sv:
       favored: "Favorite projects"
       archived: "Arkiverade projekt"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "Ny projektlista"
       delete_modal:
@@ -301,8 +301,6 @@ sv:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Det finns för närvarande inga typer tillgängliga.
         form:
@@ -596,17 +594,6 @@ sv:
       attribute_help_text:
         attribute_name: "Attributet"
         help_text: "Hjälptext"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Förnamnsattribut"
-        attr_lastname: "Efternamnsattribut"
-        attr_login: "Attribut för användarnamn"
-        attr_mail: "E-postattribut"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Versionsarkiv"
       color:
@@ -631,6 +618,14 @@ sv:
         visible: "Synlig"
       custom_value:
         value: "Värde"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Ägare"
+        redirect_uri: "Omdirigerings-URI"
+        client_credentials_user_id: "Användar-ID klientreferenser"
+        scopes: "Omfattning"
+        confidential: "Konfidentiellt"
       enterprise_token:
         starts_at: "Giltig sedan"
         subscriber: "Prenumerant"
@@ -641,20 +636,25 @@ sv:
         row_count: "Antal rader"
         column_count: "Antal kolumner"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "Arbetspaket"
-        to: "Relaterat arbetspaketet"
-      status:
-        is_closed: "Arbetspaket stängt"
-        is_readonly: "Skrivskyddat arbetspaket"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Anteckningar"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Förnamnsattribut"
+        attr_lastname: "Efternamnsattribut"
+        attr_login: "Attribut för användarnamn"
+        attr_mail: "E-postattribut"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Roll"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: Hex-kod
       project:
         active_value:
           true: "unarchived"
@@ -684,6 +684,8 @@ sv:
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbetspaket"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Kolumner"
         relations_to_type_column: "Relationer till %{type}"
@@ -691,10 +693,19 @@ sv:
         group_by: "Gruppera resultat efter"
         filters: "Filter"
         timeline_labels: "Etiketter för tidslinje"
+      relation:
+        lag: "Lag"
+        from: "Arbetspaket"
+        to: "Relaterat arbetspaketet"
       repository:
         url: "URL"
       role:
         permissions: "Behörigheter"
+      status:
+        is_closed: "Arbetspaket stängt"
+        is_readonly: "Skrivskyddat arbetspaket"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivitet"
         hours: "Timmar"
@@ -737,10 +748,6 @@ sv:
       wiki_page:
         parent_title: "Överordnad sida"
         redirect_existing_links: "Omdirigera befintliga länkar"
-      planning_element_type_color:
-        hexcode: Hex-kod
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Början av införandet"
         begin_deletion: "Början av raderingen"
@@ -775,14 +782,6 @@ sv:
         type: "Typ"
         version: "Version"
         watcher: "Bevakare"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Ägare"
-        redirect_uri: "Omdirigerings-URI"
-        client_credentials_user_id: "Användar-ID klientreferenser"
-        scopes: "Omfattning"
-        confidential: "Konfidentiellt"
     errors:
       messages:
         accepted: "måste accepteras."
@@ -995,6 +994,11 @@ sv:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1109,8 +1113,6 @@ sv:
         version:
           undeletable_archived_projects: "Versionen kan inte tas bort eftersom den har arbetspaket bifogade till den."
           undeletable_work_packages_attached: "Versionen kan inte tas bort eftersom den har arbetspaket bifogade till den."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -2038,6 +2040,7 @@ sv:
   label_inactive: "Inaktiv"
   label_incoming_emails: "Inkommande E-post"
   label_includes: "inkluderar"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index efter datum"
   label_index_by_title: "Index efter titel"
   label_information: "Information"

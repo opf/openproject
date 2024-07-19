@@ -268,7 +268,7 @@ ar:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -301,8 +301,6 @@ ar:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
         form:
@@ -625,17 +623,6 @@ ar:
       attribute_help_text:
         attribute_name: "الواصفة"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "الحساب"
-        attr_firstname: "سمة الاسم الأول"
-        attr_lastname: "سمة الاسم الأخير"
-        attr_login: "Username attribute"
-        attr_mail: "سمة البريد الإلكتروني"
-        base_dn: "قاعدة DN"
-        host: "المضيف"
-        onthefly: "Automatic user creation"
-        port: "منفذ"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "مستودع البيانات"
       color:
@@ -660,6 +647,14 @@ ar:
         visible: "مرئي"
       custom_value:
         value: "القيمة"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -670,20 +665,25 @@ ar:
         row_count: "عدد الصفوف"
         column_count: "عدد الأعمدة"
         widgets: "الودجات"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "مجموعة العمل"
-        to: "مجموعة عمل ذات صلة"
-      status:
-        is_closed: "أغلقت مجموعة العمل"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "ملاحظات"
+      ldap_auth_source:
+        account: "الحساب"
+        attr_firstname: "سمة الاسم الأول"
+        attr_lastname: "سمة الاسم الأخير"
+        attr_login: "Username attribute"
+        attr_mail: "سمة البريد الإلكتروني"
+        base_dn: "قاعدة DN"
+        host: "المضيف"
+        onthefly: "Automatic user creation"
+        port: "منفذ"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "دور"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: رمز Hex
       project:
         active_value:
           true: "unarchived"
@@ -713,6 +713,8 @@ ar:
         types: "الأنواع"
         versions: "الإصدارات"
         work_packages: "مجموعات العمل"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "الأعمدة"
         relations_to_type_column: "Relations to %{type}"
@@ -720,10 +722,19 @@ ar:
         group_by: "نتائج المجموعة حسب"
         filters: "عوامل التصفية"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "مجموعة العمل"
+        to: "مجموعة عمل ذات صلة"
       repository:
         url: "الرابط"
       role:
         permissions: "السماحيات"
+      status:
+        is_closed: "أغلقت مجموعة العمل"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "النشاط"
         hours: "الساعات"
@@ -766,10 +777,6 @@ ar:
       wiki_page:
         parent_title: "الصفحة الأصل"
         redirect_existing_links: "إعادة توجيه الروابط القائمة"
-      planning_element_type_color:
-        hexcode: رمز Hex
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "البدء بالإدراج"
         begin_deletion: "البدء بالحذف"
@@ -804,14 +811,6 @@ ar:
         type: "النّوع"
         version: "الإصدار"
         watcher: "المشاهد"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "يجب أن تقبل."
@@ -1024,6 +1023,11 @@ ar:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1142,8 +1146,6 @@ ar:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -2175,6 +2177,7 @@ ar:
   label_inactive: "Inactive"
   label_incoming_emails: "رسائل البريد الالكتروني الواردة"
   label_includes: "مشمولة"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "فهرسة حسب التاريخ"
   label_index_by_title: "فهرسة حسب العنوان"
   label_information: "معلومات"

@@ -53,7 +53,7 @@ module Storages
           def call(auth_strategy:, source_location:, destination_name:)
             Authentication[auth_strategy].call(storage: @storage) do |httpx|
               handle_response(
-                httpx.post(copy_path_for(source_location), json: { name: destination_name })
+                httpx.post(url_for(source_location) + query, json: { name: destination_name })
               )
             end
           end
@@ -88,9 +88,11 @@ module Storages
             end
           end
 
-          def copy_path_for(source_location)
-            "#{@storage.uri}v1.0/drives/#{@storage.drive_id}/items/#{source_location}/copy?@microsoft.graph.conflictBehavior=fail"
+          def url_for(source_location)
+            UrlBuilder.url(Util.drive_base_uri(@storage), "/items", source_location, "/copy")
           end
+
+          def query = "?@microsoft.graph.conflictBehavior=fail"
         end
       end
     end

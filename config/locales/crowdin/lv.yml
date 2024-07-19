@@ -268,7 +268,7 @@ lv:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -301,8 +301,6 @@ lv:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Pašlaik nav pieejams neviens veids.
         form:
@@ -604,17 +602,6 @@ lv:
       attribute_help_text:
         attribute_name: "Attribute"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "Konts"
-        attr_firstname: "Atribūts FirstName"
-        attr_lastname: "Atribūts LastName"
-        attr_login: "Username attribute"
-        attr_mail: "E-pasta atribūts"
-        base_dn: "Pamata DN"
-        host: "Serveris"
-        onthefly: "Automatic user creation"
-        port: "Ports"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       color:
@@ -639,6 +626,14 @@ lv:
         visible: "Redzams"
       custom_value:
         value: "Vērtība"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -649,20 +644,25 @@ lv:
         row_count: "Rindu skaits"
         column_count: "Kolonnu skaits"
         widgets: "Logrīki"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "Darba pieteikums"
-        to: "Saistītie pieteikuma tipi"
-      status:
-        is_closed: "Aizvērtie pieteikuma tipi"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Piezīmes"
+      ldap_auth_source:
+        account: "Konts"
+        attr_firstname: "Atribūts FirstName"
+        attr_lastname: "Atribūts LastName"
+        attr_login: "Username attribute"
+        attr_mail: "E-pasta atribūts"
+        base_dn: "Pamata DN"
+        host: "Serveris"
+        onthefly: "Automatic user creation"
+        port: "Ports"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Lomas"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: Hex code
       project:
         active_value:
           true: "unarchived"
@@ -692,6 +692,8 @@ lv:
         types: "Veidi"
         versions: "Versijas"
         work_packages: "Pieteikuma tipi"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Kolonnas"
         relations_to_type_column: "Relations to %{type}"
@@ -699,10 +701,19 @@ lv:
         group_by: "Grupēt rezultātus pēc"
         filters: "Filtri"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "Darba pieteikums"
+        to: "Saistītie pieteikuma tipi"
       repository:
         url: "URL"
       role:
         permissions: "Permissions"
+      status:
+        is_closed: "Aizvērtie pieteikuma tipi"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivitāte"
         hours: "Stundas"
@@ -745,10 +756,6 @@ lv:
       wiki_page:
         parent_title: "Parent page"
         redirect_existing_links: "Redirect existing links"
-      planning_element_type_color:
-        hexcode: Hex code
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Ievietošanas sākums"
         begin_deletion: "Dzēšanas sākums"
@@ -783,14 +790,6 @@ lv:
         type: "Veids"
         version: "Versija"
         watcher: "Sekotājs"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "ir jāapstiprina."
@@ -1003,6 +1002,11 @@ lv:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1118,8 +1122,6 @@ lv:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -2073,6 +2075,7 @@ lv:
   label_inactive: "Inactive"
   label_incoming_emails: "Incoming emails"
   label_includes: "includes"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"
   label_information: "Informācija"

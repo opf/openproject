@@ -22,6 +22,8 @@
           attributes:
             project_folder_mode:
               mode_unavailable: er ikke tilgjengelig for dette lagringsstedet.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -135,10 +137,10 @@
       unsubscribe: Avslutt abonnement
     help_texts:
       project_folder: Prosjektmappen er standardmappen for filopplasting for dette prosjektet. Brukere kan likevel laste opp filer til andre steder.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Alle tilgjengelige lagringsplasser er allerede lagt til prosjektet.
       automatic_folder: Dette vil automatisk opprette en rotmappe for prosjektet og administrere tilgangsrettigheter for hvert prosjektmedlem.
-      copy_from: Kopier denne verdien fra
       empty_project_folder_validation: Valg av mappe er obligatorisk å fortsette.
       existing_manual_folder: Du kan bestemme en eksisterende mappe som rotmappe for dette prosjektet. Tillatelsene håndteres imidlertid ikke automatisk, administratoren må sørge for at relevante brukere har tilgang. Den valgte mappen kan brukes av flere prosjekter.
       host: Legg til vertsadressen til lagringsplassen din inkludert https://. Den bør ikke være lengre enn 255 tegn.

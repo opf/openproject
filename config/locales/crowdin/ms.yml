@@ -267,7 +267,7 @@ ms:
       favored: "Projek kegemaran"
       archived: "Projek yang diarkibkan"
       shared: "Shared project lists"
-      my_private: "Senarai projek peribadi saya"
+      my_lists: "Senarai projek saya"
       new:
         placeholder: "Senarai projek baharu"
       delete_modal:
@@ -300,8 +300,6 @@ ms:
         is_required_blank_slate:
           heading: Diperlukan dalam semua projek
           description: Atribut projek ini telah diaktifkan dalam semua projek sejak pilihan "Diperlukan dalam semua projek" telah ditandakan. Ia tidak boleh dinyahaktifkan untuk projek individu.
-        new_project_mapping_form:
-          include_sub_projects: Sertakan sub-projek
       types:
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
         form:
@@ -588,17 +586,6 @@ ms:
       attribute_help_text:
         attribute_name: "Atribut"
         help_text: "Teks bantuan"
-      ldap_auth_source:
-        account: "Akaun"
-        attr_firstname: "Atribut nama pertama"
-        attr_lastname: "Atribut nama akhir"
-        attr_login: "Atribut nama pengguna"
-        attr_mail: "Atribut e-mel"
-        base_dn: "Pangkalan DN"
-        host: "Hos"
-        onthefly: "Penciptaan pengguna automatik"
-        port: "Port"
-        tls_certificate_string: "Sijil SSL server LDAP"
       changeset:
         repository: "Repositori"
       color:
@@ -623,6 +610,14 @@ ms:
         visible: "Terlihat"
       custom_value:
         value: "Nilai"
+      doorkeeper/application:
+        uid: "ID Pelanggan"
+        secret: "Rahsia pelanggan"
+        owner: "Pemilik"
+        redirect_uri: "Ubah hala URI"
+        client_credentials_user_id: "ID Pengguna Kelayakan Pelanggan"
+        scopes: "Skop\n"
+        confidential: "Sulit"
       enterprise_token:
         starts_at: "Sah sehingga"
         subscriber: "Pelanggan"
@@ -633,20 +628,25 @@ ms:
         row_count: "Bilangan baris"
         column_count: "Bilangan kolum"
         widgets: "Widget"
-      oauth_client:
-        client: "ID pelanggan"
-      relation:
-        lag: "Lag"
-        from: "Pakej kerja"
-        to: "Pakej kerja yang berkaitan"
-      status:
-        is_closed: "Pakej kerja ditutup"
-        is_readonly: "Pakej kerja baca-sahaja"
-        excluded_from_totals: "Dikecualikan daripada pengiraan jumlah dalam hierarki"
       journal:
         notes: "Nota"
+      ldap_auth_source:
+        account: "Akaun"
+        attr_firstname: "Atribut nama pertama"
+        attr_lastname: "Atribut nama akhir"
+        attr_login: "Atribut nama pengguna"
+        attr_mail: "Atribut e-mel"
+        base_dn: "Pangkalan DN"
+        host: "Hos"
+        onthefly: "Penciptaan pengguna automatik"
+        port: "Port"
+        tls_certificate_string: "Sijil SSL server LDAP"
       member:
         roles: "Peranan\n"
+      oauth_client:
+        client: "ID pelanggan"
+      planning_element_type_color:
+        hexcode: Kod Hex
       project:
         active_value:
           true: "tidak diarkibkan"
@@ -676,6 +676,8 @@ ms:
         types: "Jenis"
         versions: "Versi"
         work_packages: "Pakej Kerja"
+      project_custom_field:
+        custom_field_section: Bahagian
       query:
         column_names: "Kolum"
         relations_to_type_column: "Berhubung dengan %{type}"
@@ -683,10 +685,19 @@ ms:
         group_by: "Kumpulkan hasil mengikut"
         filters: "Penyaring"
         timeline_labels: "Label garis masa"
+      relation:
+        lag: "Lag"
+        from: "Pakej kerja"
+        to: "Pakej kerja yang berkaitan"
       repository:
         url: "URL"
       role:
         permissions: "Kebenaran"
+      status:
+        is_closed: "Pakej kerja ditutup"
+        is_readonly: "Pakej kerja baca-sahaja"
+        excluded_from_totals: "Dikecualikan daripada pengiraan jumlah dalam hierarki"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktiviti"
         hours: "Jam"
@@ -729,10 +740,6 @@ ms:
       wiki_page:
         parent_title: "Halaman induk"
         redirect_existing_links: "Ubah hala pautan sedia ada"
-      planning_element_type_color:
-        hexcode: Kod Hex
-      project_custom_field:
-        custom_field_section: Bahagian
       work_package:
         begin_insertion: "Permulaan kemasukan"
         begin_deletion: "Permulaan pemadaman"
@@ -767,14 +774,6 @@ ms:
         type: "Jenis"
         version: "Versi"
         watcher: "Pemerhati"
-      "doorkeeper/application":
-        uid: "ID Pelanggan"
-        secret: "Rahsia pelanggan"
-        owner: "Pemilik"
-        redirect_uri: "Ubah hala URI"
-        client_credentials_user_id: "ID Pengguna Kelayakan Pelanggan"
-        scopes: "Skop\n"
-        confidential: "Sulit"
     errors:
       messages:
         accepted: "mesti diterima."
@@ -987,6 +986,11 @@ ms:
               hours_per_day_are_missing: "Bilangan jam dalam sehari perlu ditentukan."
               durations_are_not_positive_numbers: "Jangka masa mestilah nombor positif."
               hours_per_day_is_out_of_bounds: "Jam sehari tidak boleh melebihi 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "tidak dapat diaktifkan untuk status-status yang ditandakan sebagai default."
         time_entry:
           attributes:
             hours:
@@ -1100,8 +1104,6 @@ ms:
         version:
           undeletable_archived_projects: "Versi tidak dapat dipadam kerana ia mempunyai pakej kerja yang dilampirkan padanya."
           undeletable_work_packages_attached: "Versi tidak dapat dipadam kerana ia mempunyai pakej kerja yang dilampirkan padanya."
-        status:
-          readonly_default_exlusive: "tidak dapat diaktifkan untuk status-status yang ditandakan sebagai default."
         token/api:
           attributes:
             token_name:
@@ -2003,6 +2005,7 @@ ms:
   label_inactive: "Tidak aktif"
   label_incoming_emails: "E-mel masuk"
   label_includes: "termasuk"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeks mengikut tarikh"
   label_index_by_title: "Indeks mengikut tajuk"
   label_information: "Maklumat"

@@ -29,10 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { @user.name }
-    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
-                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
-                             { href: users_path, text: t(:label_user_plural) },
-                             @user.name])
+    header.with_breadcrumbs(breadcrumb_items)
 
     header.with_action_button(tag: :a,
                               mobile_icon: :person,
@@ -45,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
       t(:label_profile)
     end
 
-    if current_user.allowed_globally?(:create_user)
+    if @current_user.allowed_globally?(:create_user)
       header.with_action_button(tag: :a,
                                 mobile_icon: :mail,
                                 mobile_label: t(:label_send_invitation),
@@ -59,8 +56,8 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
-    if current_user.admin?
-      unless current_user.id == @user.id
+    if @current_user.admin?
+      unless @current_user.id == @user.id
         iterate_user_statusses(@user) do |title, name|
           header.with_action_button(tag: :a,
                                     mobile_icon: change_user_status_icons[name],
@@ -93,11 +90,11 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     header.with_tab_nav(label: nil) do |tab_nav|
-      tabs.each do |tab|
-        tab_nav.with_tab(selected: selected_tab(tabs) == tab, href: tab[:path]) do |t|
+      @tabs.each do |tab|
+        tab_nav.with_tab(selected: selected_tab(@tabs) == tab, href: tab[:path]) do |t|
           t.with_text { I18n.t("js.#{tab[:label]}") }
         end
       end
-    end if tabs.present?
+    end if @tabs.present?
   end
 %>

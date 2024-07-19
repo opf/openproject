@@ -265,7 +265,7 @@ de:
       favored: "Favorisierte Projekte"
       archived: "Archivierte Projekte"
       shared: "Geteilte Projektlisten"
-      my_private: "Meine privaten Projektlisten"
+      my_lists: "Meine Projektlisten"
       new:
         placeholder: "Neue Projektliste"
       delete_modal:
@@ -298,8 +298,6 @@ de:
         is_required_blank_slate:
           heading: In allen Projekten erforderlich
           description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Benötigt in allen Projekten" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
-        new_project_mapping_form:
-          include_sub_projects: Unterprojekte einbeziehen
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -591,17 +589,6 @@ de:
       attribute_help_text:
         attribute_name: "Attribut"
         help_text: "Hilfe-Text"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Attribut für Vorname"
-        attr_lastname: "Attribut für Nachname"
-        attr_login: "Attribut für Benutzername"
-        attr_mail: "Attribut für E-Mail"
-        base_dn: "Basis-DN"
-        host: "Host"
-        onthefly: "Benutzer automatisch erzeugen"
-        port: "Port"
-        tls_certificate_string: "LDAP-Server SSL-Zertifikat"
       changeset:
         repository: "Projektarchiv"
       color:
@@ -626,6 +613,14 @@ de:
         visible: "Sichtbar"
       custom_value:
         value: "Wert"
+      doorkeeper/application:
+        uid: "Client-ID"
+        secret: "Clientschlüssel"
+        owner: "Besitzer"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User-ID"
+        scopes: "Geltungsbereiche"
+        confidential: "Vertraulich"
       enterprise_token:
         starts_at: "Aktiv seit"
         subscriber: "Abonnent"
@@ -636,20 +631,25 @@ de:
         row_count: "Anzahl der Zeilen"
         column_count: "Anzahl der Spalten"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client-ID"
-      relation:
-        lag: "Verzögerung"
-        from: "Arbeitspaket"
-        to: "Zugehöriges Arbeitspaket"
-      status:
-        is_closed: "Arbeitspaket geschlossen"
-        is_readonly: "Arbeitspakete schreibgeschützt"
-        excluded_from_totals: "Von der Berechnung der Gesamtsumme in der Hierarchie ausschließen"
       journal:
         notes: "Kommentare"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Attribut für Vorname"
+        attr_lastname: "Attribut für Nachname"
+        attr_login: "Attribut für Benutzername"
+        attr_mail: "Attribut für E-Mail"
+        base_dn: "Basis-DN"
+        host: "Host"
+        onthefly: "Benutzer automatisch erzeugen"
+        port: "Port"
+        tls_certificate_string: "LDAP-Server SSL-Zertifikat"
       member:
         roles: "Rollen"
+      oauth_client:
+        client: "Client-ID"
+      planning_element_type_color:
+        hexcode: Fabcode (Hex)
       project:
         active_value:
           true: "nicht archiviert"
@@ -679,6 +679,8 @@ de:
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
+      project_custom_field:
+        custom_field_section: Abschnitt
       query:
         column_names: "Spalten"
         relations_to_type_column: "Beziehungen zu %{type}"
@@ -686,10 +688,19 @@ de:
         group_by: "Gruppiere Ergebnisse nach"
         filters: "Filter"
         timeline_labels: "Timeline-Beschriftungen"
+      relation:
+        lag: "Verzögerung"
+        from: "Arbeitspaket"
+        to: "Zugehöriges Arbeitspaket"
       repository:
         url: "URL"
       role:
         permissions: "Berechtigungen"
+      status:
+        is_closed: "Arbeitspaket geschlossen"
+        is_readonly: "Arbeitspakete schreibgeschützt"
+        excluded_from_totals: "Von der Berechnung der Gesamtsumme in der Hierarchie ausschließen"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivität"
         hours: "Stunden"
@@ -732,10 +743,6 @@ de:
       wiki_page:
         parent_title: "Übergeordnete Seite"
         redirect_existing_links: "Existierende Links umleiten"
-      planning_element_type_color:
-        hexcode: Fabcode (Hex)
-      project_custom_field:
-        custom_field_section: Abschnitt
       work_package:
         begin_insertion: "Beginn der Einfügung"
         begin_deletion: "Beginn des Löschvorgangs"
@@ -770,14 +777,6 @@ de:
         type: "Typ"
         version: "Version"
         watcher: "Beobachter"
-      "doorkeeper/application":
-        uid: "Client-ID"
-        secret: "Clientschlüssel"
-        owner: "Besitzer"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User-ID"
-        scopes: "Geltungsbereiche"
-        confidential: "Vertraulich"
     errors:
       messages:
         accepted: "muss akzeptiert werden."
@@ -990,6 +989,11 @@ de:
               hours_per_day_are_missing: "Die Anzahl der Stunden pro Tag muss festgelegt werden."
               durations_are_not_positive_numbers: "Die Dauer muss positiv sein"
               hours_per_day_is_out_of_bounds: "Die Anzahl der Stunden pro Tag darf 24 nicht überschreiten."
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "kann nicht für einen Status aktiviert werden, der als Standard markiert ist."
         time_entry:
           attributes:
             hours:
@@ -1104,8 +1108,6 @@ de:
         version:
           undeletable_archived_projects: "Die Version kann nicht gelöscht werden, da sie Arbeitspakete enthält, die an sie angeschlossen sind."
           undeletable_work_packages_attached: "Die Version kann nicht gelöscht werden, da sie Arbeitspakete enthält, die an sie angeschlossen sind."
-        status:
-          readonly_default_exlusive: "kann nicht für einen Status aktiviert werden, der als Standard markiert ist."
         token/api:
           attributes:
             token_name:
@@ -2033,6 +2035,7 @@ de:
   label_inactive: "Inaktiv"
   label_incoming_emails: "Eingehende E-Mails"
   label_includes: "enthält"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Seiten nach Datum"
   label_index_by_title: "Seiten nach Titel"
   label_information: "Information"
