@@ -14,7 +14,7 @@ http_interactions:
       Authorization:
       - Bearer <BEARER TOKEN>
       User-Agent:
-      - httpx.rb/1.2.5
+      - httpx.rb/1.3.0
       Accept-Encoding:
       - gzip, deflate
   response:
@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 17 Jun 2024 11:43:43 GMT
+      - Fri, 19 Jul 2024 09:06:54 GMT
       Expires:
       - Thu, 19 Nov 1981 08:52:00 GMT
       Feature-Policy:
@@ -44,19 +44,19 @@ http_interactions:
       Server:
       - Apache/2.4.59 (Debian)
       Set-Cookie:
-      - oc07ul6b4oaw=2ec4331fc84e5fcb4de0bcf90e349f59; path=/; secure; HttpOnly; SameSite=Lax,
-        oc_sessionPassphrase=HAGBPvgfdiYH1Tuxr%2FwCUL%2FZYhApHShPQ9tXd%2BOxKH%2BGAnvoku6Weti2giLaF%2BQ24C74t4TIi8CiLlrwmmOf0HhcaSvJ65vElxqvKkRWqrp2reEQJllRikJqRFzrEW%2B7;
-        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=2ec4331fc84e5fcb4de0bcf90e349f59;
+      - oc07ul6b4oaw=4f7d12e13c12c5157b6c4a62d4472371; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=0UfgvCBTXJ6J2s0wDA51RRyFzBpgnBCHD1QZy152qDxKWlHITzPGJHaFgi%2BNP8MCls0tcR1NCLHmgsq29y3hW418N6kD0Grt08syWSRMuural3JnsPmCJ5JLW%2FcXCMHF;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=4f7d12e13c12c5157b6c4a62d4472371;
         path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
         path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
         __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
-        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=2ec4331fc84e5fcb4de0bcf90e349f59;
-        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=2ec4331fc84e5fcb4de0bcf90e349f59;
-        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=2ec4331fc84e5fcb4de0bcf90e349f59;
-        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=2ec4331fc84e5fcb4de0bcf90e349f59;
-        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=2ec4331fc84e5fcb4de0bcf90e349f59;
-        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=2ec4331fc84e5fcb4de0bcf90e349f59;
-        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=2ec4331fc84e5fcb4de0bcf90e349f59;
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=4f7d12e13c12c5157b6c4a62d4472371;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=4f7d12e13c12c5157b6c4a62d4472371;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=4f7d12e13c12c5157b6c4a62d4472371;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=4f7d12e13c12c5157b6c4a62d4472371;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=4f7d12e13c12c5157b6c4a62d4472371;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=4f7d12e13c12c5157b6c4a62d4472371;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=4f7d12e13c12c5157b6c4a62d4472371;
         path=/; secure; HttpOnly; SameSite=Lax
       X-Content-Type-Options:
       - nosniff
@@ -65,17 +65,18 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Powered-By:
-      - PHP/8.2.18
+      - PHP/8.2.21
       X-Request-Id:
-      - NQcyhgHDnlIJ3vMyrEeE
+      - cYTJzrAbVbXP6RvUzrxi
       X-Robots-Tag:
       - noindex, nofollow
       X-Xss-Protection:
       - 1; mode=block
       Content-Length:
-      - '266'
+      - '265'
     body:
       encoding: UTF-8
-      string: '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK","totalitems":"","itemsperpage":""},"data":{"status":"OK","statuscode":200,"id":267,"name":"android-studio-linux.tar.gz","mtime":1669880616,"ctime":0,"mimetype":"application\/gzip","size":982713473,"owner_name":"admin","owner_id":"admin","modifier_name":null,"modifier_id":null,"dav_permissions":"RGDNVW","path":"files\/Folder\/android-studio-linux.tar.gz"}}}'
-  recorded_at: Mon, 17 Jun 2024 11:43:43 GMT
+      string: '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK","totalitems":"","itemsperpage":""},"data":{"status":"OK","statuscode":200,"id":267,"name":"android-studio-linux.tar.gz","mtime":1669880616,"ctime":0,"mimetype":"application\/gzip","size":982713473,"owner_name":"admin","owner_id":"admin","modifier_name":null,"modifier_id":null,"dav_permissions":"RGDNVW","path":"files\/My
+        files\/android-studio-linux.tar.gz"}}}'
+  recorded_at: Fri, 19 Jul 2024 09:06:54 GMT
 recorded_with: VCR 6.2.0

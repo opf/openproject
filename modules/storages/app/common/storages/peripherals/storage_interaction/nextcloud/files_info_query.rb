@@ -133,7 +133,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def location(file_path, mimetype)
       prefix = "files/"
-      idx = file_path.rindex(prefix)
+      idx = file_path.index(prefix)
       return "/" if idx == nil
 
       idx += prefix.length - 1
