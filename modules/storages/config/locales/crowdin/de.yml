@@ -22,6 +22,8 @@ de:
           attributes:
             project_folder_mode:
               mode_unavailable: ist für diesen Speicher nicht verfügbar.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -53,6 +55,11 @@ de:
   permission_view_file_links: Datei-Links anzeigen
   permission_write_files: 'Automatisch verwaltete Projektordner: Dateien schreiben'
   project_module_storages: Dateien
+  project_storages:
+    project_folder_mode:
+      automatic: Automatisch verwaltet
+      inactive: Kein spezifischer Ordner
+      manual: Vorhandener Ordner manuell verwaltet
   storages:
     buttons:
       complete_without_setup: Ohne fortfahren
@@ -130,10 +137,10 @@ de:
       unsubscribe: Abonnement beenden
     help_texts:
       project_folder: Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Alle verfügbaren Speicher sind dem Projekt bereits hinzugefügt.
       automatic_folder: Dies wird automatisch einen Stammordner für dieses Projekt erstellen und die Zugriffsberechtigungen für jedes Projektmitglied verwalten.
-      copy_from: Diesen Wert kopieren von
       empty_project_folder_validation: Die Auswahl eines Ordners ist zwingend erforderlich, um fortzufahren.
       existing_manual_folder: Sie können einen existierenden Ordner als Hauptordner für dieses Projekt definieren. Die Berechtigungen werden jedoch nicht automatisch verwaltet, der Administrator muss manuell sicherstellen, dass relevante Benutzer Zugriff haben. Der ausgewählte Ordner kann von mehreren Projekten verwendet werden.
       host: Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein.

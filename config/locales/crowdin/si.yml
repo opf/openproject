@@ -301,11 +301,6 @@ si:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: දැනට වර්ග නොමැත.
         form:
@@ -600,17 +595,6 @@ si:
       attribute_help_text:
         attribute_name: "ගුණාංගය"
         help_text: "උපකාරක පෙළ"
-      ldap_auth_source:
-        account: "ගිණුම"
-        attr_firstname: "පළමු නාමය ලක්ෂණය"
-        attr_lastname: "අවසාන නාමය ලක්ෂණය"
-        attr_login: "පරිශීලක නාමය ගුණාංග"
-        attr_mail: "ඊ-තැපැල් ගුණාංග"
-        base_dn: "ඩී. එන් මූලික"
-        host: "සත්කාරක"
-        onthefly: "Automatic user creation"
-        port: "කෙවෙනිය"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "ගබඩාව"
       color:
@@ -635,6 +619,14 @@ si:
         visible: "දෘශ්යමාන"
       custom_value:
         value: "අගය"
+      doorkeeper/application:
+        uid: "සේවාලාභියා හැඳුනුම්පත"
+        secret: "සේවාලාභියා රහස්"
+        owner: "හිමිකරු"
+        redirect_uri: "නැවත හරවා යැවීමේ URI"
+        client_credentials_user_id: "සේවාලාභියා අක්තපත්ර පරිශීලක හැඳුනුම්පත"
+        scopes: "විෂය පථ"
+        confidential: "රහස්ය"
       enterprise_token:
         starts_at: "එතැන් සිට වලංගු වේ"
         subscriber: "ග්රාහකයා"
@@ -645,20 +637,25 @@ si:
         row_count: "පේළි ගණන"
         column_count: "තීරු ගණන"
         widgets: "විජට්"
-      oauth_client:
-        client: "සේවාලාභියා හැඳුනුම්පත"
-      relation:
-        lag: "Lag"
-        from: "වැඩ පැකේජය"
-        to: "අදාළ වැඩ පැකේජය"
-      status:
-        is_closed: "වැඩ පැකේජය වසා"
-        is_readonly: "වැඩ පැකේජය කියවීමට-පමණි"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "සටහන්"
+      ldap_auth_source:
+        account: "ගිණුම"
+        attr_firstname: "පළමු නාමය ලක්ෂණය"
+        attr_lastname: "අවසාන නාමය ලක්ෂණය"
+        attr_login: "පරිශීලක නාමය ගුණාංග"
+        attr_mail: "ඊ-තැපැල් ගුණාංග"
+        base_dn: "ඩී. එන් මූලික"
+        host: "සත්කාරක"
+        onthefly: "Automatic user creation"
+        port: "කෙවෙනිය"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "භූමිකාවන්"
+      oauth_client:
+        client: "සේවාලාභියා හැඳුනුම්පත"
+      planning_element_type_color:
+        hexcode: Hex කේතය
       project:
         active_value:
           true: "unarchived"
@@ -688,6 +685,8 @@ si:
         types: "වර්ග"
         versions: "අනුවාද"
         work_packages: "වැඩ පැකේජ"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "තීරු"
         relations_to_type_column: "සබඳතා %{type}"
@@ -695,10 +694,19 @@ si:
         group_by: "කණ්ඩායම් ප්රතිඵල විසින්"
         filters: "පෙරහන්"
         timeline_labels: "කාල නියමය ලේබල්"
+      relation:
+        lag: "Lag"
+        from: "වැඩ පැකේජය"
+        to: "අදාළ වැඩ පැකේජය"
       repository:
         url: "සැ. නි."
       role:
         permissions: "අවසර"
+      status:
+        is_closed: "වැඩ පැකේජය වසා"
+        is_readonly: "වැඩ පැකේජය කියවීමට-පමණි"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "ක්‍රියාකාරකම"
         hours: "පැය"
@@ -741,10 +749,6 @@ si:
       wiki_page:
         parent_title: "මව් පිටුව"
         redirect_existing_links: "පවතින සබැඳි නැවත හරවා යැවීම"
-      planning_element_type_color:
-        hexcode: Hex කේතය
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "ඇතුළත් කිරීම ආරම්භ කරන්න"
         begin_deletion: "මකාදැමීම ආරම්භ කරන්න"
@@ -779,14 +783,6 @@ si:
         type: "වර්ගය"
         version: "අනුවාදය"
         watcher: "මුරකරු"
-      "doorkeeper/application":
-        uid: "සේවාලාභියා හැඳුනුම්පත"
-        secret: "සේවාලාභියා රහස්"
-        owner: "හිමිකරු"
-        redirect_uri: "නැවත හරවා යැවීමේ URI"
-        client_credentials_user_id: "සේවාලාභියා අක්තපත්ර පරිශීලක හැඳුනුම්පත"
-        scopes: "විෂය පථ"
-        confidential: "රහස්ය"
     errors:
       messages:
         accepted: "පිළිගත යුතුය."
@@ -999,6 +995,11 @@ si:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1113,8 +1114,6 @@ si:
         version:
           undeletable_archived_projects: "එය අමුණා ඇති වැඩ පැකේජ ඇති බැවින් අනුවාදය මකා දැමිය නොහැක."
           undeletable_work_packages_attached: "එය අමුණා ඇති වැඩ පැකේජ ඇති බැවින් අනුවාදය මකා දැමිය නොහැක."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1785,6 +1784,17 @@ si:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1804,6 +1814,7 @@ si:
   label_add_another_file: "තවත් ගොනුවක් එකතු කරන්න"
   label_add_columns: "තෝරාගත් තීරු එකතු කරන්න"
   label_add_note: "සටහනක් එකතු කරන්න"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "අදාළ වැඩ පැකේජ එකතු කරන්න"
   label_add_subtask: "උප කාර්යය එකතු කරන්න"
   label_added: "එකතු"
@@ -2030,6 +2041,7 @@ si:
   label_inactive: "අක්රිය"
   label_incoming_emails: "ලැබෙන විද්යුත් තැපැල්"
   label_includes: "ඇතුළත් වේ"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "දිනය අනුව දර්ශකය"
   label_index_by_title: "මාතෘකාව අනුව දර්ශකය"
   label_information: "තොරතුරු"
@@ -2090,8 +2102,8 @@ si:
   label_member_all_admin: "(පරිපාලක තත්ත්වය නිසා සියලුම භූමිකාවන්)"
   label_member_plural: "සාමාජිකයන්"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2192,6 +2204,7 @@ si:
   label_product_version: "නිෂ්පාදන අනුවාදය"
   label_profile: "පැතිකඩ"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2200,6 +2213,7 @@ si:
   label_project_latest: "නවතම ව්යාපෘති"
   label_project_default_type: "හිස් වර්ගය ඉඩ"
   label_project_hierarchy: "ව්යාපෘති ධූරාවලිය"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "නව ව්යාපෘතිය"
   label_project_plural: "ව්‍යාපෘති"
   label_project_list_plural: "Project lists"

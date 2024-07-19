@@ -160,16 +160,8 @@ class GroupsController < ApplicationController
       Group.in_project(Project.allowed_to(current_user, :view_members)).exists?
   end
 
-  def default_breadcrumb
-    if action_name == "index" || !current_user.admin?
-      t("label_group_plural")
-    else
-      ActionController::Base.helpers.link_to(t("label_group_plural"), groups_path)
-    end
-  end
-
   def show_local_breadcrumb
-    true
+    false
   end
 
   def respond_membership_altered(service_call)

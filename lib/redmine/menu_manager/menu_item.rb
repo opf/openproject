@@ -40,6 +40,8 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
               :engine,
               :enterprise_feature
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/PerceivedComplexity
   def initialize(name, url, options)
     raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
     raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
@@ -72,8 +74,12 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @engine = options[:engine]
     @allow_deeplink = options[:allow_deeplink]
     @skip_permissions_check = !!options[:skip_permissions_check]
+    @is_heading = options[:is_heading]
     super(@name.to_sym)
   end
+
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def caption(project = nil)
     if @caption.is_a?(Proc)
@@ -161,5 +167,9 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
                  else
                    ->(project) { new_condition.call(project) }
                  end
+  end
+
+  def heading?
+    @is_heading || false
   end
 end

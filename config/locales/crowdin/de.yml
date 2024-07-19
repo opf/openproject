@@ -48,7 +48,7 @@ de:
         main-menu-border-color: "Rahmenfarbe des Hauptmenüs"
       custom_colors: "Benutzerdefinierte Farben"
       customize: "Passen Sie Ihre OpenProject Installation mit Ihrem eigenen Logo und eigenen Farben an."
-      enterprise_notice: "Dieses kleine Add-on steht den Abonnenten der Enterprise-Edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
+      enterprise_notice: "Diese kleine Erweiterung steht den Abonnenten der Enterprise edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
       enterprise_more_info: "Hinweis: Das verwendete Logo wird öffentlich zugänglich sein."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
@@ -61,15 +61,15 @@ de:
         main-menu-bg-color: "Hintergrundfarbe des Menüs in der linken Seitenleiste."
       theme_warning: Das Ändern des Themes wird Ihr benutzerdefiniertes Design überschreiben. Alle Änderungen werden dann verloren gehen. Sind Sie sicher, dass Sie fortfahren möchten?
     enterprise:
-      upgrade_to_ee: "Auf Enterprise-Edition upgraden"
-      add_token: "Enterprise-Edition Support Token hochladen"
+      upgrade_to_ee: "Auf Enterprise edition upgraden"
+      add_token: "Enterprise edition Support Token hochladen"
       delete_token_modal:
-        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise Edition-Token entfernen möchten?"
+        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise edition token entfernen möchten?"
         title: "Token löschen"
       replace_token: "Aktuellen Enterprise edition Support Token ersetzen"
       order: "Enterprise on-premises bestellen"
-      paste: "Enterprise-Edition Support Token hier einfügen"
-      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar."
+      paste: "Enterprise edition Support Token hier einfügen"
+      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
       start_trial: "Kostenlose Testversion starten"
       book_now: "Jetzt buchen"
@@ -298,11 +298,6 @@ de:
         is_required_blank_slate:
           heading: In allen Projekten erforderlich
           description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Benötigt in allen Projekten" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
-        new_project_mapping_form:
-          add_projects: Projekte erstellen
-          include_sub_projects: Unterprojekte einbeziehen
-        project_mappings:
-          header: Verwendung in Projekten
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -594,17 +589,6 @@ de:
       attribute_help_text:
         attribute_name: "Attribut"
         help_text: "Hilfe-Text"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Attribut für Vorname"
-        attr_lastname: "Attribut für Nachname"
-        attr_login: "Attribut für Benutzername"
-        attr_mail: "Attribut für E-Mail"
-        base_dn: "Basis-DN"
-        host: "Host"
-        onthefly: "Benutzer automatisch erzeugen"
-        port: "Port"
-        tls_certificate_string: "LDAP-Server SSL-Zertifikat"
       changeset:
         repository: "Projektarchiv"
       color:
@@ -629,6 +613,14 @@ de:
         visible: "Sichtbar"
       custom_value:
         value: "Wert"
+      doorkeeper/application:
+        uid: "Client-ID"
+        secret: "Clientschlüssel"
+        owner: "Besitzer"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User-ID"
+        scopes: "Geltungsbereiche"
+        confidential: "Vertraulich"
       enterprise_token:
         starts_at: "Aktiv seit"
         subscriber: "Abonnent"
@@ -639,20 +631,25 @@ de:
         row_count: "Anzahl der Zeilen"
         column_count: "Anzahl der Spalten"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client-ID"
-      relation:
-        lag: "Verzögerung"
-        from: "Arbeitspaket"
-        to: "Zugehöriges Arbeitspaket"
-      status:
-        is_closed: "Arbeitspaket geschlossen"
-        is_readonly: "Arbeitspakete schreibgeschützt"
-        excluded_from_totals: "Von der Berechnung der Gesamtsumme in der Hierarchie ausschließen"
       journal:
         notes: "Kommentare"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Attribut für Vorname"
+        attr_lastname: "Attribut für Nachname"
+        attr_login: "Attribut für Benutzername"
+        attr_mail: "Attribut für E-Mail"
+        base_dn: "Basis-DN"
+        host: "Host"
+        onthefly: "Benutzer automatisch erzeugen"
+        port: "Port"
+        tls_certificate_string: "LDAP-Server SSL-Zertifikat"
       member:
         roles: "Rollen"
+      oauth_client:
+        client: "Client-ID"
+      planning_element_type_color:
+        hexcode: Fabcode (Hex)
       project:
         active_value:
           true: "nicht archiviert"
@@ -682,6 +679,8 @@ de:
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
+      project_custom_field:
+        custom_field_section: Abschnitt
       query:
         column_names: "Spalten"
         relations_to_type_column: "Beziehungen zu %{type}"
@@ -689,10 +688,19 @@ de:
         group_by: "Gruppiere Ergebnisse nach"
         filters: "Filter"
         timeline_labels: "Timeline-Beschriftungen"
+      relation:
+        lag: "Verzögerung"
+        from: "Arbeitspaket"
+        to: "Zugehöriges Arbeitspaket"
       repository:
         url: "URL"
       role:
         permissions: "Berechtigungen"
+      status:
+        is_closed: "Arbeitspaket geschlossen"
+        is_readonly: "Arbeitspakete schreibgeschützt"
+        excluded_from_totals: "Von der Berechnung der Gesamtsumme in der Hierarchie ausschließen"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivität"
         hours: "Stunden"
@@ -735,10 +743,6 @@ de:
       wiki_page:
         parent_title: "Übergeordnete Seite"
         redirect_existing_links: "Existierende Links umleiten"
-      planning_element_type_color:
-        hexcode: Fabcode (Hex)
-      project_custom_field:
-        custom_field_section: Abschnitt
       work_package:
         begin_insertion: "Beginn der Einfügung"
         begin_deletion: "Beginn des Löschvorgangs"
@@ -773,14 +777,6 @@ de:
         type: "Typ"
         version: "Version"
         watcher: "Beobachter"
-      "doorkeeper/application":
-        uid: "Client-ID"
-        secret: "Clientschlüssel"
-        owner: "Besitzer"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User-ID"
-        scopes: "Geltungsbereiche"
-        confidential: "Vertraulich"
     errors:
       messages:
         accepted: "muss akzeptiert werden."
@@ -993,6 +989,11 @@ de:
               hours_per_day_are_missing: "Die Anzahl der Stunden pro Tag muss festgelegt werden."
               durations_are_not_positive_numbers: "Die Dauer muss positiv sein"
               hours_per_day_is_out_of_bounds: "Die Anzahl der Stunden pro Tag darf 24 nicht überschreiten."
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "kann nicht für einen Status aktiviert werden, der als Standard markiert ist."
         time_entry:
           attributes:
             hours:
@@ -1107,8 +1108,6 @@ de:
         version:
           undeletable_archived_projects: "Die Version kann nicht gelöscht werden, da sie Arbeitspakete enthält, die an sie angeschlossen sind."
           undeletable_work_packages_attached: "Die Version kann nicht gelöscht werden, da sie Arbeitspakete enthält, die an sie angeschlossen sind."
-        status:
-          readonly_default_exlusive: "kann nicht für einen Status aktiviert werden, der als Standard markiert ist."
         token/api:
           attributes:
             token_name:
@@ -1572,7 +1571,7 @@ de:
   error_cookie_missing: "Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert."
   error_custom_option_not_found: "Option ist nicht vorhanden."
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
-  error_enterprise_token_invalid_domain: "Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
+  error_enterprise_token_invalid_domain: "Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
   error_failed_to_delete_entry: "Fehler beim Löschen dieses Eintrags."
   error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Fehler beim Versuch, abhängiges Objekt zu erstellen: %{dependent_class} - %{related_subject}: %{error}"
@@ -1674,10 +1673,10 @@ de:
     blocks:
       community: "OpenProject Community"
       upsale:
-        title: "Auf Enterprise-Edition upgraden"
+        title: "Auf Enterprise edition upgraden"
         more_info: "Weitere Informationen"
     links:
-      upgrade_enterprise_edition: "Auf Enterprise-Edition upgraden"
+      upgrade_enterprise_edition: "Auf Enterprise edition upgraden"
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
       user_guides: "Benutzerhandbuch"
       faq: "Häufig gestellte Fragen"
@@ -1711,7 +1710,7 @@ de:
         dates:
           working: "%{date} ist jetzt ein Arbeitstag"
           non_working: "%{date} ist jetzt ein arbeitsfreier Tag"
-      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-bezogen gesetzt
+      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
       status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
       status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
       status_percent_complete_changed: "% vollständig von %{old_value}% auf %{new_value} % geändert"
@@ -1779,6 +1778,17 @@ de:
         failed: "Ein Fehler ist aufgetreten und das Token konnte nicht entfernt werden. Bitte versuchen Sie es später erneut."
         unknown_storage: "Unbekannter Speicher"
   notifications:
+    reasons:
+      assigned: "Beauftragter"
+      dateAlert: "Datumsalarm"
+      mentioned: "Erwähnt"
+      responsible: "Verantwortlich"
+      shared: "Geteilt"
+      watched: "Beobachter"
+    menu:
+      by_project: "Ungelesen pro Projekt"
+      by_reason: "Grund"
+      inbox: "Eingang"
     send_notifications: "Sende Benachrichtigungen für diese Aktion"
     work_packages:
       subject:
@@ -1798,6 +1808,7 @@ de:
   label_add_another_file: "Eine weitere Datei hinzufügen"
   label_add_columns: "Ausgewählte Spalten hinzufügen"
   label_add_note: "Kommentar hinzufügen"
+  label_add_projects: "Projekte erstellen"
   label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
   label_add_subtask: "Unteraufgabe hinzufügen"
   label_added: "hinzugefügt"
@@ -1965,7 +1976,7 @@ de:
   label_enumerations: "Aufzählungen"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise Support"
   label_enterprise_addon: "Enterprise Add-on"
   label_environment: "Umgebung"
@@ -2024,6 +2035,7 @@ de:
   label_inactive: "Inaktiv"
   label_incoming_emails: "Eingehende E-Mails"
   label_includes: "enthält"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Seiten nach Datum"
   label_index_by_title: "Seiten nach Titel"
   label_information: "Information"
@@ -2084,8 +2096,8 @@ de:
   label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_plural: "Mitglieder"
   label_membership_plural: "Mitgliedschaften"
-  lable_membership_added: "Mitglied hinzugefügt"
-  lable_membership_updated: "Mitglied aktualisiert"
+  label_membership_added: "Mitglied hinzugefügt"
+  label_membership_updated: "Mitglied aktualisiert"
   label_menu: "Menü"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2186,6 +2198,7 @@ de:
   label_product_version: "Produktversion"
   label_profile: "Profil"
   label_percent_complete: "% abgeschlossen"
+  label_project: "Projekt"
   label_project_activity: "Projektaktivität"
   label_project_attribute_plural: "Projekt-Attribute"
   label_project_attribute_manage_link: "Projektattribute verwalten"
@@ -2194,6 +2207,7 @@ de:
   label_project_latest: "Neueste Projekte"
   label_project_default_type: "Erlaube leere Typen"
   label_project_hierarchy: "Projekthierarchie"
+  label_project_mappings: "Verwendung in Projekten"
   label_project_new: "Neues Projekt"
   label_project_plural: "Projekte"
   label_project_list_plural: "Projektlisten"
@@ -2899,8 +2913,8 @@ de:
       update_timeout: "Speichere die Informationen bzgl. des genutzten Festplattenspeichers eines Projektarchivs für N Minuten.\nErhöhen Sie diesen Wert zur Verbesserung der Performance, da die Erfassung des genutzten Festplattenspeichers Ressourcen-intensiv ist."
       oauth_application_details: "Der Client Geheimcode wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die Nextcloud OpenProject Integrationseinstellungen:"
       oauth_application_details_link_text: "Zu den Einstellungen gehen"
-      setup_documentation_details: "Wenn Sie Hilfe bei der Konfiguration eines neuen Dateispeichers benötigen, konsultieren Sie bitte die Dokumentation: "
-      setup_documentation_details_link_text: "Dateispeicher einrichten"
+      setup_documentation_details: "Wenn Sie Hilfe bei der Konfiguration eines neuen Datei-Speichers benötigen, konsultieren Sie bitte die Dokumentation: "
+      setup_documentation_details_link_text: "Datei-Speicher einrichten"
       show_warning_details: "Um diesen Dateispeicher nutzen zu können, müssen Sie das Modul und den spezifischen Speicher in den Projekteinstellungen jedes gewünschten Projekts aktivieren."
     subversion:
       existing_title: "Vorhandenes Subversion Projektarchiv"
@@ -3358,7 +3372,7 @@ de:
   warning_user_limit_reached_admin: >
     Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte <a href="%{upgrade_url}">aktualisieren Sie Ihr Abonnement</a> um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
   warning_user_limit_reached_instructions: >
-    Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+    Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
   warning_protocol_mismatch_html: >
 
   warning_bar:

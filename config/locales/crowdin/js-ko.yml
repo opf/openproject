@@ -616,7 +616,7 @@ ko:
       title: "알림"
       no_unread: "읽지 않는 알림 없음"
       reasons:
-        mentioned: "멘션 된"
+        mentioned: "멘션됨"
         watched: "주시자"
         assigned: "담당자"
         responsible: "담당"
@@ -662,15 +662,6 @@ ko:
         new_notifications:
           message: "새 알림이 있습니다."
           link_text: "로드하려면 여기를 클릭하세요."
-      menu:
-        accountable: "담당"
-        by_project: "프로젝트 기준 읽지 않음"
-        by_reason: "이유"
-        inbox: "받은 편지함"
-        mentioned: "멘션됨"
-        watched: "주시자"
-        date_alert: "날짜 경보"
-        shared: "공유됨"
       settings:
         change_notification_settings: '중요 업데이트를 놓치지 않도록 <a target="_blank" href="%{url}">알림 설정</a>을 수정할 수 있습니다.'
         title: "알림 설정"
@@ -1019,11 +1010,13 @@ ko:
         workAlternative: "예상 시간"
         remainingTime: "남은 작업"
       default_queries:
+        manually_sorted: "새로운 수동 정렬 쿼리"
         latest_activity: "최근 활동"
         created_by_me: "내가 만듦"
         assigned_to_me: "내게 할당됨"
         recently_created: "최근에 만듦"
         all_open: "모두 열림"
+        overdue: "기한 지남"
         summary: "요약"
         shared_with_users: "사용자와 공유됨"
         shared_with_me: "나와 공유됨"

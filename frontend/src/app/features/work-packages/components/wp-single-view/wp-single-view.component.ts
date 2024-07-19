@@ -388,7 +388,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    */
   private getDateField(change:WorkPackageChangeset):FieldDescriptor {
     const object:FieldDescriptor = {
-      name: '',
+      name: 'date',
       label: this.I18n.t('js.work_packages.properties.date'),
       spanAll: false,
       multiple: false,
@@ -396,10 +396,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
     if (change.schema.ofProperty('date')) {
       object.field = this.displayField(change, 'date');
-      object.name = 'date';
     } else {
       object.field = this.displayField(change, 'combinedDate');
-      object.name = 'combinedDate';
     }
 
     return object;

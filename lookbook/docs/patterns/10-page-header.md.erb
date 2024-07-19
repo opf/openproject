@@ -71,3 +71,61 @@ The PageHeader actions offer a set of predefined slots, to use specific componen
   * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to passed.
 * **Primer::Beta::Text** ([`with_action_text`](../../inspect/primer/open_project/page_header/actions)):
   * The text will be hidden on mobile.
+
+
+### Code structure
+
+The PageHeader can be called directly in any `show`/`edit`/`index`/... `.html.erb` file.
+
+```html
+  <!-- app/views/module_a/index.html.erb -->
+  &lt;%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title { "Some title" }
+      header.with_breadcrumbs([{ href: "/foo", text: "Foo" },
+                               "Bar"])
+    end
+  %&gt;
+```
+
+As soon as the header is more complex, it is recommended to extract it into a separate component. A good rule of thumb is to extract the PageHeader as soon as there are actions involved, because it will increase the component code significantly.
+
+```rb
+class ModuleA::IndexPageHeaderComponent < ApplicationComponent
+  include OpPrimer::ComponentHelpers
+  include ApplicationHelper
+
+  def initialize
+    super
+    # ...
+  end
+
+  def breadcrumb_items
+    [{ href: "/foo", text: "Foo" },
+     "Bar"]
+  end
+
+  def additional_logic
+   # ...
+  end
+
+  # ...
+end
+```
+
+```html
+  <!-- app/components/module_a/index_page_header_component.html.erb -->
+  &lt;%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title { 'Some title' }
+      header.with_breadcrumbs(breadcrumb_items)
+
+      #... additional logic
+    end
+  %&gt;
+```
+
+```html
+  <!-- app/views/module_a/index.html.erb -->
+  &lt;%= render(ModuleA::IndexPageHeaderComponent.new) %&gt;
+```

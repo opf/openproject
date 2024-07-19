@@ -301,11 +301,6 @@ sk:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Momentálne nie sú k dispozícii žiadne typy.
         form:
@@ -614,17 +609,6 @@ sk:
       attribute_help_text:
         attribute_name: "Atribút"
         help_text: "Text pomocníka"
-      ldap_auth_source:
-        account: "Účet"
-        attr_firstname: "Krstné meno"
-        attr_lastname: "Priezvisko"
-        attr_login: "Username attribute"
-        attr_mail: "E-mail adresa"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitár"
       color:
@@ -649,6 +633,14 @@ sk:
         visible: "Viditeľné"
       custom_value:
         value: "Hodnota"
+      doorkeeper/application:
+        uid: "ID klienta"
+        secret: "Klient neverejné"
+        owner: "Vlastník"
+        redirect_uri: "Presmerovať URI"
+        client_credentials_user_id: "ID poverenia klienta"
+        scopes: "Rozsahy"
+        confidential: "Dôverné"
       enterprise_token:
         starts_at: "Platné od"
         subscriber: "Odberateľ"
@@ -659,20 +651,25 @@ sk:
         row_count: "Počet riadkov"
         column_count: "Počet stĺpcov"
         widgets: "Miniaplikácie"
-      oauth_client:
-        client: "ID klienta"
-      relation:
-        lag: "Lag"
-        from: "Pracovný balíček"
-        to: "Súvisiaci pracovný balíček"
-      status:
-        is_closed: "Uzatvorený pracovný balíček"
-        is_readonly: "Pracovný balíček iba na čítanie"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Poznámky"
+      ldap_auth_source:
+        account: "Účet"
+        attr_firstname: "Krstné meno"
+        attr_lastname: "Priezvisko"
+        attr_login: "Username attribute"
+        attr_mail: "E-mail adresa"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Roly"
+      oauth_client:
+        client: "ID klienta"
+      planning_element_type_color:
+        hexcode: Hex kód
       project:
         active_value:
           true: "unarchived"
@@ -702,6 +699,8 @@ sk:
         types: "Typy"
         versions: "Verzie"
         work_packages: "Pracovné balíčky"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Stĺpce"
         relations_to_type_column: "Vzťahy k %{type}"
@@ -709,10 +708,19 @@ sk:
         group_by: "zoskupiť výsledky podľa"
         filters: "Filtre"
         timeline_labels: "Značky časovej osi"
+      relation:
+        lag: "Lag"
+        from: "Pracovný balíček"
+        to: "Súvisiaci pracovný balíček"
       repository:
         url: "URL adresa"
       role:
         permissions: "Oprávnenia"
+      status:
+        is_closed: "Uzatvorený pracovný balíček"
+        is_readonly: "Pracovný balíček iba na čítanie"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Činnosť"
         hours: "Hodín"
@@ -755,10 +763,6 @@ sk:
       wiki_page:
         parent_title: "Nadradená stránka"
         redirect_existing_links: "Presmerovať existujúce prepojenia"
-      planning_element_type_color:
-        hexcode: Hex kód
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Začiatok vkladania"
         begin_deletion: "Začiatok odstraňovania"
@@ -793,14 +797,6 @@ sk:
         type: "Typ"
         version: "Verzia"
         watcher: "Pozorovateľ"
-      "doorkeeper/application":
-        uid: "ID klienta"
-        secret: "Klient neverejné"
-        owner: "Vlastník"
-        redirect_uri: "Presmerovať URI"
-        client_credentials_user_id: "ID poverenia klienta"
-        scopes: "Rozsahy"
-        confidential: "Dôverné"
     errors:
       messages:
         accepted: "musí byť akceptovaný."
@@ -1013,6 +1009,11 @@ sk:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1129,8 +1130,6 @@ sk:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1853,6 +1852,17 @@ sk:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1872,6 +1882,7 @@ sk:
   label_add_another_file: "Pridať ďalší súbor"
   label_add_columns: "Pridať vybraté stĺpce"
   label_add_note: "Pridať poznámku"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Pridať naviazaný pracovný balíček"
   label_add_subtask: "Pridať podúlohu"
   label_added: "pridané"
@@ -2098,6 +2109,7 @@ sk:
   label_inactive: "Neaktívny"
   label_incoming_emails: "Prichádzajúce e-maily"
   label_includes: "zahŕňa"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indexovať podľa dátumu"
   label_index_by_title: "Indexovať podľa názvu"
   label_information: "Informácie"
@@ -2158,8 +2170,8 @@ sk:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Členovia"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2260,6 +2272,7 @@ sk:
   label_product_version: "Verzia produktu"
   label_profile: "Profil"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2268,6 +2281,7 @@ sk:
   label_project_latest: "Najnovšie projekty"
   label_project_default_type: "Povoliť prázdny typ"
   label_project_hierarchy: "Hierarchia projektu"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_list_plural: "Project lists"

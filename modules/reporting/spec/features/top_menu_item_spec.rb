@@ -54,7 +54,7 @@ RSpec.describe "Top menu items", :js do
     # if the menu is not completely expanded (e.g. if the frontend thread is too fast),
     # the click might be ignored
 
-    within ".op-app-menu--item_has-dropdown .op-app-menu--dropdown[aria-expanded=true]" do
+    within "#op-app-header--modules-menu-list" do
       expect(page).to have_no_css("[style~=overflow]")
 
       page.click_link(title)
@@ -75,7 +75,7 @@ RSpec.describe "Top menu items", :js do
   end
 
   describe "Modules" do
-    let!(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
+    let!(:top_menu) { page.find_test_selector("op-app-header--modules-menu-button") }
 
     let(:reporting_item) { I18n.t("cost_reports_title") }
 

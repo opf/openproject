@@ -45,7 +45,7 @@ module Storages
 
           def call(auth_strategy:, folder_name:, parent_location:)
             Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
-              handle_response http.post(uri_for(parent_location), body: payload(folder_name))
+              handle_response http.post(url_for(parent_location), body: payload(folder_name))
             end
           end
 
@@ -55,10 +55,12 @@ module Storages
             Util.json_content_type
           end
 
-          def uri_for(parent_location)
-            return "#{base_uri}/root/children" if parent_location.root?
-
-            "#{base_uri}/items/#{parent_location}/children"
+          def url_for(parent_location)
+            if parent_location.root?
+              UrlBuilder.url(Util.drive_base_uri(@storage), "/root/children")
+            else
+              UrlBuilder.url(Util.drive_base_uri(@storage), "/items", parent_location.path, "/children")
+            end
           end
 
           def handle_response(response)
@@ -88,8 +90,6 @@ module Storages
               "@microsoft.graph.conflictBehavior" => "fail"
             }.to_json
           end
-
-          def base_uri = "#{@storage.uri}v1.0/drives/#{@storage.drive_id}"
         end
       end
     end

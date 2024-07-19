@@ -31,6 +31,10 @@ require "spec_helper"
 RSpec.describe "connection validation", :skip_csrf do
   describe "POST /admin/settings/storages/:id/connection_validation/validate_connection" do
     let(:storage) { create(:one_drive_storage) }
+    let(:template_body) do
+      template = Nokogiri(last_response.body).css("template").first.inner_html
+      Capybara.string(template)
+    end
     let(:user) { create(:admin) }
     let(:validator) do
       double = instance_double(Storages::Peripherals::OneDriveConnectionValidator)
@@ -52,25 +56,24 @@ RSpec.describe "connection validation", :skip_csrf do
       it "returns a turbo update template" do
         expect(subject.status).to eq(200)
 
-        doc = Nokogiri::HTML(subject.body)
-        expect(doc.xpath(xpath_for_subtitle).text).to eq("Connection validation")
+        expect(template_body).to have_test_selector("validation-result--subtitle", text: "Connection validation")
 
         if show_timestamp
-          expect(doc.xpath(xpath_for_timestamp)).not_to be_empty
+          expect(template_body).to have_test_selector("validation-result--timestamp")
         else
-          expect(doc.xpath(xpath_for_timestamp)).to be_empty
+          expect(template_body).not_to have_test_selector("validation-result--timestamp")
         end
 
         if label.present?
-          expect(doc.xpath(xpath_for_label).text).to eq(label)
+          expect(template_body).to have_css(".Label", text: label)
         else
-          expect(doc.xpath(xpath_for_label).text).to be_empty
+          expect(template_body).to have_no_selector(".Label")
         end
 
         if description.present?
-          expect(doc.xpath(xpath_for_description).text).to eq(description)
+          expect(template_body).to have_test_selector("validation-result--description", text: description)
         else
-          expect(doc.xpath(xpath_for_description).text).to be_empty
+          expect(template_body).not_to have_test_selector("validation-result--description", text: description)
         end
       end
     end
@@ -119,24 +122,4 @@ RSpec.describe "connection validation", :skip_csrf do
                       show_timestamp: true, label: "Healthy", description: nil
     end
   end
-
-  private
-
-  def xpath_for_subtitle
-    "#{xpath_for_turbo_target}/div/div/span[@data-test-selector='validation-result--subtitle']"
-  end
-
-  def xpath_for_timestamp
-    "#{xpath_for_turbo_target}/div/div/span[@data-test-selector='validation-result--timestamp']"
-  end
-
-  def xpath_for_label
-    "#{xpath_for_turbo_target}/div/div/span[contains(@class, 'Label')]"
-  end
-
-  def xpath_for_description
-    "#{xpath_for_turbo_target}/div/div/span[@data-test-selector='validation-result--description']"
-  end
-
-  def xpath_for_turbo_target = "//turbo-stream[@target='storages-admin-sidebar-validation-result-component']/template"
 end

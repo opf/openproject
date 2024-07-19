@@ -303,11 +303,6 @@ vi:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Không có phân loại.
         form:
@@ -595,17 +590,6 @@ vi:
       attribute_help_text:
         attribute_name: "Thuộc tính"
         help_text: "Văn bản trợ giúp"
-      ldap_auth_source:
-        account: "Tài khoản"
-        attr_firstname: "Thuộc tính tên"
-        attr_lastname: "Thuộc tính Họ"
-        attr_login: "Thuộc tính tên người dùng"
-        attr_mail: "Thuộc tính Email"
-        base_dn: "DN căn bản"
-        host: "Máy chủ"
-        onthefly: "Tự động tạo người dùng"
-        port: "Cổng"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Kho lưu trữ"
       color:
@@ -630,6 +614,14 @@ vi:
         visible: "Hiển thị"
       custom_value:
         value: "Giá trị"
+      doorkeeper/application:
+        uid: "ID Khách hàng"
+        secret: "Bí mật khách hàng"
+        owner: "Người sở hữu"
+        redirect_uri: "URI đổi hướng"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Phạm vi"
+        confidential: "Bí mật"
       enterprise_token:
         starts_at: "Có hiệu lực kể từ"
         subscriber: "Người đăng ký"
@@ -640,20 +632,25 @@ vi:
         row_count: "Số dòng"
         column_count: "Số cột"
         widgets: "Tiện ích"
-      oauth_client:
-        client: "ID Khách hàng"
-      relation:
-        lag: "Lag"
-        from: "Work Package"
-        to: "Work package liên quan"
-      status:
-        is_closed: "Work package đã đóng"
-        is_readonly: "Work package chỉ đọc"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Ghi chú"
+      ldap_auth_source:
+        account: "Tài khoản"
+        attr_firstname: "Thuộc tính tên"
+        attr_lastname: "Thuộc tính Họ"
+        attr_login: "Thuộc tính tên người dùng"
+        attr_mail: "Thuộc tính Email"
+        base_dn: "DN căn bản"
+        host: "Máy chủ"
+        onthefly: "Tự động tạo người dùng"
+        port: "Cổng"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Vai trò"
+      oauth_client:
+        client: "ID Khách hàng"
+      planning_element_type_color:
+        hexcode: Mã Hex
       project:
         active_value:
           true: "unarchived"
@@ -683,6 +680,8 @@ vi:
         types: "Các loại"
         versions: "Các phiên bản"
         work_packages: "Work Packages"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Cột"
         relations_to_type_column: "Quan hệ với %{type}"
@@ -690,10 +689,19 @@ vi:
         group_by: "Nhóm kết quả bởi"
         filters: "Bộ lọc"
         timeline_labels: "Nhãn dòng thời gian"
+      relation:
+        lag: "Lag"
+        from: "Work Package"
+        to: "Work package liên quan"
       repository:
         url: "Đường dẫn (URL)"
       role:
         permissions: "Phân Quyền"
+      status:
+        is_closed: "Work package đã đóng"
+        is_readonly: "Work package chỉ đọc"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Hoạt động"
         hours: "Giờ"
@@ -736,10 +744,6 @@ vi:
       wiki_page:
         parent_title: "Trang mẹ"
         redirect_existing_links: "Chuyển hướng các liên kết hiện có"
-      planning_element_type_color:
-        hexcode: Mã Hex
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Bắt đầu chèn"
         begin_deletion: "Bắt đầu xóa"
@@ -774,14 +778,6 @@ vi:
         type: "Kiểu"
         version: "Phiên bản"
         watcher: "Người quan sát"
-      "doorkeeper/application":
-        uid: "ID Khách hàng"
-        secret: "Bí mật khách hàng"
-        owner: "Người sở hữu"
-        redirect_uri: "URI đổi hướng"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Phạm vi"
-        confidential: "Bí mật"
     errors:
       messages:
         accepted: "phải được đồng ý"
@@ -994,6 +990,11 @@ vi:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1107,8 +1108,6 @@ vi:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1753,6 +1752,17 @@ vi:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1772,6 +1782,7 @@ vi:
   label_add_another_file: "Thêm tập tin khác"
   label_add_columns: "Thêm cột đang chọn"
   label_add_note: "Thêm ghi chú"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Thêm work package liên quan"
   label_add_subtask: "Thêm subtask"
   label_added: "đã thêm"
@@ -1998,6 +2009,7 @@ vi:
   label_inactive: "Không hoạt động"
   label_incoming_emails: "Các thư đến"
   label_includes: "includes"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Chỉ mục theo ngày"
   label_index_by_title: "Chỉ mục theo tiêu đề"
   label_information: "Thông tin"
@@ -2058,8 +2070,8 @@ vi:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Thành viên"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Thành viên đã thêm"
-  lable_membership_updated: "Thành viên đã cập nhật"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2160,6 +2172,7 @@ vi:
   label_product_version: "Phiên bản sản phẩm"
   label_profile: "Hồ sơ"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2168,6 +2181,7 @@ vi:
   label_project_latest: "Dự án mới nhất"
   label_project_default_type: "Cho phép kiểu rỗng"
   label_project_hierarchy: "Phân cấp dự án"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Dự án mới"
   label_project_plural: "Các dự án"
   label_project_list_plural: "Project lists"

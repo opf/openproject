@@ -301,11 +301,6 @@ he:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -614,17 +609,6 @@ he:
       attribute_help_text:
         attribute_name: "תכונה"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "חשבון"
-        attr_firstname: "תכונת שם פרטי"
-        attr_lastname: "תכונת שם משפחה"
-        attr_login: "Username attribute"
-        attr_mail: "תכונת דואר אלקטרוני"
-        base_dn: "תכנון אלמנט"
-        host: "שרת"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       color:
@@ -649,6 +633,14 @@ he:
         visible: "נראה"
       custom_value:
         value: "ערך"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -659,20 +651,25 @@ he:
         row_count: "מספר שורות"
         column_count: "מספר עמודות"
         widgets: "ווידג'טים"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "חבילת עבודה"
-        to: "חבילת עבודה קשורה"
-      status:
-        is_closed: "חבילת עבודה סגורה"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "הערות"
+      ldap_auth_source:
+        account: "חשבון"
+        attr_firstname: "תכונת שם פרטי"
+        attr_lastname: "תכונת שם משפחה"
+        attr_login: "Username attribute"
+        attr_mail: "תכונת דואר אלקטרוני"
+        base_dn: "תכנון אלמנט"
+        host: "שרת"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "תפקידים"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: קוד hex
       project:
         active_value:
           true: "unarchived"
@@ -702,6 +699,8 @@ he:
         types: "סוגים"
         versions: "גירסאות"
         work_packages: "חבילות עבודה"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "עמודות"
         relations_to_type_column: "Relations to %{type}"
@@ -709,10 +708,19 @@ he:
         group_by: "קיבוץ תוצאות לפי"
         filters: "מסננים"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "חבילת עבודה"
+        to: "חבילת עבודה קשורה"
       repository:
         url: "כתובת URL"
       role:
         permissions: "Permissions"
+      status:
+        is_closed: "חבילת עבודה סגורה"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "פעילות"
         hours: "שעות"
@@ -755,10 +763,6 @@ he:
       wiki_page:
         parent_title: "דף אב"
         redirect_existing_links: "ניתוב מחדש של קישורים קיימים"
-      planning_element_type_color:
-        hexcode: קוד hex
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -793,14 +797,6 @@ he:
         type: "סוג"
         version: "גירסה"
         watcher: "צופה"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "must be accepted."
@@ -1013,6 +1009,11 @@ he:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1129,8 +1130,6 @@ he:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1853,6 +1852,17 @@ he:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1872,6 +1882,7 @@ he:
   label_add_another_file: "הוספת קובץ נוסף"
   label_add_columns: "הוסף עמודות נבחרות"
   label_add_note: "הוספת הערה"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "הוסף חבילות עבודה קשורות"
   label_add_subtask: "הוסף תת משימה"
   label_added: "התווסף"
@@ -2098,6 +2109,7 @@ he:
   label_inactive: "Inactive"
   label_incoming_emails: "הודעות דואר נכנסות"
   label_includes: "includes"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"
   label_information: "Information"
@@ -2158,8 +2170,8 @@ he:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "חברים"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2260,6 +2272,7 @@ he:
   label_product_version: "Product version"
   label_profile: "פרופיל"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2268,6 +2281,7 @@ he:
   label_project_latest: "Latest projects"
   label_project_default_type: "Allow empty type"
   label_project_hierarchy: "Project hierarchy"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "פרוייקט חדש"
   label_project_plural: "פרויקטים"
   label_project_list_plural: "Project lists"

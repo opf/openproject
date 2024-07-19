@@ -43,7 +43,7 @@ module Meetings
 
       def update_sidebar_component_via_turbo_stream(meeting: @meeting)
         update_via_turbo_stream(
-          component: Meetings::SidebarComponent.new(
+          component: Meetings::SidePanelComponent.new(
             meeting:
           )
         )
@@ -51,7 +51,7 @@ module Meetings
 
       def update_sidebar_details_component_via_turbo_stream(meeting: @meeting)
         update_via_turbo_stream(
-          component: Meetings::Sidebar::DetailsComponent.new(
+          component: Meetings::SidePanel::DetailsComponent.new(
             meeting:
           )
         )
@@ -59,7 +59,7 @@ module Meetings
 
       def update_sidebar_state_component_via_turbo_stream(meeting: @meeting)
         update_via_turbo_stream(
-          component: Meetings::Sidebar::StateComponent.new(
+          component: Meetings::SidePanel::StateComponent.new(
             meeting:
           )
         )
@@ -67,7 +67,7 @@ module Meetings
 
       def update_sidebar_details_form_component_via_turbo_stream(meeting: @meeting, status: :bad_request)
         update_via_turbo_stream(
-          component: Meetings::Sidebar::DetailsFormComponent.new(
+          component: Meetings::SidePanel::DetailsFormComponent.new(
             meeting:
           ),
           status:
@@ -76,7 +76,7 @@ module Meetings
 
       def update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)
         update_via_turbo_stream(
-          component: Meetings::Sidebar::ParticipantsComponent.new(
+          component: Meetings::SidePanel::ParticipantsComponent.new(
             meeting:
           )
         )
@@ -84,7 +84,7 @@ module Meetings
 
       def update_sidebar_participants_form_component_via_turbo_stream(meeting: @meeting)
         update_via_turbo_stream(
-          component: Meetings::Sidebar::ParticipantsFormComponent.new(
+          component: Meetings::SidePanel::ParticipantsFormComponent.new(
             meeting:
           ),
           status: :bad_request # TODO: why bad_request?
@@ -199,17 +199,18 @@ module Meetings
         update_show_items_via_turbo_stream
       end
 
-      def add_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item, clear_slate: false)
+      def add_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item, clear_slate: false) # rubocop:disable Metrics/AbcSize
         if clear_slate
           update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
         elsif meeting_agenda_item.meeting.agenda_items.count == 1
           update_list_via_turbo_stream(form_hidden: true)
 
           update_new_component_via_turbo_stream(
-            hidden: false,
+            hidden: true,
             meeting_section: meeting_agenda_item.meeting_section,
             type: @agenda_item_type
           )
+
         else
           update_section_header_via_turbo_stream(meeting_section: meeting_agenda_item.meeting_section)
 
@@ -224,10 +225,12 @@ module Meetings
           )
 
           update_new_component_via_turbo_stream(
-            hidden: false,
+            hidden: true,
             meeting_section: meeting_agenda_item.meeting_section,
             type: @agenda_item_type
           )
+
+          update_new_button_via_turbo_stream(disabled: false)
 
           update_show_items_via_turbo_stream
         end

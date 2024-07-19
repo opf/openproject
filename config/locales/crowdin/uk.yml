@@ -296,11 +296,6 @@ uk:
         is_required_blank_slate:
           heading: Обов’язково для всіх проєктів
           description: Цей атрибут проєкту активовано в усіх проєктах, оскільки встановлено прапорець «Обов’язково для всіх проєктів». Його не можна деактивувати для окремих проєктів.
-        new_project_mapping_form:
-          add_projects: Додати проєкти
-          include_sub_projects: Включити підпроєкти
-        project_mappings:
-          header: Увімкнено в проєктах
       types:
         no_results_title_text: Наразі немає доступних типів.
         form:
@@ -608,17 +603,6 @@ uk:
       attribute_help_text:
         attribute_name: "Атрибут"
         help_text: "Довідковий текст"
-      ldap_auth_source:
-        account: "Обліковий запис"
-        attr_firstname: "Атрибут «Ім’я»"
-        attr_lastname: "Атрибут «Прізвище»"
-        attr_login: "Атрибут «Ім’я користувача»"
-        attr_mail: "Атрибут «Електронна адреса»"
-        base_dn: "Базове ім’я DN"
-        host: "Хост"
-        onthefly: "Автоматичне створення користувачів"
-        port: "Порт"
-        tls_certificate_string: "Сертифікат SSL сервера LDAP"
       changeset:
         repository: "Репозиторій"
       color:
@@ -643,6 +627,14 @@ uk:
         visible: "Видиме"
       custom_value:
         value: "Значення"
+      doorkeeper/application:
+        uid: "Ідентифікатор клієнта"
+        secret: "Секретний ключ клієнта"
+        owner: "Власник"
+        redirect_uri: "Перенаправити URI (Automatic Translation)"
+        client_credentials_user_id: "Ідентифікатор користувача для облікових даних клієнта"
+        scopes: "Область дії"
+        confidential: "Конфіденційний"
       enterprise_token:
         starts_at: "Дійсний з"
         subscriber: "Абонент"
@@ -653,20 +645,25 @@ uk:
         row_count: "Кількість рядків"
         column_count: "Кількість стовпців"
         widgets: "Віджети"
-      oauth_client:
-        client: "ID клієнта"
-      relation:
-        lag: "Затримка"
-        from: "Пакет робіт"
-        to: "Пов'язаний робочий пакет"
-      status:
-        is_closed: "Робочий пакет закритий"
-        is_readonly: "Пакет робіт лише для перегляду"
-        excluded_from_totals: "Виключити з підрахунку підсумків в ієрархії"
       journal:
         notes: "Нотатки"
+      ldap_auth_source:
+        account: "Обліковий запис"
+        attr_firstname: "Атрибут «Ім’я»"
+        attr_lastname: "Атрибут «Прізвище»"
+        attr_login: "Атрибут «Ім’я користувача»"
+        attr_mail: "Атрибут «Електронна адреса»"
+        base_dn: "Базове ім’я DN"
+        host: "Хост"
+        onthefly: "Автоматичне створення користувачів"
+        port: "Порт"
+        tls_certificate_string: "Сертифікат SSL сервера LDAP"
       member:
         roles: "Роль"
+      oauth_client:
+        client: "ID клієнта"
+      planning_element_type_color:
+        hexcode: Двійковий код
       project:
         active_value:
           true: "розархівовано"
@@ -696,6 +693,8 @@ uk:
         types: "Типи"
         versions: "Версії"
         work_packages: "Пакет робіт"
+      project_custom_field:
+        custom_field_section: Розділ
       query:
         column_names: "Стовпці"
         relations_to_type_column: "Відносини з %{type}"
@@ -703,10 +702,19 @@ uk:
         group_by: "Групувати результати по"
         filters: "Фільтри"
         timeline_labels: "Мітки часової шкали"
+      relation:
+        lag: "Затримка"
+        from: "Пакет робіт"
+        to: "Пов'язаний робочий пакет"
       repository:
         url: "Посилання"
       role:
         permissions: "Дозволи"
+      status:
+        is_closed: "Робочий пакет закритий"
+        is_readonly: "Пакет робіт лише для перегляду"
+        excluded_from_totals: "Виключити з підрахунку підсумків в ієрархії"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Активність"
         hours: "Години"
@@ -749,10 +757,6 @@ uk:
       wiki_page:
         parent_title: "Головна сторінка"
         redirect_existing_links: "Перенаправити існуючі посилання"
-      planning_element_type_color:
-        hexcode: Двійковий код
-      project_custom_field:
-        custom_field_section: Розділ
       work_package:
         begin_insertion: "Початок вставки"
         begin_deletion: "Початок видалення"
@@ -787,14 +791,6 @@ uk:
         type: "Тип"
         version: "Версія"
         watcher: "Спостерігач"
-      "doorkeeper/application":
-        uid: "Ідентифікатор клієнта"
-        secret: "Секретний ключ клієнта"
-        owner: "Власник"
-        redirect_uri: "Перенаправити URI (Automatic Translation)"
-        client_credentials_user_id: "Ідентифікатор користувача для облікових даних клієнта"
-        scopes: "Область дії"
-        confidential: "Конфіденційний"
     errors:
       messages:
         accepted: "повинні бути прийняті."
@@ -1007,6 +1003,11 @@ uk:
               hours_per_day_are_missing: "Потрібно визначити кількість годин на день."
               durations_are_not_positive_numbers: "Тривалість має бути додатним числом."
               hours_per_day_is_out_of_bounds: "Кількість годин на день не може перевищувати 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "– не можна активувати для статусів, позначених як стандартні."
         time_entry:
           attributes:
             hours:
@@ -1123,8 +1124,6 @@ uk:
         version:
           undeletable_archived_projects: "Версію не можна видалити, оскільки до неї долучено пакети робіт."
           undeletable_work_packages_attached: "Версію не можна видалити, оскільки до неї приєднані робочі пакети."
-        status:
-          readonly_default_exlusive: "– не можна активувати для статусів, позначених як стандартні."
         token/api:
           attributes:
             token_name:
@@ -1847,6 +1846,17 @@ uk:
         failed: "Сталася помилка, і не вдалося вилучити маркет. Повторіть спробу пізніше."
         unknown_storage: "Невідоме сховище"
   notifications:
+    reasons:
+      assigned: "Виконавець"
+      dateAlert: "Оповіщення про дату"
+      mentioned: "Згадано"
+      responsible: "Відповідальний"
+      shared: "У спільному доступі"
+      watched: "Спостерігач"
+    menu:
+      by_project: "Непрочитані за проєктом"
+      by_reason: "Причина"
+      inbox: "Вхідні"
     send_notifications: "Надсилати сповіщення щодо цієї дії"
     work_packages:
       subject:
@@ -1866,6 +1876,7 @@ uk:
   label_add_another_file: "Додати ще один файл"
   label_add_columns: "Додати вибрані стовпці"
   label_add_note: "Додати зауваження"
+  label_add_projects: "Додати проєкти"
   label_add_related_work_packages: "Додати відповідні робочі пакети"
   label_add_subtask: "Додати підзавдання"
   label_added: "додано"
@@ -2092,11 +2103,12 @@ uk:
   label_inactive: "Неактивний"
   label_incoming_emails: "Вхідні повідомлення"
   label_includes: "Включити"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Індекс за датою"
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції із встановлення"
+  label_installation_guides: "Інструкції зі встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -2152,8 +2164,8 @@ uk:
   label_member_all_admin: "(Усі ролі через статус адміністратора)"
   label_member_plural: "Учасники"
   label_membership_plural: "Членство"
-  lable_membership_added: "Учасника додано"
-  lable_membership_updated: "Учасника оновлено"
+  label_membership_added: "Учасника додано"
+  label_membership_updated: "Учасника оновлено"
   label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "попередня альфа"
@@ -2254,6 +2266,7 @@ uk:
   label_product_version: "Версія продукту"
   label_profile: "Профіль"
   label_percent_complete: "% завершення"
+  label_project: "Проєкт"
   label_project_activity: "Дії в проєкті"
   label_project_attribute_plural: "Атрибути проєкту"
   label_project_attribute_manage_link: "Керувати атрибутами проєкту"
@@ -2262,6 +2275,7 @@ uk:
   label_project_latest: "Останні проекти"
   label_project_default_type: "Дозволити порожній тип"
   label_project_hierarchy: "Ієрархія проектів"
+  label_project_mappings: "Увімкнено в проєктах"
   label_project_new: "Новий проект"
   label_project_plural: "Проекти"
   label_project_list_plural: "Списки проєкту"

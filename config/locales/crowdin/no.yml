@@ -301,11 +301,6 @@
         is_required_blank_slate:
           heading: Påkrevd i alle prosjekter
           description: Prosjektattributten er aktivert i alle prosjekter fordi "Påkrevd i alle prosjekter"-alternativet er valgt. Attributten kan ikke deaktiveres for hvert enkelt prosjekt.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Inkluder underprosjekter
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -599,17 +594,6 @@
       attribute_help_text:
         attribute_name: "Attributt"
         help_text: "Hjelpetekst"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Fornavn-attributt"
-        attr_lastname: "Etternavn-attributt"
-        attr_login: "Brukernavn egenskap"
-        attr_mail: "E-postattributt"
-        base_dn: "Base DN"
-        host: "Vert"
-        onthefly: "Automatisk brukeropprettelse"
-        port: "Port"
-        tls_certificate_string: "LDAP-tjener SSL sertifikat"
       changeset:
         repository: "Pakkebrønn"
       color:
@@ -634,6 +618,14 @@
         visible: "Synlig"
       custom_value:
         value: "Verdi"
+      doorkeeper/application:
+        uid: "Klient ID"
+        secret: "Klient hemmlighet"
+        owner: "Eier"
+        redirect_uri: "Omdiriger URI"
+        client_credentials_user_id: "Klientens bruker-ID"
+        scopes: "Omfang"
+        confidential: "Konfidensiell"
       enterprise_token:
         starts_at: "Gyldig siden"
         subscriber: "Abonnent"
@@ -644,20 +636,25 @@
         row_count: "Antall rader"
         column_count: "Antall kolonner"
         widgets: "Widgeter"
-      oauth_client:
-        client: "Klient ID"
-      relation:
-        lag: "Forsinkelse"
-        from: "Arbeidspakke"
-        to: "Relatert arbeidspakke"
-      status:
-        is_closed: "Arbeidspakke lukket"
-        is_readonly: "Arbeidspakken er skrivebeskyttet"
-        excluded_from_totals: "Unnta fra beregning av totaler i hierarki"
       journal:
         notes: "Notater"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Fornavn-attributt"
+        attr_lastname: "Etternavn-attributt"
+        attr_login: "Brukernavn egenskap"
+        attr_mail: "E-postattributt"
+        base_dn: "Base DN"
+        host: "Vert"
+        onthefly: "Automatisk brukeropprettelse"
+        port: "Port"
+        tls_certificate_string: "LDAP-tjener SSL sertifikat"
       member:
         roles: "Rolle"
+      oauth_client:
+        client: "Klient ID"
+      planning_element_type_color:
+        hexcode: Hexadesimalkode
       project:
         active_value:
           true: "Ikke arkivert"
@@ -687,6 +684,8 @@
         types: "Typer"
         versions: "Versjoner"
         work_packages: "Arbeidspakker"
+      project_custom_field:
+        custom_field_section: Seksjon
       query:
         column_names: "Kolonner"
         relations_to_type_column: "Forbindelser til %{type}"
@@ -694,10 +693,19 @@
         group_by: "Gruppèr resultater etter"
         filters: "Filtre"
         timeline_labels: "Tidslinje etiketter"
+      relation:
+        lag: "Forsinkelse"
+        from: "Arbeidspakke"
+        to: "Relatert arbeidspakke"
       repository:
         url: "URL"
       role:
         permissions: "Tilganger"
+      status:
+        is_closed: "Arbeidspakke lukket"
+        is_readonly: "Arbeidspakken er skrivebeskyttet"
+        excluded_from_totals: "Unnta fra beregning av totaler i hierarki"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivitet"
         hours: "Timer"
@@ -740,10 +748,6 @@
       wiki_page:
         parent_title: "Overordnet side"
         redirect_existing_links: "Omdirigere eksisterende lenker"
-      planning_element_type_color:
-        hexcode: Hexadesimalkode
-      project_custom_field:
-        custom_field_section: Seksjon
       work_package:
         begin_insertion: "Begynnelsen av innsettingen"
         begin_deletion: "Begynnelsen av slettingen"
@@ -778,14 +782,6 @@
         type: "Type"
         version: "Versjon"
         watcher: "Overvåker"
-      "doorkeeper/application":
-        uid: "Klient ID"
-        secret: "Klient hemmlighet"
-        owner: "Eier"
-        redirect_uri: "Omdiriger URI"
-        client_credentials_user_id: "Klientens bruker-ID"
-        scopes: "Omfang"
-        confidential: "Konfidensiell"
     errors:
       messages:
         accepted: "må aksepteres"
@@ -998,6 +994,11 @@
               hours_per_day_are_missing: "Antall timer per dag må defineres."
               durations_are_not_positive_numbers: "Varigheten må være positive tall."
               hours_per_day_is_out_of_bounds: "Timer per dag kan ikke være mer enn 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "kan ikke aktiveres for statuser som er merket som standard."
         time_entry:
           attributes:
             hours:
@@ -1112,8 +1113,6 @@
         version:
           undeletable_archived_projects: "Versjonen kan ikke slettes ettersom den har arbeidspakker knyttet til den."
           undeletable_work_packages_attached: "Versjonen kan ikke slettes ettersom den har arbeidspakker knyttet til den."
-        status:
-          readonly_default_exlusive: "kan ikke aktiveres for statuser som er merket som standard."
         token/api:
           attributes:
             token_name:
@@ -1784,6 +1783,17 @@
         failed: "En feil oppstod, nøkkelen kunne ikke fjernes. Prøv igjen senere."
         unknown_storage: "Ukjent lagring"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send varsler for denne handlingen"
     work_packages:
       subject:
@@ -1803,6 +1813,7 @@
   label_add_another_file: "Legg til en annen fil"
   label_add_columns: "Legg til valgte kolonner"
   label_add_note: "Legg til et notat"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Legg til relaterte arbeidspakker"
   label_add_subtask: "Legg til underoppgave"
   label_added: "lagt til"
@@ -2029,6 +2040,7 @@
   label_inactive: "Inaktiv"
   label_incoming_emails: "Inkommende e-post"
   label_includes: "inkluderer"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeksèr etter dato"
   label_index_by_title: "Indeksèr på tittel"
   label_information: "Informasjon"
@@ -2089,8 +2101,8 @@
   label_member_all_admin: "(Alle roller på grunn av administratorstatus)"
   label_member_plural: "Medlemmer"
   label_membership_plural: "Medlemskap"
-  lable_membership_added: "Medlem lagt til"
-  lable_membership_updated: "Medlem oppdatert"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Meny"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2191,6 +2203,7 @@
   label_product_version: "Produktversjon"
   label_profile: "Profil"
   label_percent_complete: "% Ferdig"
+  label_project: "Project"
   label_project_activity: "Aktivitet i prosjektet"
   label_project_attribute_plural: "Prosjekt egenskaper"
   label_project_attribute_manage_link: "Administrer prosjektegenskaper"
@@ -2199,6 +2212,7 @@
   label_project_latest: "Siste prosjekter"
   label_project_default_type: "Tillatt tom type"
   label_project_hierarchy: "Prosjekthierarki"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nytt prosjekt"
   label_project_plural: "Prosjekter"
   label_project_list_plural: "Prosjektlister"

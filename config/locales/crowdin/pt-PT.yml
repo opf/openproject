@@ -299,11 +299,6 @@ pt-PT:
         is_required_blank_slate:
           heading: Necessário em todos os projetos
           description: Este atributo de projeto é ativado em todos os projetos, uma vez que a opção "Necessário em todos os projetos" está assinalada. Não pode ser desativado para projetos individuais.
-        new_project_mapping_form:
-          add_projects: Adicionar projetos
-          include_sub_projects: Incluir subprojetos
-        project_mappings:
-          header: Ativado nos projetos
       types:
         no_results_title_text: Atualmente, não existem tipos disponíveis.
         form:
@@ -598,17 +593,6 @@ pt-PT:
       attribute_help_text:
         attribute_name: "Atributo"
         help_text: "Texto de ajuda"
-      ldap_auth_source:
-        account: "Conta"
-        attr_firstname: "Atributo Nome próprio"
-        attr_lastname: "Atributo Sobrenome"
-        attr_login: "Atributo Utilizador"
-        attr_mail: "Atributo E-mail"
-        base_dn: "Base DN"
-        host: "Anfitrião"
-        onthefly: "Criação automática de utilizador"
-        port: "Porta"
-        tls_certificate_string: "Certificado SSL do servidor LDAP"
       changeset:
         repository: "Repositório"
       color:
@@ -633,6 +617,14 @@ pt-PT:
         visible: "Visível"
       custom_value:
         value: "Valor"
+      doorkeeper/application:
+        uid: "ID de cliente"
+        secret: "Segredo do cliente"
+        owner: "Proprietário"
+        redirect_uri: "Redirecionar URI"
+        client_credentials_user_id: "ID de utilizador de Credenciais do Cliente"
+        scopes: "Âmbitos"
+        confidential: "Confidencial"
       enterprise_token:
         starts_at: "Válido desde"
         subscriber: "Assinante"
@@ -643,20 +635,25 @@ pt-PT:
         row_count: "Número de linhas"
         column_count: "Número de colunas"
         widgets: "Widgets"
-      oauth_client:
-        client: "ID de cliente"
-      relation:
-        lag: "Atraso"
-        from: "Pacote de trabalho"
-        to: "Tarefas Relacionadas"
-      status:
-        is_closed: "Tarefa fechada"
-        is_readonly: "Pacote de trabalho só de leitura"
-        excluded_from_totals: "Excluir do cálculo dos totais na hierarquia"
       journal:
         notes: "Notas"
+      ldap_auth_source:
+        account: "Conta"
+        attr_firstname: "Atributo Nome próprio"
+        attr_lastname: "Atributo Sobrenome"
+        attr_login: "Atributo Utilizador"
+        attr_mail: "Atributo E-mail"
+        base_dn: "Base DN"
+        host: "Anfitrião"
+        onthefly: "Criação automática de utilizador"
+        port: "Porta"
+        tls_certificate_string: "Certificado SSL do servidor LDAP"
       member:
         roles: "Papel"
+      oauth_client:
+        client: "ID de cliente"
+      planning_element_type_color:
+        hexcode: Código hex
       project:
         active_value:
           true: "desarquivado"
@@ -686,6 +683,8 @@ pt-PT:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Tarefas"
+      project_custom_field:
+        custom_field_section: Secção
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -693,10 +692,19 @@ pt-PT:
         group_by: "Agrupar resultados por"
         filters: "Filtros"
         timeline_labels: "Etiquetas de cronograma"
+      relation:
+        lag: "Atraso"
+        from: "Pacote de trabalho"
+        to: "Tarefas Relacionadas"
       repository:
         url: "URL"
       role:
         permissions: "Permissões"
+      status:
+        is_closed: "Tarefa fechada"
+        is_readonly: "Pacote de trabalho só de leitura"
+        excluded_from_totals: "Excluir do cálculo dos totais na hierarquia"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Atividade"
         hours: "Horas"
@@ -739,10 +747,6 @@ pt-PT:
       wiki_page:
         parent_title: "Página pai"
         redirect_existing_links: "Redirecionar links existentes"
-      planning_element_type_color:
-        hexcode: Código hex
-      project_custom_field:
-        custom_field_section: Secção
       work_package:
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
@@ -777,14 +781,6 @@ pt-PT:
         type: "Tipo"
         version: "Versão"
         watcher: "Monitor"
-      "doorkeeper/application":
-        uid: "ID de cliente"
-        secret: "Segredo do cliente"
-        owner: "Proprietário"
-        redirect_uri: "Redirecionar URI"
-        client_credentials_user_id: "ID de utilizador de Credenciais do Cliente"
-        scopes: "Âmbitos"
-        confidential: "Confidencial"
     errors:
       messages:
         accepted: "deve ser aceite."
@@ -997,6 +993,11 @@ pt-PT:
               hours_per_day_are_missing: "O número de horas por dia tem de ser definido."
               durations_are_not_positive_numbers: "As durações têm de ser números positivos."
               hours_per_day_is_out_of_bounds: "O número de horas por dia não pode ser superior a 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "não pode ser ativado para os status que estão marcados como padrão."
         time_entry:
           attributes:
             hours:
@@ -1111,8 +1112,6 @@ pt-PT:
         version:
           undeletable_archived_projects: "A versão não pode ser eliminada, porque tem pacotes de trabalho anexados a ela."
           undeletable_work_packages_attached: "A versão não pode ser apagada pois tem pacotes de trabalho anexados a ela."
-        status:
-          readonly_default_exlusive: "não pode ser ativado para os status que estão marcados como padrão."
         token/api:
           attributes:
             token_name:
@@ -1783,6 +1782,17 @@ pt-PT:
         failed: "Ocorreu um erro e não foi possível remover o token. Tente novamente mais tarde."
         unknown_storage: "Armazenamento desconhecido"
   notifications:
+    reasons:
+      assigned: "Pessoa atribuída"
+      dateAlert: "Alerta de data"
+      mentioned: "Mencionado"
+      responsible: "Responsável"
+      shared: "Partilhado"
+      watched: "Observador"
+    menu:
+      by_project: "Não lido por projeto"
+      by_reason: "Motivo"
+      inbox: "Caixa de entrada"
     send_notifications: "Enviar notificações para esta ação"
     work_packages:
       subject:
@@ -1802,6 +1812,7 @@ pt-PT:
   label_add_another_file: "Adicione outro ficheiro"
   label_add_columns: "Adicionar colunas selecionadas"
   label_add_note: "Adicionar uma nota"
+  label_add_projects: "Adicionar projetos"
   label_add_related_work_packages: "Adicionar tarefas relacionada"
   label_add_subtask: "Adicionar subtarefa"
   label_added: "adicionado"
@@ -2028,6 +2039,7 @@ pt-PT:
   label_inactive: "Inativo"
   label_incoming_emails: "E-mails recebidos"
   label_includes: "inclui"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Índice por data"
   label_index_by_title: "Índice por título"
   label_information: "Informação"
@@ -2088,8 +2100,8 @@ pt-PT:
   label_member_all_admin: "(Todas as funções devidas ao status do administrador)"
   label_member_plural: "Membros"
   label_membership_plural: "Associações"
-  lable_membership_added: "Membro adicionado"
-  lable_membership_updated: "Membro atualizado"
+  label_membership_added: "Membro adicionado"
+  label_membership_updated: "Membro atualizado"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2190,6 +2202,7 @@ pt-PT:
   label_product_version: "Versão do produto"
   label_profile: "Perfil"
   label_percent_complete: "% de conclusão"
+  label_project: "Projeto"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
   label_project_attribute_manage_link: "Gerir atributos do projeto"
@@ -2198,6 +2211,7 @@ pt-PT:
   label_project_latest: "Últimos projetos"
   label_project_default_type: "Permitir tipo vazio"
   label_project_hierarchy: "Hierarquia do projeto"
+  label_project_mappings: "Ativado nos projetos"
   label_project_new: "Novo Projecto"
   label_project_plural: "Projetos"
   label_project_list_plural: "Listas do projeto"

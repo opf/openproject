@@ -298,11 +298,6 @@ pl:
         is_required_blank_slate:
           heading: Wymagane we wszystkich projektach
           description: Ten atrybut projektu jest aktywowany we wszystkich projektach, ponieważ zaznaczona jest opcja „Wymagane we wszystkich projektach”. Nie można go dezaktywować dla poszczególnych projektów.
-        new_project_mapping_form:
-          add_projects: Dodaj projekty
-          include_sub_projects: Uwzględnij podprojekty
-        project_mappings:
-          header: Włączone w projektach
       types:
         no_results_title_text: Nie ma dostępnych typów.
         form:
@@ -611,17 +606,6 @@ pl:
       attribute_help_text:
         attribute_name: "Atrybut"
         help_text: "Tekst pomocy"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Atrybut imienia"
-        attr_lastname: "Atrybut nazwiska"
-        attr_login: "Atrybut nazwy użytkownika"
-        attr_mail: "Atrybut adresu e-mail"
-        base_dn: "Bazowa nazwa wyróżniająca"
-        host: "Host"
-        onthefly: "Automatyczne tworzenie użytkowników"
-        port: "Port"
-        tls_certificate_string: "Certyfikat SSL serwera LDAP"
       changeset:
         repository: "Repozytorium"
       color:
@@ -646,6 +630,14 @@ pl:
         visible: "Widoczne"
       custom_value:
         value: "Wartość"
+      doorkeeper/application:
+        uid: "Numer klienta"
+        secret: "Hasło klienta"
+        owner: "Właściciel"
+        redirect_uri: "Identyfikator URI przekerowania"
+        client_credentials_user_id: "Identyfikator użytkownika poświadczeń klienta"
+        scopes: "Zakresy"
+        confidential: "Poufne"
       enterprise_token:
         starts_at: "Ważne od"
         subscriber: "Subskrybent"
@@ -656,20 +648,25 @@ pl:
         row_count: "Liczba wierszy"
         column_count: "Liczba kolumn"
         widgets: "Widżety"
-      oauth_client:
-        client: "Identyfikator klienta"
-      relation:
-        lag: "Opóźnienie"
-        from: "Zadanie"
-        to: "Powiązanie zadania"
-      status:
-        is_closed: "Zadanie zamknięte"
-        is_readonly: "Pakiet roboczy tylko do odczytu"
-        excluded_from_totals: "Wyłącz z obliczania sum w hierarchii"
       journal:
         notes: "Notatki"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Atrybut imienia"
+        attr_lastname: "Atrybut nazwiska"
+        attr_login: "Atrybut nazwy użytkownika"
+        attr_mail: "Atrybut adresu e-mail"
+        base_dn: "Bazowa nazwa wyróżniająca"
+        host: "Host"
+        onthefly: "Automatyczne tworzenie użytkowników"
+        port: "Port"
+        tls_certificate_string: "Certyfikat SSL serwera LDAP"
       member:
         roles: "Role"
+      oauth_client:
+        client: "Identyfikator klienta"
+      planning_element_type_color:
+        hexcode: Kod szesnastkowy
       project:
         active_value:
           true: "niezarchiwizowane"
@@ -699,6 +696,8 @@ pl:
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
+      project_custom_field:
+        custom_field_section: Sekcja
       query:
         column_names: "Kolumny"
         relations_to_type_column: "Relacje %{type}"
@@ -706,10 +705,19 @@ pl:
         group_by: "Grupuj wyniki"
         filters: "Filtry"
         timeline_labels: "Etykiety osi czasu"
+      relation:
+        lag: "Opóźnienie"
+        from: "Zadanie"
+        to: "Powiązanie zadania"
       repository:
         url: "ADRES URL"
       role:
         permissions: "Uprawnienia"
+      status:
+        is_closed: "Zadanie zamknięte"
+        is_readonly: "Pakiet roboczy tylko do odczytu"
+        excluded_from_totals: "Wyłącz z obliczania sum w hierarchii"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Działanie"
         hours: "Godziny"
@@ -752,10 +760,6 @@ pl:
       wiki_page:
         parent_title: "Strona nadrzędna"
         redirect_existing_links: "Przekieruj istniejące powiązania"
-      planning_element_type_color:
-        hexcode: Kod szesnastkowy
-      project_custom_field:
-        custom_field_section: Sekcja
       work_package:
         begin_insertion: "Początek wstawiania"
         begin_deletion: "Początek usuwania"
@@ -790,14 +794,6 @@ pl:
         type: "Typ"
         version: "Wersja"
         watcher: "Obserwator"
-      "doorkeeper/application":
-        uid: "Numer klienta"
-        secret: "Hasło klienta"
-        owner: "Właściciel"
-        redirect_uri: "Identyfikator URI przekerowania"
-        client_credentials_user_id: "Identyfikator użytkownika poświadczeń klienta"
-        scopes: "Zakresy"
-        confidential: "Poufne"
     errors:
       messages:
         accepted: "musi być zaakceptowane."
@@ -813,7 +809,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         error_conflict: "Information has been updated by at least one other user in the meantime."
@@ -1010,6 +1006,11 @@ pl:
               hours_per_day_are_missing: "Liczba godzin dziennie musi być określona."
               durations_are_not_positive_numbers: "Czasy trwania muszą być liczbami dodatnimi."
               hours_per_day_is_out_of_bounds: "Liczba godzin dziennie nie może przekraczać 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "nie można aktywować dla statusów, które są oznaczone jako domyślne."
         time_entry:
           attributes:
             hours:
@@ -1126,8 +1127,6 @@ pl:
         version:
           undeletable_archived_projects: "Wersji nie można usunąć, ponieważ dołączone są do niej pakiety robocze."
           undeletable_work_packages_attached: "Wersji nie można usunąć, ponieważ dołączone są do niej pakiety robocze."
-        status:
-          readonly_default_exlusive: "nie można aktywować dla statusów, które są oznaczone jako domyślne."
         token/api:
           attributes:
             token_name:
@@ -1850,6 +1849,17 @@ pl:
         failed: "Wystąpił błąd i nie można było usunąć tokena. Spróbuj ponownie później."
         unknown_storage: "Nieznany magazyn"
   notifications:
+    reasons:
+      assigned: "Przypisana osoba"
+      dateAlert: "Alert dotyczący daty"
+      mentioned: "Wzmianka"
+      responsible: "Osoba odpowiedzialna"
+      shared: "Udostępniono"
+      watched: "Obserwator"
+    menu:
+      by_project: "Nieprzeczytane wg projektu"
+      by_reason: "Powód"
+      inbox: "Skrzynka odbiorcza"
     send_notifications: "Wyślij powiadomienia dla tej czynności"
     work_packages:
       subject:
@@ -1869,6 +1879,7 @@ pl:
   label_add_another_file: "Dodaj plik"
   label_add_columns: "Dodaj wybrane kolumny"
   label_add_note: "Dodaj notatkę"
+  label_add_projects: "Dodaj projekty"
   label_add_related_work_packages: "Dodaj powiązane pakiety robocze"
   label_add_subtask: "Dodać zadanie podrzędne"
   label_added: "dodane"
@@ -2095,6 +2106,7 @@ pl:
   label_inactive: "Nieaktywny"
   label_incoming_emails: "Przychodzące e-maile"
   label_includes: "obejmuje"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeks wg daty"
   label_index_by_title: "Indeks tytułów"
   label_information: "Informacje"
@@ -2155,8 +2167,8 @@ pl:
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_plural: "Członkowie"
   label_membership_plural: "Uczestnictwa"
-  lable_membership_added: "Dodano członka"
-  lable_membership_updated: "Zaktualizowano członka"
+  label_membership_added: "Dodano członka"
+  label_membership_updated: "Zaktualizowano członka"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "wczesna alfa"
@@ -2257,6 +2269,7 @@ pl:
   label_product_version: "Wersja produktu"
   label_profile: "Profil"
   label_percent_complete: "% ukończenia"
+  label_project: "Projekt"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
   label_project_attribute_manage_link: "Zarządzaj atrybutami projektu"
@@ -2265,6 +2278,7 @@ pl:
   label_project_latest: "Najnowsze projekty"
   label_project_default_type: "Pozwalaj na pusty typ"
   label_project_hierarchy: "Hierarchia projektu"
+  label_project_mappings: "Włączone w projektach"
   label_project_new: "Nowy projekt"
   label_project_plural: "Projekty"
   label_project_list_plural: "Listy projektów"

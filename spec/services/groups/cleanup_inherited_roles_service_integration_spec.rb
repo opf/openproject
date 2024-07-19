@@ -32,16 +32,16 @@ require "spec_helper"
 
 RSpec.describe Groups::CleanupInheritedRolesService, "integration", type: :model do
   subject(:service_call) do
-    members.destroy_all
+    group_members.destroy_all
     instance.call(params)
   end
 
+  shared_let(:current_user) { create(:admin) }
   shared_let(:project) { create(:project) }
-  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:work_package) { create(:work_package, project:, author: current_user) }
   shared_let(:role) { create(:project_role) }
   shared_let(:work_package_role) { create(:view_work_package_role) }
   shared_let(:global_role) { create(:global_role) }
-  shared_let(:current_user) { create(:admin) }
 
   shared_let(:users) { create_list(:user, 2) }
 
@@ -62,7 +62,7 @@ RSpec.describe Groups::CleanupInheritedRolesService, "integration", type: :model
 
   let(:params) { { message: } }
   let(:message) { "Some message" }
-  let(:members) { Member.where(principal: group) }
+  let(:group_members) { Member.where(principal: group) }
 
   let(:instance) do
     described_class.new(group, current_user:)
@@ -211,18 +211,18 @@ RSpec.describe Groups::CleanupInheritedRolesService, "integration", type: :model
         .to be_success
     end
 
-    it "removes memberships associated to the member roles" do
+    it "removes memberships associated to the given member roles" do
       service_call
 
       expect(Member.where(principal: users.first))
         .to be_empty
     end
 
-    it "keeps the memberships not associated to the member roles" do
+    it "keeps the memberships not associated to the given member roles" do
       service_call
 
-      expect(Member.find_by(principal: users.last).roles)
-        .to contain_exactly(role)
+      expect(Member.where(principal: users.last).flat_map(&:roles))
+        .to contain_exactly(role, work_package_role, global_role)
     end
 
     it "sends no notifications" do

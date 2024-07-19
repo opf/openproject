@@ -50,7 +50,8 @@ class Projects::ProjectsFiltersComponent < Filter::FilterComponent
       Queries::Projects::Filters::LatestActivityAtFilter,
       Queries::Projects::Filters::NameAndIdentifierFilter,
       Queries::Projects::Filters::TypeFilter,
-      Queries::Projects::Filters::FavoredFilter
+      Queries::Projects::Filters::FavoredFilter,
+      Queries::Projects::Filters::IdFilter
     ]
     allowlist << Queries::Filters::Shared::CustomFields::Base if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
 
