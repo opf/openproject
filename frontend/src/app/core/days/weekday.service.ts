@@ -59,7 +59,7 @@ export class WeekdayService {
    * @return {boolean} whether the given iso day is working or not
    */
   public isNonWorkingDay(date:Moment|Date|number):boolean {
-    const isoDayOfWeek = (typeof date === 'number') ? date : moment(date).isoWeekday();
+    const isoDayOfWeek = (typeof date === 'number') ? date : moment(`${moment(date).format('YYYY-MM-DDTHH:mm:ss')}+00:00`).isoWeekday();
     return !!(this.weekdays || []).find((wd) => wd.day === isoDayOfWeek && !wd.working);
   }
 
