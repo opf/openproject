@@ -16,9 +16,6 @@ module Primer
             @storage_login_button_options = storage_login_button_options
             @select_folder_button_options = select_folder_button_options
 
-            # # See: https://github.com/opf/primer_view_components/blob/main/lib/primer/forms/dsl/input.rb#L87C50-L87C60
-            # system_arguments[:direction] = :row
-
             super(**system_arguments)
           end
 
