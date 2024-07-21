@@ -695,7 +695,7 @@ zh-CN:
         is_closed: "工作包已关闭"
         is_readonly: "只读工作包"
         excluded_from_totals: "从层次结构的总计中排除"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% 完成"
       time_entry:
         activity: "活动"
         hours: "小时"
@@ -987,7 +987,7 @@ zh-CN:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "必须介于 0 和 100 之间。"
           readonly_default_exlusive: "无法激活（对于标记为默认的状态）。"
         time_entry:
           attributes:
@@ -2003,7 +2003,7 @@ zh-CN:
   label_inactive: "非活动"
   label_incoming_emails: "传入电子邮件"
   label_includes: "包括"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: 包含子项目
   label_index_by_date: "按日期索引"
   label_index_by_title: "按标题索引"
   label_information: "信息"
