@@ -32,6 +32,6 @@ class Queries::Projects::Filters::IdFilter < Queries::Projects::Filters::Base
   def self.key = :id
 
   def human_name
-    I18n.t(:label_project, default: :"attributes.project")
+    I18n.t(:label_project)
   end
 end
