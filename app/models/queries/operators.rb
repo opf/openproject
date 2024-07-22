@@ -63,5 +63,5 @@ module Queries::Operators
     Queries::Operators::Child
   ]
 
-  OPERATORS = Hash[*(operators.map { |o| [o.symbol.to_s, o] }).flatten].freeze
+  OPERATORS = operators.index_by { |o| o.symbol.to_s }.freeze
 end
