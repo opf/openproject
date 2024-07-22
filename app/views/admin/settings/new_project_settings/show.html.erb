@@ -27,7 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title t(:label_administration), t(:label_project_new) %>
-<%= toolbar title: t(:label_project_new) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_project_new) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration"), text: t(:label_administration) },
+                             { href: admin_settings_project_custom_fields_path, text: t(:label_project_plural) },
+                             t(:label_project_new)])
+  end
+%>
 
 <%= styled_form_tag(admin_settings_new_project_path, method: :patch) do %>
   <fieldset class="form--fieldset">
