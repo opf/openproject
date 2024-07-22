@@ -29,7 +29,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t(:'menus.admin.aggregation') -%>
 
-<%= toolbar title: t(:'menus.admin.aggregation') %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:'menus.admin.aggregation') }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration"), text: t(:label_administration) },
+                             { href: admin_settings_aggregation_path, text: t(:"menus.admin.mails_and_notifications") },
+                             t(:'menus.admin.aggregation')])
+  end
+%>
 
 <%= styled_form_tag(admin_settings_aggregation_path, method: :patch) do %>
   <div class="form--field">
