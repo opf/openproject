@@ -637,9 +637,9 @@ GEM
       rails-i18n
       rainbow (>= 2.2.2, < 4.0)
       terminal-table (>= 1.5.1)
-    icalendar (2.10.1)
+    icalendar (2.10.2)
       ice_cube (~> 0.16)
-    ice_cube (0.16.4)
+    ice_cube (0.17.0)
     ice_nine (0.11.2)
     interception (0.5)
     io-console (0.7.2)
