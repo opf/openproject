@@ -1,16 +1,24 @@
-<%= render(Primer::Alpha::Banner.new(
-  full: false,
-  icon: 'info',
-  scheme: :default,
-  dismiss_scheme: :remove,
-  data: {
-    singleton: true
-  }
-)) do |component| %>
-  <% component.with_action_button(
-       tag: :a,
-       href: meeting_path(@meeting),
-       data: { turbo: false },
-       size: :medium) { I18n.t("label_meeting_reload") } %>
-  <%= I18n.t("notice_meeting_updated") %>
-<% end %>
+<%=
+  component_wrapper do
+    flex_layout do |flex|
+      # flex.with_row(classes: "op-meeting-update-flash") do
+      flex.with_row(classes: "op-toast--wrapper op-meeting-update-flash") do
+        render(Primer::Alpha::Banner.new(
+          full: false,
+          icon: 'info',
+          scheme: :default,
+          data: {
+            singleton: true
+          }
+        )) do |component|
+          component.with_action_button(
+              tag: :a,
+              href: meeting_path(@meeting),
+              data: { turbo: false },
+              size: :medium) { I18n.t("label_meeting_reload") }
+          I18n.t("notice_meeting_updated")
+        end
+      end
+    end
+  end
+%>
