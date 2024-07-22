@@ -110,7 +110,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
 
   context "with a regular push" do
     let(:comment) do
-      "**Pushed in MR:** [Administrator]" \
+      "**Pushed in refs/heads/main:** [Administrator]" \
         "(https://www.gravatar.com/avatar/65a222b844ced567fe0ed2594c0b4abdf62efa1322a385c919c41e7bbc16d4fc?s=80&d=identicon) " \
         "pushed [a265d6b7](http://c7e7cd2d54c3/openprojecttest/test/-/commit/a265d6b7bcf836b77ed9e32f824b231585c6a355) " \
         "to [Test](http://c7e7cd2d54c3/openprojecttest/test) at 2024-07-22T11:18:29+02:00:" \
@@ -132,7 +132,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       end
 
       let(:comment) do
-        "**Pushed in MR:** [Administrator]" \
+        "**Pushed in refs/heads/main:** [Administrator]" \
           "(https://www.gravatar.com/avatar/65a222b844ced567fe0ed2594c0b4abdf62efa1322a385c919c41e7bbc16d4fc?s=80&d=identicon) " \
           "pushed [a265d6b7](http://c7e7cd2d54c3/openprojecttest/test/-/commit/a265d6b7bcf836b77ed9e32f824b231585c6a355) " \
           "to [Test](http://c7e7cd2d54c3/openprojecttest/test) at 2024-07-22T11:18:29+02:00:\nMentioning OP##{work_package.id}\n"

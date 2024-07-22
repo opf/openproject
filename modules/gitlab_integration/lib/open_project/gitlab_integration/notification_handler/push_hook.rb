@@ -55,7 +55,8 @@ module OpenProject::GitlabIntegration
 
       def generate_notes(commit, payload)
         commit_id = commit["id"]
-        I18n.t("gitlab_integration.push_single_commit_comment",
+        I18n.t("gitlab_integration.push_single_commit_comment_with_ref",
+               reference: payload.ref,
                commit_number: commit_id[0, 8],
                commit_note: commit["message"].presence || commit["title"],
                commit_url: commit["url"],
