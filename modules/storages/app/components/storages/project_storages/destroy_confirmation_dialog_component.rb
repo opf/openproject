@@ -28,7 +28,7 @@
 
 # This components renders a dialog to confirm the deletion of a project from a storage.
 module Storages::ProjectStorages
-  class DestroyConfirmationDialogComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class DestroyConfirmationDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
