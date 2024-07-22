@@ -6,7 +6,7 @@ export function registerFlashStreamAction() {
 
     const flash = content.querySelector('.flash') as HTMLElement;
     if (flash.dataset.singleton) {
-      const elements = document.querySelectorAll('.flash')
+      const elements = document.querySelectorAll('.flash');
       elements.forEach((element) => element.parentElement?.remove());
     }
 
