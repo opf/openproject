@@ -922,6 +922,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
                   .with(group: "OpenProject",
                         user: "Obi-Wan",
                         error_code: :error,
+                        reason: "Outbound request failed",
                         data: { status: 302, body: "" })
         end
       end
@@ -956,6 +957,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
                   .with(group: "OpenProject",
                         user: "Darth Maul",
                         error_code: :failed_to_remove,
+                        reason: /SubAdmin/,
                         data: { status: 200, body: remove_user_from_group_response })
         end
       end

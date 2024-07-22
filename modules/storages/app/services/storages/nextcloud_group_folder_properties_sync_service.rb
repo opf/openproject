@@ -132,7 +132,7 @@ module Storages
       users_to_add.each do |user|
         add_user_to_group.call(storage: @storage, user:).error_and do |error|
           add_error(:add_user_to_group, error, options: { user:, group: @storage.group, reason: error.log_message })
-          format_and_log_error(error, group: @storage.group, user:)
+          format_and_log_error(error, group: @storage.group, user:, reason: error.log_message)
         end
       end
     end
@@ -141,7 +141,7 @@ module Storages
       users_to_remove.each do |user|
         remove_user_from_group.call(storage: @storage, user:).error_and do |error|
           add_error(:remove_user_from_group, error, options: { user:, group: @storage.group, reason: error.log_message })
-          format_and_log_error(error, group: @storage.group, user:)
+          format_and_log_error(error, group: @storage.group, user:, reason: error.log_message)
         end
       end
     end
@@ -239,7 +239,7 @@ module Storages
         format_and_log_error(service_result.errors, folder_id: file_id, folder_name: name)
 
         add_error(:rename_project_folder, service_result.errors,
-                  options: { project_folder_name: name, project_folder_id: file_id }).fail!
+                  options: { current_path:, project_folder_name: name, project_folder_id: file_id }).fail!
       end
     end
 

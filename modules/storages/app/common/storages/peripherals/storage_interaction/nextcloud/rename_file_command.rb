@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class RenameFileCommand
+          include Snitch
+
           def self.call(storage:, auth_strategy:, file_id:, name:)
             new(storage).call(auth_strategy:, file_id:, name:)
           end
@@ -41,22 +43,30 @@ module Storages
             @storage = storage
           end
 
+          # rubocop:disable Metrics/AbcSize
           def call(auth_strategy:, file_id:, name:)
             validate_input_data(file_id:, name:).on_failure { |failure| return failure }
 
-            origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
-                                 .on_failure { |failure| return failure }
-                                 .result
+            with_tagged_logger do
+              info "Validating user remote ID"
+              origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+                                   .on_failure { |failure| return failure }
+                                   .result
 
-            info = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
-                                .on_failure { |failure| return failure }
-                                .result
+              info "Getting the folder information"
+              info = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
+                                  .on_failure { |failure| return failure }
+                                  .result
 
-            make_request(auth_strategy, origin_user_id, info, name).on_failure { |failure| return failure }
+              info "Renaming the folder #{info.location} to #{name}"
+              make_request(auth_strategy, origin_user_id, info, name).on_failure { |failure| return failure }
 
-            FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
-                         .map { |file_info| Util.storage_file_from_file_info(file_info) }
+              info "Retrieving updated file info for the #{name} folder"
+              FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
+                           .map { |file_info| Util.storage_file_from_file_info(file_info) }
+            end
           end
+          # rubocop:enable Metrics/AbcSize
 
           private
 
@@ -85,7 +95,7 @@ module Storages
               ServiceResult.failure(result: :error,
                                     errors: StorageError.new(code: :error,
                                                              data: StorageErrorData.new(source: self.class),
-                                                             log_message: "Invalid input data!"))
+                                                             log_message: "file_id or name is blank"))
             else
               ServiceResult.success
             end
