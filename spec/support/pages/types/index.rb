@@ -52,9 +52,7 @@ module Pages
       end
 
       def click_new
-        within ".toolbar-items" do
-          click_link "Type"
-        end
+        page.find_test_selector("op-admin-types--button-new", text: "Type").click
       end
 
       def click_edit(type)

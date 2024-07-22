@@ -27,20 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_type_new) %>
-
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { t(:label_type_new) }
-    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
-                             { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
-                             { href: types_path, text: t(:label_type_plural) },
-                             t(:label_type_new)])
+    header.with_title { @type.name }
+    header.with_breadcrumbs(breadcrumb_items)
+
+    header.with_tab_nav(label: nil) do |tab_nav|
+      @tabs.each do |tab|
+        tab_nav.with_tab(selected: selected_tab(@tabs) == tab, href: tab[:path]) do |t|
+          t.with_text { I18n.t("js.#{tab[:label]}") }
+        end
+      end
+    end if @tabs.present?
   end
 %>
-
-<%= error_messages_for 'type' %>
-
-<%= form_for controller.type, builder: TabularFormBuilder, lang: current_language  do |f| %>
-  <%= render partial: 'types/form/settings', locals: { f: f } %>
-<% end %>

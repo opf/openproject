@@ -27,17 +27,31 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= toolbar title: title do %>
-  <li class="toolbar-item hidden-for-tablet">
-    <%= link_to({ action: 'copy' }, class: 'button') do %>
-      <%= op_icon('button--icon icon-copy') %>
-      <span class="button--text"><%= t(:button_copy) %></span>
-    <% end %>
-  </li>
-  <li class="toolbar-item">
-    <%= link_to({ action: 'show' }, class: 'button') do %>
-      <%= op_icon('button--icon icon-info1') %>
-      <span class="button--text"><%= t(:label_workflow_summary) %></span>
-    <% end %>
-  </li>
-<% end %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { title }
+    header.with_breadcrumbs(breadcrumb_items)
+
+    header.with_action_button(tag: :a,
+                              mobile_icon: :copy,
+                              mobile_label: t(:button_copy),
+                              size: :medium,
+                              href: copy_workflows_path,
+                              aria: { label: I18n.t(:button_copy) },
+                              title: I18n.t(:button_copy)) do |button|
+      button.with_leading_visual_icon(icon: :copy)
+      t(:button_copy)
+    end
+
+    header.with_action_button(tag: :a,
+                              mobile_icon: :info,
+                              mobile_label: t(:label_workflow_summary),
+                              size: :medium,
+                              href: workflows_path,
+                              aria: { label: I18n.t(:label_workflow_summary) },
+                              title: I18n.t(:label_workflow_summary)) do |button|
+      button.with_leading_visual_icon(icon: :info)
+      t(:label_workflow_summary)
+    end
+  end
+%>

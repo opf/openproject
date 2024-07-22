@@ -68,7 +68,7 @@ RSpec.describe "Configuring the workflow for work package sharing",
     select type.name, from: "target_type_ids"
     select work_package_role.name, from: "target_role_ids"
 
-    click_button "Copy"
+    page.find_test_selector("op-admin-workflows--button-copy").click
 
     # Copying succeeds which results in the edit role having a workflow and the warning disappearing.
     expect(page)
