@@ -34,7 +34,7 @@ module OpenProject::GitlabIntegration
     class PushHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
-      def process(payload_params)
+      def process(payload_params) # rubocop:disable Metrics/AbcSize
         @payload = wrap_payload(payload_params)
         return nil unless payload.object_kind == "push"
 
