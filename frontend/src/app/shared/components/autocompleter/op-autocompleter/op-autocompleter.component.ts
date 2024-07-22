@@ -402,8 +402,6 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     if (this.resetOnChange) {
       this.ngSelectInstance.clearModel();
     }
-
-    this.cdRef.detectChanges();
   }
 
   public searched(val:{ term:string, items:unknown[] }):void {
