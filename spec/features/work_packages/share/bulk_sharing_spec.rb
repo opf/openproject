@@ -67,8 +67,8 @@ RSpec.describe "Work Packages", "Bulk Sharing",
     end
   end
 
-  let(:work_package_page) { Pages::FullWorkPackage.new(work_package)               }
-  let(:share_modal)       { Components::WorkPackages::ShareModal.new(work_package) }
+  let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
+  let(:share_modal)       { Components::Sharing::WorkPackages::ShareModal.new(work_package) }
 
   context "when having share permission" do
     current_user { sharer }

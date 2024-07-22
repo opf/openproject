@@ -10,12 +10,13 @@ keywords: OneDrive/SharePoint file storage integration, OneDrive, SharePoint, Dr
 
 ## Configure drive for automatic management
 
-If you need a OneDrive/SharePoint drive configured for using the "Automatically managed project folders" file storage option, there are some
-preliminary steps to take. Otherwise, if the drive will to be used in a file storage with the permission
-management still based within OneDrive/SharePoint, you should skip these steps and continue
+If you need a OneDrive/SharePoint drive configured for using the "Automatically managed project folders" file storage
+option, there are some preliminary steps to take. Otherwise, if the drive will to be used in a file storage with the
+permission management still based within OneDrive/SharePoint, you should skip these steps and continue
 with [obtaining the drive id](./#how-to-obtain-a-drive-id).
 
-> Disclaimer: Some of the following descriptions are very tightly connected to the current (2024-02-13) state of
+> [!IMPORTANT]
+> **Disclaimer**: Some of the following descriptions are very tightly connected to the current (2024-02-13) state of
 > SharePoint configuration. This may easily change in future, as we do not control nor foresee changes to the
 > configuration UI developed by Microsoft.
 
@@ -25,20 +26,26 @@ The first step to take is to interrupt the inheritance chain of SharePoint for t
 OpenProject instance will be able to manage the permissions on the drive for the project folders, otherwise SharePoint
 will consistently override those permissions.
 
-To achieve that, you need to enter the *Library Settings* of the target drive. Those usually can get accessed by selecting
-the *Settings gear icon* to the top right, selecting *Library Settings* and finally selecting *More Library Settings*. In
-the category of *Permissions and Management*, there should be the option to select *Permissions for this document
-library*. Within the new page, in the top menu, you need to select the option *Stop Inheriting Permissions*.
+To achieve that, you need to enter the *Library Settings* of the target drive. Those usually can get accessed by
+selecting the *Settings gear icon* to the top right, selecting *Library Settings* and finally selecting *More Library
+Settings*. In the category of *Permissions and Management*, there should be the option to select *Permissions for this
+document library*. Within the new page, in the top menu, you need to select the option *Stop Inheriting Permissions*.
+
+> [!TIP]
+> If you are using OneDrive for Business instead of SharePoint, there will be no site overriding the
+> permissions. Therefore, you can skip this step. You might still want to remove the previously set permissions, as
+> described in the next section.
 
 ### Remove previously set permissions
 
-Once the inheritance chain is interrupted, the last remaining step is to prepare the drive for remote permissions management.
+Once the inheritance chain is interrupted, the last remaining step is to prepare the drive for remote permissions
+management.
 
 In the last screen of the drive configuration (the one after clicking on *Permissions for this document library*
-in the *Library Settings*), you should be able to see a list of all currently set permissions. In a standard drive, where
-no custom permissions were set, this is usually restricted to the *Members*, *Visitors* and *Owners* (SharePoint groups
-that are linked to the parent site). Now, you need to remove all permissions except the ones for the group *Owners*. Keeping these
-is important for still being able to reconfigure the drive at a later point in time.
+in the *Library Settings*), you should be able to see a list of all currently set permissions. In a standard drive,
+where no custom permissions were set, this is usually restricted to the *Members*, *Visitors* and *Owners* (SharePoint
+groups that are linked to the parent site). Now, you need to remove all permissions except the ones for the group
+*Owners*. Keeping these is important for still being able to reconfigure the drive at a later point in time.
 
 Once this is done, there should be no permissions left assigned to the document library, except the *Owners* group.
 
@@ -80,7 +87,8 @@ With this value you can fully configure the OneDrive/SharePoint integration in O
 
 In this section we provide a few examples, in which we demonstrate how to go through the steps mentioned above with a
 specific toolset.
-> Note: following examples are explicitly written for this toolset and other mentioned preconditions, hence deviating
+> [!NOTE]
+> Following examples are explicitly written for this toolset and other mentioned preconditions, hence deviating
 > from the preconditions will cause the example to deviate.
 
 ### Example 1: Microsoft GRAPH explorer

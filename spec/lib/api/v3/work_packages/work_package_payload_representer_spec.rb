@@ -133,6 +133,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
       end
 
+      describe "derived remaining hours" do
+        context "when set" do
+          let(:work_package) { build(:work_package, derived_remaining_hours: 5) }
+
+          it { is_expected.not_to have_json_path("derivedRemainingTime") }
+        end
+      end
+
       describe "startDate" do
         before do
           allow(work_package)

@@ -22,6 +22,8 @@ ko:
           attributes:
             project_folder_mode:
               mode_unavailable: '- 이 저장소에 사용할 수 없습니다.'
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -53,6 +55,11 @@ ko:
   permission_view_file_links: 파일 링크 보기
   permission_write_files: '자동으로 관리되는 프로젝트 폴더: 파일 쓰기'
   project_module_storages: 파일
+  project_storages:
+    project_folder_mode:
+      automatic: 자동으로 관리됨
+      inactive: 특정 폴더 없음
+      manual: 수동으로 관리되는 기존 폴더
   storages:
     buttons:
       complete_without_setup: 이것 없이 완료
@@ -103,22 +110,22 @@ ko:
     health:
       checked: '마지막 확인: %{datetime}'
       connection_validation:
-        action: Recheck connection
-        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        placeholder: Check your connection against the server.
-        subtitle: Connection validation
-        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content: Unexpected content found in the drive.
-        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        action: 연결 다시 확인
+        client_id_wrong: 구성된 OAuth 2 클라이언트 ID가 잘못되었습니다. 구성을 확인하세요.
+        client_secret_wrong: 구성된 OAuth 2 클라이언트 비밀번호가 잘못되었습니다. 구성을 확인하세요.
+        drive_id_wrong: 구성된 드라이브 ID를 찾을 수 없습니다. 구성을 확인하세요.
+        not_configured: 연결에 대한 유효성 검사를 할 수 없습니다. 먼저 구성을 완료하세요.
+        placeholder: 서버에 대한 연결을 확인하세요.
+        subtitle: 연결 유효성 검사
+        tenant_id_wrong: 구성된 디렉터리(테넌트) ID가 잘못되었습니다. 구성을 확인하세요.
+        unexpected_content: 드라이브에서 예기치 않은 콘텐츠가 발견되었습니다.
+        unknown_error: 연결에 대한 유효성 검사를 할 수 없습니다. 알 수 없는 오류가 발생했습니다. 자세한 내용은 서버 로그를 확인하세요.
       label_error: 오류
       label_healthy: 정상
       label_pending: 대기 중
-      label_warning: Warning
+      label_warning: 경고
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: 자동으로 관리되는 프로젝트 폴더
       since: '%{datetime} 이후'
       title: 상태
     health_email_notifications:
@@ -130,10 +137,10 @@ ko:
       unsubscribe: 구독 취소
     help_texts:
       project_folder: 프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: 사용 가능한 모든 저장소가 이미 프로젝트에 추가되었습니다.
       automatic_folder: 이렇게 하면 이 프로젝트의 루트 폴더가 자동으로 생성되고 각 프로젝트 멤버의 액세스 권한이 관리됩니다.
-      copy_from: '다음에서 이 값 복사:'
       empty_project_folder_validation: 계속하려면 폴더 선택이 필수적입니다.
       existing_manual_folder: 기존 폴더를 이 프로젝트의 루트 폴더로 지정할 수 있습니다. 그러나 권한은 자동으로 관리되지 않으며, 관리자는 관련 사용자에게 액세스 권한이 있는지 수동으로 확인해야 합니다. 선택한 폴더는 여러 프로젝트에서 사용할 수 있습니다.
       host: https://를 포함하여 저장소의 호스트 주소를 추가하세요. 255자 이하여야 합니다.

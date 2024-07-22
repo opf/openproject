@@ -267,8 +267,7 @@ ms:
       favored: "Projek kegemaran"
       archived: "Projek yang diarkibkan"
       shared: "Shared project lists"
-      public: "Senarai projek umum"
-      my_private: "Senarai projek peribadi saya"
+      my_lists: "Senarai projek saya"
       new:
         placeholder: "Senarai projek baharu"
       delete_modal:
@@ -301,8 +300,6 @@ ms:
         is_required_blank_slate:
           heading: Diperlukan dalam semua projek
           description: Atribut projek ini telah diaktifkan dalam semua projek sejak pilihan "Diperlukan dalam semua projek" telah ditandakan. Ia tidak boleh dinyahaktifkan untuk projek individu.
-        new_project_mapping_form:
-          include_sub_projects: Sertakan sub-projek
       types:
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
         form:
@@ -589,17 +586,6 @@ ms:
       attribute_help_text:
         attribute_name: "Atribut"
         help_text: "Teks bantuan"
-      ldap_auth_source:
-        account: "Akaun"
-        attr_firstname: "Atribut nama pertama"
-        attr_lastname: "Atribut nama akhir"
-        attr_login: "Atribut nama pengguna"
-        attr_mail: "Atribut e-mel"
-        base_dn: "Pangkalan DN"
-        host: "Hos"
-        onthefly: "Penciptaan pengguna automatik"
-        port: "Port"
-        tls_certificate_string: "Sijil SSL server LDAP"
       changeset:
         repository: "Repositori"
       color:
@@ -624,6 +610,14 @@ ms:
         visible: "Terlihat"
       custom_value:
         value: "Nilai"
+      doorkeeper/application:
+        uid: "ID Pelanggan"
+        secret: "Rahsia pelanggan"
+        owner: "Pemilik"
+        redirect_uri: "Ubah hala URI"
+        client_credentials_user_id: "ID Pengguna Kelayakan Pelanggan"
+        scopes: "Skop\n"
+        confidential: "Sulit"
       enterprise_token:
         starts_at: "Sah sehingga"
         subscriber: "Pelanggan"
@@ -634,20 +628,25 @@ ms:
         row_count: "Bilangan baris"
         column_count: "Bilangan kolum"
         widgets: "Widget"
-      oauth_client:
-        client: "ID pelanggan"
-      relation:
-        lag: "Lag"
-        from: "Pakej kerja"
-        to: "Pakej kerja yang berkaitan"
-      status:
-        is_closed: "Pakej kerja ditutup"
-        is_readonly: "Pakej kerja baca-sahaja"
-        excluded_from_totals: "Dikecualikan daripada pengiraan jumlah dalam hierarki"
       journal:
         notes: "Nota"
+      ldap_auth_source:
+        account: "Akaun"
+        attr_firstname: "Atribut nama pertama"
+        attr_lastname: "Atribut nama akhir"
+        attr_login: "Atribut nama pengguna"
+        attr_mail: "Atribut e-mel"
+        base_dn: "Pangkalan DN"
+        host: "Hos"
+        onthefly: "Penciptaan pengguna automatik"
+        port: "Port"
+        tls_certificate_string: "Sijil SSL server LDAP"
       member:
         roles: "Peranan\n"
+      oauth_client:
+        client: "ID pelanggan"
+      planning_element_type_color:
+        hexcode: Kod Hex
       project:
         active_value:
           true: "tidak diarkibkan"
@@ -677,6 +676,8 @@ ms:
         types: "Jenis"
         versions: "Versi"
         work_packages: "Pakej Kerja"
+      project_custom_field:
+        custom_field_section: Bahagian
       query:
         column_names: "Kolum"
         relations_to_type_column: "Berhubung dengan %{type}"
@@ -684,10 +685,19 @@ ms:
         group_by: "Kumpulkan hasil mengikut"
         filters: "Penyaring"
         timeline_labels: "Label garis masa"
+      relation:
+        lag: "Lag"
+        from: "Pakej kerja"
+        to: "Pakej kerja yang berkaitan"
       repository:
         url: "URL"
       role:
         permissions: "Kebenaran"
+      status:
+        is_closed: "Pakej kerja ditutup"
+        is_readonly: "Pakej kerja baca-sahaja"
+        excluded_from_totals: "Dikecualikan daripada pengiraan jumlah dalam hierarki"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktiviti"
         hours: "Jam"
@@ -730,10 +740,6 @@ ms:
       wiki_page:
         parent_title: "Halaman induk"
         redirect_existing_links: "Ubah hala pautan sedia ada"
-      planning_element_type_color:
-        hexcode: Kod Hex
-      project_custom_field:
-        custom_field_section: Bahagian
       work_package:
         begin_insertion: "Permulaan kemasukan"
         begin_deletion: "Permulaan pemadaman"
@@ -768,14 +774,6 @@ ms:
         type: "Jenis"
         version: "Versi"
         watcher: "Pemerhati"
-      "doorkeeper/application":
-        uid: "ID Pelanggan"
-        secret: "Rahsia pelanggan"
-        owner: "Pemilik"
-        redirect_uri: "Ubah hala URI"
-        client_credentials_user_id: "ID Pengguna Kelayakan Pelanggan"
-        scopes: "Skop\n"
-        confidential: "Sulit"
     errors:
       messages:
         accepted: "mesti diterima."
@@ -988,6 +986,11 @@ ms:
               hours_per_day_are_missing: "Bilangan jam dalam sehari perlu ditentukan."
               durations_are_not_positive_numbers: "Jangka masa mestilah nombor positif."
               hours_per_day_is_out_of_bounds: "Jam sehari tidak boleh melebihi 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "tidak dapat diaktifkan untuk status-status yang ditandakan sebagai default."
         time_entry:
           attributes:
             hours:
@@ -1101,8 +1104,6 @@ ms:
         version:
           undeletable_archived_projects: "Versi tidak dapat dipadam kerana ia mempunyai pakej kerja yang dilampirkan padanya."
           undeletable_work_packages_attached: "Versi tidak dapat dipadam kerana ia mempunyai pakej kerja yang dilampirkan padanya."
-        status:
-          readonly_default_exlusive: "tidak dapat diaktifkan untuk status-status yang ditandakan sebagai default."
         token/api:
           attributes:
             token_name:
@@ -1128,6 +1129,8 @@ ms:
         other: "Pemberitahuan"
       placeholder_user: "Pengguna placeholder"
       project: "Projek"
+      project_query:
+        other: "Project lists"
       query: "Pertanyaan tersuai"
       role:
         other: "Peranan\n"
@@ -1745,6 +1748,17 @@ ms:
         failed: "Sebuah ralat telah berlaku dan token tidak dapat dipadam. Sila cuba lagi kemudian."
         unknown_storage: "Storan tidak dikenal pasti"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Hantar pemberitahuan untuk tindakan ini"
     work_packages:
       subject:
@@ -1991,6 +2005,7 @@ ms:
   label_inactive: "Tidak aktif"
   label_incoming_emails: "E-mel masuk"
   label_includes: "termasuk"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeks mengikut tarikh"
   label_index_by_title: "Indeks mengikut tajuk"
   label_information: "Maklumat"
@@ -2002,6 +2017,7 @@ ms:
   label_invite_user: "Jemput pengguna"
   label_share: "Kongsi"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Papar/sembunyi"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Paparkan semua pengguna berdaftar"
@@ -2050,8 +2066,8 @@ ms:
   label_member_all_admin: "(Semua peranan disebabkan oleh status pentadbir)"
   label_member_plural: "Ahli-ahli"
   label_membership_plural: "Keahlian"
-  lable_membership_added: "Ahli ditambah"
-  lable_membership_updated: "Ahli dikemas kini"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pra-alpha"
@@ -2152,6 +2168,7 @@ ms:
   label_product_version: "Versi produk"
   label_profile: "Profil"
   label_percent_complete: "% Selesai"
+  label_project: "Project"
   label_project_activity: "Aktiviti projek"
   label_project_attribute_plural: "Atribut projek"
   label_project_attribute_manage_link: "Urus atribut projek"
@@ -3404,7 +3421,12 @@ ms:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
@@ -3420,6 +3442,8 @@ ms:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Hari yang tidak dipilih akan dilangkau semasa penjadualan pakej kerja (dan tidak termasuk dalam kiraan hari). Ini boleh digantikan di peringkat pakej-kerja.

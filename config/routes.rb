@@ -699,7 +699,12 @@ Rails.application.routes.draw do
 
   root to: "account#login"
 
+  namespace :notifications do
+    resource :menu, only: %i[show]
+  end
   scope :notifications do
+    get "/share_upsale" => "angular#notifications_layout", as: "notifications_share_upsale"
+    get "/date_alerts" => "angular#notifications_layout", as: "notifications_date_alert_upsale"
     get "(/*state)", to: "angular#notifications_layout", as: :notifications_center
   end
 

@@ -106,6 +106,17 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
       end
     end
 
+    context "for a placeholder user with it being assignee" do
+      let(:placeholder_user) { create(:placeholder_user) }
+      let(:assignee) { placeholder_user }
+      let(:values) { [placeholder_user.id.to_s] }
+
+      it "returns the work package" do
+        expect(subject)
+          .to contain_exactly(work_package)
+      end
+    end
+
     context "for a group value with no group member being assignee" do
       let(:values) { [group.id.to_s] }
 
@@ -159,11 +170,8 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
         loader = double("loader")
 
         allow(loader)
-          .to receive(:user_values)
+          .to receive(:principal_values)
           .and_return([[nil, user.id.to_s]])
-        allow(loader)
-          .to receive(:group_values)
-          .and_return([])
 
         loader
       end

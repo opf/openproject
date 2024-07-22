@@ -171,6 +171,8 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def details_dialog; end
+
   def participants_dialog; end
 
   def update_participants
@@ -215,7 +217,7 @@ class MeetingsController < ApplicationController
   end
 
   def change_state
-    case structured_meeting_params[:state]
+    case params[:state]
     when "open"
       @meeting.open!
     when "closed"

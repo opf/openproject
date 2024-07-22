@@ -27,13 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(Storages::Admin::EditFormHeaderComponent.new(
-      storage: @storage,
-      selected: :project_storages
-    )
-  )
-%>
+<%= render(Storages::Admin::EditFormHeaderComponent.new(storage: @storage, selected: :project_storages)) %>
 
 <%=
   render(Primer::OpenProject::SubHeader.new) do |component|
@@ -52,9 +46,11 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%=
-  render(Storages::ProjectStorages::Projects::TableComponent.new(
-    query: @project_query,
-    params:
-  )
+  render(
+    Storages::ProjectStorages::Projects::TableComponent.new(
+      query: @storage_projects_query,
+      project_folder_modes_per_project: @project_folder_modes_per_project,
+      params:
+    )
   )
 %>

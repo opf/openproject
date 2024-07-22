@@ -149,6 +149,10 @@ module Storages
 
     alias automatic_management_enabled automatically_managed
 
+    def available_project_folder_modes
+      raise Errors::SubclassResponsibility
+    end
+
     def configured?
       configuration_checks.values.all?
     end
@@ -160,7 +164,11 @@ module Storages
     def uri
       return unless host
 
-      @uri ||= URI(host).normalize
+      @uri ||= if host.end_with?("/")
+                 URI(host).normalize
+               else
+                 URI("#{host}/").normalize
+               end
     end
 
     def connect_src

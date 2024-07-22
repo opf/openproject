@@ -26,12 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::StorageFiles
-  attr_reader :files, :parent, :ancestors
+module Storages
+  class StorageFiles
+    attr_reader :files, :parent, :ancestors
 
-  def initialize(files, parent, ancestors)
-    @files = files
-    @parent = parent
-    @ancestors = ancestors
+    def initialize(files, parent, ancestors)
+      @files = files
+      @parent = parent
+      @ancestors = ancestors
+    end
   end
 end

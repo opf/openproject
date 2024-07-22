@@ -1,9 +1,14 @@
-import { Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {
-  EMPTY,
-  Observable,
-  Subscription,
-} from 'rxjs';
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Injector,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
+import { EMPTY, Observable, Subscription } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
 import { StateService } from '@uirouter/core';
@@ -19,19 +24,22 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { Board, BoardWidgetOption } from 'core-app/features/boards/board/board';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
-import { BoardPartitionedPageComponent } from 'core-app/features/boards/board/board-partitioned-page/board-partitioned-page.component';
+import {
+  BoardPartitionedPageComponent,
+} from 'core-app/features/boards/board/board-partitioned-page/board-partitioned-page.component';
 import { AddListModalComponent } from 'core-app/features/boards/board/add-list-modal/add-list-modal.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
 import {
-  catchError,
-  filter,
-  finalize,
-  tap,
-} from 'rxjs/operators';
-import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
+  BoardListCrossSelectionService,
+} from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
+import { catchError, filter, finalize, tap } from 'rxjs/operators';
+import {
+  BoardActionsRegistryService,
+} from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
+import {
+  WorkPackageStatesInitializationService,
+} from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Component({
@@ -40,6 +48,7 @@ import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
   providers: [
     BoardListCrossSelectionService,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardListContainerComponent extends UntilDestroyedMixin implements OnInit {
   text = {
@@ -86,7 +95,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   private currentQueryUpdatedMonitoring:Subscription;
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+readonly I18n:I18nService,
     readonly state:StateService,
     readonly toastService:ToastService,
     readonly halNotification:HalResourceNotificationService,
@@ -102,7 +112,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     readonly wpStatesInitialization:WorkPackageStatesInitializationService,
     readonly Drag:DragAndDropService,
     readonly apiv3Service:ApiV3Service,
-    readonly QueryUpdated:QueryUpdatedService) {
+    readonly QueryUpdated:QueryUpdatedService,
+) {
     super();
   }
 
@@ -163,7 +174,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   changeVisibilityOfList(board:Board, boardWidget:GridWidgetResource, visible:boolean) {
     if (!visible) {
       this.showHiddenListWarning = true;
-      this.boardWidgets = this.boardWidgets.filter(widget => widget.id !== boardWidget.id);
+      this.boardWidgets = this.boardWidgets.filter((widget) => widget.id !== boardWidget.id);
     }
   }
 
@@ -181,8 +192,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         }),
       ).subscribe(() => {
         this.toastService.addSuccess(this.text.updateSuccessful);
-      },
-    );
+      });
   }
 
   private setupQueryUpdatedMonitoring(board:Board) {
@@ -231,12 +241,15 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       .map((widget) => {
         const service = this.boardActionRegistry.get(board.actionAttribute!);
         const { filterName } = service;
-        const options:BoardWidgetOption = widget.options as any;
-        const filter = _.find(options.filters, (filter) => !!filter[filterName]);
+        const idFilterName = `${filterName}_id`;
+        const options = widget.options as unknown as BoardWidgetOption;
+        const instance = _.find(options.filters, (f) => !!f[filterName] || !!f[idFilterName]);
 
-        if (filter) {
-          return (filter[filterName].values[0] || null) as any;
+        if (instance) {
+          return ((instance[filterName] || instance[idFilterName])?.values[0] || null) as unknown as string|null;
         }
+
+        return null;
       })
       .filter((value) => value !== undefined);
   }

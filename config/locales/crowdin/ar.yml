@@ -268,8 +268,7 @@ ar:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      public: "Public project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -302,8 +301,6 @@ ar:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
         form:
@@ -626,17 +623,6 @@ ar:
       attribute_help_text:
         attribute_name: "الواصفة"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "الحساب"
-        attr_firstname: "سمة الاسم الأول"
-        attr_lastname: "سمة الاسم الأخير"
-        attr_login: "Username attribute"
-        attr_mail: "سمة البريد الإلكتروني"
-        base_dn: "قاعدة DN"
-        host: "المضيف"
-        onthefly: "Automatic user creation"
-        port: "منفذ"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "مستودع البيانات"
       color:
@@ -661,6 +647,14 @@ ar:
         visible: "مرئي"
       custom_value:
         value: "القيمة"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -671,20 +665,25 @@ ar:
         row_count: "عدد الصفوف"
         column_count: "عدد الأعمدة"
         widgets: "الودجات"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "مجموعة العمل"
-        to: "مجموعة عمل ذات صلة"
-      status:
-        is_closed: "أغلقت مجموعة العمل"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "ملاحظات"
+      ldap_auth_source:
+        account: "الحساب"
+        attr_firstname: "سمة الاسم الأول"
+        attr_lastname: "سمة الاسم الأخير"
+        attr_login: "Username attribute"
+        attr_mail: "سمة البريد الإلكتروني"
+        base_dn: "قاعدة DN"
+        host: "المضيف"
+        onthefly: "Automatic user creation"
+        port: "منفذ"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "دور"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: رمز Hex
       project:
         active_value:
           true: "unarchived"
@@ -714,6 +713,8 @@ ar:
         types: "الأنواع"
         versions: "الإصدارات"
         work_packages: "مجموعات العمل"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "الأعمدة"
         relations_to_type_column: "Relations to %{type}"
@@ -721,10 +722,19 @@ ar:
         group_by: "نتائج المجموعة حسب"
         filters: "عوامل التصفية"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "مجموعة العمل"
+        to: "مجموعة عمل ذات صلة"
       repository:
         url: "الرابط"
       role:
         permissions: "السماحيات"
+      status:
+        is_closed: "أغلقت مجموعة العمل"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "النشاط"
         hours: "الساعات"
@@ -767,10 +777,6 @@ ar:
       wiki_page:
         parent_title: "الصفحة الأصل"
         redirect_existing_links: "إعادة توجيه الروابط القائمة"
-      planning_element_type_color:
-        hexcode: رمز Hex
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "البدء بالإدراج"
         begin_deletion: "البدء بالحذف"
@@ -805,14 +811,6 @@ ar:
         type: "النّوع"
         version: "الإصدار"
         watcher: "المشاهد"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "يجب أن تقبل."
@@ -1025,6 +1023,11 @@ ar:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1143,8 +1146,6 @@ ar:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1180,6 +1181,13 @@ ar:
         other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "مشروع"
+      project_query:
+        zero: "Project lists"
+        one: "Project list"
+        two: "Project lists"
+        few: "Project lists"
+        many: "Project lists"
+        other: "Project lists"
       query: "استعلام مخصص"
       role:
         zero: "دور"
@@ -1912,6 +1920,17 @@ ar:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -2158,6 +2177,7 @@ ar:
   label_inactive: "Inactive"
   label_incoming_emails: "رسائل البريد الالكتروني الواردة"
   label_includes: "مشمولة"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "فهرسة حسب التاريخ"
   label_index_by_title: "فهرسة حسب العنوان"
   label_information: "معلومات"
@@ -2169,6 +2189,7 @@ ar:
   label_invite_user: "دعوة مستخدم"
   label_share: "شارك"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "إظهار / إخفاء"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Show all registered users"
@@ -2217,8 +2238,8 @@ ar:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "أعضاء"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2319,6 +2340,7 @@ ar:
   label_product_version: "إصدار المنتج"
   label_profile: "الصفحة الشخصية"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -3586,7 +3608,12 @@ ar:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
@@ -3602,6 +3629,8 @@ ar:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

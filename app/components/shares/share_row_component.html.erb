@@ -3,7 +3,7 @@
     grid_layout(grid_css_classes, tag: :div, align_items: :center, classes: 'ellipsis') do |user_row_grid|
       user_row_grid.with_area(:selection, tag: :div) do
         if share_editable?
-          render(Primer::Alpha::CheckBox.new(name: "share_ids", value: share.id, label: principal.name,
+          render(Primer::Alpha::CheckBox.new(name: "share_ids", value: (share.id || VIRTUAL_SHARE_ID), label: principal.name,
                                                     visually_hide_label: true, scheme: :array,
                                                     data: {
                                                       'shares--bulk-selection-target': 'shareCheckbox',
@@ -17,16 +17,16 @@
       end
 
       user_row_grid.with_area(:user_details, tag: :div, classes: 'ellipsis') do
-        render(Shares::UserDetailsComponent.new(share:, manager_mode: share_editable?))
+        render(Shares::UserDetailsComponent.new(share:, strategy:))
+      end
+
+      user_row_grid.with_area(:button, tag: :div, color: :subtle) do
+        render(Shares::PermissionButtonComponent.new(share:,
+                                                     strategy: strategy,
+                                                     data: { 'test-selector': 'op-share-dialog-update-role' }))
       end
 
       if share_editable?
-        user_row_grid.with_area(:button, tag: :div, color: :subtle) do
-          render(Shares::PermissionButtonComponent.new(share:,
-                                                       available_roles: @available_roles,
-                                                       data: { 'test-selector': 'op-share-dialog-update-role' }))
-        end
-
         user_row_grid.with_area(:remove, tag: :div) do
           form_with url: url_for([entity, share]), method: :delete do
             render(Primer::Beta::IconButton.new(icon: "trash",

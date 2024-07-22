@@ -1,4 +1,4 @@
-<op-notifications-settings-toolbar></op-notifications-settings-toolbar>
+<op-notifications-settings-toolbar *ngIf="showToolbar"></op-notifications-settings-toolbar>
 <form
   [formGroup]="form"
   (ngSubmit)="saveChanges()"

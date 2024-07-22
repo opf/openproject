@@ -268,8 +268,7 @@ sv:
       favored: "Favorite projects"
       archived: "Arkiverade projekt"
       shared: "Shared project lists"
-      public: "Public project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "Ny projektlista"
       delete_modal:
@@ -302,8 +301,6 @@ sv:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Det finns för närvarande inga typer tillgängliga.
         form:
@@ -392,11 +389,11 @@ sv:
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_title: "Skapa ny API-token"
+      new_access_token_dialog_show_button_text: "API-token"
+      new_access_token_dialog_text_field_placeholder_text: "Min API-token"
+      new_access_token_dialog_text_field_label: "Namn"
+      new_access_token_dialog_submit_button_text: "Skapa"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Misslyckades med att återställa åtkomst-token: %{error}"
@@ -597,17 +594,6 @@ sv:
       attribute_help_text:
         attribute_name: "Attributet"
         help_text: "Hjälptext"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Förnamnsattribut"
-        attr_lastname: "Efternamnsattribut"
-        attr_login: "Attribut för användarnamn"
-        attr_mail: "E-postattribut"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Versionsarkiv"
       color:
@@ -632,6 +618,14 @@ sv:
         visible: "Synlig"
       custom_value:
         value: "Värde"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Ägare"
+        redirect_uri: "Omdirigerings-URI"
+        client_credentials_user_id: "Användar-ID klientreferenser"
+        scopes: "Omfattning"
+        confidential: "Konfidentiellt"
       enterprise_token:
         starts_at: "Giltig sedan"
         subscriber: "Prenumerant"
@@ -642,20 +636,25 @@ sv:
         row_count: "Antal rader"
         column_count: "Antal kolumner"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "Arbetspaket"
-        to: "Relaterat arbetspaketet"
-      status:
-        is_closed: "Arbetspaket stängt"
-        is_readonly: "Skrivskyddat arbetspaket"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Anteckningar"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Förnamnsattribut"
+        attr_lastname: "Efternamnsattribut"
+        attr_login: "Attribut för användarnamn"
+        attr_mail: "E-postattribut"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Roll"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: Hex-kod
       project:
         active_value:
           true: "unarchived"
@@ -685,6 +684,8 @@ sv:
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbetspaket"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Kolumner"
         relations_to_type_column: "Relationer till %{type}"
@@ -692,10 +693,19 @@ sv:
         group_by: "Gruppera resultat efter"
         filters: "Filter"
         timeline_labels: "Etiketter för tidslinje"
+      relation:
+        lag: "Lag"
+        from: "Arbetspaket"
+        to: "Relaterat arbetspaketet"
       repository:
         url: "URL"
       role:
         permissions: "Behörigheter"
+      status:
+        is_closed: "Arbetspaket stängt"
+        is_readonly: "Skrivskyddat arbetspaket"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivitet"
         hours: "Timmar"
@@ -738,10 +748,6 @@ sv:
       wiki_page:
         parent_title: "Överordnad sida"
         redirect_existing_links: "Omdirigera befintliga länkar"
-      planning_element_type_color:
-        hexcode: Hex-kod
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Början av införandet"
         begin_deletion: "Början av raderingen"
@@ -776,14 +782,6 @@ sv:
         type: "Typ"
         version: "Version"
         watcher: "Bevakare"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Ägare"
-        redirect_uri: "Omdirigerings-URI"
-        client_credentials_user_id: "Användar-ID klientreferenser"
-        scopes: "Omfattning"
-        confidential: "Konfidentiellt"
     errors:
       messages:
         accepted: "måste accepteras."
@@ -996,6 +994,11 @@ sv:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1110,8 +1113,6 @@ sv:
         version:
           undeletable_archived_projects: "Versionen kan inte tas bort eftersom den har arbetspaket bifogade till den."
           undeletable_work_packages_attached: "Versionen kan inte tas bort eftersom den har arbetspaket bifogade till den."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1139,6 +1140,9 @@ sv:
         other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Projekt"
+      project_query:
+        one: "Projektlista"
+        other: "Projektlistor"
       query: "Anpassad fråga"
       role:
         one: "Roll"
@@ -1779,6 +1783,17 @@ sv:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inkorg"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1798,7 +1813,7 @@ sv:
   label_add_another_file: "Lägga till en annan fil"
   label_add_columns: "Lägga till markerade kolumner"
   label_add_note: "Lägga till en anteckning"
-  label_add_projects: "Add projects"
+  label_add_projects: "Lägg till projekt"
   label_add_related_work_packages: "Lägg till relaterade arbetspaket"
   label_add_subtask: "Lägg till deluppgift"
   label_added: "lagt till"
@@ -2025,6 +2040,7 @@ sv:
   label_inactive: "Inaktiv"
   label_incoming_emails: "Inkommande E-post"
   label_includes: "inkluderar"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index efter datum"
   label_index_by_title: "Index efter titel"
   label_information: "Information"
@@ -2035,9 +2051,10 @@ sv:
   label_introduction_video: "Introduktionsvideo"
   label_invite_user: "Bjud in användare"
   label_share: "Dela"
-  label_share_project_list: "Share project list"
+  label_share_project_list: "Dela projektlista"
+  label_share_work_package: "Share work package"
   label_show_hide: "Visa/Dölj"
-  label_show_hide_n_items: "Show/hide %{count} items"
+  label_show_hide_n_items: "Visa/dölj %{count} objekt"
   label_show_all_registered_users: "Visa alla registrerade användare"
   label_journal: "Journal"
   label_journal_diff: "Jämför beskrivning"
@@ -2084,8 +2101,8 @@ sv:
   label_member_all_admin: "(Alla roller på grund av admin status)"
   label_member_plural: "Medlemmar"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2186,6 +2203,7 @@ sv:
   label_product_version: "Produktversion"
   label_profile: "Profil"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -3440,7 +3458,12 @@ sv:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
@@ -3456,6 +3479,8 @@ sv:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

@@ -1,4 +1,4 @@
-FROM ruby:3.3.3-bullseye as develop
+FROM ruby:3.3.4-bullseye as develop
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
@@ -46,6 +46,7 @@ RUN apt update
 RUN apt install watchexec-cli
 
 COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
+COPY ./docker/dev/backend/scripts/setup-bim /usr/sbin/setup-bim
 COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app
 
 # The following lines are needed to make sure the file permissions are setup correctly after the volumes are mounted

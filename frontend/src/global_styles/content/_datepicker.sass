@@ -81,6 +81,9 @@ $datepicker--selected-border-radius: 5px
   box-shadow: none !important
   @include spot-caption
 
+  &.open.arrowTop:before
+    border-bottom-color: var(--body-background)
+
   .flatpickr-months
     min-height: 45px
 
@@ -92,6 +95,10 @@ $datepicker--selected-border-radius: 5px
     .numInputWrapper
       position: relative
       left: 0
+
+    .flatpickr-monthDropdown-months
+      background-image: none !important
+
   .flatpickr-month
     color: var(--body-font-color) !important
   .flatpickr-weekwrapper

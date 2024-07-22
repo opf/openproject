@@ -29,19 +29,19 @@
 #++
 
 require "vcr"
+require "httpx"
 
 module VCRTimeoutHelper
   def stub_request_with_timeout(method, path_matcher)
-    request_mock = HTTPX::Request.new(method.to_s.upcase, "https://example.com")
+    request_mock = OpenProject.httpx.build_request(method.to_s.upcase, "https://example.com")
     error_response_mock = HTTPX::ErrorResponse.new(request_mock,
-                                                   HTTPX::ConnectTimeoutError.new(60, "timed out while waiting on select"), {})
+                                                   HTTPX::ConnectTimeoutError.new(60, "timed out while waiting on select"))
     allow_any_instance_of(HTTPX::Session).to receive(method.to_sym).with(any_args).and_call_original
     allow_any_instance_of(HTTPX::Session).to receive(method.to_sym).with(path_matcher, any_args).and_return(error_response_mock)
   end
 end
 
 VCR.configure do |config|
-  config.cassette_library_dir = "spec/support/fixtures/vcr_cassettes"
   config.hook_into :webmock
   config.configure_rspec_metadata!
   config.before_record do |i|
@@ -79,6 +79,10 @@ RSpec.configure do |config|
     # Only enable VCR's webmock integration for tests tagged with :vcr otherwise interferes with WebMock
     # See: https://github.com/vcr/vcr/issues/146
     #
+    VCR.configure do |vcr_config|
+      cassette_library_dir = example.metadata[:vcr_cassette_library_dir] || "spec/support/fixtures/vcr_cassettes"
+      vcr_config.cassette_library_dir = cassette_library_dir
+    end
     VCR.turn_on!
     example.run
   ensure

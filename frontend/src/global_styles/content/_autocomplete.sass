@@ -96,6 +96,7 @@ div.autocomplete
         -webkit-box-sizing: border-box !important
         -moz-box-sizing: border-box !important
         box-sizing: border-box !important
+        color: var(--body-font-color) !important
 
   .ng-value
     @include text-shortener
@@ -103,7 +104,7 @@ div.autocomplete
 
 // Override some basic styles to ensure that ngSelect matches the current theme
 .ng-select-container,
-.ng-option:not(.ng-option-marked),
+.ng-option:not(.ng-option-marked, .ng-option-disabled),
 .ng-dropdown-panel,
 .ng-dropdown-panel-items,
 .ng-dropdown-footer
@@ -130,6 +131,12 @@ div.autocomplete
   .ng-value-label
     display: initial !important
 
+  .ng-placeholder
+    // Fix overflow by providing a max width to the input
+    //
+    // We subtract the width and right padding of the dropdown arrow
+    max-width: calc(100% - 25px - 5px)
+
 // Ensure dropdown is above modals
 .ng-dropdown-panel
   z-index: 9500 !important
@@ -154,6 +161,11 @@ div.autocomplete
     background-color: var(--control-transparent-bgColor-hover) !important
     border-color: var(--list-item-hover--border-color) !important
     color: var(--list-item-hover--color) !important
+
+  &.ng-option-disabled
+    background-color: var(--bgColor-disabled) !important
+    border-color: var(--borderColor-disabled) !important
+    color: var(--fgColor-disabled) !important
 
 .ng-dropdown-footer
   padding: 0 !important

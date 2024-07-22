@@ -92,7 +92,7 @@ module OpenProject
 
       module InstanceMethods
         def self.prepended(base)
-          base.extend ClassMethods
+          base.extend AddClassMethods
         end
 
         def possible_watcher?(user)
@@ -160,7 +160,7 @@ module OpenProject
               watcher_user_ids.any? { |uid| uid == user.id })
         end
 
-        module ClassMethods
+        module AddClassMethods
           def acts_as_watchable_permission
             acts_as_watchable_options[:permission] || :"view_#{name.underscore.pluralize}"
           end

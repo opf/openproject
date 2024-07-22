@@ -71,7 +71,7 @@ RSpec.describe "Work package sharing",
   end
 
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
+  let(:share_modal) { Components::Sharing::WorkPackages::ShareModal.new(work_package) }
 
   current_user { create(:admin, firstname: "Signed in", lastname: "User") }
 

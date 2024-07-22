@@ -31,8 +31,16 @@
 # See also: row_component.rb, which contains a method
 # for every "column" defined below.
 module Storages::ProjectStorages::Projects
-  class TableComponent < Projects::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class TableComponent < Projects::TableComponent
     include OpTurbo::Streamable
+
+    options :project_folder_modes_per_project
+
+    def columns
+      @columns ||= query
+        .selects
+        .insert(1, ::Queries::Projects::Selects::Default.new(:project_folder_type))
+    end
 
     def sortable?
       false

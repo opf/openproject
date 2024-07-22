@@ -27,5 +27,5 @@
 #++
 
 class Queries::Members::Filters::ProjectFilter < Queries::Members::Filters::MemberFilter
-  include Queries::Filters::Shared::ProjectFilter
+  include Queries::Filters::Shared::ProjectFilter::Optional
 end

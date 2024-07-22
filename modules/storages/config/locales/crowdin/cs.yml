@@ -22,6 +22,8 @@ cs:
           attributes:
             project_folder_mode:
               mode_unavailable: není k dispozici pro toto úložiště.
+            project_ids:
+              blank: Zvolte prosím skupinu.
         storages/storage:
           attributes:
             host:
@@ -53,6 +55,11 @@ cs:
   permission_view_file_links: Zobrazit odkazy na soubor
   permission_write_files: 'Automaticky spravované složky projektů: Zapisovat soubory'
   project_module_storages: Soubory
+  project_storages:
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: Žádná specifická složka
+      manual: Existing folder manually managed
   storages:
     buttons:
       complete_without_setup: Dokončit bez něj
@@ -130,10 +137,10 @@ cs:
       unsubscribe: Odhlásit se z odběru
     help_texts:
       project_folder: Složka projektu je výchozí složka pro nahrávání souborů pro tento projekt. Uživatelé přesto mohou nahrávat soubory do jiných umístění.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Do projektu jsou již přidány všechny dostupné úložiště.
       automatic_folder: Toto automaticky vytvoří kořenovou složku pro tento projekt a spravuje přístupová práva pro každého člena projektu.
-      copy_from: Zkopírovat tuto hodnotu z
       empty_project_folder_validation: Výběr složky je povinný pro pokračování.
       existing_manual_folder: Můžete určit existující složku jako kořenovou složku pro tento projekt. Oprávnění však nejsou spravována automaticky, správce musí ručně zajistit, aby měli přístup příslušní uživatelé. Vybranou složku lze použít pro více projektů.
       host: Přidejte prosím adresu hostitele vašeho úložiště obsahující https://. Nemělo by být delší než 255 znaků.

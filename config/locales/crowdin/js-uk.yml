@@ -150,7 +150,7 @@ uk:
         attribute_reference:
           macro_help_tooltip: "Цей текстовий фрагмент динамічно візуалізується макросом."
           not_found: "Не вдалося знайти потрібний ресурс"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "Цей макрос рекурсивно посилається на %{model} %{id}."
           invalid_attribute: "Вибраний атрибут «%{name}» не існує."
         child_pages:
           button: "Посилання на дочірні сторінки"
@@ -366,10 +366,10 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li>Задавайте більше одиниць для атрибутів «Робота», «Залишок роботи» й «Робочий час».</li> <li>Вибирайте проєкти, які має бути активовано для його атрибутів.</li> <li>Перейменовуйте списки приватних проєктів.</li> <li>Не отримуйте непотрібні сповіщення електронною поштою про @згадки.</li> <li>Запрошуйте учасників наради електронною поштою.</li> <li>Переглядайте вбудовані атрибути пакетів робіт у PDF-файлах експорту.</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Діліться списками проєктів і робіть їх загальнодоступними (доповнення Enterprise)</li> <li>Позначайте списки проєктів як обрані</li> <li>Перевіряйте підключення для сховищ OneDrive / SharePoint (доповнення Enterprise)</li> <li>Новий вигляд сторінки профілю користувача з Primer</li> <li>Експорт діаграми Ганта в PDF: додаткове масштабування дати за календарними тижнями</li> <li>Рядок пошуку в компоненті підменю (списки проєктів, діаграми Ґанта й дошки)</li> <li>Вибирайте спосіб відображення звітів про виконання: лише в годинах або в днях і годинах</li> <li>Скасовуйте вибір проєктів у засобі вибору</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -616,17 +616,17 @@ uk:
       title: "Сповіщення"
       no_unread: "Немає непрочитаних сповіщень"
       reasons:
-        mentioned: "згадано"
-        watched: "спостерігач"
-        assigned: "виконавець"
-        responsible: "відповідальний"
-        created: "створено"
-        scheduled: "заплановано"
-        commented: "прокоментовано"
-        processed: "оброблено"
-        prioritized: "надано пріоритет"
+        mentioned: "Згадано"
+        watched: "Спостерігач"
+        assigned: "Виконавець"
+        responsible: "Відповідальний"
+        created: "Створено"
+        scheduled: "Заплановано"
+        commented: "Прокоментовано"
+        processed: "Оброблено"
+        prioritized: "Надано пріоритет"
         dateAlert: "Оповіщення про дату"
-        shared: "спільні"
+        shared: "Поширено"
       date_alerts:
         milestone_date: "Дата віхи"
         overdue: "Прострочено"
@@ -665,15 +665,6 @@ uk:
         new_notifications:
           message: "Немає нових сповіщень."
           link_text: "Натисніть тут, щоб завантажити."
-      menu:
-        accountable: "Відповідальний"
-        by_project: "Непрочитані проєктом"
-        by_reason: "Причина"
-        inbox: "Вхідні"
-        mentioned: "Згадано"
-        watched: "Спостерігач"
-        date_alert: "Оповіщення про дату"
-        shared: "Спільні"
       settings:
         change_notification_settings: 'Ви можете змінити <a target="_blank" href="%{url}">налаштування сповіщень</a>, щоб ніколи не пропускати важливі оновлення.'
         title: "Налаштування сповіщень"
@@ -908,10 +899,10 @@ uk:
       wiki_link: "Посилання на вікі-сторінку"
       image: "Зображення"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Надати спільний доступ"
+      selected_count: "Вибрано: %{count}"
       selection:
-        mixed: "Mixed"
+        mixed: "Різні"
     work_packages:
       bulk_actions:
         move: "Групова зміна проєкту"
@@ -1022,12 +1013,13 @@ uk:
         workAlternative: "Приблизний час"
         remainingTime: "Залишок роботи"
       default_queries:
+        manually_sorted: "Новий, відсортований уручну запит"
         latest_activity: "Останні дії"
         created_by_me: "Створений мною"
         assigned_to_me: "Призначено мені"
         recently_created: "Нещодавно створений"
         all_open: "Всі відкрити"
-        overdue: "Overdue"
+        overdue: "Прострочені"
         summary: "Резюме"
         shared_with_users: "Надано доступ користувачам"
         shared_with_me: "Доступ надано мені"

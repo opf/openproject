@@ -28,7 +28,7 @@ For more information, see [#50954](https://community.openproject.org/wp/50954).
 
 Project managers can now exclude rejected or duplicate work packages from the calculation of total Work, total Remaining work and total % Complete for the parent / ancestors work packages. This allows them to clean up estimates and progress when rejecting child work packages or marking them as duplicates.
 
-Learn more in our [documentation about work package settings](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-settings/).
+Learn more in our [documentation about work package settings](../../system-admin-guide/manage-work-packages/work-package-settings/).
 
 ### Warn admins about potential data loss when changing progress calculation modes
 
@@ -68,7 +68,7 @@ In addition to this feature, the default view for meetings module was changed to
 
 ### Embedded work package attributes in PDF export
 
-With OpenProject 14.2, [embedded attributes within a work package description](https://www.openproject.org/docs/user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes) (and long text custom fields) are displayed in the PDF export as on OpenProject. This means you can reference values from work packages with placeholders, and on export these are replaced by their actual value of a project or work package attributes.
+With OpenProject 14.2, [embedded attributes within a work package description](../../user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes) (and long text custom fields) are displayed in the PDF export as on OpenProject. This means you can reference values from work packages with placeholders, and on export these are replaced by their actual value of a project or work package attributes.
 
 ![Two screenshots, one showing embedded work package attributes and the other the exported PDF](openproject-14-2-pdf-export-attributes.png)
 
@@ -125,4 +125,4 @@ A very special thank you goes to the City of Cologne for sponsoring features on 
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [aniessalam](https://crowdin.com/profile/aniessalam) who has done an outstanding number of translations for the Malay language in recent weeks.
 
-Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject) and find out exactly how you can contribute. It is very much appreciated!
+Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!

@@ -268,8 +268,7 @@ bg:
       favored: "Любими проекти"
       archived: "Архивирани проекти"
       shared: "Споделени списъци с проекти"
-      public: "Публични списъци с проекти"
-      my_private: "Моите лични списъци с проекти"
+      my_lists: "My project lists"
       new:
         placeholder: "Нов списък с проекти"
       delete_modal:
@@ -302,8 +301,6 @@ bg:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: В момента има няма типове на разположение.
         form:
@@ -598,17 +595,6 @@ bg:
       attribute_help_text:
         attribute_name: "Атрибут"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "Акаунт"
-        attr_firstname: "Лично име атрибут"
-        attr_lastname: "Фамилно име атрибут"
-        attr_login: "Username attribute"
-        attr_mail: "Имейл атрибут"
-        base_dn: "Базов DN"
-        host: "Хост"
-        onthefly: "Automatic user creation"
-        port: "Порт"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Хранилище"
       color:
@@ -633,6 +619,14 @@ bg:
         visible: "Видимо"
       custom_value:
         value: "Стойност"
+      doorkeeper/application:
+        uid: "№ на клиент"
+        secret: "Тайна на клиента"
+        owner: "Собственик"
+        redirect_uri: "Пренасочване на URI"
+        client_credentials_user_id: "Клиентски идентификационни данни Потребителски ИД"
+        scopes: "Обхвати"
+        confidential: "Поверително"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -643,20 +637,25 @@ bg:
         row_count: "Брой редове"
         column_count: "Брой колони"
         widgets: "Джаджи"
-      oauth_client:
-        client: "№ на клиент"
-      relation:
-        lag: "Lag"
-        from: "Работен пакет"
-        to: "Свързани работени пакети"
-      status:
-        is_closed: "Работният пакет е затворен"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Бележки"
+      ldap_auth_source:
+        account: "Акаунт"
+        attr_firstname: "Лично име атрибут"
+        attr_lastname: "Фамилно име атрибут"
+        attr_login: "Username attribute"
+        attr_mail: "Имейл атрибут"
+        base_dn: "Базов DN"
+        host: "Хост"
+        onthefly: "Automatic user creation"
+        port: "Порт"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Роли"
+      oauth_client:
+        client: "№ на клиент"
+      planning_element_type_color:
+        hexcode: Шестнадесетичен код
       project:
         active_value:
           true: "unarchived"
@@ -686,6 +685,8 @@ bg:
         types: "Видове"
         versions: "Версии"
         work_packages: "Работен пакет"
+      project_custom_field:
+        custom_field_section: Раздел
       query:
         column_names: "Колони"
         relations_to_type_column: "Relations to %{type}"
@@ -693,10 +694,19 @@ bg:
         group_by: "Групай резултатите по"
         filters: "Филтри"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "Работен пакет"
+        to: "Свързани работени пакети"
       repository:
         url: "URL АДРЕС"
       role:
         permissions: "Права"
+      status:
+        is_closed: "Работният пакет е затворен"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Активност"
         hours: "Часове"
@@ -739,10 +749,6 @@ bg:
       wiki_page:
         parent_title: "Предишна страница"
         redirect_existing_links: "Пренасочи съществуващи връзки"
-      planning_element_type_color:
-        hexcode: Шестнадесетичен код
-      project_custom_field:
-        custom_field_section: Раздел
       work_package:
         begin_insertion: "Начало на вмъкване"
         begin_deletion: "Начало на изтриване"
@@ -777,14 +783,6 @@ bg:
         type: "Тип"
         version: "Версия"
         watcher: "Наблюдател"
-      "doorkeeper/application":
-        uid: "№ на клиент"
-        secret: "Тайна на клиента"
-        owner: "Собственик"
-        redirect_uri: "Пренасочване на URI"
-        client_credentials_user_id: "Клиентски идентификационни данни Потребителски ИД"
-        scopes: "Обхвати"
-        confidential: "Поверително"
     errors:
       messages:
         accepted: "трябва да бъде одобрено."
@@ -997,6 +995,11 @@ bg:
               hours_per_day_are_missing: "Трябва да се определи броят на часовете на ден."
               durations_are_not_positive_numbers: "Продължителността трябва да е положително число."
               hours_per_day_is_out_of_bounds: "Часовете на ден не могат да бъдат повече от 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "не може да се активира за състояния, които са маркирани по подразбиране."
         time_entry:
           attributes:
             hours:
@@ -1111,8 +1114,6 @@ bg:
         version:
           undeletable_archived_projects: "Версията не може да бъде изтрита, тъй като към нея са прикрепени работни пакети."
           undeletable_work_packages_attached: "Версията не може да бъде изтрита, тъй като към нея са прикрепени работни пакети."
-        status:
-          readonly_default_exlusive: "не може да се активира за състояния, които са маркирани по подразбиране."
         token/api:
           attributes:
             token_name:
@@ -1140,6 +1141,9 @@ bg:
         other: "Notifications"
       placeholder_user: "Потребител на заместител"
       project: "Проект"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Потребителска заявка"
       role:
         one: "Роля"
@@ -1780,6 +1784,17 @@ bg:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -2026,6 +2041,7 @@ bg:
   label_inactive: "Неактивен"
   label_incoming_emails: "Входящи имейли"
   label_includes: "включва"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Индекс по дата"
   label_index_by_title: "Индекс по заглавие"
   label_information: "Информация"
@@ -2037,6 +2053,7 @@ bg:
   label_invite_user: "Покани потребител"
   label_share: "Споделяне"
   label_share_project_list: "Споделяне на списък с проекти"
+  label_share_work_package: "Share work package"
   label_show_hide: "Покажи/Скрий"
   label_show_hide_n_items: "Показване/скриване елементите на %{count}"
   label_show_all_registered_users: "Показване на всички регистрирани потребители"
@@ -2085,8 +2102,8 @@ bg:
   label_member_all_admin: "(Всички роли се дължат на статута на администратор)"
   label_member_plural: "Потребители"
   label_membership_plural: "Членства"
-  lable_membership_added: "Добавен член"
-  lable_membership_updated: "Актуализиран член"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "предварителна фаза"
@@ -2187,6 +2204,7 @@ bg:
   label_product_version: "Версия на продукта"
   label_profile: "Профил"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -3444,7 +3462,12 @@ bg:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
@@ -3460,6 +3483,8 @@ bg:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

@@ -32,13 +32,13 @@ ro:
           no_results: 'Nu au fost definite câmpuri personalizate pentru proiecte.'
         project_status:
           title: 'Stare proiect'
-          not_started: 'Neîncepută'
-          on_track: 'Urmărește'
-          off_track: 'În afara pistei'
+          not_started: 'Neînceput'
+          on_track: 'În lucru'
+          off_track: 'Deraiat'
           at_risk: 'În pericol'
           not_set: 'Nesetat'
           finished: 'Finalizat'
-          discontinued: 'Întrerupere'
+          discontinued: 'Anulat'
         subprojects:
           title: 'Subproiecte'
           no_results: 'Cu subproiecte'

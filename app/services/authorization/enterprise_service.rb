@@ -50,6 +50,7 @@ class Authorization::EnterpriseService
     one_drive_sharepoint_file_storage
     virus_scanning
     gantt_pdf_export
+    project_list_sharing
   ).freeze
 
   def initialize(token)

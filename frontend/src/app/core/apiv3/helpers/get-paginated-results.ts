@@ -18,6 +18,8 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
  */
 export const MAGIC_PAGE_NUMBER = -1;
 
+export const MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE = 100;
+
 /**
  * Right now, we still support HAL-class based collections as well as interface-based responses.
  */

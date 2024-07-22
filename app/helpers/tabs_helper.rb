@@ -28,10 +28,10 @@
 
 module TabsHelper
   # Renders tabs and their content
-  def render_tabs(tabs, form = nil)
+  def render_tabs(tabs, form = nil, with_tab_nav: true)
     if tabs.any?
       selected = selected_tab(tabs)
-      render partial: "common/tabs", locals: { f: form, tabs:, selected_tab: selected }
+      render partial: "common/tabs", locals: { f: form, tabs:, selected_tab: selected, with_tab_nav: }
     else
       content_tag "p", I18n.t(:label_no_data), class: "nodata"
     end
@@ -41,12 +41,10 @@ module TabsHelper
     tabs.detect { |t| t[:name] == params[:tab] } || tabs.first
   end
 
-  # Render tabs from the ui/extensible tabs manager
-  def render_extensible_tabs(key, params = {})
-    tabs = ::OpenProject::Ui::ExtensibleTabs.enabled_tabs(key, params.reverse_merge(current_user:)).map do |tab|
+  def tabs_for_key(key, params = {})
+    ::OpenProject::Ui::ExtensibleTabs.enabled_tabs(key, params.reverse_merge(current_user:)).map do |tab|
       path = tab[:path].respond_to?(:call) ? instance_exec(params, &tab[:path]) : tab[:path]
       tab.dup.merge(path:)
     end
-    render_tabs(tabs)
   end
 end
