@@ -495,6 +495,68 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
         expect(page)
           .to have_no_link(other_project.name)
       end
+
+      describe "searching for list project custom field" do
+        let(:project_list_cf) do
+          create(:list_project_custom_field,
+                 multi_value: true,
+                 projects: [searched_for_project],
+                 possible_values: %w[Value1 Value2 Value3],
+                 searchable:).tap do |cf|
+            searched_for_project.update(
+              custom_field_values: { cf.id => cf.possible_values.pluck(:id).first(2) }
+            )
+          end
+        end
+        let(:first_selected_value) { project_list_cf.possible_values.pick(:value) }
+
+        before do
+          select_autocomplete(page.find(".top-menu-search--input"),
+                              query: first_selected_value,
+                              select_text: "In all projects ↵",
+                              wait_dropdown_open: false)
+
+          within ".global-search--tabs" do
+            click_on "Projects"
+          end
+        end
+
+        it "finds the project" do
+          expect(page)
+            .to have_link(searched_for_project.name)
+
+          expect(page)
+            .to have_no_link(other_project.name)
+        end
+
+        context "when searchable is false" do
+          let(:searchable) { false }
+
+          it "does not find the project" do
+            expect(page)
+              .to have_no_link(searched_for_project.name)
+
+            expect(page)
+              .to have_no_link(other_project.name)
+          end
+        end
+
+        context "when not enabled for project" do
+          before do
+            searched_for_project.project_custom_field_project_mappings.destroy_all
+          end
+
+          it "does not find the project",
+             skip: "TODO: this requires an available custom fields sql
+                   and it cannot be implemented in a simple way" do
+            expect(page)
+              .to have_no_link(searched_for_project.name)
+
+            expect(page)
+              .to have_no_link(other_project.name)
+          end
+        end
+      end
     end
   end
 

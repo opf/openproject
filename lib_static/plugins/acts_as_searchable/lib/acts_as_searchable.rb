@@ -177,13 +177,14 @@ module Redmine
           end
 
           def searchable_custom_fields_conditions
-            searchable_custom_field_ids = CustomField.where(type: "#{name}CustomField", searchable: true).pluck(:id)
+            searchable_custom_field_ids = CustomField.where(type: "#{name}CustomField",
+                                                            searchable: true).pluck(:id)
             if searchable_custom_field_ids.any?
               custom_field_condition =
                 CustomValue.select("1").where(customized_type: name)
                            .joins("LEFT JOIN custom_options
-                              ON custom_options.id = custom_values.value::bigint
-                              AND custom_options.custom_field_id = custom_values.custom_field_id")
+                             ON custom_options.custom_field_id = custom_values.custom_field_id
+                             AND custom_options.id::VARCHAR = custom_values.value")
                            .where("customized_id=#{table_name}.id")
                            .where(custom_field_id: searchable_custom_field_ids)
                            .where("(custom_values.value ILIKE ?) OR (custom_options.value ILIKE ?)")
