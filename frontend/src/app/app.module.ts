@@ -176,6 +176,9 @@ import { ShareUpsaleComponent } from 'core-app/features/enterprise/share-upsale/
 import {
   StorageLoginButtonComponent,
 } from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
+import {
+  LocationPickerModalComponent,
+} from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -366,6 +369,7 @@ export class OpenProjectModule {
     registerCustomElement('opce-exclusion-info', OpExclusionInfoComponent, { injector });
     registerCustomElement('opce-attachments', OpAttachmentsComponent, { injector });
     registerCustomElement('opce-storage-login-button', StorageLoginButtonComponent, { injector });
+    registerCustomElement('opce-location-picker-modal', LocationPickerModalComponent, { injector });
 
     // TODO: These elements are now registered custom elements, but are actually single-use components. They should be removed when we move these pages to Rails.
     registerCustomElement('opce-new-project', NewProjectComponent, { injector });
