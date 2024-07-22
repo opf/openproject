@@ -68,29 +68,19 @@ export default class ProjectStorageFormController extends Controller {
   };
 
   declare folderModeValue:string;
-
   declare placeholderFolderNameValue:string;
-
   declare notLoggedInValidationValue:string;
-
   declare lastProjectFoldersValue:{ manual:string; automatic:string };
 
   declare readonly storageTarget:HTMLElement;
-
   declare readonly selectProjectFolderButtonTarget:HTMLButtonElement;
-
   declare readonly loginButtonTarget:HTMLButtonElement;
-
   declare readonly projectFolderSectionTarget:HTMLElement;
-
   declare readonly projectFolderIdInputTarget:HTMLInputElement;
-
   declare readonly projectFolderIdValidationTarget:HTMLSpanElement;
-
-  declare readonly hasProjectFolderIdValidationTarget:boolean;
-
   declare readonly selectedFolderTextTarget:HTMLSpanElement;
 
+  declare readonly hasProjectFolderIdValidationTarget:boolean;
   declare readonly hasProjectFolderSectionTarget:boolean;
 
   connect():void {

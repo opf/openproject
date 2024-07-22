@@ -31,6 +31,7 @@ module Storages
     module ProjectStorages
       class ProjectFolderModeForm < ApplicationForm
         include StorageLoginHelper
+        include APIV3Helper
 
         form do |radio_form|
           radio_form.radio_button_group(name: :project_folder_mode) do |radio_group|
@@ -52,6 +53,29 @@ module Storages
                                        data: { action: "storages--project-folder-mode-form#updateForm" })
             end
           end
+
+          radio_form.hidden(
+            name: :storage,
+            value: @project_storage.storage_id,
+            data: {
+              "storages--project-folder-mode-form-target": "storage",
+              storage: {
+                name: @project_storage.storage.name,
+                id: @project_storage.storage.id,
+                _links: {
+                  self: { href: api_v3_paths.storage(@project_storage.storage.id) },
+                  type: { href: API::V3::Storages::URN_STORAGE_TYPE_NEXTCLOUD }
+                }
+              }
+            }
+          )
+
+          radio_form.hidden(
+            name: :project_folder_id,
+            data: {
+              "storages--project-folder-mode-form-target": "projectFolderIdInput"
+            }
+          )
 
           if @project_storage.project_folder_mode_possible?("manual")
             radio_form.storage_manual_project_folder_selection(
