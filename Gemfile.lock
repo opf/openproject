@@ -940,7 +940,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     retriable (3.1.2)
-    rexml (3.3.1)
+    rexml (3.3.2)
       strscan
     rinku (2.0.6)
     roar (1.2.0)
@@ -1025,7 +1025,7 @@ GEM
     secure_headers (6.5.0)
     selenium-devtools (0.126.0)
       selenium-webdriver (~> 4.2)
-    selenium-webdriver (4.22.0)
+    selenium-webdriver (4.23.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
