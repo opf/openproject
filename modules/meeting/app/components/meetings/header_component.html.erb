@@ -5,6 +5,7 @@
         controller: "poll-for-changes",
         poll_for_changes_updated_at_value: @meeting.updated_at.iso8601,
         poll_for_changes_url_value: check_for_updates_meeting_path(@meeting),
+        poll_for_changes_interval_value: check_for_updates_interval,
       }
     )) do |header|
       if show_state?
@@ -14,7 +15,7 @@
         header.with_action_menu(menu_arguments: {},
                                 button_arguments: { icon: "kebab-horizontal",
                                                     "aria-label": t("label_meeting_actions"),
-                                                    test_selector: 'op-meetings-header-action-trigger'}) do |menu|
+                                                    test_selector: 'op-meetings-header-action-trigger' }) do |menu|
           menu.with_item(label: t("label_meeting_edit_title"),
                          href: edit_meeting_path(@meeting),
                          content_arguments: {

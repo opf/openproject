@@ -44,6 +44,11 @@ module Meetings
       @state = fetch_or_fallback(STATE_OPTIONS, state)
     end
 
+    # Define the interval so it can be overriden through tests
+    def check_for_updates_interval
+      10_000
+    end
+
     private
 
     def show_state?
