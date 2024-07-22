@@ -5,7 +5,7 @@ $ian-bg-hover-color: var(--bgColor-neutral-muted)
 $ian-bg-read-color: var(--bgColor-muted)
 $ian-bg-read-hover-color: hsl(from $ian-bg-read-color h s calc(l - 0.07))
 $ian-bg-selected-color: var(--selection-bgColor)
-$ian-bg-selected-hover-color: hsl(from $ian-bg-selected-color calc(h - 7) s l)
+$ian-bg-selected-hover-color: hsl(from $ian-bg-selected-color calc(h - 5) s l)
 // This needs to be set in the itemSize of
 // the virtual scroller
 $ian-height: 100px
@@ -28,7 +28,7 @@ $subject-font-size: 14px
     border-bottom: 1px solid var(--borderColor-default)
 
   &_selected
-    background: $ian-bg-selected-color !important
+    background: $ian-bg-selected-color
     &:hover
       background: $ian-bg-selected-hover-color
 
