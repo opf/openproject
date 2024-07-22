@@ -27,10 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("label_deploy_target_new") %>
-<% local_assigns[:additional_breadcrumb] = t(:label_deploy_target_new) %>
+<% html_title t(:label_administration), t(:label_github_integration), t(:label_deploy_target_new) %>
 
-<%= toolbar title: t(:label_deploy_target_new) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_deploy_target_new) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: deploy_targets_path, text: t(:label_github_integration) },
+                             { href: deploy_targets_path, text: t(:label_deploy_target_plural) },
+                             t(:label_deploy_target_new)])
+  end
+%>
 
 <%= error_messages_for @deploy_target %>
 

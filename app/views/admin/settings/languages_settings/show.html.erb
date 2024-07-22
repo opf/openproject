@@ -27,7 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= toolbar title: t(:label_languages) %>
+<% html_title t(:label_administration), t(:label_languages) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_languages) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_general_path, text: t(:label_system_settings) },
+                             t(:label_languages)])
+  end
+%>
 
 <%= styled_form_tag(admin_settings_update_languages_path, method: :patch) do %>
 

@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,31 +26,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Admin::Settings
-  class DateFormatSettingsController < ::Admin::SettingsController
-    menu_item :date_format
+module ::Webhooks
+  module Outgoing
+    module Webhooks
+      class ShowPageHeaderComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
+        include ApplicationHelper
 
-    before_action :validate_start_of_week_and_first_week_of_year_combination, only: :update
+        def initialize(webhook:)
+          super
+          @webhook = webhook
+        end
 
-    def update # rubocop:disable Lint/UselessMethodDefinition
-      super
-    end
-
-    private
-
-    def validate_start_of_week_and_first_week_of_year_combination
-      start_of_week = settings_params[:start_of_week]
-      start_of_year = settings_params[:first_week_of_year]
-
-      if start_of_week.present? ^ start_of_year.present?
-        flash[:error] = I18n.t(
-          "settings.date_format.first_date_of_week_and_year_set",
-          first_week_setting_name: I18n.t(:setting_first_week_of_year),
-          day_of_week_setting_name: I18n.t(:setting_start_of_week)
-        )
-        redirect_to action: :show
+        def breadcrumb_items
+          [{ href: admin_index_path, text: t("label_administration") },
+           { href: admin_settings_api_path, text: t("menus.admin.api_and_webhooks") },
+           { href: admin_outgoing_webhooks_path, text: t("webhooks.plural") },
+           @webhook.name]
+        end
       end
     end
   end
