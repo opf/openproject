@@ -617,15 +617,15 @@ cs:
       reasons:
         mentioned: "Mentioned"
         watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
-        processed: "Processed"
-        prioritized: "Prioritized"
+        assigned: "Řešitel"
+        responsible: "Odpovědný"
+        created: "Vytvořeno"
+        scheduled: "Naplánováno"
+        commented: "Komentované"
+        processed: "Zpracované"
+        prioritized: "Prioritní"
         dateAlert: "Upozornění na datum"
-        shared: "Shared"
+        shared: "Sdíleno"
       date_alerts:
         milestone_date: "Datum milníku"
         overdue: "Po termínu"
@@ -898,7 +898,7 @@ cs:
       wiki_link: "Odkaz na stránku Wiki"
       image: "Obrázek"
     sharing:
-      share: "Share"
+      share: "Sdílet"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -1012,6 +1012,7 @@ cs:
         workAlternative: "Odhadovaný čas"
         remainingTime: "Zbývající práce"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Poslední aktivita"
         created_by_me: "Vytvořeno mnou"
         assigned_to_me: "Přiřazeno mně"

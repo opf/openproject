@@ -1013,6 +1013,7 @@ sk:
         workAlternative: "Predpokladaný čas"
         remainingTime: "Remaining work"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Posledná aktivita"
         created_by_me: "Vytvorené mnou"
         assigned_to_me: "Priradené mne"

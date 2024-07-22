@@ -150,7 +150,7 @@ uk:
         attribute_reference:
           macro_help_tooltip: "Цей текстовий фрагмент динамічно візуалізується макросом."
           not_found: "Не вдалося знайти потрібний ресурс"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "Цей макрос рекурсивно посилається на %{model} %{id}."
           invalid_attribute: "Вибраний атрибут «%{name}» не існує."
         child_pages:
           button: "Посилання на дочірні сторінки"
@@ -369,7 +369,7 @@ uk:
           "14_3":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Діліться списками проєктів і робіть їх загальнодоступними (доповнення Enterprise)</li> <li>Позначайте списки проєктів як обрані</li> <li>Перевіряйте підключення для сховищ OneDrive / SharePoint (доповнення Enterprise)</li> <li>Новий вигляд сторінки профілю користувача з Primer</li> <li>Експорт діаграми Ганта в PDF: додаткове масштабування дати за календарними тижнями</li> <li>Рядок пошуку в компоненті підменю (списки проєктів, діаграми Ґанта й дошки)</li> <li>Вибирайте спосіб відображення звітів про виконання: лише в годинах або в днях і годинах</li> <li>Скасовуйте вибір проєктів у засобі вибору</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -616,17 +616,17 @@ uk:
       title: "Сповіщення"
       no_unread: "Немає непрочитаних сповіщень"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
-        processed: "Processed"
-        prioritized: "Prioritized"
+        mentioned: "Згадано"
+        watched: "Спостерігач"
+        assigned: "Виконавець"
+        responsible: "Відповідальний"
+        created: "Створено"
+        scheduled: "Заплановано"
+        commented: "Прокоментовано"
+        processed: "Оброблено"
+        prioritized: "Надано пріоритет"
         dateAlert: "Оповіщення про дату"
-        shared: "Shared"
+        shared: "Поширено"
       date_alerts:
         milestone_date: "Дата віхи"
         overdue: "Прострочено"
@@ -899,10 +899,10 @@ uk:
       wiki_link: "Посилання на вікі-сторінку"
       image: "Зображення"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Надати спільний доступ"
+      selected_count: "Вибрано: %{count}"
       selection:
-        mixed: "Mixed"
+        mixed: "Різні"
     work_packages:
       bulk_actions:
         move: "Групова зміна проєкту"
@@ -1013,12 +1013,13 @@ uk:
         workAlternative: "Приблизний час"
         remainingTime: "Залишок роботи"
       default_queries:
+        manually_sorted: "Новий, відсортований уручну запит"
         latest_activity: "Останні дії"
         created_by_me: "Створений мною"
         assigned_to_me: "Призначено мені"
         recently_created: "Нещодавно створений"
         all_open: "Всі відкрити"
-        overdue: "Overdue"
+        overdue: "Прострочені"
         summary: "Резюме"
         shared_with_users: "Надано доступ користувачам"
         shared_with_me: "Доступ надано мені"

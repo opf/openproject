@@ -84,7 +84,7 @@ RSpec.describe("Activation of storages in projects",
   before do
     oauth_client_token
 
-    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/")
+    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}")
       .to_return(status: 207, body: root_xml_response, headers: {})
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
       .to_return(status: 207, body: folder1_xml_response, headers: {})
@@ -93,7 +93,7 @@ RSpec.describe("Activation of storages in projects",
     stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
     stub_request(
       :delete,
-      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})/"
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
     ).to_return(status: 200, body: "", headers: {})
 
     storage
@@ -104,7 +104,7 @@ RSpec.describe("Activation of storages in projects",
   it "adds, edits and removes storages to projects" do
     # Go to Projects -> Settings -> File Storages
     visit project_settings_general_path(project)
-    page.click_link("Files")
+    page.click_on("Files")
 
     # Check for an empty table in Project -> Settings -> File storages
     expect(page).to have_title("Files")
@@ -115,7 +115,7 @@ RSpec.describe("Activation of storages in projects",
     # Can cancel the creation of a new file storage
     expect(page).to have_current_path new_project_settings_project_storage_path(project_id: project)
     expect(page).to have_text("Add a file storage")
-    page.click_link("Cancel")
+    page.click_on("Cancel")
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     # Enable one file storage together with a project folder mode
@@ -124,7 +124,7 @@ RSpec.describe("Activation of storages in projects",
     expect(page).to have_text("Add a file storage")
     expect(page).to have_select("storages_project_storage_storage_id",
                                 options: ["#{storage.name} (#{storage.short_provider_type})"])
-    page.click_button("Continue")
+    page.click_on("Continue")
 
     # by default automatic have to be choosen if storage has automatic management enabled
     expect(page).to have_checked_field("New folder with automatically managed permissions")
@@ -133,7 +133,7 @@ RSpec.describe("Activation of storages in projects",
 
     # Select project folder
     expect(page).to have_text("No selected folder")
-    page.click_button("Select folder")
+    page.click_on("Select folder")
     location_picker.expect_open
     using_wait_time(20) do
       location_picker.wait_for_folder_loaded
@@ -144,7 +144,7 @@ RSpec.describe("Activation of storages in projects",
 
     # Add storage
     expect(page).to have_text("Folder1")
-    page.click_button("Add")
+    page.click_on("Add")
 
     # The list of enabled file storages should now contain Storage 1
     expect(page).to have_css("h1", text: "Files")
@@ -152,9 +152,10 @@ RSpec.describe("Activation of storages in projects",
 
     # Press Edit icon to change the project folder mode to inactive
     page.find(".icon.icon-edit").click
-    expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
-                                                                                 id: Storages::ProjectStorage.last,
-                                                                                 storages_project_storage: { project_folder_mode: "manual" })
+    path = edit_project_settings_project_storage_path(project_id: project,
+                                                      id: Storages::ProjectStorage.last,
+                                                      storages_project_storage: { project_folder_mode: "manual" })
+    expect(page).to have_current_path(path)
     expect(page).to have_text("Edit the file storage to this project")
     expect(page).to have_no_select("storages_project_storage_storage_id")
     expect(page).to have_text(storage.name)
@@ -164,7 +165,7 @@ RSpec.describe("Activation of storages in projects",
     # Change the project folder mode to inactive, project folder is hidden but retained
     page.find_by_id("storages_project_storage_project_folder_mode_inactive").click
     expect(page).to have_no_text("Folder1")
-    page.click_button("Save")
+    page.click_on("Save")
 
     # The list of enabled file storages should still contain Storage 1
     expect(page).to have_css("h1", text: "Files")
@@ -172,11 +173,12 @@ RSpec.describe("Activation of storages in projects",
 
     # Click Edit icon again but cancel the edit
     page.find(".icon.icon-edit").click
-    expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
-                                                                                 id: Storages::ProjectStorage.last,
-                                                                                 storages_project_storage: { project_folder_mode: "inactive" })
+    path = edit_project_settings_project_storage_path(project_id: project,
+                                                      id: Storages::ProjectStorage.last,
+                                                      storages_project_storage: { project_folder_mode: "inactive" })
+    expect(page).to have_current_path(path)
     expect(page).to have_text("Edit the file storage to this project")
-    page.click_link("Cancel")
+    page.click_on("Cancel")
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     # Press Delete icon to remove the storage from the project
@@ -188,14 +190,14 @@ RSpec.describe("Activation of storages in projects",
     expect(page).to have_button("Delete", disabled: true)
 
     # Cancel Confirmation
-    page.click_link("Cancel")
+    page.click_on("Cancel")
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     page.find(".icon.icon-delete").click
 
     # Approve Confirmation
     page.fill_in "delete_confirmation", with: storage.name
-    page.click_button("Delete")
+    page.click_on("Delete")
 
     # List of ProjectStorages empty again
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)

@@ -1010,6 +1010,7 @@ el:
         workAlternative: "Εκτιμώμενος χρόνος"
         remainingTime: "Remaining work"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Τελευταία δραστηριότητα"
         created_by_me: "Δημιουργήθηκε από εμένα"
         assigned_to_me: "Έχουν ανατεθεί σε εμένα"

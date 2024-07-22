@@ -150,7 +150,7 @@ fr:
         attribute_reference:
           macro_help_tooltip: "Ce segment de texte est rendu dynamiquement par une macro."
           not_found: "La ressource demandée est introuvable"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "Cette macro fait référence de manière récursive à %{model} %{id}."
           invalid_attribute: "L'attribut « %{name} » n'existe pas."
         child_pages:
           button: "Liens vers les pages enfants"
@@ -369,7 +369,7 @@ fr:
           "14_3":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                Cette version contient plusieurs nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Vous pouvez partager les listes de projets et les rendre publiques (module complémentaire Enterprise)</li> <li>Vous pouvez marquer des listes de projets comme favorites</li> <li>Validation de la connexion pour les stockages OneDrive/SharePoint (module complémentaire Enterprise)</li> <li>Nouveau look avec Primer pour la page de profil de l'utilisateur</li> <li>Exportation du diagramme de Gantt au format PDF : zoom supplémentaire sur les dates en fonction des semaines du calendrier</li> <li>Barre de recherche dans les sous-menus (listes de projets et modules Gantt et Tableaux)</li> <li>Choix entre l'affichage des rapports d'avancement en heures seulement ou en jours et en heures</li> <li>Vous pouvez désélectionner les projets dans le sélecteur de projets</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -616,17 +616,17 @@ fr:
       title: "Notifications"
       no_unread: "Pas de notification non lue"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
-        processed: "Processed"
-        prioritized: "Prioritized"
+        mentioned: "Mentionné"
+        watched: "Observateur"
+        assigned: "Personne assignée"
+        responsible: "Responsable"
+        created: "Créé"
+        scheduled: "Planifié"
+        commented: "Commenté"
+        processed: "Traité"
+        prioritized: "Priorisé"
         dateAlert: "Alarmes"
-        shared: "Shared"
+        shared: "Partagé"
       date_alerts:
         milestone_date: "Date jalon"
         overdue: "En retard"
@@ -897,10 +897,10 @@ fr:
       wiki_link: "Lien vers une page wiki"
       image: "Image"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Partager"
+      selected_count: "Sélection : %{count}"
       selection:
-        mixed: "Mixed"
+        mixed: "Mixte"
     work_packages:
       bulk_actions:
         move: "Changement de projet en bloc"
@@ -1011,12 +1011,13 @@ fr:
         workAlternative: "Durée estimée"
         remainingTime: "Travail restant"
       default_queries:
+        manually_sorted: "Nouvelle requête triée manuellement"
         latest_activity: "Dernière activité"
         created_by_me: "Créé par moi"
         assigned_to_me: "Assigné à moi"
         recently_created: "Créé récemment"
         all_open: "Tous les ouverts"
-        overdue: "Overdue"
+        overdue: "En retard"
         summary: "Résumé"
         shared_with_users: "Partagés avec des utilisateurs"
         shared_with_me: "Partagés avec moi"

@@ -32,100 +32,55 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class CustomFieldsController extends Controller {
   static targets = [
-    'dragContainer',
     'format',
-    'length',
-    'regexp',
-    'multiSelect',
-    'allowNonOpenVersions',
-    'possibleValues',
-    'defaultValue',
-    'defaultText',
-    'defaultLongText',
-    'defaultBool',
-    'textOrientation',
-    'searchable',
-    'customOptionRow',
+    'dragContainer',
+
     'customOptionDefaults',
+    'customOptionRow',
+
+    'allowNonOpenVersions',
+    'defaultBool',
+    'defaultLongText',
+    'defaultText',
+    'length',
+    'multiSelect',
+    'possibleValues',
+    'regexp',
+    'searchable',
+    'textOrientation',
   ];
 
-  static values = {
-    format: String,
-  };
-
-  declare readonly formatValue:string;
+  declare readonly formatTarget:HTMLInputElement;
   declare readonly dragContainerTarget:HTMLElement;
   declare readonly hasDragContainerTarget:boolean;
 
-  // Lots of the option fields are optionally, so we use the
-  // array notation to loop through instead of a lot of if (has...Target) calls
-  declare readonly lengthTargets:HTMLElement[];
-  declare readonly regexpTargets:HTMLElement[];
-  declare readonly multiSelectTargets:HTMLElement[];
-  declare readonly allowNonOpenVersionsTargets:HTMLElement[];
-  declare readonly possibleValuesTargets:HTMLElement[];
-  declare readonly defaultValueTargets:HTMLElement[];
-  declare readonly defaultTextTargets:HTMLElement[];
-  declare readonly defaultLongTextTargets:HTMLElement[];
-  declare readonly defaultBoolTargets:HTMLElement[];
-  declare readonly textOrientationTargets:HTMLElement[];
-  declare readonly searchableTargets:HTMLInputElement[];
-  declare readonly customOptionRowTargets:HTMLTableRowElement[];
   declare readonly customOptionDefaultsTargets:HTMLInputElement[];
+  declare readonly customOptionRowTargets:HTMLTableRowElement[];
+
+  declare readonly allowNonOpenVersionsTargets:HTMLElement[];
+  declare readonly defaultBoolTargets:HTMLElement[];
+  declare readonly defaultLongTextTargets:HTMLElement[];
+  declare readonly defaultTextTargets:HTMLElement[];
+  declare readonly lengthTargets:HTMLElement[];
+  declare readonly multiSelectTargets:HTMLElement[];
+  declare readonly possibleValuesTargets:HTMLElement[];
+  declare readonly regexpTargets:HTMLElement[];
+  declare readonly searchableTargets:HTMLInputElement[];
+  declare readonly textOrientationTargets:HTMLElement[];
 
   connect() {
     if (this.hasDragContainerTarget) {
       this.setupDragAndDrop();
     }
 
-    this.toggleFormat(this.formatValue);
+    this.formatChanged();
   }
 
-  activate(elements:HTMLElement[], active = true) {
-    this.toggleVisibility(!active, elements);
-    elements.forEach((element) => {
-      element
-        .querySelectorAll<HTMLInputElement>('input,textarea')
-        .forEach((input) => {
-          if (!input.matches('.destroy_flag,.-cf-ignore-disabled')) {
-            input.disabled = !active;
-          }
-        });
-    });
+  formatChanged() {
+    this.toggleFormat(this.formatTarget.value);
   }
 
-  toggleVisibility(hidden:boolean, elements:HTMLElement[]) {
-    elements
-      .forEach((field) => {
-        const wrapper = field.closest<HTMLElement>('.form--grouping') || field.closest<HTMLElement>('.form--field');
-        if (wrapper) {
-          wrapper.hidden = hidden;
-        } else {
-          field.hidden = hidden;
-        }
-      });
-  }
-
-  hide(...elements:HTMLElement[]) {
-    this.toggleVisibility(true, elements);
-  }
-
-  show(...elements:HTMLElement[]) {
-    this.toggleVisibility(false, elements);
-  }
-
-  unsearchable() {
-    this.hide(...this.searchableTargets);
-    this
-      .searchableTargets
-      .forEach((target) => (target.checked = false));
-  }
-
-  formatChanged(event:{ target:HTMLInputElement }) {
-    this.toggleFormat(event.target.value);
-  }
-
-  moveUpRow(event:{ target:HTMLElement }) {
+  moveRowUp(event:{ target:HTMLElement }) {
     const row = event.target.closest('tr') as HTMLTableRowElement;
     const idx = this.customOptionRowTargets.indexOf(row);
     if (idx > 0) {
@@ -135,7 +90,7 @@ export default class CustomFieldsController extends Controller {
     return false;
   }
 
-  moveDownRow(event:{ target:HTMLElement }) {
+  moveRowDown(event:{ target:HTMLElement }) {
     const row = event.target.closest('tr') as HTMLTableRowElement;
     const idx = this.customOptionRowTargets.indexOf(row);
     if (idx < this.customOptionRowTargets.length - 1) {
@@ -269,73 +224,27 @@ export default class CustomFieldsController extends Controller {
     });
   }
 
-  private toggleFormat(format:string) {
-    // defaults (reset these fields before doing anything else)
-    this.activate(this.defaultBoolTargets, false);
-    this.activate(this.defaultLongTextTargets, false);
-    this.activate(this.multiSelectTargets, false);
-    this.activate(this.allowNonOpenVersionsTargets, false);
-    this.activate(this.textOrientationTargets, false);
-    this.activate(this.defaultValueTargets);
-    this.activate(this.defaultTextTargets);
+  private setActive(elements:HTMLElement[], active:boolean) {
+    elements.forEach((element) => {
+      element.hidden = !active;
+      element
+        .querySelectorAll<HTMLInputElement>('input, textarea')
+        .forEach((input) => {
+          input.disabled = !active;
+        });
+    });
+  }
 
-    switch (format) {
-      case 'list':
-        this.activate(this.defaultValueTargets, false);
-        this.hide(...this.lengthTargets, ...this.regexpTargets, ...this.defaultValueTargets);
-        this.show(...this.searchableTargets, ...this.multiSelectTargets);
-        this.activate(this.multiSelectTargets);
-        this.activate(this.possibleValuesTargets);
-        break;
-      case 'bool':
-        this.activate(this.defaultBoolTargets);
-        this.activate(this.defaultTextTargets, false);
-        this.activate(this.possibleValuesTargets, false);
-        this.hide(...this.lengthTargets, ...this.regexpTargets, ...this.searchableTargets);
-        this.unsearchable();
-        break;
-      case 'date':
-        this.activate(this.defaultValueTargets, false);
-        this.activate(this.possibleValuesTargets, false);
-        this.hide(...this.lengthTargets, ...this.regexpTargets, ...this.defaultValueTargets);
-        this.unsearchable();
-        break;
-      case 'float':
-      case 'int':
-        this.activate(this.possibleValuesTargets, false);
-        this.show(...this.lengthTargets, ...this.regexpTargets);
-        this.unsearchable();
-        break;
-      case 'user':
-        this.activate(this.possibleValuesTargets, false);
-        this.show(...this.multiSelectTargets);
-        this.activate(this.multiSelectTargets);
-        this.hide(...this.lengthTargets, ...this.regexpTargets, ...this.defaultValueTargets);
-        this.unsearchable();
-        break;
-      case 'version':
-        this.show(...this.multiSelectTargets, ...this.allowNonOpenVersionsTargets);
-        this.activate(this.defaultValueTargets, false);
-        this.activate(this.possibleValuesTargets, false);
-        this.hide(...this.lengthTargets, ...this.regexpTargets, ...this.defaultValueTargets);
-        this.unsearchable();
-        break;
-      case 'text':
-        this.activate(this.defaultLongTextTargets);
-        this.activate(this.defaultTextTargets, false);
-        this.show(...this.lengthTargets, ...this.regexpTargets, ...this.searchableTargets, ...this.textOrientationTargets);
-        this.activate(this.possibleValuesTargets, false);
-        this.activate(this.textOrientationTargets);
-        break;
-      case 'link':
-        this.hide(...this.lengthTargets);
-        this.show(...this.regexpTargets, ...this.searchableTargets);
-        this.activate(this.possibleValuesTargets, false);
-        break;
-      default:
-        this.show(...this.lengthTargets, ...this.regexpTargets, ...this.searchableTargets);
-        this.activate(this.possibleValuesTargets, false);
-        break;
-    }
+  private toggleFormat(format:string) {
+    this.setActive(this.allowNonOpenVersionsTargets, format === 'version');
+    this.setActive(this.defaultBoolTargets, format === 'bool');
+    this.setActive(this.defaultLongTextTargets, format === 'text');
+    this.setActive(this.defaultTextTargets, !['list', 'bool', 'date', 'text', 'user', 'version'].includes(format));
+    this.setActive(this.lengthTargets, !['list', 'bool', 'date', 'user', 'version', 'link'].includes(format));
+    this.setActive(this.multiSelectTargets, ['list', 'user', 'version'].includes(format));
+    this.setActive(this.possibleValuesTargets, format === 'list');
+    this.setActive(this.regexpTargets, !['list', 'bool', 'date', 'user', 'version'].includes(format));
+    this.setActive(this.searchableTargets, !['bool', 'date', 'float', 'int', 'user', 'version'].includes(format));
+    this.setActive(this.textOrientationTargets, format === 'text');
   }
 }

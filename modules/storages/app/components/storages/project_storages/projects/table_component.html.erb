@@ -26,14 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= breadcrumb_toolbar(@placeholder_user.new_record? ? t(:label_placeholder_user_new) : @placeholder_user.name) do %>
-  <% unless @placeholder_user.new_record? %>
-  <li class="toolbar-item">
-    <%= link_to placeholder_user_path(@placeholder_user), class: 'button' do %>
-      <%= op_icon('button--icon icon-user') %>
-      <span class="button--text"><%= t(:label_profile) %></span>
-    <% end %>
-  </li>
-  <%= render partial: 'placeholder_users/toolbar_delete' %>
-  <% end %>
+
+<%= component_wrapper(tag: "div", data: { turbo: true }) do %>
+  <%= render_parent %>
 <% end %>

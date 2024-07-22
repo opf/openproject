@@ -29,7 +29,7 @@
 # Purpose: Defines how to format the components within a table row of Projects
 # associated with a Storage
 module Storages::ProjectStorages::Projects
-  class RowComponent < Projects::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class RowComponent < Projects::RowComponent
     include OpTurbo::Streamable
 
     def project_folder_type

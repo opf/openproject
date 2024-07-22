@@ -489,13 +489,13 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
         result = registry.resolve("nextcloud.queries.file_ids")
                          .call(storage:, path: "OpenProject")
                          .result
-        expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
-                               "OpenProject/Project #2/" => { "fileid" => "381" },
-                               "OpenProject/Project#1/" => { "fileid" => "773" },
-                               "OpenProject/Project#2/" => { "fileid" => "398" },
-                               "OpenProject/asd/" => { "fileid" => "783" },
-                               "OpenProject/qwe/" => { "fileid" => "767" },
-                               "OpenProject/qweekk/" => { "fileid" => "802" } })
+        expect(result).to eq({ "/OpenProject/" => { "fileid" => "349" },
+                               "/OpenProject/Project #2/" => { "fileid" => "381" },
+                               "/OpenProject/Project#1/" => { "fileid" => "773" },
+                               "/OpenProject/Project#2/" => { "fileid" => "398" },
+                               "/OpenProject/asd/" => { "fileid" => "783" },
+                               "/OpenProject/qwe/" => { "fileid" => "767" },
+                               "/OpenProject/qweekk/" => { "fileid" => "802" } })
       end
     end
 

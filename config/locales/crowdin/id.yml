@@ -262,8 +262,7 @@ id:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      public: "Public project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -296,8 +295,6 @@ id:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -584,17 +581,6 @@ id:
       attribute_help_text:
         attribute_name: "Atribut"
         help_text: "Teks bantuan"
-      ldap_auth_source:
-        account: "Akun"
-        attr_firstname: "Atribut nama depan"
-        attr_lastname: "Atribut nama belakang"
-        attr_login: "Atribut nama pengguna"
-        attr_mail: "Atribut email"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Otomatis membuat pengguna"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositori"
       color:
@@ -619,6 +605,14 @@ id:
         visible: "Visible"
       custom_value:
         value: "Nilai"
+      doorkeeper/application:
+        uid: "ID Pelanggan"
+        secret: "Rahasia klien"
+        owner: "Pemilik"
+        redirect_uri: "Alihkan URI"
+        client_credentials_user_id: "ID Pengguna Kredensial Klien"
+        scopes: "Cakupan"
+        confidential: "Rahasia"
       enterprise_token:
         starts_at: "Valid sejak"
         subscriber: "Pelanggan"
@@ -629,20 +623,25 @@ id:
         row_count: "Jumlah baris"
         column_count: "Jumlah kolom"
         widgets: "Widget"
-      oauth_client:
-        client: "ID Pelanggan"
-      relation:
-        lag: "Lag"
-        from: "Paket-Penugasan"
-        to: "Work package terkait"
-      status:
-        is_closed: "Paket-Penugasan telah berakhir"
-        is_readonly: "Hanya baca paket kerja"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Note"
+      ldap_auth_source:
+        account: "Akun"
+        attr_firstname: "Atribut nama depan"
+        attr_lastname: "Atribut nama belakang"
+        attr_login: "Atribut nama pengguna"
+        attr_mail: "Atribut email"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Otomatis membuat pengguna"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Roles"
+      oauth_client:
+        client: "ID Pelanggan"
+      planning_element_type_color:
+        hexcode: Kode Hexa
       project:
         active_value:
           true: "tidak diarsipkan"
@@ -672,6 +671,8 @@ id:
         types: "Tipe"
         versions: "Versi"
         work_packages: "Paket-Penugasan"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Kolom"
         relations_to_type_column: "Relasi untuk %{type}"
@@ -679,10 +680,19 @@ id:
         group_by: "Group"
         filters: "Filter"
         timeline_labels: "Label alur waktu"
+      relation:
+        lag: "Lag"
+        from: "Paket-Penugasan"
+        to: "Work package terkait"
       repository:
         url: "URL"
       role:
         permissions: "Hak akses"
+      status:
+        is_closed: "Paket-Penugasan telah berakhir"
+        is_readonly: "Hanya baca paket kerja"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Activity"
         hours: "Jam"
@@ -725,10 +735,6 @@ id:
       wiki_page:
         parent_title: "Halaman induk"
         redirect_existing_links: "Redirect link"
-      planning_element_type_color:
-        hexcode: Kode Hexa
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -763,14 +769,6 @@ id:
         type: "Tipe"
         version: "Versi"
         watcher: "Pemantau"
-      "doorkeeper/application":
-        uid: "ID Pelanggan"
-        secret: "Rahasia klien"
-        owner: "Pemilik"
-        redirect_uri: "Alihkan URI"
-        client_credentials_user_id: "ID Pengguna Kredensial Klien"
-        scopes: "Cakupan"
-        confidential: "Rahasia"
     errors:
       messages:
         accepted: "harus disetujui."
@@ -983,6 +981,11 @@ id:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1096,8 +1099,6 @@ id:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1999,6 +2000,7 @@ id:
   label_inactive: "Tidak aktif"
   label_incoming_emails: "Email masuk"
   label_includes: "termasuk"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeks menurut tanggal"
   label_index_by_title: "Indeks menurut judul"
   label_information: "Informasi"
@@ -2161,6 +2163,7 @@ id:
   label_product_version: "Product version"
   label_profile: "Profil"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Atribut proyek"
   label_project_attribute_manage_link: "Manage project attributes"

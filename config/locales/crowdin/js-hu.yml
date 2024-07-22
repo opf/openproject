@@ -1011,6 +1011,7 @@ hu:
         workAlternative: "Becsült idő (óra)"
         remainingTime: "Fennmaradó órák"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Utolsó aktivitás"
         created_by_me: "Általam készített"
         assigned_to_me: "Hozzám rendelt"

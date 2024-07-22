@@ -49,7 +49,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: "/work_packages", project_id: nil, state: nil, action: "index" },
             context: :modules,
             caption: I18n.t("label_work_package_plural"),
-            icon: "op-work-packages",
+            icon: "op-view-list",
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_in_any_work_package?(:view_work_packages)
@@ -413,7 +413,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
     menu.push :"settings_#{node[:name]}",
               { controller: node[:controller], action: :show },
               caption: node[:label],
-              if: Proc.new { User.current.admin? && node[:name] != "experimental" },
+              if: Proc.new { User.current.admin? && (node[:name] != "experimental" || Rails.env.development?) },
               parent: :settings
   end
 
@@ -529,7 +529,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/settings", action: "show_plugin", id: :costs },
             if: Proc.new { User.current.admin? },
             caption: :project_module_costs,
-            icon: "op-budget"
+            icon: "op-cost-reports"
 
   menu.push :costs_setting,
             { controller: "/admin/settings", action: "show_plugin", id: :costs },
@@ -565,7 +565,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :roadmap,
             { controller: "/versions", action: "index" },
             if: Proc.new { |p| p.shared_versions.any? },
-            icon: "project-roadmap"
+            icon: "milestone"
 
   menu.push :work_packages,
             { controller: "/work_packages", action: "index" },

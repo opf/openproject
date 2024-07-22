@@ -1011,6 +1011,7 @@ ja:
         workAlternative: "予定工数"
         remainingTime: "残りの作業"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "最新の活動"
         created_by_me: "私が作成した"
         assigned_to_me: "私に割り当てられた"

@@ -1,0 +1,134 @@
+The left-hand menu has not yet been primerised and is part of ongoing conceptual discussions. There are however some patterns worth noting down.
+
+## Query-based sub menu
+
+For modules, that have a query-based sub menu, we introduced a component called `OpenProject::Common::SubmenuComponent`. For technical details, have a look at the [component preview](../../inspect/OpenProject/Common/submenu/default).
+
+<%= embed OpenProject::Common::SubmenuComponentPreview, :default, panels: %i[source] %>
+
+Modules that use this components are (amongst others):
+
+* WorkPackages
+* Team planners
+* Calendars
+* BIM
+* Gantt
+
+Please note, that this component is (as of now) not used for navigational submenus like in the project settings or the administration menu.
+
+### Data structure
+
+A sub menu consists of a set of global items, as well as collapsible sections with child elements. In order to enforce that structure we defined two Data structures:
+
+* `OpenProject::Menu::MenuGroup`: A group of items, with an optional header.
+```ruby
+MenuGroup = Data.define(:header, :children)
+```
+
+* `OpenProject::Menu::MenuItem`: A concrete Item with all options it supports
+```ruby
+MenuItem = Data.define(:title, :href, :selected, :favored, :icon, :count, :show_enterprise_icon) do
+      def initialize(title:, href:, selected:, favored: false, icon: nil, count: nil, show_enterprise_icon: false)
+        super
+      end
+    end
+```
+
+
+### Data loading
+
+Since we moved away from Angular towards Turbo, we use turbo frames to render the submenu only once they are needed.
+
+There is a generic `Submenu` class that provides a basic setup of how to collect all the data to be displayed in the sub menu. This class is based on the existence of so called `views` which are used to assign a query to a module. The `Submenu` class collects all queries for a given `view` does the following things:
+
+* Highlight the currently selected query
+* Create params for the links of each item
+* Group the queries into collapsible sections
+  * Favourite
+  * Default
+  * Public
+  * Private
+
+All of the modules that implement a query-based submenu need to have an own `menu.rb` file, placed under `app/menus` which inherits from `Submenu`. This is at least necessary to define some basics as the `view` or the `base_path` of that menu. Further, the default queries for that module can be defined there.
+
+This is an excerpt of the base class:
+
+```ruby
+class Submenu
+  def initialize(view_type:, project: nil, params: nil)
+    @view_type = view_type
+    @project = project
+    @params = params
+  end
+
+  def menu_items
+    [
+      OpenProject::Menu::MenuGroup.new(header: I18n.t("js.label_starred_queries"), children: starred_queries),
+      # ....
+    ]
+  end
+
+  def starred_queries
+    base_query
+      .where("starred" => "t")
+      .pluck(:id, :name)
+      .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
+      .sort_by(&:title)
+  end
+
+  # ...
+
+  def base_query
+    base_query ||= Query
+                     .visible(User.current)
+                     .includes(:project)
+                     .joins(:views)
+                     .where("views.type" => view_type)
+
+    if project.present?
+      base_query.where("queries.project_id" => project.id)
+    else
+      base_query.where("queries.project_id" => nil)
+    end
+  end
+end
+```
+
+
+## Filter-based sub menu
+
+Not all modules are based on queries with an attached `view` object to show in their submenu. Some use the generic `filters` to provide the elements. For those modules, basically the same architecture as above can be used. The only difference is that you cannot rely on the existing `base_query` of the parent class but have to define your own query. The following modules use such an approach (amongst others):
+
+* Members (example provided below)
+* Project lists
+* Meetings
+* Notifications
+
+```ruby
+module Members
+  class Menu < Submenu
+    attr_reader :project, :params
+
+    def initialize(project: nil, params: nil)
+      super(view_type: nil, project:, params:)
+    end
+
+    def menu_items
+      [
+        OpenProject::Menu::MenuGroup.new(header: I18n.t("members.menu.project_roles"), children: project_roles_entries),
+        # ...
+      ]
+    end
+
+    def project_roles_entries
+      ProjectRole
+        .where(id: MemberRole.where(member_id: @project.members.select(:id)).select(:role_id))
+        .distinct
+        .pluck(:id, :name)
+        .map { |id, name| menu_item(title: name, query_params: { role_id: id }) }
+    end
+
+    # ...
+  end
+end
+```

@@ -1012,6 +1012,7 @@ sl:
         workAlternative: "Predvideni čas"
         remainingTime: "Remaining work"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Zadnja dejavnost"
         created_by_me: "Ustvaril jaz"
         assigned_to_me: "Dodeljeno meni"

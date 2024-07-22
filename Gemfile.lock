@@ -318,7 +318,7 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
-    acts_as_list (1.2.1)
+    acts_as_list (1.2.2)
       activerecord (>= 6.1)
       activesupport (>= 6.1)
     acts_as_tree (2.9.1)
@@ -342,8 +342,8 @@ GEM
       activerecord (>= 4.0.0, < 7.2)
     awrence (1.2.1)
     aws-eventstream (1.3.0)
-    aws-partitions (1.955.0)
-    aws-sdk-core (3.201.1)
+    aws-partitions (1.957.0)
+    aws-sdk-core (3.201.2)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.8)
@@ -674,7 +674,7 @@ GEM
     launchy (3.0.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
-    lefthook (1.7.2)
+    lefthook (1.7.4)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
     letter_opener_web (3.0.0)
@@ -772,10 +772,10 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-octicons (19.15.0)
-    openproject-octicons_helper (19.15.0)
+    openproject-octicons (19.16.0)
+    openproject-octicons_helper (19.16.0)
       actionview
-      openproject-octicons (= 19.15.0)
+      openproject-octicons (= 19.16.0)
       railties
     openproject-primer_view_components (0.37.1)
       actionview (>= 5.0.0)
@@ -940,7 +940,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     retriable (3.1.2)
-    rexml (3.3.1)
+    rexml (3.3.2)
       strscan
     rinku (2.0.6)
     roar (1.2.0)
@@ -1025,7 +1025,7 @@ GEM
     secure_headers (6.5.0)
     selenium-devtools (0.126.0)
       selenium-webdriver (~> 4.2)
-    selenium-webdriver (4.22.0)
+    selenium-webdriver (4.23.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
@@ -1089,7 +1089,7 @@ GEM
       openssl-signature_algorithm (~> 1.0)
     trailblazer-option (0.1.2)
     ttfunk (1.7.0)
-    turbo-rails (2.0.5)
+    turbo-rails (2.0.6)
       actionpack (>= 6.0.0)
       activejob (>= 6.0.0)
       railties (>= 6.0.0)
@@ -1109,7 +1109,7 @@ GEM
       activemodel (>= 3.0.0)
       public_suffix
     vcr (6.2.0)
-    view_component (3.12.1)
+    view_component (3.13.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -1264,8 +1264,8 @@ DEPENDENCIES
   openproject-job_status!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-octicons (~> 19.15.0)
-  openproject-octicons_helper (~> 19.15.0)
+  openproject-octicons (~> 19.16.0)
+  openproject-octicons_helper (~> 19.16.0)
   openproject-openid_connect!
   openproject-primer_view_components (~> 0.37.1)
   openproject-recaptcha!

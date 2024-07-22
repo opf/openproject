@@ -1010,6 +1010,7 @@ sv:
         workAlternative: "Beräknad tid"
         remainingTime: "Remaining work"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Senaste aktivitet"
         created_by_me: "Skapad av mig"
         assigned_to_me: "Tilldelad till mig"

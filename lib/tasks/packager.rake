@@ -66,7 +66,7 @@ namespace :packager do
     env_host_name = ENV["SERVER_HOSTNAME"]
     # Write the ENV provided host name as a setting so it is no longer writable
     if env_host_name.present?
-      shell_setup(["config:set", "OPENPROJECT_HOST__NAME=#{host_name}"])
+      shell_setup(["config:set", "OPENPROJECT_HOST__NAME=#{env_host_name}"])
     end
 
     # SERVER_PROTOCOL is set by the packager apache2 addon

@@ -50,6 +50,8 @@ interface IFullNotificationSettingsValue extends IToastSettingsValue {
 export class NotificationsSettingsPageComponent extends UntilDestroyedMixin implements OnInit {
   @Input() userId:string;
 
+  @Input() showToolbar = true;
+
   public availableTimes = reminderAvailableTimeframes();
 
   public availableTimesOverdue = overDueReminderTimes();

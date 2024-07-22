@@ -105,12 +105,9 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   # otherwise it will run the request every test suite run.
   # Then we disable both VCR and WebMock to return to the usual state
   shared_let(:original_folder_ids) do
-    WebMock.enable! && VCR.turn_on!
-    VCR.use_cassette("one_drive/sync_service_original_folders") do
+    use_storages_vcr_cassette("one_drive/sync_service_original_folders") do
       original_folders(storage)
     end
-  ensure
-    VCR.turn_off! && WebMock.disable!
   end
 
   subject(:service) { described_class.new(storage) }

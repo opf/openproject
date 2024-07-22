@@ -31,7 +31,7 @@
 # See also: row_component.rb, which contains a method
 # for every "column" defined below.
 module Storages::ProjectStorages::Projects
-  class TableComponent < Projects::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class TableComponent < Projects::TableComponent
     include OpTurbo::Streamable
 
     options :storage

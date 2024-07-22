@@ -1011,6 +1011,7 @@ hi:
         workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Latest activity"
         created_by_me: "मेरे द्वारा सृजनित"
         assigned_to_me: "मुझे सौपा गया"

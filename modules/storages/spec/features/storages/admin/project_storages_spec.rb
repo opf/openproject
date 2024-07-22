@@ -33,7 +33,7 @@ require_module_spec_helper
 
 RSpec.describe "Admin lists project mappings for a storage",
                :js,
-               :storage_server_helpers,
+               :with_cuprite,
                with_flag: { enable_storage_for_multiple_projects: true } do
   shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
   shared_let(:non_admin) { create(:user) }
@@ -108,8 +108,55 @@ RSpec.describe "Admin lists project mappings for a storage",
 
       aggregate_failures "shows the correct project mappings including archived projects and their folder modes" do
         within "#project-table" do
-          expect(page).to have_text("#{project.name} Automatically managed")
-          expect(page).to have_text("#{archived_project.name} No specific folder")
+          expect(page).to have_text(project.name.to_s).and have_text("Automatically managed")
+          expect(page).to have_text("ARCHIVED #{archived_project.name}").and have_text("No specific folder")
+        end
+      end
+    end
+
+    it "shows an error in the dialog when no project is selected before adding" do
+      create(:project)
+      expect(page).to have_no_css("dialog")
+      click_on "Add projects"
+
+      page.within("dialog") do
+        click_on "Add"
+
+        wait_for(page).to have_text("Please select a project.")
+      end
+    end
+
+    it "allows linking a project to a storage" do
+      project = create(:project)
+      subproject = create(:project, parent: project)
+      click_on "Add projects"
+
+      within("dialog") do
+        autocompleter = page.find(".op-project-autocompleter")
+        autocompleter.fill_in with: project.name
+
+        expect(page).to have_no_text(archived_project.name)
+
+        find(".ng-option-label", text: project.name).click
+        check "Include sub-projects"
+
+        expect(page.find_by_id("storages_project_storage_project_folder_mode_automatic")).to be_checked
+
+        click_on "Add"
+      end
+
+      expect(page).to have_text(project.name)
+      expect(page).to have_text(subproject.name)
+
+      aggregate_failures "pagination links maintain the correct url" do
+        within ".op-pagination" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+
+          pagination_links.each do |pagination_link|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(admin_settings_storage_project_storages_path(storage))
+          end
         end
       end
     end

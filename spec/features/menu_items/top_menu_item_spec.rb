@@ -45,7 +45,7 @@ RSpec.describe "Top menu items", :js, :with_cuprite do
   end
 
   def click_link_in_open_menu(title)
-    within ".op-app-menu--dropdown[aria-expanded=true]" do
+    within "#op-app-header--modules-menu-list" do
       expect(page).to have_no_css("[style~=overflow]")
 
       click_link(title)

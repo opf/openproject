@@ -1011,6 +1011,7 @@ ka:
         workAlternative: "სავარაუდო დრო"
         remainingTime: "დარჩენილი სამუშაო"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Latest activity"
         created_by_me: "ჩემი შექმნილები"
         assigned_to_me: "ჩემზე მონიჭებული"

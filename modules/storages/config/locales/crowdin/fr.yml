@@ -22,6 +22,8 @@ fr:
           attributes:
             project_folder_mode:
               mode_unavailable: n'est pas disponible pour cet espace de stockage.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -55,9 +57,9 @@ fr:
   project_module_storages: Fichiers
   project_storages:
     project_folder_mode:
-      automatic: Automatically managed
-      inactive: No specific folder
-      manual: Existing folder manually managed
+      automatic: Géré automatiquement
+      inactive: Aucun dossier spécifique
+      manual: Dossier existant géré manuellement
   storages:
     buttons:
       complete_without_setup: Compléter sans
@@ -108,22 +110,22 @@ fr:
     health:
       checked: Dernière vérification %{datetime}
       connection_validation:
-        action: Recheck connection
-        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        placeholder: Check your connection against the server.
-        subtitle: Connection validation
-        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content: Unexpected content found in the drive.
-        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        action: Revérifier la connexion
+        client_id_wrong: L'identifiant du client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
+        client_secret_wrong: Le secret client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
+        drive_id_wrong: L'identifiant du lecteur configuré est introuvable. Veuillez vérifier la configuration.
+        not_configured: La connexion n'a pas pu être validée. Veuillez d'abord terminer la configuration.
+        placeholder: Vérifiez votre connexion avec le serveur.
+        subtitle: Validation de la connexion
+        tenant_id_wrong: L'identifiant du répertoire (locataire) configuré n'est pas valide. Veuillez vérifier la configuration.
+        unexpected_content: Contenu inattendu trouvé dans le lecteur.
+        unknown_error: La connexion n'a pas pu être validée. Une erreur inconnue s'est produite. Veuillez consulter les journaux du serveur pour en savoir plus.
       label_error: Erreur
       label_healthy: Sain
       label_pending: En attente
-      label_warning: Warning
+      label_warning: Avertissement
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Dossiers de projets gérés automatiquement
       since: depuis %{datetime}
       title: État de santé
     health_email_notifications:
@@ -135,10 +137,10 @@ fr:
       unsubscribe: Se désabonner
     help_texts:
       project_folder: Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Tous les stockages disponibles sont déjà ajoutés au projet.
       automatic_folder: Cela créera automatiquement un dossier racine pour ce projet et gérera les autorisations d'accès pour chaque membre du projet.
-      copy_from: Copier cette valeur depuis
       empty_project_folder_validation: La sélection d'un dossier est nécessaire pour continuer.
       existing_manual_folder: Vous pouvez désigner un dossier existant comme dossier racine pour ce projet. Les permissions ne sont cependant pas gérées automatiquement, l'administrateur doit s'assurer manuellement que les utilisateurs pertinents y ont accès. Le dossier sélectionné peut être utilisé par plusieurs projets.
       host: Veuillez ajouter l'adresse d'hôte de votre stockage, y compris le https://. Il ne doit pas dépasser 255 caractères.

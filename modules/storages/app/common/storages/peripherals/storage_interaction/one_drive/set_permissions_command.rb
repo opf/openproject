@@ -130,6 +130,7 @@ module Storages
             { read: read_permissions, write: write_permissions }
           end
 
+          # rubocop:disable Metrics/AbcSize
           def handle_response(response)
             case response
             in { status: 200 }
@@ -154,6 +155,8 @@ module Storages
             end
           end
 
+          # rubocop:enable Metrics/AbcSize
+
           def permission_path(item_id, permission_id)
             "#{permissions_path(item_id)}/#{permission_id}"
           end
@@ -167,7 +170,7 @@ module Storages
           end
 
           def item_path(item_id)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{item_id}"
+            UrlBuilder.url(Util.drive_base_uri(@storage), "/items", item_id)
           end
 
           def log_error(error)
