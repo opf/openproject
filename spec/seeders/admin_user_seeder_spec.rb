@@ -65,6 +65,57 @@ RSpec.describe AdminUserSeeder do
     end
   end
 
+  context "when providing a name that cannot be split",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET: "false",
+            OPENPROJECT_SEED_ADMIN_USER_PASSWORD: "foobar",
+            OPENPROJECT_SEED_ADMIN_USER_MAIL: "foobar@example.com",
+            OPENPROJECT_SEED_ADMIN_USER_NAME: "foobar"
+          } do
+    it "uses those variables" do
+      reset(:seed_admin_user_password)
+      reset(:seed_admin_user_password_reset)
+      reset(:seed_admin_user_name)
+      reset(:seed_admin_user_mail)
+
+      seeder.seed!
+
+      admin = User.admin.last
+      expect(admin.firstname).to eq "foobar"
+      expect(admin.lastname).to eq "Admin"
+      expect(admin.mail).to eq "foobar@example.com"
+      expect(admin.force_password_change).to be false
+      expect(admin.check_password?("admin")).to be false
+      expect(admin.check_password?("foobar")).to be true
+    end
+  end
+
+  context "when omitting name",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET: "false",
+            OPENPROJECT_SEED_ADMIN_USER_PASSWORD: "foobar",
+            OPENPROJECT_SEED_ADMIN_USER_MAIL: "foobar@example.com"
+          } do
+    it "uses those variables" do
+      reset(:seed_admin_user_password)
+      reset(:seed_admin_user_password_reset)
+      reset(:seed_admin_user_name)
+      reset(:seed_admin_user_mail)
+
+      seeder.seed!
+
+      admin = User.admin.last
+      expect(admin.firstname).to eq "OpenProject"
+      expect(admin.lastname).to eq "Admin"
+      expect(admin.mail).to eq "foobar@example.com"
+      expect(admin.force_password_change).to be false
+      expect(admin.check_password?("admin")).to be false
+      expect(admin.check_password?("foobar")).to be true
+    end
+  end
+
   it "references the admin user as :openproject_admin in the seed_data" do
     seeder.seed!
     expect(seed_data.find_reference(:openproject_admin)).to eq(User.admin.first)
