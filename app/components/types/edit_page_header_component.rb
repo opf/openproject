@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,12 +26,25 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Admin::Settings
-  class WorkPackagesSettingsController < ::Admin::SettingsController
-    current_menu_item :show do
-      :work_packages_setting
+module Types
+  class EditPageHeaderComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include ApplicationHelper
+    include TabsHelper
+
+    def initialize(type:, tabs: nil)
+      super
+      @type = type
+      @tabs = tabs
+    end
+
+    def breadcrumb_items
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
+       { href: types_path, text: t(:label_type_plural) },
+       @type.name]
     end
   end
 end

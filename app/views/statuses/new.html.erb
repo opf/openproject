@@ -28,8 +28,16 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), t(:label_work_package_status_new) %>
-<% local_assigns[:additional_breadcrumb] =  t(:label_work_package_status_new) %>
-<%= breadcrumb_toolbar t(:label_work_package_status_new) %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t(:label_work_package_status_new) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
+                             { href: statuses_path, text: t(:label_status) },
+                             t(:label_work_package_status_new)])
+  end
+%>
 
 <%= labelled_tabular_form_for(@status) do |f| %>
   <%= render partial: 'form', locals: { f: f } %>

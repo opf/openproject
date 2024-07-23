@@ -27,17 +27,27 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_work_package_status_plural) -%>
-<%= toolbar title: t(:label_work_package_status_plural) do %>
-  <li class="toolbar-item">
-    <%= link_to new_status_path,
-          { class: 'button -primary',
-            aria: {label: t(:label_work_package_status_new)},
-            title: t(:label_work_package_status_new)} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t(:label_status) %></span>
-    <% end %>
-  </li>
-<% end %>
+<% html_title t(:label_administration), t(:label_work_package_plural), I18n.t(:label_status) -%>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { I18n.t(:label_status) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
+                             I18n.t(:label_status)])
+  end
+%>
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t(:label_work_package_status_new) },
+                                 title: I18n.t(:label_work_package_status_new),
+                                 tag: :a,
+                                 href: new_status_path) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t(:label_status)
+    end
+  end
+%>
 
 <%= render ::Statuses::TableComponent.new(rows: @statuses) %>

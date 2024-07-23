@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t(:label_administration), t(:label_workflow_plural) -%>
-<%= render partial: 'toolbar', locals: { title: Workflow.model_name.human } %>
-<% local_assigns[:additional_breadcrumb] = t(:button_copy) %>
+<% html_title t(:label_administration), t(:label_workflow_plural), t(:label_workflow_copy) -%>
+
+<%= render Workflows::PageHeaderComponent.new(state: :copy) %>
 
 <%= styled_form_tag({}, id: 'workflow_copy_form') do %>
   <section class="form--section">
@@ -75,5 +75,6 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </div>
   </section>
-  <%= styled_submit_tag t(:button_copy), class: '-primary' %>
+
+  <%= styled_submit_tag t(:button_copy), class: '-primary', data: { "test-selector": "op-admin-workflows--button-copy" } %>
 <% end %>
