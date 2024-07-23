@@ -2271,6 +2271,7 @@ es:
   label_role_search: "Asignar rol a nuevos miembros"
   label_scm: "SCM"
   label_search: "Buscar"
+  label_search_by_name: "Search by name"
   label_send_information: "Enviar nuevas credenciales al usuario"
   label_send_test_email: "Enviar un correo electrónico de prueba"
   label_session: "Sesión"

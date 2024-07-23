@@ -2308,6 +2308,7 @@ ro:
   label_role_search: "Atribuirea rolului noilor membri"
   label_scm: "SCM"
   label_search: "Căutare"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Trimite e-mail de test"
   label_session: "Sesiune"

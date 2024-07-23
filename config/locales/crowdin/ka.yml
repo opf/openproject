@@ -2274,6 +2274,7 @@ ka:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "ძებნა"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
   label_session: "სესია"

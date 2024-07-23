@@ -2274,6 +2274,7 @@ si:
   label_role_search: "නව සාමාජිකයින්ට කාර්යභාරය පැවරීම"
   label_scm: "SCM"
   label_search: "සොයන්න"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "පරීක්ෂණ ඊ-තැපෑලක් යවන්න"
   label_session: "සැසිය"

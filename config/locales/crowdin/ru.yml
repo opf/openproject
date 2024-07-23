@@ -719,7 +719,7 @@ ru:
         is_closed: "Пакет работ закрыт"
         is_readonly: "Пакет работ только для просмотра"
         excluded_from_totals: "Исключить из расчета итогов в иерархии"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% Завершено"
       time_entry:
         activity: "Деятельность"
         hours: "Часы"
@@ -1011,7 +1011,7 @@ ru:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "должно быть между 0 и 100."
           readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
         time_entry:
           attributes:
@@ -2341,6 +2341,7 @@ ru:
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
   label_search: "Поиск"
+  label_search_by_name: "Search by name"
   label_send_information: "Отправить новые учетные данные пользователю"
   label_send_test_email: "Отправить тестовое сообщение"
   label_session: "Сессия"

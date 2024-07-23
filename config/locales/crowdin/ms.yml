@@ -2238,6 +2238,7 @@ ms:
   label_role_search: "Tetapkan peranan ke ahli baharu"
   label_scm: "SCM"
   label_search: "Cari"
+  label_search_by_name: "Search by name"
   label_send_information: "Hantar kelayakan baharu ke pengguna tersebut"
   label_send_test_email: "Hantar e-mel ujian"
   label_session: "Sesi"

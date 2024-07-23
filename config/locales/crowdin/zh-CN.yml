@@ -2236,6 +2236,7 @@ zh-CN:
   label_role_search: "将角色分配给新成员"
   label_scm: "SCM"
   label_search: "搜索"
+  label_search_by_name: "Search by name"
   label_send_information: "向用户发送新的凭据"
   label_send_test_email: "发送测试电子邮件"
   label_session: "会话"

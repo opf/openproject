@@ -2233,6 +2233,7 @@ id:
   label_role_search: "Menetapkan role kepada anggota baru"
   label_scm: "SCM"
   label_search: "Cari"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Kirim test email"
   label_session: "Sesi"

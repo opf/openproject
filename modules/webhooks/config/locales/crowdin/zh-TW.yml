@@ -1,7 +1,7 @@
 zh-TW:
   plugin_openproject_webhooks:
-    name: "OpenProject Meeting"
-    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
+    name: "OpenProject Webhooks"
+    description: "為更良好整合第三方服務，提供外掛程式 API 支援 OpenProject Webhook"
   activerecord:
     attributes:
       webhooks/webhook:

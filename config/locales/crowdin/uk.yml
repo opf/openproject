@@ -2336,6 +2336,7 @@ uk:
   label_role_search: "Призначити роль для нових членів"
   label_scm: "Тип сховища"
   label_search: "Пошук"
+  label_search_by_name: "Search by name"
   label_send_information: "Надіслати нові облікові дані користувачу"
   label_send_test_email: "Послати email для перевірки"
   label_session: "Сеанс"

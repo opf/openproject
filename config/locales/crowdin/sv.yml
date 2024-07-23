@@ -2273,6 +2273,7 @@ sv:
   label_role_search: "Tilldela rollen till nya medlemmar"
   label_scm: "SCM"
   label_search: "Sök"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Skicka test E-post"
   label_session: "Session"

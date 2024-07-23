@@ -2339,6 +2339,7 @@ pl:
   label_role_search: "Przydziel role nowemu członkowi"
   label_scm: "SCM"
   label_search: "Szukaj"
+  label_search_by_name: "Search by name"
   label_send_information: "Wyślij nowe poświadczenia do użytkownika"
   label_send_test_email: "Wyślij wiadomość testową"
   label_session: "Sesja"

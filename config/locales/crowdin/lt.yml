@@ -2339,6 +2339,7 @@ lt:
   label_role_search: "Priskirti vaidmenį naujiems nariams"
   label_scm: "SCM"
   label_search: "Paieška"
+  label_search_by_name: "Search by name"
   label_send_information: "Siųsti naujus prisijungimo duomenis naudotojui"
   label_send_test_email: "Siųsti bandomąjį el. laišką"
   label_session: "Sesija"

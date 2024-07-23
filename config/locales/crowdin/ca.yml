@@ -2270,6 +2270,7 @@ ca:
   label_role_search: "Assignar rols als nous membres"
   label_scm: "SCM"
   label_search: "Cercar"
+  label_search_by_name: "Search by name"
   label_send_information: "Envia noves credencials a l'usuari"
   label_send_test_email: "Enviar correu electrònic de prova"
   label_session: "Sessió"

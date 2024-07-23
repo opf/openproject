@@ -88,17 +88,17 @@ zh-TW:
       projects:
         demo-construction-project:
           name: "(示範) 營建專案"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          status_explanation: 所有任務和子專案皆依計劃進行，相關人員知道他們的任務，系統完成設定。
+          description: 此為本建置示範專案的目標簡短摘要。
           news:
             item_0:
               title: 歡迎來到示範專案
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                我們很開心您的加入。
+                在這個模組，您可以與您的團隊成員溝通專案新訊。
+              description: 實際新訊
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 類別 1 ( 將於專案設定變更 )
           queries:
             item_0:
               name: 計畫方案
@@ -110,7 +110,7 @@ zh-TW:
               name: 團隊規劃
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: 簡單的拖放工作流程
           project-overview:
             widgets:
               item_0:
@@ -150,14 +150,14 @@ zh-TW:
                   name: 里程碑
         demo-planning-constructing-project:
           name: "(示範) 規劃 & 興建"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          status_explanation: 所有任務皆依計劃進行，相關人員知道他們的任務，系統完成設定。
+          description: 此為本示範建築專案的目標簡短摘要。
           news:
             item_0:
               title: 歡迎來到您的示範專案
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                我們很開心您的加入。
+                在這個模組，您可以與您的團隊成員溝通專案新訊。
               description: The actual news
           categories:
             item_0: Category 1 (to be changed in Project settings)
@@ -205,17 +205,17 @@ zh-TW:
                   name: 里程碑
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: 專案啟動建置專案
               description: |-
                 The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
 
                 The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Basic evaluation
+              subject: ' 基本評估'
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: 收集首要專案資訊
                   description: |-
                     ## Goal
 
@@ -228,7 +228,7 @@ zh-TW:
                     *   Each need shall represent a task with its corresponding work packages
                     *   Derive the cost estimation and time frame
                 item_1:
-                  subject: Summarize the results
+                  subject: 結果彙整
                   description: |-
                     ## Goal
 
@@ -243,7 +243,7 @@ zh-TW:
                     *   This overview informs all participants about the decisions made
                     *   ...
                 item_2:
-                  subject: End of basic evaluation
+                  subject: 結束基本評估
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
               subject: Preliminary planning

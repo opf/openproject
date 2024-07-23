@@ -2268,6 +2268,7 @@ de:
   label_role_search: "Rolle für neue Mitglieder zuweisen"
   label_scm: "Versionskontrollsystem"
   label_search: "Suche"
+  label_search_by_name: "Search by name"
   label_send_information: "Neue Anmeldeinformationen an den Benutzer senden"
   label_send_test_email: "Test-E-Mail senden"
   label_session: "Sitzung"

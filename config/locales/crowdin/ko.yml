@@ -2239,6 +2239,7 @@ ko:
   label_role_search: "새 멤버에게 역할 할당"
   label_scm: "SCM"
   label_search: "검색"
+  label_search_by_name: "Search by name"
   label_send_information: "사용자에게 새 자격 증명 보내기"
   label_send_test_email: "테스트 이메일 보내기"
   label_session: "세션"

@@ -23,7 +23,7 @@ fr:
             project_folder_mode:
               mode_unavailable: n'est pas disponible pour cet espace de stockage.
             project_ids:
-              blank: Please select a project.
+              blank: Veuillez sélectionner un projet.
         storages/storage:
           attributes:
             host:
@@ -137,7 +137,7 @@ fr:
       unsubscribe: Se désabonner
     help_texts:
       project_folder: Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
-      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
+      project_folder_bulk: Le dossier du projet est le dossier par défaut pour les téléchargements de fichiers pour tous les projets sélectionnés. Vous pouvez le modifier individuellement dans les paramètres de chaque projet. Les utilisateurs peuvent néanmoins télécharger des fichiers vers d'autres emplacements.
     instructions:
       all_available_storages_already_added: Tous les stockages disponibles sont déjà ajoutés au projet.
       automatic_folder: Cela créera automatiquement un dossier racine pour ce projet et gérera les autorisations d'accès pour chaque membre du projet.

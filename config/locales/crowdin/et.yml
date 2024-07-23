@@ -2274,6 +2274,7 @@ et:
   label_role_search: "Assign role to new members"
   label_scm: "Lähtekoodi haldusvahendid"
   label_search: "Otsi"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Saada kontrollkiri"
   label_session: "Seanss"

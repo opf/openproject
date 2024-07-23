@@ -2342,6 +2342,7 @@ cs:
   label_role_search: "Přiřadit roli novým členům"
   label_scm: "SCM"
   label_search: "Vyhledávání"
+  label_search_by_name: "Search by name"
   label_send_information: "Poslat nové přihlašovací údaje uživateli"
   label_send_test_email: "Odeslat testovací email"
   label_session: "Relace"

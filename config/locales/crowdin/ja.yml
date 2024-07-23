@@ -2236,6 +2236,7 @@ ja:
   label_role_search: "新しいメンバーに役割を割り当てる"
   label_scm: "バージョン管理システム"
   label_search: "検索"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "テスト電子メールを送信"
   label_session: "セッション"
