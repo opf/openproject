@@ -478,81 +478,85 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
     let!(:searched_for_project) { create(:project, name: "Searched for project") }
     let!(:other_project) { create(:project, name: "Other project") }
 
-    context "when globally" do
+    subject do
+      select_autocomplete(page.find(".top-menu-search--input"),
+                          query:,
+                          select_text: "In all projects ↵",
+                          wait_dropdown_open: false)
+
+      within ".global-search--tabs" do
+        click_on "Projects"
+      end
+    end
+
+    shared_examples "finds the project" do
       it "finds the project" do
-        select_autocomplete(page.find(".top-menu-search--input"),
-                            query: "Searched",
-                            select_text: "In all projects ↵",
-                            wait_dropdown_open: false)
-
-        within ".global-search--tabs" do
-          click_on "Projects"
-        end
-
+        subject
         expect(page)
           .to have_link(searched_for_project.name)
 
         expect(page)
           .to have_no_link(other_project.name)
       end
+    end
+
+    shared_examples "does not find the project" do
+      it "does not find the project" do
+        subject
+        expect(page)
+          .to have_no_link(searched_for_project.name)
+
+        expect(page)
+          .to have_no_link(other_project.name)
+      end
+    end
+
+    context "when globally" do
+      let(:query) { "Searched" }
+
+      it_behaves_like "finds the project"
 
       describe "searching for list project custom field" do
-        let(:project_list_cf) do
+        let(:possible_values) { %w[Value1 Value2 Value3] }
+        let!(:project_list_cf) do
           create(:list_project_custom_field,
                  multi_value: true,
                  projects: [searched_for_project],
-                 possible_values: %w[Value1 Value2 Value3],
+                 possible_values:,
                  searchable:).tap do |cf|
             searched_for_project.update(
               custom_field_values: { cf.id => cf.possible_values.pluck(:id).first(2) }
             )
           end
         end
-        let(:first_selected_value) { project_list_cf.possible_values.pick(:value) }
+        let(:query) { project_list_cf.possible_values.pick(:value) }
 
-        before do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: first_selected_value,
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
-
-          within ".global-search--tabs" do
-            click_on "Projects"
-          end
-        end
-
-        it "finds the project" do
-          expect(page)
-            .to have_link(searched_for_project.name)
-
-          expect(page)
-            .to have_no_link(other_project.name)
-        end
+        it_behaves_like "finds the project"
 
         context "when searchable is false" do
           let(:searchable) { false }
 
-          it "does not find the project" do
-            expect(page)
-              .to have_no_link(searched_for_project.name)
-
-            expect(page)
-              .to have_no_link(other_project.name)
-          end
+          it_behaves_like "does not find the project"
         end
 
         context "when not enabled for project" do
           before do
-            searched_for_project.project_custom_field_project_mappings.destroy_all
+            ProjectCustomFieldProjectMapping.destroy_all
           end
 
-          it "does not find the project" do
-            expect(page)
-              .to have_no_link(searched_for_project.name)
+          it_behaves_like "does not find the project"
+        end
 
-            expect(page)
-              .to have_no_link(other_project.name)
-          end
+        context "when using % in the query string the escaping works correcly and" do
+          let(:query) { "%#{project_list_cf.possible_values.pick(:value)}" }
+
+          it_behaves_like "does not find the project"
+        end
+
+        context "when the value contains a % character" do
+          let(:possible_values) { %w[%Value1 Value2 Value3] }
+
+          it_behaves_like "finds the project"
         end
       end
     end

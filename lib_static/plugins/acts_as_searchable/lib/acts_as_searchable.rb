@@ -106,7 +106,7 @@ module Redmine
             end
 
             named_tokens = tokens.each_with_object({}).with_index do |(token, acc), index|
-              acc[:"token_#{index}"] = "%#{token.downcase}%"
+              acc[:"token_#{index}"] = "%#{sanitize_sql_like(token.downcase)}%"
             end
 
             find_conditions = [sql, named_tokens]
@@ -187,7 +187,7 @@ module Redmine
                              ON custom_options.custom_field_id = custom_values.custom_field_id
                              AND custom_options.id::VARCHAR = custom_values.value
                            SQL
-                           .where(customized_id: arel_table[:id])
+                           .where("customized_id=#{table_name}.id")
                            .where(custom_field_id: searchable_custom_field_ids)
                            .where("(custom_values.value ILIKE ?) OR (custom_options.value ILIKE ?)")
 
