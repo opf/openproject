@@ -102,17 +102,11 @@ class EnumerationsController < ApplicationController
 
   protected
 
-  def default_breadcrumb
-    if action_name == "index"
-      t(:label_enumerations)
-    else
-      ActionController::Base.helpers.link_to(t(:label_enumerations), enumerations_path)
-    end
+  def show_local_breadcrumb
+    false
   end
 
-  def show_local_breadcrumb
-    true
-  end
+  def default_breadcrumb; end
 
   def find_enumeration
     @enumeration = Enumeration.find(params[:id])
