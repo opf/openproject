@@ -33,6 +33,7 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class FileIdsQuery
+          include Snitch
           def self.call(storage:, path:)
             new(storage).call(path:)
           end
@@ -43,8 +44,10 @@ module Storages
 
           def call(path:)
             query_params = { depth: "1", path:, props: %w[oc:fileid] }
-            Rails.logger.tagged(self.class).info "Requesting File Ids on path: #{path} and args: #{query_params.inspect}"
-            @query.call(**query_params)
+            with_tagged_logger do
+              info "Requesting File Ids on path: #{path} and args: #{query_params.inspect}"
+              @query.call(**query_params)
+            end
           end
         end
       end

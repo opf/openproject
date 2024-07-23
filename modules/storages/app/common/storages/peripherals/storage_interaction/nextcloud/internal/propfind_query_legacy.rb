@@ -34,6 +34,7 @@ module Storages
       module Nextcloud
         module Internal
           class PropfindQueryLegacy
+            include Snitch
             def self.call(storage:, depth:, path:, props:)
               new(storage).call(depth:, path:, props:)
             end
@@ -47,7 +48,7 @@ module Storages
 
             # rubocop:disable Metrics/AbcSize
             def call(depth:, path:, props:)
-              Rails.logger.tagged(self.class) do
+              with_tagged_logger do
                 body = Nokogiri::XML::Builder.new do |xml|
                   xml["d"].propfind(
                     "xmlns:d" => "DAV:",
@@ -78,9 +79,9 @@ module Storages
                 case response
                 in { status: 200..299 }
                   log_response(response)
-                  log_message "Parsing XML response body"
+                  info "Parsing XML response body"
                   doc = Nokogiri::XML(response.body.to_s)
-                  Rails.logger.info "Parsing response body"
+                  info "Parsing response body"
                   result = doc.xpath("/d:multistatus/d:response").each_with_object({}) do |resource_section, hash|
                     source_path = UrlBuilder.path(@storage.uri.path, "/remote.php/dav/files", @username)
                     resource = CGI.unescape(resource_section.xpath("d:href").text.strip).gsub!(source_path, "")
@@ -94,7 +95,7 @@ module Storages
                     end
                   end
 
-                  log_message "Response parsed found: #{result.inspect}"
+                  info "Response parsed found: #{result.inspect}"
                   ServiceResult.success(result:)
                 in { status: 405 }
                   log_response(response)
@@ -113,11 +114,7 @@ module Storages
             # rubocop:enable Metrics/AbcSize
 
             def log_response(response)
-              log_message "Storage responded with a #{response.status} code."
-            end
-
-            def log_message(message)
-              Rails.logger.info message
+              info "Storage responded with a #{response.status} code."
             end
           end
         end
