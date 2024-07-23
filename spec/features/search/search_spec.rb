@@ -546,9 +546,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
             searched_for_project.project_custom_field_project_mappings.destroy_all
           end
 
-          it "does not find the project",
-             skip: "TODO: this requires an available custom fields sql
-                   and it cannot be implemented in a simple way" do
+          it "does not find the project" do
             expect(page)
               .to have_no_link(searched_for_project.name)
 
