@@ -26,22 +26,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
-<% html_title t(:label_administration), t("colors.new.label_new_color") %>
-
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t("colors.new.label_new_color") }
-    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
-                             { href: colors_path, text: t(:label_color_plural) },
-                             t("colors.new.label_new_color") ])
+    header.with_title { @color.name }
+    header.with_breadcrumbs(breadcrumb_items)
+
+    if @color.persisted?
+      header.with_action_button(tag: :a,
+                                scheme: :danger,
+                                mobile_icon: :trash,
+                                mobile_label: t(:button_delete),
+                                size: :medium,
+                                href: color_path(@color),
+                                aria: { label: I18n.t(:button_delete) },
+                                data: {
+                                  confirm: I18n.t(:text_are_you_sure),
+                                  method: :delete
+                                },
+                                title: I18n.t(:button_delete)) do |button|
+        button.with_leading_visual_icon(icon: :trash)
+        t(:button_delete)
+      end
+    end
   end
 %>
-
-<%= labelled_tabular_form_for @color,
-            url: colors_url,
-            html: {method: 'post'},
-            as: :color do |f| %>
-  <%= render partial: 'form',
-             locals: {f: f, color: @color} %>
-<% end %>
