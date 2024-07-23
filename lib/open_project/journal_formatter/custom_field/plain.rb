@@ -26,22 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
+class OpenProject::JournalFormatter::CustomField::Plain < JournalFormatter::Base
   include CustomFieldsHelper
+  include OpenProject::JournalFormatter::CustomField::SharedMethods
 
   private
 
   def format_details(key, values)
-    custom_field = ::CustomField.find_by(id: key.to_s.sub("custom_fields_", "").to_i)
+    custom_field = custom_field_for_key(key)
 
-    if custom_field
-      label = custom_field.name
-      old_value, value = get_formatted_values custom_field, values
-    else
-      label = I18n.t(:label_deleted_custom_field)
-      old_value = values.first
-      value = values.last
-    end
+    label = label_for_custom_field(custom_field)
+
+    old_value, value = if custom_field
+                         get_formatted_values(custom_field, values)
+                       else
+                         [values.first, values.last]
+                       end
 
     [label, old_value, value]
   end
@@ -78,8 +78,7 @@ class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
     ids = value.split(",").map(&:to_i)
 
     # Lookup any visible user we can find
-    user_lookup =
-      Principal
+    user_lookup = Principal
       .in_visible_project_or_me(User.current)
       .where(id: ids)
       .index_by(&:id)
@@ -105,8 +104,7 @@ class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
     ids = value.split(",").map(&:to_i)
 
     # Lookup visible versions we can find
-    version_lookup =
-      Version
+    version_lookup = Version
       .visible(User.current)
       .where(id: ids)
       .index_by(&:id)
