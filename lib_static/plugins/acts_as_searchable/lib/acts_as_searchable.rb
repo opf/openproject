@@ -83,60 +83,32 @@ module Redmine
           # Returns the results and the results count
           def search(tokens, projects = nil, options = {})
             tokens = Array(tokens)
-            projects = [] << projects unless projects.nil? || projects.is_a?(Array)
+            projects = Array(projects) if projects
 
-            find_order = "#{searchable_options[:order_column]} " + (options[:before] ? "DESC" : "ASC")
-
-            token_clauses = searchable_column_conditions
-
-            if OpenProject::Database.allows_tsv?
-              tsv_clauses = searchable_tsv_column_conditions(tokens).compact
-            end
-
-            if searchable_options[:search_custom_fields]
-              token_clauses += Array(searchable_custom_fields_conditions)
-            end
-
-            sql = Array.new(tokens.size) do |index|
-              "(#{token_clauses.join(' OR ').gsub('?', ":token_#{index}")})"
-            end.join(" AND ")
-
-            if tsv_clauses.present?
-              sql << (" OR #{tsv_clauses.join(' OR ')}")
-            end
-
-            named_tokens = tokens.each_with_object({}).with_index do |(token, acc), index|
-              acc[:"token_#{index}"] = "%#{sanitize_sql_like(token.downcase)}%"
-            end
-
-            find_conditions = [sql, named_tokens]
+            find_conditions = build_find_conditions(tokens)
 
             project_conditions = [searchable_projects_condition]
 
-            project_conditions << "#{searchable_options[:project_key]} IN (#{projects.flatten.map(&:id).join(',')})" unless projects.nil?
-
-            results = []
-            results_count = 0
-
-            where(project_conditions.join(" AND ")).scoping do
-              where(find_conditions)
-                .includes(searchable_options[:include])
-                .references(searchable_options[:references])
-                .order(find_order)
-                .scoping do
-                  results_count = count
-                  results       = all
-
-                  if options[:offset]
-                    results = results.where("(#{searchable_options[:date_column]} " + (options[:before] ? "<" : ">") + "'#{connection.quoted_date(options[:offset])}')")
-                  end
-                  results = results.limit(options[:limit]) if options[:limit]
-                end
+            if projects
+              project_conditions <<
+                "#{searchable_options[:project_key]} IN (#{projects.flatten.map(&:id).join(',')})"
             end
-            [results, results_count]
+
+            fetch_results(find_conditions, project_conditions, options)
           end
 
           private
+
+          def build_find_conditions(tokens)
+            sql, named_tokens = build_column_conditions_and_named_tokens(tokens)
+            tsv_clauses = searchable_tsv_column_conditions(tokens)
+
+            if tsv_clauses.any?
+              sql << " OR #{tsv_clauses.join(' OR ')}"
+            end
+
+            [sql, named_tokens]
+          end
 
           def searchable_projects_condition
             projects = if searchable_options[:permission].nil?
@@ -161,6 +133,28 @@ module Redmine
             end
           end
 
+          def build_column_conditions_and_named_tokens(tokens)
+            conditions = searchable_column_conditions
+
+            if searchable_options[:search_custom_fields]
+              conditions += Array(searchable_custom_fields_conditions)
+            end
+
+            substitute_named_tokens(tokens, conditions)
+          end
+
+          def substitute_named_tokens(tokens, conditions)
+            sql = Array.new(tokens.size) do |index|
+              "(#{conditions.join(' OR ').gsub('?', ":token_#{index}")})"
+            end.join(" AND ")
+
+            named_tokens = tokens.each_with_object({}).with_index do |(token, acc), index|
+              acc[:"token_#{index}"] = "%#{sanitize_sql_like(token.downcase)}%"
+            end
+
+            [sql, named_tokens]
+          end
+
           def searchable_tsv_column_conditions(tokens)
             searchable_options[:tsv_columns].map do |tsv_column|
               tsv_condition =
@@ -173,7 +167,7 @@ module Redmine
               else
                 tsv_condition
               end
-            end
+            end.compact
           end
 
           def searchable_custom_fields_conditions
@@ -220,6 +214,37 @@ module Redmine
             end
 
             "EXISTS ( #{scope.select('1').where(match_condition).to_sql} )"
+          end
+
+          def find_order(desc)
+            "#{searchable_options[:order_column]} #{desc ? 'DESC' : 'ASC'}"
+          end
+
+          def fetch_results(find_conditions, project_conditions, options) # rubocop:disable Metrics/AbcSize
+            results = []
+            results_count = 0
+
+            where(project_conditions.join(" AND ")).scoping do
+              where(find_conditions)
+                .includes(searchable_options[:include])
+                .references(searchable_options[:references])
+                .order(find_order(options[:before]))
+                .scoping do
+                  results_count = count
+                  results       = all
+
+                  if options[:offset]
+                    results = results.where(
+                      "(#{searchable_options[:date_column]} " +
+                      (options[:before] ? "<" : ">") +
+                      "'#{connection.quoted_date(options[:offset])}')"
+                    )
+                  end
+                  results = results.limit(options[:limit]) if options[:limit]
+                end
+            end
+
+            [results, results_count]
           end
         end
       end
