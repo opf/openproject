@@ -179,29 +179,36 @@ module Redmine
           def searchable_custom_fields_conditions
             searchable_custom_field_ids = CustomField.where(type: "#{name}CustomField",
                                                             searchable: true).pluck(:id)
-            if searchable_custom_field_ids.any?
-              custom_field_condition =
-                CustomValue.select("1").where(customized_type: name)
-                           .joins(<<~SQL.squish)
-                             LEFT JOIN custom_options
-                             ON custom_options.custom_field_id = custom_values.custom_field_id
-                             AND custom_options.id::VARCHAR = custom_values.value
-                           SQL
-                           .where("customized_id=#{table_name}.id")
-                           .where(custom_field_id: searchable_custom_field_ids)
-                           .where("(custom_values.value ILIKE ?) OR (custom_options.value ILIKE ?)")
+            return unless searchable_custom_field_ids.any?
 
-              if name == "Project"
-                # Filter out disabled project custom fields when searching for projects.
-                custom_field_condition = custom_field_condition.joins(<<~SQL.squish)
-                  INNER JOIN project_custom_field_project_mappings
-                  ON project_custom_field_project_mappings.project_id = custom_values.customized_id
-                  AND project_custom_field_project_mappings.custom_field_id = custom_values.custom_field_id
-                SQL
-              end
+            custom_field_condition = build_custom_field_condition(searchable_custom_field_ids)
 
-              "EXISTS ( #{custom_field_condition.to_sql} )"
+            if name == "Project"
+              # Filter out disabled project custom fields when searching for projects.
+              custom_field_condition = add_project_custom_field_enabled_condition(custom_field_condition)
             end
+
+            "EXISTS ( #{custom_field_condition.to_sql} )"
+          end
+
+          def build_custom_field_condition(custom_field_ids)
+            CustomValue.select("1")
+              .joins(<<~SQL.squish)
+                LEFT JOIN custom_options
+                ON custom_options.custom_field_id = custom_values.custom_field_id
+                AND custom_options.id::VARCHAR = custom_values.value
+              SQL
+              .where(customized_type: name, custom_field_id: custom_field_ids)
+              .where("customized_id=#{table_name}.id")
+              .where("(custom_values.value ILIKE ?) OR (custom_options.value ILIKE ?)")
+          end
+
+          def add_project_custom_field_enabled_condition(scope)
+            scope.joins(<<~SQL.squish)
+              INNER JOIN project_custom_field_project_mappings
+              ON project_custom_field_project_mappings.project_id = custom_values.customized_id
+              AND project_custom_field_project_mappings.custom_field_id = custom_values.custom_field_id
+            SQL
           end
 
           def subquery_condition(scope_clause, match_condition)
