@@ -36,7 +36,7 @@ class Budgets::PlannedLaborBudgetItemsComponent < ApplicationComponent # rubocop
   end
 
   def item_user(item)
-    item.user.name
+    helpers.user_name(item.principle)
   end
 
   def item_comments(item)
