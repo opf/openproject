@@ -1,10 +1,10 @@
-<% html_title t(:label_my_account), t(:button_change_avatar) %>
+<% html_title t(:label_my_account), t(:label_avatar) %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:button_change_avatar) }
+    header.with_title { t(:label_avatar) }
     header.with_breadcrumbs([{ href: my_account_path, text: t(:label_my_account) },
-                             t(:button_change_avatar)])
+                             t(:label_avatar)])
   end
 %>
 
