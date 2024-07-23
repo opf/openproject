@@ -46,7 +46,9 @@ The menu on the left will allow you to filter for upcoming or past meetings. You
 
 You can either create a meeting from within a project or from the global **Meetings** module.
 
-> *Note:* Dynamic meetings were introduced in OpenProject 13.1. At the moment, the Meetings module lets you create [classic](../classic-meetings) or dynamic meetings but please keep in mind that the ability to create [classic meetings](../classic-meetings) will eventually be removed from OpenProject.
+
+> [!NOTE]
+> Dynamic meetings were introduced in OpenProject 13.1. At the moment, the Meetings module lets you create [classic](../classic-meetings) or dynamic meetings but please keep in mind that the ability to create [classic meetings](../classic-meetings) will eventually be removed from OpenProject.
 
 To create a new meeting, click the green **+ Meeting** button in the upper right corner.
 
@@ -92,9 +94,10 @@ To add a section, click on the *+ Add* button at the bottom of the agenda items 
 
 If, prior to creating your first section, your meeting already had existing [agenda items](#add-an-agenda-item), they will automatically be contained in a section called **Unnamed section**. You can rename this if you wish. 
 
-> Note: If you use sections, all agenda items must have sections.
+> [!NOTE]
+> If you use sections, all agenda items must have sections.
 
- ![Untitled section in OpenProject meeting](openproject_dynamic_meetings_untitled section.png)
+ ![Untitled section in OpenProject meeting](openproject_dynamic_meetings_untitled_section.png)
 
 ![Add an agenda item to a meeting section](openproject_dynamic_meetings_add_item_to_section.png)
 
@@ -107,6 +110,7 @@ You can then add agenda items to specific sections by either dragging and droppi
 
 This menu also lets you rename a section, move it or delete the entire section by selecting the respective option from the dropdown menu behind the **More** (⋯) icon on the right side. 
 
+> [!IMPORTANT]
 > Deleting a section will delete all containing agenda items. If a section contains agenda items, you will asked for confirmation before deletion.
 
 ![Edit or delete a section in an OpenProject meeting](openproject_dynamic_meetings_edit_section_options.png)
