@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { I18n.t("js.reminders.settings.title") }
-    header.with_breadcrumbs([{ href: my_account_path, text: t(t(:label_my_account)) },
+    header.with_breadcrumbs([{ href: my_account_path, text: t(:label_my_account) },
                              I18n.t("js.reminders.settings.title")])
   end
 %>
