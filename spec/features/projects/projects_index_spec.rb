@@ -108,6 +108,43 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
         expect(page).to have_no_text(invisible_custom_field.name.upcase)
         expect(page).to have_no_select("add_filter_select", with_options: [invisible_custom_field.name])
       end
+
+      context "with project attributes" do
+        let(:user) do
+          create(:user,
+                 member_with_roles: {
+                   development_project => create(:existing_project_role, permissions:),
+                   project => create(:existing_project_role)
+                 })
+        end
+
+        let!(:list_custom_field) do
+          create(:list_project_custom_field, multi_value: true).tap do |cf|
+            development_project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+            project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+          end
+        end
+
+        context "with view_project_attributes permission" do
+          let(:permissions) { %i(view_project_attributes) }
+
+          it "can see the project attribute field in the filter section" do
+            load_and_open_filters user
+
+            expect(page).to have_select("add_filter_select", with_options: [list_custom_field.name])
+          end
+        end
+
+        context "without view_project_attributes permission" do
+          let(:permissions) { [] }
+
+          it "cannot see the project attribute field in the filter section" do
+            load_and_open_filters user
+
+            expect(page).to have_no_select("add_filter_select", with_options: [list_custom_field.name])
+          end
+        end
+      end
     end
 
     context "for work package members", with_ee: %i[custom_fields_in_projects_list] do
@@ -1237,14 +1274,13 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
   end
 
   context "with a multi-value custom field", with_ee: %i[custom_fields_in_projects_list] do
-    let!(:list_custom_field) { create(:list_project_custom_field, multi_value: true) }
+    let!(:list_custom_field) do
+      create(:list_project_custom_field, multi_value: true).tap do |cf|
+        project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+      end
+    end
 
     before do
-      project.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of("A"))
-      project.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of("B"))
-
-      project.save!
-
       allow(Setting)
         .to receive(:enabled_projects_columns)
         .and_return [list_custom_field.column_name]
