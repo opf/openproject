@@ -36,9 +36,12 @@ module Storages
       extend Dry::Container::Mixin
 
       class Resolver < Dry::Container::Resolver
+        include Snitch
         def call(container, key)
-          Rails.logger.tagged("Registry").info("Resolving #{key}")
-          super
+          with_tagged_logger("Registry") do
+            info "Resolving #{key}"
+            super
+          end
         rescue Dry::Container::KeyError
           raise Errors.registry_error_for(key)
         end
