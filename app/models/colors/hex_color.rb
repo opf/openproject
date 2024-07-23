@@ -1,26 +1,15 @@
 module Colors
   module HexColor
     ##
-    # Returns the best contrasting color, either white or black
-    # depending on the overall brightness.
-    def contrasting_color(light_color: "#FFFFFF", dark_color: "#333333")
-      if bright?
-        dark_color
-      else
-        light_color
-      end
-    end
-
-    ##
     # Get the fill style for this color.
     # If the color is light, use a dark font.
     # Otherwise, use a white font.
     def color_styles(light_color: "#FFFFFF", dark_color: "#333333")
-      if bright?
-        { color: dark_color, "background-color": hexcode }
-      else
-        { color: light_color, "background-color": hexcode }
-      end
+      { color: contrasting_font_color(light: light_color, dark: dark_color), "background-color": hexcode }
+    end
+
+    def contrasting_font_color(light: "#FFFFFF", dark: "#333333")
+      bright? ? dark : light
     end
 
     ##
@@ -28,10 +17,6 @@ module Colors
     # YIQ lightness.
     def bright?
       brightness_yiq >= 150
-    end
-
-    def dark?
-      brightness_yiq < 150
     end
 
     ##

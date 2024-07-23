@@ -44,8 +44,8 @@ RSpec.describe "Role creation", :js, :with_cuprite do
   it "allows creating roles and handles errors" do
     visit roles_path
 
-    within ".toolbar-item" do
-      click_link "Role"
+    within ".SubHeader" do
+      page.find_test_selector("roles--create-button").click
     end
 
     fill_in "Name", with: existing_role.name

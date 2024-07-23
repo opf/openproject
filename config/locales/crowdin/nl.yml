@@ -298,11 +298,6 @@ nl:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Er zijn momenteel geen types beschikbaar.
         form:
@@ -597,17 +592,6 @@ nl:
       attribute_help_text:
         attribute_name: "Kenmerk"
         help_text: "Helptekst"
-      ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Voornaam"
-        attr_lastname: "Achternaam attribuut"
-        attr_login: "Gebruikersnaam attribuut"
-        attr_mail: "E-mail attribuut"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatische gebruiker aanmaken"
-        port: "Poort"
-        tls_certificate_string: "LDAP server SSL-certificaat"
       changeset:
         repository: "Repository"
       color:
@@ -632,6 +616,14 @@ nl:
         visible: "zichtbaar"
       custom_value:
         value: "Waarde"
+      doorkeeper/application:
+        uid: "Client-ID"
+        secret: "Client secret"
+        owner: "Eigenaar"
+        redirect_uri: "URI omleiden"
+        client_credentials_user_id: "Client referenties gebruiker ID"
+        scopes: "Reikwijdte"
+        confidential: "Vertrouwelijke"
       enterprise_token:
         starts_at: "Geldig sinds"
         subscriber: "Abonnee"
@@ -642,20 +634,25 @@ nl:
         row_count: "Aantal rijen"
         column_count: "Aantal kolommen"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client-ID"
-      relation:
-        lag: "Lag"
-        from: "Werkpakket"
-        to: "Verwante werkpakket"
-      status:
-        is_closed: "Werkpakket gesloten"
-        is_readonly: "Werkpakket is alleen-lezen"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notities"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Voornaam"
+        attr_lastname: "Achternaam attribuut"
+        attr_login: "Gebruikersnaam attribuut"
+        attr_mail: "E-mail attribuut"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatische gebruiker aanmaken"
+        port: "Poort"
+        tls_certificate_string: "LDAP server SSL-certificaat"
       member:
         roles: "Rollen"
+      oauth_client:
+        client: "Client-ID"
+      planning_element_type_color:
+        hexcode: Hexadecimale code
       project:
         active_value:
           true: "Niet gearchiveerd"
@@ -685,6 +682,8 @@ nl:
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Kolommen"
         relations_to_type_column: "Betrekkingen %{type}"
@@ -692,10 +691,19 @@ nl:
         group_by: "Groepeer resultaten op"
         filters: "Filters"
         timeline_labels: "Tijdlijn etiketten"
+      relation:
+        lag: "Lag"
+        from: "Werkpakket"
+        to: "Verwante werkpakket"
       repository:
         url: "URL"
       role:
         permissions: "Machtigingen"
+      status:
+        is_closed: "Werkpakket gesloten"
+        is_readonly: "Werkpakket is alleen-lezen"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Activiteit"
         hours: "Uren"
@@ -738,10 +746,6 @@ nl:
       wiki_page:
         parent_title: "Bovenliggende pagina"
         redirect_existing_links: "Bestaande koppelingen omleiden"
-      planning_element_type_color:
-        hexcode: Hexadecimale code
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin van het invoegen"
         begin_deletion: "Begin van de verwijdering"
@@ -776,14 +780,6 @@ nl:
         type: "Type"
         version: "Versie"
         watcher: "Kijker"
-      "doorkeeper/application":
-        uid: "Client-ID"
-        secret: "Client secret"
-        owner: "Eigenaar"
-        redirect_uri: "URI omleiden"
-        client_credentials_user_id: "Client referenties gebruiker ID"
-        scopes: "Reikwijdte"
-        confidential: "Vertrouwelijke"
     errors:
       messages:
         accepted: "moet geaccepteerd worden."
@@ -996,6 +992,11 @@ nl:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "kan niet worden geactiveerd voor statussen die standaard zijn gemarkeerd."
         time_entry:
           attributes:
             hours:
@@ -1110,8 +1111,6 @@ nl:
         version:
           undeletable_archived_projects: "De versie kan niet worden verwijderd omdat er werkpakketten aan zijn gekoppeld."
           undeletable_work_packages_attached: "De versie kan niet worden verwijderd omdat er werkpakketten aan zijn gekoppeld."
-        status:
-          readonly_default_exlusive: "kan niet worden geactiveerd voor statussen die standaard zijn gemarkeerd."
         token/api:
           attributes:
             token_name:
@@ -1782,6 +1781,17 @@ nl:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Onbekende opslag"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Stuur meldingen voor deze actie"
     work_packages:
       subject:
@@ -1801,6 +1811,7 @@ nl:
   label_add_another_file: "Toevoegen van een ander bestand"
   label_add_columns: "Geselecteerde kolommen toevoegen"
   label_add_note: "Een notitie toevoegen"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Toevoegen van verwante werkpakketten"
   label_add_subtask: "Subtaak toevoegen"
   label_added: "toegevoegd"
@@ -2027,6 +2038,7 @@ nl:
   label_inactive: "Inactief"
   label_incoming_emails: "Inkomende e-mails"
   label_includes: "bevat"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "indexeren op datum"
   label_index_by_title: "indexeren op titel"
   label_information: "Informatie"
@@ -2087,8 +2099,8 @@ nl:
   label_member_all_admin: "(Alle rollen vanwege de admin status)"
   label_member_plural: "Leden"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Lid toegevoegd"
-  lable_membership_updated: "Lid bijgewerkt"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2189,6 +2201,7 @@ nl:
   label_product_version: "Versie van het product"
   label_profile: "Profiel"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Projectactiviteit"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2197,6 +2210,7 @@ nl:
   label_project_latest: "Meest recente projecten"
   label_project_default_type: "Lege type toestaan"
   label_project_hierarchy: "Projecthiërarchie"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nieuw project"
   label_project_plural: "Projecten"
   label_project_list_plural: "Project lists"
@@ -2257,6 +2271,7 @@ nl:
   label_role_search: "Rol toewijzen aan nieuwe leden"
   label_scm: "SCM"
   label_search: "Zoeken"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Stuur een test e-mail"
   label_session: "Sessie"

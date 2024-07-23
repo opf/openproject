@@ -36,12 +36,6 @@ module Storages
           using ServiceResultRefinements
 
           class << self
-            def escape_path(path)
-              escaped_path = path.split("/").map { |i| CGI.escapeURIComponent(i) }.join("/")
-              escaped_path << "/" if path[-1] == "/"
-              escaped_path
-            end
-
             def mime_type(json)
               json.dig(:file, :mimeType) || (json.key?(:folder) ? "application/x-op-directory" : nil)
             end
@@ -77,12 +71,8 @@ module Storages
               StorageError.new(code:, data:, log_message:)
             end
 
-            def join_uri_path(uri, *)
-              # We use `File.join` to ensure single `/` in between every part. This API will break if executed on a
-              # Windows context, as it used `\` as file separators. But we anticipate that OpenProject
-              # Server is not run on a Windows context.
-              # URI::join cannot be used, as it behaves very different for the path parts depending on trailing slashes.
-              File.join(uri.to_s, *)
+            def drive_base_uri(storage)
+              URI.parse(UrlBuilder.url(storage.uri, "/v1.0/drives", storage.drive_id))
             end
 
             def json_content_type
@@ -136,7 +126,7 @@ module Storages
                 last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
                 created_by_name: json.dig(:createdBy, :user, :displayName),
                 last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
-                location: Util.escape_path(Util.extract_location(json[:parentReference], json[:name])),
+                location: UrlBuilder.path(Util.extract_location(json[:parentReference], json[:name])),
                 permissions: %i[readable writeable]
               )
             end

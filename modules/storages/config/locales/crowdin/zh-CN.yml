@@ -22,6 +22,8 @@ zh-CN:
           attributes:
             project_folder_mode:
               mode_unavailable: 对于此存储不可用。
+            project_ids:
+              blank: 请选择一个项目。
         storages/storage:
           attributes:
             host:
@@ -53,6 +55,11 @@ zh-CN:
   permission_view_file_links: 查看文件链接
   permission_write_files: '自动管理项目文件夹：写入文件'
   project_module_storages: 文件
+  project_storages:
+    project_folder_mode:
+      automatic: 自动托管
+      inactive: 没有指定文件夹
+      manual: 手动管理现有文件夹
   storages:
     buttons:
       complete_without_setup: 没有它就完成
@@ -130,10 +137,10 @@ zh-CN:
       unsubscribe: 取消订阅
     help_texts:
       project_folder: 项目文件夹是此项目上传文件的默认文件夹。用户仍然可以上传文件到其他位置。
+      project_folder_bulk: 项目文件夹是所选项目上传文件的默认文件夹。 您可以在每个项目设置中单独修改此操作。用户仍然可以将文件上传到其他位置。
     instructions:
       all_available_storages_already_added: 所有可用存储均已添加到项目。
       automatic_folder: 这将自动为此项目创建一个根文件夹，并管理每个项目成员的访问权限。
-      copy_from: 复制此值自
       empty_project_folder_validation: 选择一个文件夹是必须的。
       existing_manual_folder: 您可以指定现有的文件夹作为此项目的根文件夹。 但权限未自动托管，管理员需要手动确保相关用户能够访问。 选定的文件夹可以被多个项目使用。
       host: 请添加存储的主机地址，包括 https://。不应超过 255 个字符。

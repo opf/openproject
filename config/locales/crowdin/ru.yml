@@ -300,11 +300,6 @@ ru:
         is_required_blank_slate:
           heading: Требуется во всех проектах
           description: Этот атрибут проекта активирован во всех проектах, поскольку установлен флажок «Требуется во всех проектах». Его нельзя отключить для отдельных проектов.
-        new_project_mapping_form:
-          add_projects: Добавить проекты
-          include_sub_projects: Включить подпроекты
-        project_mappings:
-          header: Включено в проектах
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -613,17 +608,6 @@ ru:
       attribute_help_text:
         attribute_name: "Атрибут"
         help_text: "Текст справки"
-      ldap_auth_source:
-        account: "Аккаунт"
-        attr_firstname: "Атрибут имени"
-        attr_lastname: "Атрибут Фамилия"
-        attr_login: "Имя пользователя"
-        attr_mail: "Атрибут Email"
-        base_dn: "Базовый DN"
-        host: "Хост"
-        onthefly: "Автоматическое создание пользователя"
-        port: "Порт"
-        tls_certificate_string: "SSL-сертификат сервера LDAP"
       changeset:
         repository: "Репозиторий"
       color:
@@ -648,6 +632,14 @@ ru:
         visible: "Видимый"
       custom_value:
         value: "Значение"
+      doorkeeper/application:
+        uid: "ID клиента"
+        secret: "Секрет клиента"
+        owner: "Владелец"
+        redirect_uri: "Перенаправить URI"
+        client_credentials_user_id: "ID пользователя клиента"
+        scopes: "Области"
+        confidential: "Конфиденциально"
       enterprise_token:
         starts_at: "Действует с"
         subscriber: "Подписчик"
@@ -658,20 +650,25 @@ ru:
         row_count: "Количество строк"
         column_count: "Количество столбцов"
         widgets: "Виджеты"
-      oauth_client:
-        client: "ID клиента"
-      relation:
-        lag: "Задержка"
-        from: "Пакет работ"
-        to: "Похожий пакет работ"
-      status:
-        is_closed: "Пакет работ закрыт"
-        is_readonly: "Пакет работ только для просмотра"
-        excluded_from_totals: "Исключить из расчета итогов в иерархии"
       journal:
         notes: "Примечания"
+      ldap_auth_source:
+        account: "Аккаунт"
+        attr_firstname: "Атрибут имени"
+        attr_lastname: "Атрибут Фамилия"
+        attr_login: "Имя пользователя"
+        attr_mail: "Атрибут Email"
+        base_dn: "Базовый DN"
+        host: "Хост"
+        onthefly: "Автоматическое создание пользователя"
+        port: "Порт"
+        tls_certificate_string: "SSL-сертификат сервера LDAP"
       member:
         roles: "Роль"
+      oauth_client:
+        client: "ID клиента"
+      planning_element_type_color:
+        hexcode: Шестнадцатеричный код
       project:
         active_value:
           true: "Разархивирован"
@@ -701,6 +698,8 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
+      project_custom_field:
+        custom_field_section: Раздел
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -708,10 +707,19 @@ ru:
         group_by: "Результаты группы по"
         filters: "Фильтры"
         timeline_labels: "Временные метки"
+      relation:
+        lag: "Задержка"
+        from: "Пакет работ"
+        to: "Похожий пакет работ"
       repository:
         url: "URL"
       role:
         permissions: "Разрешения"
+      status:
+        is_closed: "Пакет работ закрыт"
+        is_readonly: "Пакет работ только для просмотра"
+        excluded_from_totals: "Исключить из расчета итогов в иерархии"
+        default_done_ratio: "% Завершено"
       time_entry:
         activity: "Деятельность"
         hours: "Часы"
@@ -754,10 +762,6 @@ ru:
       wiki_page:
         parent_title: "Родительская страница"
         redirect_existing_links: "Перенаправление существующих ссылок"
-      planning_element_type_color:
-        hexcode: Шестнадцатеричный код
-      project_custom_field:
-        custom_field_section: Раздел
       work_package:
         begin_insertion: "Начало вставки"
         begin_deletion: "Начало удаления"
@@ -792,14 +796,6 @@ ru:
         type: "Тип"
         version: "Этапы"
         watcher: "Наблюдатель"
-      "doorkeeper/application":
-        uid: "ID клиента"
-        secret: "Секрет клиента"
-        owner: "Владелец"
-        redirect_uri: "Перенаправить URI"
-        client_credentials_user_id: "ID пользователя клиента"
-        scopes: "Области"
-        confidential: "Конфиденциально"
     errors:
       messages:
         accepted: "нужно подтвердить."
@@ -1012,6 +1008,11 @@ ru:
               hours_per_day_are_missing: "Необходимо указать количество часов в день."
               durations_are_not_positive_numbers: "Длительность должна быть положительным числом."
               hours_per_day_is_out_of_bounds: "Количество часов в день не может быть больше 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "должно быть между 0 и 100."
+          readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
         time_entry:
           attributes:
             hours:
@@ -1128,8 +1129,6 @@ ru:
         version:
           undeletable_archived_projects: "Версия не может быть удалена, так как она имеет связанные с ней пакеты работ."
           undeletable_work_packages_attached: "Версия не может быть удалена, так как имеет пакеты работ, прикрепленные к ней."
-        status:
-          readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
         token/api:
           attributes:
             token_name:
@@ -1852,6 +1851,17 @@ ru:
         failed: "Произошла ошибка, и токен не удалось удалить.  Пожалуйста, повторите попытку позже."
         unknown_storage: "Неизвестное хранилище"
   notifications:
+    reasons:
+      assigned: "Назначенный"
+      dateAlert: "Дата оповещения"
+      mentioned: "Упомянутый"
+      responsible: "Ответственный"
+      shared: "Общий доступ"
+      watched: "Наблюдатель"
+    menu:
+      by_project: "Непрочитано по проекту"
+      by_reason: "Причина"
+      inbox: "Входящие"
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
       subject:
@@ -1871,6 +1881,7 @@ ru:
   label_add_another_file: "Добавьте еще один файл"
   label_add_columns: "Добавить выбранные столбцы"
   label_add_note: "Добавить заметку"
+  label_add_projects: "Добавить проекты"
   label_add_related_work_packages: "Добавить связанные пакеты работ"
   label_add_subtask: "Добавить подзадачу"
   label_added: "Добавлено"
@@ -2097,6 +2108,7 @@ ru:
   label_inactive: "Неактивен"
   label_incoming_emails: "Входящие e-mail"
   label_includes: "включает"
+  label_include_sub_projects: Включить подпроекты
   label_index_by_date: "Индекс по дате"
   label_index_by_title: "Индекс по названию"
   label_information: "Информация"
@@ -2157,8 +2169,8 @@ ru:
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
   label_membership_plural: "Членство"
-  lable_membership_added: "Участник добавлен"
-  lable_membership_updated: "Участник обновлен"
+  label_membership_added: "Участник добавлен"
+  label_membership_updated: "Участник обновлен"
   label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "пред-альфа"
@@ -2259,6 +2271,7 @@ ru:
   label_product_version: "Версия продукта"
   label_profile: "Профиль"
   label_percent_complete: "% Готово"
+  label_project: "Проект"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
   label_project_attribute_manage_link: "Управление атрибутами проекта"
@@ -2267,6 +2280,7 @@ ru:
   label_project_latest: "Последние проекты"
   label_project_default_type: "Разрешить пустой тип"
   label_project_hierarchy: "Иерархия проектов"
+  label_project_mappings: "Включено в проектах"
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_list_plural: "Списки проектов"
@@ -2327,6 +2341,7 @@ ru:
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
   label_search: "Поиск"
+  label_search_by_name: "Search by name"
   label_send_information: "Отправить новые учетные данные пользователю"
   label_send_test_email: "Отправить тестовое сообщение"
   label_session: "Сессия"

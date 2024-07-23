@@ -149,6 +149,10 @@ module Storages
 
     alias automatic_management_enabled automatically_managed
 
+    def available_project_folder_modes
+      raise Errors::SubclassResponsibility
+    end
+
     def configured?
       configuration_checks.values.all?
     end

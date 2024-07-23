@@ -29,28 +29,33 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), t(:label_placeholder_user_plural) -%>
 <% has_ee = EnterpriseToken.allows_to?(:placeholder_users) %>
 
-
 <% if has_ee %>
-  <%= toolbar title: t(:label_placeholder_user_plural), title_class: 'no-padding-bottom' do %>
-    <li class="toolbar-item">
-      <%= link_to new_placeholder_user_path,
-                  { class: 'button -primary',
-                    aria: { label: t(:label_placeholder_user_new) },
-                    title: t(:label_placeholder_user_new) } do %>
-        <%= op_icon('button--icon icon-add') %>
-        <span class="button--text"><%= t('activerecord.models.placeholder_user') %></span>
-      <% end %>
-    </li>
+  <%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title { t(:label_placeholder_user_plural) }
+      header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                               { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+                               t(:label_placeholder_user_plural)])
+    end
+  %>
 
-    <%= call_hook(:placeholder_user_admin_action_menu) %>
-  <% end %>
+  <%=
+    render(Primer::OpenProject::SubHeader.new) do |subheader|
+      subheader.with_action_button(scheme: :primary,
+                                   aria: { label: I18n.t(:label_placeholder_user_new) },
+                                   title: I18n.t(:label_placeholder_user_new),
+                                   tag: :a,
+                                   href: new_placeholder_user_path) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t('activerecord.models.placeholder_user')
+      end
 
-<% end %>
+      subheader.with_bottom_pane_component do
+        render PlaceholderUsers::PlaceholderUserFilterComponent.new(params)
+      end
+    end
+  %>
 
-
-<% if has_ee %>
-  <%= render PlaceholderUsers::PlaceholderUserFilterComponent.new(params) %>
-  &nbsp;
   <%= render PlaceholderUsers::TableComponent.new(rows: @placeholder_users) %>
 <% else %>
   <%= render template: 'common/upsale',

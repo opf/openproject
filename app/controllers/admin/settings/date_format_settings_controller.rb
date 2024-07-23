@@ -36,10 +36,6 @@ module Admin::Settings
       super
     end
 
-    def default_breadcrumb
-      t(:label_date_format)
-    end
-
     private
 
     def validate_start_of_week_and_first_week_of_year_combination

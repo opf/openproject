@@ -62,10 +62,10 @@ RSpec.describe "Query menu item", :js do
 
     it "shows the query menu with queries stored for the global page" do
       wp_table.visit!
-      expect(page).to have_css(".op-view-select--search-results")
-      expect(page).to have_css(".op-sidemenu--item-action", wait: 20, minimum: 1)
+      expect(page).to have_test_selector("op-submenu--body")
+      expect(page).to have_css(".op-submenu--item-action", wait: 20, minimum: 1)
 
-      within ".op-sidebar" do
+      within ".op-submenu" do
         expect(page)
           .to have_content(global_my_view.query.name, wait: 10)
         expect(page)
@@ -100,7 +100,7 @@ RSpec.describe "Query menu item", :js do
 
       find(".button", text: "Save").click
 
-      expect(page).to have_css(".op-sidemenu--item-action", text: "Some query name", wait: 20)
+      expect(page).to have_css(".op-submenu--item-action", text: "Some query name", wait: 20)
 
       last_query = Query.last
       expect(last_query.public).to be_truthy
@@ -117,7 +117,7 @@ RSpec.describe "Query menu item", :js do
       query_title.rename "My special query!123"
 
       query_title.expect_title "My special query!123"
-      expect(page).to have_css(".op-sidemenu--item-action", text: "My special query!123", wait: 20, count: 1)
+      expect(page).to have_css(".op-submenu--item-action", text: "My special query!123", wait: 20, count: 1)
     end
 
     it "allows filtering, saving, retrieving and altering the saved filter (Regression #25372)" do
@@ -153,7 +153,7 @@ RSpec.describe "Query menu item", :js do
       wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
 
       # Locate query
-      query_item = page.find(".op-sidemenu--item-action", text: "Some query name")
+      query_item = page.find(".op-submenu--item-action", text: "Some query name")
       query_item.click
 
       # Overrides the query_props
@@ -174,7 +174,7 @@ RSpec.describe "Query menu item", :js do
       filters.expect_filter_count 1
       expect(page.current_url).to include("query_props")
 
-      query_item = page.find(".op-sidemenu--item-action", text: "Some query name")
+      query_item = page.find(".op-submenu--item-action", text: "Some query name")
       query_item.click
 
       retry_block do

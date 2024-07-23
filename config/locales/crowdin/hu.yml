@@ -300,11 +300,6 @@ hu:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Jelenleg nincs elérhető típus.
         form:
@@ -597,17 +592,6 @@ hu:
       attribute_help_text:
         attribute_name: "Attribútum"
         help_text: "Súgószöveg"
-      ldap_auth_source:
-        account: "Felhasználói fiók"
-        attr_firstname: "Keresztnév attribútum"
-        attr_lastname: "Vezetéknév attribútum"
-        attr_login: "Felhasználónév attribútum"
-        attr_mail: "Email attribútum"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatikus felhasználó készítés"
-        port: "Port szám"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Csomagtároló"
       color:
@@ -632,6 +616,14 @@ hu:
         visible: "Látható"
       custom_value:
         value: "Érték"
+      doorkeeper/application:
+        uid: "Ügyfél azonosító"
+        secret: "Kliens titok"
+        owner: "Tulajdonos"
+        redirect_uri: "Átirányítás URI"
+        client_credentials_user_id: "Ügyféladatok Felhasználói azonosító\n"
+        scopes: "Hatáskörök"
+        confidential: "Bizalmas"
       enterprise_token:
         starts_at: "Érvényes"
         subscriber: "Előfizető"
@@ -642,20 +634,25 @@ hu:
         row_count: "Sorok száma"
         column_count: "Oszlopok száma"
         widgets: "Kisalkalmazások"
-      oauth_client:
-        client: "Ügyfél azonosító"
-      relation:
-        lag: "Lag"
-        from: "Feladatcsoport"
-        to: "Kapcsolódó feladatcsoport"
-      status:
-        is_closed: "Lezárt feladatcsoport"
-        is_readonly: "Munkacsomag csak olvasható"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Jegyzet"
+      ldap_auth_source:
+        account: "Felhasználói fiók"
+        attr_firstname: "Keresztnév attribútum"
+        attr_lastname: "Vezetéknév attribútum"
+        attr_login: "Felhasználónév attribútum"
+        attr_mail: "Email attribútum"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatikus felhasználó készítés"
+        port: "Port szám"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Szerepkörök"
+      oauth_client:
+        client: "Ügyfél azonosító"
+      planning_element_type_color:
+        hexcode: Hexa kód
       project:
         active_value:
           true: "unarchived"
@@ -685,6 +682,8 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Oszlopok"
         relations_to_type_column: "Kapcsolatok %{type}-hoz"
@@ -692,10 +691,19 @@ hu:
         group_by: "Csoport szintű eredmények"
         filters: "Szürő"
         timeline_labels: "Idővonal címkék"
+      relation:
+        lag: "Lag"
+        from: "Feladatcsoport"
+        to: "Kapcsolódó feladatcsoport"
       repository:
         url: "URL"
       role:
         permissions: "Jogosultságok"
+      status:
+        is_closed: "Lezárt feladatcsoport"
+        is_readonly: "Munkacsomag csak olvasható"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Tevékenység"
         hours: "órák"
@@ -738,10 +746,6 @@ hu:
       wiki_page:
         parent_title: "Szülő oldal"
         redirect_existing_links: "A létező link átirányítása"
-      planning_element_type_color:
-        hexcode: Hexa kód
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Beillesztés kezdete"
         begin_deletion: "Törlés kezdete"
@@ -776,14 +780,6 @@ hu:
         type: "Típus"
         version: "Verzió"
         watcher: "Megfigyelő"
-      "doorkeeper/application":
-        uid: "Ügyfél azonosító"
-        secret: "Kliens titok"
-        owner: "Tulajdonos"
-        redirect_uri: "Átirányítás URI"
-        client_credentials_user_id: "Ügyféladatok Felhasználói azonosító\n"
-        scopes: "Hatáskörök"
-        confidential: "Bizalmas"
     errors:
       messages:
         accepted: "el kell fogadni."
@@ -996,6 +992,11 @@ hu:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "nem aktiválható az alapértelmezettként megjelölt állapotokhoz."
         time_entry:
           attributes:
             hours:
@@ -1110,8 +1111,6 @@ hu:
         version:
           undeletable_archived_projects: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
           undeletable_work_packages_attached: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
-        status:
-          readonly_default_exlusive: "nem aktiválható az alapértelmezettként megjelölt állapotokhoz."
         token/api:
           attributes:
             token_name:
@@ -1782,6 +1781,17 @@ hu:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Értesítések küldése ehhez a művelethez\n"
     work_packages:
       subject:
@@ -1801,6 +1811,7 @@ hu:
   label_add_another_file: "Másik file hozzáadása"
   label_add_columns: "A kiválasztott oszlopok hozzáadása"
   label_add_note: "Jegyzet hozzáadása"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Kapcsolódó feladatcsoport hozzáadása"
   label_add_subtask: "Alfeladat hozzáadása"
   label_added: "Hozzáadva"
@@ -2027,6 +2038,7 @@ hu:
   label_inactive: "Inaktív"
   label_incoming_emails: "Bejövő e-mailek"
   label_includes: "tartalmazza"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index dátum szerint"
   label_index_by_title: "Index cím szerint"
   label_information: "Információk"
@@ -2087,8 +2099,8 @@ hu:
   label_member_all_admin: "(Összes jogosultság az admin állapot végett)"
   label_member_plural: "Tagok"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Felhasználó hozzáadva"
-  lable_membership_updated: "Felhasználó frissítve"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "alfa előtti"
@@ -2189,6 +2201,7 @@ hu:
   label_product_version: "Termékverzió"
   label_profile: "Profil"
   label_percent_complete: "%-ban kész"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Projekt attribútumok"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2197,6 +2210,7 @@ hu:
   label_project_latest: "Legújabb projektek"
   label_project_default_type: "Engedélyezi az üres típust"
   label_project_hierarchy: "Projekt-hierarchia"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Új projekt"
   label_project_plural: "Projektek"
   label_project_list_plural: "Project lists"
@@ -2257,6 +2271,7 @@ hu:
   label_role_search: "Szerep hozzárendelése az új tagokhoz"
   label_scm: "SCM"
   label_search: "Keresés"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Teszt levél küldése"
   label_session: "Munkamenet"

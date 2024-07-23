@@ -36,6 +36,8 @@ RSpec.describe "Navigate to overview", :js do
            member_with_permissions: { project => permissions })
   end
 
+  let(:query_menu) { Components::Submenu.new }
+
   before do
     login_as user
   end
@@ -80,7 +82,7 @@ RSpec.describe "Navigate to overview", :js do
       page.find_test_selector("main-menu-toggler--work_packages").click
 
       # Click on a saved query
-      page.find_test_selector("op-sidemenu--item-action--MyimportantQuery", wait: 10).click
+      query_menu.click_item "My important Query"
 
       loading_indicator_saveguard
 

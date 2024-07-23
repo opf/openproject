@@ -9,16 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch head commit of base branch
-        run: git fetch --depth 1 origin ${{ github.event.pull_request.base.sha }}
       - uses: ruby/setup-ruby@v1
-      - uses: opf/action-rubocop@master
+      - uses: reviewdog/action-rubocop@v2
         with:
           github_token: ${{ secrets.github_token }}
           rubocop_version: gemfile
           rubocop_extensions: >
             rubocop-capybara:gemfile
             rubocop-factory_bot:gemfile
+            rubocop-openproject:gemfile
             rubocop-performance:gemfile
             rubocop-rails:gemfile
             rubocop-rspec:gemfile

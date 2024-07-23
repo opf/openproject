@@ -301,11 +301,6 @@ tr:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Şu anda hiçbir tip mevcut değil.
         form:
@@ -599,17 +594,6 @@ tr:
       attribute_help_text:
         attribute_name: "Özellik"
         help_text: "Yardım metni"
-      ldap_auth_source:
-        account: "Hesap"
-        attr_firstname: "Ad özniteliği"
-        attr_lastname: "Soyad özniteliği"
-        attr_login: "Kullanıcı adı özelliği"
-        attr_mail: "E-posta özniteliği"
-        base_dn: "Temel DN"
-        host: "Sunucu"
-        onthefly: "Otomatik kullanıcı oluşturma"
-        port: "Port"
-        tls_certificate_string: "LDAP sunucusu SSL sertifikası"
       changeset:
         repository: "Depo"
       color:
@@ -634,6 +618,14 @@ tr:
         visible: "Görünür"
       custom_value:
         value: "Değer"
+      doorkeeper/application:
+        uid: "Müşteri Kimliği"
+        secret: "Müşteri gizliliği"
+        owner: "Ürün Sahibi"
+        redirect_uri: "Yönlendirme URI'si"
+        client_credentials_user_id: "Müşteri Kimlik Bilgileri ve Kullanıcı Kimliği gereklidir"
+        scopes: "Kapsamlar"
+        confidential: "Gizli"
       enterprise_token:
         starts_at: "Beri geçerli"
         subscriber: "Abone"
@@ -644,20 +636,25 @@ tr:
         row_count: "Satır sayısı"
         column_count: "Sütun sayısı"
         widgets: "Araçlar"
-      oauth_client:
-        client: "Müşteri Kimliği"
-      relation:
-        lag: "Lag"
-        from: "İş paketi"
-        to: "İlgili iş paketi"
-      status:
-        is_closed: "İş paketi kapalı"
-        is_readonly: "İş paketi salt okunur"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notlar"
+      ldap_auth_source:
+        account: "Hesap"
+        attr_firstname: "Ad özniteliği"
+        attr_lastname: "Soyad özniteliği"
+        attr_login: "Kullanıcı adı özelliği"
+        attr_mail: "E-posta özniteliği"
+        base_dn: "Temel DN"
+        host: "Sunucu"
+        onthefly: "Otomatik kullanıcı oluşturma"
+        port: "Port"
+        tls_certificate_string: "LDAP sunucusu SSL sertifikası"
       member:
         roles: "Yetkiler"
+      oauth_client:
+        client: "Müşteri Kimliği"
+      planning_element_type_color:
+        hexcode: Hex kodu
       project:
         active_value:
           true: "arşivden çıkartıldı"
@@ -687,6 +684,8 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"
@@ -694,10 +693,19 @@ tr:
         group_by: "Sonuçları grupla"
         filters: "Filtreler"
         timeline_labels: "Zaman çizelgesi etiketleri"
+      relation:
+        lag: "Lag"
+        from: "İş paketi"
+        to: "İlgili iş paketi"
       repository:
         url: "URL"
       role:
         permissions: "İzinler"
+      status:
+        is_closed: "İş paketi kapalı"
+        is_readonly: "İş paketi salt okunur"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Etkinlik"
         hours: "Saat"
@@ -740,10 +748,6 @@ tr:
       wiki_page:
         parent_title: "Üst sayfa"
         redirect_existing_links: "Varolan bağlantıları yönlendirme"
-      planning_element_type_color:
-        hexcode: Hex kodu
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Eklemeye başlama"
         begin_deletion: "Silme işleminin başlangıcı"
@@ -778,14 +782,6 @@ tr:
         type: "Tür"
         version: "Sürüm"
         watcher: "Takipçi"
-      "doorkeeper/application":
-        uid: "Müşteri Kimliği"
-        secret: "Müşteri gizliliği"
-        owner: "Ürün Sahibi"
-        redirect_uri: "Yönlendirme URI'si"
-        client_credentials_user_id: "Müşteri Kimlik Bilgileri ve Kullanıcı Kimliği gereklidir"
-        scopes: "Kapsamlar"
-        confidential: "Gizli"
     errors:
       messages:
         accepted: "kabul edilmelidir."
@@ -998,6 +994,11 @@ tr:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "varsayılan olarak işaretlenen durumlar için etkinleştirilemez."
         time_entry:
           attributes:
             hours:
@@ -1112,8 +1113,6 @@ tr:
         version:
           undeletable_archived_projects: "Eklenmiş iş paketleri olduğu için sürüm silinemez."
           undeletable_work_packages_attached: "Eklenmiş iş paketleri olduğu için sürüm silinemez."
-        status:
-          readonly_default_exlusive: "varsayılan olarak işaretlenen durumlar için etkinleştirilemez."
         token/api:
           attributes:
             token_name:
@@ -1210,7 +1209,7 @@ tr:
     base: "Genel Hata:"
     blocks_ids: "Engellenen iş paketlerinin ID'leri"
     category: "Kategori"
-    comment: "Yorumlar"
+    comment: "Yorum"
     comments: "Yorum"
     content: "İçerik"
     color: "Renk"
@@ -1784,6 +1783,17 @@ tr:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Bu işlem için bildirim gönder"
     work_packages:
       subject:
@@ -1803,6 +1813,7 @@ tr:
   label_add_another_file: "Başka bir dosya ekle"
   label_add_columns: "Seçilen sütunları ekle"
   label_add_note: "Not ekle"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "İlgili çalışma paketleri ekle"
   label_add_subtask: "Alt görev ekle"
   label_added: "eklendi"
@@ -2029,6 +2040,7 @@ tr:
   label_inactive: "Etkin değil"
   label_incoming_emails: "Gelen e-postalar"
   label_includes: "içerir"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Tarihe göre diz"
   label_index_by_title: "Başlığa göre dizin"
   label_information: "Bilgi"
@@ -2089,8 +2101,8 @@ tr:
   label_member_all_admin: "(Yönetici durumuna bağlı olarak tüm roller)"
   label_member_plural: "Üyeler"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Üye eklendi"
-  lable_membership_updated: "Üye güncellendi"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2191,6 +2203,7 @@ tr:
   label_product_version: "Ürün sürümü"
   label_profile: "Profil"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Proje etkinliği"
   label_project_attribute_plural: "Proje öznitelikleri"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2199,6 +2212,7 @@ tr:
   label_project_latest: "Son projeler"
   label_project_default_type: "Boş türe izin ver"
   label_project_hierarchy: "Proje hiyerarşisi"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Yeni proje"
   label_project_plural: "Projeler"
   label_project_list_plural: "Project lists"
@@ -2259,6 +2273,7 @@ tr:
   label_role_search: "Yeni üyelere rol atama"
   label_scm: "YKM"
   label_search: "Ara"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Deneme e-postası gönder"
   label_session: "Oturum"

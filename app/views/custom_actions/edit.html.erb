@@ -29,8 +29,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t('custom_actions.edit', name: @custom_action.name) %>
 
-<% local_assigns[:additional_breadcrumb] = t('custom_actions.edit', name: @custom_action.name) %>
-<%= breadcrumb_toolbar t('custom_actions.edit', name: @custom_action.name) %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { @custom_action.name }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
+                             { href: custom_actions_path, text: t("custom_actions.plural") },
+                             @custom_action.name ])
+  end
+%>
 
 <%= error_messages_for @custom_action %>
 

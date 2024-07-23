@@ -22,6 +22,8 @@ it:
           attributes:
             project_folder_mode:
               mode_unavailable: non è disponibile per questo archivio.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -53,6 +55,11 @@ it:
   permission_view_file_links: Visualizza link ai file
   permission_write_files: 'Cartelle di progetto gestite automaticamente: Scrivere file'
   project_module_storages: File
+  project_storages:
+    project_folder_mode:
+      automatic: Gestione automatica
+      inactive: Nessuna cartella specifica
+      manual: Cartella esistente gestita manualmente
   storages:
     buttons:
       complete_without_setup: Completa senza
@@ -130,10 +137,10 @@ it:
       unsubscribe: Disiscriviti
     help_texts:
       project_folder: La cartella del progetto è la cartella predefinita per il caricamento dei file per questo progetto. Gli utenti possono, comunque, caricare i file in altre posizioni.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Tutti gli archivi disponibili sono già stati aggiunti al progetto.
       automatic_folder: Questa operazione creerà automaticamente una cartella principale per questo progetto e gestirà le autorizzazioni di accesso per ciascun membro del progetto.
-      copy_from: Copia questo valore da
       empty_project_folder_validation: Selezionare una cartella è obbligatorio per procedere.
       existing_manual_folder: 'Puoi designare una cartella esistente come la cartella di root per questo progetto. Le autorizzazioni, tuttavia, non sono gestite automaticamente: l''amministratore necessita di assicurarsi manualmente che gli utenti rilevanti abbiano accesso. La cartella selezionata è utilizzabile per svariati progetti.'
       host: Aggiungi l'indirizzo host del tuo spazio di archiviazione incluso https://. Non dovrebbe essere più lungo di 255 caratteri.

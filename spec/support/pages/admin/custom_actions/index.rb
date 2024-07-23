@@ -33,9 +33,7 @@ module Pages
     module CustomActions
       class Index < ::Pages::Page
         def new
-          within ".toolbar-items" do
-            click_link "Custom action"
-          end
+          page.find_test_selector("op-admin-custom-actions--button-new", text: "Custom action").click
 
           wait_for_reload
 

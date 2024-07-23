@@ -1,4 +1,6 @@
-class SessionController < ActionController::Base
+class SessionController < ApplicationController
+  no_authorization_required! :logout_warning
+
   def logout_warning
     url = signin_url back_url: params[:back_url]
 

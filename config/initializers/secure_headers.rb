@@ -32,6 +32,7 @@ Rails.application.config.after_initialize do
 
     # Rules for media (e.g. video sources)
     media_src = default_src
+    media_src << asset_host if asset_host.present?
 
     if OpenProject::Configuration.appsignal_frontend_key
       connect_src += ["https://appsignal-endpoint.net"]

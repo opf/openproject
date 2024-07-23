@@ -298,11 +298,6 @@ ca:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Actualment no hi ha cap classe disponible.
         form:
@@ -596,17 +591,6 @@ ca:
       attribute_help_text:
         attribute_name: "Atribut"
         help_text: "Text d'ajuda"
-      ldap_auth_source:
-        account: "Compte"
-        attr_firstname: "Atribut Nom"
-        attr_lastname: "Atribut Cognom"
-        attr_login: "Atribut Nom d'usuari"
-        attr_mail: "Atribut de Correu electrònic"
-        base_dn: "Base DN"
-        host: "Servidor"
-        onthefly: "Creació d'usuari automàtica"
-        port: "Port"
-        tls_certificate_string: "Servidor LDAP del certificat SSL"
       changeset:
         repository: "Repositori"
       color:
@@ -631,6 +615,14 @@ ca:
         visible: "Visible"
       custom_value:
         value: "Valor"
+      doorkeeper/application:
+        uid: "ID de Client"
+        secret: "Clau secreta del Client"
+        owner: "Propietari"
+        redirect_uri: "URI de redirecció"
+        client_credentials_user_id: "ID d'Usuari Credencials de Client"
+        scopes: "Àmbits"
+        confidential: "Confidencial"
       enterprise_token:
         starts_at: "Vàlid des de"
         subscriber: "Subscriptor"
@@ -641,20 +633,25 @@ ca:
         row_count: "Nombre de files"
         column_count: "Nombre de columnes"
         widgets: "Widgets"
-      oauth_client:
-        client: "ID de client"
-      relation:
-        lag: "Retard"
-        from: "Paquet de treball"
-        to: "Paquet de treball relacionat"
-      status:
-        is_closed: "Paquet de treball tancat"
-        is_readonly: "Paquet de treball en sols lectura"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notes"
+      ldap_auth_source:
+        account: "Compte"
+        attr_firstname: "Atribut Nom"
+        attr_lastname: "Atribut Cognom"
+        attr_login: "Atribut Nom d'usuari"
+        attr_mail: "Atribut de Correu electrònic"
+        base_dn: "Base DN"
+        host: "Servidor"
+        onthefly: "Creació d'usuari automàtica"
+        port: "Port"
+        tls_certificate_string: "Servidor LDAP del certificat SSL"
       member:
         roles: "Rol"
+      oauth_client:
+        client: "ID de client"
+      planning_element_type_color:
+        hexcode: Codi hexadecimal
       project:
         active_value:
           true: "desarxivat"
@@ -684,6 +681,8 @@ ca:
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
+      project_custom_field:
+        custom_field_section: Secció
       query:
         column_names: "Columnes"
         relations_to_type_column: "Relacions a %{type}"
@@ -691,10 +690,19 @@ ca:
         group_by: "Agrupa els resultats per"
         filters: "Filtres"
         timeline_labels: "Etiquetes de cronologia"
+      relation:
+        lag: "Retard"
+        from: "Paquet de treball"
+        to: "Paquet de treball relacionat"
       repository:
         url: "URL"
       role:
         permissions: "Permisos"
+      status:
+        is_closed: "Paquet de treball tancat"
+        is_readonly: "Paquet de treball en sols lectura"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Activitat"
         hours: "Hores"
@@ -737,10 +745,6 @@ ca:
       wiki_page:
         parent_title: "Pàgina principal"
         redirect_existing_links: "Redirigeix els enllaços existents"
-      planning_element_type_color:
-        hexcode: Codi hexadecimal
-      project_custom_field:
-        custom_field_section: Secció
       work_package:
         begin_insertion: "Inici de la inserció"
         begin_deletion: "Inici de la supressió"
@@ -775,14 +779,6 @@ ca:
         type: "Classe"
         version: "Versió"
         watcher: "Observador"
-      "doorkeeper/application":
-        uid: "ID de Client"
-        secret: "Clau secreta del Client"
-        owner: "Propietari"
-        redirect_uri: "URI de redirecció"
-        client_credentials_user_id: "ID d'Usuari Credencials de Client"
-        scopes: "Àmbits"
-        confidential: "Confidencial"
     errors:
       messages:
         accepted: "hauran de ser acceptats."
@@ -995,6 +991,11 @@ ca:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "no pot ser activat per estats que estan marcats per defecte."
         time_entry:
           attributes:
             hours:
@@ -1109,8 +1110,6 @@ ca:
         version:
           undeletable_archived_projects: "La versió no es pot eliminar, ja que té paquets de treball adjunts."
           undeletable_work_packages_attached: "La versió no es pot eliminar, ja que té paquets de treball adjunts."
-        status:
-          readonly_default_exlusive: "no pot ser activat per estats que estan marcats per defecte."
         token/api:
           attributes:
             token_name:
@@ -1781,6 +1780,17 @@ ca:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Envia una notificació per aquesta acció"
     work_packages:
       subject:
@@ -1800,6 +1810,7 @@ ca:
   label_add_another_file: "Afegeix un altre fitxer"
   label_add_columns: "Afegir columnes seleccionades"
   label_add_note: "Afegir una nota"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Afegir paquets de treball relacionats"
   label_add_subtask: "Afegir subtasca"
   label_added: "afegit"
@@ -2026,6 +2037,7 @@ ca:
   label_inactive: "Inactiu"
   label_incoming_emails: "Correu electrònics d'entrada"
   label_includes: "inclou"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Índex per data"
   label_index_by_title: "Índex per títol"
   label_information: "Informació"
@@ -2086,8 +2098,8 @@ ca:
   label_member_all_admin: "(Tots els rols a causa de l'estat d'administrador)"
   label_member_plural: "Membres"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Membre afegit"
-  lable_membership_updated: "Membre actualitzat"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menú"
   label_menu_badge:
     pre_alpha: "pre-alfa"
@@ -2188,6 +2200,7 @@ ca:
   label_product_version: "Versió del producte"
   label_profile: "Perfil"
   label_percent_complete: "% Complet"
+  label_project: "Project"
   label_project_activity: "Activitat del projecte"
   label_project_attribute_plural: "Atributs de projecte"
   label_project_attribute_manage_link: "Gestionar els atributs del projecte"
@@ -2196,6 +2209,7 @@ ca:
   label_project_latest: "Últims projectes"
   label_project_default_type: "Permetre tipus buit"
   label_project_hierarchy: "Jerarquia de projectes"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Nou projecte"
   label_project_plural: "Projectes"
   label_project_list_plural: "Llistes de projectes"
@@ -2256,6 +2270,7 @@ ca:
   label_role_search: "Assignar rols als nous membres"
   label_scm: "SCM"
   label_search: "Cercar"
+  label_search_by_name: "Search by name"
   label_send_information: "Envia noves credencials a l'usuari"
   label_send_test_email: "Enviar correu electrònic de prova"
   label_session: "Sessió"

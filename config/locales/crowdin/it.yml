@@ -64,11 +64,11 @@ it:
       upgrade_to_ee: "Aggiorna a Enterprise edition"
       add_token: "Carica un token di assistenza per Enterprise edition"
       delete_token_modal:
-        text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
+        text: "Vuoi davvero rimuovere il token Enterprise edition attualmente utilizzato?"
         title: "Elimina token"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Ordina l'edizione Enterprise on-premises"
-      paste: "Incolla il tuo token di assistenza per Enterprise Edition"
+      paste: "Incolla il tuo token di assistenza per Enterprise edition"
       required_for_feature: "Questa aggiunta è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
       start_trial: "Inizia la prova gratuita"
@@ -298,11 +298,6 @@ it:
         is_required_blank_slate:
           heading: Richiesto in tutti i progetti
           description: Questo attributo di progetto è attivato in tutti i progetti, poiché l'opzione "Richiesto in tutti i progetti" è selezionata. Non può essere disattivato per i singoli progetti.
-        new_project_mapping_form:
-          add_projects: Aggiungi progetti
-          include_sub_projects: Includi sottoprogetti
-        project_mappings:
-          header: Abilitato nei progetti
       types:
         no_results_title_text: Al momento non sono disponibili tipi.
         form:
@@ -597,17 +592,6 @@ it:
       attribute_help_text:
         attribute_name: "Attributo"
         help_text: "Testo guida"
-      ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Attributo nome"
-        attr_lastname: "Attributo cognome"
-        attr_login: "Attributo nome utente"
-        attr_mail: "Attributo email"
-        base_dn: "Nome Dominio (DN) base"
-        host: "Host"
-        onthefly: "Creazione automatica degli utenti"
-        port: "Porta"
-        tls_certificate_string: "Certificato SSL del server LDAP"
       changeset:
         repository: "Archivio"
       color:
@@ -632,6 +616,14 @@ it:
         visible: "Visibile"
       custom_value:
         value: "Valore"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Chiave segreta del client"
+        owner: "Proprietario"
+        redirect_uri: "Reindirizzamento URI"
+        client_credentials_user_id: "ID utente delle credenziali client"
+        scopes: "Ambiti"
+        confidential: "Confidenziale"
       enterprise_token:
         starts_at: "Valido dal"
         subscriber: "Iscritto"
@@ -642,20 +634,25 @@ it:
         row_count: "Numero di righe"
         column_count: "Numero di colonne"
         widgets: "Widget"
-      oauth_client:
-        client: "ID Client"
-      relation:
-        lag: "Ritardo"
-        from: "Macro-attività"
-        to: "Macro-attività correlata"
-      status:
-        is_closed: "Macro-attività chiusa"
-        is_readonly: "Pacchetto di lavoro di sola lettura"
-        excluded_from_totals: "Escludi dal calcolo dei totali nella gerarchia"
       journal:
         notes: "Note"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Attributo nome"
+        attr_lastname: "Attributo cognome"
+        attr_login: "Attributo nome utente"
+        attr_mail: "Attributo email"
+        base_dn: "Nome Dominio (DN) base"
+        host: "Host"
+        onthefly: "Creazione automatica degli utenti"
+        port: "Porta"
+        tls_certificate_string: "Certificato SSL del server LDAP"
       member:
         roles: "Ruoli"
+      oauth_client:
+        client: "ID Client"
+      planning_element_type_color:
+        hexcode: Codice esadecimale
       project:
         active_value:
           true: "Rimosso dall'archivio"
@@ -685,6 +682,8 @@ it:
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
+      project_custom_field:
+        custom_field_section: Sezione
       query:
         column_names: "Colonne"
         relations_to_type_column: "Relazioni con %{type}"
@@ -692,10 +691,19 @@ it:
         group_by: "Raggruppa i risultati per"
         filters: "Filtri"
         timeline_labels: "Etichette di sequenza temporale"
+      relation:
+        lag: "Ritardo"
+        from: "Macro-attività"
+        to: "Macro-attività correlata"
       repository:
         url: "URL"
       role:
         permissions: "Permessi"
+      status:
+        is_closed: "Macro-attività chiusa"
+        is_readonly: "Pacchetto di lavoro di sola lettura"
+        excluded_from_totals: "Escludi dal calcolo dei totali nella gerarchia"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Attività"
         hours: "Ore"
@@ -738,10 +746,6 @@ it:
       wiki_page:
         parent_title: "Pagina padre"
         redirect_existing_links: "Reindirizza i collegamenti esistenti"
-      planning_element_type_color:
-        hexcode: Codice esadecimale
-      project_custom_field:
-        custom_field_section: Sezione
       work_package:
         begin_insertion: "Inizio inserimento"
         begin_deletion: "Inizio cancellazione"
@@ -776,14 +780,6 @@ it:
         type: "Tipo"
         version: "Versione"
         watcher: "Osservatore"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Chiave segreta del client"
-        owner: "Proprietario"
-        redirect_uri: "Reindirizzamento URI"
-        client_credentials_user_id: "ID utente delle credenziali client"
-        scopes: "Ambiti"
-        confidential: "Confidenziale"
     errors:
       messages:
         accepted: "deve essere accettato."
@@ -799,7 +795,7 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
-        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
         error_conflict: "L'informazione è stata aggiornata da almeno un altro utente nel frattempo."
@@ -996,6 +992,11 @@ it:
               hours_per_day_are_missing: "Deve essere definito il numero di ore al giorno."
               durations_are_not_positive_numbers: "Le durate devono essere numeri positivi."
               hours_per_day_is_out_of_bounds: "Le ore al giorno non possono essere più di 24."
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "non può essere attivato per gli stati che sono contrassegnati come predefiniti."
         time_entry:
           attributes:
             hours:
@@ -1110,8 +1111,6 @@ it:
         version:
           undeletable_archived_projects: "Questa versione non può essere eliminata perché vi sono macro-attività collegate a essa."
           undeletable_work_packages_attached: "Questa versione non può essere eliminata perché vi sono macro-attività collegate a essa."
-        status:
-          readonly_default_exlusive: "non può essere attivato per gli stati che sono contrassegnati come predefiniti."
         token/api:
           attributes:
             token_name:
@@ -1575,7 +1574,7 @@ it:
   error_cookie_missing: "Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza."
   error_custom_option_not_found: "L'opzione non esiste."
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
-  error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
+  error_enterprise_token_invalid_domain: "L'Enterprise edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: "Cancellazione voce non riuscita."
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1677,10 +1676,10 @@ it:
     blocks:
       community: "Comunità di OpenProject"
       upsale:
-        title: "Aggiorna ad Enterprise Edition"
+        title: "Aggiorna ad Enterprise edition"
         more_info: "Altre informazioni"
     links:
-      upgrade_enterprise_edition: "Aggiorna ad Enterprise Edition"
+      upgrade_enterprise_edition: "Aggiorna ad Enterprise edition"
       postgres_migration: "Migrazione dell'installazione su PostgreSQL"
       user_guides: "Guide utente"
       faq: "FAQ"
@@ -1782,6 +1781,17 @@ it:
         failed: "Si è verificato un errore e non è stato possibile rimuovere il token. Riprova più tardi."
         unknown_storage: "Archivio sconosciuto"
   notifications:
+    reasons:
+      assigned: "Assegnatario"
+      dateAlert: "Avviso data"
+      mentioned: "Menzionato"
+      responsible: "Responsabile"
+      shared: "Condiviso"
+      watched: "Osservatore"
+    menu:
+      by_project: "Non letto per progetto"
+      by_reason: "Motivo"
+      inbox: "Posta in arrivo"
     send_notifications: "Invia notifiche per questa azione"
     work_packages:
       subject:
@@ -1801,6 +1811,7 @@ it:
   label_add_another_file: "Aggiungi un altro file"
   label_add_columns: "Aggiungi colonne selezionate"
   label_add_note: "Aggiungi nota"
+  label_add_projects: "Aggiungi progetti"
   label_add_related_work_packages: "Aggiungi macro-attività correlate"
   label_add_subtask: "Aggiungi sotto-attività"
   label_added: "aggiunto"
@@ -1968,7 +1979,7 @@ it:
   label_enumerations: "Enumerazioni"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Supporto per Imprese"
   label_enterprise_addon: "Componente aggiuntivo Enterprise"
   label_environment: "Ambiente"
@@ -2027,6 +2038,7 @@ it:
   label_inactive: "Inattivo"
   label_incoming_emails: "Email in arrivo"
   label_includes: "include"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indicizza per data"
   label_index_by_title: "Indicizza per titolo"
   label_information: "Informazioni"
@@ -2087,8 +2099,8 @@ it:
   label_member_all_admin: "(Tutti i ruoli a causa dello stato di admin)"
   label_member_plural: "Membri"
   label_membership_plural: "Iscrizioni"
-  lable_membership_added: "Membro aggiunto"
-  lable_membership_updated: "Membro aggiornato"
+  label_membership_added: "Membro aggiunto"
+  label_membership_updated: "Membro aggiornato"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2189,6 +2201,7 @@ it:
   label_product_version: "Versione del prodotto"
   label_profile: "Profilo"
   label_percent_complete: "% completamento"
+  label_project: "Progetto"
   label_project_activity: "Attività del progetto"
   label_project_attribute_plural: "Attributi del progetto"
   label_project_attribute_manage_link: "Gestisci gli attributi del progetto"
@@ -2197,6 +2210,7 @@ it:
   label_project_latest: "Ultimi progetti"
   label_project_default_type: "Permetti tipi vuoti"
   label_project_hierarchy: "Gerarchia del progetto"
+  label_project_mappings: "Abilitato nei progetti"
   label_project_new: "Nuovo progetto"
   label_project_plural: "Progetti"
   label_project_list_plural: "Elenchi progetto"
@@ -2257,6 +2271,7 @@ it:
   label_role_search: "Assegna ruolo ai nuovi membri"
   label_scm: "SCM"
   label_search: "Cerca"
+  label_search_by_name: "Search by name"
   label_send_information: "Invia nuove credenziali all'utente"
   label_send_test_email: "Invia un email di prova"
   label_session: "Sessione"

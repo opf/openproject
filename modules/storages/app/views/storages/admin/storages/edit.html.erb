@@ -27,13 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%
-  label_storage_provider_part = render(Primer::Beta::Text.new(tag: :span, font_weight: :light, color: :muted)) do
-    "(#{I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")})"
-  end
-  label_storage_name_with_provider_label = "#{@storage.name} #{label_storage_provider_part}".html_safe
-%>
-
 <% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @storage.name) %>
 
 <%= primer_form_with(
@@ -41,27 +34,12 @@ See COPYRIGHT and LICENSE files for more details.
       url: confirm_destroy_admin_settings_storage_path(@storage),
       method: :get
     ) do %>
-  <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-    <% header.with_title(test_selector: 'storage-new-page-header--title') do %>
-      <%= render OpTurbo::FrameComponent.new(@storage, context: :edit_storage_header) do %>
-        <%= label_storage_name_with_provider_label %>
-      <% end %>
-    <% end %>
-
-    <% header.with_breadcrumbs([{href: admin_index_path, text: t("label_administration")},
-                                {href: admin_settings_storages_path, text: t("project_module_storages")},
-                                @storage.name]) %>
-
-      <% header.with_action_button(scheme: :danger,
-                                   mobile_icon: :trash,
-                                   mobile_label: I18n.t("button_delete"),
-                                   type: :submit,
-                                   aria: { label: I18n.t("storages.label_delete_storage") },
-                                   test_selector: "storage-delete-button") do |button|
-          button.with_leading_visual_icon(icon: :trash)
-          I18n.t("button_delete")
-      end %>
-  <% end %>
+  <%=
+    render(Storages::Admin::EditFormHeaderComponent.new(
+      storage: @storage,
+      selected: :edit
+    ))
+  %>
 <% end %>
 
 <% display_sidebar = @storage.provider_type_one_drive? || @storage.automatic_management_enabled? %>
@@ -71,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
     <% end %>
     <% component.with_sidebar(col_placement: :end, row_placement: :end) do %>
-      <%= render(::Storages::Admin::SidebarComponent.new(storage: @storage)) %>
+      <%= render(::Storages::Admin::SidePanelComponent.new(storage: @storage)) %>
     <% end %>
   <% end %>
 <% else %>

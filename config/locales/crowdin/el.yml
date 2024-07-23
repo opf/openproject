@@ -297,11 +297,6 @@ el:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμοι τύποι.
         form:
@@ -596,17 +591,6 @@ el:
       attribute_help_text:
         attribute_name: "Χαρακτηριστικό"
         help_text: "Κείμενο βοήθειας"
-      ldap_auth_source:
-        account: "Λογαριασμός"
-        attr_firstname: "Χαρακτηριστικό ονόματος"
-        attr_lastname: "Χαρακτηριστικό επωνύμου"
-        attr_login: "Χαρακτηριστικό ονόματος χρήστη"
-        attr_mail: "Χαρακτηριστικό email"
-        base_dn: "Base DN"
-        host: "Διακομιστής"
-        onthefly: "Αυτόματη δημιουργία χρήστη"
-        port: "Θύρα"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Αποθετήριο"
       color:
@@ -631,6 +615,14 @@ el:
         visible: "Ορατό"
       custom_value:
         value: "Τιμή"
+      doorkeeper/application:
+        uid: "Ταυτότητα Πελάτη"
+        secret: "Μυστικό πελάτη"
+        owner: "Ιδιοκτήτης"
+        redirect_uri: "Σύνδεσμος Ανακατεύθυνσης (URI)"
+        client_credentials_user_id: "Διαπιστευτήρια Πελάτη Ταυτότητα Χρήστη"
+        scopes: "Φυσικά αντικείμενα"
+        confidential: "Εμπιστευτικό"
       enterprise_token:
         starts_at: "Ισχύει από"
         subscriber: "Συνδρομητής"
@@ -641,20 +633,25 @@ el:
         row_count: "Πλήθος γραμμών"
         column_count: "Πλήθος στηλών"
         widgets: "Γραφικά στοιχεία"
-      oauth_client:
-        client: "Ταυτότητα Πελάτη"
-      relation:
-        lag: "Lag"
-        from: "Εργασία"
-        to: "Σχετικές εργασίες"
-      status:
-        is_closed: "Το πακέτο εργασίας είναι κλειστό"
-        is_readonly: "Εργασία μόνο για ανάγνωση"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Παρατηρήσεις"
+      ldap_auth_source:
+        account: "Λογαριασμός"
+        attr_firstname: "Χαρακτηριστικό ονόματος"
+        attr_lastname: "Χαρακτηριστικό επωνύμου"
+        attr_login: "Χαρακτηριστικό ονόματος χρήστη"
+        attr_mail: "Χαρακτηριστικό email"
+        base_dn: "Base DN"
+        host: "Διακομιστής"
+        onthefly: "Αυτόματη δημιουργία χρήστη"
+        port: "Θύρα"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Ρόλοι"
+      oauth_client:
+        client: "Ταυτότητα Πελάτη"
+      planning_element_type_color:
+        hexcode: Κωδικός Hex
       project:
         active_value:
           true: "unarchived"
@@ -684,6 +681,8 @@ el:
         types: "Τύποι"
         versions: "Εκδόσεις"
         work_packages: "Εργασίες"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Στήλες"
         relations_to_type_column: "Συσχετίσεις με %{type}"
@@ -691,10 +690,19 @@ el:
         group_by: "Ομαδοποίηση αποτελεσμάτων κατά"
         filters: "Φίλτρα"
         timeline_labels: "Ετικέτες χρονοδιαγράμματος"
+      relation:
+        lag: "Lag"
+        from: "Εργασία"
+        to: "Σχετικές εργασίες"
       repository:
         url: "URL"
       role:
         permissions: "Δικαιώματα"
+      status:
+        is_closed: "Το πακέτο εργασίας είναι κλειστό"
+        is_readonly: "Εργασία μόνο για ανάγνωση"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Δραστηριότητα"
         hours: "Ώρες"
@@ -737,10 +745,6 @@ el:
       wiki_page:
         parent_title: "Σελίδα γονέα"
         redirect_existing_links: "Ανακατεύθυνση υπαρχόντων συνδέσμων"
-      planning_element_type_color:
-        hexcode: Κωδικός Hex
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Ξεκινήστε την εισαγωγή"
         begin_deletion: "Ξεκινήστε την διαγραφή"
@@ -775,14 +779,6 @@ el:
         type: "Τύπος"
         version: "Έκδοση"
         watcher: "Παρατηρητής"
-      "doorkeeper/application":
-        uid: "Ταυτότητα Πελάτη"
-        secret: "Μυστικό πελάτη"
-        owner: "Ιδιοκτήτης"
-        redirect_uri: "Σύνδεσμος Ανακατεύθυνσης (URI)"
-        client_credentials_user_id: "Διαπιστευτήρια Πελάτη Ταυτότητα Χρήστη"
-        scopes: "Φυσικά αντικείμενα"
-        confidential: "Εμπιστευτικό"
     errors:
       messages:
         accepted: "πρέπει να γίνει αποδεκτό."
@@ -995,6 +991,11 @@ el:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "δεν μπορεί να ενεργοποιηθεί για καταστάσεις που είναι επισημασμένες ως προεπιλογές."
         time_entry:
           attributes:
             hours:
@@ -1109,8 +1110,6 @@ el:
         version:
           undeletable_archived_projects: "Η έκδοση δεν μπορεί να διαγραφεί επειδή είναι συνδεδεμένη με πακέτα εργασίας."
           undeletable_work_packages_attached: "Η έκδοση δεν μπορεί να διαγραφεί επειδή είναι συνδεδεμένη με πακέτα εργασίας."
-        status:
-          readonly_default_exlusive: "δεν μπορεί να ενεργοποιηθεί για καταστάσεις που είναι επισημασμένες ως προεπιλογές."
         token/api:
           attributes:
             token_name:
@@ -1781,6 +1780,17 @@ el:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1800,6 +1810,7 @@ el:
   label_add_another_file: "Προσθέσετε και άλλο αρχείο"
   label_add_columns: "Προσθέστε τις επιλεγμένες στήλες"
   label_add_note: "Προσθήκη σημείωσης"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Προσθέστε σχετιζόμενα πακέτα εργασίας"
   label_add_subtask: "Προσθήκη υποεργασίας"
   label_added: "προστέθηκε"
@@ -2026,6 +2037,7 @@ el:
   label_inactive: "Ανενεργό"
   label_incoming_emails: "Εισερχόμενα email"
   label_includes: "περιλαμβάνει"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Δείκτης ανά ημερομηνία"
   label_index_by_title: "Δείκτης ανά τίτλο"
   label_information: "Πληροφορίες"
@@ -2086,8 +2098,8 @@ el:
   label_member_all_admin: "(Όλοι οι ρόλοι λόγω κατάστασης διαχειριστή)"
   label_member_plural: "Μέλη"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Το μέλος προστέθηκε"
-  lable_membership_updated: "Το μέλος ενημερώθηκε"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2188,6 +2200,7 @@ el:
   label_product_version: "Έκδοση προϊόντος"
   label_profile: "Προφίλ"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2196,6 +2209,7 @@ el:
   label_project_latest: "Τελευταία έργα"
   label_project_default_type: "Επιτρέψτε άδειους τύπους"
   label_project_hierarchy: "Ιεραρχία έργου"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Νέο έργο"
   label_project_plural: "Έργα"
   label_project_list_plural: "Project lists"
@@ -2256,6 +2270,7 @@ el:
   label_role_search: "Ανάθεση ρόλων σε νέα μέλη"
   label_scm: "SCM"
   label_search: "Αναζήτηση"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Αποστολή δοκιμαστικού email"
   label_session: "Συνεδρία"

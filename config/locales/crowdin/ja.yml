@@ -299,11 +299,6 @@ ja:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: 現在、有効な種類はありません。
         form:
@@ -589,17 +584,6 @@ ja:
       attribute_help_text:
         attribute_name: "属性"
         help_text: "ヘルプ テキスト"
-      ldap_auth_source:
-        account: "アカウント"
-        attr_firstname: "名前"
-        attr_lastname: "苗字"
-        attr_login: "ユーザー名属性"
-        attr_mail: "メール"
-        base_dn: "ベースDN"
-        host: "ホスト"
-        onthefly: "ユーザーの自動作成"
-        port: "ポート番号"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "リポジトリ"
       color:
@@ -624,6 +608,14 @@ ja:
         visible: "表示"
       custom_value:
         value: "値"
+      doorkeeper/application:
+        uid: "クライアントID"
+        secret: "秘密鍵"
+        owner: "所有者"
+        redirect_uri: "リダイレクトURI"
+        client_credentials_user_id: "クライアント資格情報ユーザーID"
+        scopes: "範囲"
+        confidential: "機密"
       enterprise_token:
         starts_at: "有効期間開始"
         subscriber: "購入者"
@@ -634,20 +626,25 @@ ja:
         row_count: "行数"
         column_count: "列数"
         widgets: "ウィジェット"
-      oauth_client:
-        client: "クライアントID"
-      relation:
-        lag: "Lag"
-        from: "ワーク パッケージ"
-        to: "関係するワークパッケージ"
-      status:
-        is_closed: "作業が完了"
-        is_readonly: "読み取り専用のワークパッケージ"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "注記"
+      ldap_auth_source:
+        account: "アカウント"
+        attr_firstname: "名前"
+        attr_lastname: "苗字"
+        attr_login: "ユーザー名属性"
+        attr_mail: "メール"
+        base_dn: "ベースDN"
+        host: "ホスト"
+        onthefly: "ユーザーの自動作成"
+        port: "ポート番号"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "ロール"
+      oauth_client:
+        client: "クライアントID"
+      planning_element_type_color:
+        hexcode: 16進コード
       project:
         active_value:
           true: "unarchived"
@@ -677,6 +674,8 @@ ja:
         types: "ワークパッケージのタイプ"
         versions: "バージョン"
         work_packages: "ワークパッケージ"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "列"
         relations_to_type_column: "%{type} との関連"
@@ -684,10 +683,19 @@ ja:
         group_by: "グループ化"
         filters: "フィルタ"
         timeline_labels: "タイムラインのラベル"
+      relation:
+        lag: "Lag"
+        from: "ワーク パッケージ"
+        to: "関係するワークパッケージ"
       repository:
         url: "URL"
       role:
         permissions: "権限"
+      status:
+        is_closed: "作業が完了"
+        is_readonly: "読み取り専用のワークパッケージ"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "活動"
         hours: " 時間"
@@ -730,10 +738,6 @@ ja:
       wiki_page:
         parent_title: "親ページ"
         redirect_existing_links: "既存のリンクをリダイレクトする"
-      planning_element_type_color:
-        hexcode: 16進コード
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "挿入の始まり"
         begin_deletion: "削除の始まり"
@@ -768,14 +772,6 @@ ja:
         type: "タイプ"
         version: "バージョン"
         watcher: "ウォッチャー"
-      "doorkeeper/application":
-        uid: "クライアントID"
-        secret: "秘密鍵"
-        owner: "所有者"
-        redirect_uri: "リダイレクトURI"
-        client_credentials_user_id: "クライアント資格情報ユーザーID"
-        scopes: "範囲"
-        confidential: "機密"
     errors:
       messages:
         accepted: "は受諾しなければなりません。"
@@ -988,6 +984,11 @@ ja:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "デフォルトとしてマークされている状態では有効にできません。"
         time_entry:
           attributes:
             hours:
@@ -1101,8 +1102,6 @@ ja:
         version:
           undeletable_archived_projects: "ワークパッケージが添付されているため、バージョンを削除できません。"
           undeletable_work_packages_attached: "ワークパッケージが添付されているため、バージョンを削除できません。"
-        status:
-          readonly_default_exlusive: "デフォルトとしてマークされている状態では有効にできません。"
         token/api:
           attributes:
             token_name:
@@ -1747,6 +1746,17 @@ ja:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1766,6 +1776,7 @@ ja:
   label_add_another_file: "別のファイルを追加"
   label_add_columns: "選択した列を追加"
   label_add_note: "注記を追加"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "関係するワークパッケージを追加"
   label_add_subtask: "子タスクを追加"
   label_added: "追加"
@@ -1992,6 +2003,7 @@ ja:
   label_inactive: "非アクティブ"
   label_incoming_emails: "受信メール"
   label_includes: "インクルード"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "索引（日付順）"
   label_index_by_title: "索引（名前順）"
   label_information: "情報"
@@ -2052,8 +2064,8 @@ ja:
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_plural: "メンバー"
   label_membership_plural: "Memberships"
-  lable_membership_added: "メンバーが追加されました"
-  lable_membership_updated: "メンバーが更新されました"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2154,6 +2166,7 @@ ja:
   label_product_version: "製品バージョ​​ン"
   label_profile: "プロファイル"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2162,6 +2175,7 @@ ja:
   label_project_latest: "最新のプロジェクト"
   label_project_default_type: "空の種類を許可する"
   label_project_hierarchy: "プロジェクトの階層構造"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "新規プロジェクト"
   label_project_plural: "プロジェクト"
   label_project_list_plural: "Project lists"
@@ -2222,6 +2236,7 @@ ja:
   label_role_search: "新しいメンバーに役割を割り当てる"
   label_scm: "バージョン管理システム"
   label_search: "検索"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "テスト電子メールを送信"
   label_session: "セッション"

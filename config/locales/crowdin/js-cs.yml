@@ -615,17 +615,17 @@ cs:
       title: "Oznámení"
       no_unread: "Žádná nepřečtená oznámení"
       reasons:
-        mentioned: "zmíněn"
-        watched: "sledovatel"
+        mentioned: "Mentioned"
+        watched: "Watcher"
         assigned: "Řešitel"
         responsible: "Odpovědný"
         created: "Vytvořeno"
         scheduled: "Naplánováno"
-        commented: "komentováno"
-        processed: "zpracováno"
-        prioritized: "upřednostněno"
+        commented: "Komentované"
+        processed: "Zpracované"
+        prioritized: "Prioritní"
         dateAlert: "Upozornění na datum"
-        shared: "sdíleno"
+        shared: "Sdíleno"
       date_alerts:
         milestone_date: "Datum milníku"
         overdue: "Po termínu"
@@ -664,15 +664,6 @@ cs:
         new_notifications:
           message: "Máte nová oznámení."
           link_text: "Klikněte zde pro jejich načtení."
-      menu:
-        accountable: "Odpovědný"
-        by_project: "Nepřečteno dle projektu"
-        by_reason: "Důvod"
-        inbox: "Inbox"
-        mentioned: "Zmíněné"
-        watched: "Sledující"
-        date_alert: "Upozornění na datum"
-        shared: "Sdílené"
       settings:
         change_notification_settings: 'Můžete změnit nastavení <a target="_blank" href="%{url}">oznámení</a> , abyste se ujistili, že nikdy nezmeškáte důležitou aktualizaci.'
         title: "Nastavení oznámení"
@@ -1021,11 +1012,13 @@ cs:
         workAlternative: "Odhadovaný čas"
         remainingTime: "Zbývající práce"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Poslední aktivita"
         created_by_me: "Vytvořeno mnou"
         assigned_to_me: "Přiřazeno mně"
         recently_created: "Nedávno vytvořené"
         all_open: "Všechny otevřené"
+        overdue: "Overdue"
         summary: "Souhrn"
         shared_with_users: "Sdíleno s uživateli"
         shared_with_me: "Sdíleno se mnou"
