@@ -156,7 +156,7 @@ module Redmine
           end
 
           def searchable_tsv_column_conditions(tokens)
-            searchable_options[:tsv_columns].map do |tsv_column|
+            searchable_options[:tsv_columns].filter_map do |tsv_column|
               tsv_condition =
                 OpenProject::FullTextSearch.tsv_where(tsv_column[:table_name],
                                                       tsv_column[:column_name],
@@ -167,7 +167,7 @@ module Redmine
               else
                 tsv_condition
               end
-            end.compact
+            end
           end
 
           def searchable_custom_fields_conditions
