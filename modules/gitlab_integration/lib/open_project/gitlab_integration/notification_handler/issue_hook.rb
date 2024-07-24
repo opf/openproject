@@ -34,10 +34,12 @@ module OpenProject::GitlabIntegration
     class IssueHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
-      def process(payload_params)
+      def process(payload_params) # rubocop:disable Metrics/AbcSize
         @payload = wrap_payload(payload_params)
         user = User.find_by_id(payload.open_project_user_id)
-        text = payload.object_attributes.title + " - " + payload.object_attributes.description
+        text = [payload.object_attributes.title, payload.object_attributes.description]
+          .select(&:present?)
+          .join(" - ")
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
         comment_on_referenced_work_packages(work_packages, user, notes)

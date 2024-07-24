@@ -105,6 +105,21 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
         comment
       )
     end
+
+    context "when no description is given in the payload" do
+      before do
+        payload["object_attributes"]["description"] = nil
+      end
+
+      it "does not raise (Bugfix)" do
+        expect { process }.not_to raise_error
+        expect(handler_instance).to have_received(:comment_on_referenced_work_packages).with(
+          [],
+          gitlab_system_user,
+          comment
+        )
+      end
+    end
   end
 
   shared_examples_for "calls the issue upsert service" do
