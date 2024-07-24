@@ -668,240 +668,281 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
 
     describe "other filter types", with_ee: %i[custom_fields_in_projects_list] do
-      shared_let(:list_custom_field) { create(:list_project_custom_field) }
-      shared_let(:date_custom_field) { create(:date_project_custom_field) }
-      shared_let(:datetime_of_this_week) do
-        today = Date.current
-        # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
-        date_of_this_week = today + ((today.wday % 7) > 2 ? -1 : 1)
-        DateTime.parse("#{date_of_this_week}T11:11:11+00:00")
-      end
-      shared_let(:fixed_datetime) { DateTime.parse("2017-11-11T11:11:11+00:00") }
+      context "for admins" do
+        shared_let(:list_custom_field) { create(:list_project_custom_field) }
+        shared_let(:date_custom_field) { create(:date_project_custom_field) }
+        shared_let(:datetime_of_this_week) do
+          today = Date.current
+          # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
+          date_of_this_week = today + ((today.wday % 7) > 2 ? -1 : 1)
+          DateTime.parse("#{date_of_this_week}T11:11:11+00:00")
+        end
+        shared_let(:fixed_datetime) { DateTime.parse("2017-11-11T11:11:11+00:00") }
 
-      shared_let(:project_created_on_today) do
-        freeze_time
-        project = create(:project,
-                         name: "Created today project")
-        project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
-                                        date_custom_field.id => "2011-11-11" }
-        project.save!
-        project
-      ensure
-        travel_back
-      end
-      shared_let(:project_created_on_this_week) do
-        travel_to(datetime_of_this_week)
-        create(:project,
-               name: "Created on this week project")
-      ensure
-        travel_back
-      end
-      shared_let(:project_created_on_six_days_ago) do
-        travel_to(DateTime.now - 6.days)
-        create(:project,
-               name: "Created on six days ago project")
-      ensure
-        travel_back
-      end
-      shared_let(:project_created_on_fixed_date) do
-        travel_to(fixed_datetime)
-        create(:project,
-               name: "Created on fixed date project")
-      ensure
-        travel_back
-      end
-      shared_let(:todays_wp) do
-        # This WP should trigger a change to the project's 'latest activity at' DateTime
-        create(:work_package,
-               updated_at: DateTime.now,
-               project: project_created_on_today)
-      end
+        shared_let(:project_created_on_today) do
+          freeze_time
+          project = create(:project,
+                           name: "Created today project")
+          project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
+                                          date_custom_field.id => "2011-11-11" }
+          project.save!
+          project
+        ensure
+          travel_back
+        end
+        shared_let(:project_created_on_this_week) do
+          travel_to(datetime_of_this_week)
+          create(:project,
+                 name: "Created on this week project")
+        ensure
+          travel_back
+        end
+        shared_let(:project_created_on_six_days_ago) do
+          travel_to(DateTime.now - 6.days)
+          create(:project,
+                 name: "Created on six days ago project")
+        ensure
+          travel_back
+        end
+        shared_let(:project_created_on_fixed_date) do
+          travel_to(fixed_datetime)
+          create(:project,
+                 name: "Created on fixed date project")
+        ensure
+          travel_back
+        end
+        shared_let(:todays_wp) do
+          # This WP should trigger a change to the project's 'latest activity at' DateTime
+          create(:work_package,
+                 updated_at: DateTime.now,
+                 project: project_created_on_today)
+        end
 
-      before do
-        project_created_on_today
-        load_and_open_filters admin
-      end
+        before do
+          project_created_on_today
+          load_and_open_filters admin
+        end
 
-      specify "selecting operator" do
-        # created on 'today' shows projects that were created today
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "today")
+        specify "selecting operator" do
+          # created on 'today' shows projects that were created today
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "today")
 
-        click_on "Apply"
-        wait_for_reload
+          click_on "Apply"
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_this_week.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_this_week.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
 
-        # created on 'this week' shows projects that were created within the last seven days
-        remove_filter("created_at")
+          # created on 'this week' shows projects that were created within the last seven days
+          remove_filter("created_at")
 
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "this week")
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "this week")
 
-        click_on "Apply"
-        wait_for_reload
+          click_on "Apply"
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_text(project_created_on_this_week.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_text(project_created_on_this_week.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
 
-        # created on 'on' shows projects that were created within the last seven days
-        remove_filter("created_at")
+          # created on 'on' shows projects that were created within the last seven days
+          remove_filter("created_at")
 
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "on",
-                                 ["2017-11-11"])
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "on",
+                                   ["2017-11-11"])
 
-        click_on "Apply"
-        wait_for_reload
+          click_on "Apply"
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).to have_no_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_this_week.name)
+          expect(page).to have_text(project_created_on_fixed_date.name)
+          expect(page).to have_no_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_this_week.name)
 
-        # created on 'less than days ago'
-        remove_filter("created_at")
+          # created on 'less than days ago'
+          remove_filter("created_at")
 
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "less than days ago",
-                                 ["1"])
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "less than days ago",
+                                   ["1"])
 
-        click_on "Apply"
-        wait_for_reload
+          click_on "Apply"
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
 
-        # created on 'more than days ago'
-        remove_filter("created_at")
+          # created on 'more than days ago'
+          remove_filter("created_at")
 
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "more than days ago",
-                                 ["1"])
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "more than days ago",
+                                   ["1"])
 
-        click_on "Apply"
-        wait_for_reload
+          click_on "Apply"
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).to have_no_text(project_created_on_today.name)
+          expect(page).to have_text(project_created_on_fixed_date.name)
+          expect(page).to have_no_text(project_created_on_today.name)
 
-        # created on 'between'
-        remove_filter("created_at")
+          # created on 'between'
+          remove_filter("created_at")
 
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "between",
-                                 ["2017-11-10", "2017-11-12"])
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "between",
+                                   ["2017-11-10", "2017-11-12"])
 
-        click_on "Apply"
-        wait_for_reload
+          click_on "Apply"
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).to have_no_text(project_created_on_today.name)
+          expect(page).to have_text(project_created_on_fixed_date.name)
+          expect(page).to have_no_text(project_created_on_today.name)
 
-        # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
-        remove_filter("created_at")
+          # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
+          remove_filter("created_at")
 
-        projects_page.set_filter("latest_activity_at",
-                                 "Latest activity at",
-                                 "today")
+          projects_page.set_filter("latest_activity_at",
+                                   "Latest activity at",
+                                   "today")
 
-        click_on "Apply"
-        wait_for_reload
+          click_on "Apply"
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
 
-        # CF List
-        remove_filter("latest_activity_at")
+          # CF List
+          remove_filter("latest_activity_at")
 
-        projects_page.set_filter(list_custom_field.column_name,
-                                 list_custom_field.name,
-                                 "is (OR)",
-                                 [list_custom_field.possible_values[2].value])
+          projects_page.set_filter(list_custom_field.column_name,
+                                   list_custom_field.name,
+                                   "is (OR)",
+                                   [list_custom_field.possible_values[2].value])
 
-        click_on "Apply"
-        wait_for_reload
+          click_on "Apply"
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
 
-        # switching to multiselect keeps the current selection
-        cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
-        within(cf_filter) do
-          # Initial filter is a 'single select'
-          expect(cf_filter.find(:select, "value")).not_to be_multiple
-          click_on "Toggle multiselect"
           # switching to multiselect keeps the current selection
-          expect(cf_filter.find(:select, "value")).to be_multiple
-          expect(cf_filter).to have_select("value", selected: list_custom_field.possible_values[2].value)
+          cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
+          within(cf_filter) do
+            # Initial filter is a 'single select'
+            expect(cf_filter.find(:select, "value")).not_to be_multiple
+            click_on "Toggle multiselect"
+            # switching to multiselect keeps the current selection
+            expect(cf_filter.find(:select, "value")).to be_multiple
+            expect(cf_filter).to have_select("value", selected: list_custom_field.possible_values[2].value)
 
-          select list_custom_field.possible_values[3].value, from: "value"
+            select list_custom_field.possible_values[3].value, from: "value"
+          end
+
+          click_on "Apply"
+          wait_for_reload
+
+          cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
+          within(cf_filter) do
+            # Query has two values for that filter, so it should show a 'multi select'.
+            expect(cf_filter.find(:select, "value")).to be_multiple
+            expect(cf_filter)
+              .to have_select("value",
+                              selected: [list_custom_field.possible_values[2].value,
+                                         list_custom_field.possible_values[3].value])
+
+            # switching to single select keeps the first selection
+            select list_custom_field.possible_values[1].value, from: "value"
+            unselect list_custom_field.possible_values[2].value, from: "value"
+
+            click_on "Toggle multiselect"
+            expect(cf_filter.find(:select, "value")).not_to be_multiple
+            expect(cf_filter).to have_select("value", selected: list_custom_field.possible_values[1].value)
+            expect(cf_filter).to have_no_select("value", selected: list_custom_field.possible_values[3].value)
+          end
+
+          click_on "Apply"
+          wait_for_reload
+
+          cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
+          within(cf_filter) do
+            # Query has one value for that filter, so it should show a 'single select'.
+            expect(cf_filter.find(:select, "value")).not_to be_multiple
+          end
+
+          # CF date filter work (at least for one operator)
+          remove_filter(list_custom_field.column_name)
+
+          projects_page.set_filter(date_custom_field.column_name,
+                                   date_custom_field.name,
+                                   "on",
+                                   ["2011-11-11"])
+
+          click_on "Apply"
+          wait_for_reload
+
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
+
+          # Disabling a CF in the project should remove the project from results
+
+          project_created_on_today.project_custom_field_project_mappings.destroy_all
+          click_on "Apply"
+          wait_for_reload
+
+          expect(page).to have_no_text(project_created_on_today.name, wait: 1)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
         end
 
-        click_on "Apply"
-        wait_for_reload
-
-        cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
-        within(cf_filter) do
-          # Query has two values for that filter, so it should show a 'multi select'.
-          expect(cf_filter.find(:select, "value")).to be_multiple
-          expect(cf_filter)
-            .to have_select("value",
-                            selected: [list_custom_field.possible_values[2].value,
-                                       list_custom_field.possible_values[3].value])
-
-          # switching to single select keeps the first selection
-          select list_custom_field.possible_values[1].value, from: "value"
-          unselect list_custom_field.possible_values[2].value, from: "value"
-
-          click_on "Toggle multiselect"
-          expect(cf_filter.find(:select, "value")).not_to be_multiple
-          expect(cf_filter).to have_select("value", selected: list_custom_field.possible_values[1].value)
-          expect(cf_filter).to have_no_select("value", selected: list_custom_field.possible_values[3].value)
-        end
-
-        click_on "Apply"
-        wait_for_reload
-
-        cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
-        within(cf_filter) do
-          # Query has one value for that filter, so it should show a 'single select'.
-          expect(cf_filter.find(:select, "value")).not_to be_multiple
-        end
-
-        # CF date filter work (at least for one operator)
-        remove_filter(list_custom_field.column_name)
-
-        projects_page.set_filter(date_custom_field.column_name,
-                                 date_custom_field.name,
-                                 "on",
-                                 ["2011-11-11"])
-
-        click_on "Apply"
-        wait_for_reload
-
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
-
-        # Disabling a CF in the project should remove the project from results
-
-        project_created_on_today.project_custom_field_project_mappings.destroy_all
-        click_on "Apply"
-        wait_for_reload
-
-        expect(page).to have_no_text(project_created_on_today.name, wait: 1)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+        pending "NOT WORKING YET: Date vs. DateTime issue: Selecting same date for from and to value shows projects of that date"
       end
 
-      pending "NOT WORKING YET: Date vs. DateTime issue: Selecting same date for from and to value shows projects of that date"
+      context "for non-admins" do
+        let(:user) do
+          create(:user,
+                 member_with_roles: {
+                   development_project => create(:existing_project_role, permissions:),
+                   project => create(:existing_project_role)
+                 })
+        end
+
+        let!(:list_custom_field) do
+          create(:list_project_custom_field,
+                 multi_value: true,
+                 possible_values: ["Option 1", "Option 2", "Option 3"]).tap do |cf|
+            development_project.update(custom_field_values: { cf.id => [cf.value_of("Option 1")] })
+            project.update(custom_field_values: { cf.id => [cf.value_of("Option 1")] })
+          end
+        end
+
+        context "with view_project_attributes permission" do
+          let(:permissions) { %i(view_project_attributes) }
+
+          it "can find projects filtered by the project attribute" do
+            load_and_open_filters user
+
+            projects_page.set_filter(list_custom_field.column_name,
+                                     list_custom_field.name,
+                                     "is (OR)",
+                                     ["Option 1"])
+
+            click_on "Apply"
+            # Filter is applied: Only projects with view_project_attributes permission are returned
+            projects_page.expect_projects_listed(development_project)
+            projects_page.expect_projects_not_listed(project)
+            # Filter form is visible and the filter is still set.
+            expect(page).to have_css("li[filter-name=\"#{list_custom_field.column_name}\"]")
+          end
+        end
+      end
     end
 
     describe "public filter" do

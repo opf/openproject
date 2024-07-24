@@ -41,18 +41,28 @@ module Queries::Projects::Filters::CustomFieldContext
     end
 
     def where_subselect_joins(custom_field)
-      cv_db_table = CustomValue.table_name
-      project_db_table = Project.table_name
-
       <<~SQL.squish
         LEFT OUTER JOIN #{cv_db_table}
           ON #{cv_db_table}.customized_type='Project'
           AND #{cv_db_table}.customized_id=#{project_db_table}.id
           AND #{cv_db_table}.custom_field_id=#{custom_field.id}
         INNER JOIN project_custom_field_project_mappings
-          ON project_custom_field_project_mappings.project_id = projects.id
+          ON project_custom_field_project_mappings.project_id = #{project_db_table}.id
           AND project_custom_field_project_mappings.custom_field_id = #{custom_field.id}
       SQL
     end
+
+    def where_subselect_conditions(_custom_field, context)
+      allowed_project_ids = Project.allowed_to(context.user, :view_project_attributes).select(:id)
+      # Allow searching projects only with :view_project_attributes permission
+      <<~SQL.squish
+        #{project_db_table}.id IN (#{allowed_project_ids.to_sql})
+      SQL
+    end
+
+    private
+
+    def cv_db_table = CustomValue.table_name
+    def project_db_table = Project.table_name
   end
 end
