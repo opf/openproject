@@ -1,6 +1,6 @@
 module Saml
   class ProvidersController < ::ApplicationController
-    layout 'admin'
+    layout "admin"
     menu_item :plugin_saml
 
     before_action :require_admin
@@ -10,11 +10,21 @@ module Saml
     def index; end
 
     def new
-      @provider = ::Saml::Provider.new(defaults)
+      @provider = ::Saml::Provider.new(name: "saml")
+    end
+
+    def import
+      @provider = ::Saml::Provider.new(name: import_params[:name])
+
+      if import_params[:metadata_url].present?
+        import_metadata
+      end
+
+      render action: :edit
     end
 
     def create
-      @provider = ::Saml::Provider.new(create_params)
+      @provider = ::Saml::Provider.new(**create_params)
 
       if @provider.save
         flash[:notice] = I18n.t(:notice_successful_create)
@@ -51,23 +61,39 @@ module Saml
     private
 
     def defaults
-      {
-      }
+      {}
     end
 
     def check_ee
       unless EnterpriseToken.allows_to?(:openid_providers)
-        render template: '/saml/providers/upsale'
+        render template: "/saml/providers/upsale"
         false
       end
     end
 
+    def import_params
+      params.require(:saml_provider).permit(:name, :metadata_url)
+    end
+
+    def import_metadata
+      call = Saml::MetadataParserService
+        .new(user: User.current)
+        .parse_url(import_params[:metadata_url])
+
+      if call.success?
+        flash[:notice] = I18n.t("saml.metadata_parser.success")
+        @provider = ::Saml::Provider.new(**call.result.merge(name: import_params[:name]))
+      else
+        flash[:error] = call.message
+      end
+    end
+
     def create_params
-      params.require(:openid_connect_provider).permit(:name, :display_name, :identifier, :secret, :limit_self_registration)
+      params.require(:saml_provider).permit(:name, :display_name, :identifier, :secret, :limit_self_registration)
     end
 
     def update_params
-      params.require(:openid_connect_provider).permit(:display_name, :identifier, :secret, :limit_self_registration)
+      params.require(:saml_provider).permit(:display_name, :identifier, :secret, :limit_self_registration)
     end
 
     def find_provider

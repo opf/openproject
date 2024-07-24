@@ -28,15 +28,14 @@
 
 module Saml
   module Providers
-    class ProviderNameInputForm < ApplicationForm
-      form do |storage_form|
-        storage_form.text_field(
+    class NameInputForm < ApplicationForm
+      form do |f|
+        f.text_field(
           name: :name,
-          label: I18n.t("activerecord.attributes.storages/storage.name"),
+          label: I18n.t("activemodel.attributes.saml/provider.name"),
           required: true,
-          caption: I18n.t("storages.instructions.name"),
-          placeholder: I18n.t("storages.label_file_storage"),
-          input_width: :large
+          caption: I18n.t("saml.setting_instructions.name"),
+          input_width: :medium
         )
       end
     end

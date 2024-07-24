@@ -5,11 +5,29 @@
 
 <%= error_messages_for @provider %>
 
-<%= labelled_tabular_form_for @provider,
-                              html: { class: 'form', autocomplete: 'off' } do |f| %>
-  <%= render partial: "form", locals: { f: f } %>
-  <p>
-    <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
-    <%= link_to t(:button_cancel), { action: :index }, class: 'button -with-icon icon-cancel' %>
-  </p>
+
+<%=
+  primer_form_with(
+    model: @provider,
+    url: { action: :import },
+    method: :post
+  ) do |form| %>
+
+  <%=
+    render(Primer::OpenProject::FlexLayout.new) do |flex|
+      flex.with_row(mb: 3) do
+        render(Saml::Providers::NameInputForm.new(form))
+      end
+
+      flex.with_row(mb: 3) do
+        render(Saml::Providers::MetadataUrlForm.new(form))
+      end
+
+      flex.with_row do
+        render(
+          Saml::Providers::SubmitOrCancelForm.new(form)
+        )
+      end
+    end
+  %>
 <% end %>

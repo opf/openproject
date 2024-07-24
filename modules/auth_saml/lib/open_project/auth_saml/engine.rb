@@ -26,8 +26,9 @@ module OpenProject
 
     def self.providers
       configuration.map do |name, config|
+        config['name'] = name
         readonly = global_configuration.keys.include?(name)
-        ::Saml::Provider.new(name, config, readonly:)
+        ::Saml::Provider.new(readonly:, **config)
       end
     end
 

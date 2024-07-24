@@ -5,11 +5,10 @@ module Saml
     include ActiveModel::Validations
     include ActiveModel::Conversion
 
-    attr_accessor :name, :readonly
+    attr_accessor :readonly
     validates_presence_of :name, :display_name
 
-    def initialize(name, attributes = {}, readonly: false)
-      self.name = name
+    def initialize(readonly: false, **attributes)
       self.readonly = readonly
       super(attributes)
 
