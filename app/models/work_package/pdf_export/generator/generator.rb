@@ -43,6 +43,7 @@ module WorkPackage::PDFExport::Generator::Generator
 
     def init_pdf(pdf)
       @pdf = pdf
+      pdf_init_md2pdf_fonts(pdf)
       page_style = @styles.page
       page_margins = opts_margin(page_style)
       pdf.options[:page_layout] = (page_style[:page_layout] || "portrait").to_sym
