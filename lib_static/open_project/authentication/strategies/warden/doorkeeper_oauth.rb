@@ -7,6 +7,8 @@ module OpenProject
         class DoorkeeperOAuth < ::Warden::Strategies::Base
           include FailWithHeader
 
+          # The strategy is supposed to handle bearer tokens that are not JWT.
+          # These tokens are issued by OpenProject
           def valid?
             access_token = ::Doorkeeper::OAuth::Token
                              .from_request(decorated_request, *Doorkeeper.configuration.access_token_methods)

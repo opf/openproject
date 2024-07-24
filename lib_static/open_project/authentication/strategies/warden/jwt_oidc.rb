@@ -11,6 +11,8 @@ module OpenProject
             RS512
           ].freeze
 
+          # The strategy is supposed to only handle JWT.
+          # These tokens are supposed to be issued by configured OIDC.
           def valid?
             @access_token = ::Doorkeeper::OAuth::Token.from_bearer_authorization(
               ::Doorkeeper::Grape::AuthorizationDecorator.new(request)
