@@ -30,61 +30,97 @@
 
 module Storages
   class OneDriveManagedFolderSyncService
+    extend ActiveModel::Naming
+    extend ActiveModel::Translation
+    include TaggedLogging
+    include Injector["one_drive.commands.create_folder",
+                     "one_drive.commands.rename_file",
+                     "one_drive.commands.set_permissions",
+                     "one_drive.queries.files",
+                     "one_drive.authentication.userless"]
+
     using Peripherals::ServiceResultRefinements
 
     OP_PERMISSIONS = %i[read_files write_files create_files delete_files share_files].freeze
+
+    def self.i18n_scope = "services"
+    def self.model_name = ActiveModel::Name.new(self, Storages, "OneDriveSyncService")
 
     def self.call(storage)
       new(storage).call
     end
 
-    def initialize(storage)
+    def initialize(storage, **)
+      super(**)
       @storage = storage
+      @result = ServiceResult.success(errors: ActiveModel::Errors.new(self))
     end
 
+    def read_attribute_for_validation(attr) = attr
+
     def call
-      return unless @storage.automatic_management_enabled?
+      with_tagged_logger([self.class.name, "storage-#{@storage.id}"]) do
+        return unless @storage.automatic_management_enabled?
 
-      existing_remote_folders = remote_folders_map.on_failure { |failed_result| return failed_result }.result
+        info "Starting AMPF Sync for Nextcloud Storage #{@storage.id}"
+        existing_remote_folders = remote_folders_map(@storage.drive_id).on_failure { return @result }.result
 
-      ensure_folders_exist(existing_remote_folders).on_success { hide_inactive_folders(existing_remote_folders) }
-      apply_permission_to_folders
+        ensure_folders_exist(existing_remote_folders).on_success { hide_inactive_folders(existing_remote_folders) }
+        apply_permission_to_folders
+
+        @result
+      end
     end
 
     private
 
     def apply_permission_to_folders
+      info "Setting permissions to project folders"
       active_project_storages_scope.includes(:project).where.not(project_folder_id: nil).find_each do |project_storage|
         permissions = { read: [], write: admin_client_tokens_scope.pluck(:origin_user_id) }
         project_tokens(project_storage).each do |token|
           add_user_to_permission_list(permissions, token, project_storage.project)
         end
 
-        set_permissions(project_storage.project_folder_id, permissions)
+        info "Setting permissions for #{project_storage.managed_project_folder_name}"
+        set_folder_permissions(project_storage.project_folder_id, permissions)
       end
 
       ServiceResult.success
     end
 
-    def ensure_folders_exist(folder_map)
-      active_project_storages_scope.includes(:project).find_each do |project_storage|
-        next create_folder(project_storage) unless folder_map.key?(project_storage.project_folder_id)
+    def set_folder_permissions(folder_id, permissions)
+      set_permissions.call(storage: @storage, path: folder_id, permissions:, auth_strategy:)
+    end
 
-        if folder_map[project_storage.project_folder_id] != project_storage.managed_project_folder_path
-          rename_folder(project_storage.project_folder_id, project_storage.managed_project_folder_path)
+    def ensure_folders_exist(folder_map)
+      info "Ensuring that automatically managed project folders exist and are correctly named."
+      active_project_storages_scope.includes(:project).find_each do |project_storage|
+        unless folder_map.key?(project_storage.project_folder_id)
+          info "#{project_storage.managed_project_folder_path} does not exist. Creating..."
+          next create_remote_folder(project_storage)
         end
+
+        rename_project_folder(folder_map[project_storage.project_folder_id], project_storage)
       end
 
       ServiceResult.success(result: "folders processed")
     end
 
     def hide_inactive_folders(folder_map)
-      project_folder_ids = active_project_storages_scope.pluck(:project_folder_id).compact
-      (folder_map.keys - project_folder_ids).each do |item_id|
-        Peripherals::Registry.resolve("one_drive.commands.set_permissions")
-                             .call(storage: @storage, path: item_id, permissions: { write: [], read: [] })
-                             .on_failure do |service_result|
-          format_and_log_error(service_result.errors, folder: path, context: "hide_folder")
+      info "Hiding folders related to inactive projects"
+      permissions = { write: [], read: [] }
+
+      active_folder_ids = active_project_storages_scope.pluck(:project_folder_id).compact
+
+      (folder_map.keys - active_folder_ids).each do |item_id|
+        info "Hiding folder with ID #{item_id} as it does not belong to any active project"
+
+        # FIXME: Set permissions wont ever fail.
+        set_permissions.call(storage: @storage, path: item_id, permissions:, auth_strategy:)
+                       .on_failure do |service_result|
+          log_storage_error(service_result.errors, item_id:, context: "hide_folder")
+          add_error(:hide_inactive_folders, service_result.errors, options: { path: folder_map[item_id] })
         end
       end
     end
@@ -99,76 +135,66 @@ module Storages
       end
     end
 
-    def set_permissions(path, permissions)
-      Peripherals::Registry.resolve("one_drive.commands.set_permissions")
-                           .call(storage: @storage, path:, permissions:)
-                           .result_or do |error|
-        format_and_log_error(error, folder: path)
+    def rename_project_folder(current_folder_name, project_storage)
+      actual_path = project_storage.managed_project_folder_path
+      return if current_folder_name == actual_path
+
+      info "#{current_folder_name} is misnamed. Renaming to #{actual_path}"
+      folder_id = project_storage.project_folder_id
+      rename_file.call(storage: @storage, auth_strategy:, file_id: folder_id, name: actual_path)
+                 .on_failure do |service_result|
+        log_storage_error(service_result.errors, folder_id:, folder_name: actual_path)
+
+        add_error(
+          :rename_project_folder, service_result.errors,
+          options: { current_path: current_folder_name, project_folder_name: actual_path, project_folder_id: folder_id }
+        )
       end
     end
 
-    def rename_folder(folder_id, folder_name)
-      Peripherals::Registry
-        .resolve("one_drive.commands.rename_file")
-        .call(storage: @storage, auth_strategy:, file_id: folder_id, name: folder_name)
-        .result_or { |error| format_and_log_error(error, folder_id:, folder_name:) }
-    end
-
-    # rubocop:disable Metrics/AbcSize
-    def create_folder(project_storage)
+    def create_remote_folder(project_storage)
       folder_name = project_storage.managed_project_folder_path
-      parent_location = Peripherals::ParentFolder.new("/")
 
-      Peripherals::Registry
-        .resolve("one_drive.commands.create_folder")
-        .call(storage: @storage, auth_strategy:, folder_name:, parent_location:)
-        .match(on_failure: ->(error) { format_and_log_error(error, folder_path: project_storage.managed_project_folder_path) },
-               on_success: ->(folder_info) do
-                 last_project_folder = ::Storages::LastProjectFolder
-                                         .find_by(
-                                           project_storage_id: project_storage.id,
-                                           mode: project_storage.project_folder_mode
-                                         )
-                 ApplicationRecord.transaction do
-                   last_project_folder.update!(origin_folder_id: folder_info.id)
-                   project_storage.update!(project_folder_id: folder_info.id)
-                 end
-               end)
+      folder_info = create_folder.call(storage: @storage, auth_strategy:, folder_name:, parent_location: root_folder)
+                                 .on_failure do |service_result|
+        log_storage_error(service_result.errors, folder_name:)
+        return add_error(:create_folder, service_result.errors, options: { folder_name:, parent_location: root_folder })
+      end.result
+
+      last_project_folder = ::Storages::LastProjectFolder.find_by(project_storage_id: project_storage.id,
+                                                                  mode: project_storage.project_folder_mode)
+
+      audit_last_project_folder(last_project_folder, folder_info.id)
     end
 
-    # rubocop:enable Metrics/AbcSize
+    def audit_last_project_folder(last_project_folder, project_folder_id)
+      ApplicationRecord.transaction do
+        success = last_project_folder.update(origin_folder_id: project_folder_id) &&
+                  last_project_folder.project_storage.update(project_folder_id:)
 
-    def remote_folders_map
-      using_admin_token do |http|
-        response = http.get("/v1.0/drives/#{@storage.drive_id}/root/children")
-
-        case response
-        in { status: 200 }
-          ServiceResult.success(result: filter_folders_from(response.json(symbolize_keys: true)))
-        else
-          errors = ::Storages::StorageError.new(
-            code: response.try(:status),
-            data: ::Storages::StorageErrorData.new(
-              source: self.class,
-              payload: response
-            )
-          )
-          format_and_log_error(errors)
-          ServiceResult.failure(result: :error, errors:)
-        end
+        raise ActiveRecord::Rollback unless success
       end
     end
 
-    def filter_folders_from(json)
-      json.fetch(:value, []).each_with_object({}) do |item, hash|
-        next unless item.key?(:folder)
+    def remote_folders_map(drive_id)
+      info "Retrieving already existing folders under #{drive_id}"
 
-        hash[item[:id]] = item[:name]
-      end
+      file_list = files.call(storage: @storage, auth_strategy:, folder: root_folder).on_failure do |failed|
+        log_storage_error(failed.errors, { drive_id: })
+        return add_error(:remote_folders, failed.errors, options: { drive_id: }).fail!
+      end.result
+
+      ServiceResult.success(result: filter_folders_from(file_list.files))
     end
 
-    def using_admin_token(&)
-      Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(@storage, &)
+    # @param files [Array<Storages::StorageFile>]
+    # @return Hash{String => String} a hash of item ID and item name.
+    def filter_folders_from(files)
+      files.each_with_object({}) do |file, hash|
+        next unless file.folder?
+
+        hash[file.id] = file.name
+      end.tap { info "Found #{_1.size} folders. #{_1}" } # figure out better logging
     end
 
     def project_tokens(project_storage)
@@ -185,23 +211,25 @@ module Storages
       @storage.project_storages.active.automatic
     end
 
-    def client_tokens_scope
-      OAuthClientToken.where(oauth_client: @storage.oauth_client)
-    end
+    def client_tokens_scope = OAuthClientToken.where(oauth_client: @storage.oauth_client)
 
-    def auth_strategy
-      Peripherals::Registry.resolve("one_drive.authentication.userless").call
-    end
+    def admin_client_tokens_scope = OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
 
-    def admin_client_tokens_scope
-      OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
-    end
+    def root_folder = Peripherals::ParentFolder.new("/")
+    def auth_strategy = userless.call
 
-    def format_and_log_error(error, context = {})
-      error_message = context.merge({ command: error.data.source,
-                                      message: error.log_message,
-                                      data: { status: error.code, body: error.data.payload.to_s } })
-      OpenProject.logger.warn error_message
+    # @param attribute [Symbol] attribute to which the error will be tied to
+    # @param storage_error [Storages::StorageError] an StorageError instance
+    # @param options [Hash{Symbol => Object}] optional extra parameters for the message generation
+    # @return ServiceResult
+    def add_error(attribute, storage_error, options: {})
+      case storage_error.code
+      when :error, :unauthorized
+        @result.errors.add(:base, storage_error.code, **options)
+      else
+        @result.errors.add(attribute, storage_error.code, **options)
+      end
+      @result
     end
   end
 end

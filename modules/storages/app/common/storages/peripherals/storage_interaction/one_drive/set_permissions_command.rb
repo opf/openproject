@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module OneDrive
         class SetPermissionsCommand
+          include TaggedLogging
+
           using ServiceResultRefinements
 
           PermissionUpdateData = Data.define(:role, :permission_ids, :user_ids, :drive_item_id) do
@@ -43,82 +45,90 @@ module Storages
             def update? = permission_ids.any? && user_ids.any?
           end
 
-          def self.call(storage:, path:, permissions:)
-            new(storage).call(path:, permissions:)
+          def self.call(storage:, path:, permissions:, auth_strategy:)
+            new(storage).call(path:, permissions:, auth_strategy:)
           end
 
           def initialize(storage)
             @storage = storage
           end
 
-          def call(path:, permissions:)
-            item_exists?(path).on_failure { |failed_result| return failed_result }
+          def call(auth_strategy:, path:, permissions:)
+            with_tagged_logger do
+              Authentication[auth_strategy].call(storage: @storage) do |http|
+                item_exists?(http, path).on_failure { |failed_result| return failed_result }
 
-            current_permissions = get_permissions(path)
-                                    .on_failure { |failed_result| return failed_result }
-                                    .result
+                current_permissions = get_permissions(http, path)
+                                      .on_failure { |failed_result| return failed_result }
+                                      .result
 
-            permission_ids = extract_permission_ids(current_permissions[:value])
+                permission_ids = extract_permission_ids(current_permissions[:value])
+                info "Read and write permissions found: #{permission_ids}"
 
-            permissions.each_pair do |role, user_ids|
-              apply_permission_changes(
-                PermissionUpdateData.new(role:, user_ids:, permission_ids: permission_ids[role], drive_item_id: path)
-              )
-            end
+                permissions.each_pair do |role, user_ids|
+                  apply_permission_changes(
+                    PermissionUpdateData.new(role:, user_ids:, permission_ids: permission_ids[role], drive_item_id: path),
+                    http
+                  )
+                end
 
-            ServiceResult.success
-          end
-
-          private
-
-          def item_exists?(item_id)
-            Util.using_admin_token(@storage) { |http| handle_response(http.get(item_path(item_id))) }
-          end
-
-          def get_permissions(path)
-            Util.using_admin_token(@storage) { |http| handle_response(http.get(permissions_path(path))) }
-          end
-
-          def apply_permission_changes(update_data)
-            return delete_permissions(update_data) if update_data.delete?
-            return create_permissions(update_data) if update_data.create?
-
-            update_permissions(update_data) if update_data.update?
-          end
-
-          def update_permissions(update_data)
-            delete_permissions(update_data)
-            create_permissions(update_data)
-          end
-
-          def create_permissions(update_data)
-            drive_recipients = update_data.user_ids.map { |id| { objectId: id } }
-
-            Util.using_admin_token(@storage) do |http|
-              response = http.post(invite_path(update_data.drive_item_id),
-                                   body: {
-                                     requireSignIn: true,
-                                     sendInvitation: false,
-                                     roles: [update_data.role],
-                                     recipients: drive_recipients
-                                   }.to_json)
-
-              handle_response(response).result_or { |error| log_error(error) }
-            end
-          end
-
-          def delete_permissions(update_data)
-            Util.using_admin_token(@storage) do |http|
-              update_data.permission_ids.each do |permission_id|
-                handle_response(
-                  http.delete(permission_path(update_data.drive_item_id, permission_id))
-                ).result_or { |error| log_error(error) }
+                ServiceResult.success
               end
             end
           end
 
+          private
+
+          def item_exists?(http, item_id)
+            info "Checking if folder #{item_id} exists"
+            handle_response(http.get(item_path(item_id)))
+          end
+
+          def get_permissions(http, path)
+            info "Getting current permissions for #{path}"
+            handle_response(http.get(permissions_path(path)))
+          end
+
+          def apply_permission_changes(update_data, http)
+            return delete_permissions(update_data, http) if update_data.delete?
+            return create_permissions(update_data, http) if update_data.create?
+
+            update_permissions(update_data, http) if update_data.update?
+          end
+
+          def update_permissions(update_data, http)
+            info "Updating permissions on #{update_data.drive_item_id}"
+            delete_permissions(update_data, http)
+            create_permissions(update_data, http)
+          end
+
+          def create_permissions(update_data, http)
+            drive_recipients = update_data.user_ids.map { |id| { objectId: id } }
+
+            info "Creating #{update_data.role} permissions on #{update_data.drive_item_id} for #{drive_recipients}"
+            response = http.post(invite_path(update_data.drive_item_id),
+                                 json: {
+                                   requireSignIn: true,
+                                   sendInvitation: false,
+                                   roles: [update_data.role],
+                                   recipients: drive_recipients
+                                 })
+
+            handle_response(response).result_or { |error| log_storage_error(error) }
+          end
+
+          def delete_permissions(update_data, http)
+            info "Removing permissions on #{update_data.drive_item_id}"
+
+            update_data.permission_ids.each do |permission_id|
+              handle_response(
+                http.delete(permission_path(update_data.drive_item_id, permission_id))
+              ).result_or { |error| log_storage_error(error) }
+            end
+          end
+
           def extract_permission_ids(permission_set)
-            filter = ->(role, permission) do
+            filter = lambda do |role, permission|
               next unless permission[:roles].member?(role)
 
               permission[:id]
@@ -157,32 +167,14 @@ module Storages
 
           # rubocop:enable Metrics/AbcSize
 
-          def permission_path(item_id, permission_id)
-            "#{permissions_path(item_id)}/#{permission_id}"
-          end
+          def permission_path(item_id, permission_id) = "#{permissions_path(item_id)}/#{permission_id}"
 
-          def permissions_path(item_id)
-            "#{item_path(item_id)}/permissions"
-          end
+          def permissions_path(item_id) = "#{item_path(item_id)}/permissions"
 
-          def invite_path(item_id)
-            "#{item_path(item_id)}/invite"
-          end
+          def invite_path(item_id) = "#{item_path(item_id)}/invite"
 
           def item_path(item_id)
             UrlBuilder.url(Util.drive_base_uri(@storage), "/items", item_id)
-          end
-
-          def log_error(error)
-            payload = error.data.payload
-            OpenProject.logger.warn(
-              command: error.data.source,
-              message: error.log_message,
-              data: {
-                status: payload.try(:status),
-                body: (payload.try(:body) || payload).to_s
-              }
-            )
           end
         end
       end

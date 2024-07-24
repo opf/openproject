@@ -33,6 +33,7 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class CreateFolderCommand
+          include TaggedLogging
           using ServiceResultRefinements
 
           def self.call(storage:, auth_strategy:, folder_name:, parent_location:)
@@ -44,18 +45,21 @@ module Storages
           end
 
           def call(auth_strategy:, folder_name:, parent_location:)
-            origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
-                                 .on_failure { |error| return error }
-                                 .result
+            with_tagged_logger do
+              info "Trying to create folder #{folder_name} under #{parent_location} using #{auth_strategy.key}"
+              origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+                                   .on_failure { |error| return error }
+                                   .result
 
-            path_prefix = UrlBuilder.path(@storage.uri.path, "remote.php/dav/files", origin_user_id)
-            request_url = UrlBuilder.url(@storage.uri,
-                                         "remote.php/dav/files",
-                                         origin_user_id,
-                                         parent_location.path,
-                                         folder_name)
+              path_prefix = UrlBuilder.path(@storage.uri.path, "remote.php/dav/files", origin_user_id)
+              request_url = UrlBuilder.url(@storage.uri,
+                                           "remote.php/dav/files",
+                                           origin_user_id,
+                                           parent_location.path,
+                                           folder_name)
 
-            create_folder_request(auth_strategy, request_url, path_prefix)
+              create_folder_request(auth_strategy, request_url, path_prefix)
+            end
           end
 
           private
@@ -66,6 +70,7 @@ module Storages
               return result if result.failure?
 
               handle_response(http.propfind(request_url, requested_properties)).map do |response|
+                info "Folder successfully created"
                 storage_file(path_prefix, response)
               end
             end

@@ -33,6 +33,7 @@ module Storages
     module StorageInteraction
       module OneDrive
         class CreateFolderCommand
+          include TaggedLogging
           using ServiceResultRefinements
 
           def self.call(storage:, auth_strategy:, folder_name:, parent_location:)
@@ -44,8 +45,11 @@ module Storages
           end
 
           def call(auth_strategy:, folder_name:, parent_location:)
-            Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
-              handle_response http.post(url_for(parent_location), body: payload(folder_name))
+            with_tagged_logger do
+              info "Creating folder #{folder_name} under #{parent_location} using #{auth_strategy.key}"
+              Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
+                handle_response http.post(url_for(parent_location), body: payload(folder_name))
+              end
             end
           end
 
@@ -66,8 +70,9 @@ module Storages
           def handle_response(response)
             case response
             in { status: 200..299 }
-              ServiceResult.success(result: Util.storage_file_from_json(MultiJson.load(response.body, symbolize_keys: true)),
-                                    message: "Folder was successfully created.")
+              info "Folder successfully created."
+              ServiceResult.success(result:
+                                      Util.storage_file_from_json(MultiJson.load(response.body, symbolize_keys: true)))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
                                     errors: Util.storage_error(code: :not_found, response:, source: self.class))
