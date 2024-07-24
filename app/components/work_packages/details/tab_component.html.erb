@@ -15,6 +15,7 @@
         end
       end
     end
+
     flex.with_column(classes: "op-work-package-details-tab-component--action") do
       render(Primer::Beta::IconButton.new(icon: :"screen-full",
                                           tag: :a,
@@ -23,8 +24,13 @@
                                           scheme: :invisible,
                                           aria: { label: I18n.t("js.button_show_fullscreen") }))
     end
-    flex.with_column(pt: 2, border: :bottom, border_color: :muted, classes: "op-work-package-details-tab-component--action") do
-      render(Primer::Beta::IconButton.new(icon: :x, scheme: :invisible, aria: { label: I18n.t(:button_close) }))
+
+    flex.with_column(classes: "op-work-package-details-tab-component--action") do
+      render(Primer::Beta::IconButton.new(icon: :x,
+                                          tag: :a,
+                                          href: url_helpers.send(base_route),
+                                          scheme: :invisible,
+                                          aria: { label: I18n.t(:button_close) }))
     end
   end
 %>

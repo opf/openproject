@@ -12,7 +12,7 @@
         end
       else
         flex.with_row do
-          render(WorkPackages::Details::TabComponent.new(work_package: @work_package, tab: @tab))
+          render(WorkPackages::Details::TabComponent.new(work_package: @work_package, tab: @tab, base_route: @base_route))
         end
         flex.with_row(flex: 1) do
           helpers.angular_component_tag "opce-wp-split-view",

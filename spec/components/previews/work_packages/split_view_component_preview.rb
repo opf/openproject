@@ -2,6 +2,6 @@
 
 class WorkPackages::SplitViewComponentPreview < ViewComponent::Preview
   def default
-    render(WorkPackages::SplitViewComponent.new(work_package: "work_package", tab: "tab"))
+    render(WorkPackages::SplitViewComponent.new(id: "1", tab: "tab", base_url: work_packages_path))
   end
 end

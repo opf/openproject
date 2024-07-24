@@ -5,13 +5,14 @@ class WorkPackages::Details::TabComponent < ApplicationComponent
   include OpTurbo::Streamable
   include Redmine::MenuManager::MenuHelper
 
-  attr_reader :tab, :work_package
+  attr_reader :tab, :work_package, :base_route
 
-  def initialize(work_package:, tab: :overview)
+  def initialize(work_package:, base_route:, tab: :overview)
     super
 
     @work_package = work_package
     @tab = tab.to_sym
+    @base_route = base_route
   end
 
   delegate :project, to: :work_package

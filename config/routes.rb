@@ -705,11 +705,12 @@ Rails.application.routes.draw do
         action: options.fetch(:action, :split_view),
         defaults: { tab: :overview },
         as: :details,
-        work_package_split_view: true
+        work_package_split_view: true,
+        base_route: options.fetch(:base_route)
   end
 
   resources :notifications, only: :index do
-    concerns :with_split_view
+    concerns :with_split_view, base_route: :notifications_path
 
     collection do
       post :mark_all_read
