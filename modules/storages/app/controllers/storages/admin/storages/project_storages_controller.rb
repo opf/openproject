@@ -32,6 +32,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   include OpTurbo::ComponentStream
   include OpTurbo::DialogStreamHelper
   include FlashMessagesOutputSafetyHelper
+  include ApplicationComponentStreams
 
   layout "admin"
 
@@ -88,6 +89,13 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   def load_project_storage
     @project_storage = Storages::ProjectStorage.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    update_flash_message_via_turbo_stream(
+      message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
+    )
+    update_project_list_via_turbo_stream
+
+    respond_with_turbo_streams
   end
 
   def find_model_object(object_id = :storage_id)

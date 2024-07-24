@@ -33,7 +33,7 @@ RSpec.describe Storages::ProjectStorages::DestroyConfirmationDialogComponent,
                type: :component do
   describe "#heading" do
     it "contains the storage type" do
-      storage = create(:one_drive_storage)
+      storage = build_stubbed(:one_drive_storage)
       project_storage = build_stubbed(:project_storage, storage:)
 
       component = described_class.new(storage:, project_storage:)
@@ -43,7 +43,7 @@ RSpec.describe Storages::ProjectStorages::DestroyConfirmationDialogComponent,
   end
 
   describe "#text" do
-    let(:storage) { create(:storage, :as_generic) }
+    let(:storage) { build_stubbed(:storage, :as_generic) }
 
     context "for a project with automatically managed project folder" do
       it "includes an additional hint for data loss" do
