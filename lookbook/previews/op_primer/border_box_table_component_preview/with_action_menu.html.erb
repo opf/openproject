@@ -1,0 +1,58 @@
+<%=
+  table = Class.new(OpPrimer::BorderBoxTableComponent) do
+    columns :foo, :bar
+    def self.name
+      "MyTable"
+    end
+
+    def row_class
+      @clazz ||= Class.new(OpPrimer::BorderBoxRowComponent) do
+        def self.name
+          "MyRow"
+        end
+
+        def button_links
+          [
+            action_menu
+          ]
+        end
+
+        def action_menu
+          render(Primer::Alpha::ActionMenu.new) do |menu|
+            menu.with_show_button(icon: "kebab-horizontal", 'aria-label': "More", scheme: :invisible)
+            menu.with_item(
+              tag: :a,
+              label: "Edit",
+              href: "#",
+            ) do |item|
+              item.with_leading_visual_icon(icon: :pencil)
+              "bla"
+            end
+          end
+        end
+
+        def foo
+          concat render(Primer::Beta::Link.new(scheme: :primary, href: "#")) { "Some link" }
+          concat render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :subtle)) { "Hello there" }
+        end
+
+        def bar
+          "bar"
+        end
+      end
+    end
+
+    def has_actions?
+      true
+    end
+
+    def headers
+      [
+        [:foo, { caption: "Foo column" }],
+        [:bar, { caption: "Bar column" }],
+      ]
+    end
+  end
+
+  render(table.new(rows: [1, 2]))
+%>
