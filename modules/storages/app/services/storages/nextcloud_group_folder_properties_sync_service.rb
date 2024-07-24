@@ -32,7 +32,7 @@ module Storages
   class NextcloudGroupFolderPropertiesSyncService
     extend ActiveModel::Naming
     extend ActiveModel::Translation
-    include Snitch
+    include TaggedLogging
 
     using Peripherals::ServiceResultRefinements
 

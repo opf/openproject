@@ -33,7 +33,7 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class AddUserToGroupCommand
-          include Snitch
+          include TaggedLogging
 
           def initialize(storage)
             @storage = storage

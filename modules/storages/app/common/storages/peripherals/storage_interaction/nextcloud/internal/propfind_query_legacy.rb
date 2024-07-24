@@ -34,7 +34,7 @@ module Storages
       module Nextcloud
         module Internal
           class PropfindQueryLegacy
-            include Snitch
+            include TaggedLogging
             def self.call(storage:, depth:, path:, props:)
               new(storage).call(depth:, path:, props:)
             end

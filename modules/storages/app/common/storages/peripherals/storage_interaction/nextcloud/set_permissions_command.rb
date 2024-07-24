@@ -33,7 +33,7 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class SetPermissionsCommand
-          include Snitch
+          include TaggedLogging
           using ServiceResultRefinements
 
           SUCCESS_XPATH = "/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list"

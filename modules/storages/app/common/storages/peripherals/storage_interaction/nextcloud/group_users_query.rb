@@ -33,7 +33,7 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class GroupUsersQuery
-          include Snitch
+          include TaggedLogging
           using ServiceResultRefinements
 
           def self.call(storage:, group: storage.group)

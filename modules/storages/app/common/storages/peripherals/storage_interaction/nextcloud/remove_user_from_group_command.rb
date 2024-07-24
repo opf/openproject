@@ -33,7 +33,7 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class RemoveUserFromGroupCommand
-          include Snitch
+          include TaggedLogging
           def self.call(storage:, user:, group: storage.group)
             new(storage).call(user:, group:)
           end

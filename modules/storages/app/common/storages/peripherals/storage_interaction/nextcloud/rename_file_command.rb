@@ -33,7 +33,7 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class RenameFileCommand
-          include Snitch
+          include TaggedLogging
 
           def self.call(storage:, auth_strategy:, file_id:, name:)
             new(storage).call(auth_strategy:, file_id:, name:)

@@ -33,7 +33,7 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class FileIdsQuery
-          include Snitch
+          include TaggedLogging
           def self.call(storage:, path:)
             new(storage).call(path:)
           end

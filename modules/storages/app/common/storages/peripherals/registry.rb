@@ -36,7 +36,7 @@ module Storages
       extend Dry::Container::Mixin
 
       class Resolver < Dry::Container::Resolver
-        include Snitch
+        include TaggedLogging
         def call(container, key)
           with_tagged_logger("Registry") do
             info "Resolving #{key}"
