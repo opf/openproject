@@ -279,7 +279,7 @@ module OpenProject
         strategies = Array(Manager.scope_config(scope).strategies)
 
         Manager.auth_schemes
-          .select { |_, info| scope.nil? or not !info.strategies.intersect?(strategies) }
+          .select { |_, info| scope.nil? or info.strategies.intersect?(strategies) }
           .keys
       end
     end
