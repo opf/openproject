@@ -34,7 +34,11 @@ See COPYRIGHT and LICENSE files for more details.
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t('account.delete') }
     header.with_breadcrumbs(layout == "my" ? [  { href: my_account_path, text: t(:label_my_account) }, t('account.delete')]
-                              : [{ href: admin_index_path, text: t(:label_administration) }, { href: users_path, text: t(:label_user_plural) }, { href: user_path(@user), text: @user.name}, t('account.delete')])
+                              : [{ href: admin_index_path, text: t(:label_administration) },
+                                 { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+                                 { href: users_path, text: t(:label_user_plural) },
+                                 { href: user_path(@user), text: @user.name},
+                                 t('account.delete')])
   end
 %>
 
