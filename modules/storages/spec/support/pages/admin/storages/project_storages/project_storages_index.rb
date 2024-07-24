@@ -36,6 +36,12 @@ module Pages
           def path
             "/admin/settings/storages/#{storage.id}/project_storages"
           end
+
+          def within_the_table_row_containing(text, &block)
+            within(:xpath, "//td[contains(.,'#{text}')]/..") do
+              yield block
+            end
+          end
         end
       end
     end
