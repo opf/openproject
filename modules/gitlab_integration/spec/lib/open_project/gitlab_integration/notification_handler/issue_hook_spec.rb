@@ -112,7 +112,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
       end
 
       it "does not raise (Bugfix)" do
-        process
+        expect { process }.not_to raise_error
         expect(handler_instance).to have_received(:comment_on_referenced_work_packages).with(
           [],
           gitlab_system_user,
