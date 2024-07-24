@@ -1,9 +1,16 @@
 <%=
   content_tag("turbo-frame", id: "work-package-details-#{@id}") do
-    if @work_package.nil?
-      "Work Package #{@id} could not be found."
-    else
-      flex_layout(h: :full) do |flex|
+    flex_layout(h: :full, classes: "op-work-package-split-view-component") do |flex|
+      if @work_package.nil?
+        flex.with_row do
+          render(Primer::Beta::Blankslate.new(spacious: true)) do |component|
+            component.with_visual_icon(icon: :inbox)
+            component.with_heading(tag: :h2).with_content(
+              I18n.t(:error_work_package_id_not_found, id: @id)
+            )
+          end
+        end
+      else
         flex.with_row do
           render(WorkPackages::Details::TabComponent.new(work_package: @work_package, tab: @tab))
         end
