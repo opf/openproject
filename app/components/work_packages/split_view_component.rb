@@ -4,7 +4,9 @@ class WorkPackages::SplitViewComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include OpTurbo::Streamable
 
-  def initialize(id:, tab: 'overview')
+  def initialize(id:, tab: "overview")
+    super
+
     @id = id
     @tab = tab
     @work_package = WorkPackage.visible.find_by(id:)

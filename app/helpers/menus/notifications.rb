@@ -98,7 +98,7 @@ module Menus
       unread_by_project.map do |project, count|
         OpenProject::Menu::MenuItem.new(title: project.name,
                                         href: notifications_path(filter: "project", name: project.id),
-                                        count: count,
+                                        count:,
                                         selected: selected?("project", project.id))
       end
     end

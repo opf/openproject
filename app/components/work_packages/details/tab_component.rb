@@ -8,6 +8,8 @@ class WorkPackages::Details::TabComponent < ApplicationComponent
   attr_reader :tab, :work_package
 
   def initialize(work_package:, tab: :overview)
+    super
+
     @work_package = work_package
     @tab = tab.to_sym
   end
@@ -26,5 +28,12 @@ class WorkPackages::Details::TabComponent < ApplicationComponent
         allowed_node?(node, User.current, project) && visible_node?(menu, node)
       end
     end
+
+  def full_screen_tab
+    if @tab.name == "overview"
+      return :activity
+    end
+
+    @tab.name
   end
 end

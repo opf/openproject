@@ -1,14 +1,29 @@
 <%=
-  render(Primer::Alpha::UnderlineNav.new(align: :left, label: "Tabs")) do |component|
-    menu_items.each do |node|
-      component.with_tab(selected: @tab == node.name,
-                         href: url_for(node.url),
-                         data: { turbo: true, turbo_action: "replace" }
-                         ) do |c|
-        c.with_text { t("js.work_packages.tabs.#{node.name}") }
-        count = node.badge(work_package:).to_i
-        c.with_counter(count:) if count > 0
+  flex_layout(classes: "op-work-package-details-tab-component") do |flex|
+    flex.with_column(flex: 1, classes: "op-work-package-details-tab-component--tabs") do
+      render(Primer::Alpha::UnderlineNav.new(align: :left, label: "Tabs")) do |component|
+        menu_items.each do |node|
+          component.with_tab(selected: @tab == node.name,
+                             href: url_for(node.url),
+                             data: { turbo: true, turbo_action: "replace" }
+          ) do |c|
+            c.with_text { t("js.work_packages.tabs.#{node.name}") }
+            count = node.badge(work_package:).to_i
+            c.with_counter(count:) if count > 0
+          end
+        end
       end
+    end
+    flex.with_column(classes: "op-work-package-details-tab-component--action") do
+      render(Primer::Beta::IconButton.new(icon: :"screen-full",
+                                          tag: :a,
+                                          href: work_package_path(work_package.id, full_screen_tab),
+                                          target: "_top",
+                                          scheme: :invisible,
+                                          aria: { label: I18n.t("js.button_show_fullscreen") }))
+    end
+    flex.with_column(pt: 2, border: :bottom, border_color: :muted, classes: "op-work-package-details-tab-component--action") do
+      render(Primer::Beta::IconButton.new(icon: :x, scheme: :invisible, aria: { label: I18n.t(:button_close) }))
     end
   end
 %>
