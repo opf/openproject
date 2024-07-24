@@ -10,13 +10,15 @@ module OpenProject
           def valid?
             access_token = ::Doorkeeper::OAuth::Token
                              .from_request(decorated_request, *Doorkeeper.configuration.access_token_methods)
-            access_token.present? &&
-              begin
-                JWT.decode(access_token, nil, false)
-                false
-              rescue JWT::DecodeError
-                true
-              end
+            
+            # No access token found, so invalid strategy.
+            return false if access_token.blank?
+            
+            # We don't want JWT as our OAuth Bearer token
+            JWT.decode(access_token, nil, false)
+            false
+          rescue JWT::DecodeError
+            true
           end
 
           def authenticate!

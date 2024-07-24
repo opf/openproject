@@ -15,13 +15,12 @@ module OpenProject
             @access_token = ::Doorkeeper::OAuth::Token.from_bearer_authorization(
               ::Doorkeeper::Grape::AuthorizationDecorator.new(request)
             )
-            @access_token.present? &&
-              begin
-                @unverified_payload, @unverified_header = JWT.decode(@access_token, nil, false)
-                @unverified_header.present? && @unverified_payload.present?
-              rescue JWT::DecodeError
-                false
-              end
+            return false if @access_token.blank?
+                
+            @unverified_payload, @unverified_header = JWT.decode(@access_token, nil, false)
+            @unverified_header.present? && @unverified_payload.present?
+          rescue JWT::DecodeError
+            false
           end
 
           def authenticate!
