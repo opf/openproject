@@ -1,7 +1,7 @@
 module Saml
   module Providers
-    class TableComponent < ::TableComponent
-      columns :name
+    class TableComponent < ::OpPrimer::BorderBoxTableComponent
+      columns :name, :users
 
       def initial_sort
         %i[id asc]
@@ -17,7 +17,8 @@ module Saml
 
       def headers
         [
-          ['name', { caption: I18n.t('attributes.name') }]
+          ['name', { caption: I18n.t('attributes.name') }],
+          ['users', { caption: I18n.t(:label_user_plural) }]
         ]
       end
     end

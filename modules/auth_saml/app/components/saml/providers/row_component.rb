@@ -1,15 +1,23 @@
 module Saml
   module Providers
-    class RowComponent < ::RowComponent
+    class RowComponent < ::OpPrimer::BorderBoxRowComponent
       def provider
         model
       end
 
       def name
-        link_to(
-          provider.display_name || provider.name,
-          url_for(action: :edit, id: provider.id)
-        )
+        concat render(Primer::Beta::Link.new(
+          scheme: :primary,
+          href: url_for(action: :edit, id: provider.id)
+        )) { provider.display_name || provider.name }
+
+        if provider.idp_sso_target_url
+          concat render(Primer::Beta::Text.new(
+            tag: :p,
+            font_size: :small,
+            color: :subtle
+          )) { provider.idp_sso_target_url }
+        end
       end
 
       def button_links
@@ -22,6 +30,10 @@ module Saml
           url_for(action: :edit, id: provider.id),
           title: t(:button_edit)
         )
+      end
+
+      def users
+        "1234"
       end
 
       def delete_link
