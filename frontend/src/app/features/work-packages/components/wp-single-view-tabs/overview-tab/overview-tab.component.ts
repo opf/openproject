@@ -44,15 +44,16 @@ export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin impleme
 
   public tabName = this.I18n.t('js.label_latest_activity');
 
-  public constructor(readonly I18n:I18nService,
+  public constructor(
+    readonly I18n:I18nService,
     readonly $state:StateService,
-    readonly apiV3Service:ApiV3Service) {
+    readonly apiV3Service:ApiV3Service,
+  ) {
     super();
-
   }
 
   ngOnInit() {
-    this.workPackageId = this.workPackage?.id || this.$state.params.workPackageId;
+    this.workPackageId = this.workPackage?.id || this.$state.params.workPackageId as string;
 
     this
       .apiV3Service

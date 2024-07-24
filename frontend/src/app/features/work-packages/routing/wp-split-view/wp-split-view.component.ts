@@ -69,7 +69,7 @@ import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs
 export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase implements OnInit {
   hasState:boolean = !!this.$state.current;
   /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
-  private baseRoute:string = this.$state.current?.data?.baseRoute;
+  private baseRoute:string = this.$state.current?.data?.baseRoute as string;
 
   @Input() workPackageId:string;
   @Input() showTabs = true;

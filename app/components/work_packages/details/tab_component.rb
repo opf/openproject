@@ -19,7 +19,7 @@ class WorkPackages::Details::TabComponent < ApplicationComponent
   def menu = :work_package_split_view
 
   def menu_items
-    @menu_items ||= begin
+    @menu_items ||=
       Redmine::MenuManager
         .items(menu, nil)
         .root
@@ -27,7 +27,7 @@ class WorkPackages::Details::TabComponent < ApplicationComponent
         .select do |node|
         allowed_node?(node, User.current, project) && visible_node?(menu, node)
       end
-    end
+  end
 
   def full_screen_tab
     if @tab.name == "overview"

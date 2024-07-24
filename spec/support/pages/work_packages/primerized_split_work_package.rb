@@ -36,12 +36,12 @@ module Pages
 
     def switch_to_tab(tab:)
       in_split_view do
-        click_link tab
+        click_link_or_button tab
       end
     end
 
     def expect_tab(tab)
-      expect(page).to have_link(tab) do |link|
+      within_test_selector("wp-details-tab-component--tab-#{tab.downcase}") do |link|
         link["data-aria-current"] == "page"
       end
     end

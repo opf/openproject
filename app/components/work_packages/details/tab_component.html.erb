@@ -5,6 +5,7 @@
         menu_items.each do |node|
           component.with_tab(selected: @tab == node.name,
                              href: url_for(node.url),
+                             test_selector: "wp-details-tab-component--tab-#{node.name}",
                              data: { turbo: true, turbo_action: "replace" }
           ) do |c|
             c.with_text { t("js.work_packages.tabs.#{node.name}") }

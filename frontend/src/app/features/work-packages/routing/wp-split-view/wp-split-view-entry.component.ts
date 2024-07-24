@@ -26,12 +26,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, ElementRef, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+} from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
-
 
 /**
  * An entry component to be rendered by Rails which opens an isolated query space
@@ -46,6 +50,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
       [showTabs]="false"
     ></op-wp-split-view>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageSplitViewEntryComponent {
   @Input() workPackageId:string;
