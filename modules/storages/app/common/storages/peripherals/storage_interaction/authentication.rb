@@ -36,6 +36,8 @@ module Storages
 
         def self.[](strategy)
           case strategy.key
+          when :noop
+            AuthenticationStrategies::Noop.new
           when :basic_auth
             AuthenticationStrategies::BasicAuth.new
           when :oauth_user_token
