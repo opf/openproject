@@ -32,6 +32,11 @@ jobs:
     env:
       DOCKER_BUILDKIT: 1
       CI_RETRY_COUNT: 3
+      CI_JOBS: ${{ matrix.jobs }}
+    strategy:
+      fail-fast: false
+      matrix:
+        jobs: [16, 24, 32, 48, 64]
     steps:
     - uses: actions/checkout@v4
     - name: Cache DOCKER
