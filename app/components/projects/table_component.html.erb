@@ -50,13 +50,13 @@ See COPYRIGHT and LICENSE files for more details.
                                         helpers.op_icon("icon-hierarchy"),
                                         href: href_only_when_not_sort_lft,
                                         class: "spot-link #{deactivate_class_on_lft_sort}",
+                                        data: { "turbo-stream": true },
                                         title: t(:label_sort_by, value: %("#{t(:label_project_hierarchy)}")) %>
                       </div>
                     </div>
                   </th>
                 <% elsif sortable_column?(column) %>
-                  <%= build_sort_header column.attribute,
-                                        order_options(column) %>
+                  <%= build_sort_header column.attribute, order_options(column, turbo: true) %>
                 <% elsif column.attribute == :favored %>
                   <th>
                     <div class="generic-table--header-outer">

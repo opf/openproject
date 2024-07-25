@@ -115,10 +115,14 @@ module Projects
       end
     end
 
-    def order_options(select)
-      {
-        caption: select.caption
-      }
+    def order_options(select, turbo: false)
+      options = { caption: select.caption }
+
+      if turbo
+        options[:data] = { "turbo-stream": true }
+      end
+
+      options
     end
 
     def sortable_column?(select)
