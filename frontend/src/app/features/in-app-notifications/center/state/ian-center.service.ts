@@ -232,7 +232,7 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   openSplitScreen(workPackageId:string, tabIdentifier:string = 'activity'):void {
-    window.location.href = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier);
+    window.location.href = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
   }
 
   openFullView(workPackageId:string|null):void {

@@ -257,7 +257,7 @@ RSpec.describe "Notification center date alerts", :js, :with_cuprite,
       split_screen.expect_no_notification_badge
 
       # The same is true for the mention item that is opened in date alerts filter
-      center.click_item notification_wp_double_mention
+      center.click_item notification_wp_double_date_alert
       split_screen = Pages::PrimerizedSplitWorkPackage.new wp_double_notification
       split_screen.expect_tab :overview
       wait_for_network_idle

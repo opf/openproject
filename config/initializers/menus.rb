@@ -649,7 +649,13 @@ Redmine::MenuManager.map :work_package_split_view do |menu|
   menu.push :activity,
             { tab: :activity },
             skip_permissions_check: true,
-            badge: ->(work_package:, **) { 123 },
+            badge: ->(work_package:, **) {
+                     Notification.where(recipient: User.current,
+                                        read_ian: false,
+                                        resource: work_package)
+                                 .where.not(reason: %i[date_alert_start_date date_alert_due_date])
+                                 .count
+                   },
             caption: :"js.work_packages.tabs.activity"
   menu.push :files,
             { tab: :files },
