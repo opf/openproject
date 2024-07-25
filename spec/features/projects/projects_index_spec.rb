@@ -56,22 +56,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     projects_page.open_filters
   end
 
-  def remove_filter(name)
-    page.find("li[filter-name='#{name}'] .filter_rem").click
-  end
-
-  def expect_project_at_place(project, place)
-    expect(page)
-      .to have_css("#project-table .project:nth-of-type(#{place}) td.name",
-                   text: project.name)
-  end
-
-  def expect_projects_in_order(*projects)
-    projects.each_with_index do |project, index|
-      expect_project_at_place(project, index + 1)
-    end
-  end
-
   describe "project visibility restriction" do
     context "for an anonymous user" do
       specify "only public projects shall be visible" do
@@ -474,7 +458,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.expect_projects_not_listed(project)
 
       # Filter on model attribute 'identifier'
-      remove_filter("name_and_identifier")
+      projects_page.remove_filter("name_and_identifier")
 
       projects_page.set_filter("name_and_identifier",
                                "Name or identifier",
@@ -611,12 +595,12 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
 
         click_link_or_button('Sort by "Status"')
 
-        expect_project_at_place(green_project, 1)
+        projects_page.expect_project_at_place(green_project, 1)
         expect(page).to have_text("(1 - 5/5)")
 
         click_link_or_button('Ascending sorted by "Status"')
 
-        expect_project_at_place(green_project, 5)
+        projects_page.expect_project_at_place(green_project, 5)
         expect(page).to have_text("(1 - 5/5)")
 
         projects_page.open_filters
@@ -737,7 +721,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_no_text(project_created_on_fixed_date.name)
 
           # created on 'this week' shows projects that were created within the last seven days
-          remove_filter("created_at")
+          projects_page.remove_filter("created_at")
 
           projects_page.set_filter("created_at",
                                    "Created on",
@@ -751,7 +735,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_no_text(project_created_on_fixed_date.name)
 
           # created on 'on' shows projects that were created within the last seven days
-          remove_filter("created_at")
+          projects_page.remove_filter("created_at")
 
           projects_page.set_filter("created_at",
                                    "Created on",
@@ -766,7 +750,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_no_text(project_created_on_this_week.name)
 
           # created on 'less than days ago'
-          remove_filter("created_at")
+          projects_page.remove_filter("created_at")
 
           projects_page.set_filter("created_at",
                                    "Created on",
@@ -780,7 +764,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_no_text(project_created_on_fixed_date.name)
 
           # created on 'more than days ago'
-          remove_filter("created_at")
+          projects_page.remove_filter("created_at")
 
           projects_page.set_filter("created_at",
                                    "Created on",
@@ -794,7 +778,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_no_text(project_created_on_today.name)
 
           # created on 'between'
-          remove_filter("created_at")
+          projects_page.remove_filter("created_at")
 
           projects_page.set_filter("created_at",
                                    "Created on",
@@ -808,7 +792,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_no_text(project_created_on_today.name)
 
           # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
-          remove_filter("created_at")
+          projects_page.remove_filter("created_at")
 
           projects_page.set_filter("latest_activity_at",
                                    "Latest activity at",
@@ -821,7 +805,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_no_text(project_created_on_fixed_date.name)
 
           # CF List
-          remove_filter("latest_activity_at")
+          projects_page.remove_filter("latest_activity_at")
 
           projects_page.set_filter(list_custom_field.column_name,
                                    list_custom_field.name,
@@ -879,7 +863,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           end
 
           # CF date filter work (at least for one operator)
-          remove_filter(list_custom_field.column_name)
+          projects_page.remove_filter(list_custom_field.column_name)
 
           projects_page.set_filter(date_custom_field.column_name,
                                    date_custom_field.name,
@@ -1175,63 +1159,68 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       Setting.enabled_projects_columns += [integer_custom_field.column_name]
 
       # initially, ordered by name asc on each hierarchical level
-      expect_projects_in_order(development_project,
-                               project,
-                               child_project_a,
-                               child_project_m,
-                               child_project_z,
-                               public_project)
+      projects_page
+        .expect_projects_in_order(development_project,
+                                  project,
+                                  child_project_a,
+                                  child_project_m,
+                                  child_project_z,
+                                  public_project)
 
       click_link_or_button("Name")
       wait_for_reload
 
       # Projects ordered by name asc
-      expect_projects_in_order(child_project_a,
-                               development_project,
-                               child_project_m,
-                               project,
-                               public_project,
-                               child_project_z)
+      projects_page
+        .expect_projects_in_order(child_project_a,
+                                  development_project,
+                                  child_project_m,
+                                  project,
+                                  public_project,
+                                  child_project_z)
 
       click_link_or_button("Name")
       wait_for_reload
 
       # Projects ordered by name desc
-      expect_projects_in_order(child_project_z,
-                               public_project,
-                               project,
-                               child_project_m,
-                               development_project,
-                               child_project_a)
+      projects_page
+        .expect_projects_in_order(child_project_z,
+                                  public_project,
+                                  project,
+                                  child_project_m,
+                                  development_project,
+                                  child_project_a)
 
       click_link_or_button(integer_custom_field.name)
       wait_for_reload
 
       # Projects ordered by cf asc first then project name desc
-      expect_projects_in_order(project,
-                               development_project,
-                               public_project,
-                               child_project_z,
-                               child_project_m,
-                               child_project_a)
+      projects_page
+        .expect_projects_in_order(project,
+                                  development_project,
+                                  public_project,
+                                  child_project_z,
+                                  child_project_m,
+                                  child_project_a)
 
       click_link_or_button('Sort by "Project hierarchy"')
       wait_for_reload
 
       # again ordered by name asc on each hierarchical level
-      expect_projects_in_order(development_project,
-                               project,
-                               child_project_a,
-                               child_project_m,
-                               child_project_z,
-                               public_project)
+      projects_page
+        .expect_projects_in_order(development_project,
+                                  project,
+                                  child_project_a,
+                                  child_project_m,
+                                  child_project_z,
+                                  public_project)
     end
 
     it "sorts projects by latest_activity_at" do
       click_link_or_button('Sort by "Latest activity at"')
       wait_for_reload
 
-      expect_project_at_place(project, 1)
+      projects_page.expect_project_at_place(project, 1)
     end
   end
 
