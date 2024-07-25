@@ -233,7 +233,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   openSplitScreen(workPackageId:string, tabIdentifier:string = 'activity'):void {
     const link = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
-    Turbo.visit(link, { acceptsStreamResponse: true } as never);
+    Turbo.visit(link, { action: 'replace', acceptsStreamResponse: true } as never);
   }
 
   openFullView(workPackageId:string|null):void {

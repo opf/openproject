@@ -707,6 +707,11 @@ Rails.application.routes.draw do
         as: :details,
         work_package_split_view: true,
         base_route: options.fetch(:base_route)
+
+    get "/:work_package_id/close",
+        on: :collection,
+        action: :close_split_view,
+        base_route: options.fetch(:base_route)
   end
 
   resources :notifications, only: :index do

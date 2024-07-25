@@ -29,7 +29,8 @@
     flex.with_column(classes: "op-work-package-details-tab-component--action") do
       render(Primer::Beta::IconButton.new(icon: :x,
                                           tag: :a,
-                                          href: url_helpers.send(base_route),
+                                          href: url_for(action: :close_split_view),
+                                          data: { 'turbo-stream': true },
                                           scheme: :invisible,
                                           test_selector: "wp-details-tab-component--close",
                                           aria: { label: I18n.t(:button_close) }))
