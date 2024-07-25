@@ -723,9 +723,9 @@ Rails.application.routes.draw do
   end
 
   scope :notifications do
-    get "/share_upsale" => "angular#notifications_layout", as: "notifications_share_upsale"
-    get "/date_alerts" => "angular#notifications_layout", as: "notifications_date_alert_upsale"
-    get "(/*state)", to: "angular#notifications_layout", as: :notifications_center
+    get "/share_upsale" => "notifications#share_upsale", as: "notifications_share_upsale"
+    get "/date_alerts" => "notifications#date_alerts", as: "notifications_date_alert_upsale"
+    get "/", to: "notifications#index", as: :notifications_center
   end
 
   # OAuthClient needs a "callback" URL that Nextcloud calls with a "code" (see OAuth2 RFC)

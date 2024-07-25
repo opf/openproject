@@ -29,18 +29,16 @@
 class NotificationsController < ApplicationController
   before_action :require_login
   before_action :filtered_query, only: :mark_all_read
-  no_authorization_required! :index, :split_view, :mark_all_read
+  no_authorization_required! :index, :split_view, :mark_all_read, :date_alerts, :share_upsale
 
   def index
-    # Frontend will handle rendering
-    # but we will need to render with notification specific layout
-    render layout: "angular/notifications"
+    render_notifications_layout
   end
 
   def split_view
     respond_to do |format|
       format.html do
-        render :index, layout: "angular/notifications"
+        render :index, layout: "notifications"
       end
     end
   end
@@ -55,10 +53,22 @@ class NotificationsController < ApplicationController
     redirect_back fallback_location: notifications_path
   end
 
+  def date_alerts
+    render_notifications_layout
+  end
+
+  def share_upsale
+    render_notifications_layout
+  end
+
   private
 
-  def default_breadcrumb
-    t("js.notifications.title")
+  def default_breadcrumb; end
+
+  def render_notifications_layout
+    # Frontend will handle rendering
+    # but we will need to render with notification specific layout
+    render layout: "notifications"
   end
 
   def filtered_query
