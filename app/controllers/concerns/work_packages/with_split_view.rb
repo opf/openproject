@@ -43,7 +43,8 @@ module WorkPackages
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.remove("work-package-details-#{split_view_work_package_id}"),
-            turbo_stream.push_state(url: split_view_base_route)
+            turbo_stream.push_state(url: split_view_base_route),
+            turbo_stream.set_title(title: I18n.t("js.notifications.title"))
           ]
         end
         format.html do
