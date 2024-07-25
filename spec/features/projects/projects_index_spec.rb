@@ -172,6 +172,20 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
             )
         end
       end
+      context "with project attributes" do
+        let!(:list_custom_field) do
+          create(:list_project_custom_field, multi_value: true).tap do |cf|
+            development_project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+            project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+          end
+        end
+
+        it "cannot see the project attribute field in the filter section" do
+          load_and_open_filters user
+
+          expect(page).to have_no_select("add_filter_select", with_options: [list_custom_field.name])
+        end
+      end
     end
 
     context "for admins" do
