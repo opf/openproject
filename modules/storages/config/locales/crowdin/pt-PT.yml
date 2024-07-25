@@ -87,6 +87,10 @@ pt-PT:
       storage_delete_result_1: Remover todas as configurações de armazenamento para todos os projetos que utilizam este armazenamento.
       storage_delete_result_2: Remover todos os links de pacotes de trabalho de todos os projetos para ficheiros e pastas desse armazenamento.
       storage_delete_result_3: No caso de este armazenamento ter pastas de projeto geridas automaticamente, estas e os seus ficheiros serão eliminados para sempre.
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
     error_invalid_provider_type: Selecione um fornecedor de armazenamento válido.
     file_storage_view:
       access_management:
@@ -111,9 +115,13 @@ pt-PT:
       checked: Última verificação em %{datetime}
       connection_validation:
         action: Verifique novamente a ligação
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
         client_id_wrong: O ID de cliente OAuth 2 configurado é inválido. Verifique a configuração.
         client_secret_wrong: O segredo do cliente OAuth 2 configurado é inválido. Verifique a configuração.
         drive_id_wrong: Não foi possível encontrar o ID da unidade configurada. Verifique a configuração.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
         not_configured: Não foi possível validar a ligação.Termine, primeiro, a configuração.
         placeholder: Verifique a sua ligação com o servidor.
         subtitle: Validação da ligação

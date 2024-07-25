@@ -87,6 +87,10 @@ az:
       storage_delete_result_1: Remove all storage setups for all projects using this storage.
       storage_delete_result_2: Remove all links from work packages of all projects to files and folders of that storage.
       storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
     error_invalid_provider_type: Please select a valid storage provider.
     file_storage_view:
       access_management:
@@ -111,9 +115,13 @@ az:
       checked: Last checked %{datetime}
       connection_validation:
         action: Recheck connection
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
         client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
         client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
         drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
         not_configured: The connection could not be validated. Please finish configuration first.
         placeholder: Check your connection against the server.
         subtitle: Connection validation
