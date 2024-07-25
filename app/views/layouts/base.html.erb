@@ -153,11 +153,9 @@ See COPYRIGHT and LICENSE files for more details.
             <%= yield %>
           <% end %>
         </div>
-        <% if content_for?(:content_body_right) %>
-          <div id="content-bodyRight">
-            <%= content_for :content_body_right %>
-          </div>
-        <% end %>
+        <div id="content-bodyRight">
+          <%= content_for :content_body_right %>
+        </div>
       <% end %>
     </main>
   </div>
