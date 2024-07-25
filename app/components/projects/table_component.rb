@@ -30,6 +30,8 @@
 
 module Projects
   class TableComponent < ::TableComponent
+    include OpTurbo::Streamable
+
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
     options :query
@@ -45,6 +47,10 @@ module Projects
 
     def initial_sort
       %i[lft asc]
+    end
+
+    def self.wrapper_key
+      "projects-table"
     end
 
     def table_id

@@ -31,6 +31,7 @@
 class Projects::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include Primer::FetchOrFallbackHelper
+  include OpTurbo::Streamable
 
   attr_accessor :current_user,
                 :query,
@@ -48,6 +49,10 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     self.query = query
     self.state = fetch_or_fallback(STATE_OPTIONS, state)
     self.params = params
+  end
+
+  def self.wrapper_key
+    "projects-index-page-header"
   end
 
   def gantt_portfolio_query_link
