@@ -172,6 +172,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
             )
         end
       end
+
       context "with project attributes" do
         let!(:list_custom_field) do
           create(:list_project_custom_field, multi_value: true).tap do |cf|
@@ -277,6 +278,50 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
 
         error_container = page.find(".op-toast.-error")
         expect(error_container["innerHTML"]).to include error_html
+      end
+    end
+  end
+
+  describe "project attributes visibility restrictions", with_ee: %i[custom_fields_in_projects_list] do
+    let(:user) do
+      create(:user,
+             member_with_roles: {
+               development_project => create(:existing_project_role, permissions:),
+               project => create(:existing_project_role)
+             })
+    end
+
+    let!(:list_custom_field) do
+      create(:list_project_custom_field, multi_value: true).tap do |cf|
+        development_project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+        project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+      end
+    end
+
+    before do
+      login_as(user)
+      projects_page.visit!
+    end
+
+    context "with view_project_attributes permission" do
+      let(:permissions) { %i(view_project_attributes) }
+
+      it "can see the project attribute field value in the project list" do
+        projects_page.set_columns(list_custom_field.name)
+        projects_page.expect_columns(list_custom_field.name)
+
+        projects_page
+          .expect_project_attribute_value(development_project, list_custom_field, "A, B")
+        projects_page
+          .expect_empty_project_attribute_value(project, list_custom_field)
+      end
+    end
+
+    context "without view_project_attributes permission" do
+      let(:permissions) { [] }
+
+      it "cannot see the project attribute field in the table configuration" do
+        projects_page.expect_no_config_columns(list_custom_field.name)
       end
     end
   end

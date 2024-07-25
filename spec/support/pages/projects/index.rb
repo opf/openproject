@@ -331,6 +331,20 @@ module Pages
         end
       end
 
+      def expect_no_config_columns(*columns)
+        open_configure_view
+
+        columns.each do |column|
+          expect_no_ng_option find(".op-draggable-autocomplete--input"),
+                              column,
+                              results_selector: ".ng-dropdown-panel-items"
+        end
+
+        within "dialog" do
+          click_on "Cancel"
+        end
+      end
+
       def mark_query_favorite
         page.find('[data-test-selector="project-query-favorite"]').click
       end
