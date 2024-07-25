@@ -29,7 +29,8 @@
 require "spec_helper"
 
 RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
-  let(:query) { ProjectQuery.new }
+  let(:user) { nil }
+  let(:query) { ProjectQuery.new(user:) }
   let(:bool_project_custom_field) { build_stubbed(:boolean_project_custom_field) }
   let(:int_project_custom_field) { build_stubbed(:integer_project_custom_field) }
   let(:float_project_custom_field) { build_stubbed(:float_project_custom_field) }
@@ -315,6 +316,19 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
     end
   end
 
+  describe "#apply_to" do
+    describe "permissions" do
+      let(:user) { build_stubbed(:user) }
+
+      it "includes the check for view_project_attributes permission" do
+        expected_permission_sql = <<~SQL.squish
+          projects.id IN (#{Project.allowed_to(user, :view_project_attributes).select(:id).to_sql})
+        SQL
+        expect(instance.apply_to(Project).to_sql).to include expected_permission_sql
+      end
+    end
+  end
+
   describe ".all_for" do
     before do
       allow(ProjectCustomField)
@@ -348,8 +362,8 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
     end
   end
 
-  context "list cf" do
-    describe "#ar_object_filter? / #value_objects" do
+  describe "custom fields" do
+    describe "list cf" do
       let(:custom_field) { list_project_custom_field }
 
       describe "#ar_object_filter?" do
