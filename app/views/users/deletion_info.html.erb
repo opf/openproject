@@ -30,17 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(layout== "my" ? t(:label_my_account) : t(:label_administration), "#{ t('account.deletion_info.heading', name: @user.name)}") -%>
 
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t('account.delete') }
-    header.with_breadcrumbs(layout == "my" ? [  { href: my_account_path, text: t(:label_my_account) }, t('account.delete')]
-                              : [{ href: admin_index_path, text: t(:label_administration) },
-                                 { href: admin_settings_users_path, text: t(:label_user_and_permission) },
-                                 { href: users_path, text: t(:label_user_plural) },
-                                 { href: user_path(@user), text: @user.name},
-                                 t('account.delete')])
-  end
-%>
+<%= render ::Users::DeleteAccountPageHeaderComponent.new(layout: layout, user: @user) %>
 
 <%= labelled_tabular_form_for(
         :user,
