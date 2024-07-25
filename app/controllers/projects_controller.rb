@@ -27,6 +27,8 @@
 #++
 
 class ProjectsController < ApplicationController
+  include OpTurbo::ComponentStream
+
   menu_item :overview
   menu_item :roadmap, only: :roadmap
 
@@ -50,7 +52,7 @@ class ProjectsController < ApplicationController
     :projects
   end
 
-  def index
+  def index # rubocop:disable Format/AbcSize
     respond_to do |format|
       format.html do
         flash.now[:error] = @query.errors.full_messages if @query.errors.any?
@@ -60,6 +62,11 @@ class ProjectsController < ApplicationController
 
       format.any(*supported_export_formats) do
         export_list(@query, request.format.symbol)
+      end
+
+      format.turbo_stream do
+        replace_via_turbo_stream(component: Projects::TableComponent.new(query: @query, current_user:, params:))
+        render turbo_stream: turbo_streams
       end
     end
   end
