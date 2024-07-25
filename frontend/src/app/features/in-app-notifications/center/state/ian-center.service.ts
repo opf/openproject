@@ -179,7 +179,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   public selectedNotification:INotification;
 
-  stateChanged$ = of(this.urlParams.pathMatching(/\/details\/\d+/));
+  stateChanged$ = of(this.urlParams.pathMatching(/\/details\/(\d+)/));
 
   constructor(
     readonly I18n:I18nService,
@@ -356,7 +356,7 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   private updateSelectedNotification() {
-    this
+    void this
       .notifications$
       .pipe(
         take(1),

@@ -40,6 +40,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { UrlParamsService } from 'core-app/core/url-params/url-params.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   templateUrl: './in-app-notification-center.component.html',
@@ -130,6 +131,8 @@ export class InAppNotificationCenterComponent implements OnInit {
       with_current_filter: this.I18n.t('js.notifications.center.no_results.with_current_filter'),
     },
   };
+
+  protected readonly idFromLink = idFromLink;
 
   constructor(
     readonly cdRef:ChangeDetectorRef,
