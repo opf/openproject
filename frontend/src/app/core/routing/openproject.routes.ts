@@ -80,6 +80,12 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     url: '/bcf',
     loadChildren: () => import('../../features/bim/ifc_models/openproject-ifc-models.module').then((m) => m.OpenprojectIFCModelsModule),
   },
+  {
+    name: 'reporting.**',
+    parent: 'optional_project',
+    url: '/cost_reports',
+    loadChildren: () => import('../../features/reporting/openproject-reporting.module').then((m) => m.OpenprojectReportingModule),
+  },
   ...TEAM_PLANNER_LAZY_ROUTES,
   ...CALENDAR_LAZY_ROUTES,
 ];
