@@ -35,6 +35,7 @@ declare module '@hotwired/turbo' {
 
   export const navigator:{
     submitForm:(form:HTMLFormElement, submitter?:HTMLElement) => void;
+    history:History;
   };
 
   export interface StreamElement {

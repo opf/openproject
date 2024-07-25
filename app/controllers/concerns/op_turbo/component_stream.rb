@@ -53,6 +53,10 @@ module OpTurbo
       modify_via_turbo_stream(component:, action: :remove, status:)
     end
 
+    def modify_history_via_turbo_stream(method:, url:)
+      turbo_streams << helpers.turbo_stream_action_tag(:history, method:, url:)
+    end
+
     def modify_via_turbo_stream(component:, action:, status:)
       @turbo_status = status
       turbo_streams << component.render_as_turbo_stream(
