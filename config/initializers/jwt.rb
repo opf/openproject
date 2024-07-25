@@ -27,3 +27,4 @@
 #++
 
 JWT.configuration.strict_base64_decoding = true
+JSON::JWK::Set::Fetcher.cache = Rails.cache

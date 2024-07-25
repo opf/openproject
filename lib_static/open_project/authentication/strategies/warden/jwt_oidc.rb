@@ -40,7 +40,12 @@ module OpenProject
 
             kid = @unverified_header.fetch("kid")
             jwks_uri = provider.configuration[:jwks_uri]
-            key = JSON::JWK::Set::Fetcher.fetch(jwks_uri, kid:).to_key
+            begin
+              key = JSON::JWK::Set::Fetcher.fetch(jwks_uri, kid:).to_key
+            rescue JSON::JWK::Set::KidNotFound
+              return fail_with_header!(error: "invalid_token", error_description: "The access token signature kid is unknown")
+            end
+
             begin
               verified_payload, = JWT.decode(
                 @access_token,
