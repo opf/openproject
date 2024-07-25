@@ -65,7 +65,13 @@ class ProjectsController < ApplicationController
       end
 
       format.turbo_stream do
-        replace_via_turbo_stream(component: Projects::TableComponent.new(query: @query, current_user:, params:))
+        replace_via_turbo_stream(
+          component: Projects::IndexPageHeaderComponent.new(query: @query, current_user:, state: :show, params:)
+        )
+        replace_via_turbo_stream(
+          component: Projects::TableComponent.new(query: @query, current_user:, params:)
+        )
+
         render turbo_stream: turbo_streams
       end
     end

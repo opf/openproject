@@ -45,15 +45,37 @@ class Projects::QueriesController < ApplicationController
   end
 
   def new
-    render template: "/projects/index",
-           layout: "global",
-           locals: { query: @query, state: :edit }
+    respond_to do |format|
+      format.html do
+        render template: "/projects/index",
+               layout: "global",
+               locals: { query: @query, state: :edit }
+      end
+      format.turbo_stream do
+        replace_via_turbo_stream(
+          component: Projects::IndexPageHeaderComponent.new(query: @query, current_user:, state: :edit, params:)
+        )
+
+        render turbo_stream: turbo_streams
+      end
+    end
   end
 
   def rename
-    render template: "/projects/index",
-           layout: "global",
-           locals: { query: @query, state: :rename }
+    respond_to do |format|
+      format.html do
+        render template: "/projects/index",
+               layout: "global",
+               locals: { query: @query, state: :rename }
+      end
+      format.turbo_stream do
+        replace_via_turbo_stream(
+          component: Projects::IndexPageHeaderComponent.new(query: @query, current_user:, state: :rename, params:)
+        )
+
+        render turbo_stream: turbo_streams
+      end
+    end
   end
 
   def create

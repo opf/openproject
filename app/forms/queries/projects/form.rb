@@ -51,7 +51,8 @@ class Queries::Projects::Form < ApplicationForm
         scheme: :secondary,
         label: I18n.t(:button_cancel),
         tag: :a,
-        href: @cancel_url
+        href: @cancel_url,
+        data: { "turbo-stream": true }
       )
     end
   end

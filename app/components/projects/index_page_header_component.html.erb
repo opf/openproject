@@ -70,6 +70,7 @@
             menu.with_item(
               label: t('button_rename'),
               href: rename_project_query_path(query),
+              content_arguments: { data: { "turbo-stream": true } }
             ) do |item|
               item.with_leading_visual_icon(icon: :pencil)
             end
@@ -148,6 +149,7 @@
           primer_form_with(model: query,
                           url: @query.new_record? ? project_queries_path(projects_query_params) : project_query_path(@query, projects_query_params),
                           scope: 'query',
+                          data: { turbo: false },
                           id: 'project-save-form') do |f|
             render(
               Queries::Projects::Form.new(

@@ -137,7 +137,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       mobile_icon: nil, # Do not show on mobile as it is already part of the menu
       mobile_label: nil,
       href:,
-      data: { method: }
+      data: { "turbo-stream": true, method: },
+      target: ""
     ) do
       render(
         Primer::Beta::Octicon.new(
@@ -155,7 +156,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       label:,
       href:,
       content_arguments: {
-        data: { method: }
+        data: { "turbo-stream": true, method: }
       }
     ) do |item|
       item.with_leading_visual_icon(icon: :"op-save")
