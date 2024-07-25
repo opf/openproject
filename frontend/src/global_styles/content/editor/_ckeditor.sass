@@ -6,6 +6,9 @@
   &.ck-editor__editable_inline
     padding-left: 2px !important
 
+  .ck-content .table table th
+    @include table-header-styles
+
 // Wrapper for full text element
 ckeditor-augmented-textarea .op-ckeditor--wrapper
   margin-bottom: 2rem
@@ -40,10 +43,6 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
     th[style*=";width:"],
     th[style^="width:"]
       word-break: break-all
-
-  .table table th
-    border-color: var(--borderColor-default) !important
-    background-color: var(--bgColor-muted) !important
 
 .ck .ck-widget.op-ckeditor--code-block
   // Display content as pre
@@ -129,3 +128,5 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
 .ck-icon_inherit-color
   path
     fill: var(--body-font-color) !important
+
+
