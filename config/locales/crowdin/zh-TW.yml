@@ -250,7 +250,7 @@ zh-TW:
       work_package_file_links: "工作項目：檔案連結"
       work_package_shares: "Work packages: shares"
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "已經安排背景執行刪除任務。你將會收到結果通知。"
       schedule_failed: "專案無法刪除: %{errors}"
       failed: "專案 %{name} 的刪除失敗"
       failed_text: "刪除專案 %{name} 的請求失敗。該專案已封存。"
