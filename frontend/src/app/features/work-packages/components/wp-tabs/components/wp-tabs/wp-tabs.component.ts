@@ -9,7 +9,6 @@ import {
   WorkPackageTabsService,
 } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
   selector: 'op-wp-tabs',
@@ -42,7 +41,6 @@ export class WpTabsComponent implements OnInit {
     readonly $state:StateService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly keepTab:KeepTabService,
-    readonly pathHelper:PathHelperService,
   ) {
   }
 
@@ -58,7 +56,8 @@ export class WpTabsComponent implements OnInit {
       .getDisplayableTabs(this.workPackage)
       .map((tab) => ({
         ...tab,
-        path: this.pathHelper.workPackageDetailsPath(this.workPackage.id as string, tab.id),
+        route: `${this.uiSrefBase}.tabs`,
+        routeParams: { workPackageId: this.workPackage.id, tabIdentifier: tab.id },
       }));
   }
 
