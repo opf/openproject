@@ -59,14 +59,13 @@ RSpec.describe JournalsController do
         it { expect(response).to have_http_status(:ok) }
 
         it "presents the diff correctly" do
-          expect(response.body.strip).to eq(
-            "<div class=\"text-diff\">" \
-            "\n  " \
-            "<label class=\"hidden-for-sighted\">Begin of the insertion</label><ins class=\"diffmod\">description</ins>" \
-            "<label class=\"hidden-for-sighted\">End of the insertion</label>" \
-            "\n" \
-            "</div>"
-          )
+          expect(response.body.strip).to be_html_eql <<-HTML
+            <div class="text-diff">
+              <label class="hidden-for-sighted">Begin of the insertion</label>
+              <ins class="diffmod">description</ins>
+              <label class="hidden-for-sighted">End of the insertion</label>
+            </div>
+          HTML
         end
       end
 
@@ -104,14 +103,13 @@ RSpec.describe JournalsController do
         it { expect(response).to have_http_status(:ok) }
 
         it "presents the diff correctly" do
-          expect(response.body.strip).to eq(
-            "<div class=\"text-diff\">" \
-            "\n  " \
-            "<label class=\"hidden-for-sighted\">Begin of the insertion</label><ins class=\"diffmod\">foo</ins>" \
-            "<label class=\"hidden-for-sighted\">End of the insertion</label>" \
-            "\n" \
-            "</div>"
-          )
+          expect(response.body.strip).to be_html_eql <<-HTML
+            <div class="text-diff">
+              <label class="hidden-for-sighted">Begin of the insertion</label>
+              <ins class="diffmod">foo</ins>
+              <label class="hidden-for-sighted">End of the insertion</label>
+            </div>
+          HTML
         end
       end
 
@@ -159,14 +157,13 @@ RSpec.describe JournalsController do
         it { expect(response).to have_http_status(:ok) }
 
         it "presents the diff correctly" do
-          expect(response.body.strip).to eq(
-            "<div class=\"text-diff\">" \
-            "\n  " \
-            "<label class=\"hidden-for-sighted\">Begin of the insertion</label><ins class=\"diffmod\">description</ins>" \
-            "<label class=\"hidden-for-sighted\">End of the insertion</label>" \
-            "\n" \
-            "</div>"
-          )
+          expect(response.body.strip).to be_html_eql <<-HTML
+            <div class="text-diff">
+              <label class="hidden-for-sighted">Begin of the insertion</label>
+              <ins class="diffmod">description</ins>
+              <label class="hidden-for-sighted">End of the insertion</label>
+            </div>
+          HTML
         end
       end
 
