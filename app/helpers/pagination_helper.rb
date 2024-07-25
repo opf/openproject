@@ -198,15 +198,28 @@ module PaginationHelper
     def previous_or_next_page(page, text, class_suffix)
       if page
         tag(:li,
-            link(text, page, { class: "op-pagination--item-link op-pagination--item-link_" + class_suffix }),
-            class: "op-pagination--item op-pagination--item_" + class_suffix)
+            link(text, page, { class: "op-pagination--item-link op-pagination--item-link_#{class_suffix}" }),
+            class: "op-pagination--item op-pagination--item_#{class_suffix}")
       else
         ""
       end
     end
 
+    private
+
+    def link(text, target, attributes)
+      new_attributes = attributes.dup
+      new_attributes["data-turbo-stream"] = true if turbo?
+
+      super(text, target, new_attributes)
+    end
+
     def allowed_params
       @options[:allowed_params] # rubocop:disable Rails/HelperInstanceVariable
+    end
+
+    def turbo?
+      @options[:turbo] # rubocop:disable Rails/HelperInstanceVariable
     end
   end
 

@@ -93,7 +93,10 @@ module Projects
     end
 
     def default_pagination_options
-      { allowed_params: %i[query_id filters columns sortBy] }
+      {
+        allowed_params: %i[query_id filters columns sortBy],
+        turbo: true
+      }
     end
 
     def optional_pagination_options
