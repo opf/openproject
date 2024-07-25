@@ -6,7 +6,7 @@
           component.with_tab(selected: @tab == node.name,
                              href: url_for(node.url),
                              test_selector: "wp-details-tab-component--tab-#{node.name}",
-                             data: { turbo: true, turbo_action: "replace" }
+                             data: { turbo: true, turbo_stream: true, turbo_action: "replace" }
           ) do |c|
             c.with_text { t("js.work_packages.tabs.#{node.name}") }
             count = node.badge(work_package:).to_i
@@ -30,7 +30,7 @@
       render(Primer::Beta::IconButton.new(icon: :x,
                                           tag: :a,
                                           href: url_for(action: :close_split_view),
-                                          data: { 'turbo-stream': true },
+                                          data: { turbo: true, 'turbo-stream': true },
                                           scheme: :invisible,
                                           test_selector: "wp-details-tab-component--close",
                                           aria: { label: I18n.t(:button_close) }))

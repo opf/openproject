@@ -65,6 +65,8 @@ class NotificationsController < ApplicationController
 
   private
 
+  def split_view_base_route = notifications_path
+
   def default_breadcrumb; end
 
   def render_notifications_layout
