@@ -42,6 +42,10 @@ See COPYRIGHT and LICENSE files for more details.
         aria: { label: title }
       )) do
         flex_layout do |flex|
+          flex.with_row do
+            angular_component_tag 'opce-custom-modal-overlay'
+          end
+
           flex.with_row(mb: 3) do
             render(Storages::Admin::Storages::AddProjectsAutocompleterForm.new(form, project_storage:))
           end

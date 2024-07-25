@@ -179,6 +179,7 @@ import {
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
+import { OpCustomModalOverlayComponent } from 'core-app/shared/components/modal/custom-modal-overlay.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -370,6 +371,7 @@ export class OpenProjectModule {
     registerCustomElement('opce-attachments', OpAttachmentsComponent, { injector });
     registerCustomElement('opce-storage-login-button', StorageLoginButtonComponent, { injector });
     registerCustomElement('opce-location-picker-modal', LocationPickerModalComponent, { injector });
+    registerCustomElement('opce-custom-modal-overlay', OpCustomModalOverlayComponent, { injector });
 
     // TODO: These elements are now registered custom elements, but are actually single-use components. They should be removed when we move these pages to Rails.
     registerCustomElement('opce-new-project', NewProjectComponent, { injector });
