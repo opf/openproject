@@ -75,7 +75,7 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
       wp_full = split_screen.switch_to_fullscreen
       wp_full.expect_tab :relations
 
-      wp_full.go_back
+      page.execute_script("window.history.back()")
       split_screen.expect_tab :relations
 
       # The split screen can be closed

@@ -10,7 +10,7 @@
           ) do |c|
             c.with_text { t("js.work_packages.tabs.#{node.name}") }
             count = node.badge(work_package:).to_i
-            c.with_counter(count:) if count > 0
+            c.with_counter(count:, test_selector: "wp-details-tab-component--tab-counter") if count > 0
           end
         end
       end
@@ -22,6 +22,7 @@
                                           href: work_package_path(work_package.id, full_screen_tab),
                                           target: "_top",
                                           scheme: :invisible,
+                                          test_selector: "wp-details-tab-component--full-screen",
                                           aria: { label: I18n.t("js.button_show_fullscreen") }))
     end
 
@@ -30,6 +31,7 @@
                                           tag: :a,
                                           href: url_helpers.send(base_route),
                                           scheme: :invisible,
+                                          test_selector: "wp-details-tab-component--close",
                                           aria: { label: I18n.t(:button_close) }))
     end
   end

@@ -49,9 +49,9 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
 
       # Navigate to full view and back
       wp_full = split_screen.switch_to_fullscreen
-      expect(page).to have_current_path "/work_packages/#{work_package.id}/relations"
+      expect(page).to have_current_path "/projects/#{project.identifier}/work_packages/#{work_package.id}/relations"
 
-      wp_full.go_back
+      page.execute_script("window.history.back()")
       expect(page).to have_current_path "/notifications/details/#{work_package.id}/relations"
 
       # Close the split screen
@@ -63,7 +63,8 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
   it "opening a notification that does not exist returns to the center" do
     visit "/notifications/details/0"
 
-    expect(page).to have_current_path "/notifications"
+    expect(page).to have_current_path "/notifications/details/0"
+    expect(page).to have_text "The work package was not found."
   end
 
   it "deep linking to a notification details highlights it" do

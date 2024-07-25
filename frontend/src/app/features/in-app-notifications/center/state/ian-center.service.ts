@@ -250,10 +250,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       .pipe(take(1))
       .subscribe((notifications:INotification[][]) => {
         if (notifications.length <= 0) {
-          void this.state.go(
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
-            `${this.state.current.data.baseRoute}`,
-          );
+          window.location.href = this.pathHelper.notificationsPath();
           return;
         }
         if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {
@@ -322,7 +319,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       },
     });
 
-    if (!this.deviceService.isMobile && this.state.includes('**.details.*')) {
+    if (!this.deviceService.isMobile && window.location.href.includes('details')) {
       this.showNextNotification();
     }
 

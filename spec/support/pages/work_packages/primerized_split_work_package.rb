@@ -36,18 +36,41 @@ module Pages
 
     def switch_to_tab(tab:)
       in_split_view do
-        click_link_or_button tab
+        page.find_test_selector(tab_selector(tab)).click
       end
     end
 
+    def switch_to_fullscreen
+      page.find_test_selector("wp-details-tab-component--full-screen").click
+      FullWorkPackage.new(work_package, project)
+    end
+
+    def close
+      page.find_test_selector("wp-details-tab-component--close").click
+    end
+
     def expect_tab(tab)
-      within_test_selector("wp-details-tab-component--tab-#{tab.downcase}") do |link|
+      within_test_selector(tab_selector(tab)) do |link|
         link["data-aria-current"] == "page"
       end
     end
 
     def within_active_tab(&)
       within(".work-packages--details-content", &)
+    end
+
+    def expect_notification_count(count)
+      expect(page).to have_test_selector("wp-details-tab-component--tab-counter", text: count)
+    end
+
+    def expect_no_notification_badge
+      expect(page).not_to have_test_selector("wp-details-tab-component--tab-counter")
+    end
+
+    private
+
+    def tab_selector(tab)
+      "wp-details-tab-component--tab-#{tab.downcase}"
     end
   end
 end

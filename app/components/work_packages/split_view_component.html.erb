@@ -6,7 +6,7 @@
           render(Primer::Beta::Blankslate.new(spacious: true)) do |component|
             component.with_visual_icon(icon: :inbox)
             component.with_heading(tag: :h2).with_content(
-              I18n.t(:error_work_package_id_not_found, id: @id)
+              I18n.t(:error_work_package_id_not_found)
             )
           end
         end
