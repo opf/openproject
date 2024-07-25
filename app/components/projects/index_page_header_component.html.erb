@@ -149,6 +149,9 @@
           primer_form_with(model: query,
                           url: @query.new_record? ? project_queries_path(projects_query_params) : project_query_path(@query, projects_query_params),
                           scope: 'query',
+                          # currently we cannot change the URL when switching data with Turbo Streams. When we switch to
+                          # Turbo drive, we can get rid of this and instead use turbo-action=replace, see
+                          # https://turbo.hotwired.dev/handbook/drive#application-visits
                           data: { turbo: false },
                           id: 'project-save-form') do |f|
             render(
