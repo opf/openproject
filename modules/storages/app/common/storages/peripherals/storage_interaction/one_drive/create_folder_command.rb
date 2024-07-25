@@ -68,6 +68,8 @@ module Storages
           end
 
           def handle_response(response)
+            source = self.class
+
             case response
             in { status: 200..299 }
               info "Folder successfully created."
@@ -75,16 +77,16 @@ module Storages
                                       Util.storage_file_from_json(MultiJson.load(response.body, symbolize_keys: true)))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: Util.storage_error(code: :not_found, response:, source: self.class))
+                                    errors: Util.storage_error(code: :not_found, response:, source:))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: Util.storage_error(code: :unauthorized, response:, source: self.class))
+                                    errors: Util.storage_error(code: :unauthorized, response:, source:))
             in { status: 409 }
               ServiceResult.failure(result: :already_exists,
-                                    errors: Util.storage_error(code: :conflict, response:, source: self.class))
+                                    errors: Util.storage_error(code: :conflict, response:, source:))
             else
               ServiceResult.failure(result: :error,
-                                    errors: Util.storage_error(code: :error, response:, source: self.class))
+                                    errors: Util.storage_error(code: :error, response:, source:))
             end
           end
 

@@ -56,18 +56,14 @@ module Storages
           def call(auth_strategy:, path:, permissions:)
             with_tagged_logger do
               Authentication[auth_strategy].call(storage: @storage) do |http|
-                item_exists?(http, path).on_failure { |failed_result| return failed_result }
+                item_exists?(http, path).on_failure { return _1 }
 
-                current_permissions = get_permissions(http, path)
-                                      .on_failure { |failed_result| return failed_result }
-                                      .result
-
-                permission_ids = extract_permission_ids(current_permissions[:value])
-                info "Read and write permissions found: #{permission_ids}"
+                current_permissions = get_current_permissions(http, path).on_failure { return _1 }.result
+                info "Read and write permissions found: #{current_permissions}"
 
                 permissions.each_pair do |role, user_ids|
                   apply_permission_changes(
-                    PermissionUpdateData.new(role:, user_ids:, permission_ids: permission_ids[role], drive_item_id: path),
+                    PermissionUpdateData.new(role:, user_ids:, permission_ids: current_permissions[role], drive_item_id: path),
                     http
                   )
                 end
@@ -84,9 +80,9 @@ module Storages
             handle_response(http.get(item_path(item_id)))
           end
 
-          def get_permissions(http, path)
+          def get_current_permissions(http, path)
             info "Getting current permissions for #{path}"
-            handle_response(http.get(permissions_path(path)))
+            handle_response(http.get(permissions_path(path))).map { |result| extract_permission_ids(result[:value]) }
           end
 
           def apply_permission_changes(update_data, http)
@@ -127,21 +123,22 @@ module Storages
             end
           end
 
+          FILTER_LAMBDA = lambda { |role, permission|
+            next unless permission[:roles].member?(role)
+
+            permission[:id]
+          }.curry
+
           def extract_permission_ids(permission_set)
-            filter = lambda do |role, permission|
-              next unless permission[:roles].member?(role)
-
-              permission[:id]
-            end.curry
-
-            write_permissions = permission_set.filter_map(&filter.call("write"))
-            read_permissions = permission_set.filter_map(&filter.call("read"))
+            write_permissions = permission_set.filter_map(&FILTER_LAMBDA.call("write"))
+            read_permissions = permission_set.filter_map(&FILTER_LAMBDA.call("read"))
 
             { read: read_permissions, write: write_permissions }
           end
 
-          # rubocop:disable Metrics/AbcSize
           def handle_response(response)
+            source = self.class
+
             case response
             in { status: 200 }
               ServiceResult.success(result: response.json(symbolize_keys: true))
@@ -149,23 +146,21 @@ module Storages
               ServiceResult.success(result: response)
             in { status: 400 }
               ServiceResult.failure(result: :bad_request,
-                                    errors: Util.storage_error(response:, code: :bad_request, source: self.class))
+                                    errors: Util.storage_error(response:, code: :bad_request, source:))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
+                                    errors: Util.storage_error(response:, code: :unauthorized, source:))
             in { status: 403 }
               ServiceResult.failure(result: :forbidden,
-                                    errors: Util.storage_error(response:, code: :forbidden, source: self.class))
+                                    errors: Util.storage_error(response:, code: :forbidden, source:))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: Util.storage_error(response:, code: :not_found, source: self.class))
+                                    errors: Util.storage_error(response:, code: :not_found, source:))
             else
               ServiceResult.failure(result: :error,
-                                    errors: Util.storage_error(response:, code: :error, source: self.class))
+                                    errors: Util.storage_error(response:, code: :error, source:))
             end
           end
-
-          # rubocop:enable Metrics/AbcSize
 
           def permission_path(item_id, permission_id) = "#{permissions_path(item_id)}/#{permission_id}"
 

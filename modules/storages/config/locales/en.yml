@@ -127,14 +127,12 @@ en:
             remote_folders:
               request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
             rename_project_folder:
-              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
               conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
+              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
               not_found: "%{current_path} wasn't found."
             set_folders_permissions:
               permission_not_set: could not set permissions on %{path}.
           error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
-          group_does_not_exist: "%{group} does not exit. Check your Nextcloud instance configuration."
-          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
           not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
           unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
           user_does_not_exist: "%{user} does not exist in Nextcloud."

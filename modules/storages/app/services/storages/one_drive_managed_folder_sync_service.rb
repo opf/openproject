@@ -33,11 +33,8 @@ module Storages
     extend ActiveModel::Naming
     extend ActiveModel::Translation
     include TaggedLogging
-    include Injector["one_drive.commands.create_folder",
-                     "one_drive.commands.rename_file",
-                     "one_drive.commands.set_permissions",
-                     "one_drive.queries.files",
-                     "one_drive.authentication.userless"]
+    include Injector["one_drive.commands.create_folder", "one_drive.commands.rename_file",
+                     "one_drive.commands.set_permissions", "one_drive.queries.files", "one_drive.authentication.userless"]
 
     using Peripherals::ServiceResultRefinements
 
@@ -85,8 +82,6 @@ module Storages
         info "Setting permissions for #{project_storage.managed_project_folder_name}"
         set_folder_permissions(project_storage.project_folder_id, permissions)
       end
-
-      ServiceResult.success
     end
 
     def set_folder_permissions(folder_id, permissions)
@@ -98,7 +93,7 @@ module Storages
       active_project_storages_scope.includes(:project).find_each do |project_storage|
         unless folder_map.key?(project_storage.project_folder_id)
           info "#{project_storage.managed_project_folder_path} does not exist. Creating..."
-          next create_remote_folder(project_storage)
+          next create_remote_folder(project_storage.managed_project_folder_path, project_storage.id)
         end
 
         rename_project_folder(folder_map[project_storage.project_folder_id], project_storage)
@@ -111,9 +106,7 @@ module Storages
       info "Hiding folders related to inactive projects"
       permissions = { write: [], read: [] }
 
-      active_folder_ids = active_project_storages_scope.pluck(:project_folder_id).compact
-
-      (folder_map.keys - active_folder_ids).each do |item_id|
+      inactive_folder_ids(folder_map).each do |item_id|
         info "Hiding folder with ID #{item_id} as it does not belong to any active project"
 
         # FIXME: Set permissions wont ever fail.
@@ -123,6 +116,10 @@ module Storages
           add_error(:hide_inactive_folders, service_result.errors, options: { path: folder_map[item_id] })
         end
       end
+    end
+
+    def inactive_folder_ids(folder_map)
+      folder_map.keys - active_project_storages_scope.pluck(:project_folder_id).compact
     end
 
     def add_user_to_permission_list(permissions, token, project)
@@ -152,17 +149,14 @@ module Storages
       end
     end
 
-    def create_remote_folder(project_storage)
-      folder_name = project_storage.managed_project_folder_path
-
+    def create_remote_folder(folder_name, project_storage_id)
       folder_info = create_folder.call(storage: @storage, auth_strategy:, folder_name:, parent_location: root_folder)
                                  .on_failure do |service_result|
         log_storage_error(service_result.errors, folder_name:)
         return add_error(:create_folder, service_result.errors, options: { folder_name:, parent_location: root_folder })
       end.result
 
-      last_project_folder = ::Storages::LastProjectFolder.find_by(project_storage_id: project_storage.id,
-                                                                  mode: project_storage.project_folder_mode)
+      last_project_folder = ::Storages::LastProjectFolder.find_by(project_storage_id:, mode: :automatic)
 
       audit_last_project_folder(last_project_folder, folder_info.id)
     end
@@ -190,11 +184,15 @@ module Storages
     # @param files [Array<Storages::StorageFile>]
     # @return Hash{String => String} a hash of item ID and item name.
     def filter_folders_from(files)
-      files.each_with_object({}) do |file, hash|
+      folders = files.each_with_object({}) do |file, hash|
         next unless file.folder?
 
         hash[file.id] = file.name
-      end.tap { info "Found #{_1.size} folders. #{_1}" } # figure out better logging
+      end
+
+      info "Found #{folders.size} folders. #{folders}"
+
+      folders
     end
 
     def project_tokens(project_storage)
