@@ -524,9 +524,9 @@ fr:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: "Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets"
       current_type_not_available_in_target_project: >
-        Le type actuel du lot de travaux n'est pas activé dans le projet cible. Veuillez activer le type dans le projet cible si vous souhaitez qu'il reste inchangé. Sinon, le type du lot de travaux sera automatiquement réaffecté, ce qui conduira à une perte potentielle de données.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        Les types actuels des lots de travaux ne sont pas activés dans le projet cible. Veuillez activer les types dans le projet cible si vous souhaitez qu'ils restent inchangés. Dans le cas contraire, les types des lots de travaux seront automatiquement réaffectés et entraîneront une perte potentielle de données.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Flux de travail manquant pour le partage de lots de travaux"

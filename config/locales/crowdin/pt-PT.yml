@@ -523,9 +523,9 @@ pt-PT:
       no_common_statuses_exists: "Não há nenhum status disponível para todos os pacotes de trabalho selecionados. O seu status não pode ser alterado."
       unsupported_for_multiple_projects: "Mover/copiar em massa não é suportado por pacotes de trabalho de vários projetos"
       current_type_not_available_in_target_project: >
-        O tipo atual do pacote de trabalho não está ativado no projeto de destino. Ative o tipo no projeto de destino se pretender que se mantenham inalterados. Caso contrário, o tipo do pacote de trabalho será automaticamente reatribuído, levando a uma potencial perda de dados.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        Os tipos atuais dos pacotes de trabalho não estão ativados no projeto de destino. Ative os tipos no projeto de destino se pretender que se mantenham inalterados. Caso contrário, os tipos dos pacotes de trabalho serão automaticamente reatribuídos, levando a uma potencial perda de dados.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Falta um fluxo de trabalho para a partilha de pacotes de trabalho"
