@@ -26,6 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# rubocop:disable Rails/RakeEnvironment
 namespace :copyright do
   def short_copyright(format, options = {})
     case format
@@ -106,7 +107,7 @@ namespace :copyright do
     end
   end
 
-  def rewrite_copyright(ending, additional_excludes, format, path, options = {})
+  def rewrite_copyright(ending, additional_excludes, format, path, options = {}) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     regexp = options[:regex] || copyright_regexp(format)
     path = "." if path.nil?
     copyright = options[:copyright] || short_copyright(format, path:)
@@ -121,7 +122,7 @@ namespace :copyright do
 
       file_content = File.read(file_name)
       if file_content.match(regexp)
-        file_content.gsub!(regexp, '\k<shebang>' + '\k<additional>' + copyright)
+        file_content.gsub!(regexp, "\\k<shebang>\\k<additional>#{copyright}")
       else
         puts "#{file_name} does not match regexp. Missing copyright notice?"
       end
@@ -259,3 +260,4 @@ namespace :copyright do
       .each { |task| task.invoke(args[:arg1]) }
   end
 end
+# rubocop:enable Rails/RakeEnvironment
