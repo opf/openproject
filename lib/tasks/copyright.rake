@@ -254,11 +254,8 @@ namespace :copyright do
 
   desc "Update the copyright on all source files"
   task :update, :arg1 do |_task, args|
-    %w{
-      css rb js js_erb css_erb html_erb json_erb text_erb atom_builder rake
-      feature rdoc rjs sql yml yml_example rb_example special_files sass
-    }.each do |t|
-      Rake::Task["copyright:update_" + t.to_s].invoke(args[:arg1])
-    end
+    Rake::Task.tasks
+      .select { |task| task.name.start_with?("copyright:update_") }
+      .each { |task| task.invoke(args[:arg1]) }
   end
 end
