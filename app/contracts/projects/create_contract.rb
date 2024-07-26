@@ -33,6 +33,12 @@ module Projects
     # so allowing writing here would be useless.
     allow_writable_timestamps :created_at
 
+    protected
+
+    def collect_available_custom_field_attributes
+      model.all_visible_custom_fields.map(&:attribute_name)
+    end
+
     private
 
     def validate_user_allowed_to_manage

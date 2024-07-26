@@ -39,11 +39,10 @@ module Projects::CustomFields
                                      class_name: "ProjectCustomField"
 
     def available_custom_fields
-      visible_fields = all_available_custom_fields.visible
-      return visible_fields if new_record?
+      return all_visible_custom_fields if new_record?
 
-      visible_fields.where(id: project_custom_field_project_mappings.select(:custom_field_id))
-                    .or(ProjectCustomField.required)
+      all_visible_custom_fields.where(id: project_custom_field_project_mappings.select(:custom_field_id))
+                               .or(ProjectCustomField.required)
     end
 
     # Note:
@@ -59,6 +58,10 @@ module Projects::CustomFields
       @all_available_custom_fields ||= ProjectCustomField
         .includes(:project_custom_field_section)
         .order("custom_field_sections.position", :position_in_custom_field_section)
+    end
+
+    def all_visible_custom_fields
+      all_available_custom_fields.visible
     end
 
     def custom_field_values_to_validate
