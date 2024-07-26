@@ -42,7 +42,7 @@ module CustomFieldsHelper
     }.freeze
 
     def self.stimulus_config
-      CONFIG.map { |target_name, (operator, formats)| [target_name, operator, formats] }
+      CONFIG.map { |target_name, (operator, formats)| [target_name, operator, formats] }.to_json
     end
 
     attr_reader :format
@@ -248,6 +248,4 @@ module CustomFieldsHelper
       format.label.is_a?(Proc) ? format.label.call : I18n.t(format.label)
     end
   end
-
-  def custom_fields_format_config = CustomFieldsHelper::FormatDependent.stimulus_config
 end
