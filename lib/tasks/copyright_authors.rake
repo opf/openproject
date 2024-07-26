@@ -30,8 +30,8 @@
 namespace :copyright do
   namespace :authors do
     desc "Shows contributors of a repository"
-    task :show, :arg1 do |_task, args|
-      contribution_periods = contribution_periods_of_repository(args[:arg1])
+    task :show, :path do |_task, args|
+      contribution_periods = contribution_periods_of_repository(args[:path])
       formatted_periods = format_contribution_periods(contribution_periods)
 
       show_contribution_periods(formatted_periods)
