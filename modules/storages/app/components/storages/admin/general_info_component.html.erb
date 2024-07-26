@@ -7,7 +7,12 @@
       end
 
       grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-description') do
-        render(Primer::Beta::Text.new) { storage_description }
+        concat(render(Primer::Beta::Text.new) { storage_description })
+        concat(render(Primer::Beta::Text.new) { " - " })
+        concat(render(Primer::Beta::Link.new(href: "#")) do
+          concat(render(Primer::Beta::Text.new) { "Open storage " })
+          concat(render(Primer::Beta::Octicon.new(icon: "link-external", size: :small)))
+        end)
       end
 
       if editable_storage?
@@ -20,7 +25,7 @@
                   tag: :a,
                   scheme: :invisible,
                   href: edit_host_admin_settings_storage_path(storage),
-                  aria: { label: I18n.t('storages.label_edit_storage_host') } ,
+                  aria: { label: I18n.t('storages.label_edit_storage_host') },
                   test_selector: 'storage-edit-host-button',
                   data: { turbo_stream: true }
                 )
