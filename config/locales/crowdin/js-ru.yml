@@ -1119,7 +1119,7 @@ ru:
       time_relative:
         days: "дней"
         weeks: "недели"
-        months: "months"
+        months: "месяцев"
     toolbar:
       settings:
         configure_view: "Настроить вид"
