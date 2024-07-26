@@ -32,9 +32,11 @@ module Projects::CustomFields
   attr_accessor :_limit_custom_fields_validation_to_section_id
 
   included do
-    has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping", foreign_key: :project_id,
-                                                     dependent: :destroy, inverse_of: :project
-    has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: "ProjectCustomField"
+    has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping",
+                                                     foreign_key: :project_id, dependent: :destroy,
+                                                     inverse_of: :project
+    has_many :project_custom_fields, through: :project_custom_field_project_mappings,
+                                     class_name: "ProjectCustomField"
 
     def available_custom_fields
       visible_fields = all_available_custom_fields.visible

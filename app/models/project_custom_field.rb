@@ -52,14 +52,13 @@ class ProjectCustomField < CustomField
     private
 
     def mappings_with_view_project_attributes_permission(user)
-      allowed_project_ids = Project.allowed_to(user, :view_project_attributes)
-                                   .or(Project.public_projects)
-                                   .select(:id).arel
+      allowed_projects = Project.allowed_to(user, :view_project_attributes)
+                                .or(Project.public_projects)
       mapping_table = ProjectCustomFieldProjectMapping.arel_table
       mapping_table.project(Arel.star)
         .where(
           mapping_table[:custom_field_id].eq(arel_table[:id])
-          .and(mapping_table[:project_id].in(allowed_project_ids))
+          .and(mapping_table[:project_id].in(allowed_projects.select(:id).arel))
         )
     end
   end
