@@ -395,7 +395,7 @@ ms:
       notice_reset_token: "Token %{type} yang baharu telah dijanakan. Token akses anda ialah:"
       token_value_warning: "Perhatian: Ini adalah satu-satunya masa anda akan melihat token ini, pastikan untuk menyalinnya sekarang."
       no_results_title_text: Tiada token akses tersedia buat masa ini.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
+      notice_api_token_revoked: "Token API telah dipadam. Sila gunakan butang di bahagian API untuk mencipta token baharu."
       notice_rss_token_revoked: "Token RSS telah dipadamkan. Untuk mencipta token baharu sila gunakan pautan di bahagian RSS."
       notice_ical_token_revoked: 'Token iCalendar "%{token_name}" untuk kalendar "%{calendar_name}" projek "%{project_name}" telah dibatalkan. URL iCalendar serta token ini sudah tidak sah.'
   news:
@@ -516,9 +516,9 @@ ms:
       no_common_statuses_exists: "Tiada status tersedia untuk semua pakej kerja yang terpilih. Status mereka tidak dapat diubah."
       unsupported_for_multiple_projects: "Pindahan/salinan secara pukal tidak disokong untuk pakej kerja dari projek yang berbeza"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Aliran kerja hilang untuk perkongsian pakej kerja"
@@ -1130,7 +1130,7 @@ ms:
       placeholder_user: "Pengguna placeholder"
       project: "Projek"
       project_query:
-        other: "Project lists"
+        other: "Senarai projek"
       query: "Pertanyaan tersuai"
       role:
         other: "Peranan\n"
@@ -3424,10 +3424,10 @@ ms:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
-      publishing_denied: "You do not have permission to make project lists public."
+      publishing_denied: "Anda tidak mempunyai kebenaran untuk mengubah senarai projek ke tatapan awam."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       user_details:
-        owner: "List owner"
+        owner: "Pemilik senarai"
         can_view_because_public: "Can already view because list is shared with everyone"
         can_manage_public_lists: "Can edit due to global permissions"
       public_flag:

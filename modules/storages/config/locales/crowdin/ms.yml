@@ -23,7 +23,7 @@ ms:
             project_folder_mode:
               mode_unavailable: tidak tersedia untuk storan ini.
             project_ids:
-              blank: Please select a project.
+              blank: Sila pilih projek.
         storages/storage:
           attributes:
             host:
@@ -57,9 +57,9 @@ ms:
   project_module_storages: Fail-fail
   project_storages:
     project_folder_mode:
-      automatic: Automatically managed
-      inactive: No specific folder
-      manual: Existing folder manually managed
+      automatic: Dikendalikan secara automatik
+      inactive: Tiada folder khusus
+      manual: Folder yang tersedia dikendalikan secara manual
   storages:
     buttons:
       complete_without_setup: Lengkap tanpanya

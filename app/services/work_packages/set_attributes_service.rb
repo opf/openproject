@@ -251,7 +251,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       reassign_category
       set_parent_to_nil
 
-      reassign_type unless work_package.type_id_changed?
+      assign_default_type unless work_package.type
     end
   end
 
@@ -452,10 +452,8 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
   end
 
-  def reassign_type
+  def assign_default_type
     available_types = work_package.project.types.order(:position)
-
-    return if available_types.include?(work_package.type) && work_package.type
 
     work_package.type = available_types.first
     update_duration
