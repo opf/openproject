@@ -322,7 +322,7 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
 
       it "includes the check for view_project_attributes permission" do
         projects_query = Project.allowed_to(user, :view_project_attributes)
-                                .or(Project.where(public: true))
+                                .or(Project.public_projects)
                                 .select(:id)
         expected_permission_sql = <<~SQL.squish
           projects.id IN (#{projects_query.to_sql})
