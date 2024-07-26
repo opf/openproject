@@ -34,7 +34,7 @@ module MetaTagsHelper
   end
 
   def page_title(*parts)
-    (parts + [Setting.app_title]).join(" | ")
+    (parts.reverse + [Setting.app_title]).join(" | ")
   end
 
   def initializer_meta_tag
