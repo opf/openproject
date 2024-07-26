@@ -65,36 +65,36 @@ RSpec.describe Projects::CreateContract do
           expect(validated_contract).not_to be_valid
           expect(validated_contract.errors[attribute]).to include "was attempted to be written but is not writable."
         end
+      end
 
-        context "when enabled for admin", with_settings: { apiv3_write_readonly_attributes: true } do
-          let(:current_user) { build_stubbed(:admin) }
+      context "when enabled for admin", with_settings: { apiv3_write_readonly_attributes: true } do
+        let(:current_user) { build_stubbed(:admin) }
 
-          it_behaves_like "can not write", :updated_at, 1.day.ago
+        it_behaves_like "can not write", :updated_at, 1.day.ago
 
-          it "can write created_at", :aggregate_failures do
-            expect(contract.writable_attributes).to include("created_at")
+        it "can write created_at", :aggregate_failures do
+          expect(contract.writable_attributes).to include("created_at")
 
-            project.created_at = 10.days.ago
-            expect(validated_contract.errors[attribute]).to be_empty
-          end
+          project.created_at = 10.days.ago
+          expect(validated_contract.errors[:created_at]).to be_empty
         end
+      end
 
-        context "when disabled for admin", with_settings: { apiv3_write_readonly_attributes: false } do
-          let(:current_user) { build_stubbed(:admin) }
+      context "when disabled for admin", with_settings: { apiv3_write_readonly_attributes: false } do
+        let(:current_user) { build_stubbed(:admin) }
 
-          it_behaves_like "can not write", :created_at, 1.day.ago
-          it_behaves_like "can not write", :updated_at, 1.day.ago
-        end
+        it_behaves_like "can not write", :created_at, 1.day.ago
+        it_behaves_like "can not write", :updated_at, 1.day.ago
+      end
 
-        context "when enabled for regular user", with_settings: { apiv3_write_readonly_attributes: true } do
-          it_behaves_like "can not write", :created_at, 1.day.ago
-          it_behaves_like "can not write", :updated_at, 1.day.ago
-        end
+      context "when enabled for regular user", with_settings: { apiv3_write_readonly_attributes: true } do
+        it_behaves_like "can not write", :created_at, 1.day.ago
+        it_behaves_like "can not write", :updated_at, 1.day.ago
+      end
 
-        context "when disabled for regular user", with_settings: { apiv3_write_readonly_attributes: false } do
-          it_behaves_like "can not write", :created_at, 1.day.ago
-          it_behaves_like "can not write", :updated_at, 1.day.ago
-        end
+      context "when disabled for regular user", with_settings: { apiv3_write_readonly_attributes: false } do
+        it_behaves_like "can not write", :created_at, 1.day.ago
+        it_behaves_like "can not write", :updated_at, 1.day.ago
       end
     end
   end
