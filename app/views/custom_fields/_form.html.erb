@@ -27,14 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% format_dependent = CustomFieldsHelper::FormatDependent.new(@custom_field.field_format) %>
+<% format_dependent = OpenProject::CustomFieldFormatDependent.new(@custom_field.field_format) %>
 
 <section
   class="form--section"
   id="custom_field_form"
   data-controller="admin--custom-fields"
   data-application-target="dynamic"
-  data-admin--custom-fields-format-config-value="<%= CustomFieldsHelper::FormatDependent.stimulus_config %>"
+  data-admin--custom-fields-format-config-value="<%= OpenProject::CustomFieldFormatDependent.stimulus_config %>"
 >
   <div class="form--field -required" id="custom_field_name_attributes">
     <%= f.text_field :name, required: true, container_class: '-middle' %>
