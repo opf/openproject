@@ -111,7 +111,7 @@ namespace :copyright do
     regexp = options[:regex] || copyright_regexp(format)
     path = "." if path.nil?
     copyright = options[:copyright] || short_copyright(format, path:)
-    file_list = options[:file_list] || Dir[File.absolute_path(path) + "/**/*.#{ending}"]
+    file_list = options[:file_list] || Dir[path + "/**/*.#{ending}"]
     excluded = exluded_paths.concat(additional_excludes)
 
     raise "Path not found" unless Dir.exist?(path)
@@ -134,9 +134,7 @@ namespace :copyright do
   desc "Update special files, which do not have an ending"
   task :update_special_files, :path do |_task, args|
     # ruby-like files
-    file_list = %w{Gemfile Rakefile config.ru .travis.yml .gitignore}.map do |f|
-      File.absolute_path f
-    end
+    file_list = %w{Gemfile Rakefile config.ru .travis.yml .gitignore}
     rewrite_copyright("rb", [], :rb, args[:path], file_list:)
   end
 
