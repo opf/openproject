@@ -59,7 +59,7 @@ module OpenProject
       visible = operator == :only ? format.in?(formats) : !format.in?(formats)
 
       ApplicationController.helpers.tag.attributes(
-        "data-admin--custom-fields-target": target_name,
+        data: { "admin--custom-fields-target": target_name },
         hidden: !visible
       )
     end
