@@ -58,7 +58,7 @@ module WorkPackages
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.update("content-bodyRight", helpers.split_view_instance.render_in(view_context)),
-            turbo_stream.push_state(url: request.path)
+            turbo_stream.push_state(url: request.fullpath)
           ]
         end
 
