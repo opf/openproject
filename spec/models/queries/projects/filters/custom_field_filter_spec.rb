@@ -321,8 +321,11 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
       let(:user) { build_stubbed(:user) }
 
       it "includes the check for view_project_attributes permission" do
+        projects_query = Project.allowed_to(user, :view_project_attributes)
+                                .or(Project.where(public: true))
+                                .select(:id)
         expected_permission_sql = <<~SQL.squish
-          projects.id IN (#{Project.allowed_to(user, :view_project_attributes).select(:id).to_sql})
+          projects.id IN (#{projects_query.to_sql})
         SQL
         expect(instance.apply_to(Project).to_sql).to include expected_permission_sql
       end

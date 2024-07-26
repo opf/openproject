@@ -84,20 +84,6 @@ module Pages
         end
       end
 
-      def expect_project_attribute_value(project, custom_field, value)
-        within_table do
-          expect(page)
-            .to have_css("#project-#{project.id} td.#{custom_field.column_name}", text: value)
-        end
-      end
-
-      def expect_empty_project_attribute_value(project, custom_field)
-        within_table do
-          expect(page)
-            .to have_css("#project-#{project.id} td.#{custom_field.column_name}", text: "")
-        end
-      end
-
       def expect_title(name)
         expect(page).to have_css('[data-test-selector="project-query-name"]', text: name)
       end

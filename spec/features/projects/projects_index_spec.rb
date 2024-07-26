@@ -310,10 +310,13 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
         projects_page.set_columns(list_custom_field.name)
         projects_page.expect_columns(list_custom_field.name)
 
-        projects_page
-          .expect_project_attribute_value(development_project, list_custom_field, "A, B")
-        projects_page
-          .expect_empty_project_attribute_value(project, list_custom_field)
+        projects_page.within_row(development_project) do
+          expect(page).to have_css("td.#{list_custom_field.column_name}", text: "A, B")
+        end
+
+        projects_page.within_row(project) do
+          expect(page).to have_css("td.#{list_custom_field.column_name}", text: "")
+        end
       end
     end
 

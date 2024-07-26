@@ -64,7 +64,8 @@ module ::Overviews
 
     def set_sidebar_enabled
       @sidebar_enabled =
-        User.current.allowed_in_project?(:view_project_attributes, @project) &&
+        (@project.public? ||
+          User.current.allowed_in_project?(:view_project_attributes, @project)) &&
         @project.project_custom_fields.visible.any?
     end
 
