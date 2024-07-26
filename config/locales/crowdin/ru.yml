@@ -1165,7 +1165,7 @@ ru:
         one: "Список проектов"
         few: "Project lists"
         many: "Project lists"
-        other: "Project lists"
+        other: "Списки проектов"
       query: "Настраиваемый запрос"
       role:
         one: "Роль"

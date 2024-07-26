@@ -2116,7 +2116,7 @@ vi:
   label_on: "lúc"
   label_operator_all: "is not empty"
   label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
+  label_operator_equals_or: "là (HOẶC là)"
   label_operator_equals_all: "is (AND)"
   label_operator_shared_with_user_any: "bất kỳ"
   label_open_menu: "Mở trình đơn"
@@ -2429,7 +2429,7 @@ vi:
       reason:
         watched: "Watched"
         assigned: "Assigned"
-        responsible: "Trách nhiệm"
+        responsible: "Chịu trách nhiệm"
         mentioned: "Mentioned"
         shared: "Shared"
         subscribed: "tất cả"
