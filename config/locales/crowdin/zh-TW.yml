@@ -356,7 +356,7 @@ zh-TW:
       also_work_packages_shared_with_user_html:
         other: "Also, %{shared_work_packages_link} have been shared with this user."
       remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
-      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_user_access_priveleges: "刪除該成員將移除該專案所有存取權限。但使用者部分專案資料仍然存在。"
       will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
       cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
       cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
