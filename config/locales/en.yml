@@ -2067,6 +2067,7 @@ en:
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colours to use in the app and how exports look like."
   label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Date"
