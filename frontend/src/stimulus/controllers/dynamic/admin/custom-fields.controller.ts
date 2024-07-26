@@ -243,7 +243,7 @@ export default class CustomFieldsController extends Controller {
 
   private toggleFormat(format:string) {
     this.formatConfigValue.forEach(([targetsName, operator, formats]) => {
-      const active = operator == 'only' ? formats.includes(format) : !formats.includes(format);
+      const active = operator === 'only' ? formats.includes(format) : !formats.includes(format);
       const targets = this[`${targetsName}Targets` as keyof typeof this] as HTMLElement[];
       if (targets) {
         this.setActive(targets, active);
