@@ -13,9 +13,6 @@ import {
   NotificationSettingInlineCreateComponent,
 } from 'core-app/features/user-preferences/notifications-settings/inline-create/notification-setting-inline-create.component';
 import {
-  NotificationsSettingsToolbarComponent,
-} from './notifications-settings/toolbar/notifications-settings-toolbar.component';
-import {
   NotificationSettingsTableComponent,
 } from './notifications-settings/table/notification-settings-table.component';
 import { ReminderSettingsPageComponent } from './reminder-settings/page/reminder-settings-page.component';
@@ -38,7 +35,6 @@ import { PauseRemindersComponent } from './reminder-settings/pause-reminders/pau
   declarations: [
     NotificationsSettingsPageComponent,
     NotificationSettingInlineCreateComponent,
-    NotificationsSettingsToolbarComponent,
     NotificationSettingsTableComponent,
     ReminderSettingsPageComponent,
     ReminderSettingsDailyTimeComponent,

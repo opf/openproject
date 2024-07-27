@@ -113,15 +113,7 @@ class MyController < ApplicationController
   end
 
   # Configure user's in app notifications
-  def notifications
-    render html: "",
-           layout: "angular/angular",
-           locals: {
-             menu_name: :my_menu,
-             component: "opce-notification-settings",
-             page_title: [I18n.t(:label_my_account), I18n.t("js.notifications.settings.title")]
-           }
-  end
+  def notifications; end
 
   # Configure user's mail reminders
   def reminders; end
