@@ -64,6 +64,6 @@ zh-CN:
     push_single_commit_comment: >
       **在合并请求中推送**：[%{gitlab_user}](%{gitlab_user_url}) 在 %{commit_timestamp} 将 [%{commit_number}](%{commit_url}) 推送到 [%{repository}](%{repository_url})： %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **在 %{reference} 中推送:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **在合并请求中推送**：[%{gitlab_user}](%{gitlab_user_url}) 在 %{commit_timestamp} 将多个提交 [%{commit_number}](%{commit_url}) 推送到 [%{repository}](%{repository_url})： %{commit_note}
