@@ -101,4 +101,80 @@ RSpec.describe ProjectCustomField do
       end
     end
   end
+
+  describe ".visible" do
+    shared_let(:invisible_cf) { create(:string_project_custom_field, visible: false) }
+    shared_let(:other_cf) { create(:string_project_custom_field) }
+    shared_let(:project_cf) { create(:string_project_custom_field) }
+    shared_let(:public_cf) { create(:string_project_custom_field) }
+    shared_let(:other_project) do
+      create(:project, custom_field_values: { "#{other_cf.id}": "foo" })
+    end
+    shared_let(:public_project) do
+      create(:public_project, custom_field_values: { "#{public_cf.id}": "foo" })
+    end
+    shared_let(:project) do
+      create(:project, custom_field_values: { "#{project_cf.id}": "foo" })
+    end
+
+    let(:current_user) { build_stubbed(:user) }
+
+    subject { described_class.visible(current_user) }
+
+    context "when admin" do
+      let(:current_user) { build_stubbed(:admin) }
+
+      it "returns all custom fields" do
+        expect(subject).to contain_exactly(invisible_cf, other_cf, project_cf, public_cf)
+      end
+    end
+
+    context "when user with add_project permission" do
+      before do
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_globally :add_project
+        end
+      end
+
+      it "returns all visible custom fields" do
+        expect(subject).to contain_exactly(other_cf, project_cf, public_cf)
+      end
+    end
+
+    context "when project member" do
+      context "with select_project_custom_fields permission" do
+        let(:permissions) { %i(select_project_custom_fields) }
+
+        before do
+          mock_permissions_for(current_user) do |mock|
+            mock.allow_in_project *permissions, project:
+          end
+        end
+
+        it "returns all visible custom fields" do
+          expect(subject).to contain_exactly(other_cf, project_cf, public_cf)
+        end
+      end
+
+      context "without view_project_attributes permission" do
+        let(:role) { create(:project_role, permissions:) }
+        let(:current_user) { create(:user, member_with_roles: { project => role }) }
+        let(:permissions) { [] }
+
+        it "returns public_cf only" do
+          expect(subject).to contain_exactly(public_cf)
+        end
+      end
+
+      context "with view_project_attributes permission" do
+        let(:role) { create(:project_role, permissions:) }
+        let(:current_user) { create(:user, member_with_roles: { project => role }) }
+        let(:permissions) { %i(view_project_attributes) }
+
+        it "returns project_cf and public_cf" do
+          expect(subject).to contain_exactly(project_cf, public_cf)
+        end
+      end
+    end
+  end
 end
