@@ -114,7 +114,7 @@ export class InAppNotificationCenterComponent implements OnInit {
   image = {
     no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
     no_selection: imagePath('notification-center/empty-state-no-selection.svg'),
-    loading: imagePath('notification-center/notification_loading.gif'),
+    loading: document.body.getAttribute('data-color-mode') === 'dark' ? imagePath('notification-center/notification_loading_dark.gif') : imagePath('notification-center/notification_loading.gif'),
   };
 
   trackNotificationGroups = (i:number, item:INotification[]):string => item
