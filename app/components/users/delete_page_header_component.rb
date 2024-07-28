@@ -45,7 +45,7 @@ class Users::DeletePageHeaderComponent < ApplicationComponent
       [{ href: admin_index_path, text: t(:label_administration) },
        { href: admin_settings_users_path, text: t(:label_user_and_permission) },
        { href: users_path, text: t(:label_user_plural) },
-       { href: user_path(@user), text: @user.name },
+       { href: edit_user_path(@user), text: @user.name },
        t("account.delete")]
     end
   end
