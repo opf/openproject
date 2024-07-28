@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(layout== "my" ? t(:label_my_account) : t(:label_administration), "#{ t('account.deletion_info.heading', name: @user.name)}") -%>
 
-<%= render ::Users::DeleteAccountPageHeaderComponent.new(layout: layout, user: @user) %>
+<%= render ::Users::DeletePageHeaderComponent.new(layout: layout, user: @user) %>
 
 <%= labelled_tabular_form_for(
         :user,

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Users::DeleteAccountPageHeaderComponent < ApplicationComponent
+class Users::DeletePageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include ApplicationHelper
 
