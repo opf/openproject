@@ -394,11 +394,18 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
     context "when a project without view project permission is present" do
       shared_let(:other_project) { create(:project) }
       shared_let(:project) { create(:project) }
+      shared_let(:public_project) do
+        create(:non_member) # Otherwise, the public project is invisible
+        create(:public_project)
+      end
       shared_let(:project_custom_field) do
         create(:project_custom_field_project_mapping, project:).project_custom_field
       end
       shared_let(:other_project_custom_field) do
         create(:project_custom_field_project_mapping, project: other_project).project_custom_field
+      end
+      shared_let(:public_project_custom_field) do
+        create(:project_custom_field_project_mapping, project: public_project).project_custom_field
       end
 
       let(:permissions) { [] }
@@ -406,21 +413,40 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
       let(:other_role) { create(:project_role, permissions: other_permissions) }
       let(:current_user) do
         create(:user, member_with_roles: { project => role,
-                                           other_project => other_role })
+                                           other_project => other_role,
+                                           public_project_custom_field => role })
       end
 
-      it_behaves_like "API V3 collection response", 2, 2, "Project" do
-        let(:elements) { [project, other_project] }
+      it_behaves_like "API V3 collection response", 3, 3, "Project" do
+        let(:elements) { [public_project, project, other_project] }
+
+        it "returns project attributes for the public project" do
+          expect(subject)
+            .to be_json_eql(public_project.name.to_json)
+            .at_path("_embedded/elements/0/name")
+
+          expect(subject).to have_json_path(
+            "_embedded/elements/0/#{public_project_custom_field.attribute_name(:camel_case)}"
+          )
+        end
 
         it "does not return the project attributes for the project" do
+          expect(subject)
+            .to be_json_eql(project.name.to_json)
+            .at_path("_embedded/elements/1/name")
+
           expect(subject).not_to have_json_path(
-            "_embedded/elements/0/#{project_custom_field.attribute_name(:camel_case)}"
+            "_embedded/elements/1/#{project_custom_field.attribute_name(:camel_case)}"
           )
         end
 
         it "returns project attributes for other project with the view project permissions" do
+          expect(subject)
+            .to be_json_eql(other_project.name.to_json)
+            .at_path("_embedded/elements/2/name")
+
           expect(subject).to have_json_path(
-            "_embedded/elements/1/#{other_project_custom_field.attribute_name(:camel_case)}"
+            "_embedded/elements/2/#{other_project_custom_field.attribute_name(:camel_case)}"
           )
         end
       end
