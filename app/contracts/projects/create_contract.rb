@@ -50,7 +50,14 @@ module Projects
     private
 
     def allowed_to_write_custom_fields?
-      user.admin? || user.allowed_globally?(:add_project) || user.allowed_in_any_project?(:edit_project_attributes)
+      # Writable attributes are already restricted based on their visibility in the
+      # ProjectCustomField.visible scope. Here it is enough to check whether the user
+      # has permission to copy_projects or edit_project_attributes in any project.
+      user.admin? ||
+      user.allowed_globally?(:add_project) ||
+      (model.parent && user.allowed_in_project?(:add_subprojects, model.parent)) ||
+      user.allowed_in_any_project?(:copy_projects) ||
+      user.allowed_in_any_project?(:edit_project_attributes)
     end
 
     def without_custom_fields(changes) = changes.grep_v(/^custom_field_/)
