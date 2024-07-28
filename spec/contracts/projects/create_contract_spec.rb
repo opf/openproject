@@ -56,10 +56,10 @@ RSpec.describe Projects::CreateContract do
       end
     end
 
-    describe "writing read-only attributes" do
+    describe "permissions" do
       shared_examples "can write" do
         let(:value) { 1 }
-        it "can write", :aggregate_failures do
+        it "can write the attribute", :aggregate_failures do
           expect(contract.writable_attributes).to include(attribute.to_s)
 
           project.send(:"#{attribute}=", value)
@@ -69,7 +69,7 @@ RSpec.describe Projects::CreateContract do
 
       shared_examples "can not write" do
         let(:value) { 1 }
-        it "can not write", :aggregate_failures do
+        it "can not write the attribute", :aggregate_failures do
           expect(contract.writable_attributes).not_to include(attribute.to_s)
 
           project.send(:"#{attribute}=", value)
@@ -78,7 +78,35 @@ RSpec.describe Projects::CreateContract do
         end
       end
 
-      describe "project attributes" do
+      describe "writing read-only attributes" do
+        context "when enabled for admin", with_settings: { apiv3_write_readonly_attributes: true } do
+          let(:current_user) { build_stubbed(:admin) }
+
+          it_behaves_like "can write" do
+            let(:attribute) { :created_at }
+            let(:value) { 10.days.ago }
+          end
+
+          it_behaves_like "can not write" do
+            let(:attribute) { :updated_at }
+            let(:value) { 1.day.ago }
+          end
+        end
+
+        context "when disabled for admin", with_settings: { apiv3_write_readonly_attributes: false } do
+          let(:current_user) { build_stubbed(:admin) }
+
+          it_behaves_like "can not write" do
+            let(:attribute) { :created_at }
+            let(:value) { 1.day.ago }
+          end
+
+          it_behaves_like "can not write" do
+            let(:attribute) { :updated_at }
+            let(:value) { 1.day.ago }
+          end
+        end
+
         let(:global_permissions) { [] }
         let(:current_user) { create(:user) }
         let!(:role) { create(:existing_project_role, permissions: project_permissions) }
