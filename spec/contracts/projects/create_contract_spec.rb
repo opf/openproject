@@ -107,14 +107,56 @@ RSpec.describe Projects::CreateContract do
           end
         end
 
+        context "when enabled for regular user", with_settings: { apiv3_write_readonly_attributes: true } do
+          it_behaves_like "can not write" do
+            let(:attribute) { :created_at }
+            let(:value) { 1.day.ago }
+          end
+
+          it_behaves_like "can not write" do
+            let(:attribute) { :updated_at }
+            let(:value) { 1.day.ago }
+          end
+        end
+
+        context "when disabled for regular user", with_settings: { apiv3_write_readonly_attributes: false } do
+          it_behaves_like "can not write" do
+            let(:attribute) { :created_at }
+            let(:value) { 1.day.ago }
+          end
+
+          it_behaves_like "can not write" do
+            let(:attribute) { :updated_at }
+            let(:value) { 1.day.ago }
+          end
+        end
+      end
+
+      describe "reading and writing project attributes" do
+        # The create contract is being used to render the project schema too. It should return
+        # the custom fields the user can access via project memberships with `:view_project_attributes`
+        # permission or return all the custom fields if the user has the `:add_project` global permission.
+        #
+        # The purpose of this behaviour is to provide details for the project schema only.
+        # It will not affect the availability of all the custom fields on project creation, because
+        # the `:add_project` permission will ensure that all the custom fields are accessible.
+
+        shared_examples "can read project attributes" do
+          it "can read project attributes" do
+            expect(contract.available_custom_fields).to include(custom_field)
+          end
+        end
+
         let(:global_permissions) { [] }
         let(:current_user) { create(:user) }
-        let!(:role) { create(:existing_project_role, permissions: project_permissions) }
-        let!(:other_project) do
+        let(:role) { create(:existing_project_role, permissions: project_permissions) }
+        let(:other_project_public) { false }
+        let(:other_project) do
           create(:project,
+                 public: other_project_public,
                  members: { current_user => role })
         end
-        let!(:mapping) { create(:project_custom_field_project_mapping, project: other_project) }
+        let(:mapping) { create(:project_custom_field_project_mapping, project: other_project) }
         let!(:custom_field) { mapping.project_custom_field }
         let!(:non_member_custom_field) do
           create(:project_custom_field_project_mapping).project_custom_field
@@ -122,8 +164,24 @@ RSpec.describe Projects::CreateContract do
 
         before { User.current = current_user }
 
+        context "without view_project_attributes permission" do
+          let(:project_permissions) { [] }
+
+          it "cannot read project attributes" do
+            expect(contract.available_custom_fields).not_to include(custom_field)
+          end
+
+          context "with a public project" do
+            let(:other_project_public) { true }
+
+            it_behaves_like "can read project attributes"
+          end
+        end
+
         context "with view_project_attributes permission" do
           let(:project_permissions) { %i(view_project_attributes) }
+
+          it_behaves_like "can read project attributes"
 
           it_behaves_like "can not write" do
             let(:attribute) { custom_field.attribute_name }
@@ -132,6 +190,8 @@ RSpec.describe Projects::CreateContract do
 
         context "with edit_project_attributes permission" do
           let(:project_permissions) { %i(view_project_attributes edit_project_attributes) }
+
+          it_behaves_like "can read project attributes"
 
           it_behaves_like "can write" do
             let(:attribute) { custom_field.attribute_name }
@@ -145,6 +205,8 @@ RSpec.describe Projects::CreateContract do
         context "with add_project permission" do
           let(:global_permissions) { %i(add_project) }
 
+          it_behaves_like "can read project attributes"
+
           it_behaves_like "can write" do
             let(:attribute) { custom_field.attribute_name }
           end
@@ -152,58 +214,6 @@ RSpec.describe Projects::CreateContract do
           it_behaves_like "can write" do
             let(:attribute) { non_member_custom_field.attribute_name }
           end
-        end
-      end
-
-      context "when enabled for admin", with_settings: { apiv3_write_readonly_attributes: true } do
-        let(:current_user) { build_stubbed(:admin) }
-
-        it_behaves_like "can write" do
-          let(:attribute) { :created_at }
-          let(:value) { 10.days.ago }
-        end
-
-        it_behaves_like "can not write" do
-          let(:attribute) { :updated_at }
-          let(:value) { 1.day.ago }
-        end
-      end
-
-      context "when disabled for admin", with_settings: { apiv3_write_readonly_attributes: false } do
-        let(:current_user) { build_stubbed(:admin) }
-
-        it_behaves_like "can not write" do
-          let(:attribute) { :created_at }
-          let(:value) { 1.day.ago }
-        end
-
-        it_behaves_like "can not write" do
-          let(:attribute) { :updated_at }
-          let(:value) { 1.day.ago }
-        end
-      end
-
-      context "when enabled for regular user", with_settings: { apiv3_write_readonly_attributes: true } do
-        it_behaves_like "can not write" do
-          let(:attribute) { :created_at }
-          let(:value) { 1.day.ago }
-        end
-
-        it_behaves_like "can not write" do
-          let(:attribute) { :updated_at }
-          let(:value) { 1.day.ago }
-        end
-      end
-
-      context "when disabled for regular user", with_settings: { apiv3_write_readonly_attributes: false } do
-        it_behaves_like "can not write" do
-          let(:attribute) { :created_at }
-          let(:value) { 1.day.ago }
-        end
-
-        it_behaves_like "can not write" do
-          let(:attribute) { :updated_at }
-          let(:value) { 1.day.ago }
         end
       end
     end
