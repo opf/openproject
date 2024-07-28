@@ -28,36 +28,35 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title(t(:label_my_account), I18n.t('my_account.access_tokens.access_tokens')) -%>
-<div class="access-token-page--container">
-  <%=
-    render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title { I18n.t('my_account.access_tokens.access_tokens') }
-      header.with_breadcrumbs([{ href: my_account_path, text: t(:label_my_account) },
-                               I18n.t('my_account.access_tokens.access_tokens')])
-    end
-  %>
 
-	<%= render partial: 'my/access_token_partials/api_tokens_section',
-							locals: { api_tokens: @user.api_tokens }
-	%>
-	<%= render partial: 'my/access_token_partials/icalendar_tokens_section',
-							locals: { ical_tokens_grouped_by_query: @ical_tokens_grouped_by_query }
-	%>
-	<%= render partial: 'my/access_token_partials/oauth_tokens_section',
-							locals: { granted_applications: granted_applications }
-	%>
-	<%= render partial: 'my/access_token_partials/rss_tokens_section',
-							locals: { rss_token: @user.rss_token }
-	%>
-  <%= render partial: 'my/access_token_partials/storage_tokens_section',
-             locals: { storage_tokens: @storage_tokens }
-  %>
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table">
-        <%= call_hook(:view_access_tokens_table, user: @user) %>
-      </table>
-    </div>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { I18n.t('my_account.access_tokens.access_tokens') }
+    header.with_breadcrumbs([{ href: my_account_path, text: t(:label_my_account) },
+                             I18n.t('my_account.access_tokens.access_tokens')])
+  end
+%>
+
+<%= render partial: 'my/access_token_partials/api_tokens_section',
+            locals: { api_tokens: @user.api_tokens }
+%>
+<%= render partial: 'my/access_token_partials/icalendar_tokens_section',
+            locals: { ical_tokens_grouped_by_query: @ical_tokens_grouped_by_query }
+%>
+<%= render partial: 'my/access_token_partials/oauth_tokens_section',
+            locals: { granted_applications: granted_applications }
+%>
+<%= render partial: 'my/access_token_partials/rss_tokens_section',
+            locals: { rss_token: @user.rss_token }
+%>
+<%= render partial: 'my/access_token_partials/storage_tokens_section',
+           locals: { storage_tokens: @storage_tokens }
+%>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <%= call_hook(:view_access_tokens_table, user: @user) %>
+    </table>
   </div>
 </div>
 
