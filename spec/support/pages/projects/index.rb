@@ -315,8 +315,8 @@ module Pages
       def click_more_menu_item(item)
         wait_for_network_idle
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
-        wait_for_network_idle
         page.find(".ActionListItem", text: item, exact_text: true).click
+        wait_for_network_idle
       end
 
       def click_menu_item_of(title, project)
