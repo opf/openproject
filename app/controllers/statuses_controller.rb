@@ -85,16 +85,8 @@ class StatusesController < ApplicationController
 
   protected
 
-  def default_breadcrumb
-    if action_name == "index"
-      t(:label_work_package_status_plural)
-    else
-      ActionController::Base.helpers.link_to(t(:label_work_package_status_plural), statuses_path)
-    end
-  end
-
   def show_local_breadcrumb
-    true
+    false
   end
 
   def recompute_progress_values

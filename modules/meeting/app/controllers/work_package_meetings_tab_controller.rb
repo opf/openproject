@@ -97,6 +97,8 @@ class WorkPackageMeetingsTabController < ApplicationController
   def set_work_package
     @work_package = WorkPackage.find(params[:work_package_id])
     @project = @work_package.project # required for authorization via before_action
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def add_work_package_to_meeting_params
@@ -127,9 +129,20 @@ class WorkPackageMeetingsTabController < ApplicationController
         .includes(:meeting)
         .where(meeting_id: Meeting.visible(current_user))
         .where(work_package_id: @work_package.id)
-        .order("meetings.start_time": :asc)
+        .order(sort_clause(direction))
 
     comparison = direction == :past ? "<" : ">="
     agenda_items.where("meetings.start_time + (interval '1 hour' * meetings.duration) #{comparison} ?", Time.zone.now)
+  end
+
+  def sort_clause(direction)
+    case direction
+    when :upcoming
+      "meetings.start_time ASC"
+    when :past
+      "meetings.start_time DESC"
+    else
+      raise ArgumentError, "Invalid direction: #{direction}. Must be one of :upcoming or :past."
+    end
   end
 end

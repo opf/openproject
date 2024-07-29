@@ -214,7 +214,7 @@ module Pages
       def apply_filters
         within(".advanced-filters--filters") do
           click_on "Apply"
-          page.driver.wait_for_network_idle if using_cuprite?
+          wait_for_network_idle
         end
       end
 
@@ -313,10 +313,10 @@ module Pages
       end
 
       def click_more_menu_item(item)
-        wait_for_network_idle if using_cuprite?
+        wait_for_network_idle
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
-        wait_for_network_idle if using_cuprite?
         page.find(".ActionListItem", text: item, exact_text: true).click
+        wait_for_network_idle
       end
 
       def click_menu_item_of(title, project)
@@ -331,7 +331,7 @@ module Pages
           menu = find("[data-test-selector='project-list-row--action-menu']")
           menu_button = find("[data-test-selector='project-list-row--action-menu'] button")
           menu_button.click
-          wait_for_network_idle if using_cuprite?
+          wait_for_network_idle
           expect(page).to have_css("[data-test-selector='project-list-row--action-menu-item']")
           yield menu
         end

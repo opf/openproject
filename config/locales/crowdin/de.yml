@@ -519,9 +519,9 @@ de:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
       unsupported_for_multiple_projects: "Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten"
       current_type_not_available_in_target_project: >
-        Der aktuelle Typ der Arbeitspakete ist im Zielprojekt nicht aktiviert. Bitte aktivieren Sie diesen Typ im Zielprojekt, wenn Sie möchten, dass sie unverändert bleiben. Andernfalls wird der Typ des Arbeitspakets automatisch neu zugewiesen, was zu Datenverlust führen kann.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        Die aktuellen Typen der Arbeitspakete sind im Zielprojekt nicht aktiviert. Bitte aktivieren Sie die Typen im Zielprojekt, wenn Sie möchten, dass sie unverändert bleiben. Andernfalls werden die Typen der Arbeitspakete automatisch neu zugewiesen, was zu Datenverlust führen kann.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
@@ -2268,6 +2268,7 @@ de:
   label_role_search: "Rolle für neue Mitglieder zuweisen"
   label_scm: "Versionskontrollsystem"
   label_search: "Suche"
+  label_search_by_name: "Search by name"
   label_send_information: "Neue Anmeldeinformationen an den Benutzer senden"
   label_send_test_email: "Test-E-Mail senden"
   label_session: "Sitzung"
@@ -2380,6 +2381,7 @@ de:
   label_work_package_new: "Neues Arbeitspaket"
   label_work_package_edit: "Arbeitspaket %{name} editieren"
   label_work_package_plural: "Arbeitspakete"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Arbeitspaket-Status"
   label_work_package_status_new: "Neuer Status"
   label_work_package_status_plural: "Arbeitspaket-Status"
@@ -2387,6 +2389,7 @@ de:
   label_work_package_tracking: "Arbeitspakete-Verfolgung"
   label_work_package_view_all: "Alle Arbeitspakete anzeigen"
   label_workflow: "Workflow"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
   label_working_days_and_hours: "Arbeitstage und -stunden"

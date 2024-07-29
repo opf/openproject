@@ -42,18 +42,18 @@ zh-TW:
     errors:
       too_many_elements_created_at_once: 一次創建的元素過多。最多應為 %{max} 個，實際為 %{actual} 個。
   external_file_storages: 外部存儲空間
-  permission_create_files: 'Automatically managed project folders: Create files'
-  permission_create_files_explanation: This permission is only available for Nextcloud storages
-  permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_create_files: '自動管理專案資料夾 : 建立檔案'
+  permission_create_files_explanation: 此權限僅適用於 Nextcloud 儲存裝置
+  permission_delete_files: '自動管理專案資料夾 : 刪除檔案'
+  permission_delete_files_explanation: 此權限僅適用於 Nextcloud 儲存裝置
   permission_header_for_project_module_storages: 自動管理的專案文件夾
   permission_manage_file_links: 管理文件鏈接
   permission_manage_files_in_project: Manage files in project
-  permission_read_files: 'Automatically managed project folders: Read files'
-  permission_share_files: 'Automatically managed project folders: Share files'
-  permission_share_files_explanation: This permission is only available for Nextcloud storages
+  permission_read_files: '自動管理專案資料夾 : 讀取檔案'
+  permission_share_files: '自動管理專案資料夾 : 共享檔案'
+  permission_share_files_explanation:
   permission_view_file_links: 查看文件鏈接
-  permission_write_files: 'Automatically managed project folders: Write files'
+  permission_write_files: '自動管理專案資料夾 : 寫入檔案'
   project_module_storages: 檔案
   project_storages:
     project_folder_mode:
@@ -87,6 +87,10 @@ zh-TW:
       storage_delete_result_1: 刪除使用此儲存的所有項目的所有儲存設定。
       storage_delete_result_2: 刪除從此項目的工作包到該儲存的檔案和資料夾的所有連結。
       storage_delete_result_3: 如果此儲存空間具有自動管理的專案資料夾，則該資料夾及其檔案將永久刪除。
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
     error_invalid_provider_type: 請選擇有效的儲存空間提供者。
     file_storage_view:
       access_management:
@@ -111,9 +115,13 @@ zh-TW:
       checked: 上次檢查時間：%{datetime}
       connection_validation:
         action: Recheck connection
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
         client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
         client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
         drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
         not_configured: The connection could not be validated. Please finish configuration first.
         placeholder: Check your connection against the server.
         subtitle: Connection validation
@@ -161,11 +169,11 @@ zh-TW:
         application_link_text: Azure portal
         copy_redirect_uri: 複製重新導向 URI
         documentation_link_text: OneDrive/SharePoint 文件
-        drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
+        drive_id: 請依照 %{drive_id_link_text}. 步驟從所需磁碟機複製 ID
         integration: OneDrive/SharePoint
         missing_client_id_for_redirect_uri: 請填寫 OAuth 值以產生 URI
         oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
-        oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
+        oauth_client_secret: 如果客戶憑證下沒有應用程式客戶端金鑰，請建立一個新金鑰。
         oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
         provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
         tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.

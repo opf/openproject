@@ -514,9 +514,9 @@ ja:
       no_common_statuses_exists: "選択されたすべてのワークパッケージに利用できるステータスはありません。 それらの状態は変更できません。"
       unsupported_for_multiple_projects: "複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -2236,6 +2236,7 @@ ja:
   label_role_search: "新しいメンバーに役割を割り当てる"
   label_scm: "バージョン管理システム"
   label_search: "検索"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "テスト電子メールを送信"
   label_session: "セッション"
@@ -2348,6 +2349,7 @@ ja:
   label_work_package_new: "新しいワークパッケージ"
   label_work_package_edit: "ワークパッケージ %{name} を編集"
   label_work_package_plural: "ワークパッケージ"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "ステータス名"
   label_work_package_status_new: "新規ステータス"
   label_work_package_status_plural: "ステータスの種類"
@@ -2355,6 +2357,7 @@ ja:
   label_work_package_tracking: "ワークパッケージの追跡"
   label_work_package_view_all: "全てのワークパッケージを表示"
   label_workflow: "ワークフロー"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "ワークフロー"
   label_workflow_summary: "サマリ"
   label_working_days_and_hours: "Working days and hours"

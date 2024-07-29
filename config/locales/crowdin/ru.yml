@@ -538,9 +538,9 @@ ru:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: "Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов"
       current_type_not_available_in_target_project: >
-        Текущий тип пакета работ не включен в целевой проект. Пожалуйста, включите этот тип в целевом проекте, если хотите, чтобы он остался неизменным. В противном случае тип пакета работ будет автоматически переназначен, что может привести к потере данных.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        Текущие типы пакетов работ не включены в целевой проект. Включите типы в целевом проекте, если хотите, чтобы они остались неизменными. В противном случае типы пакетов работ будут автоматически переназначены, что может привести к потере данных.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Отсутствует рабочий процесс для совместного использования пакета работ"
@@ -719,7 +719,7 @@ ru:
         is_closed: "Пакет работ закрыт"
         is_readonly: "Пакет работ только для просмотра"
         excluded_from_totals: "Исключить из расчета итогов в иерархии"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% Завершено"
       time_entry:
         activity: "Деятельность"
         hours: "Часы"
@@ -1011,7 +1011,7 @@ ru:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "должно быть между 0 и 100."
           readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
         time_entry:
           attributes:
@@ -1164,7 +1164,7 @@ ru:
         one: "Список проектов"
         few: "Project lists"
         many: "Project lists"
-        other: "Project lists"
+        other: "Списки проектов"
       query: "Настраиваемый запрос"
       role:
         one: "Роль"
@@ -2341,6 +2341,7 @@ ru:
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
   label_search: "Поиск"
+  label_search_by_name: "Поиск по имени"
   label_send_information: "Отправить новые учетные данные пользователю"
   label_send_test_email: "Отправить тестовое сообщение"
   label_session: "Сессия"
@@ -2453,6 +2454,7 @@ ru:
   label_work_package_new: "Новый пакет работ"
   label_work_package_edit: "Редактирование пакета работ %{name}"
   label_work_package_plural: "Комплекс работ"
+  label_work_packages_settings: "Настройки пакетов работ"
   label_work_package_status: "Статус пакета работ"
   label_work_package_status_new: "Новый статус"
   label_work_package_status_plural: "Статусы пакета работ"
@@ -2460,6 +2462,7 @@ ru:
   label_work_package_tracking: "Отслеживание пакета работ"
   label_work_package_view_all: "Посмотреть все пакеты работ"
   label_workflow: "Рабочий поток"
+  label_workflow_copy: "Копировать рабочий поток"
   label_workflow_plural: "Рабочие потоки"
   label_workflow_summary: "Сводка"
   label_working_days_and_hours: "Рабочие дни и часы"

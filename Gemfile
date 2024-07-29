@@ -227,6 +227,7 @@ gem "factory_bot", "~> 6.4.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.4.0", require: false
 
+gem "turbo_power", "~> 0.6.2"
 gem "turbo-rails", "~> 2.0.0"
 
 gem "httpx"
@@ -393,6 +394,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.16.0"
-gem "openproject-octicons_helper", "~>19.16.0"
-gem "openproject-primer_view_components", "~>0.37.1"
+gem "openproject-octicons", "~>19.17.0"
+gem "openproject-octicons_helper", "~>19.17.0"
+gem "openproject-primer_view_components", "~>0.40.0"

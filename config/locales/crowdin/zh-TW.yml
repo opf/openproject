@@ -250,7 +250,7 @@ zh-TW:
       work_package_file_links: "工作項目：檔案連結"
       work_package_shares: "Work packages: shares"
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "已經安排背景執行刪除任務。你將會收到結果通知。"
       schedule_failed: "專案無法刪除: %{errors}"
       failed: "專案 %{name} 的刪除失敗"
       failed_text: "刪除專案 %{name} 的請求失敗。該專案已封存。"
@@ -288,9 +288,9 @@ zh-TW:
       project_custom_fields:
         header:
           title: "專案屬性"
-          description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
+          description: '這些專案屬性將顯示在您各自的<a href=%{overview_url} target="_blank">專案概述頁面</a>中。您可以啟用或停用單一屬性。專案屬性由管理員在<a href=%{admin_settings_url} target="_blank">管理設定</a>中定義。'
         filter:
-          label: "Search project attribute"
+          label: "搜尋專案屬性"
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
@@ -356,7 +356,7 @@ zh-TW:
       also_work_packages_shared_with_user_html:
         other: "Also, %{shared_work_packages_link} have been shared with this user."
       remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
-      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_user_access_priveleges: "刪除該成員將移除該專案所有存取權限。但使用者部分專案資料仍然存在。"
       will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
       cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
       cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
@@ -487,8 +487,7 @@ zh-TW:
       query_group_placeholder: "給表格命名"
       reset: "重設為預設值"
       type_color_text: |
-        The selected color distinguishes different types
-        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        所選顏色區分甘特圖或工作項目中的不同類型。因此建議使用濃烈的顏色。
   versions:
     overview:
       work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
@@ -517,9 +516,9 @@ zh-TW:
       no_common_statuses_exists: "被選取的工作項目沒有可用的狀態。他們的狀態不可以變更。"
       unsupported_for_multiple_projects: "工作項目不支援從多個專案的大區塊的移動/複製"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -2239,6 +2238,7 @@ zh-TW:
   label_role_search: "為新成員分配角色"
   label_scm: "SCM"
   label_search: "搜尋"
+  label_search_by_name: "Search by name"
   label_send_information: "寄送密碼給使用者"
   label_send_test_email: "發送測試電子郵件"
   label_session: "連線"
@@ -2351,6 +2351,7 @@ zh-TW:
   label_work_package_new: "新增工作項目"
   label_work_package_edit: "編輯工作項目 %{name}"
   label_work_package_plural: "工作項目"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "工作項目狀態"
   label_work_package_status_new: "新狀態"
   label_work_package_status_plural: "工作項目狀態"
@@ -2358,6 +2359,7 @@ zh-TW:
   label_work_package_tracking: "工作項目追蹤"
   label_work_package_view_all: "檢視所有工作項目"
   label_workflow: "工作流程"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "工作流程"
   label_workflow_summary: "總覽"
   label_working_days_and_hours: "Working days and hours"
@@ -2613,11 +2615,9 @@ zh-TW:
   notice_successful_delete: "刪除成功"
   notice_successful_update: "更新成功"
   notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    更新成功。相關類型之專案，此客製欄位會自動啟動。<a href="%{url}" target="_blank">看更多</a>。
   notice_successful_update_custom_fields_added_to_type: |
-    Successful update. The active custom fields are automatically activated for
-    the associated projects of this type.
+    更新成功。相關類型之專案，此客製欄位會自動啟動。
   notice_to_many_principals_to_display: "搜尋的結果太多。\n請透過輸入新成員 (群組) 的名稱來縮小搜尋的範圍。"
   notice_user_missing_authentication_method: 用戶尚未選擇密碼或其他方式登錄。
   notice_user_invitation_resent: 已向 %{email} 發送邀請。
@@ -3038,7 +3038,7 @@ zh-TW:
   setting_welcome_text: "歡迎區塊文字"
   setting_welcome_title: "歡迎區塊標題"
   setting_welcome_on_homescreen: "在主頁面上顯示歡迎區塊"
-  setting_work_package_list_default_highlighting_mode: "預設突顯模式"
+  setting_work_package_list_default_highlighting_mode: "預設顯示模式"
   setting_work_package_list_default_highlighted_attributes: "預設突顯屬性"
   setting_working_days: "工作日"
   settings:

@@ -135,7 +135,7 @@ module Storages
 
           def location(file_path)
             prefix = "files/"
-            idx = file_path.rindex(prefix)
+            idx = file_path.index(prefix)
             return "/" if idx == nil
 
             idx += prefix.length - 1

@@ -30,10 +30,6 @@ module Admin::Settings
   class LanguagesSettingsController < ::Admin::SettingsController
     menu_item :settings_languages
 
-    def default_breadcrumb
-      t(:label_languages)
-    end
-
     protected
 
     def update_service

@@ -74,12 +74,10 @@ module Webhooks
       end
 
       def show_local_breadcrumb
-        true
+        false
       end
 
-      def default_breadcrumb
-        []
-      end
+      def default_breadcrumb; end
     end
   end
 end

@@ -61,7 +61,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FileInfoQue
         last_modified_by_name: nil,
         last_modified_by_id: nil,
         permissions: "RGDNVW",
-        location: "/Folder/android-studio-linux.tar.gz"
+        location: "/My%20files/android-studio-linux.tar.gz"
       )
     end
 

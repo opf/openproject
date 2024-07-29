@@ -533,9 +533,9 @@ uk:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
       unsupported_for_multiple_projects: "Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів"
       current_type_not_available_in_target_project: >
-        Поточний тип пакета робіт не ввімкнено в цільовому проєкті. Увімкніть його, якщо не хочете, щоб він зазнав змін. Інакше тип пакета робіт буде автоматично перепризначено, що може призвести до втрати даних.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        Поточні типи пакетів робіт не ввімкнено в цільовому проєкті. Увімкніть, якщо не хочете, щоб вони зазнали змін. Інакше типи пакетів робіт буде автоматично перепризначено, що може призвести до втрати даних.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Відсутній робочий процес для надання доступу до пакета робіт"
@@ -2336,6 +2336,7 @@ uk:
   label_role_search: "Призначити роль для нових членів"
   label_scm: "Тип сховища"
   label_search: "Пошук"
+  label_search_by_name: "Search by name"
   label_send_information: "Надіслати нові облікові дані користувачу"
   label_send_test_email: "Послати email для перевірки"
   label_session: "Сеанс"
@@ -2448,6 +2449,7 @@ uk:
   label_work_package_new: "Новий пакет робіт"
   label_work_package_edit: "Редагувати робочий пакет %{name}"
   label_work_package_plural: "Пакет робіт"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Стан робочого пакета"
   label_work_package_status_new: "Новий статус"
   label_work_package_status_plural: "Статуси робочих пакетів"
@@ -2455,6 +2457,7 @@ uk:
   label_work_package_tracking: "Відстеження робочого пакету"
   label_work_package_view_all: "Переглянути всі робочі пакети"
   label_workflow: "Робочий процес"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
   label_working_days_and_hours: "Робочі дні й години"

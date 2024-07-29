@@ -20,12 +20,8 @@ class AnnouncementsController < ApplicationController
 
   private
 
-  def default_breadcrumb
-    t(:label_announcement)
-  end
-
   def show_local_breadcrumb
-    true
+    false
   end
 
   def announcement_params

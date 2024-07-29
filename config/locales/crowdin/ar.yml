@@ -553,9 +553,9 @@ ar:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "حجم النقل أو النسخ غير مدعوم من أجل حزم العمل المكونة من عدة مشاريع"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -2410,6 +2410,7 @@ ar:
   label_role_search: "تعيين دور للأعضاء الجدد"
   label_scm: "اختصاراً لِ:\"Supply Chain Management\" إدارة سلسة الإمداد"
   label_search: "البحث"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "إرسال رسالة اختبار"
   label_session: "الجلسة"
@@ -2522,6 +2523,7 @@ ar:
   label_work_package_new: "مجموعة عمل جديدة"
   label_work_package_edit: "تعديل مجموعة العمل %{name}"
   label_work_package_plural: "مجموعات العمل"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "حالة مجموعة العمل"
   label_work_package_status_new: "حالة جديدة"
   label_work_package_status_plural: "حالات مجموعة العمل"
@@ -2529,6 +2531,7 @@ ar:
   label_work_package_tracking: "تتبع مجموعة العمل"
   label_work_package_view_all: "عرض جميع مجموعات العمل"
   label_workflow: "سير العمل"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "تدفقات العمل"
   label_workflow_summary: "مُلخّص"
   label_working_days_and_hours: "Working days and hours"

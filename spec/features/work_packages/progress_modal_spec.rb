@@ -514,10 +514,10 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
 
         work_edit_field.activate!
-        page.driver.wait_for_network_idle # Wait for initial loading to be ready
+        wait_for_network_idle # Wait for initial loading to be ready
 
         clear_input_field_contents(work_edit_field.input_element)
-        page.driver.wait_for_network_idle # Wait for live-update to finish
+        wait_for_network_idle # Wait for live-update to finish
 
         remaining_work_edit_field.expect_modal_field_value("")
       end
@@ -533,14 +533,14 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
 
         work_edit_field.activate!
-        page.driver.wait_for_network_idle # Wait for initial loading to be ready
+        wait_for_network_idle # Wait for initial loading to be ready
 
         work_edit_field.set_value("12")
-        page.driver.wait_for_network_idle # Wait for live-update to finish
+        wait_for_network_idle # Wait for live-update to finish
         remaining_work_edit_field.expect_modal_field_value("6h")
 
         work_edit_field.set_value("14")
-        page.driver.wait_for_network_idle # Wait for live-update to finish
+        wait_for_network_idle # Wait for live-update to finish
         remaining_work_edit_field.expect_modal_field_value("8h")
       end
 
@@ -555,14 +555,14 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
 
         work_edit_field.activate!
-        page.driver.wait_for_network_idle # Wait for initial loading to be ready
+        wait_for_network_idle # Wait for initial loading to be ready
 
         work_edit_field.set_value("2")
-        page.driver.wait_for_network_idle # Wait for live-update to finish
+        wait_for_network_idle # Wait for live-update to finish
         remaining_work_edit_field.expect_modal_field_value("0h")
 
         work_edit_field.set_value("12")
-        page.driver.wait_for_network_idle # Wait for live-update to finish
+        wait_for_network_idle # Wait for live-update to finish
         remaining_work_edit_field.expect_modal_field_value("6h")
       end
     end

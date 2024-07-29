@@ -23,7 +23,7 @@ ms:
             project_folder_mode:
               mode_unavailable: tidak tersedia untuk storan ini.
             project_ids:
-              blank: Please select a project.
+              blank: Sila pilih projek.
         storages/storage:
           attributes:
             host:
@@ -57,9 +57,9 @@ ms:
   project_module_storages: Fail-fail
   project_storages:
     project_folder_mode:
-      automatic: Automatically managed
-      inactive: No specific folder
-      manual: Existing folder manually managed
+      automatic: Dikendalikan secara automatik
+      inactive: Tiada folder khusus
+      manual: Folder yang tersedia dikendalikan secara manual
   storages:
     buttons:
       complete_without_setup: Lengkap tanpanya
@@ -87,6 +87,10 @@ ms:
       storage_delete_result_1: Padam semua penyediaan storan untuk semua projek yang menggunakan storan ini.
       storage_delete_result_2: Padam semua pautan daripada pakej kerja semua projek ke fail dan folder storan tersebut.
       storage_delete_result_3: Sekiranya storan ini mempunyai folder projek yang dikendalikan secara automatik, folder tersebut serta fail yang terkandung akan dipadamkan selamanya.
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
     error_invalid_provider_type: Sila pilih penyedia storan yang sah.
     file_storage_view:
       access_management:
@@ -111,9 +115,13 @@ ms:
       checked: Terakhir disemak %{datetime}
       connection_validation:
         action: Recheck connection
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
         client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
         client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
         drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
         not_configured: The connection could not be validated. Please finish configuration first.
         placeholder: Check your connection against the server.
         subtitle: Connection validation

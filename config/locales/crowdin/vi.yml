@@ -520,9 +520,9 @@ vi:
       no_common_statuses_exists: "Có là tình trạng không có sẵn cho tất cả các gói đã chọn công việc. Tình trạng của họ không thể thay đổi."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -2128,7 +2128,7 @@ vi:
   label_on: "lúc"
   label_operator_all: "is not empty"
   label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
+  label_operator_equals_or: "là (HOẶC là)"
   label_operator_equals_all: "is (AND)"
   label_operator_shared_with_user_any: "bất kỳ"
   label_open_menu: "Mở trình đơn"
@@ -2242,6 +2242,7 @@ vi:
   label_role_search: "Chỉ định vai trò cho các thành viên mới"
   label_scm: "SCM"
   label_search: "Tìm kiếm"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Gửi email thử nghiệm"
   label_session: "Session"
@@ -2354,6 +2355,7 @@ vi:
   label_work_package_new: "Work package mới"
   label_work_package_edit: "Chỉnh sửa work package %{name}"
   label_work_package_plural: "Work Packages"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Tình trạng work package"
   label_work_package_status_new: "Trạng thái mới"
   label_work_package_status_plural: "Tình trạng work package"
@@ -2361,6 +2363,7 @@ vi:
   label_work_package_tracking: "Theo dõi work package"
   label_work_package_view_all: "Xem tất cả các work package"
   label_workflow: "Quy trình làm việc"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Quy trình làm việc"
   label_workflow_summary: "Tóm tắt"
   label_working_days_and_hours: "Working days and hours"
@@ -2443,7 +2446,7 @@ vi:
       reason:
         watched: "Watched"
         assigned: "Assigned"
-        responsible: "Trách nhiệm"
+        responsible: "Chịu trách nhiệm"
         mentioned: "Mentioned"
         shared: "Shared"
         subscribed: "tất cả"

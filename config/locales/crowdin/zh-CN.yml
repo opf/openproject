@@ -514,9 +514,9 @@ zh-CN:
       no_common_statuses_exists: "所有选中的工作包都没有可用的状态，因此无法更改其状态。"
       unsupported_for_multiple_projects: "不支持多个项目工作包的大批量移动/复制"
       current_type_not_available_in_target_project: >
-        当前工作包类型未在目标项目中启用。 如果您希望目标项目保持不变，请启用此类型。 否则，工作包的类型将被自动重新分配，导致可能的数据丢失。
+        当前工作包类型未在目标项目中启用。 如果您想保持不变，请启用目标项目中的类型。 否则，将从列表中选择目标项目中的可用类型。
       bulk_current_type_not_available_in_target_project: >
-        当前的工作包类型未在目标项目中启用。 如果您希望目标项目中的类型保持不变，请启用这些类型。 否则，工作包类型将被自动重新分配，导致可能的数据丢失。
+        目标项目中未启用工作包的当前类型。如果您希望工作包类型保持不变，请在目标项目中启用这些类型。否则，请从列表中选择目标项目中的可用类型。
     sharing:
       missing_workflow_warning:
         title: "工作包共享缺少工作流"
@@ -695,7 +695,7 @@ zh-CN:
         is_closed: "工作包已关闭"
         is_readonly: "只读工作包"
         excluded_from_totals: "从层次结构的总计中排除"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% 完成"
       time_entry:
         activity: "活动"
         hours: "小时"
@@ -987,7 +987,7 @@ zh-CN:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "必须介于 0 和 100 之间。"
           readonly_default_exlusive: "无法激活（对于标记为默认的状态）。"
         time_entry:
           attributes:
@@ -2003,7 +2003,7 @@ zh-CN:
   label_inactive: "非活动"
   label_incoming_emails: "传入电子邮件"
   label_includes: "包括"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: 包含子项目
   label_index_by_date: "按日期索引"
   label_index_by_title: "按标题索引"
   label_information: "信息"
@@ -2236,6 +2236,7 @@ zh-CN:
   label_role_search: "将角色分配给新成员"
   label_scm: "SCM"
   label_search: "搜索"
+  label_search_by_name: "按名称搜索"
   label_send_information: "向用户发送新的凭据"
   label_send_test_email: "发送测试电子邮件"
   label_session: "会话"
@@ -2348,6 +2349,7 @@ zh-CN:
   label_work_package_new: "新工作包"
   label_work_package_edit: "编辑工作包 %{name}"
   label_work_package_plural: "工作包"
+  label_work_packages_settings: "工作包设置"
   label_work_package_status: "工作包状态"
   label_work_package_status_new: "新状态"
   label_work_package_status_plural: "工作包状态"
@@ -2355,6 +2357,7 @@ zh-CN:
   label_work_package_tracking: "工作包跟踪"
   label_work_package_view_all: "查看所有工作包"
   label_workflow: "工作流"
+  label_workflow_copy: "复制工作流"
   label_workflow_plural: "工作流"
   label_workflow_summary: "摘要"
   label_working_days_and_hours: "工作日和工作小时"

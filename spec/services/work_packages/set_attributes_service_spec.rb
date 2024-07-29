@@ -1665,17 +1665,25 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
 
       context "for type" do
-        context "when current type exists in new project" do
+        context "when the work package has a type already set" do
+          let(:work_package) do
+            build_stubbed(:work_package, project:, type: initial_type)
+          end
+
           it "leaves the type" do
             subject
 
             expect(work_package.type)
-              .to eql type
+              .to eql initial_type
           end
         end
 
-        context "when a default type exists in new project" do
-          let(:new_types) { [other_type, default_type] }
+        context "when the work package has no type set" do
+          let(:work_package) do
+            build_stubbed(:work_package, project:, type: nil)
+          end
+
+          let(:new_types) { [other_type] }
 
           it "uses the first type (by position)" do
             subject
@@ -1688,29 +1696,12 @@ RSpec.describe WorkPackages::SetAttributesService,
             subject
 
             expect(work_package.changed_by_system["type_id"])
-              .to eql [initial_type.id, other_type.id]
+              .to eql [nil, other_type.id]
           end
         end
 
-        context "when no default type exists in new project" do
-          let(:new_types) { [other_type, yet_another_type] }
-
-          it "uses the first type (by position)" do
-            subject
-
-            expect(work_package.type)
-              .to eql other_type
-          end
-
-          it "adds change to system changes" do
-            subject
-
-            expect(work_package.changed_by_system["type_id"])
-              .to eql [initial_type.id, other_type.id]
-          end
-        end
-
-        context "when also setting a new type via attributes" do
+        context "and also setting a new type via attributes" do
+          let(:new_types) { [yet_another_type] }
           let(:expected_attributes) { { project: new_project, type: yet_another_type } }
 
           it "sets the desired type" do

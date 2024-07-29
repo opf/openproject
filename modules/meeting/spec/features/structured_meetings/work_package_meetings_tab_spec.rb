@@ -238,11 +238,15 @@ RSpec.describe "Open the Meetings tab", :js do
           expect(page).to have_content(second_meeting.title)
           expect(page).to have_content(meeting_agenda_item_of_second_meeting.notes)
         end
+
+        meeting_containers = page.all("[data-test-selector^='op-meeting-container-']")
+        expect(meeting_containers[0]["data-test-selector"]).to eq("op-meeting-container-#{first_meeting.id}")
+        expect(meeting_containers[1]["data-test-selector"]).to eq("op-meeting-container-#{second_meeting.id}")
       end
     end
 
     context "when the work_package was already referenced in past meetings" do
-      let!(:first_past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
+      let!(:first_past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 11.hours) }
       let!(:second_past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
 
       let!(:first_meeting_agenda_item_of_first_past_meeting) do
@@ -266,16 +270,20 @@ RSpec.describe "Open the Meetings tab", :js do
 
         meetings_tab.switch_to_past_meetings_section
 
+        page.within_test_selector("op-meeting-container-#{second_past_meeting.id}") do
+          expect(page).to have_content(second_past_meeting.title)
+          expect(page).to have_content(meeting_agenda_item_of_second_past_meeting.notes)
+        end
+
         page.within_test_selector("op-meeting-container-#{first_past_meeting.id}") do
           expect(page).to have_content(first_past_meeting.title)
           expect(page).to have_content(first_meeting_agenda_item_of_first_past_meeting.notes)
           expect(page).to have_content(second_meeting_agenda_item_of_first_past_meeting.notes)
         end
 
-        page.within_test_selector("op-meeting-container-#{second_past_meeting.id}") do
-          expect(page).to have_content(second_past_meeting.title)
-          expect(page).to have_content(meeting_agenda_item_of_second_past_meeting.notes)
-        end
+        meeting_containers = page.all("[data-test-selector^='op-meeting-container-']")
+        expect(meeting_containers[0]["data-test-selector"]).to eq("op-meeting-container-#{second_past_meeting.id}")
+        expect(meeting_containers[1]["data-test-selector"]).to eq("op-meeting-container-#{first_past_meeting.id}")
       end
     end
 

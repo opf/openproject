@@ -532,9 +532,9 @@ lv:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Vairāku darba paku pārvietošana/kopēšana netiek atbalstīta no vairākiem projektiem"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -2308,6 +2308,7 @@ lv:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "Meklēšana"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
   label_session: "Session"
@@ -2420,6 +2421,7 @@ lv:
   label_work_package_new: "Jauns pieteikums"
   label_work_package_edit: "Edit work package %{name}"
   label_work_package_plural: "Pieteikumi"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Work package status"
   label_work_package_status_new: "New status"
   label_work_package_status_plural: "Pieteikumu statusi"
@@ -2427,6 +2429,7 @@ lv:
   label_work_package_tracking: "Pieteikumi"
   label_work_package_view_all: "Skatīt visus pieteikumus"
   label_workflow: "Darbplūsma"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Kopsavilkums"
   label_working_days_and_hours: "Working days and hours"

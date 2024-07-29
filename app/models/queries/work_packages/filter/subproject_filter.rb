@@ -98,7 +98,10 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
     @visible_subprojects ||= if project.nil?
                                []
                              else
-                               project.descendants.visible
+                               project
+                                 .descendants
+                                 .visible
+                                 .active
                              end
   end
 

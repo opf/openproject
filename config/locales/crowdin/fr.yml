@@ -524,9 +524,9 @@ fr:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: "Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets"
       current_type_not_available_in_target_project: >
-        Le type actuel du lot de travaux n'est pas activé dans le projet cible. Veuillez activer le type dans le projet cible si vous souhaitez qu'il reste inchangé. Sinon, le type du lot de travaux sera automatiquement réaffecté, ce qui conduira à une perte potentielle de données.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        Les types actuels des lots de travaux ne sont pas activés dans le projet cible. Veuillez activer les types dans le projet cible si vous souhaitez qu'ils restent inchangés. Dans le cas contraire, les types des lots de travaux seront automatiquement réaffectés et entraîneront une perte potentielle de données.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Flux de travail manquant pour le partage de lots de travaux"
@@ -705,7 +705,7 @@ fr:
         is_closed: "Lot de travaux clôturé"
         is_readonly: "Paquet de travail en lecture seule"
         excluded_from_totals: "Exclure du calcul des totaux dans la hiérarchie"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% Réalisé"
       time_entry:
         activity: "Activité"
         hours: "Heures"
@@ -997,7 +997,7 @@ fr:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "doit être entre 0 et 100."
           readonly_default_exlusive: "ne peut pas être activé pour les statuts qui sont marqués par défaut."
         time_entry:
           attributes:
@@ -2040,7 +2040,7 @@ fr:
   label_inactive: "Désactivé"
   label_incoming_emails: "Courriels entrants"
   label_includes: "comporte"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Inclure les sous-projets
   label_index_by_date: "Index par date"
   label_index_by_title: "Index par titre"
   label_information: "Information"
@@ -2273,6 +2273,7 @@ fr:
   label_role_search: "Assigner un rôle aux nouveaux membres"
   label_scm: "SCM"
   label_search: "Recherche"
+  label_search_by_name: "Search by name"
   label_send_information: "Envoyer de nouveaux identifiants à l'utilisateur"
   label_send_test_email: "Envoyer un courriel de test"
   label_session: "Session"
@@ -2385,6 +2386,7 @@ fr:
   label_work_package_new: "Nouveau Lot de Travaux"
   label_work_package_edit: "Éditer le lot de travaux %{name}"
   label_work_package_plural: "Lots de Travaux"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Statut du lot de travaux"
   label_work_package_status_new: "Nouveau statut"
   label_work_package_status_plural: "Statuts du lot de travaux"
@@ -2392,6 +2394,7 @@ fr:
   label_work_package_tracking: "Suivi des lots de travaux"
   label_work_package_view_all: "Afficher tous les lots de travaux"
   label_workflow: "Flux de travail"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
   label_working_days_and_hours: "Jours et heures travaillés"

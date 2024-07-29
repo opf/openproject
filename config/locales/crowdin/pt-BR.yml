@@ -523,9 +523,9 @@ pt-BR:
       no_common_statuses_exists: "Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada."
       unsupported_for_multiple_projects: "Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos"
       current_type_not_available_in_target_project: >
-        O tipo atual do pacote de trabalho não está habilitado no projeto de destino. Habilite o tipo no projeto de destino se desejar que ele permaneça inalterado. Caso contrário, o tipo do pacote de trabalho será automaticamente reatribuído, o que pode levar à perda de dados.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        Os tipos atual do pacotes de trabalho não estão habilitados no projeto de destino. Habilite os tipos no projeto de destino se desejar que eles permaneçam inalterados. Caso contrário, os tipos do pacotes de trabalho serão automaticamente reatribuídos, o que pode levar à perda de dados.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Fluxo de trabalho ausente para compartilhamento de pacotes de trabalho"
@@ -2272,6 +2272,7 @@ pt-BR:
   label_role_search: "Atribuir papéis aos novos membros"
   label_scm: "SCM"
   label_search: "Pesquisar"
+  label_search_by_name: "Search by name"
   label_send_information: "Enviar novas credenciais ao usuário"
   label_send_test_email: "Enviar um e-mail de teste"
   label_session: "Sessão"
@@ -2384,6 +2385,7 @@ pt-BR:
   label_work_package_new: "Novo pacote de trabalho"
   label_work_package_edit: "Editar pacote de trabalho %{name}"
   label_work_package_plural: "Pacotes de trabalho"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Situação do pacote de trabalho"
   label_work_package_status_new: "Nova situação"
   label_work_package_status_plural: "Situações do Pacote de Trabalho"
@@ -2391,6 +2393,7 @@ pt-BR:
   label_work_package_tracking: "Controle de pacote de trabalho"
   label_work_package_view_all: "Exibir todos os pacotes de trabalho"
   label_workflow: "Fluxo de Trabalho"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Fluxos de trabalho"
   label_workflow_summary: "Sumário"
   label_working_days_and_hours: "Dias e horas úteis"

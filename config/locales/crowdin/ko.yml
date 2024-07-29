@@ -517,9 +517,9 @@ ko:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: "여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다."
       current_type_not_available_in_target_project: >
-        현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 작업 패키지의 유형이 자동으로 재할당되어 잠재적인 데이터 손실로 이어질 수 있습니다.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 작업 패키지의 유형이 자동으로 재할당되어 잠재적인 데이터 손실로 이어질 수 있습니다.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "작업 패키지 공유에 대한 워크플로 누락"
@@ -2239,6 +2239,7 @@ ko:
   label_role_search: "새 멤버에게 역할 할당"
   label_scm: "SCM"
   label_search: "검색"
+  label_search_by_name: "Search by name"
   label_send_information: "사용자에게 새 자격 증명 보내기"
   label_send_test_email: "테스트 이메일 보내기"
   label_session: "세션"
@@ -2351,6 +2352,7 @@ ko:
   label_work_package_new: "새 작업 패키지"
   label_work_package_edit: "작업 패키지 %{name} 편집"
   label_work_package_plural: "작업 패키지"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "작업 패키지 상태"
   label_work_package_status_new: "새 상태"
   label_work_package_status_plural: "작업 패키지 상태"
@@ -2358,6 +2360,7 @@ ko:
   label_work_package_tracking: "작업 패키지 추적"
   label_work_package_view_all: "모든 작업 패키지 보기"
   label_workflow: "워크플로"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
   label_working_days_and_hours: "근무일 및 시간"

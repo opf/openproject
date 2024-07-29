@@ -536,9 +536,9 @@ lt:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
       unsupported_for_multiple_projects: "Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Darbo paketo dalinimuisi trūksta darbo proceso"
@@ -2339,6 +2339,7 @@ lt:
   label_role_search: "Priskirti vaidmenį naujiems nariams"
   label_scm: "SCM"
   label_search: "Paieška"
+  label_search_by_name: "Search by name"
   label_send_information: "Siųsti naujus prisijungimo duomenis naudotojui"
   label_send_test_email: "Siųsti bandomąjį el. laišką"
   label_session: "Sesija"
@@ -2451,6 +2452,7 @@ lt:
   label_work_package_new: "Naujas darbų paketas"
   label_work_package_edit: "Redaguoti darbų paketą %{name}"
   label_work_package_plural: "Darbų paketai"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Darbų paketo būsena"
   label_work_package_status_new: "Nauja būsena"
   label_work_package_status_plural: "Darbų paketo būsenos"
@@ -2458,6 +2460,7 @@ lt:
   label_work_package_tracking: "Darbų paketo sekimas"
   label_work_package_view_all: "Peržiūrėti visus darbų paketus"
   label_workflow: "Darbų eiga"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Darbų eigos"
   label_workflow_summary: "Santrauka"
   label_working_days_and_hours: "Working days and hours"

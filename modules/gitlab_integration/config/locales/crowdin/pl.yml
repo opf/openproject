@@ -63,5 +63,7 @@ pl:
       **Ponownie otwarto problem:** problem %{issue_number} [%{issue_title}](%{issue_url}) dotyczący [%{repository}](%{repository_url}) został ponownie otwarty przez [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
       **Wypchnięto w MR:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) wypchnął [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **Wypchnięto w MR:** [%{gitlab_user}](%{gitlab_user_url}) wypchnął wiele zmian [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}

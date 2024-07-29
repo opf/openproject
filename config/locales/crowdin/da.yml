@@ -523,9 +523,9 @@ da:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -2272,6 +2272,7 @@ da:
   label_role_search: "Assign role to new members"
   label_scm: "Versionskontrolsystem"
   label_search: "Søg"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send en e-mailtest"
   label_session: "Session"
@@ -2384,6 +2385,7 @@ da:
   label_work_package_new: "Ny arbejdspakke"
   label_work_package_edit: "Rediger arbejdspakke %{name}"
   label_work_package_plural: "Arbejdspakker"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Status for arbejdspakke"
   label_work_package_status_new: "Ny status"
   label_work_package_status_plural: "Statusser for arbejdspakke"
@@ -2391,6 +2393,7 @@ da:
   label_work_package_tracking: "Sporing af arbejdspakke"
   label_work_package_view_all: "Vis alle arbejdspakker"
   label_workflow: "Arbejdsgang"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Arbejdsprocesser"
   label_workflow_summary: "Opsummering"
   label_working_days_and_hours: "Working days and hours"

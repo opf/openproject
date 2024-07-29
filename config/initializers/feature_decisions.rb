@@ -39,7 +39,6 @@ require_relative "../../lib_static/open_project/feature_decisions"
 #     OpenProject::FeatureDecisions.add :some_flag
 #   end
 OpenProject::FeatureDecisions.add :favorite_projects
-OpenProject::FeatureDecisions.add :dark_mode
 OpenProject::FeatureDecisions.add :percent_complete_edition,
                                   description: "Allow edition of % Complete in work-based progress calculation mode. " \
                                                "Will be enabled by default in OpenProject 15.0. " \

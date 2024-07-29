@@ -308,7 +308,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :work_packages_setting,
             { controller: "/admin/settings/work_packages_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_work_packages_settings,
             parent: :admin_work_packages
 
   menu.push :types,
@@ -413,7 +413,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
     menu.push :"settings_#{node[:name]}",
               { controller: node[:controller], action: :show },
               caption: node[:label],
-              if: Proc.new { User.current.admin? && node[:name] != "experimental" },
+              if: Proc.new { User.current.admin? && (node[:name] != "experimental" || Rails.env.development?) },
               parent: :settings
   end
 
