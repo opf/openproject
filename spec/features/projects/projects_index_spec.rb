@@ -1300,13 +1300,13 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
            with_ee: %i[custom_fields_in_projects_list], with_settings: { enabled_projects_columns: %w[name created_at] } do
     # Will still receive the :view_project permission
     shared_let(:user) do
-      create(:user, member_with_permissions: { project => [:view_project_attributes],
-                                               development_project => [:view_project_attributes] })
+      create(:user, member_with_permissions: { project => %i(view_project_attributes),
+                                               development_project => %i(view_project_attributes) })
     end
 
     shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
 
-    shared_let(:non_member) { create(:non_member) }
+    shared_let(:non_member) { create(:non_member, permissions: %i(view_project_attributes)) }
 
     current_user { user }
 
