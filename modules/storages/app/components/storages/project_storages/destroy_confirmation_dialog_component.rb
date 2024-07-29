@@ -26,38 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines how to format the components within a table row of Projects
-# associated with a Storage
-module Storages::ProjectStorages::Projects
-  class RowComponent < Projects::RowComponent
+# This components renders a dialog to confirm the deletion of a project from a storage.
+module Storages::ProjectStorages
+  class DestroyConfirmationDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-    def project_folder_type
-      project_folder_mode = table.project_storages[project.id].project_folder_mode
-      I18n.t("project_storages.project_folder_mode.#{project_folder_mode}")
+    def initialize(storage:, project_storage:)
+      super
+
+      @storage = storage
+      @project_storage = project_storage
     end
 
-    def more_menu_items
-      @more_menu_items ||= [more_menu_detach_project].compact
+    def id
+      "project-storage-#{@project_storage.id}-destroy-confirmation-dialog"
     end
 
-    private
+    def heading
+      I18n.t("project_storages.remove_project.dialog.heading",
+             storage_type: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name"))
+    end
 
-    def more_menu_detach_project
-      project = model.first
-      if User.current.admin && project.active?
-        {
-          scheme: :danger,
-          icon: :trash,
-          label: I18n.t("project_storages.remove_project.label"),
-          href: destroy_confirmation_dialog_admin_settings_storage_project_storage_path(
-            id: table.project_storages[project.id].id
-          ),
-          data: {
-            controller: "async-dialog"
-          }
-        }
+    def text
+      text = I18n.t("project_storages.remove_project.dialog.text")
+      if @project_storage.project_folder_mode == "automatic"
+        text << " "
+        text << I18n.t("project_storages.remove_project.dialog.automatically_managed_appendix")
       end
+      text
+    end
+
+    def confirmation_text
+      I18n.t("project_storages.remove_project.dialog.confirmation_text")
     end
   end
 end

@@ -32,6 +32,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   include OpTurbo::ComponentStream
   include OpTurbo::DialogStreamHelper
   include FlashMessagesOutputSafetyHelper
+  include ApplicationComponentStreams
 
   layout "admin"
 
@@ -39,10 +40,9 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   before_action :require_admin
   before_action :find_model_object
+  before_action :load_project_storage, only: %i(destroy destroy_confirmation_dialog)
 
-  before_action :storage_projects_query,
-                :project_folder_modes_per_project,
-                only: :index
+  before_action :storage_projects_query, only: :index
   before_action :initialize_project_storage, only: :new
   before_action :find_projects_to_activate_for_storage, only: :create
 
@@ -73,9 +73,30 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     respond_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
   end
 
-  def destroy; end
+  def destroy_confirmation_dialog
+    respond_with_dialog Storages::ProjectStorages::DestroyConfirmationDialogComponent.new(
+      storage: @storage,
+      project_storage: @project_storage
+    )
+  end
+
+  def destroy
+    @project_storage.destroy
+    redirect_to admin_settings_storage_project_storages_path(@storage)
+  end
 
   private
+
+  def load_project_storage
+    @project_storage = Storages::ProjectStorage.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    update_flash_message_via_turbo_stream(
+      message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
+    )
+    update_project_list_via_turbo_stream
+
+    respond_with_turbo_streams
+  end
 
   def find_model_object(object_id = :storage_id)
     super
@@ -104,7 +125,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     update_via_turbo_stream(
       component: Storages::ProjectStorages::Projects::TableComponent.new(
         query: storage_projects_query,
-        project_folder_modes_per_project:,
+        storage: @storage,
         params: { url_for_action: }
       )
     )
@@ -116,13 +137,6 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       query.select(:name)
       query.order("lft" => "asc")
     end
-  end
-
-  def project_folder_modes_per_project
-    @project_folder_modes_per_project ||= Storages::ProjectStorage
-      .where(storage_id: @storage.id)
-      .pluck(:project_id, :project_folder_mode)
-      .to_h
   end
 
   def initialize_project_storage

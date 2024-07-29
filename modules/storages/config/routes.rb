@@ -47,7 +47,9 @@ Rails.application.routes.draw do
         scope module: :storages do
           resources :project_storages,
                     controller: "/storages/admin/storages/project_storages",
-                    only: %i[index new create destroy]
+                    only: %i[index new create destroy] do
+            get :destroy_confirmation_dialog, on: :member
+          end
         end
 
         resource :connection_validation,
