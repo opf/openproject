@@ -41,7 +41,7 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
     expect(page).to have_css(".generic-table--empty-row", text: "There is currently nothing to display")
 
     # Create application
-    find(".button", text: "Add").click
+    page.find_test_selector("op-admin-oauth--button-new", text: "OAuth application").click
 
     fill_in "application_name", with: "My API application"
     # Fill invalid redirect_uri

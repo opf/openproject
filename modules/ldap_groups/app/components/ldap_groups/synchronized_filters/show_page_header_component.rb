@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,10 +26,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Admin::Settings
-  class AuthenticationSettingsController < ::Admin::SettingsController
-    menu_item :authentication_settings
+class LdapGroups::SynchronizedFilters::ShowPageHeaderComponent < ApplicationComponent
+  include OpPrimer::ComponentHelpers
+  include ApplicationHelper
+
+  def initialize(filter:)
+    super
+    @filter = filter
+  end
+
+  def breadcrumb_items
+    [{ href: admin_index_path, text: t(:label_administration) },
+     { href: admin_settings_authentication_path, text: t(:label_authentication) },
+     { href: ldap_groups_synchronized_groups_path, text: I18n.t("ldap_groups.label_menu_item") },
+     I18n.t("menus.breadcrumb.nested_element",
+            section_header: t("ldap_groups.synchronized_filters.singular"),
+            title: h(@filter.name)).html_safe]
+  end
+
+  def blocked?
+    @filter.seeded_from_env?
   end
 end
