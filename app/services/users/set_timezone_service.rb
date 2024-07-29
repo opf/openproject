@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,37 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path("../spec_helper", __dir__)
+module Users
+  class SetTimezoneService
+    attr_reader :user
 
-RSpec.describe Webhooks::Incoming::HooksController do
-  let(:hook) { double(OpenProject::Webhooks::Hook) }
-  let(:user) { build_stubbed(:user) }
-
-  describe "#handle_hook" do
-    before do
-      expect(OpenProject::Webhooks).to receive(:find).with("testhook").and_return(hook)
-      allow(controller).to receive(:find_current_user).and_return(user)
+    def initialize(user)
+      @user = user
     end
 
-    after do
-      # ApplicationController before filter user_setup sets a user
-      User.current = nil
-    end
-
-    it "is successful" do
-      expect(hook).to receive(:handle)
-
-      post :handle_hook, params: { hook_name: "testhook" }
-
-      expect(response).to be_successful
-    end
-
-    it "calls the hook with a user" do
-      expect(hook).to receive(:handle) { |_env, _params, user|
-        expect(user).to equal(user)
-      }
-
-      post :handle_hook, params: { hook_name: "testhook" }
+    def call!
+      if user.time_zone
+        Time.zone = user.time_zone
+      elsif Setting.user_default_timezone.present?
+        Time.zone = Setting.user_default_timezone
+      end
     end
   end
 end

@@ -135,6 +135,7 @@ class ApplicationController < ActionController::Base
   before_action :authorization_check_required,
                 :user_setup,
                 :set_localization,
+                :set_time_zone,
                 :tag_request,
                 :check_if_login_required,
                 :log_requesting_user,
@@ -216,15 +217,25 @@ class ApplicationController < ActionController::Base
   end
 
   def set_localization
-    # 1. Use completely authenticated user
-    # 2. Use user with some authenticated stages not completed.
-    #    In this case user is not considered logged in, but identified.
-    #    It covers localization for extra authentication stages(like :consent, for example)
-    # 3. Use anonymous instance.
-    user = RequestStore[:current_user] ||
-           (session[:authenticated_user_id].present? && User.find_by(id: session[:authenticated_user_id])) ||
-           User.anonymous
-    SetLocalizationService.new(user, request.env["HTTP_ACCEPT_LANGUAGE"]).call
+    Users::SetLocalizationService.new(requesting_user, request.env["HTTP_ACCEPT_LANGUAGE"]).call!
+  end
+
+  def set_time_zone
+    Users::SetTimezoneService.new(requesting_user).call!
+  end
+
+  ##
+  # Get the requesting user, which might be:
+  #
+  # 1. Use completely authenticated user
+  # 2. Use user with some authenticated stages not completed.
+  #    In this case user is not considered logged in, but identified.
+  #    It covers localization for extra authentication stages(like :consent, for example)
+  # 3. Use anonymous instance.
+  def requesting_user
+    RequestStore[:current_user] ||
+      (session[:authenticated_user_id].present? && User.find_by(id: session[:authenticated_user_id])) ||
+      User.anonymous
   end
 
   def deny_access(not_found: false)

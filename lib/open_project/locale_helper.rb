@@ -32,7 +32,7 @@ module OpenProject
       previous_locale = I18n.locale
       previous_zone = Time.zone
       Time.zone = user.time_zone if user.time_zone
-      SetLocalizationService.new(user).call
+      ::Users::SetLocalizationService.new(user).call!
       yield
     ensure
       I18n.locale = previous_locale

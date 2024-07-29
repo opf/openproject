@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe SetLocalizationService do
+RSpec.describe Users::SetLocalizationService do
   let(:user) { build_stubbed(:user, language: user_language) }
   let(:http_accept_header) { "#{http_accept_language},en-US;q=0.8,en;q=0.6" }
   let(:instance) { described_class.new(user, http_accept_header) }
@@ -24,7 +24,7 @@ RSpec.describe SetLocalizationService do
     it "falls back to the header" do
       expect_locale(http_accept_language)
 
-      instance.call
+      instance.call!
     end
   end
 
@@ -32,7 +32,7 @@ RSpec.describe SetLocalizationService do
     it "falls back to the instance's default language" do
       expect_locale(default_language)
 
-      instance.call
+      instance.call!
     end
   end
 
@@ -40,7 +40,7 @@ RSpec.describe SetLocalizationService do
     it "sets the language to the user's selected language" do
       expect_locale(user_language)
 
-      instance.call
+      instance.call!
     end
 
     context "with a language prefix being valid" do
@@ -56,7 +56,7 @@ RSpec.describe SetLocalizationService do
       it "sets the language to the valid prefix of the user's selected language" do
         expect_locale(prefix)
 
-        instance.call
+        instance.call!
       end
     end
 
@@ -80,7 +80,7 @@ RSpec.describe SetLocalizationService do
         it "sets the language to the valid prefix of the accept header" do
           expect_locale(prefix)
 
-          instance.call
+          instance.call!
         end
       end
     end

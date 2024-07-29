@@ -81,7 +81,11 @@ module API
       end
 
       def set_localization
-        SetLocalizationService.new(User.current, env["HTTP_ACCEPT_LANGUAGE"]).call
+        Users::SetLocalizationService.new(User.current, env["HTTP_ACCEPT_LANGUAGE"]).call!
+      end
+
+      def set_time_zone
+        Users::SetTimezoneService.new(User.current).call!
       end
 
       # Global helper to set allowed content_types
@@ -334,6 +338,7 @@ module API
       skip_session_write
       authenticate
       set_localization
+      set_time_zone
       enforce_content_type
       ::OpenProject::Appsignal.tag_request(request:)
     end
