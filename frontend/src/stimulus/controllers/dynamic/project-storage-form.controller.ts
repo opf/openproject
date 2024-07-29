@@ -153,16 +153,16 @@ export default class ProjectStorageFormController extends Controller {
     this.setProjectFolderModeQueryParam(mode);
   }
 
-  private get modalService():Observable<OpModalService> {
+  protected get modalService():Observable<OpModalService> {
     return from(window.OpenProject.getPluginContext())
       .pipe(map((pluginContext) => pluginContext.services.opModalService));
   }
 
-  private get storage():IStorage {
+  protected get storage():IStorage {
     return JSON.parse(this.storageTarget.dataset.storage as string) as IStorage;
   }
 
-  private get projectFolderHref():string|null {
+  protected get projectFolderHref():string|null {
     const projectFolderId = this.projectFolderIdInputTarget.value;
 
     if (projectFolderId.length === 0) {
@@ -172,7 +172,7 @@ export default class ProjectStorageFormController extends Controller {
     return `${this.storage._links.self.href}/files/${projectFolderId}`;
   }
 
-  private fetchStorageAuthorizationState():Observable<boolean> {
+  protected fetchStorageAuthorizationState():Observable<boolean> {
     return from(fetch(this.storage._links.self.href)
       .then((data) => data.json()))
       .pipe(
@@ -180,7 +180,7 @@ export default class ProjectStorageFormController extends Controller {
       );
   }
 
-  private fetchProjectFolder():Observable<IStorageFile|null> {
+  protected fetchProjectFolder():Observable<IStorageFile|null> {
     const href = this.projectFolderHref;
     if (href === null) {
       return of(null);
@@ -199,13 +199,13 @@ export default class ProjectStorageFormController extends Controller {
       );
   }
 
-  private setProjectFolderModeQueryParam(mode:string) {
+  protected setProjectFolderModeQueryParam(mode:string) {
     const url = new URL(window.location.href);
     url.searchParams.set('storages_project_storage[project_folder_mode]', mode);
     window.history.replaceState(window.history.state, '', url);
   }
 
-  private toggleFolderDisplay(value:string):void {
+  protected toggleFolderDisplay(value:string):void {
     // If the manual radio button is selected, show the manual folder selection section
     if (this.hasProjectFolderSectionTarget && value === 'manual') {
       this.projectFolderSectionTarget.style.display = 'flex';

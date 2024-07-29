@@ -85,7 +85,7 @@ module Storages
               last_project_folders: @last_project_folders,
               storage_login_button_options: {
                 data: {
-                  "storages--project-folder-mode-form-target": "storageLoginButton"
+                  "storages--project-folder-mode-form-target": "loginButton"
                 },
                 inputs: {
                   input: storage_login_input(@project_storage.storage)
@@ -98,7 +98,7 @@ module Storages
                 },
                 selected_folder_label_options: {
                   data: {
-                    "storages--project-folder-mode-form-target": "selectedFolderLabel"
+                    "storages--project-folder-mode-form-target": "selectedFolderText"
                   }
                 }
               },
