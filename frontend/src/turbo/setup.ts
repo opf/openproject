@@ -2,7 +2,6 @@ import '../typings/shims.d.ts';
 import * as Turbo from '@hotwired/turbo';
 import TurboPower from 'turbo_power';
 import { registerDialogStreamAction } from './dialog-stream-action';
-import { registerHistoryAction } from './history-action';
 import { addTurboEventListeners } from './turbo-event-listeners';
 
 // Disable default turbo-drive for now as we don't need it for now AND it breaks angular routing
@@ -13,7 +12,6 @@ Turbo.start();
 // Register our own actions
 addTurboEventListeners();
 registerDialogStreamAction();
-registerHistoryAction();
 
 // Register turbo power actions
 TurboPower.initialize(Turbo.StreamActions);

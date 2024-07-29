@@ -65,16 +65,13 @@ class ProjectsController < ApplicationController
       end
 
       format.turbo_stream do
-        current_url = url_for(params.permit(:conroller, :action, :query_id, :filters, :columns, :sortBy))
-        modify_history_via_turbo_stream(method: :push, url: current_url)
-
         replace_via_turbo_stream(
           component: Projects::IndexPageHeaderComponent.new(query: @query, current_user:, state: :show, params:)
         )
+        replace_via_turbo_stream(component: Projects::TableComponent.new(query: @query, current_user:, params:))
 
-        replace_via_turbo_stream(
-          component: Projects::TableComponent.new(query: @query, current_user:, params:)
-        )
+        current_url = url_for(params.permit(:conroller, :action, :query_id, :filters, :columns, :sortBy))
+        turbo_streams << turbo_stream.push_state(current_url)
 
         render turbo_stream: turbo_streams
       end
