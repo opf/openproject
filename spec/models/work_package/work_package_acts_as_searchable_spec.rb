@@ -44,9 +44,9 @@ RSpec.describe WorkPackage, "acts_as_searchable" do
   let(:user) { create(:user) }
 
   describe "#search" do
-    describe "w/ the user being logged in
-              w/ searching for a matching string
-              w/ being member with the appropriate permission" do
+    describe "with the user being logged in " \
+             "with searching for a matching string " \
+             "with being member with the appropriate permission" do
       before do
         work_package
         allow(User).to receive(:current).and_return user
@@ -59,10 +59,10 @@ RSpec.describe WorkPackage, "acts_as_searchable" do
       end
     end
 
-    describe "w/ the user being logged in
-              w/ being member with the appropriate permission
-              w/ searching for matching string
-              w/ searching with an offset" do
+    describe "with the user being logged in " \
+             "with being member with the appropriate permission " \
+             "with searching for matching string " \
+             "with searching with an offset" do
       # this offset recreates the way the time is transformed in the controller
       # This will have to be cleaned up
       let(:offset) { (work_package.created_at - 1.minute).strftime("%Y%m%d%H%M%S").to_time }

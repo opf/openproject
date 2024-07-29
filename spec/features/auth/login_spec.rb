@@ -80,8 +80,7 @@ RSpec.describe "Login" do
       let(:force_password_change) { true }
       let(:first_login) { true }
 
-      it 'redirects to homescreen after forced password change
-         (with validation error) and first login' do
+      it "redirects to homescreen after forced password change (with validation error) and first login" do
         # first login
         login_with(user.login, user_password)
         expect(current_path).to eql signin_path

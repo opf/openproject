@@ -99,9 +99,9 @@ RSpec.describe CostEntry do
 
   describe "class" do
     describe "#visible" do
-      describe "WHEN having the view_cost_entries permission
-                WHEN querying for a project
-                WHEN a cost entry from another user is defined" do
+      describe "WHEN having the view_cost_entries permission " \
+               "WHEN querying for a project " \
+               "WHEN a cost entry from another user is defined" do
         before do
           is_member(project, user2, [:view_cost_entries])
 
@@ -111,9 +111,9 @@ RSpec.describe CostEntry do
         it { expect(CostEntry.visible(user2, project)).to contain_exactly(cost_entry) }
       end
 
-      describe "WHEN not having the view_cost_entries permission
-                WHEN querying for a project
-                WHEN a cost entry from another user is defined" do
+      describe "WHEN not having the view_cost_entries permission " \
+               "WHEN querying for a project " \
+               "WHEN a cost entry from another user is defined" do
         before do
           is_member(project, user2, [])
 
@@ -123,9 +123,9 @@ RSpec.describe CostEntry do
         it { expect(CostEntry.visible(user2, project)).to be_empty }
       end
 
-      describe "WHEN having the view_own_cost_entries permission
-                WHEN querying for a project
-                WHEN a cost entry from another user is defined" do
+      describe "WHEN having the view_own_cost_entries permission " \
+               "WHEN querying for a project " \
+               "WHEN a cost entry from another user is defined" do
         before do
           is_member(project, user2, [:view_own_cost_entries])
 
@@ -135,9 +135,9 @@ RSpec.describe CostEntry do
         it { expect(CostEntry.visible(user2, project)).to be_empty }
       end
 
-      describe "WHEN having the view_own_cost_entries permission
-                WHEN querying for a project
-                WHEN a cost entry from the user is defined" do
+      describe "WHEN having the view_own_cost_entries permission " \
+               "WHEN querying for a project " \
+               "WHEN a cost entry from the user is defined" do
         before do
           is_member(project, cost_entry2.user, [:view_own_cost_entries])
 
@@ -322,15 +322,15 @@ RSpec.describe CostEntry do
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe "WHEN the provided user is no member of the project
-                WHEN the user is unchanged" do
+      describe "WHEN the provided user is no member of the project " \
+               "WHEN the user is unchanged" do
         before { member.destroy }
 
         it { expect(cost_entry).to be_valid }
       end
 
-      describe "WHEN the provided user is no member of the project
-                WHEN the user changes" do
+      describe "WHEN the provided user is no member of the project " \
+               "WHEN the user changes" do
         before do
           cost_entry.user = user2
           member.destroy
@@ -375,8 +375,8 @@ RSpec.describe CostEntry do
     end
 
     describe "#editable_by?" do
-      describe "WHEN the user has the edit_cost_entries permission
-                WHEN the cost entry is not created by the user" do
+      describe "WHEN the user has the edit_cost_entries permission " \
+               "WHEN the cost entry is not created by the user" do
         before do
           is_member(project, user2, [:edit_cost_entries])
 
@@ -386,8 +386,8 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.editable_by?(user2)).to be_truthy }
       end
 
-      describe "WHEN the user has the edit_cost_entries permission
-                WHEN the cost entry is created by the user" do
+      describe "WHEN the user has the edit_cost_entries permission " \
+               "WHEN the cost entry is created by the user" do
         before do
           is_member(project, cost_entry2.user, [:edit_cost_entries])
         end
@@ -395,8 +395,8 @@ RSpec.describe CostEntry do
         it { expect(cost_entry2.editable_by?(cost_entry2.user)).to be_truthy }
       end
 
-      describe "WHEN the user has the edit_own_cost_entries permission
-                WHEN the cost entry is created by the user" do
+      describe "WHEN the user has the edit_own_cost_entries permission " \
+               "WHEN the cost entry is created by the user" do
         before do
           is_member(project, cost_entry2.user, [:edit_own_cost_entries])
 
@@ -406,8 +406,8 @@ RSpec.describe CostEntry do
         it { expect(cost_entry2.editable_by?(cost_entry2.user)).to be_truthy }
       end
 
-      describe "WHEN the user has the edit_own_cost_entries permission
-                WHEN the cost entry is created by another user" do
+      describe "WHEN the user has the edit_own_cost_entries permission " \
+               "WHEN the cost entry is created by another user" do
         before do
           is_member(project, user2, [:edit_own_cost_entries])
 
@@ -417,8 +417,8 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.editable_by?(user2)).to be_falsey }
       end
 
-      describe "WHEN the user has no cost permission
-                WHEN the cost entry is created by the user" do
+      describe "WHEN the user has no cost permission " \
+               "WHEN the cost entry is created by the user" do
         before do
           is_member(project, cost_entry2.user, [])
 
@@ -430,8 +430,8 @@ RSpec.describe CostEntry do
     end
 
     describe "#creatable_by?" do
-      describe "WHEN the user has the log costs permission
-                WHEN the cost entry is not associated to the user" do
+      describe "WHEN the user has the log costs permission " \
+               "WHEN the cost entry is not associated to the user" do
         before do
           is_member(project, user2, [:log_costs])
         end
@@ -439,8 +439,8 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.creatable_by?(user2)).to be_truthy }
       end
 
-      describe "WHEN the user has the log_costs permission
-                WHEN the cost entry is associated to user" do
+      describe "WHEN the user has the log_costs permission " \
+               "WHEN the cost entry is associated to user" do
         before do
           is_member(project, cost_entry2.user, [:log_costs])
         end
@@ -448,8 +448,8 @@ RSpec.describe CostEntry do
         it { expect(cost_entry2.creatable_by?(cost_entry2.user)).to be_truthy }
       end
 
-      describe "WHEN the user has the log own costs permission
-                WHEN the cost entry is associated to the user" do
+      describe "WHEN the user has the log own costs permission " \
+               "WHEN the cost entry is associated to the user" do
         before do
           is_member(project, cost_entry2.user, [:log_own_costs])
         end
@@ -457,8 +457,8 @@ RSpec.describe CostEntry do
         it { expect(cost_entry2.creatable_by?(cost_entry2.user)).to be_truthy }
       end
 
-      describe "WHEN the user has the log_own_costs permission
-                WHEN the cost entry is created by another user" do
+      describe "WHEN the user has the log_own_costs permission " \
+               "WHEN the cost entry is created by another user" do
         before do
           is_member(project, user2, [:log_own_costs])
         end
@@ -466,8 +466,8 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.creatable_by?(user2)).to be_falsey }
       end
 
-      describe "WHEN the user has no cost permission
-                WHEN the cost entry is associated to the user" do
+      describe "WHEN the user has no cost permission " \
+               "WHEN the cost entry is associated to the user" do
         before do
           is_member(project, cost_entry2.user, [])
         end
@@ -477,8 +477,8 @@ RSpec.describe CostEntry do
     end
 
     describe "#costs_visible_by?" do
-      describe "WHEN the user has the view_cost_rates permission
-                WHEN the cost entry is not associated to the user" do
+      describe "WHEN the user has the view_cost_rates permission " \
+               "WHEN the cost entry is not associated to the user" do
         before do
           is_member(project, user2, [:view_cost_rates])
         end
@@ -486,8 +486,8 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.costs_visible_by?(user2)).to be_truthy }
       end
 
-      describe "WHEN the user has the view_cost_rates permission in another project
-                WHEN the cost entry is not associated to the user" do
+      describe "WHEN the user has the view_cost_rates permission in another project " \
+               "WHEN the cost entry is not associated to the user" do
         before do
           is_member(project2, user2, [:view_cost_rates])
         end
@@ -495,9 +495,9 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.costs_visible_by?(user2)).to be_falsey }
       end
 
-      describe "WHEN the user lacks the view_cost_rates permission
-                WHEN the cost entry is associated to the user
-                WHEN the costs are overridden" do
+      describe "WHEN the user lacks the view_cost_rates permission " \
+               "WHEN the cost entry is associated to the user " \
+               "WHEN the costs are overridden" do
         before do
           is_member(project, cost_entry2.user, [])
           cost_entry2.update_attribute(:overridden_costs, 1.0)
@@ -506,9 +506,9 @@ RSpec.describe CostEntry do
         it { expect(cost_entry2.costs_visible_by?(cost_entry2.user)).to be_truthy }
       end
 
-      describe "WHEN the user lacks the view_cost_rates permission
-                WHEN the cost entry is associated to the user
-                WHEN the costs are not overridden" do
+      describe "WHEN the user lacks the view_cost_rates permission " \
+               "WHEN the cost entry is associated to the user " \
+               "WHEN the costs are not overridden" do
         before do
           is_member(project, cost_entry2.user, [])
         end
