@@ -4,7 +4,11 @@ require "httpx"
 RSpec.describe "HTTPX" do
   describe "persistent connections" do
     it "does not hang forever when used to request HTTP 1.1 server" do
-      server = WEBrick::HTTPServer.new(Port: 0)
+      server = WEBrick::HTTPServer.new(
+        Port: 0,
+        Logger: WEBrick::Log.new(StringIO.new),
+        AccessLog: []
+      )
       server.mount_proc "/" do |_req, res|
         res.body = "Response Body"
       end
