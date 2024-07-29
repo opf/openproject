@@ -87,6 +87,10 @@ uk:
       storage_delete_result_1: вилучити всі налаштування сховища для всіх проєктів, де воно використовується;
       storage_delete_result_2: вилучити всі посилання з пакетів робіт з усіх проєктів на файли й папки в цьому сховищі.
       storage_delete_result_3: Якщо це сховище містить папки проєкту з автоматичним керуванням, цю папку й усі її файли буде остаточно видалено.
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
     error_invalid_provider_type: Виберіть дійсного постачальника сховища.
     file_storage_view:
       access_management:
@@ -111,9 +115,13 @@ uk:
       checked: 'Востаннє перевірено: %{datetime}'
       connection_validation:
         action: Перевірити підключення знову
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
         client_id_wrong: Налаштований ідентифікатор клієнта OAuth 2 недійсний. Перевірте конфігурацію.
         client_secret_wrong: Налаштований секретний ключ клієнта OAuth 2 недійсний. Перевірте конфігурацію.
         drive_id_wrong: Налаштований ідентифікатор диска OAuth 2 не знайдено. Перевірте конфігурацію.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
         not_configured: Не вдалося перевірити підключення. Спочатку налаштуйте конфігурацію.
         placeholder: Перевірте підключення до сервера.
         subtitle: Перевірка підключення

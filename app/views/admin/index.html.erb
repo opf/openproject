@@ -29,7 +29,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t(:label_administration), t(:label_overview)) -%>
 
-<%= toolbar title: t(:label_overview) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_overview) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             t(:label_overview)])
+  end
+%>
 
 <div class="menu-blocks--container" data-test-selector="menu-blocks--container">
   <% @menu_nodes.each do |menu_node| -%>

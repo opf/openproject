@@ -1,8 +1,14 @@
 <% html_title t(:label_administration), t(:label_announcement) %>
 
-<%= error_messages_for 'announcement' %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { "#{t(:label_announcement)} (#{notice_annoucement_active})" }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             t(:label_announcement)])
+  end
+%>
 
-<%= toolbar title: "#{t(:label_announcement)} (#{notice_annoucement_active})" %>
+<%= error_messages_for 'announcement' %>
 
 <%= labelled_tabular_form_for @announcement,
              :url => {:action => :update},
@@ -21,6 +27,5 @@
   <div class="form--field">
     <%= f.check_box :active, label: t(:label_active) %>
   </div>
-  <hr class="form-separator">
   <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

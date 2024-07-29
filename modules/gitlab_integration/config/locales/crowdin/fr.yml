@@ -63,5 +63,7 @@ fr:
       **Problème rouvert :** Le problème %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été rouvert par [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
       **Push en MR :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) à %{commit_timestamp} : %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **Push en MR :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de plusieurs commits [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) à %{commit_timestamp} : %{commit_note}

@@ -280,10 +280,9 @@ module ApplicationHelper
   def theme_options_for_select
     options = [
       [t("themes.light"), "light"],
-      [t("themes.light_high_contrast"), "light_high_contrast"]
+      [t("themes.light_high_contrast"), "light_high_contrast"],
+      [t("themes.dark"), "dark"]
     ]
-    options.push([t("themes.dark"), "dark"]) if OpenProject::FeatureDecisions.dark_mode_active?
-    options
   end
 
   def user_theme_data_attributes

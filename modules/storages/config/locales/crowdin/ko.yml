@@ -87,6 +87,10 @@ ko:
       storage_delete_result_1: 이 저장소를 사용하는 모든 프로젝트의 모든 저장소 설정을 제거합니다.
       storage_delete_result_2: 모든 프로젝트의 작업 패키지에서 해당 저장소의 파일 및 폴더에 대한 모든 링크를 제거합니다.
       storage_delete_result_3: 이 저장소에 자동으로 관리되는 프로젝트 폴더가 있는 경우 이 폴더와 포함된 해당 파일이 영구적으로 삭제됩니다.
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
     error_invalid_provider_type: 유효한 저장소 공급자를 선택하세요.
     file_storage_view:
       access_management:
@@ -111,9 +115,13 @@ ko:
       checked: '마지막 확인: %{datetime}'
       connection_validation:
         action: 연결 다시 확인
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
         client_id_wrong: 구성된 OAuth 2 클라이언트 ID가 잘못되었습니다. 구성을 확인하세요.
         client_secret_wrong: 구성된 OAuth 2 클라이언트 비밀번호가 잘못되었습니다. 구성을 확인하세요.
         drive_id_wrong: 구성된 드라이브 ID를 찾을 수 없습니다. 구성을 확인하세요.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
         not_configured: 연결에 대한 유효성 검사를 할 수 없습니다. 먼저 구성을 완료하세요.
         placeholder: 서버에 대한 연결을 확인하세요.
         subtitle: 연결 유효성 검사

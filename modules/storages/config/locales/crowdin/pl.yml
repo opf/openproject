@@ -87,6 +87,10 @@ pl:
       storage_delete_result_1: Usunięcie wszystkich konfiguracji magazynu ze wszystkich korzystających z niego projektów.
       storage_delete_result_2: Usunięcie wszystkich linków z pakietów roboczych wszystkich projektów do plików i folderów z tego magazynu.
       storage_delete_result_3: W przypadku, gdy ten magazyn zawiera automatycznie zarządzane foldery projektów, foldery te i zawarte w nich pliki zostaną bezpowrotnie usunięte.
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
     error_invalid_provider_type: Wybierz właściwego dostawcę magazynu.
     file_storage_view:
       access_management:
@@ -111,9 +115,13 @@ pl:
       checked: Ostatnio sprawdzono %{datetime}
       connection_validation:
         action: Sprawdź ponownie połączenie
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
         client_id_wrong: Skonfigurowany identyfikator klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
         client_secret_wrong: Skonfigurowany klucz tajny klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
         drive_id_wrong: Nie można znaleźć skonfigurowanego identyfikatora dysku. Sprawdź konfigurację.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
         not_configured: Nie można zweryfikować połączenia. Najpierw zakończ konfigurację.
         placeholder: Sprawdź połączenie z serwerem.
         subtitle: Weryfikacja połączenia

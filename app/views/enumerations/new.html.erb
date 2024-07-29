@@ -28,8 +28,17 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), t(:label_enumeration_new) %>
-<% local_assigns[:additional_breadcrumb] =  t(:label_enumeration_new) %>
-<%= breadcrumb_toolbar t(:label_enumeration_new) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_enumeration_new) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: enumerations_path, text: t(:label_enumerations) },
+                             I18n.t("menus.breadcrumb.nested_element", section_header: t(@enumeration.option_name), title: t(:label_enumeration_new)).html_safe],
+                            selected_item_font_weight: :normal)
+  end
+%>
+
 <%= labelled_tabular_form_for @enumeration do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag t(:button_create), class: '-primary -with-icon icon-checkmark' %>

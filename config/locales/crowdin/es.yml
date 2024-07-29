@@ -522,9 +522,9 @@ es:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
       unsupported_for_multiple_projects: "Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos"
       current_type_not_available_in_target_project: >
-        El tipo actual del paquete de trabajo no está habilitado en el proyecto de destino. Por favor, habilite el tipo en el proyecto de destino si desea que permanezca sin cambios. De lo contrario, el tipo del paquete de trabajo se reasignará automáticamente provocando una posible pérdida de datos.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        Los tipos actuales de paquetes de trabajo no está habilitados en el proyecto de destino. Por favor, habilite los tipos en el proyecto de destino si desea que permanezcan sin cambios. De lo contrario, los tipos de paquete de trabajo se reasignarán automáticamente provocando una posible pérdida de datos.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Falta el flujo de trabajo para compartir paquetes de trabajo"
@@ -2384,6 +2384,7 @@ es:
   label_work_package_new: "Nuevo paquete de trabajo"
   label_work_package_edit: "Editar paquete de trabajo %{name}"
   label_work_package_plural: "Paquetes de trabajo"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Estado del paquete de trabajo"
   label_work_package_status_new: "Nuevo estatus"
   label_work_package_status_plural: "Estatus del paquete de trabajo"
@@ -2391,6 +2392,7 @@ es:
   label_work_package_tracking: "Seguimiento de paquetes de trabajo"
   label_work_package_view_all: "Ver todos los paquetes de trabajo"
   label_workflow: "Flujo de trabajo"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Flujos de trabajo"
   label_workflow_summary: "Resumen"
   label_working_days_and_hours: "Días y horas de trabajo"

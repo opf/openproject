@@ -87,6 +87,10 @@ zh-CN:
       storage_delete_result_1: 删除所有使用此存储的项目的所有存储设置。
       storage_delete_result_2: 从所有项目的工作包中删除所有链接到该存储的文件和文件夹。
       storage_delete_result_3: 如果此存储具有自动托管的项目文件夹，这些文件夹及其包含的文件将被永久删除。
+    dependencies:
+      nextcloud:
+        group_folders_app: 组文件夹
+        integration_app: 集成 OpenProject
     error_invalid_provider_type: 请选择一个有效的存储源。
     file_storage_view:
       access_management:
@@ -111,9 +115,13 @@ zh-CN:
       checked: 上次检查于 %{datetime}
       connection_validation:
         action: 重新检查连接
+        app_version_mismatch: 不受支持的集成 OpenProject 应用程序版本。请更新您的 Nextcloud 服务器。
         client_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
         client_secret_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
         drive_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
+        group_folder_version_mismatch: 不受支持的组文件夹版本。请更新您的 Nextcloud 服务器。
+        host_not_found: 在配置的主机 URL 中找不到 Nextcloud 服务器。请检查配置。
+        missing_dependencies: '文件存储缺少一个必需的依赖项。请添加以下依赖项： %{dependency}.'
         not_configured: 无法验证连接。请先完成配置。
         placeholder: 检查您与服务器的连接。
         subtitle: 连接验证

@@ -525,9 +525,9 @@ fi:
       no_common_statuses_exists: "Kaikkien valittujen tehtävien tilaa ei ole saatavilla. Niiden tilaa ei voi muuttaa."
       unsupported_for_multiple_projects: "Massasiirto tai -kopiointi ei ole sallittu eri projektien tehtäville"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -2387,6 +2387,7 @@ fi:
   label_work_package_new: "Uusi tehtävä"
   label_work_package_edit: "Muokkaa tehtävää %{name}"
   label_work_package_plural: "Tehtävät"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Tehtävän tila"
   label_work_package_status_new: "Uusi tila"
   label_work_package_status_plural: "Tehtävien tilat"
@@ -2394,6 +2395,7 @@ fi:
   label_work_package_tracking: "Tehtävien seuranta"
   label_work_package_view_all: "Näytä kaikki tehtävät"
   label_workflow: "Työnkulku"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Työnkulut"
   label_workflow_summary: "Yhteenveto"
   label_working_days_and_hours: "Working days and hours"

@@ -523,9 +523,9 @@ hi:
       no_common_statuses_exists: "सभी चयनित कार्य पैकेज के लिए कोई स्थिति उपलब्ध नहीं है । उनकी हैसियत नहीं बदली जा सकती ।"
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -2385,6 +2385,7 @@ hi:
   label_work_package_new: "नया कार्य पैकेज"
   label_work_package_edit: "कार्य पैकेज संपादित करें %{name}"
   label_work_package_plural: "कार्य पैकेज"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "कार्य पैकेज स्थिति"
   label_work_package_status_new: "नई स्थिति"
   label_work_package_status_plural: "कार्य पैकेज स्थिति"
@@ -2392,6 +2393,7 @@ hi:
   label_work_package_tracking: "कार्य पैकेज ट्रैकिंग"
   label_work_package_view_all: "सभी कार्य पैकेज देखें"
   label_workflow: "कार्यप्रवाह"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "सारांश"
   label_working_days_and_hours: "Working days and hours"

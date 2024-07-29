@@ -63,5 +63,7 @@ ko:
       **이슈 다시 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.
     push_single_commit_comment: >
       **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 여러 커밋 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}

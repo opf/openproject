@@ -29,23 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for 'color' %>
 
-<%= toolbar title: (color.new_record? ? t('.label_new_color') : t('.label_edit_color')) do %>
-  <% if color.persisted? %>
-  <li class="toolbar-item">
-    <%= link_to color_path(color),
-                method: :delete,
-                data: { confirm: t('text_are_you_sure') },
-                class: "button -danger" do %>
-      <%= op_icon 'button--icon icon-delete' %>
-      <span class="button--text"><%= t :button_delete %></span>
-    <% end %>
-  </li>
-  <% end %>
-<% end %>
-
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%= t('colors.label_properties') %></legend>
-
   <div class="form--field -required">
     <%= f.text_field :name, required: true, container_class: '-slim' %>
   </div>

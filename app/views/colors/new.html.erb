@@ -27,8 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t('.label_new_color') %>
-<% local_assigns[:additional_breadcrumb] = t('.label_new_color') %>
+<% html_title t(:label_administration), t("colors.new.label_new_color") %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("colors.new.label_new_color") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: colors_path, text: t(:label_color_plural) },
+                             t("colors.new.label_new_color") ])
+  end
+%>
 
 <%= labelled_tabular_form_for @color,
             url: colors_url,

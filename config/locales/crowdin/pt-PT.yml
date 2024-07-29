@@ -523,9 +523,9 @@ pt-PT:
       no_common_statuses_exists: "Não há nenhum status disponível para todos os pacotes de trabalho selecionados. O seu status não pode ser alterado."
       unsupported_for_multiple_projects: "Mover/copiar em massa não é suportado por pacotes de trabalho de vários projetos"
       current_type_not_available_in_target_project: >
-        O tipo atual do pacote de trabalho não está ativado no projeto de destino. Ative o tipo no projeto de destino se pretender que se mantenham inalterados. Caso contrário, o tipo do pacote de trabalho será automaticamente reatribuído, levando a uma potencial perda de dados.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        Os tipos atuais dos pacotes de trabalho não estão ativados no projeto de destino. Ative os tipos no projeto de destino se pretender que se mantenham inalterados. Caso contrário, os tipos dos pacotes de trabalho serão automaticamente reatribuídos, levando a uma potencial perda de dados.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Falta um fluxo de trabalho para a partilha de pacotes de trabalho"
@@ -2385,6 +2385,7 @@ pt-PT:
   label_work_package_new: "Nova tarefa"
   label_work_package_edit: "Editar pacote de trabalho %{name}"
   label_work_package_plural: "Tarefas"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Estado da tarefa"
   label_work_package_status_new: "Novo estado"
   label_work_package_status_plural: "Estado da tarefa"
@@ -2392,6 +2393,7 @@ pt-PT:
   label_work_package_tracking: "Controle de pacote de trabalho"
   label_work_package_view_all: "Ver todas as tarefas"
   label_workflow: "Fluxo de trabalho"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Fluxos de Trabalho"
   label_workflow_summary: "Resumo"
   label_working_days_and_hours: "Dias e horas de trabalho"

@@ -34,7 +34,7 @@ module Storages::ProjectStorages::Projects
   class TableComponent < Projects::TableComponent
     include OpTurbo::Streamable
 
-    options :project_folder_modes_per_project
+    options :storage
 
     def columns
       @columns ||= query
@@ -48,9 +48,18 @@ module Storages::ProjectStorages::Projects
 
     # Overwritten to avoid loading data that is not needed in this context
     def projects(query)
-      query
+      @projects ||= query
         .results
         .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+    end
+
+    # Load the project_storages for the current paginated batch of projects grouped
+    # by project_id to fill in other columns
+    def project_storages
+      @project_storages ||= Storages::ProjectStorage
+        .where(storage_id: storage.id)
+        .where(project_id: @projects.map(&:id))
+        .index_by(&:project_id)
     end
   end
 end
