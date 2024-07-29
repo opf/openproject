@@ -1,6 +1,6 @@
 import '../typings/shims.d.ts';
 import * as Turbo from '@hotwired/turbo';
-import TurboPower from 'turbo_power'
+import TurboPower from 'turbo_power';
 import { registerDialogStreamAction } from './dialog-stream-action';
 import { addTurboEventListeners } from './turbo-event-listeners';
 
