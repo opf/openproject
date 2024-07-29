@@ -10,6 +10,7 @@
     <%= primer_form_with(
           url: projects_path,
           id: QUERY_FORM_ID,
+          data: { "turbo-stream" => false },
           method: :get
         ) do |form| %>
       <% helpers.projects_query_params.except(:columns, :sortBy).each do |name, value| %>
