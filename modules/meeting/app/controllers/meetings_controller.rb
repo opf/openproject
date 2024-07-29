@@ -151,13 +151,15 @@ class MeetingsController < ApplicationController
   end
 
   def update
-    @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
-    @converted_params.delete(:send_notifications)
-    @meeting.attributes = @converted_params
-    if @meeting.save
+    call = ::Meetings::UpdateService
+      .new(user: current_user, model: @meeting)
+      .call(@converted_params)
+
+    if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "show", id: @meeting
     else
+      @meeting = call.result
       render action: "edit"
     end
   end

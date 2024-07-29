@@ -192,18 +192,15 @@ See COPYRIGHT and LICENSE files for more details.
 
   <%= render partial: 'meetings/participants_section' %>
 
-  <% if @meeting.new_record? || copy_from.present? %>
-    <div class="form--field">
-      <%= styled_label_tag 'send_notfications', t(:"meeting.email.send_emails") %>
-      <div class="form--field-container">
-        <%= styled_check_box_tag 'send_notifications',
-                                1,
-                                true %>
-      </div>
-      <div class="form--field-instructions">
-        <%= t(:"meeting.email.send_invitation_emails") %>
-      </div>
+  <div class="form--field">
+    <%= styled_label_tag 'send_notfications', t(:"meeting.email.send_emails") %>
+    <div class="form--field-container">
+      <%= styled_check_box_tag 'send_notifications',
+                               1,
+                               true %>
     </div>
-  <% end %>
-
+    <div class="form--field-instructions">
+      <%= t(:"meeting.email.send_invitation_emails") %>
+    </div>
+  </div>
 </section>
