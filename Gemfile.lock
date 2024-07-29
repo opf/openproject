@@ -777,7 +777,7 @@ GEM
       actionview
       openproject-octicons (= 19.17.0)
       railties
-    openproject-primer_view_components (0.39.1)
+    openproject-primer_view_components (0.40.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
       openproject-octicons (>= 19.17.0)
@@ -1267,7 +1267,7 @@ DEPENDENCIES
   openproject-octicons (~> 19.17.0)
   openproject-octicons_helper (~> 19.17.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.39.1)
+  openproject-primer_view_components (~> 0.40.0)
   openproject-recaptcha!
   openproject-reporting!
   openproject-storages!
