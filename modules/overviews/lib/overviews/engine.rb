@@ -47,8 +47,12 @@ module Overviews
         OpenProject::AccessControl.permission(:view_project)
           .controller_actions
           .push(
-            "overviews/overviews/show",
-            # This action also checked for view_project_attributes in the controller
+            "overviews/overviews/show"
+          )
+
+        OpenProject::AccessControl.permission(:view_project_attributes)
+          .controller_actions
+          .push(
             "overviews/overviews/project_custom_fields_sidebar"
           )
 

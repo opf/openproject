@@ -409,23 +409,23 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
       end
 
       let(:permissions) { [] }
-      let(:other_permissions) { %i(view_project_attributes) }
-      let(:other_role) { create(:project_role, permissions: other_permissions) }
+      let(:view_attributes_permissions) { %i(view_project_attributes) }
+      let(:view_attributes_role) { create(:project_role, permissions: view_attributes_permissions) }
       let(:current_user) do
         create(:user, member_with_roles: { project => role,
-                                           other_project => other_role,
+                                           other_project => view_attributes_role,
                                            public_project_custom_field => role })
       end
 
       it_behaves_like "API V3 collection response", 3, 3, "Project" do
         let(:elements) { [public_project, project, other_project] }
 
-        it "returns project attributes for the public project" do
+        it "does not return the project attributes for the project" do
           expect(subject)
             .to be_json_eql(public_project.name.to_json)
             .at_path("_embedded/elements/0/name")
 
-          expect(subject).to have_json_path(
+          expect(subject).not_to have_json_path(
             "_embedded/elements/0/#{public_project_custom_field.attribute_name(:camel_case)}"
           )
         end

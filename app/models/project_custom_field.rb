@@ -53,7 +53,7 @@ class ProjectCustomField < CustomField
 
     def mappings_with_view_project_attributes_permission(user)
       allowed_projects = Project.allowed_to(user, :view_project_attributes)
-                                .or(Project.public_projects)
+
       mapping_table = ProjectCustomFieldProjectMapping.arel_table
       mapping_table.project(Arel.star)
         .where(

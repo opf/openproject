@@ -34,7 +34,7 @@ RSpec.describe Overviews::OverviewsController, "manage_project_custom_values per
   include PermissionSpecs
 
   # render sidebar on project overview page with view_project permission
-  check_permission_required_for("overviews/overviews#project_custom_fields_sidebar", :view_project)
+  check_permission_required_for("overviews/overviews#project_custom_fields_sidebar", :view_project_attributes)
 
   # render dialog with inputs for editing project attributes with edit_project permission
   check_permission_required_for("overviews/overviews#project_custom_field_section_dialog", :edit_project_attributes)

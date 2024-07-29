@@ -167,14 +167,18 @@ RSpec.describe Projects::CreateContract do
         context "without view_project_attributes permission" do
           let(:project_permissions) { [] }
 
-          it "cannot read project attributes" do
-            expect(contract.available_custom_fields).not_to include(custom_field)
+          shared_examples "cannot read project attributes" do
+            it "cannot read project attributes" do
+              expect(contract.available_custom_fields).not_to include(custom_field)
+            end
           end
+
+          it_behaves_like "cannot read project attributes"
 
           context "with a public project" do
             let(:other_project_public) { true }
 
-            it_behaves_like "can read project attributes"
+            it_behaves_like "cannot read project attributes"
           end
         end
 

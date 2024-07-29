@@ -161,8 +161,8 @@ RSpec.describe ProjectCustomField do
         let(:current_user) { create(:user, member_with_roles: { project => role }) }
         let(:permissions) { [] }
 
-        it "returns public_cf only" do
-          expect(subject).to contain_exactly(public_cf)
+        it "returns nothing" do
+          expect(subject).to be_empty
         end
       end
 
@@ -171,8 +171,8 @@ RSpec.describe ProjectCustomField do
         let(:current_user) { create(:user, member_with_roles: { project => role }) }
         let(:permissions) { %i(view_project_attributes) }
 
-        it "returns project_cf and public_cf" do
-          expect(subject).to contain_exactly(project_cf, public_cf)
+        it "returns project_cf" do
+          expect(subject).to contain_exactly(project_cf)
         end
       end
     end

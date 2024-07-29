@@ -359,7 +359,7 @@ module Projects
     end
 
     def user_can_view_project?
-      project.public? || User.current.allowed_in_project?(:view_project_attributes, project)
+      User.current.allowed_in_project?(:view_project_attributes, project)
     end
 
     def custom_field_column?(column)

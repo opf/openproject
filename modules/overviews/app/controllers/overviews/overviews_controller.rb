@@ -13,10 +13,6 @@ module ::Overviews
     end
 
     def project_custom_fields_sidebar
-      unless @project.public? || current_user.allowed_in_project?(:view_project_attributes, @project)
-        return render_403
-      end
-
       render :project_custom_fields_sidebar, layout: false
     end
 
@@ -68,8 +64,7 @@ module ::Overviews
 
     def set_sidebar_enabled
       @sidebar_enabled =
-        (@project.public? ||
-          User.current.allowed_in_project?(:view_project_attributes, @project)) &&
+        User.current.allowed_in_project?(:view_project_attributes, @project) &&
         @project.project_custom_fields.visible.any?
     end
 
