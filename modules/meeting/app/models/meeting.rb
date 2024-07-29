@@ -111,6 +111,25 @@ class Meeting < ApplicationRecord
   }
 
   ##
+  # Cache key for detecting changes to be shown to the user
+  def changed_hash
+    sql = <<~SQL
+      SELECT MAX(meeting_agenda_items.updated_at), MAX(meeting_sections.updated_at), MAX(meetings.lock_version) FROM meetings
+      LEFT JOIN meeting_agenda_items ON meeting_agenda_items.meeting_id = meetings.id
+      LEFT JOIN meeting_sections ON meeting_sections.meeting_id = meetings.id
+      WHERE meetings.id = :id
+    SQL
+
+    parts = ActiveRecord::Base
+      .connection
+      .exec_query(OpenProject::SqlSanitization.sanitize(sql, id:))
+      .rows
+      .flatten
+
+    OpenProject::Cache::CacheKey.expand(parts)
+  end
+
+  ##
   # Return the computed start_time when changed
   def start_time
     if parse_start_time?

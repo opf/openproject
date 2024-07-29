@@ -35,10 +35,10 @@ export default class PollForChangesController extends ApplicationController {
   static values = {
     url: String,
     interval: Number,
-    updatedAt: String,
+    reference: String,
   };
 
-  declare updatedAtValue:string;
+  declare referenceValue:string;
   declare urlValue:string;
   declare intervalValue:number;
 
@@ -58,7 +58,7 @@ export default class PollForChangesController extends ApplicationController {
   }
 
   async triggerTurboStream():Promise<void> {
-    await fetch(`${this.urlValue}?updatedAt=${this.updatedAtValue}`, {
+    await fetch(`${this.urlValue}?reference=${this.referenceValue}`, {
       headers: {
         Accept: 'text/vnd.turbo-stream.html',
       },

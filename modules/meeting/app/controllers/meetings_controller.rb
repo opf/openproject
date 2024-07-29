@@ -76,10 +76,10 @@ class MeetingsController < ApplicationController
   end
 
   def check_for_updates
-    if Time.zone.parse(params[:updatedAt]) < @meeting.updated_at.change(usec: 0)
-      respond_with_flash(Meetings::UpdateFlashComponent.new(meeting: @meeting))
-    else
+    if params[:reference] == @meeting.changed_hash
       head :no_content
+    else
+      respond_with_flash(Meetings::UpdateFlashComponent.new(meeting: @meeting))
     end
   end
 
