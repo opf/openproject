@@ -19,10 +19,10 @@ RSpec.describe "HTTPX" do
       number_of_requests_made = 0
       begin
         Timeout.timeout(10) do
-          session.post("http://localhost:#{port}")
+          session.post("http://localhost:#{port}").raise_for_status
           number_of_requests_made += 1
           sleep 4
-          session.post("http://localhost:#{port}")
+          session.post("http://localhost:#{port}").raise_for_status
           number_of_requests_made += 1
         end
       ensure
