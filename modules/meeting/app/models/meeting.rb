@@ -317,7 +317,7 @@ class Meeting < ApplicationRecord
   end
 
   def send_participant_added_mail(participant)
-    if persisted?
+    if persisted? && Journal::NotificationConfiguration.active?
       MeetingMailer.invited(self, participant.user, User.current).deliver_later
     end
   end
