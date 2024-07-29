@@ -97,6 +97,8 @@ class WorkPackageMeetingsTabController < ApplicationController
   def set_work_package
     @work_package = WorkPackage.find(params[:work_package_id])
     @project = @work_package.project # required for authorization via before_action
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def add_work_package_to_meeting_params
