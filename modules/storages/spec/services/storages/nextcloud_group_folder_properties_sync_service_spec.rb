@@ -632,6 +632,8 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
   let(:oauth_client) { storage.oauth_client }
   # rubocop:enable RSpec/IndexedLet
 
+  let(:prefix) { "services.errors.models.storages/nextcloud_group_folder_properties_sync_service" }
+
   describe "#call" do
     before do
       create(:oauth_client_token, origin_user_id: "Obi-Wan", user: multiple_projects_user, oauth_client:)
@@ -684,20 +686,21 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
           end
 
           it "logs an error message" do
-            allow(OpenProject.logger).to receive(:warn)
+            allow(Rails.logger).to receive(:error)
             described_class.new(storage).call
 
-            expect(OpenProject.logger)
-              .to have_received(:warn)
-                    .with(folder: "OpenProject",
-                          command: Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQueryLegacy,
-                          message: "Outbound request destination not found",
-                          data: { status: 404, body: "" })
+            expect(Rails.logger)
+              .to have_received(:error)
+                    .with(folder: "OpenProject", error_code: :not_found, data: { status: 404, body: "" })
           end
 
           it "returns a failure" do
             result = described_class.new(storage).call
+
             expect(result).to be_failure
+            expect(result.errors[:remote_folders])
+              .to contain_exactly(I18n.t("#{prefix}.attributes.remote_folders.not_found",
+                                         group_folder: storage.group_folder))
           end
         end
 
@@ -746,15 +749,21 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
           end
 
           it "logs an error message" do
-            allow(OpenProject.logger).to receive(:warn)
+            allow(Rails.logger).to receive(:error)
             described_class.new(storage).call
 
-            expect(OpenProject.logger)
-              .to have_received(:warn)
+            expect(Rails.logger)
+              .to have_received(:error)
                     .with(folder: "OpenProject",
-                          command: Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand,
-                          message: "Outbound request not authorized",
+                          error_code: :unauthorized,
                           data: { status: 401, body: "Heute nicht" })
+          end
+
+          it "returns a failure" do
+            result = described_class.new(storage).call
+
+            expect(result).to be_failure
+            expect(result.errors[:base]).to contain_exactly(I18n.t("#{prefix}.unauthorized"))
           end
         end
       end
@@ -784,14 +793,13 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
-                  .with(folder: "/OpenProject/[Sample] Project Name | Ehuu (#{project1.id})/",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::CreateFolderCommand,
-                        message: "Outbound request destination not found!",
+          expect(Rails.logger)
+            .to have_received(:error)
+                  .with(folder_name: "/OpenProject/[Sample] Project Name | Ehuu (#{project1.id})/",
+                        error_code: :not_found,
                         data: "not found")
         end
       end
@@ -814,15 +822,14 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
+          expect(Rails.logger)
+            .to have_received(:error)
                   .with(folder_id: project_storage2.project_folder_id,
+                        error_code: :not_found,
                         folder_name: "Jedi Project Folder ||| (#{project2.id})",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::RenameFileCommand,
-                        message: "Outbound request destination not found",
                         data: { status: 404, body: "" })
         end
       end
@@ -846,15 +853,14 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
+          expect(Rails.logger)
+            .to have_received(:error)
                   .with(context: "hide_folder",
                         folder: "/OpenProject/Lost Jedi Project Folder #2/",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand,
-                        message: "Outbound request failed",
+                        error_code: :error,
                         data: { status: 500, body: "A server error occurred" })
         end
       end
@@ -878,14 +884,13 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
+          expect(Rails.logger)
+            .to have_received(:error)
                   .with(folder: "/OpenProject/Jedi Project Folder ||| (#{project2.id})/",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand,
-                        message: "Outbound request failed",
+                        error_code: :error,
                         data: { status: 500, body: "Divide by cucumber error. Please reinstall universe and reboot." })
         end
       end
@@ -909,15 +914,15 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
+          expect(Rails.logger)
+            .to have_received(:error)
                   .with(group: "OpenProject",
                         user: "Obi-Wan",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::AddUserToGroupCommand,
-                        message: "Outbound request failed",
+                        error_code: :error,
+                        reason: "Outbound request failed",
                         data: { status: 302, body: "" })
         end
       end
@@ -944,16 +949,15 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence and continues the flow" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
+          expect(Rails.logger)
+            .to have_received(:error)
                   .with(group: "OpenProject",
                         user: "Darth Maul",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::RemoveUserFromGroupCommand,
-                        message: "Failed to remove user Darth Maul from group OpenProject: " \
-                                 "Not viable to remove user from the last group you are SubAdmin of",
+                        error_code: :failed_to_remove,
+                        reason: /SubAdmin/,
                         data: { status: 200, body: remove_user_from_group_response })
         end
       end

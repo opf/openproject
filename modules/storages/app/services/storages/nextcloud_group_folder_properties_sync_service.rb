@@ -30,96 +30,123 @@
 
 module Storages
   class NextcloudGroupFolderPropertiesSyncService
+    extend ActiveModel::Naming
+    extend ActiveModel::Translation
+    include TaggedLogging
+
     using Peripherals::ServiceResultRefinements
 
-    PERMISSIONS_MAP = {
-      read_files: 1,
-      write_files: 2,
-      create_files: 4,
-      delete_files: 8,
-      share_files: 16
-    }.freeze
-
+    PERMISSIONS_MAP = { read_files: 1, write_files: 2, create_files: 4, delete_files: 8, share_files: 16 }.freeze
     PERMISSIONS_KEYS = PERMISSIONS_MAP.keys.freeze
     ALL_PERMISSIONS = PERMISSIONS_MAP.values.sum
     NO_PERMISSIONS = 0
+
+    include Injector["nextcloud.commands.create_folder", "nextcloud.commands.rename_file", "nextcloud.commands.set_permissions",
+                     "nextcloud.queries.group_users", "nextcloud.queries.file_ids", "nextcloud.authentication.userless",
+                     "nextcloud.commands.add_user_to_group", "nextcloud.commands.remove_user_from_group"]
+
+    def self.i18n_scope = "services"
 
     def self.call(storage)
       new(storage).call
     end
 
-    def initialize(storage)
+    def read_attribute_for_validation(attr) = attr
+
+    def initialize(storage, **)
+      super(**)
       @storage = storage
+      @result = ServiceResult.success(errors: ActiveModel::Errors.new(self))
     end
 
     def call
-      prepare_remote_folders.on_failure { |service_result| return service_result }
-      apply_permissions_to_folders
+      with_tagged_logger([self.class, "storage-#{@storage.id}"]) do
+        info "Starting AMPF Sync for Nextcloud Storage #{@storage.id}"
+        prepare_remote_folders.on_failure { return epilogue }
+        apply_permissions_to_folders
+        epilogue
+      end
     end
 
     private
 
-    # rubocop:disable Metrics/AbcSize
+    def epilogue
+      info "Synchronization process for Nextcloud Storage #{@storage.id} has ended. #{@result.errors.count} errors found."
+      @result
+    end
+
+    # @param attribute [Symbol] attribute to which the error will be tied to
+    # @param storage_error [Storages::StorageError] an StorageError instance
+    # @param options [Hash<Symbol, Object>] optional extra parameters for the message generation
+    # @return [ServiceResult]
+    def add_error(attribute, storage_error, options: {})
+      case storage_error.code
+      when :error, :unauthorized
+        @result.errors.add(:base, storage_error.code, **options)
+      else
+        @result.errors.add(attribute, storage_error.code, **options)
+      end
+
+      @result
+    end
+
+    # @return [ServiceResult]
     def prepare_remote_folders
-      remote_folders = remote_root_folder_properties.result_or do |error|
-        format_and_log_error(error, { folder: @storage.group_folder })
+      info "Preparing the remote group folder #{@storage.group_folder}"
 
-        return ServiceResult.failure(errors: error)
-      end
+      remote_folders = remote_root_folder_map(@storage.group_folder).on_failure { return _1 }.result
+      info "Found #{remote_folders.count} remote folders"
 
-      ensure_root_folder_permissions.on_failure do |service_result|
-        format_and_log_error(service_result.errors, { folder: @storage.group_folder })
-
-        return service_result
-      end
+      ensure_root_folder_permissions(@storage.group_folder, @storage.group, @storage.username).on_failure { return _1 }
 
       ensure_folders_exist(remote_folders).on_success { hide_inactive_folders(remote_folders) }
     end
 
     def apply_permissions_to_folders
+      info "Setting permissions to project folders"
       remote_admins = admin_client_tokens_scope.pluck(:origin_user_id)
 
       active_project_storages_scope.where.not(project_folder_id: nil).find_each do |project_storage|
         set_folders_permissions(remote_admins, project_storage)
       end
 
-      add_remove_users_to_group
+      info "Updating user access on automatically managed project folders"
+      add_remove_users_to_group(@storage.group, @storage.username)
 
       ServiceResult.success
     end
 
-    def add_remove_users_to_group
+    def add_remove_users_to_group(group, username)
       remote_users = remote_group_users.result_or do |error|
-        return format_and_log_error(error, group: @storage.group)
+        format_and_log_error(error, group:)
+        return add_error(:remote_group_users, error, options: { group: }).fail!
       end
 
       local_users = client_tokens_scope.order(:id).pluck(:origin_user_id)
 
-      (remote_users - local_users - [@storage.username]).each do |user|
-        remove_user_from_remote_group(user).error_and do |error|
-          format_and_log_error(error, group: @storage.group, user:)
+      remove_users_from_remote_group(remote_users - local_users - [username])
+      add_users_to_remote_group(local_users - remote_users - [username])
+    end
+
+    def add_users_to_remote_group(users_to_add)
+      users_to_add.each do |user|
+        add_user_to_group.call(storage: @storage, user:).error_and do |error|
+          add_error(:add_user_to_group, error, options: { user:, group: @storage.group, reason: error.log_message })
+          format_and_log_error(error, group: @storage.group, user:, reason: error.log_message)
         end
       end
+    end
 
-      (local_users - remote_users - [@storage.username]).each do |user|
-        add_user_to_remote_group(user).error_and do |error|
-          format_and_log_error(error, group: @storage.group, user:)
+    def remove_users_from_remote_group(users_to_remove)
+      users_to_remove.each do |user|
+        remove_user_from_group.call(storage: @storage, user:).error_and do |error|
+          add_error(:remove_user_from_group, error, options: { user:, group: @storage.group, reason: error.log_message })
+          format_and_log_error(error, group: @storage.group, user:, reason: error.log_message)
         end
       end
     end
 
-    def add_user_to_remote_group(user)
-      Peripherals::Registry
-        .resolve("nextcloud.commands.add_user_to_group")
-        .call(storage: @storage, user:)
-    end
-
-    def remove_user_from_remote_group(user)
-      Peripherals::Registry
-        .resolve("nextcloud.commands.remove_user_from_group")
-        .call(storage: @storage, user:)
-    end
-
+    # rubocop:disable Metrics/AbcSize
     def set_folders_permissions(remote_admins, project_storage)
       admin_permissions = remote_admins.to_set.map do |username|
         [username, ALL_PERMISSIONS]
@@ -131,21 +158,22 @@ module Storages
         hash[token.origin_user_id] = PERMISSIONS_MAP.values_at(*(PERMISSIONS_KEYS & permissions)).sum
       end
 
+      folder = project_storage.managed_project_folder_path
+
       command_params = {
-        path: project_storage.managed_project_folder_path,
+        path: folder,
         permissions: {
           users: admin_permissions.to_h.merge(users_permissions),
           groups: { "#{@storage.group}": NO_PERMISSIONS }
         }
       }
 
-      Peripherals::Registry
-        .resolve("nextcloud.commands.set_permissions")
-        .call(storage: @storage, **command_params)
-        .result_or do |error|
-        format_and_log_error(error, folder: project_storage.managed_project_folder_path)
+      set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
+        format_and_log_error(service_result.errors, folder:)
+        add_error(:set_folder_permission, service_result.errors, options: { folder: })
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def project_tokens(project_storage)
       project_tokens = client_tokens_scope.where.not(id: admin_client_tokens_scope).order(:id)
@@ -157,130 +185,123 @@ module Storages
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def hide_inactive_folders(remote_folders)
+      info "Hiding folders related to inactive projects"
       project_folder_ids = active_project_storages_scope.pluck(:project_folder_id).compact
+
       remote_folders.except("/#{@storage.group_folder}/").each do |(path, attrs)|
         next if project_folder_ids.include?(attrs["fileid"])
 
-        command_params = {
-          path:,
-          permissions: {
-            users: { "#{@storage.username}": ALL_PERMISSIONS },
-            groups: { "#{@storage.group}": NO_PERMISSIONS }
-          }
-        }
+        info "Hiding folder #{path} as it does not belong to any active project"
+        command_params = { path:,
+                           permissions: {
+                             users: { "#{@storage.username}": ALL_PERMISSIONS },
+                             groups: { "#{@storage.group}": NO_PERMISSIONS }
+                           } }
 
-        Peripherals::Registry
-          .resolve("nextcloud.commands.set_permissions")
-          .call(storage: @storage, **command_params)
-          .on_failure do |service_result|
+        set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
           format_and_log_error(service_result.errors, folder: path, context: "hide_folder")
+          add_error(:hide_inactive_folders, service_result.errors, options: { path: })
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def ensure_folders_exist(remote_folders)
+      info "Ensuring that automatically managed project folders exist and are correctly named."
       id_folder_map = remote_folders.to_h { |folder, properties| [properties["fileid"], folder] }
 
       active_project_storages_scope.includes(:project).map do |project_storage|
-        next create_folder(project_storage) unless id_folder_map.key?(project_storage.project_folder_id)
-
-        current_path = id_folder_map[project_storage.project_folder_id]
-        if current_path != project_storage.managed_project_folder_path
-          target_folder_name = name_from_path(project_storage.managed_project_folder_path)
-          rename_folder(project_storage.project_folder_id, target_folder_name).on_failure do |service_result|
-            format_and_log_error(service_result.errors,
-                                 folder_id: project_storage.project_folder_id,
-                                 folder_name: target_folder_name)
-
-            # we need to stop as this would mess with the other processes
-            return service_result
-          end
+        unless id_folder_map.key?(project_storage.project_folder_id)
+          info "#{project_storage.managed_project_folder_path} does not exist. Creating..."
+          next create_remote_folder(project_storage)
         end
+
+        rename_folder(project_storage, id_folder_map[project_storage.project_folder_id])&.on_failure { return _1 }
       end
 
       # We processed every folder successfully
       ServiceResult.success
     end
 
-    def name_from_path(path)
-      path.split("/").last
+    # @param project_storage [Storages::ProjectStorage] Storages::ProjectStorage that the remote folder might need renaming
+    # @param current_path [String] current name of the remote project storage folder
+    # @return [ServiceResult, nil]
+    def rename_folder(project_storage, current_path)
+      return if current_path == project_storage.managed_project_folder_path
+
+      name = project_storage.managed_project_folder_name
+      file_id = project_storage.project_folder_id
+
+      info "#{current_path} is misnamed. Renaming to #{name}"
+      rename_file.call(storage: @storage, auth_strategy:, file_id:, name:).on_failure do |service_result|
+        format_and_log_error(service_result.errors, folder_id: file_id, folder_name: name)
+
+        add_error(:rename_project_folder, service_result.errors,
+                  options: { current_path:, project_folder_name: name, project_folder_id: file_id }).fail!
+      end
     end
 
-    def rename_folder(folder_id, folder_name)
-      Peripherals::Registry
-        .resolve("nextcloud.commands.rename_file")
-        .call(storage: @storage, auth_strategy:, file_id: folder_id, name: folder_name)
-    end
-
-    def create_folder(project_storage)
+    def create_remote_folder(project_storage)
       folder_name = project_storage.managed_project_folder_path
       parent_location = Peripherals::ParentFolder.new("/")
 
-      created_folder = Peripherals::Registry
-                         .resolve("nextcloud.commands.create_folder")
-                         .call(storage: @storage, auth_strategy:, folder_name:, parent_location:)
-                         .result_or do |error|
-        format_and_log_error(error, folder: folder_name)
+      created_folder = create_folder.call(storage: @storage, auth_strategy:, folder_name:, parent_location:)
+                                            .on_failure do |service_result|
+        format_and_log_error(service_result.errors, folder_name:)
 
-        return ServiceResult.failure(errors: error)
-      end
+        return add_error(:create_folder, service_result.errors, options: { folder_name:, parent_location: })
+      end.result
 
-      project_folder_id = created_folder.id
-      last_project_folder = ::Storages::LastProjectFolder
-                              .find_by(
-                                project_storage_id: project_storage.id,
-                                mode: project_storage.project_folder_mode
-                              )
+      last_project_folder = LastProjectFolder.find_by(
+        project_storage_id: project_storage.id, mode: project_storage.project_folder_mode
+      )
 
+      audit_last_project_folder(last_project_folder, created_folder.id)
+    end
+
+    def audit_last_project_folder(last_project_folder, project_folder_id)
       ApplicationRecord.transaction do
-        last_project_folder.update!(origin_folder_id: project_folder_id)
-        project_storage.update!(project_folder_id:)
-        project_storage.project_folder_id
+        success = last_project_folder.update(origin_folder_id: project_folder_id) &&
+          last_project_folder.project_storage.update(project_folder_id:)
+
+        raise ActiveRecord::Rollback unless success
       end
     end
 
-    # rubocop:enable Metrics/AbcSize
+    # @param group_folder [string] name of the Group Folder in Nextcloud.
+    # @param username [String] username for the integration user
+    # @param group [String] group that the user should be part of
+    # @return [ServiceResult]
+    def ensure_root_folder_permissions(group_folder, username, group)
+      info "Setting needed permissions for user #{username} and group #{group} on #{group_folder} group folder"
 
-    def ensure_root_folder_permissions
       command_params = {
-        path: @storage.group_folder,
+        path: group_folder,
         permissions: {
-          users: { @storage.username.to_sym => ALL_PERMISSIONS },
-          groups: { @storage.group.to_sym => PERMISSIONS_MAP[:read_files] }
+          users: { username.to_sym => ALL_PERMISSIONS },
+          groups: { group.to_sym => PERMISSIONS_MAP[:read_files] }
         }
       }
 
-      Peripherals::Registry
-        .resolve("nextcloud.commands.set_permissions")
-        .call(storage: @storage, **command_params)
+      set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
+        format_and_log_error(service_result.errors, { folder: group_folder })
+        add_error(:ensure_root_folder_permissions, service_result.errors, options: { group:, username: }).fail!
+      end
     end
 
-    ### Base Queries/Commands
-    def remote_root_folder_properties
-      Peripherals::Registry
-        .resolve("nextcloud.queries.file_ids")
-        .call(storage: @storage, path: @storage.group_folder)
+    def remote_root_folder_map(group_folder)
+      info "Retrieving already existing folders under #{group_folder}"
+      file_ids.call(storage: @storage, path: group_folder).on_failure do |service_result|
+        format_and_log_error(service_result.errors, { folder: group_folder })
+        add_error(:remote_folders, service_result.errors, options: { group_folder:, username: @storage.username }).fail!
+      end
     end
 
     def remote_group_users
-      Peripherals::Registry
-        .resolve("nextcloud.queries.group_users")
-        .call(storage: @storage, group: @storage.group)
-    end
-
-    def format_and_log_error(error, context = {})
-      payload = error.data.payload
-      data =
-        case payload
-        in { status: Integer }
-          { status: payload.status, body: payload.body.to_s }
-        else
-          payload.to_s
-        end
-
-      error_message = context.merge({ command: error.data.source, message: error.log_message, data: })
-      OpenProject.logger.warn error_message
+      info "Retrieving users that a part of the #{@storage.group} group"
+      group_users.call(storage: @storage, group: @storage.group)
     end
 
     ### Model Scopes
@@ -294,11 +315,27 @@ module Storages
     end
 
     def auth_strategy
-      Peripherals::Registry.resolve("nextcloud.authentication.userless").call
+      @auth_strategy ||= userless.call
     end
 
     def admin_client_tokens_scope
       OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
+    end
+
+    # Logging
+
+    def format_and_log_error(error, context = {})
+      payload = error.data.payload
+      data =
+        case payload
+        in { status: Integer }
+          { status: payload.status, body: payload.body.to_s }
+        else
+          payload.to_s
+        end
+
+      error_message = context.merge({ error_code: error.code, data: })
+      error error_message
     end
   end
 end
