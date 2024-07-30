@@ -59,7 +59,9 @@ Once you opened the Gantt charts module, the default view will show all open wor
 ## Quick context menu in Gantt chart view
 
 Once you have selected the Gantt chart view, you can use the quick context menu. To do that, right-click on any of the work packages.
-> **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package-table-view) in the **Work packages** module, the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
+
+> [!TIP]
+> If you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package-table-view) in the **Work packages** module, the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
 
 ![Quick context menu in OpenProject Gantt chart work packages view](gantt-context-menu.png)
 
@@ -67,8 +69,8 @@ You can use any of the following options.
 
 - **Open details view** - opens the details view of a work package on the right side of the screen.
 - **Open fullscreen view** - opens the detailed view of a work package across the entire screen.
-- **Change project** - allows moving the selected work package to a different project.
 - **Copy link to clipboard** - copies a short link to the selected work package to your clipboard.
+- **Change project** - allows moving the selected work package to a different project.
 - **Delete** - deletes a work package. You will need to confirm the deletion.
 - **Indent hierarchy** - creates a child-parent relationship with the work package directly above. The work package you selected become the child work package. The work package directly above becomes the parent work package.
 - **Add predecessor** - adds a predecessor (it will prompt you to select a work package in Gantt view).
@@ -92,7 +94,8 @@ To **change the order of an item** in the Gantt chart, click the **drag and drop
 
 To change the duration of a work package in the Gantt chart view, hover over the work package in the Gantt chart and use the little arrows on its ends to adjust the start date or finish date. This will shorten or prolong its duration. To move a work package on the time line just click on it and drag and drop it to the desired point of time. This will change its start and finish date.
 
-> **Note**: The Gantt chart will highlight non-working days with a darker background color when you are zoomed in to a level that shows individual days. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the "Working days only" switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
+> [!NOTE]
+> The Gantt chart will highlight non-working days with a darker background color when you are zoomed in to a level that shows individual days. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the "Working days only" switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
 >
 > Work packages can also expand and retract in width depending on how many non-working days are spanned (for example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days;  dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 
@@ -118,7 +121,8 @@ When work packages have a precedes/follows relationship:
 
 Scheduling modes can also affect work package relations. Read about [automatic and manual scheduling](scheduling) to find out more.
 
-> **Note:** Relations other than predecessor/follower and parent/child (such as related to, blocked by, includes, duplicates) are not displayed in the Gantt chart. To find out more, read our guide on [work package relations](../work-packages/work-package-relations-hierarchies).
+> [!NOTE] 
+> Relations other than predecessor/follower and parent/child (such as related to, blocked by, includes, duplicates) are not displayed in the Gantt chart. To find out more, read our guide on [work package relations](../work-packages/work-package-relations-hierarchies).
 
 ## Understanding the colors and lines in the Gantt chart
 
@@ -177,7 +181,8 @@ To synchronize your work package data between OpenProject and Excel (two-way syn
 
 ### Gantt chart PDF Export (Enterprise add-on)
 
-> **Note**: Gantt chart PDF export is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easy and helps support OpenProject.
+> [!NOTE]
+> Gantt chart PDF export is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easy and helps support OpenProject.
 
 To export a Gantt chart in a PDF format click the **More** (three dots) icon in the top right corner and select *Export*.
 
@@ -244,7 +249,8 @@ This will give you an **aggregated view of the projects' work packages**. You ca
 
 ![Filtering project aggregated projects Gantt chart view in OpenProject](openproject-user-guide-gantt-charts-filters.png)
 
-**Please note**: If you want the work packages to be displayed when the projects are folded, it is necessary to set the selected work package type to be recognized as a milestone under  [work package type settings](../../system-admin-guide/manage-work-packages/work-package-types/). Otherwise you will need to unfold the projects to view all of the work packages.
+> [!TIP]
+> If you want the work packages to be displayed when the projects are folded, it is necessary to set the selected work package type to be recognized as a milestone under  [work package type settings](../../system-admin-guide/manage-work-packages/work-package-types/). Otherwise you will need to unfold the projects to view all of the work packages.
 
 Apart from the set filters the list of displayed projects depends on your [permissions](../../system-admin-guide/users-permissions/roles-permissions/). You can only see private projects that you are a member of and public projects.
 In some cases (many work packages per project) you will have to increase the objects per page in bottom right corner to display multiple projects. Change the available options in the [system settings](../../system-admin-guide/system-settings/general-settings/) if necessary.
