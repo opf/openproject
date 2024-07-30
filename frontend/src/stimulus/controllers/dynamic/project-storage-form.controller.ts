@@ -41,13 +41,13 @@ import {
   switchMap,
 } from 'rxjs/operators';
 
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
-import { storageConnected } from 'core-app/shared/components/storages/storages-constants.const';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
+import { storageConnected } from 'core-app/shared/components/storages/storages-constants.const';
 
 export default class ProjectStorageFormController extends Controller {
   static targets = [
@@ -88,18 +88,7 @@ export default class ProjectStorageFormController extends Controller {
       this.fetchStorageAuthorizationState(),
       this.fetchProjectFolder(),
     ]).subscribe(([isConnected, projectFolder]) => {
-      if (isConnected) {
-        this.selectProjectFolderButtonTarget.style.display = 'inline-block';
-        this.loginButtonTarget.style.display = 'none';
-        this.selectedFolderTextTarget.innerText = projectFolder === null
-          ? this.placeholderFolderNameValue
-          : projectFolder.name;
-      } else {
-        this.selectProjectFolderButtonTarget.style.display = 'none';
-        this.loginButtonTarget.style.display = 'inline-block';
-        this.selectedFolderTextTarget.innerText = this.notLoggedInValidationValue;
-      }
-
+      this.displayFolderSelectionOrLoginButton(isConnected, projectFolder);
       this.toggleFolderDisplay(this.folderModeValue);
       this.setProjectFolderModeQueryParam(this.folderModeValue);
     });
@@ -197,6 +186,20 @@ export default class ProjectStorageFormController extends Controller {
           return null;
         }),
       );
+  }
+
+  protected displayFolderSelectionOrLoginButton(isConnected:boolean, projectFolder:IStorageFile|null):void {
+    if (isConnected) {
+      this.selectProjectFolderButtonTarget.style.display = 'inline-block';
+      this.loginButtonTarget.style.display = 'none';
+      this.selectedFolderTextTarget.innerText = projectFolder === null
+        ? this.placeholderFolderNameValue
+        : projectFolder.name;
+    } else {
+      this.selectProjectFolderButtonTarget.style.display = 'none';
+      this.loginButtonTarget.style.display = 'inline-block';
+      this.selectedFolderTextTarget.innerText = this.notLoggedInValidationValue;
+    }
   }
 
   protected setProjectFolderModeQueryParam(mode:string) {

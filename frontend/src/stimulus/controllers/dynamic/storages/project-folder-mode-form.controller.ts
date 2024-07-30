@@ -28,33 +28,15 @@
  * ++
  */
 
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
-import { combineLatest } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 import ProjectStorageFormController from '../project-storage-form.controller';
 
 export default class ProjectFolderModeForm extends ProjectStorageFormController {
-  connect():void {
-    combineLatest([
-      this.fetchStorageAuthorizationState(),
-      this.fetchProjectFolder(),
-    ]).subscribe(([isConnected, projectFolder]) => {
-      if (isConnected) {
-        this.selectedFolderTextTarget.innerText = projectFolder === null
-          ? this.placeholderFolderNameValue
-          : projectFolder.name;
-      } else {
-        this.selectedFolderTextTarget.innerText = this.notLoggedInValidationValue;
-      }
-
-      this.toggleFolderDisplay(this.folderModeValue);
-      this.setProjectFolderModeQueryParam(this.folderModeValue);
-    });
-  }
-
   selectProjectFolder(_evt:Event):void {
     const locals = {
       projectFolderHref: this.projectFolderHref,
@@ -71,6 +53,16 @@ export default class ProjectFolderModeForm extends ProjectStorageFormController 
         this.selectedFolderTextTarget.innerText = modal.location.name;
         this.projectFolderIdInputTarget.value = modal.location.id as string;
       });
+  }
+
+  protected displayFolderSelectionOrLoginButton(isConnected:boolean, projectFolder:IStorageFile|null):void {
+    if (isConnected) {
+      this.selectedFolderTextTarget.innerText = projectFolder === null
+        ? this.placeholderFolderNameValue
+        : projectFolder.name;
+    } else {
+      this.selectedFolderTextTarget.innerText = this.notLoggedInValidationValue;
+    }
   }
 
   protected toggleFolderDisplay(value:string):void {
