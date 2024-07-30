@@ -44,6 +44,7 @@ import {
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
@@ -102,7 +103,7 @@ export default class ProjectStorageFormController extends Controller {
 
     this.modalService
       .pipe(
-        switchMap((service) => service.show(LocationPickerModalComponent, 'global', locals)),
+        switchMap((service) => service.show(LocationPickerModalComponent, 'global', locals, false, false, this.OutletTarget)),
         switchMap((modal) => modal.closingEvent),
         filter((modal) => modal.submitted),
       )
@@ -140,6 +141,10 @@ export default class ProjectStorageFormController extends Controller {
     this.folderModeValue = mode;
     this.toggleFolderDisplay(mode);
     this.setProjectFolderModeQueryParam(mode);
+  }
+
+  protected get OutletTarget():PortalOutletTarget {
+    return PortalOutletTarget.Default;
   }
 
   protected get modalService():Observable<OpModalService> {

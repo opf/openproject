@@ -30,29 +30,11 @@
 
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
-import {
-  LocationPickerModalComponent,
-} from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
-import { filter, switchMap } from 'rxjs/operators';
 import ProjectStorageFormController from '../project-storage-form.controller';
 
-export default class ProjectFolderModeForm extends ProjectStorageFormController {
-  selectProjectFolder(_evt:Event):void {
-    const locals = {
-      projectFolderHref: this.projectFolderHref,
-      storage: this.storage,
-    };
-
-    this.modalService
-      .pipe(
-        switchMap((service) => service.show(LocationPickerModalComponent, 'global', locals, false, false, PortalOutletTarget.Custom)),
-        switchMap((modal) => modal.closingEvent),
-        filter((modal) => modal.submitted),
-      )
-      .subscribe((modal) => {
-        this.selectedFolderTextTarget.innerText = modal.location.name;
-        this.projectFolderIdInputTarget.value = modal.location.id as string;
-      });
+export default class ProjectFolderModeFormController extends ProjectStorageFormController {
+  protected get OutletTarget():PortalOutletTarget {
+    return PortalOutletTarget.Custom;
   }
 
   protected displayFolderSelectionOrLoginButton(isConnected:boolean, projectFolder:IStorageFile|null):void {
