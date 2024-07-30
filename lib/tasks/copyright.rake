@@ -74,10 +74,11 @@ namespace :copyright do
     "#{sign}-- copyright\n#{short_copyright}\n#{sign}++"
   end
 
-  def exluded_paths
+  def global_excluded_globs
     %w[
-      frontend/node_modules
-      tmp
+      frontend/node_modules/**/*
+      tmp/**/*
+      modules/gitlab_integration/**/*
     ]
   end
 
@@ -100,18 +101,20 @@ namespace :copyright do
     end
   end
 
-  def rewrite_copyright(ending, additional_excludes, format, path, options = {}) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+  def rewrite_copyright(ending, additional_excluded_globs, format, path, options = {}) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     regexp = options[:regex] || copyright_regexp(format)
     path = "." if path.nil?
     copyright = options[:copyright] || short_copyright(format, path:)
     file_list = options[:file_list] || Dir[path + "/**/*.#{ending}"]
-    excluded = exluded_paths.concat(additional_excludes)
+    excluded_globs = global_excluded_globs.concat(additional_excluded_globs)
 
     raise "Path not found" unless Dir.exist?(path)
 
     file_list.each do |file_name|
-      # Skip 3rd party code
-      next if excluded.any? { |e| file_name.include?(e) }
+      file_name = file_name.delete_prefix("./")
+
+      next if excluded_globs
+        .any? { |glob| File.fnmatch(glob, file_name, File::FNM_PATHNAME | File::FNM_EXTGLOB | File::FNM_CASEFOLD) }
 
       file_content = File.read(file_name)
       if file_content.match(regexp)
@@ -127,13 +130,21 @@ namespace :copyright do
   desc "Update special files, which do not have an ending"
   task :update_special_files, :path do |_task, args|
     # ruby-like files
-    file_list = %w{Gemfile Rakefile config.ru .gitignore}
+    file_list = %w[
+      Gemfile
+      Rakefile
+      config.ru
+      .gitignore
+    ]
+
     rewrite_copyright("rb", [], :rb, args[:path], file_list:)
   end
 
   desc "Update the copyright on .rb source files"
   task :update_rb, :path do |_task, args|
-    excluded = (%w(acts_as_tree rfpdf verification).map { |dir| "lib_static/plugins/#{dir}" })
+    excluded = %w[
+      lib_static/plugins/{acts_as_tree,rfpdf,verification}
+    ]
 
     rewrite_copyright("rb", excluded, :rb, args[:path])
   end
@@ -200,10 +211,12 @@ namespace :copyright do
 
   desc "Update the copyright on .rdoc source files"
   task :update_rdoc, :path do |_task, args|
-    excluded = ["README.rdoc",
-                "LICENSE",
-                "COPYRIGHT",
-                "COPYRIGHT_short"]
+    excluded = %w[
+      README.rdoc
+      LICENSE
+      COPYRIGHT
+      COPYRIGHT_short
+    ]
 
     rewrite_copyright("rdoc", excluded, :rdoc, args[:path], position: :bottom)
   end
