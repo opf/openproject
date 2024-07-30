@@ -28,8 +28,16 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), t('oauth.application.new') %>
-<% local_assigns[:additional_breadcrumb] = t('oauth.application.new') %>
-<%= breadcrumb_toolbar(t('oauth.application.new')) %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("oauth.application.new") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_authentication_path, text: t(:label_authentication) },
+                             { href: oauth_applications_path, text: t("oauth.application.plural") },
+                             t("oauth.application.new")])
+  end
+%>
 
 <%= labelled_tabular_form_for @application,
                               url: { action: "create" },

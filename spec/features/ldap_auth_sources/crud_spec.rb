@@ -42,9 +42,7 @@ RSpec.describe "CRUD LDAP connections", :js, :with_cuprite do
     expect(page).to have_text "LDAP connections"
     expect(page).to have_text "There is currently nothing to display."
 
-    page.within(".toolbar") do
-      click_link "LDAP connection"
-    end
+    page.find_test_selector("op-admin-ldap-connection--button-new", text: "LDAP connection").click
 
     expect(page).to have_current_path new_ldap_auth_source_path
 
