@@ -408,10 +408,13 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
         create(:work_package, project: public_wp_share_project)
       end
       shared_let(:project_cf) do
-        create(:project_custom_field_project_mapping, project:).project_custom_field
-      end
-      shared_let(:other_cf) do
-        create(:project_custom_field_project_mapping, project: other_project).project_custom_field
+        # This custom field is enabled in both project and other_project to test enabled
+        # custom field state overflow between 2 projects.
+        pcf = create(:project_custom_field_project_mapping, project:).project_custom_field
+        create(:project_custom_field_project_mapping,
+               project: other_project,
+               project_custom_field: pcf)
+        pcf
       end
       shared_let(:public_cf) do
         create(:project_custom_field_project_mapping, project: public_project).project_custom_field
@@ -468,7 +471,8 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
           )
         end
 
-        it "does not return the project attributes for a private project without view_project_attributes" do
+        it "does not return the project attributes for a private project without view_project_attributes " \
+           "even if the same custom field is active in other_project" do
           expect(subject)
             .to be_json_eql(project.name.to_json)
             .at_path("_embedded/elements/3/name")
@@ -478,13 +482,14 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
           )
         end
 
-        it "returns project attributes for other project with view_project_attributes" do
+        it "returns project attributes for other project with view_project_attributes for the same " \
+           "custom field enabled in the project too" do
           expect(subject)
             .to be_json_eql(other_project.name.to_json)
             .at_path("_embedded/elements/4/name")
 
           expect(subject).to have_json_path(
-            "_embedded/elements/4/#{other_cf.attribute_name(:camel_case)}"
+            "_embedded/elements/4/#{project_cf.attribute_name(:camel_case)}"
           )
         end
       end
