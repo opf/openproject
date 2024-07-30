@@ -75,17 +75,10 @@ namespace :copyright do
   end
 
   def exluded_paths
-    %w(
-      app/assets/javascripts/lib/
-      app/assets/javascripts/locales/
-      coverage
-      frontend/bower_components
+    %w[
       frontend/node_modules
-      frontend/vendor
-      frontend/coverage
-      frontend/tmp
       tmp
-    )
+    ]
   end
 
   def copyright_regexp(format)
@@ -187,10 +180,7 @@ namespace :copyright do
 
   desc "Update the copyright on .sass source files"
   task :update_sass, :path do |_task, args|
-    excluded = %w(
-      app/assets/stylesheets/default.css.sass
-    )
-    rewrite_copyright("sass", excluded, :sass, args[:path])
+    rewrite_copyright("sass", [], :sass, args[:path])
   end
 
   desc "Update the copyright on .sql source files"
@@ -205,9 +195,7 @@ namespace :copyright do
 
   desc "Update the copyright on .js.erb source files"
   task :update_js_erb, :path do |_task, args|
-    excluded = ["app/assets/javascripts/application.js.erb"]
-
-    rewrite_copyright("js.erb", excluded, :erb, args[:path])
+    rewrite_copyright("js.erb", [], :erb, args[:path])
   end
 
   desc "Update the copyright on .rdoc source files"
