@@ -134,7 +134,7 @@ namespace :copyright do
   desc "Update special files, which do not have an ending"
   task :update_special_files, :path do |_task, args|
     # ruby-like files
-    file_list = %w{Gemfile Rakefile config.ru .travis.yml .gitignore}
+    file_list = %w{Gemfile Rakefile config.ru .gitignore}
     rewrite_copyright("rb", [], :rb, args[:path], file_list:)
   end
 
