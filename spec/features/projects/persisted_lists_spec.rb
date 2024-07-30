@@ -277,8 +277,7 @@ RSpec.describe "Persisted lists on projects index page",
 
       wait_for_network_idle # Saving is done via Turbo
 
-      # TODO: Sidebar is currently not updated
-      # projects_page.expect_sidebar_filter("Active project copy", selected: true)
+      projects_page.expect_sidebar_filter("Active project copy", selected: true)
       projects_page.expect_columns("Name", "Status")
       projects_page.expect_no_columns("Public")
     end
@@ -321,8 +320,7 @@ RSpec.describe "Persisted lists on projects index page",
       wait_for_network_idle # Saving is done via Turbo
 
       # It will be displayed in the sidebar
-      # TODO: Sidebar is currently not updated
-      # projects_page.expect_sidebar_filter("My saved query", selected: true)
+      projects_page.expect_sidebar_filter("My saved query", selected: true)
 
       # Opening the default filter again to reset the values
       projects_page.set_sidebar_filter("Active projects")
@@ -357,9 +355,8 @@ RSpec.describe "Persisted lists on projects index page",
 
       wait_for_network_idle
 
-      # TODO: Sidebar is currently not updated
-      # projects_page.expect_sidebar_filter("Persisted query", selected: false)
-      # projects_page.expect_sidebar_filter("My new saved query", selected: true)
+      projects_page.expect_sidebar_filter("Persisted query", selected: false)
+      projects_page.expect_sidebar_filter("My new saved query", selected: true)
       projects_page.expect_columns("Name", "Status", "Public")
     end
 
@@ -367,9 +364,8 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.set_sidebar_filter("Persisted query")
       projects_page.save_query_as("My duplicated query")
 
-      # TODO: Sidebar is currently not updated
-      # projects_page.expect_sidebar_filter("Persisted query", selected: false)
-      # projects_page.expect_sidebar_filter("My duplicated query", selected: true)
+      projects_page.expect_sidebar_filter("Persisted query", selected: false)
+      projects_page.expect_sidebar_filter("My duplicated query", selected: true)
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status", "Public")
     end
@@ -386,9 +382,8 @@ RSpec.describe "Persisted lists on projects index page",
 
       wait_for_network_idle
 
-      # TODO: Sidebar is currently not updated
-      # projects_page.expect_no_sidebar_filter("Persisted query")
-      # projects_page.expect_sidebar_filter("My renamed query", selected: true)
+      projects_page.expect_no_sidebar_filter("Persisted query")
+      projects_page.expect_sidebar_filter("My renamed query", selected: true)
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status", "Public")
 

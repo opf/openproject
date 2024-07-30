@@ -129,8 +129,9 @@ RSpec.describe "Project list sharing",
           projects_index_page.expect_can_only_save_as_label
           projects_index_page.save_query_as("Member-of and active list")
 
-          # TODO: Sidebar is currently not updated
-          # projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
+          wait_for_network_idle
+
+          projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
         end
       end
     end
@@ -253,8 +254,9 @@ RSpec.describe "Project list sharing",
             projects_index_page.expect_can_only_save_as_label
             projects_index_page.save_query_as("Member-of and active list")
 
-            # TODO: Sidebar is currently not updated
-            # projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
+            wait_for_network_idle
+
+            projects_index_page.expect_sidebar_filter("Member-of and active list", selected: true)
           end
         end
       end
