@@ -30,21 +30,20 @@
 
 module Storages::ProjectStorages
   class BulkCreateService < ::BaseServices::BaseCallable
-    def initialize(user:, projects:, storage:, project_folder_mode:, include_sub_projects: false)
+    def initialize(user:, projects:, storage:, include_sub_projects: false)
       super()
       @user = user
       @projects = projects
       @storage = storage
-      @project_folder_mode = project_folder_mode
       @include_sub_projects = include_sub_projects
     end
 
-    def perform
+    def perform(params = {})
       service_call = validate_permissions
-      service_call = validate_contract(service_call, incoming_activations_ids) if service_call.success?
+      service_call = validate_contract(service_call, incoming_activations_ids, params) if service_call.success?
       service_call = perform_bulk_create(service_call) if service_call.success?
-      service_call = create_last_project_folders(service_call) if service_call.success?
-      broadcast_project_storages_created if service_call.success?
+      service_call = create_last_project_folders(service_call, params) if service_call.success?
+      broadcast_project_storages_created(params) if service_call.success?
 
       service_call
     end
@@ -61,9 +60,11 @@ module Storages::ProjectStorages
       end
     end
 
-    def validate_contract(service_call, project_ids)
+    def validate_contract(service_call, project_ids, params)
+      project_folder_params = params.slice(:project_folder_mode, :project_folder_id)
+
       set_attributes_results = project_ids.map do |id|
-        set_attributes(project_id: id, storage_id: @storage.id, project_folder_mode: @project_folder_mode)
+        set_attributes(project_id: id, storage_id: @storage.id, **project_folder_params)
       end
 
       if (failures = set_attributes_results.select(&:failure?)).any?
@@ -78,9 +79,7 @@ module Storages::ProjectStorages
 
     def perform_bulk_create(service_call)
       bulk_insertion = ::Storages::ProjectStorage.insert_all(
-        service_call.result.map do |model|
-          model.attributes.slice("project_id", "storage_id", "project_folder_mode", "creator_id")
-        end,
+        service_call.result.map { |model| model.attributes.compact },
         unique_by: %i[project_id storage_id],
         returning: %w[id]
       )
@@ -89,8 +88,8 @@ module Storages::ProjectStorages
       service_call
     end
 
-    def create_last_project_folders(service_call)
-      return service_call if @project_folder_mode.to_sym == :inactive
+    def create_last_project_folders(service_call, params)
+      return service_call if params[:project_folder_mode].to_sym == :inactive
 
       last_project_folders = ::Storages::LastProjectFolders::BulkCreateService
         .new(user: @user, project_storages: service_call.result)
@@ -100,10 +99,10 @@ module Storages::ProjectStorages
       service_call
     end
 
-    def broadcast_project_storages_created
+    def broadcast_project_storages_created(params)
       OpenProject::Notifications.send(
         OpenProject::Events::PROJECT_STORAGE_CREATED,
-        project_folder_mode: @project_folder_mode,
+        project_folder_mode: params[:project_folder_mode],
         storage: @storage
       )
     end

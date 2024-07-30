@@ -40,10 +40,10 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
     context "with a single project" do
       let(:project) { create(:project) }
       let(:project_folder_mode) { "inactive" }
-      let(:instance) { described_class.new(user:, projects: [project], storage:, project_folder_mode:) }
+      let(:instance) { described_class.new(user:, projects: [project], storage:) }
 
       it "activates the storage for the given project", :aggregate_failures do
-        expect { instance.call }
+        expect { instance.call(project_folder_mode:) }
           .to change(Storages::ProjectStorage, :count).by(1)
 
         project_storage = Storages::ProjectStorage.last
@@ -68,9 +68,9 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
 
       it "activates the storage for the project and sub-projects", :aggregate_failures do
         create_service = described_class.new(user:, projects: projects.map(&:reload), storage:,
-                                             project_folder_mode:, include_sub_projects: true)
+                                             include_sub_projects: true)
 
-        expect { create_service.call }
+        expect { create_service.call(project_folder_mode:) }
           .to change(Storages::ProjectStorage, :count).by(4)
           .and change(Storages::LastProjectFolder, :count).by(4)
 
@@ -90,9 +90,9 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
 
       it "activates the storage for the project and sub-projects" do
         create_service = described_class.new(user:, projects: [project.reload, subproject], storage:,
-                                             project_folder_mode:, include_sub_projects: true)
+                                             include_sub_projects: true)
 
-        expect { create_service.call }
+        expect { create_service.call(project_folder_mode:) }
           .to change(Storages::ProjectStorage, :count).by(2)
           .and change(Storages::LastProjectFolder, :count).by(2)
 
@@ -110,9 +110,9 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
       let(:project) { create(:project) }
 
       it "activates the storage only once" do
-        create_service = described_class.new(user:, projects: [project, project], storage:, project_folder_mode:)
+        create_service = described_class.new(user:, projects: [project, project], storage:)
 
-        expect { create_service.call }
+        expect { create_service.call(project_folder_mode:) }
           .to change(Storages::ProjectStorage, :count).by(1)
           .and change(Storages::LastProjectFolder, :count).by(1)
 
@@ -142,9 +142,9 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
     let(:project_folder_mode) { "inactive" }
 
     it "activates the storage" do
-      create_service = described_class.new(user:, projects: [project], storage:, project_folder_mode:)
+      create_service = described_class.new(user:, projects: [project], storage:)
 
-      expect { create_service.call }
+      expect { create_service.call(project_folder_mode:) }
         .to change(Storages::ProjectStorage, :count).by(1)
 
       project_storage = Storages::ProjectStorage.last
@@ -168,10 +168,10 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
     end
     let(:project) { create(:project) }
     let(:project_folder_mode) { "inactive" }
-    let(:instance) { described_class.new(user:, projects: [project], storage:, project_folder_mode:) }
+    let(:instance) { described_class.new(user:, projects: [project], storage:) }
 
     it "does not create any project storages" do
-      expect { instance.call }.not_to change(Storages::ProjectStorage, :count)
+      expect { instance.call(project_folder_mode:) }.not_to change(Storages::ProjectStorage, :count)
       expect(instance.call).to be_failure
       expect(OpenProject::Notifications).not_to have_received(:send)
         .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:, storage:)
@@ -179,10 +179,10 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
   end
 
   context "with empty projects" do
-    let(:instance) { described_class.new(user:, projects: [], storage:, project_folder_mode:) }
+    let(:instance) { described_class.new(user:, projects: [], storage:) }
 
     it "does not create any project storages" do
-      service_result = instance.call
+      service_result = instance.call(project_folder_mode:)
       expect(service_result).to be_failure
       expect(service_result.errors).to eq("not found")
       expect(OpenProject::Notifications).not_to have_received(:send)
@@ -194,10 +194,9 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
     let(:active_project) { create(:project) }
 
     it "only creates the project storage for the active project", :aggregate_failures do
-      create_service = described_class.new(user:, projects: [archived_project, active_project], storage:,
-                                           project_folder_mode:)
+      create_service = described_class.new(user:, projects: [archived_project, active_project], storage:)
 
-      expect { create_service.call }
+      expect { create_service.call(project_folder_mode:) }
         .to change(Storages::ProjectStorage, :count).by(1)
         .and change(Storages::LastProjectFolder, :count).by(1)
 
@@ -214,13 +213,25 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
   context "with broken contract" do
     let(:storage) { create(:nextcloud_storage, :as_not_automatically_managed) }
     let(:project) { create(:project) }
-    let(:project_folder_mode) { "automatic" }
 
     it "does not create any records" do
-      create_service = described_class.new(user:, projects: [project], storage:, project_folder_mode:)
+      create_service = described_class.new(user:, projects: [project], storage:)
+      result = nil
 
-      expect { create_service.call }.not_to change(Storages::ProjectStorage, :count)
-      expect(create_service.call).to be_failure
+      aggregate_failures "automatic mode cannot be used with non-automatically managed storage" do
+        expect { result = create_service.call(project_folder_mode: "automatic") }
+          .not_to change(Storages::ProjectStorage, :count)
+        expect(result).to be_failure
+        expect(result.errors.map(&:full_messages).flatten)
+          .to eq(["Project folder mode is not available for this storage."])
+      end
+
+      aggregate_failures "manual mode requires a project folder id" do
+        expect { result = create_service.call(project_folder_mode: "manual") }
+          .not_to change(Storages::ProjectStorage, :count)
+        expect(result).to be_failure
+        expect(result.errors.map(&:full_messages).flatten).to eq(["Project folder can't be blank."])
+      end
     end
   end
 end

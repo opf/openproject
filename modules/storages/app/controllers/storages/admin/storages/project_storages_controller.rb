@@ -58,9 +58,8 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   def create
     create_service = ::Storages::ProjectStorages::BulkCreateService
                          .new(user: current_user, projects: @projects, storage: @storage,
-                              project_folder_mode: params.to_unsafe_h[:storages_project_storage][:project_folder_mode],
                               include_sub_projects: include_sub_projects?)
-                         .call
+                         .call(params.to_unsafe_h[:storages_project_storage])
 
     create_service.on_success { update_project_list_via_turbo_stream(url_for_action: :index) }
 
