@@ -1,6 +1,6 @@
 <%=
   component_wrapper(class: "op-meeting-section-container", data: { test_selector: "meeting-section-container-#{@meeting_section.id}" }.merge(draggable_item_config)) do
-    render(Primer::Beta::BorderBox.new(mt: 3, data: drag_and_drop_target_config)) do |component|
+    render(border_box_container(mt: 3, data: drag_and_drop_target_config)) do |component|
       if render_section_wrapper?
         component.with_header(font_weight: :bold, pl: 0) do
           render(MeetingSections::HeaderComponent.new(meeting_section: @meeting_section, state: @state))
