@@ -41,12 +41,8 @@ module Projects::CustomFields
     def available_custom_fields
       return all_visible_custom_fields if new_record?
 
-      if User.current.allowed_in_project?(:view_project_attributes, self)
-        all_visible_custom_fields.where(id: project_custom_field_project_mappings.select(:custom_field_id))
-                                 .or(ProjectCustomField.required)
-      else
-        all_visible_custom_fields.none
-      end
+      all_visible_custom_fields.where(id: project_custom_field_project_mappings.select(:custom_field_id))
+                               .or(ProjectCustomField.required)
     end
 
     # Note:
@@ -65,7 +61,7 @@ module Projects::CustomFields
     end
 
     def all_visible_custom_fields
-      all_available_custom_fields.visible
+      all_available_custom_fields.visible(project: self)
     end
 
     def custom_field_values_to_validate
