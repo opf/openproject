@@ -1,8 +1,7 @@
 <%=
   component_wrapper do
     flex_layout do |flex|
-      # flex.with_row(classes: "op-meeting-update-flash") do
-      flex.with_row(classes: "op-toast--wrapper op-meeting-update-flash") do
+      flex.with_row(classes: "op-toast--wrapper") do
         render(Primer::Alpha::Banner.new(
           full: false,
           icon: 'info',
