@@ -95,8 +95,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
       it { expect(instance.render(key, ["old value", "new value"])).to be_html_eql(expected) }
     end
 
-    describe "WITH the first value being a string, and the second a string
-              WITH de as locale" do
+    describe "WITH the first value being a string, and the second a string WITH de as locale" do
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
                label: "<strong>Beschreibung</strong>",
@@ -124,8 +123,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
       it { expect(instance.render(key, ["old_value", nil])).to be_html_eql(expected) }
     end
 
-    describe "WITH the first value being nil, and the second a string
-              WITH specifying not to output html" do
+    describe "WITH the first value being nil, and the second a string WITH specifying not to output html" do
       let(:expected) do
         I18n.t(:text_journal_set_with_diff,
                label: key.camelize,
@@ -135,8 +133,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
       it { expect(instance.render(key, [nil, "new value"], html: false)).to be_html_eql(expected) }
     end
 
-    describe "WITH the first value being a string, and the second a string
-              WITH specifying not to output html" do
+    describe "WITH the first value being a string, and the second a string WITH specifying not to output html" do
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
                label: key.camelize,
@@ -146,8 +143,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
       it { expect(instance.render(key, ["old value", "new value"], html: false)).to be_html_eql(expected) }
     end
 
-    describe "WITH the first value being a string, and the second a string
-              WITH specifying to output a full url" do
+    describe "WITH the first value being a string, and the second a string WITH specifying to output a full url" do
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
                label: "<strong>#{key.camelize}</strong>",
