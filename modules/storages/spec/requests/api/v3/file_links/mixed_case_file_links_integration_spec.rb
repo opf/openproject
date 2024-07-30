@@ -190,7 +190,8 @@ RSpec.describe "API v3 file links resource" do
       happy_file_link = elements.detect { |e| e["originData"]["id"] == "24" }
       expect(happy_file_link["_links"]["status"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_VIEW
       # Check that we've got an updated mtime
-      expect(happy_file_link["originData"]["lastModifiedAt"]).to eql Time.zone.at(1655301234).iso8601(3)
+      last_modified = happy_file_link["originData"]["lastModifiedAt"]
+      expect(Time.parse(last_modified).utc).to eql Time.zone.at(1655301234)
 
       # A file link created by another user is not_allowed
       other_user_file_link = elements.detect { |e| e["originData"]["id"] == "25" }
