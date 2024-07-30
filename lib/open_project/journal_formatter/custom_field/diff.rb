@@ -26,26 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class OpenProject::JournalFormatter::CustomField
-  include SharedMethods
-
-  def initialize(journal)
-    @plain_formatter = Plain.new(journal)
-    @diff_formatter = Diff.new(journal)
-  end
-
-  def render(key, values, options = { html: true })
-    formatter_for_key(key).render(key, values, options)
-  end
+class OpenProject::JournalFormatter::CustomField::Diff < OpenProject::JournalFormatter::Diff
+  include OpenProject::JournalFormatter::CustomField::SharedMethods
 
   private
 
-  def formatter_for_key(key)
-    case custom_field_for_key(key)&.field_format
-    when "text"
-      @diff_formatter
+  def label(key, html: true)
+    custom_field = custom_field_for_key(key)
+
+    label = label_for_custom_field(custom_field)
+
+    if html
+      content_tag("strong", label)
     else
-      @plain_formatter
+      label
     end
   end
 end

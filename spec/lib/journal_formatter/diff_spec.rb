@@ -74,93 +74,115 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
   let(:link) { link_to(I18n.t(:label_details), path, class: "diff-details", target: "_top") }
   let(:full_url_link) { link_to(I18n.t(:label_details), url, class: "diff-details", target: "_top") }
 
-  describe "#render" do
-    describe "WITH the first value being nil, and the second a string" do
+  let(:options) { {} }
+
+  subject(:rendered) { instance.render(key, values, **options) }
+
+  describe "with the first value being nil, and the second a string" do
+    let(:values) { [nil, "new value"] }
+
+    let(:expected) do
+      I18n.t(:text_journal_set_with_diff,
+             label: "<strong>#{key.camelize}</strong>",
+             link:)
+    end
+
+    it { expect(rendered).to be_html_eql(expected) }
+  end
+
+  describe "with the first value being a string, and the second a string" do
+    let(:values) { ["old value", "new value"] }
+
+    let(:expected) do
+      I18n.t(:text_journal_changed_with_diff,
+             label: "<strong>#{key.camelize}</strong>",
+             link:)
+    end
+
+    it { expect(rendered).to be_html_eql(expected) }
+  end
+
+  describe "with the first value being a string, and the second nil" do
+    let(:values) { ["old_value", nil] }
+
+    let(:expected) do
+      I18n.t(:text_journal_deleted_with_diff,
+             label: "<strong>#{key.camelize}</strong>",
+             link:)
+    end
+
+    it { expect(rendered).to be_html_eql(expected) }
+  end
+
+  describe "with de locale" do
+    let(:values) { ["old value", "new value"] }
+
+    let(:expected) do
+      I18n.t(:text_journal_changed_with_diff,
+             label: "<strong>Beschreibung</strong>",
+             link:)
+    end
+
+    before { I18n.locale = :de }
+
+    after { I18n.locale = :en }
+
+    it { expect(rendered).to be_html_eql(expected) }
+  end
+
+  context "with non html requested" do
+    let(:options) { { html: false } }
+
+    describe "with the first value being nil, and the second a string" do
+      let(:values) { [nil, "new value"] }
+
       let(:expected) do
         I18n.t(:text_journal_set_with_diff,
-               label: "<strong>#{key.camelize}</strong>",
-               link:)
+               label: key.camelize,
+               link: path)
       end
 
-      it { expect(instance.render(key, [nil, "new value"])).to be_html_eql(expected) }
+      it { expect(rendered).to be_html_eql(expected) }
     end
 
-    describe "WITH the first value being a string, and the second a string" do
+    describe "with the first value being a string, and the second a string" do
+      let(:values) { ["old value", "new value"] }
+
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
-               label: "<strong>#{key.camelize}</strong>",
-               link:)
+               label: key.camelize,
+               link: path)
       end
 
-      it { expect(instance.render(key, ["old value", "new value"])).to be_html_eql(expected) }
+      it { expect(rendered).to be_html_eql(expected) }
     end
 
-    describe "WITH the first value being a string, and the second a string WITH de as locale" do
-      let(:expected) do
-        I18n.t(:text_journal_changed_with_diff,
-               label: "<strong>Beschreibung</strong>",
-               link:)
-      end
+    describe "with the first value being a string, and the second nil" do
+      let(:values) { ["old value", nil] }
 
-      before do
-        I18n.locale = :de
-      end
-
-      after do
-        I18n.locale = :en
-      end
-
-      it { expect(instance.render(key, ["old value", "new value"])).to be_html_eql(expected) }
-    end
-
-    describe "WITH the first value being a string, and the second nil (with link)" do
       let(:expected) do
         I18n.t(:text_journal_deleted_with_diff,
-               label: "<strong>#{key.camelize}</strong>",
-               link:)
-      end
-
-      it { expect(instance.render(key, ["old_value", nil])).to be_html_eql(expected) }
-    end
-
-    describe "WITH the first value being nil, and the second a string WITH specifying not to output html" do
-      let(:expected) do
-        I18n.t(:text_journal_set_with_diff,
                label: key.camelize,
                link: path)
       end
 
-      it { expect(instance.render(key, [nil, "new value"], html: false)).to be_html_eql(expected) }
+      it { expect(rendered).to be_html_eql(expected) }
     end
+  end
 
-    describe "WITH the first value being a string, and the second a string WITH specifying not to output html" do
-      let(:expected) do
-        I18n.t(:text_journal_changed_with_diff,
-               label: key.camelize,
-               link: path)
-      end
+  context "with full url requested" do
+    let(:options) { { only_path: false } }
 
-      it { expect(instance.render(key, ["old value", "new value"], html: false)).to be_html_eql(expected) }
-    end
+    describe "with the first value being a string, and the second a string" do
+      let(:values) { ["old value", "new value"] }
 
-    describe "WITH the first value being a string, and the second a string WITH specifying to output a full url" do
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
                label: "<strong>#{key.camelize}</strong>",
                link: full_url_link)
       end
 
-      it { expect(instance.render(key, ["old value", "new value"], only_path: false)).to be_html_eql(expected) }
-    end
-
-    describe "WITH the first value being a string, and the second nil (with url)" do
-      let(:expected) do
-        I18n.t(:text_journal_deleted_with_diff,
-               label: key.camelize,
-               link: path)
-      end
-
-      it { expect(instance.render(key, ["old_value", nil], html: false)).to be_html_eql(expected) }
+      it { expect(rendered).to be_html_eql(expected) }
     end
   end
 end
