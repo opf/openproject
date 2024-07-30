@@ -60,6 +60,13 @@ zh-CN:
       automatic: 自动托管
       inactive: 没有指定文件夹
       manual: 手动管理现有文件夹
+    remove_project:
+      dialog:
+        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
+        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
+        heading: Remove project from %{storage_type}
+        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
+      label: Remove project
   storages:
     buttons:
       complete_without_setup: 没有它就完成

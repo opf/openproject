@@ -114,8 +114,7 @@ RSpec.describe WorkPackagePolicy, type: :controller do
         expect(subject).to be_allowed(work_package, :comment)
       end
 
-      it 'is false if the user has the edit_work_packages permission
-          but the work_package is unpersisted' do
+      it "is false if the user has the edit_work_packages permission but the work_package is unpersisted" do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :edit_work_packages, project:
         end

@@ -109,8 +109,8 @@ RSpec.describe "Custom field filter and group by caching" do
     expect_filter_all_to_not_exist(custom_field)
   end
 
-  it 'allows for changing the db entries directly via SQL between requests \
-      if no caching is done (this could also mean switching dbs)' do
+  it "allows for changing the db entries directly via SQL between requests " \
+     "if no caching is done (this could also mean switching dbs)" do
     new_label = "our new label"
     mock_cache_classes_setting_with(false)
 

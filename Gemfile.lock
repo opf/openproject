@@ -466,6 +466,9 @@ GEM
       dotenv (= 3.1.2)
       railties (>= 6.1)
     drb (2.2.1)
+    dry-auto_inject (1.0.1)
+      dry-core (~> 1.0)
+      zeitwerk (~> 2.6)
     dry-container (0.11.0)
       concurrent-ruby (~> 1.0)
     dry-core (1.0.1)
@@ -1205,6 +1208,7 @@ DEPENDENCIES
   disposable (~> 0.6.2)
   doorkeeper (~> 5.7.0)
   dotenv-rails
+  dry-auto_inject
   dry-container
   dry-monads
   email_validator (~> 2.2.3)

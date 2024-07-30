@@ -23,7 +23,7 @@ pt-BR:
             project_folder_mode:
               mode_unavailable: não está disponível para este armazenamento.
             project_ids:
-              blank: Please select a project.
+              blank: Por favor, selecione um projeto.
         storages/storage:
           attributes:
             host:
@@ -60,6 +60,13 @@ pt-BR:
       automatic: Gerenciado automaticamente
       inactive: Nenhuma pasta específica
       manual: Pasta existente gerenciada manualmente
+    remove_project:
+      dialog:
+        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
+        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
+        heading: Remove project from %{storage_type}
+        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
+      label: Remove project
   storages:
     buttons:
       complete_without_setup: Concluir sem isso
@@ -115,13 +122,13 @@ pt-BR:
       checked: Última verificação em %{datetime}
       connection_validation:
         action: Verifique novamente a conexão
-        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
+        app_version_mismatch: A integração da versão do aplicativo OpenProject não é suportada. Por favor, atualize seu servidor NextCloud.
         client_id_wrong: O ID do cliente OAuth 2 configurado é inválido. Verifique a configuração.
         client_secret_wrong: O segredo do cliente OAuth 2 configurado é inválido. Verifique a configuração.
         drive_id_wrong: O ID do drive configurado não foi encontrado. Verifique a configuração.
-        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
-        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
-        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
+        group_folder_version_mismatch: A versão da Pasta de Grupo não é suportada. Por favor, atualize seu servidor NextCloud.
+        host_not_found: Nenhum servidor Nextcloud encontrado no URL do host configurado. Por favor, verifique a configuração.
+        missing_dependencies: 'Está faltando uma dependência necessária do armazenamento de arquivos. Por favor, adicione a seguinte dependência: %{dependency}.'
         not_configured: A conexão não pôde ser validada. Conclua a configuração primeiro.
         placeholder: Verifique sua conexão com o servidor.
         subtitle: Validação de conexão

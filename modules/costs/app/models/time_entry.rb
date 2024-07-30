@@ -57,12 +57,10 @@ class TimeEntry < ApplicationRecord
   # TODO: move into service
   before_save :update_costs
 
-  register_journal_formatted_fields(:time_entry_hours, "hours")
-  register_journal_formatted_fields(:time_entry_named_association, "user_id")
-  register_journal_formatted_fields(:named_association, "work_package_id")
-  register_journal_formatted_fields(:named_association, "activity_id")
-  register_journal_formatted_fields(:plaintext, "comments")
-  register_journal_formatted_fields(:plaintext, "spent_on")
+  register_journal_formatted_fields "hours", formatter_key: :time_entry_hours
+  register_journal_formatted_fields "user_id", formatter_key: :time_entry_named_association
+  register_journal_formatted_fields "work_package_id", "activity_id", formatter_key: :named_association
+  register_journal_formatted_fields "comments", "spent_on", formatter_key: :plaintext
 
   def self.update_all(updates, conditions = nil, options = {})
     # instead of a update_all, perform an individual update during work_package#move

@@ -75,8 +75,8 @@ RSpec.describe Mails::MemberUpdatedJob, type: :model do
         it_behaves_like "updated mail"
       end
 
-      context 'with the user having had a membership with the same roles
-               from another group before the group`s membership was added' do
+      context "with the user having had a membership with the same roles " \
+              "from another group before the group`s membership was added" do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
                          role:,
@@ -144,8 +144,8 @@ RSpec.describe Mails::MemberUpdatedJob, type: :model do
         it_behaves_like "sends no mail"
       end
 
-      context 'with the user having had a membership with the same roles
-               from another group before the group`s membership was added' do
+      context "with the user having had a membership with the same roles " \
+              "from another group before the group`s membership was added" do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
                          role:,

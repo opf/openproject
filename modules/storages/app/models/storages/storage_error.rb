@@ -53,9 +53,9 @@ module Storages
       output
     end
 
-    def storage_error = "storage error"
-
-    def read_attribute_for_validation(attr) = send(attr)
+    def read_attribute_for_validation(attr)
+      attr.to_s
+    end
 
     def self.human_attribute_name(attr, _options = {}) = attr
 

@@ -704,7 +704,7 @@ pt-BR:
         is_closed: "Pacote de trabalho fechado"
         is_readonly: "Pacote de trabalho somente leitura"
         excluded_from_totals: "Excluir do cálculo de totais na hierarquia"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% concluído"
       time_entry:
         activity: "Atividade"
         hours: "horas"
@@ -996,7 +996,7 @@ pt-BR:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "deve estar entre 0 e 100."
           readonly_default_exlusive: "Não pode ser ativado para estados marcados como padrão."
         time_entry:
           attributes:
@@ -2039,7 +2039,7 @@ pt-BR:
   label_inactive: "Inativo"
   label_incoming_emails: "E-mails recebidos"
   label_includes: "inclui"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Incluir subprojetos
   label_index_by_date: "Índice por data"
   label_index_by_title: "Índice por título"
   label_information: "Informação"
@@ -2272,7 +2272,7 @@ pt-BR:
   label_role_search: "Atribuir papéis aos novos membros"
   label_scm: "SCM"
   label_search: "Pesquisar"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Pesquisar por nome"
   label_send_information: "Enviar novas credenciais ao usuário"
   label_send_test_email: "Enviar um e-mail de teste"
   label_session: "Sessão"
@@ -2385,7 +2385,7 @@ pt-BR:
   label_work_package_new: "Novo pacote de trabalho"
   label_work_package_edit: "Editar pacote de trabalho %{name}"
   label_work_package_plural: "Pacotes de trabalho"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "Configurações dos pacotes de trabalho"
   label_work_package_status: "Situação do pacote de trabalho"
   label_work_package_status_new: "Nova situação"
   label_work_package_status_plural: "Situações do Pacote de Trabalho"
@@ -2393,7 +2393,7 @@ pt-BR:
   label_work_package_tracking: "Controle de pacote de trabalho"
   label_work_package_view_all: "Exibir todos os pacotes de trabalho"
   label_workflow: "Fluxo de Trabalho"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Copiar fluxo de trabalho"
   label_workflow_plural: "Fluxos de trabalho"
   label_workflow_summary: "Sumário"
   label_working_days_and_hours: "Dias e horas úteis"

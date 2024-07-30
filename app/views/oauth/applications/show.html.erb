@@ -29,25 +29,8 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), t('oauth.application.singular'), h(@application.name) -%>
 <% local_assigns[:additional_breadcrumb] = h(@application.name) %>
 
-<%= toolbar title: "#{t('oauth.application.singular')} - #{h(@application.name)}",
-            title_class: 'no-padding-bottom' do %>
-  <li class="toolbar-item">
-    <%= link_to edit_oauth_application_path(@application),
-                class: 'button' do %>
-      <%= op_icon('button--icon icon-edit') %>
-      <span class="button--text"><%= t(:button_edit) %></span>
-    <% end %>
-  </li>
-  <li class="toolbar-item">
-    <%= link_to oauth_application_path(@application),
-                method: :delete,
-                data: { confirm: I18n.t(:text_are_you_sure) },
-                class: 'button -danger' do %>
-      <%= op_icon('button--icon icon-delete') %>
-      <span class="button--text"><%= t(:button_delete) %></span>
-    <% end %>
-  </li>
-<% end %>
+
+<%= render OAuth::ShowPageHeaderComponent.new(application: @application) %>
 
 <%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
   <% component.with_header(title: t(:label_details)) %>

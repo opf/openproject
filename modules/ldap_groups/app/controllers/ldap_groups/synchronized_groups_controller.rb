@@ -69,16 +69,10 @@ module LdapGroups
         .permit(:dn, :group_id, :ldap_auth_source_id, :sync_users)
     end
 
-    def default_breadcrumb
-      if action_name == "index"
-        t("ldap_groups.synchronized_groups.plural")
-      else
-        ActionController::Base.helpers.link_to(t("ldap_groups.synchronized_groups.plural"), ldap_groups_synchronized_groups_path)
-      end
-    end
+    def default_breadcrumb; end
 
     def show_local_breadcrumb
-      true
+      false
     end
   end
 end

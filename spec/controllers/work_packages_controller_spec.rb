@@ -59,8 +59,8 @@ RSpec.describe WorkPackagesController do
       end
     end
 
-    describe 'w/ the permission to see the project
-              w/ having the necessary permissions' do
+    describe "with the permission to see the project " \
+             "with having the necessary permissions" do
       before do
         expect(WorkPackage).to receive_message_chain("visible.find_by").and_return(stub_work_package)
       end
@@ -70,8 +70,8 @@ RSpec.describe WorkPackagesController do
   end
 
   def self.requires_export_permission(&)
-    describe 'w/ the export permission
-              w/o a project' do
+    describe "with the export permission " \
+             "without a project" do
       let(:project) { nil }
       let(:other_project) { build_stubbed(:project) }
 
@@ -84,8 +84,8 @@ RSpec.describe WorkPackagesController do
       instance_eval(&)
     end
 
-    describe 'w/ the export permission
-              w/ a project' do
+    describe "with the export permission " \
+             "with a project" do
       before do
         params[:project_id] = project.id
 

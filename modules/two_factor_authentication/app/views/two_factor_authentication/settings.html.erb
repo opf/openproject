@@ -1,6 +1,15 @@
 <% html_title(t(:label_administration), t('two_factor_authentication.settings.title')) -%>
 
-<%= breadcrumb_toolbar(t('two_factor_authentication.settings.title')) %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { I18n.t("two_factor_authentication.settings.title") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_authentication_path, text: t(:label_authentication) },
+                             I18n.t("two_factor_authentication.settings.title")])
+  end
+%>
+
+
 <section class="admin--edit-section">
   <%= styled_form_tag({ action: :update },
                       method: :post,
