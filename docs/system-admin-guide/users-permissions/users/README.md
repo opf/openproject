@@ -31,7 +31,7 @@ In the Community edition there is no limit to the number of users. In Enterprise
 
 The User list is where users are managed. They can be added, edited or deleted from this list, which can be filtered if required.
 
-![openproject_system_admin_guide_users_list](openproject_system_aDmin_guide_users_list.png)
+![openproject_system_admin_guide_users_list](openproject_system_admin_guide_users_list.png)
 
 Column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0). Paging controls are shown at the bottom of the list. You will also see whether a user is a system administrator in OpenProject.
 
