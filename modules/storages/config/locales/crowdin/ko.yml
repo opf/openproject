@@ -60,6 +60,13 @@ ko:
       automatic: 자동으로 관리됨
       inactive: 특정 폴더 없음
       manual: 수동으로 관리되는 기존 폴더
+    remove_project:
+      dialog:
+        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
+        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
+        heading: Remove project from %{storage_type}
+        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
+      label: Remove project
   storages:
     buttons:
       complete_without_setup: 이것 없이 완료
