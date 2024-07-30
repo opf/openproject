@@ -87,6 +87,12 @@ en:
         rename_project_folder: 'Rename managed project Folder:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: "The folder %{destination_path} already exists. Interrupting process to avoid overwrites."
+          not_found: "The source template location %{source_path} wasn't found."
+          unauthorized: "OpenProject could not authenticate with the Storage Provider. Please check your storage configuration"
+          forbidden: "OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider"
+          error: "An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator"
         nextcloud_sync_service:
           attributes:
             add_user_to_group:

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,32 +29,45 @@
 #++
 
 module Storages
-  module TaggedLogging
-    delegate :info, :error, to: :logger
+  class BaseService
+    extend ActiveModel::Naming
+    extend ActiveModel::Translation
 
-    # @param tag [Class, String, Array<Class, String>] the tag or list of tags to annotate the logs with
-    # @yield [Logger]
-    def with_tagged_logger(tag = self.class, &)
-      logger.tagged(*tag, &)
+    include TaggedLogging
+
+    class << self
+      def i18n_key=(value)
+        @yaml_key = value
+      end
+
+      def i18n_key = @yaml_key || class_name
+
+      def i18n_scope = "services"
+
+      def model_name = ActiveModel::Name.new(self, Storages, i18n_key)
     end
 
-    # @param storage_error [Storages::StorageError] an instance of Storages::StorageError
-    # @param context [Hash{Symbol => Object}] extra metadata that will be appended to the logs
-    def log_storage_error(storage_error, context = {})
-      payload = storage_error.data&.payload
-      data = case payload
-             in { status: Integer }
-               { status: payload&.status, body: payload&.body.to_s }
-             else
-               payload.to_s
-             end
-
-      error_message = context.merge({ error_code: storage_error.code, message: storage_error.log_message, data: })
-      error error_message
+    def initialize
+      @result = ServiceResult.success(errors: ActiveModel::Errors.new(self))
     end
 
-    def logger
-      Rails.logger
+    def read_attribute_for_validation(attr) = attr
+
+    private
+
+    # @param attribute [Symbol] attribute to which the error will be tied to
+    # @param storage_error [Storages::StorageError] an StorageError instance
+    # @param options [Hash{Symbol => Object}] optional extra parameters for the message generation
+    # @return ServiceResult
+    def add_error(attribute, storage_error, options: {})
+      case storage_error.code
+      when :error, :unauthorized
+        @result.errors.add(:base, storage_error.code, **options)
+      else
+        @result.errors.add(attribute, storage_error.code, **options)
+      end
+
+      @result
     end
   end
 end

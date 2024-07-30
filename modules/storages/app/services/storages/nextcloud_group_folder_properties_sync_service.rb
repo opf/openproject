@@ -29,11 +29,7 @@
 #++
 
 module Storages
-  class NextcloudGroupFolderPropertiesSyncService
-    extend ActiveModel::Naming
-    extend ActiveModel::Translation
-    include TaggedLogging
-
+  class NextcloudGroupFolderPropertiesSyncService < BaseService
     using Peripherals::ServiceResultRefinements
 
     PERMISSIONS_MAP = { read_files: 1, write_files: 2, create_files: 4, delete_files: 8, share_files: 16 }.freeze
@@ -45,19 +41,15 @@ module Storages
                      "nextcloud.queries.group_users", "nextcloud.queries.file_ids", "nextcloud.authentication.userless",
                      "nextcloud.commands.add_user_to_group", "nextcloud.commands.remove_user_from_group"]
 
-    def self.i18n_scope = "services"
-    def self.model_name = ActiveModel::Name.new(self, Storages, "NextcloudSyncService")
+    def self.i18n_key = "NextcloudSyncService"
 
     def self.call(storage)
       new(storage).call
     end
 
-    def read_attribute_for_validation(attr) = attr
-
     def initialize(storage, **)
       super(**)
       @storage = storage
-      @result = ServiceResult.success(errors: ActiveModel::Errors.new(self))
     end
 
     def call
@@ -73,21 +65,6 @@ module Storages
 
     def epilogue
       info "Synchronization process for Nextcloud Storage #{@storage.id} has ended. #{@result.errors.count} errors found."
-      @result
-    end
-
-    # @param attribute [Symbol] attribute to which the error will be tied to
-    # @param storage_error [Storages::StorageError] an StorageError instance
-    # @param options [Hash{Symbol => Object}] optional extra parameters for the message generation
-    # @return ServiceResult
-    def add_error(attribute, storage_error, options: {})
-      case storage_error.code
-      when :error, :unauthorized
-        @result.errors.add(:base, storage_error.code, **options)
-      else
-        @result.errors.add(attribute, storage_error.code, **options)
-      end
-
       @result
     end
 
