@@ -177,16 +177,12 @@ namespace :copyright do
 
   desc "Update the copyright on .css source files"
   task :update_css, :path do |_task, args|
-    excluded = []
-
-    rewrite_copyright("css", excluded, :css, args[:path])
+    rewrite_copyright("css", [], :css, args[:path])
   end
 
   desc "Update the copyright on .css.erb source files"
   task :update_css_erb, :path do |_task, args|
-    excluded = []
-
-    rewrite_copyright("css.erb", excluded, :css, args[:path])
+    rewrite_copyright("css.erb", [], :css, args[:path])
   end
 
   desc "Update the copyright on .sass source files"
@@ -204,9 +200,7 @@ namespace :copyright do
 
   desc "Update the copyright on .js source files"
   task :update_js, :path do |_task, args|
-    excluded = []
-
-    rewrite_copyright("js", excluded, :js, args[:path])
+    rewrite_copyright("js", [], :js, args[:path])
   end
 
   desc "Update the copyright on .js.erb source files"
