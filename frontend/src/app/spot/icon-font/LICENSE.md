@@ -1,6 +1,6 @@
 # All fonts in this directory are lincensed under the Creative Commons Attribution 3.0 Unported License
 
-Copyright (C) 2013 the OpenProject Foundation (OPF)
+Copyright (C) the OpenProject GmbH
 This work is based on the following sources
 Minicons Free Vector Icons Pack http://www.webalys.com/minicons and
 User Interface Design framework http://www.webalys.com/design-interface-application-framework.php
