@@ -85,7 +85,7 @@ Now, you can configure which related work packages should be included in your em
 
 Click the blue **Apply** button to add this work package list to your form.
 
-![Sys-admin-work-package-table-config](op_sys_admin_filter_wp.png)
+![Sys-admin-work-package-table-config](openproject_system_admin_guide_filter_wp.png)
 
 The embedded related work package table in the work package form will look like this. Here, the work packages with the chosen relation will be shown automatically (based on the filtered criteria in the embedded list) or new work packages with this relation can be added.
 
