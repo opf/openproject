@@ -49,4 +49,5 @@ When you decide to set the new status as default status please note the followin
 
 ![Edit work package status in OpenProject administration](openproject_system_guide_edit_new_wp_status.png)
 
-> **Note**: A new status needs to be activated in the [work package workflows](../work-package-workflows) in order to appear in the status drop down of a work package.
+> [!NOTE]
+> A new status needs to be activated in the [work package workflows](../work-package-workflows) in order to appear in the status drop down of a work package.

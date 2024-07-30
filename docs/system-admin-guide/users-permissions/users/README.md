@@ -31,13 +31,13 @@ In the Community edition there is no limit to the number of users. In Enterprise
 
 The User list is where users are managed. They can be added, edited or deleted from this list, which can be filtered if required.
 
-![openproject_system_admin_guide_users_list](openproject_system_admin_guide_users_list.png)
+![openproject_system_admin_guide_users_list](openproject_system_aDmin_guide_users_list.png)
 
 Column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0). Paging controls are shown at the bottom of the list. You will also see whether a user is a system administrator in OpenProject.
 
 ## Filter users
 
-At the top of the user list is a filter box. Filter by status. group or name, then click the blue **Apply** button to filter the list. Click the **Clear** button to reset the filter fields and refresh the list.
+At the top of the user list is a filter box. Filter by status. group or name, then click the green **Apply** button to filter the list. Click the **Clear** button to reset the filter fields and refresh the list.
 
 * **Status** - select from Active, All or Locked Temporarily. Each selection shows the number of users.
 * **Group** - select from the list of existing groups.
@@ -142,7 +142,7 @@ To create a new password for a user (e.g. if he/she lost it) navigate to the **A
 
 In order to see and work in a project, a user has to be a member of a project and needs to be added with a certain role to this project.
 
-On the **Projects** tab, select the new project from the drop-down list, choose the [roles](../roles-permissions) for this project and click the blue **Add** button.
+On the **Projects** tab, select the new project from the drop-down list, choose the [roles](../roles-permissions) for this project and click the green **Add** button.
 
 ![Sysadmin add project](Sys-admin-add-project1.gif)
 
@@ -235,4 +235,5 @@ You will then be asked to type in the username in order to delete the user perma
 
 ![delete user](delete-user-confirmation.png)
 
-> **Note**: Deleting a user account is a permanent action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to **Deleted user**. This is also true for the Time and cost and the Budget modules. Spent time will be still be visible for **Deleted user** inside a Work package. Time and cost reports will contain the entries with reference to **Deleted user**. Labor budgets that have been setup for the user are displayed under **Deleted user**, too. If you would like to keep track of the user's name in connection with the mentioned activities, the spent time and the budget, you are able to keep the user's name in the historical data by simply [locking the user](#lock-and-unlock-users).
+> [!CAUTION]
+> Deleting a user account is a permanent action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to **Deleted user**. This is also true for the Time and cost and the Budget modules. Spent time will be still be visible for **Deleted user** inside a Work package. Time and cost reports will contain the entries with reference to **Deleted user**. Labor budgets that have been setup for the user are displayed under **Deleted user**, too. If you would like to keep track of the user's name in connection with the mentioned activities, the spent time and the budget, you are able to keep the user's name in the historical data by simply [locking the user](#lock-and-unlock-users).

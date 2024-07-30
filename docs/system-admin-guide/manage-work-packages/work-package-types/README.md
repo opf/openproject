@@ -32,7 +32,7 @@ Click the green **+ Type** button to add a new work package type in the system, 
 5. Choose whether the type should be a **milestone**, e.g. displayed as a milestone in the Gantt chart with the same start and finish date.
 6. You can **copy a [workflow](../work-package-workflows)** from an existing type.
 7. You can enter a **default text for the work package description field**, which always be shown when creating new work package from this type. This way, you can easily create work package templates, e.g. for risk management or bug tracking which already contain certain required information in the description.
-8. Click the blue **Create** button to add the new type.
+8. Click the **Create** button to add the new type.
 
 ![Sys-admin-add-work-package-type](openproject_system_guide_new_work_package_typ.png)
 
@@ -40,25 +40,26 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 You can freely **configure the attributes shown** for each work package type to decide which attributes are shown in the form and how they are grouped.
 
-> **Note**: Some parts of the Work package form configuration are an Enterprise add-on and only available for the [OpenProject Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) and the [Enterprise On-premises edition](https://www.openproject.org/enterprise-edition/).
+> [!NOTE]
+> Some parts of the Work package form configuration are an Enterprise add-on and only available for the [OpenProject Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) and the [Enterprise On-premises edition](https://www.openproject.org/enterprise-edition/).
 > The Enterprise edition allows you to customize form configuration with these additional features:
 >
 > - **Add new attribute groups**
 > - **Rename attribute groups**
 > - **Add table of related work packages to a work package form**
 
-To configure a type, first select the type from the list of types (see above) and select the tab **Form configuration** *(1)*.
+To configure a type, first select the type from the list of types (see above) and select the tab **Form configuration**.
 
 Active attributes shown in blue color on the left will be displayed in the work package form for this type.
-You can then decide for each attribute which group it should be assigned to (using drag and drop or removing it by clicking the remove  icon) *(2)*. You can also rename attribute groups simply by clicking on their name or re-order attribute groups with drag and drop.
+You can then decide for each attribute which group it should be assigned to (using drag and drop or removing it by clicking the remove  icon). You can also rename attribute groups simply by clicking on their name or re-order attribute groups with drag and drop.
 
-Inactive attributes shown in the grey color on the right. Attributes which have been removed are shown in the **Inactive** column on the right *(3)*. This column also includes [custom fields](../../custom-fields) which have been created. The custom fields also can be added with drag and drop to the active form (the blue part on the left) to be displayed in the form.
+Inactive attributes shown in the grey color on the right. Attributes which have been removed are shown in the **Inactive** column on the right. This column also includes [custom fields](../../custom-fields) which have been created. The custom fields also can be added with drag and drop to the active form (the blue part on the left) to be displayed in the form.
 
-To add additional group, click the **+ Group** button *(4)* and select **Add attribute group**. Give the new group a name. You can then assign attributes (e.g. custom fields) via drag and drop. Note that adding attribute groups is only possible with the [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and the [OpenProject Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options).
+To add additional group, click the **+ Group** button and select **Add attribute group**. Give the new group a name. You can then assign attributes (e.g. custom fields) via drag and drop. Note that adding attribute groups is only possible with the [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and the [OpenProject Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options).
 
-In case you made a mistake, click the **Reset to defaults (5)** button to reset all settings to the original state.
+In case you made a mistake, click the **Reset to defaults** button to reset all settings to the original state.
 
-Finally, **save** the settings to apply them *(6)*.
+Finally, **save** the settings to apply them.
 
 ![Sys-admin-type-form-configuration](openproject_system_guide_wp_form_configuration.png)
 

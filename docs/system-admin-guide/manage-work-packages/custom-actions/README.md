@@ -13,7 +13,8 @@ Automated workflows with custom actions support you to easily update several wor
 
 You can use custom actions to standardize your workflows, avoid errors and reduce manual work for updates.
 
-The workflows with custom actions are an Enterprise add-on and only available for [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) customers.
+> [!NOTE]
+> The workflows with custom actions are an Enterprise add-on and only available for [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) customers.
 
 Watch the following video to see how you can configure your custom actions:
 
@@ -23,9 +24,9 @@ Watch the following video to see how you can configure your custom actions:
 
 Navigate to the -> *Administration* -> *Work packages* -> *Custom actions*.
 
-To create a new custom action button press the green **+ Custom action button**.
+To create a new custom action button press the green **+ Custom action** button.
 
-![custom action](image-20200211142943484.png)
+![custom actions overview in OpenProject administration](openproject_system_guide_work_packages_custom_actions_overview.png)
 
 You can now configure the **Conditions** and **Actions** for the custom action button.
 
@@ -35,18 +36,18 @@ You can now configure the **Conditions** and **Actions** for the custom action b
 4. Set the **actions** what should happen after pressing the custom action button, e.g. status transitions, and changes to any other attribute.
 5. **Save** your changes.
 
-![Sys-admin-custom-actions](Sys-admin-custom-actions.png)
+![Create a new custom action in OpenProject administration](openproject_system_guide_work_packages_custom_actions_create_new.png)
 
 If a work package is then in the defined condition, the button will appear on top of a work package and will apply the actions and changing the attributes of a work package as defined in the configuration when clicking on the button.
 
-![Sys-admin-custom-action-button](Sys-admin-custom-action-button.png)
+![Custom action button in an OpenProject work package](openproject_system_guide_work_packages_custom_actions_button.png)
 
-![custom action](custom-action-demo-copy.gif)
+
 
 ## Update, sort or delete custom actions
 
-1. Click on the name of a custom action in order to update the attributes.
-2. Click the up or down arrow in order to sort the order of the custom action button on the work packages.
+1. Click on the name of a custom action or on the pencil icon in order to update the attributes.
+2. Click the arrow icons in order to sort the order of the custom action button on the work packages.
 3. Delete a custom action.
 
-![Sys-admin-update-custom-actions](Sys-admin-update-custom-actions.png)
+![Update or delete custom actions in OpenProject administration](openproject_system_guide_work_packages_custom_actions_edit_delete.png)

@@ -35,6 +35,7 @@ Following user permissions are set on files and folder in **External Storages**:
 - **Automatically managed folders: Delete files (Nextcloud)**
 - **Automatically managed folders: Share files (Nextcloud)**
 
+> [!NOTE]
 > Please note that not all file permissions are applicable to all storage providers.
 
 ## Roles
