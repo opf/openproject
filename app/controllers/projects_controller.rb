@@ -77,6 +77,8 @@ class ProjectsController < ApplicationController
           projects_menu_url(query_id: @query.id, controller_path: "projects")
         )
 
+        turbo_streams << turbo_stream.replace("flash-messages", helpers.render_flash_messages)
+
         render turbo_stream: turbo_streams
       end
     end
