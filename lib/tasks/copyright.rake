@@ -156,7 +156,12 @@ namespace :copyright do
 
   desc "Update the copyright on .yml source files"
   task :update_yml, :path do |_task, args|
-    rewrite_copyright("yml", [], :rb, args[:path])
+    excluded = %w[
+      config/locales/{crowdin,generated}/*.yml
+      modules/*/config/locales/crowdin/*.yml
+    ]
+
+    rewrite_copyright("yml", excluded, :rb, args[:path])
   end
 
   desc "Update the copyright on .yml.example source files"
