@@ -35,6 +35,7 @@ module ::TwoFactorAuthentication
         @two_factor_devices = @user.otp_devices.reload
         @has_remember_token_for_user = any_remember_token_present?(current_user)
         @remember_token = get_2fa_remember_token(current_user)
+        @available_devices = available_devices
       end
 
       ##
