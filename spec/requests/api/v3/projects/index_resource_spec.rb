@@ -408,8 +408,8 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
         create(:work_package, project: public_wp_share_project)
       end
       shared_let(:project_cf) do
-        # This custom field is enabled in both project and other_project to test enabled
-        # custom field state overflow between 2 projects.
+        # This custom field is enabled in both project and other_project to test that there is no
+        # bleeding of enabled custom fields between 2 projects.
         pcf = create(:project_custom_field_project_mapping, project:).project_custom_field
         create(:project_custom_field_project_mapping,
                project: other_project,
