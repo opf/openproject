@@ -22,7 +22,9 @@
         menu.with_item(
           label: t("two_factor_authentication.devices.#{key}.title"),
           href: url_for(action: :new, type: key)
-        )
+        ) do |item|
+            item.with_description.with_content(t("two_factor_authentication.devices.#{key}.description"))
+        end
       end
     end
   end
