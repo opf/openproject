@@ -410,11 +410,11 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
       shared_let(:project_cf) do
         # This custom field is enabled in both project and other_project to test that there is no
         # bleeding of enabled custom fields between 2 projects.
-        pcf = create(:project_custom_field_project_mapping, project:).project_custom_field
-        create(:project_custom_field_project_mapping,
-               project: other_project,
-               project_custom_field: pcf)
-        pcf
+        create(:project_custom_field_project_mapping, project:).project_custom_field.tap do |pcf|
+          create(:project_custom_field_project_mapping,
+                 project: other_project,
+                 project_custom_field: pcf)
+        end
       end
       shared_let(:public_cf) do
         create(:project_custom_field_project_mapping, project: public_project).project_custom_field

@@ -39,9 +39,10 @@ RSpec.describe Project, "customizable" do
   let!(:list_custom_field) do
     create(:list_project_custom_field, project_custom_field_section: section)
   end
+  let(:user) { build_stubbed(:admin) }
 
   before do
-    allow(User).to receive(:current).and_return build_stubbed(:admin)
+    allow(User).to receive(:current).and_return user
   end
 
   context "when not persisted" do
@@ -77,6 +78,35 @@ RSpec.describe Project, "customizable" do
 
         expect(project.available_custom_fields)
           .to contain_exactly(bool_custom_field)
+      end
+
+      context "when the same custom field is activated in multiple projects a user is member of " \
+              "and they only have view_project_attributes permission in one of the project" do
+        let(:other_project) { create(:project) }
+        let!(:project_cf) do
+          # This custom field is enabled in both project and other_project to test that there is no
+          # bleeding of enabled custom fields between 2 projects.
+          create(:project_custom_field_project_mapping, project:).project_custom_field.tap do |pcf|
+            create(:project_custom_field_project_mapping,
+                   project: other_project,
+                   project_custom_field: pcf)
+          end
+        end
+
+        let(:user) do
+          create(:user, member_with_permissions: {
+                   project => [],
+                   other_project => %i(view_project_attributes)
+                 })
+        end
+
+        it "returns available_custom_fields only for the other_project" do
+          expect(project.available_custom_fields)
+            .to be_empty
+
+          expect(other_project.available_custom_fields)
+            .to contain_exactly(project_cf)
+        end
       end
     end
 
