@@ -15,9 +15,13 @@ module ::TwoFactorAuthentication
     layout "no_menu"
 
     def new
-      @device_type = params[:type].to_sym
-      @device = new_device_type! @device_type
-      render "two_factor_authentication/two_factor_devices/new"
+      if params[:type]
+        @device_type = params[:type].to_sym
+        @device = new_device_type! @device_type
+        render "two_factor_authentication/two_factor_devices/new"
+      else
+        redirect_to index_path
+      end
     end
 
     ##

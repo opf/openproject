@@ -67,7 +67,7 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
 
         it "renders the new form" do
           expect(response).to be_successful
-          expect(response).to render_template "new_type"
+          expect(response).to render_template "new"
         end
       end
 
