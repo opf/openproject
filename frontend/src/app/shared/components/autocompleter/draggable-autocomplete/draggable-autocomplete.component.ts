@@ -61,6 +61,9 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   /** Label to display drag&drop area */
   @Input() dragAreaLabel = '';
 
+  /** Name of drag&drop area group */
+  @Input() dragAreaName = 'columns';
+
   /** Decide whether to bind the component to the component or to the body */
   /** Binding to the component in case the component is inside a Primer Dialog which uses popover */
   @Input() appendToComponent = false;
@@ -96,19 +99,19 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
 
     // Setup groups
     this.columnsGroup = this.dragula.createGroup(
-      'columns',
+      this.dragAreaName,
       { mirrorContainer: this.appendToComponent ? document.getElementById('op-draggable-autocomplete-container')! : document.body },
     );
 
     // Set cursor when dragging
-    this.dragula.drag('columns')
+    this.dragula.drag(this.dragAreaName)
       .pipe(this.untilDestroyed())
       .subscribe(() => setBodyCursor('move', 'important'));
 
     // Reset cursor when cancel or dropped
     merge(
-      this.dragula.drop('columns'),
-      this.dragula.cancel('columns'),
+      this.dragula.drop(this.dragAreaName),
+      this.dragula.cancel(this.dragAreaName),
     )
       .pipe(this.untilDestroyed())
       .subscribe(() => setBodyCursor('auto'));
@@ -147,7 +150,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   ngOnDestroy():void {
     super.ngOnDestroy();
 
-    this.dragula.destroy('columns');
+    this.dragula.destroy(this.dragAreaName);
   }
 
   select(item:DraggableOption|undefined) {

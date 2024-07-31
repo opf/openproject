@@ -219,7 +219,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
 
   describe "with a request for a PDF Report" do
-    let(:options) { { show_report: true } }
+    let(:options) { { pdf_export_type: "report" } }
 
     it "contains correct data" do
       expect(pdf_strings).to eq [
@@ -236,7 +236,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
 
   describe "with a request for a PDF Report with hierarchies" do
-    let(:options) { { show_report: true } }
+    let(:options) { { pdf_export_type: "report" } }
     let(:query_attributes) { { show_hierarchies: true } }
 
     it "contains correct data" do
@@ -254,7 +254,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
 
   describe "with a request for a PDF Report with sums" do
-    let(:options) { { show_report: true } }
+    let(:options) { { pdf_export_type: "report" } }
     let(:query_attributes) { { display_sums: true } }
 
     it "contains correct data" do
@@ -275,7 +275,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
 
   describe "with a request for a PDF Report grouped with sums" do
-    let(:options) { { show_report: true } }
+    let(:options) { { pdf_export_type: "report" } }
     let(:query_attributes) { { display_sums: true, group_by: "type" } }
 
     it "contains correct data" do
@@ -298,7 +298,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
 
   describe "with a request for a PDF Report grouped by a custom field with sums" do
-    let(:options) { { show_report: true } }
+    let(:options) { { pdf_export_type: "report" } }
     let(:query_attributes) { { display_sums: true, group_by: list_custom_field.column_name } }
 
     it "contains correct data" do

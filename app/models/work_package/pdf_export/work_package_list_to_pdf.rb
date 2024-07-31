@@ -248,6 +248,6 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def with_images?
-    options[:show_images]
+    options[:show_images] == "true"
   end
 end

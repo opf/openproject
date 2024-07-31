@@ -160,7 +160,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
   }
 
   isGanttOption(option:ExportOptions):boolean {
-    return option.url.includes('&gantt=true');
+    return option.url.includes('pdf_export_type=gantt');
   }
 
   exportGantt(event:MouseEvent):void {

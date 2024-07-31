@@ -35,7 +35,7 @@ module WorkPackagesControllerHelper
   end
 
   def check_allowed_export
-    return unless params[:format] == "pdf" && params[:gantt] == "true"
+    return unless params[:format] == "pdf" && params[:pdf_export_type] == "gantt"
 
     render_403 unless EnterpriseToken.allows_to?(:gantt_pdf_export)
   end
@@ -50,6 +50,11 @@ module WorkPackagesControllerHelper
 
   def supported_single_formats
     ::Exports::Register.single_formats(WorkPackage).map(&:to_s)
+  end
+
+  def load_query
+    @query ||= retrieve_query(@project)
+    @query.name = params[:title] if params[:title].present?
   end
 
   def load_and_validate_query

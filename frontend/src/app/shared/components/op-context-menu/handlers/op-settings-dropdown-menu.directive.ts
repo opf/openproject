@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Directive, ElementRef, Injector, Input,
-} from '@angular/core';
+import { Directive, ElementRef, Injector, Input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -45,10 +43,16 @@ import {
 } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
 import { QuerySharingModalComponent } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
 import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals/get-ical-url-modal/query-get-ical-url.modal';
-import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
 import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
+import * as Turbo from '@hotwired/turbo';
+import {
+  WorkPackageViewColumnsService
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
+import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import * as URI from 'urijs';
 
 @Directive({
   selector: '[opSettingsContextMenu]',
@@ -73,6 +77,9 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     readonly states:States,
     readonly injector:Injector,
     readonly querySpace:IsolatedQuerySpace,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly urlParamsHelper:UrlParamsHelperService,
+    readonly opStaticQueries:StaticQueriesService,
     readonly I18n:I18nService,
   ) {
     super(elementRef, opContextMenu);
@@ -159,6 +166,34 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     }
     event.stopPropagation();
     return false;
+  }
+
+  private addColumnsAndTitleToHref(href:string) {
+    const columns = this.wpTableColumns.getColumns();
+
+    const columnIds = columns.map((column) => column.id);
+
+    const url = URI(href);
+    // Remove current columns
+    url.removeSearch('columns[]');
+    url.addSearch('columns[]', columnIds);
+
+    // Add the query title for the export
+    const query = this.querySpace.query.value;
+    if (query) {
+      url.removeSearch('title');
+      url.addSearch('title', this.queryTitle(query));
+    }
+
+    return url.toString();
+  }
+
+  private queryTitle(query:QueryResource):string {
+    return isPersistedResource(query) ? query.name : this.staticQueryName(query);
+  }
+
+  protected staticQueryName(query:QueryResource):string {
+    return this.opStaticQueries.getStaticName(query);
   }
 
   private buildItems() {
@@ -298,9 +333,24 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-export',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowWorkPackageAction($event, 'representations')) {
-            this.opModalService.show(WpTableExportModalComponent, this.injector);
+            // old angular export form: this.opModalService.show(WpTableExportModalComponent, this.injector);
+            // TODO: better way to get the export URL
+            const url = new URL(window.location.href);
+            url.pathname = `${url.pathname}/export_dialog`;
+            const href = this.addColumnsAndTitleToHref(url.toString());
+            // TODO: export angular=>fetch=>turbo in a utility function
+            fetch(href, {
+              method: 'GET',
+              headers: { Accept: 'text/vnd.turbo-stream.html' },
+              credentials: 'same-origin',
+            })
+              .then((r) => r.text())
+              .then((html) => Turbo.renderStreamMessage(html))
+              .catch(error => {
+                // TODO: error handling
+                console.error(error);
+              });
           }
-
           return true;
         },
       },

@@ -31,6 +31,7 @@ class WorkPackagesController < ApplicationController
   include PaginationHelper
   include Layout
   include WorkPackagesControllerHelper
+  include OpTurbo::DialogStreamHelper
 
   accept_key_auth :index, :show
 
@@ -39,10 +40,13 @@ class WorkPackagesController < ApplicationController
   before_action :load_and_authorize_in_optional_project,
                 :check_allowed_export,
                 :protect_from_unauthorized_export, only: :index
-  authorization_checked! :index, :show
+  authorization_checked! :index, :show, :export_dialog
 
   before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
+
+  before_action :load_and_authorize_in_optional_project, only: :export_dialog, if: -> { request.format.html? }
+  before_action :load_query, only: :export_dialog, if: -> { request.format.html? }
 
   def index
     respond_to do |format|
@@ -84,13 +88,17 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def export_dialog
+    respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query, project: @project)
+  end
+
   protected
 
   def export_list(mime_type)
     job_id = WorkPackages::Exports::ScheduleService
-      .new(user: current_user)
-      .call(query: @query, mime_type:, params:)
-      .result
+               .new(user: current_user)
+               .call(query: @query, mime_type:, params:)
+               .result
 
     if request.headers["Accept"]&.include?("application/json")
       render json: { job_id: }
@@ -101,8 +109,8 @@ class WorkPackagesController < ApplicationController
 
   def export_single(mime_type)
     exporter = Exports::Register
-      .single_exporter(WorkPackage, mime_type)
-      .new(work_package, params)
+                 .single_exporter(WorkPackage, mime_type)
+                 .new(work_package, params)
 
     export = exporter.export!
     send_data(export.content, type: export.mime_type, filename: export.title)
@@ -144,19 +152,19 @@ class WorkPackagesController < ApplicationController
 
   def journals
     @journals ||= begin
-      order =
-        if current_user.wants_comments_in_reverse_order?
-          Journal.arel_table["created_at"].desc
-        else
-          Journal.arel_table["created_at"].asc
-        end
+                    order =
+                      if current_user.wants_comments_in_reverse_order?
+                        Journal.arel_table["created_at"].desc
+                      else
+                        Journal.arel_table["created_at"].asc
+                      end
 
-      work_package
-        .journals
-        .changing
-        .includes(:user)
-        .order(order).to_a
-    end
+                    work_package
+                      .journals
+                      .changing
+                      .includes(:user)
+                      .order(order).to_a
+                  end
   end
 
   def index_redirect_path

@@ -302,6 +302,7 @@ Rails.application.routes.draw do
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
         get "menu" => "work_packages/menus#show"
+        get "/export_dialog" => "work_packages#export_dialog"
       end
 
       # states managed by client-side routing on work_package#index
@@ -560,6 +561,7 @@ Rails.application.routes.draw do
                controller: "work_packages/progress",
                as: :work_package_progress
     end
+    get "/export_dialog" => "work_packages#export_dialog", on: :collection, as: "export_dialog"
 
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
@@ -569,7 +571,7 @@ Rails.application.routes.draw do
     get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!shares).+/ }
     get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
-  end
+   end
 
   resources :versions, only: %i[show edit update destroy] do
     member do

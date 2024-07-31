@@ -1,0 +1,19 @@
+<%=
+  flex_layout do |container|
+    container.with_row do |_columns|
+      helpers.angular_component_tag "opce-draggable-autocompleter",
+                                    inputs: {
+                                      options: work_packages_columns_options,
+                                      selected: selected_columns,
+                                      protected: protected_work_packages_columns_options,
+                                      name: 'columns',
+                                      id: 'columns-select-export-csv',
+                                      dragAreaName: 'columns-select-export-csv',
+                                      inputLabel: I18n.t(:"queries.configure_view.columns.input_label"),
+                                      inputPlaceholder: I18n.t(:"queries.configure_view.columns.input_placeholder"),
+                                      dragAreaLabel: I18n.t(:"queries.configure_view.columns.drag_area_label"),
+                                      appendToComponent: true
+                                    }
+    end
+  end
+%>
