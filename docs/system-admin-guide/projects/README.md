@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Projects
-  priority: 100
+  priority: 970
 description: Adjusting settings for projects in your instance, including defaults for new projects, project attributes and project lists.
 keywords: project settings, project attributes, project lists, configuration, new projects
 ---

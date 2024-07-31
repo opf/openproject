@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Calendar and dates
-  priority: 940
+  priority: 930
 description: Configure working days, dates formats and calendar subscriptions
 keywords: working non-working days work week dates calendars ical icalendar
 ---

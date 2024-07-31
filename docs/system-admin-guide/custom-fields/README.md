@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Custom fields
-  priority: 970
+  priority: 960
 description: Manage custom fields in OpenProject.
 keywords: manage custom fields
 ---

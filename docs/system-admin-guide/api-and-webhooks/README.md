@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: API and webhooks
-  priority: 910
+  priority: 900
 description: Configure APIs and webhooks in OpenProject.
 keywords: api webhooks
 ---

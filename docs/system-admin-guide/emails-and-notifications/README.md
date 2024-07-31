@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Emails and notifications
-  priority: 920
+  priority: 910
 description: manage notifications and emails.
 keywords: incoming and outgoing notifications emails
 ---

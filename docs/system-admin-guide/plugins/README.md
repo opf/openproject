@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Plugins
-  priority: 800
+  priority: 300
 description: Configure plugins in OpenProject.
 keywords: plugins
 ---

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Attribute help texts
-  priority: 960
+  priority: 950
 description: Learn how to set attribute help texts in OpenProject
 keywords: attribute help texts, help texts for projects and work packages
 
