@@ -20,7 +20,8 @@ module ::TwoFactorAuthentication
         @device = new_device_type! @device_type
         render "two_factor_authentication/two_factor_devices/new"
       else
-        redirect_to index_path
+        @available_devices = available_devices
+        render "two_factor_authentication/two_factor_devices/new_type"
       end
     end
 
