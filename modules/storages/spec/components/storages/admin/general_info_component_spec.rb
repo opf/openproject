@@ -27,36 +27,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Admin
-  class GeneralInfoComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-    include StorageViewInformation
 
-    alias_method :storage, :model
+require "spec_helper"
+require_module_spec_helper
 
-    def self.wrapper_key = :storage_general_info_section
-
-    def initialize(model = nil, **options)
-      auth_strategy = ::Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
-                        .strategy
-                        .with_user(User.current)
-
-      @href_result = ::Storages::Peripherals::Registry
-                       .resolve("#{model.short_provider_type}.queries.open_storage")
-                       .call(storage: model, auth_strategy:)
-
-      super
-    end
-
-    def open_link_was_generated
-      @href_result.on_success { return true }
-      @href_result.on_failure { return false }
-    end
-
-    def open_href
-      @href_result.result
+RSpec.describe Storages::Admin::GeneralInfoComponent, type: :component do
+  describe "#description" do
+    context "with storage configured" do
+      it "must show a link to the storage" do
+        storage = create(:nextcloud_storage)
+        component = described_class.new(storage)
+        expect(component.open_link_was_generated).to be_truthy
+        expect(component.open_href).not_to be_nil
+      end
     end
   end
 end
