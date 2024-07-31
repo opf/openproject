@@ -8,11 +8,14 @@
 
       grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-description') do
         concat(render(Primer::Beta::Text.new) { storage_description })
-        concat(render(Primer::Beta::Text.new) { " - " })
-        concat(render(Primer::Beta::Link.new(href: "#")) do
-          concat(render(Primer::Beta::Text.new) { "Open storage " })
-          concat(render(Primer::Beta::Octicon.new(icon: "link-external", size: :small)))
-        end)
+
+        if open_link_was_generated
+          concat(render(Primer::Beta::Text.new) { " - " })
+          concat(render(Primer::Beta::Link.new(href: open_href)) do
+            concat(render(Primer::Beta::Text.new) { "Open storage " })
+            concat(render(Primer::Beta::Octicon.new(icon: "link-external", size: :small)))
+          end)
+        end
       end
 
       if editable_storage?

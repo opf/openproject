@@ -37,5 +37,26 @@ module Storages::Admin
     alias_method :storage, :model
 
     def self.wrapper_key = :storage_general_info_section
+
+    def initialize(model = nil, **options)
+      super
+
+      auth_strategy = ::Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+                        .strategy
+                        .with_user(User.current)
+
+      @href_result = ::Storages::Peripherals::Registry
+                       .resolve("#{storage.short_provider_type}.queries.open_storage")
+                       .call(storage:, auth_strategy:)
+    end
+
+    def open_link_was_generated
+      @href_result.on_success { return true }
+      @href_result.on_failure { return false }
+    end
+
+    def open_href
+      @href_result.result
+    end
   end
 end
