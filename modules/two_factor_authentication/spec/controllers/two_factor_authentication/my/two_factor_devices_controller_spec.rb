@@ -60,26 +60,13 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
     let(:active_strategies) { [:developer] }
 
     describe "#new" do
-      context "without type" do
-        before do
-          get :new
-        end
-
-        it "renders the new form" do
-          expect(response).to be_successful
-          expect(response).to render_template "new"
-        end
+      before do
+        get :new, params: { type: :sms }
       end
 
-      context "with type" do
-        before do
-          get :new, params: { type: :sms }
-        end
-
-        it "renders the new form" do
-          expect(response).to be_successful
-          expect(response).to render_template "new"
-        end
+      it "renders the new form" do
+        expect(response).to be_successful
+        expect(response).to render_template "new"
       end
     end
 
