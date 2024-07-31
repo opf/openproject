@@ -1917,6 +1917,7 @@ uk:
   label_ldap_auth_source_plural: "LDAP-підключення"
   label_attribute_expand_text: "Повний текст для атрибута «%{attribute}»"
   label_authentication: "Автентифікація"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Доступні глобальні ролі"
   label_available_project_attributes: "Доступні атрибути проєкту"
   label_available_project_forums: "Доступні форуми"

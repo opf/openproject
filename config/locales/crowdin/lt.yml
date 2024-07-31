@@ -1920,6 +1920,7 @@ lt:
   label_ldap_auth_source_plural: "LDAP jungtis"
   label_attribute_expand_text: "Pilnas tekstas, skirtas „%{attribute}“"
   label_authentication: "Autentifikacija"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Galimi globalūs vaidmenys"
   label_available_project_attributes: "Galimi projekto atributai"
   label_available_project_forums: "Galimi forumai"

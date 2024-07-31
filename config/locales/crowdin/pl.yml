@@ -1920,6 +1920,7 @@ pl:
   label_ldap_auth_source_plural: "Połączenia LDAP"
   label_attribute_expand_text: "Pełny tekst atrybutu „%{attribute}”"
   label_authentication: "Uwierzytelnianie"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Dostępne role globalne"
   label_available_project_attributes: "Dostępne atrybuty projektu"
   label_available_project_forums: "Dostępne fora"

@@ -1821,6 +1821,7 @@ th:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "การระบุตัวตนผู้ใช้"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"

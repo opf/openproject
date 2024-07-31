@@ -1817,6 +1817,7 @@ zh-CN:
   label_ldap_auth_source_plural: "LDAP 连接"
   label_attribute_expand_text: "%{attribute}的完整文本"
   label_authentication: "身份验证"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "可用的全局角色"
   label_available_project_attributes: "可用的项目属性"
   label_available_project_forums: "可用论坛"

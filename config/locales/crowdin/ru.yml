@@ -1922,6 +1922,7 @@ ru:
   label_ldap_auth_source_plural: "Соединения LDAP"
   label_attribute_expand_text: "Полный текст для '%{attribute}'"
   label_authentication: "Аутентификация"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Доступные глобальные роли"
   label_available_project_attributes: "Доступные атрибуты проекта"
   label_available_project_forums: "Доступные форумы"

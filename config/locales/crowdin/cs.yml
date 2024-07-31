@@ -1923,6 +1923,7 @@ cs:
   label_ldap_auth_source_plural: "Připojení LDAP"
   label_attribute_expand_text: "Úplný text pro '%{attribute}'"
   label_authentication: "Ověření"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Dostupné globální role"
   label_available_project_attributes: "Dostupné atributy projektu"
   label_available_project_forums: "Dostupná fóra"

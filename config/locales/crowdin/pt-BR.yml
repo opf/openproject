@@ -1853,6 +1853,7 @@ pt-BR:
   label_ldap_auth_source_plural: "Conexões LDAP"
   label_attribute_expand_text: "O texto concluído para '%{attribute}'"
   label_authentication: "Autenticação"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Funções globais disponíveis"
   label_available_project_attributes: "Atributos de projeto disponíveis"
   label_available_project_forums: "Fóruns disponíveis"

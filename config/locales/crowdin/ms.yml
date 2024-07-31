@@ -1819,6 +1819,7 @@ ms:
   label_ldap_auth_source_plural: "Sambungan LDAP"
   label_attribute_expand_text: "Teks yang lengkap untuk '%{attribute}'"
   label_authentication: "Pengesahan"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Peranan global yang tersedia"
   label_available_project_attributes: "Atribut projek yang tersedia"
   label_available_project_forums: "Forum yang tersedia"
