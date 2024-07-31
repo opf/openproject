@@ -65,11 +65,10 @@ module API
 
           def custom_fields_from_projects
             ProjectCustomFieldProjectMapping
-              .eager_load(:project_custom_field, :project)
+              .eager_load(:project_custom_field)
               .merge(ProjectCustomField.visible)
+              .where(project_id: Project.allowed_to(User.current, :view_project_attributes))
               .each_with_object(Hash.new { |h, k| h[k] = [] }) do |mapping, acc|
-                next unless User.current.allowed_in_project?(:view_project_attributes, mapping.project)
-
                 acc[mapping.project_id] << mapping.project_custom_field
               end
           end
