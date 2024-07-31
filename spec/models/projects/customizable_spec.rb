@@ -80,8 +80,9 @@ RSpec.describe Project, "customizable" do
           .to contain_exactly(bool_custom_field)
       end
 
-      context "when the same custom field is activated in multiple projects a user is member of " \
-              "and they only have view_project_attributes permission in one of the project" do
+      context "with a custom field activated in different projects " \
+              "and the user has view_project_attributes permission in one of the project " \
+              "and with a required custom field" do
         let(:other_project) { create(:project) }
         let!(:project_cf) do
           # This custom field is enabled in both project and other_project to test that there is no
@@ -91,6 +92,10 @@ RSpec.describe Project, "customizable" do
                    project: other_project,
                    project_custom_field: pcf)
           end
+        end
+
+        let!(:required_cf) do
+          create(:string_project_custom_field, is_required: true)
         end
 
         let(:user) do
@@ -105,7 +110,7 @@ RSpec.describe Project, "customizable" do
             .to be_empty
 
           expect(other_project.available_custom_fields)
-            .to contain_exactly(project_cf)
+            .to contain_exactly(project_cf, required_cf)
         end
       end
     end

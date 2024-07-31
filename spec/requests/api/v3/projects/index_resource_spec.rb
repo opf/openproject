@@ -148,7 +148,8 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
     end
 
     let(:valid_values) do
-      [project_custom_field_mapping1.custom_field_id.to_s, project_custom_field_mapping2.custom_field_id.to_s]
+      [project_custom_field_mapping1.custom_field_id.to_s,
+       project_custom_field_mapping2.custom_field_id.to_s]
     end
 
     let(:filters) do
@@ -427,7 +428,11 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
         create(:project_custom_field_project_mapping, project: public_wp_share_project)
         .project_custom_field
       end
-      let(:current_user) do
+      shared_let(:required_cf) do
+        create(:string_project_custom_field, is_required: true)
+      end
+
+      shared_let(:current_user) do
         create(:user, member_with_permissions: {
                  project => [],
                  other_project => %i(view_project_attributes),
@@ -461,7 +466,8 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
           )
         end
 
-        it "does not return the project attributes for a public project without view_project_attributes" do
+        it "does not return the project attributes for a public project" \
+           "as a member without view_project_attributes" do
           expect(subject)
             .to be_json_eql(public_project.name.to_json)
             .at_path("_embedded/elements/2/name")
@@ -471,8 +477,8 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
           )
         end
 
-        it "does not return the project attributes for a private project without view_project_attributes " \
-           "even if the same custom field is active in other_project" do
+        it "does not return the project attributes for a private project as a member without " \
+           "view_project_attributes even if the same custom field is active in other_project" do
           expect(subject)
             .to be_json_eql(project.name.to_json)
             .at_path("_embedded/elements/3/name")
@@ -482,14 +488,33 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
           )
         end
 
-        it "returns project attributes for other project with view_project_attributes for the same " \
-           "custom field enabled in the project too" do
+        it "returns project attributes for other project as a member with view_project_attributes " \
+           "for the same custom field enabled in a non-member project too" do
           expect(subject)
             .to be_json_eql(other_project.name.to_json)
             .at_path("_embedded/elements/4/name")
 
           expect(subject).to have_json_path(
             "_embedded/elements/4/#{project_cf.attribute_name(:camel_case)}"
+          )
+        end
+
+        it "returns the required_cf only for the other_project as a member " \
+           "with view_project_attributes" do
+          expect(subject).not_to have_json_path(
+            "_embedded/elements/0/#{required_cf.attribute_name(:camel_case)}"
+          )
+          expect(subject).not_to have_json_path(
+            "_embedded/elements/1/#{required_cf.attribute_name(:camel_case)}"
+          )
+          expect(subject).not_to have_json_path(
+            "_embedded/elements/2/#{required_cf.attribute_name(:camel_case)}"
+          )
+          expect(subject).not_to have_json_path(
+            "_embedded/elements/3/#{required_cf.attribute_name(:camel_case)}"
+          )
+          expect(subject).to have_json_path(
+            "_embedded/elements/4/#{required_cf.attribute_name(:camel_case)}"
           )
         end
       end
