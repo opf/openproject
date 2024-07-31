@@ -70,7 +70,6 @@ RSpec.describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesCont
     let(:active_strategies) { [:developer] }
 
     describe "#new" do
-
       before do
         get :new, params: { type: :sms }
       end
