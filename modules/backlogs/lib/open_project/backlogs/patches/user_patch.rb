@@ -59,6 +59,7 @@ module OpenProject::Backlogs::Patches::UserPatch
     def write_backlogs_preference(attr, new_value)
       pref[:"backlogs_#{attr}"] = new_value
       pref.save! unless new_record?
+      reload_preference
 
       new_value
     end

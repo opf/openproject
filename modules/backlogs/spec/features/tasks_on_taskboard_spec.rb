@@ -240,7 +240,7 @@ RSpec.describe "Tasks on taskboard", :js,
     # Tasks can get a color per assigned user
     visit my_settings_path
 
-    fill_in "Task color", with: "#FBC4B3"
+    fill_in "Task color", with: "#FBC4B3", fill_options: { clear: :backspace }
 
     click_button "Save"
 
