@@ -101,6 +101,10 @@ RSpec.describe CustomValue do
   describe "#default?" do
     shared_let(:project) { create(:project) }
 
+    before do
+      allow(User).to receive(:current).and_return build_stubbed(:admin)
+    end
+
     RSpec::Matchers.define_negated_matcher :not_be_default, :be_default
 
     shared_examples "returns true for generated custom value" do
