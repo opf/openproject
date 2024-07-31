@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Avatars
-  priority: 960
+  priority: 940
 description: Manage Avatars in OpenProject
 keywords: Avatars
 ---

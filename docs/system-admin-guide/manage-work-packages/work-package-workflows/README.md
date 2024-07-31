@@ -32,13 +32,13 @@ You will be able to adapt the following:
 3. Also you can set additional status transitions allowed if the user is the **assignee to a work package**.
 4. Don’t forget to save your changes.
 
-![Sys-admin-edit-workflow-details](Sys-admin-edit-workflow-details.png)
+![Edit work package workflows in OpenProject administration](System-admin-guide-work-package-workflows_edit.png)
 
 ## Copy an existing workflow
 
 You can copy an existing workflow by clicking **Copy** in the workflow overview.
 
-![Sys-admin-copy-workflow](Sys-admin-copy-workflow.png)
+![Copy work package workflow in OpenProject administration](System-admin-guide-work-package-workflows_copy.png)
 
 You will then be able to determine which existing workflow should be copied to which other workflow.
 
@@ -46,8 +46,8 @@ You will then be able to determine which existing workflow should be copied to w
 
 You can get a summary of the allowed status transitions of a work package type for a role by clicking on **Summary** in the workflow overview.
 
-![Sys-admin-workflow-summary](Sys-admin-workflow-summary.png)
+![Summary of work package workflows in OpenProject administration](System-admin-guide-work-package-workflows_summary.png)
 
 You will then view a summary of all the workflows. The number of possible status transitions for each type and role are shown in a matrix.
 
-![workflow summary overview](image-20200121155553061.png)
+![Overview of work package workflow summary in OpenProject administration](System-admin-guide-work-package-workflows_overview.png)

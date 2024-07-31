@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Placeholder users
-  priority: 985
+  priority: 980
 description: Manage placeholder users in in OpenProject.
 keywords: placeholder user, example, wildcard, place holder
 ---
