@@ -28,16 +28,6 @@ module ::TwoFactorAuthentication
         false
       end
 
-      def inline_create_link
-        if self_table?
-          link_to({ controller: target_controller, action: :new },
-                  class: "budget-add-row wp-inline-create--add-link",
-                  title: I18n.t("two_factor_authentication.devices.add_new")) do
-            helpers.op_icon("icon icon-add")
-          end
-        end
-      end
-
       delegate :enforced?, to: :strategy_manager
 
       def strategy_manager
