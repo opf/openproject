@@ -13,17 +13,17 @@ keywords: enumerations, time tracking, priority, document categories
 
 To get an overview of existing enumeration values for all of these categories, navigate to *Administration -> Enumerations*. You will see the enumerations overview, divided into respective sections.
 
-![enumerations](image-20200122161732016.png)
+![Enumerations in OpenProject administration](openproject_system_admin_guide_enumerations.png)
 
 ## Create new enumeration value
 
 To create a new enumeration value, select the **+ icon** in the respective category.
 
-![Sys-admin-create-enumeration](Sys-admin-create-enumeration.png)
+![Create new enumerations in OpenProject administration](openproject_system_admin_guide_enumerations_add_new.png)
 
-You will then be able to name the value, activate it and choose if it should be the default setting. Press the blue **Create** button to save your changes.
+You will then be able to name the value, activate it and choose if it should be the default setting. Press the green **Create** button to save your changes.
 
-![create new enumerations](image-20200122162035892.png)
+![create new enumerations in OpenProject](openproject_system_admin_guide_enumerations_add_new_details.png)
 
 ## Edit or remove enumeration value
 
@@ -33,8 +33,9 @@ You will then be able to name the value, activate it and choose if it should be 
 4. You can move the enumerations in the list of possible values up or down with the sort.
 5. To remove an enumeration click on the respective **delete icon**.
 
-![Sys-admin-enumerations](Sys-admin-enumerations.png)
+![Edit, sort or remove enumerations in OpenProject administration](openproject_system_admin_guide_enumerations_sort_delete.png)
 
 To **change the color of work package priorities** choose the respective priority in the section Work package priorities.
 
-> **Note**: To activate the [Activities for time tracking](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to *Project settings -> Time tracking activities*.
+> [!NOTE]
+> To activate the [Activities for time tracking](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to *Project settings -> Time tracking activities*.

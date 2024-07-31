@@ -9,7 +9,7 @@ keywords: working non-working days work week dates calendars ical icalendar
 
 Configure working days, dates formats and calendar subscriptions.
 
-Navigate to **Administration → Calendar and dates**.
+Navigate to *Administration → Calendar and dates*.
 
 | Topic                                             | Content                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------ |
@@ -23,13 +23,14 @@ Administrators are able to define how many hours are considered a day and which 
 
 To change this setting, navigate to **Working days** inside of the **Calendar and dates** settings.
 
-> **Note:** By default, a working day is considered to have 8 hours, the five days from Monday–Friday are considered working days, and Saturday and Sunday are considered non-working days.
+> [!NOTE]
+> By default, a working day is considered to have 8 hours, the five days from Monday–Friday are considered working days, and Saturday and Sunday are considered non-working days.
 
 Here the **duration format** can also be set for *Work, Remaining work and Time spent* fields. The options include **hours only** and **days and hours**. The default setting is *hours only*.
 
- ![The 'Working days' entry in Calendar and dates settings ](admin-working-days-hours.png)
+ ![The 'Working days' entry in Calendar and dates settings ](openeproject_system_admin_guide_calendars_dates.png)
 
-To change this setting, unselect days that you would like to define as non-working, and select ones that you would like to consider working, and click on **Save**.
+To change this setting, unselect days that you would like to define as non-working, and select ones that you would like to consider working, and click on **Apply changes**.
 
 ### Specific non-working days
 
@@ -51,7 +52,8 @@ As an instance-level setting, any change here will affect the scheduling of *all
 
 However, it *is* possible to override this setting at the level of individual work packages via the date picker. For more information on how to schedule work packages on non-working days, refer to [Duration and Non-working days in the user guide](../../user-guide/work-packages/set-change-dates/#working-days-and-duration).
 
-> **Important:** Changing this setting will reschedule work packages automatically to the next available working day after clicking on **Save**. For example, removing Friday as a working day by unchecking it will mean that work packages that included Friday will now end one day in the future, and ones that started or ended on Friday will now start and end on Monday.
+> [!IMPORTANT]
+> Changing this setting will reschedule work packages automatically to the next available working day after clicking on **Save**. For example, removing Friday as a working day by unchecking it will mean that work packages that included Friday will now end one day in the future, and ones that started or ended on Friday will now start and end on Monday.
 >
 > Depending on the number of projects and work packages in your instance, this process can take from a couple of minutes to hours.
 
@@ -69,7 +71,7 @@ Administrators are able to change the default time and date formats in OpenProje
 
 To change this setting, navigate to **Date format** inside of the **Calendar and dates** settings.
 
-![Date format administrator settings](date-format.png)
+![Date format in OpenProject administration settings](openeproject_system_admin_guide_calendars_dates_date_format.png)
 
 1. **Date**: default is based on user's language. You can choose various formats to display dates in the system.
 2. **Time**: default is based on user's language. You can choose various formats to display time in the system.
@@ -83,7 +85,8 @@ To change this setting, navigate to **Date format** inside of the **Calendar and
    - For more information on the way the first week of the year is computed according to ISO standards, see [wikipedia](https://en.wikipedia.org/wiki/ISO_week_date#First_week)
 5. Do not forget to **save** your changes.
 
-> **Info:** Configuration options related to aggregation time (the time interval in which different user activities are displayed as one set of actions) have been moved to the [Emails and notifications](../emails-and-notifications/) section.
+> [!NOTE]
+> Configuration options related to aggregation time (the time interval in which different user activities are displayed as one set of actions) have been moved to the [Emails and notifications](../emails-and-notifications/) section.
 
 ## Calendar subscriptions
 
@@ -91,4 +94,4 @@ Administrators can allow users with the necessary permissions to subscribe to Op
 
 To change this setting, navigate to **Calendar subscriptions** inside of the **Calendar and dates** settings.
 
-![Calendar subscriptions administrator settings](calendar-subscriptions.png)
+![Calendar subscriptions administrator settings](openeproject_system_admin_guide_calendars_dates_calendar_subscritpions.png)

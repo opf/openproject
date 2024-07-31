@@ -9,7 +9,8 @@ keywords: project settings, project attributes, project lists, configuration, ne
 
 The **Projects** page lets you configure settings for projects in your instance, including default settings for new projects, project attributes and project lists.
 
->**Note:** These settings moved from *Administration → System settings → Projects* to now *Administration → Projects* in version 14.0.
+> [!NOTE]
+> These settings moved from *Administration → System settings → Projects* to now *Administration → Projects* in version 14.0.
 
 | Topic                                    | Content                                                      |
 | ---------------------------------------- | ------------------------------------------------------------ |
