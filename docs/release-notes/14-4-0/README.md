@@ -10,18 +10,85 @@ release_date: 2024-08-01
 
 Release date: 2024-08-01
 
-We released OpenProject [OpenProject 14.4.0](https://community.openproject.org/versions/2063).
-The release contains several bug fixes and we recommend updating to the newest version.
-In these Release Notes, we will give an overview of important feature changes.
-At the end, you will find a complete list of all changes and bug fixes.
+We released OpenProject [OpenProject 14.4.0](https://community.openproject.org/versions/2063). The release contains several bug fixes and we recommend updating to the newest version. 
+
+In these Release Notes, we will give an overview of important technical updates as well as important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+
+## Important technical updates
+
+### Extend API authentication to accept JWT issued by OpenID provider to other client
+
+Text
+
+For more details, see https://community.openproject.org/wp/55643.
+
+### Improve error messages and logs of AMPF synchronization services/jobs
+
+Text
+
+For more details, see https://community.openproject.org/wp/56861.
 
 ## Important feature changes
 
-<!-- Inform about the major features in this section -->
+### Personal settings: Dark mode
 
-## Important updates and breaking changes
+Text
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+For more details, see https://community.openproject.org/wp/36233.
+
+### Project attributes: Separate permissions for viewing and editing
+
+Text
+
+For more details, see https://community.openproject.org/wp/50844.
+
+### Status-based progress reporting: Freely input % complete values for statuses
+
+Text
+
+For more details, see https://community.openproject.org/wp/55803.
+
+### Nextcloud storages: Connection validation
+
+Text
+
+For more details, see https://community.openproject.org/wp/55836.
+
+### Project lists: Select/Exclude projects in project list explicitly via filter
+
+Text
+
+For more details, see https://community.openproject.org/wp/55233.
+
+### Meetings: Saving a new agenda item does not automatically add another empty one
+
+Text
+
+For more details, see https://community.openproject.org/wp/55423.
+
+### Meetings tab on work packages: Display related meetings chronologically
+
+Text
+
+For more details, see https://community.openproject.org/wp/56651.
+
+### Design: Improve avatar color generation so that users with same names are distinguishable
+
+Text
+
+For more details, see https://community.openproject.org/wp/56325.
+
+### Dropdown menu on work packages: Move "Copy link to clipboard" up
+
+Text
+
+For more details, see https://community.openproject.org/wp/56058.
+
+### Add link to storage provider in storage edit view
+
+Text
+
+For more details, see https://community.openproject.org/wp/56045.
 
 <!--more-->
 
