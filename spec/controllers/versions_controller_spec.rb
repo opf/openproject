@@ -314,8 +314,7 @@ RSpec.describe VersionsController do
       it { expect(version1.reload.effective_date).to eq(Date.today) }
     end
 
-    context "with valid params
-             with a redirect url" do
+    context "with valid params with a redirect url" do
       before do
         login_as(user)
         patch :update,

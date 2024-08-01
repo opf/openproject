@@ -462,7 +462,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :authentication_settings,
             { controller: "/admin/settings/authentication_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_authentication_settings,
             parent: :authentication
 
   menu.push :ldap_authentication,

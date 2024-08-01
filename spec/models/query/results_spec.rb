@@ -525,76 +525,65 @@ RSpec.describe Query::Results do
       end
     end
 
-    context 'with the wp having true for the cf
-             and filtering for true' do
-      it_behaves_like "returns the wp"
-    end
-
-    context 'with the wp having true for the cf
-             and filtering for false' do
-      let(:filter_value) { "f" }
-
-      it_behaves_like "is empty"
-    end
-
-    context 'with the wp having false for the cf
-             and filtering for false' do
-      let(:value) { "f" }
-      let(:filter_value) { "f" }
-
-      it_behaves_like "returns the wp"
-    end
-
-    context 'with the wp having false for the cf
-             and filtering for true' do
-      let(:value) { "f" }
-
-      it_behaves_like "is empty"
-    end
-
-    context 'with the wp having no value for the cf
-             and filtering for true' do
-      let(:custom_value) { nil }
-
-      it_behaves_like "is empty"
-    end
-
-    context 'with the wp having no value for the cf
-             and filtering for false' do
-      let(:custom_value) { nil }
-      let(:filter_value) { "f" }
-
-      it_behaves_like "returns the wp"
-    end
-
-    context 'with the wp having no value for the cf
-             and filtering for false
-             and the cf not being active for the type' do
-      let(:custom_value) { nil }
-      let(:filter_value) { "f" }
-      let(:bool_cf) do
-        create(:boolean_wp_custom_field,
-               is_filter: true,
-               types: [work_package1.type])
+    context "with the wp having true for the cf" do
+      context "and filtering for true" do
+        it_behaves_like "returns the wp"
       end
 
-      it_behaves_like "is empty"
+      context "and filtering for false" do
+        let(:filter_value) { "f" }
+
+        it_behaves_like "is empty"
+      end
     end
 
-    context 'with the wp having no value for the cf
-             and filtering for false
-             and the cf not being active in the project
-             and the cf being for all' do
-      let(:custom_value) { nil }
-      let(:filter_value) { "f" }
-      let(:bool_cf) do
-        create(:boolean_wp_custom_field,
-               is_filter: true,
-               is_for_all: true,
-               projects: [work_package1.project])
+    context "with the wp having false for the cf" do
+      let(:value) { "f" }
+
+      context "and filtering for true" do
+        it_behaves_like "is empty"
       end
 
-      it_behaves_like "is empty"
+      context "and filtering for false" do
+        let(:filter_value) { "f" }
+
+        it_behaves_like "returns the wp"
+      end
+    end
+
+    context "with the wp having no value for the cf" do
+      let(:custom_value) { nil }
+
+      context "and filtering for true" do
+        it_behaves_like "is empty"
+      end
+
+      context "and filtering for false" do
+        let(:filter_value) { "f" }
+
+        it_behaves_like "returns the wp"
+
+        context "and the cf not being active for the type" do
+          let(:bool_cf) do
+            create(:boolean_wp_custom_field,
+                   is_filter: true,
+                   types: [work_package1.type])
+          end
+
+          it_behaves_like "is empty"
+        end
+
+        context "and the cf not being active in the project and the cf being for all" do
+          let(:bool_cf) do
+            create(:boolean_wp_custom_field,
+                   is_filter: true,
+                   is_for_all: true,
+                   projects: [work_package1.project])
+          end
+
+          it_behaves_like "is empty"
+        end
+      end
     end
   end
 end

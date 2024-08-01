@@ -231,8 +231,7 @@ RSpec.describe PaginationHelper do
       expect(session[:per_page]).to eq(2)
     end
 
-    it "should take the smallest value stored in the settings " +
-       "if provided per_page param is not one of the configured" do
+    it "takes the smallest value stored in the settings if provided per_page param is not one of the configured" do
       per_page = 4
 
       expect(per_page_param(per_page:)).to eq(1)

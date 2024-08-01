@@ -77,28 +77,29 @@ module WorkPackage::Journalized
                   name: JournalizedProcs.event_name,
                   url: JournalizedProcs.event_url
 
-    register_journal_formatted_fields(:id, "parent_id")
-    register_journal_formatted_fields(:chronic_duration,
-                                      "estimated_hours", "derived_estimated_hours",
-                                      "remaining_hours", "derived_remaining_hours")
-    register_journal_formatted_fields(:percentage, "done_ratio", "derived_done_ratio")
-    register_journal_formatted_fields(:diff, "description")
-    register_journal_formatted_fields(:schedule_manually, "schedule_manually")
-    register_journal_formatted_fields(:attachment, /attachments_?\d+/)
-    register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
-    register_journal_formatted_fields(:ignore_non_working_days, "ignore_non_working_days")
-    register_journal_formatted_fields(:cause, "cause")
-    register_journal_formatted_fields(:file_link, /file_links_?\d+/)
+    register_journal_formatted_fields "parent_id", formatter_key: :id
+    register_journal_formatted_fields "estimated_hours", "derived_estimated_hours",
+                                      "remaining_hours", "derived_remaining_hours",
+                                      formatter_key: :chronic_duration
+    register_journal_formatted_fields "done_ratio", "derived_done_ratio", formatter_key: :percentage
+    register_journal_formatted_fields "description", formatter_key: :diff
+    register_journal_formatted_fields "schedule_manually", formatter_key: :schedule_manually
+    register_journal_formatted_fields /attachments_?\d+/, formatter_key: :attachment
+    register_journal_formatted_fields /custom_fields_\d+/, formatter_key: :custom_field
+    register_journal_formatted_fields "ignore_non_working_days", formatter_key: :ignore_non_working_days
+    register_journal_formatted_fields "cause", formatter_key: :cause
+    register_journal_formatted_fields /file_links_?\d+/, formatter_key: :file_link
 
     # Joined
-    register_journal_formatted_fields :named_association, :parent_id, :project_id,
+    register_journal_formatted_fields :parent_id, :project_id,
                                       :budget_id,
                                       :status_id, :type_id,
                                       :assigned_to_id, :priority_id,
                                       :category_id, :version_id,
-                                      :author_id, :responsible_id
-    register_journal_formatted_fields :datetime, :start_date, :due_date
-    register_journal_formatted_fields :plaintext, :subject
-    register_journal_formatted_fields :day_count, :duration
+                                      :author_id, :responsible_id,
+                                      formatter_key: :named_association
+    register_journal_formatted_fields :start_date, :due_date, formatter_key: :datetime
+    register_journal_formatted_fields :subject, formatter_key: :plaintext
+    register_journal_formatted_fields :duration, formatter_key: :day_count
   end
 end

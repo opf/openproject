@@ -99,7 +99,9 @@ RSpec.describe "Projects copy", :js, :with_cuprite,
          select_custom_fields
          manage_files_in_project
          manage_file_links
-         work_package_assigned)
+         work_package_assigned
+         view_project_attributes
+         edit_project_attributes)
     end
     let(:wp_user) do
       user = create(:user)
@@ -195,7 +197,6 @@ RSpec.describe "Projects copy", :js, :with_cuprite,
       it "does not disable optional project custom fields if explicitly set to blank" do
         # Expand advanced settings
         click_on "Advanced settings"
-
         editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{optional_project_custom_field.id}']"
         editor.clear
 
@@ -353,6 +354,53 @@ RSpec.describe "Projects copy", :js, :with_cuprite,
             optional_project_custom_field_with_default.id,
             invisible_field.id
           )
+        end
+      end
+    end
+
+    context "when the user has a view_project_attributes only" do
+      let(:permissions) do
+        %i(copy_projects
+           edit_project
+           add_subprojects
+           manage_types
+           view_work_packages
+           select_custom_fields
+           manage_files_in_project
+           manage_file_links
+           work_package_assigned
+           view_project_attributes)
+      end
+
+      it "copies the project attributes" do
+        original_settings_page = Pages::Projects::Settings.new(project)
+        original_settings_page.visit!
+
+        find(".toolbar a", text: "Copy").click
+
+        expect(page).to have_text "Copy project \"#{project.name}\""
+
+        fill_in "Name", with: "Copied project"
+        click_on "Save"
+
+        wait_for_copy_to_finish
+
+        copied_project = Project.find_by(name: "Copied project")
+        expect(copied_project).to be_present
+
+        overview_page = Pages::Projects::Show.new(copied_project)
+        overview_page.visit!
+
+        overview_page.within_async_loaded_sidebar do
+          # User has no permission to edit project attributes.
+          expect(page).to have_no_css("[data-test-selector='project-custom-field-section-edit-button']")
+          # The custom fields are still copied from the parent project.
+          expect(page).to have_content(project_custom_field.name)
+          expect(page).to have_content("some text cf")
+          expect(page).to have_content(optional_project_custom_field.name)
+          expect(page).to have_content("some optional text cf")
+          expect(page).to have_content(optional_project_custom_field_with_default.name)
+          expect(page).to have_content("foo")
         end
       end
     end

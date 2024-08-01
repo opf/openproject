@@ -71,7 +71,7 @@ RSpec.describe WorkPackage do
   end
 
   describe "#cleanup_action_required_before_destructing?" do
-    describe "w/ the work package having a time entry" do
+    describe "with the work package having a time entry" do
       before do
         work_package
         time_entry
@@ -82,7 +82,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe "w/ two work packages having a time entry" do
+    describe "with two work packages having a time entry" do
       before do
         work_package
         time_entry
@@ -94,7 +94,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe "w/o the work package having a time entry" do
+    describe "without the work package having a time entry" do
       before do
         work_package
       end
@@ -106,7 +106,7 @@ RSpec.describe WorkPackage do
   end
 
   describe "#associated_classes_to_address_before_destructing?" do
-    describe "w/ the work package having a time entry" do
+    describe "with the work package having a time entry" do
       before do
         work_package
         time_entry
@@ -117,7 +117,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe "w/o the work package having a time entry" do
+    describe "without the work package having a time entry" do
       before do
         work_package
       end
@@ -135,7 +135,7 @@ RSpec.describe WorkPackage do
       time_entry
     end
 
-    describe "w/o a cleanup being necessary" do
+    describe "without a cleanup being necessary" do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: "reassign") }
 
       before do
@@ -147,7 +147,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ "destroy" as action' do
+    describe 'with "destroy" as action' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: "destroy") }
 
       it "returns true" do
@@ -162,7 +162,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe "w/o an action" do
+    describe "without an action" do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user) }
 
       it "returns true" do
@@ -177,7 +177,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ "nullify" as action' do
+    describe 'with "nullify" as action' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: "nullify") }
 
       it "returns true" do
@@ -192,8 +192,8 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ "reassign" as action
-              w/ reassigning to a valid work_package' do
+    describe 'with "reassign" as action ' \
+             "with reassigning to a valid work_package" do
       context "with a single work package" do
         let(:action) do
           WorkPackage.cleanup_associated_before_destructing_if_required(work_package,
@@ -262,8 +262,8 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ "reassign" as action
-              w/ reassigning to a work_package the user is not allowed to see' do
+    describe 'with "reassign" as action ' \
+             "with reassigning to a work_package the user is not allowed to see" do
       let(:action) do
         WorkPackage.cleanup_associated_before_destructing_if_required([work_package],
                                                                       user,
@@ -287,8 +287,8 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ "reassign" as action
-              w/ reassigning to a non existing work package' do
+    describe 'with "reassign" as action ' \
+             "with reassigning to a non existing work package" do
       let(:action) do
         WorkPackage.cleanup_associated_before_destructing_if_required([work_package],
                                                                       user,
@@ -315,8 +315,8 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ "reassign" as action
-              w/o providing a reassignment id' do
+    describe 'with "reassign" as action ' \
+             "without providing a reassignment id" do
       let(:action) do
         WorkPackage.cleanup_associated_before_destructing_if_required([work_package],
                                                                       user,
@@ -342,7 +342,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe "w/ an invalid option" do
+    describe "with an invalid option" do
       let(:action) do
         WorkPackage.cleanup_associated_before_destructing_if_required([work_package],
                                                                       user,
@@ -354,7 +354,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe "w/ nil as invalid option" do
+    describe "with nil as invalid option" do
       let(:action) do
         WorkPackage.cleanup_associated_before_destructing_if_required([work_package],
                                                                       user,

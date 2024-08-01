@@ -26,101 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
-  include CustomFieldsHelper
+class OpenProject::JournalFormatter::CustomField
+  include SharedMethods
+
+  def initialize(journal)
+    @plain_formatter = Plain.new(journal)
+    @diff_formatter = Diff.new(journal)
+  end
+
+  def render(key, values, options = { html: true })
+    formatter_for_key(key).render(key, values, options)
+  end
 
   private
 
-  def format_details(key, values)
-    custom_field = ::CustomField.find_by(id: key.to_s.sub("custom_fields_", "").to_i)
-
-    if custom_field
-      label = custom_field.name
-      old_value, value = get_formatted_values custom_field, values
+  def formatter_for_key(key)
+    case custom_field_for_key(key)&.field_format
+    when "text"
+      @diff_formatter
     else
-      label = I18n.t(:label_deleted_custom_field)
-      old_value = values.first
-      value = values.last
+      @plain_formatter
     end
-
-    [label, old_value, value]
-  end
-
-  def get_formatted_values(custom_field, values)
-    modifier_fn = method(get_modifier_function(custom_field))
-    formatted_values custom_field, values, modifier_fn
-  end
-
-  def get_modifier_function(custom_field)
-    case custom_field.field_format
-    when "list"
-      :find_list_value
-    when "user"
-      :find_user_value
-    when "version"
-      :find_version_value
-    else
-      :format_value
-    end
-  end
-
-  def formatted_values(custom_field, values, modifier_fn)
-    values.map { |value| formatted_value(custom_field, value, modifier_fn) }
-  end
-
-  def formatted_value(custom_field, value, modifier_fn)
-    return if value.nil?
-
-    modifier_fn.call(value, custom_field) || value
-  end
-
-  def find_user_value(value, _custom_field)
-    ids = value.split(",").map(&:to_i)
-
-    # Lookup any visible user we can find
-    user_lookup =
-      Principal
-      .in_visible_project_or_me(User.current)
-      .where(id: ids)
-      .index_by(&:id)
-
-    ids_to_names(ids, user_lookup)
-  end
-
-  def find_list_value(value, custom_field)
-    ids = value.split(",").map(&:to_i)
-
-    id_value = custom_field
-               .custom_options
-               .where(id: ids)
-               .pluck(:id, :value)
-               .to_h
-
-    ids.map do |id|
-      id_value[id] || I18n.t(:label_deleted_custom_option)
-    end.join(", ")
-  end
-
-  def find_version_value(value, _custom_field)
-    ids = value.split(",").map(&:to_i)
-
-    # Lookup visible versions we can find
-    version_lookup =
-      Version
-      .visible(User.current)
-      .where(id: ids)
-      .index_by(&:id)
-
-    ids_to_names(ids, version_lookup)
-  end
-
-  def ids_to_names(ids, id_to_name_lookup)
-    ids.map do |id|
-      if id_to_name_lookup.key?(id)
-        id_to_name_lookup[id].name
-      else
-        I18n.t(:label_missing_or_hidden_custom_option)
-      end
-    end.join(", ")
   end
 end

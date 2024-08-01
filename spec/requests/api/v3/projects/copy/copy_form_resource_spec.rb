@@ -46,10 +46,10 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
              list_custom_field.id => list_custom_field.custom_options.last.id
            })
   end
-
-  shared_let(:current_user) do
+  let(:permissions) { %i(copy_projects view_project view_work_packages view_project_attributes) }
+  let(:current_user) do
     create(:user,
-           member_with_permissions: { source_project => %i[copy_projects view_project view_work_packages] })
+           member_with_permissions: { source_project => permissions })
   end
 
   let(:path) { api_v3_paths.project_copy_form(source_project.id) }
@@ -84,6 +84,15 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     expect(response.body)
       .to be_json_eql(list_custom_field.custom_options.last.value.to_json)
             .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
+  end
+
+  context "without view_project_attributes permission" do
+    let(:permissions) { %i(copy_projects view_project view_work_packages) }
+
+    it "does not activates custom fields from the source project" do
+      expect(response.body)
+        .not_to have_json_path("_embedded/payload/customField#{text_custom_field.id}")
+    end
   end
 
   it "contains a meta property with copy properties for every module" do

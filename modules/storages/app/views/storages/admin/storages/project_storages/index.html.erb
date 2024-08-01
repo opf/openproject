@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
   render(
     Storages::ProjectStorages::Projects::TableComponent.new(
       query: @storage_projects_query,
-      project_folder_modes_per_project: @project_folder_modes_per_project,
+      storage: @storage,
       params:
     )
   )

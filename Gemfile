@@ -209,6 +209,7 @@ gem "mini_magick", "~> 4.13.0", require: false
 gem "validate_url"
 
 # Storages support code
+gem "dry-auto_inject"
 gem "dry-container"
 gem "dry-monads"
 
@@ -227,6 +228,7 @@ gem "factory_bot", "~> 6.4.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.4.0", require: false
 
+gem "turbo_power", "~> 0.6.2"
 gem "turbo-rails", "~> 2.0.0"
 gem "turbo_power", "~> 0.6.2"
 
@@ -393,4 +395,4 @@ end
 
 gem "openproject-octicons", "~>19.17.0"
 gem "openproject-octicons_helper", "~>19.17.0"
-gem "openproject-primer_view_components", "~>0.39.0"
+gem "openproject-primer_view_components", "~>0.40.0"

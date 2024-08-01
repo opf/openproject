@@ -76,7 +76,9 @@ RSpec.describe(
                            view_work_packages
                            work_package_assigned
                            manage_files_in_project
-                           manage_file_links])
+                           manage_file_links
+                           view_project_attributes
+                           edit_project_attributes])
   end
   shared_let(:new_project_role) { create(:project_role, permissions: %i[]) }
 

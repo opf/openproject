@@ -75,7 +75,7 @@ export default class extends Controller {
       // eslint-disable-next-line no-new
       new pluginContext.classes.DomAutoscrollService(
         [
-          document.getElementById('content-wrapper') as HTMLElement,
+          document.getElementById('content-body') as HTMLElement,
         ],
         {
           margin: 25,

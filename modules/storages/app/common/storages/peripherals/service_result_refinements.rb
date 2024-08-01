@@ -86,6 +86,11 @@ module Storages
         end
 
         alias_method :error_or, :result_and
+
+        def fail!
+          self.success = false
+          self
+        end
       end
     end
   end

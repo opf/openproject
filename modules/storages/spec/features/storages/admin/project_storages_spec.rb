@@ -62,6 +62,8 @@ RSpec.describe "Admin lists project mappings for a storage",
            project_folder_mode: "inactive")
   end
 
+  let(:project_storages_index_page) { Pages::Admin::Storages::ProjectStorages::Index.new }
+
   current_user { admin }
 
   context "with insufficient permissions" do
@@ -104,10 +106,14 @@ RSpec.describe "Admin lists project mappings for a storage",
         end
       end
 
-      aggregate_failures "shows the correct project mappings including archived projects and their folder modes" do
+      aggregate_failures "shows the correct project mappings including archived projects and their configured folder modes" do
         within "#project-table" do
-          expect(page).to have_text(project.name.to_s).and have_text("Automatically managed")
-          expect(page).to have_text("ARCHIVED #{archived_project.name}").and have_text("No specific folder")
+          project_storages_index_page.within_the_table_row_containing(project.name) do
+            expect(page).to have_text("Automatically managed")
+          end
+          project_storages_index_page.within_the_table_row_containing(archived_project.name) do
+            expect(page).to have_text("No specific folder")
+          end
         end
       end
     end
@@ -156,6 +162,35 @@ RSpec.describe "Admin lists project mappings for a storage",
             expect(uri.path).to eq(admin_settings_storage_project_storages_path(storage))
           end
         end
+      end
+    end
+
+    describe "Removal of a project from a storage" do
+      it "shows a warning dialog that can be aborted" do
+        expect(page).to have_text(project.name)
+        project_storages_index_page.click_menu_item_of("Remove project", project)
+
+        page.within("dialog") do
+          expect(page).to have_text("Remove project from Nextcloud")
+          expect(page).to have_text("this storage has an automatically managed project folder")
+          click_on "Close"
+        end
+
+        expect(page).to have_text(project.name)
+      end
+
+      it "is possible to remove the project after checking the confirmation checkbox in the dialog" do
+        expect(page).to have_text(project.name)
+        project_storages_index_page.click_menu_item_of("Remove project", project)
+
+        page.within("dialog") do
+          expect(page).to have_button("Remove", disabled: true)
+          check "Please, confirm you understand and want to remove this file storage from this project"
+          expect(page).to have_button("Remove", disabled: false, wait: 3) # ensure button is clickable
+          click_on "Remove"
+        end
+
+        expect(page).to have_no_text(project.name)
       end
     end
   end
