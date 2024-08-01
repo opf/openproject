@@ -29,12 +29,15 @@ module Saml
     end
 
     def create
-      @provider = ::Saml::Provider.new(**create_params)
+      call = ::Saml::Providers::CreateService
+        .new(user: User.current)
+        .call(**create_params)
 
-      if @provider.save
+      if call.success?
         flash[:notice] = I18n.t(:notice_successful_create)
-        redirect_to saml_provider_path(@provider)
+        redirect_to saml_provider_path(call.result)
       else
+        @provider = call.result
         render action: :new
       end
     end
@@ -52,7 +55,10 @@ module Saml
     end
 
     def destroy
-      if @provider.destroy
+      call = ::Saml::Providers::DeleteService
+        .new(model: @provider, user: User.current)
+
+      if call.success?
         flash[:notice] = I18n.t(:notice_successful_delete)
       else
         flash[:error] = I18n.t(:error_failed_to_delete_entry)
@@ -100,7 +106,7 @@ module Saml
     end
 
     def create_params
-      params.require(:saml_provider).permit(:name, :display_name, :identifier, :secret, :limit_self_registration)
+      params.require(:saml_provider).permit(:display_name)
     end
 
     def update_params
@@ -108,15 +114,9 @@ module Saml
     end
 
     def find_provider
-      @provider = providers.find { |provider| provider.id.to_s == params[:id].to_s }
-      if @provider.nil?
-        render_404
-      end
+      @provider = Saml::Provider.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
-
-    def providers
-      @providers ||= OpenProject::AuthSaml.providers
-    end
-    helper_method :providers
   end
 end
