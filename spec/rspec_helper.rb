@@ -88,12 +88,10 @@ RSpec.configure do |config|
     # unless a formatter has already been configured
     # (e.g. via a command-line flag).
     config.default_formatter = "doc"
-  else
-    # Otherwise, use the Fuubar formatter if we're not on the CI
-    unless ENV["TEST_ENV_NUMBER"] || ENV["CI"]
-      require "fuubar"
-      config.default_formatter = Fuubar
-    end
+  # Otherwise, use the Fuubar formatter if none is specified and we're not on the CI
+  elsif config.formatters.none? && !ENV["TEST_ENV_NUMBER"] && !ENV["CI"]
+    require "fuubar"
+    config.default_formatter = Fuubar
   end
 
   # Print the 10 slowest examples and example groups at the

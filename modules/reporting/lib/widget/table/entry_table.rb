@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ::Widget::Table::EntryTable < Widget::Table
+class Widget::Table::EntryTable < Widget::Table
   FIELDS = %i[spent_on user_id activity_id work_package_id comments logged_by_id project_id].freeze
 
   def render

@@ -9,8 +9,10 @@ RSpec.shared_context "ModelContract shared context" do # rubocop:disable RSpec/C
     expect(contract.validate).to be(false)
 
     errors.each do |key, error_symbols|
-      expect(contract.errors.attribute_names)
-        .to include(key), "expected errors attributes #{contract.errors.attribute_names.inspect} to include #{key.inspect}"
+      if error_symbols.present?
+        expect(contract.errors.attribute_names)
+          .to include(key), "expected errors attributes #{contract.errors.attribute_names.inspect} to include #{key.inspect}"
+      end
       expect(contract.errors.symbols_for(key)).to match_array Array(error_symbols)
     end
   end
@@ -25,7 +27,7 @@ RSpec.shared_context "ModelContract shared context" do # rubocop:disable RSpec/C
     example_title = "contract is invalid"
     example_title << " with #{error_symbols.inspect}" if error_symbols.any?
 
-    it example_title do
+    it example_title, :aggregate_failures do
       expect_contract_invalid error_symbols
     end
   end

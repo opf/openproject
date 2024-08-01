@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,33 +24,37 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module WorkPackage::Validations
-  extend ActiveSupport::Concern
+class WorkPackages::ProgressForm
+  class InitialValuesForm < ApplicationForm
+    attr_reader :work_package, :mode
 
-  included do
-    validates :subject, :priority, :project, :type, :author, :status, presence: true
+    def initialize(work_package:,
+                   mode: :work_based)
+      super()
 
-    validates :subject, length: { maximum: 255 }
-    validates :done_ratio, inclusion: { in: 0..100 }, allow_nil: true
-    validates :estimated_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
-    validates :remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
-    validates :derived_remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
+      @work_package = work_package
+      @mode = mode
+    end
 
-    validates :due_date, date: { allow_blank: true }
-    validates :start_date, date: { allow_blank: true }
+    form do |form|
+      if mode == :status_based
+        form.hidden(name: :status_id,
+                    value: work_package.status_id_was)
+        form.hidden(name: :estimated_hours,
+                    value: work_package.estimated_hours_was)
+      else
+        form.hidden(name: :estimated_hours,
+                    value: work_package.estimated_hours_was)
+        form.hidden(name: :remaining_hours,
+                    value: work_package.remaining_hours_was)
+        # next line to be removed in 15.0 with :percent_complete_edition feature flag removal
+        next unless OpenProject::FeatureDecisions.percent_complete_edition_active?
 
-    scope :eager_load_for_validation, -> {
-      includes({ project: %i(enabled_modules work_package_custom_fields versions) },
-               { parent: :type },
-               :custom_values,
-               { type: :custom_fields },
-               :priority,
-               :status,
-               :author,
-               :category,
-               :version)
-    }
+        form.hidden(name: :done_ratio,
+                    value: work_package.done_ratio_was)
+      end
+    end
   end
 end

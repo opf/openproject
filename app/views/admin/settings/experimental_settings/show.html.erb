@@ -51,8 +51,13 @@ See COPYRIGHT and LICENSE files for more details.
         </div>
       </div>
 
-      <% ::OpenProject::FeatureDecisions.all.each do |feature| %>
-        <div class="form--field"><%= setting_check_box "feature_#{feature}_active", not_translated_label: feature.to_s %></div>
+      <% OpenProject::FeatureDecisions.all.each do |feature| %>
+        <div class="form--field">
+          <%= setting_check_box "feature_#{feature}_active", not_translated_label: feature.to_s.humanize %>
+          <div class="form--field-instructions">
+            <p><%= Settings::Definition["feature_#{feature}_active"].description %></p>
+          </div>
+        </div>
       <% end %>
     </fieldset>
   </section>

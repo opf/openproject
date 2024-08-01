@@ -275,7 +275,7 @@ group :test do
   gem "selenium-devtools"
   gem "selenium-webdriver", "~> 4.20"
 
-  gem "fuubar", "~> 2.5.0"
+  gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
 
   # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
@@ -322,6 +322,9 @@ group :development, :test do
   gem "ruby-prof", require: false
   gem "stackprof", require: false
 
+  # Output a stack trace anytime, useful when a process is stuck
+  gem "rbtrace"
+
   # REPL with debug commands
   gem "debug"
 
@@ -348,7 +351,7 @@ group :development, :test do
   gem "brakeman", "~> 6.1.0"
 
   # i18n-tasks helps find and manage missing and unused translations.
-  gem "i18n-tasks", "~> 1.0.13"
+  gem "i18n-tasks", "~> 1.0.13", require: false
 end
 
 gem "bootsnap", "~> 1.18.0", require: false

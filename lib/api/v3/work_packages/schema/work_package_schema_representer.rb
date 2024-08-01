@@ -174,7 +174,7 @@ module API
                  name_source: :remaining_hours,
                  type: "Duration",
                  required: false,
-                 writable: ->(*) { !WorkPackage.use_status_for_done_ratio? }
+                 writable: ->(*) { WorkPackage.work_based_mode? }
 
           schema :derived_remaining_time,
                  name_source: :derived_remaining_hours,

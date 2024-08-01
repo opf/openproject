@@ -26,31 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::Validations
-  extend ActiveSupport::Concern
+class WorkPackages::SetAttributesService
+  class DeriveProgressValuesStatusBased < DeriveProgressValuesBase
+    private
 
-  included do
-    validates :subject, :priority, :project, :type, :author, :status, presence: true
+    def derive_progress_attributes
+      raise ArgumentError, "Cannot use #{self.class.name} in work-based mode" if WorkPackage.work_based_mode?
 
-    validates :subject, length: { maximum: 255 }
-    validates :done_ratio, inclusion: { in: 0..100 }, allow_nil: true
-    validates :estimated_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
-    validates :remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
-    validates :derived_remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
+      update_percent_complete
+      update_remaining_work_from_percent_complete
+    end
 
-    validates :due_date, date: { allow_blank: true }
-    validates :start_date, date: { allow_blank: true }
+    # Update +% complete+ from the status if the status changed.
+    def update_percent_complete
+      return unless work_package.status_id_changed?
 
-    scope :eager_load_for_validation, -> {
-      includes({ project: %i(enabled_modules work_package_custom_fields versions) },
-               { parent: :type },
-               :custom_values,
-               { type: :custom_fields },
-               :priority,
-               :status,
-               :author,
-               :category,
-               :version)
-    }
+      self.percent_complete = work_package.status.default_done_ratio
+    end
+
+    # When in "Status-based" mode for progress calculation, remaining work is
+    # always derived from % complete and work. If work is unset, then remaining
+    # work must be unset too.
+    def update_remaining_work_from_percent_complete
+      return if remaining_work_came_from_user?
+      return if work&.negative?
+
+      self.remaining_work = remaining_work_from_percent_complete_and_work
+    end
   end
 end

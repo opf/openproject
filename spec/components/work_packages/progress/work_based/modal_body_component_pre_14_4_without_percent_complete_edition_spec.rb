@@ -30,48 +30,43 @@
 require "spec_helper"
 require_relative "../shared_modal_examples"
 
-RSpec.describe WorkPackages::Progress::WorkBased::ModalBodyComponent,
-               type: :component do
+# This file can be safely deleted once the feature flag :percent_complete_edition
+# is removed, which should happen for OpenProject 15.0 release.
+RSpec.describe WorkPackages::Progress::WorkBased::ModalBodyComponent, "pre 14.4 without percent complete edition",
+               type: :component,
+               with_flag: { percent_complete_edition: false } do
   include OpenProject::StaticRouting::UrlHelpers
 
-  include_examples "progress modal validations"
-  include_examples "progress modal submit path"
-  include_examples "progress modal help links"
+  describe "#should_display_migration_warning?" do
+    subject(:component) { described_class.new(work_package) }
 
-  describe "#mode" do
-    subject(:component) { described_class.new(WorkPackage.new) }
+    context "when the work package has a percent complete value but no work or remaining work set" do
+      let(:work_package) do
+        create(:work_package) do |work_package|
+          work_package.estimated_hours = nil
+          work_package.remaining_hours = nil
+          work_package.done_ratio = 10
+          work_package.save!(validate: false)
+        end
+      end
 
-    it "returns :work_based" do
-      expect(component.mode).to eq(:work_based)
-    end
-  end
-
-  describe "#focused_field" do
-    subject(:component) { described_class.new(work_package, focused_field:) }
-
-    let(:work_package) { build(:work_package) }
-
-    context "when given estimatedTime" do
-      let(:focused_field) { "estimatedTime" }
-
-      it "returns :estimated_hours" do
-        expect(component.focused_field).to eq(:estimated_hours)
+      it "returns true" do
+        expect(component.should_display_migration_warning?).to be true
       end
     end
 
-    context "when given remainingTime" do
-      let(:focused_field) { "remainingTime" }
-
-      it "returns :remaining_hours" do
-        expect(component.focused_field).to eq(:remaining_hours)
+    context "when the work package has a percent complete value and a work value but no remaining work set" do
+      let(:work_package) do
+        create(:work_package) do |work_package|
+          work_package.estimated_hours = 55
+          work_package.remaining_hours = nil
+          work_package.done_ratio = 10
+          work_package.save!(validate: false)
+        end
       end
-    end
 
-    context "when given percentageDone" do
-      let(:focused_field) { "percentageDone" }
-
-      it "returns :done_ratio" do
-        expect(component.focused_field).to eq(:done_ratio)
+      it "returns false" do
+        expect(component.should_display_migration_warning?).to be false
       end
     end
   end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ::Query::SortCriteria < SortHelper::SortCriteria
+class Query::SortCriteria < SortHelper::SortCriteria
   attr_reader :available_columns
 
   ##

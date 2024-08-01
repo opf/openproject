@@ -26,31 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::Validations
-  extend ActiveSupport::Concern
+require "spec_helper"
 
-  included do
-    validates :subject, :priority, :project, :type, :author, :status, presence: true
+# This file can be safely deleted once the feature flag :percent_complete_edition
+# is removed, which should happen for OpenProject 15.0 release.
+RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema, "pre 14.4 without percent complete edition",
+               with_flag: { percent_complete_edition: false } do
+  let(:project) { build(:project) }
+  let(:type) { build(:type) }
 
-    validates :subject, length: { maximum: 255 }
-    validates :done_ratio, inclusion: { in: 0..100 }, allow_nil: true
-    validates :estimated_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
-    validates :remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
-    validates :derived_remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
+  let(:current_user) { build_stubbed(:user) }
 
-    validates :due_date, date: { allow_blank: true }
-    validates :start_date, date: { allow_blank: true }
+  subject { described_class.new(project:, type:) }
 
-    scope :eager_load_for_validation, -> {
-      includes({ project: %i(enabled_modules work_package_custom_fields versions) },
-               { parent: :type },
-               :custom_values,
-               { type: :custom_fields },
-               :priority,
-               :status,
-               :author,
-               :category,
-               :version)
-    }
+  before do
+    login_as(current_user)
+    mock_permissions_for(current_user, &:allow_everything)
+  end
+
+  describe "#writable?" do
+    it "percentage done is not writable in work-based progress calculation mode",
+       with_settings: { work_package_done_ratio: "field" } do
+      expect(subject).not_to be_writable(:done_ratio)
+    end
+
+    it "percentage done is not writable in status-based progress calculation mode",
+       with_settings: { work_package_done_ratio: "status" } do
+      expect(subject).not_to be_writable(:done_ratio)
+    end
   end
 end

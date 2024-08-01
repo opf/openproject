@@ -60,10 +60,10 @@ module OpenProject
   module FeatureDecisions
     module_function
 
-    def add(flag_name)
+    def add(flag_name, description: nil)
       all << flag_name
       define_flag_methods(flag_name)
-      define_setting_definition(flag_name)
+      define_setting_definition(flag_name, description:)
     end
 
     def active
@@ -80,8 +80,9 @@ module OpenProject
       end
     end
 
-    def define_setting_definition(flag_name)
+    def define_setting_definition(flag_name, description: nil)
       Settings::Definition.add :"feature_#{flag_name}_active",
+                               description:,
                                default: Rails.env.development?
     end
   end
