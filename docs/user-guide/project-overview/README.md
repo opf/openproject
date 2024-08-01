@@ -38,9 +38,13 @@ Open the project overview by navigating to **Overview** in the project menu on t
 
 You will see a list of all available project attributes in a pane on the right side of of your Project overview page. They may be grouped in sections.
 
+The project attributes are visible for users with the **View project attributes** permission enabled.
+
 ![Project overview page showing project attributes on the right side](openproject_user_guide_project_overview_project_attributes_section_new.png)
 
 To edit the value of any visible project attribute, click on the **Edit** (pencil) icon next to the name of the section containing that project attribute. A modal will be displayed with all the attributes in that section.
+
+The editing permission can be granted to users by enabling the **Edit project attributes** permission.
 
 ![Edit a project attribute section on project overview page](openproject_user_guide_project_overview_project_attributes_section_edit_new.png)
 
