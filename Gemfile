@@ -230,6 +230,7 @@ gem "factory_bot_rails", "~> 6.4.0", require: false
 
 gem "turbo_power", "~> 0.6.2"
 gem "turbo-rails", "~> 2.0.0"
+gem "turbo_power", "~> 0.6.2"
 
 gem "httpx"
 

@@ -699,13 +699,36 @@ Rails.application.routes.draw do
 
   root to: "account#login"
 
+  concern :with_split_view do |options|
+    get "details/:work_package_id(/:tab)",
+        on: :collection,
+        action: options.fetch(:action, :split_view),
+        defaults: { tab: :overview },
+        as: :details,
+        work_package_split_view: true
+
+    get "/:work_package_id/close",
+        on: :collection,
+        action: :close_split_view
+  end
+
+  resources :notifications, only: :index do
+    concerns :with_split_view, base_route: :notifications_path
+
+    collection do
+      post :mark_all_read
+      resource :menu, module: :notifications, only: %i[show], as: :notifications_menu
+    end
+  end
+
   namespace :notifications do
     resource :menu, only: %i[show]
   end
+
   scope :notifications do
-    get "/share_upsale" => "angular#notifications_layout", as: "notifications_share_upsale"
-    get "/date_alerts" => "angular#notifications_layout", as: "notifications_date_alert_upsale"
-    get "(/*state)", to: "angular#notifications_layout", as: :notifications_center
+    get "/share_upsale" => "notifications#share_upsale", as: "notifications_share_upsale"
+    get "/date_alerts" => "notifications#date_alerts", as: "notifications_date_alert_upsale"
+    get "/", to: "notifications#index", as: :notifications_center
   end
 
   # OAuthClient needs a "callback" URL that Nextcloud calls with a "code" (see OAuth2 RFC)

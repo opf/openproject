@@ -26,10 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  Input,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -40,19 +37,23 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   templateUrl: './overview-tab.html',
   selector: 'wp-overview-tab',
 })
-export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin {
+export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
 
   public workPackageId:string;
 
   public tabName = this.I18n.t('js.label_latest_activity');
 
-  public constructor(readonly I18n:I18nService,
+  public constructor(
+    readonly I18n:I18nService,
     readonly $state:StateService,
-    readonly apiV3Service:ApiV3Service) {
+    readonly apiV3Service:ApiV3Service,
+  ) {
     super();
+  }
 
-    this.workPackageId = this.$state.params.workPackageId;
+  ngOnInit() {
+    this.workPackageId = this.workPackage?.id || this.$state.params.workPackageId as string;
 
     this
       .apiV3Service

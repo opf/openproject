@@ -1687,6 +1687,7 @@ en:
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
   error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "must be project member"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
@@ -1910,6 +1911,11 @@ en:
       responsible: "Accountable"
       shared: "Shared"
       watched: "Watcher"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"

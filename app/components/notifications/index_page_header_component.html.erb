@@ -1,0 +1,39 @@
+<%= render(Primer::OpenProject::PageHeader.new) do |header|
+  header.with_title { page_title }
+  header.with_breadcrumbs(breadcrumb_items)
+
+  header.with_action_segmented_control("aria-label": t(:label_filter_plural)) do |control|
+    control.with_item(tag: :a,
+                      href: notifications_path(facet: nil),
+                      label: t("notifications.facets.unread"),
+                      title: t("notifications.facets.unread_title"),
+                      selected: @facet != "all")
+    control.with_item(tag: :a,
+                      href: notifications_path(facet: "all"),
+                      label: t("notifications.facets.all"),
+                      title: t("notifications.facets.all_title"),
+                      selected: @facet == "all")
+  end
+
+  header.with_action_button(tag: :a,
+                            mobile_icon: :'op-read-all',
+                            mobile_label: I18n.t("js.notifications.center.mark_all_read"),
+                            href: mark_all_read_notifications_path({ filter: @filter_type, name: @filter_name }.compact),
+                            data: { method: :post },
+                            size: :medium,
+                            aria: { label: I18n.t("js.notifications.center.mark_all_read") }) do |button|
+    button.with_leading_visual_icon(icon: :'op-read-all')
+    I18n.t("js.notifications.center.mark_all_read")
+  end
+
+  header.with_action_button(tag: :a,
+                            mobile_icon: :gear,
+                            mobile_label: I18n.t("js.notifications.settings.title"),
+                            href: my_notifications_path,
+                            size: :medium,
+                            target: "_blank",
+                            aria: { label: I18n.t("js.notifications.settings.title") }) do |button|
+    button.with_leading_visual_icon(icon: :gear)
+    I18n.t("js.notifications.settings.title")
+  end
+end %>

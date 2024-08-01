@@ -40,7 +40,7 @@ module Pages
       end
 
       def mark_all_read
-        click_button "Mark all as read"
+        click_link_or_button "Mark all as read"
       end
 
       def mark_notification_as_read(notification)
@@ -111,11 +111,11 @@ module Pages
       end
 
       def expect_closed
-        expect(page).to have_no_css("op-in-app-notification-center")
+        expect(page).to have_no_css("opce-notification-center")
       end
 
       def expect_open
-        expect(page).to have_css("op-in-app-notification-center")
+        expect(page).to have_css("opce-notification-center")
       end
 
       def expect_empty
