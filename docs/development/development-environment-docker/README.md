@@ -23,13 +23,39 @@ To get right into it and just start the application you can just do the followin
 git clone https://github.com/opf/openproject.git
 cd openproject
 cp .env.example .env
+```
+
+Optional: In case you want to develop on the OpenProject *BIM Edition* you need to set the
+environmental variable accordingly in your `.env` file.
+
+```shell
+OPENPROJECT_EDITION=bim
+```
+
+Then continue the setup:
+
+```shell
 cp docker-compose.override.example.yml docker-compose.override.yml
 docker compose run --rm backend setup
 docker compose run --rm frontend npm install
 docker compose up -d frontend
 ```
 
+Optional: In case you want to develop on the OpenProject *BIM Edition* you need
+to install all the required dependencies and command line tools to convert IFC
+files into XKT files, so that the BIM models can be viewed via the *Xeokit*
+BIM viewer. As the conversions are done by background jobs you need install 
+those tools within the `worker` service:
+
+```shell
+docker compose exec -u root worker setup-bim
+```
+
+Please find below instructions on how to start and stop the workers.
+
 Once the containers are done booting you can access the application under `http://localhost:3000`.
+
+
 
 ### Tests
 
