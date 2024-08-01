@@ -81,8 +81,11 @@ $datepicker--selected-border-radius: 5px
   box-shadow: none !important
   @include spot-caption
 
-  &.open.arrowTop:before
-    border-bottom-color: var(--body-background)
+  &.open.arrowTop
+    &:before
+      border-bottom-color: var(--borderColor-default)
+    &:after
+      border-bottom-color: var(--body-background)
 
   .flatpickr-months
     min-height: 45px
@@ -265,7 +268,7 @@ $datepicker--selected-border-radius: 5px
         border-color: var(--bgColor-disabled) !important
 
 .flatpickr-calendar:not(.inline)
-  box-shadow: var(--shadow-resting-medium) !important
+  box-shadow: var(--shadow-floating-small) !important
   padding: $spot-spacing-0_5 !important
   width: max-content !important
 

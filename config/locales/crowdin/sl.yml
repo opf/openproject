@@ -1480,8 +1480,8 @@ sl:
       - "avgust"
       - "september"
       - "oktober"
-      - "November"
-      - "December"
+      - "november"
+      - "december"
     order:
       - :leto
       - :mesec
@@ -1920,6 +1920,7 @@ sl:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Avtentikacija"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Razpoložljivi forumi"
@@ -2799,6 +2800,7 @@ sl:
   permission_edit_own_messages: "Uredi lastna sporočila"
   permission_edit_own_time_entries: "Uredi svoje dnevnike"
   permission_edit_project: "Uredi projekt"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Uredi poročila"
   permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Uredi časovnice"
@@ -2849,6 +2851,7 @@ sl:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"

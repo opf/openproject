@@ -3,7 +3,15 @@
 
 <% html_title(t(:label_administration), page_title) -%>
 
-<%= toolbar title: page_title %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { @provider.name }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_authentication_path, text: t(:label_authentication) },
+                             { href: openid_connect_providers_path, text: t("openid_connect.providers.plural") },
+                             @provider.name])
+  end
+%>
 
 <%= error_messages_for @provider %>
 

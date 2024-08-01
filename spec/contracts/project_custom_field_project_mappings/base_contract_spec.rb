@@ -63,7 +63,7 @@ RSpec.describe ProjectCustomFieldProjectMappings::BaseContract do
     let(:project_custom_field) { build_stubbed(:project_custom_field, visible: false) }
 
     before do
-      allow(ProjectCustomField).to receive(:where).with(visible: true).and_return([project_custom_field])
+      allow(ProjectCustomField).to receive(:visible).and_return([project_custom_field])
     end
 
     it_behaves_like "contract is invalid"

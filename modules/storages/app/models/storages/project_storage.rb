@@ -65,6 +65,10 @@ module Storages
       managed_folder_identifier.path
     end
 
+    def managed_project_folder_name
+      managed_folder_identifier.name
+    end
+
     def project_folder_location
       managed_folder_identifier.location
     end

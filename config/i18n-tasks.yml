@@ -128,6 +128,7 @@ ignore_unused:
   - 'permission_*'
   - '{devise,kaminari,will_paginate}.*'
   - '*.permission_header_explanation'
+  - 'services.*'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:

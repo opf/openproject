@@ -35,7 +35,7 @@ module Components::Autocompleter
       sleep(0.1)
       element.set(query)
 
-      wait_for_network_idle if using_cuprite?
+      wait_for_network_idle
 
       ##
       # Find the open dropdown

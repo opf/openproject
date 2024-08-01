@@ -34,35 +34,10 @@ module Storages
       module Nextcloud
         module Internal
           class PropfindQueryLegacy
-            # Only for information purposes currently.
-            # Probably a bit later we could validate `#call` parameters.
-            #
-            # DEPTH = %w[0 1 infinity].freeze
-            # POSSIBLE_PROPS = %w[
-            #   d:getlastmodified
-            #   d:getetag
-            #   d:getcontenttype
-            #   d:resourcetype
-            #   d:getcontentlength
-            #   d:permissions
-            #   d:size
-            #   oc:id
-            #   oc:fileid
-            #   oc:favorite
-            #   oc:comments-href
-            #   oc:comments-count
-            #   oc:comments-unread
-            #   oc:owner-id
-            #   oc:owner-display-name
-            #   oc:share-types
-            #   oc:checksums
-            #   oc:size
-            #   nc:has-preview
-            #   nc:rich-workspace
-            #   nc:contained-folder-count
-            #   nc:contained-file-count
-            #   nc:acl-list
-            # ].freeze
+            include TaggedLogging
+            def self.call(storage:, depth:, path:, props:)
+              new(storage).call(depth:, path:, props:)
+            end
 
             def initialize(storage)
               @storage = storage
@@ -71,69 +46,76 @@ module Storages
               @group = storage.group
             end
 
-            def self.call(storage:, depth:, path:, props:)
-              new(storage).call(depth:, path:, props:)
-            end
-
             # rubocop:disable Metrics/AbcSize
             def call(depth:, path:, props:)
-              body = Nokogiri::XML::Builder.new do |xml|
-                xml["d"].propfind(
-                  "xmlns:d" => "DAV:",
-                  "xmlns:oc" => "http://owncloud.org/ns",
-                  "xmlns:nc" => "http://nextcloud.org/ns"
-                ) do
-                  xml["d"].prop do
-                    props.each do |prop|
-                      namespace, property = prop.split(":")
-                      xml[namespace].send(property)
+              with_tagged_logger do
+                body = Nokogiri::XML::Builder.new do |xml|
+                  xml["d"].propfind(
+                    "xmlns:d" => "DAV:",
+                    "xmlns:oc" => "http://owncloud.org/ns",
+                    "xmlns:nc" => "http://nextcloud.org/ns"
+                  ) do
+                    xml["d"].prop do
+                      props.each do |prop|
+                        namespace, property = prop.split(":")
+                        xml[namespace].public_send(property)
+                      end
                     end
                   end
-                end
-              end.to_xml
+                end.to_xml
 
-              response = OpenProject
-                           .httpx
-                           .basic_auth(@username, @password)
-                           .with(headers: { "Depth" => depth })
-                           .request(
-                             "PROPFIND",
-                             UrlBuilder.url(@storage.uri, "remote.php/dav/files", @username, path),
-                             xml: body
-                           )
+                response = OpenProject
+                             .httpx
+                             .basic_auth(@username, @password)
+                             .with(headers: { "Depth" => depth })
+                             .request(
+                               "PROPFIND",
+                               UrlBuilder.url(@storage.uri, "remote.php/dav/files", @username, path),
+                               xml: body
+                             )
 
-              error_data = StorageErrorData.new(source: self.class, payload: response)
+                error_data = StorageErrorData.new(source: self.class, payload: response)
 
-              case response
-              in { status: 200..299 }
-                doc = Nokogiri::XML(response.body.to_s)
-                result = {}
-                doc.xpath("/d:multistatus/d:response").each do |resource_section|
-                  source_path = UrlBuilder.path(@storage.uri.path, "/remote.php/dav/files", @username)
-                  resource = CGI.unescape(resource_section.xpath("d:href").text.strip).gsub!(source_path, "")
+                case response
+                in { status: 200..299 }
+                  log_response(response)
+                  info "Parsing XML response body"
+                  doc = Nokogiri::XML(response.body.to_s)
+                  info "Parsing response body"
+                  result = doc.xpath("/d:multistatus/d:response").each_with_object({}) do |resource_section, hash|
+                    source_path = UrlBuilder.path(@storage.uri.path, "/remote.php/dav/files", @username)
+                    resource = CGI.unescape(resource_section.xpath("d:href").text.strip).gsub!(source_path, "")
 
-                  result[resource] = {}
+                    hash[resource] = {}
 
-                  # In future it could be useful to respond not only with found, but not found props as well
-                  # resource_section.xpath("d:propstat[d:status[text() = 'HTTP/1.1 404 Not Found']]/d:prop/*")
-                  resource_section.xpath("d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/*").each do |node|
-                    result[resource][node.name.to_s] = node.text.strip
+                    # In future it could be useful to respond not only with found, but not found props as well
+                    # resource_section.xpath("d:propstat[d:status[text() = 'HTTP/1.1 404 Not Found']]/d:prop/*")
+                    resource_section.xpath("d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/*").each do |node|
+                      hash[resource][node.name.to_s] = node.text.strip
+                    end
                   end
-                end
 
-                ServiceResult.success(result:)
-              in { status: 405 }
-                Util.error(:not_allowed, "Outbound request method not allowed", error_data)
-              in { status: 401 }
-                Util.error(:unauthorized, "Outbound request not authorized", error_data)
-              in { status: 404 }
-                Util.error(:not_found, "Outbound request destination not found", error_data)
-              else
-                Util.error(:error, "Outbound request failed", error_data)
+                  info "Response parsed found: #{result.inspect}"
+                  ServiceResult.success(result:)
+                in { status: 405 }
+                  log_response(response)
+                  Util.error(:not_allowed, "Outbound request method not allowed", error_data)
+                in { status: 401 }
+                  log_response(response)
+                  Util.error(:unauthorized, "Outbound request not authorized", error_data)
+                in { status: 404 }
+                  log_response(response)
+                  Util.error(:not_found, "Outbound request destination not found", error_data)
+                else
+                  Util.error(:error, "Outbound request failed", error_data)
+                end
               end
             end
-
             # rubocop:enable Metrics/AbcSize
+
+            def log_response(response)
+              info "Storage responded with a #{response.status} code."
+            end
           end
         end
       end

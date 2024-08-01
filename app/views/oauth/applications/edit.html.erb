@@ -29,8 +29,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% edit_label = "#{t(:label_edit)} #{@application.class.model_name.human} #{h(@application.name)}" %>
 <% html_title(t(:label_administration), edit_label) -%>
-<% local_assigns[:additional_breadcrumb] = h(@application.name) %>
-<%= breadcrumb_toolbar(edit_label) %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { h(@application.name) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_authentication_path, text: t(:label_authentication) },
+                             { href: oauth_applications_path, text: t("oauth.application.plural") },
+                             h(@application.name)])
+  end
+%>
 
 <%= labelled_tabular_form_for @application,
                               url: { action: "update" },

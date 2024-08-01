@@ -52,10 +52,10 @@ RSpec.describe User, "allowed scope" do
     ProjectRole.non_member
   end
 
-  context 'w/ the context being a project
-           w/o the project being public
-           w/ the user being member in the project
-           w/ the role having the necessary permission' do
+  context "with the context being a project " \
+          "without the project being public " \
+          "with the user being member in the project " \
+          "with the role having the necessary permission" do
     before do
       role.add_permission! action
 
@@ -67,10 +67,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/o the project being public
-           w/o the user being member in the project
-           w/ the user being admin' do
+  context "with the context being a project " \
+          "without the project being public " \
+          "without the user being member in the project " \
+          "with the user being admin" do
     before do
       user.update_attribute(:admin, true)
     end
@@ -80,11 +80,11 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/o the project being public
-           w/o the user being member in the project
-           w/ the user being admin
-           w/ the action not granted to admins' do
+  context "with the context being a project " \
+          "without the project being public " \
+          "without the user being member in the project " \
+          "with the user being admin " \
+          "with the action not granted to admins" do
     let(:action) { :work_package_assigned }
 
     before do
@@ -96,10 +96,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/o the project being public
-           w/ the user being member in the project
-           w/o the role having the necessary permission' do
+  context "with the context being a project " \
+          "without the project being public " \
+          "with the user being member in the project " \
+          "without the role having the necessary permission" do
     before do
       role.save!
       member.save!
@@ -110,10 +110,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/o the project being public
-           w/o the user being member in the project
-           w/ the role having the necessary permission' do
+  context "with the context being a project " \
+          "without the project being public " \
+          "without the user being member in the project " \
+          "with the role having the necessary permission" do
     before do
       role.add_permission! action
     end
@@ -123,11 +123,11 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/o the project being public
-           w/o the user being member in the project
-           w/ the user being member in a different project
-           w/ the role having the permission' do
+  context "with the context being a project " \
+          "without the project being public " \
+          "without the user being member in the project " \
+          "with the user being member in a different project " \
+          "with the role having the permission" do
     before do
       role.add_permission! action
 
@@ -140,11 +140,11 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/ the project being public
-           w/o the user being member in the project
-           w/ the user being member in a different project
-           w/ the role having the permission' do
+  context "with the context being a project " \
+          "with the project being public " \
+          "without the user being member in the project " \
+          "with the user being member in a different project " \
+          "with the role having the permission" do
     before do
       role.add_permission! action
 
@@ -159,10 +159,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/ the project being public
-           w/o the user being member in the project
-           w/ the non member role having the necessary permission' do
+  context "with the context being a project " \
+          "with the project being public " \
+          "without the user being member in the project " \
+          "with the non member role having the necessary permission" do
     before do
       project.public = true
 
@@ -177,10 +177,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/ the project being public
-           w/o the user being member in the project
-           w/ the anonymous role having the necessary permission' do
+  context "with the context being a project " \
+          "with the project being public " \
+          "without the user being member in the project " \
+          "with the anonymous role having the necessary permission" do
     before do
       project.public = true
 
@@ -195,10 +195,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/ the project being public
-           w/o the user being member in the project
-           w/ the non member role having another permission' do
+  context "with the context being a project " \
+          "with the project being public " \
+          "without the user being member in the project " \
+          "with the non member role having another permission" do
     before do
       project.public = true
 
@@ -213,10 +213,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/ the project being private
-           w/o the user being member in the project
-           w/ the non member role having the permission' do
+  context "with the context being a project " \
+          "with the project being private " \
+          "without the user being member in the project " \
+          "with the non member role having the permission" do
     before do
       non_member = ProjectRole.non_member
       non_member.add_permission! action
@@ -229,11 +229,11 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/ the project being public
-           w/ the user being member in the project
-           w/o the role having the necessary permission
-           w/ the non member role having the permission' do
+  context "with the context being a project " \
+          "with the project being public " \
+          "with the user being member in the project " \
+          "without the role having the necessary permission " \
+          "with the non member role having the permission" do
     before do
       project.public = true
       project.save
@@ -250,11 +250,11 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/o the project being public
-           w/ the user being member in the project
-           w/o the role having the permission
-           w/ the permission being public' do
+  context "with the context being a project " \
+          "without the project being public " \
+          "with the user being member in the project " \
+          "without the role having the permission " \
+          "with the permission being public" do
     before do
       member.save!
     end
@@ -264,11 +264,11 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/ the project being public
-           w/o the user being member in the project
-           w/o the role having the permission
-           w/ the permission being public' do
+  context "with the context being a project " \
+          "with the project being public " \
+          "without the user being member in the project " \
+          "without the role having the permission " \
+          "with the permission being public" do
     before do
       project.public = true
       project.save
@@ -280,11 +280,11 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/ the user being member in the project
-           w/ asking for a certain permission
-           w/ the permission belonging to a module
-           w/o the module being active' do
+  context "with the context being a project " \
+          "with the user being member in the project " \
+          "with asking for a certain permission " \
+          "with the permission belonging to a module " \
+          "without the module being active" do
     let(:permission) do
       OpenProject::AccessControl.permissions.find { |p| p.project_module.present? }
     end
@@ -301,11 +301,11 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/ the user being member in the project
-           w/ asking for a certain permission
-           w/ the permission belonging to a module
-           w/ the module being active' do
+  context "with the context being a project " \
+          "with the user being member in the project " \
+          "with asking for a certain permission " \
+          "with the permission belonging to a module " \
+          "with the module being active" do
     let(:permission) do
       OpenProject::AccessControl.permissions.find { |p| p.project_module.present? }
     end
@@ -322,11 +322,11 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ the context being a project
-           w/ the user being member in the project
-           w/ asking for a certain permission
-           w/ the user having the permission in the project
-           w/o the project being active' do
+  context "with the context being a project " \
+          "with the user being member in the project " \
+          "with asking for a certain permission " \
+          "with the user having the permission in the project " \
+          "without the project being active" do
     before do
       role.add_permission! action
       member.save!
@@ -339,10 +339,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ only asking for members
-           w/o the project being public
-           w/ the user being member in the project
-           w/ the role having the necessary permission' do
+  context "with only asking for members " \
+          "without the project being public " \
+          "with the user being member in the project " \
+          "with the role having the necessary permission" do
     before do
       role.add_permission! action
 
@@ -354,10 +354,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ only asking for members
-           w/o the project being public
-           w/o the user being member in the project
-           w/ the user being admin' do
+  context "with only asking for members " \
+          "without the project being public " \
+          "without the user being member in the project " \
+          "with the user being admin" do
     before do
       user.update_attribute(:admin, true)
     end
@@ -367,10 +367,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ only asking for members
-           w/ the project being public
-           w/ the user being member in the project
-           w/ the role having the necessary permission' do
+  context "with only asking for members " \
+          "with the project being public " \
+          "with the user being member in the project " \
+          "with the role having the necessary permission" do
     before do
       project.update_attribute(:public, true)
 
@@ -384,10 +384,10 @@ RSpec.describe User, "allowed scope" do
     end
   end
 
-  context 'w/ only asking for members
-           w/ the project being public
-           w/o the user being member in the project
-           w/ the role having the necessary permission' do
+  context "with only asking for members " \
+          "with the project being public " \
+          "without the user being member in the project " \
+          "with the role having the necessary permission" do
     before do
       project.update_attribute(:public, true)
 

@@ -1,9 +1,16 @@
-<% local_assigns[:additional_breadcrumb] = t('ldap_groups.synchronized_groups.add_new') %>
 <% html_title(t(:label_administration), t('ldap_groups.synchronized_groups.add_new')) -%>
 
-<%= error_messages_for @group %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("ldap_groups.synchronized_groups.add_new") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_authentication_path, text: t(:label_authentication) },
+                             { href: ldap_groups_synchronized_groups_path, text: I18n.t("ldap_groups.label_menu_item") },
+                             t("ldap_groups.synchronized_groups.add_new")])
+  end
+%>
 
-<%= toolbar title: t('ldap_groups.synchronized_groups.add_new') %>
+<%= error_messages_for @group %>
 
 <%= labelled_tabular_form_for @group,
                               as: :synchronized_group,

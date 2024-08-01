@@ -124,8 +124,8 @@ RSpec.describe CostlogController do
       it_behaves_like "successful new"
     end
 
-    describe "WHEN user allowed to create new cost_entry
-              WHEN a default cost_type exists" do
+    describe "WHEN user allowed to create new cost_entry " \
+             "WHEN a default cost_type exists" do
       let(:expected_cost_type) { cost_type }
 
       before do
@@ -189,8 +189,8 @@ RSpec.describe CostlogController do
       it_behaves_like "successful edit"
     end
 
-    describe "WHEN the user is allowed to edit cost_entries
-              WHEN trying to edit a not own cost_entry" do
+    describe "WHEN the user is allowed to edit cost_entries " \
+             "WHEN trying to edit a not own cost_entry" do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
@@ -209,8 +209,8 @@ RSpec.describe CostlogController do
       it_behaves_like "successful edit"
     end
 
-    describe "WHEN the user is allowed to edit own cost_entries
-              WHEN trying to edit a not own cost_entry" do
+    describe "WHEN the user is allowed to edit own cost_entries " \
+             "WHEN trying to edit a not own cost_entry" do
       before do
         grant_current_user_permissions user, [:edit_own_cost_entries]
 
@@ -229,8 +229,8 @@ RSpec.describe CostlogController do
       it_behaves_like "forbidden edit"
     end
 
-    describe "WHEN the user is allowed to edit cost_entries
-              WHEN the cost_entry is associated to a different project" do
+    describe "WHEN the user is allowed to edit cost_entries " \
+             "WHEN the cost_entry is associated to a different project" do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
@@ -244,8 +244,8 @@ RSpec.describe CostlogController do
       it_behaves_like "forbidden edit"
     end
 
-    describe "WHEN the user is allowed to edit cost_entries
-              WHEN the provided id is invalid" do
+    describe "WHEN the user is allowed to edit cost_entries " \
+             "WHEN the provided id is invalid" do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
@@ -333,8 +333,8 @@ RSpec.describe CostlogController do
       it_behaves_like "successful create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN no date is specified" do
+    describe "WHEN the user is allowed to create cost_entries " \
+             "WHEN no date is specified" do
       let(:expected_spent_on) { Date.today }
 
       before do
@@ -346,9 +346,9 @@ RSpec.describe CostlogController do
       it_behaves_like "successful create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN a non existing cost_type_id is specified
-              WHEN no default cost_type is defined" do
+    describe "WHEN the user is allowed to create cost_entries " \
+             "WHEN a non existing cost_type_id is specified " \
+             "WHEN no default cost_type is defined" do
       let(:expected_cost_type) { nil }
 
       before do
@@ -359,9 +359,9 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN a non existing cost_type_id is specified
-              WHEN a default cost_type is defined" do
+    describe "WHEN the user is allowed to create cost_entries " \
+             "WHEN a non existing cost_type_id is specified " \
+             "WHEN a default cost_type is defined" do
       let(:expected_cost_type) { nil }
 
       before do
@@ -374,9 +374,9 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN no cost_type is specified
-              WHEN a default cost_type is defined" do
+    describe "WHEN the user is allowed to create cost_entries " \
+             "WHEN no cost_type is specified " \
+             "WHEN a default cost_type is defined" do
       let(:expected_cost_type) { nil }
 
       before do
@@ -389,9 +389,9 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN no cost_type is specified
-              WHEN no default cost_type is defined" do
+    describe "WHEN the user is allowed to create cost_entries " \
+             "WHEN no cost_type is specified " \
+             "WHEN no default cost_type is defined" do
       let(:expected_cost_type) { nil }
 
       before do
@@ -402,8 +402,8 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN the cost_type id provided belongs to an inactive cost_type" do
+    describe "WHEN the user is allowed to create cost_entries " \
+             "WHEN the cost_type id provided belongs to an inactive cost_type" do
       before do
         grant_current_user_permissions user, [:log_costs]
         cost_type.deleted_at = Date.today
@@ -413,9 +413,9 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN the user is allowed to log cost for someone else and is doing so
-              WHEN the other user is a member of the project" do
+    describe "WHEN the user is allowed to create cost_entries " \
+             "WHEN the user is allowed to log cost for someone else and is doing so " \
+             "WHEN the other user is a member of the project" do
       before do
         grant_current_user_permissions user, []
         grant_current_user_permissions user2, [:log_costs]
@@ -426,9 +426,9 @@ RSpec.describe CostlogController do
       it_behaves_like "successful create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN the user is allowed to log cost for someone else and is doing so
-              WHEN the other user isn't a member of the project" do
+    describe "WHEN the user is allowed to create cost_entries " \
+             "WHEN the user is allowed to log cost for someone else and is doing so " \
+             "WHEN the other user isn't a member of the project" do
       before do
         grant_current_user_permissions user2, [:log_costs]
 
@@ -438,8 +438,8 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN the id of an work_package not included in the provided project is provided" do
+    describe "WHEN the user is allowed to create cost_entries " \
+             "WHEN the id of an work_package not included in the provided project is provided" do
       let(:project2) { create(:project_with_types) }
       let(:work_package2) do
         create(:work_package, project: project2,
@@ -457,8 +457,8 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid create"
     end
 
-    describe "WHEN the user is allowed to create cost_entries
-              WHEN no work_package_id is provided" do
+    describe "WHEN the user is allowed to create cost_entries " \
+             "WHEN no work_package_id is provided" do
       let(:expected_work_package) { nil }
 
       before do
@@ -470,8 +470,8 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid create"
     end
 
-    describe "WHEN the user is allowed to create own cost_entries
-              WHEN the user is trying to log costs for somebody else" do
+    describe "WHEN the user is allowed to create own cost_entries " \
+             "WHEN the user is trying to log costs for somebody else" do
       before do
         grant_current_user_permissions user2, [:log_own_costs]
 
@@ -543,8 +543,8 @@ RSpec.describe CostlogController do
       it { expect(response.response_code).to eq(403) }
     end
 
-    describe "WHEN the user is allowed to update cost_entries
-              WHEN updating:
+    describe "WHEN the user is allowed to update cost_entries " \
+             "WHEN updating:
                 work_package_id
                 user_id
                 units
@@ -577,8 +577,8 @@ RSpec.describe CostlogController do
       it_behaves_like "successful update"
     end
 
-    describe "WHEN the user is allowed to update cost_entries
-              WHEN updating nothing" do
+    describe "WHEN the user is allowed to update cost_entries " \
+             "WHEN updating nothing" do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
       end
@@ -586,8 +586,8 @@ RSpec.describe CostlogController do
       it_behaves_like "successful update"
     end
 
-    describe "WHEN the user is allowed to update own cost_entries
-              WHEN updating something" do
+    describe "WHEN the user is allowed to update own cost_entries " \
+             "WHEN updating something" do
       let(:expected_units) { cost_entry.units + 20 }
 
       before do
@@ -599,9 +599,9 @@ RSpec.describe CostlogController do
       it_behaves_like "successful update"
     end
 
-    describe "WHEN the user is allowed to update cost_entries
-              WHEN updating the user
-              WHEN the new user isn't a member of the project" do
+    describe "WHEN the user is allowed to update cost_entries " \
+             "WHEN updating the user " \
+             "WHEN the new user isn't a member of the project" do
       let(:user2) { create(:user) }
       let(:expected_user) { user2 }
 
@@ -614,9 +614,9 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid update"
     end
 
-    describe "WHEN the user is allowed to update cost_entries
-              WHEN updating the work_package
-              WHEN the new work_package isn't an work_package of the current project" do
+    describe "WHEN the user is allowed to update cost_entries " \
+             "WHEN updating the work_package " \
+             "WHEN the new work_package isn't an work_package of the current project" do
       let(:project2) { create(:project_with_types) }
       let(:work_package2) do
         create(:work_package, project: project2,
@@ -633,9 +633,9 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid update"
     end
 
-    describe "WHEN the user is allowed to update cost_entries
-              WHEN updating the work_package
-              WHEN the new work_package_id isn't existing" do
+    describe "WHEN the user is allowed to update cost_entries " \
+             "WHEN updating the work_package " \
+             "WHEN the new work_package_id isn't existing" do
       let(:expected_work_package) { nil }
 
       before do
@@ -647,9 +647,9 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid update"
     end
 
-    describe "WHEN the user is allowed to update cost_entries
-              WHEN updating the cost_type
-              WHEN the new cost_type is deleted" do
+    describe "WHEN the user is allowed to update cost_entries " \
+             "WHEN updating the cost_type " \
+             "WHEN the new cost_type is deleted" do
       let(:expected_cost_type) { create(:cost_type, deleted_at: Date.today) }
 
       before do
@@ -661,9 +661,9 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid update"
     end
 
-    describe "WHEN the user is allowed to update cost_entries
-              WHEN updating the cost_type
-              WHEN the new cost_type doesn't exist" do
+    describe "WHEN the user is allowed to update cost_entries " \
+             "WHEN updating the cost_type " \
+             "WHEN the new cost_type doesn't exist" do
       let(:expected_cost_type) { nil }
 
       before do
@@ -675,9 +675,9 @@ RSpec.describe CostlogController do
       it_behaves_like "invalid update"
     end
 
-    describe "WHEN the user is allowed to update own cost_entries and not all
-              WHEN updating own cost entry
-              WHEN updating the user" do
+    describe "WHEN the user is allowed to update own cost_entries and not all " \
+             "WHEN updating own cost entry " \
+             "WHEN updating the user" do
       let(:user3) { create(:user) }
 
       before do
@@ -689,9 +689,9 @@ RSpec.describe CostlogController do
       it_behaves_like "forbidden update"
     end
 
-    describe "WHEN the user is allowed to update own cost_entries and not all
-              WHEN updating foreign cost_entry
-              WHEN updating something" do
+    describe "WHEN the user is allowed to update own cost_entries and not all " \
+             "WHEN updating foreign cost_entry " \
+             "WHEN updating something" do
       let(:user3) { create(:user) }
 
       before do

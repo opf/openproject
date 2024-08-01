@@ -500,9 +500,9 @@ RSpec.describe WorkPackages::UpdateService, "version inheritance", type: :model 
         end
       end
 
-      describe "WITH a story as parent
-                WITH the story having a non backlogs work_package as parent
-                WITH a task as child" do
+      describe "WITH a story as parent " \
+               "WITH the story having a non backlogs work_package as parent " \
+               "WITH a task as child" do
         before do
           bug2.save!
           story.parent_id = bug2.id

@@ -54,7 +54,7 @@ class WikiPage < ApplicationRecord
 
   acts_as_journalized
 
-  register_journal_formatted_fields(:wiki_diff, 'text')
+  register_journal_formatted_fields "text", formatter_key: :wiki_diff
 
   attr_accessor :redirect_existing_links
 
