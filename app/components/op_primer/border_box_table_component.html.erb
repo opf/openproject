@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
         render_blank_slate
       else
         rows.each do |row|
-          render(row_class.new(row:, table: self))
+          concat render(row_class.new(row:, table: self))
         end
       end
     end

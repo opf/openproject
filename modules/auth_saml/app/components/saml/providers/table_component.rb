@@ -1,7 +1,7 @@
 module Saml
   module Providers
     class TableComponent < ::OpPrimer::BorderBoxTableComponent
-      columns :name, :users
+      columns :name, :users, :creator, :created_at
 
       def initial_sort
         %i[id asc]
@@ -18,7 +18,9 @@ module Saml
       def headers
         [
           ['name', { caption: I18n.t('attributes.name') }],
-          ['users', { caption: I18n.t(:label_user_plural) }]
+          ['users', { caption: I18n.t(:label_user_plural) }],
+          ['creator', { caption: I18n.t("js.label_created_by") }],
+          ['created_at', { caption: Saml::Provider.human_attribute_name(:created_at) }]
         ]
       end
 

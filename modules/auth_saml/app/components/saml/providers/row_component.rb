@@ -11,12 +11,12 @@ module Saml
           href: url_for(action: :show, id: provider.id)
         )) { provider.display_name || provider.name }
 
-        if provider.idp_sso_target_url
+        if provider.idp_sso_service_url
           concat render(Primer::Beta::Text.new(
             tag: :p,
             font_size: :small,
             color: :subtle
-          )) { provider.idp_sso_target_url }
+          )) { provider.idp_sso_service_url }
         end
       end
 
@@ -33,7 +33,15 @@ module Saml
       end
 
       def users
-        "1234"
+        User.where("identity_url LIKE ?", "%#{provider.slug}%").count.to_s
+      end
+
+      def creator
+        helpers.avatar(provider.creator, size: :mini, hide_name: false)
+      end
+
+      def created_at
+        helpers.format_time provider.created_at
       end
 
       def delete_link

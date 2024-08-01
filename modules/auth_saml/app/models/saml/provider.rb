@@ -9,6 +9,9 @@ module Saml
     store_attribute :options, :metadata_url, :string
     store_attribute :options, :metadata_xml, :string
 
+    store_attribute :options, :idp_sso_service_url, :string
+    store_attribute :options, :idp_slo_service_url, :string
+
     store_attribute :options, :mapping_login, :json
     store_attribute :options, :mapping_mail, :json
     store_attribute :options, :mapping_firstname, :json
