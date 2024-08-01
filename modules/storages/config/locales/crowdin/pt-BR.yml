@@ -5,7 +5,7 @@ pt-BR:
         origin_id: Id da origem
       storages/storage:
         creator: Criador
-        drive: ID da unidade
+        drive: Drive ID
         host: Servidor
         name: Nome
         provider_type: Tipo de provedor
@@ -168,7 +168,7 @@ pt-BR:
         app_version_mismatch: A integração da versão do aplicativo OpenProject não é suportada. Por favor, atualize seu servidor NextCloud.
         client_id_wrong: O ID do cliente OAuth 2 configurado é inválido. Verifique a configuração.
         client_secret_wrong: O segredo do cliente OAuth 2 configurado é inválido. Verifique a configuração.
-        drive_id_wrong: O ID do drive configurado não foi encontrado. Verifique a configuração.
+        drive_id_wrong: O drive ID configurado não foi encontrado. Verifique a configuração.
         group_folder_version_mismatch: A versão da Pasta de Grupo não é suportada. Por favor, atualize seu servidor NextCloud.
         host_not_found: Nenhum servidor Nextcloud encontrado no URL do host configurado. Por favor, verifique a configuração.
         missing_dependencies: 'Está faltando uma dependência necessária do armazenamento de arquivos. Por favor, adicione a seguinte dependência: %{dependency}.'

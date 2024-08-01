@@ -101,7 +101,7 @@ fa:
             item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
           queries:
             item_0:
-              name: Project plan
+              name: 'برنامه پروژه:'
             item_1:
               name: Milestones
             item_2:
