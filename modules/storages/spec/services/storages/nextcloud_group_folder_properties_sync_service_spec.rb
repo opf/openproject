@@ -632,7 +632,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
   let(:oauth_client) { storage.oauth_client }
   # rubocop:enable RSpec/IndexedLet
 
-  let(:prefix) { "services.errors.models.storages/nextcloud_group_folder_properties_sync_service" }
+  let(:prefix) { "services.errors.models.nextcloud_sync_service" }
 
   describe "#call" do
     before do
@@ -691,7 +691,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
 
             expect(Rails.logger)
               .to have_received(:error)
-                    .with(folder: "OpenProject", error_code: :not_found, data: { status: 404, body: "" })
+                    .with(folder: "OpenProject", error_code: :not_found, data: { status: 404, body: "" }, message: /not found/)
           end
 
           it "returns a failure" do
@@ -755,6 +755,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
             expect(Rails.logger)
               .to have_received(:error)
                     .with(folder: "OpenProject",
+                          message: /not authorized/,
                           error_code: :unauthorized,
                           data: { status: 401, body: "Heute nicht" })
           end
@@ -799,6 +800,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
           expect(Rails.logger)
             .to have_received(:error)
                   .with(folder_name: "/OpenProject/[Sample] Project Name | Ehuu (#{project1.id})/",
+                        message: /not found/,
                         error_code: :not_found,
                         data: "not found")
         end
@@ -829,6 +831,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
             .to have_received(:error)
                   .with(folder_id: project_storage2.project_folder_id,
                         error_code: :not_found,
+                        message: /not found/,
                         folder_name: "Jedi Project Folder ||| (#{project2.id})",
                         data: { status: 404, body: "" })
         end
@@ -860,6 +863,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
             .to have_received(:error)
                   .with(context: "hide_folder",
                         folder: "/OpenProject/Lost Jedi Project Folder #2/",
+                        message: /request failed/,
                         error_code: :error,
                         data: { status: 500, body: "A server error occurred" })
         end
@@ -890,6 +894,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
           expect(Rails.logger)
             .to have_received(:error)
                   .with(folder: "/OpenProject/Jedi Project Folder ||| (#{project2.id})/",
+                        message: /failed/,
                         error_code: :error,
                         data: { status: 500, body: "Divide by cucumber error. Please reinstall universe and reboot." })
         end
@@ -921,6 +926,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
             .to have_received(:error)
                   .with(group: "OpenProject",
                         user: "Obi-Wan",
+                        message: /failed/,
                         error_code: :error,
                         reason: "Outbound request failed",
                         data: { status: 302, body: "" })
@@ -956,6 +962,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
             .to have_received(:error)
                   .with(group: "OpenProject",
                         user: "Darth Maul",
+                        message: /SubAdmin/,
                         error_code: :failed_to_remove,
                         reason: /SubAdmin/,
                         data: { status: 200, body: remove_user_from_group_response })
