@@ -32,8 +32,25 @@ module Storages
   module TaggedLogging
     delegate :info, :error, to: :logger
 
+    # @param tag [String, Array<String>] the tag or list of tags to annotate the logs with
+    # @yield [Logger]
     def with_tagged_logger(tag = self.class, &)
       logger.tagged(*tag, &)
+    end
+
+    # @param storage_error [Storages::StorageError] an instance of Storages::StorageError
+    # @param context [Hash{Symbol => Object}] extra metadata that will be appended to the logs
+    def log_storage_error(storage_error, context = {})
+      payload = storage_error.data&.payload
+      data = case payload
+             in { status: Integer }
+               { status: payload&.status, body: payload&.body.to_s }
+             else
+               payload.to_s
+             end
+
+      error_message = context.merge({ error_code: storage_error.code, message: storage_error.log_message, data: })
+      error error_message
     end
 
     def logger
