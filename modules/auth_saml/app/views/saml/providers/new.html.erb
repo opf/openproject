@@ -18,6 +18,4 @@
   <% end %>
 <% end %>
 
-<%= error_messages_for @provider %>
-
 <%= render(Saml::Providers::ViewComponent.new(@provider, edit_state: :name)) %>

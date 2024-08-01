@@ -21,6 +21,8 @@ en:
       invalid_url: "Provided metadata URL is invalid. Provide a HTTP(s) URL."
       error: "Failed to retrieve the identity provider metadata: %{error}"
     providers:
+      label_empty_title: "No SAML providers configured yet."
+      label_empty_description: "Add a provider to see them here."
       label_automatic_configuration: Automatic configuration
       label_metadata: Metadata
       label_add_new: New SAML identity provider

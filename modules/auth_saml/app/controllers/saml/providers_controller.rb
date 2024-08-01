@@ -7,12 +7,15 @@ module Saml
     before_action :check_ee
     before_action :find_provider, only: %i[show edit update destroy]
 
-    def index; end
+    def index
+      @providers = Saml::Provider.all
+    end
+
     def edit; end
     def show; end
 
     def new
-      @provider = ::Saml::Provider.new(name: "saml")
+      @provider = ::Saml::Provider.new
     end
 
     def import
