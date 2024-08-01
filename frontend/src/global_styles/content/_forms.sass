@@ -661,9 +661,13 @@ input[readonly].-clickable
     background: var(--body-background)
     color: var(--body-font-color)
 
+    &[disabled]
+      background-color: var(--bgColor-disabled)
+      color: var(--fgColor-disabled)
+
   optgroup
-    background-color: var(--bgColor-muted)
-    color: var(--fgColor-muted)
+    background-color: var(--body-background)
+    color: var(--body-font-color)
 
 .form--inline-select
   display: inline-block
