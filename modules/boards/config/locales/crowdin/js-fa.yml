@@ -23,8 +23,8 @@ fa:
         locked: 'قفل شده'
         closed: 'بسته'
       new_board: 'New board'
-      add_list: 'Add list to board'
-      add_card: 'Add card'
+      add_list: 'افزودن لیست به برد'
+      add_card: ''
       error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
       error_loading_the_list: "Error loading the list: %{error_message}"
       error_permission_missing: "مجوز ایجاد سؤالات عمومی از بین رفته است"
@@ -54,7 +54,7 @@ fa:
         action_type:
           assignee: assignee
           status: status
-          version: version
+          version:
           subproject: subproject
           subtasks: parent-child
         board_type_title:
@@ -71,16 +71,15 @@ fa:
           status: Select status to add as a new list
           version: Select version to add as a new list
           subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          subtasks: انتخاب بسته کاری جهت افزودن به لیست جدید
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
+
           assignee: There isn't any member matched with your filter value.  <br>
           no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
       configuration_modal:
         title: 'Configure this board'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "نمایش بصورت کارت"
+          table_mode: "نمایش به عنوان جدول"

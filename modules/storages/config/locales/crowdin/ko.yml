@@ -168,7 +168,7 @@ ko:
         app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
         client_id_wrong: 구성된 OAuth 2 클라이언트 ID가 잘못되었습니다. 구성을 확인하세요.
         client_secret_wrong: 구성된 OAuth 2 클라이언트 비밀번호가 잘못되었습니다. 구성을 확인하세요.
-        drive_id_wrong: 구성된 드라이브 ID를 찾을 수 없습니다. 구성을 확인하세요.
+        drive_id_wrong: 구성된 Drive ID를 찾을 수 없습니다. 구성을 확인하세요.
         group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
         host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
         missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
