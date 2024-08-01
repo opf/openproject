@@ -2118,6 +2118,7 @@ en:
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
+  label_completed: Completed
   label_consent_settings: "User Consent"
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
@@ -2277,6 +2278,7 @@ en:
   label_inactive: "Inactive"
   label_incoming_emails: "Incoming emails"
   label_includes: "includes"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"

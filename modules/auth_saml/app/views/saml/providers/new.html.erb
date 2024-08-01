@@ -1,33 +1,23 @@
 <% html_title(t(:label_administration), t('saml.providers.label_add_new')) -%>
-<% local_assigns[:additional_breadcrumb] = t('saml.providers.label_add_new') %>
 
-<%= toolbar title: t('saml.providers.label_add_new') %>
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { t('saml.providers.label_add_new') } %>
+
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration")},
+                              { href: saml_providers_path, text: t('saml.providers.plural') },
+                              t('saml.providers.label_add_new')]) %>
+
+  <% header.with_description do %>
+    <%= link_translate(
+          'saml.instructions.new_description',
+          links: {
+            docs_url: ::OpenProject::Static::Links[:sysadmin_docs][:saml][:href],
+          },
+          target: "_blank"
+        ) %>
+  <% end %>
+<% end %>
 
 <%= error_messages_for @provider %>
 
-
-<%=
-  primer_form_with(
-    model: @provider,
-    url: { action: :import },
-    method: :post
-  ) do |form| %>
-
-  <%=
-    render(Primer::OpenProject::FlexLayout.new) do |flex|
-      flex.with_row(mb: 3) do
-        render(Saml::Providers::NameInputForm.new(form))
-      end
-
-      flex.with_row(mb: 3) do
-        render(Saml::Providers::MetadataUrlForm.new(form))
-      end
-
-      flex.with_row do
-        render(
-          Saml::Providers::SubmitOrCancelForm.new(form)
-        )
-      end
-    end
-  %>
-<% end %>
+<%= render(Saml::Providers::ViewComponent.new(@provider, edit_state: :name)) %>

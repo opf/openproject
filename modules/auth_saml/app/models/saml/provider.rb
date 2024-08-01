@@ -6,7 +6,7 @@ module Saml
     include ActiveModel::Conversion
 
     attr_accessor :readonly
-    validates_presence_of :name, :display_name
+    validates_presence_of :display_name
 
     def initialize(readonly: false, **attributes)
       self.readonly = readonly
@@ -17,6 +17,10 @@ module Saml
 
     def id
       name
+    end
+
+    def name
+      super.presence || "saml-#{uuid}"
     end
 
     def sp_entity_id
@@ -99,6 +103,7 @@ module Saml
       self.name_identifier_format = attributes.fetch(:name_identifier_format, DEFAULT_NAME_IDENTIFIER_FORMAT)
       self.issuer = attributes.fetch(:issuer, url_helpers.root_url)
       self.request_attributes = attributes.fetch(:request_attributes, default_request_attributes)
+      self.uuid ||= SecureRandom.hex(4)
     end
 
     def default_request_attributes
@@ -132,7 +137,7 @@ module Saml
 
     def derived_attributes
       {
-        assertion_consumer_service_url: url_helpers.root_url.join("/auth/#{name}/callback")
+        assertion_consumer_service_url: URI.join(url_helpers.root_url, "/auth/#{name}/callback").to_s,
       }
     end
 

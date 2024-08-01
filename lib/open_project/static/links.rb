@@ -270,6 +270,11 @@ module OpenProject
                 href: "https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status"
               }
             },
+            sysadmin_docs: {
+              saml: {
+                href: "https://www.openproject.org/docs/system-admin-guide/authentication/saml/"
+              }
+            },
             storage_docs: {
               setup: {
                 href: "https://www.openproject.org/docs/system-admin-guide/integrations/storage/"

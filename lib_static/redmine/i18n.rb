@@ -91,13 +91,15 @@ module Redmine
     #
     # @param i18n_key [String] The I18n key to translate.
     # @param links [Hash] Link names mapped to URLs.
-    def link_translate(i18n_key, links: {}, locale: ::I18n.locale)
+    # @param target [String] optional HTML target attribute for the links.
+    def link_translate(i18n_key, links: {}, locale: ::I18n.locale, target: nil)
       translation = ::I18n.t(i18n_key.to_s, locale:)
       result = translation.scan(link_regex).inject(translation) do |t, matches|
         link, text, key = matches
         href = String(links[key.to_sym])
+        link_tag = content_tag(:a, text, href: href, target: target)
 
-        t.sub(link, "<a href=\"#{href}\">#{text}</a>")
+        t.sub(link, link_tag)
       end
 
       result.html_safe

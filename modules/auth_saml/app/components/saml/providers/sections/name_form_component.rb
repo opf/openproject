@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -25,19 +27,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Saml::Providers::Sections
+  class NameFormComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-module Saml
-  module Providers
-    class MetadataUrlForm < ApplicationForm
-      form do |f|
-        f.text_field(
-          name: :metadata_url,
-          label: I18n.t("saml.settings.metadata_url"),
-          required: false,
-          caption: I18n.t("saml.instructions.metadata_url"),
-          input_width: :medium
-        )
-      end
+    attr_reader :provider
+
+    def initialize(provider)
+      @provider = provider
     end
   end
 end

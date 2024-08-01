@@ -1,0 +1,17 @@
+<%=
+  primer_form_with(
+    model: provider,
+    url: saml_providers_path,
+    method: :post,
+  ) do |form|
+    flex_layout do |flex|
+      flex.with_row do
+        render(Saml::Providers::NameInputForm.new(form))
+      end
+
+      flex.with_row(mt: 4) do
+        render(Saml::Providers::SubmitOrCancelForm.new(form, provider:, state: :name))
+      end
+    end
+  end
+%>

@@ -31,10 +31,10 @@ module Saml
     class NameInputForm < ApplicationForm
       form do |f|
         f.text_field(
-          name: :name,
-          label: I18n.t("activemodel.attributes.saml/provider.name"),
+          name: :display_name,
+          label: I18n.t("activemodel.attributes.saml/provider.display_name"),
           required: true,
-          caption: I18n.t("saml.setting_instructions.name"),
+          caption: I18n.t("saml.instructions.display_name"),
           input_width: :medium
         )
       end

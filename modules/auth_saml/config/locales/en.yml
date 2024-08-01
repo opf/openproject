@@ -21,6 +21,8 @@ en:
       invalid_url: "Provided metadata URL is invalid. Provide a HTTP(s) URL."
       error: "Failed to retrieve the identity provider metadata: %{error}"
     providers:
+      label_automatic_configuration: Automatic configuration
+      label_metadata: Metadata
       label_add_new: New SAML identity provider
       label_edit: Edit SAML identity provider %{name}
       no_results_table: No SAML identity providers have been defined yet.
@@ -37,11 +39,16 @@ en:
         legend: 'These attributes are added to the SAML XML metadata to signify to the identify provider which attributes OpenProject requires.'
         name: 'Requested attribute key'
         format: 'Attribute format'
+      section_texts:
+        display_name: "Configure the display name of the SAML provider."
+        metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
     settings:
       metadata_url: Identity provider metadata URL (Optional)
-    setting_instructions:
-      name: >
-        The identifier of the SAML provider. This needs to be alphanumeric, unique, and is used in the URL fragment to identify the provider.
+    instructions:
+      new_description: >
+        Add a new SAML provider. Please refer to our [documentation on configuring SAML providers](docs_url).
+      display_name: >
+        The name of the provider. This will be displayed as the login button and in the list of providers.
       metadata_url: >
         Enter the URL of the identity provider XML metadata endpoint.
         If provided, OpenProject will try to prefill all available configuration options from your identity provider.

@@ -28,11 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-module Saml::Providers::Forms
-  class GeneralInfoFormComponent < ApplicationComponent
+module Saml::Providers::Sections
+  class NameComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+
     attr_reader :provider
 
-    def initialize(provider:)
+    def initialize(provider)
       @provider = provider
     end
   end

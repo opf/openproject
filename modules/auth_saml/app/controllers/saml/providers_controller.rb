@@ -5,9 +5,11 @@ module Saml
 
     before_action :require_admin
     before_action :check_ee
-    before_action :find_provider, only: %i[edit update destroy]
+    before_action :find_provider, only: %i[show edit update destroy]
 
     def index; end
+    def edit; end
+    def show; end
 
     def new
       @provider = ::Saml::Provider.new(name: "saml")
@@ -28,21 +30,19 @@ module Saml
 
       if @provider.save
         flash[:notice] = I18n.t(:notice_successful_create)
-        redirect_to action: :index
+        redirect_to saml_provider_path(@provider)
       else
         render action: :new
       end
     end
 
-    def edit; end
-
     def update
-      @provider = ::OpenIDConnect::Provider.initialize_with(
+      @provider = ::Saml::Provider.initialize_with(
         update_params.merge("name" => params[:id])
       )
       if @provider.save
         flash[:notice] = I18n.t(:notice_successful_update)
-        redirect_to action: :index
+        success_redirect
       else
         render action: :edit
       end
@@ -59,6 +59,14 @@ module Saml
     end
 
     private
+
+    def success_redirect
+      if params[:edit_state].present?
+        redirect_to edit_saml_provider_path(@provider, edit_state: params[:edit_state])
+      else
+        redirect_to saml_provider_path(@provider)
+      end
+    end
 
     def defaults
       {}

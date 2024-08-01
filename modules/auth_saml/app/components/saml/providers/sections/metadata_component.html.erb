@@ -1,0 +1,18 @@
+<%=
+  flex_layout do |flex|
+    flex.with_column do
+      render(Primer::Beta::Text.new(font_weight: :semibold)) { t("saml.providers.label_metadata") }
+    end
+
+    if provider.metadata_url.present?
+      flex.with_column do
+        render(Primer::Beta::Label.new(scheme: :success, ml: 1)) { t(:label_completed) }
+      end
+    end
+  end
+%>
+<%=
+  render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :subtle)) do
+    t("saml.providers.section_texts.metadata")
+  end
+%>

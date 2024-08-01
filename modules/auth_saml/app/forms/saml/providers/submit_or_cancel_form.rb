@@ -29,15 +29,24 @@
 module Saml
   module Providers
     class SubmitOrCancelForm < ApplicationForm
-      form do |buttons|
-        buttons.group(layout: :horizontal) do |button_group|
+      form do |f|
+        if @state
+          f.hidden(
+            name: :edit_state,
+            value: @state
+          )
+        end
+
+        f.group(layout: :horizontal) do |button_group|
           button_group.submit(**@submit_button_options)
           button_group.button(**@cancel_button_options)
         end
       end
 
-      def initialize(submit_button_options: {}, cancel_button_options: {})
+      def initialize(provider:, state: nil, submit_button_options: {}, cancel_button_options: {})
         super()
+        @state = state
+        @provider = provider
         @submit_button_options = default_submit_button_options.merge(submit_button_options)
         @cancel_button_options = default_cancel_button_options.merge(cancel_button_options)
       end
@@ -58,9 +67,17 @@ module Saml
           name: :cancel,
           scheme: :default,
           tag: :a,
-          href: OpenProject::StaticRouting::StaticRouter.new.url_helpers.saml_providers_path,
+          href: back_link,
           label: I18n.t("button_cancel")
         }
+      end
+
+      def back_link
+        if @provider.new_record?
+          OpenProject::StaticRouting::StaticRouter.new.url_helpers.saml_providers_path
+        else
+          OpenProject::StaticRouting::StaticRouter.new.url_helpers.saml_provider_path(@provider)
+        end
       end
     end
   end

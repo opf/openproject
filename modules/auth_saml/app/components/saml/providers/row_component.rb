@@ -8,7 +8,7 @@ module Saml
       def name
         concat render(Primer::Beta::Link.new(
           scheme: :primary,
-          href: url_for(action: :edit, id: provider.id)
+          href: url_for(action: :show, id: provider.id)
         )) { provider.display_name || provider.name }
 
         if provider.idp_sso_target_url

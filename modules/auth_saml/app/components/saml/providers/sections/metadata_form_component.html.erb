@@ -1,0 +1,25 @@
+<%=
+  primer_form_with(
+    model: provider,
+    url: saml_providers_path,
+    method: :post,
+  ) do |form|
+    flex_layout do |flex|
+      flex.with_row do
+        render(Primer::Alpha::SegmentedControl.new("aria-label": "File view", full_width: full_width, hide_labels: hide_labels, size: size)) do |component|
+          component.with_item(label: "Preview", icon: icon, selected: true)
+          component.with_item(label: "Raw", icon: icon)
+          component.with_item(label: "Blame", icon: icon)
+        end
+      end
+
+      flex.with_row do
+        render(Saml::Providers::MetadataUrlForm.new(form))
+      end
+
+      flex.with_row(mt: 4) do
+        render(Saml::Providers::SubmitOrCancelForm.new(form, provider:, state: :metadata))
+      end
+    end
+  end
+%>
