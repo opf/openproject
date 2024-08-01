@@ -1,15 +1,30 @@
 <%=
-  flex_layout do |flex|
-    flex.with_column do
-      render(Primer::Beta::Text.new(font_weight: :semibold)) { t("saml.providers.singular") }
+  grid_layout('op-saml-view-row', tag: :div, align_items: :center) do |grid|
+    grid.with_area(:title, mr: 3) do
+      concat render(Primer::Beta::Text.new(font_weight: :bold)) { t("saml.providers.singular") }
+      concat render(Primer::Beta::Label.new(scheme: :success, ml: 1)) { t(:label_completed) }
     end
-    flex.with_column do
-      render(Primer::Beta::Label.new(scheme: :success, ml: 1)) { t(:label_completed) }
+
+    grid.with_area(:description) do
+      render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :subtle)) do
+        t("saml.providers.section_texts.display_name")
+      end
     end
-  end
-%>
-<%=
-  render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :subtle)) do
-    t("saml.providers.section_texts.display_name")
+
+    grid.with_area(:action) do
+      flex_layout(justify_content: :flex_end) do |icons_container|
+        icons_container.with_column do
+          render(
+            Primer::Beta::IconButton.new(
+              icon: :pencil,
+              tag: :a,
+              scheme: :invisible,
+              href: edit_saml_provider_path(provider, edit_state: :name),
+              aria: { label: I18n.t(:label_edit) }
+            )
+          )
+        end
+      end
+    end
   end
 %>

@@ -27,35 +27,45 @@
 #++
 
 module Saml
-  class MetadataParserService
-    attr_reader :user
+  class UpdateMetadataService
+    attr_reader :user, :provider
 
-    def initialize(user:)
+    def initialize(user:, provider:)
       @user = user
+      @provider = provider
     end
 
-    def parse_url(url)
-      validate_url!(url)
-      parse_remote_metadata(url)
-    rescue URI::InvalidURIError
-      ServiceResult.failure(message: I18n.t('saml.metadata_parser.invalid_url'))
-    rescue OneLogin::RubySaml::HttpError => e
-      ServiceResult.failure(message: I18n.t('saml.metadata_parser.error', error: e.message))
+    def call
+      ServiceResult.success(result: updated_metadata)
     rescue StandardError => e
       OpenProject.logger.error(e)
       ServiceResult.failure(message: I18n.t('saml.metadata_parser.error', error: e.class.name))
     end
 
-    def parse_remote_metadata(metadata_url)
-      idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new
-      result = idp_metadata_parser.parse_remote_to_hash(metadata_url)
+    private
 
-      ServiceResult.success(result:)
+    def updated_metadata
+      if provider.metadata_url.present?
+        parse_url
+      elsif provider.metadata_xml.present?
+        parse_xml
+      else
+        {}
+      end
     end
 
-    def validate_url!(url)
-      uri = URI.parse(url)
-      raise URI::InvalidURIError unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+    def parse_xml
+      parser_instance.parse_to_hash(provider.metadata_xml)
+    end
+
+    def parse_url
+      parser.parse_remote_to_hash(metadata_url)
+    rescue OneLogin::RubySaml::HttpError => e
+      ServiceResult.failure(message: I18n.t('saml.metadata_parser.error', error: e.message))
+    end
+
+    def parser_instance
+      OneLogin::RubySaml::IdpMetadataParser.new
     end
   end
 end

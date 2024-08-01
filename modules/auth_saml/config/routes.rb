@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   scope :admin do
     namespace :saml do
       resources :providers do
-        collection do
-          post :import
+        member do
+          post :import_metadata
         end
       end
     end

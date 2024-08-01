@@ -28,10 +28,18 @@
 
 module Saml
   module Providers
-    class UpdateContract < BaseContract
-      attribute :metadata_url
-      validates :metadata_url,
-                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] }
+    class MetadataXmlForm < ApplicationForm
+      form do |f|
+        f.text_area(
+          name: :metadata_xml,
+          label: I18n.t("saml.settings.metadata_xml"),
+          caption: I18n.t("saml.instructions.metadata_xml"),
+          required: false,
+          full_width: false,
+          rows: 10,
+          input_width: :medium
+        )
+      end
     end
   end
 end

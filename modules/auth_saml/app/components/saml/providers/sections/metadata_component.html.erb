@@ -1,18 +1,34 @@
 <%=
-  flex_layout do |flex|
-    flex.with_column do
-      render(Primer::Beta::Text.new(font_weight: :semibold)) { t("saml.providers.label_metadata") }
-    end
-
-    if provider.metadata_url.present?
-      flex.with_column do
-        render(Primer::Beta::Label.new(scheme: :success, ml: 1)) { t(:label_completed) }
+  grid_layout('op-saml-view-row', tag: :div, align_items: :center) do |grid|
+    grid.with_area(:title, mr: 3) do
+      concat render(Primer::Beta::Text.new(font_weight: :bold)) { t("saml.providers.label_metadata") }
+      if provider.has_metadata?
+        concat render(Primer::Beta::Label.new(scheme: :success, ml: 1)) { t(:label_completed) }
+      else
+        concat render(Primer::Beta::Label.new(scheme: :secondary, ml: 1)) { t(:label_incomplete) }
       end
     end
-  end
-%>
-<%=
-  render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :subtle)) do
-    t("saml.providers.section_texts.metadata")
+
+    grid.with_area(:description) do
+      render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :subtle)) do
+        t("saml.providers.section_texts.metadata")
+      end
+    end
+
+    grid.with_area(:action) do
+      flex_layout(justify_content: :flex_end) do |icons_container|
+        icons_container.with_column do
+          render(
+            Primer::Beta::IconButton.new(
+              icon: :pencil,
+              tag: :a,
+              scheme: :invisible,
+              href: edit_saml_provider_path(provider, edit_state: :metadata),
+              aria: { label: I18n.t(:label_edit) }
+            )
+          )
+        end
+      end
+    end
   end
 %>

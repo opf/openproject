@@ -27,12 +27,12 @@ module Saml
       "saml-#{id}"
     end
 
-    def assertion_consumer_service_url
-      URI.join(url_helpers.root_url, "/auth/#{name}/callback").to_s
-    end
-
     def limit_self_registration?
       limit_self_registration
+    end
+
+    def has_metadata?
+      metadata_xml.present? || metadata_url.present?
     end
 
     def to_h
@@ -43,8 +43,5 @@ module Saml
           assertion_consumer_service_url:,
         )
     end
-
-    private
-
   end
 end

@@ -28,10 +28,24 @@
 
 module Saml
   module Providers
-    class UpdateContract < BaseContract
-      attribute :metadata_url
-      validates :metadata_url,
-                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] }
+    class MetadataCheckboxForm < ApplicationForm
+      form do |f|
+        f.check_box(
+          name: :metadata_url,
+          checked: @provider.has_metadata?,
+          label: I18n.t("saml.settings.metadata_checkbox"),
+          required: false,
+          input_width: :medium,
+          data: {
+            'show-when-checked-target': 'cause'
+          }
+        )
+      end
+
+      def initialize(provider:)
+        super()
+        @provider = provider
+      end
     end
   end
 end

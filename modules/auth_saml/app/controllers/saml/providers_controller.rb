@@ -5,27 +5,28 @@ module Saml
 
     before_action :require_admin
     before_action :check_ee
-    before_action :find_provider, only: %i[show edit update destroy]
+    before_action :find_provider, only: %i[show edit import_metadata update destroy]
 
     def index
       @providers = Saml::Provider.all
     end
 
-    def edit; end
+    def edit
+      @edit_state = params[:edit_state].to_sym if params.key?(:edit_state)
+    end
+
     def show; end
 
     def new
       @provider = ::Saml::Provider.new
     end
 
-    def import
-      @provider = ::Saml::Provider.new(name: import_params[:name])
-
-      if import_params[:metadata_url].present?
-        import_metadata
+    def import_metadata
+      if import_params.present?
+        update_provider_metadata
       end
 
-      render action: :edit
+      redirect_to edit_saml_provider_path(@provider, edit_state: :configuration) unless performed?
     end
 
     def create
@@ -88,21 +89,57 @@ module Saml
       end
     end
 
-    def import_params
-      params.require(:saml_provider).permit(:name, :metadata_url)
+    def update_provider_metadata
+      call = Saml::Providers::UpdateService
+        .new(model: @provider, user: User.current)
+        .call(import_params)
+
+      if call.success?
+        load_and_apply_metadata
+      else
+        @provider = call.result
+        @edit_state = :metadata
+
+        flash[:error] = call.message
+        render action: :edit
+      end
     end
 
-    def import_metadata
-      call = Saml::MetadataParserService
-        .new(user: User.current)
-        .parse_url(import_params[:metadata_url])
+    def load_and_apply_metadata
+      call = Saml::UpdateMetadataService
+        .new(provider: @provider, user: User.current)
+        .call
+
+      if call.success?
+        apply_metadata(call.result)
+      else
+        @edit_state = :metadata
+
+        flash[:error] = call.message
+        render action: :edit
+      end
+    end
+
+    def apply_metadata(params)
+      call = Saml::Providers::UpdateService
+        .new(model: @provider, user: User.current)
+        .call({ options: params})
 
       if call.success?
         flash[:notice] = I18n.t("saml.metadata_parser.success")
-        @provider = ::Saml::Provider.new(**call.result.merge(name: import_params[:name]))
       else
+        @provider = call.result
+        @edit_state = :configuration
+
         flash[:error] = call.message
+        render action: :edit
       end
+    end
+
+    def import_params
+      params
+        .require(:saml_provider)
+        .permit(:metadata_url, :metadata_xml)
     end
 
     def create_params

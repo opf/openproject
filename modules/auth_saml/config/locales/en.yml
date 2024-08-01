@@ -17,7 +17,7 @@ en:
       description: >
         Use these parameters to configure your identity provider connection to OpenProject.
     metadata_parser:
-      success: "Successfully retrieved the identity provider metadata. Please review and save the configuration."
+      success: "Successfully updated the configuration using the identity provider metadata. Please review and save the configuration."
       invalid_url: "Provided metadata URL is invalid. Provide a HTTP(s) URL."
       error: "Failed to retrieve the identity provider metadata: %{error}"
     providers:
@@ -44,8 +44,11 @@ en:
       section_texts:
         display_name: "Configure the display name of the SAML provider."
         metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
+        metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill configuration."
     settings:
-      metadata_url: Identity provider metadata URL (Optional)
+      metadata_checkbox: "I have metadata (optional)"
+      metadata_url: "Metadata URL"
+      metadata_xml: "Metadata XML"
     instructions:
       new_description: >
         Add a new SAML provider. Please refer to our [documentation on configuring SAML providers](docs_url).
@@ -53,6 +56,7 @@ en:
         The name of the provider. This will be displayed as the login button and in the list of providers.
       metadata_url: >
         Enter the URL of the identity provider XML metadata endpoint.
-        If provided, OpenProject will try to prefill all available configuration options from your identity provider.
+      metadata_xml: >
+        Alternatively, enter the SAML metadata XML from your identity provider.
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.

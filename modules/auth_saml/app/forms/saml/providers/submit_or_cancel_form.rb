@@ -33,6 +33,7 @@ module Saml
         if @state
           f.hidden(
             name: :edit_state,
+            scope_name_to_model: false,
             value: @state
           )
         end

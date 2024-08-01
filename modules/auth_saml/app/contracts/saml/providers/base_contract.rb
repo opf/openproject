@@ -35,6 +35,7 @@ module Saml
       end
 
       attribute :display_name
+      attribute :options
     end
   end
 end
