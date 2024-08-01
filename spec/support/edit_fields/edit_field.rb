@@ -39,6 +39,10 @@ class EditField
     @create_form
   end
 
+  def visible_on_create_form?
+    true
+  end
+
   def field_container
     context.find @selector
   end
@@ -128,7 +132,7 @@ class EditField
   end
 
   def expect_state!(open:)
-    if open || create_form?
+    if open || (create_form? && visible_on_create_form?)
       expect_active!
     else
       expect_inactive!

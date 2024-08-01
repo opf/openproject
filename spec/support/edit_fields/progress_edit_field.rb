@@ -49,6 +49,10 @@ class ProgressEditField < EditField
     @trigger_selector = "input[id$=inline-edit--field-#{@property_name}]"
   end
 
+  def visible_on_create_form?
+    false
+  end
+
   def update(value, save: true, expect_failure: false)
     super
   end
