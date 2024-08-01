@@ -21,6 +21,18 @@ module Saml
           ['users', { caption: I18n.t(:label_user_plural) }]
         ]
       end
+
+      def blank_title
+        I18n.t('saml.providers.label_empty_title')
+      end
+
+      def blank_description
+        I18n.t('saml.providers.label_empty_description')
+      end
+
+      def blank_icon
+        :key
+      end
     end
   end
 end

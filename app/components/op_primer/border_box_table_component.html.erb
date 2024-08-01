@@ -44,9 +44,13 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
-    rows.each do |row|
-      component.with_row(scheme: :default) do
-        render(row_class.new(row:, table: self))
+    component.with_row(scheme: :default) do
+      if rows.empty?
+        render_blank_slate
+      else
+        rows.each do |row|
+          render(row_class.new(row:, table: self))
+        end
       end
     end
   end
