@@ -60,7 +60,7 @@ module WorkPackages
       if OpenProject::FeatureDecisions.percent_complete_edition_active?
         validate_percent_complete_matches_work_and_remaining_work
         validate_percent_complete_is_unset_when_work_is_zero
-        validate_percent_complete_is_set_when_work_and_remaining_work_are_not_set
+        validate_percent_complete_is_set_when_work_and_remaining_work_are_set
       end
     end
     attribute :derived_done_ratio,
@@ -373,7 +373,7 @@ module WorkPackages
       end
     end
 
-    def validate_percent_complete_is_set_when_work_and_remaining_work_are_not_set
+    def validate_percent_complete_is_set_when_work_and_remaining_work_are_set
       if work_set_and_valid? && remaining_work_set_and_valid? && work != 0 && percent_complete_unset?
         errors.add(:done_ratio, :must_be_set_when_work_and_remaining_work_are_set)
       end
@@ -407,7 +407,7 @@ module WorkPackages
     end
 
     def work_set?
-      model.estimated_hours.present?
+      work.present?
     end
 
     def work_set_and_valid?
@@ -415,7 +415,7 @@ module WorkPackages
     end
 
     def work_unset?
-      model.estimated_hours.nil?
+      work.nil?
     end
 
     def remaining_work
@@ -423,7 +423,7 @@ module WorkPackages
     end
 
     def remaining_work_set?
-      model.remaining_hours.present?
+      remaining_work.present?
     end
 
     def remaining_work_set_and_valid?
@@ -431,11 +431,11 @@ module WorkPackages
     end
 
     def remaining_work_unset?
-      model.remaining_hours.nil?
+      remaining_work.nil?
     end
 
     def remaining_work_exceeds_work?
-      work_set? && remaining_work_set? && model.remaining_hours > model.estimated_hours
+      work_set? && remaining_work_set? && remaining_work > work
     end
 
     def percent_complete
@@ -443,7 +443,7 @@ module WorkPackages
     end
 
     def percent_complete_set?
-      model.done_ratio.present?
+      percent_complete.present?
     end
 
     def percent_complete_set_and_valid?
@@ -451,7 +451,7 @@ module WorkPackages
     end
 
     def percent_complete_unset?
-      model.done_ratio.nil?
+      percent_complete.nil?
     end
 
     def validate_no_reopen_on_closed_version

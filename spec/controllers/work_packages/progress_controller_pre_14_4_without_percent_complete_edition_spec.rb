@@ -33,7 +33,7 @@ require "spec_helper"
 # This file can be safely deleted once the feature flag :percent_complete_edition
 # is removed, which should happen for OpenProject 15.0 release.
 # Copied from commit 109b135b]
-RSpec.describe WorkPackages::ProgressController,
+RSpec.describe WorkPackages::ProgressController, "pre 14.4 without percent complete edition",
                with_flag: { percent_complete_edition: false } do
   shared_let(:user) { create(:admin) }
   shared_let(:work_package) { create(:work_package) }

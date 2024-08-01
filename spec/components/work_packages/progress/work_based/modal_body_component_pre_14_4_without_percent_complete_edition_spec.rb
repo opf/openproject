@@ -32,7 +32,7 @@ require_relative "../shared_modal_examples"
 
 # This file can be safely deleted once the feature flag :percent_complete_edition
 # is removed, which should happen for OpenProject 15.0 release.
-RSpec.describe WorkPackages::Progress::WorkBased::ModalBodyComponent,
+RSpec.describe WorkPackages::Progress::WorkBased::ModalBodyComponent, "pre 14.4 without percent complete edition",
                type: :component,
                with_flag: { percent_complete_edition: false } do
   include OpenProject::StaticRouting::UrlHelpers
@@ -55,7 +55,7 @@ RSpec.describe WorkPackages::Progress::WorkBased::ModalBodyComponent,
       end
     end
 
-    context "when the work package has a percent complete value but and a work value but no remaining work set" do
+    context "when the work package has a percent complete value and a work value but no remaining work set" do
       let(:work_package) do
         create(:work_package) do |work_package|
           work_package.estimated_hours = 55

@@ -46,7 +46,7 @@ RSpec.describe WorkPackages::SetAttributesService,
   let(:work_package) do
     wp = build_stubbed(:work_package, project:, status: status_0_pct_complete)
     wp.type = initial_type
-    wp.send(:clear_changes_information)
+    wp.clear_changes_information
 
     wp
   end
@@ -152,7 +152,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           work_package.done_ratio = work_package.status.default_done_ratio
           work_package.estimated_hours = 10.0
           work_package.remaining_hours = 5.0
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when work is changed" do
@@ -178,7 +178,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           work_package.done_ratio = work_package.status.default_done_ratio
           work_package.estimated_hours = nil
           work_package.remaining_hours = nil
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when another status with another % complete value is set" do
@@ -206,7 +206,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           work_package.estimated_hours = 10.0
           work_package.remaining_hours = 3.0
           work_package.done_ratio = 70
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when remaining work is unset" do
@@ -255,7 +255,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           work_package.estimated_hours = nil
           work_package.remaining_hours = nil
           work_package.done_ratio = 60
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when work is set" do
@@ -272,7 +272,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           work_package.estimated_hours = nil
           work_package.remaining_hours = nil
           work_package.done_ratio = nil
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when work is set" do
@@ -1796,7 +1796,7 @@ RSpec.describe WorkPackages::SetAttributesService,
                          start_date: Time.zone.today,
                          due_date: Time.zone.today + 5.days)
       wp.type = build_stubbed(:type)
-      wp.send(:clear_changes_information)
+      wp.clear_changes_information
 
       allow(wp)
         .to receive(:soonest_start)

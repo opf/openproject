@@ -54,19 +54,19 @@ class WorkPackages::SetAttributesService
     end
 
     def derive_work?
-      (remaining_work_changed? || percent_complete_changed?) && !work_came_from_user?
+      work_not_provided_by_user? && (remaining_work_changed? || percent_complete_changed?)
     end
 
     def derive_remaining_work?
-      (work_changed? || percent_complete_changed?) && !remaining_work_came_from_user?
+      remaining_work_not_provided_by_user? && (work_changed? || percent_complete_changed?)
     end
 
     def derive_percent_complete?
-      (work_changed? || remaining_work_changed?) && !percent_complete_came_from_user?
+      percent_complete_not_provided_by_user? && (work_changed? || remaining_work_changed?)
     end
 
     def update_work
-      return if work_set? && !(remaining_work_came_from_user? && percent_complete_came_from_user?)
+      return if work_set_and_no_user_inputs_provided_for_both_remaining_work_and_percent_complete?
       return if remaining_work_unset? && percent_complete_unset?
 
       self.work = work_from_percent_complete_and_remaining_work
@@ -118,6 +118,10 @@ class WorkPackages::SetAttributesService
 
     def attributes_from_user
       @attributes_from_user ||= PROGRESS_ATTRIBUTES.filter { |attr| public_send(:"#{attr}_came_from_user?") }
+    end
+
+    def work_set_and_no_user_inputs_provided_for_both_remaining_work_and_percent_complete?
+      work_set? && (remaining_work_not_provided_by_user? || percent_complete_not_provided_by_user?)
     end
   end
 end

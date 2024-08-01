@@ -76,7 +76,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       work_package.estimated_hours = 10.0
       work_package.remaining_hours = 3.0
       work_package.done_ratio = 70
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when work is unset" do
@@ -320,7 +320,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       work_package.estimated_hours = 10
       work_package.remaining_hours = nil
       work_package.done_ratio = 30
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when work is changed" do
@@ -362,7 +362,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       work_package.estimated_hours = nil
       work_package.remaining_hours = 2.0
       work_package.done_ratio = 50
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when remaining work is changed" do
@@ -380,7 +380,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
       before do
         work_package.done_ratio = 0
-        work_package.send(:clear_changes_information)
+        work_package.clear_changes_information
       end
 
       include_examples "update progress values",
@@ -409,7 +409,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       work_package.estimated_hours = 10
       work_package.remaining_hours = nil
       work_package.done_ratio = nil
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when work is changed" do
@@ -453,7 +453,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       work_package.estimated_hours = nil
       work_package.remaining_hours = 6.0
       work_package.done_ratio = nil
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when work is set" do
@@ -505,7 +505,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       work_package.estimated_hours = 0
       work_package.remaining_hours = 0
       work_package.done_ratio = nil
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when work is set" do
@@ -522,7 +522,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       work_package.estimated_hours = nil
       work_package.remaining_hours = nil
       work_package.done_ratio = 60
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when work is set" do
@@ -592,7 +592,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       work_package.estimated_hours = nil
       work_package.remaining_hours = nil
       work_package.done_ratio = nil
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when work is set" do

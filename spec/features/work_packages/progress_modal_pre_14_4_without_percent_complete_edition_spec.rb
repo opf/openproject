@@ -33,7 +33,7 @@ require "spec_helper"
 # This file can be safely deleted once the feature flag :percent_complete_edition
 # is removed, which should happen for OpenProject 15.0 release.
 # Copied from commit 109b135b
-RSpec.describe "Progress modal", :js, :with_cuprite,
+RSpec.describe "Progress modal", "pre 14.4 without percent complete edition", :js, :with_cuprite, # rubocop:disable RSpec/SortMetadata
                with_flag: { percent_complete_edition: false } do
   shared_let(:user) { create(:admin) }
   shared_let(:role) { create(:project_role) }

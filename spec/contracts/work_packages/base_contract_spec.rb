@@ -445,7 +445,7 @@ RSpec.describe WorkPackages::BaseContract,
   end
 
   describe "percent complete" do
-    context "when inferred by status",
+    context "when in status-based progress calculation mode (inferred by status)",
             with_settings: { work_package_done_ratio: "status" } do
       it_behaves_like "invalid if changed", :done_ratio
     end
@@ -458,7 +458,6 @@ RSpec.describe WorkPackages::BaseContract,
         work_package.done_ratio = done_ratio
       end
 
-      # TODO: get better error message
       context "when less than 0" do
         let(:estimated_hours) { nil }
         let(:remaining_hours) { nil }
@@ -467,8 +466,7 @@ RSpec.describe WorkPackages::BaseContract,
         it_behaves_like "contract is invalid", done_ratio: :inclusion
       end
 
-      # TODO: get better error message
-      context "when less more than 100" do
+      context "when more than 100" do
         let(:estimated_hours) { nil }
         let(:remaining_hours) { nil }
         let(:done_ratio) { 101 }

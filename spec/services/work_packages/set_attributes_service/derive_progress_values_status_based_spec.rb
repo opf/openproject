@@ -80,7 +80,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
       work_package.done_ratio = work_package.status.default_done_ratio
       work_package.estimated_hours = 10.0
       work_package.remaining_hours = 5.0
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when work is unset" do
@@ -127,7 +127,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
       work_package.done_ratio = work_package.status.default_done_ratio
       work_package.estimated_hours = nil
       work_package.remaining_hours = nil
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when another status with another % complete value is set" do
@@ -167,7 +167,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
     before do
       work_package.status = status_50_pct_complete
       work_package.done_ratio = work_package.status.default_done_ratio
-      work_package.send(:clear_changes_information)
+      work_package.clear_changes_information
     end
 
     context "when another status with another % complete value is set" do

@@ -73,6 +73,10 @@ class WorkPackages::SetAttributesService
       work_package.estimated_hours_came_from_user?
     end
 
+    def work_not_provided_by_user?
+      !work_came_from_user?
+    end
+
     def remaining_work
       work_package.remaining_hours
     end
@@ -99,6 +103,10 @@ class WorkPackages::SetAttributesService
 
     def remaining_work_came_from_user?
       work_package.remaining_hours_came_from_user?
+    end
+
+    def remaining_work_not_provided_by_user?
+      !remaining_work_came_from_user?
     end
 
     def percent_complete
@@ -129,9 +137,17 @@ class WorkPackages::SetAttributesService
       work_package.done_ratio_came_from_user?
     end
 
+    def percent_complete_not_provided_by_user?
+      !percent_complete_came_from_user?
+    end
+
     private
 
     def round_progress_values
+      # The values are set only when rounding returns a different value. Doing
+      # otherwise would modify the values returned by `xxx_before_type_cast` and
+      # prevent the numericality validator from working when setting the field
+      # to a string value.
       rounded = work&.round(2)
       if rounded != work
         self.work = rounded

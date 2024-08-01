@@ -20,6 +20,7 @@
                                                   focused_field:,
                                                   touched_field_map:)) %>
         <% else %>
+        <%# This condition branch to be removed in 15.0 with :percent_complete_edition feature flag removal %>
         <%= render(WorkPackages::Pre144ProgressForm.new(f,
                                                         work_package:,
                                                         mode:,

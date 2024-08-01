@@ -123,7 +123,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
           work_package.done_ratio = work_package.status.default_done_ratio
           work_package.estimated_hours = 10.0
           work_package.remaining_hours = 5.0
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when work is unset" do
@@ -170,7 +170,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
           work_package.done_ratio = work_package.status.default_done_ratio
           work_package.estimated_hours = nil
           work_package.remaining_hours = nil
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when another status with another % complete value is set" do
@@ -216,7 +216,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
         before do
           work_package.status = status_50_pct_complete
           work_package.done_ratio = work_package.status.default_done_ratio
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when another status with another % complete value is set" do
@@ -235,7 +235,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
           work_package.estimated_hours = 10.0
           work_package.remaining_hours = 3.0
           work_package.done_ratio = 70
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when work is unset" do
@@ -380,7 +380,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
           work_package.estimated_hours = 10
           work_package.remaining_hours = nil
           work_package.done_ratio = 30
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when work is changed" do
@@ -414,7 +414,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
           work_package.estimated_hours = nil
           work_package.remaining_hours = 2.0
           work_package.done_ratio = 50
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when remaining work is changed" do
@@ -432,7 +432,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
 
           before do
             work_package.done_ratio = 0
-            work_package.send(:clear_changes_information)
+            work_package.clear_changes_information
           end
 
           it_behaves_like "service call",
@@ -453,7 +453,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
           work_package.estimated_hours = 10
           work_package.remaining_hours = nil
           work_package.done_ratio = nil
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when work is changed" do
@@ -488,7 +488,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
           work_package.estimated_hours = nil
           work_package.remaining_hours = 6.0
           work_package.done_ratio = nil
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when work is set" do
@@ -532,7 +532,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
           work_package.estimated_hours = nil
           work_package.remaining_hours = nil
           work_package.done_ratio = 60
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when work is set" do
@@ -596,7 +596,7 @@ RSpec.describe WorkPackages::SetAttributesService, "pre 14.4 without percent com
           work_package.estimated_hours = nil
           work_package.remaining_hours = nil
           work_package.done_ratio = nil
-          work_package.send(:clear_changes_information)
+          work_package.clear_changes_information
         end
 
         context "when work is set" do

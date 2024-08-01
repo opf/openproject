@@ -30,7 +30,7 @@ require "spec_helper"
 
 # This file can be safely deleted once the feature flag :percent_complete_edition
 # is removed, which should happen for OpenProject 15.0 release.
-RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema,
+RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema, "pre 14.4 without percent complete edition",
                with_flag: { percent_complete_edition: false } do
   let(:project) { build(:project) }
   let(:type) { build(:type) }
