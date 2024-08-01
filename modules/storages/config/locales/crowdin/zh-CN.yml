@@ -12,6 +12,7 @@ zh-CN:
         tenant: 目录 (租户) ID
     errors:
       messages:
+        invalid_host_url: 不是有效的 URL。
         not_linked_to_project: 未链接到项目。
       models:
         storages/file_link:
@@ -62,11 +63,53 @@ zh-CN:
       manual: 手动管理现有文件夹
     remove_project:
       dialog:
-        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
-        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
-        heading: Remove project from %{storage_type}
-        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
-      label: Remove project
+        automatically_managed_appendix: 而且，在这种情况下，这个存储有一个自动托管的项目文件夹，它和它的文件将被永久删除。
+        confirmation_text: 请确认您已理解并要从此项目中删除此文件存储
+        heading: 从 %{storage_type}中删除项目
+        text: 此操作不可逆，将从此项目的工作包中删除所有链接到该存储的文件和文件夹。
+      label: 删除项目
+  services:
+    attributes:
+      storages/nextcloud_group_folder_properties_sync_service:
+        add_user_to_group: '添加用户到组'
+        create_folder: '托管项目文件夹的创建：'
+        ensure_root_folder_permissions: '设置基础文件夹权限：'
+        hide_inactive_folders: '隐藏非活动文件夹步骤：'
+        remote_folders: '读取群组文件夹的内容：'
+        remove_user_from_group: '从用户组中移除用户'
+        rename_project_folder: '重命名托管项目文件夹：'
+    errors:
+      models:
+        storages/nextcloud_group_folder_properties_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: '由于以下原因，无法将用户 %{user} 添加到 %{group} 组： %{reason}'
+              failed_to_add: '由于以下原因，无法将用户 %{user} 添加到 %{group} 组： %{reason}'
+            create_folder:
+              conflict: '%{folder_name} 已经存在于 %{parent_location}上。'
+              not_found: "未找到 %{parent_location} 。"
+            ensure_root_folder_permissions:
+              not_found: "未找到 %{group_folder} 。请检查您的 Nextcloud 组文件夹设置。"
+              permission_not_set: 无法设置 %{group_folder} 上的权限。
+            hide_inactive_folders:
+              permission_not_set: 无法设置 %{path} 上的权限。
+            remote_folders:
+              not_allowed: '%{username} 无法访问 %{group_folder} 。请检查 Nextcloud 上的文件夹权限。'
+              not_found: "未找到 %{group_folder} 。请检查您的 Nextcloud 设置。"
+            remove_user_from_group:
+              conflict: '由于以下原因，无法从 %{group} 组中删除用户 %{user} ： %{reason}'
+              failed_to_remove: '由于以下原因，无法从 %{group} 组中删除用户 %{user} ： %{reason}'
+            rename_project_folder:
+              forbidden: OpenProject 用户无法访问 %{current_path} 文件夹。
+              not_found: "%{current_path} 没有找到。"
+            set_folders_permissions:
+              permission_not_set: 无法设置 %{path} 上的权限。
+          error: 发生了意外错误。请确保您的 Nextcloud 实例可访问，并检查 OpenProject 工作日志以获取更多信息。
+          group_does_not_exist: "%{group} 未退出。检查您的 Nextcloud 实例配置。"
+          insufficient_privileges: OpenProject 没有足够的权限将 %{user} 添加到 %{group}。请检查 Nextcloud 中的组设置。
+          not_allowed: Nextcloud 阻止了该请求。
+          unauthorized: OpenProject 无法与 Nextcloud 同步。请检查您的存储设备和 Nextcloud  配置。
+          user_does_not_exist: "在 Nextcloud 中不存在 %{user}  。"
   storages:
     buttons:
       complete_without_setup: 没有它就完成

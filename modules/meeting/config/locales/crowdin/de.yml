@@ -122,7 +122,7 @@ de:
       agenda_text: "Tagesordnung der alten Besprechung kopieren"
     email:
       send_emails: "E-Mails senden"
-      send_invitation_emails: "Einladungs-E-Mails bei Erstellung versenden"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Besprechung öffnen"
       invited:
         summary: "%{actor} hat Ihnen eine Einladung für die folgende Besprechung gesendet: %{title}"

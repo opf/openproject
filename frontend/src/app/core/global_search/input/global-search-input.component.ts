@@ -123,15 +123,15 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     getOptionsFn: this.getAutocompleterData,
   };
 
-  /** Remember the current value */
-  public currentValue = '';
-
-  public isFocusedDirectly = (this.globalSearchService.searchTerm.length > 0);
-
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
    * */
-  public selectedItem:WorkPackageResource|SearchOptionItem|undefined;
+  public selectedItem:WorkPackageResource|SearchOptionItem|undefined = undefined;
+
+  /** Remember the current value */
+  public currentValue = '';
+
+  public isFocusedDirectly = this.globalSearchService.searchTerm.length > 0 && this.selectedItem instanceof HalResource;
 
   private unregisterGlobalListener:(() => unknown)|undefined;
 

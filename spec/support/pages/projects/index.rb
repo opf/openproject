@@ -71,6 +71,19 @@ module Pages
         end
       end
 
+      def expect_project_at_place(project, place)
+        within_table do
+          expect(page)
+            .to have_css(".project:nth-of-type(#{place}) td.name", text: project.name)
+        end
+      end
+
+      def expect_projects_in_order(*projects)
+        projects.each_with_index do |project, index|
+          expect_project_at_place(project, index + 1)
+        end
+      end
+
       def expect_title(name)
         expect(page).to have_css('[data-test-selector="project-query-name"]', text: name)
       end
@@ -301,6 +314,20 @@ module Pages
 
         within "dialog" do
           click_on "Apply"
+        end
+      end
+
+      def expect_no_config_columns(*columns)
+        open_configure_view
+
+        columns.each do |column|
+          expect_no_ng_option find(".op-draggable-autocomplete--input"),
+                              column,
+                              results_selector: ".ng-dropdown-panel-items"
+        end
+
+        within "dialog" do
+          click_on "Cancel"
         end
       end
 

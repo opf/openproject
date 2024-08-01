@@ -32,6 +32,8 @@ RSpec.describe "Shared Work Package Access",
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
   shared_let(:project) { create(:project_with_types) }
+  # This custom field is not explicitly displayed, but it's purpose is to ensure there are no errors
+  # on the overview page while displaying project attributes.
   shared_let(:int_project_custom_field) { create(:integer_project_custom_field, projects: [project]) }
   shared_let(:work_package) { create(:work_package, project:, journal_notes: "Hello!") }
   shared_let(:sharer) { create(:admin) }
@@ -84,15 +86,12 @@ RSpec.describe "Shared Work Package Access",
       # 2. Via the Projects dropdown in the top menu
       projects_top_menu.toggle!
       projects_top_menu.expect_result(project.name)
-
       # 3. Visiting the Project's URL directly
       project_page.visit!
 
-      # The project overview page is loaded and e.g. custom fields can be seen
-      # This ensures that the page is loaded.
-      project_page.within_async_loaded_sidebar do
-        expect(page).to have_content(int_project_custom_field.name)
-      end
+      # The project overview page is loaded without errors
+      wait_for_network_idle
+      project_page.expect_no_toaster(type: "error")
 
       #
       # Work Package is now visible
@@ -168,11 +167,9 @@ RSpec.describe "Shared Work Package Access",
       # 3. Visiting the Project's URL directly
       project_page.visit!
 
-      # The project overview page is loaded and e.g. custom fields can be seen
-      # This ensures that the page is loaded.
-      project_page.within_async_loaded_sidebar do
-        expect(page).to have_content(int_project_custom_field.name)
-      end
+      # The project overview page is loaded without errors
+      wait_for_network_idle
+      project_page.expect_no_toaster(type: "error")
 
       #
       # Work Package is now visible
@@ -253,11 +250,9 @@ RSpec.describe "Shared Work Package Access",
       # 3. Visiting the Project's URL directly
       project_page.visit!
 
-      # The project overview page is loaded and e.g. custom fields can be seen
-      # This ensures that the page is loaded.
-      project_page.within_async_loaded_sidebar do
-        expect(page).to have_content(int_project_custom_field.name)
-      end
+      # The project overview page is loaded without errors
+      wait_for_network_idle
+      project_page.expect_no_toaster(type: "error")
 
       #
       # Work Package is now visible

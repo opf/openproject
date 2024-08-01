@@ -35,7 +35,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
   let(:overview_page) { Pages::Projects::Show.new(project) }
 
   before do
-    login_as member_with_project_edit_permissions
+    login_as member_with_project_attributes_edit_permissions
     overview_page.visit_page
   end
 
