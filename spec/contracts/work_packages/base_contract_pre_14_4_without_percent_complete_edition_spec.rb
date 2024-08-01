@@ -235,7 +235,7 @@ RSpec.describe WorkPackages::BaseContract, "pre 14.4 without percent complete ed
         # Breaking abstraction here to avoid mocking hell.
         # We might want to extract the assignable_... into separate
         # objects.
-        allow(contract)
+        allow(contract) # rubocop:disable RSpec/SubjectStub
           .to receive(:new_statuses_allowed_from)
           .with(work_package.status)
           .and_return(new_statuses_scope)

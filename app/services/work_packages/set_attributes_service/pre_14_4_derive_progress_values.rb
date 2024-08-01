@@ -26,6 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# rubocop:disable Metrics/AbcSize
 class WorkPackages::SetAttributesService
   class Pre144DeriveProgressValues
     attr_reader :work_package
@@ -148,7 +149,7 @@ class WorkPackages::SetAttributesService
     # on the computation of it derived from the status's default done ratio
     # and the estimated hours. If the estimated hours are unset, then also
     # unset the remaining hours.
-    # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def update_remaining_hours
       if WorkPackage.use_status_for_done_ratio?
         update_remaining_hours_from_percent_complete
@@ -166,7 +167,7 @@ class WorkPackages::SetAttributesService
         end
       end
     end
-    # rubocop:enable Metrics/AbcSize,Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def estimated_hours_from_done_ratio_and_remaining_hours
       remaining_ratio = 1.0 - ((work_package.done_ratio || 0) / 100.0)
@@ -182,3 +183,4 @@ class WorkPackages::SetAttributesService
     end
   end
 end
+# rubocop:enable Metrics/AbcSize
