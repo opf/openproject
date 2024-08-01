@@ -55,13 +55,9 @@ RSpec.describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesCont
     context "when authenticated in and active strategies" do
       let(:active_strategies) { [:developer] }
 
-      before do
-        get :new, params: { type: :sms }
-      end
-
       it "renders the new page" do
         expect(response).to be_successful
-        expect(response).to render_template "two_factor_authentication/two_factor_devices/new"
+        expect(response).to render_template "two_factor_authentication/two_factor_devices/new_type"
       end
     end
   end
@@ -70,13 +66,26 @@ RSpec.describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesCont
     let(:active_strategies) { [:developer] }
 
     describe "#new" do
-      before do
-        get :new, params: { type: :sms }
+      context "without type" do
+        before do
+          get :new
+        end
+
+        it "renders the new form" do
+          expect(response).to be_successful
+          expect(response).to render_template "new_type"
+        end
       end
 
-      it "renders the new form" do
-        expect(response).to be_successful
-        expect(response).to render_template "new"
+      context "with type" do
+        before do
+          get :new, params: { type: :sms }
+        end
+
+        it "renders the new form" do
+          expect(response).to be_successful
+          expect(response).to render_template "new"
+        end
       end
     end
 
