@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ::OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook::Listener
+class OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook::Listener
   # OpenProject's front-end needs to allow the browser to connect to external
   # file servers for direct file uploads. Therefore it needs to extend its
   # Content Security Policy (CSP) `connect-src` with the hostnames of all
