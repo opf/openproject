@@ -45,9 +45,6 @@ action-menu
     ul
       margin-left: 0
 
-ul.tabnav-tabs
-  margin-left: 0
-
 .UnderlineNav
   @include styled-scroll-bar
   margin-bottom: 12px
@@ -57,9 +54,13 @@ ul.tabnav-tabs
 
 /* Remove margin-left: 2rem from Breadcrumbs */
 #breadcrumb,
-page-header
-  ol
+page-header,
+sub-header,
+.op-work-package-details-tab-component
+  ol, ul
     margin-left: 0
+
+#breadcrumb
   .breadcrumb-item.breadcrumb-item-selected
     a
       pointer-events: none
