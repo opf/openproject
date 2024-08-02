@@ -1,5 +1,7 @@
 #!/bin/bash
+
 set -e
+shopt -s extglob
 
 export PATH="/usr/lib/postgresql/$PGVERSION/bin:$PATH"
 export JOBS="${CI_JOBS:=$(nproc)}"
@@ -122,7 +124,6 @@ setup_tests() {
 }
 
 run_units() {
-	shopt -s extglob
 	reset_dbs
 	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_units.log {,modules/*/}spec/!(features)"
 	cleanup
