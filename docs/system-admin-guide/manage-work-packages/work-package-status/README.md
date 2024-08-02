@@ -14,7 +14,7 @@ The status can be set at the top of the work package details view or in the tabl
 
 ![Work packages status dropdown menu in OpenProject](openproject_system_guide_create_wp_stati_dropdown.png)
 
-The status field can be configured under *Administration ->* *Work packages* -> *Status*. You will see the list of all the existing work package stati in the system. You can add new status or change the name and order of existing status.
+The status field can be configured under *Administration ->* *Work packages* -> *Status*. You will see the list of all the existing work package statuses in the system. You can add new statuses or change the name and order of existing statuses.
 
 ![Work package status overview in OpenProject administration](openproject_system_guide_create_wp_status_overview.png)
 
