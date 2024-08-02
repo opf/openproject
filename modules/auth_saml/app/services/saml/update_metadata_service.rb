@@ -38,8 +38,9 @@ module Saml
     def call
       ServiceResult.success(result: updated_metadata)
     rescue StandardError => e
+      binding.pry
       OpenProject.logger.error(e)
-      ServiceResult.failure(message: I18n.t('saml.metadata_parser.error', error: e.class.name))
+      ServiceResult.failure(message: I18n.t("saml.metadata_parser.error", error: e.class.name))
     end
 
     private
@@ -59,9 +60,9 @@ module Saml
     end
 
     def parse_url
-      parser.parse_remote_to_hash(metadata_url)
+      parser_instance.parse_remote_to_hash(provider.metadata_url)
     rescue OneLogin::RubySaml::HttpError => e
-      ServiceResult.failure(message: I18n.t('saml.metadata_parser.error', error: e.message))
+      ServiceResult.failure(message: I18n.t("saml.metadata_parser.error", error: e.message))
     end
 
     def parser_instance

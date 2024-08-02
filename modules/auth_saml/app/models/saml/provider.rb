@@ -26,9 +26,10 @@ module Saml
     attr_accessor :readonly
 
     validates_presence_of :display_name
+    validates_uniqueness_of :display_name
 
     def slug
-      "saml-#{id}"
+      options.fetch(:name) { "saml-#{id}" }
     end
 
     def limit_self_registration?
@@ -40,11 +41,11 @@ module Saml
     end
 
     def configured?
-      idp_sso_service_url.present? && certificate_configured?
+      sp_entity_id.present? && idp_sso_service_url.present? && certificate_configured?
     end
 
     def certificate_configured?
-      idp_cert.present? || idp_cert_fingerprint.present?
+      idp_cert.present?
     end
 
     def to_h

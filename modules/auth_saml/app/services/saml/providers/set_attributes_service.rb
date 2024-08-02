@@ -29,8 +29,6 @@
 module Saml
   module Providers
     class SetAttributesService < BaseServices::SetAttributes
-      include Attachments::SetReplacements
-
       private
 
       def set_default_attributes(*)

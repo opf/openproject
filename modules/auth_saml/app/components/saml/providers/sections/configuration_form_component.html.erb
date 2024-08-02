@@ -1,11 +1,8 @@
 <%=
   primer_form_with(
     model: provider,
-    url: import_metadata_saml_provider_path(provider),
-    data: {
-      controller: "show-when-checked"
-    },
-    method: :post,
+    url: saml_provider_path(provider, state: :configuration),
+    method: :put
   ) do |form|
     flex_layout do |flex|
       flex.with_row do
@@ -15,21 +12,12 @@
       end
 
       flex.with_row do
-        render(Saml::Providers::MetadataCheckboxForm.new(form, provider:))
-      end
-
-      flex.with_row(mt: 2, hidden: !provider.has_metadata?, data: { 'show-when-checked-target': "effect" }) do
-        render(Saml::Providers::MetadataUrlForm.new(form))
-      end
-
-      flex.with_row(mt: 2, hidden: !provider.has_metadata?, data: { 'show-when-checked-target': "effect" }) do
-        render(Saml::Providers::MetadataXmlForm.new(form))
+        render(Saml::Providers::ConfigurationForm.new(form, provider:))
       end
 
       flex.with_row(mt: 4) do
         render(Saml::Providers::SubmitOrCancelForm.new(form,
-                                                       provider:,
-                                                       state: :metadata))
+                                                       provider:))
       end
     end
   end

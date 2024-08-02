@@ -2,14 +2,17 @@ en:
   activemodel:
     attributes:
       saml/provider:
-        name: Identifier
-        display_name: Display name
+        display_name: Name
         identifier: Identifier
         secret: Secret
         scope: Scope
         limit_self_registration: Limit self registration
         sp_entity_id: Service entity ID
         metadata_url: Identity provider metadata URL
+        name_identifier_format: Name identifier format
+        idp_sso_service_url: Identity provider login endpoint
+        idp_slo_service_url: Identity provider logout endpoint
+        idp_cert: Public certificate of identity provider
   saml:
     menu_title: SAML providers
     info:
@@ -25,6 +28,7 @@ en:
       label_empty_description: "Add a provider to see them here."
       label_automatic_configuration: Automatic configuration
       label_metadata: Metadata
+      label_configuration_details: "Identity provider endpoints and certificates"
       label_add_new: New SAML identity provider
       label_edit: Edit SAML identity provider %{name}
       no_results_table: No SAML identity providers have been defined yet.
@@ -63,3 +67,14 @@ en:
         Alternatively, enter the SAML metadata XML from your identity provider.
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.
+      sp_entity_id: >
+        The entity ID of the service provider. This is the unique client identifier of the OpenProject instance.
+      idp_sso_service_url: >
+        The URL of the identity provider login endpoint.
+      idp_slo_service_url: >
+        The URL of the identity provider login endpoint.
+      idp_cert: >
+        Enter the X509 PEM-formatted public certificate of the identity provider.
+        You can enter multiple certificates by separating them with a newline.
+      name_identifier_format: >
+        Set the name identifier format to be used for the SAML assertion.

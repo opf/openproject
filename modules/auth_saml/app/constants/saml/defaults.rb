@@ -30,15 +30,23 @@
 
 module Saml
   module Defaults
-    NAME_IDENTIFIER_FORMAT = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'.freeze
+    NAME_IDENTIFIER_FORMAT = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
+
+    NAME_IDENTIFIER_FORMATS = [
+      "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
+      "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+      "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+      "urn:oasis:names:tc:SAML:2.0:nameid-format:transient"
+    ]
+
     MAIL_MAPPING = %w[mail email Email emailAddress emailaddress
-      urn:oid:0.9.2342.19200300.100.1.3 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress].freeze
+                      urn:oid:0.9.2342.19200300.100.1.3 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress].freeze
 
     FIRSTNAME_MAPPING = %w[givenName givenname given_name given_name
-      urn:oid:2.5.4.42 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname].freeze
+                           urn:oid:2.5.4.42 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname].freeze
 
     LASTNAME_MAPPING = %w[surname sur_name sn
-      urn:oid:2.5.4.4 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname].freeze
+                          urn:oid:2.5.4.4 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname].freeze
 
     REQUESTED_ATTRIBUTES = [
       {

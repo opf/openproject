@@ -31,7 +31,18 @@ module Saml
     class UpdateContract < BaseContract
       attribute :metadata_url
       validates :metadata_url,
-                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] }
+                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
+                if: -> { model.metadata_url_changed? }
+
+      attribute :idp_sso_service_url
+      validates :idp_sso_service_url,
+                url: { schemes: %w[http https] },
+                if: -> { model.idp_sso_service_url_changed? }
+
+      attribute :idp_slo_service_url
+      validates :idp_slo_service_url,
+                url: { schemes: %w[http https] },
+                if: -> { model.idp_slo_service_url_changed? }
     end
   end
 end

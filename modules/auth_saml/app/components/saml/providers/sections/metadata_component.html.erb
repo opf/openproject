@@ -4,8 +4,8 @@
       concat render(Primer::Beta::Text.new(font_weight: :bold)) { t("saml.providers.label_metadata") }
       if provider.has_metadata?
         concat render(Primer::Beta::Label.new(scheme: :success, ml: 1)) { t(:label_completed) }
-      else
-        concat render(Primer::Beta::Label.new(scheme: :secondary, ml: 1)) { t(:label_incomplete) }
+      elsif provider.persisted?
+        concat render(Primer::Beta::Label.new(scheme: :secondary, ml: 1)) { t(:label_not_configured) }
       end
     end
 
@@ -15,18 +15,20 @@
       end
     end
 
-    grid.with_area(:action) do
-      flex_layout(justify_content: :flex_end) do |icons_container|
-        icons_container.with_column do
-          render(
-            Primer::Beta::IconButton.new(
-              icon: :pencil,
-              tag: :a,
-              scheme: :invisible,
-              href: edit_saml_provider_path(provider, edit_state: :metadata),
-              aria: { label: I18n.t(:label_edit) }
+    if provider.persisted?
+      grid.with_area(:action) do
+        flex_layout(justify_content: :flex_end) do |icons_container|
+          icons_container.with_column do
+            render(
+              Primer::Beta::IconButton.new(
+                icon: :pencil,
+                tag: :a,
+                scheme: :invisible,
+                href: edit_saml_provider_path(provider, edit_state: :metadata),
+                aria: { label: I18n.t(:label_edit) }
+              )
             )
-          )
+          end
         end
       end
     end

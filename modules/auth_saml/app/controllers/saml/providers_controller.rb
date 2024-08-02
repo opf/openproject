@@ -36,7 +36,7 @@ module Saml
 
       if call.success?
         flash[:notice] = I18n.t(:notice_successful_create)
-        redirect_to saml_provider_path(call.result)
+        redirect_to edit_saml_provider_path(call.result, edit_state: :metadata)
       else
         @provider = call.result
         render action: :new
@@ -44,13 +44,16 @@ module Saml
     end
 
     def update
-      @provider = ::Saml::Provider.initialize_with(
-        update_params.merge("name" => params[:id])
-      )
-      if @provider.save
+      call = Saml::Providers::UpdateService
+        .new(model: @provider, user: User.current)
+        .call(update_params)
+
+      if call.success?
         flash[:notice] = I18n.t(:notice_successful_update)
-        success_redirect
+        redirect_to saml_provider_path(call.result)
       else
+        @provider = call.result
+        @edit_state = params[:state].to_sym
         render action: :edit
       end
     end
@@ -58,6 +61,7 @@ module Saml
     def destroy
       call = ::Saml::Providers::DeleteService
         .new(model: @provider, user: User.current)
+        .call
 
       if call.success?
         flash[:notice] = I18n.t(:notice_successful_delete)
@@ -121,9 +125,10 @@ module Saml
     end
 
     def apply_metadata(params)
+      new_options = @provider.options.merge(params.compact_blank)
       call = Saml::Providers::UpdateService
         .new(model: @provider, user: User.current)
-        .call({ options: params})
+        .call({ options: new_options })
 
       if call.success?
         flash[:notice] = I18n.t("saml.metadata_parser.success")
@@ -147,7 +152,10 @@ module Saml
     end
 
     def update_params
-      params.require(:saml_provider).permit(:display_name, :identifier, :secret, :limit_self_registration)
+      params
+       .require(:saml_provider)
+       .permit(:display_name, :sp_entity_id, :idp_sso_service_url, :idp_slo_service_url, :idp_cert,
+               :name_identifier_format, :limit_self_registration)
     end
 
     def find_provider
