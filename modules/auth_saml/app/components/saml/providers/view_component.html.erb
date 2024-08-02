@@ -23,5 +23,13 @@
         render(Saml::Providers::Sections::MetadataComponent.new(provider))
       end
     end
+
+    component.with_row(scheme: :default) do
+      if edit_state == :configuration
+        render(Saml::Providers::Sections::ConfigurationFormComponent.new(provider))
+      else
+        render(Saml::Providers::Sections::ConfigurationComponent.new(provider))
+      end
+    end
   end
 %>

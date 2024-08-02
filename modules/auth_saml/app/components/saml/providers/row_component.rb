@@ -5,18 +5,27 @@ module Saml
         model
       end
 
+      def column_args(column)
+        if column == :name
+          { style: "grid-column: span 3" }
+        else
+          super
+        end
+      end
+
       def name
         concat render(Primer::Beta::Link.new(
-          scheme: :primary,
-          href: url_for(action: :show, id: provider.id)
-        )) { provider.display_name || provider.name }
+                        scheme: :primary,
+                        href: url_for(action: :show, id: provider.id)
+                      )) { provider.display_name || provider.name }
 
         if provider.idp_sso_service_url
           concat render(Primer::Beta::Text.new(
-            tag: :p,
-            font_size: :small,
-            color: :subtle
-          )) { provider.idp_sso_service_url }
+                          tag: :p,
+                          classes: "-break-word",
+                          font_size: :small,
+                          color: :subtle
+                        )) { provider.idp_sso_service_url }
         end
       end
 
@@ -26,7 +35,7 @@ module Saml
 
       def edit_link
         link_to(
-          helpers.op_icon('icon icon-edit button--link'),
+          helpers.op_icon("icon icon-edit button--link"),
           url_for(action: :edit, id: provider.id),
           title: t(:button_edit)
         )
@@ -48,7 +57,7 @@ module Saml
         return if provider.readonly
 
         link_to(
-          helpers.op_icon('icon icon-delete button--link'),
+          helpers.op_icon("icon icon-delete button--link"),
           url_for(action: :destroy, id: provider.id),
           method: :delete,
           data: { confirm: I18n.t(:text_are_you_sure) },
