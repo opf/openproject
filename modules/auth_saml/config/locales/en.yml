@@ -13,6 +13,11 @@ en:
         idp_sso_service_url: Identity provider login endpoint
         idp_slo_service_url: Identity provider logout endpoint
         idp_cert: Public certificate of identity provider
+        mapping_login: "Login mapping"
+        mapping_mail: "Email mapping"
+        mapping_firstname: "First name mapping"
+        mapping_lastname: "Last name mapping"
+        mapping_uid: "Mapping for internal user ID"
   saml:
     menu_title: SAML providers
     info:
@@ -32,6 +37,7 @@ en:
       label_configuration_details: "Identity provider endpoints and certificates"
       label_add_new: New SAML identity provider
       label_edit: Edit SAML identity provider %{name}
+      label_mapping: Mapping
       no_results_table: No SAML identity providers have been defined yet.
       plural: SAML identity providers
       singular: SAML identity provider
@@ -48,11 +54,13 @@ en:
         format: 'Attribute format'
       section_headers:
         configuration: "Primary configuration"
+        attributes: "Attributes"
       section_texts:
         display_name: "Configure the display name of the SAML provider."
         metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
         metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill configuration."
         configuration: "Configure the endpoint URLs for the identity provider, certificates, and further SAML options."
+        mapping: "Manually adjust the mapping between the SAML response and user attributes in OpenProject."
     settings:
       metadata_checkbox: "I have metadata (optional)"
       metadata_url: "Metadata URL"
@@ -82,3 +90,17 @@ en:
       sp_metadata_endpoint: >
         This is the URL where the OpenProject SAML metadata is available.
         Optionally use it to configure your identity provider.
+      mapping: >
+        Configure the mapping between the SAML response and user attributes in OpenProject.
+        You can configure multiple attribute names to look for. OpenProject will choose the first available attribute
+        from the SAML response.
+      mapping_login: >
+        SAML attributes from the response used for the login.
+      mapping_mail: >
+        SAML attributes from the response used for the email of the user.
+      mapping_firstname: >
+        SAML attributes from the response used for the given name.
+      mapping_lastname: >
+        SAML attributes from the response used for the last name.
+      mapping_uid: >
+        SAML attribute to use for the internal user ID. Leave empty to use the name_id attribute instead

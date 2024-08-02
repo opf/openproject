@@ -15,11 +15,11 @@ module Saml
     store_attribute :options, :idp_cert, :string
     store_attribute :options, :idp_cert_fingerprint, :string
 
-    store_attribute :options, :mapping_login, :json
-    store_attribute :options, :mapping_mail, :json
-    store_attribute :options, :mapping_firstname, :json
-    store_attribute :options, :mapping_lastname, :json
-    store_attribute :options, :mapping_uid, :json
+    store_attribute :options, :mapping_login, :string
+    store_attribute :options, :mapping_mail, :string
+    store_attribute :options, :mapping_firstname, :string
+    store_attribute :options, :mapping_lastname, :string
+    store_attribute :options, :mapping_uid, :string
 
     store_attribute :options, :request_attributes, :json
 

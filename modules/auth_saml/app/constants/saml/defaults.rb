@@ -39,14 +39,33 @@ module Saml
       "urn:oasis:names:tc:SAML:2.0:nameid-format:transient"
     ]
 
-    MAIL_MAPPING = %w[mail email Email emailAddress emailaddress
-                      urn:oid:0.9.2342.19200300.100.1.3 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress].freeze
+    MAIL_MAPPING = <<~STR
+      mail
+      email
+      Email
+      emailAddress
+      emailaddress
+      urn:oid:0.9.2342.19200300.100.1.3
+      http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress
+    STR
 
-    FIRSTNAME_MAPPING = %w[givenName givenname given_name given_name
-                           urn:oid:2.5.4.42 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname].freeze
+    FIRSTNAME_MAPPING = <<~STR
+      givenName
+      givenname
+      given_name
+      given_name
+      urn:oid:2.5.4.42
+      http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname
+    STR
 
-    LASTNAME_MAPPING = %w[surname sur_name sn
-                          urn:oid:2.5.4.4 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname].freeze
+    LASTNAME_MAPPING = <<~STR
+      surname
+      sur_name
+      sn
+      given_name
+      urn:oid:2.5.4.4
+      http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname
+    STR
 
     REQUESTED_ATTRIBUTES = [
       {
