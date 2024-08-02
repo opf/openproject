@@ -31,10 +31,16 @@ module Saml
     class SetAttributesService < BaseServices::SetAttributes
       private
 
+      def set_attributes(params)
+        update_mapping(params)
+
+        super
+      end
+
       def set_default_attributes(*)
         model.change_by_system do
           set_default_creator
-          set_attribute_mapping
+          set_default_mapping
           set_issuer
           set_name_identifier_format
         end
@@ -48,7 +54,21 @@ module Saml
         model.creator = user
       end
 
-      def set_attribute_mapping
+      ##
+      # Clean up provided mapping, reducing whitespace
+      def update_mapping(params)
+        %i[mapping_mail mapping_login mapping_firstname mapping_lastname].each do |attr|
+          next unless params.key?(attr)
+
+          mapping = params.delete(attr)
+          mapping.gsub!("\r\n", "\n")
+          mapping.gsub!(/^\s*(.+?)\s*$/, '\1')
+
+          model.public_send(:"#{attr}=", mapping)
+        end
+      end
+
+      def set_default_mapping
         model.mapping_login ||= Saml::Defaults::MAIL_MAPPING
         model.mapping_mail ||= Saml::Defaults::MAIL_MAPPING
         model.mapping_firstname ||= Saml::Defaults::FIRSTNAME_MAPPING

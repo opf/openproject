@@ -67,7 +67,7 @@ module Saml
           label: I18n.t("activemodel.attributes.saml/provider.mapping_uid"),
           caption: I18n.t("saml.instructions.mapping_uid"),
           rows: 8,
-          required: true,
+          required: false,
           input_width: :large
         )
       end

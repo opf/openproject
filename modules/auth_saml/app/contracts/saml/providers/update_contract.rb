@@ -43,6 +43,11 @@ module Saml
       validates :idp_slo_service_url,
                 url: { schemes: %w[http https] },
                 if: -> { model.idp_slo_service_url_changed? }
+
+      %i[mapping_mail mapping_login mapping_firstname mapping_lastname].each do |attr|
+        attribute attr
+        validates_presence_of attr
+      end
     end
   end
 end
