@@ -123,29 +123,34 @@ setup_tests() {
 	wait_for_background
 }
 
-run_units() {
+turbo_tests() {
 	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_units.log {,modules/*/}spec/!(features)"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS $@"
 	cleanup
+}
+
+run_units() {
+	turbo_tests --runtime-log spec/support/runtime-logs/turbo_runtime_units.log {,modules/*/}spec/!(features)
 }
 
 run_features() {
-	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log {,modules/*/}spec/features"
-	cleanup
+	turbo_tests --runtime-log spec/support/runtime-logs/turbo_runtime_features.log {,modules/*/}spec/features
 }
 
 run_all() {
-	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_all.log {,modules/*/}spec"
-	cleanup
+	turbo_tests --runtime-log spec/support/runtime-logs/turbo_runtime_all.log {,modules/*/}spec
 }
 
-export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests backend_stuff frontend_stuff run_units run_features run_all
+export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests backend_stuff frontend_stuff turbo_tests run_units run_features run_all
 
 if [ "$1" == "setup-tests" ]; then
 	shift
 	setup_tests
+fi
+
+if [ "$1" == "turbo_tests" ]; then
+	shift
+	turbo_tests "$@"
 fi
 
 if [ "$1" == "run-units" ]; then
