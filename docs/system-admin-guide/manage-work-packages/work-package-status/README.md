@@ -33,7 +33,7 @@ A new window will open, where you will be able to specify the following:
 
    > [!TIP]
    >
-   > The value for % Complete can be set from 1 to 100. 
+   > The value for % Complete can be set from 0 to 100. 
    >
    > A decimal value will be truncated, i.e. if you input 5.7, the value set will be 5.
 
