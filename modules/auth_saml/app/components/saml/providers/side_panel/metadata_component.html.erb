@@ -1,0 +1,14 @@
+<%=
+  render(Primer::OpenProject::SidePanel::Section.new) do |section|
+    section.with_title { I18n.t("saml.providers.label_metadata_endpoint") }
+    section.with_description { I18n.t("saml.instructions.sp_metadata_endpoint") }
+
+    component_wrapper do
+      render(Primer::Beta::Link.new(
+        href: metadata_endpoint,
+        classes: "-break-word",
+        target: :_blank
+      )) { metadata_endpoint }
+    end
+  end
+%>

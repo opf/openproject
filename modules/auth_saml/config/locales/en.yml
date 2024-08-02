@@ -28,6 +28,7 @@ en:
       label_empty_description: "Add a provider to see them here."
       label_automatic_configuration: Automatic configuration
       label_metadata: Metadata
+      label_metadata_endpoint: Metadata endpoint
       label_configuration_details: "Identity provider endpoints and certificates"
       label_add_new: New SAML identity provider
       label_edit: Edit SAML identity provider %{name}
@@ -57,8 +58,8 @@ en:
       metadata_url: "Metadata URL"
       metadata_xml: "Metadata XML"
     instructions:
-      new_description: >
-        Add a new SAML provider. Please refer to our [documentation on configuring SAML providers](docs_url).
+      documentation_link: >
+        Please refer to our [documentation on configuring SAML providers](docs_url) for more information on these configuration options.
       display_name: >
         The name of the provider. This will be displayed as the login button and in the list of providers.
       metadata_url: >
@@ -78,3 +79,6 @@ en:
         You can enter multiple certificates by separating them with a newline.
       name_identifier_format: >
         Set the name identifier format to be used for the SAML assertion.
+      sp_metadata_endpoint: >
+        This is the URL where the OpenProject SAML metadata is available.
+        Optionally use it to configure your identity provider.

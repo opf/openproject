@@ -3,15 +3,15 @@
 <% html_title(t(:label_administration), page_title) -%>
 
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title { I18n.t(:label_edit_x, x: @provider.display_name) } %>
+  <% header.with_title { @provider.display_name } %>
 
   <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
                               { href: saml_providers_path, text: t('saml.providers.plural') },
-                              I18n.t(:label_edit_x, x: @provider.display_name)]) %>
+                              @provider.display_name]) %>
 
   <% header.with_description do %>
     <%= link_translate(
-          'saml.instructions.new_description',
+          'saml.instructions.documentation_link',
           links: {
             docs_url: ::OpenProject::Static::Links[:sysadmin_docs][:saml][:href],
           },

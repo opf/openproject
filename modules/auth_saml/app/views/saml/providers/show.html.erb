@@ -27,4 +27,14 @@
 
 <% end %>
 
-<%= render(Saml::Providers::ViewComponent.new(@provider)) %>
+<%=
+  render(Primer::Alpha::Layout.new(stacking_breakpoint: :md)) do |content|
+    content.with_main do
+      render Saml::Providers::ViewComponent.new(@provider)
+    end
+
+    content.with_sidebar(row_placement: :start, col_placement: :end) do
+      render Saml::Providers::SidePanelComponent.new(@provider)
+    end
+  end
+%>
