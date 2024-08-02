@@ -1,0 +1,36 @@
+<%=
+  primer_form_with(
+    model: provider,
+    url: import_metadata_saml_provider_path(provider),
+    data: {
+      controller: "show-when-checked"
+    },
+    method: :post,
+  ) do |form|
+    flex_layout do |flex|
+      flex.with_row do
+        render(Primer::Beta::Text.new(tag: :p, mb: 4, font_size: :small)) do
+          t("saml.providers.section_texts.metadata_form")
+        end
+      end
+
+      flex.with_row do
+        render(Saml::Providers::MetadataCheckboxForm.new(form, provider:))
+      end
+
+      flex.with_row(mt: 2, hidden: !provider.has_metadata?, data: { 'show-when-checked-target': "effect" }) do
+        render(Saml::Providers::MetadataUrlForm.new(form))
+      end
+
+      flex.with_row(mt: 2, hidden: !provider.has_metadata?, data: { 'show-when-checked-target': "effect" }) do
+        render(Saml::Providers::MetadataXmlForm.new(form))
+      end
+
+      flex.with_row(mt: 4) do
+        render(Saml::Providers::SubmitOrCancelForm.new(form,
+                                                       provider:,
+                                                       state: :metadata))
+      end
+    end
+  end
+%>

@@ -41,10 +41,13 @@ en:
         legend: 'These attributes are added to the SAML XML metadata to signify to the identify provider which attributes OpenProject requires.'
         name: 'Requested attribute key'
         format: 'Attribute format'
+      section_headers:
+        configuration: "Primary configuration"
       section_texts:
         display_name: "Configure the display name of the SAML provider."
         metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
         metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill configuration."
+        configuration: "Configure the endpoint URLs for the identity provider, certificates, and further SAML options."
     settings:
       metadata_checkbox: "I have metadata (optional)"
       metadata_url: "Metadata URL"

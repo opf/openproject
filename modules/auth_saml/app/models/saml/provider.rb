@@ -12,6 +12,9 @@ module Saml
     store_attribute :options, :idp_sso_service_url, :string
     store_attribute :options, :idp_slo_service_url, :string
 
+    store_attribute :options, :idp_cert, :string
+    store_attribute :options, :idp_cert_fingerprint, :string
+
     store_attribute :options, :mapping_login, :json
     store_attribute :options, :mapping_mail, :json
     store_attribute :options, :mapping_firstname, :json
@@ -21,6 +24,7 @@ module Saml
     store_attribute :options, :request_attributes, :json
 
     attr_accessor :readonly
+
     validates_presence_of :display_name
 
     def slug
@@ -35,12 +39,20 @@ module Saml
       metadata_xml.present? || metadata_url.present?
     end
 
+    def configured?
+      idp_sso_service_url.present? && certificate_configured?
+    end
+
+    def certificate_configured?
+      idp_cert.present? || idp_cert_fingerprint.present?
+    end
+
     def to_h
       options
         .merge(
           name: slug,
           display_name:,
-          assertion_consumer_service_url:,
+          assertion_consumer_service_url:
         )
     end
   end
