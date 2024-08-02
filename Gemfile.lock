@@ -505,12 +505,12 @@ GEM
       activemodel
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
-    erb_lint (0.5.0)
+    erb_lint (0.6.0)
       activesupport
       better_html (>= 2.0.1)
       parser (>= 2.7.1.4)
       rainbow
-      rubocop
+      rubocop (>= 1)
       smart_properties
     erblint-github (1.0.1)
     erubi (1.13.0)
@@ -948,7 +948,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     retriable (3.1.2)
-    rexml (3.3.2)
+    rexml (3.3.4)
       strscan
     rinku (2.0.6)
     roar (1.2.0)
