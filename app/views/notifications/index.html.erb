@@ -1,7 +1,8 @@
 <% html_title t("js.notifications.title") %>
 
 <% content_for :content_header do %>
-  <%= render(Notifications::IndexPageHeaderComponent.new(
+  <%= render(Notifications::IndexPageHeaderComponent.new) %>
+  <%= render(Notifications::IndexSubHeaderComponent.new(
     facet: params[:facet],
     filter_name: params[:name],
     filter_type: params[:filter]

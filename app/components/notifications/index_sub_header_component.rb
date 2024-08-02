@@ -29,25 +29,17 @@
 # ++
 
 module Notifications
-  class IndexPageHeaderComponent < ApplicationComponent
+  class IndexSubHeaderComponent < ApplicationComponent
     include ApplicationHelper
 
-    def initialize(project: nil)
+    attr_reader :facet, :filter_type, :filter_name
+
+    def initialize(project: nil, facet: nil, filter_type: nil, filter_name: nil)
       super
       @project = project
-    end
-
-    def page_title
-      I18n.t("js.notifications.title")
-    end
-
-    def breadcrumb_items
-      [parent_element,
-       page_title]
-    end
-
-    def parent_element
-      { href: home_path, text: I18n.t(:label_home) }
+      @facet = facet
+      @filter_type = filter_type
+      @filter_name = filter_name
     end
   end
 end
