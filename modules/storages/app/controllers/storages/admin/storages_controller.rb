@@ -34,6 +34,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   include FlashMessagesOutputSafetyHelper
   include OpTurbo::ComponentStream
+  include ApplicationComponentStreams
 
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
   layout "admin"
@@ -45,7 +46,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object,
-                only: %i[show_oauth_application destroy edit edit_host confirm_destroy update
+                only: %i[show_oauth_application destroy edit edit_host confirm_destroy update open_storage
                          change_health_notifications_enabled replace_oauth_application]
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
   before_action :require_ee_token_for_one_drive, only: %i[select_provider]
@@ -184,6 +185,25 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
+  def open_storage
+    auth_strategy = ::Storages::Peripherals::Registry.resolve("one_drive.authentication.userless").call
+
+    ::Storages::Peripherals::Registry
+      .resolve("#{@object.short_provider_type}.queries.open_storage")
+      .call(storage: @object, auth_strategy:)
+      .on_success { |href|
+        respond_to { |format|
+          format.turbo_stream do
+            redirect_to href.result, allow_other_host: true
+          end
+        }
+      }
+      .on_failure {
+        render_error_flash_message_via_turbo_stream(message: I18n.t('storages.error_opening_storage_failed'), full: true)
+        respond_with_turbo_streams
+      }
+  end
+
   def change_health_notifications_enabled
     return head :bad_request unless %w[1 0].include?(permitted_storage_params[:health_notifications_enabled])
 
@@ -191,7 +211,7 @@ class Storages::Admin::StoragesController < ApplicationController
       update_via_turbo_stream(component: Storages::Admin::SidePanel::HealthNotificationsComponent.new(storage: @storage))
       respond_with_turbo_streams
     else
-      flash.now[:primer_banner] = {
+      flash[:primer_banner] = {
         message: I18n.t("storages.health_email_notifications.error_could_not_be_saved"), scheme: :danger
       }
       render :edit

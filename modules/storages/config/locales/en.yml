@@ -145,6 +145,7 @@ en:
       replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Save and continue
       select_folder: Select folder
+      open_storage: Open storage
     configuration_checks:
       oauth_client_incomplete:
         nextcloud: Allow OpenProject to access Nextcloud data using OAuth.
@@ -168,6 +169,7 @@ en:
         group_folders_app: Group folders
         integration_app: Integration OpenProject
     error_invalid_provider_type: Please select a valid storage provider.
+    error_opening_storage_failed: Opening the storage failed!
     file_storage_view:
       access_management:
         automatic_management: Automatically managed access and folders
@@ -271,6 +273,7 @@ en:
     label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
     label_edit_storage_host: Edit storage host
+    label_open_storage: Open storage
     label_existing_manual_folder: Existing folder with manually managed permissions
     label_file_storage: File storage
     label_host: Host URL
