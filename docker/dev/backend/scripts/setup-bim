@@ -3,7 +3,7 @@
 # This script installs all the required dependencies and command line tools to convert IFC files into XKT files,
 # so that the BIM models can be viewed via the Xeokit BIM viewer.
 #
-# Run this script on your worker container with like this to enable your Docker based development setup to convert IFC\
+# Run this script on your worker container like this to enable your Docker based development setup to convert IFC
 # files to XKT:
 # $ docker compose exec -u root worker setup-bim
 

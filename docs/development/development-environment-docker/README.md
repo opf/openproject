@@ -55,8 +55,6 @@ Please find below instructions on how to start and stop the workers.
 
 Once the containers are done booting you can access the application under `http://localhost:3000`.
 
-
-
 ### Tests
 
 You can run tests inside the `backend-test` container. You can run specific tests, too.
