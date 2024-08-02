@@ -35,8 +35,7 @@ A new window will open, where you will be able to specify the following:
    >
    > The value for % Complete can be set from 1 to 100. 
    >
-   > A decimal value will be truncated, i.e. if you input 5.7, the value set will be 5.
-
+   
 3. Define if the new work package status closes a work package (e.g. relevant when filtering for closed for packages), e.g. a work package status "rejected" will set a work package technically on closed and it will not appear in the default work package table with Open Work packages.
 
 4. Define if this status is set as default value when creating new work packages. BEWARE: If you decide to set the new status as default it will impact all work packages, existing and future ones. See more below.
