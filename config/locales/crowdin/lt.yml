@@ -485,7 +485,7 @@ lt:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Šviesi"
     light_high_contrast: "Šviesi kontrastinga"
   types:

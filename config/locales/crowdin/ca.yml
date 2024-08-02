@@ -473,7 +473,7 @@ ca:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Clar"
     light_high_contrast: "Clar alt contrast"
   types:

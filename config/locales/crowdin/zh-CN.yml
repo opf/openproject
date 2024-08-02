@@ -467,7 +467,7 @@ zh-CN:
         is_readonly: "只读"
         excluded_from_totals: "不包括在总计中"
   themes:
-    dark: "暗色（测试）"
+    dark: "Dark (Beta)"
     light: "浅色模式"
     light_high_contrast: "高对比度模式"
   types:

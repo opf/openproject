@@ -469,7 +469,7 @@ zh-TW:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "白色主題"
     light_high_contrast: "高對比白色主題"
   types:

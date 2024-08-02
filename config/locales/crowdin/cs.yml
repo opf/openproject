@@ -488,7 +488,7 @@ cs:
         is_readonly: "Pouze pro čtení"
         excluded_from_totals: "Vyloučeno z celkových hodnot"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Světlý"
     light_high_contrast: "Světlý kontrast"
   types:
