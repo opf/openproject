@@ -474,7 +474,7 @@ da:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -1138,7 +1138,7 @@ da:
         one: "Notification"
         other: "Notifications"
       placeholder_user: "Pladsholder bruger"
-      project: "Prjoekt"
+      project: "Projekt"
       project_query:
         one: "Project list"
         other: "Project lists"
@@ -1241,7 +1241,7 @@ da:
     name: "Navn"
     password: "Adgangskode"
     priority: "Prioritet"
-    project: "Prjoekt"
+    project: "Projekt"
     responsible: "Accountable"
     role: "Rolle"
     roles: "Rollee"

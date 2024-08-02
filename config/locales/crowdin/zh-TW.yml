@@ -469,7 +469,7 @@ zh-TW:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "白色主題"
     light_high_contrast: "高對比白色主題"
   types:
@@ -729,7 +729,7 @@ zh-TW:
         impaired: "協助工具模式"
         time_zone: "時區"
         auto_hide_popups: "自動隱藏成功通知"
-        warn_on_leaving_unsaved: "離開尚未儲存的工作包時提示我"
+        warn_on_leaving_unsaved: "離開尚未儲存的工作項目時提示我"
         theme: "模式 "
         mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
@@ -2618,7 +2618,7 @@ zh-TW:
   notice_successful_update_custom_fields_added_to_project: |
     更新成功。相關類型之專案，此客製欄位會自動啟動。<a href="%{url}" target="_blank">看更多</a>。
   notice_successful_update_custom_fields_added_to_type: |
-    更新成功。相關類型之專案，此客製欄位會自動啟動。
+    更新成功。相關類型之專案，此客製欄位會自動啟用。
   notice_to_many_principals_to_display: "搜尋的結果太多。\n請透過輸入新成員 (群組) 的名稱來縮小搜尋的範圍。"
   notice_user_missing_authentication_method: 用戶尚未選擇密碼或其他方式登錄。
   notice_user_invitation_resent: 已向 %{email} 發送邀請。

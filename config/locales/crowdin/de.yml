@@ -470,7 +470,7 @@ de:
         is_readonly: "Schreibgeschützt"
         excluded_from_totals: "Von Gesamtsumme auschließen"
   themes:
-    dark: "Dunkel (experimentell)"
+    dark: "Dark (Beta)"
     light: "Hell"
     light_high_contrast: "Hell (hoher Kontrast)"
   types:
