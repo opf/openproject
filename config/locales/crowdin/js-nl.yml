@@ -638,11 +638,6 @@ nl:
         upsale:
           title: "Date alerts"
           description: "Met datummeldingen wordt u op de hoogte gebracht van de start- of einddatum, zodat u nooit een belangrijke deadline mist of vergeet."
-      facets:
-        unread: "Ongelezen"
-        unread_title: "Toon ongelezen"
-        all: "Alle"
-        all_title: "Alles weergeven"
       center:
         label_actor_and: "en"
         and_more_users:
@@ -659,6 +654,7 @@ nl:
           no_notification: "Het lijkt erop dat u helemaal bij bent."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
         new_notifications:
           message: "Er zijn nieuwe meldingen."

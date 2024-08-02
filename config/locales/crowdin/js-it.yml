@@ -638,11 +638,6 @@ it:
         upsale:
           title: "Avvisi data"
           description: "Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante."
-      facets:
-        unread: "Non Letta"
-        unread_title: "Mostra non letti"
-        all: "Tutti"
-        all_title: "Mostra tutto"
       center:
         label_actor_and: "e"
         and_more_users:
@@ -659,6 +654,7 @@ it:
           no_notification: "Sembra che siate tutti coinvolti."
           no_notification_with_current_project_filter: "Sembra che siate tutti coinvolti nel progetto selezionato."
           no_notification_with_current_filter: "A quanto pare ti piace molto il filtro %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Clicca su una notifica per visualizzare tutti i dettagli dell'attività."
         new_notifications:
           message: "Ci sono nuove notifiche."

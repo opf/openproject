@@ -638,11 +638,6 @@ pl:
         upsale:
           title: "Alerty dotyczące dat"
           description: "Dzięki alertom dotyczącym dat będziesz otrzymywać powiadomienia o zbliżających się terminach rozpoczęcia lub zakończenia pracy, dzięki czemu nigdy nie przegapisz ani nie zapomnisz ważnego terminu."
-      facets:
-        unread: "Nieprzeczytane"
-        unread_title: "Pokaż nieprzeczytane"
-        all: "Wszystko"
-        all_title: "Pokaż wszystkie"
       center:
         label_actor_and: "i"
         and_more_users:
@@ -661,6 +656,7 @@ pl:
           no_notification: "Wygląda na to, że jesteś już na bieżąco."
           no_notification_with_current_project_filter: "Wygląda na to, że wszystko jest na bieżąco w wybranym projekcie."
           no_notification_with_current_filter: "Wygląda na to, że wszystko jest na bieżąco dla filtru: %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Kliknij powiadomienie, aby wyświetlić wszystkie szczegóły aktywności."
         new_notifications:
           message: "Masz nowe powiadomienia."

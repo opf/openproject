@@ -1021,6 +1021,12 @@ ms:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "bukan pada tarikh mula, walaupun ini diperlukan untuk pencapaian."
               cannot_be_null: "tidak boleh ditetapkan kepada kosong kerana tarikh mula dan tempoh masa telah diketahui."
@@ -1050,13 +1056,13 @@ ms:
             estimated_hours:
               not_a_number: "bukan jangka masa yang sah."
               cant_be_inferior_to_remaining_work: "Tidak boleh lebih rendah daripada kerja yang Berbaki."
-              must_be_set_when_remaining_work_is_set: "Diperlukan apabila kerja yang Berbaki ditetapkan."
-              only_values_greater_or_equal_zeroes_allowed: "Perlu >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "bukan jangka masa yang sah."
               cant_exceed_work: "Tidak boleh lebih tinggi daripada Kerja."
               must_be_set_when_work_is_set: "Diperlukan apabila Kerja ditetapkan."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "Pakej kerja berada dalam status baca sahaja maka atributnya tidak boleh diubah."
         type:
@@ -1551,6 +1557,7 @@ ms:
   error_pdf_failed_to_export: "Eksport PDF tidak dapat disimpan: %{error}"
   error_token_authenticity: "Tidak dapat mengesahkan token Cross-Site Request Forgery. Adakah anda sedang mencuba untuk menghantar data di pelbagai pelayar atau tab? Sila tutup semua tab dan cuba lagi."
   error_work_package_not_found_in_project: "Pakej kerja tidak ditemui atau tidak tergolong dalam projek ini"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "perlu menjadi ahli projek"
   error_migrations_are_pending: "Pemasangan OpenProject anda mempunyai migrasi pangkalan data yang belum selesai. Anda mungkin telah terlepas menjalankan migrasi semasa naik taraf terakhir anda. Sila semak panduan menaik taraf untuk menaikkan taraf pemasangan anda dengan betul."
   error_migrations_visit_upgrade_guides: "Sila kunjungi dokumentasi panduan naik taraf kami"
@@ -1755,6 +1762,11 @@ ms:
       responsible: "Accountable"
       shared: "Shared"
       watched: "Watcher"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"

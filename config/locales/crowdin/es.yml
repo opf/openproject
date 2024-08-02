@@ -1027,6 +1027,12 @@ es:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "no es en fecha de inicio, aunque esto es necesario para hitos."
               cannot_be_null: "no puede establecerse como nulo, ya que la fecha de inicio y la duración son conocidas."
@@ -1056,13 +1062,13 @@ es:
             estimated_hours:
               not_a_number: "no es una duración válida."
               cant_be_inferior_to_remaining_work: "No puede ser inferior al Trabajo restante."
-              must_be_set_when_remaining_work_is_set: "Obligatorio cuando el Trabajo restante está establecido."
-              only_values_greater_or_equal_zeroes_allowed: "Debe ser >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "no es una duración válida."
               cant_exceed_work: "No puede ser superior a Trabajo."
               must_be_set_when_work_is_set: "Obligatorio cuando Trabajo está establecido."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "El paquete de trabajo está en un estado de sólo lectura por lo que sus atributos no se pueden cambiar."
         type:
@@ -1584,6 +1590,7 @@ es:
   error_pdf_failed_to_export: "No se ha podido guardar la exportación PDF: %{error}"
   error_token_authenticity: "No se puede verificar el token de falsificación de solicitud entre sitios. ¿Intentó enviar datos en varios navegadores o pestañas? Cierre de todas las pestañas y vuelva a intentarlo."
   error_work_package_not_found_in_project: "El paquete de trabajo no se ha encontrado o no pertenece a este proyecto"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "debe ser miembro del proyecto"
   error_migrations_are_pending: "Su instalación de OpenProject tiene migraciones de bases de datos pendientes. Es probable que haya pasado por alto la ejecución de las migraciones en la última actualización. Consulte la guía de actualización para actualizar correctamente su instalación."
   error_migrations_visit_upgrade_guides: "Visite la documentación de la Guía de actualización"
@@ -1788,6 +1795,11 @@ es:
       responsible: "Responsable"
       shared: "Compartido"
       watched: "Observador"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "No leído por proyecto"
       by_reason: "Motivo"

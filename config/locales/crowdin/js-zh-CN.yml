@@ -637,11 +637,6 @@ zh-CN:
         upsale:
           title: "日期提醒"
           description: "借助日期提醒，您将收到即将到来的开始或结束日期的通知，以免错过或忘记重要截止日期。"
-      facets:
-        unread: "未读"
-        unread_title: "显示未读信息"
-        all: "全部"
-        all_title: "全部显示"
       center:
         label_actor_and: "和"
         and_more_users:
@@ -657,6 +652,7 @@ zh-CN:
           no_notification: "看起来您已查看所有通知。"
           no_notification_with_current_project_filter: "看起来您已查看所选项目的所有通知。"
           no_notification_with_current_filter: "看起来您已查看“%{filter}”筛选器的所有通知。"
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "点击通知可查看所有活动详细信息。"
         new_notifications:
           message: "有新的通知。"

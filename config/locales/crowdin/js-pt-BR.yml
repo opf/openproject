@@ -637,11 +637,6 @@ pt-BR:
         upsale:
           title: "Alertas de data"
           description: "Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. "
-      facets:
-        unread: "Não lido"
-        unread_title: "Mostrar não lidas"
-        all: "Todos"
-        all_title: "Mostrar todas"
       center:
         label_actor_and: "e"
         and_more_users:
@@ -658,6 +653,7 @@ pt-BR:
           no_notification: "Parece que você já está com tudo em dia."
           no_notification_with_current_project_filter: "Parece que você já está com tudo me dia para o projeto selecionado."
           no_notification_with_current_filter: "Parece que você já está com tudo em dia para o filtro %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."

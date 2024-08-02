@@ -637,11 +637,6 @@ cs:
         upsale:
           title: "Upozornění na datum"
           description: "S upozorněním na datum budete upozorněni na blížící se datum zahájení nebo ukončení, abyste nikdy nezmeškali nebo nezapomněli na důležitou lhůtu."
-      facets:
-        unread: "Nepřečtené"
-        unread_title: "Zobrazit nepřečtené"
-        all: "Vše"
-        all_title: "Zobrazit vše"
       center:
         label_actor_and: "a"
         and_more_users:
@@ -660,6 +655,7 @@ cs:
           no_notification: "Vypadá to, že jste všechno dohnali..."
           no_notification_with_current_project_filter: "Vypadá to, že nemáte žadné nové oznámení pro vybraný projekt."
           no_notification_with_current_filter: "Vypadá to, že tady nic není %{filter} filtr."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: "Máte nová oznámení."

@@ -637,11 +637,6 @@ de:
         upsale:
           title: "Datums-Erinnerungen"
           description: "Mit Datums-Erinnerungen werden Sie über bevorstehende Start- oder Endtermine informiert, so dass Sie nie einen wichtigen Termin verpassen oder übersehen."
-      facets:
-        unread: "Ungelesen"
-        unread_title: "Ungelesene anzeigen"
-        all: "Alle"
-        all_title: "Alle anzeigen"
       center:
         label_actor_and: "und"
         and_more_users:
@@ -658,6 +653,7 @@ de:
           no_notification: "Alle Benachrichtungen abgearbeitet"
           no_notification_with_current_project_filter: "Sieht so aus, als ob Sie in dem ausgewählten Projekt mit allem auf dem Laufenden sind.\n"
           no_notification_with_current_filter: "Sieht so aus, als ob Sie bei %{filter} mit allem auf dem Laufenden sind."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
           message: "Es gibt neue Benachrichtigungen."

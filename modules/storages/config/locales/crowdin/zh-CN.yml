@@ -70,46 +70,71 @@ zh-CN:
       label: 删除项目
   services:
     attributes:
-      storages/nextcloud_group_folder_properties_sync_service:
-        add_user_to_group: '添加用户到组'
-        create_folder: '托管项目文件夹的创建：'
-        ensure_root_folder_permissions: '设置基础文件夹权限：'
-        hide_inactive_folders: '隐藏非活动文件夹步骤：'
-        remote_folders: '读取群组文件夹的内容：'
-        remove_user_from_group: '从用户组中移除用户'
-        rename_project_folder: '重命名托管项目文件夹：'
+      nextcloud_sync_service:
+        add_user_to_group: 'Add User to Group:'
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        remove_user_from_group: 'Remove User from Group:'
+        rename_project_folder: 'Rename managed project Folder:'
+      one_drive_sync_service:
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        rename_project_folder: 'Rename managed project Folder:'
     errors:
       models:
-        storages/nextcloud_group_folder_properties_sync_service:
+        nextcloud_sync_service:
           attributes:
             add_user_to_group:
-              conflict: '由于以下原因，无法将用户 %{user} 添加到 %{group} 组： %{reason}'
-              failed_to_add: '由于以下原因，无法将用户 %{user} 添加到 %{group} 组： %{reason}'
+              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
             create_folder:
-              conflict: '%{folder_name} 已经存在于 %{parent_location}上。'
-              not_found: "未找到 %{parent_location} 。"
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
             ensure_root_folder_permissions:
-              not_found: "未找到 %{group_folder} 。请检查您的 Nextcloud 组文件夹设置。"
-              permission_not_set: 无法设置 %{group_folder} 上的权限。
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Group Folder setup."
+              permission_not_set: could not set permissions on %{group_folder}.
             hide_inactive_folders:
-              permission_not_set: 无法设置 %{path} 上的权限。
+              permission_not_set: could not set permissions on %{path}.
             remote_folders:
-              not_allowed: '%{username} 无法访问 %{group_folder} 。请检查 Nextcloud 上的文件夹权限。'
-              not_found: "未找到 %{group_folder} 。请检查您的 Nextcloud 设置。"
+              not_allowed: The %{username} doesn't have access to the %{group_folder}. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud setup."
             remove_user_from_group:
-              conflict: '由于以下原因，无法从 %{group} 组中删除用户 %{user} ： %{reason}'
-              failed_to_remove: '由于以下原因，无法从 %{group} 组中删除用户 %{user} ： %{reason}'
+              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
             rename_project_folder:
-              forbidden: OpenProject 用户无法访问 %{current_path} 文件夹。
-              not_found: "%{current_path} 没有找到。"
+              forbidden: OpenProject user does not have access to %{current_path} folder.
+              not_found: "%{current_path} wasn't found."
             set_folders_permissions:
-              permission_not_set: 无法设置 %{path} 上的权限。
-          error: 发生了意外错误。请确保您的 Nextcloud 实例可访问，并检查 OpenProject 工作日志以获取更多信息。
-          group_does_not_exist: "%{group} 未退出。检查您的 Nextcloud 实例配置。"
-          insufficient_privileges: OpenProject 没有足够的权限将 %{user} 添加到 %{group}。请检查 Nextcloud 中的组设置。
-          not_allowed: Nextcloud 阻止了该请求。
-          unauthorized: OpenProject 无法与 Nextcloud 同步。请检查您的存储设备和 Nextcloud  配置。
-          user_does_not_exist: "在 Nextcloud 中不存在 %{user}  。"
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          group_does_not_exist: "%{group} does not exit. Check your Nextcloud instance configuration."
+          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
+          not_allowed: Nextcloud block the request.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+            rename_project_folder:
+              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
+              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
+          unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
   storages:
     buttons:
       complete_without_setup: 没有它就完成

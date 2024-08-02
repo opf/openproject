@@ -638,11 +638,6 @@ es:
         upsale:
           title: "Alertas de fecha"
           description: "Con las alertas de fecha, recibirá notificaciones de próximas fechas de inicio o finalización para que nunca olvide una fecha límite importante."
-      facets:
-        unread: "No leídas"
-        unread_title: "Mostrar no leídos"
-        all: "Todos"
-        all_title: "Mostrar todos"
       center:
         label_actor_and: "y"
         and_more_users:
@@ -659,6 +654,7 @@ es:
           no_notification: "Parece que ya estás al día."
           no_notification_with_current_project_filter: "Parece que ya está al día con el proyecto seleccionado."
           no_notification_with_current_filter: "Parece que ya está al día con el filtro %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Haga clic en una notificación para ver todos los detalles de la actividad."
         new_notifications:
           message: "Hay nuevas notificaciones."

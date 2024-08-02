@@ -638,11 +638,6 @@ fr:
         upsale:
           title: "Alarmes"
           description: "Avec les alarmes, vous serez informé(e) à l'approche des dates de début ou de fin vous concernant afin de ne jamais manquer ou oublier une échéance importante."
-      facets:
-        unread: "Non lu"
-        unread_title: "Afficher les messages non lus"
-        all: "Toutes"
-        all_title: "Afficher tout"
       center:
         label_actor_and: "et"
         and_more_users:
@@ -659,6 +654,7 @@ fr:
           no_notification: "Il semble que vous êtes à jour."
           no_notification_with_current_project_filter: "Il semble que vous êtes à jour dans le projet sélectionné."
           no_notification_with_current_filter: "Il semble que vous êtes à jour pour le filtre %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: "Il y a de nouvelles notifications."

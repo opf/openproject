@@ -38,7 +38,7 @@ da:
           other: "%{count} Participants"
         participants_attended: "Tilsluttede"
         participants_invited: "Inviterede"
-        project: "Prjoekt"
+        project: "Projekt"
         start_date: "Dato"
         start_time: "Start time"
         start_time_hour: "Start time"

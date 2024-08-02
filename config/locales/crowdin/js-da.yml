@@ -487,7 +487,7 @@ da:
     label_previous: "Foregående"
     label_per_page: "Per side:"
     label_please_wait: "Please wait"
-    label_project: "Prjoekt"
+    label_project: "Projekt"
     label_project_list: "Project lists"
     label_project_plural: "Projekter"
     label_visibility_settings: "Visibility settings"
@@ -637,11 +637,6 @@ da:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "All"
-        all_title: "Vis alt"
       center:
         label_actor_and: "og"
         and_more_users:
@@ -658,6 +653,7 @@ da:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
@@ -993,7 +989,7 @@ da:
         category: "Kategori"
         percentageDone: "Procentdel udført"
         priority: "Prioritet"
-        projectName: "Prjoekt"
+        projectName: "Projekt"
         remainingWork: "Remaining work"
         remainingWorkAlternative: "Resterende timer"
         responsible: "Ansvarlig"
@@ -1226,7 +1222,7 @@ da:
         PlaceholderUser: "pladsholder bruger"
         invite_principal_to_project: "Inviter %{principal} til %{project}"
       project:
-        label: "Prjoekt"
+        label: "Projekt"
         required: "Vælg et projekt"
         lacking_permission: "Please select a different project since you lack permissions to assign users to the currently selected."
         lacking_permission_info: "You lack the permission to assign users to the project you are currently in. You need to select a different one."

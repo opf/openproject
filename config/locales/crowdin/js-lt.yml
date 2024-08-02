@@ -638,11 +638,6 @@ lt:
         upsale:
           title: "Datos įspėjimai"
           description: "Su datos įspėjimais jus informuos apie ateinančias pradžios ir pabaigos datas, kad niekada nepraleistumėte ar nepamirštumėte svarbių terminų."
-      facets:
-        unread: "Neskaitytas"
-        unread_title: "Rodyti neperskaitytus"
-        all: "Visi"
-        all_title: "Rodyti viską"
       center:
         label_actor_and: "ir"
         and_more_users:
@@ -661,6 +656,7 @@ lt:
           no_notification: "Panašu, kad jūs pilnai pasivijote."
           no_notification_with_current_project_filter: "Panašu, kad jūs jau pilnai pasivijote pažymėtą projektą."
           no_notification_with_current_filter: "Panašu, kad jūs jau pilnai pasivijote filtrą %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
           message: "Yra naujų pranešimų."

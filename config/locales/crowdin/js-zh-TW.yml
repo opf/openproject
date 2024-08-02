@@ -637,11 +637,6 @@ zh-TW:
         upsale:
           title: "日期提醒"
           description: "透過日期提醒，您將收到相關通知，這樣您就不會錯過或忘記重要的日期。"
-      facets:
-        unread: "未讀"
-        unread_title: "顯示未讀"
-        all: "全部"
-        all_title: "顯示全部"
       center:
         label_actor_and: "和"
         and_more_users:
@@ -657,6 +652,7 @@ zh-TW:
           no_notification: "看起來您已查看所有通知。"
           no_notification_with_current_project_filter: "看起來您已查看所選專案的所有通知。"
           no_notification_with_current_filter: "看起來您已查看“%{filter}”篩選條件的所有通知。"
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "您有新的通知"

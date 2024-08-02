@@ -102,7 +102,7 @@
     button_save: "Lagre"
     button_settings: "Innstillinger"
     button_uncheck_all: "Avmerk alle"
-    button_update: "Oppdater"
+    button_update: "Oppdatèr"
     button_export-pdf: "Last ned PDF"
     button_export-atom: "Last ned Atom"
     button_create: "Opprett"
@@ -638,11 +638,6 @@
         upsale:
           title: "Dato varsler"
           description: "Med datovarsler, vil du bli varslet om kommende start- eller sluttdatoer slik at du aldri går glipp av eller glemmer en viktig frist."
-      facets:
-        unread: "Ulest"
-        unread_title: "Vis ulest"
-        all: "Alle"
-        all_title: "Vis alle"
       center:
         label_actor_and: "og"
         and_more_users:
@@ -659,6 +654,7 @@
           no_notification: "Ser ut som du er helt oppdatert."
           no_notification_with_current_project_filter: "Ser ut som du er helt oppdatert med det valgte prosjektet."
           no_notification_with_current_filter: "Ser ut som du er helt oppdatert med filteret %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Klikk på en melding for å se alle aktivitetsdetaljer."
         new_notifications:
           message: "Det finnes nye varsler."

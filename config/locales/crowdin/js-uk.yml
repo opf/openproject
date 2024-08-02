@@ -638,11 +638,6 @@ uk:
         upsale:
           title: "Оповіщення про дати"
           description: "Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни та не забуватимете про них."
-      facets:
-        unread: "Непрочитані"
-        unread_title: "Показати непрочитані"
-        all: "Всі"
-        all_title: "Показати всі"
       center:
         label_actor_and: "і"
         and_more_users:
@@ -661,6 +656,7 @@ uk:
           no_notification: "Схоже, ви все переглянули."
           no_notification_with_current_project_filter: "Схоже, ви переглянули всі сповіщення для вибраного проєкту."
           no_notification_with_current_filter: "Схоже, ви переглянули всі сповіщення за фільтром «%{filter}»."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: "Немає нових сповіщень."

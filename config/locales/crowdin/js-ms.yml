@@ -638,11 +638,6 @@ ms:
         upsale:
           title: "Peringatan tarikh"
           description: "Dengan peringatan tarikh, anda akan dimaklumkan tentang tarikh mula dan akhir yang akan datang supaya anda tidak pernah terlepas atau lupa tarikh akhir yang penting."
-      facets:
-        unread: "Belum dibaca"
-        unread_title: "Paparkan yang belum dibaca"
-        all: "Semua"
-        all_title: "Paparkan semua"
       center:
         label_actor_and: "dan"
         and_more_users:
@@ -658,6 +653,7 @@ ms:
           no_notification: "Nampaknya anda telah selesaikan semuanya."
           no_notification_with_current_project_filter: "Nampaknya anda sudah selesai dengan projek yang dipilih."
           no_notification_with_current_filter: "Nampaknya anda sudah selesai untuk penyaringan %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Klik pemberitahuan untuk paparkan semua butiran aktiviti."
         new_notifications:
           message: "Terdapat pemberitahuan baharu."

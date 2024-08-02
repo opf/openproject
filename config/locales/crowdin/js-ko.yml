@@ -638,11 +638,6 @@ ko:
         upsale:
           title: "날짜 경보"
           description: "날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다."
-      facets:
-        unread: "읽지 않음"
-        unread_title: "읽지 않은 항목 표시"
-        all: "모두"
-        all_title: "모두 표시"
       center:
         label_actor_and: "및"
         and_more_users:
@@ -658,6 +653,7 @@ ko:
           no_notification: "모두 확인하신 것 같습니다."
           no_notification_with_current_project_filter: "선택한 프로젝트에 대한 모든 알림을 본 것 같습니다."
           no_notification_with_current_filter: "%{filter} 필터에 대한 모든 알림을 본 것 같습니다."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: "새 알림이 있습니다."

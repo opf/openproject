@@ -1022,6 +1022,12 @@ ko:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
               cannot_be_null: "시작 날짜와 기간을 알고 있으므로 null로 설정할 수 없습니다."
@@ -1051,13 +1057,13 @@ ko:
             estimated_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
               cant_be_inferior_to_remaining_work: "남은 작업보다 낮을 수 없습니다."
-              must_be_set_when_remaining_work_is_set: "'남은 작업'이 설정된 경우 필수입니다."
-              only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 합니다."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
               cant_exceed_work: "작업보다 높을 수 없습니다."
               must_be_set_when_work_is_set: "작업이 설정된 경우 필수입니다."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다."
         type:
@@ -1552,6 +1558,7 @@ ko:
   error_pdf_failed_to_export: "PDF 내보내기를 저장할 수 없습니다: %{error}"
   error_token_authenticity: "교차 사이트 요청 위조 토큰을 확인할 수 없습니다. 여러 브라우저나 탭에서 데이터 제출을 시도하셨습니까? 모든 탭을 닫고 다시 시도하세요."
   error_work_package_not_found_in_project: "작업 패키지가 없거나 이 프로젝트에 속하지 않습니다."
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "은(는) 프로젝트 멤버여야 합니다."
   error_migrations_are_pending: "OpenProject 설치에 보류 중인 데이터베이스 마이그레이션이 있습니다. 지난 업그레이드에서 마이그레이션을 실행하지 않았을 가능성이 있습니다. 업그레이드 가이드를 확인하여 제대로 설치를 업그레이드하세요."
   error_migrations_visit_upgrade_guides: "업그레이드 가이드 문서를 참조하십시오."
@@ -1756,6 +1763,11 @@ ko:
       responsible: "담당"
       shared: "공유됨"
       watched: "주시자"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "프로젝트 기준 읽지 않음"
       by_reason: "이유"
