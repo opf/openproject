@@ -155,7 +155,8 @@ module Saml
       params
        .require(:saml_provider)
        .permit(:display_name, :sp_entity_id, :idp_sso_service_url, :idp_slo_service_url, :idp_cert,
-               :name_identifier_format, :limit_self_registration)
+               :name_identifier_format, :limit_self_registration,
+               :mapping_login, :mapping_mail, :mapping_firstname, :mapping_lastname, :mapping_uid)
     end
 
     def find_provider

@@ -1,7 +1,7 @@
 <%=
   primer_form_with(
     model: provider,
-    url: saml_provider_path(provider, state: :configuration),
+    url: saml_provider_path(provider, state: :mapping),
     method: :put
   ) do |form|
     flex_layout do |flex|
