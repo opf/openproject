@@ -652,7 +652,7 @@ zh-CN:
           no_notification: "看起来您已查看所有通知。"
           no_notification_with_current_project_filter: "看起来您已查看所选项目的所有通知。"
           no_notification_with_current_filter: "看起来您已查看“%{filter}”筛选器的所有通知。"
-          no_notification_for_filter: "Looks like you are all caught up for this filter."
+          no_notification_for_filter: "您已查看了“%{filter}”筛选器的所有通知。"
           no_selection: "点击通知可查看所有活动详细信息。"
         new_notifications:
           message: "有新的通知。"
