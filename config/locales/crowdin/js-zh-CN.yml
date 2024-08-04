@@ -606,10 +606,10 @@ zh-CN:
           gantt_menu: "使用甘特图模块轻松创建项目时间表和时间线。"
           timeline: "您可以在此<b>编辑您的项目计划</b>、创建新的工作包（例如任务、里程碑、阶段等）以及<b>添加依赖项</b>。所有团队成员都可以随时查看和更新最新计划。"
         team_planner:
-          overview: "团队规划工具使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。"
+          overview: "工作组规划器使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。"
           calendar: "单周或双周规划面板可以显示分配给您的团队成员的所有工作包。"
           add_assignee: "首先，请将受理人添加到工作组规划器。"
-          add_existing: "搜索现有工作包并将其拖动到团队规划工具，以立即将其分配给团队成员并定义开始日期和结束日期。"
+          add_existing: "搜索现有工作包并将其拖动到工作组规划器，以立即将其分配给团队成员并定义开始日期和结束日期。"
           card: "水平拖动工作包以前移或后移其时间，拖动边缘以更改开始日期和结束日期，甚至可以将其垂直拖动到不同的行以分配给其他成员。"
     notifications:
       title: "通知"
@@ -652,7 +652,7 @@ zh-CN:
           no_notification: "看起来您已查看所有通知。"
           no_notification_with_current_project_filter: "看起来您已查看所选项目的所有通知。"
           no_notification_with_current_filter: "看起来您已查看“%{filter}”筛选器的所有通知。"
-          no_notification_for_filter: "您已查看了“%{filter}”筛选器的所有通知。"
+          no_notification_for_filter: "看起来你已经处理完了这个筛选器的所有内容。"
           no_selection: "点击通知可查看所有活动详细信息。"
         new_notifications:
           message: "有新的通知。"

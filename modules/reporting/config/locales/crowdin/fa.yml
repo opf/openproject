@@ -52,7 +52,7 @@ fa:
   label_month_reporting: "Month (Spent)"
   label_new_report: "New cost report"
   label_open: "open"
-  label_operator: "Operator"
+  label_operator: "اپراتور"
   label_private_report_plural: "Private cost reports"
   label_progress_bar_explanation: "Generating report..."
   label_public_report_plural: "Public cost reports"
@@ -74,7 +74,7 @@ fa:
   label_no: "نه"
   label_none: "(no data)"
   label_no_reports: "تا کنون گزارش هزینه ای وجود ندارد."
-  label_report: "Report"
+  label_report: "گزارش"
   label_yes: "بله"
   load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
   permission_save_cost_reports: "Save public cost reports"
@@ -91,4 +91,4 @@ fa:
   reporting:
     group_by:
       selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_rows: "ردیف های انتخاب شده"

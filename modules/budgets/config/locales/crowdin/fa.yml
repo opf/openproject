@@ -32,7 +32,7 @@ fa:
         description: "توضیحات"
         spent: "صرف شده"
         status: "وضعیت"
-        subject: "Subject"
+        subject: "موضوع"
         type: "نوع هزینه"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
@@ -40,7 +40,7 @@ fa:
         budget_subject: "Budget title"
     models:
       budget: "بودجه"
-      material_budget_item: "Unit"
+      material_budget_item: "واحد"
   activity:
     filter:
       budget: "بودجه ها"

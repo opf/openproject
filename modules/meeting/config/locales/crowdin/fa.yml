@@ -76,7 +76,7 @@ fa:
           updated: "changed from %{old_value} to %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "attended"
-  description_invite: "invited"
+  description_invite: "مدعو"
   events:
     meeting: Meeting edited
     meeting_agenda: Meeting agenda edited
@@ -89,7 +89,7 @@ fa:
   label_meeting_plural: "جلسات"
   label_meeting_new: "ایجاد جلسه"
   label_meeting_edit: "ویرایش جلسه"
-  label_meeting_agenda: "Agenda"
+  label_meeting_agenda: "دستور کار"
   label_meeting_minutes: "دقیقه ها"
   label_meeting_close: "Close"
   label_meeting_open: "باز"
@@ -134,7 +134,7 @@ fa:
         new_date_time: "New date/time"
     label_mail_all_participants: "Send email to all participants"
     types:
-      classic: "Classic"
+      classic: "کلاسیک"
       classic_text: "Organize your meeting in a formattable text agenda and protocol."
       structured: "Dynamic"
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
@@ -178,13 +178,13 @@ fa:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "ایجاد شده توسط"
   label_meeting_last_updated: "Last updated"
-  label_agenda_items: "Agenda items"
+  label_agenda_items: ""
   label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Deleted work package reference"
   label_agenda_item_actions: "Agenda items actions"
-  label_agenda_item_move_to_top: "Move to top"
+  label_agenda_item_move_to_top: "انتقال به بالا"
   label_agenda_item_move_to_bottom: "Move to bottom"
   label_agenda_item_move_up: "Move up"
   label_agenda_item_move_down: "Move down"

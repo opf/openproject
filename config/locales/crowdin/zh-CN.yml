@@ -467,7 +467,7 @@ zh-CN:
         is_readonly: "只读"
         excluded_from_totals: "不包括在总计中"
   themes:
-    dark: "暗黑（测试）"
+    dark: "黑暗（测试版）"
     light: "浅色模式"
     light_high_contrast: "高对比度模式"
   types:
@@ -1023,7 +1023,7 @@ zh-CN:
               does_not_match_work_and_remaining_work: "工作与剩余工作不匹配"
               cannot_be_set_when_work_is_zero: "工作 为 零 时无法设置"
               must_be_set_when_remaining_work_is_set: "设置 剩余工作 时必须"
-              must_be_set_when_work_and_remaining_work_are_set: "设置 工作 和 剩余工作 时必须"
+              must_be_set_when_work_and_remaining_work_are_set: "当设置了工作和剩余工作时必填。"
               inclusion: "必须介于 0 和 100 之间。"
             due_date:
               not_start_date: "不是在开始日期开始，尽管这是必需的里程碑。"
@@ -1054,13 +1054,13 @@ zh-CN:
             estimated_hours:
               not_a_number: "不是有效的持续时间。"
               cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "设置 剩余工作 和 已完成% 时必须"
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "设置 剩余工作 和 已完成% 时必填。"
               format: "%{message}"
             remaining_hours:
               not_a_number: "不是有效的持续时间。"
               cant_exceed_work: "不能高于工时。"
               must_be_set_when_work_is_set: "当设置工时需要。"
-              must_be_set_when_work_and_percent_complete_are_set: "设置 工作 和 已完成% 时必须"
+              must_be_set_when_work_and_percent_complete_are_set: "设置 工作 和 已完成% 时必填。"
               format: "%{message}"
           readonly_status: "工作包处于只读状态，因此无法更改其属性。"
         type:
@@ -2283,7 +2283,7 @@ zh-CN:
   label_system_storage: "存储信息"
   label_table_of_contents: "目录"
   label_tag: "标记"
-  label_team_planner: "团队规划工具"
+  label_team_planner: "工作组规划器"
   label_text: "长文本"
   label_this_month: "这个月"
   label_this_week: "这一周"
@@ -2984,7 +2984,7 @@ zh-CN:
   setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
   setting_enabled_projects_columns: "默认显示的项目列表列"
-  setting_feeds_enabled: "启用Feeds"
+  setting_feeds_enabled: "启用 Feeds"
   setting_ical_enabled: "启用 iCalendar 订阅"
   setting_feeds_limit: "Feed 内容限制"
   setting_file_max_size_displayed: "内联显示的文本文件的最大大小"
