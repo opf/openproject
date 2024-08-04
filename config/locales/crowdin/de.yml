@@ -470,7 +470,7 @@ de:
         is_readonly: "Schreibgeschützt"
         excluded_from_totals: "Von Gesamtsumme auschließen"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Dunkel (Beta)"
     light: "Hell"
     light_high_contrast: "Hell (hoher Kontrast)"
   types:
@@ -700,7 +700,7 @@ de:
         is_closed: "Arbeitspaket geschlossen"
         is_readonly: "Arbeitspakete schreibgeschützt"
         excluded_from_totals: "Von der Berechnung der Gesamtsumme in der Hierarchie ausschließen"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% abgeschlossen"
       time_entry:
         activity: "Aktivität"
         hours: "Stunden"
@@ -992,7 +992,7 @@ de:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "muss zwischen 0 und 100 liegen."
           readonly_default_exlusive: "kann nicht für einen Status aktiviert werden, der als Standard markiert ist."
         time_entry:
           attributes:
@@ -1849,7 +1849,7 @@ de:
   label_ldap_auth_source_plural: "LDAP-Verbindungen"
   label_attribute_expand_text: "Der vollständige Text für '%{attribute}'"
   label_authentication: "Authentifizierung"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Authentifizierungseinstellungen"
   label_available_global_roles: "Verfügbare globale Rollen"
   label_available_project_attributes: "Verfügbare Projektattribute"
   label_available_project_forums: "Verfügbare Foren"
@@ -2036,7 +2036,7 @@ de:
   label_inactive: "Inaktiv"
   label_incoming_emails: "Eingehende E-Mails"
   label_includes: "enthält"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Unterprojekte einbeziehen
   label_index_by_date: "Seiten nach Datum"
   label_index_by_title: "Seiten nach Titel"
   label_information: "Information"
@@ -2269,7 +2269,7 @@ de:
   label_role_search: "Rolle für neue Mitglieder zuweisen"
   label_scm: "Versionskontrollsystem"
   label_search: "Suche"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Nach Name suchen"
   label_send_information: "Neue Anmeldeinformationen an den Benutzer senden"
   label_send_test_email: "Test-E-Mail senden"
   label_session: "Sitzung"
@@ -2382,7 +2382,7 @@ de:
   label_work_package_new: "Neues Arbeitspaket"
   label_work_package_edit: "Arbeitspaket %{name} editieren"
   label_work_package_plural: "Arbeitspakete"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "Arbeitspaket-Einstellungen"
   label_work_package_status: "Arbeitspaket-Status"
   label_work_package_status_new: "Neuer Status"
   label_work_package_status_plural: "Arbeitspaket-Status"
@@ -2390,7 +2390,7 @@ de:
   label_work_package_tracking: "Arbeitspakete-Verfolgung"
   label_work_package_view_all: "Alle Arbeitspakete anzeigen"
   label_workflow: "Workflow"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Arbeitsablauf kopieren"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
   label_working_days_and_hours: "Arbeitstage und -stunden"
@@ -2725,7 +2725,7 @@ de:
   permission_edit_own_messages: "Eigene Forenbeiträge bearbeiten"
   permission_edit_own_time_entries: "Selbstgebuchte Aufwände bearbeiten"
   permission_edit_project: "Projekt bearbeiten"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "Projektattribute bearbeiten"
   permission_edit_reportings: "Statusberichte bearbeiten"
   permission_edit_time_entries: "Zeitaufwand für andere Benutzer bearbeiten"
   permission_edit_timelines: "Zeitplan-Reporte bearbeiten"
@@ -2776,7 +2776,7 @@ de:
   permission_work_package_assigned: "Zugewiesener/Verantwortlicher werden"
   permission_work_package_assigned_explanation: "Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden"
   permission_view_project_activity: "Projektaktivität anzeigen"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "Projektattribute ansehen"
   permission_save_bcf_queries: "BCF-Abfragen speichern"
   permission_manage_public_bcf_queries: "Öffentliche BCF-Abfragen verwalten"
   permission_edit_attribute_help_texts: "Attribut-Hilfetxt bearbeiten"

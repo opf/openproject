@@ -138,8 +138,8 @@ fa:
   text_destroy_cost_entries_question: "%{cost_entries} در بسته‌های کاری که می‌خواهید حذف کنید گزارش شده است. میخوای چیکار کنی؟"
   text_destroy_time_and_cost_entries: "ساعت ها و هزینه های گزارش شده را حذف کنید"
   text_destroy_time_and_cost_entries_question: "%{hours} ,%{cost_entries} در بسته‌های کاری که می‌خواهید حذف کنید گزارش شده است. میخوای چیکار کنی؟"
-  text_reassign_time_and_cost_entries: "Reassign reported hours and costs to this work package:"
+  text_reassign_time_and_cost_entries: "تخصیص ساعت‌ها و هزینه‌های گزارش شده به پروژه"
   text_warning_hidden_elements: "Some entries may have been excluded from the aggregation."
-  week: "week"
+  week: "هفته"
   js:
-    text_are_you_sure: "Are you sure?"
+    text_are_you_sure: "آیا مطمئن هستید؟"

@@ -75,7 +75,7 @@ fa:
     unassigned: "Unassigned"
     x_more: "%{count} more..."
   backlogs_active: "active"
-  backlogs_any: "any"
+  backlogs_any: "هرکدام"
   backlogs_inactive: "Project shows no activity"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Product backlog"
