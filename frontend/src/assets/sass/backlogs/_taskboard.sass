@@ -36,9 +36,8 @@
   padding-right: 3px
 
 @mixin story-footer
-  float: left
   font-size: 1rem - rem-calc(5px)
-  width: 85%
+  width: 100%
   margin-top: 4px
   padding: 2px
   padding-top: 0
@@ -143,14 +142,14 @@
     padding: 5px
     margin: 5px 0px
     position: relative
-    width: 85px
+    width: 100%
   .work_package.prevent_edit
     cursor: default
   .placeholder
     background-color: #FFFF00
     border: 1px dashed #333300
     height: 78px
-    width: 83px
+    width: 100%
   .work_package
     &.closed .subject.editable
       text-decoration: line-through
@@ -290,7 +289,7 @@
   .id
     @include story-header
     text-align: right
-    width: 75px
+    width: 100%
     a
       opacity: 1.0
       filter: alpha(opacity = 100)
@@ -303,7 +302,7 @@
     margin-top: 0
     overflow: hidden
     padding: 2px
-    width: 81px
+    width: 100%
 
 .story
   .story-footer
