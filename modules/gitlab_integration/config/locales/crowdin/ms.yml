@@ -64,6 +64,6 @@ ms:
     push_single_commit_comment: >
       **Ditolak masuk PP** [%{gitlab_user}] (%{gitlab_user_url}) ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Ditolak masuk %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) ditolak ke [%{commit_number}](%{commit_url}) ke [%{repository}](%{repository_url}) di %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **Ditolak masuk PG** [%{gitlab_user}] (%{gitlab_user_url}) beberapa komit telah ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}
