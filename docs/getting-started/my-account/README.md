@@ -270,7 +270,6 @@ OpenProject uses Gravatar as default profile image. It displays a preview of you
 Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded from a file. Press the blue **Update** button to change your profile picture.
 
 > [!TIP]
->
 > The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
 
 ## Delete account
