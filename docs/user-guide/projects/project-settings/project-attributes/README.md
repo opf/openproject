@@ -13,7 +13,6 @@ keywords: project attributes, project settings, enable, disable, project admin
 This guide is aimed at project administrators who want to enable or disable certain project attributes for their project.
 
 > [!NOTE]
->
 > Alongside the project administrators, other users can also be given the permission to enable/disable project attributes by enabling the **Select project attributes** permission for their roles.
 
 >[!TIP]
