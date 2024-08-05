@@ -13,11 +13,7 @@ en:
         idp_sso_service_url: Identity provider login endpoint
         idp_slo_service_url: Identity provider logout endpoint
         idp_cert: Public certificate of identity provider
-        mapping_login: "Login mapping"
-        mapping_mail: "Email mapping"
-        mapping_firstname: "First name mapping"
-        mapping_lastname: "Last name mapping"
-        mapping_uid: "Mapping for internal user ID"
+        format: "Format"
   saml:
     menu_title: SAML providers
     info:
@@ -37,10 +33,14 @@ en:
       label_configuration_details: "Identity provider endpoints and certificates"
       label_add_new: New SAML identity provider
       label_edit: Edit SAML identity provider %{name}
+      label_uid: Internal user id
       label_mapping: Mapping
+      label_mapping_for: "Mapping for: %{attribute}"
+      label_requested_attribute_for: "Requested attribute for: %{attribute}"
       no_results_table: No SAML identity providers have been defined yet.
       plural: SAML identity providers
       singular: SAML identity provider
+      requested_attributes: Requested attributes
       attribute_mapping: Attribute mapping
       attribute_mapping_text: >
         The following fields control which attributes provided by the SAML identity provider 
@@ -61,6 +61,7 @@ en:
         metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill configuration."
         configuration: "Configure the endpoint URLs for the identity provider, certificates, and further SAML options."
         mapping: "Manually adjust the mapping between the SAML response and user attributes in OpenProject."
+        requested_attributes: "Define the set of attributes to be requested in the SAML request sent to your identity provider."
     settings:
       metadata_checkbox: "I have metadata (optional)"
       metadata_url: "Metadata URL"
@@ -104,3 +105,10 @@ en:
         SAML attributes from the response used for the last name.
       mapping_uid: >
         SAML attribute to use for the internal user ID. Leave empty to use the name_id attribute instead
+      request_uid: >
+        SAML attribute to request for the internal user ID. By default, the name_id will be used for this field.
+      requested_attributes: >
+        These attributes are added to the SAML request XML to communicate to the identity provider which attributes OpenProject requires.
+      requested_format: >
+        The format of the requested attribute. This is used to specify the format of the attribute in the SAML request.
+        Please see [documentation on configuring requested attributes](docs_url) for more information.

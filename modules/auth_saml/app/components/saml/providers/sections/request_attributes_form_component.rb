@@ -27,50 +27,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Saml::Providers::Sections
+  class RequestAttributesFormComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-module Saml
-  module Defaults
-    NAME_IDENTIFIER_FORMAT = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
+    attr_reader :provider
 
-    NAME_IDENTIFIER_FORMATS = %w[
-      urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress
-      urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
-      urn:oasis:names:tc:SAML:2.0:nameid-format:persistent
-      urn:oasis:names:tc:SAML:2.0:nameid-format:transient
-    ].freeze
-
-    ATTRIBUTE_FORMATS = %w[
-      urn:oasis:names:tc:SAML:2.0:attrname-format:basic
-      urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified
-      urn:oasis:names:tc:SAML:2.0:attrname-format:uri
-    ].freeze
-
-    MAIL_MAPPING = <<~STR
-      mail
-      email
-      Email
-      emailAddress
-      emailaddress
-      urn:oid:0.9.2342.19200300.100.1.3
-      http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress
-    STR
-
-    FIRSTNAME_MAPPING = <<~STR
-      givenName
-      givenname
-      given_name
-      given_name
-      urn:oid:2.5.4.42
-      http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname
-    STR
-
-    LASTNAME_MAPPING = <<~STR
-      sn
-      surname
-      sur_name
-      given_name
-      urn:oid:2.5.4.4
-      http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname
-    STR
+    def initialize(provider)
+      @provider = provider
+    end
   end
 end

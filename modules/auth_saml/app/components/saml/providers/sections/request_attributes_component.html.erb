@@ -1,0 +1,31 @@
+<%=
+  grid_layout('op-saml-view-row', tag: :div, align_items: :center) do |grid|
+    grid.with_area(:title, mr: 3) do
+      concat render(Primer::Beta::Text.new(font_weight: :bold)) { t("saml.providers.requested_attributes") }
+    end
+
+    grid.with_area(:description) do
+      render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :subtle)) do
+        t("saml.providers.section_texts.requested_attributes")
+      end
+    end
+
+    if provider.persisted?
+      grid.with_area(:action) do
+        flex_layout(justify_content: :flex_end) do |icons_container|
+          icons_container.with_column do
+            render(
+              Primer::Beta::IconButton.new(
+                icon: :pencil,
+                tag: :a,
+                scheme: :invisible,
+                href: edit_saml_provider_path(provider, edit_state: :requested_attributes),
+                aria: { label: I18n.t(:label_edit) }
+              )
+            )
+          end
+        end
+      end
+    end
+  end
+%>

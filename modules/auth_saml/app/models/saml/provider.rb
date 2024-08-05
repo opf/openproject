@@ -21,7 +21,17 @@ module Saml
     store_attribute :options, :mapping_lastname, :string
     store_attribute :options, :mapping_uid, :string
 
-    store_attribute :options, :request_attributes, :json
+    store_attribute :options, :requested_login_attribute, :string
+    store_attribute :options, :requested_mail_attribute, :string
+    store_attribute :options, :requested_firstname_attribute, :string
+    store_attribute :options, :requested_lastname_attribute, :string
+    store_attribute :options, :requested_uid_attribute, :string
+
+    store_attribute :options, :requested_login_format, :string
+    store_attribute :options, :requested_mail_format, :string
+    store_attribute :options, :requested_firstname_format, :string
+    store_attribute :options, :requested_lastname_format, :string
+    store_attribute :options, :requested_uid_format, :string
 
     attr_accessor :readonly
 

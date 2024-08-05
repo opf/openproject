@@ -41,6 +41,7 @@ module Saml
         model.change_by_system do
           set_default_creator
           set_default_mapping
+          set_default_requested_attributes
           set_issuer
           set_name_identifier_format
         end
@@ -73,7 +74,18 @@ module Saml
         model.mapping_mail ||= Saml::Defaults::MAIL_MAPPING
         model.mapping_firstname ||= Saml::Defaults::FIRSTNAME_MAPPING
         model.mapping_lastname ||= Saml::Defaults::LASTNAME_MAPPING
-        model.request_attributes ||= Saml::Defaults::REQUESTED_ATTRIBUTES
+      end
+
+      def set_default_requested_attributes
+        model.requested_login_attribute ||= Saml::Defaults::MAIL_MAPPING.split("\n").first
+        model.requested_mail_attribute ||= Saml::Defaults::MAIL_MAPPING.split("\n").first
+        model.requested_firstname_attribute ||= Saml::Defaults::FIRSTNAME_MAPPING.split("\n").first
+        model.requested_lastname_attribute ||= Saml::Defaults::LASTNAME_MAPPING.split("\n").first
+
+        model.requested_login_format ||= Saml::Defaults::ATTRIBUTE_FORMATS.first
+        model.requested_mail_format ||= Saml::Defaults::ATTRIBUTE_FORMATS.first
+        model.requested_firstname_format ||= Saml::Defaults::ATTRIBUTE_FORMATS.first
+        model.requested_lastname_format ||= Saml::Defaults::ATTRIBUTE_FORMATS.first
       end
 
       def set_issuer
