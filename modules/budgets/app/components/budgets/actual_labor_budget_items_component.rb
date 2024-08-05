@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Budgets::ActualLaborBudgetItemsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+class Budgets::ActualLaborBudgetItemsComponent < ApplicationComponent
   options :budget, :project
 
   def by_work_package_and_time_entry
@@ -58,7 +58,7 @@ class Budgets::ActualLaborBudgetItemsComponent < ApplicationComponent # rubocop:
   end
 
   def entry_user(entry)
-    entry.user.name
+    helpers.avatar(entry.principal, hide_name: false, size: :mini)
   end
 
   def entry_costs(entry)
