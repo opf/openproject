@@ -31,7 +31,7 @@ describe('GitActionsMenuComponent', () => {
   }
 
   beforeEach(async () => {
-    const gitActionsServiceSpy = jasmine.createSpyObj('GitActionsService', ['gitCommand', 'commitMessage', 'branchName']);
+    const gitActionsServiceSpy = jasmine.createSpyObj('GitActionsService', ['gitCommand', 'commitMessage', 'commitMessageDisplayText', 'branchName']);
 
     await TestBed
       .configureTestingModule({

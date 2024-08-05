@@ -78,6 +78,10 @@ ${url}
 `.replace(/\n\n+/g, '\n\n');
   }
 
+  public commitMessageDisplayText(workPackage:WorkPackageResource):string {
+    return this.commitMessage(workPackage).replace(/\n\n/g, ' ');
+  }
+
   public gitCommand(workPackage:WorkPackageResource):string {
     const branch = this.branchName(workPackage);
     const commit = this.commitMessage(workPackage);
