@@ -281,7 +281,6 @@ To delete your account, select **Delete account** from the side menu and enter y
 ![openproject_my_account_delete_account](openproject_my_account_delete_account.png)
 
 > [!WARNING]
->
 > Deleting a user account is permanent and cannot be reversed.
 
 If you cannot see the entry **Delete account** in the **My account** side menu, make sure the option "Users allowed to delete their account" is [activated in the administration](../../system-admin-guide/users-permissions/settings/#user-deletion).
