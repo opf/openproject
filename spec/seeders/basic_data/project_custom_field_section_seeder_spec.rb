@@ -54,15 +54,14 @@ RSpec.describe BasicData::ProjectCustomFieldSectionSeeder do
       SEEDING_DATA_YAML
     end
 
-    it "creates the corresponding sections with the given attributes" do
+    it "creates the corresponding sections with the given attributes", :aggregate_failures do
       expect(ProjectCustomFieldSection.count).to eq(2)
       expect(ProjectCustomFieldSection.find_by(name: "Project Attributes"))
         .to have_attributes(position: 1)
       expect(ProjectCustomFieldSection.find_by(name: "Project Attributes Two"))
         .to have_attributes(position: 2)
-    end
 
-    it "references the section in the seed data" do
+      # references the section in the seed data
       created_status = ProjectCustomFieldSection.last
       expect(seed_data.find_reference(:section_two)).to eq(created_status)
     end
