@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,24 +24,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Notifications
-  class IndexSubHeaderComponent < ApplicationComponent
-    include ApplicationHelper
+require "spec_helper"
 
-    attr_reader :facet, :filter_type, :filter_name
+RSpec.describe "Notifications",
+               :skip_csrf,
+               type: :rails_request do
+  shared_let(:user) { create(:user) }
 
-    def initialize(project: nil, facet: nil, filter_type: nil, filter_name: nil)
-      super
-      @project = project
-      @facet = facet
-      @filter_type = filter_type
-      @filter_name = filter_name
-    end
+  before do
+    login_as user
+  end
 
-    def current_filters
-      @current_filters ||= { filter: @filter_type, name: @filter_name }.compact
+  describe "GET /notifications" do
+    context "with filters present" do
+      it "renders the facet switch with the current filters (Regression #56916)" do
+        get notifications_path(filter: "reason", name: "mentioned")
+
+        expect(page).to have_link("Show all") { |link|
+          link["href"] == notifications_path(facet: "all", filter: "reason", name: "mentioned")
+        }
+      end
     end
   end
 end
