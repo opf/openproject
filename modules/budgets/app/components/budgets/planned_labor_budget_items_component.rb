@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Budgets::PlannedLaborBudgetItemsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+class Budgets::PlannedLaborBudgetItemsComponent < ApplicationComponent
   options :budget, :project
 
   def item_hours(item)
@@ -36,7 +36,7 @@ class Budgets::PlannedLaborBudgetItemsComponent < ApplicationComponent # rubocop
   end
 
   def item_user(item)
-    item.user.name
+    helpers.avatar(item.principal, hide_name: false, size: :mini)
   end
 
   def item_comments(item)
