@@ -38,25 +38,20 @@ module Storages::Admin
 
     def self.wrapper_key = :storage_general_info_section
 
-    def initialize(model = nil, **options)
-      auth_strategy = ::Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
-                        .strategy
-                        .with_user(User.current)
-
-      @href_result = ::Storages::Peripherals::Registry
-                       .resolve("#{model.short_provider_type}.queries.open_storage")
-                       .call(storage: model, auth_strategy:)
-
-      super
-    end
-
-    def open_link_was_generated
-      @href_result.on_success { return true }
-      @href_result.on_failure { return false }
-    end
-
     def open_href
-      @href_result.result
+      url = ::API::V3::Utilities::PathHelper::ApiV3Path.storage_open(storage.id)
+
+      return url if storage.provider_type_nextcloud?
+
+      oauth_clients_ensure_connection_url(
+        oauth_client_id: storage.oauth_client.client_id,
+        storage_id: storage.id,
+        destination_url: url
+      )
+    end
+
+    def can_show_open_link?
+      storage.provider_type_nextcloud? || storage.oauth_client.present?
     end
   end
 end
