@@ -542,12 +542,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             caption: :label_backlogs,
             icon: "op-backlogs"
-
-  menu.push :backlogs_settings,
-            { controller: "/backlogs_settings", action: :show },
-            if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
-            parent: :admin_backlogs
 end
 
 Redmine::MenuManager.map :project_menu do |menu|

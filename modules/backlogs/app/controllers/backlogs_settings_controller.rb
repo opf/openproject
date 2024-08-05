@@ -28,7 +28,7 @@
 
 class BacklogsSettingsController < ApplicationController
   layout "admin"
-  menu_item :backlogs_settings
+  menu_item :admin_backlogs
 
   before_action :require_admin
   before_action :check_valid_settings, only: :update
@@ -43,12 +43,10 @@ class BacklogsSettingsController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
-  def default_breadcrumb
-    I18n.t(:label_backlogs)
-  end
+  def default_breadcrumb; end
 
   private
 
