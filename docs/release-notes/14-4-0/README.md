@@ -3,14 +3,14 @@ title: OpenProject 14.4.0
 sidebar_navigation:
     title: 14.4.0
 release_version: 14.4.0
-release_date: 2024-08-01
+release_date: 2024-08-14
 ---
 
 # OpenProject 14.4.0
 
-Release date: 2024-08-01
+Release date: 2024-08-14
 
-We released OpenProject [OpenProject 14.4.0](https://community.openproject.org/versions/2063). The release contains several bug fixes and we recommend updating to the newest version. 
+We released [OpenProject 14.4.0](https://community.openproject.org/versions/2063). The release contains several bug fixes and we recommend updating to the newest version. 
 
 In these Release Notes, we will give an overview of important technical updates as well as important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
@@ -112,7 +112,7 @@ To improve efficiency and access to file storages, OpenProject 14.4 allows admin
 
 In the "General information" section, there is now a link that opens in a new window and leads to the root folder of the storage. For Nextcloud, this link refers to the root folder of the Nextcloud instance. For OneDrive/SharePoint, the link refers to the root folder of the drive ID and also works with "OneDrive Business".
 
-For more details, see https://community.openproject.org/wp/56045.
+See https://community.openproject.org/wp/56045 for more information on this feature.
 
 ### Show changes of long text custom fields in the activity similar to changes in the description
 
@@ -122,7 +122,7 @@ In the activity tab, updates to long text custom fields will be displayed as in 
 
 ![Example screenshot showing how changes on a custom field will now look like in the work package activity tab](Custom_field__long_text__changed.png)
 
-Clicking on the "Details" link will take the user to the diff, view which is also used for work package descriptions and project status explanations.
+Clicking on the "Details" link will take the user to the diff view, which is also used for work package descriptions and project status explanations.
 
 <!--more-->
 
