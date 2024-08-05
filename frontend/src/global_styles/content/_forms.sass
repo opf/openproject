@@ -86,8 +86,6 @@ form
     &.-medium-compressed
       padding: 10px 20px 20px 20px
 
-    & ng-select, select
-      background-color: var(--body-background) !important
   &.danger-zone
     border: 1px solid var(--content-form-danger-zone-bg-color)
     // For correct display in IE
@@ -656,6 +654,18 @@ input[readonly].-clickable
     // in height in foundation for apps.
     height: auto
     min-width: 40px
+
+  option
+    background: var(--body-background)
+    color: var(--body-font-color)
+
+    &[disabled]
+      background-color: var(--bgColor-disabled)
+      color: var(--fgColor-disabled)
+
+  optgroup
+    background-color: var(--body-background)
+    color: var(--body-font-color)
 
 .form--inline-select
   display: inline-block

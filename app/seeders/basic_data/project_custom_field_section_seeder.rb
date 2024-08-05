@@ -25,23 +25,17 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Standard
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinUsersSeeder,
-        ::BasicData::ProjectRoleSeeder,
-        ::BasicData::WorkPackageRoleSeeder,
-        ::BasicData::ProjectQueryRoleSeeder,
-        ::BasicData::GlobalRoleSeeder,
-        ::BasicData::TimeEntryActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::BasicData::WorkflowSeeder,
-        ::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder,
-        ::BasicData::ProjectCustomFieldSectionSeeder
-      ]
+module BasicData
+  class ProjectCustomFieldSectionSeeder < ModelSeeder
+    self.model_class = ProjectCustomFieldSection
+    self.seed_data_model_key = "project_custom_field_sections"
+    self.attribute_names_for_lookups = %i[position]
+
+    def model_attributes(section_data)
+      {
+        name: section_data["name"],
+        position: section_data["position"]
+      }
     end
   end
 end

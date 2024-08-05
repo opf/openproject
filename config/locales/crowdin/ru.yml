@@ -487,7 +487,7 @@ ru:
         is_readonly: "Только для чтения"
         excluded_from_totals: "Исключен из итогов"
   themes:
-    dark: "Тёмная тема (экспериментальная)"
+    dark: "Dark (Beta)"
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
   types:

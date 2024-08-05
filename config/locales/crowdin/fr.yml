@@ -475,7 +475,7 @@ fr:
         is_readonly: "Lecture seule"
         excluded_from_totals: "Exclus des totaux"
   themes:
-    dark: "Sombre (expérimental)"
+    dark: "Dark (Beta)"
     light: "Clair"
     light_high_contrast: "Clair avec contraste élevé"
   types:
