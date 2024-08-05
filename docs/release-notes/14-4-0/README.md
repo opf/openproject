@@ -44,7 +44,11 @@ For more details, see https://community.openproject.org/wp/36233.
 
 ### Project attributes: Separate permissions for viewing and editing
 
-Text
+In OpenProject 14.4, new permissions for managing project attributes provide project admins with more control over who can view and edit these attributes.
+
+The update adds two new permissions: 'View project attributes' and 'Edit project attributes.' 'View project attributes' is added to all roles, while 'Edit project attributes' is added to roles with the 'Edit project' permission.
+
+Permissions are now independent, so users with 'Edit project' can lack the new permissions. Users without 'View project attributes' cannot see or search project attributes in the overview, settings, list, exports, API, or Schema API. Users without 'Edit project attributes' cannot modify these attributes but can view them if they have view permission.
 
 For more details, see https://community.openproject.org/wp/50844.
 
