@@ -29,6 +29,8 @@
 class DeployTargetsController < ApplicationController
   layout "admin"
 
+  menu_item :admin_github_integration
+
   before_action :require_admin
 
   def index
