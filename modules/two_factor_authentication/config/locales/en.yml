@@ -30,6 +30,7 @@ en:
 
   two_factor_authentication:
     error_2fa_disabled: "2FA delivery has been disabled."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "No registered 2FA device found for this user, despite being required for this instance."
     error_no_matching_strategy: "No matching 2FA strategy available for this user. Please contact your administratior."
     error_is_enforced_not_active: "Configuration error: Two-factor authentication has been enforced, but no active strategies exist."
