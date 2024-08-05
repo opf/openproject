@@ -60,9 +60,11 @@ For more details on status-based progress reporting, see our [system admin guide
 
 ### Nextcloud storages: Connection validation
 
-Text
+Last month, we released a connection validation feature for OneDrive/SharePoint storages. With OpenProject 14.4, we add a connection validation for Nextcloud storages. This feature allows administrators to verify if the storage works as expected and provides helpful feedback if issues arise. A new button enables the manual triggering of a connection test and validation of the Nextcloud storage settings. If an error occurs during the test, it will be displayed along with an explanation and helpful information.
 
-For more details, see https://community.openproject.org/wp/55836.
+The validations include checking if the external storage server is reachable, verifying for SSL errors, ensuring the server is accessible, confirming that necessary apps are activated on Nextcloud and that their versions are compatible, and validating the app password.
+
+Read more about connection validation for Nextcloud in our [system admin guide](https://www.openproject-edge.com/docs/system-admin-guide/files/external-file-storages/health-status/#connection-validation-for-nextcloud).
 
 ### Project lists: Select/Exclude projects in project list explicitly via filter
 
@@ -193,7 +195,7 @@ For more details, see https://community.openproject.org/wp/55280.
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
-A very special thank you goes to the City of Cologne again for sponsoring features on project lists. 
+A very special thank you goes to the City of Cologne again for sponsoring features on project attributes and project lists. 
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
 Special thanks for reporting and finding bugs go to Johan Bouduin, 俊侯 何, Sven Kunze, Marcel Carvalho and mac edit.
