@@ -68,11 +68,11 @@ Read more about connection validation for Nextcloud in our [system admin guide](
 
 ### Project lists: Select/Exclude projects in project list explicitly via filter
 
-In OpenProject 14.4, users can now explicitly select or exclude individual projects in the project list using a filter. This feature allows users to limit and refine their project lists more precisely.
+In OpenProject 14.4, users can now **explicitly select or exclude individual projects in the project list, using a filter**. This feature allows users to limit and refine their project lists more precisely. Within the filter section of the project list, there is a new filter called "Project." This filter supports the "is (OR)" and "is not" operators and allows selecting projects via an autocompleter with multiselect capability.
 
-Within the filter section of the project list, there is a new filter called "Project." This filter supports the "is (OR)" and "is not" operators and allows selecting projects via an autocompleter with multiselect capability.
+For example, you can filter your active projects by excluding certain projects:
 
-For example, you can manually select specific projects such as Project A, C, and F, or filter all projects in status red but exclude Project B from the list even if Project B meets the filter criteria.
+![Screenshot of OpenProject 14.4, filtering project lists with 'Project' 'is not'](openproject-14-4-project-lists-filter.png)
 
 For more details, see https://community.openproject.org/wp/55233.
 
