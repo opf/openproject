@@ -73,8 +73,8 @@ class GitlabMergeRequest < ApplicationRecord
 
   def latest_pipelines
     with_logging do
-      gitlab_pipelines.select("DISTINCT ON (gitlab_pipelines.project_id, gitlab_pipelines.name) *")
-                      .order(project_id: :asc, name: :asc, started_at: :desc)
+      gitlab_pipelines.select("DISTINCT ON (gitlab_pipelines.project_id, gitlab_pipelines.gitlab_id) *")
+                      .order(project_id: :asc, gitlab_id: :desc, started_at: :desc)
     end
   end
 
