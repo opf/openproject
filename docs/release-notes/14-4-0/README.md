@@ -92,13 +92,13 @@ For upcoming meetings, the tab will display them in chronological order with the
 
 ### Design: Improve avatar color generation so that users with same names are distinguishable
 
-Some users share the same name or create several accounts with the same name. To be able to tell them apart, e.g. when looking through search results for that name, we improved the avatar color generation, so that users with the same name have different colors. We recommend uploading an avatar image so that the distinction is even more obvious.
+Some users share the same name or create several accounts with the same name. To be able to tell them apart, e.g. when looking through search results for that name, we improved the avatar color generation, so that **users with the same name are displayed with different colors**. We recommend uploading an avatar image so that the distinction is even more obvious.
 
 ### Dropdown menu on work packages: Move "Copy link to clipboard" up
 
-Text
+To avoid confusion with the "copy" or "copy to another project" actions, we have moved the "copy link to clipboard" action upwards in the drop-down menu for work packages. This action is now in third place in the work package table view. In the work package detail view, the action is now in first position.
 
-For more details, see https://community.openproject.org/wp/56058.
+![Detailed view of a work package, drop down menu with highlighted 'Copy link to clipboard'](openproject-14-4-copy-link.png)
 
 ### Add link to storage provider in storage edit view
 
