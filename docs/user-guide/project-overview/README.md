@@ -39,7 +39,6 @@ Open the project overview by navigating to **Overview** in the project menu on t
 You will see a list of all available project attributes in a pane on the right side of of your Project overview page. They may be grouped in sections.
 
 > [!TIP]
->
 > Your view of the project attributes may vary depending on on your  [roles and permissions in OpenProject](../../system-admin-guide/users-permissions/roles-permissions/). 
 >
 > The project attributes are visible for users with the **View project attributes** permission enabled. The editing icons are visible for users with the **Edit project attributes** permission.
