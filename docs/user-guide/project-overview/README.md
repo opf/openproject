@@ -76,7 +76,6 @@ You can archive a project directly from the project overview page. To do that cl
 ![Archive a project on the project overview page in OpenProject](openproject_user_guide_project_overview_archive_project.png)
 
 >[!NOTE]
->
 >This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the *archive_project* permission for that role via the [Roles and permissions page](../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
 
 You can also archive a project under [project settings](../projects/#archive-a-project) or in a [projects list](../projects/project-lists/). 
