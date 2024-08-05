@@ -51,7 +51,11 @@ RSpec.describe "bim/ifc_models/ifc_models/index" do
   before do
     assign(:project, project)
     ifc_models = [ifc_model]
-    allow(ifc_models).to receive(:defaults).and_return(ifc_models)
+
+    without_partial_double_verification do
+      allow(ifc_models).to receive(:defaults).and_return(ifc_models)
+    end
+
     assign(:ifc_models, ifc_models)
 
     controller.request.path_parameters[:project_id] = project.id

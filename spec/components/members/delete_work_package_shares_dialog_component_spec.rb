@@ -61,7 +61,9 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
   let(:may_manage_user?) { true }
 
   before do
-    allow(member).to receive_messages(stubs)
+    without_partial_double_verification do
+      allow(member).to receive_messages(stubs)
+    end
   end
 
   context "when there are direct, inherited and shares with filtered out role" do

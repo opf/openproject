@@ -45,19 +45,21 @@ RSpec.describe Queries::TimeEntries::Filters::ActivityFilter do
       .to receive_message_chain(:where, :or)
       .and_return(activities)
 
-    allow(activities)
-      .to receive(:where)
-      .and_return(activities)
+    without_partial_double_verification do
+      allow(activities)
+        .to receive(:where)
+        .and_return(activities)
 
-    allow(activities)
-      .to receive(:pluck)
-      .with(:id)
-      .and_return(activities.map(&:id))
+      allow(activities)
+        .to receive(:pluck)
+        .with(:id)
+        .and_return(activities.map(&:id))
 
-    allow(activities)
-      .to receive(:pluck)
-      .with(:name, :id)
-      .and_return(activities.map { |x| [x.name, x.id] })
+      allow(activities)
+        .to receive(:pluck)
+        .with(:name, :id)
+        .and_return(activities.map { |x| [x.name, x.id] })
+    end
   end
 
   it_behaves_like "basic query filter" do

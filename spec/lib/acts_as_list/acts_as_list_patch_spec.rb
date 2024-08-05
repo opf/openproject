@@ -43,25 +43,33 @@ RSpec.describe "Models acting as list (acts_as_list)" do
     end
 
     it "moves to top when wanting to move highest" do
-      expect(includer).to receive :move_to_top
+      without_partial_double_verification do
+        expect(includer).to receive :move_to_top
+      end
 
       includer.move_to = "highest"
     end
 
     it "moves to bottom when wanting to move lowest" do
-      expect(includer).to receive :move_to_bottom
+      without_partial_double_verification do
+        expect(includer).to receive :move_to_bottom
+      end
 
       includer.move_to = "lowest"
     end
 
     it "moves higher when wanting to move higher" do
-      expect(includer).to receive :move_higher
+      without_partial_double_verification do
+        expect(includer).to receive :move_higher
+      end
 
       includer.move_to = "higher"
     end
 
     it "moves lower when wanting to move lower" do
-      expect(includer).to receive :move_lower
+      without_partial_double_verification do
+        expect(includer).to receive :move_lower
+      end
 
       includer.move_to = "lower"
     end

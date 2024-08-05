@@ -108,7 +108,10 @@ RSpec.describe "OpenProject child pages macro" do
     login_as user
     leaf_page
     leaf_page_invisible_project
-    allow(Setting).to receive(:text_formatting).and_return("markdown")
+
+    without_partial_double_verification do
+      allow(Setting).to receive(:text_formatting).and_return("markdown")
+    end
   end
 
   def error_html(exception_msg)

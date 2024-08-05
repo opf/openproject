@@ -407,7 +407,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
             end
 
             it "is rejected against google" do
-              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user, any_args)
 
               post :omniauth_login, params: { provider: :google }
 
@@ -416,7 +416,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
             end
 
             it "is rejected against any other provider too" do
-              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user, any_args)
 
               omniauth_hash.provider = "any other"
               post :omniauth_login, params: { provider: :google }
@@ -434,7 +434,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
             end
 
             it "is rejected against google" do
-              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user, any_args)
 
               post :omniauth_login, params: { provider: :google }
 
@@ -461,7 +461,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
             # ... and to confirm that, here's what happens when the authorization fails
             it "is rejected against any other provider with the wrong email" do
-              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user, any_args)
 
               omniauth_hash.provider = "yet another"
               config.global_email = "yarrrr@joro.es"

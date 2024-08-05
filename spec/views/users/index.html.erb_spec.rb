@@ -39,9 +39,11 @@ RSpec.describe "users/index" do
     assign(:status, "all")
     assign(:groups, Group.all)
 
-    allow(view).to receive(:current_user).and_return(admin)
-    allow(view).to receive(:controller_name).and_return("users")
-    allow(view).to receive(:action_name).and_return("index")
+    without_partial_double_verification do
+      allow(view).to receive(:current_user).and_return(admin)
+      allow(view).to receive(:controller_name).and_return("users")
+      allow(view).to receive(:action_name).and_return("index")
+    end
   end
 
   subject { rendered.squish }

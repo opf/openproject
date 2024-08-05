@@ -322,7 +322,6 @@ RSpec.describe CustomStylesController do
       context "if it exists" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
-          allow(custom_style).to receive(:remove_cover).and_call_original
           delete :export_cover_delete
         end
 

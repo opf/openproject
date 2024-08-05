@@ -66,7 +66,7 @@ RSpec.describe BacklogsSettingsController do
       it "does not update the settings" do
         expect(Setting)
           .not_to(receive(:[]=))
-          .with("plugin_openproject_backlogs")
+          .with("plugin_openproject_backlogs", any_args)
 
         subject
 
@@ -97,7 +97,7 @@ RSpec.describe BacklogsSettingsController do
         it "does not update the settings" do
           expect(Setting)
             .not_to(receive(:[]=))
-            .with("plugin_openproject_backlogs")
+            .with("plugin_openproject_backlogs", any_args)
 
           subject
 

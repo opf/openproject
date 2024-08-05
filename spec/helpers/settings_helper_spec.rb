@@ -152,10 +152,13 @@ RSpec.describe SettingsHelper do
     before do
       allow(Setting).to receive(:host_name).at_least(:once).and_return("2")
       allow(Setting).to receive(:protocol).at_least(:once).and_return("3")
-      allow(Setting).to receive_messages(
-        host_name_writable?: true,
-        protocol_writable?: true
-      )
+
+      without_partial_double_verification do
+        allow(Setting).to receive_messages(
+          host_name_writable?: true,
+          protocol_writable?: true
+        )
+      end
     end
 
     it_behaves_like "not wrapped in container"

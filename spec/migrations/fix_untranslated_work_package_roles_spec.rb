@@ -76,7 +76,7 @@ RSpec.describe FixUntranslatedWorkPackageRoles, type: :model do
 
       describe "when #{env_var_name} is set with an unsupported language", :settings_reset do
         it "uses the English name", :settings_reset do
-          allow(Settings).to receive(:default_language).and_return("pt-br")
+          allow(Setting).to receive(:default_language).and_return("pt-br")
           run_migration
 
           expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_EDITOR))

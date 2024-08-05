@@ -58,9 +58,11 @@ RSpec.describe CustomFieldFormBuilder do
     end
 
     before do
-      allow(resource)
-        .to receive(custom_field.attribute_getter)
-              .and_return(typed_value)
+      without_partial_double_verification do
+        allow(resource)
+          .to receive(custom_field.attribute_getter)
+                .and_return(typed_value)
+      end
     end
 
     subject(:output) do
@@ -259,9 +261,11 @@ RSpec.describe CustomFieldFormBuilder do
       before do
         custom_field.field_format = "user"
 
-        allow(project)
-          .to receive(custom_field.attribute_getter)
-          .and_return typed_value
+        without_partial_double_verification do
+          allow(project)
+            .to receive(custom_field.attribute_getter)
+            .and_return typed_value
+        end
 
         allow(project)
           .to(receive(:principals))
@@ -314,13 +318,16 @@ RSpec.describe CustomFieldFormBuilder do
 
       before do
         custom_field.field_format = "version"
-        allow(project)
-          .to receive(custom_field.attribute_getter)
-                .and_return typed_value
 
-        allow(project)
-          .to receive(:shared_versions)
-                .and_return([version1, version2])
+        without_partial_double_verification do
+          allow(project)
+            .to receive(custom_field.attribute_getter)
+                  .and_return typed_value
+
+          allow(project)
+            .to receive(:shared_versions)
+                  .and_return([version1, version2])
+        end
       end
 
       it_behaves_like "wrapped in container", "select-container" do

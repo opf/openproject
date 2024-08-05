@@ -32,19 +32,21 @@ RSpec.describe API::V3::Groups::GroupCollectionRepresenter do
   let(:self_base_link) { "/api/v3/groups" }
   let(:groups) do
     build_stubbed_list(:group, 3).tap do |groups|
-      allow(groups)
-        .to receive(:offset)
-        .with(page - 1)
-        .and_return(groups)
+      without_partial_double_verification do
+        allow(groups)
+          .to receive(:offset)
+          .with(page - 1)
+          .and_return(groups)
 
-      allow(groups)
-        .to receive(:limit)
-        .with(page_size)
-        .and_return(groups)
+        allow(groups)
+          .to receive(:limit)
+          .with(page_size)
+          .and_return(groups)
 
-      allow(groups)
-        .to receive(:count)
-        .and_return(total)
+        allow(groups)
+          .to receive(:count)
+          .and_return(total)
+      end
     end
   end
   let(:current_user) { build_stubbed(:user) }

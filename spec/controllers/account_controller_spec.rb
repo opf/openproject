@@ -519,7 +519,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with a valid token" do
         before do
-          allow(controller).to receive(:allow_lost_password_recovery).and_return(true)
+          allow(controller).to receive(:allow_lost_password_recovery?).and_return(true)
 
           post :lost_password, params: { token: token.value }
         end
