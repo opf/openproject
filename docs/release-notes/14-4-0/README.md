@@ -18,7 +18,9 @@ In these Release Notes, we will give an overview of important technical updates 
 
 ### Extend API authentication to accept JWT issued by OpenID provider to other client
 
-Text
+OpenProject 14.4 introduces a new feature that allows OpenID clients, such as Nextcloud servers, to use access tokens obtained from an OpenID provider, like Keycloak, as an authentication mechanism for the OpenProject API. This enhancement enables users to skip the OAuth grant flow, streamlining the authentication process.
+
+With this feature, the OpenProject API will validate access tokens issued by the OpenID provider (Keycloak) by checking the token's signature and authenticating the user using the sub claim value. This integration ensures secure and efficient API authentication for OpenID clients.
 
 For more details, see https://community.openproject.org/wp/55643.
 
@@ -89,6 +91,12 @@ For more details, see https://community.openproject.org/wp/56058.
 Text
 
 For more details, see https://community.openproject.org/wp/56045.
+
+### Show changes of long text custom fields in the activity similar to changes in the description
+
+Text
+
+For more details, see https://community.openproject.org/wp/55280.
 
 <!--more-->
 
