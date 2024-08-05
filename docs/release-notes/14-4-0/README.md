@@ -54,9 +54,9 @@ For more details, see https://community.openproject.org/wp/50844.
 
 ### Status-based progress reporting: Freely input % complete values for statuses
 
-Text
+We have improved the status-based progress indicator in OpenProject. As requested by some users, you can now enter any percentage value in the "% Complete" field, e.g. 9% or 73%, instead of being limited to 10% increments. Please note that only integer values between 1 and 100 are allowed, so decimal values or non-numeric inputs will not be accepted.
 
-For more details, see https://community.openproject.org/wp/55803.
+For more details on status-based progress reporting, see our [system admin guide](https://www.openproject-edge.com/docs/system-admin-guide/manage-work-packages/work-package-status/).
 
 ### Nextcloud storages: Connection validation
 
@@ -193,11 +193,10 @@ For more details, see https://community.openproject.org/wp/55280.
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
-A very special thank you goes to our sponsors for this release.
+A very special thank you goes to the City of Cologne again for sponsoring features on project lists. 
+
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
-Special thanks for reporting and finding bugs go to Johan Bouduin, 俊侯 何, Sven Kunze, Marcel Carvalho, mac edit, Ivan Kuchin.
+Special thanks for reporting and finding bugs go to Johan Bouduin, 俊侯 何, Sven Kunze, Marcel Carvalho and mac edit.
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings!
-Would you like to help out with translations yourself?
-Then take a look at our translation guide and find out exactly how you can contribute.
-It is very much appreciated!
+Would you like to help out with translations yourself? Then take a look at our translation guide and find out exactly how you can contribute. It is very much appreciated!
