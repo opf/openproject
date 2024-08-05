@@ -60,7 +60,6 @@ To adjust the the project attribute settings for a specific project click the **
 ![Link to project attribute settings from project overview page in OpenProject](openproject_user_guide_project_overview_project_attributes_settings.png)
 
 >[!NOTE]
->
 >This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the *select_project_attributes* permission for that role via the [Roles and permissions page](../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
 
 ## Mark a project as favorite
