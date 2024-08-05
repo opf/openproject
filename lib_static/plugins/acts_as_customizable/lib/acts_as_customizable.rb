@@ -168,7 +168,7 @@ module Redmine
         end
 
         def visible_custom_field_values
-          custom_field_values.select(&:visible?)
+          custom_field_values.reject(&:admin_only?)
         end
 
         def custom_value_for(c)
