@@ -67,16 +67,19 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
     {
       id: 'branch',
       name: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.branch_name'),
+      textToDisplay: () => this.gitActions.branchName(this.workPackage),
       textToCopy: () => this.gitActions.branchName(this.workPackage)
     },
     {
       id: 'message',
       name: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.commit_message'),
+      textToDisplay: () => this.gitActions.commitMessageDisplayText(this.workPackage),
       textToCopy: () => this.gitActions.commitMessage(this.workPackage)
     },
     {
       id: 'command',
       name: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.cmd'),
+      textToDisplay: () => this.gitActions.gitCommand(this.workPackage),
       textToCopy: () => this.gitActions.gitCommand(this.workPackage)
     },
   ];
