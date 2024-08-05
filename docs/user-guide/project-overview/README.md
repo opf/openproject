@@ -146,7 +146,6 @@ The description can be added or changed in the [project settings](../projects/pr
 ### Project details widget
 
 > [!IMPORTANT]
->
 > Project details widget was replaced by [Project attributes](#project-attributes) in [OpenProject 14.0](../../release-notes/14-0-0/) and will be removed in the future.
 
 The project details widget displays all custom fields for projects, e.g. project owner, project due date, project number, or any other custom field for this project.
