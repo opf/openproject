@@ -102,7 +102,9 @@ To avoid confusion with the "copy" or "copy to another project" actions, we have
 
 ### Add link to storage provider in storage edit view
 
-Text
+To improve efficiency and access to file storages, OpenProject 14.4 allows administrators to click on a **direct link to the storage provider in the edit view of the storage**.
+
+In the "General information" section, there is now a link that opens in a new window and leads to the root folder of the storage. For Nextcloud, this link refers to the root folder of the Nextcloud instance. For OneDrive/SharePoint, the link refers to the root folder of the drive ID and also works with "OneDrive Business".
 
 For more details, see https://community.openproject.org/wp/56045.
 
