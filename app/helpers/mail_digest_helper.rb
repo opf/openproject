@@ -27,6 +27,8 @@
 #++
 
 module MailDigestHelper
+  include Redmine::I18n
+
   def digest_summary_text(notification_count, mentioned_count)
     mentioned = mentioned_count > 1 ? "plural" : "singular"
     notifications = notification_count > 1 ? "plural" : "singular"
@@ -75,9 +77,7 @@ module MailDigestHelper
     sanitize(
       I18n.t(:"mail.work_packages.#{value}_at",
              user:,
-             timestamp: journal.created_at.strftime(
-               "#{I18n.t(:"date.formats.default")}, #{I18n.t(:"time.formats.time")}"
-             ))
+             timestamp: format_time(journal.created_at))
     )
   end
 

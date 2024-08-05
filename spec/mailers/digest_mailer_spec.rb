@@ -102,7 +102,7 @@ RSpec.describe DigestMailer do
     end
 
     it "includes the notifications grouped by work package" do
-      time_stamp = journal.created_at.strftime("%m/%d/%Y, %I:%M %p")
+      time_stamp = format_time(journal.created_at)
       expect(mail_body)
         .to have_text("Hello #{recipient.firstname}")
 
