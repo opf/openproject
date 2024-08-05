@@ -214,7 +214,7 @@ Clicking on the "Details" link will take the user to the diff view, which is als
 A very special thank you goes to the City of Cologne again for sponsoring features on project attributes and project lists. 
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
-Special thanks for reporting and finding bugs go to Johan Bouduin, 俊侯 何, Sven Kunze, Marcel Carvalho and mac edit.
+Special thanks for reporting and finding bugs go to Johan Bouduin, Sven Kunze and Marcel Carvalho.
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight the three following users: 
 - [Jeff Li](https://crowdin.com/profile/jeff_li) for translations to Chinese Simplified,
