@@ -27,31 +27,25 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Admin
-  class GeneralInfoComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-    include StorageViewInformation
 
-    alias_method :storage, :model
+module Storages
+  module Admin
+    class GeneralInfoComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
+      include StorageViewInformation
 
-    def self.wrapper_key = :storage_general_info_section
+      alias_method :storage, :model
 
-    def open_href
-      url = ::API::V3::Utilities::PathHelper::ApiV3Path.storage_open(storage.id)
+      def self.wrapper_key = :storage_general_info_section
 
-      return url if storage.provider_type_nextcloud?
+      def open_href
+        OpenStorageLinks.static_link(storage)
+      end
 
-      oauth_clients_ensure_connection_url(
-        oauth_client_id: storage.oauth_client.client_id,
-        storage_id: storage.id,
-        destination_url: url
-      )
-    end
-
-    def can_show_open_link?
-      storage.provider_type_nextcloud? || storage.oauth_client.present?
+      def can_show_open_link?
+        OpenStorageLinks.can_generate_static_link?(storage)
+      end
     end
   end
 end
