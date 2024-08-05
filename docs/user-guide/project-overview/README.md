@@ -38,19 +38,22 @@ Open the project overview by navigating to **Overview** in the project menu on t
 
 You will see a list of all available project attributes in a pane on the right side of of your Project overview page. They may be grouped in sections.
 
-The project attributes are visible for users with the **View project attributes** permission enabled.
+> [!TIP]
+>
+> Your view of the project attributes may vary depending on on your  [roles and permissions in OpenProject](../../system-admin-guide/users-permissions/roles-permissions/). 
+>
+> The project attributes are visible for users with the **View project attributes** permission enabled. The editing icons are visible for users with the **Edit project attributes** permission.
 
 ![Project overview page showing project attributes on the right side](openproject_user_guide_project_overview_project_attributes_section_new.png)
 
 To edit the value of any visible project attribute, click on the **Edit** (pencil) icon next to the name of the section containing that project attribute. A modal will be displayed with all the attributes in that section.
 
-The editing permission can be granted to users by enabling the **Edit project attributes** permission.
-
 ![Edit a project attribute section on project overview page](openproject_user_guide_project_overview_project_attributes_section_edit_new.png)
 
 Edit the values for each project attribute and click on **Save** to confirm and save your changes.
 
->**Note:** If you are an instance admin and would like to create, modify or add project attributes, please read our [admin guide to project attributes](../../system-admin-guide/projects/project-attributes).
+>[!NOTE]
+>If you are an instance admin and would like to create, modify or add project attributes, please read our [admin guide to project attributes](../../system-admin-guide/projects/project-attributes).
 
 ### Project attribute settings 
 
@@ -58,7 +61,9 @@ To adjust the the project attribute settings for a specific project click the **
 
 ![Link to project attribute settings from project overview page in OpenProject](openproject_user_guide_project_overview_project_attributes_settings.png)
 
->Note: This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the *select_project_attributes* permission for that role via the [Roles and permissions page](../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
+>[!NOTE]
+>
+>This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the *select_project_attributes* permission for that role via the [Roles and permissions page](../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
 
 ## Mark a project as favorite
 
@@ -73,7 +78,9 @@ You can archive a project directly from the project overview page. To do that cl
 
 ![Archive a project on the project overview page in OpenProject](openproject_user_guide_project_overview_archive_project.png)
 
->Note: This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the *archive_project* permission for that role via the [Roles and permissions page](../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
+>[!NOTE]
+>
+>This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the *archive_project* permission for that role via the [Roles and permissions page](../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
 
 You can also archive a project under [project settings](../projects/#archive-a-project) or in a [projects list](../projects/project-lists/). 
 
@@ -142,7 +149,9 @@ The description can be added or changed in the [project settings](../projects/pr
 
 ### Project details widget
 
-> **Important note**: Project details widget was replaced by [Project attributes](#project-attributes) in [OpenProject 14.0](../../release-notes/14-0-0/) and will be removed in the future.
+> [!IMPORTANT]
+>
+> Project details widget was replaced by [Project attributes](#project-attributes) in [OpenProject 14.0](../../release-notes/14-0-0/) and will be removed in the future.
 
 The project details widget displays all custom fields for projects, e.g. project owner, project due date, project number, or any other custom field for this project.
 
@@ -252,9 +261,7 @@ The work package table widget includes a work package table to the project overv
 
 To **re-order** a widget, click on the dots icon on the upper left hand corner and drag the widget with the mouse to the new position.
 
-To **re-size** a widget, click on the grey icon in the lower right hand corner of the widget and drag the corner to the right or left. The widget will re-size accordingly.
-
-![re-size-widgets](re-size-widgets.gif)
+To **re-size** a widget, click on the grey icon in the lower right hand corner of the widget and drag the corner to the right or left. The widget will re-size accordingly.![re-size-widgets](re-size-widgets.gif)
 
 ## Remove widget from project overview page
 
