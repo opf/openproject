@@ -51,6 +51,13 @@ RSpec.describe RenameVisibleToAdminOnlyInCustomFields, type: :model do
         .to change { CustomField.first.attributes.slice("visible", "admin_only") }
         .from("visible" => false)
         .to("admin_only" => true)
+
+      # it changes the default value to false
+      ProjectCustomField.reset_column_information
+      custom_field = ProjectCustomField.new
+      custom_field.save(validate: false)
+
+      expect(custom_field.admin_only).to be false
     end
   end
 
@@ -64,6 +71,13 @@ RSpec.describe RenameVisibleToAdminOnlyInCustomFields, type: :model do
         .to change { CustomField.first.attributes.slice("visible", "admin_only") }
         .from("admin_only" => false)
         .to("visible" => true)
+
+      # it changes the default value to tru
+      ProjectCustomField.reset_column_information
+      custom_field = ProjectCustomField.new
+      custom_field.save(validate: false)
+
+      expect(custom_field.visible).to be true
     end
   end
 end
