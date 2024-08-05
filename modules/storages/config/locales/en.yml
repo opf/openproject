@@ -167,6 +167,9 @@ en:
       nextcloud:
         group_folders_app: Group folders
         integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
+      setup_incomplete_header: Storage setup incomplete
     error_invalid_provider_type: Please select a valid storage provider.
     file_storage_view:
       access_management:

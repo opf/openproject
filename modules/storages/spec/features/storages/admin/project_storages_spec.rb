@@ -75,9 +75,34 @@ RSpec.describe "Admin lists project mappings for a storage",
     end
   end
 
-  context "with sufficient permissions" do
+  context "with sufficient permissions but an incomplete configured storage" do
+    before do
+      storage.update!(host: nil)
+      login_as(admin)
+      visit admin_settings_storage_project_storages_path(storage)
+    end
+
+    it "shows a warning instead of the button to add a project and the project list" do
+      aggregate_failures("projects list and button are missing") do
+        expect(page).to have_no_css("#project-table")
+        expect(page).to have_no_text(project.name)
+        expect(page).to have_no_button("Add projects")
+      end
+
+      aggregate_failures("a warning is shown") do
+        expect(page).to have_text("Storage setup incomplete")
+        expect(page).to have_text("Please, complete the setup")
+      end
+    end
+  end
+
+  context "with sufficient permissions and an completely configured storage" do
     before do
       login_as(admin)
+      storage.update!(host: "https://example.com")
+      create(:oauth_application, integration: storage)
+      create(:oauth_client, integration: storage)
+
       visit admin_settings_storage_project_storages_path(storage)
     end
 

@@ -43,6 +43,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   before_action :load_project_storage, only: %i(destroy destroy_confirmation_dialog)
 
   before_action :storage_projects_query, only: :index
+  before_action :ensure_storage_configured!, only: %i(new create)
   before_action :initialize_project_storage, only: :new
   before_action :find_projects_to_activate_for_storage, only: :create
 
@@ -148,5 +149,18 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   def include_sub_projects?
     ActiveRecord::Type::Boolean.new.cast(params.to_unsafe_h[:storages_project_storage][:include_sub_projects])
+  end
+
+  def ensure_storage_configured!
+    return if @storage.configured?
+
+    update_flash_message_via_turbo_stream(
+      message: I18n.t("storages.enabled_in_projects.setup_incomplete_description"),
+      full: true,
+      dismiss_scheme: :hide,
+      scheme: :danger
+    )
+    respond_with_turbo_streams
+    false
   end
 end
