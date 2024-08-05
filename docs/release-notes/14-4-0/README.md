@@ -38,7 +38,7 @@ For more details, see https://community.openproject.org/wp/56861.
 
 ### Personal settings: Dark mode
 
-Dark mode for OpenProject is finally here! In the 'My account' section under 'Settings', there is now an option labeled 'Mode' where users can select 'Dark (Beta).' When Dark Mode is selected, the change applies only to that user, not to the entire instance. It is called "Beta", because there are still some smaller issues with the implementation and we will continue fixing them.
+Dark mode for OpenProject is finally here! In the 'My account' section under 'Settings', there is an **option labeled 'Mode' where users can now select 'Dark (Beta).'** – as an alternative to the light mode. When the dark mode is selected, the change applies only to that user, not to the entire instance. Please note that it is called "Beta", because there are still some smaller issues with the implementation and we will continue fixing them.
 
 For more details, see https://community.openproject.org/wp/36233.
 
@@ -46,7 +46,7 @@ For more details, see https://community.openproject.org/wp/36233.
 
 In OpenProject 14.4, new permissions for managing project attributes provide project admins with more control over who can view and edit these attributes.
 
-The update adds two new permissions: 'View project attributes' and 'Edit project attributes.' 'View project attributes' is added to all roles, while 'Edit project attributes' is added to roles with the 'Edit project' permission.
+The update adds **two new permissions: 'View project attributes' and 'Edit project attributes'**. 'View project attributes' is added to all roles, while 'Edit project attributes' is added to roles with the 'Edit project' permission.
 
 Permissions are now independent, so users with 'Edit project' can lack the new permissions. Users without 'View project attributes' cannot see or search project attributes in the overview, settings, list, exports, API, or Schema API. Users without 'Edit project attributes' cannot modify these attributes but can view them if they have view permission.
 
@@ -54,13 +54,13 @@ For more details, see https://community.openproject.org/wp/50844.
 
 ### Status-based progress reporting: Freely input % complete values for statuses
 
-We have improved the status-based progress indicator in OpenProject. As requested by some users, you can now enter any percentage value in the "% Complete" field, e.g. 9% or 73%, instead of being limited to 10% increments. Please note that only integer values between 1 and 100 are allowed, so decimal values or non-numeric inputs will not be accepted.
+We have improved the status-based progress indicator in OpenProject. As requested by some users, you can now **enter any percentage value in the "% Complete" field**, e.g. 9% or 73%, instead of being limited to 10% increments. Please note that only integer values between 1 and 100 are allowed, so decimal values or non-numeric inputs will not be accepted.
 
 For more details on status-based progress reporting, see our [system admin guide](https://www.openproject-edge.com/docs/system-admin-guide/manage-work-packages/work-package-status/).
 
 ### Nextcloud storages: Connection validation
 
-Last month, we released a connection validation feature for OneDrive/SharePoint storages. With OpenProject 14.4, we add a connection validation for Nextcloud storages. This feature allows administrators to verify if the storage works as expected and provides helpful feedback if issues arise. A new button enables the manual triggering of a connection test and validation of the Nextcloud storage settings. If an error occurs during the test, it will be displayed along with an explanation and helpful information.
+Last month, we already released a connection validation feature for OneDrive/SharePoint storages. With OpenProject 14.4, we added a connection validation for Nextcloud storages. This feature allows administrators to **verify if the storage works as expected and provides helpful feedback if issues arise**. A new button enables the manual triggering of a connection test and validation of the Nextcloud storage settings. If an error occurs during the test, it will be displayed along with an explanation and helpful information.
 
 The validations include checking if the external storage server is reachable, verifying for SSL errors, ensuring the server is accessible, confirming that necessary apps are activated on Nextcloud and that their versions are compatible, and validating the app password.
 
@@ -68,7 +68,11 @@ Read more about connection validation for Nextcloud in our [system admin guide](
 
 ### Project lists: Select/Exclude projects in project list explicitly via filter
 
-Text
+In OpenProject 14.4, users can now explicitly select or exclude individual projects in the project list using a filter. This feature allows users to limit and refine their project lists more precisely.
+
+Within the filter section of the project list, there is a new filter called "Project." This filter supports the "is (OR)" and "is not" operators and allows selecting projects via an autocompleter with multiselect capability.
+
+For example, you can manually select specific projects such as Project A, C, and F, or filter all projects in status red but exclude Project B from the list even if Project B meets the filter criteria.
 
 For more details, see https://community.openproject.org/wp/55233.
 
