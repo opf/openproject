@@ -52,6 +52,8 @@ In OpenProject 14.4, new permissions for managing project attributes provide pro
 
 The update adds **two new permissions: 'View project attributes' and 'Edit project attributes'**. 'View project attributes' is added to all roles, while 'Edit project attributes' is added to roles with the 'Edit project' permission.
 
+![Screenshot showing the two newly added permissions for project attributes](openproject-14-4-project-attributes-permissions-highlighted.png)
+
 Permissions are now independent, so users with 'Edit project' can lack the new permissions. Users without 'View project attributes' cannot see or search project attributes in the overview, settings, list, exports, API, or Schema API. Users without 'Edit project attributes' cannot modify these attributes but can view them if they have view permission.
 
 For more details, see https://community.openproject.org/wp/50844.
@@ -59,6 +61,10 @@ For more details, see https://community.openproject.org/wp/50844.
 ### Status-based progress reporting: Freely input % complete values for statuses
 
 We have improved the status-based progress indicator in OpenProject. As requested by some users, you can now **enter any percentage value in the "% Complete" field**, e.g. 9% or 73%, instead of being limited to 10% increments. Please note that only integer values between 1 and 100 are allowed, so decimal values or non-numeric inputs will not be accepted.
+
+Here is an example of a new status that triggers a % Complete of 73%:
+
+![Screenshot showing the OpenProject administration for a new status with % Complete 73%](openproject-14-4-status-percentage-complete.png)
 
 For more details on status-based progress reporting, see our [system admin guide](https://www.openproject-edge.com/docs/system-admin-guide/manage-work-packages/work-package-status/).
 
@@ -110,9 +116,13 @@ For more details, see https://community.openproject.org/wp/56045.
 
 ### Show changes of long text custom fields in the activity similar to changes in the description
 
-Text
+To keep the activity view cleaner when multiple changes are made to long text custom fields, OpenProject 14.4 now **displays updates to long custom fields in a similar format to description updates**. As a user watching the activity, you will see an indication of changes to long text custom fields, making it easier to manage and review activities.
 
-For more details, see https://community.openproject.org/wp/55280.
+In the activity tab, updates to long text custom fields will be displayed as in the following example – 'Remarks' being a custom field:
+
+![Example screenshot showing how changes on a custom field will now look like in the work package activity tab](Custom_field__long_text__changed.png)
+
+Clicking on the "Details" link will take the user to the diff, view which is also used for work package descriptions and project status explanations.
 
 <!--more-->
 
