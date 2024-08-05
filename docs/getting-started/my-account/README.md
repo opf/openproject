@@ -207,7 +207,6 @@ RSS tokens allow users to keep up with the latest changes in this OpenProject in
 Create a new token by clicking the **+RSS token** button. This will create your token and trigger a message showing you the access token.
 
 > [!IMPORTANT]
->
 > You will only be able to see the RSS access token once, directly after you create it. Make sure to copy it.
 
 ![OpenProject RSS token](openproject_my_account_access_tokens_rss.png)
