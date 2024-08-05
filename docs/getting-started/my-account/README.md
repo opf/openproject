@@ -246,7 +246,7 @@ Default: Enable daily email reminders: 2am, Monday - Friday.
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
 
 > [!IMPORTANT]
-> if you have selected the *immediately when someone mentions me* option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder. 
+> If you have selected the *immediately when someone mentions me* option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder. 
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
