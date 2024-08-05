@@ -82,19 +82,17 @@ For more details, see https://community.openproject.org/wp/55233.
 
 ### Meetings: Saving a new agenda item does not automatically add another empty one
 
-When working with the meeting module in OpenProject, a new agenda item was automatically created as soon as a previous one was saved. This was originally built so that new items could be added to a meeting in quick succession. However, working with it has shown that often no new agenda item was needed at all - but, for example, a work package should be added or another change made. For this reason, OpenProject 14.4 has virtually reversed this feature: adding a new agenda item no longer creates another agenda item.
+In the past, when working with the meeting module in OpenProject, a new agenda item was automatically created as soon as a previous one was saved. This was originally built so that new items could be added to a meeting in quick succession. However, working with it has shown that often no new agenda item was needed at all - but, for example, a work package should be added or another change made. For this reason, OpenProject 14.4 has virtually reversed this feature: **saving an agenda item no longer creates a new empty one**.
 
 ### Meetings tab on work packages: Display related meetings chronologically
 
-Text
+In OpenProject 14.4, the **meetings tab within work packages now displays related meetings in chronological order**. This feature is designed for users who organize meetings and connect work packages with dynamic meetings, making it easier to see when a work package has been discussed.
 
-For more details, see https://community.openproject.org/wp/56651.
+For upcoming meetings, the tab will display them in chronological order with the nearest occurrence first and the most distant last. For past meetings, the tab will display them in reverse chronological order, with the most recent occurrence first and the oldest last.
 
 ### Design: Improve avatar color generation so that users with same names are distinguishable
 
-Text
-
-For more details, see https://community.openproject.org/wp/56325.
+Some users share the same name or create several accounts with the same name. To be able to tell them apart, e.g. when looking through search results for that name, we improved the avatar color generation, so that users with the same name have different colors. We recommend uploading an avatar image so that the distinction is even more obvious.
 
 ### Dropdown menu on work packages: Move "Copy link to clipboard" up
 
