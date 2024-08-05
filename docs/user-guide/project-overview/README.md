@@ -40,7 +40,6 @@ You will see a list of all available project attributes in a pane on the right s
 
 > [!TIP]
 > Your view of the project attributes may vary depending on on your  [roles and permissions in OpenProject](../../system-admin-guide/users-permissions/roles-permissions/). 
->
 > The project attributes are visible for users with the **View project attributes** permission enabled. The editing icons are visible for users with the **Edit project attributes** permission.
 
 ![Project overview page showing project attributes on the right side](openproject_user_guide_project_overview_project_attributes_section_new.png)
