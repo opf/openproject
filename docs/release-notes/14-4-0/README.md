@@ -38,7 +38,11 @@ For more details, see https://community.openproject.org/wp/56861.
 
 ### Personal settings: Dark mode
 
-Dark mode for OpenProject is finally here! In the 'My account' section under 'Settings', there is an **option labeled 'Mode' where users can now select 'Dark (Beta).'** – as an alternative to the light mode. When the dark mode is selected, the change applies only to that user, not to the entire instance. Please note that it is called "Beta", because there are still some smaller issues with the implementation and we will continue fixing them.
+Dark mode for OpenProject is finally here! In the 'My account' section under 'Settings', there is an **option labeled 'Mode' where users can now select 'Dark (Beta).'** – as an alternative to the light mode. When the dark mode is selected, the change applies only to that user, not to the entire instance. 
+
+![News setting for dark mode in OpenProject, displayed in dark mode](openproject-14-4-dark-mode.png)
+
+Please note that this feature has been tested extensively, and we believe it works well. However, users might encounter issues that we haven't seen. Therefore, it will remain in beta for now, until we resolve all potential errors and ensure there are no issues.
 
 For more details, see https://community.openproject.org/wp/36233.
 
@@ -78,9 +82,7 @@ For more details, see https://community.openproject.org/wp/55233.
 
 ### Meetings: Saving a new agenda item does not automatically add another empty one
 
-Text
-
-For more details, see https://community.openproject.org/wp/55423.
+When working with the meeting module in OpenProject, a new agenda item was automatically created as soon as a previous one was saved. This was originally built so that new items could be added to a meeting in quick succession. However, working with it has shown that often no new agenda item was needed at all - but, for example, a work package should be added or another change made. For this reason, OpenProject 14.4 has virtually reversed this feature: adding a new agenda item no longer creates another agenda item.
 
 ### Meetings tab on work packages: Display related meetings chronologically
 
