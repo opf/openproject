@@ -53,8 +53,7 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
 
   before do
     without_partial_double_verification do
-      allow(subject).to receive(:current_user).and_return(user)
-      allow(subject).to receive(:represented).and_return(work_package)
+      allow(subject).to receive_messages(current_user: user, represented: work_package) # rubocop:disable RSpec/SubjectStub
     end
 
     mock_permissions_for(user) do |mock|

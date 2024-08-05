@@ -149,6 +149,7 @@ class WithDirectUploads
     creds = config[:fog][:credentials]
 
     without_partial_double_verification do
+      # rubocop:disable RSpec/AnyInstance
       allow_any_instance_of(FogFileUploader).to receive(:fog_credentials).and_return creds
 
       allow_any_instance_of(FogFileUploader).to receive(:aws_access_key_id).and_return creds[:aws_access_key_id]
@@ -158,6 +159,7 @@ class WithDirectUploads
       allow_any_instance_of(FogFileUploader).to receive(:directory).and_return config[:fog][:directory]
 
       allow(OpenProject::Configuration).to receive(:direct_uploads?).and_return(true)
+      # rubocop:enable RSpec/AnyInstance
     end
   end
 

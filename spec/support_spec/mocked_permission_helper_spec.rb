@@ -185,7 +185,7 @@ RSpec.describe MockedPermissionHelper do
     end
 
     it "allows the project permission when querying with controller and action hash" do
-      expect(user).to be_allowed_in_project({ controller: "work_packages", action: "index", project_id: project.id })
+      expect(user).to be_allowed_in_project({ controller: "work_packages", action: "index", project_id: project.id }, nil)
       expect(user).to be_allowed_in_any_project({ controller: "work_packages", action: "index" })
     end
 

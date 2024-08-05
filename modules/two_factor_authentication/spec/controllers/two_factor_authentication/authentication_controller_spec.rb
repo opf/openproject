@@ -12,7 +12,7 @@ RSpec.describe TwoFactorAuthentication::AuthenticationController, with_settings:
     session[:stage_secrets] = { two_factor_authentication: "asdf" }
 
     without_partial_double_verification do
-      allow_any_instance_of(User).to receive(:any_active_memberships?).and_return(true)
+      allow_any_instance_of(User).to receive(:any_active_memberships?).and_return(true) # rubocop:disable RSpec/AnyInstance
     end
   end
 

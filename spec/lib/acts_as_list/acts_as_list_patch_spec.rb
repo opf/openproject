@@ -28,50 +28,65 @@
 
 require "spec_helper"
 
-RSpec.describe "Models acting as list (acts_as_list)" do
+RSpec.describe "Models acting as list (acts_as_list)" do # rubocop:disable RSpec/DescribeClass
   it "includes the patch" do
     expect(ActiveRecord::Acts::List::InstanceMethods.included_modules).to include(OpenProject::Patches::ActsAsList)
   end
 
   describe "#move_to=" do
     let(:includer) do
-      class ActsAsListPatchIncluder
+      clazz = Class.new do
         include OpenProject::Patches::ActsAsList
+
+        def move_to_top; end
+
+        def move_to_bottom; end
+
+        def move_higher; end
+
+        def move_lower; end
       end
 
-      ActsAsListPatchIncluder.new
+      clazz.new
+    end
+
+    before do
+      allow(includer).to receive(:move_to_top)
+      allow(includer).to receive(:move_to_bottom)
+      allow(includer).to receive(:move_higher)
+      allow(includer).to receive(:move_lower)
     end
 
     it "moves to top when wanting to move highest" do
-      without_partial_double_verification do
-        expect(includer).to receive :move_to_top
-      end
-
       includer.move_to = "highest"
+
+      without_partial_double_verification do
+        expect(includer).to have_received :move_to_top
+      end
     end
 
     it "moves to bottom when wanting to move lowest" do
-      without_partial_double_verification do
-        expect(includer).to receive :move_to_bottom
-      end
-
       includer.move_to = "lowest"
+
+      without_partial_double_verification do
+        expect(includer).to have_received :move_to_bottom
+      end
     end
 
     it "moves higher when wanting to move higher" do
-      without_partial_double_verification do
-        expect(includer).to receive :move_higher
-      end
-
       includer.move_to = "higher"
+
+      without_partial_double_verification do
+        expect(includer).to have_received :move_higher
+      end
     end
 
     it "moves lower when wanting to move lower" do
-      without_partial_double_verification do
-        expect(includer).to receive :move_lower
-      end
-
       includer.move_to = "lower"
+
+      without_partial_double_verification do
+        expect(includer).to have_received :move_lower
+      end
     end
   end
 end
