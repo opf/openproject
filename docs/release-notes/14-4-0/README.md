@@ -18,7 +18,7 @@ In these Release Notes, we will give an overview of important technical updates 
 
 ### Extend API authentication to accept JWT issued by OpenID provider to other client
 
-OpenProject 14.4 introduces a new feature that allows OpenID clients, such as Nextcloud servers, to use access tokens obtained from an OpenID provider, like Keycloak, as an authentication mechanism for the OpenProject API. This enhancement enables users to skip the OAuth grant flow, streamlining the authentication process.
+OpenProject 14.4 introduces a new feature that allows OpenID clients, such as Nextcloud servers, to use access tokens obtained from an OpenID provider, like Keycloak, as an authentication mechanism for the OpenProject API. This enhancement **enables users to skip the OAuth grant flow**, streamlining the authentication process.
 
 With this feature, the OpenProject API will validate access tokens issued by the OpenID provider (Keycloak) by checking the token's signature and authenticating the user using the sub claim value. This integration ensures secure and efficient API authentication for OpenID clients.
 
@@ -26,7 +26,11 @@ For more details, see https://community.openproject.org/wp/55643.
 
 ### Improve error messages and logs of AMPF synchronization services/jobs
 
-Text
+OpenProject 14.4 introduces significant enhancements to logging, debugging, and error messages for AMPF synchronization services and jobs. These improvements aim to provide clearer messages and more detailed logs for both administrators and users.
+
+Up to now, the system faced issues such as unclear error messages, insufficient log details, and a lack of localized error messages. To address these problems, **the system now provides context-specific error messages** instead of vague ones. For example, instead of "Outbound request destination not found," the system will now display messages like 'The file #{file_link.origin_name} was not found on #{storage_name}', which will also be localized to improve clarity.
+
+Additionally, the logging structure has been enhanced to provide more detailed, tagged entries for better traceability.
 
 For more details, see https://community.openproject.org/wp/56861.
 
