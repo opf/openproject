@@ -36,6 +36,8 @@ module Storages
 
     class PollingRequired < BaseError; end
 
+    class ConfigurationError < BaseError; end
+
     class MissingContract < ResolverStandardError; end
 
     class OperationNotSupported < ResolverStandardError; end
