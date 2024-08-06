@@ -169,11 +169,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
         end
 
         it "registers user via post" do
-          allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |user, auth_hash|
-            new_user = User.find_by_login("login@bar.com")
-            expect(user).to eq new_user
-            expect(auth_hash).to include(omniauth_hash)
-          end
+          allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
 
           auth_source_registration = omniauth_hash.merge(
             omniauth: true,
@@ -192,6 +188,8 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
           expect(response).to redirect_to home_url(first_time_user: true)
 
           user = User.find_by_login("login@bar.com")
+          expect(OpenProject::OmniAuth::Authorization)
+            .to have_received(:after_login!).with(user, a_hash_including(omniauth_hash), any_args)
           expect(user).to be_an_instance_of(User)
           expect(user.ldap_auth_source_id).to be_nil
           expect(user.current_password).to be_nil
@@ -339,6 +337,8 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
           end
 
           before do
+            allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
+
             OpenProject::OmniAuth::Authorization.callbacks.clear
 
             # Let's set up a couple of authorization callbacks to see if the mechanism
@@ -376,20 +376,16 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
           end
 
           it "logs in the user" do
-            allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |u, auth|
-              expect(u).to eq user
-              expect(auth).to eq omniauth_hash
-            end
-
             post :omniauth_login, params: { provider: :google }
 
             expect(response).to redirect_to my_page_path
+            expect(OpenProject::OmniAuth::Authorization)
+              .to have_received(:after_login!).with(user, omniauth_hash, any_args)
           end
 
           context "with wrong email address" do
             before do
               config.global_email = "other@mail.com"
-              allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
             end
 
             it "is rejected against google" do
@@ -420,8 +416,6 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
             end
 
             it "is rejected against google" do
-              allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
-
               post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
@@ -431,26 +425,22 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
             end
 
             it "is approved against any other provider" do
-              allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |u|
-                new_user = User.find_by identity_url: "some other:123545"
-
-                expect(u).to eq new_user
-              end
-
               omniauth_hash.provider = "some other"
 
               post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to home_url(first_time_user: true)
+
               # The authorization is successful which results in the registration
               # of a new user in this case because we changed the provider
               # and there isn't a user with that identity URL yet.
+              new_user = User.find_by identity_url: "some other:123545"
+              expect(OpenProject::OmniAuth::Authorization)
+                .to have_received(:after_login!).with(new_user, any_args)
             end
 
             # ... and to confirm that, here's what happens when the authorization fails
             it "is rejected against any other provider with the wrong email" do
-              allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
-
               omniauth_hash.provider = "yet another"
               config.global_email = "yarrrr@joro.es"
 
