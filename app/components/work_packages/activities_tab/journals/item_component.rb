@@ -31,6 +31,7 @@ module WorkPackages
     module Journals
       class ItemComponent < ApplicationComponent
         include ApplicationHelper
+        include WorkPackages::ActivitiesTab::SharedHelpers
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 

@@ -33,6 +33,7 @@ module WorkPackages
         include ApplicationHelper
         include AvatarHelper
         include JournalFormatter
+        include WorkPackages::ActivitiesTab::SharedHelpers
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
@@ -53,9 +54,9 @@ module WorkPackages
         end
 
         def render_details_header(details_container)
-          details_container.with_row(flex_layout: true, align_items: :center,
+          details_container.with_row(flex_layout: true,
                                      justify_content: :space_between, classes: "journal-details-header-container") do |header_container|
-            header_container.with_column(flex_layout: true, align_items: :center,
+            header_container.with_column(flex_layout: true,
                                          classes: "journal-details-header") do |header_start_container|
               header_start_container.with_column(mr: 2, classes: "timeline-icon") do
                 if journal.initial?
@@ -67,35 +68,32 @@ module WorkPackages
               header_start_container.with_column(mr: 2) do
                 render Users::AvatarComponent.new(user: journal.user, show_name: false, size: :mini)
               end
-              header_start_container.with_column(mr: 1) do
-                render(Primer::Beta::Link.new(
-                         href: user_url(journal.user),
-                         target: "_blank",
-                         scheme: :primary,
-                         underline: false,
-                         font_weight: :bold
-                       )) do
-                  journal.user.name
+              header_start_container.with_column(mr: 1, flex_layout: true) do |user_name_container|
+                user_name_container.with_row do
+                  truncated_user_name(journal.user)
+                end
+                user_name_container.with_row(classes: "hidden-for-desktop") do
+                  render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.created_at) }
                 end
               end
               header_start_container.with_column(mr: 1, classes: "hidden-for-mobile") do
                 if journal.initial?
-                  render(Primer::Beta::Text.new(color: :subtle, mt: 1)) do
+                  render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
                     t("activities.work_packages.activity_tab.created_on")
                   end
                 else
-                  render(Primer::Beta::Text.new(color: :subtle, mt: 1)) do
+                  render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
                     t("activities.work_packages.activity_tab.changed_on")
                   end
                 end
               end
-              header_start_container.with_column(mr: 1) do
-                render(Primer::Beta::Text.new(color: :subtle, mt: 1)) { format_time(journal.updated_at) }
+              header_start_container.with_column(mr: 1, classes: "hidden-for-mobile") do
+                render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.updated_at) }
               end
             end
-            header_container.with_column(flex_layout: true, align_items: :center) do |header_end_container|
+            header_container.with_column(flex_layout: true) do |header_end_container|
               if has_unread_notifications
-                header_end_container.with_column(mr: 2, pt: 1) do
+                header_end_container.with_column(mr: 2, classes: "bubble-container") do
                   bubble_html
                 end
               end

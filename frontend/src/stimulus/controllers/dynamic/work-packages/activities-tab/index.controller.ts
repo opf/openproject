@@ -5,6 +5,7 @@ import {
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { workPackageFilesCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-files-count.function';
+import { set } from 'lodash';
 
 export default class IndexController extends Controller {
   static values = {
@@ -100,6 +101,7 @@ export default class IndexController extends Controller {
   }
 
   async updateActivitiesList() {
+    const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
     const url = new URL(this.updateStreamsUrlValue);
     url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
     url.searchParams.append('filter', this.filterValue);
@@ -111,6 +113,16 @@ export default class IndexController extends Controller {
       Turbo.renderStreamMessage(text);
       this.setLastUpdateTimestamp();
       this.hideLastPartOfTimeLineStem();
+      setTimeout(() => {
+        if (this.sortingValue === 'asc' && journalsContainerAtBottom) {
+          // scroll to (new) bottom if sorting is ascending and journals container was already at bottom before a new activity was added
+          if (this.isMobile()) {
+            this.scrollInputContainerIntoView(300);
+          } else {
+            this.scrollJournalContainer(this.journalsContainerTarget, true);
+          }
+        }
+      }, 100);
     }
   }
 
@@ -164,6 +176,25 @@ export default class IndexController extends Controller {
     return AngularCkEditorElement ? jQuery(AngularCkEditorElement).data('editor') as ICKEditorInstance : null;
   }
 
+  private getInputContainer():HTMLElement | null {
+    return this.element.querySelector('#input-container');
+  }
+
+  // TODO: get rid of static width value and reach for a more CSS based solution
+  private isMobile():boolean {
+    return window.innerWidth < 1279;
+  }
+
+  // TODO: get rid of static width value and reach for a more CSS based solution
+  private isSmViewPort():boolean {
+    return window.innerWidth < 543;
+  }
+
+  // TODO: get rid of static width value and reach for a more CSS based solution
+  private isMdViewPort():boolean {
+    return window.innerWidth >= 543 && window.innerWidth < 1279;
+  }
+
   private addEventListenersToCkEditorInstance() {
     const editor = this.getCkEditorInstance();
     if (editor) {
@@ -208,7 +239,10 @@ export default class IndexController extends Controller {
         // current limitation:
         // clicking on empty toolbar space and the somewhere else on the page does not trigger the blur anymore
         setTimeout(() => {
-          if (!editor.ui.focusTracker.isFocused) { this.hideEditorIfEmpty(); }
+          if (!editor.ui.focusTracker.isFocused) {
+            this.hideEditorIfEmpty();
+            if (this.isMobile()) { this.scrollInputContainerIntoView(300); }
+          }
         }, 0);
       },
       { priority: 'highest' },
@@ -217,9 +251,27 @@ export default class IndexController extends Controller {
 
   private adjustJournalContainerMargin() {
     // don't do this on mobile screens
-    // TODO: get rid of static width value and reach for a more CSS based solution
-    if (window.innerWidth < 1279) { return; }
-    this.journalsContainerTarget.style.marginBottom = `${this.formRowTarget.clientHeight + 40}px`;
+    if (this.isMobile()) { return; }
+    this.journalsContainerTarget.style.marginBottom = `${this.formRowTarget.clientHeight + 33}px`;
+  }
+
+  private isJournalsContainerScrolledToBottom(journalsContainer:HTMLElement) {
+    let atBottom = false;
+    // we have to handle different scrollable containers for different viewports in order to idenfity if the user is at the bottom of the journals
+    // seems way to hacky for me, but I couldn't find a better solution
+    if (this.isSmViewPort()) {
+      atBottom = (window.scrollY + window.outerHeight) >= document.body.scrollHeight;
+    } else if (this.isMdViewPort()) {
+      const scrollableContainer = document.querySelector('#content') as HTMLElement;
+
+      atBottom = (scrollableContainer.scrollTop + scrollableContainer.clientHeight + 10) >= scrollableContainer.scrollHeight;
+    } else {
+      const scrollableContainer = jQuery(journalsContainer).scrollParent()[0];
+
+      atBottom = (scrollableContainer.scrollTop + scrollableContainer.clientHeight + 10) >= scrollableContainer.scrollHeight;
+    }
+
+    return atBottom;
   }
 
   private scrollJournalContainer(journalsContainer:HTMLElement, toBottom:boolean) {
@@ -229,12 +281,30 @@ export default class IndexController extends Controller {
     }
   }
 
+  private scrollInputContainerIntoView(timeout:number = 0) {
+    const inputContainer = this.getInputContainer() as HTMLElement;
+    setTimeout(() => {
+      if (inputContainer) {
+        inputContainer.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, timeout);
+  }
+
   showForm() {
+    const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
+
     this.buttonRowTarget.classList.add('d-none');
     this.formRowTarget.classList.remove('d-none');
     this.journalsContainerTarget?.classList.add('with-input-compensation');
 
     this.addEventListenersToCkEditorInstance();
+
+    if (this.isMobile()) {
+      this.scrollInputContainerIntoView(300);
+    } else if (this.sortingValue === 'asc' && journalsContainerAtBottom) {
+      // scroll to (new) bottom if sorting is ascending and journals container was already at bottom before showing the form
+      this.scrollJournalContainer(this.journalsContainerTarget, true);
+    }
 
     const ckEditorInstance = this.getCkEditorInstance();
     if (ckEditorInstance) {
@@ -311,7 +381,11 @@ export default class IndexController extends Controller {
 
       if (this.journalsContainerTarget) {
         this.clearEditor();
-        this.focusEditor();
+        if (this.isMobile()) {
+          this.hideEditorIfEmpty();
+        } else {
+          this.focusEditor();
+        }
         if (this.journalsContainerTarget) {
           this.journalsContainerTarget.style.marginBottom = '';
           this.journalsContainerTarget.classList.add('with-input-compensation');
@@ -322,7 +396,10 @@ export default class IndexController extends Controller {
             this.sortingValue === 'asc',
           );
           this.hideLastPartOfTimeLineStem();
-        }, 100);
+          if (this.isMobile()) {
+            this.scrollInputContainerIntoView(300);
+          }
+        }, 10);
       }
     }
   }

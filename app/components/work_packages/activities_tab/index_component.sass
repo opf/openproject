@@ -1,14 +1,15 @@
 #work-packages-activities-tab-index-component
     #journals-container
+        padding-top: 3px
         overflow-y: auto
         &.with-initial-input-compensation
-            margin-bottom: 75px // initial margin-bottom, will be increased by stimulus when opening ckeditor
+            margin-bottom: 65px // initial margin-bottom, will be increased by stimulus when opening ckeditor
             @media screen and (max-width: $breakpoint-xl)
-                margin-bottom: 0
+                margin-bottom: -16px
         &.with-input-compensation
-            margin-bottom: 190px
+            margin-bottom: 180px
             @media screen and (max-width: $breakpoint-xl)
-                margin-bottom: 0
+                margin-bottom: -16px
     #input-container
         @media screen and (min-width: $breakpoint-xl)
             position: absolute
