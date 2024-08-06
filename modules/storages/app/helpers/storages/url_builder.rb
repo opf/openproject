@@ -64,7 +64,14 @@ module Storages
       end
 
       def ensure_unescaped_fragments(fragment)
-        raise ArgumentError, "URL-escaped character found: #{fragment}" if CGI.unescape(fragment) != fragment
+        raise ArgumentError, "URL-escaped character found: #{fragment}" if improved_unescape(fragment) != fragment
+      end
+
+      def improved_unescape(fragment)
+        # If the fragment contains a '+' character, it will be replaced with its URL-encoded equivalent '%2B' before
+        # decoding. This is because '+' is the only reserved character, that will get replaced by CGI.unescape
+        # (with a whitespace ' ').
+        CGI.unescape(fragment.gsub("+", "%2B"))
       end
     end
   end
