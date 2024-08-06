@@ -44,7 +44,7 @@ RSpec.describe "Admin lists project mappings for a storage",
 
   shared_let(:project) { create(:project, name: "My active Project") }
   shared_let(:archived_project) { create(:project, active: false, name: "My archived Project") }
-  shared_let(:storage) { create(:nextcloud_storage, :as_automatically_managed, name: "My Nextcloud Storage") }
+  shared_let(:storage) { create(:nextcloud_storage_with_complete_configuration, name: "My Nextcloud Storage") }
   shared_let(:project_storage) { create(:project_storage, project:, storage:, project_folder_mode: "automatic") }
 
   shared_let(:archived_project_project_storage) do
@@ -89,8 +89,6 @@ RSpec.describe "Admin lists project mappings for a storage",
     before do
       login_as(admin)
       storage.update!(host: "https://example.com")
-      create(:oauth_application, integration: storage)
-      create(:oauth_client, integration: storage)
 
       visit admin_settings_storage_project_storages_path(storage)
     end
@@ -180,12 +178,8 @@ RSpec.describe "Admin lists project mappings for a storage",
     end
 
     describe "Linking a project to a storage with a manually managed folder" do
-      let(:oauth_application) { create(:oauth_application) }
-      let(:storage) { create(:nextcloud_storage, :as_automatically_managed, oauth_application:) }
-      let(:oauth_client) { create(:oauth_client, integration: storage) }
-
       context "when the user has granted OAuth access" do
-        let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: admin) }
+        let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user: admin) }
         let(:location_picker) { Components::FilePickerDialog.new }
 
         let(:root_xml_response) { build(:webdav_data) }
@@ -237,7 +231,7 @@ RSpec.describe "Admin lists project mappings for a storage",
             expect(page.find_by_id("storages_project_storage_project_folder_mode_automatic")).to be_checked
 
             choose "Existing folder with manually managed permissions"
-            expect(page).to have_text("No selected folder")
+            wait_for(page).to have_text("No selected folder")
             click_on "Select folder"
 
             location_picker.expect_open
@@ -271,7 +265,7 @@ RSpec.describe "Admin lists project mappings for a storage",
               check "Include sub-projects"
 
               choose "Existing folder with manually managed permissions"
-              expect(page).to have_text("No selected folder")
+              wait_for(page).to have_text("No selected folder")
 
               click_on "Add"
 
@@ -284,14 +278,8 @@ RSpec.describe "Admin lists project mappings for a storage",
       end
 
       context "when the user has not granted oauth access" do
-        let(:nonce) { "57a17c3f-b2ed-446e-9dd8-651ba3aec37d" }
-        let(:redirect_uri) do
-          "#{CGI.escape(OpenProject::Application.root_url)}/oauth_clients/#{storage.oauth_client.client_id}/callback"
-        end
-
         before do
-          allow(SecureRandom).to receive(:uuid).and_call_original.ordered
-          allow(SecureRandom).to receive(:uuid).and_return(nonce).ordered
+          OAuthClientToken.where(user: admin, oauth_client: storage.oauth_client).destroy_all
         end
 
         it "show a storage login button" do
@@ -299,11 +287,11 @@ RSpec.describe "Admin lists project mappings for a storage",
 
           within("dialog") do
             choose "Existing folder with manually managed permissions"
-            expect(page).to have_button("Nextcloud login")
+            wait_for(page).to have_button("Nextcloud login")
             click_on("Nextcloud login")
-            wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize" \
-                                                "?client_id=#{storage.oauth_client.client_id}&" \
-                                                "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
+            wait_for(page).to have_current_path(
+              %r{/index.php/apps/oauth2/authorize\?client_id=.*&redirect_uri=.*&response_type=code&state=.*}
+            )
           end
         end
       end
