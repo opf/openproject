@@ -68,7 +68,7 @@ To do this change the color values (entered as color hex code) in the *Advanced 
  You can see the selected color in the preview area next to the color hex code. Therefore, it is possible to see the selected color before saving the changes.
 
 > ![TIP]
->If the button color you select is too light  to have white text on top of it, the icon and text color will be displayed in black instead.
+> If the button color you select is too light to have white text on top of it, the icon and text color will be displayed in black instead.
 
 
 ![Advanced color settings in OpenProject](openproject_system_guide_design_advanced_settings_primer.png)
