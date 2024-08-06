@@ -66,7 +66,7 @@ Here is an example of a new status that triggers a % Complete of 73%:
 
 ![Screenshot showing the OpenProject administration for a new status with % Complete 73%](openproject-14-4-status-percentage-complete.png)
 
-For more details on status-based progress reporting, see our [system admin guide](https://www.openproject-edge.com/docs/system-admin-guide/manage-work-packages/work-package-status/).
+For more details on status-based progress reporting, see our [system admin guide](../../system-admin-guide/manage-work-packages/work-package-status/).
 
 ### Nextcloud storages: Connection validation
 
@@ -74,7 +74,7 @@ Last month, we already released a connection validation feature for OneDrive/Sha
 
 The validations include checking if the external storage server is reachable, verifying for SSL errors, ensuring the server is accessible, confirming that necessary apps are activated on Nextcloud and that their versions are compatible, and validating the app password.
 
-Read more about connection validation for Nextcloud in our [system admin guide](https://www.openproject-edge.com/docs/system-admin-guide/files/external-file-storages/health-status/#connection-validation-for-nextcloud).
+Read more about connection validation for Nextcloud in our [system admin guide](../../system-admin-guide/files/external-file-storages/health-status/#connection-validation-for-nextcloud).
 
 ### Project lists: Select/Exclude projects in project list explicitly via filter
 
