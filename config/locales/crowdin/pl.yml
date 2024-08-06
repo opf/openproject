@@ -485,7 +485,7 @@ pl:
         is_readonly: "Tylko do odczytu"
         excluded_from_totals: "Wyłączono z sum"
   themes:
-    dark: "Ciemny (eksperymentalny)"
+    dark: "Dark (Beta)"
     light: "Jasny"
     light_high_contrast: "Jasny, wysoki kontrast"
   types:

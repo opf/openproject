@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesQuery
+          include TaggedLogging
+
           FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
 
           def self.call(storage:, auth_strategy:, folder:)
@@ -44,13 +46,16 @@ module Storages
           end
 
           def call(auth_strategy:, folder:)
-            Authentication[auth_strategy].call(storage: @storage) do |http|
-              response = handle_response(http.get(children_url_for(folder) + FIELDS), :value)
+            with_tagged_logger do
+              info "Getting data on all files under folder '#{folder}' using #{auth_strategy.key}"
+              Authentication[auth_strategy].call(storage: @storage) do |http|
+                response = handle_response(http.get(children_url_for(folder) + FIELDS), :value)
 
-              if response.result.empty?
-                empty_response(http, folder)
-              else
-                response.map { |json_files| storage_files(json_files) }
+                if response.result.empty?
+                  empty_response(http, folder)
+                else
+                  response.map { |json_files| storage_files(json_files) }
+                end
               end
             end
           end
@@ -63,8 +68,8 @@ module Storages
             in { status: 200..299 }
               ServiceResult.success(result: response.json(symbolize_keys: true).fetch(map_value))
             in { status: 400 }
-              ServiceResult.failure(result: :error,
-                                    errors: Util.storage_error(response:, code: :error, source: self.class))
+              ServiceResult.failure(result: :request_error,
+                                    errors: Util.storage_error(response:, code: :request_error, source: self.class))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
                                     errors: Util.storage_error(response:, code: :not_found, source: self.class))

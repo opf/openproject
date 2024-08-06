@@ -27,7 +27,7 @@ zh-TW:
   admin:
     plugins:
       no_results_title_text: 目前沒有安裝任何外掛程式
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_content_text: 請參閱我們的整合和外掛頁面以獲取更多資訊。
     custom_styles:
       color_theme: "色彩佈景主題"
       color_theme_custom: "自訂"
@@ -81,7 +81,7 @@ zh-TW:
       upgrade_info: "請升級到付費版以啟用此功能"
     journal_aggregation:
       explanation:
-        text: "使用者操作（例如\"更新\"工作項目兩次），如果時間差異小於指定的時間間隔，則將整合為單次操作。它們將在應用程序中顯示為單個操作。這也會套用在電子郵件通知，以及 %{webhook_link} delay。"
+        text: "例如使用者\"更新\"工作項目兩次，如果時間間隔小於設定值，則將合併視為為單次操作。應用程序中亦會顯示為單個操作。這也會套用在電子郵件通知，以及 %{webhook_link} 。"
         link: "webhook"
   announcements:
     show_until: 只顯示到
@@ -288,7 +288,7 @@ zh-TW:
       project_custom_fields:
         header:
           title: "專案屬性"
-          description: '這些專案屬性將顯示在您各自的<a href=%{overview_url} target="_blank">專案概述頁面</a>中。您可以啟用或停用單一屬性。專案屬性由管理員在<a href=%{admin_settings_url} target="_blank">管理設定</a>中定義。'
+          description: '這些專案屬性將顯示在您各自的<a href=%{overview_url} target="_blank">專案總覽頁面</a>中。您可以啟用或停用單一屬性。專案屬性由管理員在<a href=%{admin_settings_url} target="_blank">管理設定</a>中定義。'
         filter:
           label: "搜尋專案屬性"
         actions:
@@ -469,7 +469,7 @@ zh-TW:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "白色主題"
     light_high_contrast: "高對比白色主題"
   types:
@@ -729,7 +729,7 @@ zh-TW:
         impaired: "協助工具模式"
         time_zone: "時區"
         auto_hide_popups: "自動隱藏成功通知"
-        warn_on_leaving_unsaved: "離開尚未儲存的工作包時提示我"
+        warn_on_leaving_unsaved: "離開尚未儲存的工作項目時提示我"
         theme: "模式 "
         mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
@@ -923,7 +923,7 @@ zh-TW:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "請選擇一個專案"
         query:
           attributes:
             project:
@@ -1304,7 +1304,7 @@ zh-TW:
   button_edit: "編輯"
   button_edit_associated_wikipage: "編輯關聯的維基頁面：%{page_title}"
   button_expand_all: "全部展開"
-  button_favorite: "Add to favorites"
+  button_favorite: "收藏"
   button_filter: "篩選條件"
   button_generate: "產生"
   button_list: "清單"
@@ -1821,7 +1821,7 @@ zh-TW:
   label_authentication: "身份驗證"
   label_authentication_settings: "Authentication settings"
   label_available_global_roles: "可用的角色"
-  label_available_project_attributes: "Available project attributes"
+  label_available_project_attributes: "可使用的專案屬性"
   label_available_project_forums: "可用的討論區"
   label_available_project_repositories: "可用的版本庫"
   label_available_project_versions: "可用的版本"
@@ -2069,7 +2069,7 @@ zh-TW:
   label_membership_plural: "Memberships"
   label_membership_added: "Member added"
   label_membership_updated: "Member updated"
-  label_menu: "Menu"
+  label_menu: "選單"
   label_menu_badge:
     pre_alpha: "早期開發版本"
     alpha: "開發版本"
@@ -2172,7 +2172,7 @@ zh-TW:
   label_project: "Project"
   label_project_activity: "專案活動"
   label_project_attribute_plural: "專案屬性"
-  label_project_attribute_manage_link: "Manage project attributes"
+  label_project_attribute_manage_link: "管理專案屬性"
   label_project_count: "專案總數"
   label_project_copy_notifications: "在專案複製期間發送電子郵件通知"
   label_project_latest: "最新的專案"
@@ -2618,7 +2618,7 @@ zh-TW:
   notice_successful_update_custom_fields_added_to_project: |
     更新成功。相關類型之專案，此客製欄位會自動啟動。<a href="%{url}" target="_blank">看更多</a>。
   notice_successful_update_custom_fields_added_to_type: |
-    更新成功。相關類型之專案，此客製欄位會自動啟動。
+    更新成功。相關類型之專案，此客製欄位會自動啟用。
   notice_to_many_principals_to_display: "搜尋的結果太多。\n請透過輸入新成員 (群組) 的名稱來縮小搜尋的範圍。"
   notice_user_missing_authentication_method: 用戶尚未選擇密碼或其他方式登錄。
   notice_user_invitation_resent: 已向 %{email} 發送邀請。
@@ -3102,7 +3102,7 @@ zh-TW:
       label_new_attribute: "專案屬性"
       label_new_section: "區段"
       label_edit_section: "編輯標題"
-      label_section_actions: "Section actions"
+      label_section_actions: "區塊設定"
       heading_description: "這些專案屬性顯示在每個專案的總覽頁面中。 您可以新增屬性，將它們分組並根據需要重新排序。 這些屬性可以啟用或停用，但不能在專案層級重新排序。"
       label_project_custom_field_actions: "Project attribute actions"
       label_no_project_custom_fields: "此區段沒有定義專案屬性"

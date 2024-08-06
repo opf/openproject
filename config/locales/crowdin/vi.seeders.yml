@@ -77,81 +77,6 @@ vi:
           name: Cao
         item_3:
           name: Ngay lập tức
-      statuses:
-        item_0:
-          name: Mới
-        item_1:
-          name: Trong quá trình đặc tả
-        item_2:
-          name: được chỉ định
-        item_3:
-          name: Đã xác nhận
-        item_4:
-          name: Sẽ được xếp lịch
-        item_5:
-          name: Đã xếp lịch
-        item_6:
-          name: Đang xử lý
-        item_7:
-          name: Đã phát triển
-        item_8:
-          name: Trong quá trình thử nghiệm
-        item_9:
-          name: Đã kiểm tra
-        item_10:
-          name: Kiểm tra thất bại
-        item_11:
-          name: Đã đóng
-        item_12:
-          name: Đang chờ
-        item_13:
-          name: Đã từ chối
-      time_entry_activities:
-        item_0:
-          name: Quản lý
-        item_1:
-          name: Đặc điểm kỹ thuật
-        item_2:
-          name: Phát triển
-        item_3:
-          name: Thử nghiệm
-        item_4:
-          name: Hỗ trợ
-        item_5:
-          name: Khác
-      types:
-        item_0:
-          name: Nhiệm vụ
-        item_1:
-          name: Milestone
-        item_2:
-          name: Giai đoạn
-        item_3:
-          name: Tính năng
-        item_4:
-          name: Sử thi
-        item_5:
-          name: User story
-        item_6:
-          name: Lỗi
-      welcome:
-        title: Welcome to OpenProject!
-        text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-          Core features and use cases:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Welcome to the future of project management.
-
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo project
@@ -489,3 +414,78 @@ vi:
             * Time boxed (3 h).
             * After Sprint Review, will be moderated by Scrum Master.
             * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+      statuses:
+        item_0:
+          name: Mới
+        item_1:
+          name: Trong quá trình đặc tả
+        item_2:
+          name: được chỉ định
+        item_3:
+          name: Đã xác nhận
+        item_4:
+          name: Sẽ được xếp lịch
+        item_5:
+          name: Đã xếp lịch
+        item_6:
+          name: Đang xử lý
+        item_7:
+          name: Đã phát triển
+        item_8:
+          name: Trong quá trình thử nghiệm
+        item_9:
+          name: Đã kiểm tra
+        item_10:
+          name: Kiểm tra thất bại
+        item_11:
+          name: Đã đóng
+        item_12:
+          name: Đang chờ
+        item_13:
+          name: Đã từ chối
+      time_entry_activities:
+        item_0:
+          name: Quản lý
+        item_1:
+          name: Đặc điểm kỹ thuật
+        item_2:
+          name: Phát triển
+        item_3:
+          name: Thử nghiệm
+        item_4:
+          name: Hỗ trợ
+        item_5:
+          name: Khác
+      types:
+        item_0:
+          name: Nhiệm vụ
+        item_1:
+          name: Milestone
+        item_2:
+          name: Giai đoạn
+        item_3:
+          name: Tính năng
+        item_4:
+          name: Sử thi
+        item_5:
+          name: User story
+        item_6:
+          name: Lỗi
+      welcome:
+        title: Welcome to OpenProject!
+        text: |
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+          Core features and use cases:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Welcome to the future of project management.
+
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

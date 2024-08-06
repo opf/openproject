@@ -475,7 +475,7 @@
         is_readonly: "Kun lesetilgang"
         excluded_from_totals: "Unntatt fra totaler"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Lyst"
     light_high_contrast: "Lys høy kontrast"
   types:

@@ -619,7 +619,7 @@ mn:
         mentioned: "Mentioned"
         watched: "Watcher"
         assigned: "Assignee"
-        responsible: "Accountable"
+        accountable: "Accountable"
         created: "Created"
         scheduled: "Scheduled"
         commented: "Commented"

@@ -469,7 +469,7 @@ ko:
         is_readonly: "읽기 전용"
         excluded_from_totals: "합계에서 제외됨"
   themes:
-    dark: "다크(실험적)"
+    dark: "Dark (Beta)"
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
   types:
