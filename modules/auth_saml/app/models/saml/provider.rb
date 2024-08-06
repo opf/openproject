@@ -62,6 +62,11 @@ module Saml
       idp_cert.present?
     end
 
+    def assertion_consumer_service_url
+      root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
+      URI.join(root_url, "/auth/#{slug}/callback").to_s
+    end
+
     def to_h
       options
         .merge(
@@ -72,6 +77,7 @@ module Saml
           check_sp_cert_expiration: true,
           metadata_signed: true
         )
+        .symbolize_keys
     end
   end
 end

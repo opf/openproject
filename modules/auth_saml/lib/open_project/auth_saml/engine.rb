@@ -3,7 +3,9 @@ module OpenProject
   module AuthSaml
     def self.configuration
       RequestStore.fetch(:openproject_omniauth_saml_provider) do
-        global_configuration.deep_merge(settings_from_db)
+        global_configuration
+          .deep_merge(settings_from_db)
+          .deep_merge(settings_from_providers)
       end
     end
 
@@ -18,18 +20,16 @@ module OpenProject
       @global_configuration ||= Hash(settings_from_config || settings_from_yaml).with_indifferent_access
     end
 
+    def self.settings_from_providers
+      Saml::Provider.all.each_with_object({}) do |provider, hash|
+        hash[provider.slug] = provider.to_h
+      end
+    end
+
     def self.settings_from_db
       value = Hash(Setting.plugin_openproject_auth_saml).with_indifferent_access[:providers]
 
       value.is_a?(Hash) ? value : {}
-    end
-
-    def self.providers
-      configuration.map do |name, config|
-        config['name'] = name
-        readonly = global_configuration.keys.include?(name)
-        ::Saml::Provider.new(readonly:, **config)
-      end
     end
 
     def self.settings_from_config
@@ -62,8 +62,8 @@ module OpenProject
              :plugin_saml,
              :saml_providers_path,
              parent: :authentication,
-             caption: ->(*) { I18n.t('saml.menu_title') },
-             enterprise_feature: 'openid_providers'
+             caption: ->(*) { I18n.t("saml.menu_title") },
+             enterprise_feature: "openid_providers"
       end
 
       assets %w(

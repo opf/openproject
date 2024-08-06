@@ -41,7 +41,7 @@ module OmniAuth
       return false unless providers
 
       @provider = providers.find do |p|
-        (current_path =~ /#{path_for_provider(p.to_hash[:name])}/) == 0
+        current_path.match?(/#{path_for_provider(p.to_hash[:name])}(\/|\s*$)/)
       end
 
       if @provider
