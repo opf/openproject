@@ -88,8 +88,8 @@ module Bim::Bcf
       end
 
       def snapshot_binary_contents
-        if snapshot_base64.include?('base64,')
-          Base64.decode64(snapshot_base64.split('base64,').last)
+        if snapshot_base64.include?("base64,")
+          Base64.decode64(snapshot_base64.split("base64,").last)
         else
           Base64.decode64(snapshot_base64)
         end
