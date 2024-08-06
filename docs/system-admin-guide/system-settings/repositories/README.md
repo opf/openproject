@@ -9,7 +9,7 @@ keywords: repository settings
 
 > **Important note:** Managed GIT and SVN repositories in OpenProject are currently only supported in package-based installations. They are not supported in docker-based installations.
 
-To adapt repositories settings, go to System settings on the tab **Repositories** you can configure the following options.
+To adapt repositories settings, go to System settings on the tab **Repositories**. You can configure the following options:
 
 1. **Autofetch repository changes**. This option allows to automatically show commits in an OpenProject Repository.
 2. **Repository disk size cache**. In order to cache the repository disk size (displayed e.g. in repository page).
@@ -45,4 +45,4 @@ Show checkout instructions for Subversion and GIT.
 
 ![Sys-admin-system-settings-repositories-fixing-commit-messages](Sys-admin-system-settings-repositories-fixing-commit-messages.png)
 
-7. Do not forger to **Save** all your changes.
+7. Do not forget to **Save** all your changes.
