@@ -68,8 +68,7 @@ module Storages::ProjectStorages
       end
 
       if (failures = set_attributes_results.select(&:failure?)).any?
-        service_call.success = false
-        service_call.errors = failures.map(&:errors)
+        service_call = failures.first
       else
         service_call.result = set_attributes_results.map(&:result)
       end

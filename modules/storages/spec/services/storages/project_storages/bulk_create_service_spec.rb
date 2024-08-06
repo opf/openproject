@@ -222,15 +222,15 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
         expect { result = create_service.call(project_folder_mode: "automatic") }
           .not_to change(Storages::ProjectStorage, :count)
         expect(result).to be_failure
-        expect(result.errors.map(&:full_messages).flatten)
-          .to eq(["Project folder mode is not available for this storage."])
+        expect(result.errors.full_messages.to_sentence)
+          .to eq("Project folder mode is not available for this storage.")
       end
 
       aggregate_failures "manual mode requires a project folder id" do
         expect { result = create_service.call(project_folder_mode: "manual") }
           .not_to change(Storages::ProjectStorage, :count)
         expect(result).to be_failure
-        expect(result.errors.map(&:full_messages).flatten).to eq(["Project folder can't be blank."])
+        expect(result.errors.messages).to eq({ project_folder_id: ["Please select a folder."] })
       end
     end
   end
