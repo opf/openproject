@@ -32,19 +32,21 @@ RSpec.describe API::V3::Memberships::MembershipCollectionRepresenter do
   let(:self_base_link) { "/api/v3/members" }
   let(:members) do
     build_stubbed_list(:member, 3).tap do |members|
-      allow(members)
-        .to receive(:limit)
-        .with(page_size)
-        .and_return(members)
+      without_partial_double_verification do
+        allow(members)
+          .to receive(:limit)
+          .with(page_size)
+          .and_return(members)
 
-      allow(members)
-        .to receive(:offset)
-        .with(page - 1)
-        .and_return(members)
+        allow(members)
+          .to receive(:offset)
+          .with(page - 1)
+          .and_return(members)
 
-      allow(members)
-        .to receive(:count)
-        .and_return(3)
+        allow(members)
+          .to receive(:count)
+          .and_return(3)
+      end
     end
   end
   let(:current_user) { build_stubbed(:user) }

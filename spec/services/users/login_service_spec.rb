@@ -48,7 +48,7 @@ RSpec.describe Users::LoginService, type: :model do
 
   before do
     allow(Sessions::DropOtherSessionsService)
-      .to receive(:call)
+      .to receive(:call!)
       .with(input_user, session)
 
     allow(controller)

@@ -39,19 +39,21 @@ RSpec.describe API::V3::Users::UserCollectionRepresenter do
   let(:users) do
     users = build_stubbed_list(:user,
                                actual_count)
-    allow(users)
-      .to receive(:limit)
-      .with(page_size)
-      .and_return(users)
+    without_partial_double_verification do
+      allow(users)
+        .to receive(:limit)
+        .with(page_size)
+        .and_return(users)
 
-    allow(users)
-      .to receive(:offset)
-      .with(page - 1)
-      .and_return(users)
+      allow(users)
+        .to receive(:offset)
+        .with(page - 1)
+        .and_return(users)
 
-    allow(users)
-      .to receive(:count)
-      .and_return(total)
+      allow(users)
+        .to receive(:count)
+        .and_return(total)
+    end
 
     users
   end

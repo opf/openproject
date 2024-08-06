@@ -35,19 +35,21 @@ RSpec.describe API::V3::Relations::RelationPaginatedCollectionRepresenter do
 
   let(:relations) do
     build_stubbed_list(:relation, total).tap do |relations|
-      allow(relations)
-        .to receive(:limit)
-              .with(page_size)
-              .and_return(relations)
+      without_partial_double_verification do
+        allow(relations)
+          .to receive(:limit)
+                .with(page_size)
+                .and_return(relations)
 
-      allow(relations)
-        .to receive(:offset)
-              .with(page - 1)
-              .and_return(relations)
+        allow(relations)
+          .to receive(:offset)
+                .with(page - 1)
+                .and_return(relations)
 
-      allow(relations)
-        .to receive(:count)
-              .and_return(relations.length)
+        allow(relations)
+          .to receive(:count)
+                .and_return(relations.length)
+      end
     end
   end
 

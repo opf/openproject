@@ -96,9 +96,11 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
         .to receive(:visible)
         .and_return(matching_principals)
 
-      allow(matching_principals)
-        .to receive(:not_builtin)
-              .and_return(matching_principals)
+      without_partial_double_verification do
+        allow(matching_principals)
+          .to receive(:not_builtin)
+                .and_return(matching_principals)
+      end
     end
 
     describe "#user_values" do

@@ -41,14 +41,14 @@ RSpec.describe "layouts/base" do
   let(:anonymous) { build_stubbed(:anonymous) }
 
   before do
-    allow(view).to receive(:current_menu_item).and_return("overview")
-    allow(view).to receive(:default_breadcrumb)
-    allow(controller).to receive(:default_search_scope)
-    allow(view)
-      .to receive(:render_to_string)
+    without_partial_double_verification do
+      allow(view).to receive(:default_breadcrumb)
+      allow(controller).to receive(:default_search_scope)
+      allow(view).to receive(:render_to_string)
+      allow(view).to receive_messages(current_menu_item: "overview", current_user:)
+    end
 
     allow(User).to receive(:current).and_return current_user
-    allow(view).to receive(:current_user).and_return current_user
   end
 
   describe "Sign in button" do

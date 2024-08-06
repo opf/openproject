@@ -470,7 +470,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   context "when passing groups" do
     let(:groups) do
       group = { "custom" => "object" }
-      allow(group).to receive(:has_sums?).and_return false
+
+      without_partial_double_verification do
+        allow(group).to receive(:has_sums?).and_return false
+      end
+
       [group]
     end
 
@@ -482,7 +486,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   context "when passing groups with sums" do
     let(:groups) do
       group = { "sums" => {} }
-      allow(group).to receive(:has_sums?).and_return true
+
+      without_partial_double_verification do
+        allow(group).to receive(:has_sums?).and_return true
+      end
+
       [group]
     end
 

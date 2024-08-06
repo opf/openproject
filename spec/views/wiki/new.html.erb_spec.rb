@@ -41,9 +41,12 @@ RSpec.describe "wiki/new" do
     assign(:wiki,    wiki)
     assign(:page,    page)
     assign(:content, content)
-    allow(view)
-      .to receive(:current_user)
-      .and_return(user)
+
+    without_partial_double_verification do
+      allow(view)
+        .to receive(:current_user)
+        .and_return(user)
+    end
   end
 
   it "renders a form which POSTs to create_project_wiki_index_path" do

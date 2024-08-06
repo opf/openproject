@@ -53,9 +53,11 @@ RSpec.shared_examples "watcher job" do |action|
         .to receive(:notification_settings)
               .and_return(notification_settings)
 
-      allow(notification_settings)
-        .to receive(:applicable)
-              .and_return(notification_settings)
+      without_partial_double_verification do
+        allow(notification_settings)
+          .to receive(:applicable)
+                .and_return(notification_settings)
+      end
     end
   end
 

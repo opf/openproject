@@ -35,9 +35,10 @@ RSpec.describe "layouts/base" do
     let(:anonymous) { build_stubbed(:anonymous) }
 
     before do
-      allow(view).to receive(:current_menu_item).and_return("overview")
-      allow(view).to receive(:default_breadcrumb)
-      allow(view).to receive(:current_user).and_return anonymous
+      without_partial_double_verification do
+        allow(view).to receive(:default_breadcrumb)
+        allow(view).to receive_messages(current_menu_item: "overview", current_user: anonymous)
+      end
       allow(OpenProject::Plugins::AuthPlugin).to receive(:providers).and_return([provider])
     end
 

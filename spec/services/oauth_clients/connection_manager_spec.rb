@@ -510,20 +510,25 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
 
       before do
         allow(instance).to receive(:refresh_token).and_return refresh_service_result
-        allow(yield_double_object)
-          .to receive(:yield_twice_method)
-                .and_return(
-                  yield_service_result1,
-                  yield_service_result2
-                )
+
+        without_partial_double_verification do
+          allow(yield_double_object)
+            .to receive(:yield_twice_method)
+                  .and_return(
+                    yield_service_result1,
+                    yield_service_result2
+                  )
+        end
       end
 
       it "returns a ServiceResult with success, without refresh" do
-        expect(subject.success).to be_truthy
-        expect(subject).to be yield_service_result2
-        expect(instance).to have_received(:refresh_token)
-        expect(oauth_client_token).to have_received(:reload)
-        expect(yield_double_object).to have_received(:yield_twice_method).twice
+        without_partial_double_verification do
+          expect(subject.success).to be_truthy
+          expect(subject).to be yield_service_result2
+          expect(instance).to have_received(:refresh_token)
+          expect(oauth_client_token).to have_received(:reload)
+          expect(yield_double_object).to have_received(:yield_twice_method).twice
+        end
       end
     end
   end

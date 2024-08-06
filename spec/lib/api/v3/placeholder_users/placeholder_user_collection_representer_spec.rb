@@ -40,19 +40,21 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter d
   let(:placeholders) do
     placeholders = build_stubbed_list(:placeholder_user,
                                       actual_count)
-    allow(placeholders)
-      .to receive(:limit)
-      .with(page_size)
-      .and_return(placeholders)
+    without_partial_double_verification do
+      allow(placeholders)
+        .to receive(:limit)
+        .with(page_size)
+        .and_return(placeholders)
 
-    allow(placeholders)
-      .to receive(:offset)
-      .with(page - 1)
-      .and_return(placeholders)
+      allow(placeholders)
+        .to receive(:offset)
+        .with(page - 1)
+        .and_return(placeholders)
 
-    allow(placeholders)
-      .to receive(:count)
-      .and_return(total)
+      allow(placeholders)
+        .to receive(:count)
+        .and_return(total)
+    end
 
     placeholders
   end

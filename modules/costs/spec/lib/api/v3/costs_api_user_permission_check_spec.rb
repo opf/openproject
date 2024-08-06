@@ -52,8 +52,9 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
   let(:work_package) { build_stubbed(:work_package, project:) }
 
   before do
-    allow(subject).to receive(:current_user).and_return(user)
-    allow(subject).to receive(:represented).and_return(work_package)
+    without_partial_double_verification do
+      allow(subject).to receive_messages(current_user: user, represented: work_package) # rubocop:disable RSpec/SubjectStub
+    end
 
     mock_permissions_for(user) do |mock|
       mock.allow_in_project :view_time_entries, project: work_package.project if view_time_entries
