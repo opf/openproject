@@ -55,9 +55,7 @@ module Components
 
     def wait_for_folder_loaded
       page.within(container) do
-        RSpec::Wait.with_wait(timeout: 10, delay: 1) do
-          RSpec::Wait.wait_for(page).to have_no_css('[data-test-selector="op-file-list--loading-indicator"]')
-        end
+        expect(page).to have_no_css('[data-test-selector="op-file-list--loading-indicator"]')
       end
     end
 
