@@ -41,6 +41,11 @@ The *change project* option moves a work package to another project or subprojec
 
 ![change project of work package](change-project-of-work-package.png)
 
+> [!TIP]
+> If the current work package type does not exist in the target project, you will see a warning message asking you to either activate a desired work package type or select one of the activated ones. Read more on [activating a work package type for a specific project](../../projects/project-settings/work-package-types/) or [creating new work package types in OpenProject administration](../../../system-admin-guide/manage-work-packages/work-package-types/).
+
+![Move work package to a different project in OpenProject](openproject_user_guide_copy_move_delete_warning_message_missing_wp_type.png)
+
 ## Delete a work package
 
 The right to delete work packages is tied to specified roles (for example system administrators). The roles and permission may vary from project to project.
