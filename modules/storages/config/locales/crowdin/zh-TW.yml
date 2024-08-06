@@ -166,6 +166,9 @@ zh-TW:
       nextcloud:
         group_folders_app: Group folders
         integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
+      setup_incomplete_header: Storage setup incomplete
     error_invalid_provider_type: 請選擇有效的儲存空間提供者。
     file_storage_view:
       access_management:
@@ -298,7 +301,7 @@ zh-TW:
       connected_no_permissions: User role has no storages permissions
       not_connected: Not connected. The user should login to the storage via the following %{link}.
     members_no_results: No members to display.
-    no_results: No storages set up yet.
+    no_results: 尚未設定檔案儲存區
     notice_successful_storage_connection: |-
       Storage connected successfully! Remember to activate the module and the specific storage in the project settings
       of each desired project to use it.
@@ -351,8 +354,8 @@ zh-TW:
         name: OneDrive/SharePoint
         name_placeholder: 例如 OneDrive
     show_attachments_toggle:
-      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
-      label: Show attachments in the work packages files tab
+      description: '停用此選項將隱藏工作項目的文件清單。工作項目附加的文件仍將上傳到內部儲存起來。'
+      label: 顯示與工作項目相關之附件
     storage_list_blank_slate:
       description: 新增的儲存空間將在此顯示
       heading: 目前沒有任何儲存空間

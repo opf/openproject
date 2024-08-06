@@ -166,6 +166,9 @@ zh-CN:
       nextcloud:
         group_folders_app: 组文件夹
         integration_app: 集成 OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
+      setup_incomplete_header: Storage setup incomplete
     error_invalid_provider_type: 请选择一个有效的存储源。
     file_storage_view:
       access_management:

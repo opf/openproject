@@ -12,7 +12,7 @@ ms:
         tenant: ID Direktori (penyewa)
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: bukan URL yang sah.
         not_linked_to_project: tidak terpaut dengan projek.
       models:
         storages/file_link:
@@ -63,21 +63,21 @@ ms:
       manual: Folder yang tersedia dikendalikan secara manual
     remove_project:
       dialog:
-        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
-        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
-        heading: Remove project from %{storage_type}
-        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
-      label: Remove project
+        automatically_managed_appendix: Dalam kes ini juga, storan ini mempunyai folder projek yang diuruskan secara automatik, dan fail yang termasuk akan dipadam selamanya.
+        confirmation_text: Sila sahkan bahawa anda faham dan ingin memadam storan fail ini daripada projek ini
+        heading: Keluarkan projek daripada %{storage_type}
+        text: Aksi ini tidak dapat dipulihkan dan akan padamkan semua pautan daripada pakej kerja projek ini ke fail dan folder storan itu.
+      label: Keluarkan projek
   services:
     attributes:
       nextcloud_sync_service:
-        add_user_to_group: 'Add User to Group:'
+        add_user_to_group: 'Tambah Pengguna ke Kumpulan:'
         create_folder: 'Managed Project Folder Creation:'
         ensure_root_folder_permissions: 'Set Base Folder Permissions:'
         hide_inactive_folders: 'Hide Inactive Folders Step:'
         remote_folders: 'Read contents of the group folder:'
-        remove_user_from_group: 'Remove User from Group:'
-        rename_project_folder: 'Rename managed project Folder:'
+        remove_user_from_group: 'Keluarkan Pengguna daripada Kumpulan:'
+        rename_project_folder: 'Namakan semula Folder projek yang telah diuruskan:'
       one_drive_sync_service:
         create_folder: 'Managed Project Folder Creation:'
         ensure_root_folder_permissions: 'Set Base Folder Permissions:'
@@ -89,7 +89,7 @@ ms:
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
-              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              conflict: 'Pengguna %{user} tidak boleh ditambah ke kumpulan %{group} atas sebab: %{reason}'
               failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
             create_folder:
               conflict: The %{folder_name} already exists on %{parent_location}.
@@ -166,6 +166,9 @@ ms:
       nextcloud:
         group_folders_app: Group folders
         integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
+      setup_incomplete_header: Storage setup incomplete
     error_invalid_provider_type: Sila pilih penyedia storan yang sah.
     file_storage_view:
       access_management:
