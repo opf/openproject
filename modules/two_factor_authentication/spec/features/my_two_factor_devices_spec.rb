@@ -23,11 +23,11 @@ RSpec.describe "My Account 2FA configuration", :js, with_settings: {
     expect(page).to have_css(".on-off-status.-disabled")
 
     # Select SMS
-    menu_button = find("[data-test-selector='two_factor_authentication_devices'] button")
+    menu_button = find_test_selector("two_factor_authentication_devices_button")
     menu_button.click
     wait_for_network_idle if using_cuprite?
-    expect(page).to have_css("[data-test-selector='two_factor_authentication_devices_sms']")
-    sms_menu_item = find("[data-test-selector='two_factor_authentication_devices_sms']")
+    expect(page).to have_test_selector("two_factor_authentication_devices_sms")
+    sms_menu_item = find_test_selector("two_factor_authentication_devices_sms")
     sms_menu_item.click
 
     # Try to save with invalid phone number
@@ -69,14 +69,15 @@ RSpec.describe "My Account 2FA configuration", :js, with_settings: {
 
     # Create another one as totp
     visit my_2fa_devices_path
-    menu_button = find("[data-test-selector='two_factor_authentication_devices'] button")
+    menu_button = find_test_selector("two_factor_authentication_devices_button")
     menu_button.click
     wait_for_network_idle if using_cuprite?
-    expect(page).to have_css("[data-test-selector='two_factor_authentication_devices_totp']")
+    expect(page).to have_test_selector("two_factor_authentication_devices_totp")
     # Select totp
-    totp_menu_item = find("[data-test-selector='two_factor_authentication_devices_totp']")
+    totp_menu_item = find_test_selector("two_factor_authentication_devices_totp")
     totp_menu_item.click
-    expect(page).to have_css("h1", text: I18n.t("two_factor_authentication.devices.add_new"))
+    expect(page).to have_test_selector("two_factor_authentication_new_device_header_title",
+                                       text: I18n.t("two_factor_authentication.devices.add_new"))
     expect(page).to have_current_path new_my_2fa_device_path, ignore_query: true
 
     # Change identifier
