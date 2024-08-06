@@ -389,11 +389,10 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
           context "with wrong email address" do
             before do
               config.global_email = "other@mail.com"
+              allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
             end
 
             it "is rejected against google" do
-              allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
-
               post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
@@ -403,8 +402,6 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
             end
 
             it "is rejected against any other provider too" do
-              allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
-
               omniauth_hash.provider = "any other"
               post :omniauth_login, params: { provider: :google }
 
