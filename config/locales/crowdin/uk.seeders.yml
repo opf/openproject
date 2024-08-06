@@ -77,81 +77,6 @@ uk:
           name: Високо
         item_3:
           name: Негайно
-      statuses:
-        item_0:
-          name: Новий
-        item_1:
-          name: В специфікації
-        item_2:
-          name: Вказано
-        item_3:
-          name: Підтверджено
-        item_4:
-          name: Планується
-        item_5:
-          name: Scheduled
-        item_6:
-          name: У процесі
-        item_7:
-          name: Розробник
-        item_8:
-          name: Під час тестування
-        item_9:
-          name: Випробувано
-        item_10:
-          name: Тест не вдався
-        item_11:
-          name: Зачинено
-        item_12:
-          name: На утриманні
-        item_13:
-          name: Відхилено
-      time_entry_activities:
-        item_0:
-          name: Налаштування
-        item_1:
-          name: Специфікація
-        item_2:
-          name: Розробка
-        item_3:
-          name: Перевірка
-        item_4:
-          name: Підтримка
-        item_5:
-          name: Інше
-      types:
-        item_0:
-          name: Завдання
-        item_1:
-          name: Етап
-        item_2:
-          name: Фаза
-        item_3:
-          name: Характеристика
-        item_4:
-          name: Епічний
-        item_5:
-          name: Історія користувача
-        item_6:
-          name: Помилка
-      welcome:
-        title: Вітаємо в OpenProject!
-        text: |
-          OpenProject – це провідне програмне забезпечення з відкритим кодом, що підтримує класичне, гібридне, а також гнучке керування проєктами й надає повний контроль над даними.
-
-          Ключові функції і застосування:
-
-          * [Керування портфоліо проєктів](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Планування проєктів і їх виконання](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Керування завданнями й відстеження помилок](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Дошки Agile (Scrum і Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Керування вимогами й планування випуску](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Відстеження часу й витрат, бюджети](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Співпраця в командах і документація](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Представляємо новий рівень керування проєктами.
-
-          Для адміністраторів: ви можете змінити цей текст привітання [тут]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Демопроєкт
@@ -485,3 +410,78 @@ uk:
             * Відведений час (3 год).
             * Після зустрічі з огляду спринту Scrum-майстер починає модерацію процесу.
             * Команда обговорює спринт: що вдалося, а де потрібно підвищити продуктивність, щоб отримати кращі результати або навіть більше задоволення від роботи.
+      statuses:
+        item_0:
+          name: Новий
+        item_1:
+          name: В специфікації
+        item_2:
+          name: Вказано
+        item_3:
+          name: Підтверджено
+        item_4:
+          name: Планується
+        item_5:
+          name: Scheduled
+        item_6:
+          name: У процесі
+        item_7:
+          name: Розробник
+        item_8:
+          name: Під час тестування
+        item_9:
+          name: Випробувано
+        item_10:
+          name: Тест не вдався
+        item_11:
+          name: Зачинено
+        item_12:
+          name: На утриманні
+        item_13:
+          name: Відхилено
+      time_entry_activities:
+        item_0:
+          name: Налаштування
+        item_1:
+          name: Специфікація
+        item_2:
+          name: Розробка
+        item_3:
+          name: Перевірка
+        item_4:
+          name: Підтримка
+        item_5:
+          name: Інше
+      types:
+        item_0:
+          name: Завдання
+        item_1:
+          name: Етап
+        item_2:
+          name: Фаза
+        item_3:
+          name: Характеристика
+        item_4:
+          name: Епічний
+        item_5:
+          name: Історія користувача
+        item_6:
+          name: Помилка
+      welcome:
+        title: Вітаємо в OpenProject!
+        text: |
+          OpenProject – це провідне програмне забезпечення з відкритим кодом, що підтримує класичне, гібридне, а також гнучке керування проєктами й надає повний контроль над даними.
+
+          Ключові функції і застосування:
+
+          * [Керування портфоліо проєктів](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Планування проєктів і їх виконання](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Керування завданнями й відстеження помилок](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Дошки Agile (Scrum і Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Керування вимогами й планування випуску](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Відстеження часу й витрат, бюджети](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Співпраця в командах і документація](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Представляємо новий рівень керування проєктами.
+
+          Для адміністраторів: ви можете змінити цей текст привітання [тут]({{opSetting:base_url}}/admin/settings/general).

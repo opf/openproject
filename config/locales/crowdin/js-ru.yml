@@ -618,7 +618,7 @@ ru:
         mentioned: "Упомянутый"
         watched: "Наблюдатель"
         assigned: "Назначенный"
-        responsible: "Ответственный"
+        accountable: "Accountable"
         created: "Создано"
         scheduled: "Запланировано"
         commented: "Прокомментировано"

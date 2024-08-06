@@ -619,7 +619,7 @@ pl:
         mentioned: "Wzmianka"
         watched: "Obserwator"
         assigned: "Przypisana osoba"
-        responsible: "Osoba odpowiedzialna"
+        accountable: "Accountable"
         created: "Utworzono"
         scheduled: "Zaplanowany"
         commented: "Skomentował"
