@@ -201,6 +201,14 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     });
   }
 
+  displayModeChange(mode:'all'|'favored'):void {
+    this.displayMode = mode;
+
+    if (this.currentProject?.id) {
+      this.searchableProjectListService.selectedItemID$.next(parseInt(this.currentProject.id, 10));
+    }
+  }
+
   close():void {
     this.searchableProjectListService.searchText = '';
     this.dropModalOpen = false;
