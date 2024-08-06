@@ -47,6 +47,7 @@ module WorkPackage::PDFExport::Generator::Generator
       page_style = @styles.page
       page_margins = opts_margin(page_style)
       pdf.options[:page_layout] = (page_style[:page_layout] || "portrait").to_sym
+      pdf.options[:page_size] = page_style.page_size
       %i[top_margin left_margin bottom_margin right_margin].each do |margin|
         pdf.options[margin] = page_margins[margin]
       end
@@ -118,8 +119,8 @@ module WorkPackage::PDFExport::Generator::Generator
     end
   end
 
-  def generate_doc!(work_package, markdown, stlying)
-    styling = YAML::load_file(File.join(styling_asset_path, stlying))
+  def generate_doc!(work_package, markdown, styling_file)
+    styling = YAML::load_file(File.join(styling_asset_path, styling_file))
     md2pdf = MD2PDFGenerator.new(styling)
     md2pdf.init_pdf(pdf)
     # rubocop:disable Naming/VariableNumber
