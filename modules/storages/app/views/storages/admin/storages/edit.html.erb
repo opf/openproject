@@ -42,16 +42,11 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 <% end %>
 
-<% display_sidebar = @storage.provider_type_one_drive? || @storage.automatic_management_enabled? %>
-<% if display_sidebar %>
-  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |component| %>
-    <% component.with_main() do %>
-      <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
-    <% end %>
-    <% component.with_sidebar(col_placement: :end, row_placement: :end) do %>
-      <%= render(::Storages::Admin::SidePanelComponent.new(storage: @storage)) %>
-    <% end %>
+<%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |component| %>
+  <% component.with_main do %>
+    <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
   <% end %>
-<% else %>
-  <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>
+  <% component.with_sidebar(col_placement: :end, row_placement: :end) do %>
+    <%= render(::Storages::Admin::SidePanelComponent.new(storage: @storage)) %>
+  <% end %>
 <% end %>
