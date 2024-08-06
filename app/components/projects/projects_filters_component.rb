@@ -55,6 +55,6 @@ class Projects::ProjectsFiltersComponent < Filter::FilterComponent
     ]
     allowlist << Queries::Filters::Shared::CustomFields::Base if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
 
-    allowlist.detect { |clazz| filter.is_a? clazz }
+    allowlist.any? { |clazz| filter.is_a? clazz }
   end
 end

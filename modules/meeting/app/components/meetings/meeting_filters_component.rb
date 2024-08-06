@@ -71,7 +71,7 @@ module Meetings
         allowlist << Queries::Meetings::Filters::ProjectFilter
       end
 
-      allowlist.detect { |clazz| filter.is_a? clazz }
+      allowlist.any? { |clazz| filter.is_a? clazz }
     end
   end
 end
