@@ -64,10 +64,10 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     create_service.on_success { update_project_list_via_turbo_stream(url_for_action: :index) }
 
     create_service.on_failure do
-      update_flash_message_via_turbo_stream(
-        message: join_flash_messages(create_service.errors),
-        full: true, dismiss_scheme: :hide, scheme: :danger
-      )
+      project_storage = create_service.result
+      project_storage.errors.merge!(create_service.errors)
+      component = Storages::Admin::Storages::AddProjectsFormModalComponent.new(project_storage:)
+      update_via_turbo_stream(component:, status: :bad_request)
     end
 
     respond_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)

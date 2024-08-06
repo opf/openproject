@@ -34,7 +34,7 @@ module Storages
         include APIV3Helper
 
         form do |radio_form|
-          radio_form.radio_button_group(name: :project_folder_mode) do |radio_group|
+          radio_form.radio_button_group(name: :project_folder_mode, validation_message:) do |radio_group|
             if @project_storage.project_folder_mode_possible?("inactive")
               radio_group.radio_button(value: "inactive", label: I18n.t(:"storages.label_no_specific_folder"),
                                        caption: I18n.t(:"storages.instructions.no_specific_folder"),
@@ -106,7 +106,7 @@ module Storages
                 data: {
                   "storages--project-folder-mode-form-target": "projectFolderSection"
                 },
-                classes: ["d-none"]
+                classes: project_folder_selection_classes
               }
             )
           end
@@ -116,6 +116,22 @@ module Storages
           super()
           @project_storage = project_storage
           @last_project_folders = last_project_folders
+        end
+
+        private
+
+        def validation_message
+          @project_storage
+            .errors
+            .messages_for(:project_folder_id)
+            .to_sentence
+            .presence
+        end
+
+        def project_folder_selection_classes
+          [].tap do |classes|
+            classes << "d-none" unless @project_storage.errors.include?(:project_folder_id)
+          end
         end
       end
     end

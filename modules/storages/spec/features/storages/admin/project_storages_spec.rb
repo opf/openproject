@@ -237,7 +237,6 @@ RSpec.describe "Admin lists project mappings for a storage",
 
             choose "Existing folder with manually managed permissions"
             expect(page).to have_text("No selected folder")
-            # TODO: add case where user submits without selecting a folder
             click_on "Select folder"
 
             location_picker.expect_open
@@ -256,6 +255,30 @@ RSpec.describe "Admin lists project mappings for a storage",
 
           expect(page).to have_text(project.name)
           expect(page).to have_text(subproject.name)
+        end
+
+        context "when the user does not select a folder" do
+          it "shows an error message" do
+            project = create(:project)
+            click_on "Add projects"
+
+            within("dialog") do
+              autocompleter = page.find(".op-project-autocompleter")
+              autocompleter.fill_in with: project.name
+
+              find(".ng-option-label", text: project.name).click
+              check "Include sub-projects"
+
+              choose "Existing folder with manually managed permissions"
+              expect(page).to have_text("No selected folder")
+
+              click_on "Add"
+
+              expect(page).to have_text("Please select a folder.")
+              expect(page.find_by_id("storages_project_storage_project_folder_mode_manual")).to be_checked
+              expect(page).to have_text("No selected folder")
+            end
+          end
         end
       end
 
