@@ -29,13 +29,6 @@
 #++
 #
 module Saml::Providers::Sections
-  class MappingComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-
-    attr_reader :provider
-
-    def initialize(provider)
-      @provider = provider
-    end
+  class MappingComponent < SectionComponent
   end
 end

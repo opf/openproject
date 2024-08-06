@@ -29,13 +29,6 @@
 #++
 #
 module Saml::Providers::Sections
-  class ConfigurationFormComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-
-    attr_reader :provider
-
-    def initialize(provider)
-      @provider = provider
-    end
+  class ConfigurationFormComponent < SectionComponent
   end
 end

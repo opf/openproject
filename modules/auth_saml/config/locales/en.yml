@@ -13,6 +13,7 @@ en:
         idp_sso_service_url: Identity provider login endpoint
         idp_slo_service_url: Identity provider logout endpoint
         idp_cert: Public certificate of identity provider
+        authn_requests_signed: Sign SAML AuthnRequests
         format: "Format"
   saml:
     menu_title: SAML providers
@@ -31,6 +32,7 @@ en:
       label_metadata: Metadata
       label_metadata_endpoint: Metadata endpoint
       label_configuration_details: "Identity provider endpoints and certificates"
+      label_configuration_encryption: "Signatures and Encryption"
       label_add_new: New SAML identity provider
       label_edit: Edit SAML identity provider %{name}
       label_uid: Internal user id
@@ -60,6 +62,8 @@ en:
         metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
         metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill configuration."
         configuration: "Configure the endpoint URLs for the identity provider, certificates, and further SAML options."
+        encryption: "Configure assertion signatures and encryption for SAML requests and responses."
+        encryption_form: "You may optionally want to encrypt the assertion response, or have requests from OpenProject signed."
         mapping: "Manually adjust the mapping between the SAML response and user attributes in OpenProject."
         requested_attributes: "Define the set of attributes to be requested in the SAML request sent to your identity provider."
     settings:
@@ -112,3 +116,5 @@ en:
       requested_format: >
         The format of the requested attribute. This is used to specify the format of the attribute in the SAML request.
         Please see [documentation on configuring requested attributes](docs_url) for more information.
+      authn_requests_signed: >
+        If enabled, OpenProject will sign the SAML AuthnRequest. You will have to provide a signing certificate and private key using the fields below.

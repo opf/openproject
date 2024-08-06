@@ -29,6 +29,13 @@
 #++
 #
 module Saml::Providers::Sections
-  class RequestAttributesFormComponent < SectionComponent
+  class SectionComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+
+    attr_reader :provider
+
+    def initialize(provider)
+      @provider = provider
+    end
   end
 end

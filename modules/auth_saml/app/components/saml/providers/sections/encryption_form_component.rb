@@ -29,6 +29,6 @@
 #++
 #
 module Saml::Providers::Sections
-  class RequestAttributesFormComponent < SectionComponent
+  class EncryptionFormComponent < SectionComponent
   end
 end

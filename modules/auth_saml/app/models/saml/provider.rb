@@ -15,6 +15,10 @@ module Saml
     store_attribute :options, :idp_cert, :string
     store_attribute :options, :idp_cert_fingerprint, :string
 
+    store_attribute :options, :authn_requests_signed, :boolean
+    store_attribute :options, :want_assertions_signed, :boolean
+    store_attribute :options, :want_assertions_encrypted, :boolean
+
     store_attribute :options, :mapping_login, :string
     store_attribute :options, :mapping_mail, :string
     store_attribute :options, :mapping_firstname, :string
@@ -63,7 +67,10 @@ module Saml
         .merge(
           name: slug,
           display_name:,
-          assertion_consumer_service_url:
+          assertion_consumer_service_url:,
+          check_idp_cert_expiration: true,
+          check_sp_cert_expiration: true,
+          metadata_signed: true
         )
     end
   end
