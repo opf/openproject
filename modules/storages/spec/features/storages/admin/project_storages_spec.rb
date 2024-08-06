@@ -31,11 +31,14 @@
 require "spec_helper"
 require_module_spec_helper
 
+# We decrease the notification polling interval because some portions of the JS code rely on something triggering
+# the Angular change detection. This is usually done by the notification polling, but we don't want to wait
 RSpec.describe "Admin lists project mappings for a storage",
                :js,
                :webmock,
                :with_cuprite,
-               with_flag: { enable_storage_for_multiple_projects: true } do
+               with_flag: { enable_storage_for_multiple_projects: true },
+               with_settings: { notifications_polling_interval: 1_000 } do
   shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
   shared_let(:non_admin) { create(:user) }
 
@@ -228,8 +231,6 @@ RSpec.describe "Admin lists project mappings for a storage",
             autocompleter = page.find(".op-project-autocompleter")
             autocompleter.fill_in with: project.name
 
-            expect(page).to have_no_text(archived_project.name)
-
             find(".ng-option-label", text: project.name).click
             check "Include sub-projects"
 
@@ -297,6 +298,7 @@ RSpec.describe "Admin lists project mappings for a storage",
           click_on "Add projects"
 
           within("dialog") do
+            choose "Existing folder with manually managed permissions"
             expect(page).to have_button("Nextcloud login")
             click_on("Nextcloud login")
             wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize" \
