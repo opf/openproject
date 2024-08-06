@@ -70,7 +70,6 @@ To do this change the color values (entered as color hex code) in the *Advanced 
 > ![TIP]
 > If the button color you select is too light to have white text on top of it, the icon and text color will be displayed in black instead.
 
-
 ![Advanced color settings in OpenProject](openproject_system_guide_design_advanced_settings_primer.png)
 
 As soon as you press the **Save** button your changes are applied and the colors of your OpenProject environment are adjusted accordingly.
