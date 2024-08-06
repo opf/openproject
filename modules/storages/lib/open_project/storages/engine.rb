@@ -100,13 +100,21 @@ module OpenProject::Storages
           end
         end
 
+        OpenProject::Notifications.subscribe(
+          OpenProject::Events::REMOTE_IDENTITY_CREATED
+        ) do |payload|
+          if payload[:integration].is_a? Storages::Storage
+            ::Storages::AutomaticallyManagedStorageSyncJob.debounce(payload[:integration])
+          end
+        end
+
         [
           OpenProject::Events::PROJECT_STORAGE_CREATED,
           OpenProject::Events::PROJECT_STORAGE_UPDATED,
           OpenProject::Events::PROJECT_STORAGE_DESTROYED
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |payload|
-            if payload[:project_folder_mode] == :automatic
+            if payload[:project_folder_mode]&.to_sym == :automatic
               ::Storages::AutomaticallyManagedStorageSyncJob.debounce(payload[:storage])
               ::Storages::ManageStorageIntegrationsJob.disable_cron_job_if_needed
             end
@@ -198,7 +206,7 @@ module OpenProject::Storages
       menu :project_menu,
            :settings_project_storages,
            { controller: "/storages/admin/project_storages", action: "external_file_storages" },
-           if: lambda { |project| User.current.allowed_in_project?(:manage_files_in_project, project) },
+           if: ->(project) { User.current.allowed_in_project?(:manage_files_in_project, project) },
            caption: :project_module_storages,
            parent: :settings
 

@@ -28,11 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :oauth_client_token, class: "::OAuthClientToken" do
-    sequence(:access_token) { |n| "1234567890-#{n}" }
-    sequence(:refresh_token) { |n| "2345678901-#{n}" }
-    oauth_client factory: :oauth_client
-    user factory: :user
+class CreateRemoteIdentities < ActiveRecord::Migration[7.1]
+  def change
+    create_table :remote_identities do |t|
+      t.references :user, index: true, foreign_key: true
+      t.references :oauth_client, index: true, foreign_key: true
+
+      t.string :origin_user_id, null: false, index: true
+
+      t.timestamps
+      t.index %i[user_id oauth_client_id], unique: true
+    end
   end
 end

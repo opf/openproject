@@ -209,9 +209,9 @@ module Storages
       @storage.project_storages.active.automatic
     end
 
-    def client_tokens_scope = OAuthClientToken.where(oauth_client: @storage.oauth_client)
+    def client_tokens_scope = RemoteIdentity.where(oauth_client: @storage.oauth_client)
 
-    def admin_client_tokens_scope = OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
+    def admin_client_tokens_scope = RemoteIdentity.where(oauth_client: @storage.oauth_client, user: User.admin.active)
 
     def root_folder = Peripherals::ParentFolder.new("/")
     def auth_strategy = userless.call

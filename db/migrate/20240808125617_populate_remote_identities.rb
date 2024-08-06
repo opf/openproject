@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,11 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :oauth_client_token, class: "::OAuthClientToken" do
-    sequence(:access_token) { |n| "1234567890-#{n}" }
-    sequence(:refresh_token) { |n| "2345678901-#{n}" }
-    oauth_client factory: :oauth_client
-    user factory: :user
+class PopulateRemoteIdentities < ActiveRecord::Migration[7.1]
+  def up
+    fields = %i[user_id oauth_client_id origin_user_id]
+
+    OAuthClientToken.where.not(origin_user_id: nil)
+                    .select(:id, *fields)
+                    .find_in_batches do |batch|
+      identities = batch.map { |record| record.slice(*fields) }
+
+      RemoteIdentity.insert_all(identities, unique_by: %i[user_id oauth_client_id])
+    end
+
+    OAuthClientToken.update_all(origin_user_id: nil)
+  end
+
+  def down
+    RemoteIdentity.find_in_batches do |batch|
+      batch.each do |identity|
+        OAuthClientToken
+          .where(user: identity.user, oauth_client: identity.oauth_client)
+          .update_all(origin_user_id: identity.origin_user_id)
+      end
+    end
+
+    RemoteIdentity.delete_all
   end
 end
