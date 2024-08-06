@@ -55,7 +55,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     create_service = ::Storages::ProjectStorages::BulkCreateService
                          .new(user: current_user, projects: @projects, storage: @storage,
                               include_sub_projects: include_sub_projects?)
