@@ -77,81 +77,6 @@ ka:
           name: მაღალი
         item_3:
           name: დაუყონებლივ
-      statuses:
-        item_0:
-          name: ახალი
-        item_1:
-          name: In specification
-        item_2:
-          name: მითითებული
-        item_3:
-          name: დადასტურებულია
-        item_4:
-          name: To be scheduled
-        item_5:
-          name: დაგეგმილია
-        item_6:
-          name: მიმდინარეობს
-        item_7:
-          name: შემუშავებულია
-        item_8:
-          name: იტესტება
-        item_9:
-          name: დატესტილი
-        item_10:
-          name: ტესტი ჩავარდა
-        item_11:
-          name: დახურულია
-        item_12:
-          name: შეყოვნების რეჟიმში
-        item_13:
-          name: უარყოფილია
-      time_entry_activities:
-        item_0:
-          name: მართვა
-        item_1:
-          name: სპეციფიკაცია
-        item_2:
-          name: შემუშავება
-        item_3:
-          name: ტესტირება
-        item_4:
-          name: მხარდაჭერა
-        item_5:
-          name: სხვა
-      types:
-        item_0:
-          name: ამოცანა
-        item_1:
-          name: ნიშანსვეტი
-        item_2:
-          name: ფაზები
-        item_3:
-          name: თვისებები
-        item_4:
-          name: ეპიკური
-        item_5:
-          name: მომხმარებლის აღწერა
-        item_6:
-          name: შეცდომა
-      welcome:
-        title: Welcome to OpenProject!
-        text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-          Core features and use cases:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Welcome to the future of project management.
-
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: საცდელი პროექტი
@@ -489,3 +414,78 @@ ka:
             * Time boxed (3 h).
             * After Sprint Review, will be moderated by Scrum Master.
             * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+      statuses:
+        item_0:
+          name: ახალი
+        item_1:
+          name: In specification
+        item_2:
+          name: მითითებული
+        item_3:
+          name: დადასტურებულია
+        item_4:
+          name: To be scheduled
+        item_5:
+          name: დაგეგმილია
+        item_6:
+          name: მიმდინარეობს
+        item_7:
+          name: შემუშავებულია
+        item_8:
+          name: იტესტება
+        item_9:
+          name: დატესტილი
+        item_10:
+          name: ტესტი ჩავარდა
+        item_11:
+          name: დახურულია
+        item_12:
+          name: შეყოვნების რეჟიმში
+        item_13:
+          name: უარყოფილია
+      time_entry_activities:
+        item_0:
+          name: მართვა
+        item_1:
+          name: სპეციფიკაცია
+        item_2:
+          name: შემუშავება
+        item_3:
+          name: ტესტირება
+        item_4:
+          name: მხარდაჭერა
+        item_5:
+          name: სხვა
+      types:
+        item_0:
+          name: ამოცანა
+        item_1:
+          name: ნიშანსვეტი
+        item_2:
+          name: ფაზები
+        item_3:
+          name: თვისებები
+        item_4:
+          name: ეპიკური
+        item_5:
+          name: მომხმარებლის აღწერა
+        item_6:
+          name: შეცდომა
+      welcome:
+        title: Welcome to OpenProject!
+        text: |
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+          Core features and use cases:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Welcome to the future of project management.
+
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

@@ -618,7 +618,7 @@ zh-TW:
         mentioned: "Mentioned"
         watched: "Watcher"
         assigned: "Assignee"
-        responsible: "Accountable"
+        accountable: "Accountable"
         created: "Created"
         scheduled: "Scheduled"
         commented: "Commented"
@@ -1284,8 +1284,8 @@ zh-TW:
         content: >-
           The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "您還沒有設定收藏的專案"
+      no_results_subtext: "由專案總覽或專案列表可以收藏一個或多個專案"
     include_projects:
       toggle_title: "包含的專案"
       title: "專案"

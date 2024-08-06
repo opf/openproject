@@ -618,7 +618,7 @@ cs:
         mentioned: "Mentioned"
         watched: "Watcher"
         assigned: "Řešitel"
-        responsible: "Odpovědný"
+        accountable: "Accountable"
         created: "Vytvořeno"
         scheduled: "Naplánováno"
         commented: "Komentované"
