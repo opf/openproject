@@ -63,5 +63,7 @@ it:
       **Problema riaperto:** Il problema %{issue_number} [%{issue_title}](%{issue_url}) per [%{repository}](%{repository_url}) è stato riaperto da [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
       **Push in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha effettuato un push [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) il %{commit_timestamp}: %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **Push in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha effettuato diversi commit [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) il %{commit_timestamp}: %{commit_note}

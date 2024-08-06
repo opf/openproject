@@ -48,8 +48,8 @@ RSpec.describe User do
       project2.save!
     end
 
-    describe "WHEN user has the permission in one project
-              WHEN not requesting for a specific project" do
+    describe "WHEN user has the permission in one project " \
+             "WHEN not requesting for a specific project" do
       before do
         is_member(project, user, [permission])
       end
@@ -59,8 +59,8 @@ RSpec.describe User do
       end
     end
 
-    describe "WHEN user has the permission in two projects
-              WHEN not requesting for a specific project" do
+    describe "WHEN user has the permission in two projects " \
+             "WHEN not requesting for a specific project" do
       before do
         is_member(project, user, [permission])
         is_member(project2, user, [permission])
@@ -76,8 +76,8 @@ RSpec.describe User do
       end
     end
 
-    describe "WHEN user does not have the permission in any
-              WHEN not requesting for a specific project" do
+    describe "WHEN user does not have the permission in any " \
+             "WHEN not requesting for a specific project" do
       before do
         user.save!
       end
@@ -87,8 +87,8 @@ RSpec.describe User do
       end
     end
 
-    describe "WHEN user has the permission in two projects
-              WHEN requesting for a specific project" do
+    describe "WHEN user has the permission in two projects " \
+             "WHEN requesting for a specific project" do
       before do
         is_member(project, user, [permission])
         is_member(project2, user, [permission])
@@ -106,8 +106,8 @@ RSpec.describe User do
       project.save
     end
 
-    describe "WHEN providing a project
-              WHEN providing attributes for an existing rate in the project" do
+    describe "WHEN providing a project " \
+             "WHEN providing attributes for an existing rate in the project" do
       let(:new_attributes) do
         { project_hourly_rate.id.to_s => { valid_from: (Date.today + 1.day).to_s,
                                            rate: (project_hourly_rate.rate + 5).to_s } }
@@ -137,8 +137,8 @@ RSpec.describe User do
       end
     end
 
-    describe "WHEN providing a project
-              WHEN providing attributes for an existing rate in another project" do
+    describe "WHEN providing a project " \
+             "WHEN providing attributes for an existing rate in another project" do
       let(:new_attributes) do
         { project_hourly_rate.id.to_s => { valid_from: (Date.today + 1.day).to_s,
                                            rate: (project_hourly_rate.rate + 5).to_s } }
@@ -166,8 +166,8 @@ RSpec.describe User do
       end
     end
 
-    describe "WHEN providing a project
-              WHEN not providing attributes" do
+    describe "WHEN providing a project " \
+             "WHEN not providing attributes" do
       before do
         project_hourly_rate.save!
         user.rates.reload
@@ -180,8 +180,8 @@ RSpec.describe User do
       end
     end
 
-    describe "WHEN not providing a project
-              WHEN not providing attributes" do
+    describe "WHEN not providing a project " \
+             "WHEN not providing attributes" do
       before do
         default_hourly_rate.save!
         user.default_rates.reload

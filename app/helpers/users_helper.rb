@@ -89,7 +89,7 @@ module UsersHelper
   def build_change_user_status_action(user)
     result = "".html_safe
     iterate_user_statusses(user) do |title, name|
-      result << ((yield title, name) + " ".html_safe)
+      result << ((yield title, name) + " ") # rubocop:disable Style/StringConcatenation
     end
     result
   end

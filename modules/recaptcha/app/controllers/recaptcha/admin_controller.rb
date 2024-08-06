@@ -35,12 +35,10 @@ module ::Recaptcha
       params.permit(:recaptcha_type, :website_key, :secret_key, :response_limit)
     end
 
-    def default_breadcrumb
-      t("recaptcha.label_recaptcha")
-    end
+    def default_breadcrumb; end
 
     def show_local_breadcrumb
-      true
+      false
     end
   end
 end

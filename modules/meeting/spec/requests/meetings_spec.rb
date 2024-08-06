@@ -32,10 +32,11 @@ RSpec.describe "Meeting requests",
                :skip_csrf,
                type: :rails_request do
   shared_let(:project) { create(:project, enabled_module_names: %i[meetings]) }
-  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_meetings create_meetings] }) }
-  shared_let(:meeting) { create(:structured_meeting, project:) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings] }) }
+  shared_let(:meeting) { create(:structured_meeting, project:, author: user) }
 
   before do
+    meeting.participants.delete_all
     login_as user
   end
 
@@ -45,6 +46,55 @@ RSpec.describe "Meeting requests",
         get meetings_path(sort: "type", filters: '[{"time":{"operator":"=","values":["future"]}}]')
         expect(response).to have_http_status(:ok)
         expect(response.body).to have_text(meeting.title)
+      end
+    end
+  end
+
+  describe "update with a new particpant" do
+    let(:other_user) { create(:user, member_with_permissions: { project => %i[view_meetings] }) }
+    let(:params) do
+      {
+        send_notifications:,
+        title: "Updated meeting",
+        meeting: {
+          participants_attributes: [
+            { user_id: user.id, invited: true },
+            { user_id: other_user.id, invited: true }
+          ]
+        }
+
+      }
+    end
+
+    subject do
+      meeting.reload
+    end
+
+    context "with send_notifications" do
+      let(:send_notifications) { "1" }
+
+      it "sends an invitation mail to the invited users" do
+        patch(meeting_path(meeting), params:)
+
+        expect(subject.participants.count).to eq(2)
+
+        perform_enqueued_jobs
+
+        expect(ActionMailer::Base.deliveries.size).to eq(2)
+      end
+    end
+
+    context "with send_notifications false" do
+      let(:send_notifications) { "0" }
+
+      it "sends an invitation mail to the invited users" do
+        patch(meeting_path(meeting), params:)
+
+        expect(subject.participants.count).to eq(2)
+
+        perform_enqueued_jobs
+
+        expect(ActionMailer::Base.deliveries.size).to eq(0)
       end
     end
   end

@@ -63,5 +63,7 @@ pt-PT:
       **Problema Reaberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
       **Enviado no MR:** [%{gitlab_user}](%{gitlab_user_url}) enviou [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **Enviado no MR:** [%{gitlab_user}](%{gitlab_user_url}) enviou vários compromissos [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}

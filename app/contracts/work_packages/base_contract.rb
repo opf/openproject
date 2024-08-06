@@ -53,19 +53,38 @@ module WorkPackages
     attribute :project_id
 
     attribute :done_ratio,
-              writable: false
+              writable: ->(*) {
+                          OpenProject::FeatureDecisions.percent_complete_edition_active? \
+                            && WorkPackage.work_based_mode?
+                        } do
+      if OpenProject::FeatureDecisions.percent_complete_edition_active?
+        validate_percent_complete_matches_work_and_remaining_work
+        validate_percent_complete_is_unset_when_work_is_zero
+        validate_percent_complete_is_set_when_work_and_remaining_work_are_set
+      end
+    end
     attribute :derived_done_ratio,
               writable: false
 
     attribute :estimated_hours do
-      validate_work_is_set_when_remaining_work_is_set
+      if OpenProject::FeatureDecisions.percent_complete_edition_active?
+        validate_work_is_set_when_remaining_work_and_percent_complete_are_set
+      else
+        # to be removed in 15.0 with :percent_complete_edition feature flag removal
+        validate_work_is_set_when_remaining_work_is_set
+      end
     end
     attribute :derived_estimated_hours,
               writable: false
 
     attribute :remaining_hours do
       validate_remaining_work_is_lower_than_work
-      validate_remaining_work_is_set_when_work_is_set
+      if OpenProject::FeatureDecisions.percent_complete_edition_active?
+        validate_remaining_work_is_set_when_work_and_percent_complete_are_set
+      else
+        # to be removed in 15.0 with :percent_complete_edition feature flag removal
+        validate_remaining_work_is_set_when_work_is_set
+      end
     end
     attribute :derived_remaining_hours,
               writable: false
@@ -137,7 +156,6 @@ module WorkPackages
     validate :validate_priority_exists
 
     validate :validate_category
-    validate :validate_estimated_hours
 
     validate :validate_assigned_to_exists
 
@@ -217,12 +235,6 @@ module WorkPackages
     private
 
     attr_reader :can
-
-    def validate_estimated_hours
-      if !model.estimated_hours.nil? && model.estimated_hours < 0
-        errors.add :estimated_hours, :only_values_greater_or_equal_zeroes_allowed
-      end
-    end
 
     def validate_after_soonest_start(date_attribute)
       if !model.schedule_manually? && before_soonest_start?(date_attribute)
@@ -324,7 +336,7 @@ module WorkPackages
     end
 
     def validate_remaining_work_is_lower_than_work
-      if work_set? && remaining_work_set? && remaining_work_exceeds_work?
+      if remaining_work_exceeds_work?
         if model.changed.include?("estimated_hours")
           errors.add(:estimated_hours, :cant_be_inferior_to_remaining_work)
         end
@@ -335,28 +347,111 @@ module WorkPackages
       end
     end
 
+    # to be removed in 15.0 with :percent_complete_edition feature flag removal
     def validate_remaining_work_is_set_when_work_is_set
       if work_set? && !remaining_work_set?
         errors.add(:remaining_hours, :must_be_set_when_work_is_set)
       end
     end
 
+    # to be removed in 15.0 with :percent_complete_edition feature flag removal
     def validate_work_is_set_when_remaining_work_is_set
       if remaining_work_set? && !work_set?
         errors.add(:estimated_hours, :must_be_set_when_remaining_work_is_set)
       end
     end
 
+    def validate_work_is_set_when_remaining_work_and_percent_complete_are_set
+      if remaining_work_set_and_valid? && percent_complete_set_and_valid? && work_unset?
+        errors.add(:estimated_hours, :must_be_set_when_remaining_work_and_percent_complete_are_set)
+      end
+    end
+
+    def validate_remaining_work_is_set_when_work_and_percent_complete_are_set
+      if work_set_and_valid? && percent_complete_set_and_valid? && remaining_work_unset?
+        errors.add(:remaining_hours, :must_be_set_when_work_and_percent_complete_are_set)
+      end
+    end
+
+    def validate_percent_complete_is_set_when_work_and_remaining_work_are_set
+      if work_set_and_valid? && remaining_work_set_and_valid? && work != 0 && percent_complete_unset?
+        errors.add(:done_ratio, :must_be_set_when_work_and_remaining_work_are_set)
+      end
+    end
+
+    # rubocop:disable Metrics/AbcSize
+    def validate_percent_complete_matches_work_and_remaining_work
+      return if WorkPackage.status_based_mode? || percent_complete_unset? || work == 0
+      return if remaining_work_exceeds_work? # avoid too many error messages at the same time
+      return unless work_set? && remaining_work_set?
+
+      work_done = work - remaining_work
+      expected_percent_complete = (100 * work_done.to_f / work).round
+
+      if percent_complete != expected_percent_complete
+        errors.add(:done_ratio, :does_not_match_work_and_remaining_work)
+      end
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    def validate_percent_complete_is_unset_when_work_is_zero
+      return if WorkPackage.status_based_mode?
+
+      if work == 0 && percent_complete_set?
+        errors.add(:done_ratio, :cannot_be_set_when_work_is_zero)
+      end
+    end
+
+    def work
+      model.estimated_hours
+    end
+
     def work_set?
-      model.estimated_hours.present?
+      work.present?
+    end
+
+    def work_set_and_valid?
+      work_set? && work >= 0
+    end
+
+    def work_unset?
+      work.nil?
+    end
+
+    def remaining_work
+      model.remaining_hours
     end
 
     def remaining_work_set?
-      model.remaining_hours.present?
+      remaining_work.present?
+    end
+
+    def remaining_work_set_and_valid?
+      remaining_work_set? && remaining_work >= 0
+    end
+
+    def remaining_work_unset?
+      remaining_work.nil?
     end
 
     def remaining_work_exceeds_work?
-      model.remaining_hours > model.estimated_hours
+      work_set? && remaining_work_set? && remaining_work > work
+    end
+
+    def percent_complete
+      model.done_ratio
+    end
+
+    def percent_complete_set?
+      percent_complete.present?
+    end
+
+    def percent_complete_set_and_valid?
+      percent_complete_set? && percent_complete.between?(0, 100)
+    end
+
+    def percent_complete_unset?
+      percent_complete.nil?
     end
 
     def validate_no_reopen_on_closed_version

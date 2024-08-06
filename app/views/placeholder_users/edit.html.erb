@@ -32,6 +32,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% tabs = tabs_for_key(:placeholder_user, placeholder_user: @placeholder_user) %>
 
-<%= render partial: 'toolbar', locals: { tabs: tabs } %>
+<%= render PlaceholderUsers::EditPageHeaderComponent.new(placeholder_user: @placeholder_user, tabs: tabs) %>
 
 <%= render_tabs tabs, with_tab_nav: false %>

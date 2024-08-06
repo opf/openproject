@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ::Query::Results
+class Query::Results
   include ::Query::Results::GroupBy
   include ::Query::Results::Sums
   include Redmine::I18n

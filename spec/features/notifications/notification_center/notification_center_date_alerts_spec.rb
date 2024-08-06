@@ -249,21 +249,21 @@ RSpec.describe "Notification center date alerts", :js, :with_cuprite,
 
       # Opening a date alert opens in overview
       center.click_item notification_wp_start_past
-      split_screen = Pages::SplitWorkPackage.new wp_start_past
+      split_screen = Pages::PrimerizedSplitWorkPackage.new wp_start_past
       split_screen.expect_tab :overview
       wait_for_network_idle
 
       # We expect no badge count
-      activity_tab.expect_no_notification_badge
+      split_screen.expect_no_notification_badge
 
       # The same is true for the mention item that is opened in date alerts filter
       center.click_item notification_wp_double_date_alert
-      split_screen = Pages::SplitWorkPackage.new wp_double_notification
+      split_screen = Pages::PrimerizedSplitWorkPackage.new wp_double_notification
       split_screen.expect_tab :overview
       wait_for_network_idle
 
       # We expect one badge
-      activity_tab.expect_notification_count 1
+      split_screen.expect_notification_count 1
 
       # When a work package is updated to a different date
       wp_double_notification.update_column(:due_date, time_zone.now + 5.days)

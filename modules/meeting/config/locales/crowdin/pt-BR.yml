@@ -122,7 +122,7 @@ pt-BR:
       agenda_text: "Copiar a agenda da antiga reunião"
     email:
       send_emails: "Enviar e-mails"
-      send_invitation_emails: "Enviar e-mails de convite após a criação"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Abrir reunião"
       invited:
         summary: "%{actor} enviou a você um convite para a reunião %{title}"

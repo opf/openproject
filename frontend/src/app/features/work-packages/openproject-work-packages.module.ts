@@ -414,6 +414,9 @@ import {
 import {
   WorkPackageShareModalComponent,
 } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
+import {
+  WorkPackageSplitViewEntryComponent,
+} from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view-entry.component';
 
 @NgModule({
   imports: [
@@ -606,6 +609,7 @@ import {
     // Split view
     WorkPackageDetailsViewButtonComponent,
     WorkPackageSplitViewComponent,
+    WorkPackageSplitViewEntryComponent,
     WorkPackageBreadcrumbComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,

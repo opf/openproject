@@ -35,14 +35,14 @@ RSpec.describe "Activity tab", :js, :with_cuprite do
   let(:project) do
     create(:project_with_types,
            types: [type_with_cf],
-           work_package_custom_fields: [string_cf],
+           work_package_custom_fields: [custom_field],
            public: true)
   end
 
-  let(:string_cf) { create(:text_wp_custom_field) }
+  let(:custom_field) { create(:text_wp_custom_field) }
 
   let(:type_with_cf) do
-    create(:type, custom_fields: [string_cf])
+    create(:type, custom_fields: [custom_field])
   end
 
   let(:creation_time) { 5.days.ago }
@@ -61,7 +61,7 @@ RSpec.describe "Activity tab", :js, :with_cuprite do
              comment_time => { notes: "A comment by a different user", user: create(:admin) }
            }).tap do |wp|
       Journal::CustomizableJournal.create!(journal: wp.journals[1],
-                                           custom_field_id: string_cf.id,
+                                           custom_field_id: custom_field.id,
                                            value: "*   [x] Task 1\n*   [ ] Task 2")
     end
   end
@@ -198,15 +198,6 @@ RSpec.describe "Activity tab", :js, :with_cuprite do
 
         expect(page).to have_css(".user-comment > .message", count: 3)
         expect(page).to have_css(".user-comment > .message blockquote")
-      end
-
-      it "can render checkboxes as part of the activity" do
-        task_list = page.all('[data-qa-activity-number="2"] ul.op-uc-list_task-list li.op-uc-list--item')
-        expect(task_list.size).to eq(2)
-        expect(task_list[0]).to have_text("Task 1")
-        expect(task_list[0]).to have_checked_field(disabled: true)
-        expect(task_list[1]).to have_text("Task 2")
-        expect(task_list[1]).to have_unchecked_field(disabled: true)
       end
     end
 

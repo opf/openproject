@@ -47,7 +47,7 @@ id:
   label_is_project_with_subprojects: "adalah (termasuk dalam subproyek)"
   label_work_package_attributes: "Attribut work package"
   label_less: "<"
-  label_logged_by_reporting: "Logged by"
+  label_logged_by_reporting: "Dicatat oleh"
   label_money: "Nilai uang"
   label_month_reporting: "#Bulan (Spent)"
   label_new_report: "Buat laporan biaya"
@@ -87,7 +87,7 @@ id:
   validation_failure_integer: "validasi bilangan bulat gagal"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Ekspor XLS Laporan Biaya Anda"
   reporting:
     group_by:
       selected_columns: "Kolom terpilih"

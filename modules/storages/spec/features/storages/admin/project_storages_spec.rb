@@ -62,6 +62,8 @@ RSpec.describe "Admin lists project mappings for a storage",
            project_folder_mode: "inactive")
   end
 
+  let(:project_storages_index_page) { Pages::Admin::Storages::ProjectStorages::Index.new }
+
   current_user { admin }
 
   context "with insufficient permissions" do
@@ -73,9 +75,34 @@ RSpec.describe "Admin lists project mappings for a storage",
     end
   end
 
-  context "with sufficient permissions" do
+  context "with sufficient permissions but an incomplete configured storage" do
+    before do
+      storage.update!(host: nil)
+      login_as(admin)
+      visit admin_settings_storage_project_storages_path(storage)
+    end
+
+    it "shows a warning instead of the button to add a project and the project list" do
+      aggregate_failures("projects list and button are missing") do
+        expect(page).to have_no_css("#project-table")
+        expect(page).to have_no_text(project.name)
+        expect(page).to have_no_button("Add projects")
+      end
+
+      aggregate_failures("a warning is shown") do
+        expect(page).to have_text("Storage setup incomplete")
+        expect(page).to have_text("Please, complete the setup")
+      end
+    end
+  end
+
+  context "with sufficient permissions and an completely configured storage" do
     before do
       login_as(admin)
+      storage.update!(host: "https://example.com")
+      create(:oauth_application, integration: storage)
+      create(:oauth_client, integration: storage)
+
       visit admin_settings_storage_project_storages_path(storage)
     end
 
@@ -104,10 +131,14 @@ RSpec.describe "Admin lists project mappings for a storage",
         end
       end
 
-      aggregate_failures "shows the correct project mappings including archived projects and their folder modes" do
+      aggregate_failures "shows the correct project mappings including archived projects and their configured folder modes" do
         within "#project-table" do
-          expect(page).to have_text(project.name.to_s).and have_text("Automatically managed")
-          expect(page).to have_text("ARCHIVED #{archived_project.name}").and have_text("No specific folder")
+          project_storages_index_page.within_the_table_row_containing(project.name) do
+            expect(page).to have_text("Automatically managed")
+          end
+          project_storages_index_page.within_the_table_row_containing(archived_project.name) do
+            expect(page).to have_text("No specific folder")
+          end
         end
       end
     end
@@ -156,6 +187,35 @@ RSpec.describe "Admin lists project mappings for a storage",
             expect(uri.path).to eq(admin_settings_storage_project_storages_path(storage))
           end
         end
+      end
+    end
+
+    describe "Removal of a project from a storage" do
+      it "shows a warning dialog that can be aborted" do
+        expect(page).to have_text(project.name)
+        project_storages_index_page.click_menu_item_of("Remove project", project)
+
+        page.within("dialog") do
+          expect(page).to have_text("Remove project from Nextcloud")
+          expect(page).to have_text("this storage has an automatically managed project folder")
+          click_on "Close"
+        end
+
+        expect(page).to have_text(project.name)
+      end
+
+      it "is possible to remove the project after checking the confirmation checkbox in the dialog" do
+        expect(page).to have_text(project.name)
+        project_storages_index_page.click_menu_item_of("Remove project", project)
+
+        page.within("dialog") do
+          expect(page).to have_button("Remove", disabled: true)
+          check "Please, confirm you understand and want to remove this file storage from this project"
+          expect(page).to have_button("Remove", disabled: false, wait: 3) # ensure button is clickable
+          click_on "Remove"
+        end
+
+        expect(page).to have_no_text(project.name)
       end
     end
   end

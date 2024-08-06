@@ -1,0 +1,14 @@
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_user_plural) }
+    header.with_breadcrumbs(breadcrumb_items)
+    header.with_description do %>
+    <%= t(:label_enterprise_active_users, current: OpenProject::Enterprise.active_user_count, limit: user_limit) %>
+    &nbsp;
+    <%= render(Primer::Beta::Button.new(scheme: :primary,
+                                        size: :small,
+                                        tag: :a,
+                                        href:  OpenProject::Enterprise.upgrade_path,
+                                        title: t(:title_enterprise_upgrade))) { t(:button_upgrade) } %>
+  <% end if user_limit %>
+<% end %>

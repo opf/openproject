@@ -139,14 +139,6 @@ class TypesController < ApplicationController
                 notice:)
   end
 
-  def default_breadcrumb
-    if action_name == "index"
-      t(:label_work_package_types)
-    else
-      ActionController::Base.helpers.link_to(t(:label_work_package_types), types_path)
-    end
-  end
-
   def render_edit_tab(type)
     @tab = params[:tab]
     @projects = Project.all
@@ -156,7 +148,7 @@ class TypesController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   def update_success_message

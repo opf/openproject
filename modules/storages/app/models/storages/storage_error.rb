@@ -34,6 +34,9 @@ module Storages
 
     attr_reader :code, :log_message, :data
 
+    # @param code [Symbol, Integer]
+    # @param log_message: [String]
+    # @param data [Storages::StoragesErrorData]
     def initialize(code:, log_message: nil, data: nil)
       @code = code
       @log_message = log_message
@@ -53,9 +56,9 @@ module Storages
       output
     end
 
-    def storage_error = "storage error"
-
-    def read_attribute_for_validation(attr) = send(attr)
+    def read_attribute_for_validation(attr)
+      attr.to_s
+    end
 
     def self.human_attribute_name(attr, _options = {}) = attr
 

@@ -83,8 +83,8 @@ RSpec.describe Story do
 
   describe "Class methods" do
     describe "#backlogs" do
-      describe "WITH one sprint
-                WITH the sprint having 1 story" do
+      describe "WITH one sprint " \
+               "WITH the sprint having 1 story" do
         before do
           story1
         end
@@ -92,10 +92,10 @@ RSpec.describe Story do
         it { expect(Story.backlogs(project, [version.id])[version.id]).to contain_exactly(story1) }
       end
 
-      describe "WITH two sprints
-                WITH two stories
-                WITH one story per sprint
-                WITH querying for the two sprints" do
+      describe "WITH two sprints " \
+               "WITH two stories " \
+               "WITH one story per sprint " \
+               "WITH querying for the two sprints" do
         before do
           version2
           story1
@@ -107,10 +107,10 @@ RSpec.describe Story do
         it { expect(Story.backlogs(project, [version.id, version2.id])[version2.id]).to contain_exactly(story2) }
       end
 
-      describe "WITH two sprints
-                WITH two stories
-                WITH one story per sprint
-                WITH querying one sprints" do
+      describe "WITH two sprints " \
+               "WITH two stories " \
+               "WITH one story per sprint " \
+               "WITH querying one sprints" do
         before do
           version2
           story1
@@ -123,11 +123,11 @@ RSpec.describe Story do
         it { expect(Story.backlogs(project, [version.id])[version2.id]).to be_empty }
       end
 
-      describe "WITH two sprints
-                WITH two stories
-                WITH one story per sprint
-                WITH querying for the two sprints
-                WITH one sprint being in another project" do
+      describe "WITH two sprints " \
+               "WITH two stories " \
+               "WITH one story per sprint " \
+               "WITH querying for the two sprints " \
+               "WITH one sprint being in another project" do
         before do
           story1
 
@@ -145,8 +145,8 @@ RSpec.describe Story do
         it { expect(Story.backlogs(project, [version.id, version2.id])[version2.id]).to be_empty }
       end
 
-      describe "WITH one sprint
-                WITH the sprint having one story in this project and one story in another project" do
+      describe "WITH one sprint " \
+               "WITH the sprint having one story in this project and one story in another project" do
         before do
           version.sharing = "system"
           version.save!
@@ -161,9 +161,9 @@ RSpec.describe Story do
         it { expect(Story.backlogs(project, [version.id])[version.id]).to contain_exactly(story1) }
       end
 
-      describe "WITH one sprint
-                WITH the sprint having two storys
-                WITH one being the child of the other" do
+      describe "WITH one sprint " \
+               "WITH the sprint having two storys " \
+               "WITH one being the child of the other" do
         before do
           story1.parent_id = story2.id
 
@@ -173,9 +173,9 @@ RSpec.describe Story do
         it { expect(Story.backlogs(project, [version.id])[version.id]).to contain_exactly(story1, story2) }
       end
 
-      describe "WITH one sprint
-                WITH the sprint having one story
-                WITH the story having a child task" do
+      describe "WITH one sprint " \
+               "WITH the sprint having one story " \
+               "WITH the story having a child task" do
         before do
           task.parent_id = story1.id
 
@@ -185,9 +185,9 @@ RSpec.describe Story do
         it { expect(Story.backlogs(project, [version.id])[version.id]).to contain_exactly(story1) }
       end
 
-      describe "WITH one sprint
-                WITH the sprint having one story and one task
-                WITH the two having no connection" do
+      describe "WITH one sprint " \
+               "WITH the sprint having one story and one task " \
+               "WITH the two having no connection" do
         before do
           task
           story1

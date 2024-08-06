@@ -122,7 +122,7 @@ hu:
       agenda_text: "A régi megbeszélés napirendjének másolása"
     email:
       send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Nyitott megbeszélés"
       invited:
         summary: "%{actor} meghívott a következő megbeszélésre: %{title}"

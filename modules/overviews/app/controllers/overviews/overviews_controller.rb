@@ -31,7 +31,8 @@ module ::Overviews
       service_call = ::Projects::UpdateService
                       .new(
                         user: current_user,
-                        model: @project
+                        model: @project,
+                        contract_options: { project_attributes_only: true }
                       )
                       .call(
                         permitted_params.project.merge(
@@ -62,7 +63,9 @@ module ::Overviews
     end
 
     def set_sidebar_enabled
-      @sidebar_enabled = @project.project_custom_fields.visible.any?
+      @sidebar_enabled =
+        User.current.allowed_in_project?(:view_project_attributes, @project) &&
+        @project.project_custom_fields.visible.any?
     end
 
     def handle_errors(project_with_errors, section)

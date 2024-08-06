@@ -134,8 +134,7 @@ RSpec.describe Version do
       expect(version1 <=> version2).to be 1
     end
 
-    it "is -1 if the project name is equal
-        and the version's name is alphabetically before the other's name" do
+    it "is -1 if the project name is equal and the version's name is alphabetically before the other's name" do
       version1.project.name = version2.project.name
       version1.name = "AAAA"
       version2.name = "BBBB"
@@ -143,8 +142,7 @@ RSpec.describe Version do
       expect(version1 <=> version2).to be -1
     end
 
-    it "is 1 if the project name is equal
-        and the version's name is alphabetically after the other's name" do
+    it "is 1 if the project name is equal and the version's name is alphabetically after the other's name" do
       version1.project.name = version2.project.name
       version1.name = "BBBB"
       version2.name = "AAAA"
@@ -177,8 +175,7 @@ RSpec.describe Version do
       expect(version1 <=> version2).to be 1
     end
 
-    it "is -1 if the project name is equal
-        and the version's name is alphabetically before the other's name ignoring case" do
+    it "is -1 if the project name is equal and the version's name is alphabetically before the other's name ignoring case" do
       version1.project.name = version2.project.name
       version1.name = "aaaa"
       version2.name = "BBBB"
@@ -186,8 +183,7 @@ RSpec.describe Version do
       expect(version1 <=> version2).to be -1
     end
 
-    it "is 1 if the project name is equal
-        and the version's name is alphabetically after the other's name ignoring case" do
+    it "is 1 if the project name is equal and the version's name is alphabetically after the other's name ignoring case" do
       version1.project.name = version2.project.name
       version1.name = "BBBB"
       version2.name = "aaaa"

@@ -77,81 +77,6 @@ lt:
           name: Aukštis
         item_3:
           name: Neatidėliotinas
-      statuses:
-        item_0:
-          name: Naujas
-        item_1:
-          name: Specifikuojama
-        item_2:
-          name: Detalizuota
-        item_3:
-          name: Patvirtinta
-        item_4:
-          name: Turimas suplanuoti
-        item_5:
-          name: Suplanuota
-        item_6:
-          name: Vykdoma
-        item_7:
-          name: Plėtota
-        item_8:
-          name: Testuojama
-        item_9:
-          name: Ištestuota
-        item_10:
-          name: Nesėkmingas testavimas
-        item_11:
-          name: Uždaryta
-        item_12:
-          name: Sulaikyta
-        item_13:
-          name: Atmesta
-      time_entry_activities:
-        item_0:
-          name: Valdymas
-        item_1:
-          name: Specifikacija
-        item_2:
-          name: Kūrimas
-        item_3:
-          name: Testavimas
-        item_4:
-          name: Palaikymas
-        item_5:
-          name: Kita
-      types:
-        item_0:
-          name: Užduotis
-        item_1:
-          name: Svarbus etapas
-        item_2:
-          name: Fazė
-        item_3:
-          name: Požymis
-        item_4:
-          name: Didingas
-        item_5:
-          name: Vartotojo istorija
-        item_6:
-          name: Klaida
-      welcome:
-        title: Jus sveikina OpenProject!
-        text: |
-          OpenProject yra pirmaujanti atviro kodo projektų valdymo programinė įranga. Palaiko klasikinį, Agile bei hibridinius projekto valdymo metodus bei suteikia jums pilną jūsų duomenų kontrolę.
-
-          Pagrindinės savybės ir panaudos atvejai:
-
-          * [Projekto portfelio valdymas](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Projekto planavimas ir tvarkaraštis](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Užduočių valdymas ir problemų sekimas](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile lentos (Scrum ir Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Reikalavimų valdymas ir laidų planavimas](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Laiko ir kaštų sekimas, biudžetai](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Komandos bendradarbiavimas ir dokumentavimas](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Jus sveikina projektų valdymo ateitis.
-
-          Administratoriams: Pasveikinimo tekstą galite pakeisti [čia]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demonstracinis projektas
@@ -489,3 +414,78 @@ lt:
             * Laikas (3 val).
             * Po sprinto peržiūros, moderuoja Scrum vadovas.
             * Komanda aptaria sprintą: kas suveikė, ką reikia patobulinti, kad būtų padidintas kito sprinto produktyvumas ar kad tiesiog būtų linksmiau.
+      statuses:
+        item_0:
+          name: Naujas
+        item_1:
+          name: Specifikuojama
+        item_2:
+          name: Detalizuota
+        item_3:
+          name: Patvirtinta
+        item_4:
+          name: Turimas suplanuoti
+        item_5:
+          name: Suplanuota
+        item_6:
+          name: Vykdoma
+        item_7:
+          name: Plėtota
+        item_8:
+          name: Testuojama
+        item_9:
+          name: Ištestuota
+        item_10:
+          name: Nesėkmingas testavimas
+        item_11:
+          name: Uždaryta
+        item_12:
+          name: Sulaikyta
+        item_13:
+          name: Atmesta
+      time_entry_activities:
+        item_0:
+          name: Valdymas
+        item_1:
+          name: Specifikacija
+        item_2:
+          name: Kūrimas
+        item_3:
+          name: Testavimas
+        item_4:
+          name: Palaikymas
+        item_5:
+          name: Kita
+      types:
+        item_0:
+          name: Užduotis
+        item_1:
+          name: Svarbus etapas
+        item_2:
+          name: Fazė
+        item_3:
+          name: Požymis
+        item_4:
+          name: Didingas
+        item_5:
+          name: Vartotojo istorija
+        item_6:
+          name: Klaida
+      welcome:
+        title: Jus sveikina OpenProject!
+        text: |
+          OpenProject yra pirmaujanti atviro kodo projektų valdymo programinė įranga. Palaiko klasikinį, Agile bei hibridinius projekto valdymo metodus bei suteikia jums pilną jūsų duomenų kontrolę.
+
+          Pagrindinės savybės ir panaudos atvejai:
+
+          * [Projekto portfelio valdymas](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Projekto planavimas ir tvarkaraštis](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Užduočių valdymas ir problemų sekimas](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile lentos (Scrum ir Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Reikalavimų valdymas ir laidų planavimas](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Laiko ir kaštų sekimas, biudžetai](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Komandos bendradarbiavimas ir dokumentavimas](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Jus sveikina projektų valdymo ateitis.
+
+          Administratoriams: Pasveikinimo tekstą galite pakeisti [čia]({{opSetting:base_url}}/admin/settings/general).

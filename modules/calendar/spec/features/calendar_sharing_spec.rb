@@ -269,7 +269,7 @@ RSpec.describe "Calendar sharing via ical", :js do
         click_link "Calendars and dates"
       end
 
-      expect(page).to have_css(".title-container", text: "Working days")
+      expect(page).to have_test_selector("op-working-days-admin-settings--title", text: "Working days")
       click_link I18n.t(:label_calendar_subscriptions)
 
       expect(page)

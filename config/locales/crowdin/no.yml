@@ -414,7 +414,7 @@
       prompt: "Forbli innlogget for %{num_days}"
     sessions:
       remembered_devices: "Lagrede enheter"
-      remembered_devices_caption: 'En liste over alle enheter som er logget på denne kontoen ved hjelp av "Hold deg innlogget" alternativet.'
+      remembered_devices_caption: "En liste over alle enheter som er logget på denne kontoen ved hjelp av \"Hold deg innlogget\" alternativet."
       session_name: "%{browser_name} %{browser_version} på %{os_name}"
       browser: "Nettleser"
       device: "Enhet / Operativsystem"
@@ -475,7 +475,7 @@
         is_readonly: "Kun lesetilgang"
         excluded_from_totals: "Unntatt fra totaler"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Lyst"
     light_high_contrast: "Lys høy kontrast"
   types:
@@ -524,13 +524,13 @@
       no_common_statuses_exists: "Det er ingen status tilgjengelig for alle valgte arbeidspakker. Status kan ikke endres."
       unsupported_for_multiple_projects: "Bulk flytt/kopi er ikke støttet for arbeidspakker fra flere prosjekter"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Arbeidsflyt mangler for deling av arbeidspakker"
-        message: 'Ingen arbeidsflyt er konfigurert for rollen ''Arbeidspakke redaktør''. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. ''oppgave'') og en kilderolle (f.eks. ''medlem''). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du "Redigeringsprogrammet for arbeidspakke" som mål og klikk "Kopier". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for enhver annen rolle.'
+        message: "Ingen arbeidsflyt er konfigurert for rollen 'Arbeidspakke redaktør'. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. 'oppgave') og en kilderolle (f.eks. 'medlem'). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du \"Redigeringsprogrammet for arbeidspakke\" som mål og klikk \"Kopier\". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for enhver annen rolle."
         link_message: "Konfigurer arbeidsmetodene i administrasjonen."
     summary:
       reports:
@@ -594,17 +594,6 @@
       attribute_help_text:
         attribute_name: "Attributt"
         help_text: "Hjelpetekst"
-      ldap_auth_source:
-        account: "Konto"
-        attr_firstname: "Fornavn-attributt"
-        attr_lastname: "Etternavn-attributt"
-        attr_login: "Brukernavn egenskap"
-        attr_mail: "E-postattributt"
-        base_dn: "Base DN"
-        host: "Vert"
-        onthefly: "Automatisk brukeropprettelse"
-        port: "Port"
-        tls_certificate_string: "LDAP-tjener SSL sertifikat"
       changeset:
         repository: "Pakkebrønn"
       color:
@@ -629,6 +618,14 @@
         visible: "Synlig"
       custom_value:
         value: "Verdi"
+      doorkeeper/application:
+        uid: "Klient ID"
+        secret: "Klient hemmlighet"
+        owner: "Eier"
+        redirect_uri: "Omdiriger URI"
+        client_credentials_user_id: "Klientens bruker-ID"
+        scopes: "Omfang"
+        confidential: "Konfidensiell"
       enterprise_token:
         starts_at: "Gyldig siden"
         subscriber: "Abonnent"
@@ -639,20 +636,25 @@
         row_count: "Antall rader"
         column_count: "Antall kolonner"
         widgets: "Widgeter"
-      oauth_client:
-        client: "Klient ID"
-      relation:
-        lag: "Forsinkelse"
-        from: "Arbeidspakke"
-        to: "Relatert arbeidspakke"
-      status:
-        is_closed: "Arbeidspakke lukket"
-        is_readonly: "Arbeidspakken er skrivebeskyttet"
-        excluded_from_totals: "Unnta fra beregning av totaler i hierarki"
       journal:
         notes: "Notater"
+      ldap_auth_source:
+        account: "Konto"
+        attr_firstname: "Fornavn-attributt"
+        attr_lastname: "Etternavn-attributt"
+        attr_login: "Brukernavn egenskap"
+        attr_mail: "E-postattributt"
+        base_dn: "Base DN"
+        host: "Vert"
+        onthefly: "Automatisk brukeropprettelse"
+        port: "Port"
+        tls_certificate_string: "LDAP-tjener SSL sertifikat"
       member:
         roles: "Rolle"
+      oauth_client:
+        client: "Klient ID"
+      planning_element_type_color:
+        hexcode: Hexadesimalkode
       project:
         active_value:
           true: "Ikke arkivert"
@@ -682,6 +684,8 @@
         types: "Typer"
         versions: "Versjoner"
         work_packages: "Arbeidspakker"
+      project_custom_field:
+        custom_field_section: Seksjon
       query:
         column_names: "Kolonner"
         relations_to_type_column: "Forbindelser til %{type}"
@@ -689,10 +693,19 @@
         group_by: "Gruppèr resultater etter"
         filters: "Filtre"
         timeline_labels: "Tidslinje etiketter"
+      relation:
+        lag: "Forsinkelse"
+        from: "Arbeidspakke"
+        to: "Relatert arbeidspakke"
       repository:
         url: "URL"
       role:
         permissions: "Tilganger"
+      status:
+        is_closed: "Arbeidspakke lukket"
+        is_readonly: "Arbeidspakken er skrivebeskyttet"
+        excluded_from_totals: "Unnta fra beregning av totaler i hierarki"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivitet"
         hours: "Timer"
@@ -735,10 +748,6 @@
       wiki_page:
         parent_title: "Overordnet side"
         redirect_existing_links: "Omdirigere eksisterende lenker"
-      planning_element_type_color:
-        hexcode: Hexadesimalkode
-      project_custom_field:
-        custom_field_section: Seksjon
       work_package:
         begin_insertion: "Begynnelsen av innsettingen"
         begin_deletion: "Begynnelsen av slettingen"
@@ -773,14 +782,6 @@
         type: "Type"
         version: "Versjon"
         watcher: "Overvåker"
-      "doorkeeper/application":
-        uid: "Klient ID"
-        secret: "Klient hemmlighet"
-        owner: "Eier"
-        redirect_uri: "Omdiriger URI"
-        client_credentials_user_id: "Klientens bruker-ID"
-        scopes: "Omfang"
-        confidential: "Konfidensiell"
     errors:
       messages:
         accepted: "må aksepteres"
@@ -970,10 +971,10 @@
             circular_dependency: "Forholdet skaper en sirkel av forhold."
           attributes:
             to:
-              error_not_found: 'Arbeidspakke i "til"-posisjonen er ikke funnet eller ikke synlig'
+              error_not_found: "Arbeidspakke i \"til\"-posisjonen er ikke funnet eller ikke synlig"
               error_readonly: "en eksisterende relasjons 'til'-lenke er uforanderlig"
             from:
-              error_not_found: 'arbeidspakke i "fra"-posisjonen er ikke funnet eller ikke synlig'
+              error_not_found: "arbeidspakke i \"fra\"-posisjonen er ikke funnet eller ikke synlig"
               error_readonly: "en eksisterende relasjon `fra`-lenke er uforanderlig"
         repository:
           not_available: "SCM leverandør er ikke tilgjengelig"
@@ -993,6 +994,11 @@
               hours_per_day_are_missing: "Antall timer per dag må defineres."
               durations_are_not_positive_numbers: "Varigheten må være positive tall."
               hours_per_day_is_out_of_bounds: "Timer per dag kan ikke være mer enn 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "kan ikke aktiveres for statuser som er merket som standard."
         time_entry:
           attributes:
             hours:
@@ -1023,6 +1029,12 @@
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "er ikke på startdato, selv om dette er nødvendig for milepæler."
               cannot_be_null: "kan ikke settes til null da startdato og varighet er kjent."
@@ -1052,13 +1064,13 @@
             estimated_hours:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Kan ikke være lavere enn gjenstående arbeid."
-              must_be_set_when_remaining_work_is_set: "Påkrevd når gjenværende arbeid er satt."
-              only_values_greater_or_equal_zeroes_allowed: "Må være >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
               cant_exceed_work: "Kan ikke være høyere enn arbeidet."
               must_be_set_when_work_is_set: "Påkrevet når arbeidet settes."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "Arbeidspakken er i skrivebeskyttet status slik at egenskapene ikke kan endres."
         type:
@@ -1079,10 +1091,10 @@
               format: "%{message}"
             password:
               weak: "Må inneholde tegn fra de følgende klassene (minst %{min_count} av %{all_count}): %{rules}."
-              lowercase: 'små bokstaver (f.eks. "a")'
-              uppercase: 'store bokstaver (f.eks. "A")'
-              numeric: 'numerisk (f.eks. "1")'
-              special: 'spesialtegn (f.eks. "%")'
+              lowercase: "små bokstaver (f.eks. \"a\")"
+              uppercase: "store bokstaver (f.eks. \"A\")"
+              numeric: "numerisk (f.eks. \"1\")"
+              special: "spesialtegn (f.eks. \"%\")"
               reused:
                 one: "har blitt brukt tidligere. Vennligst velg en som er forskjellig fra den forrige."
                 other: "har blitt brukt tidligere. Vennligst velg et som er forskjellig fra dine siste %{count}."
@@ -1107,8 +1119,6 @@
         version:
           undeletable_archived_projects: "Versjonen kan ikke slettes ettersom den har arbeidspakker knyttet til den."
           undeletable_work_packages_attached: "Versjonen kan ikke slettes ettersom den har arbeidspakker knyttet til den."
-        status:
-          readonly_default_exlusive: "kan ikke aktiveres for statuser som er merket som standard."
         token/api:
           attributes:
             token_name:
@@ -1434,7 +1444,7 @@
       long: "%d. %B %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Januar"
       - "Februar"
@@ -1449,8 +1459,8 @@
       - "November"
       - "Desember"
     order:
-      - ":år"
-      - ":måned"
+      - ':år'
+      - ':måned'
       - :dag
   datetime:
     distance_in_words:
@@ -1582,6 +1592,7 @@
   error_pdf_failed_to_export: "PDF-eksporten kunne ikke lagres: %{error}"
   error_token_authenticity: "Kan ikke bekrefte Cross-Site Request Forgery token. Har du prøvd å sende inn data i flere nettlesere eller faner? Vennligst lukk alle fanene og prøv igjen."
   error_work_package_not_found_in_project: "Arbeidspakken ble ikke funnet eller tilhører ikke dette prosjektet"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "må være prosjektmedlem"
   error_migrations_are_pending: "Din OpenProject installasjon har ventende databaseoverføringer. Du har sannsynligvis gått tilbake til overføringene på din siste oppgradering. Vennligst sjekk oppgraderings guiden for å oppgradere installasjonen din ordentlig."
   error_migrations_visit_upgrade_guides: "Vennligst besøk vår veiledning/dokumentasjon for oppgradering"
@@ -1786,6 +1797,11 @@
       responsible: "Accountable"
       shared: "Shared"
       watched: "Watcher"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"
@@ -1850,6 +1866,7 @@
   label_ldap_auth_source_plural: "LDAP-forbindelser"
   label_attribute_expand_text: "Den fullstendige teksten for '%{attribute}'"
   label_authentication: "Autentisering"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Tilgjengelige globale roller"
   label_available_project_attributes: "Tilgjengelige prosjektegenskaper"
   label_available_project_forums: "Tilgjengelige forum"
@@ -2269,6 +2286,7 @@
   label_role_search: "Tilordne rolle til nye medlemmer"
   label_scm: "SCM"
   label_search: "Søk"
+  label_search_by_name: "Search by name"
   label_send_information: "Send nye opplysninger til brukeren"
   label_send_test_email: "Send en testmail"
   label_session: "Økt"
@@ -2381,6 +2399,7 @@
   label_work_package_new: "Ny arbeidspakke"
   label_work_package_edit: "Rediger arbeidspakke %{name}"
   label_work_package_plural: "Arbeidspakker"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Status for arbeidspakke"
   label_work_package_status_new: "Ny status"
   label_work_package_status_plural: "Statuser for arbeidspakke"
@@ -2388,6 +2407,7 @@
   label_work_package_tracking: "Sporing av arbeidspakke"
   label_work_package_view_all: "Vis alle arbeidspakker"
   label_workflow: "Arbeidsflyt"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Arbeidsflyt"
   label_workflow_summary: "Sammendrag"
   label_working_days_and_hours: "Arbeidsdager og timer"
@@ -2722,6 +2742,7 @@
   permission_edit_own_messages: "Rediger egne meldinger"
   permission_edit_own_time_entries: "Rediger egne tidsrapporter"
   permission_edit_project: "Rediger prosjekt"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Rediger rapporteringer"
   permission_edit_time_entries: "Rediger tidslogger for andre brukere"
   permission_edit_timelines: "Rediger tidslinjer"
@@ -2772,6 +2793,7 @@
   permission_work_package_assigned: "Bli utførende/ansvarlig"
   permission_work_package_assigned_explanation: "Arbeidspakker kan tildeles brukere og grupper med denne rollen i det respektive prosjektet"
   permission_view_project_activity: "Vis prosjektaktivitet"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Lagre BCF-spørringer"
   permission_manage_public_bcf_queries: "Administrere offentlige BCF-spørringer"
   permission_edit_attribute_help_texts: "Rediger hjelpetekster for egenskap"
@@ -3519,7 +3541,7 @@
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (enhver kompatibel ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Forventet at INNHOLDSTYPE skulle være '%{content_type}', men mottok i stedet '%{actual}'."
-      invalid_format: 'Ugyldig format for ''%{property}'': forventet format som "%{expected_format}", men fikk ''%{actual}''.'
+      invalid_format: "Ugyldig format for '%{property}': forventet format som \"%{expected_format}\", men fikk '%{actual}'."
       invalid_json: "Forespørselen kan ikke analyseres som JSON."
       invalid_relation: "Relasjonen er ugyldig."
       invalid_resource: "For '%{property}' er en link som '%{expected}' forventet, men fikk '%{actual}'."
@@ -3636,7 +3658,7 @@
       client_credentials: "Kundens innloggingsflyt"
     client_credentials: "Brukeren brukes til klientpåloggingsinformasjon"
     client_credentials_impersonation_set_to: "Klientens påloggingsinformasjon satt til"
-    client_credentials_impersonation_warning: 'Merk: Klienter som bruker "Klient-legitimasjonsflyten" i denne applikasjonen vil ha rettighetene til denne brukeren'
+    client_credentials_impersonation_warning: "Merk: Klienter som bruker \"Klient-legitimasjonsflyten\" i denne applikasjonen vil ha rettighetene til denne brukeren"
     client_credentials_impersonation_html: >
       Som standard gir OpenProject OAuth 2.0 autorisasjon via %{authorization_code_flow_link}. Du kan eventuelt aktivere %{client_credentials_flow_link}, men du må oppgi en bruker som forespørselen blir utført på vegne av.
     authorization_error: "Det oppstod en godkjenningsfeil."

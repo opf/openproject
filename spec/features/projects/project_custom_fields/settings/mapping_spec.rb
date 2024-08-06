@@ -129,28 +129,6 @@ RSpec.describe "Projects custom fields mapping via project settings", :js, :with
       end
     end
 
-    it "does show the activated custom fields in the project general settings page" do
-      link_project_custom_field =
-        create(:link_project_custom_field, name: "Link field",
-                                           project_custom_field_section: section_for_input_fields)
-
-      project.project_custom_fields << [
-        boolean_project_custom_field,
-        string_project_custom_field,
-        link_project_custom_field,
-        list_project_custom_field,
-        multi_list_project_custom_field
-      ]
-
-      visit project_settings_general_path(project)
-
-      expect(page).to have_content("Boolean field")
-      expect(page).to have_content("String field")
-      expect(page).to have_content("Link field")
-      expect(page).to have_content("List field")
-      expect(page).to have_content("Multi list field")
-    end
-
     it "shows all available project custom fields with their correct mapping state" do
       visit project_settings_project_custom_fields_path(project)
 

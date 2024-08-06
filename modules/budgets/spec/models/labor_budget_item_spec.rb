@@ -80,8 +80,8 @@ RSpec.describe LaborBudgetItem do
       it { expect(item.calculated_costs).to eq(rate.rate * item.hours) }
     end
 
-    describe "WHEN user, hours and rate are defined
-              WHEN the user is deleted" do
+    describe "WHEN user, hours and rate are defined " \
+             "WHEN the user is deleted" do
       before do
         project.save!
         item.hours = 5.0
@@ -192,8 +192,8 @@ RSpec.describe LaborBudgetItem do
       project.enabled_module_names = project.enabled_module_names << "costs"
     end
 
-    describe "WHEN the item is assigned to the user
-              WHEN the user has the view_own_hourly_rate permission" do
+    describe "WHEN the item is assigned to the user " \
+             "WHEN the user has the view_own_hourly_rate permission" do
       before do
         is_member(project, user, [:view_own_hourly_rate])
 
@@ -203,8 +203,8 @@ RSpec.describe LaborBudgetItem do
       it { expect(item.costs_visible_by?(user)).to be_truthy }
     end
 
-    describe "WHEN the item is assigned to the user
-              WHEN the user lacks permissions" do
+    describe "WHEN the item is assigned to the user " \
+             "WHEN the user lacks permissions" do
       before do
         is_member(project, user, [])
 
@@ -214,8 +214,8 @@ RSpec.describe LaborBudgetItem do
       it { expect(item.costs_visible_by?(user)).to be_falsey }
     end
 
-    describe "WHEN the item is assigned to another user
-              WHEN the user has the view_hourly_rates permission" do
+    describe "WHEN the item is assigned to another user " \
+             "WHEN the user has the view_hourly_rates permission" do
       before do
         is_member(project, user2, [:view_hourly_rates])
 
@@ -225,8 +225,8 @@ RSpec.describe LaborBudgetItem do
       it { expect(item.costs_visible_by?(user2)).to be_truthy }
     end
 
-    describe "WHEN the item is assigned to another user
-              WHEN the user has the view_hourly_rates permission in another project" do
+    describe "WHEN the item is assigned to another user " \
+             "WHEN the user has the view_hourly_rates permission in another project" do
       before do
         is_member(project2, user2, [:view_hourly_rates])
 

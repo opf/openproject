@@ -473,7 +473,7 @@ nl:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Licht"
     light_high_contrast: "Licht hoog contrast"
   types:
@@ -522,9 +522,9 @@ nl:
       no_common_statuses_exists: "Er is geen status beschikbaar voor alle geselecteerde werkpakketten. Hun status kan niet worden gewijzigd."
       unsupported_for_multiple_projects: "Bulk verplaatsen/kopiëren wordt niet ondersteund voor werkpakketten uit meerdere projecten"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -592,17 +592,6 @@ nl:
       attribute_help_text:
         attribute_name: "Kenmerk"
         help_text: "Helptekst"
-      ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Voornaam"
-        attr_lastname: "Achternaam attribuut"
-        attr_login: "Gebruikersnaam attribuut"
-        attr_mail: "E-mail attribuut"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatische gebruiker aanmaken"
-        port: "Poort"
-        tls_certificate_string: "LDAP server SSL-certificaat"
       changeset:
         repository: "Repository"
       color:
@@ -627,6 +616,14 @@ nl:
         visible: "zichtbaar"
       custom_value:
         value: "Waarde"
+      doorkeeper/application:
+        uid: "Client-ID"
+        secret: "Client secret"
+        owner: "Eigenaar"
+        redirect_uri: "URI omleiden"
+        client_credentials_user_id: "Client referenties gebruiker ID"
+        scopes: "Reikwijdte"
+        confidential: "Vertrouwelijke"
       enterprise_token:
         starts_at: "Geldig sinds"
         subscriber: "Abonnee"
@@ -637,20 +634,25 @@ nl:
         row_count: "Aantal rijen"
         column_count: "Aantal kolommen"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client-ID"
-      relation:
-        lag: "Lag"
-        from: "Werkpakket"
-        to: "Verwante werkpakket"
-      status:
-        is_closed: "Werkpakket gesloten"
-        is_readonly: "Werkpakket is alleen-lezen"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notities"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Voornaam"
+        attr_lastname: "Achternaam attribuut"
+        attr_login: "Gebruikersnaam attribuut"
+        attr_mail: "E-mail attribuut"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatische gebruiker aanmaken"
+        port: "Poort"
+        tls_certificate_string: "LDAP server SSL-certificaat"
       member:
         roles: "Rollen"
+      oauth_client:
+        client: "Client-ID"
+      planning_element_type_color:
+        hexcode: Hexadecimale code
       project:
         active_value:
           true: "Niet gearchiveerd"
@@ -680,6 +682,8 @@ nl:
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Kolommen"
         relations_to_type_column: "Betrekkingen %{type}"
@@ -687,10 +691,19 @@ nl:
         group_by: "Groepeer resultaten op"
         filters: "Filters"
         timeline_labels: "Tijdlijn etiketten"
+      relation:
+        lag: "Lag"
+        from: "Werkpakket"
+        to: "Verwante werkpakket"
       repository:
         url: "URL"
       role:
         permissions: "Machtigingen"
+      status:
+        is_closed: "Werkpakket gesloten"
+        is_readonly: "Werkpakket is alleen-lezen"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Activiteit"
         hours: "Uren"
@@ -733,10 +746,6 @@ nl:
       wiki_page:
         parent_title: "Bovenliggende pagina"
         redirect_existing_links: "Bestaande koppelingen omleiden"
-      planning_element_type_color:
-        hexcode: Hexadecimale code
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin van het invoegen"
         begin_deletion: "Begin van de verwijdering"
@@ -771,14 +780,6 @@ nl:
         type: "Type"
         version: "Versie"
         watcher: "Kijker"
-      "doorkeeper/application":
-        uid: "Client-ID"
-        secret: "Client secret"
-        owner: "Eigenaar"
-        redirect_uri: "URI omleiden"
-        client_credentials_user_id: "Client referenties gebruiker ID"
-        scopes: "Reikwijdte"
-        confidential: "Vertrouwelijke"
     errors:
       messages:
         accepted: "moet geaccepteerd worden."
@@ -991,6 +992,11 @@ nl:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "kan niet worden geactiveerd voor statussen die standaard zijn gemarkeerd."
         time_entry:
           attributes:
             hours:
@@ -1021,6 +1027,12 @@ nl:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "is niet op begindatum, hoewel dit voor mijlpalen vereist is."
               cannot_be_null: "kan niet worden ingesteld op nul omdat de begindatum en -duur bekend zijn."
@@ -1050,13 +1062,13 @@ nl:
             estimated_hours:
               not_a_number: "is geen geldige duur."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is geen geldige duur."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "Het werkpakket heeft een alleen-lezen status dus kunne attributen niet worden gewijzigd."
         type:
@@ -1105,8 +1117,6 @@ nl:
         version:
           undeletable_archived_projects: "De versie kan niet worden verwijderd omdat er werkpakketten aan zijn gekoppeld."
           undeletable_work_packages_attached: "De versie kan niet worden verwijderd omdat er werkpakketten aan zijn gekoppeld."
-        status:
-          readonly_default_exlusive: "kan niet worden geactiveerd voor statussen die standaard zijn gemarkeerd."
         token/api:
           attributes:
             token_name:
@@ -1432,7 +1442,7 @@ nl:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Januari"
       - "Februari"
@@ -1580,10 +1590,11 @@ nl:
   error_pdf_failed_to_export: "De pdf export kan niet worden opgeslagen:%{error}"
   error_token_authenticity: "Niet in staat om de Cross-Site Request Forgery token te valideren. Heeft u geprobeert gegevens op meerdere browsers of tabbladen wilt indienen? Sluit alle tabbladen en probeer het opnieuw."
   error_work_package_not_found_in_project: "Het werkpakket werd niet gevonden of maakt geen deel uit van dit project"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "moet een project lid zijn"
   error_migrations_are_pending: "Uw OpenProject installatie heeft database migraties in afwachting. U heeft waarschijnlijk de migraties gemist tijdens uw laatste upgrade. Controleer a.u.b. de upgrade gids om uw installatie goed bij te werken."
   error_migrations_visit_upgrade_guides: "Bezoek onze upgrade gids a.u.b."
-  error_no_default_work_package_status: "Geen standaard werkpakket status is gedefinieerd. Controleer uw configuratie (Ga naar 'Administratie-> werkpakket statussen')."
+  error_no_default_work_package_status: 'Geen standaard werkpakket status is gedefinieerd. Controleer uw configuratie (Ga naar ''Administratie-> werkpakket statussen'').'
   error_no_type_in_project: "Er is geen type gekoppeld aan dit project. Controleer de projectinstellingen."
   error_omniauth_registration_timed_out: "De registratie via een externe authenticatie-provider is verlopen. Probeer het opnieuw."
   error_omniauth_invalid_auth: "De verificatie-informatie van de identiteitsprovider was ongeldig. Neem contact op met uw beheerder voor verdere hulp."
@@ -1784,6 +1795,11 @@ nl:
       responsible: "Accountable"
       shared: "Shared"
       watched: "Watcher"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"
@@ -1848,6 +1864,7 @@ nl:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Verificatie"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Beschikbare forums"
@@ -2267,6 +2284,7 @@ nl:
   label_role_search: "Rol toewijzen aan nieuwe leden"
   label_scm: "SCM"
   label_search: "Zoeken"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Stuur een test e-mail"
   label_session: "Sessie"
@@ -2379,6 +2397,7 @@ nl:
   label_work_package_new: "Nieuw werkpakket"
   label_work_package_edit: "Bewerk werkpakket %{name}"
   label_work_package_plural: "Werkpakketten"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Status werkpakket"
   label_work_package_status_new: "Nieuwe status"
   label_work_package_status_plural: "Werkpakket statussen"
@@ -2386,6 +2405,7 @@ nl:
   label_work_package_tracking: "Werkpakket bijhouden"
   label_work_package_view_all: "Bekijk alle werkpakketten"
   label_workflow: "Werkstroom"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Samenvatting"
   label_working_days_and_hours: "Working days and hours"
@@ -2624,8 +2644,8 @@ nl:
   notice_locking_conflict: "Informatie is in de tussentijd door ten minste één andere gebruiker bijgewerkt."
   notice_locking_conflict_additional_information: "De update kwam van %{users}."
   notice_locking_conflict_reload_page: "Pagina opnieuw laden, bekijk de wijzigingen en uw wijzigingen opnieuw toepassen."
-  notice_member_added: "%{name} is toegevoegd aan het project."
-  notice_members_added: "%{number} gebruikers zijn toegevoegd aan het project."
+  notice_member_added: '%{name} is toegevoegd aan het project.'
+  notice_members_added: '%{number} gebruikers zijn toegevoegd aan het project.'
   notice_member_removed: "%{user} verwijderd uit het project."
   notice_member_deleted: "%{user} is verwijderd uit het project en de gebruiker bestaat niet meer."
   notice_no_principals_found: "Geen resultaten gevonden."
@@ -2719,6 +2739,7 @@ nl:
   permission_edit_own_messages: "Eigen berichten bewerken"
   permission_edit_own_time_entries: "Bewerk de logboeken van de eigen tijd"
   permission_edit_project: "Project bewerken"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Rapporteringen bewerken"
   permission_edit_time_entries: "Bewerk tijdregistraties voor andere gebruikers"
   permission_edit_timelines: "Bewerken van tijdlijnen"
@@ -2769,6 +2790,7 @@ nl:
   permission_work_package_assigned: "Toewijzer/verantwoordelijk worden"
   permission_work_package_assigned_explanation: "Werkpakketten kunnen worden toegewezen aan gebruikers en groepen met deze rol in het respectieve project"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"

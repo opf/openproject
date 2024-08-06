@@ -143,7 +143,7 @@ Naming/VariableNumber:
   AllowedPatterns:
     - '\w_20\d\d' # allow dates like christmas_2022 or date_2034_04_12
     - '\w\d++(_\d++)+' # allow hierarchical data like child1_2_5 (second + in regex is possessive qualifier)
-
+    - 'custom_field_\d+' # allow custom field method names to be called with send :custom_field_1001
 # There are valid cases in which to use methods like:
 # * update_all
 # * touch_all

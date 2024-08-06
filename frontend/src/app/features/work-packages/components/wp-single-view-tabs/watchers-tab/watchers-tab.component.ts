@@ -26,23 +26,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { Transition } from '@uirouter/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
+import {
+  WorkPackageWatchersService,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
@@ -82,22 +79,24 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
     },
   };
 
-  public constructor(readonly I18n:I18nService,
+  public constructor(
+    readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly wpWatchersService:WorkPackageWatchersService,
-    readonly $transition:Transition,
+    readonly uiRouterGlobals:UIRouterGlobals,
     readonly notificationService:WorkPackageNotificationService,
     readonly loadingIndicator:LoadingIndicatorService,
     readonly cdRef:ChangeDetectorRef,
     readonly pathHelper:PathHelperService,
-    readonly apiV3Service:ApiV3Service) {
+    readonly apiV3Service:ApiV3Service,
+  ) {
     super();
   }
 
   public ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
-
-    this.workPackageId = this.$transition.params('to').workPackageId;
+    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
+    this.workPackageId = (this.workPackage.id as string) || workPackageId;
     this
       .apiV3Service
       .work_packages

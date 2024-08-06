@@ -28,8 +28,16 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_ldap_auth_source)} #{@ldap_auth_source.name}" %>
-<% local_assigns[:additional_breadcrumb] = @ldap_auth_source.name %>
-<%= toolbar title: "#{t(:label_ldap_auth_source)}" %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { @ldap_auth_source.name }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_authentication_path, text: t(:label_authentication) },
+                             { href: ldap_auth_sources_path, text: t(:label_ldap_auth_source_plural) },
+                             @ldap_auth_source.name])
+  end
+%>
 
 <%= labelled_tabular_form_for @ldap_auth_source do |f| %>
   <%= render partial: 'form', locals: { f: f } %>

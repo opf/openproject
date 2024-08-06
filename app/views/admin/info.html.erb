@@ -29,11 +29,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t(:label_administration), t(:label_information_plural)) -%>
 
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_information_plural) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             t(:label_information_plural)])
+  end
+%>
+
 <%= call_hook(:view_admin_info_top) %>
 
 <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
-  component.with_header(title: I18n.t('label_information_plural'))
-
   if Setting.show_product_version?
     core_link = linked_sha_reference(OpenProject::VERSION.core_sha, OpenProject::VERSION.core_url)
     component.with_attribute(key: t(:label_core_build), value: core_link) if core_link.present?

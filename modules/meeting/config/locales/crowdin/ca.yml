@@ -122,7 +122,7 @@ ca:
       agenda_text: "Copia l'agenda de l'antiga reunió"
     email:
       send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Reunió oberta"
       invited:
         summary: "%{actor} us ha enviat una invitació per a la reunió %{title}"

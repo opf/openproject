@@ -116,7 +116,10 @@ module Queries::Filters::Shared
       protected
 
       def condition
-        operator_strategy.sql_for_field(values_replaced, CustomValue.table_name, "value")
+        [
+          custom_field_context.where_subselect_conditions(custom_field, context),
+          operator_strategy.sql_for_field(values_replaced, CustomValue.table_name, "value")
+        ].compact.join(" AND ")
       end
 
       def type_strategy_class

@@ -33,27 +33,25 @@ See COPYRIGHT and LICENSE files for more details.
       section.with_title { I18n.t("storages.health.title") }
 
       flex_layout do |health_status_container|
-        if @storage.provider_type_one_drive?
-          health_status_container.with_row(mt: 2) do
-            render(Storages::Admin::SidePanel::ValidationResultComponent.new(result: validation_result_placeholder))
-          end
+        health_status_container.with_row do
+          render(Storages::Admin::SidePanel::ValidationResultComponent.new(result: validation_result_placeholder))
+        end
 
-          health_status_container.with_row(mt: 2) do
-            primer_form_with(
-              model: @storage,
-              url: validate_connection_admin_settings_storage_connection_validation_path(@storage),
-              method: :post,
-              data: { turbo: true }
-            ) do
-              render(Primer::Beta::Button.new(
-                scheme: :link,
-                color: :default,
-                font_weight: :bold,
-                type: :submit,
-                )) do |button|
-                button.with_leading_visual_icon(icon: "meter")
-                I18n.t("storages.health.connection_validation.action")
-              end
+        health_status_container.with_row(mt: 2) do
+          primer_form_with(
+            model: @storage,
+            url: validate_connection_admin_settings_storage_connection_validation_path(@storage),
+            method: :post,
+            data: { turbo: true }
+          ) do
+            render(Primer::Beta::Button.new(
+              scheme: :link,
+              color: :default,
+              font_weight: :bold,
+              type: :submit,
+            )) do |button|
+              button.with_leading_visual_icon(icon: "meter")
+              I18n.t("storages.health.connection_validation.action")
             end
           end
         end

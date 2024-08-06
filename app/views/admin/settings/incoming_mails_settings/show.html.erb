@@ -29,7 +29,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t(:label_incoming_emails) -%>
 
-<%= toolbar title: t(:label_incoming_emails) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:'label_incoming_emails') }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_aggregation_path, text: t(:"menus.admin.mails_and_notifications") },
+                             t(:'label_incoming_emails')])
+  end
+%>
 
 <%= styled_form_tag(admin_settings_incoming_mails_path, method: :patch) do %>
   <section class="form--section">

@@ -37,7 +37,7 @@ RSpec.shared_context "with temporary LDAP" do
   end
 
   after(:all) do
-    @ldap_server.stop
+    @ldap_server&.stop # rubocop:disable RSpec/InstanceVariable
   end
 
   # Ldap has:

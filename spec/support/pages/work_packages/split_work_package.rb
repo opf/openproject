@@ -48,7 +48,7 @@ module Pages
     end
 
     def expect_open
-      wait_for_reload if using_cuprite?
+      wait_for_reload
       expect(page).to have_selector(@selector)
       expect_subject
     end

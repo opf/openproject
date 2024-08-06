@@ -223,7 +223,7 @@ module Pages
         work_package_custom_field(key, $1)
       when :date, :startDate, :dueDate, :combinedDate
         DateEditField.new container, key, is_milestone: work_package&.milestone?
-      when :estimatedTime, :remainingTime, :statusWithinProgressModal
+      when :estimatedTime, :remainingTime, :percentageDone, :statusWithinProgressModal
         ProgressEditField.new container, key, create_form: create_page?
       when :description
         TextEditorField.new container, key

@@ -1,0 +1,17 @@
+<% html_title t("js.notifications.title") %>
+
+<% content_for :content_header do %>
+  <%= render(Notifications::IndexPageHeaderComponent.new) %>
+  <%= render(Notifications::IndexSubHeaderComponent.new(
+    facet: params[:facet],
+    filter_name: params[:name],
+    filter_type: params[:filter]
+  )) %>
+<% end %>
+
+<% content_for :content_body do %>
+  <%= angular_component_tag "opce-notification-center" %>
+
+<% end %>
+
+<% optional_work_package_split_view %>

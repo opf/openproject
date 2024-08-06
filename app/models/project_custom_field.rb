@@ -38,16 +38,36 @@ class ProjectCustomField < CustomField
 
   validates :custom_field_section_id, presence: true
 
-  def type_name
-    :label_project_plural
+  class << self
+    def visible(user = User.current, project: nil)
+      if user.admin?
+        all
+      elsif user.allowed_in_any_project?(:select_project_custom_fields) || user.allowed_globally?(:add_project)
+        where(visible: true)
+      else
+        where(visible: true).where(mappings_with_view_project_attributes_permission(user, project).exists)
+      end
+    end
+
+    private
+
+    def mappings_with_view_project_attributes_permission(user, project) # rubocop:disable Metrics/AbcSize
+      allowed_projects = Project.allowed_to(user, :view_project_attributes)
+      mapping_table = ProjectCustomFieldProjectMapping.arel_table
+
+      mapping_condition = mapping_table[:custom_field_id].eq(arel_table[:id])
+                          .and(mapping_table[:project_id].in(allowed_projects.select(:id).arel))
+
+      if project&.persisted?
+        mapping_condition = mapping_condition.and(mapping_table[:project_id].eq(project.id))
+      end
+
+      mapping_table.project(Arel.star).where(mapping_condition)
+    end
   end
 
-  def self.visible(user = User.current)
-    if user.admin?
-      all
-    else
-      where(visible: true)
-    end
+  def type_name
+    :label_project_plural
   end
 
   def activate_required_field_in_all_projects

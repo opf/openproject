@@ -73,8 +73,7 @@ RSpec.describe CustomField do
   end
 
   describe "#valid?" do
-    describe "WITH a text field
-              WITH minimum length blank" do
+    describe "WITH a text field WITH minimum length blank" do
       before do
         field.field_format = "text"
         field.min_length = nil
@@ -83,8 +82,7 @@ RSpec.describe CustomField do
       it { expect(field).not_to be_valid }
     end
 
-    describe "WITH a text field
-              WITH maximum length blank" do
+    describe "WITH a text field WITH maximum length blank" do
       before do
         field.field_format = "text"
         field.max_length = nil
@@ -93,8 +91,7 @@ RSpec.describe CustomField do
       it { expect(field).not_to be_valid }
     end
 
-    describe "WITH a text field
-              WITH minimum length not an integer" do
+    describe "WITH a text field WITH minimum length not an integer" do
       before do
         field.field_format = "text"
         field.min_length = "a"
@@ -103,8 +100,7 @@ RSpec.describe CustomField do
       it { expect(field).not_to be_valid }
     end
 
-    describe "WITH a text field
-              WITH maximum length not an integer" do
+    describe "WITH a text field WITH maximum length not an integer" do
       before do
         field.field_format = "text"
         field.max_length = "a"
@@ -113,8 +109,7 @@ RSpec.describe CustomField do
       it { expect(field).not_to be_valid }
     end
 
-    describe "WITH a text field
-              WITH minimum length greater than maximum length" do
+    describe "WITH a text field WITH minimum length greater than maximum length" do
       before do
         field.field_format = "text"
         field.min_length = 2
@@ -124,8 +119,7 @@ RSpec.describe CustomField do
       it { expect(field).not_to be_valid }
     end
 
-    describe "WITH a text field
-              WITH negative minimum length" do
+    describe "WITH a text field WITH negative minimum length" do
       before do
         field.field_format = "text"
         field.min_length = -2
@@ -134,8 +128,7 @@ RSpec.describe CustomField do
       it { expect(field).not_to be_valid }
     end
 
-    describe "WITH a text field
-              WITH negative maximum length" do
+    describe "WITH a text field WITH negative maximum length" do
       before do
         field.field_format = "text"
         field.max_length = -2
@@ -144,8 +137,7 @@ RSpec.describe CustomField do
       it { expect(field).not_to be_valid }
     end
 
-    describe "WITH a text field
-              WITH an invalid regexp" do
+    describe "WITH a text field WITH an invalid regexp" do
       before do
         field.field_format = "text"
         field.regexp = "[0-9}"
@@ -157,8 +149,7 @@ RSpec.describe CustomField do
       end
     end
 
-    describe "WITH a list field
-              WITHOUT a custom option" do
+    describe "WITH a list field WITHOUT a custom option" do
       before do
         field.field_format = "list"
       end
@@ -169,8 +160,7 @@ RSpec.describe CustomField do
       end
     end
 
-    describe "WITH a list field
-              WITH a custom option" do
+    describe "WITH a list field WITH a custom option" do
       before do
         field.field_format = "list"
         field.custom_options.build(value: "some value")

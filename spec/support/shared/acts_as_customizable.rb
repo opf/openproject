@@ -45,7 +45,7 @@ RSpec.shared_examples_for "acts_as_customizable included" do
         it "returns the field changes" do
           model_instance.custom_field_values = { custom_field.id => "test" }
           expect(model_instance.custom_field_changes)
-            .to eq({ custom_field.attribute_name.to_sym => [nil, "test"] })
+            .to eq({ custom_field.attribute_name => [nil, "test"] })
         end
       end
     end
@@ -54,7 +54,7 @@ RSpec.shared_examples_for "acts_as_customizable included" do
       it "returns the field changes" do
         model_instance.custom_field_values = { custom_field.id => "test" }
         expect(model_instance.custom_field_changes)
-          .to eq({ custom_field.attribute_name.to_sym => [nil, "test"] })
+          .to eq({ custom_field.attribute_name => [nil, "test"] })
       end
     end
 
@@ -67,7 +67,7 @@ RSpec.shared_examples_for "acts_as_customizable included" do
       it "returns the field changes" do
         model_instance.custom_field_values = { custom_field.id => "test2" }
         expect(model_instance.custom_field_changes)
-          .to eq({ custom_field.attribute_name.to_sym => ["test", "test2"] })
+          .to eq({ custom_field.attribute_name => ["test", "test2"] })
       end
     end
 
@@ -92,7 +92,7 @@ RSpec.shared_examples_for "acts_as_customizable included" do
       it "returns the field changes" do
         model_instance.custom_field_values = { custom_field.id => nil }
         expect(model_instance.custom_field_changes)
-          .to eq({ custom_field.attribute_name.to_sym => ["test", nil] })
+          .to eq({ custom_field.attribute_name => ["test", nil] })
       end
     end
   end

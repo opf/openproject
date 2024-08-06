@@ -33,8 +33,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     prepend InstanceMethods
     extend ClassMethods
 
-    register_journal_formatted_fields(:decimal, "story_points")
-    register_journal_formatted_fields(:decimal, "position")
+    register_journal_formatted_fields "story_points", "position", formatter_key: :decimal
 
     validates_numericality_of :story_points, only_integer: true,
                                              allow_nil: true,

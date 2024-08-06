@@ -474,7 +474,7 @@ pt-BR:
         is_readonly: "Somente leitura"
         excluded_from_totals: "Excluído dos totais"
   themes:
-    dark: "Escuro (experimental)"
+    dark: "Dark (Beta)"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -523,13 +523,13 @@ pt-BR:
       no_common_statuses_exists: "Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada."
       unsupported_for_multiple_projects: "Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos"
       current_type_not_available_in_target_project: >
-        O tipo atual do pacote de trabalho não está habilitado no projeto de destino. Habilite o tipo no projeto de destino se desejar que ele permaneça inalterado. Caso contrário, o tipo do pacote de trabalho será automaticamente reatribuído, o que pode levar à perda de dados.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        Os tipos atual do pacotes de trabalho não estão habilitados no projeto de destino. Habilite os tipos no projeto de destino se desejar que eles permaneçam inalterados. Caso contrário, os tipos do pacotes de trabalho serão automaticamente reatribuídos, o que pode levar à perda de dados.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Fluxo de trabalho ausente para compartilhamento de pacotes de trabalho"
-        message: 'Nenhum fluxo de trabalho está configurado para a função "Editor de pacote de trabalho". Sem um fluxo de trabalho, o usuário compartilhado não pode alterar o status do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de origem (ex.: "Tarefa") e uma função de origem (ex.: "Membro"). Em seguida, selecione os tipos de destino. Para começar, você pode selecionar todos os tipos como alvos. Por fim, selecione a função "Editor de pacote de trabalho" como o destino e pressione "Copiar". Depois de criar os padrões, ajuste os fluxos de trabalho da mesma forma que faz para todas as outras funções.'
+        message: "Nenhum fluxo de trabalho está configurado para a função \"Editor de pacote de trabalho\". Sem um fluxo de trabalho, o usuário compartilhado não pode alterar o status do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de origem (ex.: \"Tarefa\") e uma função de origem (ex.: \"Membro\"). Em seguida, selecione os tipos de destino. Para começar, você pode selecionar todos os tipos como alvos. Por fim, selecione a função \"Editor de pacote de trabalho\" como o destino e pressione \"Copiar\". Depois de criar os padrões, ajuste os fluxos de trabalho da mesma forma que faz para todas as outras funções."
         link_message: "Configure os fluxos de trabalho na administração."
     summary:
       reports:
@@ -593,17 +593,6 @@ pt-BR:
       attribute_help_text:
         attribute_name: "Atributo"
         help_text: "Texto de ajuda"
-      ldap_auth_source:
-        account: "Conta"
-        attr_firstname: "Atributo de nome"
-        attr_lastname: "Atributo de sobrenome"
-        attr_login: "Atributo de nome de usuário"
-        attr_mail: "Atributo de e-mail"
-        base_dn: "DN base"
-        host: "Host"
-        onthefly: "Criação automática de usuário"
-        port: "Porta"
-        tls_certificate_string: "Certificado SSL do servidor LDAP"
       changeset:
         repository: "Repositório"
       color:
@@ -628,6 +617,14 @@ pt-BR:
         visible: "Visível"
       custom_value:
         value: "Valor"
+      doorkeeper/application:
+        uid: "ID do cliente"
+        secret: "Segredo do cliente"
+        owner: "Proprietário"
+        redirect_uri: "Redirecionar URI"
+        client_credentials_user_id: "ID do usuário de credenciais do cliente"
+        scopes: "Escopos"
+        confidential: "Confidencial"
       enterprise_token:
         starts_at: "Válido desde"
         subscriber: "Assinante"
@@ -638,20 +635,25 @@ pt-BR:
         row_count: "Número de linhas"
         column_count: "Número de colunas"
         widgets: "Widgets"
-      oauth_client:
-        client: "ID do cliente"
-      relation:
-        lag: "Atraso"
-        from: "Pacote de trabalho"
-        to: "Pacote de trabalho relacionado"
-      status:
-        is_closed: "Pacote de trabalho fechado"
-        is_readonly: "Pacote de trabalho somente leitura"
-        excluded_from_totals: "Excluir do cálculo de totais na hierarquia"
       journal:
         notes: "Anotações"
+      ldap_auth_source:
+        account: "Conta"
+        attr_firstname: "Atributo de nome"
+        attr_lastname: "Atributo de sobrenome"
+        attr_login: "Atributo de nome de usuário"
+        attr_mail: "Atributo de e-mail"
+        base_dn: "DN base"
+        host: "Host"
+        onthefly: "Criação automática de usuário"
+        port: "Porta"
+        tls_certificate_string: "Certificado SSL do servidor LDAP"
       member:
         roles: "Papéis"
+      oauth_client:
+        client: "ID do cliente"
+      planning_element_type_color:
+        hexcode: Código hexadecimal
       project:
         active_value:
           true: "Desarquivada"
@@ -681,6 +683,8 @@ pt-BR:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
+      project_custom_field:
+        custom_field_section: Seção
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -688,10 +692,19 @@ pt-BR:
         group_by: "Agrupar resultados por"
         filters: "Filtros"
         timeline_labels: "Rótulos de linha do tempo"
+      relation:
+        lag: "Atraso"
+        from: "Pacote de trabalho"
+        to: "Pacote de trabalho relacionado"
       repository:
         url: "URL"
       role:
         permissions: "Permissões"
+      status:
+        is_closed: "Pacote de trabalho fechado"
+        is_readonly: "Pacote de trabalho somente leitura"
+        excluded_from_totals: "Excluir do cálculo de totais na hierarquia"
+        default_done_ratio: "% concluído"
       time_entry:
         activity: "Atividade"
         hours: "horas"
@@ -734,10 +747,6 @@ pt-BR:
       wiki_page:
         parent_title: "Página pai"
         redirect_existing_links: "Redireciona links existentes"
-      planning_element_type_color:
-        hexcode: Código hexadecimal
-      project_custom_field:
-        custom_field_section: Seção
       work_package:
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
@@ -772,14 +781,6 @@ pt-BR:
         type: "Tipo"
         version: "Versão"
         watcher: "Observador"
-      "doorkeeper/application":
-        uid: "ID do cliente"
-        secret: "Segredo do cliente"
-        owner: "Proprietário"
-        redirect_uri: "Redirecionar URI"
-        client_credentials_user_id: "ID do usuário de credenciais do cliente"
-        scopes: "Escopos"
-        confidential: "Confidencial"
     errors:
       messages:
         accepted: "deve ser aceito."
@@ -950,7 +951,7 @@ pt-BR:
               forbidden: "Os carimbos de data/hora contêm valores proibidos: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: 'A coluna "Name" precisa ser incluída.'
+              name_not_included: "A coluna \"Name\" precisa ser incluída."
               nonexistent: "A coluna '%{column}' não existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
@@ -992,6 +993,11 @@ pt-BR:
               hours_per_day_are_missing: "O número de horas por dia deve ser definido."
               durations_are_not_positive_numbers: "As durações devem ser números positivos."
               hours_per_day_is_out_of_bounds: "As horas por dia não podem ultrapassar 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "deve estar entre 0 e 100."
+          readonly_default_exlusive: "Não pode ser ativado para estados marcados como padrão."
         time_entry:
           attributes:
             hours:
@@ -1022,6 +1028,12 @@ pt-BR:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
               cannot_be_null: "não pode ser definido como nulo já que a data de início e a duração são conhecidas. "
@@ -1051,13 +1063,13 @@ pt-BR:
             estimated_hours:
               not_a_number: "não é uma duração válida."
               cant_be_inferior_to_remaining_work: "Não pode ser menor do que o Trabalho restante."
-              must_be_set_when_remaining_work_is_set: "Necessário quando o Trabalho restante for definido."
-              only_values_greater_or_equal_zeroes_allowed: "Deve ser >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "não é uma duração válida."
               cant_exceed_work: "Não pode ser maior do que o Trabalho."
               must_be_set_when_work_is_set: "Necessário quando o Trabalho for definido."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados."
         type:
@@ -1106,8 +1118,6 @@ pt-BR:
         version:
           undeletable_archived_projects: "A versão não pode ser excluída pois tem pacotes de trabalho anexados a ela."
           undeletable_work_packages_attached: "A versão não pode ser excluída pois tem pacotes de trabalho anexados a ela."
-        status:
-          readonly_default_exlusive: "Não pode ser ativado para estados marcados como padrão."
         token/api:
           attributes:
             token_name:
@@ -1433,7 +1443,7 @@ pt-BR:
       long: "%d de %B de %Y"
       short: "%d/%b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Janeiro"
       - "Fevereiro"
@@ -1449,7 +1459,7 @@ pt-BR:
       - "Dezembro"
     order:
       - :ano
-      - ":mês"
+      - ':mês'
       - :dia
   datetime:
     distance_in_words:
@@ -1581,6 +1591,7 @@ pt-BR:
   error_pdf_failed_to_export: "Não foi possível salvar a exportação do PDF: %{error}"
   error_token_authenticity: "Não foi possível verificar o token de Falsificação de Solicitação Entre Sites. Você tentou enviar dados em vários navegadores ou abas? Por favor, feche todas as abas e tente novamente."
   error_work_package_not_found_in_project: "O pacote de trabalho não foi encontrado ou não pertence a este projeto"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "deve ser membro do projeto"
   error_migrations_are_pending: "Sua instalação do OpenProject possui migrações de banco de dados pendentes. Você provavelmente esqueceu de executar as migrações em sua última atualização. Por favor, verifique o guia de atualização para atualizar adequadamente sua instalação."
   error_migrations_visit_upgrade_guides: "Por favor, visite nossa documentação do guia de atualização"
@@ -1785,6 +1796,11 @@ pt-BR:
       responsible: "Responsável"
       shared: "Compartilhado"
       watched: "Observador"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Não lido por projeto"
       by_reason: "Motivo"
@@ -1849,6 +1865,7 @@ pt-BR:
   label_ldap_auth_source_plural: "Conexões LDAP"
   label_attribute_expand_text: "O texto concluído para '%{attribute}'"
   label_authentication: "Autenticação"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Funções globais disponíveis"
   label_available_project_attributes: "Atributos de projeto disponíveis"
   label_available_project_forums: "Fóruns disponíveis"
@@ -2035,7 +2052,7 @@ pt-BR:
   label_inactive: "Inativo"
   label_incoming_emails: "E-mails recebidos"
   label_includes: "inclui"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Incluir subprojetos
   label_index_by_date: "Índice por data"
   label_index_by_title: "Índice por título"
   label_information: "Informação"
@@ -2268,6 +2285,7 @@ pt-BR:
   label_role_search: "Atribuir papéis aos novos membros"
   label_scm: "SCM"
   label_search: "Pesquisar"
+  label_search_by_name: "Pesquisar por nome"
   label_send_information: "Enviar novas credenciais ao usuário"
   label_send_test_email: "Enviar um e-mail de teste"
   label_session: "Sessão"
@@ -2380,6 +2398,7 @@ pt-BR:
   label_work_package_new: "Novo pacote de trabalho"
   label_work_package_edit: "Editar pacote de trabalho %{name}"
   label_work_package_plural: "Pacotes de trabalho"
+  label_work_packages_settings: "Configurações dos pacotes de trabalho"
   label_work_package_status: "Situação do pacote de trabalho"
   label_work_package_status_new: "Nova situação"
   label_work_package_status_plural: "Situações do Pacote de Trabalho"
@@ -2387,6 +2406,7 @@ pt-BR:
   label_work_package_tracking: "Controle de pacote de trabalho"
   label_work_package_view_all: "Exibir todos os pacotes de trabalho"
   label_workflow: "Fluxo de Trabalho"
+  label_workflow_copy: "Copiar fluxo de trabalho"
   label_workflow_plural: "Fluxos de trabalho"
   label_workflow_summary: "Sumário"
   label_working_days_and_hours: "Dias e horas úteis"
@@ -2625,7 +2645,7 @@ pt-BR:
   notice_locking_conflict: "Informação foi atualizada por pelo menos um outro usuário."
   notice_locking_conflict_additional_information: "A(s) atualização(ões) chegaram de %{users}."
   notice_locking_conflict_reload_page: "Por favor, recarregue a página, reveja as alterações e aplique novamente suas atualizações."
-  notice_member_added: "%{name} adicionado ao projeto."
+  notice_member_added: '%{name} adicionado ao projeto.'
   notice_members_added: Adicionados %{number} usuários ao projeto.
   notice_member_removed: "%{user} removido do projeto."
   notice_member_deleted: "%{user} foi removido do projeto e excluído."
@@ -2719,6 +2739,7 @@ pt-BR:
   permission_edit_own_messages: "Editar as próprias mensagens"
   permission_edit_own_time_entries: "Editar os próprios registros de tempo"
   permission_edit_project: "Editar projeto"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Editar relatórios"
   permission_edit_time_entries: "Editar registro de hora para outros usuários"
   permission_edit_timelines: "Editar cronogramas"
@@ -2769,6 +2790,7 @@ pt-BR:
   permission_work_package_assigned: "Torne-se responsável"
   permission_work_package_assigned_explanation: "Pacotes de trabalho podem ser atribuídos a usuários e grupos em posse deste papel no respectivo projeto"
   permission_view_project_activity: "Visualizar a atividade do projeto"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Salvar consultas a BCF"
   permission_manage_public_bcf_queries: "Gerenciar consultas públicas a BCF"
   permission_edit_attribute_help_texts: "Editar textos de ajuda do atributos"
@@ -3094,7 +3116,7 @@ pt-BR:
         instructions_html: >
           Selecione o que deve ser feito com os arquivos que contêm vírus detectados: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Colocar o arquivo em quarentena, impedindo o acesso dos usuários. Os administradores podem revisar e excluir arquivos em quarentena na administração.</li> <li><strong>%{delete_option}</strong>: Excluir o arquivo imediatamente.</li> </ul>
       modes:
-        clamav_socket_html: "Digite o caminho para o soquete clamd daemon, por ex.: %{example}."
+        clamav_socket_html: 'Digite o caminho para o soquete clamd daemon, por ex.: %{example}.'
         clamav_host_html: Digite o nome do host e a porta clamd daemon separados por dois pontos. Por exemplo, %{example}.
         description_html: >
           Selecione como deseja configurar a verificação de vírus. <br/> <ul> <li><strong>%{disabled_option}</strong>: Os arquivos carregados não serão verificados quanto a vírus.</li> <li><strong>%{socket_option}</strong>: O ClamAV está configurado no mesmo servidor que o OpenProject, com o daemon clamd de verificação em execução em segundo plano</li> <li><strong>%{host_option}</strong>: Os arquivos serão enviados para um host externo para verificação de vírus.</li> </ul>

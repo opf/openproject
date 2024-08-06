@@ -1,7 +1,15 @@
-<% local_assigns[:additional_breadcrumb] = h(@filter.name) %>
 <% html_title(t(:label_administration), t(:label_edit_x, x: @filter.name)) -%>
 
-<%= toolbar title: t(:label_edit_x, x: @filter.name) %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { @filter.name }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_authentication_path, text: t(:label_authentication) },
+                             { href: ldap_groups_synchronized_groups_path, text: I18n.t("ldap_groups.label_menu_item") },
+                             I18n.t("menus.breadcrumb.nested_element", section_header: t("ldap_groups.synchronized_filters.singular"), title: @filter.name).html_safe],
+                            selected_item_font_weight: :normal)
+  end
+%>
 
 <%= labelled_tabular_form_for @filter,
                               as: :synchronized_filter,

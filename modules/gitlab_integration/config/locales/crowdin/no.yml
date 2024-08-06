@@ -63,5 +63,7 @@
       **Problem gjenåpnet:** Problem %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) har blitt gjenåpnet av [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
       **Forespurt i MR:** [%{gitlab_user}](%{gitlab_user_url}) forespurt [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) ved %{commit_timestamp}: %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **Forsepurt i MR:** [%{gitlab_user}](%{gitlab_user_url}) forespurt flere handlinger [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) i %{commit_timestamp}: %{commit_note}

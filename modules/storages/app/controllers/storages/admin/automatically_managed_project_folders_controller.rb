@@ -77,7 +77,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
         message: I18n.t(:"storages.notice_successful_storage_connection"),
         scheme: :success
       }
-      redirect_to admin_settings_storages_path
+      redirect_to edit_admin_settings_storage_path(@storage)
     else
       respond_with_ampf_form_turbo_stream_or_edit_html
     end

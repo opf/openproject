@@ -49,6 +49,10 @@ class ProgressEditField < EditField
     @trigger_selector = "input[id$=inline-edit--field-#{@property_name}]"
   end
 
+  def visible_on_create_form?
+    false
+  end
+
   def update(value, save: true, expect_failure: false)
     super
   end
@@ -156,7 +160,11 @@ class ProgressEditField < EditField
       if @property_name == "percentageDone" && value.to_s == "-"
         expect(page).to have_field(field_name, readonly:, placeholder: value.to_s)
       elsif @property_name == "statusWithinProgressModal"
-        expect(page).to have_select(field_name, disabled:, with_selected: value.to_s)
+        if value == :empty_without_any_options
+          expect(page).to have_select(field_name, disabled:, options: [])
+        else
+          expect(page).to have_select(field_name, disabled:, with_selected: value.to_s)
+        end
       else
         expect(page).to have_field(field_name, disabled:, readonly:, with: value.to_s)
       end
@@ -177,6 +185,7 @@ class ProgressEditField < EditField
     end
   end
 
+  # to be removed in 15.0 with :percent_complete_edition feature flag removal
   def expect_migration_warning_banner(should_render: true)
     within modal_element do
       if should_render

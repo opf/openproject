@@ -122,7 +122,7 @@ nl:
       agenda_text: "Copy the agenda of the old meeting"
     email:
       send_emails: "E-mails versturen"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Open vergadering"
       invited:
         summary: "%{actor} heeft je een uitnodiging gestuurd voor de meeting %{title}"

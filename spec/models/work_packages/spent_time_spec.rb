@@ -107,7 +107,7 @@ RSpec.describe WorkPackage, "spent_time" do
     end
 
     context "permissions" do
-      it "counts the child if that child is in a project in which the user " +
+      it "counts the child if that child is in a project in which the user " \
          "has the necessary permissions" do
         create(:member,
                user:,
@@ -119,7 +119,7 @@ RSpec.describe WorkPackage, "spent_time" do
         expect(subject).to eql sum
       end
 
-      it "does not count the child if that child is in a project in which the user " +
+      it "does not count the child if that child is in a project in which the user " \
          "lacks the view_time_entries permission" do
         create(:member,
                user:,
@@ -132,7 +132,7 @@ RSpec.describe WorkPackage, "spent_time" do
         expect(subject).to eql sum
       end
 
-      it "does not count the child if that child is in a project in which the user " +
+      it "does not count the child if that child is in a project in which the user " \
          "lacks the view_work_packages permission" do
         create(:member,
                user:,

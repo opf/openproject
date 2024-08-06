@@ -488,7 +488,7 @@ sk:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -539,9 +539,9 @@ sk:
       no_common_statuses_exists: "Pre všetky vybraté pracovné balíčky nie je k dispozícii žiadny stav. Ich stav nemožno zmeniť."
       unsupported_for_multiple_projects: "Hromadné premiestnenie alebo kopírovanie nie je podporované pre pracovné balíky z viacerých projektov"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -571,7 +571,7 @@ sk:
     deletion_info:
       data_consequences:
         other: 'Dáta, ktoré daný používateľ vytvoril (čiže e-mail, nastavenia, pracovné balíčky, wiki stránky a pod.), budú odstránené do takej miery, do akej to bude možné. Pamätajte však, že pracovné balíčky a wiki stránky nemôžu byť odstránené bez skomplikovania prác ostatných používateľov. Takéto dáta budú preto preradené na účet nazvaný "Odstránený používateľ". Keďže dáta všetkých odstránených účtov sú automaticky priraďované na uvedený účet, nebude možné rozlíšiť dáta tohto používateľa od dát ostatných už odstránených používateľov.'
-        self: "Z dát, ktoré ste vytvorili, (správy, nastavenia, pracovné balíčky, príspevky vo wiki) bude odstránené možné maximum. Upozorňujeme však, že dáta ako pracovné balíčky a príspevky do wiki nemôžu byť odstránené bez toho, aby znehodnotili prácu iných užívateľov. Z toho dôvodu budú takéto dáta priradené účtu nazvanému „Odstránený používateľ“. Keďže k tomuto účtu sú priradené neodstrániteľné dáta všetkých zrušených účtov, nie je možné odlíšiť dáta vytvorené vami od dát vytvorených iným zrušeným používateľom."
+        self: 'Z dát, ktoré ste vytvorili, (správy, nastavenia, pracovné balíčky, príspevky vo wiki) bude odstránené možné maximum. Upozorňujeme však, že dáta ako pracovné balíčky a príspevky do wiki nemôžu byť odstránené bez toho, aby znehodnotili prácu iných užívateľov. Z toho dôvodu budú takéto dáta priradené účtu nazvanému „Odstránený používateľ“. Keďže k tomuto účtu sú priradené neodstrániteľné dáta všetkých zrušených účtov, nie je možné odlíšiť dáta vytvorené vami od dát vytvorených iným zrušeným používateľom.'
       heading: "Odstrániť účet %{name}"
       info:
         other: "Odstránenie používateľského konta je nevratná akcia."
@@ -609,17 +609,6 @@ sk:
       attribute_help_text:
         attribute_name: "Atribút"
         help_text: "Text pomocníka"
-      ldap_auth_source:
-        account: "Účet"
-        attr_firstname: "Krstné meno"
-        attr_lastname: "Priezvisko"
-        attr_login: "Username attribute"
-        attr_mail: "E-mail adresa"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitár"
       color:
@@ -644,6 +633,14 @@ sk:
         visible: "Viditeľné"
       custom_value:
         value: "Hodnota"
+      doorkeeper/application:
+        uid: "ID klienta"
+        secret: "Klient neverejné"
+        owner: "Vlastník"
+        redirect_uri: "Presmerovať URI"
+        client_credentials_user_id: "ID poverenia klienta"
+        scopes: "Rozsahy"
+        confidential: "Dôverné"
       enterprise_token:
         starts_at: "Platné od"
         subscriber: "Odberateľ"
@@ -654,20 +651,25 @@ sk:
         row_count: "Počet riadkov"
         column_count: "Počet stĺpcov"
         widgets: "Miniaplikácie"
-      oauth_client:
-        client: "ID klienta"
-      relation:
-        lag: "Lag"
-        from: "Pracovný balíček"
-        to: "Súvisiaci pracovný balíček"
-      status:
-        is_closed: "Uzatvorený pracovný balíček"
-        is_readonly: "Pracovný balíček iba na čítanie"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Poznámky"
+      ldap_auth_source:
+        account: "Účet"
+        attr_firstname: "Krstné meno"
+        attr_lastname: "Priezvisko"
+        attr_login: "Username attribute"
+        attr_mail: "E-mail adresa"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Roly"
+      oauth_client:
+        client: "ID klienta"
+      planning_element_type_color:
+        hexcode: Hex kód
       project:
         active_value:
           true: "unarchived"
@@ -697,6 +699,8 @@ sk:
         types: "Typy"
         versions: "Verzie"
         work_packages: "Pracovné balíčky"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Stĺpce"
         relations_to_type_column: "Vzťahy k %{type}"
@@ -704,10 +708,19 @@ sk:
         group_by: "zoskupiť výsledky podľa"
         filters: "Filtre"
         timeline_labels: "Značky časovej osi"
+      relation:
+        lag: "Lag"
+        from: "Pracovný balíček"
+        to: "Súvisiaci pracovný balíček"
       repository:
         url: "URL adresa"
       role:
         permissions: "Oprávnenia"
+      status:
+        is_closed: "Uzatvorený pracovný balíček"
+        is_readonly: "Pracovný balíček iba na čítanie"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Činnosť"
         hours: "Hodín"
@@ -750,10 +763,6 @@ sk:
       wiki_page:
         parent_title: "Nadradená stránka"
         redirect_existing_links: "Presmerovať existujúce prepojenia"
-      planning_element_type_color:
-        hexcode: Hex kód
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Začiatok vkladania"
         begin_deletion: "Začiatok odstraňovania"
@@ -788,14 +797,6 @@ sk:
         type: "Typ"
         version: "Verzia"
         watcher: "Pozorovateľ"
-      "doorkeeper/application":
-        uid: "ID klienta"
-        secret: "Klient neverejné"
-        owner: "Vlastník"
-        redirect_uri: "Presmerovať URI"
-        client_credentials_user_id: "ID poverenia klienta"
-        scopes: "Rozsahy"
-        confidential: "Dôverné"
     errors:
       messages:
         accepted: "musí byť akceptovaný."
@@ -1008,6 +1009,11 @@ sk:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1038,8 +1044,14 @@ sk:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
-              not_start_date: 'nemá rovnakú hodnotu ako dátum začiatku, aj keď je to požadované pre pracovné balíčky typu "míľnik".'
+              not_start_date: "nemá rovnakú hodnotu ako dátum začiatku, aj keď je to požadované pre pracovné balíčky typu \"míľnik\"."
               cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
@@ -1047,7 +1059,7 @@ sk:
               not_available_for_milestones: "is not available for milestone typed work packages."
               cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
-              cannot_be_milestone: 'nemôže byť previazaný na pracovný balíček typu "míľnik".'
+              cannot_be_milestone: "nemôže byť previazaný na pracovný balíček typu \"míľnik\"."
               cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "nemôže byť previazaný na pracovný balíček nachádzajúci sa v inom projekte (musí byť povolené správcom systému)."
               not_a_valid_parent: "je neplatný."
@@ -1067,13 +1079,13 @@ sk:
             estimated_hours:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
@@ -1094,10 +1106,10 @@ sk:
               format: "%{message}"
             password:
               weak: "Musí obsahovať znaky z nasledujúcich tried (najmenej%{min_count} z %{all_count}): %{rules}."
-              lowercase: 'malé písmená (napríklad "a")'
-              uppercase: 'veľké písmená (napríklad "A")'
+              lowercase: "malé písmená (napríklad \"a\")"
+              uppercase: "veľké písmená (napríklad \"A\")"
               numeric: "Čísla (napríklad 1)"
-              special: 'Špeciálne znaky (napríklad "%")'
+              special: "Špeciálne znaky (napríklad \"%\")"
               reused:
                 one: "už bol použitý predtým. Prosím, vyberte odlišnú voľbu ako tú, ktorá bola zvolená naposledy."
                 few: "už bolo použité. Vyberte heslo, ktoré sa líši od posledných %{count}."
@@ -1105,7 +1117,7 @@ sk:
                 other: "už bolo použité. Vyberte heslo, ktoré sa líši od posledných %{count}."
               match:
                 confirm: "Potvrdiť nové heslo."
-                description: '"Potvrdenie hesla" musí byť rovnaké ako v poli "Nové heslo".'
+                description: "\"Potvrdenie hesla\" musí byť rovnaké ako v poli \"Nové heslo\"."
             status:
               invalid_on_create: "nie je platný stav pre nových používateľov."
             ldap_auth_source:
@@ -1124,8 +1136,6 @@ sk:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1467,7 +1477,7 @@ sk:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Január"
       - "Február"
@@ -1484,7 +1494,7 @@ sk:
     order:
       - :rok
       - :mesiac
-      - ":deň"
+      - ':deň'
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1651,6 +1661,7 @@ sk:
   error_pdf_failed_to_export: "PDF export nie je možné uložiť: %{error}"
   error_token_authenticity: "Nepodarilo sa overiť Token medzi lokalitami. Ak ste sa pokúsili uložiť údaje na viaceré karty alebo prehliadače, zatvorte ich a opätovne načítajte túto stránku a skúste to znova."
   error_work_package_not_found_in_project: "Pracovný balíček nebol nájdený alebo nepatrí k tomuto projektu"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "musíte byť členom projektu"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
@@ -1855,6 +1866,11 @@ sk:
       responsible: "Accountable"
       shared: "Shared"
       watched: "Watcher"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"
@@ -1919,6 +1935,7 @@ sk:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentifikácia"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
@@ -2338,6 +2355,7 @@ sk:
   label_role_search: "Priradenie role pre nových užívateľov"
   label_scm: "SCM"
   label_search: "Vyhľadávanie"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Odoslať testovací email"
   label_session: "Relácie"
@@ -2436,9 +2454,9 @@ sk:
   label_wiki_navigation: "Wiki navigácia"
   label_wiki_page: "Wiki stránka"
   label_wiki_page_plural: "Wikistránky"
-  label_wiki_show_index_page_link: 'Zobraziť položku podmenu "Obsah"'
+  label_wiki_show_index_page_link: "Zobraziť položku podmenu \"Obsah\""
   label_wiki_show_menu_item: "Zobraziť ako položku menu v navigácii projektu"
-  label_wiki_show_new_page_link: 'Zobraziť položku submenu "Vytvoriť novú podradenú stránku"'
+  label_wiki_show_new_page_link: "Zobraziť položku submenu \"Vytvoriť novú podradenú stránku\""
   label_wiki_show_submenu_item: "Zobraziť ako položku submenu "
   label_wiki_start: "Úvodná stránka"
   label_work: "Work"
@@ -2450,6 +2468,7 @@ sk:
   label_work_package_new: "Nový pracovný balíček"
   label_work_package_edit: "Úprava pracovného balíčka %{name}"
   label_work_package_plural: "Pracovné balíčky"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Stav pracovného balíčka"
   label_work_package_status_new: "Nový stav"
   label_work_package_status_plural: "Stavy pracovného balíčka"
@@ -2457,6 +2476,7 @@ sk:
   label_work_package_tracking: "Sledovanie Pracovného balíka"
   label_work_package_view_all: "Zobraziť všetky pracovné balíčky"
   label_workflow: "Pracovný postup"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Pracovné postupy"
   label_workflow_summary: "Zhrnutie"
   label_working_days_and_hours: "Working days and hours"
@@ -2508,7 +2528,7 @@ sk:
     create_work_package_link:
       errors:
         no_project_context: "Volanie create_work_package_link makra z kontextu mimo projektu."
-        invalid_type: 'Nenašiel sa žiadny typ s názvom ''%{type}'' v projekte ''%{project}".'
+        invalid_type: "Nenašiel sa žiadny typ s názvom '%{type}' v projekte '%{project}\"."
       link_name: "Nový pracovný balíček"
       link_name_type: "Nový %{type_name}"
   mail:
@@ -2697,7 +2717,7 @@ sk:
   notice_locking_conflict: "Informácia bola medzičasom aktualizovaná aspoň jedným iným používateľom."
   notice_locking_conflict_additional_information: "Aktualizácia (-e) pochádza z %{users}."
   notice_locking_conflict_reload_page: "Znova načítajte stránku, prekontrolujte si zmeny a aplikujte svoje aktualizácie."
-  notice_member_added: "%{name} pridaný do projektu."
+  notice_member_added: '%{name} pridaný do projektu.'
   notice_members_added: Pridaných %{number} užívateľov do projektu.
   notice_member_removed: "Zmazaný %{user} z projektu."
   notice_member_deleted: "%{user} bol odobraný z projektu a odstránený."
@@ -2794,6 +2814,7 @@ sk:
   permission_edit_own_messages: "Úprava vlastných správ"
   permission_edit_own_time_entries: "Upraviť vlastné časové záznamy"
   permission_edit_project: "Upraviť projekt"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Upraviť prehľady"
   permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Úprava časovej osi"
@@ -2844,6 +2865,7 @@ sk:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Pracovné balíčky môžu byť pridelené užívateľom a skupinám, ktoré majú v príslušnom projekte túto úlohu"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
@@ -2872,7 +2894,7 @@ sk:
       make_template: "Použiť ako šablónu"
       remove_from_templates: "Remove from templates"
     archive:
-      are_you_sure: 'Naozaj chcete archivovať projekt "%{name}"?'
+      are_you_sure: "Naozaj chcete archivovať projekt \"%{name}\"?"
       archived: "Archivované"
     count:
       zero: "0 Projects"
@@ -3414,7 +3436,7 @@ sk:
       few: "dočasne zamknuté (%{count} neúspešných pokusov o prihlásenie)"
       many: "dočasne zamknuté (%{count} neúspešných pokusov o prihlásenie)"
       other: "dočasne zamknuté (%{count} neúspešných pokusov o prihlásenie)"
-    confirm_status_change: 'Chystáte sa zmeniť stav "%{name}". Naozaj chcete pokračovať?'
+    confirm_status_change: "Chystáte sa zmeniť stav \"%{name}\". Naozaj chcete pokračovať?"
     deleted: "Odstránený používateľ"
     error_status_change_failed: "Uloženie dokumentu zlyhalo s nasledujúcou chybou: %{errors}"
     invite: Pozvať používateľa prostredníctvom e-mailu
@@ -3592,11 +3614,11 @@ sk:
         date: "RRRR-MM-DD (len dátumu ISO 8601)"
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 trvanie"
-      invalid_content_type: 'Očakávaný typ obsahu je "%{content_type}", dodaný bol však "%{actual}".'
-      invalid_format: 'Neplatný formát parametra "%{property}": systémom očakávaný formát je "%{expected_format}", používateľ dodal "%{actual}".'
+      invalid_content_type: "Očakávaný typ obsahu je \"%{content_type}\", dodaný bol však \"%{actual}\"."
+      invalid_format: "Neplatný formát parametra \"%{property}\": systémom očakávaný formát je \"%{expected_format}\", používateľ dodal \"%{actual}\"."
       invalid_json: "Požiadavku nie je možné analyzovať ako JSON."
       invalid_relation: "Vzťah je neplatný."
-      invalid_resource: 'Pre vlastnosť "%{property}" je odkaz očakávaný v tvare "%{expected}",  dodaný tvar však bol "%{actual}".'
+      invalid_resource: "Pre vlastnosť \"%{property}\" je odkaz očakávaný v tvare \"%{expected}\",  dodaný tvar však bol \"%{actual}\"."
       invalid_signal:
         embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
@@ -3615,8 +3637,8 @@ sk:
         context_object_not_found: "Pre vložené vstupné podmienky neboli nájdené žiadne prostriedky."
       validation:
         due_date: "Dátum ukončenia nie je možné nastaviť na rodičovské pracovné balíčky."
-        invalid_user_assigned_to_work_package: 'Zvolený používateľ nemôže byť "%{property}" v prípade tohto pracovného balíčka.'
-        start_date: 'Dátum "Od" nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky.'
+        invalid_user_assigned_to_work_package: "Zvolený používateľ nemôže byť \"%{property}\" v prípade tohto pracovného balíčka."
+        start_date: "Dátum \"Od\" nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
       eprops:
         invalid_gzip: "is invalid gzip: %{message}"
         invalid_json: "is invalid json: %{message}"

@@ -618,7 +618,7 @@ vi:
         mentioned: "Mentioned"
         watched: "Watcher"
         assigned: "Assignee"
-        responsible: "Accountable"
+        accountable: "Accountable"
         created: "Created"
         scheduled: "Scheduled"
         commented: "Commented"
@@ -637,11 +637,6 @@ vi:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "Toàn bộ"
-        all_title: "Show all"
       center:
         label_actor_and: "and"
         and_more_users:
@@ -657,6 +652,7 @@ vi:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
@@ -682,7 +678,7 @@ vi:
             title: "Mentioned"
             description: "Receive a notification every time someone mentions me anywhere"
           assignee: "Người được giao"
-          responsible: "Trách nhiệm"
+          responsible: "Chịu trách nhiệm"
           shared: "Shared"
           watched: "Người quan sát"
           work_package_commented: "All new comments"
@@ -766,7 +762,7 @@ vi:
           label: "Temporarily pause daily email reminders"
           first_day: "First day"
           last_day: "Last day"
-    text_are_you_sure: "Are you sure?"
+    text_are_you_sure: "Bạn có chắc không?"
     text_data_lost: "All entered data will be lost."
     text_user_wrote: "%{value} wrote:"
     types:
@@ -995,7 +991,7 @@ vi:
         projectName: "Dự án"
         remainingWork: "Số giờ làm việc còn lại"
         remainingWorkAlternative: "Số giờ còn lại"
-        responsible: "Chịu trách nhiệm"
+        responsible: "Người được giao"
         startDate: "Ngày bắt đầu"
         status: "Trạng thái"
         subject: "Chủ đề"

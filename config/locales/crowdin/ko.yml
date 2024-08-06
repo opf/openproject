@@ -469,7 +469,7 @@ ko:
         is_readonly: "읽기 전용"
         excluded_from_totals: "합계에서 제외됨"
   themes:
-    dark: "다크(실험적)"
+    dark: "Dark (Beta)"
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
   types:
@@ -517,9 +517,9 @@ ko:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: "여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다."
       current_type_not_available_in_target_project: >
-        현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 작업 패키지의 유형이 자동으로 재할당되어 잠재적인 데이터 손실로 이어질 수 있습니다.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 작업 패키지의 유형이 자동으로 재할당되어 잠재적인 데이터 손실로 이어질 수 있습니다.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "작업 패키지 공유에 대한 워크플로 누락"
@@ -587,17 +587,6 @@ ko:
       attribute_help_text:
         attribute_name: "특성"
         help_text: "도움말 텍스트"
-      ldap_auth_source:
-        account: "계정"
-        attr_firstname: "이름 특성"
-        attr_lastname: "성 특성"
-        attr_login: "사용자 이름 특성"
-        attr_mail: "이메일 특성"
-        base_dn: "기본 DN"
-        host: "호스트"
-        onthefly: "자동 사용자 생성"
-        port: "포트"
-        tls_certificate_string: "LDAP 서버 SSL 인증서"
       changeset:
         repository: "리포지토리"
       color:
@@ -622,6 +611,14 @@ ko:
         visible: "표시"
       custom_value:
         value: "값"
+      doorkeeper/application:
+        uid: "고객 ID"
+        secret: "클라이언트 비밀번호"
+        owner: "소유자"
+        redirect_uri: "리디렉션 URI"
+        client_credentials_user_id: "클라이언트 자격 증명 사용자 ID"
+        scopes: "범위"
+        confidential: "기밀"
       enterprise_token:
         starts_at: "이후로 유효함"
         subscriber: "구독자"
@@ -632,20 +629,25 @@ ko:
         row_count: "행 수"
         column_count: "열 수"
         widgets: "위젯"
-      oauth_client:
-        client: "클라이언트 ID"
-      relation:
-        lag: "지연"
-        from: "작업 패키지"
-        to: "관련 패키지"
-      status:
-        is_closed: "종료된 작업 패키지"
-        is_readonly: "읽기 전용 작업 패키지"
-        excluded_from_totals: "계층의 합계 계산에서 제외"
       journal:
         notes: "노트"
+      ldap_auth_source:
+        account: "계정"
+        attr_firstname: "이름 특성"
+        attr_lastname: "성 특성"
+        attr_login: "사용자 이름 특성"
+        attr_mail: "이메일 특성"
+        base_dn: "기본 DN"
+        host: "호스트"
+        onthefly: "자동 사용자 생성"
+        port: "포트"
+        tls_certificate_string: "LDAP 서버 SSL 인증서"
       member:
         roles: "역할"
+      oauth_client:
+        client: "클라이언트 ID"
+      planning_element_type_color:
+        hexcode: 16진수 코드
       project:
         active_value:
           true: "보관 취소됨"
@@ -675,6 +677,8 @@ ko:
         types: "유형"
         versions: "버전"
         work_packages: "작업 패키지"
+      project_custom_field:
+        custom_field_section: 섹션
       query:
         column_names: "컬럼"
         relations_to_type_column: "%{type}에 대한 관계"
@@ -682,10 +686,19 @@ ko:
         group_by: "그룹 결과"
         filters: "필터"
         timeline_labels: "타임라인 레이블"
+      relation:
+        lag: "지연"
+        from: "작업 패키지"
+        to: "관련 패키지"
       repository:
         url: "주소"
       role:
         permissions: "권한"
+      status:
+        is_closed: "종료된 작업 패키지"
+        is_readonly: "읽기 전용 작업 패키지"
+        excluded_from_totals: "계층의 합계 계산에서 제외"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "활동"
         hours: "시간"
@@ -728,10 +741,6 @@ ko:
       wiki_page:
         parent_title: "부모 페이지"
         redirect_existing_links: "기존 링크 리디렉션"
-      planning_element_type_color:
-        hexcode: 16진수 코드
-      project_custom_field:
-        custom_field_section: 섹션
       work_package:
         begin_insertion: "삽입 시작"
         begin_deletion: "삭제 시작"
@@ -766,14 +775,6 @@ ko:
         type: "타입"
         version: "버전"
         watcher: "주시자"
-      "doorkeeper/application":
-        uid: "고객 ID"
-        secret: "클라이언트 비밀번호"
-        owner: "소유자"
-        redirect_uri: "리디렉션 URI"
-        client_credentials_user_id: "클라이언트 자격 증명 사용자 ID"
-        scopes: "범위"
-        confidential: "기밀"
     errors:
       messages:
         accepted: "허용 되어야 합니다."
@@ -986,6 +987,11 @@ ko:
               hours_per_day_are_missing: "일별 시간을 정의해야 합니다."
               durations_are_not_positive_numbers: "기간은 양수여야 합니다."
               hours_per_day_is_out_of_bounds: "일별 시간은 24시간을 초과할 수 없습니다"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "- 기본값으로 표시된 상태에 대해 활성화할 수 없습니다."
         time_entry:
           attributes:
             hours:
@@ -1016,6 +1022,12 @@ ko:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
               cannot_be_null: "시작 날짜와 기간을 알고 있으므로 null로 설정할 수 없습니다."
@@ -1045,13 +1057,13 @@ ko:
             estimated_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
               cant_be_inferior_to_remaining_work: "남은 작업보다 낮을 수 없습니다."
-              must_be_set_when_remaining_work_is_set: "'남은 작업'이 설정된 경우 필수입니다."
-              only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 합니다."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
               cant_exceed_work: "작업보다 높을 수 없습니다."
               must_be_set_when_work_is_set: "작업이 설정된 경우 필수입니다."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다."
         type:
@@ -1099,8 +1111,6 @@ ko:
         version:
           undeletable_archived_projects: "첨부된 작업 패키지가 있으므로 이 버전은 삭제할 수 없습니다."
           undeletable_work_packages_attached: "첨부된 작업 패키지가 있으므로 이 버전은 삭제할 수 없습니다."
-        status:
-          readonly_default_exlusive: "- 기본값으로 표시된 상태에 대해 활성화할 수 없습니다."
         token/api:
           attributes:
             token_name:
@@ -1264,7 +1274,7 @@ ko:
     text_token_deleted: 백업 토큰이 제거되었습니다. 백업이 꺼졌습니다.
     error:
       invalid_token: 백업 토큰이 유효하지 않거나 누락되었습니다
-      token_cooldown: "%{hours}시간 후부터 백업 토큰이 유효합니다."
+      token_cooldown: '%{hours}시간 후부터 백업 토큰이 유효합니다.'
       backup_pending: 이미 대기 중인 백업이 있습니다.
       limit_reached: 하루에 백업 %{limit}회만 진행할 수 있습니다.
   button_actions: "작업"
@@ -1418,7 +1428,7 @@ ko:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "1월"
       - "2월"
@@ -1433,9 +1443,9 @@ ko:
       - "11월"
       - "12월"
     order:
-      - ":년"
-      - ":월"
-      - ":일"
+      - ':년'
+      - ':월'
+      - ':일'
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1548,6 +1558,7 @@ ko:
   error_pdf_failed_to_export: "PDF 내보내기를 저장할 수 없습니다: %{error}"
   error_token_authenticity: "교차 사이트 요청 위조 토큰을 확인할 수 없습니다. 여러 브라우저나 탭에서 데이터 제출을 시도하셨습니까? 모든 탭을 닫고 다시 시도하세요."
   error_work_package_not_found_in_project: "작업 패키지가 없거나 이 프로젝트에 속하지 않습니다."
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "은(는) 프로젝트 멤버여야 합니다."
   error_migrations_are_pending: "OpenProject 설치에 보류 중인 데이터베이스 마이그레이션이 있습니다. 지난 업그레이드에서 마이그레이션을 실행하지 않았을 가능성이 있습니다. 업그레이드 가이드를 확인하여 제대로 설치를 업그레이드하세요."
   error_migrations_visit_upgrade_guides: "업그레이드 가이드 문서를 참조하십시오."
@@ -1752,6 +1763,11 @@ ko:
       responsible: "담당"
       shared: "공유됨"
       watched: "주시자"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "프로젝트 기준 읽지 않음"
       by_reason: "이유"
@@ -1816,6 +1832,7 @@ ko:
   label_ldap_auth_source_plural: "LDAP 연결"
   label_attribute_expand_text: "'%{attribute}'의 전체 텍스트"
   label_authentication: "인증"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "사용 가능한 글로벌 역할"
   label_available_project_attributes: "사용 가능한 프로젝트 특성"
   label_available_project_forums: "사용 가능한 포럼"
@@ -2235,6 +2252,7 @@ ko:
   label_role_search: "새 멤버에게 역할 할당"
   label_scm: "SCM"
   label_search: "검색"
+  label_search_by_name: "Search by name"
   label_send_information: "사용자에게 새 자격 증명 보내기"
   label_send_test_email: "테스트 이메일 보내기"
   label_session: "세션"
@@ -2347,6 +2365,7 @@ ko:
   label_work_package_new: "새 작업 패키지"
   label_work_package_edit: "작업 패키지 %{name} 편집"
   label_work_package_plural: "작업 패키지"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "작업 패키지 상태"
   label_work_package_status_new: "새 상태"
   label_work_package_status_plural: "작업 패키지 상태"
@@ -2354,6 +2373,7 @@ ko:
   label_work_package_tracking: "작업 패키지 추적"
   label_work_package_view_all: "모든 작업 패키지 보기"
   label_workflow: "워크플로"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
   label_working_days_and_hours: "근무일 및 시간"
@@ -2491,7 +2511,7 @@ ko:
   mail_body_backup_token_reset_admin_info: 사용자 '%{user}'님에 대한 백업 토큰이 초기화되었습니다.
   mail_body_backup_token_reset_user_info: 백업 토큰이 초기화되었습니다.
   mail_body_backup_token_info: 이전 토큰은 더 이상 유효하지 않습니다.
-  mail_body_backup_waiting_period: "%{hours}시간 후 새 토큰이 활성화됩니다."
+  mail_body_backup_waiting_period: '%{hours}시간 후 새 토큰이 활성화됩니다.'
   mail_body_backup_token_warning: 만약 본인이 한 것이 아니라면, OpenProject에 즉시 로그인하고 다시 초기화하십시오.
   mail_body_incoming_email_error: OpenProject로 보낸 이메일을 처리할 수 없습니다.
   mail_body_incoming_email_error_in_reply_to: "%{received_at}, %{from_email} 작성함"
@@ -2592,8 +2612,8 @@ ko:
   notice_locking_conflict: "그 사이에 정보가 한 명 이상의 다른 사용자에 의해 업데이트되었습니다."
   notice_locking_conflict_additional_information: "%{users}의 업데이트입니다."
   notice_locking_conflict_reload_page: "페이지를 다시 로드하고, 변경 사항을 검토하고, 업데이트를 다시 적용하세요."
-  notice_member_added: "%{name} 이(가) 프로젝트에 추가 됨"
-  notice_members_added: "%{number}명의 사용자가 프로젝트에 추가되었습니다."
+  notice_member_added: '%{name} 이(가) 프로젝트에 추가 됨'
+  notice_members_added: '%{number}명의 사용자가 프로젝트에 추가되었습니다.'
   notice_member_removed: "프로젝트에서 %{user} 사용자가 제거됨."
   notice_member_deleted: "%{user}는 프로젝트에서 제거 되고 삭제됨."
   notice_no_principals_found: "결과가 없습니다."
@@ -2685,6 +2705,7 @@ ko:
   permission_edit_own_messages: "내 메시지 편집"
   permission_edit_own_time_entries: "내 시간 로그 편집"
   permission_edit_project: "프로젝트 편집"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "보고 편집"
   permission_edit_time_entries: "다른 사용자의 시간 로그 편집"
   permission_edit_timelines: "타임라인 편집"
@@ -2735,6 +2756,7 @@ ko:
   permission_work_package_assigned: "담당자/책임자 되기"
   permission_work_package_assigned_explanation: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
   permission_view_project_activity: "프로젝트 활동 보기"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "BCF 쿼리 저장"
   permission_manage_public_bcf_queries: "공용 BCF 쿼리 관리"
   permission_edit_attribute_help_texts: "특성 도움말 텍스트 편집"
@@ -3058,8 +3080,8 @@ ko:
         instructions_html: >
           바이러스가 발견된 파일에 수행할 작업을 선택하세요: <br/> <ul> <li><strong>%{quarantine_option}</strong>: 파일을 격리하여 사용자가 액세스하지 못하도록 합니다. 관리자는 관리에서 격리된 파일을 검토하고 삭제할 수 있습니다.</li> <li><strong>%{delete_option}</strong>: 파일을 즉시 삭제합니다.</li> </ul>
       modes:
-        clamav_socket_html: "clamd 데몬의 소켓을 입력하세요. 예: %{example}"
-        clamav_host_html: "호스트 이름 및 clamd 데몬의 포트를 콜론으로 구분하여 입력하세요. 예: %{example}"
+        clamav_socket_html: 'clamd 데몬의 소켓을 입력하세요. 예: %{example}'
+        clamav_host_html: '호스트 이름 및 clamd 데몬의 포트를 콜론으로 구분하여 입력하세요. 예: %{example}'
         description_html: >
           바이러스 백신 스캐너 통합이 작동되어야 하는 모드를 선택하세요. <br/> <ul> <li><strong>%{disabled_option}</strong>: 업로드된 파일은 바이러스 검사를 받지 않습니다.</li> <li><strong>%{socket_option}</strong>: OpenProject와 동일한 서버에서 ClamAV를 설정했으며 스캔 데몬 clamd가 백그라운드에서 실행 중입니다.</li> <li><strong>%{host_option}</strong>: 외부 바이러스 스캔 호스트에 파일을 스트리밍하고 있습니다.</li> </ul>
     brute_force_prevention: "자동화된 사용자 차단"

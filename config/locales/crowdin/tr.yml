@@ -476,7 +476,7 @@ tr:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -524,9 +524,9 @@ tr:
       no_common_statuses_exists: "Seçilen tüm iş paketleri için uygun bir durum yoktur. Durumları değiştirilemez."
       unsupported_for_multiple_projects: "Birden çok projeden iş paketi için toplu taşıma / kopyalama desteklenmiyor"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -594,17 +594,6 @@ tr:
       attribute_help_text:
         attribute_name: "Özellik"
         help_text: "Yardım metni"
-      ldap_auth_source:
-        account: "Hesap"
-        attr_firstname: "Ad özniteliği"
-        attr_lastname: "Soyad özniteliği"
-        attr_login: "Kullanıcı adı özelliği"
-        attr_mail: "E-posta özniteliği"
-        base_dn: "Temel DN"
-        host: "Sunucu"
-        onthefly: "Otomatik kullanıcı oluşturma"
-        port: "Port"
-        tls_certificate_string: "LDAP sunucusu SSL sertifikası"
       changeset:
         repository: "Depo"
       color:
@@ -629,6 +618,14 @@ tr:
         visible: "Görünür"
       custom_value:
         value: "Değer"
+      doorkeeper/application:
+        uid: "Müşteri Kimliği"
+        secret: "Müşteri gizliliği"
+        owner: "Ürün Sahibi"
+        redirect_uri: "Yönlendirme URI'si"
+        client_credentials_user_id: "Müşteri Kimlik Bilgileri ve Kullanıcı Kimliği gereklidir"
+        scopes: "Kapsamlar"
+        confidential: "Gizli"
       enterprise_token:
         starts_at: "Beri geçerli"
         subscriber: "Abone"
@@ -639,20 +636,25 @@ tr:
         row_count: "Satır sayısı"
         column_count: "Sütun sayısı"
         widgets: "Araçlar"
-      oauth_client:
-        client: "Müşteri Kimliği"
-      relation:
-        lag: "Lag"
-        from: "İş paketi"
-        to: "İlgili iş paketi"
-      status:
-        is_closed: "İş paketi kapalı"
-        is_readonly: "İş paketi salt okunur"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notlar"
+      ldap_auth_source:
+        account: "Hesap"
+        attr_firstname: "Ad özniteliği"
+        attr_lastname: "Soyad özniteliği"
+        attr_login: "Kullanıcı adı özelliği"
+        attr_mail: "E-posta özniteliği"
+        base_dn: "Temel DN"
+        host: "Sunucu"
+        onthefly: "Otomatik kullanıcı oluşturma"
+        port: "Port"
+        tls_certificate_string: "LDAP sunucusu SSL sertifikası"
       member:
         roles: "Yetkiler"
+      oauth_client:
+        client: "Müşteri Kimliği"
+      planning_element_type_color:
+        hexcode: Hex kodu
       project:
         active_value:
           true: "arşivden çıkartıldı"
@@ -682,6 +684,8 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"
@@ -689,10 +693,19 @@ tr:
         group_by: "Sonuçları grupla"
         filters: "Filtreler"
         timeline_labels: "Zaman çizelgesi etiketleri"
+      relation:
+        lag: "Lag"
+        from: "İş paketi"
+        to: "İlgili iş paketi"
       repository:
         url: "URL"
       role:
         permissions: "İzinler"
+      status:
+        is_closed: "İş paketi kapalı"
+        is_readonly: "İş paketi salt okunur"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Etkinlik"
         hours: "Saat"
@@ -735,10 +748,6 @@ tr:
       wiki_page:
         parent_title: "Üst sayfa"
         redirect_existing_links: "Varolan bağlantıları yönlendirme"
-      planning_element_type_color:
-        hexcode: Hex kodu
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Eklemeye başlama"
         begin_deletion: "Silme işleminin başlangıcı"
@@ -773,14 +782,6 @@ tr:
         type: "Tür"
         version: "Sürüm"
         watcher: "Takipçi"
-      "doorkeeper/application":
-        uid: "Müşteri Kimliği"
-        secret: "Müşteri gizliliği"
-        owner: "Ürün Sahibi"
-        redirect_uri: "Yönlendirme URI'si"
-        client_credentials_user_id: "Müşteri Kimlik Bilgileri ve Kullanıcı Kimliği gereklidir"
-        scopes: "Kapsamlar"
-        confidential: "Gizli"
     errors:
       messages:
         accepted: "kabul edilmelidir."
@@ -993,6 +994,11 @@ tr:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "varsayılan olarak işaretlenen durumlar için etkinleştirilemez."
         time_entry:
           attributes:
             hours:
@@ -1023,6 +1029,12 @@ tr:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "kilometre taşları için gerekli olmasına rağmen başlangıç tarihi değil."
               cannot_be_null: "başlangıç tarihi ve süresi bilindiğinden sıfır değerine ayarlanamaz."
@@ -1052,13 +1064,13 @@ tr:
             estimated_hours:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "İş paketi salt okunur durumdadır, dolayısıyla öznitelikleri değiştirilemez."
         type:
@@ -1088,7 +1100,7 @@ tr:
                 other: "daha önce kullanılmıştır. Son %{count} parolanızdan farklı birini seçiniz."
               match:
                 confirm: "Yeni parolayı doğrulayın."
-                description: '"Parola onayı" ''yeni parola'' alanı girişi aynı olmalıdır.'
+                description: "\"Parola onayı\" 'yeni parola' alanı girişi aynı olmalıdır."
             status:
               invalid_on_create: "yeni kullanıcılar için geçerli bir durum değil."
             ldap_auth_source:
@@ -1107,8 +1119,6 @@ tr:
         version:
           undeletable_archived_projects: "Eklenmiş iş paketleri olduğu için sürüm silinemez."
           undeletable_work_packages_attached: "Eklenmiş iş paketleri olduğu için sürüm silinemez."
-        status:
-          readonly_default_exlusive: "varsayılan olarak işaretlenen durumlar için etkinleştirilemez."
         token/api:
           attributes:
             token_name:
@@ -1379,7 +1389,7 @@ tr:
     text_update_consent_time: Kullanıcıları tekrar onaylamaya zorlamak için bu kutuyu işaretleyin. Yukarıdaki izin bilgilerinin yasal yönünü değiştirdiğinizde etkinleştirin.
     update_consent_last_time: "Rıza son güncelleme: %{update_time}"
   copy_project:
-    title: "%{source_project_name} projesini kopyala"
+    title: '%{source_project_name} projesini kopyala'
     started: '"%{source_project_name}" adlı proje "%{target_project_name}" adlı yeni bir projeye kopyalanmaya başladı. "%{target_project_name}" projesi hazır olduğunda e-posta ile bilgilendirileceksiniz.'
     failed: "%{source_project_name} project kopyalanamadı"
     failed_internal: "Dahili bir hata nedeniyle kopyalama başarısız oldu."
@@ -1434,7 +1444,7 @@ tr:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Ocak"
       - "Şubat"
@@ -1449,9 +1459,9 @@ tr:
       - "Kasım"
       - "Aralık"
     order:
-      - ":yıl"
+      - ':yıl'
       - :ay
-      - ":gün"
+      - ':gün'
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1582,6 +1592,7 @@ tr:
   error_pdf_failed_to_export: "PDF çıktısı kaydedilemedi: %{error}"
   error_token_authenticity: "Siteler Arası İstek Sahteciliği belirteci doğrulanamadı. Birden fazla tarayıcı veya sekme hakkında veri göndermeyi denediniz mi? Lütfen tüm sekmeleri kapatın ve tekrar deneyin"
   error_work_package_not_found_in_project: "Iş paketi bulunamadı veya bu projeye ait değil"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "projesi üyesi olmalıdır"
   error_migrations_are_pending: "OpenProject kurulumunuzda bekleyen veritabanı geçişleri var. Son yükseltme işleminizde geçiş işlemlerini gerçekleştirme ihtimalinizi büyük olasılıkla kaçırdınız. Lütfen kurulumunuzu uygun şekilde yükseltmek için yükseltme kılavuzunu kontrol edin."
   error_migrations_visit_upgrade_guides: "Lütfen yükseltme kılavuzu belgelerimizi ziyaret edin"
@@ -1786,6 +1797,11 @@ tr:
       responsible: "Accountable"
       shared: "Shared"
       watched: "Watcher"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"
@@ -1850,6 +1866,7 @@ tr:
   label_ldap_auth_source_plural: "LDAP bağlantıları"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Kimlik Doğrulaması"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Mevcut forumlar"
@@ -2269,6 +2286,7 @@ tr:
   label_role_search: "Yeni üyelere rol atama"
   label_scm: "YKM"
   label_search: "Ara"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Deneme e-postası gönder"
   label_session: "Oturum"
@@ -2381,6 +2399,7 @@ tr:
   label_work_package_new: "Yeni iş paketi"
   label_work_package_edit: "%{name} iş paketini düzenle"
   label_work_package_plural: "İş paketleri"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "İş paketi durumu"
   label_work_package_status_new: "Yeni durum"
   label_work_package_status_plural: "İş paketi durumları"
@@ -2388,6 +2407,7 @@ tr:
   label_work_package_tracking: "İş paketi takibi"
   label_work_package_view_all: "Tüm iş paketleri görüntüle"
   label_workflow: "İş akışı"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "İş Akışları"
   label_workflow_summary: "Özet"
   label_working_days_and_hours: "Working days and hours"
@@ -2523,7 +2543,7 @@ tr:
   mail_body_account_information: "Hesap bilgilerinizi giriniz"
   mail_body_account_information_external: "Giriş yapmak için %{value} hesabınızı kullanabilirsiniz."
   mail_body_backup_ready: "İstediğiniz yedekleme hazır. Buradan indirebilirsiniz:"
-  mail_body_backup_token_reset_admin_info: "'%{user}' kullanıcısının yedek simgesi sıfırlandı."
+  mail_body_backup_token_reset_admin_info: '''%{user}'' kullanıcısının yedek simgesi sıfırlandı.'
   mail_body_backup_token_reset_user_info: Yedek jetonunuz sıfırlandı.
   mail_body_backup_token_info: Önceki jeton artık geçerli değil.
   mail_body_backup_waiting_period: Yeni jeton %{hours} saat içinde etkinleştirilecek.
@@ -2626,8 +2646,8 @@ tr:
   notice_locking_conflict: "Bu arada, bilgi en az bir başka kullanıcı tarafından güncellendi."
   notice_locking_conflict_additional_information: "Güncelleme(ler) %{users} tarafından yapıldı."
   notice_locking_conflict_reload_page: "Lütfen sayfayı yeniden yükleyin, değişiklikleri inceleyin ve güncellemelerinizi yeniden uygulayın."
-  notice_member_added: "%{name} projeye dahil edildi."
-  notice_members_added: "%{number} kişi projeye dahil edildi."
+  notice_member_added: '%{name} projeye dahil edildi.'
+  notice_members_added: '%{number} kişi projeye dahil edildi.'
   notice_member_removed: "% {Kullanıcı} adlı projeden kaldırıldı. %{user}"
   notice_member_deleted: "% {user}, projeden kaldırıldı ve silindi. %{user}"
   notice_no_principals_found: "Sonuç bulunamadı."
@@ -2649,7 +2669,7 @@ tr:
     Başarılı güncelleme. Etkin özel alanlar, bu türdeki ilgili projeler için otomatik olarak etkinleştirilir.
   notice_to_many_principals_to_display: "Çok fazla sonuç var. Yeni üyenin (veya grubun) adını yazarak aramayı daraltın."
   notice_user_missing_authentication_method: Kullanıcı henüz şifre veya oturum açmak için başka bir yol seçmemiştir.
-  notice_user_invitation_resent: "%{email} adresine bir davet gönderildi."
+  notice_user_invitation_resent: '%{email} adresine bir davet gönderildi.'
   present_access_key_value: "% {Key_name}, şu:% {value} %{key_name} %{value}"
   notice_automatic_set_of_standard_type: "Standart türün otomatik olarak ayarlanması."
   notice_logged_out: "Oturumunuz kapatıldı."
@@ -2719,6 +2739,7 @@ tr:
   permission_edit_own_messages: "Kendi iletilerini düzenlemek"
   permission_edit_own_time_entries: "Kendi zaman kayıtlarını düzenlemek"
   permission_edit_project: "Proje düzenleme"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Raporlamayı düzenlemek"
   permission_edit_time_entries: "Diğer kullanıcılar için zaman günlüklerini düzenleyin"
   permission_edit_timelines: "Zaman akışını düzenlemek"
@@ -2769,6 +2790,7 @@ tr:
   permission_work_package_assigned: "Atanan/sorumlu olun"
   permission_work_package_assigned_explanation: "İşpaketleri bağlı projedeki rollere göre kullanıcı ve gruplara atanabilir"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
@@ -3663,10 +3685,10 @@ tr:
       refresh_token_updated_failed: "OAuthClientToken güncellemesi sırasında hata"
       oauth_client_not_found_explanation: >
         Bu hata, OpenProject'te client_id ve client_secret'i güncelledikten sonra, ancak OAuth2 sağlayıcısındaki 'Dönüş URI'sı' alanını güncellemedikten sonra görünür.
-      oauth_code_not_present: 'OAuth2 "kodu", "geri arama" bitiş noktasında (redirect_uri) bulunamadı.'
+      oauth_code_not_present: "OAuth2 \"kodu\", \"geri arama\" bitiş noktasında (redirect_uri) bulunamadı."
       oauth_code_not_present_explanation: >
         OAuth2 sağlayıcısında yanlış yanıt_türü seçtiyseniz bu hata görünür. Yanıt_türü 'kod' veya benzeri olmalıdır.
-      oauth_state_not_present: 'OAuth2 "durumu", "geri arama" bitiş noktasında (redirect_uri) bulunamadı.'
+      oauth_state_not_present: "OAuth2 \"durumu\", \"geri arama\" bitiş noktasında (redirect_uri) bulunamadı."
       oauth_state_not_present_explanation: >
         'Durum', OpenProject'e başarılı bir OAuth2 yetkilendirmesinden sonra nereye devam edileceğini belirtmek için kullanılır. Eksik bir "durum", kurulum sırasında görünebilen dahili bir hatadır. Lütfen sistem yöneticinize başvurun.
       rack_oauth2:

@@ -482,7 +482,7 @@ hr:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -532,9 +532,9 @@ hr:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Masovno premještanje/kopiranje ne podržava radne pakete iz više projekata"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -602,17 +602,6 @@ hr:
       attribute_help_text:
         attribute_name: "Atribut"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "Korisnički račun"
-        attr_firstname: "Atribut Ime"
-        attr_lastname: "Atribut Prezime"
-        attr_login: "Username attribute"
-        attr_mail: "Email atribut"
-        base_dn: "Temeljni DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorij"
       color:
@@ -637,6 +626,14 @@ hr:
         visible: "Vidljiv"
       custom_value:
         value: "Vrijednost"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Pretplatnik"
@@ -647,20 +644,25 @@ hr:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "Radni paket"
-        to: "Pripadajući radni paket"
-      status:
-        is_closed: "Radni paket zatvoren"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Bilješke"
+      ldap_auth_source:
+        account: "Korisnički račun"
+        attr_firstname: "Atribut Ime"
+        attr_lastname: "Atribut Prezime"
+        attr_login: "Username attribute"
+        attr_mail: "Email atribut"
+        base_dn: "Temeljni DN"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Role"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: Heksadecimalni kod
       project:
         active_value:
           true: "unarchived"
@@ -690,6 +692,8 @@ hr:
         types: "Tipovi"
         versions: "Verzije"
         work_packages: "Radni paketi"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Stupci"
         relations_to_type_column: "Relations to %{type}"
@@ -697,10 +701,19 @@ hr:
         group_by: "Grupiraj rezultate po"
         filters: "Filteri"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "Radni paket"
+        to: "Pripadajući radni paket"
       repository:
         url: "URL"
       role:
         permissions: "Dozvole"
+      status:
+        is_closed: "Radni paket zatvoren"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivnost"
         hours: "Sati"
@@ -743,10 +756,6 @@ hr:
       wiki_page:
         parent_title: "Nadređena stranica"
         redirect_existing_links: "Preusmjeri postojeće poveznice"
-      planning_element_type_color:
-        hexcode: Heksadecimalni kod
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Početak umetanja"
         begin_deletion: "Početak brisanja"
@@ -781,14 +790,6 @@ hr:
         type: "Tip"
         version: "Verzija"
         watcher: "Nadglednik"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "mora biti prihvaćeno."
@@ -1001,6 +1002,11 @@ hr:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1031,6 +1037,12 @@ hr:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "nije na datum početka, međutim potrebno je za ključne točke."
               cannot_be_null: "can not be set to null as start date and duration are known."
@@ -1060,13 +1072,13 @@ hr:
             estimated_hours:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
@@ -1116,8 +1128,6 @@ hr:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1451,7 +1461,7 @@ hr:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Siječanj"
       - "Veljača"
@@ -1617,6 +1627,7 @@ hr:
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
   error_work_package_not_found_in_project: "Radni paket nije pronađen ili ne pripada ovom projektu"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "mora biti član projekta"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
@@ -1821,6 +1832,11 @@ hr:
       responsible: "Accountable"
       shared: "Shared"
       watched: "Watcher"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"
@@ -1885,6 +1901,7 @@ hr:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentifikacija"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
@@ -2304,6 +2321,7 @@ hr:
   label_role_search: "Dodijeli uloge novim korisnicima"
   label_scm: "SCM"
   label_search: "Pretraživanje"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošalji probni e-mail"
   label_session: "Sesija"
@@ -2416,6 +2434,7 @@ hr:
   label_work_package_new: "Novi radni paket"
   label_work_package_edit: "Uredi radni paket %{name}"
   label_work_package_plural: "Radni paketi"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Status Radnog paketa"
   label_work_package_status_new: "Novi status"
   label_work_package_status_plural: "Statusi radnog paketa"
@@ -2423,6 +2442,7 @@ hr:
   label_work_package_tracking: "Praćenje radnog paketa"
   label_work_package_view_all: "Pogledaj sve radne pakete"
   label_workflow: "Tijek rada"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Tijek rada"
   label_workflow_summary: "Sažetak"
   label_working_days_and_hours: "Working days and hours"
@@ -2759,6 +2779,7 @@ hr:
   permission_edit_own_messages: "Uredi vlastite poruke"
   permission_edit_own_time_entries: "Uređivanje vaših zapisa o vremenu"
   permission_edit_project: "Uredi projekt"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Uredi izvješćivanje"
   permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Uredi kronologiju"
@@ -2809,6 +2830,7 @@ hr:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"

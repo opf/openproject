@@ -33,7 +33,7 @@ module Redmine::MenuManager::WikiMenuHelper
     project_wiki = project.wiki
     return if project_wiki.nil?
 
-    wiki_main_items(project_wiki).each do |main_item|
+    wiki_main_items(project_wiki).reverse_each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
         push_wiki_main_menu(menu, main_item, project)
 

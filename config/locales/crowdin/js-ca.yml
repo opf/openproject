@@ -619,7 +619,7 @@ ca:
         mentioned: "Mentioned"
         watched: "Watcher"
         assigned: "Assignee"
-        responsible: "Accountable"
+        accountable: "Accountable"
         created: "Created"
         scheduled: "Scheduled"
         commented: "Commented"
@@ -638,11 +638,6 @@ ca:
         upsale:
           title: "Alertes per dates"
           description: "Amb les alertes per dates, se't notificarà quan una data d'inici o finalització s'apropi de tal manera que no se't puguin oblidar o passar dates rellevants."
-      facets:
-        unread: "Sense llegir"
-        unread_title: "Mostrar no llegits"
-        all: "Totes"
-        all_title: "Mostrar tots"
       center:
         label_actor_and: "i"
         and_more_users:
@@ -659,6 +654,7 @@ ca:
           no_notification: "Sembla que ja estàs al dia."
           no_notification_with_current_project_filter: "Sembla que ja estàs al dia per al projecte seleccionat."
           no_notification_with_current_filter: "Sembla que ja estàs al dia pel filtre %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
         new_notifications:
           message: "No hi ha notificacions noves"

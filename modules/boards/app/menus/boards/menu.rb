@@ -42,7 +42,7 @@ module Boards
                   .where(project: @project)
                   .pluck(:id, :name)
                   .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
-                  .sort_by(&:title)
+                  .sort_by { |item| item.title.downcase }
     end
 
     def starred_queries

@@ -3,7 +3,7 @@ zh-TW:
   plugin_openproject_avatars:
     name: "大頭貼"
     description: >-
-      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+      本插件允許 OpenProject 使用者上傳圖片作為大頭貼或使用 Gravatar 註冊圖片
   label_avatar: "大頭貼"
   label_avatar_plural: "大頭貼"
   label_current_avatar: "目前大頭貼"

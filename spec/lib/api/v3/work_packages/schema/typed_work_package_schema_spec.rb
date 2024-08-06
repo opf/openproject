@@ -28,7 +28,8 @@
 
 require "spec_helper"
 
-RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
+RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema,
+               with_flag: { percent_complete_edition: true } do
   let(:project) { build(:project) }
   let(:type) { build(:type) }
 
@@ -58,12 +59,22 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   end
 
   describe "#writable?" do
-    it "percentage done is not writable" do
+    it "percentage done is writable in work-based progress calculation mode",
+       with_settings: { work_package_done_ratio: "field" } do
+      expect(subject).to be_writable(:done_ratio)
+    end
+
+    it "percentage done is not writable in status-based progress calculation mode",
+       with_settings: { work_package_done_ratio: "status" } do
       expect(subject).not_to be_writable(:done_ratio)
     end
 
     it "work is writable" do
       expect(subject).to be_writable(:estimated_hours)
+    end
+
+    it "remaining work is writable" do
+      expect(subject).to be_writable(:remaining_hours)
     end
 
     it "start date is writable" do

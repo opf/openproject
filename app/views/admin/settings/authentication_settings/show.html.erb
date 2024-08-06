@@ -28,7 +28,14 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_administration), t(:label_authentication) -%>
 
-<%= toolbar title: t(:label_authentication) %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t(:label_authentication_settings) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_authentication_path, text: t(:label_authentication) },
+                             t(:label_authentication_settings)])
+  end
+%>
 
 <%= styled_form_tag(admin_settings_authentication_path, method: :patch) do %>
   <section class="form--section">

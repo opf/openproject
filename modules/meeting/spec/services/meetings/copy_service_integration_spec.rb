@@ -81,6 +81,17 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
     end
   end
 
+  describe "without participants" do
+    it "sets the author as invited" do
+      meeting.participants.destroy_all
+
+      expect(service_result).to be_success
+      expect(copy.participants.count).to eq(1)
+      invited = copy.participants.find_by(user:)
+      expect(invited).to be_invited
+    end
+  end
+
   describe "when not saving" do
     let(:params) { { save: false } }
 

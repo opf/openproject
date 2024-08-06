@@ -123,7 +123,7 @@ RSpec.describe "Project attributes activity", :js, :with_cuprite do
       expect(page).to have_css("li", text: "#{user_project_custom_field.name} set to #{current_user.name}")
       expect(page).to have_css("li", text: "#{int_project_custom_field.name} set to 42")
       expect(page).to have_css("li", text: "#{float_project_custom_field.name} set to 3.14159")
-      expect(page).to have_css("li", text: "#{text_project_custom_field.name} set to\na new text CF value")
+      expect(page).to have_css("li", text: "#{text_project_custom_field.name} set (Details)")
       expect(page).to have_css("li", text: "#{string_project_custom_field.name} set to a new string CF value")
       expect(page).to have_css("li", text: "#{date_project_custom_field.name} set to 01/31/2023")
     end

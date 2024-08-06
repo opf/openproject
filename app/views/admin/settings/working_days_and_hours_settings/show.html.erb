@@ -27,7 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= toolbar title: t(:label_working_days_and_hours) %>
+<% html_title t(:label_administration), t(:label_working_days_and_hours) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title(test_selector: "op-working-days-admin-settings--title") { t(:label_working_days_and_hours) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_working_days_and_hours_path, text: t(:label_calendars_and_dates) },
+                             t(:label_working_days_and_hours)])
+    end
+%>
 
 <%= styled_form_tag(
       admin_settings_working_days_and_hours_path,

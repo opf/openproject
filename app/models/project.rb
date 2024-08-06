@@ -107,16 +107,14 @@ class Project < ApplicationRecord
                 author: nil,
                 datetime: :created_at
 
-  register_journal_formatted_fields(:active_status, "active")
-  register_journal_formatted_fields(:template, "templated")
-  register_journal_formatted_fields(:plaintext, "identifier")
-  register_journal_formatted_fields(:plaintext, "name")
-  register_journal_formatted_fields(:diff, "status_explanation")
-  register_journal_formatted_fields(:diff, "description")
-  register_journal_formatted_fields(:project_status_code, "status_code")
-  register_journal_formatted_fields(:visibility, "public")
-  register_journal_formatted_fields(:subproject_named_association, "parent_id")
-  register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
+  register_journal_formatted_fields "active", formatter_key: :active_status
+  register_journal_formatted_fields "templated", formatter_key: :template
+  register_journal_formatted_fields "identifier", "name", formatter_key: :plaintext
+  register_journal_formatted_fields "status_explanation", "description", formatter_key: :diff
+  register_journal_formatted_fields "status_code", formatter_key: :project_status_code
+  register_journal_formatted_fields "public", formatter_key: :visibility
+  register_journal_formatted_fields "parent_id", formatter_key: :subproject_named_association
+  register_journal_formatted_fields /custom_fields_\d+/, formatter_key: :custom_field
 
   has_paper_trail
 

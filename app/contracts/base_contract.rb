@@ -50,7 +50,7 @@ class BaseContract < Disposable::Twin
     end
 
     def writable_conditions
-      @writable_conditions ||= []
+      @writable_conditions ||= {}
     end
 
     def attribute_permissions
@@ -102,16 +102,13 @@ class BaseContract < Disposable::Twin
 
     def add_writable(attribute, writable)
       attribute_name = attribute.to_s.delete_suffix("_id")
+      writable_conditions[attribute_name] = writable
 
-      unless writable == false
-        writable_attributes << attribute_name
-        # allow the _id variant as well
-        writable_attributes << "#{attribute_name}_id"
-      end
+      return if writable == false
 
-      if writable.respond_to?(:call)
-        writable_conditions << [attribute_name, writable]
-      end
+      writable_attributes << attribute_name
+      # allow the _id variant as well
+      writable_attributes << "#{attribute_name}_id"
     end
   end
 
@@ -229,18 +226,7 @@ class BaseContract < Disposable::Twin
   end
 
   def collect_available_custom_field_attributes
-    if model.is_a?(Project)
-      # required because project custom fields are now activated on a per-project basis
-      #
-      # if we wouldn't query available_custom field on a global level here,
-      # implicitly enabling project custom fields through this contract would fail
-      # as the disabled custom fields would be treated as not-writable
-      #
-      # relevant especially for the project API
-      model.all_available_custom_fields.map(&:attribute_name)
-    else
-      model.available_custom_fields.map(&:attribute_name)
-    end
+    model.available_custom_fields.map(&:attribute_name)
   end
 
   def reduce_writable_attributes(attributes)
@@ -250,7 +236,8 @@ class BaseContract < Disposable::Twin
 
   def reduce_by_writable_conditions(attributes)
     collect_ancestor_attributes(:writable_conditions).each do |attribute, condition|
-      attributes -= [attribute, "#{attribute}_id"] unless instance_exec(&condition)
+      condition = !!instance_exec(&condition) if condition.respond_to?(:call)
+      attributes -= [attribute, "#{attribute}_id"] if condition == false
     end
 
     attributes

@@ -407,7 +407,7 @@ sl:
       new_access_token_dialog_submit_button_text: "Create"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
-      failed_to_reset_token: 'Neuspešna poenostavitev "dostopnega simbola": %{error}'
+      failed_to_reset_token: "Neuspešna poenostavitev \"dostopnega simbola\": %{error}"
       failed_to_create_token: "Failed to create access token: %{error}"
       failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Ustvarjen je bil nov %{type} simbol. Vaš dostopni simbol je:"
@@ -486,7 +486,7 @@ sl:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -536,9 +536,9 @@ sl:
       no_common_statuses_exists: "Za vse izbrane delovne pakete ni na voljo nobenega statusa. Njihovega statusa ni mogoče spremeniti."
       unsupported_for_multiple_projects: "Prenašanje / kopiranje v velikem obsegu ni podprto za delovne pakete iz več projektov"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -606,17 +606,6 @@ sl:
       attribute_help_text:
         attribute_name: "Atribut"
         help_text: "Besedilo pomoči"
-      ldap_auth_source:
-        account: "Račun"
-        attr_firstname: "Oznaka za ime"
-        attr_lastname: "Oznaka za priimek"
-        attr_login: "Lastnosti uporabnikov"
-        attr_mail: "Atribut elektronskega naslova"
-        base_dn: "Bazni DN"
-        host: "Gostitelj"
-        onthefly: "Samodejno ustvarjanje uporabnika"
-        port: "Vrata"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorij"
       color:
@@ -641,6 +630,14 @@ sl:
         visible: "Vidno"
       custom_value:
         value: "vrednost"
+      doorkeeper/application:
+        uid: "ID odjemalca"
+        secret: "Skrivnost odjemalca"
+        owner: "Lastnik"
+        redirect_uri: "Preusmeritev URI"
+        client_credentials_user_id: "ID uporabnika poverilnic stranke"
+        scopes: "Področja"
+        confidential: "Zaupno"
       enterprise_token:
         starts_at: "Velja od"
         subscriber: "Naročnik"
@@ -651,20 +648,25 @@ sl:
         row_count: "Število vrstic"
         column_count: "Število stolpcev"
         widgets: "Gradniki"
-      oauth_client:
-        client: "ID odjemalca"
-      relation:
-        lag: "Lag"
-        from: "Zahtevek"
-        to: "Soroden zahtevek"
-      status:
-        is_closed: "Zahtevek zaprt"
-        is_readonly: 'Zahtevek "samo za branje"'
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Opombe"
+      ldap_auth_source:
+        account: "Račun"
+        attr_firstname: "Oznaka za ime"
+        attr_lastname: "Oznaka za priimek"
+        attr_login: "Lastnosti uporabnikov"
+        attr_mail: "Atribut elektronskega naslova"
+        base_dn: "Bazni DN"
+        host: "Gostitelj"
+        onthefly: "Samodejno ustvarjanje uporabnika"
+        port: "Vrata"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Vloge"
+      oauth_client:
+        client: "ID odjemalca"
+      planning_element_type_color:
+        hexcode: Šestnajstiška koda
       project:
         active_value:
           true: "unarchived"
@@ -694,6 +696,8 @@ sl:
         types: "Tipi"
         versions: "Različice"
         work_packages: "zahtevki"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "Stolpci"
         relations_to_type_column: "Povezave z %{type}"
@@ -701,10 +705,19 @@ sl:
         group_by: "Rezultati grupirani po"
         filters: "Filtri"
         timeline_labels: "Oznake časovnice"
+      relation:
+        lag: "Lag"
+        from: "Zahtevek"
+        to: "Soroden zahtevek"
       repository:
         url: "URL"
       role:
         permissions: "Dovoljenja"
+      status:
+        is_closed: "Zahtevek zaprt"
+        is_readonly: "Zahtevek \"samo za branje\""
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Aktivnost"
         hours: "Ure"
@@ -747,10 +760,6 @@ sl:
       wiki_page:
         parent_title: "Nadrejena stran"
         redirect_existing_links: "Preusmeri obstoječe povezave"
-      planning_element_type_color:
-        hexcode: Šestnajstiška koda
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Začetek vstavitve"
         begin_deletion: "Začetek izbrisa"
@@ -785,14 +794,6 @@ sl:
         type: "Vrsta"
         version: "Različica"
         watcher: "Opazovalec"
-      "doorkeeper/application":
-        uid: "ID odjemalca"
-        secret: "Skrivnost odjemalca"
-        owner: "Lastnik"
-        redirect_uri: "Preusmeritev URI"
-        client_credentials_user_id: "ID uporabnika poverilnic stranke"
-        scopes: "Področja"
-        confidential: "Zaupno"
     errors:
       messages:
         accepted: "mora biti sprejeto."
@@ -982,8 +983,8 @@ sl:
             circular_dependency: "Odnos ustvarja krog odnosov."
           attributes:
             to:
-              error_not_found: 'delovni paket v položaju "do" ni najden ali ni viden'
-              error_readonly: 'obstoječi odnos "do" povezave je nespremenljiv'
+              error_not_found: "delovni paket v položaju \"do\" ni najden ali ni viden"
+              error_readonly: "obstoječi odnos \"do\" povezave je nespremenljiv"
             from:
               error_not_found: "delovni paket v položaju 'od'  ni najden ali ni viden."
               error_readonly: "obstoječe razmerje 'od' povezave je nespremenljivo"
@@ -1005,6 +1006,11 @@ sl:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "aktivacija za privzeta stanja ni možna."
         time_entry:
           attributes:
             hours:
@@ -1035,6 +1041,12 @@ sl:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "ni začeten datum, čeprav je to pomembno za mejnike."
               cannot_be_null: "ne more biti nastavljeno na null, ker sta znana začetni datum in trajanje."
@@ -1064,13 +1076,13 @@ sl:
             estimated_hours:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
@@ -1091,8 +1103,8 @@ sl:
               format: "%{message}"
             password:
               weak: "Vsebovati mora znake naslednjih razredov (vsaj %{min_count} od %{all_count}): %{rules}."
-              lowercase: 'mala črka (npr. "a")'
-              uppercase: 'velika črka (npr. "A")'
+              lowercase: "mala črka (npr. \"a\")"
+              uppercase: "velika črka (npr. \"A\")"
               numeric: "številke (npr. '1')"
               special: "posebno (npr. '%')"
               reused:
@@ -1121,8 +1133,6 @@ sl:
         version:
           undeletable_archived_projects: "Različice ni mogoče izbrisati, saj so nanjo priloženi delovni paketi."
           undeletable_work_packages_attached: "Različice ni mogoče izbrisati, saj so nanjo priloženi delovni paketi."
-        status:
-          readonly_default_exlusive: "aktivacija za privzeta stanja ni možna."
         token/api:
           attributes:
             token_name:
@@ -1464,7 +1474,7 @@ sl:
       long: "%d. %B, %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: #Used in date_select and datetime_select.
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "Januar"
       - "Februar"
@@ -1648,6 +1658,7 @@ sl:
   error_pdf_failed_to_export: "Izvoza PDF ni bilo mogoče shraniti: %{error}"
   error_token_authenticity: "Ni mogoče preveriti žetona ponarejanja zahteve na več mestih. Ste poskušali predložiti podatke v več brskalnikih ali zavihkih? Zaprite vse zavihke in poskusite znova.\n"
   error_work_package_not_found_in_project: "Delovnega paketa/ zahtevka ni bilo mogoče najti ali ne spada v ta projekt"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "mora biti član projekta"
   error_migrations_are_pending: "Vaša namestitev OpenProject ima čakajoče selitve baze podatkov. Verjetno ste zamudili izvajanje migracij ob zadnji nadgradnji. Preverite vodnik za nadgradnjo, da pravilno nadgradite namestitev."
   error_migrations_visit_upgrade_guides: "Obiščite našo dokumentacijo z navodili za nadgradnjo"
@@ -1852,6 +1863,11 @@ sl:
       responsible: "Accountable"
       shared: "Shared"
       watched: "Watcher"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"
@@ -1916,6 +1932,7 @@ sl:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Avtentikacija"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Razpoložljivi forumi"
@@ -2335,6 +2352,7 @@ sl:
   label_role_search: "Dodelite vlogo novim članom"
   label_scm: "SCM"
   label_search: "Išči"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošlji testni mail"
   label_session: "Seja"
@@ -2447,6 +2465,7 @@ sl:
   label_work_package_new: "Nov delovni paket"
   label_work_package_edit: "Edit work package %{name}"
   label_work_package_plural: "Delovni paketi"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Stanje delovnega paketa"
   label_work_package_status_new: "Novo stanje"
   label_work_package_status_plural: "Status delovnega paketa"
@@ -2454,6 +2473,7 @@ sl:
   label_work_package_tracking: "Sledenje delovnega paketa"
   label_work_package_view_all: "Oglejte si vse delovne pakete"
   label_workflow: "Potek dela"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Potek dela"
   label_workflow_summary: "Povzetek"
   label_working_days_and_hours: "Working days and hours"
@@ -2792,6 +2812,7 @@ sl:
   permission_edit_own_messages: "Uredi lastna sporočila"
   permission_edit_own_time_entries: "Uredi svoje dnevnike"
   permission_edit_project: "Uredi projekt"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Uredi poročila"
   permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Uredi časovnice"
@@ -2842,6 +2863,7 @@ sl:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"

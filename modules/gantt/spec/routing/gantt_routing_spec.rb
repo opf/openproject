@@ -44,8 +44,7 @@ RSpec.describe "Gantt routing" do
                      state: "create_new")
     end
 
-    it "connects GET /projects/:project_id/gantt/details/:id/:state" +
-         " to gantt#index" do
+    it "connects GET /projects/:project_id/gantt/details/:id/:state to gantt#index" do
       expect(get("/projects/1/gantt/details/2/overview"))
         .to route_to(controller: "gantt/gantt",
                      action: "index",

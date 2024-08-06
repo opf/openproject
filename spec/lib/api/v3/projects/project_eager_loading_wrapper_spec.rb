@@ -31,6 +31,10 @@ require "spec_helper"
 RSpec.describe API::V3::Projects::ProjectEagerLoadingWrapper do
   shared_let(:projects) { create_list(:project, 3) }
 
+  before do
+    allow(User).to receive(:current).and_return build_stubbed(:admin)
+  end
+
   describe ".wrap" do
     subject(:loaded_projects) { described_class.wrap(projects) }
 

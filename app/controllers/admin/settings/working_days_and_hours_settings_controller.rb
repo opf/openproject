@@ -30,10 +30,6 @@ module Admin::Settings
   class WorkingDaysAndHoursSettingsController < ::Admin::SettingsController
     menu_item :working_days_and_hours
 
-    def default_breadcrumb
-      t(:label_working_days_and_hours)
-    end
-
     def failure_callback(call)
       @modified_non_working_days = modified_non_working_days_for(call.result)
       flash[:error] = call.message || I18n.t(:notice_internal_server_error)

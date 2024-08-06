@@ -75,10 +75,12 @@ module OpenProject::GithubIntegration
                    enabled: -> { OpenProject::FeatureDecisions.deploy_targets_active? } # can only be enable at start-time
       end
 
-      menu :admin_menu,
-           :deploy_targets,
-           { controller: "/deploy_targets", action: "index" },
-           if: ->(*) { OpenProject::FeatureDecisions.deploy_targets_active? && User.current.admin? },
+      menu :work_package_split_view,
+           :github,
+           { tab: :github },
+           if: ->(project) {
+             User.current.allowed_in_project?(:show_github_content, project)
+           },
            parent: :admin_github_integration,
            caption: :label_deploy_target_plural,
            icon: "cloud"

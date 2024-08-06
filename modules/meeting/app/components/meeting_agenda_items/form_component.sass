@@ -5,6 +5,9 @@
   grid-template-columns: minmax(0, 100%) 100px minmax(200px, 1fr)
   grid-template-areas: "title duration presenter" "notes notes notes" "add_note actions actions"
   grid-gap: 8px
+  // Do not remove easily. The hidden labels of the form inputs are positioned absolutely,
+  // and thus breaking the whole layout if there is no container around them
+  position: relative
 
   &--actions
     justify-self: end

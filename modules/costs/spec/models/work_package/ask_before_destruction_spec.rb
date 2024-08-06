@@ -195,8 +195,8 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ "reassign" as action
-              w/ reassigning to a valid work_package' do
+    describe 'with "reassign" as action ' \
+             "with reassigning to a valid work_package" do
       let(:action) do
         WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign",
                                                                                           reassign_to_id: work_package2.id)
@@ -228,8 +228,8 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ "reassign" as action
-              w/ reassigning to a work_package the user is not allowed to see' do
+    describe 'with "reassign" as action ' \
+             "with reassigning to a work_package the user is not allowed to see" do
       let(:action) do
         WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign",
                                                                                           reassign_to_id: work_package2.id)
@@ -251,8 +251,8 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ "reassign" as action
-              w/ reassigning to a non existing work package' do
+    describe 'w/ "reassign" as action ' \
+             "w/ reassigning to a non existing work package" do
       let(:action) do
         WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign", reassign_to_id: 0)
       end
@@ -269,8 +269,8 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ "reassign" as action
-              w/o providing a reassignment id' do
+    describe 'w/ "reassign" as action ' \
+             "w/o providing a reassignment id" do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign") }
 
       it "returns true" do

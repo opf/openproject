@@ -41,7 +41,7 @@ RSpec.describe Queries::WorkPackages::Filter::SubprojectFilter do
     before do
       if project
         allow(project)
-        .to receive_message_chain(:descendants, :visible)
+        .to receive_message_chain(:descendants, :visible, :active) # rubocop:disable RSpec/MessageChain
         .and_return relation
       end
 
@@ -52,8 +52,7 @@ RSpec.describe Queries::WorkPackages::Filter::SubprojectFilter do
     end
 
     describe "#available?" do
-      context 'with a project and that project not being a leaf
-               and the project having visible descendants' do
+      context "with a project and that project not being a leaf and the project having visible descendants" do
         let(:subproject) { build_stubbed(:project) }
         let(:projects) { [subproject] }
 
@@ -91,8 +90,7 @@ RSpec.describe Queries::WorkPackages::Filter::SubprojectFilter do
         end
       end
 
-      context 'with a project and that project not being a leaf
-               but the user not seeing any of the descendants' do
+      context "with a project and that project not being a leaf but the user not seeing any of the descendants" do
         before do
           allow(project)
             .to receive(:leaf?)

@@ -293,8 +293,8 @@ RSpec.describe TimeEntry do
         project.enabled_module_names = project.enabled_module_names << "costs"
       end
 
-      describe "WHEN the time_entry is assigned to the user
-                WHEN the user has the view_own_hourly_rate permission" do
+      describe "WHEN the time_entry is assigned to the user " \
+               "WHEN the user has the view_own_hourly_rate permission" do
         before do
           is_member(project, user, [:view_own_hourly_rate])
 
@@ -304,8 +304,8 @@ RSpec.describe TimeEntry do
         it { expect(time_entry.costs_visible_by?(user)).to be_truthy }
       end
 
-      describe "WHEN the time_entry is assigned to the user
-                WHEN the user lacks permissions" do
+      describe "WHEN the time_entry is assigned to the user " \
+               "WHEN the user lacks permissions" do
         before do
           is_member(project, user, [])
 
@@ -315,8 +315,8 @@ RSpec.describe TimeEntry do
         it { expect(time_entry.costs_visible_by?(user)).to be_falsey }
       end
 
-      describe "WHEN the time_entry is assigned to another user
-                WHEN the user has the view_hourly_rates permission" do
+      describe "WHEN the time_entry is assigned to another user " \
+               "WHEN the user has the view_hourly_rates permission" do
         before do
           is_member(project, user2, [:view_hourly_rates])
 
@@ -326,8 +326,8 @@ RSpec.describe TimeEntry do
         it { expect(time_entry.costs_visible_by?(user2)).to be_truthy }
       end
 
-      describe "WHEN the time_entry is assigned to another user
-                WHEN the user has the view_hourly_rates permission in another project" do
+      describe "WHEN the time_entry is assigned to another user " \
+               "WHEN the user has the view_hourly_rates permission in another project" do
         before do
           is_member(project2, user2, [:view_hourly_rates])
 
@@ -360,7 +360,7 @@ RSpec.describe TimeEntry do
       end
     end
 
-    context "when having the view_own_time_entries permission " +
+    context "when having the view_own_time_entries permission " \
             "and being the owner of the time entry" do
       before do
         is_member(project, user, [:view_own_time_entries])
@@ -373,7 +373,7 @@ RSpec.describe TimeEntry do
       end
     end
 
-    context "when having the view_own_time_entries permission " +
+    context "when having the view_own_time_entries permission " \
             "and not being the owner of the time entry" do
       before do
         is_member(project, user, [:view_own_time_entries])

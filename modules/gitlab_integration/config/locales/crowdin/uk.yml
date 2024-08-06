@@ -63,5 +63,7 @@ uk:
       **Повторно відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
       **Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс кілька комітів [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}

@@ -30,10 +30,11 @@ module MetaTagsHelper
   ##
   # Use meta-tags to output title and site name
   def output_title_and_meta_tags
-    display_meta_tags site: Setting.app_title,
-                      title: html_title_parts,
-                      separator: " | ", # Update the TitleService when changing this!
-                      reverse: true
+    display_meta_tags title: page_title(*html_title_parts)
+  end
+
+  def page_title(*parts)
+    (parts.reverse + [Setting.app_title]).join(" | ")
   end
 
   def initializer_meta_tag
