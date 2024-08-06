@@ -47,18 +47,19 @@ module Storages
               return Util.error(:error, "Cannot execute query without user context.", error_data)
             end
 
-            origin_user = origin_user_id(auth_strategy.user)
+            origin_user = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+                              .on_failure { return _1 }
+                              .result
+
             @location_prefix = UrlBuilder.path(@storage.uri.path, "remote.php/dav/files", origin_user)
 
-            result = make_request(auth_strategy:, folder:, user: auth_strategy.user)
+            result = make_request(auth_strategy:, folder:, origin_user:)
             storage_files(result)
           end
 
           private
 
-          def make_request(auth_strategy:, folder:, user:)
-            origin_user = origin_user_id(user)
-
+          def make_request(auth_strategy:, folder:, origin_user:)
             Authentication[auth_strategy].call(storage: @storage,
                                                http_options: Util.webdav_request_with_depth(1)) do |http|
               response = http.request("PROPFIND",
@@ -86,10 +87,6 @@ module Storages
             end
           end
 
-          def origin_user_id(user)
-            OAuthClientToken.find_by(user_id: user, oauth_client_id: @storage.oauth_client.id)&.origin_user_id || ""
-          end
-
           # rubocop:disable Metrics/AbcSize
           def requested_properties
             Nokogiri::XML::Builder.new do |xml|
@@ -114,9 +111,9 @@ module Storages
           def storage_files(response)
             response.map do |xml|
               parent, *files = Nokogiri::XML(xml)
-                                 .xpath("//d:response")
-                                 .to_a
-                                 .map { |file_element| storage_file(file_element) }
+                                       .xpath("//d:response")
+                                       .to_a
+                                       .map { |file_element| storage_file(file_element) }
 
               StorageFiles.new(files, parent, ancestors(parent.location))
             end
@@ -169,8 +166,8 @@ module Storages
 
           def location(element)
             texts = element
-                      .xpath("d:href")
-                      .map(&:inner_text)
+                    .xpath("d:href")
+                    .map(&:inner_text)
 
             return nil if texts.empty?
 
@@ -215,10 +212,10 @@ module Storages
           def permissions(element)
             permissions_string =
               element
-                .xpath(".//oc:permissions")
-                .map(&:inner_text)
-                .reject(&:empty?)
-                .first
+              .xpath(".//oc:permissions")
+              .map(&:inner_text)
+              .reject(&:empty?)
+              .first
 
             # Nextcloud Dav permissions:
             # https://github.com/nextcloud/server/blob/66648011c6bc278ace57230db44fd6d63d67b864/lib/public/Files/DavUtil.php

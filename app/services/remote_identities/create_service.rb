@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :oauth_client_token, class: "::OAuthClientToken" do
-    sequence(:access_token) { |n| "1234567890-#{n}" }
-    sequence(:refresh_token) { |n| "2345678901-#{n}" }
-    oauth_client factory: :oauth_client
-    user factory: :user
+module RemoteIdentities
+  class CreateService
+    attr_reader :user, :model
+
+    def self.call(user:, oauth_config:, oauth_token:)
+      new(user:, oauth_config:, oauth_token:).call
+    end
+
+    def initialize(user:, oauth_config:, oauth_token:)
+      @user = user
+      @oauth_config = oauth_config
+      @oauth_token = oauth_token
+
+      @model = RemoteIdentity.find_or_initialize_by(user:, oauth_client: oauth_config.oauth_client)
+      @result = ServiceResult.success(result: @model, errors: @model.errors)
+    end
+
+    def call
+      @model.origin_user_id = @oauth_config.extract_origin_user_id(@oauth_token)
+      @result.success = false unless @model.save
+
+      @result
+    end
+
+    def emit_event(integration)
+      OpenProject::Notifications.send(
+        OpenProject::Events::REMOTE_IDENTITY_CREATED,
+        integration:
+      )
+    end
   end
 end

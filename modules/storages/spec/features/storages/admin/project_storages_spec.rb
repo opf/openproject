@@ -66,6 +66,11 @@ RSpec.describe "Admin lists project mappings for a storage",
 
   current_user { admin }
 
+  before do
+    Storages::Peripherals::Registry
+      .stub("#{storage.short_provider_type}.commands.delete_folder", ->(_) { ServiceResult.success })
+  end
+
   context "with insufficient permissions" do
     it "is not accessible" do
       login_as(non_admin)
