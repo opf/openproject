@@ -180,79 +180,107 @@ RSpec.describe "Admin lists project mappings for a storage",
       let(:oauth_application) { create(:oauth_application) }
       let(:storage) { create(:nextcloud_storage, :as_automatically_managed, oauth_application:) }
       let(:oauth_client) { create(:oauth_client, integration: storage) }
-      let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: admin) }
-      let(:location_picker) { Components::FilePickerDialog.new }
 
-      let(:root_xml_response) { build(:webdav_data) }
-      let(:folder1_xml_response) { build(:webdav_data_folder) }
-      let(:folder1_fileinfo_response) do
-        {
-          ocs: {
-            data: {
-              status: "OK",
-              statuscode: 200,
-              id: 11,
-              name: "Folder1",
-              path: "files/Folder1",
-              mtime: 1682509719,
-              ctime: 0
+      context "when the user has granted OAuth access" do
+        let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: admin) }
+        let(:location_picker) { Components::FilePickerDialog.new }
+
+        let(:root_xml_response) { build(:webdav_data) }
+        let(:folder1_xml_response) { build(:webdav_data_folder) }
+        let(:folder1_fileinfo_response) do
+          {
+            ocs: {
+              data: {
+                status: "OK",
+                statuscode: 200,
+                id: 11,
+                name: "Folder1",
+                path: "files/Folder1",
+                mtime: 1682509719,
+                ctime: 0
+              }
             }
           }
-        }
-      end
-
-      before do
-        oauth_client_token
-
-        stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}")
-          .to_return(status: 207, body: root_xml_response, headers: {})
-        stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
-          .to_return(status: 207, body: folder1_xml_response, headers: {})
-        stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
-          .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
-        stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
-        stub_request(
-          :delete,
-          "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
-        ).to_return(status: 200, body: "", headers: {})
-      end
-
-      it "allows linking a project to a storage" do
-        project = create(:project)
-        subproject = create(:project, parent: project)
-        click_on "Add projects"
-
-        within("dialog") do
-          autocompleter = page.find(".op-project-autocompleter")
-          autocompleter.fill_in with: project.name
-
-          expect(page).to have_no_text(archived_project.name)
-
-          find(".ng-option-label", text: project.name).click
-          check "Include sub-projects"
-
-          expect(page.find_by_id("storages_project_storage_project_folder_mode_automatic")).to be_checked
-
-          choose "Existing folder with manually managed permissions"
-          expect(page).to have_text("No selected folder")
-          click_on "Select folder"
-
-          location_picker.expect_open
-          using_wait_time(20) do
-            location_picker.wait_for_folder_loaded
-            location_picker.enter_folder("Folder1")
-            location_picker.wait_for_folder_loaded
-          end
-          location_picker.confirm
-
-          # Add storage
-          expect(page).to have_text("Folder1")
-
-          click_on "Add"
         end
 
-        expect(page).to have_text(project.name)
-        expect(page).to have_text(subproject.name)
+        before do
+          oauth_client_token
+
+          stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}")
+            .to_return(status: 207, body: root_xml_response, headers: {})
+          stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
+            .to_return(status: 207, body: folder1_xml_response, headers: {})
+          stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
+            .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
+          stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
+          stub_request(
+            :delete,
+            "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
+          ).to_return(status: 200, body: "", headers: {})
+        end
+
+        it "allows linking a project to a storage" do
+          project = create(:project)
+          subproject = create(:project, parent: project)
+          click_on "Add projects"
+
+          within("dialog") do
+            autocompleter = page.find(".op-project-autocompleter")
+            autocompleter.fill_in with: project.name
+
+            expect(page).to have_no_text(archived_project.name)
+
+            find(".ng-option-label", text: project.name).click
+            check "Include sub-projects"
+
+            expect(page.find_by_id("storages_project_storage_project_folder_mode_automatic")).to be_checked
+
+            choose "Existing folder with manually managed permissions"
+            expect(page).to have_text("No selected folder")
+            # TODO: add case where user submits without selecting a folder
+            click_on "Select folder"
+
+            location_picker.expect_open
+            using_wait_time(20) do
+              location_picker.wait_for_folder_loaded
+              location_picker.enter_folder("Folder1")
+              location_picker.wait_for_folder_loaded
+            end
+            location_picker.confirm
+
+            # Add storage
+            expect(page).to have_text("Folder1")
+
+            click_on "Add"
+          end
+
+          expect(page).to have_text(project.name)
+          expect(page).to have_text(subproject.name)
+        end
+      end
+
+      context "when the user has not granted oauth access" do
+        let(:nonce) { "57a17c3f-b2ed-446e-9dd8-651ba3aec37d" }
+        let(:redirect_uri) do
+          "#{CGI.escape(OpenProject::Application.root_url)}/oauth_clients/#{storage.oauth_client.client_id}/callback"
+        end
+
+        before do
+          allow(SecureRandom).to receive(:uuid).and_call_original.ordered
+          allow(SecureRandom).to receive(:uuid).and_return(nonce).ordered
+        end
+
+        it "show a storage login button" do
+          click_on "Add projects"
+
+          within("dialog") do
+            expect(page).to have_button("Nextcloud login")
+            click_on("Nextcloud login")
+            wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize" \
+                                                "?client_id=#{storage.oauth_client.client_id}&" \
+                                                "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
+          end
+        end
       end
     end
 
