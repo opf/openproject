@@ -37,8 +37,8 @@ RSpec.describe Storages::Admin::GeneralInfoComponent, type: :component do
       it "must show a link to the storage" do
         storage = create(:nextcloud_storage)
         component = described_class.new(storage)
-        expect(component.open_link_was_generated).to be_truthy
-        expect(component.open_href).not_to be_nil
+        expect(component).to be_can_show_open_link
+        expect(component.open_href).to eq("/api/v3/storages/#{storage.id}/open")
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -1510,14 +1510,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it "factors in the eager loaded cache_checksum" do
-          allow(work_package)
-            .to receive(:cache_checksum)
-                  .and_return(srand)
+          without_partial_double_verification do
+            allow(work_package)
+              .to receive(:cache_checksum)
+                    .and_return(srand)
 
-          representer.json_cache_key
+            representer.json_cache_key
 
-          expect(work_package)
-            .to have_received(:cache_checksum)
+            expect(work_package)
+              .to have_received(:cache_checksum)
+          end
         end
       end
     end

@@ -1,7 +1,7 @@
 <!---- copyright
 OpenProject Plugins Plugin
 
-Copyright (C) 2013 - 2014 the OpenProject Foundation (OPF)
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.

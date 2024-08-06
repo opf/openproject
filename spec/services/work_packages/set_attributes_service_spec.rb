@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -1583,20 +1583,18 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
 
     before do
-      allow(new_project)
-        .to receive(:shared_versions)
-              .and_return(new_versions)
-      allow(new_project_categories)
+      without_partial_double_verification do
+        allow(new_project_categories)
         .to receive(:find_by)
               .with(name: category.name)
               .and_return nil
-      allow(new_project)
-        .to receive(:types)
-              .and_return(new_types)
-      allow(new_types)
-        .to receive(:order)
-              .with(:position)
-              .and_return(new_types)
+        allow(new_project)
+          .to receive_messages(shared_versions: new_versions, types: new_types)
+        allow(new_types)
+          .to receive(:order)
+                .with(:position)
+                .and_return(new_types)
+      end
     end
 
     shared_examples_for "updating the project" do
@@ -1775,7 +1773,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     subject { instance.call(call_attributes) }
 
     context "for non existing fields" do
-      let(:call_attributes) { { custom_field_891: "1" } } # rubocop:disable Naming/VariableNumber
+      let(:call_attributes) { { custom_field_891: "1" } }
 
       before do
         subject

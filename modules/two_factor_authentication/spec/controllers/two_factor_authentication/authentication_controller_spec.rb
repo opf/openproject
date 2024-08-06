@@ -10,7 +10,10 @@ RSpec.describe TwoFactorAuthentication::AuthenticationController, with_settings:
   before do
     # Assume the user has any memberships
     session[:stage_secrets] = { two_factor_authentication: "asdf" }
-    allow_any_instance_of(User).to receive(:any_active_memberships?).and_return(true)
+
+    without_partial_double_verification do
+      allow_any_instance_of(User).to receive(:any_active_memberships?).and_return(true) # rubocop:disable RSpec/AnyInstance
+    end
   end
 
   describe "with no active strategy", with_settings: { "plugin_openproject_two_factor_authentication" => {} } do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,9 +66,11 @@ RSpec.describe DigestMailer do
         .to receive(:where)
               .and_return(notifications)
 
-      allow(notifications)
-        .to receive(:includes)
-              .and_return(notifications)
+      without_partial_double_verification do
+        allow(notifications)
+          .to receive(:includes)
+                .and_return(notifications)
+      end
     end
   end
 

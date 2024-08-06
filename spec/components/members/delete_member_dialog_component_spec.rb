@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,7 +57,9 @@ RSpec.describe Members::DeleteMemberDialogComponent, type: :component do
       let(:principal) { build_stubbed(:user) }
 
       before do
-        allow(member).to receive(:inherited_shared_work_packages_count?).and_return(true)
+        without_partial_double_verification do
+          allow(member).to receive(:inherited_shared_work_packages_count?).and_return(true)
+        end
       end
 
       it "renders dialog" do
@@ -107,7 +109,9 @@ RSpec.describe Members::DeleteMemberDialogComponent, type: :component do
     let(:stubs) { { can_delete?: false, can_delete_roles?: true, may_delete_shares?: true, shared_work_packages?: true } }
 
     before do
-      allow(member).to receive(:inherited_shared_work_packages_count?).and_return(true)
+      without_partial_double_verification do
+        allow(member).to receive(:inherited_shared_work_packages_count?).and_return(true)
+      end
     end
 
     it "renders dialog" do
