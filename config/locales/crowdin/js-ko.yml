@@ -619,7 +619,7 @@ ko:
         mentioned: "멘션됨"
         watched: "주시자"
         assigned: "담당자"
-        responsible: "담당"
+        accountable: "Accountable"
         created: "생성됨"
         scheduled: "예약됨"
         commented: "코멘트 작성됨"

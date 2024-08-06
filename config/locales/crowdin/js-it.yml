@@ -619,7 +619,7 @@ it:
         mentioned: "Menzionato"
         watched: "Osservatore"
         assigned: "Assegnatario"
-        responsible: "Responsabile"
+        accountable: "Accountable"
         created: "Creato"
         scheduled: "Programmato"
         commented: "Commentato"

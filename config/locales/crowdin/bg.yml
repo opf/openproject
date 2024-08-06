@@ -476,7 +476,7 @@ bg:
         is_readonly: "Само за четене"
         excluded_from_totals: "Изключени от тоталите"
   themes:
-    dark: "Тъмно (експериментално)"
+    dark: "Dark (Beta)"
     light: "Светъл"
     light_high_contrast: "Светъл с висок контраст"
   types:

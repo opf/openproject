@@ -134,9 +134,9 @@ zh-CN:
     label_mail_all_participants: "发送电子邮件给所有参与者"
     types:
       classic: "经典"
-      classic_text: "以格式化文本议程和协议组织您的会议。"
+      classic_text: "将您的会议以可格式化的文本议程和会议纪要的形式进行组织。"
       structured: "动态"
-      structured_text: "将您的会议组织成一个议程项目列表，并可选择地将它们与一个工作包连接起来。"
+      structured_text: "将您的会议组织为议程项目列表，并可选地将其与工作包链接。"
       structured_text_copy: "目前复制会议不会复制相关会议的议程项目，只会复制会议的详细信息。"
     copied: "从会议 #%{id} 复制"
   meeting_section:

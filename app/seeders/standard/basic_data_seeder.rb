@@ -39,7 +39,8 @@ module Standard
         ::BasicData::ColorSchemeSeeder,
         ::BasicData::WorkflowSeeder,
         ::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
+        ::BasicData::SettingSeeder,
+        ::BasicData::ProjectCustomFieldSectionSeeder
       ]
     end
   end

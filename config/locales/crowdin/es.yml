@@ -473,7 +473,7 @@ es:
         is_readonly: "Solo lectura"
         excluded_from_totals: "Excluido de totales"
   themes:
-    dark: "Oscuro (experimental)"
+    dark: "Dark (Beta)"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:

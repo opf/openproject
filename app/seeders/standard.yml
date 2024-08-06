@@ -45,231 +45,11 @@ priorities:
     color_name: grape-5
     position: 4
 
-statuses:
-- reference: :default_status_new
-  t_name: New
-  color_name: cyan-7
-  default_done_ratio: 0
-  is_default: true
-  position: 1
-- reference: :default_status_in_specification
-  t_name: In specification
-  color_name: blue-2
-  default_done_ratio: 10
-  position: 2
-- reference: :default_status_specified
-  t_name: Specified
-  color_name: blue-2
-  default_done_ratio: 20
-  position: 3
-- reference: :default_status_confirmed
-  t_name: Confirmed
-  color_name: violet-2
-  default_done_ratio: 20
-  position: 4
-- reference: :default_status_to_be_scheduled
-  t_name: To be scheduled
-  color_name: yellow-2
-  default_done_ratio: 20
-  position: 5
-- reference: :default_status_scheduled
-  t_name: Scheduled
-  color_name: lime-2
-  default_done_ratio: 20
-  position: 6
-- reference: :default_status_in_progress
-  t_name: In progress
-  color_name: grape-5
-  default_done_ratio: 40
-  position: 7
-- reference: :default_status_developed
-  t_name: Developed
-  color_name: green-3
-  default_done_ratio: 70
-  position: 8
-- reference: :default_status_in_testing
-  t_name: In testing
-  color_name: cyan-5
-  default_done_ratio: 80
-  position: 9
-- reference: :default_status_tested
-  t_name: Tested
-  color_name: teal-6
-  default_done_ratio: 90
-  position: 10
-- reference: :default_status_test_failed
-  t_name: Test failed
-  color_name: red-5
-  default_done_ratio: 70
-  position: 11
-- reference: :default_status_closed
-  t_name: Closed
-  color_name: gray-3
-  default_done_ratio: 100
-  is_closed: true
-  position: 12
-- reference: :default_status_on_hold
-  t_name: On hold
-  color_name: orange-3
-  default_done_ratio: 0
-  position: 13
-- reference: :default_status_rejected
-  t_name: Rejected
-  color_name: red-3
-  default_done_ratio: 0
-  is_closed: true
-  position: 14
+project_custom_field_sections:
+  - reference: :default_project_attributes
+    name: Project attributes
+    position: 1
 
-time_entry_activities:
-- t_name: Management
-  is_default: true
-  position: 1
-- t_name: Specification
-  position: 2
-- t_name: Development
-  position: 3
-- t_name: Testing
-  position: 4
-- t_name: Support
-  position: 5
-- t_name: Other
-  position: 6
-
-types:
-- reference: :default_type_task
-  t_name: Task
-  is_default: true
-  color_name: :default_color_blue
-  is_in_roadmap: true
-  position: 1
-- reference: :default_type_milestone
-  t_name: Milestone
-  is_default: true
-  color_name: :default_color_green_light
-  is_milestone: true
-  position: 2
-- reference: :default_type_phase
-  t_name: Phase
-  is_default: true
-  color_name: 'orange-5'
-  position: 3
-- reference: :default_type_feature
-  t_name: Feature
-  color_name: 'indigo-5'
-  is_in_roadmap: true
-  position: 4
-- reference: :default_type_epic
-  t_name: Epic
-  color_name: 'violet-5'
-  is_in_roadmap: true
-  position: 5
-- reference: :default_type_user_story
-  t_name: User story
-  color_name: :default_color_blue_light
-  is_in_roadmap: true
-  position: 6
-- reference: :default_type_bug
-  t_name: Bug
-  color_name: 'red-7'
-  is_in_roadmap: true
-  position: 7
-
-workflows:
-- type: :default_type_task
-  statuses:
-  - :default_status_new
-  - :default_status_in_progress
-  - :default_status_on_hold
-  - :default_status_rejected
-  - :default_status_closed
-- type: :default_type_milestone
-  statuses:
-  - :default_status_new
-  - :default_status_to_be_scheduled
-  - :default_status_scheduled
-  - :default_status_in_progress
-  - :default_status_on_hold
-  - :default_status_rejected
-  - :default_status_closed
-- type: :default_type_phase
-  statuses:
-  - :default_status_new
-  - :default_status_to_be_scheduled
-  - :default_status_scheduled
-  - :default_status_in_progress
-  - :default_status_on_hold
-  - :default_status_rejected
-  - :default_status_closed
-- type: :default_type_feature
-  statuses:
-  - :default_status_new
-  - :default_status_in_specification
-  - :default_status_specified
-  - :default_status_in_progress
-  - :default_status_developed
-  - :default_status_in_testing
-  - :default_status_tested
-  - :default_status_test_failed
-  - :default_status_on_hold
-  - :default_status_rejected
-  - :default_status_closed
-- type: :default_type_epic
-  statuses:
-  - :default_status_new
-  - :default_status_in_specification
-  - :default_status_specified
-  - :default_status_in_progress
-  - :default_status_developed
-  - :default_status_in_testing
-  - :default_status_tested
-  - :default_status_test_failed
-  - :default_status_on_hold
-  - :default_status_rejected
-  - :default_status_closed
-- type: :default_type_user_story
-  statuses:
-  - :default_status_new
-  - :default_status_in_specification
-  - :default_status_specified
-  - :default_status_in_progress
-  - :default_status_developed
-  - :default_status_in_testing
-  - :default_status_tested
-  - :default_status_test_failed
-  - :default_status_on_hold
-  - :default_status_rejected
-  - :default_status_closed
-- type: :default_type_bug
-  statuses:
-  - :default_status_new
-  - :default_status_confirmed
-  - :default_status_in_progress
-  - :default_status_developed
-  - :default_status_in_testing
-  - :default_status_tested
-  - :default_status_test_failed
-  - :default_status_on_hold
-  - :default_status_rejected
-  - :default_status_closed
-
-welcome:
-  t_title: "Welcome to OpenProject!"
-  t_text: |
-    OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-    Core features and use cases:
-
-    * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-    * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-    * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-    * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-    * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-    * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-    * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-    Welcome to the future of project management.
-
-    For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
 projects:
   demo-project:
     t_name: Demo project
@@ -997,3 +777,229 @@ projects:
       * Time boxed (3 h).
       * After Sprint Review, will be moderated by Scrum Master.
       * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+
+statuses:
+  - reference: :default_status_new
+    t_name: New
+    color_name: cyan-7
+    default_done_ratio: 0
+    is_default: true
+    position: 1
+  - reference: :default_status_in_specification
+    t_name: In specification
+    color_name: blue-2
+    default_done_ratio: 10
+    position: 2
+  - reference: :default_status_specified
+    t_name: Specified
+    color_name: blue-2
+    default_done_ratio: 20
+    position: 3
+  - reference: :default_status_confirmed
+    t_name: Confirmed
+    color_name: violet-2
+    default_done_ratio: 20
+    position: 4
+  - reference: :default_status_to_be_scheduled
+    t_name: To be scheduled
+    color_name: yellow-2
+    default_done_ratio: 20
+    position: 5
+  - reference: :default_status_scheduled
+    t_name: Scheduled
+    color_name: lime-2
+    default_done_ratio: 20
+    position: 6
+  - reference: :default_status_in_progress
+    t_name: In progress
+    color_name: grape-5
+    default_done_ratio: 40
+    position: 7
+  - reference: :default_status_developed
+    t_name: Developed
+    color_name: green-3
+    default_done_ratio: 70
+    position: 8
+  - reference: :default_status_in_testing
+    t_name: In testing
+    color_name: cyan-5
+    default_done_ratio: 80
+    position: 9
+  - reference: :default_status_tested
+    t_name: Tested
+    color_name: teal-6
+    default_done_ratio: 90
+    position: 10
+  - reference: :default_status_test_failed
+    t_name: Test failed
+    color_name: red-5
+    default_done_ratio: 70
+    position: 11
+  - reference: :default_status_closed
+    t_name: Closed
+    color_name: gray-3
+    default_done_ratio: 100
+    is_closed: true
+    position: 12
+  - reference: :default_status_on_hold
+    t_name: On hold
+    color_name: orange-3
+    default_done_ratio: 0
+    position: 13
+  - reference: :default_status_rejected
+    t_name: Rejected
+    color_name: red-3
+    default_done_ratio: 0
+    is_closed: true
+    position: 14
+
+time_entry_activities:
+  - t_name: Management
+    is_default: true
+    position: 1
+  - t_name: Specification
+    position: 2
+  - t_name: Development
+    position: 3
+  - t_name: Testing
+    position: 4
+  - t_name: Support
+    position: 5
+  - t_name: Other
+    position: 6
+
+types:
+  - reference: :default_type_task
+    t_name: Task
+    is_default: true
+    color_name: :default_color_blue
+    is_in_roadmap: true
+    position: 1
+  - reference: :default_type_milestone
+    t_name: Milestone
+    is_default: true
+    color_name: :default_color_green_light
+    is_milestone: true
+    position: 2
+  - reference: :default_type_phase
+    t_name: Phase
+    is_default: true
+    color_name: 'orange-5'
+    position: 3
+  - reference: :default_type_feature
+    t_name: Feature
+    color_name: 'indigo-5'
+    is_in_roadmap: true
+    position: 4
+  - reference: :default_type_epic
+    t_name: Epic
+    color_name: 'violet-5'
+    is_in_roadmap: true
+    position: 5
+  - reference: :default_type_user_story
+    t_name: User story
+    color_name: :default_color_blue_light
+    is_in_roadmap: true
+    position: 6
+  - reference: :default_type_bug
+    t_name: Bug
+    color_name: 'red-7'
+    is_in_roadmap: true
+    position: 7
+
+workflows:
+  - type: :default_type_task
+    statuses:
+    - :default_status_new
+    - :default_status_in_progress
+    - :default_status_on_hold
+    - :default_status_rejected
+    - :default_status_closed
+  - type: :default_type_milestone
+    statuses:
+    - :default_status_new
+    - :default_status_to_be_scheduled
+    - :default_status_scheduled
+    - :default_status_in_progress
+    - :default_status_on_hold
+    - :default_status_rejected
+    - :default_status_closed
+  - type: :default_type_phase
+    statuses:
+    - :default_status_new
+    - :default_status_to_be_scheduled
+    - :default_status_scheduled
+    - :default_status_in_progress
+    - :default_status_on_hold
+    - :default_status_rejected
+    - :default_status_closed
+  - type: :default_type_feature
+    statuses:
+    - :default_status_new
+    - :default_status_in_specification
+    - :default_status_specified
+    - :default_status_in_progress
+    - :default_status_developed
+    - :default_status_in_testing
+    - :default_status_tested
+    - :default_status_test_failed
+    - :default_status_on_hold
+    - :default_status_rejected
+    - :default_status_closed
+  - type: :default_type_epic
+    statuses:
+    - :default_status_new
+    - :default_status_in_specification
+    - :default_status_specified
+    - :default_status_in_progress
+    - :default_status_developed
+    - :default_status_in_testing
+    - :default_status_tested
+    - :default_status_test_failed
+    - :default_status_on_hold
+    - :default_status_rejected
+    - :default_status_closed
+  - type: :default_type_user_story
+    statuses:
+    - :default_status_new
+    - :default_status_in_specification
+    - :default_status_specified
+    - :default_status_in_progress
+    - :default_status_developed
+    - :default_status_in_testing
+    - :default_status_tested
+    - :default_status_test_failed
+    - :default_status_on_hold
+    - :default_status_rejected
+    - :default_status_closed
+  - type: :default_type_bug
+    statuses:
+    - :default_status_new
+    - :default_status_confirmed
+    - :default_status_in_progress
+    - :default_status_developed
+    - :default_status_in_testing
+    - :default_status_tested
+    - :default_status_test_failed
+    - :default_status_on_hold
+    - :default_status_rejected
+    - :default_status_closed
+
+welcome:
+  t_title: "Welcome to OpenProject!"
+  t_text: |
+    OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+    Core features and use cases:
+
+    * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+    * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+    * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+    * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+    * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+    * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+    * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+    Welcome to the future of project management.
+
+    For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

@@ -34,6 +34,9 @@ module Storages
 
     attr_reader :code, :log_message, :data
 
+    # @param code [Symbol, Integer]
+    # @param log_message: [String]
+    # @param data [Storages::StoragesErrorData]
     def initialize(code:, log_message: nil, data: nil)
       @code = code
       @log_message = log_message

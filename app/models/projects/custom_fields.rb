@@ -42,7 +42,6 @@ module Projects::CustomFields
       return all_visible_custom_fields if new_record?
 
       all_visible_custom_fields.where(id: project_custom_field_project_mappings.select(:custom_field_id))
-                               .or(required_visible_custom_fields)
     end
 
     # Note:
@@ -62,10 +61,6 @@ module Projects::CustomFields
 
     def all_visible_custom_fields
       all_available_custom_fields.visible(project: self)
-    end
-
-    def required_visible_custom_fields
-      ProjectCustomField.required.visible(project: self)
     end
 
     def custom_field_values_to_validate
