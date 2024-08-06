@@ -36,7 +36,8 @@ This option copies a short link to the work package to your clipboard  so you ca
 
 The *change project* option moves a work package to another project or subproject. Select the project into which the work package is to be moved, check whether further adjustments are necessary and confirm by clicking on *Move*.
 
-> **Note**:  You can only move a work package into projects that you are a member of and for which you are authorized to carry out this function.
+> [!NOTE]
+> You can only move a work package into projects that you are a member of and for which you are authorized to carry out this function.
 
 ![change project of work package](change-project-of-work-package.png)
 

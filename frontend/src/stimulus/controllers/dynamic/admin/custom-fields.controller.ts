@@ -1,7 +1,7 @@
 /*
  * -- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
+ * Copyright (C) the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -49,6 +49,12 @@ export default class CustomFieldsController extends Controller {
     'searchable',
     'textOrientation',
   ];
+
+  static values = {
+    formatConfig: Array,
+  };
+
+  declare readonly formatConfigValue:[string, string, string[]][];
 
   declare readonly formatTarget:HTMLInputElement;
   declare readonly dragContainerTarget:HTMLElement;
@@ -236,15 +242,12 @@ export default class CustomFieldsController extends Controller {
   }
 
   private toggleFormat(format:string) {
-    this.setActive(this.allowNonOpenVersionsTargets, format === 'version');
-    this.setActive(this.defaultBoolTargets, format === 'bool');
-    this.setActive(this.defaultLongTextTargets, format === 'text');
-    this.setActive(this.defaultTextTargets, !['list', 'bool', 'date', 'text', 'user', 'version'].includes(format));
-    this.setActive(this.lengthTargets, !['list', 'bool', 'date', 'user', 'version', 'link'].includes(format));
-    this.setActive(this.multiSelectTargets, ['list', 'user', 'version'].includes(format));
-    this.setActive(this.possibleValuesTargets, format === 'list');
-    this.setActive(this.regexpTargets, !['list', 'bool', 'date', 'user', 'version'].includes(format));
-    this.setActive(this.searchableTargets, !['bool', 'date', 'float', 'int', 'user', 'version'].includes(format));
-    this.setActive(this.textOrientationTargets, format === 'text');
+    this.formatConfigValue.forEach(([targetsName, operator, formats]) => {
+      const active = operator === 'only' ? formats.includes(format) : !formats.includes(format);
+      const targets = this[`${targetsName}Targets` as keyof typeof this] as HTMLElement[];
+      if (targets) {
+        this.setActive(targets, active);
+      }
+    });
   }
 }

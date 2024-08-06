@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -485,7 +485,7 @@ pl:
         is_readonly: "Tylko do odczytu"
         excluded_from_totals: "Wyłączono z sum"
   themes:
-    dark: "Ciemny (eksperymentalny)"
+    dark: "Dark (Beta)"
     light: "Jasny"
     light_high_contrast: "Jasny, wysoki kontrast"
   types:
@@ -1041,6 +1041,12 @@ pl:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
               cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia i czas trwania są znane."
@@ -1070,13 +1076,13 @@ pl:
             estimated_hours:
               not_a_number: "nie jest prawidłowym czasem trwania."
               cant_be_inferior_to_remaining_work: "Nie może być mniejsza niż wartość pozostałej pracy."
-              must_be_set_when_remaining_work_is_set: "Wymagane, gdy ustawiona jest opcja Pozostała praca."
-              only_values_greater_or_equal_zeroes_allowed: "Musi być >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "nie jest prawidłowym czasem trwania."
               cant_exceed_work: "Nie może być wyższa niż wartość pracy."
               must_be_set_when_work_is_set: "Wymagane, gdy ustawiona jest opcja Praca."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić."
         type:
@@ -1652,6 +1658,7 @@ pl:
   error_pdf_failed_to_export: "Nie można było zapisać eksportu PDF: %{error}"
   error_token_authenticity: "Nie można zweryfikować tokenu Cross-Site Request Forgery. Czy podjęto próbę przesłania danych w wielu przeglądarkach lub z wielu kart? Zamknij wszystkie karty i spróbuj ponownie."
   error_work_package_not_found_in_project: "Pakiet roboczy nie został znaleziony lub nie należy do tego projektu"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "musi być członkiem projektu"
   error_migrations_are_pending: "Ta instalacja OpenProject oczekuje na migracje baz danych. Prawdopodobnie pominięto uruchomienie migracji przy ostatnim uaktualnieniu. Sprawdź instrukcję uaktualniania, aby prawidłowo uaktualnić tę instalację."
   error_migrations_visit_upgrade_guides: "Przejdź do naszej dokumentacji instrukcji uaktualniania"
@@ -1856,6 +1863,11 @@ pl:
       responsible: "Osoba odpowiedzialna"
       shared: "Udostępniono"
       watched: "Obserwator"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Nieprzeczytane wg projektu"
       by_reason: "Powód"
@@ -1920,6 +1932,7 @@ pl:
   label_ldap_auth_source_plural: "Połączenia LDAP"
   label_attribute_expand_text: "Pełny tekst atrybutu „%{attribute}”"
   label_authentication: "Uwierzytelnianie"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Dostępne role globalne"
   label_available_project_attributes: "Dostępne atrybuty projektu"
   label_available_project_forums: "Dostępne fora"
@@ -2798,6 +2811,7 @@ pl:
   permission_edit_own_messages: "Edycja własnych wiadomości"
   permission_edit_own_time_entries: "Edycja własnych wpisów dziennika"
   permission_edit_project: "Edycja projektu"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Edycja raportów"
   permission_edit_time_entries: "Edycja dzienników czasu pracy dla innych użytkowników"
   permission_edit_timelines: "Edycja osi czasu"
@@ -2848,6 +2862,7 @@ pl:
   permission_work_package_assigned: "Zostań osobą przypisaną/odpowiedzialną"
   permission_work_package_assigned_explanation: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
   permission_view_project_activity: "Wyświetl aktywność projektu"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Zapisz zapytania BCF"
   permission_manage_public_bcf_queries: "Zarządzanie publicznymi zapytaniami BCF"
   permission_edit_attribute_help_texts: "Edytuj teksty pomocy dotyczące atrybutów"

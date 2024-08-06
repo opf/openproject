@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,10 @@ require "spec_helper"
 
 RSpec.describe API::V3::Projects::ProjectEagerLoadingWrapper do
   shared_let(:projects) { create_list(:project, 3) }
+
+  before do
+    allow(User).to receive(:current).and_return build_stubbed(:admin)
+  end
 
   describe ".wrap" do
     subject(:loaded_projects) { described_class.wrap(projects) }

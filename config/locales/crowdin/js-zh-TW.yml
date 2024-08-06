@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -618,7 +618,7 @@ zh-TW:
         mentioned: "Mentioned"
         watched: "Watcher"
         assigned: "Assignee"
-        responsible: "Accountable"
+        accountable: "Accountable"
         created: "Created"
         scheduled: "Scheduled"
         commented: "Commented"
@@ -637,11 +637,6 @@ zh-TW:
         upsale:
           title: "日期提醒"
           description: "透過日期提醒，您將收到相關通知，這樣您就不會錯過或忘記重要的日期。"
-      facets:
-        unread: "未讀"
-        unread_title: "顯示未讀"
-        all: "全部"
-        all_title: "顯示全部"
       center:
         label_actor_and: "和"
         and_more_users:
@@ -657,6 +652,7 @@ zh-TW:
           no_notification: "看起來您已查看所有通知。"
           no_notification_with_current_project_filter: "看起來您已查看所選專案的所有通知。"
           no_notification_with_current_filter: "看起來您已查看“%{filter}”篩選條件的所有通知。"
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "您有新的通知"
@@ -1009,7 +1005,7 @@ zh-TW:
         workAlternative: "預估時間"
         remainingTime: "剩餘工時"
       default_queries:
-        manually_sorted: "New manually sorted query"
+        manually_sorted: "新的自訂排序"
         latest_activity: "最新活動"
         created_by_me: "由我建立"
         assigned_to_me: "分配給我"
@@ -1078,11 +1074,11 @@ zh-TW:
         hierarchy_hint: "所有已篩選的資料與其來源將一起優化。階層可以展開和折疊。"
         display_sums_hint: "在表格結果下方的一行中顯示總和。"
         show_timeline_hint: "在表格的右側顯示互動式甘特圖。可以通過在表和甘特圖之間拖動分隔線來更改其寬度。"
-        highlighting: "突顯"
+        highlighting: "強調"
         highlighting_mode:
-          description: "以顏色突顯"
-          none: "無突顯"
-          inline: "突顯屬性"
+          description: "強調顏色"
+          none: "不需強調"
+          inline: "強調屬性"
           inline_all: "所有屬性"
           entire_row_by: "按類型劃分的整行"
           status: "狀態"
@@ -1284,8 +1280,8 @@ zh-TW:
         content: >-
           The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "您還沒有設定收藏的專案"
+      no_results_subtext: "由專案總覽或專案列表可以收藏一個或多個專案"
     include_projects:
       toggle_title: "包含的專案"
       title: "專案"

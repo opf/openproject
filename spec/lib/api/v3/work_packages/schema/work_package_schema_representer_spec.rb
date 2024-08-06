@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,8 @@
 
 require "spec_helper"
 
-RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
+RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter,
+               with_flag: { percent_complete_edition: true } do
   include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project_with_types) }
@@ -667,12 +668,26 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe "percentageDone" do
-      it_behaves_like "has basic schema properties" do
-        let(:path) { "percentageDone" }
-        let(:type) { "Integer" }
-        let(:name) { I18n.t("activerecord.attributes.work_package.done_ratio") }
-        let(:required) { false }
-        let(:writable) { false }
+      context "in work-based progress calculation mode",
+              with_settings: { work_package_done_ratio: "field" } do
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "percentageDone" }
+          let(:type) { "Integer" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.done_ratio") }
+          let(:required) { false }
+          let(:writable) { true }
+        end
+      end
+
+      context "in status-based progress calculation mode",
+              with_settings: { work_package_done_ratio: "status" } do
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "percentageDone" }
+          let(:type) { "Integer" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.done_ratio") }
+          let(:required) { false }
+          let(:writable) { false }
+        end
       end
     end
 

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -488,7 +488,7 @@ cs:
         is_readonly: "Pouze pro čtení"
         excluded_from_totals: "Vyloučeno z celkových hodnot"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Světlý"
     light_high_contrast: "Světlý kontrast"
   types:
@@ -1044,6 +1044,12 @@ cs:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "není v počátečním datu, i když je to nutné pro milníky."
               cannot_be_null: "nelze nastavit na null, protože datum zahájení a trvání je známo "
@@ -1073,13 +1079,13 @@ cs:
             estimated_hours:
               not_a_number: "není platná doba trvání."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Musí být >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "není platná doba trvání."
               cant_exceed_work: "Nemůže být vyšší než Práce."
               must_be_set_when_work_is_set: "Vyžadováno, když je nastavena práce."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "Pracovní balíček je ve stavu jen pro čtení, takže jeho atributy nelze změnit."
         type:
@@ -1655,6 +1661,7 @@ cs:
   error_pdf_failed_to_export: "PDF export nelze uložit: %{error}"
   error_token_authenticity: "Nelze ověřit token Cross-Site Request Forgy. Pokusili jste se odeslat data na více prohlížečích nebo kartách? Prosím zavřete všechny panely a zkuste to znovu."
   error_work_package_not_found_in_project: "Pracovný balíček nebyl nalezen, nebo nepatří k tomuto projektu"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "musí být členem projektu"
   error_migrations_are_pending: "Vaše instalace OpenProject čeká na migraci databáze. Pravděpodobně jste při poslední aktualizaci zmeškali migrace. Pro správnou aktualizaci vaší instalace prosím zkontrolujte průvodce aktualizací."
   error_migrations_visit_upgrade_guides: "Navštivte prosím naši dokumentaci průvodce aktualizací"
@@ -1859,6 +1866,11 @@ cs:
       responsible: "Odpovědný"
       shared: "Sdíleno"
       watched: "Sledující"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
     menu:
       by_project: "Unread by project"
       by_reason: "Důvod"
@@ -1923,6 +1935,7 @@ cs:
   label_ldap_auth_source_plural: "Připojení LDAP"
   label_attribute_expand_text: "Úplný text pro '%{attribute}'"
   label_authentication: "Ověření"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Dostupné globální role"
   label_available_project_attributes: "Dostupné atributy projektu"
   label_available_project_forums: "Dostupná fóra"
@@ -2801,6 +2814,7 @@ cs:
   permission_edit_own_messages: "Upravit vlastní zprávy"
   permission_edit_own_time_entries: "Upravit vlastní časové záznamy"
   permission_edit_project: "Upravit projekt"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Upravit přehledy"
   permission_edit_time_entries: "Upravit časové záznamy pro ostatní uživatele"
   permission_edit_timelines: "Úpravy časové osy"
@@ -2851,6 +2865,7 @@ cs:
   permission_work_package_assigned: "Staňte se řešitelem/odpovědným"
   permission_work_package_assigned_explanation: "Pracovní balíčky mohou být přiřazeny uživatelům a skupinám, které tuto roli vlastní v příslušném projektu"
   permission_view_project_activity: "Zobrazit aktivitu projektu"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Uložit dotazy BCF"
   permission_manage_public_bcf_queries: "Spravovat veřejné dotazy BCF."
   permission_edit_attribute_help_texts: "Upravit text nápovědy atributu"

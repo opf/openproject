@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,16 +32,16 @@ module Projects::CustomFields
   attr_accessor :_limit_custom_fields_validation_to_section_id
 
   included do
-    has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping", foreign_key: :project_id,
-                                                     dependent: :destroy, inverse_of: :project
-    has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: "ProjectCustomField"
+    has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping",
+                                                     foreign_key: :project_id, dependent: :destroy,
+                                                     inverse_of: :project
+    has_many :project_custom_fields, through: :project_custom_field_project_mappings,
+                                     class_name: "ProjectCustomField"
 
     def available_custom_fields
-      visible_fields = all_available_custom_fields.visible
-      return visible_fields if new_record?
+      return all_visible_custom_fields if new_record?
 
-      visible_fields.where(id: project_custom_field_project_mappings.select(:custom_field_id))
-                    .or(ProjectCustomField.required)
+      all_visible_custom_fields.where(id: project_custom_field_project_mappings.select(:custom_field_id))
     end
 
     # Note:
@@ -57,6 +57,10 @@ module Projects::CustomFields
       @all_available_custom_fields ||= ProjectCustomField
         .includes(:project_custom_field_section)
         .order("custom_field_sections.position", :position_in_custom_field_section)
+    end
+
+    def all_visible_custom_fields
+      all_available_custom_fields.visible(project: self)
     end
 
     def custom_field_values_to_validate

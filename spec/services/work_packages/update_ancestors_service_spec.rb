@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -857,8 +857,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .to contain_exactly(parent, grandparent, grandgrandparent)
       end
 
-      it 'sets the ignore_non_working_days property of the former ancestor chain to the value of the
-          only remaining child (former sibling)' do
+      it "sets the ignore_non_working_days property of the former ancestor chain to the value of the " \
+         "only remaining child (former sibling)" do
         subject
 
         expect(parent.reload.ignore_non_working_days)

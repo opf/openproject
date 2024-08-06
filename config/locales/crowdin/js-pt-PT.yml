@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -619,7 +619,7 @@ pt-PT:
         mentioned: "Mencionado"
         watched: "Observador"
         assigned: "Pessoa atribuída"
-        responsible: "Responsável"
+        accountable: "Accountable"
         created: "Criado"
         scheduled: "Agendado"
         commented: "Comentado"
@@ -638,11 +638,6 @@ pt-PT:
         upsale:
           title: "Alertas de data"
           description: "Com os alertas de data, receberá uma notificação sobre as próximas datas de início e conclusão, para que não nunca perca ou esqueça prazos importantes. "
-      facets:
-        unread: "Não lida"
-        unread_title: "Mostrar não lidas"
-        all: "Todos"
-        all_title: "Mostrar tudo"
       center:
         label_actor_and: "e"
         and_more_users:
@@ -659,6 +654,7 @@ pt-PT:
           no_notification: "Parece que tem tudo em dia."
           no_notification_with_current_project_filter: "Parece que está em dia com o projeto selecionado."
           no_notification_with_current_filter: "Parece que está em dia no filtro %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Clique numa notificação para ver todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."

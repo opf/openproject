@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,7 +66,7 @@ module Storages
                       raise "Unknown Storage Type"
                     end
 
-      sync_result.on_failure { raise Errors::IntegrationJobError, sync_result.errors.to_s }
+      sync_result.on_failure { raise Errors::IntegrationJobError, sync_result.errors.full_messages.join(", ") }
       sync_result.on_success { OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_HEALTHY, storage:) }
     end
   end

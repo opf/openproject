@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,7 +24,7 @@ zh-TW:
   label_deploy_target: Deploy target
   label_deploy_target_new: New deploy target
   label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
+  label_github_integration: GitHub 整合
   notice_deploy_target_created: Deploy target created
   notice_deploy_target_destroyed: Deploy target deleted
   plugin_openproject_github_integration:

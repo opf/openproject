@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,12 @@
 
 module Storages
   class CopyProjectFoldersJob < ApplicationJob
+    include TaggedLogging
     include GoodJob::ActiveJobExtensions::Batches
 
-    retry_on Errors::PollingRequired, attempts: 50, wait: ->(executions) do
+    retry_on Errors::PollingRequired, attempts: 50, wait: lambda { |executions|
       (executions**2) + (Kernel.rand * (executions**2) * 0.15) + 2
-    end
+    }
     discard_on HTTPX::HTTPError
 
     def perform(source:, target:, work_packages_map:)
@@ -92,14 +93,16 @@ module Storages
                        return
                      in { failure: true, errors: StorageError }
                        failed.errors.to_active_model_errors.full_messages
+                     in { failure: true, errors: ActiveModel::Errors }
+                       failed.errors.full_messages
                      else
-                       failed.errors.to_s
+                       failed.errors
                      end
 
       batch.properties[:errors].push(*batch_errors)
       batch.save
 
-      OpenProject.logger.warn failed.errors.to_s
+      error batch_errors
     end
 
     def polling_info
