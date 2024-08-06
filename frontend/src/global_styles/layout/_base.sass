@@ -119,7 +119,7 @@ $left-space: 20px
   overflow-x: hidden
 
   // Special rules for pages that still follow the old layout and render everything inside the content-body
-  .accessibility-helper ~ &
+  .accessibility-helper + &
     padding-top: $top-space
   &:last-child
     padding-right: $right-space
@@ -130,7 +130,7 @@ $left-space: 20px
 
 #content-bodyRight
   grid-area: bodyRight
-  padding: 0
+  padding: 0 $right-space 0 0
   overflow: auto
   @include styled-scroll-bar
 
