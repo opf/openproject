@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module OneDrive
         class CopyTemplateFolderCommand
+          include TaggedLogging
+
           def self.call(auth_strategy:, storage:, source_path:, destination_path:)
             if source_path.blank? || destination_path.blank?
               return ServiceResult.failure(
@@ -51,10 +53,13 @@ module Storages
           end
 
           def call(auth_strategy:, source_location:, destination_name:)
-            Authentication[auth_strategy].call(storage: @storage) do |httpx|
-              handle_response(
-                httpx.post(url_for(source_location) + query, json: { name: destination_name })
-              )
+            with_tagged_logger do
+              info "Requesting Copy of folder #{source_location} to #{destination_name}"
+              Authentication[auth_strategy].call(storage: @storage) do |httpx|
+                handle_response(
+                  httpx.post(url_for(source_location) + query, json: { name: destination_name })
+                )
+              end
             end
           end
 

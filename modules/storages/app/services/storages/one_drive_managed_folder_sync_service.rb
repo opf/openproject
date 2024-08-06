@@ -29,10 +29,7 @@
 #++
 
 module Storages
-  class OneDriveManagedFolderSyncService
-    extend ActiveModel::Naming
-    extend ActiveModel::Translation
-    include TaggedLogging
+  class OneDriveManagedFolderSyncService < BaseService
     include Injector["one_drive.commands.create_folder", "one_drive.commands.rename_file",
                      "one_drive.commands.set_permissions", "one_drive.queries.files", "one_drive.authentication.userless"]
 
@@ -40,8 +37,7 @@ module Storages
 
     OP_PERMISSIONS = %i[read_files write_files create_files delete_files share_files].freeze
 
-    def self.i18n_scope = "services"
-    def self.model_name = ActiveModel::Name.new(self, Storages, "OneDriveSyncService")
+    def self.i18n_key = "OneDriveSyncService"
 
     def self.call(storage)
       new(storage).call
@@ -52,8 +48,6 @@ module Storages
       @storage = storage
       @result = ServiceResult.success(errors: ActiveModel::Errors.new(self))
     end
-
-    def read_attribute_for_validation(attr) = attr
 
     def call
       with_tagged_logger([self.class.name, "storage-#{@storage.id}"]) do
