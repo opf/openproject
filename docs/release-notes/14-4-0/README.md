@@ -24,9 +24,9 @@ With this feature, the OpenProject API will validate access tokens issued by the
 
 For more details, see https://community.openproject.org/wp/55643.
 
-### Improve error messages and logs of AMPF synchronization services/jobs
+### Improve error messages and logs of automatically managed project folders synchronization services/jobs
 
-OpenProject 14.4 introduces significant enhancements to logging, debugging, and error messages for AMPF synchronization services and jobs. These improvements aim to provide clearer messages and more detailed logs for both administrators and users.
+OpenProject 14.4 introduces significant enhancements to logging, debugging, and error messages for automatically managed project folders synchronization services and jobs. These improvements aim to provide clearer messages and more detailed logs for both administrators and users.
 
 Up to now, the system faced issues such as unclear error messages, insufficient log details, and a lack of localized error messages. To address these problems, **the system now provides context-specific error messages** instead of vague ones. For example, instead of "Outbound request destination not found," the system will now display messages like 'The file #{file_link.origin_name} was not found on #{storage_name}', which will also be localized to improve clarity.
 
