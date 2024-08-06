@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,7 +83,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:user) do
     create(:user,
-           member_with_permissions: { project => %w[view_work_packages export_work_packages] })
+           member_with_permissions: { project => %w[view_work_packages export_work_packages view_project_attributes] })
   end
   let(:another_user) do
     create(:user, firstname: "Secret User")

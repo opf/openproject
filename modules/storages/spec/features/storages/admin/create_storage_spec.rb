@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -114,7 +114,7 @@ RSpec.describe "Admin Create a new file storage",
           expect(warning_section).to have_link("Nextcloud OpenProject Integration settings",
                                                href: "https://example.com/settings/admin/openproject")
 
-          storage = Storages::NextcloudStorage.find_by(host: "https://example.com")
+          storage = Storages::NextcloudStorage.find_by(host: "https://example.com/")
           expect(page).to have_css("#openproject_oauth_application_uid",
                                    value: storage.reload.oauth_application.uid)
           expect(page).to have_css("#openproject_oauth_application_secret",
@@ -179,7 +179,7 @@ RSpec.describe "Admin Create a new file storage",
           click_on("Done, complete setup")
         end
 
-        expect(page).to have_current_path(admin_settings_storages_path)
+        expect(page).to have_current_path(edit_admin_settings_storage_path(Storages::Storage.last))
         expect(page).to have_test_selector(
           "primer-banner-message-component",
           text: "Storage connected successfully! Remember to activate the module and the specific " \
@@ -316,7 +316,7 @@ RSpec.describe "Admin Create a new file storage",
           click_on "Done, complete setup"
         end
 
-        expect(page).to have_current_path(admin_settings_storages_path)
+        expect(page).to have_current_path(edit_admin_settings_storage_path(Storages::Storage.last))
         wait_for(page).to have_test_selector(
           "primer-banner-message-component",
           text: "Storage connected successfully! Remember to activate the module and the specific " \

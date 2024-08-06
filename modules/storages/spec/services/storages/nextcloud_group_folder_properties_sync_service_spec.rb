@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -632,6 +632,8 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
   let(:oauth_client) { storage.oauth_client }
   # rubocop:enable RSpec/IndexedLet
 
+  let(:prefix) { "services.errors.models.nextcloud_sync_service" }
+
   describe "#call" do
     before do
       create(:oauth_client_token, origin_user_id: "Obi-Wan", user: multiple_projects_user, oauth_client:)
@@ -684,20 +686,21 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
           end
 
           it "logs an error message" do
-            allow(OpenProject.logger).to receive(:warn)
+            allow(Rails.logger).to receive(:error)
             described_class.new(storage).call
 
-            expect(OpenProject.logger)
-              .to have_received(:warn)
-                    .with(folder: "OpenProject",
-                          command: Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQueryLegacy,
-                          message: "Outbound request destination not found",
-                          data: { status: 404, body: "" })
+            expect(Rails.logger)
+              .to have_received(:error)
+                    .with(folder: "OpenProject", error_code: :not_found, data: { status: 404, body: "" }, message: /not found/)
           end
 
           it "returns a failure" do
             result = described_class.new(storage).call
+
             expect(result).to be_failure
+            expect(result.errors[:remote_folders])
+              .to contain_exactly(I18n.t("#{prefix}.attributes.remote_folders.not_found",
+                                         group_folder: storage.group_folder))
           end
         end
 
@@ -746,15 +749,22 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
           end
 
           it "logs an error message" do
-            allow(OpenProject.logger).to receive(:warn)
+            allow(Rails.logger).to receive(:error)
             described_class.new(storage).call
 
-            expect(OpenProject.logger)
-              .to have_received(:warn)
+            expect(Rails.logger)
+              .to have_received(:error)
                     .with(folder: "OpenProject",
-                          command: Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand,
-                          message: "Outbound request not authorized",
+                          message: /not authorized/,
+                          error_code: :unauthorized,
                           data: { status: 401, body: "Heute nicht" })
+          end
+
+          it "returns a failure" do
+            result = described_class.new(storage).call
+
+            expect(result).to be_failure
+            expect(result.errors[:base]).to contain_exactly(I18n.t("#{prefix}.unauthorized"))
           end
         end
       end
@@ -764,7 +774,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
           request_stubs[2] = stub_request(
             :mkcol,
             "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-            "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})/"
+            "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
           ).with(
             headers: {
               "Authorization" => "Basic T3BlblByb2plY3Q6MTIzNDU2Nzg="
@@ -784,14 +794,14 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
-                  .with(folder: "OpenProject/[Sample] Project Name | Ehuu (#{project1.id})/",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::CreateFolderCommand,
-                        message: "Outbound request destination not found!",
+          expect(Rails.logger)
+            .to have_received(:error)
+                  .with(folder_name: "/OpenProject/[Sample] Project Name | Ehuu (#{project1.id})/",
+                        message: /not found/,
+                        error_code: :not_found,
                         data: "not found")
         end
       end
@@ -814,15 +824,15 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
+          expect(Rails.logger)
+            .to have_received(:error)
                   .with(folder_id: project_storage2.project_folder_id,
+                        error_code: :not_found,
+                        message: /not found/,
                         folder_name: "Jedi Project Folder ||| (#{project2.id})",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::RenameFileCommand,
-                        message: "Outbound request destination not found",
                         data: { status: 404, body: "" })
         end
       end
@@ -831,7 +841,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         before do
           request_stubs[6] = stub_request(:proppatch,
                                           "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-                                          "Lost%20Jedi%20Project%20Folder%20%232/")
+                                          "Lost%20Jedi%20Project%20Folder%20%232")
                                .with(body: hide_folder_set_permissions_request_body,
                                      headers: {
                                        "Authorization" => "Basic T3BlblByb2plY3Q6MTIzNDU2Nzg="
@@ -846,15 +856,15 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
+          expect(Rails.logger)
+            .to have_received(:error)
                   .with(context: "hide_folder",
-                        folder: "OpenProject/Lost Jedi Project Folder #2/",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand,
-                        message: "Outbound request failed",
+                        folder: "/OpenProject/Lost Jedi Project Folder #2/",
+                        message: /request failed/,
+                        error_code: :error,
                         data: { status: 500, body: "A server error occurred" })
         end
       end
@@ -863,7 +873,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         before do
           request_stubs[8] = stub_request(:proppatch,
                                           "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-                                          "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/")
+                                          "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29")
                                .with(body: set_permissions_request_body,
                                      headers: { "Authorization" => "Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=" })
                                .to_return(status: 500,
@@ -878,14 +888,14 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
-                  .with(folder: "OpenProject/Jedi Project Folder ||| (#{project2.id})/",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand,
-                        message: "Outbound request failed",
+          expect(Rails.logger)
+            .to have_received(:error)
+                  .with(folder: "/OpenProject/Jedi Project Folder ||| (#{project2.id})/",
+                        message: /failed/,
+                        error_code: :error,
                         data: { status: 500, body: "Divide by cucumber error. Please reinstall universe and reboot." })
         end
       end
@@ -909,15 +919,16 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
+          expect(Rails.logger)
+            .to have_received(:error)
                   .with(group: "OpenProject",
                         user: "Obi-Wan",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::AddUserToGroupCommand,
-                        message: "Outbound request failed",
+                        message: /failed/,
+                        error_code: :error,
+                        reason: "Outbound request failed",
                         data: { status: 302, body: "" })
         end
       end
@@ -944,16 +955,16 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
         end
 
         it "logs the occurrence and continues the flow" do
-          allow(OpenProject.logger).to receive(:warn)
+          allow(Rails.logger).to receive(:error)
           described_class.new(storage).call
 
-          expect(OpenProject.logger)
-            .to have_received(:warn)
+          expect(Rails.logger)
+            .to have_received(:error)
                   .with(group: "OpenProject",
                         user: "Darth Maul",
-                        command: Storages::Peripherals::StorageInteraction::Nextcloud::RemoveUserFromGroupCommand,
-                        message: "Failed to remove user Darth Maul from group OpenProject: " \
-                                 "Not viable to remove user from the last group you are SubAdmin of",
+                        message: /SubAdmin/,
+                        error_code: :failed_to_remove,
+                        reason: /SubAdmin/,
                         data: { status: 200, body: remove_user_from_group_response })
         end
       end
@@ -990,7 +1001,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
     request_stubs << stub_request(
       :mkcol,
       "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-      "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})/"
+      "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
     ).with(
       headers: {
         "Authorization" => "Basic T3BlblByb2plY3Q6MTIzNDU2Nzg="
@@ -1001,7 +1012,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
     request_stubs << stub_request(
       :propfind,
       "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-      "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})/"
+      "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
     ).with(
       body: propfind_folder_info_request_body,
       headers: {
@@ -1039,7 +1050,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
     request_stubs << stub_request(
       :proppatch,
       "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-      "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})/"
+      "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
     ).with(
       body: created_folder_set_permissions_request_body,
       headers: {
@@ -1052,7 +1063,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
     # 7 - Hide Unknown Inactive Folder
     request_stubs << stub_request(
       :proppatch,
-      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%232/"
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%232"
     ).with(
       body: hide_folder_set_permissions_request_body,
       headers: {
@@ -1065,7 +1076,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
     # 8 - Hide Inactive Project Folder
     request_stubs << stub_request(
       :proppatch,
-      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/NOT%20ACTIVE%20PROJECT/"
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/NOT%20ACTIVE%20PROJECT"
     ).with(
       body: set_permissions_request_body5,
       headers: {
@@ -1077,7 +1088,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
     request_stubs << stub_request(
       :proppatch,
       "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
-      "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29/"
+      "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29"
     ).with(
       body: set_permissions_request_body,
       headers: {
@@ -1088,7 +1099,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
     # 10 - Set public project folder permissions
     request_stubs << stub_request(
       :proppatch,
-      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/PUBLIC%20PROJECT%20%28#{project_public.id}%29/"
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/PUBLIC%20PROJECT%20%28#{project_public.id}%29"
     ).with(
       body: set_permissions_request_body6,
       headers: {
@@ -1099,7 +1110,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
     # 11
     request_stubs << stub_request(
       :proppatch,
-      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20%28#{project3.id}%29/"
+      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project3%20%28#{project3.id}%29"
     ).with(
       body: set_permissions_request_body,
       headers: {

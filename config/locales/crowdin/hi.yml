@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -268,8 +268,7 @@ hi:
       favored: "Favorite projects"
       archived: "Archived projects"
       shared: "Shared project lists"
-      public: "Public project lists"
-      my_private: "My private project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -302,8 +301,6 @@ hi:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -477,7 +474,7 @@ hi:
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -526,9 +523,9 @@ hi:
       no_common_statuses_exists: "सभी चयनित कार्य पैकेज के लिए कोई स्थिति उपलब्ध नहीं है । उनकी हैसियत नहीं बदली जा सकती ।"
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -596,17 +593,6 @@ hi:
       attribute_help_text:
         attribute_name: "गुण"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "खाता"
-        attr_firstname: "पहला-नाम गुण"
-        attr_lastname: "कुल-नाम गुण"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
-        base_dn: "बेस डी.एन."
-        host: "होस्ट"
-        onthefly: "Automatic user creation"
-        port: "पोर्ट"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       color:
@@ -631,6 +617,14 @@ hi:
         visible: "दृश्यमान"
       custom_value:
         value: "मान"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -641,20 +635,25 @@ hi:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "कार्य पैकेज"
-        to: "संबंधित कार्य पैकेज"
-      status:
-        is_closed: "कार्य पैकेज बंद"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "टिप्पणियाँ"
+      ldap_auth_source:
+        account: "खाता"
+        attr_firstname: "पहला-नाम गुण"
+        attr_lastname: "कुल-नाम गुण"
+        attr_login: "Username attribute"
+        attr_mail: "Email attribute"
+        base_dn: "बेस डी.एन."
+        host: "होस्ट"
+        onthefly: "Automatic user creation"
+        port: "पोर्ट"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "भूमिकाएं"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: हेक्स कोड
       project:
         active_value:
           true: "unarchived"
@@ -684,6 +683,8 @@ hi:
         types: "प्रकार"
         versions: "संस्करण"
         work_packages: "कार्य पैकेज"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "स्तंभ"
         relations_to_type_column: "Relations to %{type}"
@@ -691,10 +692,19 @@ hi:
         group_by: "द्वारा परिणाम समूह"
         filters: "फ़िल्टर"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "कार्य पैकेज"
+        to: "संबंधित कार्य पैकेज"
       repository:
         url: "यू आर एल"
       role:
         permissions: "अनुमतियाँ"
+      status:
+        is_closed: "कार्य पैकेज बंद"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "गतिविधी"
         hours: "घंटे"
@@ -737,10 +747,6 @@ hi:
       wiki_page:
         parent_title: "पैरेंट पृष्ठ"
         redirect_existing_links: "मौजूदा लिंक्स पुनर्निर्देशित करें"
-      planning_element_type_color:
-        hexcode: हेक्स कोड
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -775,14 +781,6 @@ hi:
         type: "प्रकार"
         version: "संस्करण"
         watcher: "वॉचर"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "must be accepted."
@@ -995,6 +993,11 @@ hi:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1025,6 +1028,12 @@ hi:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
               cannot_be_null: "can not be set to null as start date and duration are known."
@@ -1054,13 +1063,13 @@ hi:
             estimated_hours:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
@@ -1109,8 +1118,6 @@ hi:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1584,6 +1591,7 @@ hi:
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "क्रॉस-साइट अनुरोध जालसाज़ी टोकन सत्यापित करने में असमर्थ । क्या आपने एकाधिक ब्राउज़र्स या टैब पर डेटा सबमिट करने का प्रयास किया है? कृपया सभी टैब बंद करें और पुन: प्रयास करे ।"
   error_work_package_not_found_in_project: "कार्य पैकेज नहीं मिला, या इस प्रोजेक्ट से संबंधित नहीं है"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "प्रोजेक्ट सदस्य होना जरूरी है"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
@@ -1781,6 +1789,22 @@ hi:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Assignee"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "Watcher"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "All"
+      all_title: "Show all"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1841,6 +1865,7 @@ hi:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "प्रमाणीकरण"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
@@ -2027,6 +2052,7 @@ hi:
   label_inactive: "Inactive"
   label_incoming_emails: "आने वाली ईमेल"
   label_includes: "includes"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "दिनांक द्वारा अनुक्रमणिका"
   label_index_by_title: "शीर्षक के आधार पर अनुक्रमणिका"
   label_information: "जानकारी"
@@ -2038,6 +2064,7 @@ hi:
   label_invite_user: "Invite user"
   label_share: "सांझा करें"
   label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_hide: "Show/hide"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Show all registered users"
@@ -2086,8 +2113,8 @@ hi:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "सदस्य"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2188,6 +2215,7 @@ hi:
   label_product_version: "Product version"
   label_profile: "प्रोफ़ाइल"
   label_percent_complete: "% Complete"
+  label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2257,6 +2285,7 @@ hi:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "Search"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
   label_session: "Session"
@@ -2369,6 +2398,7 @@ hi:
   label_work_package_new: "नया कार्य पैकेज"
   label_work_package_edit: "कार्य पैकेज संपादित करें %{name}"
   label_work_package_plural: "कार्य पैकेज"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "कार्य पैकेज स्थिति"
   label_work_package_status_new: "नई स्थिति"
   label_work_package_status_plural: "कार्य पैकेज स्थिति"
@@ -2376,6 +2406,7 @@ hi:
   label_work_package_tracking: "कार्य पैकेज ट्रैकिंग"
   label_work_package_view_all: "सभी कार्य पैकेज देखें"
   label_workflow: "कार्यप्रवाह"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "सारांश"
   label_working_days_and_hours: "Working days and hours"
@@ -2710,6 +2741,7 @@ hi:
   permission_edit_own_messages: "Edit own messages"
   permission_edit_own_time_entries: "Edit own time logs"
   permission_edit_project: "Edit project"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Edit reportings"
   permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Edit timelines"
@@ -2760,6 +2792,7 @@ hi:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
@@ -3447,6 +3480,10 @@ hi:
     project_queries:
       publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
@@ -3462,6 +3499,8 @@ hi:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.

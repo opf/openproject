@@ -1,5 +1,5 @@
 <%=
-  component_wrapper do
+  component_wrapper(data_test_selector: 'invite-user-form') do
     primer_form_with(
         model: new_share,
         url: url_for([entity, Member]),

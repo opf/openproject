@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,14 +35,13 @@ class WorkPackages::ProgressController < ApplicationController
                               done_ratio].freeze
 
   layout false
-  before_action :set_work_package
-  before_action :extract_persisted_progress_attributes, only: %i[edit create update]
   authorization_checked! :new, :edit, :create, :update
 
   helper_method :modal_class
 
   def new
-    build_up_brand_new_work_package
+    make_fake_initial_work_package
+    set_progress_attributes_to_work_package
 
     render modal_class.new(@work_package,
                            focused_field: params[:field],
@@ -50,15 +49,18 @@ class WorkPackages::ProgressController < ApplicationController
   end
 
   def edit
-    build_up_work_package
+    find_work_package
+    set_progress_attributes_to_work_package
 
     render modal_class.new(@work_package,
                            focused_field: params[:field],
                            touched_field_map:)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def create
-    service_call = build_up_brand_new_work_package
+    make_fake_initial_work_package
+    service_call = set_progress_attributes_to_work_package
 
     if service_call.errors
                    .map(&:attribute)
@@ -72,17 +74,24 @@ class WorkPackages::ProgressController < ApplicationController
           render :update, status: :unprocessable_entity
         end
       end
-    else
+    # following 3 lines to be removed in 15.0 with :percent_complete_edition feature flag removal
+    elsif !OpenProject::FeatureDecisions.percent_complete_edition_active?
       render json: { estimatedTime: formatted_duration(@work_package.estimated_hours),
                      remainingTime: formatted_duration(@work_package.remaining_hours) }
+    else
+      render json: { estimatedTime: formatted_duration(@work_package.estimated_hours),
+                     remainingTime: formatted_duration(@work_package.remaining_hours),
+                     percentageDone: @work_package.done_ratio }
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def update
+    find_work_package
     service_call = WorkPackages::UpdateService
                      .new(user: current_user,
                           model: @work_package)
-                     .call(work_package_params)
+                     .call(work_package_progress_params)
 
     if service_call.success?
       respond_to do |format|
@@ -111,28 +120,29 @@ class WorkPackages::ProgressController < ApplicationController
     end
   end
 
-  def set_work_package
+  def find_work_package
     @work_package = WorkPackage.visible.find(params[:work_package_id])
-  rescue ActiveRecord::RecordNotFound
-    @work_package = WorkPackage.new
+  end
+
+  def make_fake_initial_work_package
+    initial_params = params["work_package"]["initial"]
+      .slice(*%w[estimated_hours remaining_hours done_ratio status_id])
+      .permit!
+    @work_package = WorkPackage.new(initial_params)
+    @work_package.clear_changes_information
   end
 
   def touched_field_map
     params.require(:work_package)
           .slice("estimated_hours_touched",
                  "remaining_hours_touched",
+                 "done_ratio_touched",
                  "status_id_touched")
           .transform_values { _1 == "true" }
           .permit!
   end
 
-  def extract_persisted_progress_attributes
-    @persisted_progress_attributes = @work_package
-                                       .attributes
-                                       .slice("estimated_hours", "remaining_hours", "status_id")
-  end
-
-  def work_package_params
+  def work_package_progress_params
     params.require(:work_package)
           .slice(*allowed_touched_params)
           .permit!
@@ -145,8 +155,11 @@ class WorkPackages::ProgressController < ApplicationController
   def allowed_params
     if WorkPackage.use_status_for_done_ratio?
       %i[estimated_hours status_id]
-    else
+    # two next lines to be removed in 15.0 with :percent_complete_edition feature flag removal
+    elsif !OpenProject::FeatureDecisions.percent_complete_edition_active?
       %i[estimated_hours remaining_hours]
+    else
+      %i[estimated_hours remaining_hours done_ratio]
     end
   end
 
@@ -154,20 +167,12 @@ class WorkPackages::ProgressController < ApplicationController
     touched_field_map[:"#{field}_touched"]
   end
 
-  def build_up_work_package
+  def set_progress_attributes_to_work_package
     WorkPackages::SetAttributesService
       .new(user: current_user,
            model: @work_package,
            contract_class: WorkPackages::CreateContract)
-      .call(work_package_params)
-  end
-
-  def build_up_brand_new_work_package
-    WorkPackages::SetAttributesService
-      .new(user: current_user,
-           model: @work_package,
-           contract_class: WorkPackages::CreateContract)
-      .call(work_package_params)
+      .call(work_package_progress_params)
   end
 
   def formatted_duration(hours)

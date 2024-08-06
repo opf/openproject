@@ -107,22 +107,27 @@ jobs:
       matrix:
         include:
           - platform: linux/amd64
+            digest: amd64-slim
             bim_support: true
             target: slim
             runner: runner=4cpu-linux-x64
           - platform: linux/arm64/v8
+            digest: arm64-slim
             bim_support: false
             target: slim
             runner: runner=4cpu-linux-arm64
           - platform: linux/amd64
+            digest: amd64-aio
             bim_support: true
             target: all-in-one
             runner: runner=4cpu-linux-x64
           - platform: linux/arm64/v8
+            digest: arm64-aio
             bim_support: false
             target: all-in-one
             runner: runner=4cpu-linux-arm64
           - platform: linux/ppc64le
+            digest: ppc-aio
             bim_support: false
             target: all-in-one
             runner: runner=4cpu-linux-x64
@@ -229,11 +234,10 @@ jobs:
       - name: Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ matrix.target }}
+          name: digests-${{ matrix.target }}-${{ matrix.digest }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
-          overwrite: true
   merge:
     runs-on: ubuntu-latest
     strategy:
@@ -243,10 +247,16 @@ jobs:
       - setup
       - build
     steps:
+      - name: Merge digests
+        uses: actions/upload-artifact/merge@v4
+        with:
+          pattern: digests-*
+          overwrite: true
+          name: "merged-digests-${{ matrix.target }}-${{ github.run_number }}-${{ github.run_attempt }}"
       - name: Download digests
         uses: actions/download-artifact@v4
         with:
-          name: digests-${{ matrix.target }}
+          name: "merged-digests-${{ matrix.target }}-${{ github.run_number }}-${{ github.run_attempt }}"
           path: /tmp/digests
       - name: Set suffix
         id: set_suffix

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,15 +33,36 @@ require_module_spec_helper
 
 RSpec.describe "Admin lists project mappings for a storage",
                :js,
-               :storage_server_helpers,
+               :with_cuprite,
                with_flag: { enable_storage_for_multiple_projects: true } do
   shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
   shared_let(:non_admin) { create(:user) }
+
   shared_let(:project) { create(:project, name: "My active Project") }
-  shared_let(:archived_project) { create(:project, active: false, name: "My archived Project") }
-  shared_let(:storage) { create(:nextcloud_storage, name: "My Nextcloud Storage") }
-  shared_let(:project_storage) { create :project_storage, project:, storage: }
-  shared_let(:archived_project_project_storage) { create :project_storage, project: archived_project, storage: }
+  shared_let(:archived_project) do
+    create(:project,
+           active: false,
+           name: "My archived Project")
+  end
+  shared_let(:storage) do
+    create(:nextcloud_storage,
+           :as_automatically_managed,
+           name: "My Nextcloud Storage")
+  end
+  shared_let(:project_storage) do
+    create(:project_storage,
+           project:,
+           storage:,
+           project_folder_mode: "automatic")
+  end
+  shared_let(:archived_project_project_storage) do
+    create(:project_storage,
+           project: archived_project,
+           storage:,
+           project_folder_mode: "inactive")
+  end
+
+  let(:project_storages_index_page) { Pages::Admin::Storages::ProjectStorages::Index.new }
 
   current_user { admin }
 
@@ -54,9 +75,34 @@ RSpec.describe "Admin lists project mappings for a storage",
     end
   end
 
-  context "with sufficient permissions" do
+  context "with sufficient permissions but an incomplete configured storage" do
+    before do
+      storage.update!(host: nil)
+      login_as(admin)
+      visit admin_settings_storage_project_storages_path(storage)
+    end
+
+    it "shows a warning instead of the button to add a project and the project list" do
+      aggregate_failures("projects list and button are missing") do
+        expect(page).to have_no_css("#project-table")
+        expect(page).to have_no_text(project.name)
+        expect(page).to have_no_button("Add projects")
+      end
+
+      aggregate_failures("a warning is shown") do
+        expect(page).to have_text("Storage setup incomplete")
+        expect(page).to have_text("Please, complete the setup")
+      end
+    end
+  end
+
+  context "with sufficient permissions and an completely configured storage" do
     before do
       login_as(admin)
+      storage.update!(host: "https://example.com")
+      create(:oauth_application, integration: storage)
+      create(:oauth_client, integration: storage)
+
       visit admin_settings_storage_project_storages_path(storage)
     end
 
@@ -76,11 +122,100 @@ RSpec.describe "Admin lists project mappings for a storage",
         end
       end
 
-      aggregate_failures "shows the correct project mappings" do
+      aggregate_failures "shows the correct table headers" do
         within "#project-table" do
-          expect(page).to have_text(project.name)
-          expect(page).to have_text(archived_project.name)
+          expect(page)
+            .to have_css("th", text: "NAME")
+          expect(page)
+            .to have_css("th", text: "PROJECT FOLDER TYPE")
         end
+      end
+
+      aggregate_failures "shows the correct project mappings including archived projects and their configured folder modes" do
+        within "#project-table" do
+          project_storages_index_page.within_the_table_row_containing(project.name) do
+            expect(page).to have_text("Automatically managed")
+          end
+          project_storages_index_page.within_the_table_row_containing(archived_project.name) do
+            expect(page).to have_text("No specific folder")
+          end
+        end
+      end
+    end
+
+    it "shows an error in the dialog when no project is selected before adding" do
+      create(:project)
+      expect(page).to have_no_css("dialog")
+      click_on "Add projects"
+
+      page.within("dialog") do
+        click_on "Add"
+
+        wait_for(page).to have_text("Please select a project.")
+      end
+    end
+
+    it "allows linking a project to a storage" do
+      project = create(:project)
+      subproject = create(:project, parent: project)
+      click_on "Add projects"
+
+      within("dialog") do
+        autocompleter = page.find(".op-project-autocompleter")
+        autocompleter.fill_in with: project.name
+
+        expect(page).to have_no_text(archived_project.name)
+
+        find(".ng-option-label", text: project.name).click
+        check "Include sub-projects"
+
+        expect(page.find_by_id("storages_project_storage_project_folder_mode_automatic")).to be_checked
+
+        click_on "Add"
+      end
+
+      expect(page).to have_text(project.name)
+      expect(page).to have_text(subproject.name)
+
+      aggregate_failures "pagination links maintain the correct url" do
+        within ".op-pagination" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+
+          pagination_links.each do |pagination_link|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(admin_settings_storage_project_storages_path(storage))
+          end
+        end
+      end
+    end
+
+    describe "Removal of a project from a storage" do
+      it "shows a warning dialog that can be aborted" do
+        expect(page).to have_text(project.name)
+        project_storages_index_page.click_menu_item_of("Remove project", project)
+
+        page.within("dialog") do
+          expect(page).to have_text("Remove project from Nextcloud")
+          expect(page).to have_text("this storage has an automatically managed project folder")
+          click_on "Close"
+        end
+
+        expect(page).to have_text(project.name)
+      end
+
+      it "is possible to remove the project after checking the confirmation checkbox in the dialog" do
+        expect(page).to have_text(project.name)
+        project_storages_index_page.click_menu_item_of("Remove project", project)
+
+        page.within("dialog") do
+          expect(page).to have_button("Remove", disabled: true)
+          check "Please, confirm you understand and want to remove this file storage from this project"
+          expect(page).to have_button("Remove", disabled: false, wait: 3) # ensure button is clickable
+          click_on "Remove"
+        end
+
+        expect(page).to have_no_text(project.name)
       end
     end
   end

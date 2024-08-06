@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
     expect(page).to have_css(".generic-table--empty-row", text: "There is currently nothing to display")
 
     # Create application
-    find(".button", text: "Add").click
+    page.find_test_selector("op-admin-oauth--button-new", text: "OAuth application").click
 
     fill_in "application_name", with: "My API application"
     # Fill invalid redirect_uri

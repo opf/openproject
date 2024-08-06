@@ -143,7 +143,7 @@ Naming/VariableNumber:
   AllowedPatterns:
     - '\w_20\d\d' # allow dates like christmas_2022 or date_2034_04_12
     - '\w\d++(_\d++)+' # allow hierarchical data like child1_2_5 (second + in regex is possessive qualifier)
-
+    - 'custom_field_\d+' # allow custom field method names to be called with send :custom_field_1001
 # There are valid cases in which to use methods like:
 # * update_all
 # * touch_all
@@ -208,6 +208,8 @@ Rails/DynamicFindBy:
     - 'spec/features/**/*.rb'
     - 'spec/support/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
+  Whitelist:
+    - find_by_login
 
 # We have config.active_record.belongs_to_required_by_default = false ,
 # which means, we do have to declare presence validators on belongs_to relations.
@@ -461,3 +463,10 @@ Style/HashTransformValues:
 
 Performance/Casecmp:
   Enabled: false
+
+OpenProject/AddPreviewForViewComponent:
+  Include:
+    - app/components/op_turbo/**.rb
+    - app/components/op_primer/**.rb
+    - app/components/open_project/**.rb
+    - app/components/concerns/**.rb

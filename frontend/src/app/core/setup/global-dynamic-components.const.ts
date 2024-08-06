@@ -24,7 +24,6 @@ import {
   ToastsContainerComponent,
   toastsContainerSelector,
 } from 'core-app/shared/components/toaster/toasts-container.component';
-import { OpSidemenuComponent, sidemenuSelector } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector,
@@ -133,7 +132,6 @@ import {
   InAppNotificationBellComponent,
   opInAppNotificationBellSelector,
 } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
-import { IanMenuComponent, ianMenuSelector } from 'core-app/features/in-app-notifications/center/menu/menu.component';
 import {
   OpModalOverlayComponent,
   opModalOverlaySelector,
@@ -175,7 +173,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: customDateActionAdminSelector, cls: CustomDateActionAdminComponent },
   { selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent },
   { selector: toastsContainerSelector, cls: ToastsContainerComponent },
-  { selector: sidemenuSelector, cls: OpSidemenuComponent },
   { selector: adminTypeFormConfigurationSelector, cls: TypeFormConfigurationComponent },
   { selector: ckeditorAugmentedTextareaSelector, cls: CkeditorAugmentedTextareaComponent, embeddable: true },
   { selector: persistentToggleSelector, cls: PersistentToggleComponent },
@@ -201,7 +198,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
-  { selector: ianMenuSelector, cls: IanMenuComponent },
 
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
   { selector: spotDropModalPortalComponentSelector, cls: SpotDropModalPortalComponent },

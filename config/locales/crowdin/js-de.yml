@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -150,7 +150,7 @@ de:
         attribute_reference:
           macro_help_tooltip: "Dieser Textabschnitt wird dynamisch durch ein Makro erzeugt."
           not_found: "Die angeforderte Ressource konnte nicht gefunden werden"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "Dieses Makro verweist rekursiv auf %{model} %{id}."
           invalid_attribute: "Das ausgewählte Attribut '%{name}' existiert nicht."
         child_pages:
           button: "Auflistung untergeordneter Seiten"
@@ -365,10 +365,10 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                Diese Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Legen Sie mehr Einheiten für Aufwand, Verbleibender Aufwand und Arbeitszeit fest</li> <li>Konfigurieren Sie in der Administration, in welchen Projekte Projektattribute aktiviert sind</li> <li>Umbenennen von privaten Projektlisten</li> <li>Vermeiden Sie überflüssige E-Mail-Erinnerungen bei @Mentions</li> <li>Einladung per E-Mail an Teilnehmer einer neuen Besprechung</li> <li>Eingebettete Arbeitspaketattribute in PDF-Exporten anzeigen</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Projektlisten teilen (Enterprise Add-on)</li> <li>Projektlisten als Favoriten markieren</li> <li>Verbindungsprüfung für OneDrive/SharePoint-Speicher (Enterprise Add-on)</li> <li>Neuer Look mit Primer für die Benutzerprofilseite</li> <li>Gantt-Diagramm PDF-Export: Zusätzlicher Datums-Zoom auf Basis von Kalenderwochen</li> <li>Suchleiste in Untermenüs (Projektlisten und Gantt- und Boards-Module)</li> <li>Fortschrittsberichte können nun in Stunden oder in Tagen und Stunden angezeigt werden</li> <li>Abwählen von Projekten aus der Projektauswahl</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -615,17 +615,17 @@ de:
       title: "Benachrichtigungen"
       no_unread: "Keine ungelesenen Benachrichtigungen"
       reasons:
-        mentioned: "erwähnt"
+        mentioned: "Erwähnt"
         watched: "Beobachter"
-        assigned: "zugewiesen"
-        responsible: "verantwortlich"
-        created: "erstellt"
-        scheduled: "geplant"
-        commented: "kommentiert"
-        processed: "verarbeitet"
-        prioritized: "priorisiert"
+        assigned: "Beauftragter"
+        accountable: "Accountable"
+        created: "Erstellt"
+        scheduled: "Geplant"
+        commented: "Kommentiert"
+        processed: "Verarbeitet"
+        prioritized: "Priorisiert"
         dateAlert: "Datums-Erinnerung"
-        shared: "geteilt"
+        shared: "Geteilt"
       date_alerts:
         milestone_date: "Datum des Meilensteins"
         overdue: "Überfällig"
@@ -637,11 +637,6 @@ de:
         upsale:
           title: "Datums-Erinnerungen"
           description: "Mit Datums-Erinnerungen werden Sie über bevorstehende Start- oder Endtermine informiert, so dass Sie nie einen wichtigen Termin verpassen oder übersehen."
-      facets:
-        unread: "Ungelesen"
-        unread_title: "Ungelesene anzeigen"
-        all: "Alle"
-        all_title: "Alle anzeigen"
       center:
         label_actor_and: "und"
         and_more_users:
@@ -658,19 +653,11 @@ de:
           no_notification: "Alle Benachrichtungen abgearbeitet"
           no_notification_with_current_project_filter: "Sieht so aus, als ob Sie in dem ausgewählten Projekt mit allem auf dem Laufenden sind.\n"
           no_notification_with_current_filter: "Sieht so aus, als ob Sie bei %{filter} mit allem auf dem Laufenden sind."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
           message: "Es gibt neue Benachrichtigungen."
           link_text: "Hier klicken zum Aktualisieren."
-      menu:
-        accountable: "Verantwortlich"
-        by_project: "Ungelesen pro Projekt"
-        by_reason: "Grund"
-        inbox: "Eingang"
-        mentioned: "Erwähnt"
-        watched: "Beobachter"
-        date_alert: "Datums-Erinnerung"
-        shared: "Geteilt"
       settings:
         change_notification_settings: 'Sie können Ihre <a target="_blank" href="%{url}">Benachrichtigungseinstellungen</a> ändern, um sicherzustellen, dass Sie keine wichtige Aktualisierung verpassen.'
         title: "Benachrichtigungseinstellungen"
@@ -1019,12 +1006,13 @@ de:
         workAlternative: "Geschätzter Aufwand"
         remainingTime: "Verbleibender Aufwand"
       default_queries:
+        manually_sorted: "Neue manuell sortierte Ansicht"
         latest_activity: "Letzte Änderungen"
         created_by_me: "Erstellt von mir"
         assigned_to_me: "Mir zugewiesen"
         recently_created: "Kürzlich erstellt"
         all_open: "Alle offenen"
-        overdue: "Overdue"
+        overdue: "Überfällig"
         summary: "Zusammenfassung"
         shared_with_users: "Geteilt mit Benutzern"
         shared_with_me: "Mit mir geteilt"

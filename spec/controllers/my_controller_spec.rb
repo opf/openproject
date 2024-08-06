@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -309,8 +309,8 @@ RSpec.describe MyController do
           new_token = user.reload.api_tokens.last
           expect(new_token).to be_present
 
-          expect(flash[:info]).to be_present
-          expect(flash[:error]).not_to be_present
+          expect(flash[:primer_banner]).to be_present
+          expect(flash[:primer_banner]).to include(scheme: :success)
 
           expect(response).to redirect_to action: :access_token
         end
@@ -327,8 +327,8 @@ RSpec.describe MyController do
           new_token = user.reload.api_tokens.last
           expect(new_token).not_to eq(key)
           expect(new_token.value).not_to eq(key.value)
-          expect(flash[:info]).to be_present
-          expect(flash[:error]).not_to be_present
+          expect(flash[:primer_banner]).to be_present
+          expect(flash[:primer_banner]).to include(scheme: :success)
 
           expect(response).to redirect_to action: :access_token
         end

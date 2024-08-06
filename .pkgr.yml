@@ -49,7 +49,7 @@ wizards:
   - https://github.com/pkgr/addon-legacy-installer.git
   - ./packaging/addons/openproject-edition
   - https://github.com/pkgr/addon-postgres
-  - https://github.com/pkgr/addon-apache2.git
+  - https://github.com/pkgr/addon-apache2.git#set-host-header
   - ./packaging/addons/repositories
   - https://github.com/pkgr/addon-memcached.git
   - ./packaging/addons/openproject

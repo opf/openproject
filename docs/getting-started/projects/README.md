@@ -42,7 +42,7 @@ Projects and subprojects are displayed according to their hierarchy in the drop-
 
 Alternatively, you can open the list of all existing projects using the [**Global modules**](../../user-guide/home/global-modules/#projects) menu.
 
-Also, you will see your newest projects on the application landing page in the **Projects** section. Here you can simply click on one of the newest visible projects to open it.
+Also, you will see your newest and favored projects on the application landing page in the **Projects** section. Here you can simply click on one of the projects to open it.
 
 ![openproject landing page](openproject-landing-page.png)
 
@@ -57,7 +57,7 @@ Alternatively, you can use the green **+ button** in the header menu to create a
 ![create project header](create-project-header.png)
 
 - You can either create a completely new project, create a subproject of an existing project or create a (sub)project from a template. For the latter option, choose a [template](../../user-guide/projects/project-templates/#create-a-project-template) using the drop-down menu.
-- Enter a **name** for your project and click the blue **Save** button.
+- Enter a **name** for your project and click the green **Save** button.
 - Integrate the project into the existing project hierarchy by defining it as a subproject of an existing project.
 - The **Advanced Settings** allow for further configuration, e.g. description, URL, etc.
 

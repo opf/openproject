@@ -7,6 +7,12 @@
 
   &--content
     height: 100%
+    border: 1px solid var(--borderColor-muted)
+    border-radius: var(--borderRadius-medium)
+    border-bottom-left-radius: 0
+    border-bottom-right-radius: 0
+    // Do not remove easily. Otherwise the children will overlap the rounded corners
+    overflow: hidden
 
     &_empty
       display: flex

@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -84,7 +84,6 @@ import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/r
 import { ShowSectionDropdownComponent } from './components/hide-section/show-section-dropdown.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
-import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
 import { OpProjectIncludeListComponent } from './components/project-include/list/project-include-list.component';
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
@@ -201,7 +200,6 @@ export function bootstrapModule(injector:Injector):void {
     DynamicModule,
 
     OpOptionListComponent,
-    OpSidemenuComponent,
     OpProjectIncludeComponent,
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,
@@ -258,7 +256,6 @@ export function bootstrapModule(injector:Injector):void {
     HomescreenNewFeaturesBlockComponent,
 
     OpOptionListComponent,
-    OpSidemenuComponent,
     OpProjectIncludeComponent,
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,

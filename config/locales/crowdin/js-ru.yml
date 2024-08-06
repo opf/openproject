@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -365,10 +365,10 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                Выпуск содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Установка большего количества единиц работы, оставшейся работы и рабочего времени</li> <li>Настройка, для каких проектов активируются атрибуты проекта</li> <li>Переименовывание списков частных проектов</li> <li>Исключение повторных напоминаний по электронной почте в случае @mentions</li> <li>Приглашение участников встречи по электронной почте</li> <li>Отображение встроенных атрибутов пакета работ при экспорте в PDF</li> </ul>
+                Выпуск содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Делитесь списками проектов и делайте их общедоступными</li> <li>Пометьте списки проектов как избранные</li> <li>Проверка соединений для хранилищ OneDrive/SharePoint</li> <li>Новый внешний вид страницы профиля пользователя с использованием Primer</li> <li>Экспорт диаграммы Ганта в PDF: Дополнительное масштабирование даты на основе календарных недель</li> <li>Панель поиска в компоненте подменю (списки проектов и модули Gantt и Boards)</li> <li>Выбор между отчетом о проделанной работе, отображаемым только в часах или в днях и часах</li> <li>Возможность снять выделение проектов в селекторе проектов</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -615,17 +615,17 @@ ru:
       title: "Уведомления"
       no_unread: "Нет непрочитанных уведомлений"
       reasons:
-        mentioned: "упомянутый"
-        watched: "наблюдатель"
-        assigned: "назначенный"
-        responsible: "ответственный"
-        created: "создано"
-        scheduled: "запланировано"
-        commented: "прокомментировано"
-        processed: "обработано"
-        prioritized: "приоритизировано"
+        mentioned: "Упомянутый"
+        watched: "Наблюдатель"
+        assigned: "Назначенный"
+        accountable: "Accountable"
+        created: "Создано"
+        scheduled: "Запланировано"
+        commented: "Прокомментировано"
+        processed: "Обрабатывается"
+        prioritized: "Приоритетный"
         dateAlert: "Дата оповещения"
-        shared: "поделился"
+        shared: "Общий доступ"
       date_alerts:
         milestone_date: "Дата вехи"
         overdue: "Просрочено"
@@ -637,11 +637,6 @@ ru:
         upsale:
           title: "Дата оповещения"
           description: "С датой оповещения вы будете получать уведомления о предстоящих датах начала или окончания, чтобы никогда не пропустить или не забыть важный сроки."
-      facets:
-        unread: "Непрочтено"
-        unread_title: "Показать непрочитанные"
-        all: "Bсе"
-        all_title: "Показать все"
       center:
         label_actor_and: "и"
         and_more_users:
@@ -660,19 +655,11 @@ ru:
           no_notification: "Похоже, вы все сделали."
           no_notification_with_current_project_filter: "Похоже, в выбранном проекте вы все сделали."
           no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали."
         new_notifications:
           message: "Есть новые уведомления."
           link_text: "Нажмите здесь, чтобы загрузить их."
-      menu:
-        accountable: "Ответственный"
-        by_project: "Непрочитано по проекту"
-        by_reason: "Причина"
-        inbox: "Входящие"
-        mentioned: "Упомянутые"
-        watched: "Наблюдатель"
-        date_alert: "Дата оповещения"
-        shared: "Общий доступ"
       settings:
         change_notification_settings: 'Измените <a target="_blank" href="%{url}">настройки уведомлений</a> , чтобы не пропустить важное обновление.'
         title: "Настройки уведомлений"
@@ -1021,12 +1008,13 @@ ru:
         workAlternative: "Приблизительное время"
         remainingTime: "Оставшиеся часы"
       default_queries:
+        manually_sorted: "Новый запрос с ручной сортировкой"
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"
         assigned_to_me: "Предназначено для меня"
         recently_created: "Недавно созданное"
         all_open: "Все открытые"
-        overdue: "Overdue"
+        overdue: "Просрочено"
         summary: "Сводка"
         shared_with_users: "Доступно пользователям"
         shared_with_me: "В общем доступе с"
@@ -1120,7 +1108,7 @@ ru:
       time_relative:
         days: "дней"
         weeks: "недели"
-        months: "months"
+        months: "месяцев"
     toolbar:
       settings:
         configure_view: "Настроить вид"

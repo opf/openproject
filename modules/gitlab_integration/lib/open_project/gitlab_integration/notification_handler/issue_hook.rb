@@ -8,7 +8,7 @@
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,10 +34,12 @@ module OpenProject::GitlabIntegration
     class IssueHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
-      def process(payload_params)
+      def process(payload_params) # rubocop:disable Metrics/AbcSize
         @payload = wrap_payload(payload_params)
         user = User.find_by_id(payload.open_project_user_id)
-        text = payload.object_attributes.title + " - " + payload.object_attributes.description
+        text = [payload.object_attributes.title, payload.object_attributes.description]
+          .select(&:present?)
+          .join(" - ")
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
         comment_on_referenced_work_packages(work_packages, user, notes)

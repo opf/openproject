@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,7 @@ module Pages
   class Page
     include Capybara::DSL
     include Capybara::RSpecMatchers
+    include TestSelectorFinders
     include RSpec::Matchers
     include OpenProject::StaticRouting::UrlHelpers
     include Toasts::Expectations
@@ -156,7 +157,7 @@ module Pages
     def navigate_to_modules_menu_item(link_title)
       visit root_path
 
-      within "#more-menu", visible: false do
+      within "#op-app-header--modules-menu-list", visible: false do
         click_on link_title, visible: false
       end
     end

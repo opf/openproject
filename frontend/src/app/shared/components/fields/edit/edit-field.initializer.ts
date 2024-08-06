@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -94,7 +94,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
     editFieldService
       .addFieldType(TextEditFieldComponent, 'text', ['String'])
       .addFieldType(IntegerEditFieldComponent, 'integer', ['Integer'])
-      .addFieldType(ProgressPopoverEditFieldComponent, 'remainingTime', ['estimatedTime'])
+      .addFieldType(ProgressPopoverEditFieldComponent, 'progress', ['Progress'])
       .addFieldType(ProjectEditFieldComponent, 'project', ['Project'])
       .addFieldType(UserEditFieldComponent, 'user', ['User'])
       .addFieldType(SelectEditFieldComponent, 'select', [
@@ -131,11 +131,16 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'duration',
         ['duration'],
       )
+      .addSpecificFieldType(
+        'WorkPackage',
+        ProgressPopoverEditFieldComponent,
+        'progress',
+        ['estimatedTime', 'remainingTime', 'percentageDone'],
+      )
       .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
       .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
-      .addSpecificFieldType('TimeEntry', HoursDurationEditFieldComponent, 'hours', ['hours'])
-      .addSpecificFieldType('WorkPackage', ProgressPopoverEditFieldComponent, 'remainingTime', ['remainingTime']);
+      .addSpecificFieldType('TimeEntry', HoursDurationEditFieldComponent, 'hours', ['hours']);
 
     selectAutocompleterRegisterService.register(VersionAutocompleterComponent, 'Version');
     selectAutocompleterRegisterService.register(WorkPackageAutocompleterComponent, 'WorkPackage');

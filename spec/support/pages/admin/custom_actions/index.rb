@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,9 +33,7 @@ module Pages
     module CustomActions
       class Index < ::Pages::Page
         def new
-          within ".toolbar-items" do
-            click_link "Custom action"
-          end
+          page.find_test_selector("op-admin-custom-actions--button-new", text: "Custom action").click
 
           wait_for_reload
 

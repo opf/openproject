@@ -48,7 +48,7 @@ Also, you can activate a **warning if you are leaving a work package with unsave
 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
-![OpenProject_my_account_page](openproject_my_account_page_new.png)
+![OpenProject_my_account_page](openproject_my_account_page_settings.png)
 
 ### Change your language
 
@@ -76,6 +76,15 @@ This mode is recommended for users with visuals impairment.
 
 ![High contrast mode in OpenProject](openproject_my_account_high_contrast_mode.png)
 
+### Select the dark mode
+
+In the dropdown menu **Mode** you can pick the color mode. The default setting is the **Light mode**. You can also select the **Dark mode**, which will change the color theme of the OpenProject instance for you. 
+
+> [!NOTE]
+> The dark mode ignores parts of the configured design. Top header and  side menu colors are entirely overriden for this  mode. Only the accent color and the primary button color are kept, but are calculated to brighter variants.
+
+![Dark mode in OpenProject](openproject_my_account_dark_mode.png)
+
 ### Change the order to display comments
 
 You can select the order of the comments (for example of the comments for a work package which appear in the Activity tab). You can select the **oldest first** or **newest first** to display the comments.
@@ -100,7 +109,8 @@ Enter your new password and confirm it a second time.
 
 Press the blue **Save** button in order to confirm the password changes.
 
-> **Note**: You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
+> [!NOTE]
+> You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
 
 ## Two-factor authentication
 
@@ -196,7 +206,8 @@ RSS tokens allow users to keep up with the latest changes in this OpenProject in
 
 Create a new token by clicking the **+RSS token** button. This will create your token and trigger a message showing you the access token.
 
-> **Note**: You will only be able to see the RSS access token once, directly after you create it. Make sure to copy it.
+> [!IMPORTANT]
+> You will only be able to see the RSS access token once, directly after you create it. Make sure to copy it.
 
 ![OpenProject RSS token](openproject_my_account_access_tokens_rss.png)
 
@@ -209,7 +220,8 @@ To view and manage your OpenProject sessions navigate to **My account** and choo
 - **Current sessions**: here you can see all of your sessions. If for example you are logged into OpenProject from different browsers or devices, all will be shown in the list. Current session is the one you are currently using. You can terminate the sessions that are no longer in use. Inactive sessions will be removed from the list after 7 days (depending on the authentication settings they may become invalid earlier).
 - **Remembered devices**: here you can see a list of all devices that you are logged into using the "Stay logged in" option. You will have selected that option when [logging in](../sign-in-registration/). Whether or not that option is available and the duration of time for which you can stay logged in depends on the authentication settings of your instance.
 
-> **Note**: Closing a browser does not necessarily terminate the session. It might still be displayed in the list and will be reactivated if you open the browser. This depends on both your browser's and the OpenProject instance's settings.
+> [!NOTE]
+> Closing a browser does not necessarily terminate the session. It might still be displayed in the list and will be reactivated if you open the browser. This depends on both your browser's and the OpenProject instance's settings.
 
 ## Notifications settings
 
@@ -233,7 +245,8 @@ Default: Enable daily email reminders: 2am, Monday - Friday.
 
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
 
-> **Note**: if you have selected the *immediately when someone mentions me* option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder. 
+> [!IMPORTANT]
+> If you have selected the *immediately when someone mentions me* option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder. 
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
@@ -256,7 +269,8 @@ OpenProject uses Gravatar as default profile image. It displays a preview of you
 
 Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded from a file. Press the blue **Update** button to change your profile picture.
 
-> **Note**: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
+> [!TIP]
+> The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
 
 ## Delete account
 
@@ -266,6 +280,7 @@ To delete your account, select **Delete account** from the side menu and enter y
 
 ![openproject_my_account_delete_account](openproject_my_account_delete_account.png)
 
-> **Important**: Deleting a user account is permanent and cannot be reversed.
+> [!WARNING]
+> Deleting a user account is permanent and cannot be reversed.
 
 If you cannot see the entry **Delete account** in the **My account** side menu, make sure the option "Users allowed to delete their account" is [activated in the administration](../../system-admin-guide/users-permissions/settings/#user-deletion).

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,9 +57,13 @@ module Storages
 
           private
 
-          def base_uri = "#{@storage.uri}index.php/apps/integration_openproject/direct-upload-token"
+          def base_uri
+            UrlBuilder.url(@storage.uri, "index.php/apps/integration_openproject/direct-upload-token")
+          end
 
-          def upload_base_uri = "#{@storage.uri}index.php/apps/integration_openproject/direct-upload"
+          def upload_base_uri
+            UrlBuilder.url(@storage.uri, "index.php/apps/integration_openproject/direct-upload")
+          end
 
           def upload_data_failure
             Util.failure(code: :error,

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -365,10 +365,10 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_3":
             standard:
               new_features_html: >
-                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>为工作、剩余工时和工作时间设置更多单位</li> <li>为项目属性配置激活哪些项目</li> <li>重命名私人项目列表</li> <li>在出现 @mentions 的情况下避免多余的电子邮件提醒</li> <li>通过电子邮件邀请会议与会者</li> <li>在 PDF 导出中显示嵌入的工作包属性</li> </ul>
+                该版本包含的新功能和改进： <br> <ul class="%{list_styling_class}"> <li>共享项目列表并将其公开（企业附加功能）</li> <li>将项目列表添加收藏</li> <li>OneDrive/SharePoint 存储的连接验证（企业附加功能）</li> <li>用户配置文件页面采用全新的 Primer 外观</li> <li>甘特图 PDF 导出：基于日历周的额外日期缩放</li> <li>子菜单组件搜索栏（项目列表、甘特图和和看板模块）</li> <li>可选择仅以小时为单位或以天和小时为单位显示进度报告</li> <li>从项目选择器中取消选择项目</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -606,10 +606,10 @@ zh-CN:
           gantt_menu: "使用甘特图模块轻松创建项目时间表和时间线。"
           timeline: "您可以在此<b>编辑您的项目计划</b>、创建新的工作包（例如任务、里程碑、阶段等）以及<b>添加依赖项</b>。所有团队成员都可以随时查看和更新最新计划。"
         team_planner:
-          overview: "团队规划工具使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。"
+          overview: "工作组规划器使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。"
           calendar: "单周或双周规划面板可以显示分配给您的团队成员的所有工作包。"
           add_assignee: "首先，请将受理人添加到工作组规划器。"
-          add_existing: "搜索现有工作包并将其拖动到团队规划工具，以立即将其分配给团队成员并定义开始日期和结束日期。"
+          add_existing: "搜索现有工作包并将其拖动到工作组规划器，以立即将其分配给团队成员并定义开始日期和结束日期。"
           card: "水平拖动工作包以前移或后移其时间，拖动边缘以更改开始日期和结束日期，甚至可以将其垂直拖动到不同的行以分配给其他成员。"
     notifications:
       title: "通知"
@@ -617,15 +617,15 @@ zh-CN:
       reasons:
         mentioned: "被提及"
         watched: "关注者"
-        assigned: "受理人"
-        responsible: "负责人"
+        assigned: "指定人"
+        accountable: "Accountable"
         created: "已创建"
-        scheduled: "已安排"
+        scheduled: "已计划"
         commented: "已评论"
         processed: "已处理"
-        prioritized: "已优先安排"
+        prioritized: "已优先"
         dateAlert: "日期提醒"
-        shared: "共享"
+        shared: "已共享"
       date_alerts:
         milestone_date: "里程碑日期"
         overdue: "逾期"
@@ -637,11 +637,6 @@ zh-CN:
         upsale:
           title: "日期提醒"
           description: "借助日期提醒，您将收到即将到来的开始或结束日期的通知，以免错过或忘记重要截止日期。"
-      facets:
-        unread: "未读"
-        unread_title: "显示未读信息"
-        all: "全部"
-        all_title: "全部显示"
       center:
         label_actor_and: "和"
         and_more_users:
@@ -657,19 +652,11 @@ zh-CN:
           no_notification: "看起来您已查看所有通知。"
           no_notification_with_current_project_filter: "看起来您已查看所选项目的所有通知。"
           no_notification_with_current_filter: "看起来您已查看“%{filter}”筛选器的所有通知。"
+          no_notification_for_filter: "看起来你已经处理完了这个筛选器的所有内容。"
           no_selection: "点击通知可查看所有活动详细信息。"
         new_notifications:
           message: "有新的通知。"
           link_text: "点击此处加载。"
-      menu:
-        accountable: "负责人"
-        by_project: "按项目筛选未读通知"
-        by_reason: "原因"
-        inbox: "收件箱"
-        mentioned: "被提及"
-        watched: "关注者"
-        date_alert: "日期提醒"
-        shared: "共享"
       settings:
         change_notification_settings: '您可以修改您的<a target="_blank" href="%{url}">通知设置</a>，以确保您不会错过重要的更新。'
         title: "通知设置"
@@ -1018,6 +1005,7 @@ zh-CN:
         workAlternative: "估算工时"
         remainingTime: "剩余的工作"
       default_queries:
+        manually_sorted: "新的手动排序查询"
         latest_activity: "最新活动"
         created_by_me: "我创建的"
         assigned_to_me: "分配给我"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,6 +50,7 @@ class Authorization::EnterpriseService
     one_drive_sharepoint_file_storage
     virus_scanning
     gantt_pdf_export
+    project_list_sharing
   ).freeze
 
   def initialize(token)

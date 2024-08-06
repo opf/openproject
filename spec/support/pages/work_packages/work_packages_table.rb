@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -189,8 +189,8 @@ module Pages
     def expect_query_in_select_dropdown(name)
       page.find(".title-container").click
 
-      page.within('[data-test-selector="op-sidebar--body"]') do
-        expect(page).to have_test_selector("op-sidemenu--item-action", text: name)
+      page.within('[data-test-selector="op-submenu--body"]') do
+        expect(page).to have_test_selector("op-submenu--item-action", text: name)
       end
     end
 

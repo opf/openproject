@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,6 +68,19 @@ module Pages
               raise ArgumentError, "#{project.inspect} is not a Project or a String"
             end
           end
+        end
+      end
+
+      def expect_project_at_place(project, place)
+        within_table do
+          expect(page)
+            .to have_css(".project:nth-of-type(#{place}) td.name", text: project.name)
+        end
+      end
+
+      def expect_projects_in_order(*projects)
+        projects.each_with_index do |project, index|
+          expect_project_at_place(project, index + 1)
         end
       end
 
@@ -214,6 +227,7 @@ module Pages
       def apply_filters
         within(".advanced-filters--filters") do
           click_on "Apply"
+          wait_for_network_idle
         end
       end
 
@@ -303,6 +317,20 @@ module Pages
         end
       end
 
+      def expect_no_config_columns(*columns)
+        open_configure_view
+
+        columns.each do |column|
+          expect_no_ng_option find(".op-draggable-autocomplete--input"),
+                              column,
+                              results_selector: ".ng-dropdown-panel-items"
+        end
+
+        within "dialog" do
+          click_on "Cancel"
+        end
+      end
+
       def mark_query_favorite
         page.find('[data-test-selector="project-query-favorite"]').click
       end
@@ -312,10 +340,10 @@ module Pages
       end
 
       def click_more_menu_item(item)
-        wait_for_network_idle if using_cuprite?
+        wait_for_network_idle
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
-        wait_for_network_idle if using_cuprite?
         page.find(".ActionListItem", text: item, exact_text: true).click
+        wait_for_network_idle
       end
 
       def click_menu_item_of(title, project)
@@ -330,7 +358,7 @@ module Pages
           menu = find("[data-test-selector='project-list-row--action-menu']")
           menu_button = find("[data-test-selector='project-list-row--action-menu'] button")
           menu_button.click
-          wait_for_network_idle if using_cuprite?
+          wait_for_network_idle
           expect(page).to have_css("[data-test-selector='project-list-row--action-menu-item']")
           yield menu
         end
@@ -350,6 +378,10 @@ module Pages
         fill_in_the_name(name)
 
         click_on "Save"
+      end
+
+      def expect_can_only_save_as_label
+        expect(page).to have_text(I18n.t("lists.can_be_saved_as"))
       end
 
       def fill_in_the_name(name)
@@ -446,6 +478,10 @@ module Pages
         within row do
           yield row
         end
+      end
+
+      def open_share_dialog
+        find_test_selector("toggle-share-dialog-button").click
       end
 
       private

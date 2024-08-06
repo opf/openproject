@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +32,9 @@ module OpenProject
   #
   # New feature flags can automatically be added by calling
   #
-  #   Rails.application.initializer 'set flag' do
-  #     OpenProject::FeatureDecisions.add :the_name_of_the_flag
-  #   end
+  #   OpenProject::FeatureDecisions.add :the_name_of_the_flag
+  #
+  # See config/initializers/feature_decisions.rb.
   #
   # This will set up:
   # * the method `.the_name_of_the_flag_active?` for querying the state
@@ -55,13 +55,15 @@ module OpenProject
   #     ...
   #   end
   #
+  # There is an interface to toggle flags on a running instance at path /admin/settings/experimental.
+  #
   module FeatureDecisions
     module_function
 
-    def add(flag_name)
+    def add(flag_name, description: nil)
       all << flag_name
       define_flag_methods(flag_name)
-      define_setting_definition(flag_name)
+      define_setting_definition(flag_name, description:)
     end
 
     def active
@@ -78,8 +80,9 @@ module OpenProject
       end
     end
 
-    def define_setting_definition(flag_name)
+    def define_setting_definition(flag_name, description: nil)
       Settings::Definition.add :"feature_#{flag_name}_active",
+                               description:,
                                default: Rails.env.development?
     end
   end

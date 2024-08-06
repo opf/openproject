@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# This script installs all the required dependencies and command line tools to convert IFC files into XKT files,
+# so that the BIM models can be viewed via the Xeokit BIM viewer.
+#
+# Run this script on your worker container like this to enable your Docker based development setup to convert IFC
+# files to XKT:
+# $ docker compose exec -u root worker setup-bim
+
+apt-get install -y wget unzip
+
+# https://learn.microsoft.com/en-gb/dotnet/core/install/linux-debian#debian-12
+wget --quiet https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+dpkg -i /tmp/packages-microsoft-prod.deb
+rm /tmp/packages-microsoft-prod.deb
+
+apt-get update -qq
+apt-get install -y dotnet-runtime-6.0 # required for BIM edition
+
+tmpdir=$(mktemp -d)
+cd $tmpdir
+
+# Install XKT converter
+npm install -g @xeokit/xeokit-gltf-to-xkt@1.3.1
+
+# Install COLLADA2GLTF
+wget --quiet https://github.com/KhronosGroup/COLLADA2GLTF/releases/download/v2.1.5/COLLADA2GLTF-v2.1.5-linux.zip
+unzip -q COLLADA2GLTF-v2.1.5-linux.zip
+mv COLLADA2GLTF-bin "/usr/local/bin/COLLADA2GLTF"
+
+# IFCconvert
+wget --quiet https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.6.0-517b819-linux64.zip
+unzip -q IfcConvert-v0.6.0-517b819-linux64.zip
+mv IfcConvert "/usr/local/bin/IfcConvert"
+
+wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/1.0.1/xeokit-metadata-linux-x64.tar.gz
+tar -zxvf xeokit-metadata-linux-x64.tar.gz
+chmod +x xeokit-metadata-linux-x64/xeokit-metadata
+cp -r xeokit-metadata-linux-x64/ "/usr/lib/xeokit-metadata"
+ln -s /usr/lib/xeokit-metadata/xeokit-metadata /usr/local/bin/xeokit-metadata
+
+cd /
+rm -rf $tmpdir

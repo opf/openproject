@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,12 +65,16 @@ module Storages
       managed_folder_identifier.path
     end
 
+    def managed_project_folder_name
+      managed_folder_identifier.name
+    end
+
     def project_folder_location
       managed_folder_identifier.location
     end
 
     def project_folder_path_escaped
-      escape_path(managed_project_folder_path)
+      UrlBuilder.path(managed_project_folder_path)
     end
 
     def file_inside_project_folder?(escaped_file_path)
@@ -121,10 +125,6 @@ module Storages
       project_folder_inactive? ||
         (project_folder_automatic? && !user.allowed_in_project?(:read_files, project)) ||
         project_folder_id.blank?
-    end
-
-    def escape_path(path)
-      Peripherals::StorageInteraction::Nextcloud::Util.escape_path(path)
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -133,17 +133,6 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           it "does not alter the identifier" do
             expect(subject.result.identifier)
               .to eql "lorem"
-          end
-        end
-
-        context "with no identifier provided" do
-          it "stays nil" do
-            allow(Project)
-              .to receive(:next_identifier)
-              .and_return("ipsum")
-
-            expect(subject.result.identifier)
-              .to be_nil
           end
         end
       end

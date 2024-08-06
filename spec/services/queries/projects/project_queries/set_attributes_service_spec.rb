@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -125,7 +125,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.filters)
-        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::ProjectFilter) })
+        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::Base) })
 
       expect(model_instance.filters.map { |f| [f.name, f.operator, f.values] })
         .to eql [[:id, "=", %w[1 2 3]], [:active, "!", ["t"]]]
@@ -161,7 +161,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.filters)
-        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::ProjectFilter) })
+        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::Base) })
 
       expect(model_instance.filters.map { |f| [f.name, f.operator, f.values] })
         .to eql [[:active, "=", %w[t]]]
@@ -245,7 +245,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.filters)
-        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::ProjectFilter) })
+        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::Base) })
 
       expect(model_instance.filters.map { |f| [f.name, f.operator, f.values] })
         .to eql [[:id, "=", %w[1 2 3]]]

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,6 +78,17 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
 
       invalid = copy.participants.find_by(user: invalid_user)
       expect(invalid).to be_nil
+    end
+  end
+
+  describe "without participants" do
+    it "sets the author as invited" do
+      meeting.participants.destroy_all
+
+      expect(service_result).to be_success
+      expect(copy.participants.count).to eq(1)
+      invited = copy.participants.find_by(user:)
+      expect(invited).to be_invited
     end
   end
 

@@ -1,6 +1,6 @@
 # --copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2022 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,5 +40,7 @@ require_relative "../../lib_static/open_project/feature_decisions"
 #   end
 #
 OpenProject::FeatureDecisions.add :primerized_work_package_activities
-OpenProject::FeatureDecisions.add :favorite_projects
-OpenProject::FeatureDecisions.add :dark_mode
+OpenProject::FeatureDecisions.add :percent_complete_edition,
+                                  description: "Allow edition of % Complete in work-based progress calculation mode. " \
+                                               "Will be enabled by default in OpenProject 15.0. " \
+                                               "See work package #52233 for more details."

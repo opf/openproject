@@ -94,13 +94,13 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
         end
       end
 
-      context "without admin permission" do
-        it "renders all visible globally available project custom fields in the header" do
+      context "with view_project_attributes permission" do
+        it "renders available project custom fields in the header if enabled in any project" do
           cf_names = global_project_custom_fields.map(&:name)
 
           expect(header).to eq ["ID", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
 
-          expect(header).to include not_used_string_cf.name
+          expect(header).not_to include not_used_string_cf.name
           expect(header).not_to include hidden_cf.name
 
           custom_values = global_project_custom_fields.map do |cf|
@@ -119,6 +119,17 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
           expect(sheet.row(1))
             .to eq [project.id.to_s, project.identifier, project.name, project.description, "Off track", "false",
                     *custom_values]
+        end
+      end
+
+      context "without view_project_attributes permission" do
+        let(:permissions) { %i(view_projects) }
+
+        it "does not render project custom fields in the header" do
+          expect(header).to eq ["ID", "Identifier", "Name", "Description", "Status", "Public"]
+
+          expect(sheet.row(1))
+            .to eq [project.id.to_s, project.identifier, project.name, project.description, "Off track", "false"]
         end
       end
     end

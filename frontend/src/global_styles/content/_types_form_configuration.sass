@@ -5,19 +5,21 @@
   margin-bottom: 20px
 
   .group-head
-    color: var(--font-color-on-primary-dark)
+    color: var(--fgColor-white)
     padding: 7px 4px 8px 0px
     text-transform: uppercase
     .group-handle
       cursor: -webkit-grab
       cursor: grab
-      color: var(--font-color-on-primary-dark)
+      color: var(--fgColor-white)
       font-size: 12px
     op-group-edit-in-place
       display: inline-block
+      .group-edit-in-place--input
+        color: var(--fgColor-white)
     .delete-group:before
       vertical-align: bottom
-      color: var(--font-color-on-primary-dark)
+      color: var(--fgColor-white)
   .attributes
     min-height: 29px
 
@@ -30,8 +32,7 @@
     &:hover
       cursor: text
       border-color: var(--inplace-edit--border-color)
-      background: white
-      color: #222222
+      background: var(--control-bgColor-activ)
 
   .delete-group,
   .delete-attribute
@@ -43,7 +44,7 @@
       border-color: var(--content-form-error-color)
     .group-handle,
     .delete-group:before
-      color: var(--font-color-on-primary)
+      color: var(--fgColor-white)
 
 
 #type-form-conf-inactive-group

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ RSpec.describe "Top menu item for boards", :js, :with_cuprite do
   shared_let(:user) { create(:user) }
   shared_let(:project) { create(:project) }
 
-  let(:menu) { find(".op-app-menu a[title='#{I18n.t('label_modules')}']") }
+  let(:menu) { page.find_test_selector("op-app-header--modules-menu-button") }
   let(:boards) { I18n.t("boards.label_boards") }
 
   current_user { admin }
@@ -42,7 +42,7 @@ RSpec.describe "Top menu item for boards", :js, :with_cuprite do
     it "sends the user to the boards overview when clicked" do
       menu.click
 
-      within "#more-menu" do
+      within "#op-app-header--modules-menu-list" do
         click_on boards
       end
 
@@ -70,7 +70,7 @@ RSpec.describe "Top menu item for boards", :js, :with_cuprite do
       current_user { user }
 
       it "does not display the menu item" do
-        within "#more-menu", visible: false do
+        within "#op-app-header--modules-menu-list", visible: false do
           expect(page).to have_no_link boards
         end
       end

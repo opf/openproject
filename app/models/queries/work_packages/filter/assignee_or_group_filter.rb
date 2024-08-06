@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,6 @@
 
 class Queries::WorkPackages::Filter::AssigneeOrGroupFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
-  def allowed_values
-    @allowed_values ||= begin
-      values = principal_loader.user_values + principal_loader.group_values
-      me_allowed_value + values.sort
-    end
-  end
-
   def type
     :list_optional
   end

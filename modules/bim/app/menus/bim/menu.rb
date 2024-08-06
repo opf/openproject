@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,8 @@ module Bim
         next if params.nil?
 
         menu_item(
-          I18n.t("js.work_packages.default_queries.#{query_key}"),
-          params
+          title: I18n.t("js.work_packages.default_queries.#{query_key}"),
+          query_params: params
         )
       end
     end

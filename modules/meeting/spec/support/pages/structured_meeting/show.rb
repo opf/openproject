@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -212,12 +212,12 @@ module Pages::StructuredMeeting
 
     def close_meeting
       click_on("Close meeting")
-      expect(page).to have_button("Reopen meeting")
+      expect(page).to have_link("Reopen meeting")
     end
 
     def reopen_meeting
       click_on("Reopen meeting")
-      expect(page).to have_button("Close meeting")
+      expect(page).to have_link("Close meeting")
     end
 
     def close_dialog
@@ -225,7 +225,7 @@ module Pages::StructuredMeeting
     end
 
     def meeting_details_container
-      find_by_id("meetings-sidebar-details-component")
+      find_by_id("meetings-side-panel-details-component")
     end
 
     def in_latest_section_form(&)

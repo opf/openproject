@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,7 +71,7 @@ module Storages
           end
 
           def file_info(http, file_id)
-            response = http.get(Util.join_uri_path(@storage.uri, FILE_INFO_PATH, file_id))
+            response = http.get(UrlBuilder.url(@storage.uri, FILE_INFO_PATH, file_id))
             error_data = StorageErrorData.new(source: self.class, payload: response)
 
             case response
@@ -135,12 +135,12 @@ module Storages
 
           def location(file_path)
             prefix = "files/"
-            idx = file_path.rindex(prefix)
+            idx = file_path.index(prefix)
             return "/" if idx == nil
 
             idx += prefix.length - 1
 
-            Util.escape_path(file_path[idx..]).chomp("/")
+            UrlBuilder.path(file_path[idx..])
           end
         end
       end

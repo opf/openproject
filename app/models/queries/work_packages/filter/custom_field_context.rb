@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,6 +72,10 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       end
 
       joins
+    end
+
+    def where_subselect_conditions(_custom_field, _context)
+      nil
     end
   end
 end

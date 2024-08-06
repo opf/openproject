@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -252,6 +252,7 @@ module OpenProject::Storages
         ::Queries::Register.register(::ProjectQuery) do
           filter ::Queries::Storages::Projects::Filter::StorageIdFilter
           filter ::Queries::Storages::Projects::Filter::StorageUrlFilter
+          filter ::Queries::Storages::Projects::Filter::StoragesFilter
         end
 
         ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do
