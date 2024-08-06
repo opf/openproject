@@ -177,7 +177,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
 
           auth_source_registration = omniauth_hash.merge(
             omniauth: true,
-            timestamp: Time.zone.now
+            timestamp: Time.current
           )
           session[:auth_source_registration] = auth_source_registration
           post :register,
