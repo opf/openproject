@@ -109,8 +109,9 @@ module Storages
       def version_mismatch
         return None() if query.failure?
 
-        min_app_version = SemanticVersion.parse(NextcloudIntegration::MIN_APP_VERSION)
-        min_group_folder_version = SemanticVersion.parse(NextcloudIntegration::MIN_GROUP_FOLDER_VERSION)
+        config = YAML.load_file(path_to_config).deep_stringify_keys!
+        min_app_version = SemanticVersion.parse(config.dig("dependencies", "integration_app", "min_version"))
+        min_group_folder_version = SemanticVersion.parse(config.dig("dependencies", "group_folders_app", "min_version"))
 
         capabilities = query.result
         fetched_app_version = capabilities.app_version
@@ -160,6 +161,10 @@ module Storages
       end
 
       def auth_strategy = StorageInteraction::AuthenticationStrategies::Noop.strategy
+
+      def path_to_config
+        Rails.root.join("modules/storages/config/nextcloud_dependencies.yml")
+      end
     end
   end
 end
