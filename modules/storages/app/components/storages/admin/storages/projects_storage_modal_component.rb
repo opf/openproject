@@ -35,9 +35,11 @@ module Storages
         DIALOG_ID = "storages--projects-storage-modal".freeze
         DIALOG_BODY_ID = "storages--projects-storage-modal-body".freeze
 
-        def initialize(project_storage:, **)
+        def initialize(project_storage:, last_project_folders:, **)
           @project_storage = project_storage
           @storage = project_storage.storage
+          @last_project_folders = last_project_folders
+
           super(@project_storage, **)
         end
 
@@ -46,7 +48,7 @@ module Storages
         def dialog_id = DIALOG_ID
         def dialog_body_id = DIALOG_BODY_ID
 
-        attr_reader :project_storage, :storage
+        attr_reader :project_storage, :storage, :last_project_folders
 
         def title
           if new_record?

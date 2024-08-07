@@ -52,7 +52,9 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   def index; end
 
   def new
-    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(project_storage: @project_storage)
+    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(
+      project_storage: @project_storage, last_project_folders: {}
+    )
   end
 
   def create # rubocop:disable Metrics/AbcSize
@@ -74,7 +76,14 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   end
 
   def edit
-    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(project_storage: @project_storage)
+    last_project_folders = Storages::LastProjectFolder
+                              .where(project_storage: @project_storage)
+                              .pluck(:mode, :origin_folder_id)
+                              .to_h
+
+    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(
+      project_storage: @project_storage, last_project_folders:
+    )
   end
 
   def update
