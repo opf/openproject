@@ -20,4 +20,4 @@
   <% end %>
 <% end %>
 
-<%= render(Saml::Providers::ViewComponent.new(@provider, edit_state: @edit_state)) %>
+<%= render(Saml::Providers::ViewComponent.new(@provider, view_mode: :edit, edit_state: @edit_state)) %>

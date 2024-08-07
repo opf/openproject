@@ -28,7 +28,7 @@
 
 module Saml
   module Providers
-    class MetadataCheckboxForm < ApplicationForm
+    class MetadataCheckboxForm < BaseForm
       form do |f|
         f.check_box(
           name: :metadata_url,
@@ -37,14 +37,9 @@ module Saml
           required: false,
           input_width: :medium,
           data: {
-            'show-when-checked-target': 'cause'
+            "show-when-checked-target": "cause"
           }
         )
-      end
-
-      def initialize(provider:)
-        super()
-        @provider = provider
       end
     end
   end

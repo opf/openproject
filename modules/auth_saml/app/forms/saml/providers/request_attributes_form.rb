@@ -28,7 +28,7 @@
 
 module Saml
   module Providers
-    class RequestAttributesForm < ApplicationForm
+    class RequestAttributesForm < BaseForm
       include Redmine::I18n
 
       form do |f|
@@ -64,11 +64,6 @@ module Saml
 
           f.separator unless attribute == :uid
         end
-      end
-
-      def initialize(provider:)
-        super()
-        @provider = provider
       end
     end
   end

@@ -28,7 +28,7 @@
 
 module Saml
   module Providers
-    class NameInputForm < ApplicationForm
+    class NameInputForm < BaseForm
       form do |f|
         f.text_field(
           name: :display_name,

@@ -29,6 +29,29 @@
 #++
 #
 module Saml::Providers::Sections
-  class RequestAttributesFormComponent < SectionComponent
+  class FormComponent < SectionComponent
+    def initialize(provider, edit_state:, form_class:, heading:)
+      super(provider)
+
+      @edit_state = edit_state
+      @form_class = form_class
+      @heading = heading
+    end
+
+    def url
+      if provider.new_record?
+        saml_providers_path(state: @edit_state)
+      else
+        saml_provider_path(provider, state: @edit_state)
+      end
+    end
+
+    def form_method
+      if provider.new_record?
+        :post
+      else
+        :put
+      end
+    end
   end
 end

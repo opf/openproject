@@ -28,7 +28,7 @@
 
 module Saml
   module Providers
-    class EncryptionForm < ApplicationForm
+    class EncryptionForm < BaseForm
       form do |f|
         f.check_box(
           name: :authn_requests_signed,
@@ -64,11 +64,6 @@ module Saml
           required: false,
           input_width: :large
         )
-      end
-
-      def initialize(provider:)
-        super()
-        @provider = provider
       end
     end
   end

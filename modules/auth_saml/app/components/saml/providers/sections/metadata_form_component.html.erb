@@ -19,11 +19,11 @@
       end
 
       flex.with_row(mt: 2, hidden: !provider.has_metadata?, data: { 'show-when-checked-target': "effect" }) do
-        render(Saml::Providers::MetadataUrlForm.new(form))
+        render(Saml::Providers::MetadataUrlForm.new(form, provider:))
       end
 
       flex.with_row(mt: 2, hidden: !provider.has_metadata?, data: { 'show-when-checked-target': "effect" }) do
-        render(Saml::Providers::MetadataXmlForm.new(form))
+        render(Saml::Providers::MetadataXmlForm.new(form, provider:))
       end
 
       flex.with_row(mt: 4) do

@@ -28,7 +28,7 @@
 
 module Saml
   module Providers
-    class ConfigurationForm < ApplicationForm
+    class ConfigurationForm < BaseForm
       form do |f|
         f.text_field(
           name: :sp_entity_id,
@@ -76,11 +76,6 @@ module Saml
           required: false,
           input_width: :large
         )
-      end
-
-      def initialize(provider:)
-        super()
-        @provider = provider
       end
     end
   end

@@ -32,7 +32,7 @@ module Saml::Providers
   class ViewComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    options :edit_state
+    options :view_mode, :edit_state
 
     alias_method :provider, :model
   end

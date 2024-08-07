@@ -28,7 +28,7 @@
 
 module Saml
   module Providers
-    class MetadataXmlForm < ApplicationForm
+    class MetadataXmlForm < BaseForm
       form do |f|
         f.text_area(
           name: :metadata_xml,

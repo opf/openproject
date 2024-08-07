@@ -28,7 +28,7 @@
 
 module Saml
   module Providers
-    class MappingForm < ApplicationForm
+    class MappingForm < BaseForm
       form do |f|
         f.text_area(
           name: :mapping_login,
@@ -70,11 +70,6 @@ module Saml
           required: false,
           input_width: :large
         )
-      end
-
-      def initialize(provider:)
-        super()
-        @provider = provider
       end
     end
   end

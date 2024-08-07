@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -27,8 +25,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Saml::Providers::Sections
-  class NameFormComponent < SectionComponent
+
+module Saml
+  module Providers
+    class BaseForm < ApplicationForm
+      def initialize(provider:)
+        super()
+        @provider = provider
+      end
+    end
   end
 end

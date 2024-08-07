@@ -28,7 +28,7 @@
 
 module Saml
   module Providers
-    class MetadataUrlForm < ApplicationForm
+    class MetadataUrlForm < BaseForm
       form do |f|
         f.text_field(
           name: :metadata_url,

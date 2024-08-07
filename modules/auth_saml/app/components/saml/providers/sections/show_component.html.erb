@@ -13,7 +13,7 @@
       end
     end
 
-    if provider.persisted?
+    if provider.persisted? && @view_mode == :show
       grid.with_area(:action) do
         flex_layout(justify_content: :flex_end) do |icons_container|
           icons_container.with_column do
@@ -22,7 +22,7 @@
                 icon: :pencil,
                 tag: :a,
                 scheme: :invisible,
-                href: edit_saml_provider_path(provider, edit_state: @edit_state),
+                href: edit_saml_provider_path(provider, edit_state: @target_state),
                 aria: { label: I18n.t(:label_edit) }
               )
             )

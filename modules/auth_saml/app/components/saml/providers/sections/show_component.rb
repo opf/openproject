@@ -30,10 +30,12 @@
 #
 module Saml::Providers::Sections
   class ShowComponent < SectionComponent
-    def initialize(provider, edit_state:, heading:, description:, label: nil, label_scheme: :attention)
+    def initialize(provider, view_mode:, target_state:,
+                   heading:, description:, label: nil, label_scheme: :attention)
       super(provider)
 
-      @edit_state = edit_state
+      @target_state = target_state
+      @view_mode = view_mode
       @heading = heading
       @description = description
       @label = label

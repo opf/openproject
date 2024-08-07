@@ -1,18 +1,20 @@
 <%=
   primer_form_with(
     model: provider,
-    url: saml_provider_path(provider, state: :mapping),
-    method: :put
+    url:,
+    method: form_method,
   ) do |form|
     flex_layout do |flex|
-      flex.with_row do
-        render(Primer::Beta::Text.new(tag: :p, mb: 4, font_size: :small)) do
-          t("saml.instructions.requested_attributes")
+      if @heading
+        flex.with_row do
+          render(Primer::Beta::Text.new(tag: :p, mb: 4, font_size: :small)) do
+            @heading
+          end
         end
       end
 
       flex.with_row do
-        render(Saml::Providers::RequestAttributesForm.new(form, provider:))
+        render(@form_class.new(form, provider:))
       end
 
       flex.with_row(mt: 4) do

@@ -30,7 +30,7 @@
 <%=
   render(Primer::Alpha::Layout.new(stacking_breakpoint: :md)) do |content|
     content.with_main do
-      render Saml::Providers::ViewComponent.new(@provider)
+      render Saml::Providers::ViewComponent.new(@provider, view_mode: :show)
     end
 
     content.with_sidebar(row_placement: :start, col_placement: :end) do
