@@ -28,18 +28,37 @@
 
 module Saml
   module Providers
-    class MetadataCheckboxForm < BaseForm
+    class MetadataOptionsForm < BaseForm
       form do |f|
-        f.check_box(
-          name: :metadata_url,
-          checked: @provider.has_metadata?,
-          label: I18n.t("saml.settings.metadata_checkbox"),
-          required: false,
-          input_width: :medium,
-          data: {
-            "show-when-checked-target": "cause"
-          }
-        )
+        f.radio_button_group(
+          name: "metadata",
+          scope_name_to_model: false,
+          label: I18n.t("saml.providers.label_metadata")
+        ) do |radio_group|
+          radio_group.radio_button(
+            value: "none",
+            checked: !@provider.has_metadata?,
+            label: I18n.t("saml.settings.metadata_none"),
+            caption: I18n.t("saml.instructions.metadata_none"),
+            data: { "show-when-value-selected-target": "cause" }
+          )
+
+          radio_group.radio_button(
+            value: "url",
+            checked: @provider.metadata_url.present?,
+            label: I18n.t("saml.settings.metadata_url"),
+            caption: I18n.t("saml.instructions.metadata_url"),
+            data: { "show-when-value-selected-target": "cause" }
+          )
+
+          radio_group.radio_button(
+            value: "xml",
+            checked: @provider.metadata_xml.present?,
+            label: I18n.t("saml.settings.metadata_xml"),
+            caption: I18n.t("saml.instructions.metadata_xml"),
+            data: { "show-when-value-selected-target": "cause" }
+          )
+        end
       end
     end
   end

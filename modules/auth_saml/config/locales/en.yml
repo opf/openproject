@@ -81,7 +81,7 @@ en:
         mapping: "Manually adjust the mapping between the SAML response and user attributes in OpenProject."
         requested_attributes: "Define the set of attributes to be requested in the SAML request sent to your identity provider."
     settings:
-      metadata_checkbox: "I have metadata (optional)"
+      metadata_none: "I don't have metadata"
       metadata_url: "Metadata URL"
       metadata_xml: "Metadata XML"
     instructions:
@@ -89,10 +89,12 @@ en:
         Please refer to our [documentation on configuring SAML providers](docs_url) for more information on these configuration options.
       display_name: >
         The name of the provider. This will be displayed as the login button and in the list of providers.
+      metadata_none: >
+        Your identity provider does not have a metadata endpoint or XML download option. You can the configuration manually.
       metadata_url: >
-        Enter the URL of the identity provider XML metadata endpoint.
+        Your identity provider provides a metadata URL.
       metadata_xml: >
-        Alternatively, enter the SAML metadata XML from your identity provider.
+        Your identity provider provides a metadata XML download.
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.
       sp_entity_id: >

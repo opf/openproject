@@ -22,7 +22,7 @@ module Saml
     end
 
     def import_metadata
-      if import_params.present?
+      if params[:saml_provider][:metadata] != "none"
         update_provider_metadata
       end
 

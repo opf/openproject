@@ -9,6 +9,7 @@ import AsyncDialogController from './controllers/async-dialog.controller';
 import PollForChangesController from './controllers/poll-for-changes.controller';
 import TableHighlightingController from './controllers/table-highlighting.controller';
 import OpShowWhenCheckedController from "./controllers/show-when-checked.controller";
+import OpShowWhenValueSelectedController from "./controllers/show-when-value-selected.controller";
 
 declare global {
   interface Window {
@@ -29,6 +30,7 @@ instance.register('menus--main', MainMenuController);
 
 instance.register('show-when-checked', OpShowWhenCheckedController);
 instance.register('disable-when-checked', OpDisableWhenCheckedController);
+instance.register('show-when-value-selected', OpShowWhenValueSelectedController);
 instance.register('print', PrintController);
 instance.register('refresh-on-form-changes', RefreshOnFormChangesController);
 instance.register('async-dialog', AsyncDialogController);
