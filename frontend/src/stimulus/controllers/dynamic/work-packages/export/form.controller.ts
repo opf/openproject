@@ -46,7 +46,6 @@ export default class FormController extends Controller<HTMLFormElement> {
       }
       query[key] = (key === 'columns') ? value.split(' ') : value
     }
-    const formatURL = this.element.getAttribute('action')
     return this.createSearchParams(query);
   }
 }
