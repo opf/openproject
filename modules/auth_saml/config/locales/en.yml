@@ -27,6 +27,7 @@ en:
         saml/provider:
           invalid_certificate: "is not a valid PEM-formatted certificate: %{additional_message}"
           invalid_private_key: "is not a valid PEM-formatted private key: %{additional_message}"
+          certificate_expired: "is expired and can no longer be used."
           unmatched_private_key: "does not belong to the given certificate"
   saml:
     menu_title: SAML providers

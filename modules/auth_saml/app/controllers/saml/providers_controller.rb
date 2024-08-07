@@ -8,7 +8,7 @@ module Saml
     before_action :find_provider, only: %i[show edit import_metadata update destroy]
 
     def index
-      @providers = Saml::Provider.all.order(display_name: "ASC")
+      @providers = Saml::Provider.order(display_name: :asc)
     end
 
     def edit
@@ -155,15 +155,7 @@ module Saml
     def update_params
       params
        .require(:saml_provider)
-       .permit(:display_name, :sp_entity_id, :idp_sso_service_url, :idp_slo_service_url, :idp_cert,
-               :name_identifier_format, :limit_self_registration,
-               :certificate, :private_key, :authn_requests_signed,
-               :want_assertions_signed, :want_assertions_encrypted,
-               :mapping_login, :mapping_mail, :mapping_firstname, :mapping_lastname, :mapping_uid,
-               :requested_login_attribute, :requested_mail_attribute, :requested_firstname_attribute,
-               :requested_lastname_attribute, :requested_uid_attribute,
-               :requested_login_format, :requested_mail_format, :requested_firstname_format,
-               :requested_lastname_format, :requested_uid_format)
+       .permit(:display_name, *Saml::Provider.stored_attributes[:options])
     end
 
     def find_provider

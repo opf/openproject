@@ -66,7 +66,12 @@ module Saml
       end
 
       def idp_cert_is_valid
-        model.loaded_idp_certificates
+        model.loaded_idp_certificates.each do |cert|
+          if OneLogin::RubySaml::Utils.is_cert_expired(cert)
+            errors.add :certificate, :certificate_expired
+            return
+          end
+        end
       rescue OpenSSL::X509::CertificateError => e
         errors.add :idp_cert, :invalid_certificate, additional_message: e.message
       end
@@ -74,6 +79,10 @@ module Saml
       def valid_certificate
         if model.loaded_certificate.blank?
           errors.add :certificate, :blank
+        end
+
+        if OneLogin::RubySaml::Utils.is_cert_expired(model.loaded_certificate)
+          errors.add :certificate, :certificate_expired
         end
       rescue OpenSSL::OpenSSLError => e
         errors.add :certificate, :invalid_certificate, additional_message: e.message

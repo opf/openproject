@@ -63,7 +63,13 @@ module Saml
           set_default_requested_attributes
           set_issuer
           set_name_identifier_format
+          set_default_digest
         end
+      end
+
+      def set_default_digest
+        model.signature_method ||= Saml::Defaults::SIGNATURE_METHODS["RSA SHA-1"]
+        model.digest_method ||= Saml::Defaults::DIGEST_METHODS["SHA-1"]
       end
 
       def set_name_identifier_format
