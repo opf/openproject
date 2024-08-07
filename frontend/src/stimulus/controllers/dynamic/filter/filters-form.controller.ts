@@ -30,6 +30,7 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import { renderStreamMessage } from '@hotwired/turbo';
 
 interface InternalFilterValue {
   name:string;
@@ -213,7 +214,22 @@ export default class FiltersFormController extends Controller {
       }
     });
 
-    window.location.href = `${window.location.pathname}?${params.toString()}`;
+    const url = `${window.location.pathname}?${params.toString()}`;
+
+    fetch(url, {
+      headers: {
+        Accept: 'text/vnd.turbo-stream.html',
+      },
+    })
+      .then((response:Response) => response.text())
+      .then((html:string) => {
+        renderStreamMessage(html);
+        ajaxIndicator.style.display = 'none';
+      })
+      .catch((error:Error) => {
+        console.error('Error:', error);
+        ajaxIndicator.style.display = 'none';
+      });
   }
 
   private parseFilters():InternalFilterValue[] {
