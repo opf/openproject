@@ -35,7 +35,7 @@ module Saml
           label: I18n.t("saml.settings.metadata_url"),
           required: false,
           caption: I18n.t("saml.instructions.metadata_url"),
-          input_width: :medium
+          input_width: :xlarge
         )
       end
     end
