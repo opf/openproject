@@ -619,7 +619,7 @@ es:
         mentioned: "Mencionado"
         watched: "Observador"
         assigned: "Asignado a"
-        accountable: "Accountable"
+        accountable: "Responsable"
         created: "Creado"
         scheduled: "Programado"
         commented: "Comentado"
@@ -1011,7 +1011,7 @@ es:
         workAlternative: "Tiempo estimado"
         remainingTime: "Trabajo restante"
       default_queries:
-        manually_sorted: "New manually sorted query"
+        manually_sorted: "Nueva consulta clasificada manualmente"
         latest_activity: "Actividad reciente"
         created_by_me: "Creado por mí"
         assigned_to_me: "Asignado a mí"

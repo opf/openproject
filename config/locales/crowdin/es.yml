@@ -265,7 +265,7 @@ es:
       favored: "Proyectos favoritos"
       archived: "Proyectos archivados"
       shared: "Listas de proyectos compartidas"
-      my_lists: "My project lists"
+      my_lists: "Mis listas de proyectos"
       new:
         placeholder: "Nueva lista de proyectos"
       delete_modal:
@@ -473,7 +473,7 @@ es:
         is_readonly: "Solo lectura"
         excluded_from_totals: "Excluido de totales"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Oscuro (Beta)"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -522,9 +522,9 @@ es:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
       unsupported_for_multiple_projects: "Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        El tipo actual del paquete de trabajo no está habilitado en el proyecto de destino. Por favor, habilite el tipo en el proyecto destino si desea que permanezca sin cambios. De lo contrario, seleccione de la lista un tipo disponible en el proyecto de destino.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Los tipos actuales de los paquetes de trabajo no están habilitados en el proyecto de destino. Por favor, habilite los tipos en el proyecto destino si desea que permanezcan sin cambios. De lo contrario, seleccione de la lista un tipo disponible en el proyecto de destino.
     sharing:
       missing_workflow_warning:
         title: "Falta el flujo de trabajo para compartir paquetes de trabajo"
@@ -703,7 +703,7 @@ es:
         is_closed: "Paquete de trabajo cerrado"
         is_readonly: "Paquete de trabajo de solo lectura"
         excluded_from_totals: "Excluir del cálculo de totales en la jerarquía"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% compleado"
       time_entry:
         activity: "Actividad"
         hours: "Horas"
@@ -995,7 +995,7 @@ es:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "debe estar entre 0 y 100."
           readonly_default_exlusive: "no se puede activar para los estados marcados como predeterminados."
         time_entry:
           attributes:
@@ -1852,7 +1852,7 @@ es:
   label_ldap_auth_source_plural: "Conexiones LDAP"
   label_attribute_expand_text: "El texto completo para «%{attribute}»"
   label_authentication: "Autentificación"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Ajustes de autenticación"
   label_available_global_roles: "Roles globales disponibles"
   label_available_project_attributes: "Atributos del proyecto disponibles"
   label_available_project_forums: "Foros disponibles"
@@ -2039,7 +2039,7 @@ es:
   label_inactive: "Inactivo"
   label_incoming_emails: "Correos electrónicos entrantes"
   label_includes: "incluye"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Incluir subproyectos
   label_index_by_date: "Índice por fecha"
   label_index_by_title: "Índice por título"
   label_information: "Información"
@@ -2202,7 +2202,7 @@ es:
   label_product_version: "Versión del producto"
   label_profile: "Perfil"
   label_percent_complete: "% compleado"
-  label_project: "Project"
+  label_project: "Proyecto"
   label_project_activity: "Actividad del proyecto"
   label_project_attribute_plural: "Atributos del proyecto"
   label_project_attribute_manage_link: "Administrar atributos del proyecto"
@@ -2272,7 +2272,7 @@ es:
   label_role_search: "Asignar rol a nuevos miembros"
   label_scm: "SCM"
   label_search: "Buscar"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Buscar por nombre"
   label_send_information: "Enviar nuevas credenciales al usuario"
   label_send_test_email: "Enviar un correo electrónico de prueba"
   label_session: "Sesión"
@@ -2385,7 +2385,7 @@ es:
   label_work_package_new: "Nuevo paquete de trabajo"
   label_work_package_edit: "Editar paquete de trabajo %{name}"
   label_work_package_plural: "Paquetes de trabajo"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "Ajustes de los paquetes de trabajo"
   label_work_package_status: "Estado del paquete de trabajo"
   label_work_package_status_new: "Nuevo estatus"
   label_work_package_status_plural: "Estatus del paquete de trabajo"
@@ -2393,7 +2393,7 @@ es:
   label_work_package_tracking: "Seguimiento de paquetes de trabajo"
   label_work_package_view_all: "Ver todos los paquetes de trabajo"
   label_workflow: "Flujo de trabajo"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Copiar flujo de trabajo"
   label_workflow_plural: "Flujos de trabajo"
   label_workflow_summary: "Resumen"
   label_working_days_and_hours: "Días y horas de trabajo"
@@ -2727,7 +2727,7 @@ es:
   permission_edit_own_messages: "Editar mensajes propios"
   permission_edit_own_time_entries: "Editar registros de tiempo propios"
   permission_edit_project: "Editar proyecto"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "Editar atributos del proyecto"
   permission_edit_reportings: "Editar reportes"
   permission_edit_time_entries: "Editar registros de tiempo para otros usuarios"
   permission_edit_timelines: "Editar cronogramas"
@@ -2778,7 +2778,7 @@ es:
   permission_work_package_assigned: "Hazte asignado/responsable"
   permission_work_package_assigned_explanation: "Los paquetes de trabajo se pueden asignar a usuarios y grupos con este papel en los proyectos correspondientes"
   permission_view_project_activity: "Ver la actividad del proyecto"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "Ver atributos del proyecto"
   permission_save_bcf_queries: "Guardar consultas BCF"
   permission_manage_public_bcf_queries: "Administrar consultas BCF públicas"
   permission_edit_attribute_help_texts: "Editar textos de ayuda de atributos"

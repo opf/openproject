@@ -475,7 +475,7 @@ fr:
         is_readonly: "Lecture seule"
         excluded_from_totals: "Exclus des totaux"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Sombre (bêta)"
     light: "Clair"
     light_high_contrast: "Clair avec contraste élevé"
   types:
@@ -524,9 +524,9 @@ fr:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: "Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Le type actuel du lot de travaux n'est pas activé dans le projet cible. Veuillez activer le type dans le projet cible si vous souhaitez qu'il reste inchangé. Sinon, sélectionnez un type disponible dans le projet cible dans la liste.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Les types actuels des lots de travaux ne sont pas activés dans le projet cible. Veuillez activer les types dans le projet cible si vous souhaitez qu'ils restent inchangés. Sinon, sélectionnez un type disponible dans le projet cible dans la liste.
     sharing:
       missing_workflow_warning:
         title: "Flux de travail manquant pour le partage de lots de travaux"
@@ -1854,7 +1854,7 @@ fr:
   label_ldap_auth_source_plural: "Connexions LDAP"
   label_attribute_expand_text: "Le texte complet pour « %{attribute} »."
   label_authentication: "Authentification"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Paramètres d'authentification"
   label_available_global_roles: "Rôles globaux disponibles"
   label_available_project_attributes: "Attributs de projet disponibles"
   label_available_project_forums: "Forums disponibles"
@@ -2274,7 +2274,7 @@ fr:
   label_role_search: "Assigner un rôle aux nouveaux membres"
   label_scm: "SCM"
   label_search: "Recherche"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Rechercher par nom"
   label_send_information: "Envoyer de nouveaux identifiants à l'utilisateur"
   label_send_test_email: "Envoyer un courriel de test"
   label_session: "Session"
@@ -2387,7 +2387,7 @@ fr:
   label_work_package_new: "Nouveau Lot de Travaux"
   label_work_package_edit: "Éditer le lot de travaux %{name}"
   label_work_package_plural: "Lots de Travaux"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "Paramètres des lots de travaux"
   label_work_package_status: "Statut du lot de travaux"
   label_work_package_status_new: "Nouveau statut"
   label_work_package_status_plural: "Statuts du lot de travaux"
@@ -2395,7 +2395,7 @@ fr:
   label_work_package_tracking: "Suivi des lots de travaux"
   label_work_package_view_all: "Afficher tous les lots de travaux"
   label_workflow: "Flux de travail"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Copier le processus d'entreprise"
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
   label_working_days_and_hours: "Jours et heures travaillés"
@@ -2730,7 +2730,7 @@ fr:
   permission_edit_own_messages: "Éditer ses propres messages"
   permission_edit_own_time_entries: "Éditer mes propres enregistrements de temps"
   permission_edit_project: "Éditer le projet"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "Modifier les attributs du projet"
   permission_edit_reportings: "Éditer rapports"
   permission_edit_time_entries: "Modifier les journaux de temps pour les autres utilisateurs"
   permission_edit_timelines: "Éditer les lignes du temps"
@@ -2781,7 +2781,7 @@ fr:
   permission_work_package_assigned: "Devenir assigné/responsable"
   permission_work_package_assigned_explanation: "Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif"
   permission_view_project_activity: "Visualisation de l'activité du projet"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "Voir les attributs du projet"
   permission_save_bcf_queries: "Enregistrer les requêtes BCF"
   permission_manage_public_bcf_queries: "Gérer les requêtes publiques BCF"
   permission_edit_attribute_help_texts: "Modifier les textes d'aide des attributs"

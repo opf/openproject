@@ -485,7 +485,7 @@ pl:
         is_readonly: "Tylko do odczytu"
         excluded_from_totals: "Wyłączono z sum"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Ciemny (beta)"
     light: "Jasny"
     light_high_contrast: "Jasny, wysoki kontrast"
   types:
@@ -536,9 +536,9 @@ pl:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: "Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Bieżący typ pakietu roboczego nie jest włączony w projekcie docelowym. Włącz ten typ w projekcie docelowym, jeśli chcesz, aby pozostał niezmieniony. W przeciwnym razie wybierz z listy typ dostępny w projekcie docelowym.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Bieżące typy pakietów roboczych nie są włączone w projekcie docelowym. Włącz typy w projekcie docelowym, jeśli chcesz, aby pozostały niezmienione. W przeciwnym razie wybierz z listy typ dostępny w projekcie docelowym.
     sharing:
       missing_workflow_warning:
         title: "Brak przepływu pracy udostępniania pakietu roboczego"
@@ -717,7 +717,7 @@ pl:
         is_closed: "Zadanie zamknięte"
         is_readonly: "Pakiet roboczy tylko do odczytu"
         excluded_from_totals: "Wyłącz z obliczania sum w hierarchii"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% ukończenia"
       time_entry:
         activity: "Działanie"
         hours: "Godziny"
@@ -1009,7 +1009,7 @@ pl:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "musi wynosić od 0 do 100."
           readonly_default_exlusive: "nie można aktywować dla statusów, które są oznaczone jako domyślne."
         time_entry:
           attributes:
@@ -1920,7 +1920,7 @@ pl:
   label_ldap_auth_source_plural: "Połączenia LDAP"
   label_attribute_expand_text: "Pełny tekst atrybutu „%{attribute}”"
   label_authentication: "Uwierzytelnianie"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Ustawienia uwierzytelniania"
   label_available_global_roles: "Dostępne role globalne"
   label_available_project_attributes: "Dostępne atrybuty projektu"
   label_available_project_forums: "Dostępne fora"
@@ -2107,7 +2107,7 @@ pl:
   label_inactive: "Nieaktywny"
   label_incoming_emails: "Przychodzące e-maile"
   label_includes: "obejmuje"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Uwzględnij podprojekty
   label_index_by_date: "Indeks wg daty"
   label_index_by_title: "Indeks tytułów"
   label_information: "Informacje"
@@ -2340,7 +2340,7 @@ pl:
   label_role_search: "Przydziel role nowemu członkowi"
   label_scm: "SCM"
   label_search: "Szukaj"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Wyszukaj według nazwy"
   label_send_information: "Wyślij nowe poświadczenia do użytkownika"
   label_send_test_email: "Wyślij wiadomość testową"
   label_session: "Sesja"
@@ -2453,7 +2453,7 @@ pl:
   label_work_package_new: "Nowy pakiet roboczy"
   label_work_package_edit: "Edytuj pakiet roboczy %{name}"
   label_work_package_plural: "Pakiety robocze"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "Ustawienia pakietu roboczego"
   label_work_package_status: "Status pakietu roboczego"
   label_work_package_status_new: "Nowy status"
   label_work_package_status_plural: "Statusy pakietów roboczych"
@@ -2461,7 +2461,7 @@ pl:
   label_work_package_tracking: "Śledzenie pakietów roboczych"
   label_work_package_view_all: "Pokaż wszystkie pakiety robocze"
   label_workflow: "Przepływ pracy"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Skopiuj przepływ pracy"
   label_workflow_plural: "Przepływ zadań"
   label_workflow_summary: "Podsumowanie"
   label_working_days_and_hours: "Dni i godziny pracy"
@@ -2799,7 +2799,7 @@ pl:
   permission_edit_own_messages: "Edycja własnych wiadomości"
   permission_edit_own_time_entries: "Edycja własnych wpisów dziennika"
   permission_edit_project: "Edycja projektu"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "Edytuj atrybuty projektu"
   permission_edit_reportings: "Edycja raportów"
   permission_edit_time_entries: "Edycja dzienników czasu pracy dla innych użytkowników"
   permission_edit_timelines: "Edycja osi czasu"
@@ -2850,7 +2850,7 @@ pl:
   permission_work_package_assigned: "Zostań osobą przypisaną/odpowiedzialną"
   permission_work_package_assigned_explanation: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
   permission_view_project_activity: "Wyświetl aktywność projektu"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "Wyświetl atrybuty projektu"
   permission_save_bcf_queries: "Zapisz zapytania BCF"
   permission_manage_public_bcf_queries: "Zarządzanie publicznymi zapytaniami BCF"
   permission_edit_attribute_help_texts: "Edytuj teksty pomocy dotyczące atrybutów"
