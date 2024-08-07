@@ -62,3 +62,7 @@
     font-size: 1.5em
   h3
     font-size: 1.17em
+
+  .-browser-firefox *
+    // Needed for Firefox only. Otherwise, background-colors (e.g. of buttons) are not correctly printed
+    print-color-adjust: exact
