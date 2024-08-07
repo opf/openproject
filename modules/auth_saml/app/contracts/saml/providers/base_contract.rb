@@ -62,49 +62,55 @@ module Saml
 
       %i[mapping_mail mapping_login mapping_firstname mapping_lastname].each do |attr|
         attribute attr
-        validates_presence_of attr
+        validates_presence_of attr, if: -> { model.public_send(:"#{attr}_changed?") }
       end
 
       def idp_cert_is_valid
-        return if model.idp_cert.blank?
-
-        OpenSSL::X509::Certificate.load(model.idp_cert)
+        model.loaded_idp_certificates
       rescue OpenSSL::X509::CertificateError => e
         errors.add :idp_cert, :invalid_certificate, additional_message: e.message
       end
 
       def valid_certificate
-        if model.certificate.blank?
+        if model.loaded_certificate.blank?
           errors.add :certificate, :blank
-        else
-          OpenSSL::X509::Certificate.new(model.certificate)
         end
-      rescue OpenSSL::X509::CertificateError => e
+      rescue OpenSSL::OpenSSLError => e
         errors.add :certificate, :invalid_certificate, additional_message: e.message
       end
 
       def valid_sp_key
-        if model.private_key.blank?
+        if model.loaded_private_key.blank?
           errors.add :private_key, :blank
-        else
-          OpenSSL::PKey::RSA.new(model.private_key)
         end
-      rescue OpenSSL::X509::CertificateError => e
+      rescue OpenSSL::OpenSSLError => e
         errors.add :private_key, :invalid_private_key, additional_message: e.message
       end
 
       def authn_requests_signed_requires_cert
-        return unless model.authn_requests_signed
-        return unless model.authn_requests_signed_changed? || model.certificate_changed? || model.private_key_changed?
+        return unless should_test_certificate?
+        return if certificate_invalid?
 
-        cert = valid_certificate
-        key = valid_sp_key
+        cert = model.loaded_certificate
+        key = model.loaded_private_key
 
-        return unless errors.empty?
-
-        unless cert.public_key.public_to_pem == key.public_key.public_to_pem
+        if cert && key && cert.public_key.public_to_pem != key.public_key.public_to_pem
           errors.add :private_key, :unmatched_private_key
         end
+      end
+
+      def certificate_invalid?
+        valid_certificate
+        valid_sp_key
+
+        errors.any?
+      end
+
+      def should_test_certificate?
+        return false unless model.authn_requests_signed
+        return false unless model.authn_requests_signed_changed? || model.certificate_changed? || model.private_key_changed?
+
+        model.certificate.present? && model.private_key.present?
       end
     end
   end

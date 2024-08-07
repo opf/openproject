@@ -60,8 +60,37 @@ module Saml
       sp_entity_id.present? && idp_sso_service_url.present? && certificate_configured?
     end
 
+    def loaded_certificate
+      return nil if certificate.blank?
+
+      OpenSSL::X509::Certificate.new(certificate)
+    end
+
+    def loaded_private_key
+      return nil if private_key.blank?
+
+      OpenSSL::PKey::RSA.new(private_key)
+    end
+
+    def loaded_idp_certificates
+      return nil if idp_cert.blank?
+
+      OpenSSL::X509::Certificate.load(idp_cert)
+    end
+
     def certificate_configured?
       idp_cert.present?
+    end
+
+    def idp_cert=(cert)
+      formatted =
+        if cert.include?("BEGIN CERTIFICATE")
+          cert
+        else
+          OneLogin::RubySaml::Utils.format_cert(cert)
+        end
+
+      super(formatted)
     end
 
     def assertion_consumer_service_url

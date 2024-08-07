@@ -33,8 +33,19 @@ module Saml
 
       def set_attributes(params)
         update_mapping(params)
+        update_options(params.delete(:options)) if params.key?(:options)
 
         super
+      end
+
+      def update_options(options)
+        update_idp_cert(options.delete(:idp_cert)) if options.key?(:idp_cert)
+
+        options
+          .select { |key, _| Saml::Provider.stored_attributes[:options].include?(key.to_s) }
+          .each do |key, value|
+          model.public_send(:"#{key}=", value)
+        end
       end
 
       def set_default_attributes(*)
@@ -53,6 +64,15 @@ module Saml
 
       def set_default_creator
         model.creator = user
+      end
+
+      def update_idp_cert(cert)
+        model.idp_cert =
+          if cert.include?("BEGIN CERTIFICATE")
+            cert
+          else
+            OneLogin::RubySaml::Utils.format_cert(cert)
+          end
       end
 
       ##
