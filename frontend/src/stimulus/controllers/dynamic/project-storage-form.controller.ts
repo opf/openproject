@@ -195,14 +195,14 @@ export default class ProjectStorageFormController extends Controller {
 
   protected displayFolderSelectionOrLoginButton(isConnected:boolean, projectFolder:IStorageFile|null):void {
     if (isConnected) {
-      this.selectProjectFolderButtonTarget.style.display = 'inline-block';
-      this.loginButtonTarget.style.display = 'none';
+      this.selectProjectFolderButtonTarget.classList.remove('d-none');
+      this.loginButtonTarget.classList.add('d-none');
       this.selectedFolderTextTarget.innerText = projectFolder === null
         ? this.placeholderFolderNameValue
         : projectFolder.name;
     } else {
-      this.selectProjectFolderButtonTarget.style.display = 'none';
-      this.loginButtonTarget.style.display = 'inline-block';
+      this.selectProjectFolderButtonTarget.classList.add('d-none');
+      this.loginButtonTarget.classList.remove('d-none');
       this.selectedFolderTextTarget.innerText = this.notLoggedInValidationValue;
     }
   }
@@ -213,12 +213,12 @@ export default class ProjectStorageFormController extends Controller {
     window.history.replaceState(window.history.state, '', url);
   }
 
-  protected toggleFolderDisplay(value:string):void {
+  private toggleFolderDisplay(value:string):void {
     // If the manual radio button is selected, show the manual folder selection section
     if (this.hasProjectFolderSectionTarget && value === 'manual') {
-      this.projectFolderSectionTarget.style.display = 'flex';
+      this.projectFolderSectionTarget.classList.remove('d-none');
     } else {
-      this.projectFolderSectionTarget.style.display = 'none';
+      this.projectFolderSectionTarget.classList.add('d-none');
     }
   }
 }

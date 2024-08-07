@@ -46,13 +46,4 @@ export default class ProjectFolderModeFormController extends ProjectStorageFormC
       this.selectedFolderTextTarget.innerText = this.notLoggedInValidationValue;
     }
   }
-
-  protected toggleFolderDisplay(value:string):void {
-    // If the manual radio button is selected, show the manual folder selection section
-    if (this.hasProjectFolderSectionTarget && value === 'manual') {
-      this.projectFolderSectionTarget.classList.remove('d-none');
-    } else {
-      this.projectFolderSectionTarget.classList.add('d-none');
-    }
-  }
 }
