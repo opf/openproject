@@ -64,6 +64,6 @@ ko:
     push_single_commit_comment: >
       **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **%{reference}에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}
     push_multiple_commits_comment: >
       **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 여러 커밋 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}

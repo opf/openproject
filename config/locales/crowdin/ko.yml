@@ -268,7 +268,7 @@ ko:
       favored: "즐겨 찾는 프로젝트"
       archived: "보관된 프로젝트"
       shared: "공유된 프로젝트 목록"
-      my_lists: "My project lists"
+      my_lists: "내 프로젝트 목록"
       new:
         placeholder: "새 프로젝트 목록"
       delete_modal:
@@ -469,7 +469,7 @@ ko:
         is_readonly: "읽기 전용"
         excluded_from_totals: "합계에서 제외됨"
   themes:
-    dark: "Dark (Beta)"
+    dark: "다크(베타)"
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
   types:
@@ -517,9 +517,9 @@ ko:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: "여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다."
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 목록에서 대상 프로젝트의 사용 가능한 유형을 선택하세요.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 목록에서 대상 프로젝트의 사용 가능한 유형을 선택하세요.
     sharing:
       missing_workflow_warning:
         title: "작업 패키지 공유에 대한 워크플로 누락"
@@ -698,7 +698,7 @@ ko:
         is_closed: "종료된 작업 패키지"
         is_readonly: "읽기 전용 작업 패키지"
         excluded_from_totals: "계층의 합계 계산에서 제외"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "완료 %"
       time_entry:
         activity: "활동"
         hours: "시간"
@@ -990,7 +990,7 @@ ko:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "- 0에서 100 사이여야 합니다."
           readonly_default_exlusive: "- 기본값으로 표시된 상태에 대해 활성화할 수 없습니다."
         time_entry:
           attributes:
@@ -1820,7 +1820,7 @@ ko:
   label_ldap_auth_source_plural: "LDAP 연결"
   label_attribute_expand_text: "'%{attribute}'의 전체 텍스트"
   label_authentication: "인증"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "인증 설정"
   label_available_global_roles: "사용 가능한 글로벌 역할"
   label_available_project_attributes: "사용 가능한 프로젝트 특성"
   label_available_project_forums: "사용 가능한 포럼"
@@ -2007,7 +2007,7 @@ ko:
   label_inactive: "비활성화"
   label_incoming_emails: "들어오는 이메일"
   label_includes: "포함"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: 하위 프로젝트 포함
   label_index_by_date: "날짜별 색인"
   label_index_by_title: "제목별 색인"
   label_information: "정보"
@@ -2240,7 +2240,7 @@ ko:
   label_role_search: "새 멤버에게 역할 할당"
   label_scm: "SCM"
   label_search: "검색"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "이름별 검색"
   label_send_information: "사용자에게 새 자격 증명 보내기"
   label_send_test_email: "테스트 이메일 보내기"
   label_session: "세션"
@@ -2353,7 +2353,7 @@ ko:
   label_work_package_new: "새 작업 패키지"
   label_work_package_edit: "작업 패키지 %{name} 편집"
   label_work_package_plural: "작업 패키지"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "작업 패키지 설정"
   label_work_package_status: "작업 패키지 상태"
   label_work_package_status_new: "새 상태"
   label_work_package_status_plural: "작업 패키지 상태"
@@ -2361,7 +2361,7 @@ ko:
   label_work_package_tracking: "작업 패키지 추적"
   label_work_package_view_all: "모든 작업 패키지 보기"
   label_workflow: "워크플로"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "워크플로 복사"
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
   label_working_days_and_hours: "근무일 및 시간"
@@ -2693,7 +2693,7 @@ ko:
   permission_edit_own_messages: "내 메시지 편집"
   permission_edit_own_time_entries: "내 시간 로그 편집"
   permission_edit_project: "프로젝트 편집"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "프로젝트 특성 편집"
   permission_edit_reportings: "보고 편집"
   permission_edit_time_entries: "다른 사용자의 시간 로그 편집"
   permission_edit_timelines: "타임라인 편집"
@@ -2744,7 +2744,7 @@ ko:
   permission_work_package_assigned: "담당자/책임자 되기"
   permission_work_package_assigned_explanation: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
   permission_view_project_activity: "프로젝트 활동 보기"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "프로젝트 특성 보기"
   permission_save_bcf_queries: "BCF 쿼리 저장"
   permission_manage_public_bcf_queries: "공용 BCF 쿼리 관리"
   permission_edit_attribute_help_texts: "특성 도움말 텍스트 편집"

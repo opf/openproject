@@ -27,36 +27,25 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Admin
-  class GeneralInfoComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-    include StorageViewInformation
 
-    alias_method :storage, :model
+module Storages
+  module Admin
+    class GeneralInfoComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
+      include StorageViewInformation
 
-    def self.wrapper_key = :storage_general_info_section
+      alias_method :storage, :model
 
-    def initialize(model = nil, **options)
-      auth_strategy = ::Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
-                        .strategy
-                        .with_user(User.current)
+      def self.wrapper_key = :storage_general_info_section
 
-      @href_result = ::Storages::Peripherals::Registry
-                       .resolve("#{model.short_provider_type}.queries.open_storage")
-                       .call(storage: model, auth_strategy:)
+      def open_href
+        OpenStorageLinks.static_link(storage)
+      end
 
-      super
-    end
-
-    def open_link_was_generated
-      @href_result.on_success { return true }
-      @href_result.on_failure { return false }
-    end
-
-    def open_href
-      @href_result.result
+      def can_show_open_link?
+        OpenStorageLinks.can_generate_static_link?(storage)
+      end
     end
   end
 end

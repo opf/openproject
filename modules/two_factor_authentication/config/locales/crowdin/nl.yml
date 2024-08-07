@@ -113,7 +113,7 @@ nl:
       failed_to_delete: "Kan het 2FA-apparaat niet verwijderen."
       is_default_cannot_delete: "Het apparaat is gemarkeerd als standaard en kan niet worden verwijderd vanwege een actief beveiligingsbeleid. Markeer een ander apparaat als standaard voordat u het verwijdert."
       not_existing: "Er is geen 2FA-apparaat geregistreerd voor uw account."
-      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
+      2fa_from_input: Voer de code van uw <strong>%{device_name}</strong> om uw identiteit te verifiëren.
       2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
       webauthn:
         title: "WebAuthn"

@@ -40,7 +40,7 @@ zh-TW:
     label_devices: "2FA 設備"
     label_one_time_password: "一次性密碼"
     label_2fa_enabled: "雙重驗證已啟用"
-    label_2fa_disabled: "雙重驗證已關閉"
+    label_2fa_disabled: "雙因驗證已關閉"
     text_otp_delivery_message_sms: "%{app_title} 一次性密碼為 %{token}"
     text_otp_delivery_message_voice: "您的 %{app_title} 一次性密碼為: %{pause} %{token}。 %{pause} 重複: %{pause} %{token}"
     text_enter_2fa: "請從您的設備取得一次性密碼。"
@@ -90,7 +90,7 @@ zh-TW:
         title: 產生備用驗證碼
         keep_safe_as_password: "請把這些值視為密碼一樣重要!"
         keep_safe_warning: "Either save them in your password manager, or print this page and put in a safe place."
-        regenerate_warning: "Warning: If you have created backup codes before, they will be invalidated and will no longer work."
+        regenerate_warning: "警告：如果您之前建立過備份代碼，它們將失效並且不能使用。"
     devices:
       add_new: "新增2FA設備"
       register: "註冊裝置"
