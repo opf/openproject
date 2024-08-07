@@ -33,22 +33,22 @@ module WorkPackages
     module PDF
       class ExportSettingsComponent < BaseExportSettingsComponent
         def current_pdf_export_type
-          'table'
+          "table"
         end
 
-        def is_gantt_chart_allowed?
+        def gantt_chart_allowed?
           EnterpriseToken.allows_to?(:gantt_pdf_export)
         end
 
         def pdf_export_types
           [
-            { label: "Table", value: 'table',
+            { label: "Table", value: "table",
               caption: "Export the work packages list in a table with the desired columns." },
-            { label: "Report", value: 'report',
+            { label: "Report", value: "report",
               caption: "Export the work package on a detailed report of all work packages in the list." },
-            { label: "Gantt chart", value: 'gantt',
+            { label: "Gantt chart", value: "gantt",
               caption: "Export the work packages list in a Gantt diagram view.",
-              disabled: !is_gantt_chart_allowed? }
+              disabled: !gantt_chart_allowed? }
           ]
         end
 
@@ -60,33 +60,33 @@ module WorkPackages
 
         def gantt_zoom_levels
           [
-            { label: t('js.gantt_chart.zoom.days'), value: 'day', default: true },
-            { label: t('js.gantt_chart.zoom.weeks'), value: 'week' },
-            { label: t('js.gantt_chart.zoom.months'), value: 'month' },
-            { label: t('js.gantt_chart.zoom.quarters'), value: 'quarter' }
+            { label: t("js.gantt_chart.zoom.days"), value: "day", default: true },
+            { label: t("js.gantt_chart.zoom.weeks"), value: "week" },
+            { label: t("js.gantt_chart.zoom.months"), value: "month" },
+            { label: t("js.gantt_chart.zoom.quarters"), value: "quarter" }
           ]
         end
 
         def gantt_column_widths
           [
-            { label: t('js.gantt_chart.export.column_widths.narrow'), value: 'narrow' },
-            { label: t('js.gantt_chart.export.column_widths.medium'), value: 'medium', default: true },
-            { label: t('js.gantt_chart.export.column_widths.wide'), value: 'wide' },
-            { label: t('js.gantt_chart.export.column_widths.very_wide'), value: 'very_wide' }
+            { label: t("js.gantt_chart.export.column_widths.narrow"), value: "narrow" },
+            { label: t("js.gantt_chart.export.column_widths.medium"), value: "medium", default: true },
+            { label: t("js.gantt_chart.export.column_widths.wide"), value: "wide" },
+            { label: t("js.gantt_chart.export.column_widths.very_wide"), value: "very_wide" }
           ]
         end
 
         def pdf_paper_sizes
           [
-            { label: 'A4', value: 'A4', default: true },
-            { label: 'A3', value: 'A3' },
-            { label: 'A2', value: 'A2' },
-            { label: 'A1', value: 'A1' },
-            { label: 'A0', value: 'A0' },
-            { label: 'Executive', value: 'EXECUTIVE' },
-            { label: 'Folio', value: 'FOLIO' },
-            { label: 'Letter', value: 'LETTER' },
-            { label: 'Tabloid', value: 'TABLOID' },
+            { label: "A4", value: "A4", default: true },
+            { label: "A3", value: "A3" },
+            { label: "A2", value: "A2" },
+            { label: "A1", value: "A1" },
+            { label: "A0", value: "A0" },
+            { label: "Executive", value: "EXECUTIVE" },
+            { label: "Folio", value: "FOLIO" },
+            { label: "Letter", value: "LETTER" },
+            { label: "Tabloid", value: "TABLOID" }
           ]
         end
       end

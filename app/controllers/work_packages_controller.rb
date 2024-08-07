@@ -46,7 +46,7 @@ class WorkPackagesController < ApplicationController
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
 
   before_action :load_and_authorize_in_optional_project, only: :export_dialog, if: -> { request.format.html? }
-  before_action :load_query, only: :export_dialog, if: -> { request.format.html? }
+  before_action :load_and_validate_query, only: :export_dialog, if: -> { request.format.html? }
 
   def index
     respond_to do |format|
@@ -152,19 +152,19 @@ class WorkPackagesController < ApplicationController
 
   def journals
     @journals ||= begin
-                    order =
-                      if current_user.wants_comments_in_reverse_order?
-                        Journal.arel_table["created_at"].desc
-                      else
-                        Journal.arel_table["created_at"].asc
-                      end
+      order =
+        if current_user.wants_comments_in_reverse_order?
+          Journal.arel_table["created_at"].desc
+        else
+          Journal.arel_table["created_at"].asc
+        end
 
-                    work_package
-                      .journals
-                      .changing
-                      .includes(:user)
-                      .order(order).to_a
-                  end
+      work_package
+        .journals
+        .changing
+        .includes(:user)
+        .order(order).to_a
+    end
   end
 
   def index_redirect_path

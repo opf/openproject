@@ -52,11 +52,6 @@ module WorkPackagesControllerHelper
     ::Exports::Register.single_formats(WorkPackage).map(&:to_s)
   end
 
-  def load_query
-    @query ||= retrieve_query(@project)
-    @query.name = params[:title] if params[:title].present?
-  end
-
   def load_and_validate_query
     @query ||= retrieve_query(@project)
     @query.name = params[:title] if params[:title].present?

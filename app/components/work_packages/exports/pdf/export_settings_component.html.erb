@@ -62,7 +62,7 @@
                                            caption: "Exclude images to reduce the size of the PDF export.",
                                            visually_hide_label: false)) %>
   <% end %>
-  <% if is_gantt_chart_allowed? %>
+  <% if gantt_chart_allowed? %>
     <%= container.with_row(classes: current_pdf_export_type == "gantt" ? nil : "d-none",
                            data: {
                              gantt: true,

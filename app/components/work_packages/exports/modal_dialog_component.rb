@@ -30,7 +30,7 @@
 
 module WorkPackages
   module Exports
-    class ModalDialogComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    class ModalDialogComponent < ApplicationComponent
       MODAL_ID = "op-work-packages-export-dialog"
       EXPORT_FORM_ID = "op-work-packages-export-dialog-form"
       include OpTurbo::Streamable
@@ -47,18 +47,18 @@ module WorkPackages
       end
 
       def export_format_url(format)
-        if @project.nil?
-          index_work_packages_path(format:)
-        else
-          project_work_packages_path(project, format:)
-        end
+        @project.nil? ? index_work_packages_path(format:) : project_work_packages_path(project, format:)
       end
 
       def export_formats_settings
         [
-          { label: "PDF", id: 'pdf', icon: :"op-pdf", component: WorkPackages::Exports::PDF::ExportSettingsComponent, selected: true },
-          { label: "XLS", id: 'xls', icon: :"op-xls", component: WorkPackages::Exports::XLS::ExportSettingsComponent },
-          { label: "CSV", id: 'csv', icon: :"op-file-csv", component: WorkPackages::Exports::CSV::ExportSettingsComponent }
+          { label: "PDF", id: "pdf", icon: :"op-pdf",
+            component: WorkPackages::Exports::PDF::ExportSettingsComponent,
+            selected: true },
+          { label: "XLS", id: "xls", icon: :"op-xls",
+            component: WorkPackages::Exports::XLS::ExportSettingsComponent },
+          { label: "CSV", id: "csv", icon: :"op-file-csv",
+            component: WorkPackages::Exports::CSV::ExportSettingsComponent }
         ]
       end
     end

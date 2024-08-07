@@ -188,7 +188,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
               title: I18n.t("export.format.pdf_report_with_images")
             },
             {
-              href: project_work_packages_path(project, { format: "pdf", pdf_export_type: "report" }.merge(expected_query_params)),
+              href: project_work_packages_path(project,
+                                               { format: "pdf", pdf_export_type: "report" }.merge(expected_query_params)),
               type: "application/pdf",
               identifier: "pdf-descr",
               title: I18n.t("export.format.pdf_report")

@@ -571,7 +571,7 @@ Rails.application.routes.draw do
     get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!shares).+/ }
     get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
-   end
+  end
 
   resources :versions, only: %i[show edit update destroy] do
     member do

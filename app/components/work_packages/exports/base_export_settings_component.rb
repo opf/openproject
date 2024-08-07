@@ -30,7 +30,7 @@
 
 module WorkPackages
   module Exports
-    class BaseExportSettingsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    class BaseExportSettingsComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include WorkPackagesHelper
