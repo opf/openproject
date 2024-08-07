@@ -7,13 +7,9 @@ keywords: system information
 ---
 # System information
 
-You get an overview about current system status and more information. Navigate to -> *Administration* -> *Information*.
+System information shows you an overview about current system status and more information on your OpenProject installation configuration, including the core build and version, as well as the product version. Navigate to -> *Administration* -> *Information*.
 
-1. Displays the **product version** (OpenProject configuration).
-
-2. Displays the core version of your OpenProject installation.
-
-![Sys-admin-information](Sys-admin-information.png)
+![Sys-admin-information](openproject_system_admin_guide_information.png)
 
 ## Security badge
 
@@ -31,7 +27,7 @@ There are a few automatic checks from the system to ensure the safety and correc
 
 If one point is not fulfilled, e.g. changing the default administrator account, you will get a warning message in the form of a bug icon.
 
-![system information](image-20200124104411677.png)
+![System information in OpenProject administration](openproject_system_admin_guide_information_system.png)
 
 ## Storage information
 
@@ -39,4 +35,4 @@ You will get information about the storage filesystem in your OpenProject applic
 
 You will see the remaining disk space as well as used disk space in your OpenProject installation.
 
-![storage filesystem information](image-20200124104803476.png)
+![Storage filesystem information in OpenProject administration](openproject_system_admin_guide_information_storage_info.png)
