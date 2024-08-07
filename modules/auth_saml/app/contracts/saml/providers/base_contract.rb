@@ -51,9 +51,23 @@ module Saml
                 url: { schemes: %w[http https] },
                 if: -> { model.idp_slo_service_url_changed? }
 
+      attribute :idp_cert
+      validates_presence_of :idp_cert,
+                            if: -> { model.idp_cert_changed? }
+      validate :idp_cert_is_valid,
+               if: -> { model.idp_cert_changed? }
+
       %i[mapping_mail mapping_login mapping_firstname mapping_lastname].each do |attr|
         attribute attr
         validates_presence_of attr
+      end
+
+      def idp_cert_is_valid
+        return if model.idp_cert.blank?
+
+        OpenSSL::X509::Certificate.load(model.idp_cert)
+      rescue OpenSSL::X509::CertificateError => e
+        errors.add :idp_cert, :invalid_certificate, additional_message: e.message
       end
     end
   end

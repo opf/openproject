@@ -56,7 +56,7 @@ module Saml
           rows: 10,
           label: I18n.t("activemodel.attributes.saml/provider.idp_cert"),
           caption: I18n.t("saml.instructions.idp_cert"),
-          required: false,
+          required: true,
           input_width: :large
         )
         f.select_list(

@@ -37,7 +37,6 @@ module Saml
 
     def call
       updated_metadata
-      updated_metadata
     rescue StandardError => e
       OpenProject.logger.error(e)
       ServiceResult.failure(message: I18n.t("saml.metadata_parser.error", error: e.class.name))
@@ -51,7 +50,7 @@ module Saml
       elsif provider.metadata_xml.present?
         parse_xml
       else
-        {}
+        ServiceResult.success(result: {})
       end
     end
 
