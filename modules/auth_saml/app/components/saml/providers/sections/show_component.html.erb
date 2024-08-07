@@ -1,17 +1,15 @@
 <%=
   grid_layout('op-saml-view-row', tag: :div, align_items: :center) do |grid|
     grid.with_area(:title, mr: 3) do
-      concat render(Primer::Beta::Text.new(font_weight: :bold)) { t("saml.providers.label_configuration_encryption") }
-      if provider.configured?
-        concat render(Primer::Beta::Label.new(scheme: :success, ml: 1)) { t(:label_completed) }
-      elsif provider.persisted?
-        concat render(Primer::Beta::Label.new(scheme: :attention, ml: 1)) { t(:label_incomplete) }
+      concat render(Primer::Beta::Text.new(font_weight: :bold)) { @heading }
+      if @label
+        concat render(Primer::Beta::Label.new(scheme: @label_scheme, ml: 1)) { @label }
       end
     end
 
     grid.with_area(:description) do
       render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :subtle)) do
-        t("saml.providers.section_texts.encryption")
+        @description
       end
     end
 
@@ -24,7 +22,7 @@
                 icon: :pencil,
                 tag: :a,
                 scheme: :invisible,
-                href: edit_saml_provider_path(provider, edit_state: :encryption),
+                href: edit_saml_provider_path(provider, edit_state: @edit_state),
                 aria: { label: I18n.t(:label_edit) }
               )
             )

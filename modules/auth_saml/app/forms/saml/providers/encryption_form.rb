@@ -36,6 +36,18 @@ module Saml
           caption: I18n.t("saml.instructions.authn_requests_signed"),
           required: true
         )
+        f.check_box(
+          name: :want_assertions_signed,
+          label: I18n.t("activemodel.attributes.saml/provider.want_assertions_signed"),
+          caption: I18n.t("saml.instructions.want_assertions_signed"),
+          required: true
+        )
+        f.check_box(
+          name: :want_assertions_encrypted,
+          label: I18n.t("activemodel.attributes.saml/provider.want_assertions_encrypted"),
+          caption: I18n.t("saml.instructions.want_assertions_encrypted"),
+          required: true
+        )
         f.text_area(
           name: :sp_certificate,
           rows: 10,
@@ -45,27 +57,10 @@ module Saml
           input_width: :large
         )
         f.text_area(
-          name: :sp_certificate,
+          name: :sp_private_key,
           rows: 10,
-          label: I18n.t("activemodel.attributes.saml/provider.sp_certificate"),
-          caption: I18n.t("saml.instructions.idp_cert"),
-          required: false,
-          input_width: :large
-        )
-        f.select_list(
-          name: "name_identifier_format",
-          label: I18n.t("activemodel.attributes.saml/provider.name_identifier_format"),
-          input_width: :large,
-          caption: I18n.t("saml.instructions.name_identifier_format")
-        ) do |list|
-          Saml::Defaults::NAME_IDENTIFIER_FORMATS.each do |format|
-            list.option(label: format, value: format)
-          end
-        end
-        f.check_box(
-          name: :limit_self_registration,
-          label: I18n.t("activemodel.attributes.saml/provider.limit_self_registration"),
-          caption: I18n.t("saml.instructions.limit_self_registration"),
+          label: I18n.t("activemodel.attributes.saml/provider.sp_private_key"),
+          caption: I18n.t("saml.instructions.sp_private_key"),
           required: false,
           input_width: :large
         )

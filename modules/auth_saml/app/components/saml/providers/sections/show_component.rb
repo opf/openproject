@@ -29,6 +29,15 @@
 #++
 #
 module Saml::Providers::Sections
-  class MappingComponent < SectionComponent
+  class ShowComponent < SectionComponent
+    def initialize(provider, edit_state:, heading:, description:, label: nil, label_scheme: :attention)
+      super(provider)
+
+      @edit_state = edit_state
+      @heading = heading
+      @description = description
+      @label = label
+      @label_scheme = label_scheme
+    end
   end
 end

@@ -8,7 +8,12 @@
       if edit_state == :name
         render(Saml::Providers::Sections::NameFormComponent.new(provider))
       else
-        render(Saml::Providers::Sections::NameComponent.new(provider))
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          edit_state: :name,
+          heading: t("saml.providers.singular"),
+          description: t("saml.providers.section_texts.display_name")
+        ))
       end
     end
 
@@ -20,7 +25,14 @@
       if edit_state == :metadata
         render(Saml::Providers::Sections::MetadataFormComponent.new(provider))
       else
-        render(Saml::Providers::Sections::MetadataComponent.new(provider))
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          edit_state: :metadata,
+          heading: t("saml.providers.label_metadata"),
+          description: t("saml.providers.section_texts.metadata"),
+          label: provider.has_metadata? ? t(:label_completed) : t(:label_not_configured),
+          label_scheme: provider.has_metadata? ? :success : :secondary
+        ))
       end
     end
 
@@ -32,7 +44,13 @@
       if edit_state == :configuration
         render(Saml::Providers::Sections::ConfigurationFormComponent.new(provider))
       else
-        render(Saml::Providers::Sections::ConfigurationComponent.new(provider))
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          edit_state: :configuration,
+          heading: t("saml.providers.label_configuration_details"),
+          description: t("saml.providers.section_texts.configuration"),
+          label: (provider.persisted? && !provider.configured?) ? t(:label_incomplete) : nil,
+        ))
       end
     end
 
@@ -40,7 +58,12 @@
       if edit_state == :encryption
         render(Saml::Providers::Sections::EncryptionFormComponent.new(provider))
       else
-        render(Saml::Providers::Sections::EncryptionComponent.new(provider))
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          edit_state: :configuration,
+          heading: t("saml.providers.label_configuration_encryption"),
+          description: t("saml.providers.section_texts.encryption")
+        ))
       end
     end
 
@@ -52,14 +75,24 @@
       if edit_state == :mapping
         render(Saml::Providers::Sections::MappingFormComponent.new(provider))
       else
-        render(Saml::Providers::Sections::MappingComponent.new(provider))
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          edit_state: :configuration,
+          heading: t("saml.providers.label_mapping"),
+          description: t("saml.providers.section_texts.mapping")
+        ))
       end
     end
     component.with_row(scheme: :default) do
       if edit_state == :requested_attributes
         render(Saml::Providers::Sections::RequestAttributesFormComponent.new(provider))
       else
-        render(Saml::Providers::Sections::RequestAttributesComponent.new(provider))
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          edit_state: :configuration,
+          heading: t("saml.providers.requested_attributes"),
+          description: t("saml.providers.section_texts.requested_attributes")
+        ))
       end
     end
   end

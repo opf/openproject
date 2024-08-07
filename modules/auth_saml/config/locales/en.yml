@@ -14,6 +14,10 @@ en:
         idp_slo_service_url: Identity provider logout endpoint
         idp_cert: Public certificate of identity provider
         authn_requests_signed: Sign SAML AuthnRequests
+        want_assertions_signed: Require signed responses
+        want_assertions_encrypted: Require encrypted responses
+        sp_certificate: Certificate used by OpenProject for SAML requests
+        sp_private_key: Corresponding private key for OpenProject SAML requests
         format: "Format"
   saml:
     menu_title: SAML providers
@@ -117,4 +121,9 @@ en:
         The format of the requested attribute. This is used to specify the format of the attribute in the SAML request.
         Please see [documentation on configuring requested attributes](docs_url) for more information.
       authn_requests_signed: >
-        If enabled, OpenProject will sign the SAML AuthnRequest. You will have to provide a signing certificate and private key using the fields below.
+        If checked, OpenProject will sign the SAML AuthnRequest. You will have to provide a signing certificate and private key using the fields below.
+      want_assertions_signed: >
+        If checked, OpenProject will required signed responses from the identity provider using it's own certificate keypair.
+        OpenProject will verify the signature against the certificate from the basic configuration section.
+      want_assertions_encrypted: >
+        If enabled, require the identity provider to encrypt the assertion response using the certificate pair that you provide.
