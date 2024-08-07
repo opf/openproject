@@ -1,10 +1,6 @@
 module Saml
-  class Provider < ApplicationRecord
+  class Provider < AuthProvider
     include HashBuilder
-
-    self.table_name = "saml_providers"
-
-    belongs_to :creator, class_name: "User"
 
     store_attribute :options, :sp_entity_id, :string
     store_attribute :options, :name_identifier_format, :string
@@ -47,15 +43,8 @@ module Saml
 
     attr_accessor :readonly
 
-    validates_presence_of :display_name
-    validates_uniqueness_of :display_name
-
     def slug
       options.fetch(:name) { "saml-#{id}" }
-    end
-
-    def limit_self_registration?
-      limit_self_registration
     end
 
     def has_metadata?
@@ -109,8 +98,7 @@ module Saml
     end
 
     def assertion_consumer_service_url
-      root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
-      URI.join(root_url, "/auth/#{slug}/callback").to_s
+      callback_url
     end
   end
 end

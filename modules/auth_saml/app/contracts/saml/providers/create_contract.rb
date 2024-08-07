@@ -28,6 +28,7 @@
 module Saml
   module Providers
     class CreateContract < BaseContract
+      attribute :type
     end
   end
 end
