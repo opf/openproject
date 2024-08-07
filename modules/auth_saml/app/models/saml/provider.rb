@@ -57,7 +57,16 @@ module Saml
     end
 
     def configured?
-      sp_entity_id.present? && idp_sso_service_url.present? && certificate_configured?
+      sp_entity_id.present? &&
+        idp_sso_service_url.present? &&
+        certificate_configured?
+    end
+
+    def mapping_configured?
+      mapping_login.present? &&
+        mapping_mail.present? &&
+        mapping_firstname.present? &&
+        mapping_lastname.present?
     end
 
     def loaded_certificate

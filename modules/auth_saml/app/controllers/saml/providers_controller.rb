@@ -8,7 +8,7 @@ module Saml
     before_action :find_provider, only: %i[show edit import_metadata update destroy]
 
     def index
-      @providers = Saml::Provider.all
+      @providers = Saml::Provider.all.order(display_name: "ASC")
     end
 
     def edit
@@ -38,6 +38,7 @@ module Saml
         flash[:notice] = I18n.t(:notice_successful_create)
         redirect_to edit_saml_provider_path(call.result, edit_state: :metadata)
       else
+        flash[:error] = call.message
         @provider = call.result
         render action: :new
       end

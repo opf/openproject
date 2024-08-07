@@ -36,6 +36,14 @@ module Saml
         update_options(params.delete(:options)) if params.key?(:options)
 
         super
+
+        update_available_state
+      end
+
+      def update_available_state
+        model.change_by_system do
+          model.available = model.configured? && model.mapping_configured?
+        end
       end
 
       def update_options(options)

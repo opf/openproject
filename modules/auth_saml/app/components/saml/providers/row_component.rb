@@ -19,7 +19,7 @@ module Saml
                         href: url_for(action: :show, id: provider.id)
                       )) { provider.display_name || provider.name }
 
-        unless provider.configured?
+        unless provider.available?
           concat render(Primer::Beta::Label.new(ml: 2, scheme: :attention, size: :medium)) { t(:label_incomplete) }
         end
 

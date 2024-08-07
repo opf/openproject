@@ -104,7 +104,9 @@
           target_state: :mapping,
           view_mode:,
           heading: t("saml.providers.label_mapping"),
-          description: t("saml.providers.section_texts.mapping")
+          description: t("saml.providers.section_texts.mapping"),
+          label: provider.mapping_configured? ? t(:label_completed) : t(:label_incomplete),
+          label_scheme: provider.mapping_configured? ? :success : :attention
         ))
       end
     end
