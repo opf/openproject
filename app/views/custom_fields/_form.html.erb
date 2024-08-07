@@ -207,13 +207,13 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="form--field">
       <%= f.check_box :is_required %>
       <div class="form--field-instructions">
-        <p><%= t('custom_fields.instructions.is_required') %></p>
+        <p><%= t('custom_fields.instructions.is_required_for_project') %></p>
       </div>
     </div>
     <div class="form--field">
       <%= f.check_box :admin_only %>
       <div class="form--field-instructions">
-        <p><%= t('custom_fields.instructions.admin_only') %></p>
+        <p><%= t('custom_fields.instructions.admin_only_for_project') %></p>
       </div>
     </div>
     <div class="form--field" <%= format_dependent.attributes(:searchable) %>>
