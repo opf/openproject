@@ -1800,8 +1800,8 @@ sv:
     facets:
       unread: "Unread"
       unread_title: "Show unread"
-      all: "All"
-      all_title: "Show all"
+      all: "Alla"
+      all_title: "Visa alla"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"

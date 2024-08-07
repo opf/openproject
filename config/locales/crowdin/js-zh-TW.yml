@@ -826,7 +826,7 @@ zh-TW:
       hierarchy_indent: "縮排"
       hierarchy_outdent: "凸排"
       group_by_wp_type: "依工作項目類型進行群組分類"
-      group_by_relation_type: "按關聯類型分組"
+      group_by_relation_type: "按關聯類型分類"
       add_parent: "增加現有的上一層"
       add_new_child: "建立子工作項目"
       create_new: "新增"
@@ -1040,7 +1040,7 @@ zh-TW:
         confirm_edit_cancel: "確實要取消編輯此版面的名稱嗎？標題將還原。"
         click_to_edit_query_name: "按一下以編輯此版面的標題。"
         rename_query_placeholder: "此檢視的名稱"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "將此版面收藏起來，並新增至左側已儲存版面側邊欄。"
         public_text: >
           發布此檢視圖，允許其他使用者存取您的視圖。 具有「管理公用檢視圖」權限的使用者可以修改或刪除公用查詢。 這不會影響該檢視圖中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。
         errors:
@@ -1095,7 +1095,7 @@ zh-TW:
           relation_columns: "需要檢視工作項目清單的關係嗎"
           check_out_link: "請查閱企業版"
         relation_filters:
-          filter_work_packages_by_relation_type: "Filter work packages by relation type"
+          filter_work_packages_by_relation_type: "依關聯類型過濾工作項目"
       tabs:
         overview: 總覽
         activity: 活動

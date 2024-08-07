@@ -48,7 +48,7 @@ nl:
           name: Project query editor
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: Werkpakket-editor
         item_1:
           name: Work package commenter
         item_2:
@@ -90,7 +90,7 @@ nl:
                 In this module you can communicate project news to your team members.
               description: Het actuele nieuws
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categorie 1 (te wijzigen in Projectinstellingen)
           queries:
             item_0:
               name: Project abonnement
@@ -175,10 +175,10 @@ nl:
                 item_1:
                   subject: Party for conference supporters :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    * [ ] Bier
+                    * [ ] Snacks
+                    * [ ] Muziek
+                    * [ ] Nog meer bier
             item_4:
               subject: Einde van project
           wiki: |
@@ -264,7 +264,7 @@ nl:
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categorie 1 (te wijzigen in Projectinstellingen)
           queries:
             item_0:
               name: Project abonnement
@@ -326,7 +326,7 @@ nl:
               subject: Nieuwe website
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Inschrijfformulier nieuwsbrief
                 item_1:
                   subject: Implement product tour
                 item_2:
@@ -335,7 +335,7 @@ nl:
                     item_0:
                       subject: Create wireframes for new landing page
             item_3:
-              subject: Contact form
+              subject: Contactformulier
             item_4:
               subject: Feature carousel
               children:
@@ -348,14 +348,14 @@ nl:
             item_7:
               subject: Set-up Staging environment
             item_8:
-              subject: Choose a content management system
+              subject: Kies een contentmanagementsysteem
             item_9:
               subject: Website navigatiestructuur
               children:
                 item_0:
                   subject: Set up navigation concept for website.
             item_10:
-              subject: Internal link structure
+              subject: Interne linkstructuur
             item_11:
               subject: Ontwikkel v1.0
             item_12:
@@ -363,7 +363,7 @@ nl:
             item_13:
               subject: Develop v1.1
             item_14:
-              subject: Release v1.1
+              subject: Versie v1.1
             item_15:
               subject: Develop v2.0
             item_16:
