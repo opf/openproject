@@ -27,4 +27,4 @@ allOf:
           elements:
             type: array
             items:
-              $ref: './relation_model.yml'
+              $ref: './relation_read_model.yml'

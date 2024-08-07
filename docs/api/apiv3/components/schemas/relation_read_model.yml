@@ -1,9 +1,6 @@
-# Schema: RelationModel
+# Schema: RelationReadModel
 ---
 type: object
-required:
-  - _type
-  - id
 properties:
   _type:
     type: string
@@ -14,7 +11,7 @@ properties:
     description: Relation ID
   name:
     type: string
-    description: The internationalized name of this type of relation
+    description: The internationalised name of this type of relation
   type:
     type: string
     description: The relation type.
@@ -47,13 +44,13 @@ properties:
       - required
   description:
     type:
-      - string
-      - null
+      - 'string'
+      - 'null'
     description: A descriptive text for the relation.
   lag:
     type:
-      - integer
-      - null
+      - 'integer'
+      - 'null'
     description: The lag in days between closing of `from` and start of `to`
     minimum: 0
   _embedded:
@@ -65,87 +62,55 @@ properties:
         $ref: './work_package_model.yml'
   _links:
     type: object
-    required:
-      - self
-      - schema
-      - from
-      - to
     properties:
       self:
         allOf:
           - $ref: './link.yml'
           - description: |-
               This relation
-              
+
               **Resource**: Relation
-              
+
               # Conditions
-              
+
               **Permission**: view work packages
       updateImmediately:
         allOf:
           - $ref: './link.yml'
           - description: |-
               Updates the relation between two work packages
-              
+
               # Conditions
-              
+
               **Permission**: manage work package relations
       delete:
         allOf:
           - $ref: './link.yml'
           - description: |-
               Destroys the relation between the two work packages
-              
+
               # Conditions
-              
+
               **Permission**: manage work package relations
       from:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The emanating work package
-              
+
               **Resource**: WorkPackage
-              
+
               # Conditions
-              
+
               **Permission**: view work packages
       to:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The work package the relation ends in
-              
-              **Resource**: WorkPackage
-              
-              # Conditions
-              
-              **Permission**: view work packages
 
-example:
-  _links:
-    self:
-      href: "/api/v3/relations/1"
-    update:
-      href: "/api/v3/relations/1/form"
-      method: POST
-    updateImmediately:
-      href: "/api/v3/relations/1"
-      method: PATCH
-    delete:
-      href: "/api/v3/relations/1"
-      method: DELETE
-    from:
-      href: "/api/v3/work_packages/42"
-      title: Steel Delivery
-    to:
-      href: "/api/v3/work_packages/84"
-      title: Bending the steel
-  _type: Relation
-  id: 1
-  name: precedes
-  type: precedes
-  reverseType: follows
-  description: We can't bend the steel before it's been delivered!
-  lag: 0
+              **Resource**: WorkPackage
+
+              # Conditions
+
+              **Permission**: view work packages
