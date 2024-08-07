@@ -46,7 +46,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:project_custom_field_string) do
     create(:project_custom_field, :string,
            name: "Secret string", default_value: "admin eyes only",
-           visible: false)
+           admin_only: true)
   end
   let(:project_custom_field_long_text) do
     create(:project_custom_field, :text,

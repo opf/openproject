@@ -103,7 +103,7 @@ RSpec.describe ProjectCustomField do
   end
 
   describe ".visible" do
-    shared_let(:invisible_cf) { create(:string_project_custom_field, visible: false) }
+    shared_let(:invisible_cf) { create(:string_project_custom_field, admin_only: true) }
     shared_let(:other_cf) { create(:string_project_custom_field) }
     shared_let(:project_cf) { create(:string_project_custom_field) }
     shared_let(:public_cf) { create(:string_project_custom_field) }

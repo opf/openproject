@@ -45,7 +45,7 @@ RSpec.describe "API v3 Project resource update", content_type: :json do
     create(:text_project_custom_field)
   end
   let(:invisible_custom_field) do
-    create(:text_project_custom_field, visible: false)
+    create(:text_project_custom_field, admin_only: true)
   end
   let(:permissions) { %i[edit_project view_project_attributes edit_project_attributes] }
   let(:path) { api_v3_paths.project(project.id) }

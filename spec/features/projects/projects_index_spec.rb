@@ -35,7 +35,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
   shared_let(:developer) { create(:project_role, name: "Developer") }
 
   shared_let(:custom_field) { create(:text_project_custom_field) }
-  shared_let(:invisible_custom_field) { create(:project_custom_field, visible: false) }
+  shared_let(:invisible_custom_field) { create(:project_custom_field, admin_only: true) }
 
   shared_let(:project) { create(:project, name: "Plain project", identifier: "plain-project") }
   shared_let(:public_project) do

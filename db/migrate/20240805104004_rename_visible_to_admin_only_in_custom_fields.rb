@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  class BaseContract < ::ModelContract
-    include RequiresAdminGuard
+require_relative "migration_utils/utils"
 
-    attribute :editable
-    attribute :type
-    attribute :field_format
-    attribute :is_filter
-    attribute :is_for_all
-    attribute :is_required
-    attribute :max_length
-    attribute :min_length
-    attribute :name
-    attribute :possible_values
-    attribute :regexp
-    attribute :searchable
-    attribute :admin_only
-    attribute :default_value
-    attribute :possible_values
-    attribute :multi_value
-    attribute :content_right_to_left
-    attribute :custom_field_section_id
-    attribute :allow_non_open_versions
+class RenameVisibleToAdminOnlyInCustomFields < ActiveRecord::Migration[7.1]
+  include ::Migration::Utils
+
+  def change
+    rename_column :custom_fields, :visible, :admin_only
+    change_column_default :custom_fields, :admin_only, from: true, to: false
+
+    execute_sql("UPDATE custom_fields SET admin_only = NOT admin_only")
   end
 end
