@@ -262,7 +262,7 @@ export default class IndexController extends Controller {
     if (this.isSmViewPort()) {
       atBottom = (window.scrollY + window.outerHeight) >= document.body.scrollHeight;
     } else if (this.isMdViewPort()) {
-      const scrollableContainer = document.querySelector('#content') as HTMLElement;
+      const scrollableContainer = document.querySelector('#content-body') as HTMLElement;
 
       atBottom = (scrollableContainer.scrollTop + scrollableContainer.clientHeight + 10) >= scrollableContainer.scrollHeight;
     } else {
