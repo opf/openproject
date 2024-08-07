@@ -9,6 +9,7 @@
           scheme: :invisible,
           tag: :a,
           href: details_dialog_meeting_path(@meeting),
+          classes: "hide-when-print",
           data: { controller: 'async-dialog' },
           'aria-label': t(:label_meeting_details_edit),
           test_selector: "edit-meeting-details-button",
@@ -97,6 +98,7 @@
                   underline: false,
                   tag: :a,
                   href: participants_dialog_meeting_path(@meeting),
+                  classes: "hide-when-print",
                   data: { controller: 'async-dialog' }
                 )) do
                   t("label_meeting_show_all_participants")
