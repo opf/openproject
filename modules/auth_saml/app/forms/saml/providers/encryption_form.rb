@@ -49,18 +49,18 @@ module Saml
           required: true
         )
         f.text_area(
-          name: :sp_certificate,
+          name: :certificate,
           rows: 10,
-          label: I18n.t("activemodel.attributes.saml/provider.sp_certificate"),
-          caption: I18n.t("saml.instructions.sp_certificate"),
+          label: I18n.t("activemodel.attributes.saml/provider.certificate"),
+          caption: I18n.t("saml.instructions.certificate"),
           required: false,
           input_width: :large
         )
         f.text_area(
-          name: :sp_private_key,
+          name: :private_key,
           rows: 10,
-          label: I18n.t("activemodel.attributes.saml/provider.sp_private_key"),
-          caption: I18n.t("saml.instructions.sp_private_key"),
+          label: I18n.t("activemodel.attributes.saml/provider.private_key"),
+          caption: I18n.t("saml.instructions.private_key"),
           required: false,
           input_width: :large
         )

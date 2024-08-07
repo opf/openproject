@@ -156,6 +156,8 @@ module Saml
        .require(:saml_provider)
        .permit(:display_name, :sp_entity_id, :idp_sso_service_url, :idp_slo_service_url, :idp_cert,
                :name_identifier_format, :limit_self_registration,
+               :certificate, :private_key, :authn_requests_signed,
+               :want_assertions_signed, :want_assertions_encrypted,
                :mapping_login, :mapping_mail, :mapping_firstname, :mapping_lastname, :mapping_uid,
                :requested_login_attribute, :requested_mail_attribute, :requested_firstname_attribute,
                :requested_lastname_attribute, :requested_uid_attribute,

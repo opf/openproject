@@ -15,6 +15,8 @@ module Saml
     store_attribute :options, :idp_cert, :string
     store_attribute :options, :idp_cert_fingerprint, :string
 
+    store_attribute :options, :certificate, :string
+    store_attribute :options, :private_key, :string
     store_attribute :options, :authn_requests_signed, :boolean
     store_attribute :options, :want_assertions_signed, :boolean
     store_attribute :options, :want_assertions_encrypted, :boolean

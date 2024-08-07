@@ -78,7 +78,7 @@
       else
         render(Saml::Providers::Sections::ShowComponent.new(
           provider,
-          target_state: :configuration,
+          target_state: :encryption,
           view_mode:,
           heading: t("saml.providers.label_configuration_encryption"),
           description: t("saml.providers.section_texts.encryption")
@@ -119,7 +119,7 @@
       else
         render(Saml::Providers::Sections::ShowComponent.new(
           provider,
-          target_state: :configuration,
+          target_state: :requested_attributes,
           view_mode:,
           heading: t("saml.providers.requested_attributes"),
           description: t("saml.providers.section_texts.requested_attributes")

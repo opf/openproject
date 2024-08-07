@@ -57,6 +57,9 @@ module Saml
       validate :idp_cert_is_valid,
                if: -> { model.idp_cert_changed? }
 
+      attribute :authn_requests_signed
+      validate :authn_requests_signed_requires_cert
+
       %i[mapping_mail mapping_login mapping_firstname mapping_lastname].each do |attr|
         attribute attr
         validates_presence_of attr
@@ -68,6 +71,38 @@ module Saml
         OpenSSL::X509::Certificate.load(model.idp_cert)
       rescue OpenSSL::X509::CertificateError => e
         errors.add :idp_cert, :invalid_certificate, additional_message: e.message
+      end
+
+      def valid_certificate
+        if model.certificate.blank?
+          errors.add :certificate, :blank
+        else
+          OpenSSL::X509::Certificate.new(model.certificate)
+        end
+      rescue OpenSSL::X509::CertificateError => e
+        errors.add :certificate, :invalid_certificate, additional_message: e.message
+      end
+
+      def valid_sp_key
+        if model.private_key.blank?
+          errors.add :private_key, :blank
+        else
+          OpenSSL::PKey::RSA.new(model.private_key)
+        end
+      rescue OpenSSL::X509::CertificateError => e
+        errors.add :private_key, :invalid_private_key, additional_message: e.message
+      end
+
+      def authn_requests_signed_requires_cert
+        return unless model.authn_requests_signed
+        return unless model.authn_requests_signed_changed? || model.certificate_changed? || model.private_key_changed?
+
+        cert = valid_certificate
+        key = valid_sp_key
+
+        unless cert.public_key.public_to_pem == key.public_key.public_to_pem
+          errors.add :private_key, :unmatched_private_key
+        end
       end
     end
   end

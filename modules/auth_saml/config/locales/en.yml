@@ -16,8 +16,8 @@ en:
         authn_requests_signed: Sign SAML AuthnRequests
         want_assertions_signed: Require signed responses
         want_assertions_encrypted: Require encrypted responses
-        sp_certificate: Certificate used by OpenProject for SAML requests
-        sp_private_key: Corresponding private key for OpenProject SAML requests
+        certificate: Certificate used by OpenProject for SAML requests
+        private_key: Corresponding private key for OpenProject SAML requests
         format: "Format"
   activerecord:
     errors:
@@ -25,7 +25,14 @@ en:
         saml/provider:
           attributes:
             idp_cert:
-              invalid_certificate: "The certificate for the identity provider is invalid: %{additional_message}"
+              invalid_certificate: "The certificate provided for the identity provider is invalid: %{additional_message}"
+              format: "%{message}"
+            certificate:
+              invalid_certificate: "The certificate is invalid: %{additional_message}"
+              format: "%{message}"
+            private_key:
+              invalid_private_key: "The provided private key is invalid: %{additional_message}"
+              unmatched_private_key: "The provided private key does not belong to the given certificate"
               format: "%{message}"
   saml:
     menu_title: SAML providers
@@ -135,3 +142,7 @@ en:
         OpenProject will verify the signature against the certificate from the basic configuration section.
       want_assertions_encrypted: >
         If enabled, require the identity provider to encrypt the assertion response using the certificate pair that you provide.
+      certificate: >
+        Enter the X509 PEM-formatted certificate used by OpenProject for signing SAML requests.
+      private_key: >
+        Enter the X509 PEM-formatted private key for the above certificate. This needs to be an RSA private key.
