@@ -97,8 +97,8 @@
     "@ng-select/ng-select": "^13.2.0",
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
-    "@openproject/octicons-angular": "^19.17.0",
-    "@openproject/primer-view-components": "^0.40.0",
+    "@openproject/octicons-angular": "^19.18.0",
+    "@openproject/primer-view-components": "^0.41.0",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.3.3",
     "@types/hotwired__turbo": "^8.0.1",
@@ -176,6 +176,6 @@
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.40.0"
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.41.0"
   }
 }
