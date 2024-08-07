@@ -116,7 +116,7 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
     Journal
       .pluck("DISTINCT(journable_type)")
       .to_h do |journable_type|
-      table_name = lookup_journal_class_table(journable_type)
+      journal_class, table_name = lookup_journal_class_table(journable_type)
       relation = Journal
         .joins("LEFT OUTER JOIN #{table_name} ON journals.data_type = '#{journal_class}' AND #{table_name}.id = journals.data_id")
         .where("#{table_name}.id IS NULL")
@@ -131,10 +131,10 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
 
   # Lookup table for items that were already deleted
   def lookup_journal_class_table(journable_type)
-    lookup = { "WikiContent" => "wiki_content_journals" }
+    lookup = { "WikiContent" => %w[Journal::WikiContentJournal wiki_content_journals] }
     lookup.fetch(journable_type) do
       journal_class = journable_type.constantize.journal_class
-      journal_class.table_name
+      [journal_class.to_s, journal_class.table_name]
     end
   end
 
