@@ -77,7 +77,7 @@ module Saml
           assertion_consumer_service_url:,
           check_idp_cert_expiration: true,
           check_sp_cert_expiration: true,
-          metadata_signed: true
+          metadata_signed: certificate.present? && private_key.present?
         )
         .symbolize_keys
     end

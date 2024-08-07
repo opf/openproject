@@ -64,6 +64,26 @@ module Saml
           required: false,
           input_width: :large
         )
+        f.select_list(
+          name: :digest_method,
+          label: I18n.t("activemodel.attributes.saml/provider.digest_method"),
+          input_width: :large,
+          caption: I18n.t("saml.instructions.digest_method", default_option: "SHA-1")
+        ) do |list|
+          Saml::Defaults::DIGEST_METHODS.each do |label, value|
+            list.option(label:, value:)
+          end
+        end
+        f.select_list(
+          name: :signature_method,
+          label: I18n.t("activemodel.attributes.saml/provider.signature_method"),
+          input_width: :large,
+          caption: I18n.t("saml.instructions.signature_method", default_option: "RSA SHA-1")
+        ) do |list|
+          Saml::Defaults::SIGNATURE_METHODS.each do |label, value|
+            list.option(label:, value:)
+          end
+        end
       end
     end
   end

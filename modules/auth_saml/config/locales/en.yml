@@ -18,22 +18,16 @@ en:
         want_assertions_encrypted: Require encrypted responses
         certificate: Certificate used by OpenProject for SAML requests
         private_key: Corresponding private key for OpenProject SAML requests
+        signature_method: Signature algorithm
+        digest_method: Digest algorithm
         format: "Format"
   activerecord:
     errors:
       models:
         saml/provider:
-          attributes:
-            idp_cert:
-              invalid_certificate: "The certificate provided for the identity provider is invalid: %{additional_message}"
-              format: "%{message}"
-            certificate:
-              invalid_certificate: "The certificate is invalid: %{additional_message}"
-              format: "%{message}"
-            private_key:
-              invalid_private_key: "The provided private key is invalid: %{additional_message}"
-              unmatched_private_key: "The provided private key does not belong to the given certificate"
-              format: "%{message}"
+          invalid_certificate: "is not a valid PEM-formatted certificate: %{additional_message}"
+          invalid_private_key: "is not a valid PEM-formatted private key: %{additional_message}"
+          unmatched_private_key: "does not belong to the given certificate"
   saml:
     menu_title: SAML providers
     info:
@@ -146,3 +140,7 @@ en:
         Enter the X509 PEM-formatted certificate used by OpenProject for signing SAML requests.
       private_key: >
         Enter the X509 PEM-formatted private key for the above certificate. This needs to be an RSA private key.
+      signature_method: >
+        Select the signature algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+      digest_method: >
+        Select the digest algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).

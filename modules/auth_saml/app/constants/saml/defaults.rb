@@ -32,6 +32,20 @@ module Saml
   module Defaults
     NAME_IDENTIFIER_FORMAT = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
 
+    SIGNATURE_METHODS = {
+      "RSA SHA-1" => XMLSecurity::Document::RSA_SHA1,
+      "RSA SHA-256" => XMLSecurity::Document::RSA_SHA256,
+      "RSA SHA-384" => XMLSecurity::Document::RSA_SHA384,
+      "RSA SHA-512" => XMLSecurity::Document::RSA_SHA512
+    }.freeze
+
+    DIGEST_METHODS = {
+      "SHA-1" => XMLSecurity::Document::SHA1,
+      "SHA-256" => XMLSecurity::Document::SHA256,
+      "SHA-384" => XMLSecurity::Document::SHA384,
+      "SHA-512" => XMLSecurity::Document::SHA512
+    }.freeze
+
     NAME_IDENTIFIER_FORMATS = %w[
       urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress
       urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified

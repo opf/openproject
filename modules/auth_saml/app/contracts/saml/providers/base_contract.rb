@@ -100,6 +100,8 @@ module Saml
         cert = valid_certificate
         key = valid_sp_key
 
+        return unless errors.empty?
+
         unless cert.public_key.public_to_pem == key.public_key.public_to_pem
           errors.add :private_key, :unmatched_private_key
         end
