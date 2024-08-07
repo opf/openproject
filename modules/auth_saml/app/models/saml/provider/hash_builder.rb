@@ -23,16 +23,20 @@ module Saml
         return { idp_cert_fingerprint: }
       end
 
-      certificates = loaded_idp_certificates.map(&:to_pem)
-      if certificates.count > 1
-        {
-          idp_cert_multi: {
-            signing: certificates,
-            encryption: certificates
+      if idp_cert.present?
+        certificates = loaded_idp_certificates.map(&:to_pem)
+        if certificates.count > 1
+          {
+            idp_cert_multi: {
+              signing: certificates,
+              encryption: certificates
+            }
           }
-        }
+        else
+          { idp_cert: certificates.first }
+        end
       else
-        { idp_cert: certificates.first }
+        {}
       end
     end
 
