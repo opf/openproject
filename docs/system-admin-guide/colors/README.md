@@ -15,10 +15,10 @@ You can configure a set of predefined colors in OpenProject which you can choose
 
 To add a new color, press the green **+ Color** button at the top right.
 
-![Sys-admin-colors](Sys-admin-colors.png)
+![Colors in OpenProject administration](openproject_system_admin_guide_colors.png)
 
 1. Add a **name** for your new color.
 2. Enter the **hexcode** for your new color.
 3. Press the blue **Save** button.
 
-![Sys-admin-new-color](Sys-admin-new-color.png)
+![Define a new color in OpenProject administration](openproject_system_admin_guide_colors_new.png)
