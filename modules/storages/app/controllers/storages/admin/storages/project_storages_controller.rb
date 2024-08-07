@@ -40,7 +40,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   before_action :require_admin
   before_action :find_model_object
-  before_action :load_project_storage, only: %i(destroy destroy_confirmation_dialog)
+  before_action :load_project_storage, only: %i(edit update destroy destroy_confirmation_dialog)
 
   before_action :storage_projects_query, only: :index
   before_action :ensure_storage_configured!, only: %i(new create)
@@ -52,7 +52,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   def index; end
 
   def new
-    respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
+    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(project_storage: @project_storage)
   end
 
   def create # rubocop:disable Metrics/AbcSize
@@ -66,11 +66,30 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     create_service.on_failure do
       project_storage = create_service.result
       project_storage.errors.merge!(create_service.errors)
-      component = Storages::Admin::Storages::AddProjectsFormModalComponent.new(project_storage:)
+      component = Storages::Admin::Storages::ProjectsStorageFormModalComponent.new(project_storage:)
       update_via_turbo_stream(component:, status: :bad_request)
     end
 
     respond_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
+  end
+
+  def edit
+    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(project_storage: @project_storage)
+  end
+
+  def update
+    update_service = ::Storages::ProjectStorages::UpdateService
+                       .new(user: current_user, model: @project_storage)
+                       .call(params.to_unsafe_h[:storages_project_storage].merge(storage: @storage))
+
+    update_service.on_success { update_project_list_via_turbo_stream(url_for_action: :index) }
+
+    update_service.on_failure do
+      component = Storages::Admin::Storages::ProjectsStorageFormModalComponent.new(project_storage: @project_storage)
+      update_via_turbo_stream(component:, status: :bad_request)
+    end
+
+    respond_with_turbo_streams(status: update_service.success? ? :ok : :unprocessable_entity)
   end
 
   def destroy_confirmation_dialog
@@ -109,7 +128,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     else
       initialize_project_storage
       @project_storage.errors.add(:project_ids, :blank)
-      component = Storages::Admin::Storages::AddProjectsFormModalComponent.new(project_storage: @project_storage)
+      component = Storages::Admin::Storages::ProjectsStorageFormModalComponent.new(project_storage: @project_storage)
       update_via_turbo_stream(component:, status: :bad_request)
       respond_with_turbo_streams
     end

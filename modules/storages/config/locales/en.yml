@@ -60,6 +60,8 @@ en:
   permission_write_files: 'Automatically managed project folders: Write files'
   project_module_storages: Files
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Automatically managed
       inactive: No specific folder

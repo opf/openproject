@@ -130,8 +130,12 @@ module Storages
 
         def project_folder_selection_classes
           [].tap do |classes|
-            classes << "d-none" unless @project_storage.errors.include?(:project_folder_id)
+            classes << "d-none" unless show_project_folder_selection?
           end
+        end
+
+        def show_project_folder_selection?
+          @project_storage.project_folder_manual? || @project_storage.errors.include?(:project_folder_id)
         end
       end
     end
