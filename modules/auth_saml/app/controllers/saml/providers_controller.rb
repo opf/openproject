@@ -65,7 +65,6 @@ module Saml
         .call(**create_params)
 
       @provider = call.result
-      binding.pry
 
       if call.success?
         successful_save_response
@@ -81,7 +80,7 @@ module Saml
         .call(update_params)
 
       if call.success?
-        flash[:notice] = I18n.t(:notice_successful_update)
+        flash[:notice] = I18n.t(:notice_successful_update) unless @edit_mode
         successful_save_response
       else
         @provider = call.result
@@ -108,11 +107,14 @@ module Saml
     def successful_save_response
       respond_to do |format|
         format.turbo_stream do
-          component = Saml::Providers::ViewComponent.new(@provider,
-                                                         edit_mode: @edit_mode,
-                                                         edit_state: @next_edit_state,
-                                                         view_mode: :show)
-          update_via_turbo_stream(component:)
+          update_via_turbo_stream(
+            component: Saml::Providers::ViewComponent.new(
+              @provider,
+              edit_mode: @edit_mode,
+              edit_state: @next_edit_state,
+              view_mode: :show
+            )
+          )
           render turbo_stream: turbo_streams
         end
         format.html do
@@ -192,8 +194,8 @@ module Saml
 
     def update_params
       params
-       .require(:saml_provider)
-       .permit(:display_name, *Saml::Provider.stored_attributes[:options])
+        .require(:saml_provider)
+        .permit(:display_name, *Saml::Provider.stored_attributes[:options])
     end
 
     def find_provider
