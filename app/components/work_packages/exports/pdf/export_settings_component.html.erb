@@ -9,7 +9,7 @@
       mb: 3,
       full_width: true,
       name: "pdf_export_type",
-      label: "PDF export type")) do |component|
+      label: I18n.t("export.dialog.pdf.export_type.label"))) do |component|
       pdf_export_types.each do |entry|
         component.radio_button(label: entry[:label],
                                value: entry[:value],
@@ -57,9 +57,9 @@
     <hr/>
     <%= render(Primer::Alpha::CheckBox.new(name: 'show_images',
                                            checked: true,
-                                           label: "Include images",
+                                           label: I18n.t("export.dialog.pdf.include_images.label"),
+                                           caption: I18n.t("export.dialog.pdf.include_images.caption"),
                                            disabled: current_pdf_export_type != "report",
-                                           caption: "Exclude images to reduce the size of the PDF export.",
                                            visually_hide_label: false)) %>
   <% end %>
   <% if gantt_chart_allowed? %>
@@ -68,40 +68,21 @@
                              gantt: true,
                              "work-packages--export--pdf--settings-target": "fields"
                            }) do |_pdf_gantt_paper_size| %>
-      <%= render(Primer::Alpha::Select.new(
-        name: "gantt_mode",
-        label: "Zoom level",
-        size: :medium,
-        disabled: current_pdf_export_type != "gantt",
-        caption: "Select what is the zoom level for dates displayed in the chart.",
-        value: gantt_zoom_levels.find { |e| e[:default] }[:value])
-          ) do |component|
-        gantt_zoom_levels.each do |entry|
-          component.option(label: entry[:label], value: entry[:value])
-        end
-      end %>
-      <%= render(Primer::Alpha::Select.new(
-        name: "gantt_width",
-        label: "Table column width",
-        disabled: current_pdf_export_type != "gantt",
-        size: :medium,
-        value: gantt_column_widths.find { |e| e[:default] }[:value])
-          ) do |component|
-        gantt_column_widths.each do |entry|
-          component.option(label: entry[:label], value: entry[:value])
-        end
-      end %>
-      <%= render(Primer::Alpha::Select.new(
-        name: "paper_size",
-        label: "Paper size",
-        size: :medium,
-        disabled: current_pdf_export_type != "gantt",
-        value: pdf_paper_sizes.find { |e| e[:default] }[:value])
-          ) do |component|
-        pdf_paper_sizes.each do |entry|
-          component.option(label: entry[:label], value: entry[:value])
-        end
-      end %>
+
+      <% gantt_selects.each do |entry| %>
+        <%= render(Primer::Alpha::Select.new(
+          name: entry[:name],
+          label: entry[:label],
+          caption: entry[:caption],
+          size: :medium,
+          disabled: current_pdf_export_type != "gantt",
+          value: entry[:options].find { |e| e[:default] }[:value])
+            ) do |component|
+          entry[:options].each do |entry|
+            component.option(label: entry[:label], value: entry[:value])
+          end
+        end %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

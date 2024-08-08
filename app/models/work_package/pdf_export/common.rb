@@ -298,7 +298,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def with_attachments?
-    options[:show_images] == "true"
+    options[:show_images] == "true" || options[:show_images] == "1"
   end
 
   def build_pdf_filename(base)

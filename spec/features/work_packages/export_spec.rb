@@ -33,319 +33,234 @@ RSpec.describe "work package export" do
   let(:project) { create(:project_with_types, types: [type_a, type_b]) }
   let(:export_type) { "CSV" }
   let(:current_user) { create(:admin) }
-
   let(:type_a) { create(:type, name: "Type A") }
   let(:type_b) { create(:type, name: "Type B") }
-
   let(:wp1) { create(:work_package, project:, done_ratio: 25, type: type_a) }
   let(:wp2) { create(:work_package, project:, done_ratio: 0, type: type_a) }
   let(:wp3) { create(:work_package, project:, done_ratio: 0, type: type_b) }
   let(:wp4) { create(:work_package, project:, done_ratio: 0, type: type_a) }
-
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:columns) { Components::WorkPackages::Columns.new }
-  let(:filters) { Components::WorkPackages::Filters.new }
-  let(:group_by) { Components::WorkPackages::GroupBy.new }
-  let(:hierarchies) { Components::WorkPackages::Hierarchies.new }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
+  let(:export_sub_type) { nil }
+  let(:expected_params) { {} }
+  let(:expected_mime_type) { anything }
   let(:query) { create(:query, user: current_user, project:) }
-  let!(:query_tl) do
-    query = build(:query_with_view_gantt, user: current_user, project:)
-    query.column_names = ["id", "type", "subject"]
-    query.filters.clear
-    query.timeline_visible = true
-    query.timeline_zoom_level = "days"
-    query.name = "Query with Timeline"
-    query.save!
-    query
-  end
+  let(:expected_columns) { query.displayable_columns.map { |c| c.name.to_s } - ["bcf_thumbnail"] }
+  let(:default_params) { {} }
 
   before do
-    @download_list = DownloadList.new
+    service_instance = instance_double(WorkPackages::Exports::ScheduleService)
+    allow(WorkPackages::Exports::ScheduleService)
+      .to receive(:new)
+            .with(user: current_user)
+            .and_return(service_instance)
+
+    allow(service_instance)
+      .to receive(:call)
+            .with(query: anything, mime_type: expected_mime_type, params: has_mandatory_params(expected_params))
+            .and_return(ServiceResult.success(result: "uuid of the export job"))
+
     wp1
     wp2
     wp3
     wp4
 
+    query.column_names = expected_columns
+    query.save!
+
     login_as(current_user)
   end
 
-  subject { @download_list.refresh_from(page).latest_downloaded_content }
-
-  def expect_export
-    settings_menu.open_and_choose "Export"
-    click_on export_type
-    expect_export_in_queue
-  end
-
-  def expect_export_in_queue
-    # Expect to get a response regarding queuing
-    expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue"),
-                                 wait: 10
-    # Expect title
-    expect(page).to have_test_selector "job-status--header", text: I18n.t("export.your_work_packages_export")
-  end
-
-  def perform!(expect_success = true)
-    begin
-      perform_enqueued_jobs
-    rescue StandardError
-      # nothing
-    end
-
-    if expect_success
-      expect(page).to have_text("The export has completed successfully")
+  RSpec::Matchers.define :has_mandatory_params do |expected|
+    match do |actual|
+      expected.count do |key, value|
+        actual[key.to_sym] == value
+      end == expected.size
     end
   end
 
-  def export!(expect_success = true)
+  def open_export_dialog!
+    wp_table.visit_query query
     work_packages_page.ensure_loaded
-    expect_export
-    perform!(expect_success)
+    settings_menu.open_and_choose I18n.t("js.toolbar.settings.export")
+    click_on export_type
   end
 
-  after do
-    DownloadList.clear
+  def export!
+    click_on I18n.t("export.dialog.submit")
   end
 
-  context "CSV export" do
-    context "with default filter" do
-      before do
-        work_packages_page.visit_index
-        filters.expect_filter_count 1
-        filters.open
-      end
+  context "with Query options", :js do
+    let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
+    let(:expected_mime_type) { :pdf }
 
-      it "shows all work packages with the default filters", :js do
+    before do
+      open_export_dialog!
+    end
+
+    # these values must be looped through the dialog into the export
+
+    context "with hierarchies" do
+      let(:expected_params) { { showHierarchies: "true" } }
+
+      it "starts an export with hierarchies" do
+        query.show_hierarchies = true
+        query.save!
         export!
-
-        expect(subject).to have_text(wp1.description)
-        expect(subject).to have_text(wp2.description)
-        expect(subject).to have_text(wp3.description)
-        expect(subject).to have_text(wp4.description)
-
-        # results are ordered by ID (asc) and not grouped by type
-        expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A B A)
-      end
-
-      it "shows all work packages grouped by", :js do
-        group_by.enable_via_menu "Type"
-
-        wp_table.expect_work_package_listed(wp1)
-        wp_table.expect_work_package_listed(wp2)
-        wp_table.expect_work_package_listed(wp3)
-        wp_table.expect_work_package_listed(wp4)
-
-        export!
-
-        expect(subject).to have_text(wp1.description)
-        expect(subject).to have_text(wp2.description)
-        expect(subject).to have_text(wp3.description)
-        expect(subject).to have_text(wp4.description)
-
-        # grouped by type
-        expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
-      end
-
-      it "shows only the work package with the right progress if filtered this way", :js do
-        filters.add_filter_by "% Complete", "is", ["25"], "percentageDone"
-
-        sleep 1
-        loading_indicator_saveguard
-
-        wp_table.expect_work_package_listed(wp1)
-        wp_table.ensure_work_package_not_listed!(wp2, wp3)
-
-        export!
-
-        expect(subject).to have_text(wp1.description)
-        expect(subject).to have_no_text(wp2.description)
-        expect(subject).to have_no_text(wp3.description)
-      end
-
-      it "shows only work packages of the filtered type", :js do
-        filters.add_filter_by "Type", "is (OR)", wp3.type.name
-
-        expect(page).to have_no_content(wp2.description) # safeguard
-
-        sleep(0.5)
-
-        export!
-
-        expect(subject).to have_no_text(wp1.description)
-        expect(subject).to have_no_text(wp2.description)
-        expect(subject).to have_text(wp3.description)
-      end
-
-      it "exports selected columns", :js do
-        columns.add "% Complete"
-
-        export!
-
-        expect(subject).to have_text("% Complete")
-        expect(subject).to have_text("25")
       end
     end
 
-    describe "with a manually sorted query", :js do
-      let(:query) do
-        create(:query,
-               user: current_user,
-               project:)
-      end
+    context "with sums" do
+      let(:expected_params) { { showSums: "true" } }
 
-      before do
-        OrderedWorkPackage.create(query:, work_package: wp4, position: 0)
-        OrderedWorkPackage.create(query:, work_package: wp1, position: 1)
-        OrderedWorkPackage.create(query:, work_package: wp2, position: 2)
-        OrderedWorkPackage.create(query:, work_package: wp3, position: 3)
-
-        query.add_filter("manual_sort", "ow", [])
-        query.sort_criteria = [[:manual_sorting, "asc"]]
-        query.save!
-      end
-
-      it "returns the correct number of work packages" do
-        wp_table.visit_query query
-        wp_table.expect_work_package_listed(wp1, wp2, wp3, wp4)
-        wp_table.expect_work_package_order(wp4, wp1, wp2, wp3)
-
+      it "starts an export with sums" do
+        query.display_sums = true
         export!
-
-        expect(page).to have_css(".job-status--modal .icon-checkmark", wait: 10)
-        expect(page).to have_content("The export has completed successfully.")
-
-        expect(subject).to have_text(wp1.description)
-        expect(subject).to have_text(wp2.description)
-        expect(subject).to have_text(wp3.description)
-        expect(subject).to have_text(wp4.description)
-
-        # results are ordered by ID (asc) and not grouped by type
-        expect(subject.scan(/WorkPackage No\. \d+,/)).to eq([wp4, wp1, wp2, wp3].map { |wp| "#{wp.subject}," })
       end
+    end
+
+    context "with grouping" do
+      let(:expected_params) { { group_by: "project" } }
+
+      it "starts an export grouped" do
+        query.group_by = "project"
+        export!
+      end
+    end
+
+    context "with subprojects" do
+      let(:expected_params) { { includeSubprojects: "true" } }
+
+      it "starts an export with subprojects" do
+        query.include_subprojects = true
+        export!
+      end
+    end
+  end
+
+  context "with CSV export", :js do
+    let(:export_type) { I18n.t("export.dialog.format.options.csv.label") }
+    let(:expected_mime_type) { :csv }
+    let(:expected_params) { default_params }
+
+    before do
+      open_export_dialog!
+    end
+
+    it "exports a csv" do
+      export!
+    end
+  end
+
+  context "with XLS export", :js do
+    let(:export_type) { I18n.t("export.dialog.format.options.xls.label") }
+    let(:expected_mime_type) { :xls }
+    let(:expected_params) { default_params }
+
+    before do
+      open_export_dialog!
+    end
+
+    it "exports a xls" do
+      export!
     end
   end
 
   context "PDF export", :js do
+    let(:expected_mime_type) { :pdf }
+
     before do
-      query.column_names = query.displayable_columns.map { |c| c.name.to_s } - ["bcf_thumbnail"]
-      query.save!
-      allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
-        .to receive(:export!)
-              .and_return(
-                Exports::Result.new(format: :pdf,
-                                    title: "foo",
-                                    content: Tempfile.new("something"),
-                                    mime_type: "application/pdf")
-              )
+      open_export_dialog!
     end
 
     context "table" do
-      let(:export_type) { I18n.t("export.format.pdf_overview_table") }
-
-      context "with many columns" do
-        before do
-          # Despite attempts to provoke the error by having a lot of columns, the pdf
-          # is still being drawn successfully. We thus have to fake the error.
-          allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
-            .to receive(:export!)
-                  .and_raise(I18n.t(:error_pdf_export_too_many_columns))
-        end
-
-        it "returns the error" do
-          wp_table.visit_query query
-          export!(false)
-          expect(page)
-            .to have_content(I18n.t(:error_pdf_export_too_many_columns), wait: 10)
-        end
-      end
+      let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
+      let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.table.label") }
+      let(:expected_params) { default_params.merge({ pdf_export_type: "table" }) }
 
       it "exports a pdf table" do
-        wp_table.visit_query query
+        choose export_sub_type
         export!
       end
     end
 
     context "report" do
-      let(:export_type) { I18n.t("export.format.pdf_report") }
+      let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
+      let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.report.label") }
 
-      it "exports a pdf report" do
-        wp_table.visit_query query
-        export!
+      context "with image" do
+        let(:expected_params) { default_params.merge({ pdf_export_type: "report", show_images: "1" }) }
+
+        it "exports a pdf report with image by default" do
+          choose export_sub_type
+          export!
+        end
+
+        it "exports a pdf report with checked input" do
+          choose export_sub_type
+          check I18n.t("export.dialog.pdf.include_images.label")
+          export!
+        end
       end
-    end
 
-    context "report with images" do
-      let(:export_type) { I18n.t("export.format.pdf_report_with_images") }
+      context "without images" do
+        let(:expected_params) { default_params.merge({ pdf_export_type: "report", show_images: "0" }) }
 
-      it "exports a pdf report with images" do
-        wp_table.visit_query query
-        export!
+        it "exports a pdf report with checked input" do
+          choose export_sub_type
+          uncheck I18n.t("export.dialog.pdf.include_images.label")
+          export!
+        end
       end
     end
 
     context "gantt" do
-      let(:export_type) { I18n.t("export.format.pdf_gantt") }
+      let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
+      let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.gantt.label") }
 
-      context "not in module gantt and not EE" do
-        it "has no gantt export" do
-          wp_table.visit_query query
-          work_packages_page.ensure_loaded
-          settings_menu.open_and_choose "Export"
-          expect(page).to have_no_content(export_type)
+      context "with EE not active" do
+        it "gantt is disabled" do
+          expect(page).to have_field("pdf_export_type_gantt", type: "radio", disabled: true)
         end
       end
 
-      context "in module gantt" do
-        let(:wp_table) { Pages::WorkPackagesTimeline.new(project) }
+      context "with EE active", with_ee: %i[gantt_pdf_export] do
+        let(:expected_params) { default_params.merge({ pdf_export_type: "gantt" }) }
 
-        context "EE not active" do
-          it "has no gantt export" do
-            wp_table.visit_query query_tl
-            settings_menu.open_and_choose "Export"
-            expect(page).to have_no_content(export_type)
+        before do
+          choose export_sub_type
+        end
+
+        it "exports a gantt chart pdf" do
+          export!
+        end
+
+        context "with zoom level" do
+          let(:expected_params) { default_params.merge({ pdf_export_type: "gantt", gantt_mode: "week" }) }
+
+          it "exports a pdf gantt chart by weeks" do
+            select I18n.t("export.dialog.pdf.gantt_zoom_levels.options.weeks"), from: "gantt_mode"
+            export!
           end
         end
 
-        context "EE active", with_ee: %i[gantt_pdf_export] do
-          it "exports a gantt pdf" do
-            wp_table.visit_query query_tl
-            settings_menu.open_and_choose "Export"
-            click_on export_type
-            expect(page).to have_content I18n.t("js.gantt_chart.export.title").upcase
-            click_on I18n.t("js.gantt_chart.export.button_export")
-            expect_export_in_queue
-            perform!
+        context "with column width" do
+          let(:expected_params) { default_params.merge({ pdf_export_type: "gantt", gantt_width: "very_wide" }) }
+
+          it "exports a pdf gantt chart by column width" do
+            select I18n.t("export.dialog.pdf.column_width.options.very_wide"), from: "gantt_width"
+            export!
           end
         end
-      end
-    end
-  end
 
-  # Atom exports are not downloaded. In fact, it is not even a download but rather
-  # a feed one can follow.
-  context "Atom export", :js do
-    let(:export_type) { "Atom" }
+        context "with paper size" do
+          let(:expected_params) { default_params.merge({ pdf_export_type: "gantt", paper_size: "A1" }) }
 
-    context "with default filter" do
-      before do
-        work_packages_page.visit_index
-        filters.expect_filter_count 1
-        filters.open
-      end
-
-      it "shows an xml with work packages" do
-        settings_menu.open_and_choose "Export"
-
-        # The feed is opened in a new tab
-        new_window = window_opened_by { click_on export_type }
-
-        within_window new_window do
-          expect(page).to have_text(wp1.description)
-          expect(page).to have_text(wp2.description)
-          expect(page).to have_text(wp3.description)
-          expect(page).to have_text(wp4.description)
+          it "exports a pdf gantt chart in A1" do
+            select "A1", from: "paper_size"
+            export!
+          end
         end
       end
     end

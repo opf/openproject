@@ -42,12 +42,15 @@ module WorkPackages
 
         def pdf_export_types
           [
-            { label: "Table", value: "table",
-              caption: "Export the work packages list in a table with the desired columns." },
-            { label: "Report", value: "report",
-              caption: "Export the work package on a detailed report of all work packages in the list." },
-            { label: "Gantt chart", value: "gantt",
-              caption: "Export the work packages list in a Gantt diagram view.",
+            { value: "table",
+              label: I18n.t("export.dialog.pdf.export_type.options.table.label"),
+              caption: I18n.t("export.dialog.pdf.export_type.options.table.caption") },
+            { value: "report",
+              label: I18n.t("export.dialog.pdf.export_type.options.report.label"),
+              caption: I18n.t("export.dialog.pdf.export_type.options.report.caption") },
+            { value: "gantt",
+              label: I18n.t("export.dialog.pdf.export_type.options.gantt.label"),
+              caption: I18n.t("export.dialog.pdf.export_type.options.gantt.caption"),
               disabled: !gantt_chart_allowed? }
           ]
         end
@@ -58,21 +61,43 @@ module WorkPackages
             .map { |s| { id: s.name, name: s.caption } }
         end
 
+        def gantt_selects
+          [
+            {
+              name: "gantt_mode",
+              label: I18n.t("export.dialog.pdf.gantt_zoom_levels.label"),
+              caption: I18n.t("export.dialog.pdf.gantt_zoom_levels.caption"),
+              options: gantt_zoom_levels
+            },
+            {
+              name: "gantt_width",
+              label: I18n.t("export.dialog.pdf.column_width.label"),
+              options: gantt_column_widths
+            },
+            {
+              name: "paper_size",
+              label: I18n.t("export.dialog.pdf.paper_size.label"),
+              caption: I18n.t("export.dialog.pdf.paper_size.caption"),
+              options: pdf_paper_sizes
+            }
+          ]
+        end
+
         def gantt_zoom_levels
           [
-            { label: t("js.gantt_chart.zoom.days"), value: "day", default: true },
-            { label: t("js.gantt_chart.zoom.weeks"), value: "week" },
-            { label: t("js.gantt_chart.zoom.months"), value: "month" },
-            { label: t("js.gantt_chart.zoom.quarters"), value: "quarter" }
+            { label: t("export.dialog.pdf.gantt_zoom_levels.options.days"), value: "day", default: true },
+            { label: t("export.dialog.pdf.gantt_zoom_levels.options.weeks"), value: "week" },
+            { label: t("export.dialog.pdf.gantt_zoom_levels.options.months"), value: "month" },
+            { label: t("export.dialog.pdf.gantt_zoom_levels.options.quarters"), value: "quarter" }
           ]
         end
 
         def gantt_column_widths
           [
-            { label: t("js.gantt_chart.export.column_widths.narrow"), value: "narrow" },
-            { label: t("js.gantt_chart.export.column_widths.medium"), value: "medium", default: true },
-            { label: t("js.gantt_chart.export.column_widths.wide"), value: "wide" },
-            { label: t("js.gantt_chart.export.column_widths.very_wide"), value: "very_wide" }
+            { label: t("export.dialog.pdf.column_width.options.narrow"), value: "narrow" },
+            { label: t("export.dialog.pdf.column_width.options.medium"), value: "medium", default: true },
+            { label: t("export.dialog.pdf.column_width.options.wide"), value: "wide" },
+            { label: t("export.dialog.pdf.column_width.options.very_wide"), value: "very_wide" }
           ]
         end
 

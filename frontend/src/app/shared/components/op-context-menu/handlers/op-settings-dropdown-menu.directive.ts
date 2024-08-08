@@ -53,6 +53,7 @@ import {
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import * as URI from 'urijs';
+import { TurboRequestsService } from "core-app/core/turbo/turbo-requests.service";
 
 @Directive({
   selector: '[opSettingsContextMenu]',
@@ -80,6 +81,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly urlParamsHelper:UrlParamsHelperService,
     readonly opStaticQueries:StaticQueriesService,
+    readonly turboRequests:TurboRequestsService,
     readonly I18n:I18nService,
   ) {
     super(elementRef, opContextMenu);
@@ -338,18 +340,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
             const url = new URL(window.location.href);
             url.pathname = `${url.pathname}/export_dialog`;
             const href = this.addColumnsAndTitleToHref(url.toString());
-            // TODO: export angular=>fetch=>turbo in a utility function
-            fetch(href, {
-              method: 'GET',
-              headers: { Accept: 'text/vnd.turbo-stream.html' },
-              credentials: 'same-origin',
-            })
-              .then((r) => r.text())
-              .then((html) => Turbo.renderStreamMessage(html))
-              .catch(error => {
-                // TODO: error handling
-                console.error(error);
-              });
+            void this.turboRequests.requestStream(href);
           }
           return true;
         },

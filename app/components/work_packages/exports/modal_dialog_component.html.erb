@@ -1,5 +1,5 @@
 <%= render(Primer::Alpha::Dialog.new(
-  title: t('js.label_export'),
+  title: I18n.t('export.dialog.title'),
   size: :xlarge,
   id: MODAL_ID,
   data: {
@@ -11,8 +11,8 @@
   <% dialog.with_body do %>
     <% flex_layout do |modal_body| %>
       <% modal_body.with_row do |_format| %>
-        <%= render(Primer::Beta::Text.new(tag: "legend", font_size: :normal, mb: 2, font_weight: :bold)) { "Export format" } %>
-        <%= render(Primer::Alpha::SegmentedControl.new(ml: 0, mb: 2, "aria-label": "Export format", size: :medium)) do |component|
+        <%= render(Primer::Beta::Text.new(tag: "legend", font_size: :normal, mb: 2, font_weight: :bold)) { I18n.t('export.dialog.format.label') } %>
+        <%= render(Primer::Alpha::SegmentedControl.new(ml: 0, mb: 2, "aria-label": I18n.t('export.dialog.format.label'), size: :medium)) do |component|
           export_formats_settings.each do |format|
             component.with_item(
               label: format[:label], icon: format[:icon], selected: format[:selected],
@@ -53,6 +53,6 @@
         "work-packages--export--dialog-target": "submit"
       },
       scheme: :primary, type: :submit,
-      form: "#{EXPORT_FORM_ID}-#{export_formats_settings.find { |e| e[:selected] }[:id]}")) { "Export" } %>
+      form: "#{EXPORT_FORM_ID}-#{export_formats_settings.find { |e| e[:selected] }[:id]}")) { I18n.t('export.dialog.submit') } %>
   <% end %>
 <% end %>

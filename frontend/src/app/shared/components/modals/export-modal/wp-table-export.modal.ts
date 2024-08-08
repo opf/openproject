@@ -19,7 +19,6 @@ import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.servi
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 
 interface ExportLink extends HalLink {
   identifier:string;
@@ -44,62 +43,12 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
   public $element:HTMLElement;
 
   public exportOptions:ExportOptions[];
-  public ganttOption?:ExportOptions;
-
-  public ganttFields = {
-    dates: {
-      id: 'gantt-option-mode',
-      label: this.I18n.t('js.gantt_chart.export.options.date_zoom'),
-      paramName: 'gantt_mode',
-      value: 'day',
-      options: [
-        { label: this.I18n.t('js.gantt_chart.zoom.days'), value: 'day' },
-        { label: this.I18n.t('js.gantt_chart.zoom.weeks'), value: 'week' },
-        { label: this.I18n.t('js.gantt_chart.zoom.months'), value: 'month' },
-        { label: this.I18n.t('js.gantt_chart.zoom.quarters'), value: 'quarter' },
-      ],
-    },
-    zoom: {
-      id: 'gantt-option-width',
-      label: this.I18n.t('js.gantt_chart.export.options.column_widths'),
-      paramName: 'gantt_width',
-      value: 'medium',
-      options: [
-        { label: this.I18n.t('js.gantt_chart.export.column_widths.narrow'), value: 'narrow' },
-        { label: this.I18n.t('js.gantt_chart.export.column_widths.medium'), value: 'medium' },
-        { label: this.I18n.t('js.gantt_chart.export.column_widths.wide'), value: 'wide' },
-        { label: this.I18n.t('js.gantt_chart.export.column_widths.very_wide'), value: 'very_wide' },
-      ],
-    },
-    paperSize: {
-      id: 'pdf-option-paper-size',
-      label: this.I18n.t('js.gantt_chart.export.options.paper_size'),
-      paramName: 'paper_size',
-      value: 'A4',
-      // supported page sizes: https://github.com/prawnpdf/pdf-core/blob/6017800c46ce6cb43e0c8c8904e5e08d8e90b259/lib/pdf/core/page_geometry.rb
-      options: [
-        { label: 'A4', value: 'A4' },
-        { label: 'A3', value: 'A3' },
-        { label: 'A2', value: 'A2' },
-        { label: 'A1', value: 'A1' },
-        { label: 'A0', value: 'A0' },
-        { label: 'Executive', value: 'EXECUTIVE' },
-        { label: 'Folio', value: 'FOLIO' },
-        { label: 'Letter', value: 'LETTER' },
-        { label: 'Tabloid', value: 'TABLOID' },
-      ],
-    },
-  };
-
-  public ganttFieldsArray = Object.values(this.ganttFields);
 
   public text = {
     title: this.I18n.t('js.label_export'),
     closePopup: this.I18n.t('js.close_popup_title'),
     exportPreparing: this.I18n.t('js.label_export_preparing'),
     cancelButton: this.I18n.t('js.button_cancel'),
-    ganttOptionSectionTitle: this.I18n.t('js.gantt_chart.export.title'),
-    ganttExport: this.I18n.t('js.gantt_chart.export.button_export'),
     backButton: this.I18n.t('js.button_back'),
   };
 
@@ -113,7 +62,6 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly opStaticQueries:StaticQueriesService,
     readonly loadingIndicator:LoadingIndicatorService,
-    private wpViewTimeline:WorkPackageViewTimelineService,
     readonly toastService:ToastService,
   ) {
     super(locals, cdRef, elementRef);
@@ -144,43 +92,12 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
         url: this.addColumnsAndTitleToHref(format.href as string),
       };
     });
-    if (!this.wpViewTimeline.isVisible) {
-      options = options.filter((option) => !this.isGanttOption(option));
-    }
     return options;
   }
 
   triggerByOption(option:ExportOptions, event:MouseEvent):void {
     event.preventDefault();
-    if (this.isGanttOption(option)) {
-      this.ganttOption = option;
-    } else {
-      this.requestExport(option.url);
-    }
-  }
-
-  isGanttOption(option:ExportOptions):boolean {
-    return option.url.includes('pdf_export_type=gantt');
-  }
-
-  exportGantt(event:MouseEvent):void {
-    event.preventDefault();
-    if (this.ganttOption) {
-      this.requestExport(this.addGanttOptionsToHref(this.ganttOption.url));
-    }
-  }
-
-  closeGanttOptions(event:MouseEvent):void {
-    event.preventDefault();
-    this.ganttOption = undefined;
-  }
-
-  private addGanttOptionsToHref(href:string) {
-    const url = URI(href);
-    this.ganttFieldsArray.forEach((field) => {
-      url.addSearch(field.paramName, field.value);
-    });
-    return url.toString();
+    this.requestExport(option.url);
   }
 
   /**

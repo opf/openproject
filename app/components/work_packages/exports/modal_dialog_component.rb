@@ -52,12 +52,15 @@ module WorkPackages
 
       def export_formats_settings
         [
-          { label: "PDF", id: "pdf", icon: :"op-pdf",
+          { id: "pdf", icon: :"op-pdf",
+            label: I18n.t("export.dialog.format.options.pdf.label"),
             component: WorkPackages::Exports::PDF::ExportSettingsComponent,
             selected: true },
-          { label: "XLS", id: "xls", icon: :"op-xls",
+          { id: "xls", icon: :"op-xls",
+            label: I18n.t("export.dialog.format.options.xls.label"),
             component: WorkPackages::Exports::XLS::ExportSettingsComponent },
-          { label: "CSV", id: "csv", icon: :"op-file-csv",
+          { id: "csv", icon: :"op-file-csv",
+            label: I18n.t("export.dialog.format.options.csv.label"),
             component: WorkPackages::Exports::CSV::ExportSettingsComponent }
         ]
       end

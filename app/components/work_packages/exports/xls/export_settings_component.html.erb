@@ -17,8 +17,8 @@
     end
     container.with_row do |_xls_include_relations|
       render(Primer::Alpha::CheckBox.new(name: 'show_relations',
-                                         label: "Include relations",
-                                         caption: "This option will create a duplicate of each work package for every relation this has with another work package.",
+                                         label: I18n.t("export.dialog.xls.show_relations.label"),
+                                         caption: I18n.t("export.dialog.xls.show_relations.caption"),
                                          visually_hide_label: false))
     end
   end
