@@ -1,6 +1,7 @@
 <%=
   primer_form_with(
     model: provider,
+    id: "saml-providers-edit-form",
     url: import_metadata_saml_provider_path(provider),
     data: {
       controller: "show-when-value-selected"

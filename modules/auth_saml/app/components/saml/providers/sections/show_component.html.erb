@@ -23,6 +23,7 @@
                 tag: :a,
                 scheme: :invisible,
                 href: edit_saml_provider_path(provider, edit_state: @target_state),
+                data: { turbo: true, turbo_stream: true },
                 aria: { label: I18n.t(:label_edit) }
               )
             )

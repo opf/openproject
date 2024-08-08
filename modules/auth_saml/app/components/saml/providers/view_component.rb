@@ -30,6 +30,7 @@
 #
 module Saml::Providers
   class ViewComponent < ApplicationComponent
+    include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
     options :view_mode, :edit_state

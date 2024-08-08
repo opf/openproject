@@ -1,5 +1,7 @@
 module Saml
   class ProvidersController < ::ApplicationController
+    include OpTurbo::ComponentStream
+
     layout "admin"
     menu_item :plugin_saml
 
@@ -14,6 +16,18 @@ module Saml
 
     def edit
       @edit_state = params[:edit_state].to_sym if params.key?(:edit_state)
+
+      respond_to do |format|
+        format.turbo_stream do
+          component = Saml::Providers::ViewComponent.new(@provider,
+                                                         view_mode: :edit,
+                                                         edit_state: @edit_state)
+          update_via_turbo_stream(component:)
+          scroll_into_view_via_turbo_stream("saml-providers-edit-form", behavior: :instant)
+          render turbo_stream: turbo_streams, status:
+        end
+        format.html
+      end
     end
 
     def show; end
