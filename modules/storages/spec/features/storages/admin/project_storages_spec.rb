@@ -250,6 +250,19 @@ RSpec.describe "Admin lists project mappings for a storage",
 
           expect(page).to have_text(project.name)
           expect(page).to have_text(subproject.name)
+
+          aggregate_failures "can edit the project folder" do
+            project_storages_index_page.click_menu_item_of("Edit project folder", project)
+
+            within("dialog") do
+              choose "No specific folder"
+              click_on "Save"
+            end
+
+            project_storages_index_page.within_the_table_row_containing(project.name) do
+              expect(page).to have_text("No specific folder")
+            end
+          end
         end
 
         context "when the user does not select a folder" do
