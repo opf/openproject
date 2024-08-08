@@ -55,20 +55,19 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     create_service = ::Storages::ProjectStorages::BulkCreateService
                          .new(user: current_user, projects: @projects, storage: @storage,
-                              project_folder_mode: params.to_unsafe_h[:storages_project_storage][:project_folder_mode],
                               include_sub_projects: include_sub_projects?)
-                         .call
+                         .call(params.to_unsafe_h[:storages_project_storage])
 
     create_service.on_success { update_project_list_via_turbo_stream(url_for_action: :index) }
 
     create_service.on_failure do
-      update_flash_message_via_turbo_stream(
-        message: join_flash_messages(create_service.errors),
-        full: true, dismiss_scheme: :hide, scheme: :danger
-      )
+      project_storage = create_service.result
+      project_storage.errors.merge!(create_service.errors)
+      component = Storages::Admin::Storages::AddProjectsFormModalComponent.new(project_storage:)
+      update_via_turbo_stream(component:, status: :bad_request)
     end
 
     respond_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)

@@ -42,6 +42,10 @@ See COPYRIGHT and LICENSE files for more details.
         aria: { label: title }
       )) do
         flex_layout do |flex|
+          flex.with_row do
+            angular_component_tag 'opce-custom-modal-overlay'
+          end
+
           flex.with_row(mb: 3) do
             render(Storages::Admin::Storages::AddProjectsAutocompleterForm.new(form, project_storage:))
           end
@@ -58,7 +62,16 @@ See COPYRIGHT and LICENSE files for more details.
             render(Primer::Beta::Text.new) { t(:"storages.help_texts.project_folder_bulk") }
           end
 
-          flex.with_row do
+          flex.with_row(
+            data: {
+              "application-target": "dynamic",
+              controller: "storages--project-folder-mode-form",
+              'storages--project-folder-mode-form-folder-mode-value': @project_storage.project_folder_mode,
+              'storages--project-folder-mode-form-placeholder-folder-name-value': t(:"storages.label_no_selected_folder"),
+              'storages--project-folder-mode-form-not-logged-in-validation-value': t(:"storages.instructions.not_logged_into_storage"),
+              'storages--project-folder-mode-form-last-project-folders-value': @last_project_folders
+            }
+          ) do
             render(Storages::Admin::ProjectStorages::ProjectFolderModeForm.new(form, project_storage:))
           end
         end

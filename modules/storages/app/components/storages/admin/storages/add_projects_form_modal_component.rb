@@ -32,9 +32,12 @@ module Storages
       class AddProjectsFormModalComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
+        include StimulusHelper
+        include AngularHelper
 
         def initialize(project_storage:, **)
           @project_storage = project_storage
+          @last_project_folders = {}
           super(@project_storage, **)
         end
 
