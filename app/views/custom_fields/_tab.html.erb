@@ -27,7 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if (@custom_fields_by_type[tab[:name]] || []).any? %>
+<% if @custom_fields_by_type[tab[:name]].blank? %>
+  <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>
+<% else %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <% if tab[:name] == 'WorkPackageCustomField' %>
@@ -164,6 +166,4 @@ See COPYRIGHT and LICENSE files for more details.
       </table>
     </div>
   </div>
-<% else %>
-  <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>
 <% end %>
