@@ -437,15 +437,17 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                "doesn't contain",
                                ["Plain"])
 
-      click_on "Apply"
-      wait_for_reload
+      projects_page.apply_filters
 
       projects_page.set_columns("Name")
+      wait_for_reload
       projects_page.expect_columns("Name")
+      projects_page.expect_no_columns("Status")
 
       # Sorts ASC by name
       projects_page.sort_by_via_table_header("Name")
       wait_for_reload
+      projects_page.expect_sort_order_via_table_header("Name", direction: :asc)
 
       # Results should be filtered and ordered ASC by name and only the selected columns should be present
       projects_page.expect_projects_listed(development_project)
@@ -458,9 +460,15 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
       projects_page.set_page_size(5)
       wait_for_reload
+      projects_page.expect_page_size(5)
+
       projects_page.set_page_size(1)
       wait_for_reload
-      click_on "2" # Go to pagination page 2
+      projects_page.expect_page_size(1)
+
+      projects_page.go_to_page(2) # Go to pagination page 2
+      wait_for_reload
+      projects_page.expect_current_page_number(2)
 
       # On page 2 you should see the second page of the filtered set ordered ASC by name and only the selected columns exist
       projects_page.expect_projects_listed(public_project)
@@ -473,6 +481,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       # Sorts DESC by name
       projects_page.sort_by_via_table_header("Name")
       wait_for_reload
+      projects_page.expect_sort_order_via_table_header("Name", direction: :desc)
 
       # Clicking on sorting resets the page to the first one
       projects_page.expect_current_page_number(1)
@@ -483,13 +492,12 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                                development_project) # Present on page 2
 
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
-      expect(page).to have_css(".sort.desc", text: "NAME")
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status")
 
       # Sending the filter form again what implies to compose the request freshly
-      click_on "Apply"
-      wait_for_reload
+      projects_page.apply_filters
+      projects_page.expect_sort_order_via_table_header("Name", direction: :desc)
 
       # We should see page 1, resetting pagination, as it is a new filter, but keeping the DESC order on the project
       # name
@@ -497,7 +505,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.expect_projects_not_listed(development_project, # as it is on the second page
                                                project)             # as it filtered out
       projects_page.expect_total_pages(2) # as the result set is larger than 1
-      expect(page).to have_css(".sort.desc", text: "NAME")
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status")
     end
