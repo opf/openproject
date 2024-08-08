@@ -45,8 +45,8 @@ class WorkPackagesController < ApplicationController
   before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
 
-  before_action :load_and_authorize_in_optional_project, only: :export_dialog, if: -> { request.format.html? }
-  before_action :load_and_validate_query, only: :export_dialog, if: -> { request.format.html? }
+  before_action :load_and_authorize_in_optional_project_for_export, only: :export_dialog, if: -> { request.format.html? }
+  before_action :load_and_validate_query_for_export, only: :export_dialog, if: -> { request.format.html? }
 
   def index
     respond_to do |format|
@@ -93,6 +93,14 @@ class WorkPackagesController < ApplicationController
   end
 
   protected
+
+  def load_and_authorize_in_optional_project_for_export
+    load_and_authorize_in_optional_project
+  end
+
+  def load_and_validate_query_for_export
+    load_and_validate_query
+  end
 
   def export_list(mime_type)
     job_id = WorkPackages::Exports::ScheduleService
