@@ -81,6 +81,7 @@ en:
         encryption_form: "You may optionally want to encrypt the assertion response, or have requests from OpenProject signed."
         mapping: "Manually adjust the mapping between the SAML response and user attributes in OpenProject."
         requested_attributes: "Define the set of attributes to be requested in the SAML request sent to your identity provider."
+      seeded_from_env: "This provider was seeded from the environment configuration. It cannot be edited."
     settings:
       metadata_none: "I don't have metadata"
       metadata_url: "Metadata URL"

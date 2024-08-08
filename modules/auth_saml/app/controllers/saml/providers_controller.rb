@@ -6,6 +6,7 @@ module Saml
     before_action :require_admin
     before_action :check_ee
     before_action :find_provider, only: %i[show edit import_metadata update destroy]
+    before_action :check_provider_writable, only: %i[update import_metadata]
 
     def index
       @providers = Saml::Provider.order(display_name: :asc)
@@ -162,6 +163,13 @@ module Saml
       @provider = Saml::Provider.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render_404
+    end
+
+    def check_provider_writable
+      if @provider.seeded_from_env?
+        flash[:error] = I18n.t(:label_seeded_from_env_warning)
+        redirect_to saml_provider_path(@provider)
+      end
     end
   end
 end

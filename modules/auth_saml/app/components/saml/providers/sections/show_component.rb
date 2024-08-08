@@ -41,5 +41,11 @@ module Saml::Providers::Sections
       @label = label
       @label_scheme = label_scheme
     end
+
+    def show_edit?
+      return false if provider.seeded_from_env?
+
+      provider.persisted? && @view_mode == :show
+    end
   end
 end

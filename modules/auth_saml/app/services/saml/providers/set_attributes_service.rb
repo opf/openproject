@@ -48,6 +48,8 @@ module Saml
 
       def update_options(options)
         update_idp_cert(options.delete(:idp_cert)) if options.key?(:idp_cert)
+        update_certificate(options.delete(:certificate)) if options.key?(:certificate)
+        update_private_key(options.delete(:private_key)) if options.key?(:private_key)
 
         options
           .select { |key, _| Saml::Provider.stored_attributes[:options].include?(key.to_s) }
@@ -92,6 +94,14 @@ module Saml
           else
             OneLogin::RubySaml::Utils.format_cert(cert)
           end
+      end
+
+      def update_certificate(cert)
+        model.certificate = OneLogin::RubySaml::Utils.format_cert(cert)
+      end
+
+      def update_private_key(private_key)
+        model.private_key = OneLogin::RubySaml::Utils.format_private_key(private_key)
       end
 
       ##

@@ -1,3 +1,11 @@
+<% if provider.seeded_from_env? %>
+  <%=
+    render(Primer::Alpha::Banner.new(mb: 2, scheme: :default, icon: :bell, spacious: true)) do
+      I18n.t("saml.providers.seeded_from_env")
+    end
+  %>
+<% end %>
+
 <%=
   render(border_box_container) do |component|
     component.with_header(color: :muted) do

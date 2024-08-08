@@ -21,7 +21,9 @@ module OpenProject
     end
 
     def self.settings_from_providers
-      Saml::Provider.all.each_with_object({}) do |provider, hash|
+      Saml::Provider
+        .where(available: true)
+        .each_with_object({}) do |provider, hash|
         hash[provider.slug] = provider.to_h
       end
     end
@@ -96,10 +98,12 @@ module OpenProject
       end
 
       initializer "auth_saml.configuration" do
-        ::Settings::Definition.add "saml",
+        ::Settings::Definition.add :seed_saml_provider,
+                                   description: "Provide a SAML provider and sync its settings through ENV",
+                                   env_alias: "OPENPROJECT_SAML",
+                                   writable: false,
                                    default: nil,
-                                   format: :hash,
-                                   writable: false
+                                   format: :hash
       end
     end
   end

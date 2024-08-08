@@ -3,23 +3,25 @@
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% header.with_title { @provider.display_name } %>
 
-  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration")},
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
                               { href: saml_providers_path, text: t('saml.providers.plural') },
                               @provider.display_name]) %>
 
   <%
-    header.with_action_button(tag: :a,
-                              scheme: :danger,
-                              mobile_icon: :trash,
-                              mobile_label: t(:button_delete),
-                              size: :medium,
-                              href: saml_provider_path(@provider),
-                              aria: { label: I18n.t(:button_delete) },
-                              data: {
-                                confirm: t(:text_are_you_sure),
-                                method: :delete,
-                              },
-                              title: I18n.t(:button_delete)) do |button|
+    header.with_action_button(
+      tag: :a,
+      scheme: :danger,
+      mobile_icon: :trash,
+      mobile_label: t(:button_delete),
+      size: :medium,
+      href: saml_provider_path(@provider),
+      aria: { label: I18n.t(:button_delete) },
+      data: {
+        confirm: t(:text_are_you_sure),
+        method: :delete,
+      },
+      title: I18n.t(:button_delete)
+    ) do |button|
       button.with_leading_visual_icon(icon: :trash)
       t(:button_delete)
     end

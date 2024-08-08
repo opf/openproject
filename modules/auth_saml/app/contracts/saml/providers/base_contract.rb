@@ -35,6 +35,7 @@ module Saml
       end
 
       attribute :display_name
+      attribute :slug
       attribute :options
       attribute :metadata_url
       validates :metadata_url,
