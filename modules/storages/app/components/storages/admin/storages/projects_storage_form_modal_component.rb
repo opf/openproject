@@ -35,9 +35,9 @@ module Storages
         include StimulusHelper
         include AngularHelper
 
-        def initialize(project_storage:, **)
+        def initialize(project_storage:, last_project_folders: {}, **)
           @project_storage = project_storage
-          @last_project_folders = {}
+          @last_project_folders = last_project_folders
           super(@project_storage, **)
         end
 
