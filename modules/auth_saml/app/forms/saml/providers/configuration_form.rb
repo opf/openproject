@@ -76,6 +76,13 @@ module Saml
           required: false,
           input_width: :large
         )
+        f.text_field(
+          name: :icon,
+          label: I18n.t("activemodel.attributes.saml/provider.icon"),
+          caption: I18n.t("saml.instructions.icon"),
+          required: false,
+          input_width: :large
+        )
       end
     end
   end

@@ -82,7 +82,7 @@ module Saml
       end
 
       def set_default_creator
-        model.creator = user
+        model.creator ||= user
       end
 
       def update_idp_cert(cert)

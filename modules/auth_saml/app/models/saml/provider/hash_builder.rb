@@ -57,6 +57,7 @@ module Saml
       {
         name: slug,
         display_name:,
+        icon:,
         assertion_consumer_service_url:,
         sp_entity_id:,
         idp_sso_service_url:,

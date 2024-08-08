@@ -2,6 +2,7 @@ module Saml
   class Provider < AuthProvider
     include HashBuilder
 
+    store_attribute :options, :icon, :string
     store_attribute :options, :sp_entity_id, :string
     store_attribute :options, :name_identifier_format, :string
     store_attribute :options, :metadata_url, :string

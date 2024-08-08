@@ -21,6 +21,7 @@ en:
         signature_method: Signature algorithm
         digest_method: Digest algorithm
         format: "Format"
+        icon: "Custom icon"
   activerecord:
     errors:
       models:
@@ -147,3 +148,5 @@ en:
         Select the signature algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
       digest_method: >
         Select the digest algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+      icon: >
+        Optionally provide a public URL to an icon graphic that will be displayed next to the provider name.
