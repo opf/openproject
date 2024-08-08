@@ -366,10 +366,10 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Діліться списками проєктів і робіть їх загальнодоступними (доповнення Enterprise)</li> <li>Позначайте списки проєктів як обрані</li> <li>Перевіряйте підключення для сховищ OneDrive / SharePoint (доповнення Enterprise)</li> <li>Новий вигляд сторінки профілю користувача з Primer</li> <li>Експорт діаграми Ганта в PDF: додаткове масштабування дати за календарними тижнями</li> <li>Рядок пошуку в компоненті підменю (списки проєктів, діаграми Ґанта й дошки)</li> <li>Вибирайте спосіб відображення звітів про виконання: лише в годинах або в днях і годинах</li> <li>Скасовуйте вибір проєктів у засобі вибору</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."

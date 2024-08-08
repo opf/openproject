@@ -366,10 +366,10 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>프로젝트 목록 공유 및 공개로 전환(Enterprise 추가 기능)</li> <li>프로젝트 목록을 즐겨찾기로 표시</li> <li>OneDrive/SharePoint 저장소에 대한 연결 유효성 검사(Enterprise 추가 기능)</li> <li>사용자 프로필 페이지에서 Primer로 선보이는 새로운 디자인</li> <li>Gantt 차트 PDF 내보내기: 달력 주에 기반한 추가적인 날짜 확대/축소</li> <li>하위 메뉴 구성 요소에 대한 검색 표시줄(프로젝트 목록과 Gantt 및 보드 모듈)</li> <li>시간만 또는 일 및 시간으로 표시되는 진행률 보고 중에서 선택</li> <li>프로젝트 선택기에서 프로젝트 선택 해제</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."

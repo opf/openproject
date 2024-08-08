@@ -366,10 +366,10 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Udostępnianie list projektów i upublicznianie ich (dodatek Enterprise)</li> <li>Oznaczanie list projektów jako ulubionych</li> <li>Weryfikacja połączenia dla magazynów OneDrive/SharePoint (dodatek Enterprise)</li> <li>Nowy wygląd z Primer dla strony profilu użytkownika</li> <li>Eksport wykresu Gantta w formacie PDF: dodatkowe powiększenie daty na podstawie tygodni kalendarzowych</li> <li>Pasek wyszukiwania do składnika podmenu (listy projektów oraz moduły Wykres Gantta i Tablice)</li> <li>Możliwość wyboru między raportowaniem postępu wyświetlanym tylko w godzinach albo w dniach i godzinach</li> <li>Usunięcie wyboru projektów z selektora projektów</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
