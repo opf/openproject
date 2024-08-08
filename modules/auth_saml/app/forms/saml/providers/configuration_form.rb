@@ -34,6 +34,7 @@ module Saml
           name: :sp_entity_id,
           label: I18n.t("activemodel.attributes.saml/provider.sp_entity_id"),
           caption: I18n.t("saml.instructions.sp_entity_id"),
+          disabled: provider.seeded_from_env?,
           required: true,
           input_width: :large
         )
@@ -41,6 +42,7 @@ module Saml
           name: :idp_sso_service_url,
           label: I18n.t("activemodel.attributes.saml/provider.idp_sso_service_url"),
           caption: I18n.t("saml.instructions.idp_sso_service_url"),
+          disabled: provider.seeded_from_env?,
           required: true,
           input_width: :large
         )
@@ -48,6 +50,7 @@ module Saml
           name: :idp_slo_service_url,
           label: I18n.t("activemodel.attributes.saml/provider.idp_slo_service_url"),
           caption: I18n.t("saml.instructions.idp_slo_service_url"),
+          disabled: provider.seeded_from_env?,
           required: false,
           input_width: :large
         )
@@ -56,6 +59,7 @@ module Saml
           rows: 10,
           label: I18n.t("activemodel.attributes.saml/provider.idp_cert"),
           caption: I18n.t("saml.instructions.idp_cert"),
+          disabled: provider.seeded_from_env?,
           required: true,
           input_width: :large
         )
@@ -63,6 +67,7 @@ module Saml
           name: "name_identifier_format",
           label: I18n.t("activemodel.attributes.saml/provider.name_identifier_format"),
           input_width: :large,
+          disabled: provider.seeded_from_env?,
           caption: I18n.t("saml.instructions.name_identifier_format")
         ) do |list|
           Saml::Defaults::NAME_IDENTIFIER_FORMATS.each do |format|
@@ -73,6 +78,7 @@ module Saml
           name: :limit_self_registration,
           label: I18n.t("activemodel.attributes.saml/provider.limit_self_registration"),
           caption: I18n.t("saml.instructions.limit_self_registration"),
+          disabled: provider.seeded_from_env?,
           required: false,
           input_width: :large
         )
@@ -80,6 +86,7 @@ module Saml
           name: :icon,
           label: I18n.t("activemodel.attributes.saml/provider.icon"),
           caption: I18n.t("saml.instructions.icon"),
+          disabled: provider.seeded_from_env?,
           required: false,
           input_width: :large
         )

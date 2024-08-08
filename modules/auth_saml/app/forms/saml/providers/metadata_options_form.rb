@@ -33,6 +33,7 @@ module Saml
         f.radio_button_group(
           name: "metadata",
           scope_name_to_model: false,
+          disabled: provider.seeded_from_env?,
           label: I18n.t("saml.providers.label_metadata")
         ) do |radio_group|
           radio_group.radio_button(
@@ -40,6 +41,7 @@ module Saml
             checked: !@provider.has_metadata?,
             label: I18n.t("saml.settings.metadata_none"),
             caption: I18n.t("saml.instructions.metadata_none"),
+            disabled: provider.seeded_from_env?,
             data: { "show-when-value-selected-target": "cause" }
           )
 
@@ -48,6 +50,7 @@ module Saml
             checked: @provider.metadata_url.present?,
             label: I18n.t("saml.settings.metadata_url"),
             caption: I18n.t("saml.instructions.metadata_url"),
+            disabled: provider.seeded_from_env?,
             data: { "show-when-value-selected-target": "cause" }
           )
 
@@ -56,6 +59,7 @@ module Saml
             checked: @provider.metadata_xml.present?,
             label: I18n.t("saml.settings.metadata_xml"),
             caption: I18n.t("saml.instructions.metadata_xml"),
+            disabled: provider.seeded_from_env?,
             data: { "show-when-value-selected-target": "cause" }
           )
         end

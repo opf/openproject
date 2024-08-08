@@ -43,8 +43,6 @@ module Saml::Providers::Sections
     end
 
     def show_edit?
-      return false if provider.seeded_from_env?
-
       provider.persisted? && @view_mode == :show
     end
   end

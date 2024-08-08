@@ -40,6 +40,7 @@ module Saml
               name: :"requested_#{attribute}_attribute",
               label: I18n.t("saml.providers.label_requested_attribute_for", attribute: label),
               required: !uid,
+              disabled: provider.seeded_from_env?,
               caption: uid ? I18n.t("saml.instructions.request_uid") : nil,
               input_width: :large
             )
@@ -48,6 +49,7 @@ module Saml
               name: :"requested_#{attribute}_format",
               label: I18n.t("activemodel.attributes.saml/provider.format"),
               input_width: :large,
+              disabled: provider.seeded_from_env?,
               caption: link_translate(
                 "saml.instructions.documentation_link",
                 links: {

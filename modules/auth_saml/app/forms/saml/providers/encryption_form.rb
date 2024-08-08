@@ -34,18 +34,21 @@ module Saml
           name: :authn_requests_signed,
           label: I18n.t("activemodel.attributes.saml/provider.authn_requests_signed"),
           caption: I18n.t("saml.instructions.authn_requests_signed"),
+          disabled: provider.seeded_from_env?,
           required: true
         )
         f.check_box(
           name: :want_assertions_signed,
           label: I18n.t("activemodel.attributes.saml/provider.want_assertions_signed"),
           caption: I18n.t("saml.instructions.want_assertions_signed"),
+          disabled: provider.seeded_from_env?,
           required: true
         )
         f.check_box(
           name: :want_assertions_encrypted,
           label: I18n.t("activemodel.attributes.saml/provider.want_assertions_encrypted"),
           caption: I18n.t("saml.instructions.want_assertions_encrypted"),
+          disabled: provider.seeded_from_env?,
           required: true
         )
         f.text_area(
@@ -54,6 +57,7 @@ module Saml
           label: I18n.t("activemodel.attributes.saml/provider.certificate"),
           caption: I18n.t("saml.instructions.certificate"),
           required: false,
+          disabled: provider.seeded_from_env?,
           input_width: :large
         )
         f.text_area(
@@ -62,12 +66,14 @@ module Saml
           label: I18n.t("activemodel.attributes.saml/provider.private_key"),
           caption: I18n.t("saml.instructions.private_key"),
           required: false,
+          disabled: provider.seeded_from_env?,
           input_width: :large
         )
         f.select_list(
           name: :digest_method,
           label: I18n.t("activemodel.attributes.saml/provider.digest_method"),
           input_width: :large,
+          disabled: provider.seeded_from_env?,
           caption: I18n.t("saml.instructions.digest_method", default_option: "SHA-1")
         ) do |list|
           Saml::Defaults::DIGEST_METHODS.each do |label, value|
@@ -78,6 +84,7 @@ module Saml
           name: :signature_method,
           label: I18n.t("activemodel.attributes.saml/provider.signature_method"),
           input_width: :large,
+          disabled: provider.seeded_from_env?,
           caption: I18n.t("saml.instructions.signature_method", default_option: "RSA SHA-1")
         ) do |list|
           Saml::Defaults::SIGNATURE_METHODS.each do |label, value|

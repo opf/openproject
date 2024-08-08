@@ -34,6 +34,7 @@ module Saml
           name: :display_name,
           label: I18n.t("activemodel.attributes.saml/provider.display_name"),
           required: true,
+          disabled: provider.seeded_from_env?,
           caption: I18n.t("saml.instructions.display_name"),
           input_width: :medium
         )

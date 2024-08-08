@@ -35,6 +35,7 @@ module Saml
           label: I18n.t("saml.providers.label_mapping_for", attribute: User.human_attribute_name(:login)),
           caption: I18n.t("saml.instructions.mapping_login"),
           required: true,
+          disabled: provider.seeded_from_env?,
           rows: 8,
           input_width: :large
         )
@@ -43,6 +44,7 @@ module Saml
           label: I18n.t("saml.providers.label_mapping_for", attribute: User.human_attribute_name(:mail)),
           caption: I18n.t("saml.instructions.mapping_mail"),
           required: true,
+          disabled: provider.seeded_from_env?,
           rows: 8,
           input_width: :large
         )
@@ -51,6 +53,7 @@ module Saml
           label: I18n.t("saml.providers.label_mapping_for", attribute: User.human_attribute_name(:first_name)),
           caption: I18n.t("saml.instructions.mapping_firstname"),
           required: true,
+          disabled: provider.seeded_from_env?,
           rows: 8,
           input_width: :large
         )
@@ -59,6 +62,7 @@ module Saml
           label: I18n.t("saml.providers.label_mapping_for", attribute: User.human_attribute_name(:last_name)),
           caption: I18n.t("saml.instructions.mapping_lastname"),
           required: true,
+          disabled: provider.seeded_from_env?,
           rows: 8,
           input_width: :large
         )
@@ -66,6 +70,7 @@ module Saml
           name: :mapping_uid,
           label: I18n.t("saml.providers.label_mapping_for", attribute: I18n.t("saml.providers.label_uid")),
           caption: I18n.t("saml.instructions.mapping_uid"),
+          disabled: provider.seeded_from_env?,
           rows: 8,
           required: false,
           input_width: :large

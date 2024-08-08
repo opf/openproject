@@ -13,18 +13,19 @@
       end
     end
 
+    disabled = provider.seeded_from_env?
     if show_edit?
       grid.with_area(:action) do
         flex_layout(justify_content: :flex_end) do |icons_container|
           icons_container.with_column do
             render(
               Primer::Beta::IconButton.new(
-                icon: :pencil,
+                icon: disabled ? :eye : :pencil,
                 tag: :a,
                 scheme: :invisible,
                 href: edit_saml_provider_path(provider, edit_state: @target_state),
                 data: { turbo: true, turbo_stream: true },
-                aria: { label: I18n.t(:label_edit) }
+                aria: { label: I18n.t(disabled ? :label_show : :label_edit) }
               )
             )
           end

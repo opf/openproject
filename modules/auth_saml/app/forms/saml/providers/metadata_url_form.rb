@@ -34,6 +34,7 @@ module Saml
           name: :metadata_url,
           label: I18n.t("saml.settings.metadata_url"),
           required: false,
+          disabled: provider.seeded_from_env?,
           caption: I18n.t("saml.instructions.metadata_url"),
           input_width: :xlarge
         )

@@ -29,6 +29,8 @@
 module Saml
   module Providers
     class BaseForm < ApplicationForm
+      attr_reader :provider
+
       def initialize(provider:)
         super()
         @provider = provider

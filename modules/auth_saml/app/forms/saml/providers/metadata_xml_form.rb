@@ -35,6 +35,7 @@ module Saml
           label: I18n.t("saml.settings.metadata_xml"),
           caption: I18n.t("saml.instructions.metadata_xml"),
           required: false,
+          disabled: provider.seeded_from_env?,
           full_width: false,
           rows: 10,
           input_width: :medium
