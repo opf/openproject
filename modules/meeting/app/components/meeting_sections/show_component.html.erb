@@ -8,7 +8,7 @@
       end
       if render_new_button_in_section?
         component.with_row(data: { 'empty-list-item': true }) do
-          flex_layout(align_items: :center, justify_content: :space_between) do |empty_list_container|
+          flex_layout(align_items: :center, justify_content: :space_between, classes: "hide-when-print") do |empty_list_container|
             empty_list_container.with_column(mr: 2) do
               render(Primer::Beta::Text.new(color: :subtle)) { t("meeting_section.empty_text") }
             end
