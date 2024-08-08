@@ -43,9 +43,7 @@ module Saml
 
     attr_accessor :readonly
 
-    def slug
-      options.fetch(:name) { "saml-#{id}" }
-    end
+    def self.slug_fragment = "saml"
 
     def has_metadata?
       metadata_xml.present? || metadata_url.present?

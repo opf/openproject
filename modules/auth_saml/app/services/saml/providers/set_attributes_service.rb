@@ -58,6 +58,7 @@ module Saml
 
       def set_default_attributes(*)
         model.change_by_system do
+          set_slug
           set_default_creator
           set_default_mapping
           set_default_requested_attributes
@@ -65,6 +66,10 @@ module Saml
           set_name_identifier_format
           set_default_digest
         end
+      end
+
+      def set_slug
+        model.slug ||= "#{model.class.slug_fragment}-#{model.display_name.to_url}"
       end
 
       def set_default_digest
