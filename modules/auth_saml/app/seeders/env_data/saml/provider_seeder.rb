@@ -31,7 +31,7 @@ module EnvData
       def seed_data!
         Setting.seed_saml_provider.each do |name, options|
           print_status "    ↳ Creating or Updating SAML provider #{name}" do
-            provider = ::Saml::Provider.find_by(slug: "saml-env-#{name}")
+            provider = ::Saml::Provider.find_by(slug: name)
             options = mapped_options(options)
             params = {
               slug: name,

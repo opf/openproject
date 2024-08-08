@@ -2,11 +2,18 @@ module Saml
   module Provider::HashBuilder
     def formatted_attribute_statements
       {
-        email: mapping_mail&.split("[\r\n]+"),
-        login: mapping_login&.split("[\r\n]+"),
-        first_name: mapping_firstname&.split("[\r\n]+"),
-        last_name: mapping_lastname&.split("[\r\n]+")
+        email: split_attribute_mapping(mapping_mail),
+        login: split_attribute_mapping(mapping_login),
+        first_name: split_attribute_mapping(mapping_firstname),
+        last_name: split_attribute_mapping(mapping_lastname),
+        uid: split_attribute_mapping(mapping_uid)
       }.compact
+    end
+
+    def split_attribute_mapping(mapping)
+      return if mapping.blank?
+
+      mapping.split(/\s*\R+\s*/)
     end
 
     def formatted_request_attributes
