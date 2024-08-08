@@ -51,9 +51,9 @@ class Projects::ProjectsFiltersComponent < Filter::FilterComponent
       Queries::Projects::Filters::NameAndIdentifierFilter,
       Queries::Projects::Filters::TypeFilter,
       Queries::Projects::Filters::FavoredFilter,
-      Queries::Projects::Filters::IdFilter
+      Queries::Projects::Filters::IdFilter,
+      Queries::Filters::Shared::CustomFields::Base
     ]
-    allowlist << Queries::Filters::Shared::CustomFields::Base if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
 
     allowlist.any? { |clazz| filter.is_a? clazz }
   end
