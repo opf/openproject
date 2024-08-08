@@ -88,7 +88,7 @@ For more details, see https://community.openproject.org/wp/55233.
 
 ### Meetings: Saving a new agenda item does not automatically add another empty one
 
-In the past, when working with the meeting module in OpenProject, a new agenda item was automatically created as soon as a previous one was saved. This was originally built so that new items could be added to a meeting in quick succession. However, working with it has shown that often no new agenda item was needed at all - but, for example, a work package should be added or another change made. For this reason, OpenProject 14.4 has virtually reversed this feature: **saving an agenda item no longer creates a new empty one**.
+In the past, when working with the meeting module in OpenProject, a new agenda item was automatically created as soon as a previous one was saved. This was originally built so that new items could be added to a meeting in quick succession. However, working with it has shown that often no new agenda item was needed at all - but, for example, a work package should be added or another change made. For this reason, OpenProject 14.4 has virtually reversed this feature: **saving a new agenda item no longer creates a new empty one**.
 
 ### Meetings tab on work packages: Display related meetings chronologically
 
