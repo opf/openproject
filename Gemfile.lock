@@ -780,7 +780,7 @@ GEM
       actionview
       openproject-octicons (= 19.18.0)
       railties
-    openproject-primer_view_components (0.41.0)
+    openproject-primer_view_components (0.41.1)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
       openproject-octicons (>= 19.17.0)
