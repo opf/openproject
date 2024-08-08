@@ -213,13 +213,13 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="form--field">
       <%= f.check_box :admin_only %>
       <div class="form--field-instructions">
-        <p><%= t('custom_fields.instructions.admin_only_for_project') %></p>
+        <p><%= t('custom_fields.instructions.admin_only') %></p>
       </div>
     </div>
     <div class="form--field" <%= format_dependent.attributes(:searchable) %>>
       <%= f.check_box :searchable %>
       <div class="form--field-instructions">
-        <p><%= t('custom_fields.instructions.searchable') %></p>
+        <p><%= t('custom_fields.instructions.searchable_for_project') %></p>
       </div>
     </div>
   <% when "TimeEntryCustomField" %>
