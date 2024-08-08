@@ -43,7 +43,7 @@ module Saml::Providers::Sections
     end
 
     def show_edit?
-      provider.persisted? && @view_mode == :show
+      provider.persisted?
     end
   end
 end
