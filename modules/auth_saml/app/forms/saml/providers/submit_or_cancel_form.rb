@@ -69,6 +69,7 @@ module Saml
           scheme: :default,
           tag: :a,
           href: back_link,
+          data: { turbo: true, turbo_stream: !@provider.new_record? },
           label: I18n.t("button_cancel")
         }
       end

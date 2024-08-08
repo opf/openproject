@@ -24,13 +24,23 @@ module Saml
                                                          edit_state: @edit_state)
           update_via_turbo_stream(component:)
           scroll_into_view_via_turbo_stream("saml-providers-edit-form", behavior: :instant)
-          render turbo_stream: turbo_streams, status:
+          render turbo_stream: turbo_streams
         end
         format.html
       end
     end
 
-    def show; end
+    def show
+      respond_to do |format|
+        format.turbo_stream do
+          component = Saml::Providers::ViewComponent.new(@provider,
+                                                         view_mode: :show)
+          update_via_turbo_stream(component:)
+          render turbo_stream: turbo_streams
+        end
+        format.html
+      end
+    end
 
     def new
       @provider = ::Saml::Provider.new
