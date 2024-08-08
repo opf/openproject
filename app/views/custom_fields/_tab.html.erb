@@ -27,19 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if tab[:name] == 'ProjectCustomField' %>
-  <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
-    <%=
-    angular_component_tag 'op-enterprise-banner',
-                          inputs: {
-                            collapsible: true,
-                            textMessage: t('text_project_custom_field_html'),
-                            moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
-                          }
-    %>
-  <% end %>
-<% end %>
-
 <% if (@custom_fields_by_type[tab[:name]] || []).any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
