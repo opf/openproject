@@ -87,11 +87,11 @@ zh-CN:
     errors:
       models:
         copy_project_folders_service:
-          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
-          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
-          not_found: The source template location %{source_path} wasn't found.
-          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+          conflict: '%{destination_path} 文件夹已经存在。中断进程以避免覆盖。'
+          error: 发生意外错误。请检查 OpenProject 日志获取更多信息或联系管理员
+          forbidden: OpenProject 无法访问源文件夹。请检查您在存储提供商上的权限配置
+          not_found: 未找到源模板位置 %{source_path}。
+          unauthorized: OpenProject 无法通过存储提供商进行身份验证。请检查您的存储配置
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -146,7 +146,7 @@ zh-CN:
       complete_without_setup: 没有它就完成
       done_complete_setup: 完成，完成设置
       done_continue: 完成, 继续
-      open_storage: Open file storage
+      open_storage: 打开文件存储
       replace_oauth_application: 替换 OpenProject OAuth
       replace_oauth_client: 替换 %{provider_type} OAuth
       save_and_continue: 保存并继续

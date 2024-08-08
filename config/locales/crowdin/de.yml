@@ -209,10 +209,12 @@ de:
     reorder_confirmation: "Warnung: Die aktuelle Reihenfolge der verfügbaren Werte geht verloren. Fortfahren?"
     instructions:
       is_required: "Markieren Sie das benutzerdefinierte Feld als erforderlich. Dies macht es zwingend erforderlich, das Feld auszufüllen, wenn neue oder aktualisierte Ressourcen erstellt werden."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Markieren Sie das benutzerdefinierte Feld als verfügbar in allen bestehenden und neuen Projekten."
-      searchable: "Fügen Sie die Feldwerte hinzu, wenn Sie die globale Suchfunktion verwenden."
+      searchable: "Check to make this attribute available as a filter in project lists."
       editable: "Feld darf von den Benutzern selbst bearbeitet werden."
-      visible: "Feld für alle Benutzer sichtbar machen (Nicht-Administratoren) in der Projektübersicht und im Projekt-Detail-Widget in der Projektübersicht."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
+      admin_only_for_project: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
         Erlaubt das benutzerdefinierte Feld in einem Filter in der Arbeitspaket-Ansicht zu verwenden. Beachten Sie, dass, nur wenn "Für alle Projekte" ausgewählt ist, das benutzerdefinierte Feld in globalen Ansichten angezeigt wird.
     tab:
@@ -610,7 +612,7 @@ de:
         possible_values: "Mögliche Werte"
         regexp: "Regulärer Ausdruck"
         searchable: "Durchsuchbar"
-        visible: "Sichtbar"
+        admin_only: "Admin-only"
       custom_value:
         value: "Wert"
       doorkeeper/application:
@@ -680,6 +682,7 @@ de:
         versions: "Versionen"
         work_packages: "Arbeitspakete"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Abschnitt
       query:
         column_names: "Spalten"

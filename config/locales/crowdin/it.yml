@@ -209,10 +209,12 @@ it:
     reorder_confirmation: "Attenzione: l'ordine corrente dei valori disponibili sarà perso. Continuare?"
     instructions:
       is_required: "Contrassegna il campo personalizzato come obbligatorio. Ciò renderà obbligatorio compilare il campo durante la creazione di nuove risorse o l'aggiornamento di risorse esistenti."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Contrassegna il campo personalizzato come disponibile in tutti i progetti esistenti e nuovi."
-      searchable: "Includi i valori dei campi quando si utilizza la funzionalità di ricerca globale."
+      searchable: "Check to make this attribute available as a filter in project lists."
       editable: "Consenti che il campo sia modificabile dagli utenti stessi."
-      visible: "Rendi il campo visibile a tutti gli utenti (non amministratori) nella panoramica del progetto e visualizzato nel widget dei dettagli del progetto nella Panoramica del progetto."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
+      admin_only_for_project: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
         Consenti l'utilizzo del campo personalizzato in un filtro nelle visualizzazioni delle macro-attività. Tieni presente che solo con l'opzione "Per tutti i progetti" selezionata, il campo personalizzato verrà visualizzato nelle visualizzazioni globali.
     tab:
@@ -613,7 +615,7 @@ it:
         possible_values: "Valori possibili"
         regexp: "Espressione regolare"
         searchable: "Ricercabile"
-        visible: "Visibile"
+        admin_only: "Admin-only"
       custom_value:
         value: "Valore"
       doorkeeper/application:
@@ -683,6 +685,7 @@ it:
         versions: "Versioni"
         work_packages: "Macro-attività"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Sezione
       query:
         column_names: "Colonne"
