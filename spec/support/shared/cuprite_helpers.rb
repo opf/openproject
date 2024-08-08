@@ -36,13 +36,21 @@
 # being present or gone. Instead the execution is halted until
 # requested data is done being fetched.
 def wait_for_network_idle(...)
-  page.driver.wait_for_network_idle(...) if using_cuprite?
+  if using_cuprite?
+    page.driver.wait_for_network_idle(...)
+  else
+    warn "wait_for_network_idle used in spec not using cuprite"
+  end
 end
 
 # Takes the above `wait_for_network_idle` a step further by waiting
 # for the page to be reloaded after some triggering action.
 def wait_for_reload
-  page.driver.wait_for_reload if using_cuprite?
+  if using_cuprite?
+    page.driver.wait_for_reload
+  else
+    warn "wait_for_reload used in spec not using cuprite"
+  end
 end
 
 # Ferrum is yet support `fill_options` as a Hash
