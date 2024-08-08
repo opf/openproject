@@ -72,6 +72,8 @@ For more details on status-based progress reporting, see our [system admin guide
 
 Last month, we already released a connection validation feature for OneDrive/SharePoint storages. With OpenProject 14.4, we added a connection validation for Nextcloud storages. This feature allows administrators to **verify if the storage works as expected and provides helpful feedback if issues arise**. A new button enables the manual triggering of a connection test and validation of the Nextcloud storage settings. If an error occurs during the test, it will be displayed along with an explanation and helpful information.
 
+![Screenshot of OpenProject's Connection validation for Nextcloud](openproject_file_storages_recheck_connection_nextcloud.png)
+
 The validations include checking if the external storage server is reachable, verifying for SSL errors, ensuring the server is accessible, confirming that necessary apps are activated on Nextcloud and that their versions are compatible, and validating the app password.
 
 Read more about connection validation for Nextcloud in our [system admin guide](../../system-admin-guide/files/external-file-storages/health-status/#connection-validation-for-nextcloud).
