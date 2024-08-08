@@ -22,7 +22,7 @@ OpenProject 14.4 introduces a new feature that allows OpenID clients, such as Ne
 
 With this feature, the OpenProject API will validate access tokens issued by the OpenID provider (Keycloak) by checking the token's signature and authenticating the user using the sub claim value. This integration ensures secure and efficient API authentication for OpenID clients.
 
-For more details, see https://community.openproject.org/wp/55643.
+For more details, take a look at our [API documentation](../../api/introduction/#oidc-provider-generated-jwt-as-a-bearer-token).
 
 ### Improve error messages and logs of automatically managed project folders synchronization services/jobs
 
@@ -122,7 +122,7 @@ In the activity tab, updates to long text custom fields will be displayed as in 
 
 ![Example screenshot showing how changes on a custom field will now look like in the work package activity tab](Custom_field__long_text__changed.png)
 
-Clicking on the "Details" link will take the user to the diff view, which is also used for work package descriptions and project status explanations.
+Clicking on the "Details" link will take the user to the diff view, which is also used for work package descriptions and project status explanations. See our [user guide on custom fields](../../user-guide/projects/project-settings/custom-fields/) for more information.
 
 <!--more-->
 
