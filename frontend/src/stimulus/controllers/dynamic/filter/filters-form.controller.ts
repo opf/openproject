@@ -78,6 +78,56 @@ export default class FiltersFormController extends Controller {
   connect() {
     const urlParams = new URLSearchParams(window.location.search);
     this.displayFiltersValue = urlParams.has('filters');
+
+    this.simpleValueTargets.forEach((simpleValue) => {
+      simpleValue.addEventListener('change', this.sendForm.bind(this));
+    });
+
+    this.operatorTargets.forEach((operator) => {
+      operator.addEventListener('change', this.sendForm.bind(this));
+    });
+
+    this.filterValueSelectTargets.forEach((select) => {
+      select.addEventListener('change', this.sendForm.bind(this));
+    });
+
+    this.filterValueContainerTargets.forEach((container) => {
+      container.addEventListener('change', this.sendForm.bind(this));
+    });
+
+    this.singleDayTargets.forEach((singleDay) => {
+      singleDay.addEventListener('change', this.sendForm.bind(this));
+    });
+
+    this.daysTargets.forEach((days) => {
+      days.addEventListener('change', this.sendForm.bind(this));
+    });
+  }
+
+  disconnect() {
+    this.simpleValueTargets.forEach((simpleValue) => {
+      simpleValue.removeEventListener('change', this.sendForm.bind(this));
+    });
+
+    this.operatorTargets.forEach((operator) => {
+      operator.removeEventListener('change', this.sendForm.bind(this));
+    });
+
+    this.filterValueSelectTargets.forEach((select) => {
+      select.removeEventListener('change', this.sendForm.bind(this));
+    });
+
+    this.filterValueContainerTargets.forEach((container) => {
+      container.removeEventListener('change', this.sendForm.bind(this));
+    });
+
+    this.singleDayTargets.forEach((singleDay) => {
+      singleDay.removeEventListener('change', this.sendForm.bind(this));
+    });
+
+    this.daysTargets.forEach((days) => {
+      days.removeEventListener('change', this.sendForm.bind(this));
+    });
   }
 
   toggleDisplayFilters() {
@@ -136,6 +186,8 @@ export default class FiltersFormController extends Controller {
     this.disableSelection();
     this.reselectPlaceholderOption();
     this.setSpacerVisibility();
+
+    this.sendForm();
   }
 
   private disableSelection() {
@@ -154,6 +206,8 @@ export default class FiltersFormController extends Controller {
     const removedFilterOption = selectOptions.find((option) => option.value === filterName);
     removedFilterOption?.removeAttribute('disabled');
     this.setSpacerVisibility();
+
+    this.sendForm();
   }
 
   private setSpacerVisibility() {
