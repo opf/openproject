@@ -29,9 +29,21 @@
 #++
 #
 module Saml::Providers::Sections
-  class MetadataFormComponent < FormComponent
+  class RequestAttributesFormComponent < FormComponent
     def initialize(provider, edit_mode: nil)
-      super(provider, edit_state: :metadata, edit_mode:, form_class: nil, heading: nil)
+      super(provider,
+            edit_state: :requested_attributes,
+            edit_mode:,
+            form_class: Saml::Providers::RequestAttributesForm,
+            heading: I18n.t("saml.instructions.requested_attributes"))
+    end
+
+    def button_label
+      if edit_mode
+        I18n.t(:button_finish_setup)
+      else
+        I18n.t(:button_save)
+      end
     end
   end
 end

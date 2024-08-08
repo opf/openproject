@@ -30,19 +30,23 @@
 #
 module Saml::Providers::Sections
   class FormComponent < SectionComponent
-    def initialize(provider, edit_state:, form_class:, heading:)
+    attr_reader :edit_state, :next_edit_state, :edit_mode
+
+    def initialize(provider, edit_state:, form_class:, heading:, next_edit_state: nil, edit_mode: nil)
       super(provider)
 
       @edit_state = edit_state
+      @next_edit_state = next_edit_state
+      @edit_mode = edit_mode
       @form_class = form_class
       @heading = heading
     end
 
     def url
       if provider.new_record?
-        saml_providers_path(state: @edit_state)
+        saml_providers_path(edit_state:, edit_mode:, next_edit_state:)
       else
-        saml_provider_path(provider, state: @edit_state)
+        saml_provider_path(provider, edit_state:, edit_mode:, next_edit_state:)
       end
     end
 
@@ -51,6 +55,14 @@ module Saml::Providers::Sections
         :post
       else
         :put
+      end
+    end
+
+    def button_label
+      if edit_mode
+        I18n.t(:button_continue)
+      else
+        I18n.t(:button_save)
       end
     end
   end

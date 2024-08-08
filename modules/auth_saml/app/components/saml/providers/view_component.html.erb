@@ -18,6 +18,8 @@
         provider,
         form_class: Saml::Providers::NameInputForm,
         edit_state:,
+        next_edit_state: :metadata,
+        edit_mode:,
         heading: nil
       ))
     else
@@ -37,7 +39,10 @@
 
   component.with_row(scheme: :default) do
     if edit_state == :metadata
-      render(Saml::Providers::Sections::MetadataFormComponent.new(provider))
+      render(Saml::Providers::Sections::MetadataFormComponent.new(
+        provider,
+        edit_mode:,
+      ))
     else
       render(Saml::Providers::Sections::ShowComponent.new(
         provider,
@@ -61,6 +66,8 @@
         provider,
         form_class: Saml::Providers::ConfigurationForm,
         edit_state:,
+        next_edit_state: :encryption,
+        edit_mode:,
         heading: t("saml.providers.section_texts.configuration_form")
       ))
     else
@@ -81,6 +88,8 @@
         provider,
         form_class: Saml::Providers::EncryptionForm,
         edit_state:,
+        next_edit_state: :mapping,
+        edit_mode:,
         heading: t("saml.providers.section_texts.encryption_form")
       ))
     else
@@ -104,6 +113,8 @@
         provider,
         form_class: Saml::Providers::MappingForm,
         edit_state:,
+        next_edit_state: :requested_attributes,
+        edit_mode:,
         heading: t("saml.instructions.mapping")
       ))
     else
@@ -120,11 +131,9 @@
   end
   component.with_row(scheme: :default) do
     if edit_state == :requested_attributes
-      render(Saml::Providers::Sections::FormComponent.new(
+      render(Saml::Providers::Sections::RequestAttributesFormComponent.new(
         provider,
-        form_class: Saml::Providers::RequestAttributesForm,
-        edit_state:,
-        heading: t("saml.instructions.requested_attributes")
+        edit_mode:
       ))
     else
       render(Saml::Providers::Sections::ShowComponent.new(

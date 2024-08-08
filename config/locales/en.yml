@@ -1450,6 +1450,7 @@ en:
   button_expand_all: "Expand all"
   button_favorite: "Add to favorites"
   button_filter: "Filter"
+  button_finish_setup: "Finish setup"
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"

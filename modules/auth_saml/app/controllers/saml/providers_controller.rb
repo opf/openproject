@@ -9,18 +9,18 @@ module Saml
     before_action :check_ee
     before_action :find_provider, only: %i[show edit import_metadata update destroy]
     before_action :check_provider_writable, only: %i[update import_metadata]
+    before_action :set_edit_state, only: %i[create edit update import_metadata]
 
     def index
       @providers = Saml::Provider.order(display_name: :asc)
     end
 
     def edit
-      @edit_state = params[:edit_state].to_sym if params.key?(:edit_state)
-
       respond_to do |format|
         format.turbo_stream do
           component = Saml::Providers::ViewComponent.new(@provider,
                                                          view_mode: :edit,
+                                                         edit_mode: @edit_mode,
                                                          edit_state: @edit_state)
           update_via_turbo_stream(component:)
           scroll_into_view_via_turbo_stream("saml-providers-edit-form", behavior: :instant)
@@ -49,9 +49,14 @@ module Saml
     def import_metadata
       if params[:saml_provider][:metadata] != "none"
         update_provider_metadata
+        return if performed?
       end
 
-      redirect_to edit_saml_provider_path(@provider, edit_state: :configuration) unless performed?
+      if @edit_mode
+        redirect_to edit_saml_provider_path(@provider, edit_mode: @edit_mode, edit_state: :configuration)
+      else
+        redirect_to saml_provider_path(@provider)
+      end
     end
 
     def create
@@ -59,12 +64,13 @@ module Saml
         .new(user: User.current)
         .call(**create_params)
 
+      @provider = call.result
+      binding.pry
+
       if call.success?
-        flash[:notice] = I18n.t(:notice_successful_create)
-        redirect_to edit_saml_provider_path(call.result, edit_state: :metadata)
+        successful_save_response
       else
         flash[:error] = call.message
-        @provider = call.result
         render action: :new
       end
     end
@@ -76,10 +82,9 @@ module Saml
 
       if call.success?
         flash[:notice] = I18n.t(:notice_successful_update)
-        redirect_to saml_provider_path(call.result)
+        successful_save_response
       else
         @provider = call.result
-        @edit_state = params[:state].to_sym
         render action: :edit
       end
     end
@@ -100,16 +105,24 @@ module Saml
 
     private
 
-    def success_redirect
-      if params[:edit_state].present?
-        redirect_to edit_saml_provider_path(@provider, edit_state: params[:edit_state])
-      else
-        redirect_to saml_provider_path(@provider)
+    def successful_save_response
+      respond_to do |format|
+        format.turbo_stream do
+          component = Saml::Providers::ViewComponent.new(@provider,
+                                                         edit_mode: @edit_mode,
+                                                         edit_state: @next_edit_state,
+                                                         view_mode: :show)
+          update_via_turbo_stream(component:)
+          render turbo_stream: turbo_streams
+        end
+        format.html do
+          if @edit_mode && @next_edit_state
+            redirect_to edit_saml_provider_path(@provider, edit_mode: true, edit_state: @next_edit_state)
+          else
+            redirect_to saml_provider_path(@provider)
+          end
+        end
       end
-    end
-
-    def defaults
-      {}
     end
 
     def check_ee
@@ -194,6 +207,12 @@ module Saml
         flash[:error] = I18n.t(:label_seeded_from_env_warning)
         redirect_to saml_provider_path(@provider)
       end
+    end
+
+    def set_edit_state
+      @edit_state = params[:edit_state].to_sym if params.key?(:edit_state)
+      @edit_mode = ActiveRecord::Type::Boolean.new.cast(params[:edit_mode])
+      @next_edit_state = params[:next_edit_state].to_sym if params.key?(:next_edit_state)
     end
   end
 end

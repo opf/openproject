@@ -4,6 +4,7 @@
     model: provider,
     url:,
     method: form_method,
+    data: { turbo: true, turbo_stream: true }
   ) do |form|
     flex_layout do |flex|
       if @heading
@@ -19,8 +20,11 @@
       end
 
       flex.with_row(mt: 4) do
-        render(Saml::Providers::SubmitOrCancelForm.new(form,
-                                                       provider:))
+        render(Saml::Providers::SubmitOrCancelForm.new(
+          form,
+          provider:,
+          submit_button_options: { label: button_label }
+        ))
       end
     end
   end

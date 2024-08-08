@@ -33,7 +33,7 @@ module Saml::Providers
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    options :view_mode, :edit_state
+    options :view_mode, :edit_state, :edit_mode
 
     alias_method :provider, :model
   end

@@ -2,7 +2,7 @@
   primer_form_with(
     model: provider,
     id: "saml-providers-edit-form",
-    url: import_metadata_saml_provider_path(provider),
+    url: import_metadata_saml_provider_path(provider, edit_mode:),
     data: {
       controller: "show-when-value-selected"
     },
@@ -36,9 +36,11 @@
       end
 
       flex.with_row(mt: 4) do
-        render(Saml::Providers::SubmitOrCancelForm.new(form,
-                                                       provider:,
-                                                       state: :metadata))
+        render(Saml::Providers::SubmitOrCancelForm.new(
+          form,
+          provider:,
+          submit_button_options: { label: button_label },
+          state: :metadata))
       end
     end
   end
