@@ -79,6 +79,8 @@ export default class FiltersFormController extends Controller {
     const urlParams = new URLSearchParams(window.location.search);
     this.displayFiltersValue = urlParams.has('filters');
 
+    // Auto-register change event listeners for all fields
+    // to keep DOM cleaner.
     this.simpleValueTargets.forEach((simpleValue) => {
       simpleValue.addEventListener('change', this.sendForm.bind(this));
     });
@@ -105,6 +107,8 @@ export default class FiltersFormController extends Controller {
   }
 
   disconnect() {
+    // Auto-deregister change event listeners for all fields
+    // to keep DOM cleaner.
     this.simpleValueTargets.forEach((simpleValue) => {
       simpleValue.removeEventListener('change', this.sendForm.bind(this));
     });
