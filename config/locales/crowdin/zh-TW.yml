@@ -99,7 +99,7 @@ zh-TW:
       title: "隔離區文件"
       error_cannot_act_self: "無法隔離你上傳的檔案"
   attribute_help_texts:
-    note_public: "Any text and images you add to this field is publicly visible to all logged in users!"
+    note_public: "您新增至此欄位的任何文字和圖像對所有登入者都是公開可見的！"
     text_overview: "在此頁面，你可以替屬性頁面建立自訂說明文字。當建立完成後，這些文字在點擊相關屬性旁的求助圖示時顯示。"
     label_plural: "屬性說明文字"
     show_preview: "預覽文字"
@@ -211,10 +211,12 @@ zh-TW:
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     instructions:
       is_required: "將此欄位定義成必填。\n"
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "將客製欄位標記為「所有現有專案」和「新專案」中可用。"
-      searchable: "使用全域搜尋功能時包含此欄位。"
+      searchable: "Check to make this attribute available as a filter in project lists."
       editable: "允許使用者自行編輯此欄位"
-      visible: "讓欄位對專案總覽中所有使用者（非管理員）皆可見，並詳細顯示在專案總覽中的小工具程式。"
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
+      admin_only_for_project: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
         允許在工作項目檢視中的篩選條件使用客製欄位。請注意，僅在選擇「所有專案」的情況下，客製欄位才會出現在所有檢視中。
     tab:
@@ -607,7 +609,7 @@ zh-TW:
         possible_values: "可能的值"
         regexp: "正規表示式"
         searchable: "搜索"
-        visible: "可見"
+        admin_only: "Admin-only"
       custom_value:
         value: "值"
       doorkeeper/application:
@@ -677,6 +679,7 @@ zh-TW:
         versions: "版本"
         work_packages: "工作項目"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: 區段
       query:
         column_names: "欄"

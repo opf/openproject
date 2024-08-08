@@ -1,0 +1,47 @@
+# Schema: RelationWriteModel
+---
+type: object
+required:
+  - _links
+  - type
+properties:
+  type:
+    type: string
+    description: The relation type.
+    enum:
+      - relates
+      - duplicates
+      - duplicated
+      - blocks
+      - blocked
+      - precedes
+      - follows
+      - includes
+      - partof
+      - requires
+      - required
+  description:
+    type:
+      - 'string'
+      - 'null'
+    description: A descriptive text for the relation.
+  lag:
+    type:
+      - 'integer'
+      - 'null'
+    description: The lag in days between closing of `from` and start of `to`
+    minimum: 0
+  _links:
+    type: object
+    properties:
+      to:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The work package the relation ends in. Only available on relation creation, not on update.
+              
+              **Resource**: WorkPackage
+              
+              # Conditions
+              
+              **Permission**: view work packages

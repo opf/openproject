@@ -618,7 +618,7 @@ pt-BR:
         mentioned: "Mencionado"
         watched: "Observador"
         assigned: "Cessionário"
-        accountable: "Accountable"
+        accountable: "Responsável"
         created: "Criado"
         scheduled: "Planejado"
         commented: "Comentado"
@@ -653,7 +653,7 @@ pt-BR:
           no_notification: "Parece que você já está com tudo em dia."
           no_notification_with_current_project_filter: "Parece que você já está com tudo me dia para o projeto selecionado."
           no_notification_with_current_filter: "Parece que você já está com tudo em dia para o filtro %{filter}."
-          no_notification_for_filter: "Looks like you are all caught up for this filter."
+          no_notification_for_filter: "Parece que você já está com tudo em dia para este filtro."
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."

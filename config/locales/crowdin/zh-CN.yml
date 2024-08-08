@@ -209,10 +209,12 @@ zh-CN:
     reorder_confirmation: "警告：可用值的当前顺序将丢失。是否继续？"
     instructions:
       is_required: "将自定义字段标记为必填项。这将使在创建新资源或更新现有资源时，填写该字段成为强制要求。"
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "将自定义字段标记为在所有现有项目和新项目中可用。"
-      searchable: "使用全局搜索功能时包含字段值。"
+      searchable: "Check to make this attribute available as a filter in project lists."
       editable: "允许用户自行编辑该字段。"
-      visible: "在项目概览中显示所有用户(非管理员)的字段，并显示在项目概览中的项目细节微件中。"
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
+      admin_only_for_project: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
         允许在工作包视图中使用自定义字段。 请注意，只有选择了“所有项目”时，自定义字段才会显示在全局视图中。
     tab:
@@ -605,7 +607,7 @@ zh-CN:
         possible_values: "可能的值"
         regexp: "正则表达式"
         searchable: "可搜索"
-        visible: "可见"
+        admin_only: "Admin-only"
       custom_value:
         value: "值"
       doorkeeper/application:
@@ -675,6 +677,7 @@ zh-CN:
         versions: "版本"
         work_packages: "工作包"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: 单元
       query:
         column_names: "列"
