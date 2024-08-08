@@ -32,34 +32,36 @@ See COPYRIGHT and LICENSE files for more details.
     primer_form_with(
       class: "op-new-project-storage-form",
       model: @project_storage,
-      url: admin_settings_storage_project_storages_path(project_storage.storage),
+      url:,
       data: { turbo: true },
-      method: :post
+      method:
     ) do |form|
       concat(render(Primer::Alpha::Dialog::Body.new(
         id: dialog_body_id,
         test_selector: dialog_body_id,
-        aria: { label: title }
+        aria: { label: aria_label }
       )) do
         flex_layout do |flex|
           flex.with_row do
             angular_component_tag 'opce-custom-modal-overlay'
           end
 
-          flex.with_row(mb: 3) do
-            render(Storages::Admin::Storages::AddProjectsAutocompleterForm.new(form, project_storage:))
+          if new_record?
+            flex.with_row(mb: 3) do
+              render(Storages::Admin::Storages::AddProjectsAutocompleterForm.new(form, project_storage:))
+            end
+
+            flex.with_row(mb: 3) do
+              render(Primer::Alpha::ActionList::Divider.new(scheme: :subtle))
+            end
+
+            flex.with_row(mb: 2) do
+              render(Primer::Beta::Heading.new(tag: :h4)) { t(:"storages.label_project_folder") }
+            end
           end
 
           flex.with_row(mb: 3) do
-            render(Primer::Alpha::ActionList::Divider.new(scheme: :subtle))
-          end
-
-          flex.with_row(mb: 2) do
-            render(Primer::Beta::Heading.new(tag: :h4)) { t(:"storages.label_project_folder") }
-          end
-
-          flex.with_row(mb: 3) do
-            render(Primer::Beta::Text.new) { t(:"storages.help_texts.project_folder_bulk") }
+            render(Primer::Beta::Text.new) { help_text }
           end
 
           flex.with_row(

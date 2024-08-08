@@ -29,36 +29,36 @@
 module Storages
   module Admin
     module Storages
-      class AddProjectsFormModalComponent < ApplicationComponent
-        include OpPrimer::ComponentHelpers
+      class ProjectsStorageModalComponent < ApplicationComponent
         include OpTurbo::Streamable
-        include StimulusHelper
-        include AngularHelper
 
-        def initialize(project_storage:, **)
+        DIALOG_ID = "storages--projects-storage-modal".freeze
+        DIALOG_BODY_ID = "storages--projects-storage-modal-body".freeze
+
+        def initialize(project_storage:, last_project_folders:, **)
           @project_storage = project_storage
-          @last_project_folders = {}
+          @storage = project_storage.storage
+          @last_project_folders = last_project_folders
+
           super(@project_storage, **)
         end
 
         private
 
-        attr_reader :project_storage, :storage
+        def dialog_id = DIALOG_ID
+        def dialog_body_id = DIALOG_BODY_ID
 
-        def dialog_id = Storages::AddProjectsModalComponent::DIALOG_ID
-        def dialog_body_id = Storages::AddProjectsModalComponent::DIALOG_BODY_ID
+        attr_reader :project_storage, :storage, :last_project_folders
 
         def title
-          I18n.t(:label_add_projects)
+          if new_record?
+            I18n.t(:label_add_projects)
+          else
+            I18n.t(:"storages.label_project_folder")
+          end
         end
 
-        def cancel_button_text
-          I18n.t("button_cancel")
-        end
-
-        def submit_button_text
-          I18n.t("button_add")
-        end
+        delegate :new_record?, to: :project_storage
       end
     end
   end
