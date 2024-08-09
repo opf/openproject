@@ -90,7 +90,7 @@ class User < Principal
            inverse_of: :user,
            dependent: :destroy
 
-  has_many :remote_identities, dependent: :destroy
+  has_many :remote_identities
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query

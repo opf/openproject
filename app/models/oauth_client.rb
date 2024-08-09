@@ -28,7 +28,7 @@
 
 class OAuthClient < ApplicationRecord
   belongs_to :integration, polymorphic: true
-  has_many :remote_identities, dependent: :destroy
+  has_many :remote_identities
 
   def redirect_uri
     File.join(Rails.application.root_url, "oauth_clients", client_id, "callback")

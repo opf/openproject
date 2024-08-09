@@ -31,8 +31,8 @@
 class CreateRemoteIdentities < ActiveRecord::Migration[7.1]
   def change
     create_table :remote_identities do |t|
-      t.references :user, index: true, foreign_key: true
-      t.references :oauth_client, index: true, foreign_key: true
+      t.references :user, index: true, null: false, foreign_key: { to_table: :users, on_delete: :cascade }
+      t.references :oauth_client, index: true, null: false, foreign_key: { to_table: :oauth_clients, on_delete: :cascade }
 
       t.string :origin_user_id, null: false, index: true
 
