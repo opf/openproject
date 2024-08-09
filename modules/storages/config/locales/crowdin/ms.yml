@@ -21,6 +21,8 @@ ms:
               only_numeric_or_uuid: hanya boleh menjadi dalam format angka atau uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: tidak tersedia untuk storan ini.
             project_ids:
@@ -57,6 +59,8 @@ ms:
   permission_write_files: 'Folder projek yang dikendalikan secara automatik: Tulis fail'
   project_module_storages: Fail-fail
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Dikendalikan secara automatik
       inactive: Tiada folder khusus

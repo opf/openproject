@@ -21,6 +21,8 @@ uk:
               only_numeric_or_uuid: '– може бути тільки числом або ідентифікатором uuid.'
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: '– недоступно для цього сховища.'
             project_ids:
@@ -57,6 +59,8 @@ uk:
   permission_write_files: 'Папки проєкту з автоматичним керуванням: записування файлів'
   project_module_storages: Файли
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Автоматичне керування
       inactive: Немає визначеної папки

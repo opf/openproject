@@ -21,6 +21,8 @@ pl:
               only_numeric_or_uuid: może być tylko wartością liczbową lub uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: jest niedostępny dla tego magazynu.
             project_ids:
@@ -57,6 +59,8 @@ pl:
   permission_write_files: 'Automatycznie zarządzane foldery projektu: zapis plików'
   project_module_storages: Pliki
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Automatyczne zarządzanie
       inactive: Brak konkretnego folderu

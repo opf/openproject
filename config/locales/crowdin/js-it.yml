@@ -619,7 +619,7 @@ it:
         mentioned: "Menzionato"
         watched: "Osservatore"
         assigned: "Assegnatario"
-        accountable: "Accountable"
+        accountable: "Responsabile"
         created: "Creato"
         scheduled: "Programmato"
         commented: "Commentato"
@@ -654,7 +654,7 @@ it:
           no_notification: "Sembra che siate tutti coinvolti."
           no_notification_with_current_project_filter: "Sembra che siate tutti coinvolti nel progetto selezionato."
           no_notification_with_current_filter: "A quanto pare ti piace molto il filtro %{filter}."
-          no_notification_for_filter: "Looks like you are all caught up for this filter."
+          no_notification_for_filter: "A quanto pare ti piace molto questo filtro."
           no_selection: "Clicca su una notifica per visualizzare tutti i dettagli dell'attività."
         new_notifications:
           message: "Ci sono nuove notifiche."

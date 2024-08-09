@@ -1,16 +1,16 @@
 vi:
   plugin_openproject_xls_export:
-    name: "OpenProject XLS Export"
-    description: "Export issue lists as Excel spreadsheets (.xls)."
+    name: "Xuất XLS OpenProject"
+    description: "Xuất danh sách vấn đề dưới dạng bảng tính Excel (.xls)."
   export_to_excel: "Xuất sang  XLS"
-  print_with_description: "Print preview with description"
+  print_with_description: "Xem trước in với mô tả"
   sentence_separator_or: "hoặc"
   different_formats: Định dạng khác
   export:
     format:
       xls: "XLS"
       xls_with_descriptions: "XLS có mô tả"
-      xls_with_relations: "XLS with relations"
+      xls_with_relations: "XLS với các mối quan hệ"
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: con của
+    parent_of: cha của
