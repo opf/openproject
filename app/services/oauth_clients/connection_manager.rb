@@ -33,7 +33,6 @@ require "uri/http"
 
 module OAuthClients
   class ConnectionManager
-    # Nextcloud API endpoint to check if Bearer token is valid
     TOKEN_IS_FRESH_DURATION = 10.seconds.freeze
 
     def initialize(user:, configuration:)

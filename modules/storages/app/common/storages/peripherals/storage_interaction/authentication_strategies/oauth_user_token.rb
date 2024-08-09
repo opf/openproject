@@ -39,6 +39,7 @@ module Storages
 
           def initialize(user)
             @user = user
+            @retried_after_stale_object_update = false
           end
 
           # rubocop:disable Metrics/AbcSize
@@ -56,6 +57,12 @@ module Storages
 
               refresh_and_retry(httpx_oauth_config, http_options, token.result, &)
             end
+          rescue ActiveRecord::StaleObjectError => e
+            raise e if @retried_after_stale_object_update
+
+            @retried_after_stale_object_update = true
+            Rails.logger.error("#{e.inspect} happend for User ##{@user.id} #{@user.name}")
+            retry
           end
 
           # rubocop:enable Metrics/AbcSize

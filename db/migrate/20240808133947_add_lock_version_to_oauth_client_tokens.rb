@@ -1,3 +1,5 @@
+# frozen_string_literal:true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,22 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# This component renders a dialog with the new access token which the user has to copy.
-module My
-  module AccessToken
-    class AccessTokenCreatedDialogComponent < ApplicationComponent
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
-
-      def initialize(token_value:)
-        super
-
-        @token_value = token_value
-      end
-
-      def id
-        "access-token-created-dialog"
-      end
-    end
+class AddLockVersionToOAuthClientTokens < ActiveRecord::Migration[7.1]
+  def change
+    add_column :oauth_client_tokens, :lock_version, :integer, default: 0, null: false
   end
 end

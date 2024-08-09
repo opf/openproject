@@ -131,6 +131,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
       end
 
       context "with invalid oauth refresh token", vcr: "auth/nextcloud/user_token_refresh_token_invalid" do
+        before { storage }
+
         it "must return unauthorized" do
           result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
           expect(result).to be_failure
@@ -139,6 +141,23 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
           expect(error.code).to eq(:unauthorized)
           expect(error.data.source)
             .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
+        end
+
+        it "logs, retries once, raises exception if race condition happens" do
+          token = OAuthClientToken.last
+          strategy = described_class[auth_strategy]
+
+          allow(Rails.logger).to receive(:error)
+          allow(strategy).to receive(:current_token).and_return(ServiceResult.success(result: token))
+          allow(token).to receive(:destroy).and_raise(ActiveRecord::StaleObjectError).twice
+
+          expect do
+            strategy.call(storage:, http_options:) { |http| make_request(http) }
+          end.to raise_error(ActiveRecord::StaleObjectError)
+
+          expect(Rails.logger)
+            .to have_received(:error)
+            .with("#<ActiveRecord::StaleObjectError: Stale object error.> happend for User ##{user.id} #{user.name}").once
         end
       end
 
