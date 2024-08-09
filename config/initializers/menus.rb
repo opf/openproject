@@ -654,10 +654,18 @@ Redmine::MenuManager.map :work_package_split_view do |menu|
   menu.push :files,
             { tab: :files },
             skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              Attachment.where(container_type: "WorkPackage",
+                               container_id: work_package)
+                        .count
+            },
             caption: :"js.work_packages.tabs.files"
   menu.push :relations,
             { tab: :relations },
             skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              Relation.visible_involved(work_package).count + WorkPackage.where(parent_id: work_package).count
+            },
             caption: :"js.work_packages.tabs.relations"
   menu.push :watchers,
             { tab: :watchers },
