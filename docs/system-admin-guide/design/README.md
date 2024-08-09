@@ -9,7 +9,7 @@ keywords: custom color, theme and logo
 
 As an OpenProject Enterprise add-on you can replace the default  OpenProject logo with your own logo. In addition, you can define your own color theme which allows you to implement your corporate identity in OpenProject.
 
-Navigate to -> *Administration* -> *Design* in order to customize your OpenProject theme and logo.
+Navigate to *Administration* -> *Design* in order to customize your OpenProject theme and logo.
 
 The design page provides several options to customize your OpenProject Enterprise edition:
 

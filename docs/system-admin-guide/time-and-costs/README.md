@@ -25,7 +25,7 @@ Navigate to *Administration* -> *Time and costs* -> *Settings* to define setting
 
 You can create and manage **cost types** to [book unit costs to work packages in OpenProject](../../user-guide/time-and-costs/cost-tracking/).
 
-Navigate to -> *Administration* -> *Time and costs* -> *Cost types* to create and manage unit costs types.
+Navigate to *Administration* -> *Time and costs* -> *Cost types* to create and manage unit costs types.
 
 Click the green **+ Cost type** button to create a new cost type.
 
@@ -46,7 +46,7 @@ In the overview list of all cost types you can define the following.
 
 1. **Filter for cost types at a certain fixed date** in the list
 2. Choose whether also locked cost types should be displayed
-3. Press the blue **apply** button: This way you will get the cost types with the rate (at the chosen fixed date) displayed in the list below.
+3. Press the **apply** button: This way you will get the cost types with the rate (at the chosen fixed date) displayed in the list below.
 4. Click on the name of a cost type to **edit an existing cost type**.
 5. **Set a current rate** (for the current valid from period) and press the save icon to apply it.
 6. **Lock** a cost type.
