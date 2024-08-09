@@ -2,7 +2,7 @@
 nl:
   plugin_openproject_calendar:
     name: "OpenProject Kalender"
-    description: "Provides calendar views."
+    description: "Biedt kalenderweergaven."
   label_calendar: "Kalender"
   label_calendar_plural: "Agenda's"
   label_new_calendar: "Nieuwe kalender"

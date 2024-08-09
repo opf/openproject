@@ -23,4 +23,4 @@ nl:
   js:
     two_factor_authentication:
       errors:
-        aborted: "The authentication was cancelled. Please try again."
+        aborted: "De verificatie is geannuleerd. Probeer het opnieuw."

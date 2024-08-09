@@ -209,10 +209,12 @@ lt:
     reorder_confirmation: "Dėmesio: Dabartinė galimų reikšmių tvarka bus prarasta. Tęsti?"
     instructions:
       is_required: "Pažymėti savo lauką kaip privalomą. Taip bus privaloma jį užpildyti kuriant ar atnaujinant esamus resursus."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Pažymėti savo lauką kaip prieinamą visuose esamuose ir naujuose projektuose."
       searchable: "Įtraukti lauko reikšmes naudojant globalios paieškos funkcionalumą."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Leisti keisti lauką patiems naudotojams."
-      visible: "Padaryti lauką matomu visiems naudotojams (ne administratoriams) projekto apžvalgoje ir rodomą projekto detalių valdiklyje Projekto apžvalgoje."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Leisi naudoti savo lauką darbo paketų vaizdų filtruose. Pastebėtina, kad globaliuose vaizduose matysis savi laukai, kuriuose pažymėta „Visiems projektams“.
     tab:
@@ -627,7 +629,7 @@ lt:
         possible_values: "Galimos reikšmės"
         regexp: "Reguliari išraiška"
         searchable: "Galimas ieškoti"
-        visible: "Matomas"
+        admin_only: "Admin-only"
       custom_value:
         value: "Reikšmė"
       doorkeeper/application:
@@ -697,6 +699,7 @@ lt:
         versions: "Versijos"
         work_packages: "Darbų paketai"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Skiltis
       query:
         column_names: "Stulpeliai"

@@ -619,7 +619,7 @@ uk:
         mentioned: "Згадано"
         watched: "Спостерігач"
         assigned: "Виконавець"
-        accountable: "Accountable"
+        accountable: "Відповідальний"
         created: "Створено"
         scheduled: "Заплановано"
         commented: "Прокоментовано"
@@ -656,7 +656,7 @@ uk:
           no_notification: "Схоже, ви все переглянули."
           no_notification_with_current_project_filter: "Схоже, ви переглянули всі сповіщення для вибраного проєкту."
           no_notification_with_current_filter: "Схоже, ви переглянули всі сповіщення за фільтром «%{filter}»."
-          no_notification_for_filter: "Looks like you are all caught up for this filter."
+          no_notification_for_filter: "Схоже, ви переглянули всі сповіщення за цим фільтром."
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: "Немає нових сповіщень."

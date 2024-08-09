@@ -1,0 +1,9 @@
+description: |-
+  Example request to create a relation between two work packages.
+value:
+  type: follows
+  lag: 2
+  description: Build hangar AFTER improving external skeleton of Death Star.
+  _links:
+    to:
+      href: /api/v3/work_packages/1337

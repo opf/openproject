@@ -211,10 +211,12 @@ ru:
     reorder_confirmation: "Внимание: Текущий порядок доступных значений будет утерян. Продолжить?"
     instructions:
       is_required: ""
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: ""
       searchable: "Включать значения полей при использовании функции глобального поиска."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Разрешить редактирование поля самими пользователями."
-      visible: "Сделать поле видимым для всех пользователей (не администраторов) в обзоре проекта и отображать его в деталях виджета проекта Обзора."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Разрешить использование настраиваемого поля в фильтре в представлениях рабочих пакетов. Обратите внимание, что настраиваемое поле будет отображаться в глобальных представлениях только при выборе параметра "Для всех проектов".
     tab:
@@ -629,7 +631,7 @@ ru:
         possible_values: "Возможные значения"
         regexp: "Регулярное выражение"
         searchable: "Доступно для поиска"
-        visible: "Видимый"
+        admin_only: "Admin-only"
       custom_value:
         value: "Значение"
       doorkeeper/application:
@@ -699,6 +701,7 @@ ru:
         versions: "Этапы"
         work_packages: "Задачи"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Раздел
       query:
         column_names: "Столбцы"

@@ -7,15 +7,15 @@ zh-TW:
     common:
       colors:
         item_0:
-          name: 藍色 (黑)
+          name: 藍色 (深)
         item_1:
           name: 藍色
         item_2:
-          name: 藍色 (亮)
+          name: 藍色 (淡)
         item_3:
-          name: 綠色 (亮)
+          name: 綠色 (淡)
         item_4:
-          name: 綠色 (暗)
+          name: 綠色 (深)
         item_5:
           name: 黃色
         item_6:
@@ -27,18 +27,18 @@ zh-TW:
         item_9:
           name: 白色
         item_10:
-          name: 灰色 (亮)
+          name: 灰色 (淡)
         item_11:
           name: 灰色
         item_12:
-          name: 灰色 (暗)
+          name: 灰色 (深)
         item_13:
           name: 黑色
       document_categories:
         item_0:
           name: 說明文件
         item_1:
-          name: 規格
+          name: 規範
         item_2:
           name: 其他
       project_query_roles:
@@ -61,7 +61,7 @@ zh-TW:
         item_2:
           name: 成員
         item_3:
-          name: 讀者
+          name: 唯讀成員
         item_4:
           name: 專案管理員
       global_roles:
@@ -76,7 +76,7 @@ zh-TW:
         item_2:
           name: 高
         item_3:
-          name: 立刻
+          name: 立即
       projects:
         demo-project:
           name: 示範專案
@@ -418,9 +418,9 @@ zh-TW:
         item_0:
           name: 新增
         item_1:
-          name: 在規格中
+          name: 規範制定中
         item_2:
-          name: 指定
+          name: 已規範
         item_3:
           name: 已確認
         item_4:
@@ -447,7 +447,7 @@ zh-TW:
         item_0:
           name: 管理
         item_1:
-          name: 規格
+          name: 規範
         item_2:
           name: 開發
         item_3:
@@ -470,7 +470,7 @@ zh-TW:
         item_5:
           name: 使用者需求
         item_6:
-          name: Bug
+          name: 錯誤
       welcome:
         title: 歡迎使用OpenProject
         text: |

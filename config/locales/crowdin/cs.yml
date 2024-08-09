@@ -212,10 +212,12 @@ cs:
     reorder_confirmation: "Varování: Aktuální pořadí dostupných hodnot bude ztraceno. Pokračovat?"
     instructions:
       is_required: "Označit vlastní pole jako povinné. Bude povinné vyplnit pole při vytváření nových nebo aktualizaci existujících zdrojů."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Označit vlastní pole jako dostupné ve všech existujících a nových projektech."
       searchable: "Zahrnout hodnoty polí při použití globální funkce vyhledávání."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Umožnit editaci pole samotnými uživateli."
-      visible: "Zviditelnit pole pro všechny uživatele (neadminy) v přehledu projektu a zobrazit ve widgetu podrobností projektu v přehledu projektu."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Povolit použití vlastního pole ve filtru v zobrazení pracovního balíčku. Všimněte si, že pouze s vybraným 'pro všechny projekty' se vlastní pole zobrazí v globálních zobrazeních.
     tab:
@@ -630,7 +632,7 @@ cs:
         possible_values: "Možné hodnoty"
         regexp: "Regulární výraz"
         searchable: "Vyhledávatelné"
-        visible: "Viditelný"
+        admin_only: "Admin-only"
       custom_value:
         value: "Hodnota"
       doorkeeper/application:
@@ -700,6 +702,7 @@ cs:
         versions: "Verze"
         work_packages: "Pracovní balíčky"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Sekce
       query:
         column_names: "Sloupce"

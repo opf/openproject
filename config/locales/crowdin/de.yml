@@ -209,10 +209,12 @@ de:
     reorder_confirmation: "Warnung: Die aktuelle Reihenfolge der verfügbaren Werte geht verloren. Fortfahren?"
     instructions:
       is_required: "Markieren Sie das benutzerdefinierte Feld als erforderlich. Dies macht es zwingend erforderlich, das Feld auszufüllen, wenn neue oder aktualisierte Ressourcen erstellt werden."
+      is_required_for_project: "Das Attribut in allen Projekten erforderlich machen. Es kann dann nicht für einzelne Projekte deaktiviert werden."
       is_for_all: "Markieren Sie das benutzerdefinierte Feld als verfügbar in allen bestehenden und neuen Projekten."
       searchable: "Fügen Sie die Feldwerte hinzu, wenn Sie die globale Suchfunktion verwenden."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Feld darf von den Benutzern selbst bearbeitet werden."
-      visible: "Feld für alle Benutzer sichtbar machen (Nicht-Administratoren) in der Projektübersicht und im Projekt-Detail-Widget in der Projektübersicht."
+      admin_only: "Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten."
       is_filter: >
         Erlaubt das benutzerdefinierte Feld in einem Filter in der Arbeitspaket-Ansicht zu verwenden. Beachten Sie, dass, nur wenn "Für alle Projekte" ausgewählt ist, das benutzerdefinierte Feld in globalen Ansichten angezeigt wird.
     tab:
@@ -519,9 +521,9 @@ de:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
       unsupported_for_multiple_projects: "Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Der aktuelle Typ der Arbeitspakete ist im Zielprojekt nicht aktiviert. Bitte aktivieren Sie diesen Typ im Zielprojekt, wenn Sie möchten, dass sie unverändert bleiben. Andernfalls wird der Typ des Arbeitspakets automatisch neu zugewiesen, was zu Datenverlust führen kann.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Der aktuelle Typ der Arbeitspakete ist im Zielprojekt nicht aktiviert. Bitte aktivieren Sie diesen Typ im Zielprojekt, wenn Sie möchten, dass sie unverändert bleiben. Andernfalls wird der Typ des Arbeitspakets automatisch neu zugewiesen, was zu Datenverlust führen kann.
     sharing:
       missing_workflow_warning:
         title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
@@ -610,7 +612,7 @@ de:
         possible_values: "Mögliche Werte"
         regexp: "Regulärer Ausdruck"
         searchable: "Durchsuchbar"
-        visible: "Sichtbar"
+        admin_only: "Nur für Administratoren"
       custom_value:
         value: "Wert"
       doorkeeper/application:
@@ -680,6 +682,7 @@ de:
         versions: "Versionen"
         work_packages: "Arbeitspakete"
       project_custom_field:
+        is_required: "In allen Projekten erforderlich"
         custom_field_section: Abschnitt
       query:
         column_names: "Spalten"
@@ -1025,10 +1028,10 @@ de:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "does not match work and remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              does_not_match_work_and_remaining_work: "stimmt nicht mit Aufwand und Verbleibender Aufwand überein"
+              cannot_be_set_when_work_is_zero: "kann nicht eingestellt werden, wenn Aufwand gleich Null ist"
+              must_be_set_when_remaining_work_is_set: "Ist erforderlich, wenn Verbleibender Aufwand gesetzt ist."
+              must_be_set_when_work_and_remaining_work_are_set: "Ist erforderlich, wenn Aufwand und Verbleibender Aufwand gesetzt ist."
               inclusion: "muss zwischen 0 und 100 liegen."
             due_date:
               not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist."
@@ -1059,13 +1062,13 @@ de:
             estimated_hours:
               not_a_number: "ist keine gültige Dauer."
               cant_be_inferior_to_remaining_work: "Kann nicht niedriger sein als Verbleibender Aufwand."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Erforderlich, wenn Verbleibender Aufwand und % abgeschlossen eingestellt sind."
               format: "%{message}"
             remaining_hours:
               not_a_number: "ist keine gültige Dauer."
               cant_exceed_work: "Kann nicht größer als der Aufwand sein."
               must_be_set_when_work_is_set: "Ist erforderlich, wenn Aufwand gesetzt ist."
-              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
+              must_be_set_when_work_and_percent_complete_are_set: "Erforderlich, wenn Aufwand und % abgeschlossen eingestellt sind."
               format: "%{message}"
           readonly_status: "Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können."
         type:

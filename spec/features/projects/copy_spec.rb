@@ -293,7 +293,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite,
     context "with correct handling of invisible values" do
       let!(:invisible_field) do
         create(:string_project_custom_field, name: "Text for Admins only",
-                                             visible: false,
+                                             admin_only: true,
                                              project_custom_field_section:,
                                              projects: [project])
       end

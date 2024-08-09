@@ -212,10 +212,12 @@
     reorder_confirmation: "Advarsel: Gjeldende rekkefølge for tilgjengelige verdier vil gå tapt. Vil du fortsette?"
     instructions:
       is_required: "Marker det egendefinerte feltet som påkrevd. Dette vil gjøre det obligatorisk å fylle ut feltet når du oppretter nye eller oppdaterer eksisterende ressurser."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Merk egendefinert felt som tilgjengelig for alle eksisterende og nye prosjekter."
       searchable: "Inkluder feltverdier ved bruk av den globale søkefunksjonaliteten."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "La feltet være redigerbart av brukere selv."
-      visible: "Feltet synlig for alle brukere (ikke-administratorer) i prosjektoversikten og vises i prosjektdetalj-widgeten i Prosjektoversikten."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Tillat at egendefinert felt brukes i filter i arbeidspakkevisninger. Merk at med 'For alle prosjekter' som er valgt, vil egendefinert felt vises i globale visninger.
     tab:
@@ -615,7 +617,7 @@
         possible_values: "Mulige verdier"
         regexp: "Regulære uttrykk"
         searchable: "Søkbar"
-        visible: "Synlig"
+        admin_only: "Admin-only"
       custom_value:
         value: "Verdi"
       doorkeeper/application:
@@ -685,6 +687,7 @@
         versions: "Versjoner"
         work_packages: "Arbeidspakker"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Seksjon
       query:
         column_names: "Kolonner"

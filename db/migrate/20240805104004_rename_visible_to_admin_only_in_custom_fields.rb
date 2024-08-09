@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,35 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Meeting::Title < ApplicationForm
-  include OpenProject::StaticRouting::UrlHelpers
+require_relative "migration_utils/utils"
 
-  form do |query_form|
-    query_form.group(layout: :horizontal) do |group|
-      group.text_field(
-        name: :title,
-        placeholder: Meeting.human_attribute_name(:title),
-        label: Meeting.human_attribute_name(:title),
-        visually_hide_label: true,
-        required: true,
-        autofocus: true
-      )
+class RenameVisibleToAdminOnlyInCustomFields < ActiveRecord::Migration[7.1]
+  include ::Migration::Utils
 
-      group.submit(name: :submit, label: I18n.t("button_save"), scheme: :primary)
+  def change
+    rename_column :custom_fields, :visible, :admin_only
+    change_column_default :custom_fields, :admin_only, from: true, to: false
 
-      group.button(
-        name: :cancel,
-        scheme: :secondary,
-        label: I18n.t(:button_cancel),
-        tag: :a,
-        data: { "turbo-stream": true },
-        href: OpenProject::StaticRouting::StaticUrlHelpers.new.cancel_edit_meeting_path(@meeting)
-      )
-    end
-  end
-
-  def initialize(meeting:)
-    super()
-    @meeting = meeting
+    execute_sql("UPDATE custom_fields SET admin_only = NOT admin_only")
   end
 end

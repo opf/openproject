@@ -619,7 +619,7 @@ ko:
         mentioned: "멘션됨"
         watched: "주시자"
         assigned: "담당자"
-        accountable: "Accountable"
+        accountable: "담당자"
         created: "생성됨"
         scheduled: "예약됨"
         commented: "코멘트 작성됨"
@@ -653,7 +653,7 @@ ko:
           no_notification: "모두 확인하신 것 같습니다."
           no_notification_with_current_project_filter: "선택한 프로젝트에 대한 모든 알림을 본 것 같습니다."
           no_notification_with_current_filter: "%{filter} 필터에 대한 모든 알림을 본 것 같습니다."
-          no_notification_for_filter: "Looks like you are all caught up for this filter."
+          no_notification_for_filter: "이 필터에 대한 모든 알림을 본 것 같습니다."
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: "새 알림이 있습니다."

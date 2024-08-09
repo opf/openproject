@@ -99,7 +99,7 @@ zh-TW:
       title: "隔離區文件"
       error_cannot_act_self: "無法隔離你上傳的檔案"
   attribute_help_texts:
-    note_public: "Any text and images you add to this field is publicly visible to all logged in users!"
+    note_public: "您新增至此欄位的任何文字和圖像對所有登入者都是公開可見的！"
     text_overview: "在此頁面，你可以替屬性頁面建立自訂說明文字。當建立完成後，這些文字在點擊相關屬性旁的求助圖示時顯示。"
     label_plural: "屬性說明文字"
     show_preview: "預覽文字"
@@ -211,10 +211,12 @@ zh-TW:
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     instructions:
       is_required: "將此欄位定義成必填。\n"
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "將客製欄位標記為「所有現有專案」和「新專案」中可用。"
       searchable: "使用全域搜尋功能時包含此欄位。"
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "允許使用者自行編輯此欄位"
-      visible: "讓欄位對專案總覽中所有使用者（非管理員）皆可見，並詳細顯示在專案總覽中的小工具程式。"
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         允許在工作項目檢視中的篩選條件使用客製欄位。請注意，僅在選擇「所有專案」的情況下，客製欄位才會出現在所有檢視中。
     tab:
@@ -264,7 +266,7 @@ zh-TW:
     lists:
       active: "啟用中的專案"
       my: "我的專案"
-      favored: "Favorite projects"
+      favored: "收藏的專案"
       archived: "封存專案"
       shared: "Shared project lists"
       my_lists: "My project lists"
@@ -380,22 +382,22 @@ zh-TW:
   my:
     access_token:
       errors:
-        token_name_blank: "Please provide an API token name"
-        token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
+        token_name_blank: "請提供API token名稱"
+        token_name_in_use: "此 API token名稱已被使用，請選擇其他名稱"
+      new_access_token_dialog_title: "產生新 API 權杖(token)"
       new_access_token_dialog_show_button_text: "API token"
       new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_text_field_label: "權杖(token)名稱"
       new_access_token_dialog_submit_button_text: "Create"
-      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
-      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
+      new_access_token_dialog_text: "此權杖(token)允許第三方應用程式與本專案系統進行互動。為了區分新 API token用途，請為其命名。"
+      new_access_token_dialog_attention_text: "請務必將API Token(權杖)視為密碼一樣重要。任何知道此連結的人都可以存取此系統中的信息，只能讓受信任使用者共用。"
       failed_to_reset_token: "無法重置訪問權杖(Token): %{error}"
       failed_to_create_token: "Failed to create access token: %{error}"
       failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "生成了一個新的 %{type} 權杖(Token)。您權杖是:"
       token_value_warning: "注意: 這是您唯一可以看到此權杖(Token)的時候, 請務必立即複製它。"
       no_results_title_text: 目前沒有存取權杖(Token)
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
+      notice_api_token_revoked: "API token已被刪除。請使用 API 區段中的按鈕產生新的權杖(token)。"
       notice_rss_token_revoked: "RSS 權杖(Token)已被刪除。 請使用 在RSS 選項裡提供的連結建立新權杖。"
       notice_ical_token_revoked: '專案「%{project_name}」日曆「%{calendar_name}」的 iCalendar 權杖(Token)「%{token_name}」已被撤銷。 帶有此權杖的 iCalendar URL 無效。'
   news:
@@ -607,7 +609,7 @@ zh-TW:
         possible_values: "可能的值"
         regexp: "正規表示式"
         searchable: "搜索"
-        visible: "可見"
+        admin_only: "Admin-only"
       custom_value:
         value: "值"
       doorkeeper/application:
@@ -677,6 +679,7 @@ zh-TW:
         versions: "版本"
         work_packages: "工作項目"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: 區段
       query:
         column_names: "欄"
@@ -731,7 +734,7 @@ zh-TW:
         auto_hide_popups: "自動隱藏成功通知"
         warn_on_leaving_unsaved: "離開尚未儲存的工作項目時提示我"
         theme: "模式 "
-        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
+        mode_guideline: "為了親和性以及方便閱讀性，某些模式將覆蓋自訂主題顏色。對於完整的自訂主題，請選擇 Light 模式。"
       version:
         effective_date: "完成日期"
         sharing: "分享"
@@ -1328,7 +1331,7 @@ zh-TW:
   button_reset: "重置"
   button_rollback: "回復到此版本"
   button_save: "儲存"
-  button_save_as: "保存為"
+  button_save_as: "另存為"
   button_apply_changes: "套用設定"
   button_save_back: "儲存並返回"
   button_show: "顯示"
@@ -1554,7 +1557,7 @@ zh-TW:
   error_invalid_selected_value: "不合法的項目數值。"
   error_journal_attribute_not_present: "Journal 不含有屬性 %{attribute}。"
   error_pdf_export_too_many_columns: "為 PDF 匯出選擇的列太多。請減少列數。"
-  error_pdf_failed_to_export: "無法保存 pdf 匯出: %{error}"
+  error_pdf_failed_to_export: "無法另存 pdf 匯出: %{error}"
   error_token_authenticity: "無法驗證跨網域請求權杖(Token)。你是不是試圖在多個瀏覽器或者分頁上傳送資料？請關閉所有的分頁後再試一次。"
   error_work_package_not_found_in_project: "工作項目找不到或是不屬於這個專案"
   error_work_package_id_not_found: "The work package was not found."
@@ -1739,8 +1742,8 @@ zh-TW:
         empty_text_hint: "新增 iCalendar 權杖(Token)，可訂閱各專案裡面的日曆( 需擁有相關權限)。"
       oauth:
         title: "OAuth"
-        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        text_hint: "OAuth 權杖(Token)允許第三方應用程式與此 OpenProject 連線。"
+        empty_text_hint: "沒有為您設定和啟動第三方應用程式存取權限。請聯絡您的管理員以啟動此功能"
       rss:
         title: "RSS訂閱"
         text_hint: "RSS 權杖(Token)可讓使用者透過外部 RSS 閱讀器了解本專案管理系統中最新異動。"
@@ -1749,7 +1752,7 @@ zh-TW:
       storages:
         title: "文件儲存空間"
         text_hint: "檔案儲存區權杖(Token)，可將本專案管理系統與外部檔案儲存系統連接。"
-        empty_text_hint: "There is no storage access linked to your account."
+        empty_text_hint: "沒有與您帳戶連動的儲存裝置存取權限。"
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
@@ -2200,7 +2203,7 @@ zh-TW:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "文件儲存空間"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
+  label_projects_disk_usage_information: "%{count} 專案，使用 %{used_disk_space} 磁碟空間"
   label_project_view_all: "檢視所有專案"
   label_project_show_details: "顯示專案詳細資訊"
   label_project_hide_details: "隱藏專案詳細資訊"
@@ -3002,7 +3005,7 @@ zh-TW:
   setting_work_package_done_ratio_field: "Work-based"
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    在<b>work-based</b>模式中，"完成百分比"是根據已完成的工作量與總工作量來計算的。在 <b>status-based</b> 模式中，每個狀態都有一個與其關聯的完成百分比值。更改狀態將更改完成百分比。
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_projects_export_limit: "工作項目/專案匯出數量限制"
@@ -3335,7 +3338,7 @@ zh-TW:
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: "狀態變更"
     text_change_disabled_for_provider_login: "該名稱由賬戶提供者設定，因此無法更改。"
-    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
+    text_change_disabled_for_ldap_login: "姓名和電子郵件由 LDAP 設定，因此無法變更。"
     unlock: "按此啟用"
     unlock_and_reset_failed_logins: "啟用並清除登入紀錄"
   version_status_closed: "已關閉"

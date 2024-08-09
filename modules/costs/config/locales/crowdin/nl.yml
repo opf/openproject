@@ -22,7 +22,7 @@
 nl:
   plugin_costs:
     name: "Tijd en kosten"
-    description: "This module adds features for planning and tracking costs of projects."
+    description: "Deze module voegt functies toe voor het plannen en bijhouden van de kosten van projecten."
   activerecord:
     attributes:
       cost_entry:

@@ -206,10 +206,12 @@ id:
     reorder_confirmation: "Peringatan: Urutan nilai yang tersedia saat ini akan hilang.  Melanjutkan?"
     instructions:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
       searchable: "Include the field values when using the global search functionality."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
@@ -602,7 +604,7 @@ id:
         possible_values: "Nilai yang mungkin"
         regexp: "Regular expression"
         searchable: "Dapat dicari"
-        visible: "Visible"
+        admin_only: "Admin-only"
       custom_value:
         value: "Nilai"
       doorkeeper/application:
@@ -672,6 +674,7 @@ id:
         versions: "Versi"
         work_packages: "Paket-Penugasan"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Section
       query:
         column_names: "Kolom"

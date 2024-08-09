@@ -619,7 +619,7 @@ pl:
         mentioned: "Wzmianka"
         watched: "Obserwator"
         assigned: "Przypisana osoba"
-        accountable: "Accountable"
+        accountable: "Osoba odpowiedzialna"
         created: "Utworzono"
         scheduled: "Zaplanowany"
         commented: "Skomentował"
@@ -656,7 +656,7 @@ pl:
           no_notification: "Wygląda na to, że jesteś już na bieżąco."
           no_notification_with_current_project_filter: "Wygląda na to, że wszystko jest na bieżąco w wybranym projekcie."
           no_notification_with_current_filter: "Wygląda na to, że wszystko jest na bieżąco dla filtru: %{filter}."
-          no_notification_for_filter: "Looks like you are all caught up for this filter."
+          no_notification_for_filter: "Wygląda na to, że wszystko jest na bieżąco dla tego filtru."
           no_selection: "Kliknij powiadomienie, aby wyświetlić wszystkie szczegóły aktywności."
         new_notifications:
           message: "Masz nowe powiadomienia."

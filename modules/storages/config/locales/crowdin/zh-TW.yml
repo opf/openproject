@@ -21,6 +21,8 @@ zh-TW:
               only_numeric_or_uuid: 只能是數字或 uuid。
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: 不可用於此儲存空間。
             project_ids:
@@ -57,6 +59,8 @@ zh-TW:
   permission_write_files: '自動管理專案資料夾 : 寫入檔案'
   project_module_storages: 檔案
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Automatically managed
       inactive: No specific folder
@@ -86,6 +90,12 @@ zh-TW:
         rename_project_folder: 'Rename managed project Folder:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -140,6 +150,7 @@ zh-TW:
       complete_without_setup: 排除它完成
       done_complete_setup: 完成。完成設置
       done_continue: 完成，繼續
+      open_storage: Open file storage
       replace_oauth_application: 替換 OpenProject OAuth
       replace_oauth_client: 替換 %{provider_type} OAuth
       save_and_continue: 儲存並繼續

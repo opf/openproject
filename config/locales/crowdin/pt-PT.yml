@@ -210,10 +210,12 @@ pt-PT:
     reorder_confirmation: "Aviso: A ordem atual de valores disponíveis será perdida. Continuar?"
     instructions:
       is_required: "Marque o campo personalizado como obrigatório. Isto tornará obrigatório o preenchimento do campo ao criar novos recursos ou ao atualizar recursos existentes."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Marque o campo personalizado como disponível em todos os projetos existentes e novos."
       searchable: "Inclua os valores dos campos ao utilizar a funcionalidade de pesquisa global."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Permita que o campo seja editável pelos próprios utilizadores."
-      visible: "Torne o campo visível para todos os utilizadores (não-administradores) na visão geral do projeto e apresentado no widget de detalhes do projeto na Visão Geral do Projeto."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Permita que o campo personalizado seja utilizado num filtro nas vistas do pacote de trabalho. Note que apenas com a opção "Para todos os projetos" selecionada, o campo personalizado irá aparecer nas vistas globais.
     tab:
@@ -474,7 +476,7 @@ pt-PT:
         is_readonly: "Só de leitura"
         excluded_from_totals: "Excluído dos totais"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Escuro (Beta)"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -523,9 +525,9 @@ pt-PT:
       no_common_statuses_exists: "Não há nenhum status disponível para todos os pacotes de trabalho selecionados. O seu status não pode ser alterado."
       unsupported_for_multiple_projects: "Mover/copiar em massa não é suportado por pacotes de trabalho de vários projetos"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        O tipo atual do pacote de trabalho não está ativado no projeto de destino. Ative o tipo no projeto de destino se pretender que se mantenham inalterados. Caso contrário, selecione um tipo disponível no projeto de destino a partir da lista.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Os tipos atuais dos pacotes de trabalho não estão ativados no projeto de destino. Ative os tipos no projeto de destino se pretender que se mantenham inalterados. Caso contrário, selecione um tipo disponível no projeto de destino a partir da lista.
     sharing:
       missing_workflow_warning:
         title: "Falta um fluxo de trabalho para a partilha de pacotes de trabalho"
@@ -614,7 +616,7 @@ pt-PT:
         possible_values: "Valores possíveis"
         regexp: "Expressão regular"
         searchable: "Pesquisável"
-        visible: "Visível"
+        admin_only: "Admin-only"
       custom_value:
         value: "Valor"
       doorkeeper/application:
@@ -684,6 +686,7 @@ pt-PT:
         versions: "Versões"
         work_packages: "Tarefas"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Secção
       query:
         column_names: "Colunas"
@@ -704,7 +707,7 @@ pt-PT:
         is_closed: "Tarefa fechada"
         is_readonly: "Pacote de trabalho só de leitura"
         excluded_from_totals: "Excluir do cálculo dos totais na hierarquia"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% concluído"
       time_entry:
         activity: "Atividade"
         hours: "Horas"
@@ -996,7 +999,7 @@ pt-PT:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "tem de estar entre 0 e 100."
           readonly_default_exlusive: "não pode ser ativado para os status que estão marcados como padrão."
         time_entry:
           attributes:
@@ -1029,11 +1032,11 @@ pt-PT:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "does not match work and remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
-              inclusion: "must be between 0 and 100."
+              does_not_match_work_and_remaining_work: "não corresponde ao trabalho e ao trabalho restante"
+              cannot_be_set_when_work_is_zero: "não pode ser definido quando o trabalho é zero"
+              must_be_set_when_remaining_work_is_set: "Obrigatório quando o Trabalho restante está definido."
+              must_be_set_when_work_and_remaining_work_are_set: "Obrigatório quando o Trabalho e o Trabalho restante estão definidos."
+              inclusion: "tem de estar entre 0 e 100."
             due_date:
               not_start_date: "não é na data de início, embora isto seja necessário para os registos."
               cannot_be_null: "não pode ser definido como nulo porque a data de início e a duração são conhecidas."
@@ -1063,13 +1066,13 @@ pt-PT:
             estimated_hours:
               not_a_number: "não é uma duração válida."
               cant_be_inferior_to_remaining_work: "Não pode ser inferior a Trabalho restante."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Necessário quando são definidos Trabalho restante e % concluído."
               format: "%{message}"
             remaining_hours:
               not_a_number: "não é uma duração válida."
               cant_exceed_work: "Não pode ser superior a Trabalho."
               must_be_set_when_work_is_set: "Obrigatório quando o Trabalho é definido."
-              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
+              must_be_set_when_work_and_percent_complete_are_set: "Necessário quando Trabalho e % concluído estão definidos."
               format: "%{message}"
           readonly_status: "O pacote de trabalho está em estado de apenas leitura, por isso os seus atributos não podem ser alterados."
         type:
@@ -1591,7 +1594,7 @@ pt-PT:
   error_pdf_failed_to_export: "Não foi possível guardar a exportação de PDF: %{error}"
   error_token_authenticity: "Não é possível verificar o token de Cross-Site Request Forgery. Tentou enviar dados em vários navegadores ou abas? Feche todas as abas e tente novamente."
   error_work_package_not_found_in_project: "A tarefa não foi encontrada ou não pertence a este projecto"
-  error_work_package_id_not_found: "The work package was not found."
+  error_work_package_id_not_found: "O pacote de trabalho não foi encontrado."
   error_must_be_project_member: "deve ser membro do projeto"
   error_migrations_are_pending: "A sua instalação do OpenProject tem migrações pendentes da base de dados pendentes. Provavelmente esqueceu-se de fazer as migrações após a última atualização. Por favor, verifique o guia de atualização, de forma a atualizar a sua instalação corretamente."
   error_migrations_visit_upgrade_guides: "Visite a nossa documentação do guia de atualização"
@@ -1797,10 +1800,10 @@ pt-PT:
       shared: "Partilhado"
       watched: "Observador"
     facets:
-      unread: "Unread"
-      unread_title: "Show unread"
-      all: "All"
-      all_title: "Show all"
+      unread: "Não lidas"
+      unread_title: "Mostrar não lidas"
+      all: "Todas"
+      all_title: "Mostrar todas"
     menu:
       by_project: "Não lido por projeto"
       by_reason: "Motivo"
@@ -1865,7 +1868,7 @@ pt-PT:
   label_ldap_auth_source_plural: "Ligações LDAP"
   label_attribute_expand_text: "O texto completo para \"%{attribute}\""
   label_authentication: "Autenticação"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Definições da autenticação"
   label_available_global_roles: "Papéis globais disponíveis"
   label_available_project_attributes: "Atributos do projeto disponíveis"
   label_available_project_forums: "Fóruns disponíveis"
@@ -2052,7 +2055,7 @@ pt-PT:
   label_inactive: "Inativo"
   label_incoming_emails: "E-mails recebidos"
   label_includes: "inclui"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Incluir subprojetos
   label_index_by_date: "Índice por data"
   label_index_by_title: "Índice por título"
   label_information: "Informação"
@@ -2285,7 +2288,7 @@ pt-PT:
   label_role_search: "Atribuir função aos novos membros"
   label_scm: "SCM"
   label_search: "Pesquisar"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Pesquisar por nome"
   label_send_information: "Enviar novas credenciais para o utilizador"
   label_send_test_email: "Enviar um e-mail de teste"
   label_session: "Sessão"
@@ -2398,7 +2401,7 @@ pt-PT:
   label_work_package_new: "Nova tarefa"
   label_work_package_edit: "Editar pacote de trabalho %{name}"
   label_work_package_plural: "Tarefas"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "Definições dos pacotes de trabalho"
   label_work_package_status: "Estado da tarefa"
   label_work_package_status_new: "Novo estado"
   label_work_package_status_plural: "Estado da tarefa"
@@ -2406,7 +2409,7 @@ pt-PT:
   label_work_package_tracking: "Controle de pacote de trabalho"
   label_work_package_view_all: "Ver todas as tarefas"
   label_workflow: "Fluxo de trabalho"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Copiar fluxo de trabalho"
   label_workflow_plural: "Fluxos de Trabalho"
   label_workflow_summary: "Resumo"
   label_working_days_and_hours: "Dias e horas de trabalho"
@@ -2740,7 +2743,7 @@ pt-PT:
   permission_edit_own_messages: "Editar as próprias mensagens"
   permission_edit_own_time_entries: "Editar registos pessoais de horas"
   permission_edit_project: "Editar projeto"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "Editar atributos do projeto"
   permission_edit_reportings: "Editar comunicações"
   permission_edit_time_entries: "Editar registos de tempo para outros utilizadores"
   permission_edit_timelines: "Editar cronogramas"
@@ -2791,7 +2794,7 @@ pt-PT:
   permission_work_package_assigned: "Torne-se responsável"
   permission_work_package_assigned_explanation: "Os pacotes de trabalho podem ser atribuídos a utilizadores e grupos com deste papel nos respetivos projetos"
   permission_view_project_activity: "Ver atividade do projeto"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "Ver atributos do projeto"
   permission_save_bcf_queries: "Guardar consultas BCF"
   permission_manage_public_bcf_queries: "Gerir consultas BCF públicas"
   permission_edit_attribute_help_texts: "Editar textos de ajuda de atributos"

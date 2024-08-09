@@ -472,7 +472,7 @@ class PermittedParams
           :possible_values,
           :regexp,
           :searchable,
-          :visible,
+          :admin_only,
           :default_value,
           :possible_values,
           :multi_value,

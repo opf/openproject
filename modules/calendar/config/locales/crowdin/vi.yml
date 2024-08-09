@@ -1,12 +1,12 @@
 #English strings go here
 vi:
   plugin_openproject_calendar:
-    name: "OpenProject Calendar"
-    description: "Provides calendar views."
+    name: "Lịch OpenProject"
+    description: "Cung cấp các chế độ xem lịch."
   label_calendar: "Lịch"
-  label_calendar_plural: "Calendars"
-  label_new_calendar: "New calendar"
-  permission_view_calendar: "View calendars"
-  permission_manage_calendars: "Manage calendars"
-  permission_share_calendars: "Subscribe to iCalendars"
-  project_module_calendar_view: "Calendars"
+  label_calendar_plural: "Các lịch"
+  label_new_calendar: "Lịch mới"
+  permission_view_calendar: "Xem lịch"
+  permission_manage_calendars: "Quản lý lịch"
+  permission_share_calendars: "Đăng ký iCalendars"
+  project_module_calendar_view: "Lịch"

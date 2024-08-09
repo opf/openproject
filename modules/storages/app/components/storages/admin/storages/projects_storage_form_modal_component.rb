@@ -29,28 +29,56 @@
 module Storages
   module Admin
     module Storages
-      class AddProjectsModalComponent < ApplicationComponent
+      class ProjectsStorageFormModalComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
+        include StimulusHelper
+        include AngularHelper
 
-        DIALOG_ID = "storages--add-projects-modal".freeze
-        DIALOG_BODY_ID = "storages--add-projects-modal-body".freeze
-
-        def initialize(project_storage:, **)
+        def initialize(project_storage:, last_project_folders: {}, **)
           @project_storage = project_storage
-          @storage = project_storage.storage
+          @last_project_folders = last_project_folders
           super(@project_storage, **)
         end
 
         private
 
-        def dialog_id = DIALOG_ID
-        def dialog_body_id = DIALOG_BODY_ID
-
         attr_reader :project_storage, :storage
 
-        def title
-          I18n.t(:label_add_projects)
+        def dialog_id = Storages::ProjectsStorageModalComponent::DIALOG_ID
+        def dialog_body_id = Storages::ProjectsStorageModalComponent::DIALOG_BODY_ID
+
+        def url
+          if new_record?
+            admin_settings_storage_project_storages_path(project_storage.storage)
+          else
+            admin_settings_storage_project_storage_path(storage_id: project_storage.storage.id, id: project_storage.id)
+          end
         end
+
+        def method = new_record? ? :post : :patch
+
+        def help_text
+          if new_record?
+            I18n.t(:"storages.help_texts.project_folder_bulk")
+          else
+            I18n.t(:"storages.help_texts.project_folder")
+          end
+        end
+
+        def aria_label
+          new_record? ? I18n.t(:label_add_projects) : I18n.t(:"project_storages.edit_project_folder.label")
+        end
+
+        def cancel_button_text
+          I18n.t("button_cancel")
+        end
+
+        def submit_button_text
+          new_record? ? I18n.t("button_add") : I18n.t("button_save")
+        end
+
+        delegate :persisted?, :new_record?, to: :project_storage
       end
     end
   end

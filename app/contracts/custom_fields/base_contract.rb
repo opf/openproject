@@ -42,7 +42,7 @@ module CustomFields
     attribute :possible_values
     attribute :regexp
     attribute :searchable
-    attribute :visible
+    attribute :admin_only
     attribute :default_value
     attribute :possible_values
     attribute :multi_value
