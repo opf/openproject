@@ -48,6 +48,8 @@ module Storages
           def call(auth_strategy:, folder:)
             with_tagged_logger do
               info "Getting data on all files under folder '#{folder}' using #{auth_strategy.key}"
+              validate_input_data(folder).on_failure { return _1 }
+
               Authentication[auth_strategy].call(storage: @storage) do |http|
                 response = handle_response(http.get(children_url_for(folder) + FIELDS), :value)
 
@@ -61,6 +63,16 @@ module Storages
           end
 
           private
+
+          def validate_input_data(folder)
+            if folder.is_a?(ParentFolder)
+              ServiceResult.success
+            else
+              data = StorageErrorData.new(source: self.class)
+              log_message = "Folder input is not a ParentFolder object."
+              ServiceResult.failure(result: :error, errors: StorageError.new(code: :error, log_message:, data:))
+            end
+          end
 
           # rubocop:disable Metrics/AbcSize
           def handle_response(response, map_value)
@@ -106,7 +118,7 @@ module Storages
               StorageFile.new(
                 id: parent_id,
                 name: path.split("/").last,
-                location: path,
+                location: UrlBuilder.path(path),
                 permissions: %i[readable writeable]
               ),
               forge_ancestors(path:)
@@ -122,7 +134,7 @@ module Storages
               StorageFile.new(
                 id: parent_reference[:id],
                 name:,
-                location: Util.extract_location(parent_reference),
+                location: UrlBuilder.path(Util.extract_location(parent_reference)),
                 permissions: %i[readable writeable]
               )
             end
@@ -137,7 +149,7 @@ module Storages
               StorageFile.new(
                 id: Digest::SHA256.hexdigest(component),
                 name: component,
-                location: "/#{component}"
+                location: UrlBuilder.path(component)
               )
             end
           end
