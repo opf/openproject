@@ -28,21 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-module Storages::Admin
+module Storages::Admin::Storages
   class OAuthAccessGrantNudgeModalComponent < ApplicationComponent
+    include OpTurbo::Streamable
+
     options dialog_id: "storages--oauth-grant-nudge-modal-component",
             dialog_body_id: "storages--oauth-grant-nudge-modal-body-component",
             authorized: false
 
-    attr_reader :project_storage
+    attr_reader :storage
 
-    def initialize(project_storage:, **)
-      @project_storage = find_project_storage(project_storage)
-      super(@project_storage, **)
+    def initialize(storage:, **)
+      @storage = find_storage(storage)
+      super(@storage, **)
     end
 
     def render?
-      @project_storage.present?
+      @storage.present?
     end
 
     private
@@ -53,14 +55,14 @@ module Storages::Admin
 
     def title
       if authorized
-        I18n.t("storages.oauth_grant_nudge_modal.access_granted_screen_reader", storage: project_storage.storage.name)
+        I18n.t("storages.oauth_grant_nudge_modal.access_granted_screen_reader", storage: storage.name)
       else
         I18n.t("storages.oauth_grant_nudge_modal.title")
       end
     end
 
     def waiting_title
-      I18n.t("storages.oauth_grant_nudge_modal.requesting_access_to", storage: project_storage.storage.name)
+      I18n.t("storages.oauth_grant_nudge_modal.requesting_access_to", storage: storage.name)
     end
 
     def cancel_button_text
@@ -74,29 +76,26 @@ module Storages::Admin
     def body_text
       if authorized
         success_title = I18n.t("storages.oauth_grant_nudge_modal.access_granted")
-        success_subtitle = I18n.t("storages.oauth_grant_nudge_modal.storage_ready", storage: project_storage.storage.name)
+        success_subtitle = I18n.t("storages.oauth_grant_nudge_modal.storage_ready", storage: storage.name)
         concat(render(::Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle:, success_title:)))
       else
-        I18n.t("storages.oauth_grant_nudge_modal.body", storage: project_storage.storage.name)
+        I18n.t("storages.oauth_grant_nudge_modal.body", storage: storage.name)
       end
     end
 
     def confirm_button_aria_label
-      I18n.t("storages.oauth_grant_nudge_modal.confirm_button_aria_label", storage: project_storage.storage.name)
+      I18n.t("storages.oauth_grant_nudge_modal.confirm_button_aria_label", storage: storage.name)
     end
 
     def confirm_button_url
-      options[:confirm_button_url] || url_helpers.oauth_access_grant_project_settings_project_storage_path(
-        project_id: project_storage.project.id,
-        id: project_storage
-      )
+      url_helpers.oauth_access_grant_admin_settings_storage_project_storages_path(storage)
     end
 
-    def find_project_storage(project_storage_record_or_id)
-      return if project_storage_record_or_id.blank?
-      return project_storage_record_or_id if project_storage_record_or_id.is_a?(::Storages::ProjectStorage)
+    def find_storage(storage_record_or_id)
+      return if storage_record_or_id.blank?
+      return storage_record_or_id if storage_record_or_id.is_a?(::Storages::Storage)
 
-      ::Storages::ProjectStorage.find_by(id: project_storage_record_or_id)
+      ::Storages::Storage.find_by(id: storage_record_or_id)
     end
   end
 end

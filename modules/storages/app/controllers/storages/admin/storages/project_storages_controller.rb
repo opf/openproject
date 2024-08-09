@@ -52,9 +52,26 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   def index; end
 
   def new
-    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(
-      project_storage: @project_storage, last_project_folders: {}
+    respond_with_dialog(
+      if storage_oauth_access_granted?
+        ::Storages::Admin::Storages::ProjectsStorageModalComponent.new(
+          project_storage: @project_storage, last_project_folders: {}
+        )
+      else
+        ::Storages::Admin::Storages::OAuthAccessGrantNudgeModalComponent.new(storage: @storage)
+      end
     )
+  end
+
+  def oauth_access_grant
+    nonce = SecureRandom.uuid
+    cookies["oauth_state_#{nonce}"] = {
+      value: { href: admin_settings_storage_project_storages_url(@storage),
+               storageId: @storage.id }.to_json,
+      expires: 1.hour
+    }
+    session[:oauth_callback_flash_modal] = oauth_access_grant_nudge_modal(authorized: true)
+    redirect_to(storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
   end
 
   def create # rubocop:disable Metrics/AbcSize
@@ -188,6 +205,10 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
                        .result
   end
 
+  def storage_oauth_access_granted?
+    OAuthClientToken.exists?(user: current_user, oauth_client: @storage.oauth_client)
+  end
+
   def include_sub_projects?
     ActiveRecord::Type::Boolean.new.cast(params.to_unsafe_h[:storages_project_storage][:include_sub_projects])
   end
@@ -203,5 +224,15 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     )
     respond_with_turbo_streams
     false
+  end
+
+  def oauth_access_grant_nudge_modal(authorized: false)
+    {
+      type: "Storages::Admin::Storages::OAuthAccessGrantNudgeModalComponent",
+      parameters: {
+        storage: @storage.id,
+        authorized:
+      }
+    }
   end
 end
