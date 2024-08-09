@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Authentication
-  priority: 900
+  priority: 890	
 description: Authentication in OpenProject.
 keywords: authentication
 ---

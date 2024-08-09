@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: API and webhooks
-  priority: 910
+  priority: 900
 description: Configure APIs and webhooks in OpenProject.
 keywords: api webhooks
 ---
@@ -13,7 +13,7 @@ Navigate to **Administration → API and webhooks**.
 
 ## API
 
-![Administration settings API](admin-api.png)
+![API settings in OpenProject administration](openproject_system_admin_guide_api.png)
 
 Here, you can manage the **REST web service** to selectively control whether foreign applications may access your OpenProject API endpoints from within the browser. You can set the **maximum page size** the API will respond with. It will not be possible to perform API requests that return more values on a single page. You can also enable **write access to read-only attributes**, which will allow administrators to write static read-only attributes during creation, such as *createdAt* and *author*. 
 
@@ -40,7 +40,7 @@ You can set up webhooks for OpenProject in order to integrate OpenProject with o
 
 Press the green **+ Webhook** button to add a new webhook to OpenProject.
 
-![Add a new webhook in OpenProject administration](incoming-vs-outgoing-webhooks.png)
+![Webhooks in OpenProject administration](openproject_system_admin_guide_webhooks.png)
 
 You can configure the following options for webhooks:
 
@@ -51,9 +51,6 @@ You can configure the following options for webhooks:
 5. **Enable** if **the webhook** should be active.
 6. **Set the events** for which the webhook should be activate, i.e. webhook for updating or creating projects or work packages, or for creating time entries.
 7. **Select for which projects the webhook should be active**. You can choose all projects or only specific projects. For example if you select the project "System admin guide", an event (ie. create a new time entry) will be fired via the webhook. This will only happen if a user logs time within the selected projects.
+8. Press the green **Create** button to save your changes (you may nee to scroll down to find it). There you can also cancel your input.
 
-![steps-to-create-a-webhook](steps-to-create-a-webhook.png)
-
-Press the green **Create** button to save your changes (you may nee to scroll down to find it). There you can also cancel your input.
-
-![create-button-new-webhook](create-button-new-webhook.png)
+![Add a new webhook in OpenProject administration](openproject_system_admin_guide_api_new_webhook.png)
