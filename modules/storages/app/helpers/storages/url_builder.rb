@@ -39,7 +39,7 @@ module Storages
       end
 
       def path(*path_fragments)
-        URI.join(URI("https://drop.me"), *split_and_escape(path_fragments)).path
+        URI.join(URI("https://drop.me/"), *split_and_escape(path_fragments)).path
       end
 
       private
@@ -57,6 +57,8 @@ module Storages
                              .reject(&:empty?)
                              .each { |f| ensure_unescaped_fragments(f) }
                              .map { |f| CGI.escapeURIComponent(f) }
+
+        return [] if single_fragments.empty?
 
         single_fragments[..-2]
           .map { |f| "#{f}/" }

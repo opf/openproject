@@ -111,6 +111,7 @@ FactoryBot.define do
           traits: [:as_not_automatically_managed] do
     transient do
       oauth_client_token_user { association :user }
+      origin_user_id { "admin" }
     end
 
     name { "Nextcloud Local" }
@@ -144,7 +145,7 @@ FactoryBot.define do
              token_type: "bearer")
 
       create(:remote_identity, oauth_client: storage.oauth_client, user: evaluator.oauth_client_token_user,
-                               origin_user_id: ENV.fetch("NEXTCLOUD_LOCAL_OAUTH_ORIGIN_USER_ID", "admin"))
+                               origin_user_id: evaluator.origin_user_id)
     end
   end
 

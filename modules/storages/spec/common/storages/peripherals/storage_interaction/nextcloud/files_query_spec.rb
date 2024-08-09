@@ -34,7 +34,10 @@ require_module_spec_helper
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery, :vcr, :webmock do
   let(:user) { create(:user) }
   let(:storage) do
-    create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
+    create(:nextcloud_storage_with_local_connection,
+           :as_not_automatically_managed,
+           oauth_client_token_user: user,
+           origin_user_id: "m.jade@death.star")
   end
   let(:auth_strategy) do
     Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)

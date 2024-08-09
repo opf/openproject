@@ -120,6 +120,9 @@ RSpec.describe Storages::UrlBuilder do
 
   describe "path" do
     it "returns a correct path concatenation" do
+      expect(described_class.path("")).to eq("/")
+      expect(described_class.path("/")).to eq("/")
+
       expect(described_class.path("path")).to eq("/path")
       expect(described_class.path("path/")).to eq("/path")
       expect(described_class.path("/path")).to eq("/path")

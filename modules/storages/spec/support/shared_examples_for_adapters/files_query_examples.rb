@@ -53,9 +53,6 @@ RSpec.shared_examples_for "files_query: successful files response" do
     response = result.result
     expect(response).to be_a(Storages::StorageFiles)
     expect(response).to eq(files_result)
-    # expect(response.files).to eq(files_result.files)
-    # expect(response.parent).to eq(files_result.parent)
-    # expect(response.ancestors).to eq(files_result.ancestors)
   end
 end
 
