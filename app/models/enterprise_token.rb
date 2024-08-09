@@ -27,6 +27,9 @@
 #++
 class EnterpriseToken < ApplicationRecord
   class << self
+    delegate :allows_to?,
+             to: :current
+
     def current
       RequestStore.fetch(:current_ee_token) do
         set_current_token
@@ -35,10 +38,6 @@ class EnterpriseToken < ApplicationRecord
 
     def table_exists?
       connection.data_source_exists? table_name
-    end
-
-    def allows_to?(action)
-      Authorization::EnterpriseService.new(current).call(action).result
     end
 
     def active?
