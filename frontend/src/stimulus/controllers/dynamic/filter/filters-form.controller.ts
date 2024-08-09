@@ -70,10 +70,12 @@ export default class FiltersFormController extends Controller {
   static values = {
     displayFilters: { type: Boolean, default: false },
     outputFormat: { type: String, default: 'params' },
+    performTurboRequests: { type: Boolean, default: false },
   };
 
   declare displayFiltersValue:boolean;
   declare outputFormatValue:string;
+  declare performTurboRequestsValue:boolean;
 
   connect() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -81,57 +83,61 @@ export default class FiltersFormController extends Controller {
 
     // Auto-register change event listeners for all fields
     // to keep DOM cleaner.
-    this.simpleValueTargets.forEach((simpleValue) => {
-      simpleValue.addEventListener('change', this.sendForm.bind(this));
-    });
+    if (this.performTurboRequestsValue) {
+      this.simpleValueTargets.forEach((simpleValue) => {
+        simpleValue.addEventListener('change', this.sendForm.bind(this));
+      });
 
-    this.operatorTargets.forEach((operator) => {
-      operator.addEventListener('change', this.sendForm.bind(this));
-    });
+      this.operatorTargets.forEach((operator) => {
+        operator.addEventListener('change', this.sendForm.bind(this));
+      });
 
-    this.filterValueSelectTargets.forEach((select) => {
-      select.addEventListener('change', this.sendForm.bind(this));
-    });
+      this.filterValueSelectTargets.forEach((select) => {
+        select.addEventListener('change', this.sendForm.bind(this));
+      });
 
-    this.filterValueContainerTargets.forEach((container) => {
-      container.addEventListener('change', this.sendForm.bind(this));
-    });
+      this.filterValueContainerTargets.forEach((container) => {
+        container.addEventListener('change', this.sendForm.bind(this));
+      });
 
-    this.singleDayTargets.forEach((singleDay) => {
-      singleDay.addEventListener('change', this.sendForm.bind(this));
-    });
+      this.singleDayTargets.forEach((singleDay) => {
+        singleDay.addEventListener('change', this.sendForm.bind(this));
+      });
 
-    this.daysTargets.forEach((days) => {
-      days.addEventListener('change', this.sendForm.bind(this));
-    });
+      this.daysTargets.forEach((days) => {
+        days.addEventListener('change', this.sendForm.bind(this));
+      });
+    }
   }
 
   disconnect() {
     // Auto-deregister change event listeners for all fields
     // to keep DOM cleaner.
-    this.simpleValueTargets.forEach((simpleValue) => {
-      simpleValue.removeEventListener('change', this.sendForm.bind(this));
-    });
+    if (this.performTurboRequestsValue) {
+      this.simpleValueTargets.forEach((simpleValue) => {
+        simpleValue.removeEventListener('change', this.sendForm.bind(this));
+      });
 
-    this.operatorTargets.forEach((operator) => {
-      operator.removeEventListener('change', this.sendForm.bind(this));
-    });
+      this.operatorTargets.forEach((operator) => {
+        operator.removeEventListener('change', this.sendForm.bind(this));
+      });
 
-    this.filterValueSelectTargets.forEach((select) => {
-      select.removeEventListener('change', this.sendForm.bind(this));
-    });
+      this.filterValueSelectTargets.forEach((select) => {
+        select.removeEventListener('change', this.sendForm.bind(this));
+      });
 
-    this.filterValueContainerTargets.forEach((container) => {
-      container.removeEventListener('change', this.sendForm.bind(this));
-    });
+      this.filterValueContainerTargets.forEach((container) => {
+        container.removeEventListener('change', this.sendForm.bind(this));
+      });
 
-    this.singleDayTargets.forEach((singleDay) => {
-      singleDay.removeEventListener('change', this.sendForm.bind(this));
-    });
+      this.singleDayTargets.forEach((singleDay) => {
+        singleDay.removeEventListener('change', this.sendForm.bind(this));
+      });
 
-    this.daysTargets.forEach((days) => {
-      days.removeEventListener('change', this.sendForm.bind(this));
-    });
+      this.daysTargets.forEach((days) => {
+        days.removeEventListener('change', this.sendForm.bind(this));
+      });
+    }
   }
 
   toggleDisplayFilters() {
@@ -191,7 +197,9 @@ export default class FiltersFormController extends Controller {
     this.reselectPlaceholderOption();
     this.setSpacerVisibility();
 
-    this.sendForm();
+    if (this.performTurboRequestsValue) {
+      this.sendForm();
+    }
   }
 
   private disableSelection() {
@@ -211,7 +219,9 @@ export default class FiltersFormController extends Controller {
     removedFilterOption?.removeAttribute('disabled');
     this.setSpacerVisibility();
 
-    this.sendForm();
+    if (this.performTurboRequestsValue) {
+      this.sendForm();
+    }
   }
 
   private setSpacerVisibility() {
@@ -257,6 +267,12 @@ export default class FiltersFormController extends Controller {
     }
   }
 
+  autocompleteSendForm() {
+    if (this.performTurboRequestsValue) {
+      this.sendForm();
+    }
+  }
+
   sendForm() {
     const ajaxIndicator = document.querySelector('#ajax-indicator') as HTMLElement;
     ajaxIndicator.style.display = '';
@@ -274,20 +290,24 @@ export default class FiltersFormController extends Controller {
 
     const url = `${window.location.pathname}?${params.toString()}`;
 
-    fetch(url, {
-      headers: {
-        Accept: 'text/vnd.turbo-stream.html',
-      },
-    })
-      .then((response:Response) => response.text())
-      .then((html:string) => {
-        renderStreamMessage(html);
-        ajaxIndicator.style.display = 'none';
+    if (this.performTurboRequestsValue) {
+      fetch(url, {
+        headers: {
+          Accept: 'text/vnd.turbo-stream.html',
+        },
       })
-      .catch((error:Error) => {
-        console.error('Error:', error);
-        ajaxIndicator.style.display = 'none';
-      });
+        .then((response:Response) => response.text())
+        .then((html:string) => {
+          renderStreamMessage(html);
+          ajaxIndicator.style.display = 'none';
+        })
+        .catch((error:Error) => {
+          console.error('Error:', error);
+          ajaxIndicator.style.display = 'none';
+        });
+    } else {
+      window.location.href = url;
+    }
   }
 
   private parseFilters():InternalFilterValue[] {

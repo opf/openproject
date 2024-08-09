@@ -1,6 +1,7 @@
 <%= component_wrapper(tag: 'turbo-frame') do %>
   <%= render(Primer::OpenProject::SubHeader.new(data: {
       controller: "filter--filters-form",
+      'filter--filters-form-perform-turbo-requests-value': true,
       "application-target": "dynamic",
     })) do |subheader|
       subheader.with_filter_component do
