@@ -26,23 +26,34 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+/// <reference types="dom-navigation" />
+
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class UrlParamsService {
-  public get(key:string):string|null {
-    return this.searchParams.get(key);
+export class NavigationService {
+  private _currentURL = document.location.href;
+
+  private _urlChanged$:Subject<string> = new Subject();
+
+  public urlChanged$ = this._urlChanged$.asObservable();
+
+  constructor() {
+    if ('navigation' in window) {
+      window.navigation.addEventListener('navigate', (event:NavigateEvent) => {
+        this.handleURLChange(event.destination.url);
+      });
+    } else {
+      // Browser does not support navigation API, use a slower setInterval
+      setInterval(() => this.handleURLChange(document.location.href), 250);
+    }
   }
 
-  public pathMatching(key:RegExp):string|null {
-    return window.location.pathname.match(key)?.[1] || null;
-  }
-
-  public has(key:string):boolean {
-    return this.searchParams.has(key);
-  }
-
-  private get searchParams():URLSearchParams {
-    return new URLSearchParams(window.location.search);
+  private handleURLChange(url:string):void {
+    if (url !== this._currentURL) {
+      this._urlChanged$.next(url);
+      this._currentURL = url;
+    }
   }
 }
