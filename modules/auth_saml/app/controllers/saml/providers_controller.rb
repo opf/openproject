@@ -53,7 +53,10 @@ module Saml
       end
 
       if @edit_mode
-        redirect_to edit_saml_provider_path(@provider, edit_mode: @edit_mode, edit_state: :configuration)
+        redirect_to edit_saml_provider_path(@provider,
+                                            anchor: "saml-providers-edit-form",
+                                            edit_mode: @edit_mode,
+                                            edit_state: :configuration)
       else
         redirect_to saml_provider_path(@provider)
       end
@@ -119,7 +122,10 @@ module Saml
         end
         format.html do
           if @edit_mode && @next_edit_state
-            redirect_to edit_saml_provider_path(@provider, edit_mode: true, edit_state: @next_edit_state)
+            redirect_to edit_saml_provider_path(@provider,
+                                                anchor: "saml-providers-edit-form",
+                                                edit_mode: true,
+                                                edit_state: @next_edit_state)
           else
             redirect_to saml_provider_path(@provider)
           end
