@@ -160,6 +160,7 @@ RSpec.describe "my", :js, :with_cuprite do
 
           within("dialog#access-token-created-dialog") do
             expect(page).to have_content "The API token has been generated"
+            click_on "Close"
           end
           expect(page).to have_content("Testing Token")
 

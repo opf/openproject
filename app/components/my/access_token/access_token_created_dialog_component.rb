@@ -42,24 +42,6 @@ module My
       def id
         "access-token-created-dialog"
       end
-
-      def heading
-        I18n.t("my.access_token.create_dialog.header", type: "API")
-      end
-
-      def text
-        options = {
-          tag: :div,
-          color: :subtle
-        }
-        safe_join(
-          [
-            render(Primer::Beta::Text.new(**options)) { I18n.t("my.access_token.create_dialog.text") },
-            render(Primer::Beta::Text.new(**options.merge(font_weight: :bold))) { @token_value },
-            render(Primer::Beta::Text.new(**options)) { I18n.t("my.access_token.create_dialog.warning") }
-          ]
-        )
-      end
     end
   end
 end
