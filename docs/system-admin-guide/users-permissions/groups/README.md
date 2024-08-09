@@ -48,7 +48,7 @@ Removing a user from a group removes the role from that user in any project usin
 
 ### Add a group to projects
 
-Click the **Projects** tab. Select the projects you want to add this group to from the **New project** drop-down list. Tick the roles that you want the group to have. Click the green**Add** button. Users in the group are added to that project's members using the role selected.
+Click the **Projects** tab. Select the projects you want to add this group to from the **New project** drop-down list. Tick the roles that you want the group to have. Click the green **Add** button. Users in the group are added to that project's members using the role selected.
 
 ![Add a group to a project in OpenProject administration](openproject_system_guide_edit_new_group_add_projects.png)
 
