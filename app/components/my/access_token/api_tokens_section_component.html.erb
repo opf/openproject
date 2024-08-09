@@ -27,32 +27,31 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t(:label_my_account), I18n.t('my_account.access_tokens.access_tokens')) -%>
-
-<% breadcrumb_paths(t(:label_my_account), I18n.t('my_account.access_tokens.access_tokens')) %>
-
-<div class="access-token-page--container">
-	<%= toolbar title: I18n.t('my_account.access_tokens.access_tokens') %>
-
-	<%= render ::My::AccessToken::APITokensSectionComponent.new(api_tokens: @user.api_tokens) %>
-	<%= render partial: 'my/access_token_partials/icalendar_tokens_section',
-							locals: { ical_tokens_grouped_by_query: @ical_tokens_grouped_by_query }
-	%>
-	<%= render partial: 'my/access_token_partials/oauth_tokens_section',
-							locals: { granted_applications: granted_applications }
-	%>
-	<%= render partial: 'my/access_token_partials/rss_tokens_section',
-							locals: { rss_token: @user.rss_token }
-	%>
-  <%= render partial: 'my/access_token_partials/storage_tokens_section',
-             locals: { storage_tokens: @storage_tokens }
-  %>
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table">
-        <%= call_hook(:view_access_tokens_table, user: @user) %>
-      </table>
+<%= component_wrapper do %>
+  <div class="attributes-group" id="api-token-section">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"><%= t("my_account.access_tokens.api.title") %></h3>
+      </div>
+    </div>
+    <div>
+      <p>
+        <%= t("my_account.access_tokens.api.text_hint") %>
+      </p>
+      <% if Setting.rest_api_enabled? %>
+        <% if @api_tokens.any? %>
+          <%= render My::AccessToken::API::TableComponent.new(rows: @api_tokens) %>
+        <% end %>
+        <%= render My::AccessToken::NewAccessTokenComponent.new %>
+      <% else %>
+        <div tabindex="0" class="-info op-toast">
+          <div role="alert" aria-atomic="true" class="op-toast--content">
+            <p>
+              <span><%= t('my_account.access_tokens.api.disabled_text') %></span>
+            </p>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
-</div>
-
+<% end %>
