@@ -26,16 +26,14 @@ export class ColorsService {
   }
 
   public colorMode():string {
-    switch (document.body.getAttribute('data-light-theme')) {
-      case 'light_high_contrast':
-        return colorModes.lightHighContrast;
-      case 'dark':
-        return colorModes.dark;
-      case 'light':
-        return colorModes.light;
-      default: {
-        return colorModes.light;
-      }
+    if (document.body.getAttribute('data-color-mode') === 'dark') {
+      return colorModes.dark;
     }
+
+    if (document.body.getAttribute('data-light-theme') === 'light_high_contrast') {
+      return colorModes.lightHighContrast;
+    }
+
+    return colorModes.light;
   }
 }
