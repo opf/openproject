@@ -109,9 +109,20 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   end
 
   def destroy
-    Storages::ProjectStorages::DeleteService
+    result = Storages::ProjectStorages::DeleteService
       .new(user: current_user, model: @project_storage)
       .call
+
+    # rubocop:disable Rails/ActionControllerFlashBeforeRender
+    result.on_success do
+      flash[:primer_banner] = { message: I18n.t(:notice_successful_delete) }
+    end
+
+    result.on_failure do |failure|
+      error = failure.errors.map(&:message).join("; ")
+      flash[:primer_banner] = { message: t("project_storages.remove_project.deletion_failure_flash", error:), scheme: :danger }
+    end
+    # rubocop:enable Rails/ActionControllerFlashBeforeRender
 
     redirect_to admin_settings_storage_project_storages_path(@storage)
   end

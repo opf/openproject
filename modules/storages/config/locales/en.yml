@@ -73,6 +73,7 @@ en:
         heading: Remove project from %{storage_type}
         text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
       label: Remove project
+      deletion_failure_flash: "Failed to remove the project from the storage: "
   services:
     attributes:
       nextcloud_sync_service:
