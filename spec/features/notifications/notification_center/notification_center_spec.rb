@@ -149,9 +149,14 @@ RSpec.describe "Notification center", :js, :with_cuprite,
 
       center.click_item notification
       split_screen.expect_open
+      center.expect_item_selected notification
 
       center.expect_item_not_read notification
       center.expect_work_package_item notification2
+
+      center.click_item notification2
+      split_screen2.expect_open
+      center.expect_item_selected notification2
 
       center.mark_notification_as_read notification
       wait_for_network_idle
