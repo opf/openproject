@@ -32,13 +32,8 @@ module EnvData
         Setting.seed_saml_provider.each do |name, options|
           print_status "    ↳ Creating or Updating SAML provider #{name}" do
             provider = ::Saml::Provider.find_by(slug: name)
-            options = mapped_options(options)
-            params = {
-              slug: name,
-              display_name: options.delete("display_name") || "SAML",
-              available: true,
-              options:
-            }
+            params = ::Saml::ConfigurationMapper.new(options).call!
+            params["options"]["seeded_from_env"] = true
 
             if provider
               print_status "   - Updating existing SAML provider '#{name}' from ENV"
@@ -71,54 +66,6 @@ module EnvData
           .call(params)
           .on_success { print_status "   - Successfully updated SAML provider #{name}." }
           .on_failure { |call| raise "Failed to update SAML provider: #{call.message}" }
-      end
-
-      def mapped_options(options)
-        options["seeded_from_env"] = true
-        options["idp_sso_service_url"] ||= options.delete("idp_sso_target_url")
-        options["idp_slo_service_url"] ||= options.delete("idp_slo_target_url")
-        options["sp_entity_id"] ||= options.delete("issuer")
-
-        build_idp_cert(options)
-        extract_security_options(options)
-        extract_mapping(options)
-
-        options.compact
-      end
-
-      def extract_mapping(options)
-        nil unless options["attribute_statements"]
-
-        options["mapping_login"] = extract_mapping_attribute(options, "login")
-        options["mapping_mail"] = extract_mapping_attribute(options, "email")
-        options["mapping_firstname"] = extract_mapping_attribute(options, "first_name")
-        options["mapping_lastname"] = extract_mapping_attribute(options, "last_name")
-        options["mapping_uid"] = extract_mapping_attribute(options, "uid")
-      end
-
-      def extract_mapping_attribute(options, key)
-        value = options["attribute_statements"][key]
-
-        if value.present?
-          Array(value).join("\n")
-        end
-      end
-
-      def build_idp_cert(options)
-        if options["idp_cert"]
-          options["idp_cert"] = OneLogin::RubySaml::Utils.format_cert(options["idp_cert"])
-        elsif options["idp_cert_multi"]
-          options["idp_cert"] = options["idp_cert_multi"]["signing"]
-            .map { |cert| OneLogin::RubySaml::Utils.format_cert(cert) }
-            .join("\n")
-        end
-      end
-
-      def extract_security_options(options)
-        return unless options["security"]
-
-        options.merge! options["security"].slice("authn_requests_signed", "want_assertions_signed",
-                                                 "want_assertions_encrypted", "digest_method", "signature_method")
       end
     end
   end
