@@ -144,7 +144,7 @@ FactoryBot.define do
              token_type: "bearer")
 
       create(:remote_identity, oauth_client: storage.oauth_client, user: evaluator.oauth_client_token_user,
-                               origin_user_id: "admin")
+                               origin_user_id: ENV.fetch("NEXTCLOUD_LOCAL_OAUTH_ORIGIN_USER_ID", "admin"))
     end
   end
 
