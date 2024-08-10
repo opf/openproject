@@ -618,7 +618,7 @@ be:
       reasons:
         mentioned: "Mentioned"
         watched: "Watcher"
-        assigned: "Assignee"
+        assigned: "Прызначаная асоба"
         accountable: "Accountable"
         created: "Created"
         scheduled: "Scheduled"

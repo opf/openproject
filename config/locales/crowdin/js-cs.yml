@@ -615,10 +615,10 @@ cs:
       title: "Oznámení"
       no_unread: "Žádná nepřečtená oznámení"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
+        mentioned: "Zmíněné"
+        watched: "Sledující"
         assigned: "Řešitel"
-        accountable: "Accountable"
+        accountable: "Odpovědný"
         created: "Vytvořeno"
         scheduled: "Naplánováno"
         commented: "Komentované"
@@ -899,9 +899,9 @@ cs:
       image: "Obrázek"
     sharing:
       share: "Sdílet"
-      selected_count: "%{count} selected"
+      selected_count: "%{count} vybráno"
       selection:
-        mixed: "Mixed"
+        mixed: "Smíšená"
     work_packages:
       bulk_actions:
         move: "Hromadná změna projektu"
@@ -1018,7 +1018,7 @@ cs:
         assigned_to_me: "Přiřazeno mně"
         recently_created: "Nedávno vytvořené"
         all_open: "Všechny otevřené"
-        overdue: "Overdue"
+        overdue: "Po termínu"
         summary: "Souhrn"
         shared_with_users: "Sdíleno s uživateli"
         shared_with_me: "Sdíleno se mnou"

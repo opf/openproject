@@ -48,7 +48,7 @@ th:
         description: "หมายเหตุ"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "ชื่อเรื่อง"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
@@ -90,7 +90,7 @@ th:
   label_meeting_edit: "Edit Meeting"
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minutes"
-  label_meeting_close: "Close"
+  label_meeting_close: "ปิด"
   label_meeting_open: "Open"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Date/Time"

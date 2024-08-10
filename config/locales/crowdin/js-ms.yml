@@ -616,17 +616,17 @@ ms:
       title: "Pemberitahuan"
       no_unread: "Tiada pemberitahuan yang belum dibaca"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "Telah disebutkan"
+        watched: "Pemerhati"
+        assigned: "Penerima tugasan"
+        accountable: "Bertanggungjawab"
+        created: "Dicipta"
+        scheduled: "Dijadualkan"
+        commented: "Komen"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Peringatan tarikh"
-        shared: "Shared"
+        shared: "Telah dikongsi"
       date_alerts:
         milestone_date: "Tarikh pencapaian"
         overdue: "Tertangguh"
@@ -896,10 +896,10 @@ ms:
       wiki_link: "Pautan ke halaman Wiki"
       image: "Imej"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Kongsi"
+      selected_count: "%{count} dipilih"
       selection:
-        mixed: "Mixed"
+        mixed: "Bercampur"
     work_packages:
       bulk_actions:
         move: "Perubahan projek secara pukal"
@@ -1016,7 +1016,7 @@ ms:
         assigned_to_me: "Ditugaskan kepada saya"
         recently_created: "Baru dicipta"
         all_open: "Semua terbuka"
-        overdue: "Overdue"
+        overdue: "Tertangguh"
         summary: "Ringkasan"
         shared_with_users: "Dikongsi dengan pengguna"
         shared_with_me: "Dikongsi dengan saya"

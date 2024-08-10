@@ -337,7 +337,7 @@ da:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Eksportér"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -616,12 +616,12 @@ da:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "Tilsynsførende"
+        assigned: "Tildelt"
         accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        created: "Oprettet"
+        scheduled: "Planlagt"
+        commented: "Kommenterede"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -896,7 +896,7 @@ da:
       wiki_link: "Link til wiki-side"
       image: "Billede"
     sharing:
-      share: "Share"
+      share: "Del"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

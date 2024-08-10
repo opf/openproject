@@ -12,7 +12,7 @@ cs:
         tenant: ID adresáře (tenant)
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: není platná adresa URL.
         not_linked_to_project: není propojen s projektem.
       models:
         storages/file_link:
@@ -46,7 +46,7 @@ cs:
   permission_create_files: 'Automaticky spravované složky projektů: Vytvořit soubory'
   permission_create_files_explanation: Toto oprávnění je dostupné pouze pro Nextcloud úložiště
   permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files_explanation: Toto oprávnění je dostupné pouze pro Nextcloud úložiště
   permission_header_for_project_module_storages: Automaticky spravované projektové složky
   permission_manage_file_links: Správa odkazů souborů
   permission_manage_files_in_project: Spravovat soubory v projektu
@@ -207,9 +207,9 @@ cs:
       label_error: Chyba
       label_healthy: Zdravé
       label_pending: Nevyřízeno
-      label_warning: Warning
+      label_warning: Varování
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Automaticky spravované projektové složky
       since: od %{datetime}
       title: Zdravotní stav
     health_email_notifications:

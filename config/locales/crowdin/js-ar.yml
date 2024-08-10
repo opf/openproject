@@ -338,7 +338,7 @@ ar:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "تصدير"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ ar:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "المشاهد"
+        assigned: "المُسند إليه"
         accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        created: "تم إنشاؤه"
+        scheduled: "مُجدول"
+        commented: "علّق"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -901,7 +901,7 @@ ar:
       wiki_link: "قُم بوصله إلى صفحة Wiki"
       image: "صورة"
     sharing:
-      share: "Share"
+      share: "شارك"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -1020,10 +1020,10 @@ ar:
         created_by_me: "Created by me"
         assigned_to_me: "مخصص لي"
         recently_created: "Recently created"
-        all_open: "All open"
+        all_open: "كل المفتوح"
         overdue: "Overdue"
         summary: "مُلخّص"
-        shared_with_users: "Shared with users"
+        shared_with_users: "مشترك مع المستخدمين"
         shared_with_me: "Shared with me"
       jump_marks:
         pagination: "الانتقال السريع إلى تقسيم الجدول"

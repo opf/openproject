@@ -49,7 +49,7 @@ fi:
         description: "Kommentit"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "Otsikko"
     errors:
       messages:
         invalid_time_format: "ei ole kelvollinen aika. Vaadittava muoto: TT:MM"

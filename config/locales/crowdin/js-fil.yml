@@ -338,7 +338,7 @@ fil:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "I-export"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ fil:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "Tagapagmasid"
+        assigned: "Naitalaga"
         accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        created: "Nilikha"
+        scheduled: "Naka-iskedyul"
+        commented: "Ang komento"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -897,7 +897,7 @@ fil:
       wiki_link: "Ang link sa pahinang wiki"
       image: "Larawan"
     sharing:
-      share: "Share"
+      share: "Ibahagi"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

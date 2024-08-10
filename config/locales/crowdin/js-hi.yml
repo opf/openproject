@@ -338,7 +338,7 @@ hi:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "निर्यात"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ hi:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        watched: "वॉचर"
+        assigned: "अनुदिष्ट"
+        accountable: "जवाबदेह"
+        created: "रचनातिथी"
+        scheduled: "अनुसूचित"
+        commented: "टिप्पणियाँकृत"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -897,7 +897,7 @@ hi:
       wiki_link: "Link to a Wiki page"
       image: "Image"
     sharing:
-      share: "Share"
+      share: "सांझा करें"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

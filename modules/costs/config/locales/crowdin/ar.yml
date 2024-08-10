@@ -22,7 +22,7 @@
 ar:
   plugin_costs:
     name: "الوقت والتكاليف"
-    description: "This module adds features for planning and tracking costs of projects."
+    description: "تضيف هذه الوحدة ميزات لتخطيط وتتبع تكاليف المشاريع."
   activerecord:
     attributes:
       cost_entry:

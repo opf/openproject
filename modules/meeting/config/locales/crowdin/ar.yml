@@ -53,7 +53,7 @@ ar:
         description: "ملاحظات"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "العنوان"
     errors:
       messages:
         invalid_time_format: "ليس وقتًا صالحًا. التصميم المطلوب: HH:MM"

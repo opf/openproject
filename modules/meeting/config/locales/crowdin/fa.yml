@@ -49,14 +49,14 @@ fa:
         description: "یادداشت ها"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "عنوان"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
       structured_meeting: "Meeting (dynamic)"
       meeting_agenda_item: "Agenda item"
-      meeting_agenda: "Agenda"
+      meeting_agenda: "دستور کار"
       meeting_minutes: "دقیقه ها"
       meeting_section: "Section"
   activity:

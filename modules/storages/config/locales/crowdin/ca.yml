@@ -12,7 +12,7 @@ ca:
         tenant: Directory (tenant) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: no és una URL vàlida.
         not_linked_to_project: encara no està enllaçat a un projecte.
       models:
         storages/file_link:
@@ -55,11 +55,11 @@ ca:
   permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: Veure els enllaços del fitxer
   permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+  project_module_storages: Arxius
   project_storages:
     project_folder_mode:
       automatic: Automatically managed
-      inactive: No specific folder
+      inactive: Cap carpeta específica
       manual: Existing folder manually managed
     remove_project:
       dialog:
@@ -207,7 +207,7 @@ ca:
       label_error: Error
       label_healthy: Healthy
       label_pending: Pendent
-      label_warning: Warning
+      label_warning: Alerta
       project_folders:
         subtitle: Automatically managed project folders
       since: since %{datetime}

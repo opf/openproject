@@ -49,7 +49,7 @@ el:
         description: "Παρατηρήσεις"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "Τίτλος"
     errors:
       messages:
         invalid_time_format: "δεν είναι έγκυρη ώρα. Απαιτούμενη μορφοποίηση: ΩΩ:ΛΛ"

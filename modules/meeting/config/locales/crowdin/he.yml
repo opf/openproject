@@ -51,7 +51,7 @@ he:
         description: "הערות"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "כותרת"
     errors:
       messages:
         invalid_time_format: "תבנית הזמן אינה תקינה. התבנית הנדרשת היא: HH:MM"

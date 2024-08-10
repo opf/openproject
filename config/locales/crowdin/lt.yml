@@ -395,14 +395,17 @@ lt:
       will_revoke_access_to_all: "Šis veiksmas atšauks jų prieigą prie jų visų."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
       new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_show_button_text: "API žetonas"
       new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text_field_label: "Vardas"
+      new_access_token_dialog_submit_button_text: "Sukurti"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -480,9 +483,9 @@ lt:
       no_results_title_text: Nėra jokių darbų paketo būsenų.
       no_results_content_text: Pridėti naują būseną
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
+        is_default: "Numatytasis"
+        is_closed: "Uždaryta"
+        is_readonly: "Tik skaityti"
         excluded_from_totals: "Excluded from totals"
   themes:
     dark: "Dark (Beta)"
@@ -1160,9 +1163,9 @@ lt:
       project: "Projektas"
       project_query:
         one: "Project list"
-        few: "Project lists"
-        many: "Project lists"
-        other: "Project lists"
+        few: "Projektų sąrašai"
+        many: "Projektų sąrašai"
+        other: "Projektų sąrašai"
       query: "Sava užklausa"
       role:
         one: "Vaidmuo"
@@ -1170,6 +1173,11 @@ lt:
         many: "Vaidmenų"
         other: "Vaidmuo"
       status: "Darbų paketo būsena"
+      token/api:
+        one: Access token
+        few: Access tokens
+        many: Access tokens
+        other: Access tokens
       type: "Tipas"
       user: "Naudotojas"
       version: "Versija"
@@ -1850,16 +1858,16 @@ lt:
         unknown_storage: "Nežinoma saugykla"
   notifications:
     reasons:
-      assigned: "Assignee"
-      dateAlert: "Date alert"
-      mentioned: "Mentioned"
-      responsible: "Accountable"
-      shared: "Shared"
-      watched: "Watcher"
+      assigned: "Paskirtas"
+      dateAlert: "Datos įspėjimas"
+      mentioned: "Paminėtas"
+      responsible: "Atsakingas"
+      shared: "Bendrinta"
+      watched: "Stebėtojas"
     menu:
-      by_project: "Unread by project"
-      by_reason: "Reason"
-      inbox: "Inbox"
+      by_project: "Neperskaityti pagal projektą"
+      by_reason: "Priežastis"
+      inbox: "Gauti"
     send_notifications: "Siųsti pranešimus apie šį veiksmą"
     work_packages:
       subject:
@@ -2119,7 +2127,7 @@ lt:
   label_invite_user: "Pakviesti vartotoją"
   label_share: "Dalintis"
   label_share_project_list: "Share project list"
-  label_share_work_package: "Share work package"
+  label_share_work_package: "Dalintis darbo paketu"
   label_show_hide: "Rodyti/slėpti"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Rodyti visus registruotus vartotojus"
@@ -2159,7 +2167,7 @@ lt:
   label_custom_touch_icon: "Pasirinktinė prisilietimo piktograma"
   label_logout: "Atsijungti"
   label_main_menu: "Šoninis meniu"
-  label_manage: "Manage"
+  label_manage: "Valdyti"
   label_manage_groups: "Valdyti grupes"
   label_managed_repositories_vendor: "Valdomos %{vendor} saugyklos"
   label_max_size: "Maksimalus dydis"
@@ -2168,8 +2176,8 @@ lt:
   label_member_all_admin: "(Visi vaidmenys, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
   label_membership_plural: "Narystės"
-  label_membership_added: "Member added"
-  label_membership_updated: "Member updated"
+  label_membership_added: "Narys pridėtas"
+  label_membership_updated: "Narys atnaujintas"
   label_menu: "Meniu"
   label_menu_badge:
     pre_alpha: "pre-alfa"
@@ -2270,7 +2278,7 @@ lt:
   label_product_version: "Produkto versija"
   label_profile: "Profilis"
   label_percent_complete: "% baigta"
-  label_project: "Project"
+  label_project: "Projektas"
   label_project_activity: "Projekto aktyvumas"
   label_project_attribute_plural: "Projekto atributai"
   label_project_attribute_manage_link: "Valdyti projekto atributus"
@@ -3484,55 +3492,55 @@ lt:
         status_based_help_text: "% baigta nustatoma pagal paketo būseną."
         migration_warning_text: "Darbu paremtame eigos skaičiavimo režime % baigta negali būti nustatomas rankomis ir yra susietas su darbu. Esamos reikšmės buvo išlaikytos, bet negali būti keičiamos. Prašome iš pradžių įveskite darbą."
     permissions:
-      comment: "Comment"
-      comment_description: "Can view and comment this work package."
-      edit: "Edit"
-      edit_description: "Can view, comment and edit this work package."
-      view: "View"
-      view_description: "Can view this work package."
+      comment: "Komentaras"
+      comment_description: "Gali žiūrėti ir komentuoti šį darbo paketą."
+      edit: "Redaguoti"
+      edit_description: "Gali žiūrėti, komentuoti ir keisti šį darbo paketą."
+      view: "Peržiūrėti"
+      view_description: "Gali žiūrėti šį darbo paketą."
   sharing:
     count:
-      zero: "0 users"
-      one: "1 user"
-      other: "%{count} users"
+      zero: "0 naudotojų"
+      one: "1 naudotojas"
+      other: "%{count} naudotojų"
     filter:
-      project_member: "Project member"
-      not_project_member: "Not project member"
-      project_group: "Project group"
-      not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
-      role: "Role"
-      type: "Type"
+      project_member: "Projekto nariai"
+      not_project_member: "Ne projekto nariai"
+      project_group: "Projekto grupė"
+      not_project_group: "Ne projekto grupė"
+      user: "Naudotojas"
+      group: "Grupė"
+      role: "Vaidmuo"
+      type: "Tipas"
     denied: "You don't have permissions to share %{entities}."
-    label_search: "Search for users to invite"
-    label_search_placeholder: "Search by user or email address"
-    label_toggle_all: "Toggle all shares"
-    remove: "Remove"
-    share: "Share"
-    text_empty_search_description: "There are no users with the current filter criteria."
-    text_empty_search_header: "We couldn't find any matching results."
+    label_search: "Ieškoti naudotojų pakvietimui"
+    label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
+    label_toggle_all: "Perjungti visus bendrinimus"
+    remove: "Pašalinti"
+    share: "Dalintis"
+    text_empty_search_description: "Nėra naudotojų su dabartiniu filtro kriterijumi."
+    text_empty_search_header: "Mes neradome jokių atitinkančių rezultatų."
     text_empty_state_description: "The %{entity} has not been shared with anyone yet."
-    text_empty_state_header: "Not shared"
+    text_empty_state_header: "Nesidalinama"
     text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
-    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    text_user_limit_reached_admins: 'Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad galėtumėte pridėti daugiau naudotojų.'
     warning_user_limit_reached: >
       Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
     warning_user_limit_reached_admin: >
       Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
     warning_no_selected_user: "Please select users to share this %{entity} with"
-    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    warning_locked_user: "Naudotojas %{user} yra užrakintas, todėl su juo negalima bendrinti"
     user_details:
-      locked: "Locked user"
-      invited: "Invite sent. "
-      resend_invite: "Resend."
-      invite_resent: "Invite has been resent"
-      not_project_member: "Not a project member"
-      project_group: "Group members might have additional privileges (as project members)"
-      not_project_group: "Group (shared with all members)"
-      additional_privileges_project: "Might have additional privileges (as project member)"
-      additional_privileges_group: "Might have additional privileges (as group member)"
-      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+      locked: "Užrakintas naudotojas"
+      invited: "Pakvietimas išsiųstas. "
+      resend_invite: "Siųsti iš naujo."
+      invite_resent: "Pakvietimas išsiųstas iš naujo"
+      not_project_member: "Ne projekto narys"
+      project_group: "Grupės nariai gali turėti papildomų privilegijų (kaip projekto nariai)"
+      not_project_group: "Grupė (bendra visiems nariams)"
+      additional_privileges_project: "Gali turėti papildomų privilegijų (kaip projekto narys)"
+      additional_privileges_group: "Gali turėti papildomų privilegijų (kaip grupės narys)"
+      additional_privileges_project_or_group: "Gali turėti papildomų privilegijų (kaip projekto ar grupės narys)"
     project_queries:
       publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
@@ -3551,9 +3559,9 @@ lt:
           header: "Not shared: Private"
           description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
-        view: "View"
+        view: "Peržiūrėti"
         view_description: "Can view this project list."
-        edit: "Edit"
+        edit: "Redaguoti"
         edit_description: "Can view, share and edit this project list."
       upsale:
         message: "Sharing project lists with individual users is an enterprise add-on."
@@ -3564,7 +3572,7 @@ lt:
       Į žemiau esantį sąrašą pridėtos datos laikomos nedarbo dienomis ir praleidžiamos planuojant darbo paketus.
     change_button: "Keisti darbo dienas"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
+      Keičiant savaitės dienas, kurios yra darbo ar nedarbo dienos, gali kisti visų projektų darbo paketų pradžios ir pabaigos dienos.
     journal_note:
       changed: _**Darbo dienos** pakeistos (%{changes})._
       days:

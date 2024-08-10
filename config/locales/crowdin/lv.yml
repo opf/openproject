@@ -392,14 +392,17 @@ lv:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
       new_access_token_dialog_title: "Create new API token"
       new_access_token_dialog_show_button_text: "API token"
       new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text_field_label: "Nosaukums"
+      new_access_token_dialog_submit_button_text: "Izveidot"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -479,7 +482,7 @@ lv:
       headers:
         is_default: "Default"
         is_closed: "Closed"
-        is_readonly: "Read-only"
+        is_readonly: "Tikai lasīšana"
         excluded_from_totals: "Excluded from totals"
   themes:
     dark: "Dark (Beta)"
@@ -1161,6 +1164,10 @@ lv:
         one: "Loma"
         other: "Lomas"
       status: "Work package status"
+      token/api:
+        zero: Access tokens
+        one: Access token
+        other: Access tokens
       type: "Veids"
       user: "Lietotāji"
       version: "Versija"
@@ -1819,12 +1826,12 @@ lv:
         unknown_storage: "Unknown storage"
   notifications:
     reasons:
-      assigned: "Assignee"
+      assigned: "Pašreizējais atbildīgais"
       dateAlert: "Date alert"
       mentioned: "Mentioned"
       responsible: "Accountable"
       shared: "Shared"
-      watched: "Watcher"
+      watched: "Sekotājs"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"
@@ -2239,7 +2246,7 @@ lv:
   label_product_version: "Product version"
   label_profile: "Profils"
   label_percent_complete: "% Complete"
-  label_project: "Project"
+  label_project: "Projekts"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -3455,9 +3462,9 @@ lv:
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     permissions:
-      comment: "Comment"
+      comment: "Komentârs"
       comment_description: "Can view and comment this work package."
-      edit: "Edit"
+      edit: "Labot"
       edit_description: "Can view, comment and edit this work package."
       view: "View"
       view_description: "Can view this work package."
@@ -3471,16 +3478,16 @@ lv:
       not_project_member: "Not project member"
       project_group: "Project group"
       not_project_group: "Not project group"
-      user: "User"
+      user: "Lietotāji"
       group: "Group"
-      role: "Role"
-      type: "Type"
+      role: "Loma"
+      type: "Veids"
     denied: "You don't have permissions to share %{entities}."
     label_search: "Search for users to invite"
     label_search_placeholder: "Search by user or email address"
     label_toggle_all: "Toggle all shares"
-    remove: "Remove"
-    share: "Share"
+    remove: "Noņemt"
+    share: "Koplietot"
     text_empty_search_description: "There are no users with the current filter criteria."
     text_empty_search_header: "We couldn't find any matching results."
     text_empty_state_description: "The %{entity} has not been shared with anyone yet."
@@ -3524,7 +3531,7 @@ lv:
       permissions:
         view: "View"
         view_description: "Can view this project list."
-        edit: "Edit"
+        edit: "Labot"
         edit_description: "Can view, share and edit this project list."
       upsale:
         message: "Sharing project lists with individual users is an enterprise add-on."

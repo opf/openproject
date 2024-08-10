@@ -338,7 +338,7 @@ az:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "İxrac et"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -897,7 +897,7 @@ az:
       wiki_link: "Link to a Wiki page"
       image: "Image"
     sharing:
-      share: "Share"
+      share: "Paylaş"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

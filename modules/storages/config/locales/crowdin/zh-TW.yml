@@ -12,7 +12,7 @@ zh-TW:
         tenant: Directory (tenant) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: 不是有效的 URL。
         not_linked_to_project: 未鏈結至專案。
       models:
         storages/file_link:
@@ -24,7 +24,7 @@ zh-TW:
             project_folder_mode:
               mode_unavailable: 不可用於此儲存空間。
             project_ids:
-              blank: Please select a project.
+              blank: 請選擇一個專案
         storages/storage:
           attributes:
             host:
@@ -59,7 +59,7 @@ zh-TW:
   project_storages:
     project_folder_mode:
       automatic: Automatically managed
-      inactive: No specific folder
+      inactive: 未指定文件夾
       manual: Existing folder manually managed
     remove_project:
       dialog:
@@ -207,9 +207,9 @@ zh-TW:
       label_error: 錯誤
       label_healthy: 健康的
       label_pending: 待處理
-      label_warning: Warning
+      label_warning: 警告
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: 自動管理的專案文件夾
       since: 自從%{datetime}開始
       title: 健康狀態
     health_email_notifications:

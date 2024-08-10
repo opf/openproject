@@ -337,7 +337,7 @@ zh-TW:
           選擇自動縮放無法接通應顯示的初始縮放級別。
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "匯出"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -615,17 +615,17 @@ zh-TW:
       title: "通知"
       no_unread: "無未讀通知"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "被提及"
+        watched: "監看者"
+        assigned: "執行者"
+        accountable: "負責人"
+        created: "已建立"
+        scheduled: "已排程"
+        commented: "已評論"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "日期提醒"
-        shared: "Shared"
+        shared: "共享"
       date_alerts:
         milestone_date: "里程碑日期"
         overdue: "逾期"
@@ -895,8 +895,8 @@ zh-TW:
       wiki_link: "連結到一個 Wiki 頁面"
       image: "圖片"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "分享"
+      selected_count: "已選取 %{count} 個"
       selection:
         mixed: "Mixed"
     work_packages:
@@ -1015,7 +1015,7 @@ zh-TW:
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
         all_open: "所有「進行中」工作"
-        overdue: "Overdue"
+        overdue: "逾期"
         summary: "總覽"
         shared_with_users: "分配給成員"
         shared_with_me: "分享給我的"

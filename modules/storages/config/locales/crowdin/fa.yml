@@ -12,7 +12,7 @@ fa:
         tenant: Directory (tenant) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: ساختار آدرس صحیح نیست.
         not_linked_to_project: is not linked to project.
       models:
         storages/file_link:

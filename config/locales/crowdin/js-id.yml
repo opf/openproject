@@ -338,7 +338,7 @@ id:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Ekspor"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ id:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
+        watched: "Pemantau"
+        assigned: "Pelimpahan"
+        accountable: "Akuntabel"
+        created: "Dibuat"
         scheduled: "Scheduled"
-        commented: "Commented"
+        commented: "Komentar"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Peringatan tanggal"

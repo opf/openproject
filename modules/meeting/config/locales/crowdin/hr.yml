@@ -50,7 +50,7 @@ hr:
         description: "Bilješke"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "Naziv"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"

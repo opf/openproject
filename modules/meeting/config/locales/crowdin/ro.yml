@@ -50,7 +50,7 @@ ro:
         description: "Mențiuni"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "Titlu"
     errors:
       messages:
         invalid_time_format: "nu este o oră valabilă. Format necesar: HH:MM"

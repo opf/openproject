@@ -51,7 +51,7 @@ sk:
         description: "Poznámky"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "Nadpis"
     errors:
       messages:
         invalid_time_format: "nie je platný čas. Požadovaný formát: HH:MM"

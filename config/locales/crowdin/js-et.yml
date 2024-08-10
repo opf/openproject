@@ -338,7 +338,7 @@ et:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Ekspordi"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -400,7 +400,7 @@ et:
     label_and: "ja"
     label_ascending: "Kasvav"
     label_author: "Author: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Profiilipilt"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Lukus"
@@ -617,12 +617,12 @@ et:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "Jälgija"
+        assigned: "Määratud tegija"
         accountable: "Accountable"
-        created: "Created"
+        created: "Loodud"
         scheduled: "Scheduled"
-        commented: "Commented"
+        commented: "Kommenteeritud"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -897,7 +897,7 @@ et:
       wiki_link: "Link to a Wiki page"
       image: "Pilt"
     sharing:
-      share: "Share"
+      share: "Jaga"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

@@ -337,7 +337,7 @@ sl:
           Izberite začetno stopnjo povečave, ki naj bo prikazana, ko samodejno povečanje ni na voljo.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Izvozi"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -615,13 +615,13 @@ sl:
       title: "Notifications"
       no_unread: "Ni neprebranih obvestil"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "Omenjen"
+        watched: "Opazovalec"
+        assigned: "Prevzemnik"
+        accountable: "Odgovorni"
+        created: "Ustvarjen"
+        scheduled: "Načrtovano"
+        commented: "Komentar"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"

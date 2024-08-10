@@ -383,6 +383,9 @@ es:
       will_revoke_access_to_all: "Esta acción revocará su acceso a todos ellos."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Por favor, proporcione un nombre de token de API"
         token_name_in_use: "Este nombre de token de API ya está en uso, por favor seleccione uno diferente"
@@ -1146,6 +1149,9 @@ es:
         one: "Rol"
         other: "Roles"
       status: "Estado del paquete de trabajo"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Tipo"
       user: "Usuario"
       version: "Versión"

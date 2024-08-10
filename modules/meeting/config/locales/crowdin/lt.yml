@@ -60,7 +60,7 @@ lt:
       meeting_agenda_item: "Darbotvarkės punktas"
       meeting_agenda: "Dienotvarkė"
       meeting_minutes: "Minutės"
-      meeting_section: "Section"
+      meeting_section: "Skiltis"
   activity:
     filter:
       meeting: "Susitikimai"

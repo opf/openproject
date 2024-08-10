@@ -63,10 +63,10 @@ de:
       manual: Vorhandener Ordner manuell verwaltet
     remove_project:
       dialog:
-        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
-        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
+        automatically_managed_appendix: Falls dieser Speicher einen automatisch verwalteten Projektordner enthält, werden dieser und seine Dateien für immer gelöscht.
+        confirmation_text: Bitte bestätigen Sie die Entfernung des Dateispeichers aus diesem Projekt
         heading: Projekt von %{storage_type} entfernen
-        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
+        text: Diese Aktion ist unumkehrbar und entfernt alle Verknüpfungen von Arbeitspaketen dieses Projekts zu Dateien und Ordnern dieses Speichers.
       label: Projekt entfernen
   services:
     attributes:
@@ -130,7 +130,7 @@ de:
               forbidden: OpenProject does not have access to %{current_path} in order to rename it.
               not_found: "%{current_path} wurde nicht gefunden."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: konnte keine Berechtigungen auf %{path} setzen.
           error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
           not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
           unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
@@ -166,7 +166,7 @@ de:
     dependencies:
       nextcloud:
         group_folders_app: Group folders
-        integration_app: Integration OpenProject
+        integration_app: OpenProject Integration
     error_invalid_provider_type: Bitte wählen Sie einen gültigen Dateispeicheranbieter aus.
     file_storage_view:
       access_management:

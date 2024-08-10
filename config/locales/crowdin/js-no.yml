@@ -616,17 +616,17 @@
       title: "Varsler"
       no_unread: "Ingen uleste varsler"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "Nevnt"
+        watched: "Overvåker"
+        assigned: "Deltaker"
+        accountable: "Ansvarlig"
+        created: "Opprettet"
+        scheduled: "Planlagt"
+        commented: "Kommentert"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Dato varsel"
-        shared: "Shared"
+        shared: "Delt"
       date_alerts:
         milestone_date: "Milepæl dato"
         overdue: "Forfalt"
@@ -897,10 +897,10 @@
       wiki_link: "Lenke til en Wiki-side"
       image: "Bilde"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Del"
+      selected_count: "%{count} valgte"
       selection:
-        mixed: "Mixed"
+        mixed: "Blandet"
     work_packages:
       bulk_actions:
         move: "Endre prosjekt i bulk"
@@ -1017,7 +1017,7 @@
         assigned_to_me: "Tildelt meg"
         recently_created: "Nylig opprettet"
         all_open: "Alle åpne"
-        overdue: "Overdue"
+        overdue: "Forfalt"
         summary: "Sammendrag"
         shared_with_users: "Delt med brukere"
         shared_with_me: "Delt med meg"

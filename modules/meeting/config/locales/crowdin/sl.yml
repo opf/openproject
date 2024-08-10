@@ -51,7 +51,7 @@ sl:
         description: "Opombe"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "Naslov"
     errors:
       messages:
         invalid_time_format: "ni veljaven čas. Potreben format: HH:MM"
