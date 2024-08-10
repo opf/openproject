@@ -337,7 +337,7 @@ el:
           Επιλέξτε το αρχικό επίπεδο μεγέθυνσης που θα πρέπει να εμφανίζεται όταν η αυτόματη μεγέθυνση δεν είναι διαθέσιμη.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Εξαγωγή"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -616,12 +616,12 @@ el:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        watched: "Παρατηρητής"
+        assigned: "Ανάθεση σε"
+        accountable: "Υπόλογος"
+        created: "Δημιουργήθηκε"
+        scheduled: "Προγραμματισμένο"
+        commented: "Σχολιασμένο"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"

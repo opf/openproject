@@ -250,7 +250,7 @@ hr:
             professional_support: "Profesionalna Podrška"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Ažuriraj sada"
           button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
@@ -338,7 +338,7 @@ hr:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Izvezi"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ hr:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "Nadglednik"
+        assigned: "Opunomoćeno"
         accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        created: "Kreirano"
+        scheduled: "Planirano"
+        commented: "Komentirano"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -894,7 +894,7 @@ hr:
       wiki_link: "Poveznica na Wiki stranicu"
       image: "Fotografija"
     sharing:
-      share: "Share"
+      share: "Podijeli"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

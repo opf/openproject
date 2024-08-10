@@ -12,7 +12,7 @@ lv:
         tenant: Directory (tenant) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: nederīgs URL vietrādis.
         not_linked_to_project: is not linked to project.
       models:
         storages/file_link:
@@ -57,7 +57,7 @@ lv:
   permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: View file links
   permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+  project_module_storages: Faili
   project_storages:
     edit_project_folder:
       label: Edit project folder

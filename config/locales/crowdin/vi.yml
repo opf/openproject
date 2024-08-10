@@ -217,7 +217,7 @@ vi:
       is_required_for_project: "Tích để bật thuộc tính này và yêu cầu nó trong tất cả các dự án. Không thể hủy kích hoạt nó cho từng dự án."
       is_for_all: "Đánh dấu trường tùy chỉnh là khả dụng trong tất cả các dự án hiện có và mới."
       searchable: "Bao gồm giá trị trường khi sử dụng chức năng tìm kiếm toàn cầu."
-      searchable_for_project: "Check to make this attribute available as a filter in project lists."
+      searchable_for_project: "Bao gồm giá trị trường khi sử dụng chức năng tìm kiếm toàn cầu."
       editable: "Cho phép trường có thể chỉnh sửa bởi người dùng tự mình."
       admin_only: "Tích để chỉ hiển thị thuộc tính này cho người quản trị. Người dùng không có quyền quản trị sẽ không thể xem hoặc chỉnh sửa thuộc tính này."
       is_filter: >

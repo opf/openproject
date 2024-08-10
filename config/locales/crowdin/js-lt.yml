@@ -616,17 +616,17 @@ lt:
       title: "Pranešimai"
       no_unread: "Nėra neperskaitytų pranešimų"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "Paminėtas"
+        watched: "Stebėtojas"
+        assigned: "Paskirtas"
+        accountable: "Atsakingas"
+        created: "Sukurta"
+        scheduled: "Suplanuota"
+        commented: "Komentavo"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Datos įspėjimas"
-        shared: "Shared"
+        shared: "Bendrinta"
       date_alerts:
         milestone_date: "Gairės data"
         overdue: "Vėluojama"
@@ -895,10 +895,10 @@ lt:
       wiki_link: "Nuoroda į Wiki puslapį"
       image: "Paveikslėlis"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Dalintis"
+      selected_count: "%{count} pažymėta"
       selection:
-        mixed: "Mixed"
+        mixed: "Mišrus"
     work_packages:
       bulk_actions:
         move: "Masinis projekto pakeitimas"
@@ -1015,7 +1015,7 @@ lt:
         assigned_to_me: "Priskirti man"
         recently_created: "Neseniai sukurti"
         all_open: "Visi atviri"
-        overdue: "Overdue"
+        overdue: "Vėluojama"
         summary: "Santrauka"
         shared_with_users: "Bendrinamas su naudotojais"
         shared_with_me: "Bendrinama su manimi"

@@ -12,7 +12,7 @@ fi:
         tenant: Directory (tenant) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: ei ole kelvollinen URL.
         not_linked_to_project: is not linked to project.
       models:
         storages/file_link:
@@ -57,7 +57,7 @@ fi:
   permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: View file links
   permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+  project_module_storages: Tiedostot
   project_storages:
     edit_project_folder:
       label: Edit project folder
@@ -220,7 +220,7 @@ fi:
       label_error: Virhe
       label_healthy: Healthy
       label_pending: Pending
-      label_warning: Warning
+      label_warning: Varoitus
       project_folders:
         subtitle: Automatically managed project folders
       since: since %{datetime}
