@@ -383,8 +383,8 @@ vi:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: Token %{type} đã được tạo
+        warning: Lưu ý rằng đây là lần duy nhất bạn thấy được token này, chắc chắn phải sao chép nó ngay.
       errors:
         token_name_blank: "Vui lòng cung cấp tên API token"
         token_name_in_use: "Tên API token này đã được sử dụng, vui lòng chọn tên khác"
@@ -1143,7 +1143,7 @@ vi:
         other: "Vai trò"
       status: "Tình trạng work package"
       token/api:
-        other: Access tokens
+        other: Token truy cập
       type: "Loại"
       user: "Người dùng"
       version: "Phiên bản"

@@ -378,8 +378,8 @@ zh-CN:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: '%{type} 令牌已生成'
+        warning: '注意: 这将是您看到这个令牌的唯一机会, 请务必立即复制它。'
       errors:
         token_name_blank: "请提供一个 API 令牌名称"
         token_name_in_use: "此 API 令牌名称已经在使用，请选择一个不同的名称"
@@ -1137,7 +1137,7 @@ zh-CN:
         other: "角色"
       status: "工作包状态"
       token/api:
-        other: Access tokens
+        other: 访问令牌
       type: "类型"
       user: "用户"
       version: "版本"
