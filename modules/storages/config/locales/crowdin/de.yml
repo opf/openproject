@@ -123,7 +123,7 @@ de:
           error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
           group_does_not_exist: "%{group} does not exit. Check your Nextcloud instance configuration."
           insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
-          not_allowed: Nextcloud block the request.
+          not_allowed: Nextcloud blockiert die Anfrage.
           unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
           user_does_not_exist: "%{user} existiert nicht in Nextcloud."
         one_drive_sync_service:
