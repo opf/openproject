@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -250,7 +250,7 @@ hr:
             professional_support: "Profesionalna Podrška"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Ažuriraj sada"
           button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
@@ -338,7 +338,7 @@ hr:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Izvezi"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ hr:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        watched: "Nadglednik"
+        assigned: "Opunomoćeno"
+        accountable: "Accountable"
+        created: "Kreirano"
+        scheduled: "Planirano"
+        commented: "Komentirano"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -638,11 +638,6 @@ hr:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "Svi"
-        all_title: "Prikaži sve"
       center:
         label_actor_and: "i"
         and_more_users:
@@ -660,6 +655,7 @@ hr:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
@@ -898,7 +894,7 @@ hr:
       wiki_link: "Poveznica na Wiki stranicu"
       image: "Fotografija"
     sharing:
-      share: "Share"
+      share: "Podijeli"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

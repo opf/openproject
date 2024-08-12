@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,10 @@ require "spec_helper"
 RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
   let!(:cf_text) { FactoryBot.create(:text_project_custom_field) }
   let!(:cf_int) { FactoryBot.create(:integer_project_custom_field) }
+
+  before do
+    allow(User).to receive(:current).and_return build_stubbed(:admin)
+  end
 
   it "does not allow to sort by the text field" do
     cf = described_class.new("cf_#{cf_text.id}")

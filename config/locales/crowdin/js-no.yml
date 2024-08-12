@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -616,17 +616,17 @@
       title: "Varsler"
       no_unread: "Ingen uleste varsler"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "Nevnt"
+        watched: "Overvåker"
+        assigned: "Deltaker"
+        accountable: "Ansvarlig"
+        created: "Opprettet"
+        scheduled: "Planlagt"
+        commented: "Kommentert"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Dato varsel"
-        shared: "Shared"
+        shared: "Delt"
       date_alerts:
         milestone_date: "Milepæl dato"
         overdue: "Forfalt"
@@ -638,11 +638,6 @@
         upsale:
           title: "Dato varsler"
           description: "Med datovarsler, vil du bli varslet om kommende start- eller sluttdatoer slik at du aldri går glipp av eller glemmer en viktig frist."
-      facets:
-        unread: "Ulest"
-        unread_title: "Vis ulest"
-        all: "Alle"
-        all_title: "Vis alle"
       center:
         label_actor_and: "og"
         and_more_users:
@@ -659,6 +654,7 @@
           no_notification: "Ser ut som du er helt oppdatert."
           no_notification_with_current_project_filter: "Ser ut som du er helt oppdatert med det valgte prosjektet."
           no_notification_with_current_filter: "Ser ut som du er helt oppdatert med filteret %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Klikk på en melding for å se alle aktivitetsdetaljer."
         new_notifications:
           message: "Det finnes nye varsler."
@@ -897,10 +893,10 @@
       wiki_link: "Lenke til en Wiki-side"
       image: "Bilde"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Del"
+      selected_count: "%{count} valgte"
       selection:
-        mixed: "Mixed"
+        mixed: "Blandet"
     work_packages:
       bulk_actions:
         move: "Endre prosjekt i bulk"
@@ -1017,7 +1013,7 @@
         assigned_to_me: "Tildelt meg"
         recently_created: "Nylig opprettet"
         all_open: "Alle åpne"
-        overdue: "Overdue"
+        overdue: "Forfalt"
         summary: "Sammendrag"
         shared_with_users: "Delt med brukere"
         shared_with_me: "Delt med meg"

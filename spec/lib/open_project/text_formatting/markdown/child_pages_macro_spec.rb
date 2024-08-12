@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,34 +37,36 @@ RSpec.describe "OpenProject child pages macro" do
     # no-op
   end
 
-  let(:project) do
+  shared_let(:project) do
     create(:valid_project,
            enabled_module_names: %w[wiki])
   end
-  let(:input) {}
-  let(:member_project) do
+  shared_let(:member_project) do
     create(:valid_project,
            identifier: "member-project",
            enabled_module_names: %w[wiki])
   end
-  let(:invisible_project) do
+  shared_let(:invisible_project) do
     create(:valid_project,
            identifier: "other-project",
            enabled_module_names: %w[wiki])
   end
-  let(:role) { create(:project_role, permissions: [:view_wiki_pages]) }
-  let(:user) do
-    create(:user, member_with_roles: { project => role, member_project => role })
+  shared_let(:user) do
+    create(:user, member_with_permissions: { project => [:view_wiki_pages],
+                                             member_project => [:view_wiki_pages] })
   end
 
-  let(:current_page) do
+  before_all do
+    set_factory_default(:user, user)
+  end
+
+  shared_let(:current_page) do
     create(:wiki_page,
            title: "Current page",
-           wiki: project.wiki,
-           text: input)
+           wiki: project.wiki)
   end
 
-  let(:middle_page) do
+  shared_let(:middle_page) do
     create(:wiki_page,
            title: "Node from same project",
            wiki: project.wiki,
@@ -72,14 +74,14 @@ RSpec.describe "OpenProject child pages macro" do
            text: "# Node Page from same project")
   end
 
-  let(:node_page_invisible_project) do
+  shared_let(:node_page_invisible_project) do
     create(:wiki_page,
            title: "Node page from invisible project",
            wiki: invisible_project.wiki,
            text: "# Page from invisible project")
   end
 
-  let(:leaf_page) do
+  shared_let(:leaf_page) do
     create(:wiki_page,
            title: "Leaf page from same project",
            parent_id: middle_page.id,
@@ -87,7 +89,7 @@ RSpec.describe "OpenProject child pages macro" do
            text: "# Leaf page from same project")
   end
 
-  let(:leaf_page_invisible_project) do
+  shared_let(:leaf_page_invisible_project) do
     create(:wiki_page,
            title: "Leaf page from invisible project",
            parent_id: node_page_invisible_project.id,
@@ -95,21 +97,19 @@ RSpec.describe "OpenProject child pages macro" do
            text: "# Leaf page from invisible project")
   end
 
-  let(:leaf_page_member_project) do
+  shared_let(:leaf_page_member_project) do
     create(:wiki_page,
            title: "Leaf page from member project",
            wiki: member_project.wiki,
            text: "# Leaf page from member project")
   end
 
-  subject { format_text(current_page, :text) }
-
-  before do
-    login_as user
-    leaf_page
-    leaf_page_invisible_project
-    allow(Setting).to receive(:text_formatting).and_return("markdown")
+  subject do
+    current_page.update(text: input)
+    format_text(current_page, :text)
   end
+
+  current_user { user }
 
   def error_html(exception_msg)
     "<p class=\"op-uc-p\"><macro class=\"macro-unavailable\" data-macro-name=\"child_pages\">" \
@@ -122,7 +122,7 @@ RSpec.describe "OpenProject child pages macro" do
     it { is_expected.to be_html_eql(error_html("Cannot find the wiki page 'Invalid'.")) }
   end
 
-  context "old macro syntax no longer works" do
+  describe "old macro syntax no longer works" do
     let(:input) { "{{child_pages(whatever)}}" }
 
     it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{input}</p>") }
@@ -180,8 +180,6 @@ RSpec.describe "OpenProject child pages macro" do
     let(:input) do
       '<macro class="child_pages" data-page="member-project:leaf-page-from-member-project" data-include-parent="true"></macro>'
     end
-
-    before { leaf_page_member_project }
 
     it { is_expected.to match(leaf_page_member_project.title) }
   end

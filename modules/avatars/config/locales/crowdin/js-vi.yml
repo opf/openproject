@@ -4,11 +4,12 @@ vi:
     label_preview: 'Xem trước'
     button_update: 'Cập nhật'
     avatars:
-      label_choose_avatar: "Chọn hình đại diện từ tập tin"
+      label_choose_avatar: "Chọn ảnh đại diện từ tập tin"
       uploading_avatar: "Đang tải hình đại diện của bạn"
       text_upload_instructions: |
-        Tải lên hình đại diện tùy chỉnh của bạn, kích thước 128x128 điểm ảnh. Kích thước lớn hơn sẽ bị giảm chất lượng và thu nhỏ để phù hợp. Ảnh xem trước của hình đại diện sẽ hiện lên trước khi tải lên khi mà bạn chọn ảnh.
+        Tải lên ảnh đại diện tùy chỉnh của bạn có kích thước 128 x 128 pixel. Các tệp lớn hơn sẽ được thay đổi kích thước và cắt để phù hợp.
+        Một bản xem trước của ảnh đại diện của bạn sẽ được hiển thị trước khi tải lên, sau khi bạn chọn một bức ảnh.
       error_image_too_large: "Hình ảnh quá lớn"
-      wrong_file_format: "Định dạng ảnh được chấp nhận: jpg, png, gif"
-      empty_file_error: "Xin hãy tải lên hình ảnh đúng định dạng(jpg, png, gif)"
+      wrong_file_format: "Các định dạng được phép là jpg, png, gif"
+      empty_file_error: "Vui lòng tải lên một ảnh hợp lệ (jpg, png, gif)"
 

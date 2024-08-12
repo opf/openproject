@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,6 +63,10 @@ module Storages
 
     def managed_project_folder_path
       managed_folder_identifier.path
+    end
+
+    def managed_project_folder_name
+      managed_folder_identifier.name
     end
 
     def project_folder_location

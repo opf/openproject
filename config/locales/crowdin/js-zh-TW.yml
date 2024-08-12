@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -228,7 +228,7 @@ zh-TW:
           resend_link: "重新發送"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "無法重送郵件"
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          session_timeout: "您的連線超時。請嘗試重新載入頁面或重新發送電子郵件。"
           status_label: "狀態："
           status_confirmed: "已確認"
           status_waiting: "電子郵件已寄發-等待確認"
@@ -337,7 +337,7 @@ zh-TW:
           選擇自動縮放無法接通應顯示的初始縮放級別。
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "匯出"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -537,13 +537,13 @@ zh-TW:
     label_work_package_parent: "主工作項目"
     label_work_package_plural: "工作項目"
     label_watch: "監看"
-    label_watch_work_package: "關注工作項目"
+    label_watch_work_package: "追蹤工作項目"
     label_watcher_added_successfully: "已成功新增監看者！"
     label_watcher_deleted_successfully: "已成功刪除監看者！"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_work_package_context_menu: "Work package context menu"
     label_unwatch: "取消監看"
-    label_unwatch_work_package: "取消關注工作項目"
+    label_unwatch_work_package: "取消追蹤"
     label_uploaded_by: "上傳者"
     label_default_queries: "預設"
     label_starred_queries: "最愛"
@@ -615,17 +615,17 @@ zh-TW:
       title: "通知"
       no_unread: "無未讀通知"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "被提及"
+        watched: "監看者"
+        assigned: "執行者"
+        accountable: "負責人"
+        created: "已建立"
+        scheduled: "已排程"
+        commented: "已評論"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "日期提醒"
-        shared: "Shared"
+        shared: "共享"
       date_alerts:
         milestone_date: "里程碑日期"
         overdue: "逾期"
@@ -637,11 +637,6 @@ zh-TW:
         upsale:
           title: "日期提醒"
           description: "透過日期提醒，您將收到相關通知，這樣您就不會錯過或忘記重要的日期。"
-      facets:
-        unread: "未讀"
-        unread_title: "顯示未讀"
-        all: "全部"
-        all_title: "顯示全部"
       center:
         label_actor_and: "和"
         and_more_users:
@@ -657,6 +652,7 @@ zh-TW:
           no_notification: "看起來您已查看所有通知。"
           no_notification_with_current_project_filter: "看起來您已查看所選專案的所有通知。"
           no_notification_with_current_filter: "看起來您已查看“%{filter}”篩選條件的所有通知。"
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "您有新的通知"
@@ -830,7 +826,7 @@ zh-TW:
       hierarchy_indent: "縮排"
       hierarchy_outdent: "凸排"
       group_by_wp_type: "依工作項目類型進行群組分類"
-      group_by_relation_type: "按關聯類型分組"
+      group_by_relation_type: "按關聯類型分類"
       add_parent: "增加現有的上一層"
       add_new_child: "建立子工作項目"
       create_new: "新增"
@@ -895,8 +891,8 @@ zh-TW:
       wiki_link: "連結到一個 Wiki 頁面"
       image: "圖片"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "分享"
+      selected_count: "已選取 %{count} 個"
       selection:
         mixed: "Mixed"
     work_packages:
@@ -1009,13 +1005,13 @@ zh-TW:
         workAlternative: "預估時間"
         remainingTime: "剩餘工時"
       default_queries:
-        manually_sorted: "New manually sorted query"
+        manually_sorted: "新的自訂排序"
         latest_activity: "最新活動"
         created_by_me: "由我建立"
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
         all_open: "所有「進行中」工作"
-        overdue: "Overdue"
+        overdue: "逾期"
         summary: "總覽"
         shared_with_users: "分配給成員"
         shared_with_me: "分享給我的"
@@ -1044,7 +1040,7 @@ zh-TW:
         confirm_edit_cancel: "確實要取消編輯此版面的名稱嗎？標題將還原。"
         click_to_edit_query_name: "按一下以編輯此版面的標題。"
         rename_query_placeholder: "此檢視的名稱"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "將此版面收藏起來，並新增至左側已儲存版面側邊欄。"
         public_text: >
           發布此檢視圖，允許其他使用者存取您的視圖。 具有「管理公用檢視圖」權限的使用者可以修改或刪除公用查詢。 這不會影響該檢視圖中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。
         errors:
@@ -1078,11 +1074,11 @@ zh-TW:
         hierarchy_hint: "所有已篩選的資料與其來源將一起優化。階層可以展開和折疊。"
         display_sums_hint: "在表格結果下方的一行中顯示總和。"
         show_timeline_hint: "在表格的右側顯示互動式甘特圖。可以通過在表和甘特圖之間拖動分隔線來更改其寬度。"
-        highlighting: "突顯"
+        highlighting: "強調"
         highlighting_mode:
-          description: "以顏色突顯"
-          none: "無突顯"
-          inline: "突顯屬性"
+          description: "強調顏色"
+          none: "不需強調"
+          inline: "強調屬性"
           inline_all: "所有屬性"
           entire_row_by: "按類型劃分的整行"
           status: "狀態"
@@ -1099,7 +1095,7 @@ zh-TW:
           relation_columns: "需要檢視工作項目清單的關係嗎"
           check_out_link: "請查閱企業版"
         relation_filters:
-          filter_work_packages_by_relation_type: "Filter work packages by relation type"
+          filter_work_packages_by_relation_type: "依關聯類型過濾工作項目"
       tabs:
         overview: 總覽
         activity: 活動
@@ -1284,8 +1280,8 @@ zh-TW:
         content: >-
           The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "您還沒有設定收藏的專案"
+      no_results_subtext: "由專案總覽或專案列表可以收藏一個或多個專案"
     include_projects:
       toggle_title: "包含的專案"
       title: "專案"
@@ -1305,7 +1301,7 @@ zh-TW:
       toggle_title: "差異線"
       clear: "清除"
       apply: "套用"
-      header_description: "差異線開始，突顯修改過的資料"
+      header_description: "從設定的差異點開始，將標示出修改過地方"
       enterprise_header_description: "從設定的差異點開始，將標示出修改過地方(企業版功能)"
       show_changes_since: "差異起始"
       baseline_comparison: "比較差異"

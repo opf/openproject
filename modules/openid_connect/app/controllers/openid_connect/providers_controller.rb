@@ -90,14 +90,10 @@ module OpenIDConnect
     end
     helper_method :openid_connect_providers_available_for_configure
 
-    def default_breadcrumb
-      if action_name != "index"
-        ActionController::Base.helpers.link_to(t("openid_connect.providers.plural"), openid_connect_providers_path)
-      end
-    end
+    def default_breadcrumb; end
 
     def show_local_breadcrumb
-      true
+      false
     end
   end
 end

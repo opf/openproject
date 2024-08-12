@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,7 +337,7 @@ ro:
           Selectați nivelul inițial de zoom care trebuie afișat atunci când funcția de zoom automat nu este disponibilă.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Exportare"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -615,13 +615,13 @@ ro:
       title: "Notificări"
       no_unread: "Nu sunt notificari necitite"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "Menţionat"
+        watched: "Observator"
+        assigned: "Executant"
+        accountable: "Responsabil"
+        created: "Creat pe"
+        scheduled: "Planificat"
+        commented: "Cu comentarii"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Alertă de dată"
@@ -637,11 +637,6 @@ ro:
         upsale:
           title: "Alerte date"
           description: "Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important."
-      facets:
-        unread: "necitită"
-        unread_title: "Afișare necitite"
-        all: "Toate"
-        all_title: "Afișare completă"
       center:
         label_actor_and: "și"
         and_more_users:
@@ -659,6 +654,7 @@ ro:
           no_notification: "Se pare că v-ați pus la punct."
           no_notification_with_current_project_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
           no_notification_with_current_filter: "Se pare că v-ați pus la punct pentru filtrul %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: "Există notificări noi."
@@ -897,7 +893,7 @@ ro:
       wiki_link: "Link la o pagină Wiki"
       image: "Imagine"
     sharing:
-      share: "Share"
+      share: "Distribuiți"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -1017,7 +1013,7 @@ ro:
         assigned_to_me: "Atribuit mie"
         recently_created: "Creat de"
         all_open: "Toate deschise"
-        overdue: "Overdue"
+        overdue: "Restanțe"
         summary: "Descriere"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

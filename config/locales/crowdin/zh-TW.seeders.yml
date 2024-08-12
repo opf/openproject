@@ -7,15 +7,15 @@ zh-TW:
     common:
       colors:
         item_0:
-          name: 藍色 (黑)
+          name: 藍色 (深)
         item_1:
           name: 藍色
         item_2:
-          name: 藍色 (亮)
+          name: 藍色 (淡)
         item_3:
-          name: 綠色 (亮)
+          name: 綠色 (淡)
         item_4:
-          name: 綠色 (暗)
+          name: 綠色 (深)
         item_5:
           name: 黃色
         item_6:
@@ -27,18 +27,18 @@ zh-TW:
         item_9:
           name: 白色
         item_10:
-          name: 灰色 (亮)
+          name: 灰色 (淡)
         item_11:
           name: 灰色
         item_12:
-          name: 灰色 (暗)
+          name: 灰色 (深)
         item_13:
           name: 黑色
       document_categories:
         item_0:
           name: 說明文件
         item_1:
-          name: 規格
+          name: 規範
         item_2:
           name: 其他
       project_query_roles:
@@ -61,7 +61,7 @@ zh-TW:
         item_2:
           name: 成員
         item_3:
-          name: 讀者
+          name: 唯讀成員
         item_4:
           name: 專案管理員
       global_roles:
@@ -76,96 +76,21 @@ zh-TW:
         item_2:
           name: 高
         item_3:
-          name: 立刻
-      statuses:
-        item_0:
-          name: 新增
-        item_1:
-          name: 在規格中
-        item_2:
-          name: 指定
-        item_3:
-          name: 已確認
-        item_4:
-          name: 等待排程中
-        item_5:
-          name: 已排程
-        item_6:
-          name: 進行中
-        item_7:
-          name: 已開發
-        item_8:
-          name: 測試中
-        item_9:
-          name: 已測試
-        item_10:
-          name: 測試失敗
-        item_11:
-          name: 已關閉
-        item_12:
-          name: 暫停中
-        item_13:
-          name: 已拒絕
-      time_entry_activities:
-        item_0:
-          name: 管理
-        item_1:
-          name: 規格
-        item_2:
-          name: 開發
-        item_3:
-          name: 測試
-        item_4:
-          name: 支援
-        item_5:
-          name: 其他
-      types:
-        item_0:
-          name: 任務
-        item_1:
-          name: 里程碑
-        item_2:
-          name: 階段
-        item_3:
-          name: 功能
-        item_4:
-          name: 史詩等級
-        item_5:
-          name: 使用者需求
-        item_6:
-          name: Bug
-      welcome:
-        title: 歡迎使用OpenProject
-        text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-          Core features and use cases:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Welcome to the future of project management.
-
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          name: 立即
       projects:
         demo-project:
           name: 示範專案
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: 所有任務皆依計劃進行，相關人員知道他們的任務，系統完成設定。
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
               title: 歡迎來到您的示範專案
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                我們很開心您的加入。
+                在這個模組，您可以與您的團隊成員溝通專案新訊。
+              description: 實際新訊
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 類別 1 ( 將於專案設定變更 )
           queries:
             item_0:
               name: 計畫方案
@@ -273,14 +198,14 @@ zh-TW:
             More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum 專案
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: 所有任務皆依計劃進行，相關人員知道他們的任務，系統完成設定。
           description: This is a short summary of the goals of this demo Scrum project.
           news:
             item_0:
               title: Welcome to your Scrum demo project
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                我們很開心您的加入。
+                在這個模組，您可以與您的團隊成員溝通專案新訊。
           versions:
             item_0:
               name: Bug的待辦事項
@@ -339,7 +264,7 @@ zh-TW:
             item_3:
               name: 衝刺2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 類別 1 ( 將於專案設定變更 )
           queries:
             item_0:
               name: 計畫方案
@@ -489,3 +414,78 @@ zh-TW:
             * Time boxed (3 h).
             * After Sprint Review, will be moderated by Scrum Master.
             * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+      statuses:
+        item_0:
+          name: 新增
+        item_1:
+          name: 規範制定中
+        item_2:
+          name: 已規範
+        item_3:
+          name: 已確認
+        item_4:
+          name: 等待排程中
+        item_5:
+          name: 已排程
+        item_6:
+          name: 進行中
+        item_7:
+          name: 已開發
+        item_8:
+          name: 測試中
+        item_9:
+          name: 已測試
+        item_10:
+          name: 測試失敗
+        item_11:
+          name: 已關閉
+        item_12:
+          name: 暫停中
+        item_13:
+          name: 已拒絕
+      time_entry_activities:
+        item_0:
+          name: 管理
+        item_1:
+          name: 規範
+        item_2:
+          name: 開發
+        item_3:
+          name: 測試
+        item_4:
+          name: 支援
+        item_5:
+          name: 其他
+      types:
+        item_0:
+          name: 任務
+        item_1:
+          name: 里程碑
+        item_2:
+          name: 階段
+        item_3:
+          name: 功能
+        item_4:
+          name: 史詩等級
+        item_5:
+          name: 使用者需求
+        item_6:
+          name: 錯誤
+      welcome:
+        title: 歡迎使用OpenProject
+        text: |
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+          Core features and use cases:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Welcome to the future of project management.
+
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

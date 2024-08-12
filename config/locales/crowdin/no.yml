@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -212,10 +212,12 @@
     reorder_confirmation: "Advarsel: Gjeldende rekkefølge for tilgjengelige verdier vil gå tapt. Vil du fortsette?"
     instructions:
       is_required: "Marker det egendefinerte feltet som påkrevd. Dette vil gjøre det obligatorisk å fylle ut feltet når du oppretter nye eller oppdaterer eksisterende ressurser."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Merk egendefinert felt som tilgjengelig for alle eksisterende og nye prosjekter."
       searchable: "Inkluder feltverdier ved bruk av den globale søkefunksjonaliteten."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "La feltet være redigerbart av brukere selv."
-      visible: "Feltet synlig for alle brukere (ikke-administratorer) i prosjektoversikten og vises i prosjektdetalj-widgeten i Prosjektoversikten."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Tillat at egendefinert felt brukes i filter i arbeidspakkevisninger. Merk at med 'For alle prosjekter' som er valgt, vil egendefinert felt vises i globale visninger.
     tab:
@@ -475,7 +477,7 @@
         is_readonly: "Kun lesetilgang"
         excluded_from_totals: "Unntatt fra totaler"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Lyst"
     light_high_contrast: "Lys høy kontrast"
   types:
@@ -524,9 +526,9 @@
       no_common_statuses_exists: "Det er ingen status tilgjengelig for alle valgte arbeidspakker. Status kan ikke endres."
       unsupported_for_multiple_projects: "Bulk flytt/kopi er ikke støttet for arbeidspakker fra flere prosjekter"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Arbeidsflyt mangler for deling av arbeidspakker"
@@ -615,7 +617,7 @@
         possible_values: "Mulige verdier"
         regexp: "Regulære uttrykk"
         searchable: "Søkbar"
-        visible: "Synlig"
+        admin_only: "Admin-only"
       custom_value:
         value: "Verdi"
       doorkeeper/application:
@@ -685,6 +687,7 @@
         versions: "Versjoner"
         work_packages: "Arbeidspakker"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Seksjon
       query:
         column_names: "Kolonner"
@@ -1029,6 +1032,12 @@
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Påkrevd når gjenværende arbeid er satt."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "er ikke på startdato, selv om dette er nødvendig for milepæler."
               cannot_be_null: "kan ikke settes til null da startdato og varighet er kjent."
@@ -1058,13 +1067,13 @@
             estimated_hours:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Kan ikke være lavere enn gjenstående arbeid."
-              must_be_set_when_remaining_work_is_set: "Påkrevd når gjenværende arbeid er satt."
-              only_values_greater_or_equal_zeroes_allowed: "Må være >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
               cant_exceed_work: "Kan ikke være høyere enn arbeidet."
               must_be_set_when_work_is_set: "Påkrevet når arbeidet settes."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "Arbeidspakken er i skrivebeskyttet status slik at egenskapene ikke kan endres."
         type:
@@ -1142,7 +1151,7 @@
       project: "Prosjekt"
       project_query:
         one: "Project list"
-        other: "Project lists"
+        other: "Prosjektlister"
       query: "Egendefinert spørring"
       role:
         one: "Rolle"
@@ -1586,6 +1595,7 @@
   error_pdf_failed_to_export: "PDF-eksporten kunne ikke lagres: %{error}"
   error_token_authenticity: "Kan ikke bekrefte Cross-Site Request Forgery token. Har du prøvd å sende inn data i flere nettlesere eller faner? Vennligst lukk alle fanene og prøv igjen."
   error_work_package_not_found_in_project: "Arbeidspakken ble ikke funnet eller tilhører ikke dette prosjektet"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "må være prosjektmedlem"
   error_migrations_are_pending: "Din OpenProject installasjon har ventende databaseoverføringer. Du har sannsynligvis gått tilbake til overføringene på din siste oppgradering. Vennligst sjekk oppgraderings guiden for å oppgradere installasjonen din ordentlig."
   error_migrations_visit_upgrade_guides: "Vennligst besøk vår veiledning/dokumentasjon for oppgradering"
@@ -1784,16 +1794,21 @@
         unknown_storage: "Ukjent lagring"
   notifications:
     reasons:
-      assigned: "Assignee"
-      dateAlert: "Date alert"
-      mentioned: "Mentioned"
-      responsible: "Accountable"
-      shared: "Shared"
-      watched: "Watcher"
+      assigned: "Deltaker"
+      dateAlert: "Dato varsel"
+      mentioned: "Nevnt"
+      responsible: "Ansvarlig"
+      shared: "Delt"
+      watched: "Overvåker"
+    facets:
+      unread: "Ulest"
+      unread_title: "Vis ulest"
+      all: "Alle"
+      all_title: "Vis alle"
     menu:
-      by_project: "Unread by project"
-      by_reason: "Reason"
-      inbox: "Inbox"
+      by_project: "Ulest av prosjektet"
+      by_reason: "Grunn"
+      inbox: "Innboks"
     send_notifications: "Send varsler for denne handlingen"
     work_packages:
       subject:
@@ -1854,6 +1869,7 @@
   label_ldap_auth_source_plural: "LDAP-forbindelser"
   label_attribute_expand_text: "Den fullstendige teksten for '%{attribute}'"
   label_authentication: "Autentisering"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Tilgjengelige globale roller"
   label_available_project_attributes: "Tilgjengelige prosjektegenskaper"
   label_available_project_forums: "Tilgjengelige forum"
@@ -2040,7 +2056,7 @@
   label_inactive: "Inaktiv"
   label_incoming_emails: "Inkommende e-post"
   label_includes: "inkluderer"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Inkluder underprosjekter
   label_index_by_date: "Indeksèr etter dato"
   label_index_by_title: "Indeksèr på tittel"
   label_information: "Informasjon"
@@ -2052,7 +2068,7 @@
   label_invite_user: "Inviter bruker"
   label_share: "Del"
   label_share_project_list: "Share project list"
-  label_share_work_package: "Share work package"
+  label_share_work_package: "Del arbeidspakke"
   label_show_hide: "Vis/Skjul"
   label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Vis alle registrerte brukere"
@@ -2092,7 +2108,7 @@
   label_custom_touch_icon: "Egendefinert berøringsikon"
   label_logout: "Logg av"
   label_main_menu: "Sidemeny"
-  label_manage: "Manage"
+  label_manage: "Administrer"
   label_manage_groups: "Administrer grupper"
   label_managed_repositories_vendor: "Administrerte %{vendor} kodelagre"
   label_max_size: "Maks størrelse"
@@ -2101,8 +2117,8 @@
   label_member_all_admin: "(Alle roller på grunn av administratorstatus)"
   label_member_plural: "Medlemmer"
   label_membership_plural: "Medlemskap"
-  label_membership_added: "Member added"
-  label_membership_updated: "Member updated"
+  label_membership_added: "Medlem lagt til"
+  label_membership_updated: "Medlem oppdatert"
   label_menu: "Meny"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2203,7 +2219,7 @@
   label_product_version: "Produktversjon"
   label_profile: "Profil"
   label_percent_complete: "% Ferdig"
-  label_project: "Project"
+  label_project: "Prosjekt"
   label_project_activity: "Aktivitet i prosjektet"
   label_project_attribute_plural: "Prosjekt egenskaper"
   label_project_attribute_manage_link: "Administrer prosjektegenskaper"
@@ -2273,6 +2289,7 @@
   label_role_search: "Tilordne rolle til nye medlemmer"
   label_scm: "SCM"
   label_search: "Søk"
+  label_search_by_name: "Search by name"
   label_send_information: "Send nye opplysninger til brukeren"
   label_send_test_email: "Send en testmail"
   label_session: "Økt"
@@ -2385,6 +2402,7 @@
   label_work_package_new: "Ny arbeidspakke"
   label_work_package_edit: "Rediger arbeidspakke %{name}"
   label_work_package_plural: "Arbeidspakker"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Status for arbeidspakke"
   label_work_package_status_new: "Ny status"
   label_work_package_status_plural: "Statuser for arbeidspakke"
@@ -2392,6 +2410,7 @@
   label_work_package_tracking: "Sporing av arbeidspakke"
   label_work_package_view_all: "Vis alle arbeidspakker"
   label_workflow: "Arbeidsflyt"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Arbeidsflyt"
   label_workflow_summary: "Sammendrag"
   label_working_days_and_hours: "Arbeidsdager og timer"
@@ -2726,6 +2745,7 @@
   permission_edit_own_messages: "Rediger egne meldinger"
   permission_edit_own_time_entries: "Rediger egne tidsrapporter"
   permission_edit_project: "Rediger prosjekt"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Rediger rapporteringer"
   permission_edit_time_entries: "Rediger tidslogger for andre brukere"
   permission_edit_timelines: "Rediger tidslinjer"
@@ -2776,6 +2796,7 @@
   permission_work_package_assigned: "Bli utførende/ansvarlig"
   permission_work_package_assigned_explanation: "Arbeidspakker kan tildeles brukere og grupper med denne rollen i det respektive prosjektet"
   permission_view_project_activity: "Vis prosjektaktivitet"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Lagre BCF-spørringer"
   permission_manage_public_bcf_queries: "Administrere offentlige BCF-spørringer"
   permission_edit_attribute_help_texts: "Rediger hjelpetekster for egenskap"
@@ -3411,55 +3432,55 @@
         status_based_help_text: "% Ferdig er angitt etter status på arbeidspakken."
         migration_warning_text: "I arbeidsbasert fremdriftsberegningsmodus kan % Ferdig ferdigstilt ikke settes manuelt og er knyttet til jobber. Den eksisterende verdien er lagret, men kan ikke endres. Skriv inn arbeidet først."
     permissions:
-      comment: "Comment"
-      comment_description: "Can view and comment this work package."
-      edit: "Edit"
-      edit_description: "Can view, comment and edit this work package."
-      view: "View"
-      view_description: "Can view this work package."
+      comment: "Kommentar"
+      comment_description: "Kan se og kommentere denne arbeidspakken."
+      edit: "Rediger"
+      edit_description: "Kan vise, kommentere og redigere denne arbeidspakken."
+      view: "Vis"
+      view_description: "Kan se denne arbeidspakken."
   sharing:
     count:
-      zero: "0 users"
-      one: "1 user"
-      other: "%{count} users"
+      zero: "0 brukere"
+      one: "1 bruker"
+      other: "%{count} brukere"
     filter:
-      project_member: "Project member"
-      not_project_member: "Not project member"
-      project_group: "Project group"
-      not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
-      role: "Role"
+      project_member: "Prosjektmedlem"
+      not_project_member: "Ikke prosjektmedlem"
+      project_group: "Prosjektgruppe"
+      not_project_group: "Ikke prosjektgruppe"
+      user: "Bruker"
+      group: "Gruppe"
+      role: "Rolle"
       type: "Type"
     denied: "You don't have permissions to share %{entities}."
-    label_search: "Search for users to invite"
-    label_search_placeholder: "Search by user or email address"
-    label_toggle_all: "Toggle all shares"
-    remove: "Remove"
-    share: "Share"
-    text_empty_search_description: "There are no users with the current filter criteria."
-    text_empty_search_header: "We couldn't find any matching results."
+    label_search: "Søk etter brukere for å invitere"
+    label_search_placeholder: "Søk med bruker eller e-postadresse"
+    label_toggle_all: "Veksle melom delinger"
+    remove: "Fjern"
+    share: "Del"
+    text_empty_search_description: "Det er ingen brukere med gjeldende filterkriterier."
+    text_empty_search_header: "Vi kunne ikke finne noen matchende resultater."
     text_empty_state_description: "The %{entity} has not been shared with anyone yet."
-    text_empty_state_header: "Not shared"
+    text_empty_state_header: "Ikke delt"
     text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
-    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    text_user_limit_reached_admins: 'Å legge til ekstra brukere overskrider gjeldende grense. <a href="%{upgrade_url}">oppgradere din plan</a> for å kunne legge til flere brukere.'
     warning_user_limit_reached: >
       Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
     warning_user_limit_reached_admin: >
       Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
     warning_no_selected_user: "Please select users to share this %{entity} with"
-    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    warning_locked_user: "Brukeren %{user} er låst og kan ikke bli delt med"
     user_details:
-      locked: "Locked user"
-      invited: "Invite sent. "
-      resend_invite: "Resend."
-      invite_resent: "Invite has been resent"
-      not_project_member: "Not a project member"
-      project_group: "Group members might have additional privileges (as project members)"
-      not_project_group: "Group (shared with all members)"
-      additional_privileges_project: "Might have additional privileges (as project member)"
-      additional_privileges_group: "Might have additional privileges (as group member)"
-      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+      locked: "Låst bruker"
+      invited: "Invitasjon sendt. "
+      resend_invite: "Send på nytt"
+      invite_resent: "Invitasjonen er sendt på nytt"
+      not_project_member: "Ikke et prosjektmedlem"
+      project_group: "Gruppemedlemmer kan ha flere privilegier (som prosjektmedlemmer)"
+      not_project_group: "Gruppe (delt med alle medlemmer)"
+      additional_privileges_project: "Kan ha flere privilegier (som prosjektmedlem)"
+      additional_privileges_group: "Kan ha flere privilegier (som gruppemedlem)"
+      additional_privileges_project_or_group: "Kan ha flere privilegier (som prosjekt- eller gruppemedlem)"
     project_queries:
       publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
@@ -3478,9 +3499,9 @@
           header: "Not shared: Private"
           description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
-        view: "View"
+        view: "Vis"
         view_description: "Can view this project list."
-        edit: "Edit"
+        edit: "Rediger"
         edit_description: "Can view, share and edit this project list."
       upsale:
         message: "Sharing project lists with individual users is an enterprise add-on."

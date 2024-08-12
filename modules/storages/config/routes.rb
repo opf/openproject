@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,9 @@ Rails.application.routes.draw do
         scope module: :storages do
           resources :project_storages,
                     controller: "/storages/admin/storages/project_storages",
-                    only: %i[index new create destroy]
+                    only: %i[index new create edit update destroy] do
+            get :destroy_confirmation_dialog, on: :member
+          end
         end
 
         resource :connection_validation,

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -207,10 +207,12 @@ uk:
     reorder_confirmation: "Увага! Поточний порядок доступних значень буде втрачено. Продовжити?"
     instructions:
       is_required: "Позначте користувацьке поле як обов’язкове. Так його потрібно буде заповнювати під час створення нових або оновлення наявних ресурсів."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Позначте користувацьке поле як доступне в усіх наявних і нових проєктах."
       searchable: "Включіть значення полів під час використання функції глобального пошуку."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Дозвольте користувачам самостійно редагувати це поле."
-      visible: "Зробіть поле видимим для всіх користувачів (які не належать до адміністраторів) на сторінці огляду проєкту й на віджеті з докладними даними про проєкт у розділі «Огляд проєкту»."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Дозвольте відображати користувацьке поле у фільтрі в поданнях пакета робіт. Зверніть увагу: користувацьке поле відображатиметься в глобальних поданнях, лише якщо встановлено прапорець «Для всіх проєктів».
     tab:
@@ -482,7 +484,7 @@ uk:
         is_readonly: "Лише для перегляду"
         excluded_from_totals: "Виключено з підсумків"
   themes:
-    dark: "Темна (експериментальна)"
+    dark: "Темна (бета)"
     light: "Світла"
     light_high_contrast: "Світла, високий контраст"
   types:
@@ -533,9 +535,9 @@ uk:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
       unsupported_for_multiple_projects: "Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів"
       current_type_not_available_in_target_project: >
-        Поточний тип пакета робіт не ввімкнено в цільовому проєкті. Увімкніть його, якщо не хочете, щоб він зазнав змін. Інакше тип пакета робіт буде автоматично перепризначено, що може призвести до втрати даних.
+        Поточний тип пакета робіт не ввімкнено в цільовому проєкті. Увімкніть його, якщо не хочете, щоб він зазнав змін. Інакше виберіть зі списку доступний тип у цільовому проєкті.
       bulk_current_type_not_available_in_target_project: >
-        Поточні типи пакетів робіт не ввімкнено в цільовому проєкті. Увімкніть, якщо не хочете, щоб вони зазнали змін. Інакше типи пакетів робіт буде автоматично перепризначено, що може призвести до втрати даних.
+        Поточні типи пакетів робіт не ввімкнено в цільовому проєкті. Увімкніть, якщо не хочете, щоб вони зазнали змін. Інакше виберіть зі списку доступний тип у цільовому проєкті.
     sharing:
       missing_workflow_warning:
         title: "Відсутній робочий процес для надання доступу до пакета робіт"
@@ -624,7 +626,7 @@ uk:
         possible_values: "Можливі значення"
         regexp: "Регулярний вираз"
         searchable: "Доступно для пошуку"
-        visible: "Видиме"
+        admin_only: "Admin-only"
       custom_value:
         value: "Значення"
       doorkeeper/application:
@@ -694,6 +696,7 @@ uk:
         versions: "Версії"
         work_packages: "Пакет робіт"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Розділ
       query:
         column_names: "Стовпці"
@@ -714,7 +717,7 @@ uk:
         is_closed: "Робочий пакет закритий"
         is_readonly: "Пакет робіт лише для перегляду"
         excluded_from_totals: "Виключити з підрахунку підсумків в ієрархії"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% завершення"
       time_entry:
         activity: "Активність"
         hours: "Години"
@@ -1006,7 +1009,7 @@ uk:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "має бути в діапазоні від 0 до 100."
           readonly_default_exlusive: "– не можна активувати для статусів, позначених як стандартні."
         time_entry:
           attributes:
@@ -1038,6 +1041,12 @@ uk:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "не збігається зі значеннями атрибутів «Робота» й «Залишок роботи»"
+              cannot_be_set_when_work_is_zero: "не можна встановити, коли атрибут «Робота» дорівнює нулю"
+              must_be_set_when_remaining_work_is_set: "Потрібно вказати, якщо визначено атрибут «Залишок роботи»."
+              must_be_set_when_work_and_remaining_work_are_set: "Потрібно вказати, якщо визначено атрибути «Робота» й «Залишок роботи»."
+              inclusion: "має бути в діапазоні від 0 до 100."
             due_date:
               not_start_date: "не на дату початку, хоча це потрібно для етапів."
               cannot_be_null: "не може мати нульове значення, оскільки задано дату початку й тривалість."
@@ -1067,13 +1076,13 @@ uk:
             estimated_hours:
               not_a_number: "– не дійсна тривалість."
               cant_be_inferior_to_remaining_work: "Має дорівнювати значенню «Залишок робіт» або перевищувати його."
-              must_be_set_when_remaining_work_is_set: "Потрібно вказати, якщо визначено атрибут «Залишок робіт»."
-              only_values_greater_or_equal_zeroes_allowed: "Має бути >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Потрібно вказати, якщо визначено атрибути «Залишок роботи» й «% завершення»."
               format: "%{message}"
             remaining_hours:
               not_a_number: "– не дійсна тривалість."
               cant_exceed_work: "Не може перевищувати значення «Робота»."
               must_be_set_when_work_is_set: "Потрібно вказати, якщо визначено атрибут «Робота»."
+              must_be_set_when_work_and_percent_complete_are_set: "Потрібно вказати, якщо визначено атрибути «Робота» й «% завершення»."
               format: "%{message}"
           readonly_status: "Пакет робіт перебуває в стані лише для читання, тому його атрибути не можна змінити."
         type:
@@ -1649,6 +1658,7 @@ uk:
   error_pdf_failed_to_export: "Експорт PDF не вдалося зберегти: %{error}"
   error_token_authenticity: "Неможливо підтвердити маркер підробки для запиту між сайтами. Чи спробували ви надіслати дані для кількох веб-переглядачів або вкладок? Закрийте всі вкладки та повторіть спробу."
   error_work_package_not_found_in_project: "Робочий пакет не був знайдений або не належить до цього проекту"
+  error_work_package_id_not_found: "Пакет робіт не знайдено."
   error_must_be_project_member: "повинен бути учасником проекту"
   error_migrations_are_pending: "У вашій установці OpenProject міститься міграція бази даних. Можливо, ви пропустили міграції під час останнього оновлення. Перевірте керівництво з оновлення, щоб належним чином оновити інсталяцію."
   error_migrations_visit_upgrade_guides: "Будь ласка, відвідайте нашу документацію з оновлення"
@@ -1853,6 +1863,11 @@ uk:
       responsible: "Відповідальний"
       shared: "У спільному доступі"
       watched: "Спостерігач"
+    facets:
+      unread: "Непрочитані"
+      unread_title: "Показати непрочитані"
+      all: "Усі"
+      all_title: "Показати всі"
     menu:
       by_project: "Непрочитані за проєктом"
       by_reason: "Причина"
@@ -1917,6 +1932,7 @@ uk:
   label_ldap_auth_source_plural: "LDAP-підключення"
   label_attribute_expand_text: "Повний текст для атрибута «%{attribute}»"
   label_authentication: "Автентифікація"
+  label_authentication_settings: "Налаштування автентифікації"
   label_available_global_roles: "Доступні глобальні ролі"
   label_available_project_attributes: "Доступні атрибути проєкту"
   label_available_project_forums: "Доступні форуми"
@@ -2103,7 +2119,7 @@ uk:
   label_inactive: "Неактивний"
   label_incoming_emails: "Вхідні повідомлення"
   label_includes: "Включити"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Включити підпроєкти
   label_index_by_date: "Індекс за датою"
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
@@ -2336,6 +2352,7 @@ uk:
   label_role_search: "Призначити роль для нових членів"
   label_scm: "Тип сховища"
   label_search: "Пошук"
+  label_search_by_name: "Пошук за назвою"
   label_send_information: "Надіслати нові облікові дані користувачу"
   label_send_test_email: "Послати email для перевірки"
   label_session: "Сеанс"
@@ -2448,6 +2465,7 @@ uk:
   label_work_package_new: "Новий пакет робіт"
   label_work_package_edit: "Редагувати робочий пакет %{name}"
   label_work_package_plural: "Пакет робіт"
+  label_work_packages_settings: "Налаштування пакетів робіт"
   label_work_package_status: "Стан робочого пакета"
   label_work_package_status_new: "Новий статус"
   label_work_package_status_plural: "Статуси робочих пакетів"
@@ -2455,6 +2473,7 @@ uk:
   label_work_package_tracking: "Відстеження робочого пакету"
   label_work_package_view_all: "Переглянути всі робочі пакети"
   label_workflow: "Робочий процес"
+  label_workflow_copy: "Копіювати робочий процес"
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
   label_working_days_and_hours: "Робочі дні й години"
@@ -2790,6 +2809,7 @@ uk:
   permission_edit_own_messages: "Редагування власних повідомлень"
   permission_edit_own_time_entries: "Редагування власного обліку часу"
   permission_edit_project: "Редагувати проект"
+  permission_edit_project_attributes: " Редагувати атрибути проєкту"
   permission_edit_reportings: "Редагування звітів"
   permission_edit_time_entries: "Редагувати журнали часу для інших користувачів"
   permission_edit_timelines: "Змінити часові рамки"
@@ -2840,6 +2860,7 @@ uk:
   permission_work_package_assigned: "Стати виконавцем / відповідальним"
   permission_work_package_assigned_explanation: "Робочі пакети можуть бути призначені користувачам і групам, які володіють цією роллю у відповідному проекті"
   permission_view_project_activity: "Перегляд активності в проєкті"
+  permission_view_project_attributes: "Переглянути атрибути проєкту"
   permission_save_bcf_queries: "Зберігання запитів BCF"
   permission_manage_public_bcf_queries: "Керування загальнодоступними запитами BCF"
   permission_edit_attribute_help_texts: "Редагування текстів довідки для атрибутів"

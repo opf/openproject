@@ -12,6 +12,7 @@ fr:
         tenant: ID du répertoire (locataire)
     errors:
       messages:
+        invalid_host_url: n’est pas une URL valide.
         not_linked_to_project: n'est pas lié au projet.
       models:
         storages/file_link:
@@ -20,10 +21,12 @@ fr:
               only_numeric_or_uuid: ne peut être que numérique ou un uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: n'est pas disponible pour cet espace de stockage.
             project_ids:
-              blank: Please select a project.
+              blank: Veuillez sélectionner un projet.
         storages/storage:
           attributes:
             host:
@@ -56,15 +59,98 @@ fr:
   permission_write_files: 'Gestion automatique des dossiers de projet : Écrire des fichiers'
   project_module_storages: Fichiers
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Géré automatiquement
       inactive: Aucun dossier spécifique
       manual: Dossier existant géré manuellement
+    remove_project:
+      dialog:
+        automatically_managed_appendix: En outre, dans ce cas, cet espace de stockage comporte un dossier de projet géré automatiquement qui sera supprimé définitivement, ainsi que ses fichiers.
+        confirmation_text: Veuillez confirmer que vous avez compris et que vous souhaitez supprimer cet espace de stockage de fichiers de ce projet.
+        heading: Supprimer le projet de %{storage_type}
+        text: Cette action est irréversible et supprimera tous les liens des lots de travaux de ce projet vers les fichiers et dossiers de cet espace de stockage.
+      label: Supprimer le projet
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: 'Ajouter l''utilisateur au groupe :'
+        create_folder: 'Création du dossier du projet géré :'
+        ensure_root_folder_permissions: 'Définir les autorisations du dossier de base :'
+        hide_inactive_folders: 'Masquer l''étape des dossiers inactifs :'
+        remote_folders: 'Lire le contenu du dossier du groupe :'
+        remove_user_from_group: 'Retirer l''utilisateur de ce groupe :'
+        rename_project_folder: 'Renommer le dossier du projet géré :'
+      one_drive_sync_service:
+        create_folder: 'Création du dossier du projet géré :'
+        ensure_root_folder_permissions: 'Définir les autorisations du dossier de base :'
+        hide_inactive_folders: 'Masquer l''étape des dossiers inactifs :'
+        remote_folders: 'Lire le contenu du dossier du groupe :'
+        rename_project_folder: 'Renommer le dossier du projet géré :'
+    errors:
+      models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: 'L''utilisateur %{user} n''a pas pu être ajouté au groupe %{group} pour la raison suivante : %{reason}'
+              failed_to_add: 'L''utilisateur %{user} n''a pas pu être ajouté au groupe %{group} pour la raison suivante : %{reason}'
+            create_folder:
+              conflict: Le dossier %{folder_name} existe déjà sur %{parent_location}.
+              not_found: "%{parent_location} n'a pas été trouvé."
+            ensure_root_folder_permissions:
+              not_found: "%{group_folder} n'a pas été trouvé. Veuillez vérifier la configuration de votre dossier de groupe Nextcloud."
+              permission_not_set: n'a pas pu définir les autorisations sur %{group_folder}.
+            hide_inactive_folders:
+              permission_not_set: n'a pas pu définir les autorisations sur %{path}.
+            remote_folders:
+              not_allowed: L'utilisateur %{username} n'a pas accès au dossier %{group_folder}. Veuillez vérifier les autorisations du dossier sur Nextcloud.
+              not_found: "%{group_folder} n'a pas été trouvé. Veuillez vérifier votre configuration Nextcloud."
+            remove_user_from_group:
+              conflict: 'L''utilisateur %{user} n''a pas pu être retiré du groupe %{group} pour la raison suivante : %{reason}'
+              failed_to_remove: 'L''utilisateur %{user} n''a pas pu être retiré du groupe %{group} pour la raison suivante : %{reason}'
+            rename_project_folder:
+              forbidden: L'utilisateur d'OpenProject n'a pas accès au dossier %{current_path}.
+              not_found: "%{current_path} n'a pas été trouvé."
+            set_folders_permissions:
+              permission_not_set: n'a pas pu définir les autorisations sur %{path}.
+          error: Une erreur inattendue s'est produite. Veuillez vous assurer que votre instance Nextcloud est joignable et vérifiez les journaux des processus OpenProject pour obtenir plus d'informations.
+          group_does_not_exist: "%{group} n'existe pas. Vérifiez la configuration de votre instance Nextcloud."
+          insufficient_privileges: OpenProject n'a pas assez de privilèges pour ajouter %{user} au groupe %{group}. Vérifiez les paramètres de votre groupe dans Nextcloud.
+          not_allowed: Nextcloud bloque la demande.
+          unauthorized: OpenProject n'a pas pu se synchroniser avec Nextcloud. Veuillez vérifier votre espace de stockage et la configuration de Nextcloud.
+          user_does_not_exist: "%{user} n'existe pas dans Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: Le dossier %{folder_name} existe déjà sur %{parent_location}.
+              not_found: "%{parent_location} n'a pas été trouvé."
+            hide_inactive_folders:
+              permission_not_set: n'a pas pu définir les autorisations sur %{path}.
+            remote_folders:
+              request_error: OpenProject n'a pas pu accéder à votre lecteur %{drive_id}. Veuillez vérifier si votre configuration de stockage est correcte.
+            rename_project_folder:
+              conflict: OpenProject n'a pas pu renommer le dossier %{current_path} en %{project_folder_name}, car un dossier portant le même nom existe déjà.
+              forbidden: OpenProject n'a pas accès à %{current_path} pour le renommer.
+              not_found: "%{current_path} n'a pas été trouvé."
+            set_folders_permissions:
+              permission_not_set: n'a pas pu définir les autorisations sur %{path}.
+          error: Une erreur inattendue s'est produite. Veuillez vous assurer que votre instance Nextcloud est joignable et vérifiez les journaux des processus OpenProject pour obtenir plus d'informations.
+          not_allowed: L'application OpenProject n'a pas été autorisée à accéder à votre lecteur OneDrive. Veuillez vérifier les autorisations définies dans l'application Azure.
+          unauthorized: OpenProject n'a pas pu se synchroniser avec OneDrive. Veuillez vérifier votre espace de stockage et la configuration de l'application Azure.
+          user_does_not_exist: "%{user} n'existe pas dans Nextcloud."
   storages:
     buttons:
       complete_without_setup: Compléter sans
       done_complete_setup: Configuration terminée.
       done_continue: Terminé, continuer
+      open_storage: Open file storage
       replace_oauth_application: Remplacer OAuth OpenProject
       replace_oauth_client: Remplacer OAuth %{provider_type}
       save_and_continue: Sauvegarder et poursuivre
@@ -87,6 +173,13 @@ fr:
       storage_delete_result_1: Supprimer toutes les configurations de stockage pour tous les projets utilisant ce stockage.
       storage_delete_result_2: Supprimer tous les liens des lots de travaux de ce projet vers les fichiers et dossiers dans cet espace de stockage.
       storage_delete_result_3: Si ce stockage contient des dossiers de projet gérés automatiquement, ceux-ci et les fichiers qu'ils contiennent seront supprimés définitivement.
+    dependencies:
+      nextcloud:
+        group_folders_app: Dossiers de groupe
+        integration_app: Intégration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: La configuration de cet espace de stockage est incomplète. Veuillez compléter la configuration avant de l'activer dans plusieurs projets.
+      setup_incomplete_header: La configuration du stockage est incomplète
     error_invalid_provider_type: Veuillez sélectionner un fournisseur de stockage valide.
     file_storage_view:
       access_management:
@@ -111,9 +204,13 @@ fr:
       checked: Dernière vérification %{datetime}
       connection_validation:
         action: Revérifier la connexion
+        app_version_mismatch: La version de l'application Integration OpenProject n'est pas prise en charge. Veuillez mettre à jour votre serveur Nextcloud.
         client_id_wrong: L'identifiant du client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
         client_secret_wrong: Le secret client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
         drive_id_wrong: L'identifiant du lecteur configuré est introuvable. Veuillez vérifier la configuration.
+        group_folder_version_mismatch: La version du dossier de groupe n'est pas prise en charge. Veuillez mettre à jour votre serveur Nextcloud.
+        host_not_found: Aucun serveur Nextcloud n'a été trouvé à l'adresse configurée. Veuillez vérifier la configuration.
+        missing_dependencies: 'Une dépendance requise est manquante dans l''espace de stockage de fichiers. Veuillez ajouter la dépendance suivante : %{dependency}.'
         not_configured: La connexion n'a pas pu être validée. Veuillez d'abord terminer la configuration.
         placeholder: Vérifiez votre connexion avec le serveur.
         subtitle: Validation de la connexion
@@ -137,7 +234,7 @@ fr:
       unsubscribe: Se désabonner
     help_texts:
       project_folder: Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
-      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
+      project_folder_bulk: Le dossier du projet est le dossier par défaut pour les téléchargements de fichiers pour tous les projets sélectionnés. Vous pouvez le modifier individuellement dans les paramètres de chaque projet. Les utilisateurs peuvent néanmoins télécharger des fichiers vers d'autres emplacements.
     instructions:
       all_available_storages_already_added: Tous les stockages disponibles sont déjà ajoutés au projet.
       automatic_folder: Cela créera automatiquement un dossier racine pour ce projet et gérera les autorisations d'accès pour chaque membre du projet.

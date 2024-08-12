@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -774,6 +774,10 @@ RSpec.describe WorkPackage do
 
     it "disallows negative values" do
       work_package.remaining_hours = "-1"
+      expect(work_package).not_to be_valid
+
+      work_package.remaining_hours = "-1h"
+      expect(work_package.remaining_hours).to eq(-1)
       expect(work_package).not_to be_valid
     end
 

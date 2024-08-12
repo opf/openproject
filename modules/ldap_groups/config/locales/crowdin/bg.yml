@@ -62,7 +62,7 @@ bg:
       no_results: 'No synchronized groups found.'
       no_members: 'This group has no synchronized members yet.'
       plural: 'Synchronized LDAP groups'
-      singular: 'Synchronized LDAP group'
+      singular: 'Синхронизирана LDAP група'
       form:
         auth_source_text: 'Select which LDAP connection should be used.'
         sync_users_text: >

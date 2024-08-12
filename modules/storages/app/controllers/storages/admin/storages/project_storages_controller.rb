@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   include OpTurbo::ComponentStream
   include OpTurbo::DialogStreamHelper
   include FlashMessagesOutputSafetyHelper
+  include ApplicationComponentStreams
 
   layout "admin"
 
@@ -39,10 +40,10 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   before_action :require_admin
   before_action :find_model_object
+  before_action :load_project_storage, only: %i(edit update destroy destroy_confirmation_dialog)
 
-  before_action :storage_projects_query,
-                :project_folder_modes_per_project,
-                only: :index
+  before_action :storage_projects_query, only: :index
+  before_action :ensure_storage_configured!, only: %i(new create)
   before_action :initialize_project_storage, only: :new
   before_action :find_projects_to_activate_for_storage, only: :create
 
@@ -51,31 +52,79 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   def index; end
 
   def new
-    respond_with_dialog Storages::Admin::Storages::AddProjectsModalComponent.new(project_storage: @project_storage)
+    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(
+      project_storage: @project_storage, last_project_folders: {}
+    )
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     create_service = ::Storages::ProjectStorages::BulkCreateService
                          .new(user: current_user, projects: @projects, storage: @storage,
-                              project_folder_mode: params.to_unsafe_h[:storages_project_storage][:project_folder_mode],
                               include_sub_projects: include_sub_projects?)
-                         .call
+                         .call(params.to_unsafe_h[:storages_project_storage])
 
     create_service.on_success { update_project_list_via_turbo_stream(url_for_action: :index) }
 
     create_service.on_failure do
-      update_flash_message_via_turbo_stream(
-        message: join_flash_messages(create_service.errors),
-        full: true, dismiss_scheme: :hide, scheme: :danger
-      )
+      project_storage = create_service.result
+      project_storage.errors.merge!(create_service.errors)
+      component = Storages::Admin::Storages::ProjectsStorageFormModalComponent.new(project_storage:)
+      update_via_turbo_stream(component:, status: :bad_request)
     end
 
     respond_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
   end
 
-  def destroy; end
+  def edit
+    last_project_folders = Storages::LastProjectFolder
+                              .where(project_storage: @project_storage)
+                              .pluck(:mode, :origin_folder_id)
+                              .to_h
+
+    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(
+      project_storage: @project_storage, last_project_folders:
+    )
+  end
+
+  def update
+    update_service = ::Storages::ProjectStorages::UpdateService
+                       .new(user: current_user, model: @project_storage)
+                       .call(params.to_unsafe_h[:storages_project_storage].merge(storage: @storage))
+
+    update_service.on_success { update_project_list_via_turbo_stream(url_for_action: :index) }
+
+    update_service.on_failure do
+      component = Storages::Admin::Storages::ProjectsStorageFormModalComponent.new(project_storage: @project_storage)
+      update_via_turbo_stream(component:, status: :bad_request)
+    end
+
+    respond_with_turbo_streams(status: update_service.success? ? :ok : :unprocessable_entity)
+  end
+
+  def destroy_confirmation_dialog
+    respond_with_dialog Storages::ProjectStorages::DestroyConfirmationDialogComponent.new(
+      storage: @storage,
+      project_storage: @project_storage
+    )
+  end
+
+  def destroy
+    @project_storage.destroy
+    redirect_to admin_settings_storage_project_storages_path(@storage)
+  end
 
   private
+
+  def load_project_storage
+    @project_storage = Storages::ProjectStorage.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    update_flash_message_via_turbo_stream(
+      message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
+    )
+    update_project_list_via_turbo_stream
+
+    respond_with_turbo_streams
+  end
 
   def find_model_object(object_id = :storage_id)
     super
@@ -88,7 +137,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     else
       initialize_project_storage
       @project_storage.errors.add(:project_ids, :blank)
-      component = Storages::Admin::Storages::AddProjectsFormModalComponent.new(project_storage: @project_storage)
+      component = Storages::Admin::Storages::ProjectsStorageFormModalComponent.new(project_storage: @project_storage)
       update_via_turbo_stream(component:, status: :bad_request)
       respond_with_turbo_streams
     end
@@ -104,7 +153,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     update_via_turbo_stream(
       component: Storages::ProjectStorages::Projects::TableComponent.new(
         query: storage_projects_query,
-        project_folder_modes_per_project:,
+        storage: @storage,
         params: { url_for_action: }
       )
     )
@@ -118,13 +167,6 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     end
   end
 
-  def project_folder_modes_per_project
-    @project_folder_modes_per_project ||= Storages::ProjectStorage
-      .where(storage_id: @storage.id)
-      .pluck(:project_id, :project_folder_mode)
-      .to_h
-  end
-
   def initialize_project_storage
     @project_storage = ::Storages::ProjectStorages::SetAttributesService
         .new(user: current_user, model: ::Storages::ProjectStorage.new, contract_class: EmptyContract)
@@ -134,5 +176,18 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   def include_sub_projects?
     ActiveRecord::Type::Boolean.new.cast(params.to_unsafe_h[:storages_project_storage][:include_sub_projects])
+  end
+
+  def ensure_storage_configured!
+    return if @storage.configured?
+
+    update_flash_message_via_turbo_stream(
+      message: I18n.t("storages.enabled_in_projects.setup_incomplete_description"),
+      full: true,
+      dismiss_scheme: :hide,
+      scheme: :danger
+    )
+    respond_with_turbo_streams
+    false
   end
 end

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -156,7 +156,7 @@ select
 
   &:not(.FormControl-select)
     @if $select-arrow
-      background-color: transparent !important
+      background-color: var(--body-background) !important
       background-repeat: no-repeat !important
       background-position: right !important
       background-image: var(--select-arrow-bg-color-url) !important

@@ -1,0 +1,31 @@
+<%= render(Primer::BaseComponent.new(tag: :div, data: @wrapper_data_attributes, classes: @wrapper_classes)) do %>
+  <%= render(Primer::BaseComponent.new(tag: :div, display: :inline_flex, direction: :row, align_items: :center)) do %>
+    <% if storage_oauth_access_granted? %>
+      <%=
+        render(Primer::Beta::Button.new(
+          scheme: :default,
+          display: :inline_block,
+          data: @select_folder_button_options.delete(:data) { {} }
+        )) do |button|
+          button.with_leading_visual_icon(icon: 'file-directory')
+          I18n.t(:"storages.buttons.select_folder")
+        end
+      %>
+
+      <%=
+        render(
+          Primer::Beta::Text.new(
+            font_weight: :bold,
+            data: @selected_folder_label_options.delete(:data) { {} },
+            pl: 2
+          )
+        ) { I18n.t(:"storages.label_no_selected_folder") }
+      %>
+    <% else %>
+        <%= angular_component_tag 'opce-storage-login-button',
+                                    data: @storage_login_button_options.delete(:data) { {} },
+                                    inputs: @storage_login_button_options.delete(:inputs) { {} }
+        %>
+    <% end %>
+  <% end %>
+<% end %>

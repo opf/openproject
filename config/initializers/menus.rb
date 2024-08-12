@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -308,7 +308,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :work_packages_setting,
             { controller: "/admin/settings/work_packages_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_work_packages_settings,
             parent: :admin_work_packages
 
   menu.push :types,
@@ -462,7 +462,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :authentication_settings,
             { controller: "/admin/settings/authentication_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_authentication_settings,
             parent: :authentication
 
   menu.push :ldap_authentication,
@@ -542,12 +542,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             caption: :label_backlogs,
             icon: "op-backlogs"
-
-  menu.push :backlogs_settings,
-            { controller: "/backlogs_settings", action: :show },
-            if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
-            parent: :admin_backlogs
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
@@ -639,4 +633,34 @@ Redmine::MenuManager.map :project_menu do |menu|
               caption:,
               parent: :settings
   end
+end
+
+Redmine::MenuManager.map :work_package_split_view do |menu|
+  menu.push :overview,
+            { tab: :overview },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.overview"
+  menu.push :activity,
+            { tab: :activity },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+                     Notification.where(recipient: User.current,
+                                        read_ian: false,
+                                        resource: work_package)
+                                 .where.not(reason: %i[date_alert_start_date date_alert_due_date])
+                                 .count
+                   },
+            caption: :"js.work_packages.tabs.activity"
+  menu.push :files,
+            { tab: :files },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.files"
+  menu.push :relations,
+            { tab: :relations },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.relations"
+  menu.push :watchers,
+            { tab: :watchers },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.watchers"
 end

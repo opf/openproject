@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -338,7 +338,7 @@ ar:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "تصدير"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ ar:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        watched: "المشاهد"
+        assigned: "المُسند إليه"
+        accountable: "Accountable"
+        created: "تم إنشاؤه"
+        scheduled: "مُجدول"
+        commented: "علّق"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -638,11 +638,6 @@ ar:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "الجميع"
-        all_title: "إظهار الجميع"
       center:
         label_actor_and: "و"
         and_more_users:
@@ -663,6 +658,7 @@ ar:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
@@ -901,7 +897,7 @@ ar:
       wiki_link: "قُم بوصله إلى صفحة Wiki"
       image: "صورة"
     sharing:
-      share: "Share"
+      share: "شارك"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -1020,10 +1016,10 @@ ar:
         created_by_me: "Created by me"
         assigned_to_me: "مخصص لي"
         recently_created: "Recently created"
-        all_open: "All open"
+        all_open: "كل المفتوح"
         overdue: "Overdue"
         summary: "مُلخّص"
-        shared_with_users: "Shared with users"
+        shared_with_users: "مشترك مع المستخدمين"
         shared_with_me: "Shared with me"
       jump_marks:
         pagination: "الانتقال السريع إلى تقسيم الجدول"

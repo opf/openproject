@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ module Redmine::MenuManager::WikiMenuHelper
     project_wiki = project.wiki
     return if project_wiki.nil?
 
-    wiki_main_items(project_wiki).each do |main_item|
+    wiki_main_items(project_wiki).reverse_each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
         push_wiki_main_menu(menu, main_item, project)
 

@@ -32,7 +32,8 @@
       <spot-toggle
         *ngIf="this.currentUserService.isLoggedIn"
         [options]="displayModeOptions"
-        [(ngModel)]="displayMode"
+        [ngModel]="displayMode"
+        (ngModelChange)="displayModeChange($event)"
       ></spot-toggle>
     </div>
     <div

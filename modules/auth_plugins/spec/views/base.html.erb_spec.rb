@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,9 +35,10 @@ RSpec.describe "layouts/base" do
     let(:anonymous) { build_stubbed(:anonymous) }
 
     before do
-      allow(view).to receive(:current_menu_item).and_return("overview")
-      allow(view).to receive(:default_breadcrumb)
-      allow(view).to receive(:current_user).and_return anonymous
+      without_partial_double_verification do
+        allow(view).to receive(:default_breadcrumb)
+        allow(view).to receive_messages(current_menu_item: "overview", current_user: anonymous)
+      end
       allow(OpenProject::Plugins::AuthPlugin).to receive(:providers).and_return([provider])
     end
 

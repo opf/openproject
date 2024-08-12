@@ -149,9 +149,14 @@ RSpec.describe "Notification center", :js, :with_cuprite,
 
       center.click_item notification
       split_screen.expect_open
+      center.expect_item_selected notification
 
       center.expect_item_not_read notification
       center.expect_work_package_item notification2
+
+      center.click_item notification2
+      split_screen2.expect_open
+      center.expect_item_selected notification2
 
       center.mark_notification_as_read notification
       wait_for_network_idle
@@ -424,13 +429,13 @@ RSpec.describe "Notification center", :js, :with_cuprite,
 
   describe "logging into deep link", with_settings: { login_required: true } do
     it "redirects to the notification deep link" do
-      visit notifications_center_path(state: "details/#{work_package.id}/activity")
+      visit details_notifications_path(work_package.id, tab: :activity)
 
       expect(page).to have_current_path /login/
 
       login_with recipient.login, "adminADMIN!", visit_signin_path: false
 
-      expect(page).to have_current_path /notifications\/details\/#{work_package.id}\/activity/
+      expect(page).to have_current_path /notifications\/details\/#{work_package.id}/
     end
   end
 end

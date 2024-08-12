@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -123,15 +123,15 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     getOptionsFn: this.getAutocompleterData,
   };
 
-  /** Remember the current value */
-  public currentValue = '';
-
-  public isFocusedDirectly = (this.globalSearchService.searchTerm.length > 0);
-
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
    * */
-  public selectedItem:WorkPackageResource|SearchOptionItem|undefined;
+  public selectedItem:WorkPackageResource|SearchOptionItem|undefined = undefined;
+
+  /** Remember the current value */
+  public currentValue = '';
+
+  public isFocusedDirectly = this.globalSearchService.searchTerm.length > 0 && this.selectedItem instanceof HalResource;
 
   private unregisterGlobalListener:(() => unknown)|undefined;
 

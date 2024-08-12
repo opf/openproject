@@ -10,7 +10,7 @@ zh-TW:
       errors: '發生了一些錯誤'
       generic_messages:
         not_found: '找不到此工作。'
-        in_queue: '該工作已排入隊列，將很快處理。'
+        in_queue: '該工作已加入排程，並將很快處理。'
         in_process: '該工作正在處理中。'
         error: '該工作未能完成。'
         cancelled: '此工作由於發生錯誤而被取消。'

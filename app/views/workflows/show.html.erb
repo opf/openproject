@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= render partial: 'toolbar', locals: {title: t(:label_workflow_plural) } %>
-<% html_title t(:label_administration), t(:label_workflow_plural) -%>
-<% local_assigns[:additional_breadcrumb] = t(:label_workflow_summary) %>
+<% html_title t(:label_administration), t(:label_workflow_plural), t(:label_workflow_summary) -%>
+
+<%= render Workflows::PageHeaderComponent.new(state: :show) %>
 
 <% if @workflow_counts.any? %>
   <div class="autoscroll">

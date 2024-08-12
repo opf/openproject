@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,8 +76,8 @@ RSpec.describe WorkPackagesController do
                    state: "5/overview")
   end
 
-  it "connects GET /projects/:project_id/work_packages/details/:id/:state" +
-     " to work_packages#index" do
+  it "connects GET /projects/:project_id/work_packages/details/:id/:state " \
+     "to work_packages#index" do
     expect(get("/projects/1/work_packages/details/2/overview"))
       .to route_to(controller: "work_packages",
                    action: "index",

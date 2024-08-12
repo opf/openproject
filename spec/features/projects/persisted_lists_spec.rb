@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ RSpec.describe "Persisted lists on projects index page",
   shared_let(:developer) { create(:project_role, name: "Developer") }
 
   shared_let(:custom_field) { create(:text_project_custom_field) }
-  shared_let(:invisible_custom_field) { create(:project_custom_field, visible: false) }
+  shared_let(:invisible_custom_field) { create(:project_custom_field, admin_only: true) }
 
   shared_let(:project) do
     create(:project,

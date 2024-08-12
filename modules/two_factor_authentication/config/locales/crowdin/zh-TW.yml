@@ -40,7 +40,7 @@ zh-TW:
     label_devices: "2FA 設備"
     label_one_time_password: "一次性密碼"
     label_2fa_enabled: "雙重驗證已啟用"
-    label_2fa_disabled: "雙重驗證已關閉"
+    label_2fa_disabled: "雙因驗證已關閉"
     text_otp_delivery_message_sms: "%{app_title} 一次性密碼為 %{token}"
     text_otp_delivery_message_voice: "您的 %{app_title} 一次性密碼為: %{pause} %{token}。 %{pause} 重複: %{pause} %{token}"
     text_enter_2fa: "請從您的設備取得一次性密碼。"
@@ -90,7 +90,7 @@ zh-TW:
         title: 產生備用驗證碼
         keep_safe_as_password: "請把這些值視為密碼一樣重要!"
         keep_safe_warning: "Either save them in your password manager, or print this page and put in a safe place."
-        regenerate_warning: "Warning: If you have created backup codes before, they will be invalidated and will no longer work."
+        regenerate_warning: "警告：如果您之前建立過備份代碼，它們將失效並且不能使用。"
     devices:
       add_new: "新增2FA設備"
       register: "註冊裝置"
@@ -155,11 +155,11 @@ zh-TW:
       required_to_add_device: "活動安全性原則要求您啟用雙重身份驗證。請使用以下表格註冊設備。"
     remember:
       active_session_notice: >
-        您的帳戶有一個活動的記住 cookie 有效, 直到 %{expires_on}。此 cookie 允許您在沒有第二個因素的情況下登錄到您的帳戶, 直到該時間。
-      other_active_session_notice: Your account has an active remember cookie on another session.
+        您的帳戶有一個有效的記憶 cookie，有效期至 %{expires_on}。此 cookie 允許您在沒有雙因認證情況下登錄到您的帳戶。
+      other_active_session_notice: 您的帳戶在另一個連線中有一個作用中且記憶之cookie。
       label: "記住"
-      clear_cookie: "Click here to remove all remembered 2FA sessions."
-      cookie_removed: "All remembered 2FA sessions have been removed."
+      clear_cookie: "按一下此處以移除所有已記憶之 2FA 連線。"
+      cookie_removed: "所有記住的 2FA 連線都已移除。"
       dont_ask_again: "產生 cookie， %{days} 天內將記住此用戶端2FA 身份驗證。"
   field_phone: "手機"
   field_otp: "一次性密碼"

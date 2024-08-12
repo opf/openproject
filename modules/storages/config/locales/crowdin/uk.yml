@@ -12,6 +12,7 @@ uk:
         tenant: ID каталогу (клієнта)
     errors:
       messages:
+        invalid_host_url: не є дійсною URL-адресою.
         not_linked_to_project: '– не пов’язано з проєктом.'
       models:
         storages/file_link:
@@ -20,10 +21,12 @@ uk:
               only_numeric_or_uuid: '– може бути тільки числом або ідентифікатором uuid.'
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: '– недоступно для цього сховища.'
             project_ids:
-              blank: Please select a project.
+              blank: Виберіть проєкт.
         storages/storage:
           attributes:
             host:
@@ -56,15 +59,98 @@ uk:
   permission_write_files: 'Папки проєкту з автоматичним керуванням: записування файлів'
   project_module_storages: Файли
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Автоматичне керування
       inactive: Немає визначеної папки
       manual: Наявна папка має ручне керування
+    remove_project:
+      dialog:
+        automatically_managed_appendix: Крім того, якщо це сховище містить папку проєкту з автоматичним керуванням, цю папку й усі її файли буде остаточно видалено.
+        confirmation_text: Підтвердьте, що ви розумієте наслідки й хочете вилучити цей проєкт із файлового сховища
+        heading: Вилучити проєкт із %{storage_type}
+        text: Буде вилучено всі посилання з пакетів робіт цього проєкту на файли й папки, що зберігаються в цьому сховищі. Це незворотна дія.
+      label: Вилучити проєкт
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: 'Додати користувача в групу:'
+        create_folder: 'Створення керованої папки проєкту'
+        ensure_root_folder_permissions: 'Установіть дозволи для основної папки:'
+        hide_inactive_folders: 'Етап «Приховайте неактивні папки»:'
+        remote_folders: 'Читання контенту папки групи:'
+        remove_user_from_group: 'Вилучення користувача з групи:'
+        rename_project_folder: 'Перейменування керованої папки проєкту:'
+      one_drive_sync_service:
+        create_folder: 'Створення керованої папки проєкту:'
+        ensure_root_folder_permissions: 'Установлення дозволів для основної папки:'
+        hide_inactive_folders: 'Етап «Приховайте неактивні папки»:'
+        remote_folders: 'Читання контенту папки групи:'
+        rename_project_folder: 'Перейменування папки керованого проекту:'
+    errors:
+      models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: 'Користувача %{user} не вдалося додати в групу %{group} з такої причини: %{reason}'
+              failed_to_add: 'Користувача %{user} не вдалося додати в групу %{group} з такої причини: %{reason}'
+            create_folder:
+              conflict: '%{folder_name} уже існує в папці%{parent_location}.'
+              not_found: "%{parent_location} не знайдено."
+            ensure_root_folder_permissions:
+              not_found: "%{group_folder} не знайдено. Перевірте налаштування своєї папки групи Nextcloud."
+              permission_not_set: не вдалося встановити дозволи в папці «%{group_folder}».
+            hide_inactive_folders:
+              permission_not_set: не вдалося встановити дозволи за шляхом %{path}.
+            remote_folders:
+              not_allowed: '%{username} не має доступу до %{group_folder}. Перевірте права доступу до папок у Nextcloud.'
+              not_found: "%{group_folder} не знайдено. Перевірте налаштування Nextcloud."
+            remove_user_from_group:
+              conflict: 'Користувача %{user} не вдалося вилучити з групи «%{group}» з такої причини: %{reason}'
+              failed_to_remove: 'Користувача %{user} не вдалося вилучити з групи «%{group}» з такої причини: %{reason}'
+            rename_project_folder:
+              forbidden: Користувач OpenProject не має доступу до папки %{current_path}.
+              not_found: "%{current_path} не знайдено."
+            set_folders_permissions:
+              permission_not_set: не вдалося встановити дозволи за шляхом %{path}.
+          error: Сталася неочікувана помилка. Щоб дізнатися більше, переконайтеся, що маєте доступ до свого екземпляра Nextcloud, і перевірте журнали працівників OpenProject.
+          group_does_not_exist: "Групи «%{group}» не існує. Перевірте конфігурацію свого екземпляра Nextcloud."
+          insufficient_privileges: OpenProject не має достатніх привілеїв, щоб додати користувача %{user} в групу «%{group}». Перевірте налаштування своєї групи в Nextcloud.
+          not_allowed: Nextcloud блокує запит.
+          unauthorized: Не вдалося синхронізувати OpenProject із Nextcloud. Перевірте своє сховище й конфігурацію Nextcloud.
+          user_does_not_exist: "%{user} не існує в Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: '%{folder_name} уже існує в папці %{parent_location}.'
+              not_found: "%{parent_location} не знайдено."
+            hide_inactive_folders:
+              permission_not_set: не вдалося встановити дозволи за шляхом %{path}.
+            remote_folders:
+              request_error: OpenProject не вдалося отримати доступ до вашого диска %{drive_id}. Перевірте правильність конфігурації свого сховища.
+            rename_project_folder:
+              conflict: OpenProject не вдалося змінити назву папки «%{current_path}» на «%{project_folder_name}», оскільки папка з такою назвою вже існує
+              forbidden: OpenProject не має дозволу на перейменування папки %{current_path}.
+              not_found: "%{current_path} не знайдено."
+            set_folders_permissions:
+              permission_not_set: не вдалося встановити дозволи за шляхом %{path}.
+          error: Сталася неочікувана помилка. Щоб дізнатися більше, переконайтеся, що маєте доступ до свого екземпляра Nextcloud, і перевірте журнали працівників OpenProject.
+          not_allowed: OpenProject не має дозволу на доступ до вашого диска OneDrive. Перевірте дозволи, установлені в програмі Azure.
+          unauthorized: Не вдалося синхронізувати OpenProject із OneDrive. Перевірте конфігурацію свого сховища й програми Azure.
+          user_does_not_exist: "%{user} не існує в Nextcloud."
   storages:
     buttons:
       complete_without_setup: Завершити без налаштування
       done_complete_setup: Готово – завершити налаштування
       done_continue: Виконано, продовжити
+      open_storage: Open file storage
       replace_oauth_application: Замінити OpenProject OAuth
       replace_oauth_client: Замінити %{provider_type} OAuth
       save_and_continue: Зберегти та продовжити
@@ -87,6 +173,13 @@ uk:
       storage_delete_result_1: вилучити всі налаштування сховища для всіх проєктів, де воно використовується;
       storage_delete_result_2: вилучити всі посилання з пакетів робіт з усіх проєктів на файли й папки в цьому сховищі.
       storage_delete_result_3: Якщо це сховище містить папки проєкту з автоматичним керуванням, цю папку й усі її файли буде остаточно видалено.
+    dependencies:
+      nextcloud:
+        group_folders_app: Папки груп
+        integration_app: Інтеграція OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: Це сховище ще не налаштоване. Завершіть налаштування, перш ніж вмикати його в кількох проєктах.
+      setup_incomplete_header: Налаштування сховища не завершено
     error_invalid_provider_type: Виберіть дійсного постачальника сховища.
     file_storage_view:
       access_management:
@@ -111,9 +204,13 @@ uk:
       checked: 'Востаннє перевірено: %{datetime}'
       connection_validation:
         action: Перевірити підключення знову
+        app_version_mismatch: Версія додатка Integration OpenProject не підтримується. Оновіть свій сервер Nextcloud.
         client_id_wrong: Налаштований ідентифікатор клієнта OAuth 2 недійсний. Перевірте конфігурацію.
         client_secret_wrong: Налаштований секретний ключ клієнта OAuth 2 недійсний. Перевірте конфігурацію.
-        drive_id_wrong: Налаштований ідентифікатор диска OAuth 2 не знайдено. Перевірте конфігурацію.
+        drive_id_wrong: Налаштований ідентифікатор Drive ID не знайдено. Перевірте конфігурацію.
+        group_folder_version_mismatch: Версія папки групи не підтримується. Оновіть свій сервер Nextcloud.
+        host_not_found: Сервер Nextcloud  не знайдено за вказаною URL-адресою. Перевірте конфігурацію.
+        missing_dependencies: 'Відсутня обов’язкова залежність для файлового сховища. Додайте таку залежність: %{dependency}.'
         not_configured: Не вдалося перевірити підключення. Спочатку налаштуйте конфігурацію.
         placeholder: Перевірте підключення до сервера.
         subtitle: Перевірка підключення
@@ -137,7 +234,7 @@ uk:
       unsubscribe: Відписатися
     help_texts:
       project_folder: Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
-      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
+      project_folder_bulk: Папка проєкту – це папка за замовчуванням, у якій зберігаються додані файли для всіх вибраних проєктів. Ви можете змінити її окремо в налаштуваннях кожного проєкту. Однак користувачі все одно можуть додавати файли в інші папки.
     instructions:
       all_available_storages_already_added: У проєкт уже додано всі доступні сховища.
       automatic_folder: Буде автоматично створено кореневу папку для цього проєкту й налаштовано дозволи на доступ для кожного учасника проєкту.

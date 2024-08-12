@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -212,10 +212,12 @@ fa:
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     instructions:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
       searchable: "Include the field values when using the global search functionality."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
@@ -296,7 +298,7 @@ fa:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
           deactivate_for_project: "Deactivate for this project"
-          label_enable_all: "Enable all"
+          label_enable_all: "فعال کردن همه"
           label_disable_all: "Disable all"
         is_required_blank_slate:
           heading: Required in all projects
@@ -392,8 +394,8 @@ fa:
       new_access_token_dialog_title: "Create new API token"
       new_access_token_dialog_show_button_text: "API token"
       new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text_field_label: "نام"
+      new_access_token_dialog_submit_button_text: "ایجاد"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "عدم موفقیت در تنظیم مجدد رمز دسترسی: %{error}"
@@ -471,12 +473,12 @@ fa:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
+        is_default: "پیش‌فرض"
+        is_closed: "بسته"
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -525,9 +527,9 @@ fa:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -616,7 +618,7 @@ fa:
         possible_values: "مقادیر ممکن"
         regexp: "عبارت منظم"
         searchable: "قابل جستجو"
-        visible: "قابل مشاهده"
+        admin_only: "Admin-only"
       custom_value:
         value: "مقدار"
       doorkeeper/application:
@@ -633,10 +635,10 @@ fa:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
+        page: "صفحه"
         row_count: "Number of rows"
         column_count: "Number of columns"
-        widgets: "Widgets"
+        widgets: "ویجت ﻫﺎ"
       journal:
         notes: "یادداشت ها"
       ldap_auth_source:
@@ -686,6 +688,7 @@ fa:
         versions: "نسخه ها"
         work_packages: "بسته های کاری"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Section
       query:
         column_names: "ستون‌ها"
@@ -1030,6 +1033,12 @@ fa:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
               cannot_be_null: "can not be set to null as start date and duration are known."
@@ -1059,13 +1068,13 @@ fa:
             estimated_hours:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
@@ -1199,7 +1208,7 @@ fa:
       subproject: "Include subprojects"
       time_entry: "زمان صرف شده"
       wiki_edit: "دانشنامه"
-      work_package: "Work packages"
+      work_package: "بسته های کاری"
   #common attributes of all models
   attributes:
     active: "Active"
@@ -1249,7 +1258,7 @@ fa:
     roles: "نقش‌ها"
     start_date: "Start date"
     status: "وضعیت"
-    subject: "Subject"
+    subject: "موضوع"
     summary: "Summary"
     title: "عنوان"
     type: "نوع"
@@ -1587,6 +1596,7 @@ fa:
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
   error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "must be project member"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
@@ -1785,12 +1795,17 @@ fa:
         unknown_storage: "Unknown storage"
   notifications:
     reasons:
-      assigned: "Assignee"
+      assigned: "نماینده"
       dateAlert: "Date alert"
       mentioned: "Mentioned"
       responsible: "Accountable"
       shared: "Shared"
-      watched: "Watcher"
+      watched: "ناظر"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "همه"
+      all_title: "Show all"
     menu:
       by_project: "Unread by project"
       by_reason: "Reason"
@@ -1822,7 +1837,7 @@ fa:
   label_added_time_by: "Added by %{author} %{age} ago"
   label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"
-  label_administration: "Administration"
+  label_administration: "مدیریت"
   label_advanced_settings: "Advanced settings"
   label_age: "Age"
   label_ago: "days ago"
@@ -1855,6 +1870,7 @@ fa:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Authentication"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
@@ -2102,8 +2118,8 @@ fa:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "اعضا"
   label_membership_plural: "Memberships"
-  label_membership_added: "Member added"
-  label_membership_updated: "Member updated"
+  label_membership_added: "کاربر اضافه شد"
+  label_membership_updated: "اعضا بروزرسانی شدند."
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2204,7 +2220,7 @@ fa:
   label_product_version: "Product version"
   label_profile: "Profile"
   label_percent_complete: "% Complete"
-  label_project: "Project"
+  label_project: "پروژه"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2247,7 +2263,7 @@ fa:
   label_remove_columns: "Remove selected columns"
   label_renamed: "renamed"
   label_reply_plural: "Replies"
-  label_report: "Report"
+  label_report: "گزارش"
   label_report_bug: "Report a bug"
   label_report_plural: "Reports"
   label_reported_work_packages: "Reported work packages"
@@ -2274,6 +2290,7 @@ fa:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "Search"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
   label_session: "Session"
@@ -2285,7 +2302,7 @@ fa:
   label_sort_by: "Sort by %{value}"
   label_sorted_by: "sorted by %{value}"
   label_sort_higher: "Move up"
-  label_sort_highest: "Move to top"
+  label_sort_highest: "انتقال به بالا"
   label_sort_lower: "Move down"
   label_sort_lowest: "Move to bottom"
   label_spent_time: "زمان صرف شده"
@@ -2385,7 +2402,8 @@ fa:
   label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "New work package"
   label_work_package_edit: "Edit work package %{name}"
-  label_work_package_plural: "Work packages"
+  label_work_package_plural: "بسته های کاری"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Work package status"
   label_work_package_status_new: "New status"
   label_work_package_status_plural: "Work package statuses"
@@ -2393,6 +2411,7 @@ fa:
   label_work_package_tracking: "Work package tracking"
   label_work_package_view_all: "View all work packages"
   label_workflow: "Workflow"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Summary"
   label_working_days_and_hours: "Working days and hours"
@@ -2727,6 +2746,7 @@ fa:
   permission_edit_own_messages: "Edit own messages"
   permission_edit_own_time_entries: "Edit own time logs"
   permission_edit_project: "Edit project"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Edit reportings"
   permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Edit timelines"
@@ -2777,6 +2797,7 @@ fa:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
@@ -2813,7 +2834,7 @@ fa:
       other: "%{count} Projects"
   project_module_activity: "فعالیت"
   project_module_forums: "Forums"
-  project_module_work_package_tracking: "Work packages"
+  project_module_work_package_tracking: "بسته های کاری"
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_wiki: "دانشنامه"
@@ -3164,7 +3185,7 @@ fa:
   status_active: "active"
   status_archived: "بایگانی"
   status_blocked: "مسدود"
-  status_invited: invited
+  status_invited: مدعو
   status_locked: locked
   status_registered: registered
   #Used in array.to_sentence.
@@ -3175,7 +3196,7 @@ fa:
   text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
   text_analyze: "Further analyze: %{subject}"
-  text_are_you_sure: "Are you sure?"
+  text_are_you_sure: "آیا مطمئن هستید؟"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
   text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
@@ -3349,7 +3370,7 @@ fa:
     deleted: "Deleted user"
     error_status_change_failed: "Changing the user status failed due to the following errors: %{errors}"
     invite: Invite user via email
-    invited: invited
+    invited: مدعو
     lock: "Lock permanently"
     locked: "locked permanently"
     no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
@@ -3412,11 +3433,11 @@ fa:
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     permissions:
-      comment: "Comment"
+      comment: "نظر"
       comment_description: "Can view and comment this work package."
-      edit: "Edit"
+      edit: "ویرایش"
       edit_description: "Can view, comment and edit this work package."
-      view: "View"
+      view: "مشاهده"
       view_description: "Can view this work package."
   sharing:
     count:
@@ -3428,16 +3449,16 @@ fa:
       not_project_member: "Not project member"
       project_group: "Project group"
       not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
+      user: "کاربر"
+      group: "گروه"
       role: "Role"
-      type: "Type"
+      type: "نوع"
     denied: "You don't have permissions to share %{entities}."
     label_search: "Search for users to invite"
     label_search_placeholder: "Search by user or email address"
     label_toggle_all: "Toggle all shares"
     remove: "Remove"
-    share: "Share"
+    share: "به اشتراک گذاری"
     text_empty_search_description: "There are no users with the current filter criteria."
     text_empty_search_header: "We couldn't find any matching results."
     text_empty_state_description: "The %{entity} has not been shared with anyone yet."
@@ -3479,9 +3500,9 @@ fa:
           header: "Not shared: Private"
           description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
-        view: "View"
+        view: "مشاهده"
         view_description: "Can view this project list."
-        edit: "Edit"
+        edit: "ویرایش"
         edit_description: "Can view, share and edit this project list."
       upsale:
         message: "Sharing project lists with individual users is an enterprise add-on."

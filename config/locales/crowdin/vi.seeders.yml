@@ -7,15 +7,15 @@ vi:
     common:
       colors:
         item_0:
-          name: Xanh dương (tối)
+          name: Lam (tối)
         item_1:
-          name: Xanh dương
+          name: Lam
         item_2:
-          name: Xanh dương (sáng)
+          name: Lam (sáng)
         item_3:
-          name: Xanh lá cây (sáng)
+          name: Lục (sáng)
         item_4:
-          name: Xanh lá cây (tối)
+          name: Lục (tối)
         item_5:
           name: Vàng
         item_6:
@@ -23,7 +23,7 @@ vi:
         item_7:
           name: Đỏ
         item_8:
-          name: Đỏ tươi
+          name: Tía
         item_9:
           name: Trắng
         item_10:
@@ -31,33 +31,33 @@ vi:
         item_11:
           name: Xám
         item_12:
-          name: Màu xám (tối)
+          name: Xám (tối)
         item_13:
           name: Đen
       document_categories:
         item_0:
-          name: Documentation
+          name: Tài liệu
         item_1:
-          name: Đặc điểm kỹ thuật
+          name: Đặc tả
         item_2:
           name: Khác
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: Người xem truy vấn dự án
         item_1:
-          name: Project query editor
+          name: Người chỉnh sửa truy vấn dự án
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: Người chỉnh sửa gói công việc
         item_1:
-          name: Work package commenter
+          name: Người bình luận gói công việc
         item_2:
-          name: Work package viewer
+          name: Người xem gói công việc
       project_roles:
         item_0:
-          name: Không là thành viên
+          name: Không phải thành viên
         item_1:
-          name: Ẩn danh
+          name: Vô danh
         item_2:
           name: Thành viên
         item_3:
@@ -66,55 +66,392 @@ vi:
           name: Quản trị dự án
       global_roles:
         item_0:
-          name: Nhân viên và quản lý dự án
+          name: Quản lý nhân sự và dự án
     standard:
       priorities:
         item_0:
           name: Thấp
         item_1:
-          name: Bình Thường
+          name: Bình thường
         item_2:
           name: Cao
         item_3:
           name: Ngay lập tức
+      projects:
+        demo-project:
+          name: Dự án demo
+          status_explanation: Tất cả các nhiệm vụ đang đúng tiến độ. Những người liên quan đều biết nhiệm vụ của mình. Hệ thống đã được thiết lập hoàn chỉnh.
+          description: Đây là tóm tắt ngắn gọn về mục tiêu của dự án demo này.
+          news:
+            item_0:
+              title: Chào mừng bạn đến với dự án demo của bạn
+              summary: |
+                Chúng tôi rất vui vì bạn đã tham gia.
+                Trong mô-đun này, bạn có thể thông báo tin tức dự án cho các thành viên trong nhóm của bạn.
+              description: Tin tức hiện tại
+          categories:
+            item_0: Danh mục 1 (để thay đổi trong Cài đặt Dự án)
+          queries:
+            item_0:
+              name: Kế hoạch dự án
+            item_1:
+              name: Các cột mốc
+            item_2:
+              name: Nhiệm vụ
+            item_3:
+              name: Lập kế hoạch nhóm
+          boards:
+            kanban:
+              name: Bảng Kanban
+            basic:
+              name: Bảng cơ bản
+              lists:
+                item_0:
+                  name: Danh sách mong muốn
+                item_1:
+                  name: Danh sách ngắn
+                item_2:
+                  name: Danh sách ưu tiên cho hôm nay
+                item_3:
+                  name: Không bao giờ
+            parent_child:
+              name: Cấu trúc phân công công việc
+          project-overview:
+            widgets:
+              item_0:
+                options:
+                  name: Chào mừng
+              item_1:
+                options:
+                  name: Bắt đầu
+                  text: |
+                    Chúng tôi rất vui vì bạn đã tham gia! Chúng tôi khuyên bạn nên thử một vài điều để bắt đầu với OpenProject.
+
+                    Khám phá các tính năng quan trọng nhất với [Tour hướng dẫn]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+
+                    _Hãy thử các bước sau:_
+
+                    1. *Mời các thành viên mới vào dự án của bạn*: &rightarrow; Đi đến [Thành viên]({{opSetting:base_url}}/projects/demo-project/members) trong điều hướng dự án.
+                    2. *Xem công việc trong dự án của bạn*: &rightarrow; Đi đến [Nhiệm vụ]({{opSetting:base_url}}/projects/demo-project/work_packages) trong điều hướng dự án.
+                    3. *Tạo một gói công việc mới*: &rightarrow; Đi đến [Nhiệm vụ &rightarrow; Tạo]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
+                    4. *Tạo và cập nhật kế hoạch dự án*: &rightarrow; Đi đến [Kế hoạch dự án]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) trong điều hướng dự án.
+                    5. *Kích hoạt các mô-đun khác*: &rightarrow; Đi đến [Cài đặt dự án &rightarrow; Mô-đun]({{opSetting:base_url}}/projects/demo-project/settings/modules).
+                    6. *Hoàn thành các nhiệm vụ trong dự án*: &rightarrow; Đi đến [Nhiệm vụ &rightarrow; Nhiệm vụ]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+
+                    Tại đây bạn sẽ tìm thấy [Hướng dẫn người dùng](https://www.openproject.org/docs/user-guide/).
+                    Hãy cho chúng tôi biết nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ. Liên hệ với chúng tôi: [support[at]openproject.com](mailto:support@openproject.com).
+              item_5:
+                options:
+                  name: Nhiệm vụ
+              item_6:
+                options:
+                  name: Các cột mốc
+          work_packages:
+            item_0:
+              subject: Bắt đầu dự án
+            item_1:
+              subject: Tổ chức hội nghị mã nguồn mở
+              children:
+                item_0:
+                  subject: Xác định ngày và địa điểm hội nghị
+                  children:
+                    item_0:
+                      subject: Gửi lời mời tới các diễn giả
+                    item_1:
+                      subject: Liên hệ với các đối tác tài trợ
+                    item_2:
+                      subject: Tạo tài liệu quảng cáo và phát tay
+                item_1:
+                  subject: Mời người tham gia hội nghị
+                item_2:
+                  subject: Thiết lập trang web hội nghị
+            item_2:
+              subject: Hội nghị
+            item_3:
+              subject: Các nhiệm vụ theo dõi
+              children:
+                item_0:
+                  subject: Tải bài thuyết trình lên trang web
+                item_1:
+                  subject: Tiệc cho những người ủng hộ hội nghị :-)
+                  description: |-
+                    *   [ ] Bia
+                    *   [ ] Đồ ăn nhẹ
+                    *   [ ] Nhạc
+                    *   [ ] Thêm bia
+            item_4:
+              subject: Kết thúc dự án
+          wiki: |
+            _Trong wiki này, bạn có thể tạo và chỉnh sửa các trang và các trang con một cách hợp tác để tạo một wiki dự án._
+
+            **Bạn có thể:**
+
+            * Chèn văn bản và hình ảnh, cũng như sao chép và dán từ các tài liệu khác
+            * Tạo cấu trúc trang với các trang cha
+            * Bao gồm các trang wiki vào menu dự án
+            * Sử dụng macro để bao gồm, ví dụ, bảng nội dung, danh sách nhiệm vụ, hoặc biểu đồ Gantt
+            * Bao gồm các trang wiki trong các trường văn bản khác, ví dụ, trang tổng quan dự án
+            * Bao gồm liên kết đến các tài liệu khác
+            * Xem lịch sử thay đổi
+            * Xem dưới dạng Markdown
+
+            Thêm thông tin: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+        scrum-project:
+          name: Dự án Scrum
+          status_explanation: Tất cả các nhiệm vụ đang đúng tiến độ. Những người liên quan đều biết nhiệm vụ của mình. Hệ thống đã được thiết lập hoàn chỉnh.
+          description: Đây là tóm tắt ngắn gọn về mục tiêu của dự án Scrum demo này.
+          news:
+            item_0:
+              title: Chào mừng bạn đến với dự án Scrum demo của bạn
+              summary: |
+                Chúng tôi rất vui vì bạn đã tham gia.
+                Trong mô-đun này, bạn có thể thông báo tin tức dự án cho các thành viên trong nhóm của bạn.
+          versions:
+            item_0:
+              name: Danh sách lỗi
+            item_1:
+              name: Danh sách sản phẩm
+            item_2:
+              name: Sprint 1
+              wiki:
+                title: Sprint 1
+                content: |
+                  ### Cuộc họp lập kế hoạch Sprint
+
+                  _Vui lòng ghi lại các chủ đề của cuộc họp lập kế hoạch Sprint ở đây_
+
+                  * Giới hạn thời gian (8 h)
+                  * Đầu vào: Danh sách sản phẩm
+                  * Đầu ra: Danh sách Sprint
+
+                  * Chia thành hai khoảng thời gian bổ sung 4 h:
+
+                      * Chủ sở hữu sản phẩm trình bày [Danh sách sản phẩm]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và các ưu tiên cho nhóm và giải thích Mục tiêu Sprint, mà nhóm phải đồng ý. Cùng nhau, họ ưu tiên các chủ đề từ Danh sách sản phẩm mà nhóm sẽ xử lý trong Sprint tiếp theo. Nhóm cam kết thực hiện các mục tiêu đã thảo luận.
+                      * Nhóm lập kế hoạch độc lập (không có Chủ sở hữu sản phẩm) chi tiết và phân tách các nhiệm vụ từ các yêu cầu đã thảo luận để củng cố một [Danh sách Sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+
+
+                  ### Cuộc họp Scrum hàng ngày
+
+                  _Vui lòng ghi lại các chủ đề của cuộc họp Scrum hàng ngày ở đây_
+
+                  * Cuộc họp trạng thái ngắn hàng ngày của nhóm.
+                  * Giới hạn thời gian (tối đa 15 phút).
+                  * Cuộc họp đứng để thảo luận các chủ đề sau từ [Bảng nhiệm vụ](##sprint:scrum_project__version__sprint_1).
+                      * Tôi dự định làm gì cho đến cuộc họp Scrum tiếp theo?
+                      * Điều gì đã cản trở công việc của tôi (Vướng mắc)?
+                  * Scrum Master điều hành và ghi chú các [Vướng mắc Sprint](##sprint:scrum_project__version__sprint_1).
+                  * Chủ sở hữu sản phẩm có thể tham gia để được thông báo.
+
+                  ### Cuộc họp đánh giá Sprint
+
+                  _Vui lòng ghi lại các chủ đề của cuộc họp đánh giá Sprint ở đây_
+
+                  * Giới hạn thời gian (4 h).
+                  * Tối đa một giờ chuẩn bị cho mỗi người.
+                  * Nhóm trình bày cho chủ sở hữu sản phẩm và các cá nhân quan tâm những gì đã đạt được trong Sprint này.
+                  * Quan trọng: không sử dụng mô hình và PowerPoint! Chỉ nên trình bày chức năng sản phẩm hoàn thiện (Tăng cường) đã được thực hiện.
+                  * Phản hồi từ Chủ sở hữu sản phẩm, các bên liên quan và những người khác là mong muốn và sẽ được đưa vào công việc tiếp theo.
+                  * Dựa trên các chức năng đã trình bày, Chủ sở hữu sản phẩm quyết định đưa ra phiên bản này hoặc phát triển nó thêm. Khả năng này cho phép có ROI sớm.
+
+
+                  ### Cuộc họp hồi tố Sprint
+
+                  _Vui lòng ghi lại các chủ đề của cuộc họp hồi tố Sprint ở đây_
+
+                  * Giới hạn thời gian (3 h).
+                  * Sau Cuộc họp đánh giá Sprint, sẽ được điều hành bởi Scrum Master.
+                  * Nhóm thảo luận về Sprint: những gì đã diễn ra tốt, những gì cần cải thiện để trở nên hiệu quả hơn cho Sprint tiếp theo hoặc thậm chí vui vẻ hơn.
+            item_3:
+              name: Sprint 2
+          categories:
+            item_0: Danh mục 1 (để thay đổi trong Cài đặt Dự án)
+          queries:
+            item_0:
+              name: Kế hoạch dự án
+            item_1:
+              name: Danh sách sản phẩm
+            item_2:
+              name: Sprint 1
+            item_3:
+              name: Nhiệm vụ
+          boards:
+            kanban:
+              name: Bảng Kanban
+            basic:
+              name: Bảng nhiệm vụ
+              lists:
+                item_0:
+                  name: Danh sách mong muốn
+                item_1:
+                  name: Danh sách ngắn
+                item_2:
+                  name: Danh sách ưu tiên cho hôm nay
+                item_3:
+                  name: Không bao giờ
+          project-overview:
+            widgets:
+              item_0:
+                options:
+                  name: Chào mừng
+              item_1:
+                options:
+                  name: Bắt đầu
+                  text: |
+                    Chúng tôi rất vui vì bạn đã tham gia! Chúng tôi khuyên bạn nên thử một vài điều để bắt đầu với OpenProject.
+
+                    _Hãy thử các bước sau:_
+
+                    1. *Mời các thành viên mới vào dự án của bạn*: &rightarrow; Đi đến [Thành viên]({{opSetting:base_url}}/projects/your-scrum-project/members) trong điều hướng dự án.
+                    2. *Xem Danh sách sản phẩm và Danh sách Sprint của bạn*: &rightarrow; Đi đến [Danh sách]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) trong điều hướng dự án.
+                    3. *Xem Bảng nhiệm vụ của bạn*: &rightarrow; Đi đến [Danh sách]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Nhấp vào mũi tên phải trên Sprint &rightarrow; Chọn [Bảng nhiệm vụ](##sprint:scrum_project__version__sprint_1).
+                    4. *Tạo một gói công việc mới*: &rightarrow; Đi đến [Nhiệm vụ &rightarrow; Tạo]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Tạo và cập nhật kế hoạch dự án*: &rightarrow; Đi đến [Kế hoạch dự án](##query:scrum_project__query__project_plan) trong điều hướng dự án.
+                    6. *Tạo wiki Sprint*: &rightarrow; Đi đến [Danh sách]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và mở wiki sprint từ menu thả xuống bên phải trong một sprint. Bạn có thể chỉnh sửa [mẫu wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) theo nhu cầu của bạn.
+                    7. *Kích hoạt các mô-đun khác*: &rightarrow; Đi đến [Cài đặt dự án &rightarrow; Mô-đun]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+
+                    Tại đây bạn sẽ tìm thấy [Hướng dẫn người dùng](https://www.openproject.org/docs/user-guide/).
+                    Hãy cho chúng tôi biết nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ. Liên hệ với chúng tôi: [support[at]openproject.com](mailto:support@openproject.com).
+              item_5:
+                options:
+                  name: Nhiệm vụ
+              item_6:
+                options:
+                  name: Kế hoạch dự án
+          work_packages:
+            item_0:
+              subject: Màn hình đăng nhập mới
+            item_1:
+              subject: Đặt lại mật khẩu không gửi email
+            item_2:
+              subject: Trang web mới
+              children:
+                item_0:
+                  subject: Biểu mẫu đăng ký bản tin
+                item_1:
+                  subject: Triển khai tour sản phẩm
+                item_2:
+                  subject: Trang đích mới
+                  children:
+                    item_0:
+                      subject: Tạo wireframes cho trang đích mới
+            item_3:
+              subject: Biểu mẫu liên hệ
+            item_4:
+              subject: Carousel tính năng
+              children:
+                item_0:
+                  subject: Tạo ảnh chụp màn hình cho tour tính năng
+            item_5:
+              subject: Màu hover sai
+            item_6:
+              subject: Chứng chỉ SSL
+            item_7:
+              subject: Thiết lập môi trường Staging
+            item_8:
+              subject: Chọn hệ thống quản lý nội dung
+            item_9:
+              subject: Cấu trúc điều hướng trang web
+              children:
+                item_0:
+                  subject: Thiết lập khái niệm điều hướng cho trang web.
+            item_10:
+              subject: Cấu trúc liên kết nội bộ
+            item_11:
+              subject: Phát triển v1.0
+            item_12:
+              subject: Phát hành v1.0
+            item_13:
+              subject: Phát triển v1.1
+            item_14:
+              subject: Phát hành v1.1
+            item_15:
+              subject: Phát triển v2.0
+            item_16:
+              subject: Phát hành v2.0
+          wiki: |
+            ### Cuộc họp lập kế hoạch Sprint
+
+            _Vui lòng ghi lại các chủ đề của cuộc họp lập kế hoạch Sprint ở đây_
+
+            * Giới hạn thời gian (8 h)
+            * Đầu vào: Danh sách sản phẩm
+            * Đầu ra: Danh sách Sprint
+
+            * Chia thành hai khoảng thời gian bổ sung 4 h:
+
+                * Chủ sở hữu sản phẩm trình bày [Danh sách sản phẩm]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và các ưu tiên cho nhóm và giải thích Mục tiêu Sprint, mà nhóm phải đồng ý. Cùng nhau, họ ưu tiên các chủ đề từ Danh sách sản phẩm mà nhóm sẽ xử lý trong Sprint tiếp theo. Nhóm cam kết thực hiện các mục tiêu đã thảo luận.
+                * Nhóm lập kế hoạch độc lập (không có Chủ sở hữu sản phẩm) chi tiết và phân tách các nhiệm vụ từ các yêu cầu đã thảo luận để củng cố một [Danh sách Sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+
+
+            ### Cuộc họp Scrum hàng ngày
+
+            _Vui lòng ghi lại các chủ đề của cuộc họp Scrum hàng ngày ở đây_
+
+            * Cuộc họp trạng thái ngắn hàng ngày của nhóm.
+            * Giới hạn thời gian (tối đa 15 phút).
+            * Cuộc họp đứng để thảo luận các chủ đề sau từ Bảng nhiệm vụ.
+                * Tôi dự định làm gì cho đến cuộc họp Scrum tiếp theo?
+                * Điều gì đã cản trở công việc của tôi (Vướng mắc)?
+            * Scrum Master điều hành và ghi chú các Vướng mắc Sprint.
+            * Chủ sở hữu sản phẩm có thể tham gia để được thông báo.
+
+            ### Cuộc họp đánh giá Sprint
+
+            _Vui lòng ghi lại các chủ đề của cuộc họp đánh giá Sprint ở đây_
+
+            * Giới hạn thời gian (4 h).
+            * Tối đa một giờ chuẩn bị cho mỗi người.
+            * Nhóm trình bày cho chủ sở hữu sản phẩm và các cá nhân quan tâm những gì đã đạt được trong Sprint này.
+            * Quan trọng: không sử dụng mô hình và PowerPoint! Chỉ nên trình bày chức năng sản phẩm hoàn thiện (Tăng cường) đã được thực hiện.
+            * Phản hồi từ Chủ sở hữu sản phẩm, các bên liên quan và những người khác là mong muốn và sẽ được đưa vào công việc tiếp theo.
+            * Dựa trên các chức năng đã trình bày, Chủ sở hữu sản phẩm quyết định đưa ra phiên bản này hoặc phát triển nó thêm. Khả năng này cho phép có ROI sớm.
+
+
+            ### Cuộc họp hồi tố Sprint
+
+            _Vui lòng ghi lại các chủ đề của cuộc họp hồi tố Sprint ở đây_
+
+            * Giới hạn thời gian (3 h).
+            * Sau Cuộc họp đánh giá Sprint, sẽ được điều hành bởi Scrum Master.
+            * Nhóm thảo luận về Sprint: những gì đã diễn ra tốt, những gì cần cải thiện để trở nên hiệu quả hơn cho Sprint tiếp theo hoặc thậm chí vui vẻ hơn.
       statuses:
         item_0:
           name: Mới
         item_1:
-          name: Trong quá trình đặc tả
+          name: Đang chỉ định
         item_2:
-          name: được chỉ định
+          name: Đã chỉ định
         item_3:
           name: Đã xác nhận
         item_4:
-          name: Sẽ được xếp lịch
+          name: Cần lên lịch
         item_5:
-          name: Đã xếp lịch
+          name: Đã lên lịch
         item_6:
-          name: Đang xử lý
+          name: Đang tiến hành
         item_7:
           name: Đã phát triển
         item_8:
-          name: Trong quá trình thử nghiệm
+          name: Đang kiểm thử
         item_9:
-          name: Đã kiểm tra
+          name: Đã kiểm thử
         item_10:
-          name: Kiểm tra thất bại
+          name: Kiểm thử thất bại
         item_11:
           name: Đã đóng
         item_12:
-          name: Đang chờ
+          name: Tạm dừng
         item_13:
-          name: Đã từ chối
+          name: Bị từ chối
       time_entry_activities:
         item_0:
           name: Quản lý
         item_1:
-          name: Đặc điểm kỹ thuật
+          name: Chỉ định
         item_2:
           name: Phát triển
         item_3:
-          name: Thử nghiệm
+          name: Kiểm thử
         item_4:
           name: Hỗ trợ
         item_5:
@@ -123,369 +460,32 @@ vi:
         item_0:
           name: Nhiệm vụ
         item_1:
-          name: Milestone
+          name: Cột mốc
         item_2:
           name: Giai đoạn
         item_3:
           name: Tính năng
         item_4:
-          name: Sử thi
+          name: Epic
         item_5:
-          name: User story
+          name: Câu chuyện người dùng
         item_6:
           name: Lỗi
       welcome:
-        title: Welcome to OpenProject!
+        title: Chào mừng đến với OpenProject!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject là phần mềm quản lý dự án mã nguồn mở hàng đầu. Nó hỗ trợ quản lý dự án theo cách truyền thống, Agile cũng như kết hợp và cung cấp cho bạn toàn quyền kiểm soát dữ liệu của mình.
 
-          Core features and use cases:
+          Các tính năng và trường hợp sử dụng chính:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Quản lý danh mục dự án](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Lập kế hoạch và lên lịch dự án](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Quản lý nhiệm vụ và theo dõi sự cố](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Bảng Agile (Scrum và Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Quản lý yêu cầu và lập kế hoạch phát hành](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Theo dõi thời gian và chi phí, Ngân sách](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Hợp tác nhóm và Tài liệu](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          Chào mừng bạn đến với tương lai của quản lý dự án.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
-      projects:
-        demo-project:
-          name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
-          news:
-            item_0:
-              title: Welcome to your demo project
-              summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
-          categories:
-            item_0: Category 1 (to be changed in Project settings)
-          queries:
-            item_0:
-              name: Project plan
-            item_1:
-              name: Milestones
-            item_2:
-              name: Tasks
-            item_3:
-              name: Team planner
-          boards:
-            kanban:
-              name: Kanban board
-            basic:
-              name: Bảng cơ bản
-              lists:
-                item_0:
-                  name: Wish list
-                item_1:
-                  name: Short list
-                item_2:
-                  name: Priority list for today
-                item_3:
-                  name: Không bao giờ
-            parent_child:
-              name: Work breakdown structure
-          project-overview:
-            widgets:
-              item_0:
-                options:
-                  name: Welcome
-              item_1:
-                options:
-                  name: Bắt đầu
-                  text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
-
-                    _Try the following steps:_
-
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
-
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-              item_5:
-                options:
-                  name: Work Packages
-              item_6:
-                options:
-                  name: Milestones
-          work_packages:
-            item_0:
-              subject: Start of project
-            item_1:
-              subject: Organize open source conference
-              children:
-                item_0:
-                  subject: Set date and location of conference
-                  children:
-                    item_0:
-                      subject: Send invitation to speakers
-                    item_1:
-                      subject: Contact sponsoring partners
-                    item_2:
-                      subject: Create sponsorship brochure and hand-outs
-                item_1:
-                  subject: Invite attendees to conference
-                item_2:
-                  subject: Setup conference website
-            item_2:
-              subject: Conference
-            item_3:
-              subject: Follow-up tasks
-              children:
-                item_0:
-                  subject: Upload presentations to website
-                item_1:
-                  subject: Party for conference supporters :-)
-                  description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
-            item_4:
-              subject: End of project
-          wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
-
-            **You can:**
-
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
-
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
-        scrum-project:
-          name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
-          news:
-            item_0:
-              title: Welcome to your Scrum demo project
-              summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-          versions:
-            item_0:
-              name: Bug Backlog
-            item_1:
-              name: Product Backlog
-            item_2:
-              name: Sprint 1
-              wiki:
-                title: Sprint 1
-                content: |
-                  ### Sprint planning meeting
-
-                  _Please document here topics to the Sprint planning meeting_
-
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
-
-                  * Divided into two additional time boxes of 4 h:
-
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daily Scrum meeting
-
-                  _Please document here topics to the Daily Scrum meeting_
-
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
-
-                  ### Sprint Review meeting
-
-                  _Please document here topics to the Sprint Review meeting_
-
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
-
-
-                  ### Sprint Retrospective
-
-                  _Please document here topics to the Sprint Retrospective meeting_
-
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
-            item_3:
-              name: Sprint 2
-          categories:
-            item_0: Category 1 (to be changed in Project settings)
-          queries:
-            item_0:
-              name: Project plan
-            item_1:
-              name: Product backlog
-            item_2:
-              name: Sprint 1
-            item_3:
-              name: Tasks
-          boards:
-            kanban:
-              name: Kanban board
-            basic:
-              name: Bảng nhiệm vụ
-              lists:
-                item_0:
-                  name: Wish list
-                item_1:
-                  name: Short list
-                item_2:
-                  name: Priority list for today
-                item_3:
-                  name: Không bao giờ
-          project-overview:
-            widgets:
-              item_0:
-                options:
-                  name: Welcome
-              item_1:
-                options:
-                  name: Bắt đầu
-                  text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    _Try the following steps:_
-
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
-
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-              item_5:
-                options:
-                  name: Work Packages
-              item_6:
-                options:
-                  name: Project plan
-          work_packages:
-            item_0:
-              subject: New login screen
-            item_1:
-              subject: Password reset does not send email
-            item_2:
-              subject: New website
-              children:
-                item_0:
-                  subject: Newsletter registration form
-                item_1:
-                  subject: Implement product tour
-                item_2:
-                  subject: New landing page
-                  children:
-                    item_0:
-                      subject: Create wireframes for new landing page
-            item_3:
-              subject: Contact form
-            item_4:
-              subject: Feature carousel
-              children:
-                item_0:
-                  subject: Make screenshots for feature tour
-            item_5:
-              subject: Wrong hover color
-            item_6:
-              subject: SSL certificate
-            item_7:
-              subject: Set-up Staging environment
-            item_8:
-              subject: Choose a content management system
-            item_9:
-              subject: Website navigation structure
-              children:
-                item_0:
-                  subject: Set up navigation concept for website.
-            item_10:
-              subject: Internal link structure
-            item_11:
-              subject: Develop v1.0
-            item_12:
-              subject: Release v1.0
-            item_13:
-              subject: Develop v1.1
-            item_14:
-              subject: Release v1.1
-            item_15:
-              subject: Develop v2.0
-            item_16:
-              subject: Release v2.0
-          wiki: |
-            ### Sprint planning meeting
-
-            _Please document here topics to the Sprint planning meeting_
-
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
-
-            * Divided into two additional time boxes of 4 h:
-
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
-
-
-            ### Sprint Retrospective
-
-            _Please document here topics to the Sprint Retrospective meeting_
-
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+          Đối với quản trị viên: Bạn có thể thay đổi văn bản chào mừng này [tại đây]({{opSetting:base_url}}/admin/settings/general).

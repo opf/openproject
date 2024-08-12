@@ -1,9 +1,9 @@
-import {
-  AfterViewInit, Component, ElementRef, OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
+import {
+  ExternalRelationQueryConfigurationService
+} from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { DragulaService, DrakeWithModels } from 'ng2-dragula';
 import { GonService } from 'core-app/core/gon/gon.service';
@@ -141,7 +141,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     const that = this;
     this.autoscroll = new DomAutoscrollService(
       [
-        document.getElementById('content-wrapper')!,
+        document.getElementById('content-body')!,
       ],
       {
         margin: 25,

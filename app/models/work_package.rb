@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -203,6 +203,14 @@ class WorkPackage < ApplicationRecord
 
   include WorkPackage::Journalized
   prepend Journable::Timestamps
+
+  def self.status_based_mode?
+    Setting.work_package_done_ratio == "status"
+  end
+
+  def self.work_based_mode?
+    Setting.work_package_done_ratio == "field"
+  end
 
   def self.use_status_for_done_ratio?
     Setting.work_package_done_ratio == "status"

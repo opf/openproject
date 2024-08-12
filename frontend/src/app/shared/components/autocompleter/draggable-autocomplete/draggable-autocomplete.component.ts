@@ -117,7 +117,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     const that = this;
     this.autoscroll = new DomAutoscrollService(
       [
-        document.getElementById('content-wrapper')!,
+        document.getElementById('content-body')!,
       ],
       {
         margin: 25,

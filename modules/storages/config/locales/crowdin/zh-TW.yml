@@ -12,6 +12,7 @@ zh-TW:
         tenant: Directory (tenant) ID
     errors:
       messages:
+        invalid_host_url: 不是有效的 URL。
         not_linked_to_project: 未鏈結至專案。
       models:
         storages/file_link:
@@ -20,10 +21,12 @@ zh-TW:
               only_numeric_or_uuid: 只能是數字或 uuid。
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: 不可用於此儲存空間。
             project_ids:
-              blank: Please select a project.
+              blank: 請選擇一個專案
         storages/storage:
           attributes:
             host:
@@ -42,29 +45,112 @@ zh-TW:
     errors:
       too_many_elements_created_at_once: 一次創建的元素過多。最多應為 %{max} 個，實際為 %{actual} 個。
   external_file_storages: 外部存儲空間
-  permission_create_files: 'Automatically managed project folders: Create files'
-  permission_create_files_explanation: This permission is only available for Nextcloud storages
-  permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_create_files: '自動管理專案資料夾 : 建立檔案'
+  permission_create_files_explanation: 此權限僅適用於 Nextcloud 儲存裝置
+  permission_delete_files: '自動管理專案資料夾 : 刪除檔案'
+  permission_delete_files_explanation: 此權限僅適用於 Nextcloud 儲存裝置
   permission_header_for_project_module_storages: 自動管理的專案文件夾
   permission_manage_file_links: 管理文件鏈接
   permission_manage_files_in_project: Manage files in project
-  permission_read_files: 'Automatically managed project folders: Read files'
-  permission_share_files: 'Automatically managed project folders: Share files'
-  permission_share_files_explanation: This permission is only available for Nextcloud storages
+  permission_read_files: '自動管理專案資料夾 : 讀取檔案'
+  permission_share_files: '自動管理專案資料夾 : 共享檔案'
+  permission_share_files_explanation:
   permission_view_file_links: 查看文件鏈接
-  permission_write_files: 'Automatically managed project folders: Write files'
+  permission_write_files: '自動管理專案資料夾 : 寫入檔案'
   project_module_storages: 檔案
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Automatically managed
-      inactive: No specific folder
+      inactive: 未指定文件夾
       manual: Existing folder manually managed
+    remove_project:
+      dialog:
+        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
+        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
+        heading: Remove project from %{storage_type}
+        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
+      label: Remove project
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: 'Add User to Group:'
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        remove_user_from_group: 'Remove User from Group:'
+        rename_project_folder: 'Rename managed project Folder:'
+      one_drive_sync_service:
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        rename_project_folder: 'Rename managed project Folder:'
+    errors:
+      models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            ensure_root_folder_permissions:
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Group Folder setup."
+              permission_not_set: could not set permissions on %{group_folder}.
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              not_allowed: The %{username} doesn't have access to the %{group_folder}. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud setup."
+            remove_user_from_group:
+              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+            rename_project_folder:
+              forbidden: OpenProject user does not have access to %{current_path} folder.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          group_does_not_exist: "%{group} does not exit. Check your Nextcloud instance configuration."
+          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
+          not_allowed: Nextcloud block the request.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+            rename_project_folder:
+              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
+              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
+          unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
   storages:
     buttons:
       complete_without_setup: 排除它完成
       done_complete_setup: 完成。完成設置
       done_continue: 完成，繼續
+      open_storage: Open file storage
       replace_oauth_application: 替換 OpenProject OAuth
       replace_oauth_client: 替換 %{provider_type} OAuth
       save_and_continue: 儲存並繼續
@@ -87,6 +173,13 @@ zh-TW:
       storage_delete_result_1: 刪除使用此儲存的所有項目的所有儲存設定。
       storage_delete_result_2: 刪除從此項目的工作包到該儲存的檔案和資料夾的所有連結。
       storage_delete_result_3: 如果此儲存空間具有自動管理的專案資料夾，則該資料夾及其檔案將永久刪除。
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
+      setup_incomplete_header: Storage setup incomplete
     error_invalid_provider_type: 請選擇有效的儲存空間提供者。
     file_storage_view:
       access_management:
@@ -111,9 +204,13 @@ zh-TW:
       checked: 上次檢查時間：%{datetime}
       connection_validation:
         action: Recheck connection
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
         client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
         client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
         drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
         not_configured: The connection could not be validated. Please finish configuration first.
         placeholder: Check your connection against the server.
         subtitle: Connection validation
@@ -123,9 +220,9 @@ zh-TW:
       label_error: 錯誤
       label_healthy: 健康的
       label_pending: 待處理
-      label_warning: Warning
+      label_warning: 警告
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: 自動管理的專案文件夾
       since: 自從%{datetime}開始
       title: 健康狀態
     health_email_notifications:
@@ -161,11 +258,11 @@ zh-TW:
         application_link_text: Azure portal
         copy_redirect_uri: 複製重新導向 URI
         documentation_link_text: OneDrive/SharePoint 文件
-        drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
+        drive_id: 請依照 %{drive_id_link_text}. 步驟從所需磁碟機複製 ID
         integration: OneDrive/SharePoint
         missing_client_id_for_redirect_uri: 請填寫 OAuth 值以產生 URI
         oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
-        oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
+        oauth_client_secret: 如果客戶憑證下沒有應用程式客戶端金鑰，請建立一個新金鑰。
         oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
         provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
         tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
@@ -215,7 +312,7 @@ zh-TW:
       connected_no_permissions: User role has no storages permissions
       not_connected: Not connected. The user should login to the storage via the following %{link}.
     members_no_results: No members to display.
-    no_results: No storages set up yet.
+    no_results: 尚未設定檔案儲存區
     notice_successful_storage_connection: |-
       Storage connected successfully! Remember to activate the module and the specific storage in the project settings
       of each desired project to use it.
@@ -268,8 +365,8 @@ zh-TW:
         name: OneDrive/SharePoint
         name_placeholder: 例如 OneDrive
     show_attachments_toggle:
-      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
-      label: Show attachments in the work packages files tab
+      description: '停用此選項將隱藏工作項目的文件清單。工作項目附加的文件仍將上傳到內部儲存起來。'
+      label: 顯示與工作項目相關之附件
     storage_list_blank_slate:
       description: 新增的儲存空間將在此顯示
       heading: 目前沒有任何儲存空間
