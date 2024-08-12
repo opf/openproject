@@ -45,7 +45,11 @@ module RemoteIdentities
 
     def call
       @model.origin_user_id = @oauth_config.extract_origin_user_id(@oauth_token)
-      @result.success = false unless @model.save
+      if @model.save
+        emit_event(@oauth_config.oauth_client.integration)
+      else
+        @result.success = false
+      end
 
       @result
     end
