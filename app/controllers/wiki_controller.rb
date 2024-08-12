@@ -261,13 +261,10 @@ class WikiController < ApplicationController
 
   def diff
     if (@diff = @page.diff(params[:version_to], params[:version_from]))
-      @html_diff = HTMLDiff::DiffBuilder.new(
-        helpers.format_text(@diff.content_from.data.text, disable_macro_expansion: true),
-        helpers.format_text(@diff.content_to.data.text, disable_macro_expansion: true)
-      ).build
-       .gsub(/<ins class="diff(ins|mod)">\n\r?<\/ins>/, '')
-       .gsub(/<del class="diff(del|mod)">\n\r?<\/del>/, '')
-       .gsub(/^<figure class="op-uc-figure">(<figure class="table op-uc-figure_align-center op-uc-figure">)/, '\1')
+      @html_diff = OpenProject::HtmlDiff.from_markdown(
+        @diff.content_from.data.text,
+        @diff.content_to.data.text
+      )
     else
       render_404
     end
