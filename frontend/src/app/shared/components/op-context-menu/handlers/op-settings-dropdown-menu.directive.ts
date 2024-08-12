@@ -46,13 +46,11 @@ import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals
 import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import {
-  WorkPackageViewColumnsService
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import * as URI from 'urijs';
-import { TurboRequestsService } from "core-app/core/turbo/turbo-requests.service";
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
 @Directive({
   selector: '[opSettingsContextMenu]',

@@ -16,18 +16,18 @@ export default class FormController extends Controller<HTMLFormElement> {
         // TODO: implement with turbo and open job modal
         window.location.href = `/job_statuses/${result.job_id}`;
       })
-      .catch(error => {
+      .catch((error) => {
         // TODO: error handling
-        alert(error.message);
+        console.error(error);
       });
   }
 
-  private createSearchParams(params:Object) {
+  private createSearchParams(params:object) {
     const searchParams = new URLSearchParams();
     Object.entries(params).forEach(([key, values]) => {
       if (Array.isArray(values)) {
-        values.forEach((value) => {
-          searchParams.append(key + '[]', value);
+        values.forEach((value:string) => {
+          searchParams.append(`${key}[]`, value);
         });
       } else {
         searchParams.append(key, values);
@@ -37,15 +37,15 @@ export default class FormController extends Controller<HTMLFormElement> {
   }
 
   private getExportParams() {
-    const data = new FormData(this.element)
-    const query = JSON.parse(data.get('query') as string)
-    for (let [key, value] of (data as any)) {
+    const data:FormData = new FormData(this.element);
+    const query = JSON.parse(data.get('query') as string);
+    // annoyingly TS does not include "dom.iterable" with "dom" in tsjonfig.
+    (data as any).entries().forEach(([key, value]:[string, string]) => {
       // Skip hidden fields
-      if (['query', 'utf8', 'authenticity_token'].includes(key)) {
-        continue
+      if (!['query', 'utf8', 'authenticity_token'].includes(key)) {
+        query[key] = (key === 'columns') ? value.split(' ') : value;
       }
-      query[key] = (key === 'columns') ? value.split(' ') : value
-    }
+    });
     return this.createSearchParams(query);
   }
 }
