@@ -139,9 +139,7 @@ module ColorsHelper
   end
 
   def default_variables_light
-    "--lightness-threshold: 0.453;
-     --border-threshold: 0.75;
-     --border-alpha: max(0, min(calc((var(--perceived-lightness) - var(--border-threshold)) * 100), 1));"
+    "--lightness-threshold: 0.453;"
   end
 
   def highlighted_background_dark
@@ -158,7 +156,7 @@ module ColorsHelper
     if mode == "light_high_contrast"
       style += "border: 1px solid hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 75) * 1%), 1) !important;"
     else
-      style += "border: 1px solid hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 25) * 1%), var(--border-alpha)) !important;"
+      style += "border: 1px solid hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 15) * 1%)) !important;"
     end
 
     style
