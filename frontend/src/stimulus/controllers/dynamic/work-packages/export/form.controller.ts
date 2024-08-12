@@ -3,8 +3,8 @@ import { Controller } from '@hotwired/stimulus';
 export default class FormController extends Controller<HTMLFormElement> {
   submitForm(evt:CustomEvent) {
     evt.preventDefault(); // Don't submit
-    const formatURL = this.element.getAttribute('action')
-    const searchParams = this.getExportParams()
+    const formatURL = this.element.getAttribute('action');
+    const searchParams = this.getExportParams();
     const exportURL = `${formatURL}?${searchParams.toString()}`;
     fetch(exportURL, {
       method: 'GET',
@@ -30,7 +30,7 @@ export default class FormController extends Controller<HTMLFormElement> {
           searchParams.append(`${key}[]`, value);
         });
       } else {
-        searchParams.append(key, values);
+        searchParams.append(key, values as string);
       }
     });
     return searchParams;
@@ -39,7 +39,8 @@ export default class FormController extends Controller<HTMLFormElement> {
   private getExportParams() {
     const data:FormData = new FormData(this.element);
     const query = JSON.parse(data.get('query') as string);
-    // annoyingly TS does not include "dom.iterable" with "dom" in tsjonfig.
+    // "dom.iterable" nor "dom" is defined in tsjonfig.
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access no-explicit-any
     (data as any).entries().forEach(([key, value]:[string, string]) => {
       // Skip hidden fields
       if (!['query', 'utf8', 'authenticity_token'].includes(key)) {
