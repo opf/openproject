@@ -93,7 +93,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       Query.new_default.tap do |query|
         query.show_hierarchies = false
         query.group_by = "type"
-        query.sort_criteria = [["id", "asc"]]
+        query.sort_criteria = [["subject", "asc"]]
         query.column_names = %i(type subject)
       end
     end
