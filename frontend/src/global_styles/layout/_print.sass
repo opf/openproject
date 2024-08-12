@@ -63,6 +63,10 @@
   h3
     font-size: 1.17em
 
-  .-browser-firefox *
-    // Needed for Firefox only. Otherwise, background-colors (e.g. of buttons) are not correctly printed
-    print-color-adjust: exact
+  .-browser-firefox
+    #content-wrapper
+      // Needed to prevent an empty first page when printing in Firefox
+      display: inline-block
+    *
+      // Needed for Firefox only. Otherwise, background-colors (e.g. of buttons) are not correctly printed
+      print-color-adjust: exact
