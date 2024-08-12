@@ -29,28 +29,40 @@
 import { Directive, ElementRef, Injector, Input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import {
+  OpContextMenuTrigger,
+} from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {
+  WpTableConfigurationModalComponent,
+} from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import {
   selectableTitleIdentifier,
   triggerEditingEvent,
 } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
 import { QuerySharingModalComponent } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
-import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals/get-ical-url-modal/query-get-ical-url.modal';
+import {
+  QueryGetIcalUrlModalComponent,
+} from 'core-app/shared/components/modals/get-ical-url-modal/query-get-ical-url.modal';
 import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import {
+  WorkPackageViewColumnsService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
-import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import {
+  QueryRequestParams,
+  UrlParamsHelperService,
+} from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import * as URI from 'urijs';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 @Directive({
   selector: '[opSettingsContextMenu]',
@@ -167,23 +179,15 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     return false;
   }
 
-  private addColumnsAndTitleToHref(href:string) {
-    const columns = this.wpTableColumns.getColumns();
-
-    const columnIds = columns.map((column) => column.id);
-
-    const url = URI(href);
-    // Remove current columns
-    url.removeSearch('columns[]');
-    url.addSearch('columns[]', columnIds);
-
-    // Add the query title for the export
-    const query = this.querySpace.query.value;
-    if (query) {
-      url.removeSearch('title');
-      url.addSearch('title', this.queryTitle(query));
-    }
-
+  private buildExportDialogHref(query:QueryResource):string {
+    let params:Partial<QueryRequestParams>&{ title:string } =
+      this.urlParamsHelper.buildV3GetQueryFromQueryResource(query) as Partial<QueryRequestParams>&{ title:string };
+    params['columns[]'] = this.wpTableColumns.getColumns().map((column) => column.id);
+    params['title'] = this.queryTitle(query);
+    const queryString = this.urlParamsHelper.buildQueryString(params) || '';
+    const url = new URL(window.location.href);
+    url.pathname = `${url.pathname}/export_dialog`;
+    url.search = queryString;
     return url.toString();
   }
 
@@ -333,11 +337,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowWorkPackageAction($event, 'representations')) {
             // old angular export form: this.opModalService.show(WpTableExportModalComponent, this.injector);
-            // TODO: better way to get the export URL
-            const url = new URL(window.location.href);
-            url.pathname = `${url.pathname}/export_dialog`;
-            const href = this.addColumnsAndTitleToHref(url.toString());
-            void this.turboRequests.requestStream(href);
+            const query = this.querySpace.query.value;
+            if (query) {
+              const href = this.buildExportDialogHref(query);
+              void this.turboRequests.requestStream(href);
+            }
           }
           return true;
         },

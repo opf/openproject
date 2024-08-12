@@ -57,7 +57,8 @@
     <hr/>
     <%= render(Primer::Alpha::CheckBox.new(name: 'show_images',
                                            checked: true,
-                                           value: true,
+                                           value: "true",
+                                           unchecked_value: "false",
                                            label: I18n.t("export.dialog.pdf.include_images.label"),
                                            caption: I18n.t("export.dialog.pdf.include_images.caption"),
                                            disabled: current_pdf_export_type != "report",

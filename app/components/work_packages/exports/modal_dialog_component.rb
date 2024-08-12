@@ -43,7 +43,7 @@ module WorkPackages
 
         @query = query
         @project = project
-        @query_params = ::API::V3::Queries::QueryParamsRepresenter.new(query).to_h.to_json
+        @query_params = ::API::V3::Queries::QueryParamsRepresenter.new(query).to_url_query(merge_params: { columns: [] })
       end
 
       def export_format_url(format)

@@ -101,39 +101,27 @@ RSpec.describe "work package export" do
 
     # these values must be looped through the dialog into the export
 
-    context "with hierarchies" do
-      let(:expected_params) { { showHierarchies: "true" } }
+    context "options activated" do
+      let(:query) { create(:query, user: current_user, project:,
+                           display_sums: true,
+                           include_subprojects: true,
+                           show_hierarchies: true) }
+      let(:expected_params) { {
+        showSums: "true",
+        includeSubprojects: "true",
+        showHierarchies: "true",
+      } }
 
-      it "starts an export with hierarchies" do
-        query.show_hierarchies = true
-        query.save!
-        export!
-      end
-    end
-
-    context "with sums" do
-      let(:expected_params) { { showSums: "true" } }
-
-      it "starts an export with sums" do
-        query.display_sums = true
+      it "starts an export with looped through values" do
         export!
       end
     end
 
     context "with grouping" do
-      let(:expected_params) { { group_by: "project" } }
+      let(:query) { create(:query, user: current_user, project:, group_by: "project") }
+      let(:expected_params) { { groupBy: "project" } }
 
       it "starts an export grouped" do
-        query.group_by = "project"
-        export!
-      end
-    end
-
-    context "with subprojects" do
-      let(:expected_params) { { includeSubprojects: "true" } }
-
-      it "starts an export with subprojects" do
-        query.include_subprojects = true
         export!
       end
     end
@@ -162,8 +150,18 @@ RSpec.describe "work package export" do
       open_export_dialog!
     end
 
-    it "exports a xls" do
-      export!
+    context "with relations" do
+      it "exports a xls" do
+        check I18n.t("export.dialog.xls.show_relations.label")
+        export!
+      end
+    end
+
+    context "without relations" do
+      it "exports a xls" do
+        uncheck I18n.t("export.dialog.xls.show_relations.label")
+        export!
+      end
     end
   end
 

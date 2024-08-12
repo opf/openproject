@@ -22,32 +22,24 @@ export default class FormController extends Controller<HTMLFormElement> {
       });
   }
 
-  private createSearchParams(params:object) {
-    const searchParams = new URLSearchParams();
-    Object.entries(params).forEach(([key, values]) => {
-      if (Array.isArray(values)) {
-        values.forEach((value:string) => {
-          searchParams.append(`${key}[]`, value);
-        });
-      } else {
-        searchParams.append(key, values as string);
-      }
-    });
-    return searchParams;
-  }
-
   private getExportParams() {
     const formData = new FormData(this.element);
-    const query = JSON.parse(formData.get('query') as string) as Record<string, unknown>;
+    const query = new URLSearchParams(formData.get('query') as string);
     // without the cast to undefined, the URLSearchParams constructor will
     // not accept the FormData object.
     const formParams = new URLSearchParams(formData as unknown as undefined);
     formParams.forEach((value, key) => {
-      // Skip hidden fields
-      if (!['query', 'utf8', 'authenticity_token'].includes(key)) {
-        query[key] = (key === 'columns') ? value.split(' ') : value;
+      if (key === 'columns') {
+        query.delete('columns[]');
+        value.split(' ').forEach((v) => {
+          query.append('columns[]', v)
+        });
+        // Skip hidden fields
+      } else if (!['query', 'utf8', 'authenticity_token'].includes(key)) {
+        query.delete(key);
+        query.append(key, value);
       }
     });
-    return this.createSearchParams(query);
+    return query.toString();
   }
 }
