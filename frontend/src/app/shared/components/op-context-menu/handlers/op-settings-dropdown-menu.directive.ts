@@ -60,9 +60,7 @@ import {
   QueryRequestParams,
   UrlParamsHelperService,
 } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import * as URI from 'urijs';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 @Directive({
   selector: '[opSettingsContextMenu]',
