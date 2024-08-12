@@ -101,16 +101,22 @@ RSpec.describe "work package export" do
 
     # these values must be looped through the dialog into the export
 
-    context "options activated" do
-      let(:query) { create(:query, user: current_user, project:,
-                           display_sums: true,
-                           include_subprojects: true,
-                           show_hierarchies: true) }
-      let(:expected_params) { {
-        showSums: "true",
-        includeSubprojects: "true",
-        showHierarchies: "true",
-      } }
+    context "with activated options" do
+      let(:query) do
+        create(
+          :query, user: current_user, project:,
+                  display_sums: true,
+                  include_subprojects: true,
+                  show_hierarchies: true
+        )
+      end
+      let(:expected_params) do
+        {
+          showSums: "true",
+          includeSubprojects: "true",
+          showHierarchies: "true"
+        }
+      end
 
       it "starts an export with looped through values" do
         export!
@@ -172,7 +178,7 @@ RSpec.describe "work package export" do
       open_export_dialog!
     end
 
-    context "table" do
+    context "as table" do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
       let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.table.label") }
       let(:expected_params) { default_params.merge({ pdf_export_type: "table" }) }
@@ -183,7 +189,7 @@ RSpec.describe "work package export" do
       end
     end
 
-    context "report" do
+    context "as report" do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
       let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.report.label") }
 
@@ -213,7 +219,7 @@ RSpec.describe "work package export" do
       end
     end
 
-    context "gantt" do
+    context "as gantt" do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
       let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.gantt.label") }
 
