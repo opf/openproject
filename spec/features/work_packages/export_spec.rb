@@ -190,7 +190,7 @@ RSpec.describe "work package export" do
       let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.report.label") }
 
       context "with image" do
-        let(:expected_params) { default_params.merge({ pdf_export_type: "report", show_images: "1" }) }
+        let(:expected_params) { default_params.merge({ pdf_export_type: "report", show_images: "true" }) }
 
         it "exports a pdf report with image by default" do
           choose export_sub_type
@@ -205,7 +205,7 @@ RSpec.describe "work package export" do
       end
 
       context "without images" do
-        let(:expected_params) { default_params.merge({ pdf_export_type: "report", show_images: "0" }) }
+        let(:expected_params) { default_params.merge({ pdf_export_type: "report", show_images: "false" }) }
 
         it "exports a pdf report with checked input" do
           choose export_sub_type
