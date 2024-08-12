@@ -28,7 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require_relative "migration_utils/utils"
+
 class PopulateRemoteIdentities < ActiveRecord::Migration[7.1]
+  include ::Migration::Utils
+
   def up
     execute_sql <<~SQL.squish
       INSERT INTO remote_identities(user_id, oauth_client_id, origin_user_id, created_at, updated_at)
