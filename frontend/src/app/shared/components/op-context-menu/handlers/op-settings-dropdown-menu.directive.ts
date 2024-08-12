@@ -46,7 +46,6 @@ import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals
 import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import * as Turbo from '@hotwired/turbo';
 import {
   WorkPackageViewColumnsService
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
