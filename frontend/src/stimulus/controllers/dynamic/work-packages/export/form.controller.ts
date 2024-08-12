@@ -37,11 +37,12 @@ export default class FormController extends Controller<HTMLFormElement> {
   }
 
   private getExportParams() {
-    const data:FormData = new FormData(this.element);
-    const query = JSON.parse(data.get('query') as string);
-    // "dom.iterable" nor "dom" is defined in tsjonfig.
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access no-explicit-any
-    (data as any).entries().forEach(([key, value]:[string, string]) => {
+    const formData = new FormData(this.element);
+    const query = JSON.parse(formData.get('query') as string) as Record<string, unknown>;
+    // without the cast to undefined, the URLSearchParams constructor will
+    // not accept the FormData object.
+    const formParams = new URLSearchParams(formData as unknown as undefined);
+    formParams.forEach((value, key) => {
       // Skip hidden fields
       if (!['query', 'utf8', 'authenticity_token'].includes(key)) {
         query[key] = (key === 'columns') ? value.split(' ') : value;

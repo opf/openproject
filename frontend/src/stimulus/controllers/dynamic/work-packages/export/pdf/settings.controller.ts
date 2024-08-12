@@ -17,10 +17,10 @@ export default class PDFExportSettingsController extends Controller {
     this.fieldsTargets.forEach((element:HTMLElement) => {
       if (element.getAttribute(`data-${name}`) === 'true') {
         element.classList.remove('d-none');
-        this.silenceFormFields(element, false)
+        this.silenceFormFields(element, false);
       } else {
         element.classList.add('d-none');
-        this.silenceFormFields(element, true)
+        this.silenceFormFields(element, true);
       }
     });
   }
