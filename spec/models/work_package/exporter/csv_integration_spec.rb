@@ -36,10 +36,10 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
   let(:project) { create(:project) }
   let(:type_a) { create(:type, name: "Type A") }
   let(:type_b) { create(:type, name: "Type B") }
-  let(:wp1) { create(:work_package, project:, done_ratio: 25, subject: 'WP1', type: type_a) }
-  let(:wp2) { create(:work_package, project:, done_ratio: 0, subject: 'WP2', type: type_a) }
-  let(:wp3) { create(:work_package, project:, done_ratio: 0, subject: 'WP3', type: type_b) }
-  let(:wp4) { create(:work_package, project:, done_ratio: 0, subject: 'WP4', type: type_a) }
+  let(:wp1) { create(:work_package, project:, done_ratio: 25, subject: "WP1", type: type_a) }
+  let(:wp2) { create(:work_package, project:, done_ratio: 0, subject: "WP2", type: type_a) }
+  let(:wp3) { create(:work_package, project:, done_ratio: 0, subject: "WP3", type: type_b) }
+  let(:wp4) { create(:work_package, project:, done_ratio: 0, subject: "WP4", type: type_a) }
   let(:current_user) do
     create(:user,
            member_with_permissions: { project => %i(view_work_packages) })
@@ -92,11 +92,12 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     let(:query) do
       Query.new_default.tap do |query|
         query.show_hierarchies = false
-        query.group_by = 'type'
+        query.group_by = "type"
         query.sort_criteria = [["id", "asc"]]
         query.column_names = %i(type subject)
       end
     end
+
     it "performs a successful grouped export" do
       wp1
       wp2
@@ -107,7 +108,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
 
       expect(data.size).to eq(5)
       # grouped by type
-      expect(data.map { |row| row[1] }).to eq %w[Subject WP3 WP1 WP2 WP4]
+      expect(data.pluck(1)).to eq %w[Subject WP3 WP1 WP2 WP4]
     end
   end
 
@@ -118,6 +119,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
         query.add_filter "done_ratio", "=", [25]
       end
     end
+
     it "performs a successful grouped export" do
       wp1
       wp2
@@ -130,6 +132,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       expect(data.last).to include(wp1.name)
     end
   end
+
   context "when the query is manually ordered" do
     let(:query) do
       Query.new_default.tap do |query|
@@ -139,17 +142,19 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
         query.user_id = current_user.id
       end
     end
+
     before do
       OrderedWorkPackage.create(query:, work_package: wp4, position: 0)
       OrderedWorkPackage.create(query:, work_package: wp2, position: 1)
       OrderedWorkPackage.create(query:, work_package: wp1, position: 2)
       OrderedWorkPackage.create(query:, work_package: wp3, position: 3)
     end
+
     it "performs a successful manually ordered export" do
       data = CSV.parse instance.export!.content
 
       expect(data.size).to eq(5)
-      expect(data.map { |row| row[0] }).to eq %w[Subject WP4 WP2 WP1 WP3]
+      expect(data.pluck(0)).to eq %w[Subject WP4 WP2 WP1 WP3]
     end
   end
 end
