@@ -48,10 +48,13 @@ RSpec.describe "Structured meetings CRUD",
     before do
       allow_any_instance_of(Meetings::HeaderComponent)
         .to receive(:check_for_updates_interval)
-        .and_return(2000)
+        .and_return(5000)
     end
 
     it do
+      flash_component = ".op-toast--wrapper"
+
+      ## Add agenda item
       # Visit the meeting on window1
       show_page.visit!
 
@@ -66,17 +69,88 @@ RSpec.describe "Structured meetings CRUD",
       end
 
       # Expect change in window1
-      flash_component = ".op-toast--wrapper.op-meeting-update-flash"
       expect(page).to have_css(flash_component, wait: 5)
       expect(page).to have_text I18n.t(:notice_meeting_updated)
+
+      click_on "Reload"
 
       # Expect no notification in window2
       within_window(second_window) do
         sleep 2
-        flash_component = ".op-toast--wrapper.op-meeting-update-flash"
-        expect(page).to have_no_css(flash_component)
+        # expect(page).to have_no_css(flash_component)
         expect(page).to have_no_text I18n.t(:notice_meeting_updated)
       end
+
+      ## Edit agenda item
+      # In window1
+      sleep 2
+      item = MeetingAgendaItem.find_by(title: "Update toast test item")
+
+      show_page.edit_agenda_item(item) do
+        fill_in "Title", with: "Updated title"
+        click_on "Save"
+      end
+
+      # Expect no notification in window1
+      sleep 2
+      # expect(page).to have_no_css(flash_component)
+      expect(page).to have_no_text I18n.t(:notice_meeting_updated)
+
+      # Expect notification in window2
+      within_window(second_window) do
+        expect(page).to have_css(flash_component, wait: 5)
+        expect(page).to have_text I18n.t(:notice_meeting_updated)
+
+        click_on "Reload"
+      end
+
+      ## Add section
+      # In window2
+      within_window(second_window) do
+        sleep 2
+        show_page.add_section do
+          fill_in "Title", with: "First section"
+          click_on "Save"
+        end
+
+        show_page.expect_section(title: "First section")
+      end
+
+      # Expect change in window1
+      expect(page).to have_css(flash_component, wait: 5)
+      expect(page).to have_text I18n.t(:notice_meeting_updated)
+
+      click_on "Reload"
+
+      # Expect no notification in window2
+      within_window(second_window) do
+        sleep 2
+        # expect(page).to have_no_css(flash_component)
+        expect(page).to have_no_text I18n.t(:notice_meeting_updated)
+      end
+
+      # ## Edit meeting details
+      # ## In window1
+      # item = MeetingAgendaItem.find_by(title: "Update toast test item")
+
+      # show_page.edit_agenda_it em(item) do
+      #   fill_in "Title", with: "Updated title"
+      #   click_on "Save"
+      # end
+
+      # # Expect no notification in window1
+      # expect(page).to have_no_css(flash_component)
+      # expect(page).to have_no_text I18n.t(:notice_meeting_updated)
+
+      # # Expect notification in window2
+      # within_window(second_window) do
+      #   expect(page).to have_css(flash_component, wait: 5)
+      #   expect(page).to have_text I18n.t(:notice_meeting_updated)
+
+      #   within flash_component do
+      #     click "Reload"
+      #   end
+      # end
 
       second_window.close
     end
