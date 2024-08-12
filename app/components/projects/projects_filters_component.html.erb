@@ -104,9 +104,6 @@
                          } %>
         </div>
       </li>
-      <li class="advanced-filters--controls">
-        <%= submit_tag t('button_apply'), class: 'button -small -primary', name: nil %>
-      </li>
     </ul>
     <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)%>
       <%=

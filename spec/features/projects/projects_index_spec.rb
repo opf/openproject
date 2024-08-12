@@ -415,7 +415,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                "contains",
                                ["Plain"])
 
-      click_on "Apply"
       # Filter is applied: Only the project that contains the the word "Plain" gets listed
       projects_page.expect_projects_listed(project)
       projects_page.expect_projects_not_listed(public_project)
@@ -437,7 +436,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                "doesn't contain",
                                ["Plain"])
 
-      click_on "Apply"
       wait_for_reload
 
       projects_page.set_columns("Name")
@@ -488,7 +486,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.expect_no_columns("Status")
 
       # Sending the filter form again what implies to compose the request freshly
-      click_on "Apply"
       wait_for_reload
 
       # We should see page 1, resetting pagination, as it is a new filter, but keeping the DESC order on the project
@@ -512,8 +509,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                "Name or identifier",
                                "doesn't contain",
                                ["Plain"])
-
-      click_on "Apply"
       wait_for_reload
 
       projects_page.expect_projects_listed(development_project, public_project)
@@ -526,8 +521,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                "Name or identifier",
                                "is",
                                ["plain-project"])
-
-      click_on "Apply"
       wait_for_reload
 
       projects_page.expect_projects_listed(project)
@@ -671,8 +664,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                  "Project status",
                                  "is (OR)",
                                  ["On track"])
-
-        click_on "Apply"
         wait_for_reload
 
         expect(page).to have_text(green_project.name)
@@ -682,8 +673,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                  "Project status",
                                  "is not empty",
                                  [])
-
-        click_on "Apply"
         wait_for_reload
 
         expect(page).to have_text(green_project.name)
@@ -693,8 +682,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                  "Project status",
                                  "is empty",
                                  [])
-
-        click_on "Apply"
         wait_for_reload
 
         expect(page).to have_no_text(green_project.name)
@@ -704,8 +691,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                  "Project status",
                                  "is not",
                                  ["On track"])
-
-        click_on "Apply"
         wait_for_reload
 
         expect(page).to have_no_text(green_project.name)
@@ -774,8 +759,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           projects_page.set_filter("created_at",
                                    "Created on",
                                    "today")
-
-          click_on "Apply"
           wait_for_reload
 
           expect(page).to have_text(project_created_on_today.name)
@@ -788,8 +771,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           projects_page.set_filter("created_at",
                                    "Created on",
                                    "this week")
-
-          click_on "Apply"
           wait_for_reload
 
           expect(page).to have_text(project_created_on_today.name)
@@ -803,8 +784,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    "Created on",
                                    "on",
                                    ["2017-11-11"])
-
-          click_on "Apply"
           wait_for_reload
 
           expect(page).to have_text(project_created_on_fixed_date.name)
@@ -818,8 +797,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    "Created on",
                                    "less than days ago",
                                    ["1"])
-
-          click_on "Apply"
           wait_for_reload
 
           expect(page).to have_text(project_created_on_today.name)
@@ -832,8 +809,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    "Created on",
                                    "more than days ago",
                                    ["1"])
-
-          click_on "Apply"
           wait_for_reload
 
           expect(page).to have_text(project_created_on_fixed_date.name)
@@ -846,8 +821,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    "Created on",
                                    "between",
                                    ["2017-11-10", "2017-11-12"])
-
-          click_on "Apply"
           wait_for_reload
 
           expect(page).to have_text(project_created_on_fixed_date.name)
@@ -859,8 +832,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           projects_page.set_filter("latest_activity_at",
                                    "Latest activity at",
                                    "today")
-
-          click_on "Apply"
           wait_for_reload
 
           expect(page).to have_text(project_created_on_today.name)
@@ -873,8 +844,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    list_custom_field.name,
                                    "is (OR)",
                                    [list_custom_field.possible_values[2].value])
-
-          click_on "Apply"
           wait_for_reload
 
           expect(page).to have_text(project_created_on_today.name)
@@ -892,8 +861,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
 
             select list_custom_field.possible_values[3].value, from: "value"
           end
-
-          click_on "Apply"
           wait_for_reload
 
           cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
@@ -914,8 +881,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
             expect(cf_filter).to have_select("value", selected: list_custom_field.possible_values[1].value)
             expect(cf_filter).to have_no_select("value", selected: list_custom_field.possible_values[3].value)
           end
-
-          click_on "Apply"
           wait_for_reload
 
           cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
@@ -931,8 +896,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    date_custom_field.name,
                                    "on",
                                    ["2011-11-11"])
-
-          click_on "Apply"
           wait_for_reload
 
           expect(page).to have_text(project_created_on_today.name)
@@ -940,8 +903,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
 
           # Disabling a CF in the project should remove the project from results
 
-          project_created_on_today.project_custom_field_project_mappings.destroy_all
-          click_on "Apply"
+          project_created_on_today.project_custom_field_project_mappings.destroy_al
           wait_for_reload
 
           expect(page).to have_no_text(project_created_on_today.name, wait: 1)
@@ -980,7 +942,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                      "is (OR)",
                                      ["Option 1"])
 
-            click_on "Apply"
             # Filter is applied: Only projects with view_project_attributes permission are returned
             projects_page.expect_projects_listed(development_project)
             projects_page.expect_projects_not_listed(project)

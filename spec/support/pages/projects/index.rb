@@ -179,22 +179,22 @@ module Pages
 
       def filter_by_active(value)
         set_filter("active", "Active", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def filter_by_public(value)
         set_filter("public", "Public", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def filter_by_favored(value)
         set_filter("favored", "Favorite", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def filter_by_membership(value)
         set_filter("member_of", "I am member", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def set_filter(name, human_name, human_operator = nil, values = [])
@@ -222,13 +222,6 @@ module Pages
 
       def remove_filter(name)
         page.find("li[filter-name='#{name}'] .filter_rem").click
-      end
-
-      def apply_filters
-        within(".advanced-filters--filters") do
-          click_on "Apply"
-          wait_for_network_idle
-        end
       end
 
       def set_toggle_filter(values)
