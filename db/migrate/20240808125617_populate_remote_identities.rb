@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,30 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require_relative "migration_utils/utils"
+
 class PopulateRemoteIdentities < ActiveRecord::Migration[7.1]
+  include ::Migration::Utils
+
   def up
-    fields = %i[user_id oauth_client_id origin_user_id]
+    execute_sql <<~SQL.squish
+      INSERT INTO remote_identities(user_id, oauth_client_id, origin_user_id, created_at, updated_at)
+      SELECT DISTINCT ON (user_id, oauth_client_id) user_id, oauth_client_id, origin_user_id, created_at, updated_at
+      FROM oauth_client_tokens
+      WHERE oauth_client_tokens.origin_user_id IS NOT NULL
+    SQL
 
-    OAuthClientToken.where.not(origin_user_id: nil)
-                    .select(:id, *fields)
-                    .find_in_batches do |batch|
-      identities = batch.map { |record| record.slice(*fields) }
-
-      RemoteIdentity.insert_all(identities, unique_by: %i[user_id oauth_client_id])
-    end
-
-    OAuthClientToken.update_all(origin_user_id: nil)
+    execute_sql "UPDATE oauth_client_tokens SET origin_user_id = NULL"
   end
 
   def down
-    RemoteIdentity.find_in_batches do |batch|
-      batch.each do |identity|
-        OAuthClientToken
-          .where(user: identity.user, oauth_client: identity.oauth_client)
-          .update_all(origin_user_id: identity.origin_user_id)
-      end
-    end
+    execute_sql <<~SQL.squish
+      UPDATE oauth_client_tokens
+      SET origin_user_id = remote_identities.origin_user_id
+      FROM remote_identities
+      WHERE oauth_client_tokens.user_id = remote_identities.user_id
+        AND oauth_client_tokens.oauth_client_id = remote_identities.oauth_client_id
+    SQL
 
-    RemoteIdentity.delete_all
+    execute_sql "DELETE FROM remote_identities"
   end
 end
