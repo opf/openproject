@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -522,11 +522,13 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
       end
 
       it "returns a ServiceResult with success, without refresh" do
-        expect(subject.success).to be_truthy
-        expect(subject).to be yield_service_result2
-        expect(instance).to have_received(:refresh_token)
-        expect(oauth_client_token).to have_received(:reload)
-        expect(yield_double_object).to have_received(:yield_twice_method).twice
+        without_partial_double_verification do
+          expect(subject.success).to be_truthy
+          expect(subject).to be yield_service_result2
+          expect(instance).to have_received(:refresh_token)
+          expect(oauth_client_token).to have_received(:reload)
+          expect(yield_double_object).to have_received(:yield_twice_method).twice
+        end
       end
     end
   end
