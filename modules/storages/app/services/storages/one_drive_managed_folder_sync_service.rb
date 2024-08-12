@@ -79,7 +79,7 @@ module Storages
     end
 
     def set_folder_permissions(folder_id, permissions)
-      set_permissions.call(storage: @storage, path: folder_id, permissions:, auth_strategy:)
+      set_permissions.call(storage: @storage, auth_strategy:, path: folder_id, permissions:)
     end
 
     def ensure_folders_exist(folder_map)
@@ -104,7 +104,7 @@ module Storages
         info "Hiding folder with ID #{item_id} as it does not belong to any active project"
 
         # FIXME: Set permissions wont ever fail.
-        set_permissions.call(storage: @storage, path: item_id, permissions:, auth_strategy:)
+        set_permissions.call(storage: @storage, auth_strategy:, path: item_id, permissions:)
                        .on_failure do |service_result|
           log_storage_error(service_result.errors, item_id:, context: "hide_folder")
           add_error(:hide_inactive_folders, service_result.errors, options: { path: folder_map[item_id] })
@@ -208,6 +208,7 @@ module Storages
     def admin_client_tokens_scope = OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
 
     def root_folder = Peripherals::ParentFolder.new("/")
+
     def auth_strategy = userless.call
 
     # @param attribute [Symbol] attribute to which the error will be tied to

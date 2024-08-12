@@ -37,40 +37,52 @@ module Storages
           using ServiceResultRefinements
 
           SUCCESS_XPATH = "/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list"
-          def self.call(storage:, path:, permissions:)
-            new(storage).call(path:, permissions:)
+
+          def self.call(storage:, auth_strategy:, path:, permissions:)
+            new(storage).call(auth_strategy:, path:, permissions:)
           end
 
           def initialize(storage)
             @storage = storage
-            @username = storage.username
-            @password = storage.password
           end
 
-          def call(path:, permissions:)
-            if path.blank?
-              return ServiceResult.failure(errors: StorageError.new(code: :invalid_path))
-            end
+          # rubocop:disable Metrics/AbcSize
+          def call(auth_strategy:, path:, permissions:)
+            validate_input_data(path).on_failure { return _1 }
 
-            with_tagged_logger do
-              info "Setting permissions #{permissions.inspect} on #{path}"
+            username = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+                           .on_failure { return _1 }
+                           .result
 
-              body = request_xml_body(permissions[:groups], permissions[:users])
-              # This can raise KeyErrors, we probably should just default to enpty Arrays.
-              response = OpenProject
-                .httpx
-                .basic_auth(@username, @password)
-                .request(
-                  "PROPPATCH",
-                  UrlBuilder.url(@storage.uri, "remote.php/dav/files", @username, path),
-                  xml: body
-                )
+            Authentication[auth_strategy].call(storage: @storage) do |http|
+              with_tagged_logger do
+                info "Setting permissions #{permissions.inspect} on #{path}"
 
-              handle_response(response)
+                body = request_xml_body(permissions[:groups], permissions[:users])
+                # This can raise KeyErrors, we probably should just default to empty Arrays.
+                response = http
+                             .request(
+                               "PROPPATCH",
+                               UrlBuilder.url(@storage.uri, "remote.php/dav/files", username, path),
+                               xml: body
+                             )
+
+                handle_response(response)
+              end
             end
           end
+
+          # rubocop:enable Metrics/AbcSize
 
           private
+
+          def validate_input_data(path)
+            if path.blank?
+              ServiceResult.failure(errors: StorageError.new(code: :invalid_path))
+            else
+              ServiceResult.success
+            end
+          end
 
           # rubocop:disable Metrics/AbcSize
           def handle_response(response)
@@ -125,6 +137,7 @@ module Storages
               end
             end.to_xml
           end
+
           # rubocop:enable Metrics/AbcSize
         end
       end

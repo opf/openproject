@@ -146,7 +146,7 @@ module Storages
         }
       }
 
-      set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
+      set_permissions.call(storage: @storage, auth_strategy:, **command_params).on_failure do |service_result|
         log_storage_error(service_result.errors, folder:)
         add_error(:set_folder_permission, service_result.errors, options: { folder: })
       end
@@ -178,7 +178,7 @@ module Storages
                              groups: { "#{@storage.group}": NO_PERMISSIONS }
                            } }
 
-        set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
+        set_permissions.call(storage: @storage, auth_strategy:, **command_params).on_failure do |service_result|
           log_storage_error(service_result.errors, folder: path, context: "hide_folder")
           add_error(:hide_inactive_folders, service_result.errors, options: { path: })
         end
@@ -263,7 +263,7 @@ module Storages
         }
       }
 
-      set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
+      set_permissions.call(storage: @storage, auth_strategy:, **command_params).on_failure do |service_result|
         log_storage_error(service_result.errors, { folder: group_folder })
         add_error(:ensure_root_folder_permissions, service_result.errors, options: { group:, username: }).fail!
       end
