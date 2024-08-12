@@ -62,8 +62,8 @@
     flex.with_column(classes: "op-work-package-details-tab-component--action") do
       render(Primer::Beta::IconButton.new(icon: :x,
                                           tag: :a,
-                                          href: helpers.url_for_with_params(action: :close_split_view),
-                                          data: { turbo: true, 'turbo-stream': true },
+                                          href: helpers.split_view_base_route,
+                                          data: { turbo: true, target: "_top", turbo_action: "advance" },
                                           scheme: :invisible,
                                           test_selector: "wp-details-tab-component--close",
                                           aria: { label: I18n.t(:button_close) }))

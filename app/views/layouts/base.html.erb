@@ -155,9 +155,9 @@ See COPYRIGHT and LICENSE files for more details.
             <%= yield %>
           <% end %>
         </div>
-        <div id="content-bodyRight">
+        <%= turbo_frame_tag "content-bodyRight" do %>
           <%= content_for :content_body_right %>
-        </div>
+        <% end %>
       <% end %>
     </main>
   </div>
