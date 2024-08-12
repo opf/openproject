@@ -44,17 +44,25 @@ export default class PollForChangesController extends ApplicationController {
 
   private interval:number;
 
+  private pollListener:() => unknown = () => this.triggerTurboStream();
+
   connect() {
     super.connect();
 
-    this.interval = setInterval(() => {
-      void this.triggerTurboStream();
-    }, this.intervalValue || 10_000);
+
+    if (this.intervalValue !== 0) {
+      this.interval = setInterval(() => {
+        void this.triggerTurboStream();
+      }, this.intervalValue || 10_000);
+    }
+
+    this.element.addEventListener('op:poll-for-changes:trigger', this.pollListener);
   }
 
   disconnect() {
     super.disconnect();
     clearInterval(this.interval);
+    this.element.removeEventListener('op:poll-for-changes:trigger', this.pollListener);
   }
 
   async triggerTurboStream():Promise<void> {

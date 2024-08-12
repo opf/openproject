@@ -46,9 +46,10 @@ RSpec.describe "Structured meetings CRUD",
 
   context "it shows an info toast when updated from a different page" do
     before do
+      # Disable the polling so we can trigger it manually
       allow_any_instance_of(Meetings::HeaderComponent)
         .to receive(:check_for_updates_interval)
-        .and_return(5000)
+              .and_return(0)
     end
 
     it do
@@ -59,7 +60,9 @@ RSpec.describe "Structured meetings CRUD",
       show_page.visit!
 
       # Visit meeting on window2 and do something
+      first_window = current_window
       second_window = open_new_window
+
       within_window(second_window) do
         show_page.visit!
 
@@ -69,45 +72,45 @@ RSpec.describe "Structured meetings CRUD",
       end
 
       # Expect change in window1
-      expect(page).to have_css(flash_component, wait: 5)
-      expect(page).to have_text I18n.t(:notice_meeting_updated)
-
-      click_on "Reload"
+      within_window(first_window) do
+        show_page.trigger_change_poll
+        expect(page).to have_css(flash_component, wait: 5)
+        expect(page).to have_text I18n.t(:notice_meeting_updated)
+        click_on "Reload"
+      end
 
       # Expect no notification in window2
       within_window(second_window) do
-        sleep 2
+        show_page.trigger_change_poll
         # expect(page).to have_no_css(flash_component)
         expect(page).to have_no_text I18n.t(:notice_meeting_updated)
       end
 
       ## Edit agenda item
       # In window1
-      sleep 2
-      item = MeetingAgendaItem.find_by(title: "Update toast test item")
+      within_window(first_window) do
+        item = MeetingAgendaItem.find_by(title: "Update toast test item")
 
-      show_page.edit_agenda_item(item) do
-        fill_in "Title", with: "Updated title"
-        click_on "Save"
+        show_page.edit_agenda_item(item) do
+          fill_in "Title", with: "Updated title"
+          click_on "Save"
+        end
+
+        # Expect no notification in window1 because we're editing in the same
+        # expect(page).to have_no_css(flash_component)
+        show_page.trigger_change_poll
+        expect(page).to have_no_text I18n.t(:notice_meeting_updated)
       end
-
-      # Expect no notification in window1
-      sleep 2
-      # expect(page).to have_no_css(flash_component)
-      expect(page).to have_no_text I18n.t(:notice_meeting_updated)
 
       # Expect notification in window2
       within_window(second_window) do
+        show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
 
         click_on "Reload"
-      end
 
-      ## Add section
-      # In window2
-      within_window(second_window) do
-        sleep 2
+        ## Add section while we're in window2
         show_page.add_section do
           fill_in "Title", with: "First section"
           click_on "Save"
@@ -117,40 +120,40 @@ RSpec.describe "Structured meetings CRUD",
       end
 
       # Expect change in window1
-      expect(page).to have_css(flash_component, wait: 5)
-      expect(page).to have_text I18n.t(:notice_meeting_updated)
-
-      click_on "Reload"
+      within_window(first_window) do
+        show_page.trigger_change_poll
+        expect(page).to have_css(flash_component, wait: 5)
+        expect(page).to have_text I18n.t(:notice_meeting_updated)
+        click_on "Reload"
+      end
 
       # Expect no notification in window2
       within_window(second_window) do
-        sleep 2
-        # expect(page).to have_no_css(flash_component)
+        show_page.trigger_change_poll
         expect(page).to have_no_text I18n.t(:notice_meeting_updated)
       end
 
-      # ## Edit meeting details
-      # ## In window1
-      # item = MeetingAgendaItem.find_by(title: "Update toast test item")
+      ## Edit meeting details
+      ## In window1
+      within_window(first_window) do
+        find_test_selector("edit-meeting-details-button").click
+        fill_in "structured_meeting_duration", with: "2.5"
+        click_link_or_button "Save"
 
-      # show_page.edit_agenda_it em(item) do
-      #   fill_in "Title", with: "Updated title"
-      #   click_on "Save"
-      # end
+        # Expect updated duration
+        expect(page).to have_text "2 hrs, 30 mins"
 
-      # # Expect no notification in window1
-      # expect(page).to have_no_css(flash_component)
-      # expect(page).to have_no_text I18n.t(:notice_meeting_updated)
+        # Expect no notification in window1
+        show_page.trigger_change_poll
+        expect(page).to have_no_text I18n.t(:notice_meeting_updated)
+      end
 
-      # # Expect notification in window2
-      # within_window(second_window) do
-      #   expect(page).to have_css(flash_component, wait: 5)
-      #   expect(page).to have_text I18n.t(:notice_meeting_updated)
-
-      #   within flash_component do
-      #     click "Reload"
-      #   end
-      # end
+      # Expect notification in window2
+      within_window(second_window) do
+        show_page.trigger_change_poll
+        expect(page).to have_text I18n.t(:notice_meeting_updated)
+        click_on "Reload"
+      end
 
       second_window.close
     end

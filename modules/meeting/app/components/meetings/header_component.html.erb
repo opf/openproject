@@ -1,6 +1,7 @@
 <%=
   component_wrapper do
     render(Primer::OpenProject::PageHeader.new(
+      test_selector: "meeting-page-header",
       state: @state,
       data: {
         controller: "poll-for-changes",
