@@ -38,7 +38,7 @@ RSpec.describe Storages::Admin::OAuthClientInfoComponent, type: :component do # 
         component = described_class.new(storage:, oauth_client: storage.oauth_client)
         expect(component.edit_icon_button_options)
           .to include(icon: :sync,
-                      data: { confirm:
+                      data: { turbo_confirm:
                                 "This action will reset the current OAuth credentials. After confirming you will " \
                                 "have to enter new credentials from the storage provider and all users will have " \
                                 "to authorize against Nextcloud again. Are you sure you want to proceed?",
