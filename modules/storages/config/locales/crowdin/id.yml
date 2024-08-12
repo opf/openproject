@@ -12,7 +12,7 @@ id:
         tenant: Directory (tenant) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: bukanlah URL yang Valid.
         not_linked_to_project: tidak terhubungi ke proyek.
       models:
         storages/file_link:
@@ -57,7 +57,7 @@ id:
   permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: Lihat tautan berkas
   permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+  project_module_storages: File
   project_storages:
     edit_project_folder:
       label: Edit project folder
@@ -219,7 +219,7 @@ id:
         unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Eror
       label_healthy: Healthy
-      label_pending: Pending
+      label_pending: Menunggu
       label_warning: Warning
       project_folders:
         subtitle: Automatically managed project folders
@@ -276,7 +276,7 @@ id:
     label_active: Aktif
     label_add_new_storage: Add new storage
     label_automatic_folder: New folder with automatically managed permissions
-    label_completed: Completed
+    label_completed: Selesai
     label_creation_time: Creation time
     label_creator: Pembuat
     label_delete_storage: Delete storage

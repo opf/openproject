@@ -80,17 +80,17 @@ zh-TW:
       projects:
         demo-project:
           name: 示範專案
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: 所有任務皆依計劃進行，相關人員知道他們的任務，系統完成設定。
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
               title: 歡迎來到您的示範專案
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                我們很開心您的加入。
+                在這個模組，您可以與您的團隊成員溝通專案新訊。
+              description: 實際新訊
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 類別 1 ( 將於專案設定變更 )
           queries:
             item_0:
               name: 計畫方案
@@ -198,14 +198,14 @@ zh-TW:
             More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum 專案
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: 所有任務皆依計劃進行，相關人員知道他們的任務，系統完成設定。
           description: This is a short summary of the goals of this demo Scrum project.
           news:
             item_0:
               title: Welcome to your Scrum demo project
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                我們很開心您的加入。
+                在這個模組，您可以與您的團隊成員溝通專案新訊。
           versions:
             item_0:
               name: Bug的待辦事項
@@ -264,7 +264,7 @@ zh-TW:
             item_3:
               name: 衝刺2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 類別 1 ( 將於專案設定變更 )
           queries:
             item_0:
               name: 計畫方案

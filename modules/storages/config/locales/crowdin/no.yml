@@ -12,7 +12,7 @@
         tenant: Katalog (leietaker) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: er ikke en gyldig URL.
         not_linked_to_project: er ikke knyttet til prosjektet.
       models:
         storages/file_link:
@@ -63,7 +63,7 @@
       label: Edit project folder
     project_folder_mode:
       automatic: Automatically managed
-      inactive: No specific folder
+      inactive: Ingen spesifikk mappe
       manual: Existing folder manually managed
     remove_project:
       dialog:
@@ -220,9 +220,9 @@
       label_error: Feil
       label_healthy: Sunn
       label_pending: Ventende
-      label_warning: Warning
+      label_warning: Advarsel
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Automatisk administrerte prosjektmapper
       since: siden %{datetime}
       title: Helse-status
     health_email_notifications:

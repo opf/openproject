@@ -212,7 +212,7 @@ zh-CN:
       is_required_for_project: "选中可启用此属性，并使其成为所有项目的必选项。单个项目不能停用该属性。"
       is_for_all: "将自定义字段标记为在所有现有项目和新项目中可用。"
       searchable: "使用全局搜索功能时包含字段值。"
-      searchable_for_project: "Check to make this attribute available as a filter in project lists."
+      searchable_for_project: "选中可将此属性作为项目列表中的过滤器。"
       editable: "允许用户自行编辑该字段。"
       admin_only: "选中使此属性仅对管理员可见。没有管理员权限的用户将无法查看或编辑该属性。"
       is_filter: >

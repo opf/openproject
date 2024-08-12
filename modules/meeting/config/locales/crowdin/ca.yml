@@ -58,7 +58,7 @@ ca:
       meeting_agenda_item: "Element d'agenda"
       meeting_agenda: "Agenda"
       meeting_minutes: "Acta"
-      meeting_section: "Section"
+      meeting_section: "Secció"
   activity:
     filter:
       meeting: "Reunions"
@@ -143,7 +143,7 @@ ca:
   meeting_section:
     untitled_title: "Untitled section"
     delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
-    placeholder_title: "New section"
+    placeholder_title: "Nova secció"
     empty_text: "Arrossega els elements aquí o crea un de nou"
   notice_successful_notification: "Notificació enviada correctament"
   notice_timezone_missing: No s'ha configurat la zona horària i la %{zone} és assumida. Per seleccionar la teva zona horària, si us plau, fes clic aquí.

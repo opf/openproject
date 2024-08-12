@@ -38,7 +38,7 @@ fa:
         free_text: >
           از ابتدا با یک تخته خالی شروع کنید. به صورت دستی کارت ها و ستون ها را به این تابلو اضافه کنید.
         action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+        action_by_attribute: 'تابلوی اکشن (%{attribute})'
         action_text: >
           A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
         action_text_subprojects: >

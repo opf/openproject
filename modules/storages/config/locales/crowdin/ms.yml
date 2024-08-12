@@ -87,7 +87,7 @@ ms:
         ensure_root_folder_permissions: 'Set Base Folder Permissions:'
         hide_inactive_folders: 'Hide Inactive Folders Step:'
         remote_folders: 'Read contents of the group folder:'
-        rename_project_folder: 'Rename managed project Folder:'
+        rename_project_folder: 'Namakan semula Folder projek yang telah diuruskan:'
     errors:
       models:
         copy_project_folders_service:
@@ -100,7 +100,7 @@ ms:
           attributes:
             add_user_to_group:
               conflict: 'Pengguna %{user} tidak boleh ditambah ke kumpulan %{group} atas sebab: %{reason}'
-              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              failed_to_add: 'Pengguna %{user} tidak boleh ditambah ke kumpulan %{group} atas sebab: %{reason}'
             create_folder:
               conflict: The %{folder_name} already exists on %{parent_location}.
               not_found: "%{parent_location} wasn't found."
@@ -220,9 +220,9 @@ ms:
       label_error: Ralat
       label_healthy: Sihat
       label_pending: Dalam proses
-      label_warning: Warning
+      label_warning: Amaran
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Folder projek yang dikendalikan secara automatik
       since: sejak %{datetime}
       title: Status kesihatan
     health_email_notifications:

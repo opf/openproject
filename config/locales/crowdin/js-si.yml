@@ -338,7 +338,7 @@ si:
           ස්වයංසූම් ලබා ගත නොහැකි විට පෙන්විය යුතු ආරම්භක විශාලන මට්ටම තෝරන්න.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "අපනයන"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ si:
       no_unread: "නොකියවූ දැනුම්දීම් නැත"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
+        watched: "මුරකරු"
+        assigned: "අස්ගිනී"
+        accountable: "වගවීම"
         created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        scheduled: "නියමිත"
+        commented: "අදහස් දැක්වීය"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"

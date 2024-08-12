@@ -3435,7 +3435,7 @@ az:
     permissions:
       comment: "Comment"
       comment_description: "Can view and comment this work package."
-      edit: "Edit"
+      edit: "Düzəliş et"
       edit_description: "Can view, comment and edit this work package."
       view: "View"
       view_description: "Can view this work package."
@@ -3458,7 +3458,7 @@ az:
     label_search_placeholder: "Search by user or email address"
     label_toggle_all: "Toggle all shares"
     remove: "Remove"
-    share: "Share"
+    share: "Paylaş"
     text_empty_search_description: "There are no users with the current filter criteria."
     text_empty_search_header: "We couldn't find any matching results."
     text_empty_state_description: "The %{entity} has not been shared with anyone yet."
@@ -3502,7 +3502,7 @@ az:
       permissions:
         view: "View"
         view_description: "Can view this project list."
-        edit: "Edit"
+        edit: "Düzəliş et"
         edit_description: "Can view, share and edit this project list."
       upsale:
         message: "Sharing project lists with individual users is an enterprise add-on."

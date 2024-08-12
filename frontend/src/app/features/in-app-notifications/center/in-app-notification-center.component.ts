@@ -39,7 +39,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
-import { UrlParamsService } from 'core-app/core/url-params/url-params.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
@@ -71,7 +71,7 @@ export class InAppNotificationCenterComponent implements OnInit {
       )),
     );
 
-  stateChanged$ = this.storeService.stateChanged$;
+  selectedWorkPackage$ = this.storeService.selectedWorkPackage$;
 
   reasonMenuItems = [
     {

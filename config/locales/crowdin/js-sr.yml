@@ -618,7 +618,7 @@ sr:
       reasons:
         mentioned: "Mentioned"
         watched: "Watcher"
-        assigned: "Assignee"
+        assigned: "Zadužen"
         accountable: "Accountable"
         created: "Created"
         scheduled: "Scheduled"

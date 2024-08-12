@@ -1804,7 +1804,7 @@ eu:
     facets:
       unread: "Unread"
       unread_title: "Show unread"
-      all: "All"
+      all: "Denak"
       all_title: "Show all"
     menu:
       by_project: "Unread by project"
@@ -2109,7 +2109,7 @@ eu:
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Sign out"
   label_main_menu: "Side Menu"
-  label_manage: "Manage"
+  label_manage: "Kudeatu"
   label_manage_groups: "Manage groups"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_max_size: "Maximum size"

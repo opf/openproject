@@ -12,7 +12,7 @@ ro:
         tenant: Directory (tenant) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: nu este o adresa URL validă.
         not_linked_to_project: nu este legat de proiect.
       models:
         storages/file_link:
@@ -57,7 +57,7 @@ ro:
   permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: Vizualizați link-urile fișierului
   permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+  project_module_storages: Fişiere
   project_storages:
     edit_project_folder:
       label: Edit project folder
@@ -220,7 +220,7 @@ ro:
       label_error: Eroare
       label_healthy: Healthy
       label_pending: în așteptare
-      label_warning: Warning
+      label_warning: Avertizare
       project_folders:
         subtitle: Automatically managed project folders
       since: since %{datetime}

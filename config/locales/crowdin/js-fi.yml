@@ -338,7 +338,7 @@ fi:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Vie"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ fi:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        watched: "Seuraajat"
+        assigned: "Työn suorittaja"
+        accountable: "Vastuuhenkilö"
+        created: "Luotu"
+        scheduled: "Ajoitettu"
+        commented: "Kommentoitu"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -893,7 +893,7 @@ fi:
       wiki_link: "Linkitys Wiki-sivulle"
       image: "Kuva"
     sharing:
-      share: "Share"
+      share: "Jaa"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

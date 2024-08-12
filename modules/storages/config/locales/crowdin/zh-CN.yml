@@ -22,7 +22,7 @@ zh-CN:
         storages/project_storage:
           attributes:
             project_folder_id:
-              blank: Please select a folder.
+              blank: 选择一个文件夹
             project_folder_mode:
               mode_unavailable: 对于此存储不可用。
             project_ids:
@@ -60,7 +60,7 @@ zh-CN:
   project_module_storages: 文件
   project_storages:
     edit_project_folder:
-      label: Edit project folder
+      label: 编辑项目文件夹
     project_folder_mode:
       automatic: 自动托管
       inactive: 没有指定文件夹

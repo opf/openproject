@@ -212,7 +212,7 @@ de:
       is_required_for_project: "Das Attribut in allen Projekten erforderlich machen. Es kann dann nicht für einzelne Projekte deaktiviert werden."
       is_for_all: "Markieren Sie das benutzerdefinierte Feld als verfügbar in allen bestehenden und neuen Projekten."
       searchable: "Fügen Sie die Feldwerte hinzu, wenn Sie die globale Suchfunktion verwenden."
-      searchable_for_project: "Check to make this attribute available as a filter in project lists."
+      searchable_for_project: "Das Attribut kann als Filter in Projektlisten ausgewählt werden."
       editable: "Feld darf von den Benutzern selbst bearbeitet werden."
       admin_only: "Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten."
       is_filter: >

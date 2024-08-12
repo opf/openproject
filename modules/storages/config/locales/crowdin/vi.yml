@@ -22,7 +22,7 @@ vi:
         storages/project_storage:
           attributes:
             project_folder_id:
-              blank: Please select a folder.
+              blank: Vui lòng chọn một thư mục.
             project_folder_mode:
               mode_unavailable: không khả dụng cho lưu trữ này.
             project_ids:
@@ -60,7 +60,7 @@ vi:
   project_module_storages: Tệp
   project_storages:
     edit_project_folder:
-      label: Edit project folder
+      label: Sửa thư mục dự án
     project_folder_mode:
       automatic: Được quản lý tự động
       inactive: Không có thư mục cụ thể

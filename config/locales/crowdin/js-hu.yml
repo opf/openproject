@@ -338,7 +338,7 @@ hu:
           Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Exportálás"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -616,17 +616,17 @@ hu:
       title: "Értesítések"
       no_unread: "Nincs olvasatlan értesítés"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "Megemlített"
+        watched: "Megfigyelő"
+        assigned: "Megbízott"
+        accountable: "Felelős"
+        created: "Létrehoz"
+        scheduled: "Beütemezve"
+        commented: "Hozzászólás"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
-        shared: "Shared"
+        shared: "Megosztva"
       date_alerts:
         milestone_date: "Milestone date"
         overdue: "Overdue"
@@ -893,7 +893,7 @@ hu:
       wiki_link: "Linket egy Wiki oldalhoz"
       image: "Kép"
     sharing:
-      share: "Share"
+      share: "Megosztás"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
