@@ -384,7 +384,7 @@ de:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
+        header: Das %{type}-Token wurde generiert
         warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Bitte geben Sie einen Namen für den API-Token an"
