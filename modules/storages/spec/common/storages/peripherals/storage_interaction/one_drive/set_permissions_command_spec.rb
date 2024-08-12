@@ -53,17 +53,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
 
   let(:path) { folder.id }
 
-  it "is registered at commands.one_drive.set_permissions" do
-    expect(Storages::Peripherals::Registry.resolve("one_drive.commands.set_permissions")).to eq(described_class)
-  end
-
-  it "responds to .call with storage, path and permissions keyword args" do
-    expect(described_class).to respond_to(:call)
-
-    method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq auth_strategy], %i[keyreq storage],
-                                                 %i[keyreq path], %i[keyreq permissions])
-  end
+  it_behaves_like "set_permissions_command: basic command setup"
 
   describe "#call" do
     after do
