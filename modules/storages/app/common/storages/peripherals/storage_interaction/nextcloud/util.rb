@@ -104,15 +104,18 @@ module Storages
             end
 
             def error_data_from_response(caller:, response:)
-              payload =
-                case response.content_type.mime_type
-                when "application/json"
-                  response.json
-                when "text/xml", "application/xml"
-                  response.xml
-                else
-                  response.body.to_s
-                end
+              payload = if response.respond_to?(:content_type)
+                          case response.content_type.mime_type
+                          when "application/json"
+                            response.json
+                          when "text/xml", "application/xml"
+                            response.xml
+                          else
+                            response.body.to_s
+                          end
+                        else
+                          response.to_s
+                        end
 
               StorageErrorData.new(source: caller, payload:)
             end
