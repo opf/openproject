@@ -27,7 +27,6 @@
 #++
 
 require "spec_helper"
-require "features/work_packages/work_packages_page"
 
 RSpec.describe "project export", :js, :with_cuprite do
   shared_let(:important_project) { create(:project, name: "Important schedule plan", description: "Important description") }
