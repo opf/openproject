@@ -178,10 +178,10 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   }
 
   private buildExportDialogHref(query:QueryResource):string {
-    let params:Partial<QueryRequestParams>&{ title:string } =
-      this.urlParamsHelper.buildV3GetQueryFromQueryResource(query) as Partial<QueryRequestParams>&{ title:string };
+    const params:Partial<QueryRequestParams>&{ title:string } = this.urlParamsHelper
+      .buildV3GetQueryFromQueryResource(query) as Partial<QueryRequestParams>&{ title:string };
     params['columns[]'] = this.wpTableColumns.getColumns().map((column) => column.id);
-    params['title'] = this.queryTitle(query);
+    params.title = this.queryTitle(query);
     const queryString = this.urlParamsHelper.buildQueryString(params) || '';
     const url = new URL(window.location.href);
     url.pathname = `${url.pathname}/export_dialog`;

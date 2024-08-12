@@ -32,9 +32,9 @@ export default class FormController extends Controller<HTMLFormElement> {
       if (key === 'columns') {
         query.delete('columns[]');
         value.split(' ').forEach((v) => {
-          query.append('columns[]', v)
+          query.append('columns[]', v);
         });
-        // Skip hidden fields
+        // Skip hidden fields (looped through query options or rails form fields)
       } else if (!['query', 'utf8', 'authenticity_token'].includes(key)) {
         query.delete(key);
         query.append(key, value);
