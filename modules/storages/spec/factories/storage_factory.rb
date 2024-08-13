@@ -144,8 +144,10 @@ FactoryBot.define do
                                       "MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN"),
              token_type: "bearer")
 
-      create(:remote_identity, oauth_client: storage.oauth_client, user: evaluator.oauth_client_token_user,
-                               origin_user_id: evaluator.origin_user_id)
+      create(:remote_identity,
+             oauth_client: storage.oauth_client,
+             user: evaluator.oauth_client_token_user,
+             origin_user_id: evaluator.origin_user_id)
     end
   end
 
