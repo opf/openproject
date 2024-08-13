@@ -72,10 +72,10 @@ class WorkPackages::SetAttributesService
       return if percent_complete == 100 # would be Infinity if computed when % complete is 100%
 
       if remaining_work_unset?
-        work_package.derived_progress_hints[:done_ratio] = "unset because remaining work is unset"
+        set_hint(:done_ratio, "unset because remaining work is unset")
         self.work = nil
       else
-        work_package.derived_progress_hints[:done_ratio] = "derived from % complete and remaining work"
+        set_hint(:done_ratio, "derived from % complete and remaining work")
         self.work = work_from_percent_complete_and_remaining_work
       end
     end
@@ -86,24 +86,24 @@ class WorkPackages::SetAttributesService
       return if work_was_unset? && remaining_work_set? # remaining work is kept and % complete will be set
 
       if work_set? && remaining_work_unset? && percent_complete_unset?
-        work_package.derived_progress_hints[:remaining_hours] = "set to same value as work"
+        set_hint(:remaining_hours, "set to same value as work")
         self.remaining_work = work
       elsif work_changed? && work_set? && remaining_work_set? && !percent_complete_changed?
         delta = work - work_was
         if delta.positive?
-          work_package.derived_progress_hints[:remaining_hours] = "increased by same amout as work"
+          set_hint(:remaining_hours, "increased by same amout as work")
         elsif delta.negative?
-          work_package.derived_progress_hints[:remaining_hours] = "decreased by same amout as work"
+          set_hint(:remaining_hours, "decreased by same amout as work")
         end
         self.remaining_work = (remaining_work + delta).clamp(0.0, work)
       elsif work_unset?
-        work_package.derived_progress_hints[:remaining_hours] = "unset because work is unset and % complete is set"
+        set_hint(:remaining_hours, "unset because work is unset and % complete is set")
         self.remaining_work = nil
       elsif percent_complete_unset?
-        work_package.derived_progress_hints[:remaining_hours] = "unset because % complete is unset and work is set"
+        set_hint(:remaining_hours, "unset because % complete is unset and work is set")
         self.remaining_work = nil
       else
-        work_package.derived_progress_hints[:remaining_hours] = "derived from work and % complete"
+        set_hint(:remaining_hours, "derived from work and % complete")
         self.remaining_work = remaining_work_from_percent_complete_and_work
       end
     end
@@ -113,13 +113,13 @@ class WorkPackages::SetAttributesService
       return if work_unset?
 
       if work.zero?
-        work_package.derived_progress_hints[:done_ratio] = "derived from work and remaining work"
+        set_hint(:done_ratio, "derived from work and remaining work")
         self.percent_complete = nil
       elsif remaining_work_unset?
-        work_package.derived_progress_hints[:done_ratio] = "unset because remaining work is unset"
+        set_hint(:done_ratio, "unset because remaining work is unset")
         self.percent_complete = nil
       else
-        work_package.derived_progress_hints[:done_ratio] = "derived from work and remaining work"
+        set_hint(:done_ratio, "derived from work and remaining work")
         self.percent_complete = percent_complete_from_work_and_remaining_work
       end
     end
@@ -150,6 +150,10 @@ class WorkPackages::SetAttributesService
 
     def work_set_and_no_user_inputs_provided_for_both_remaining_work_and_percent_complete?
       work_set? && (remaining_work_not_provided_by_user? || percent_complete_not_provided_by_user?)
+    end
+
+    def set_hint(field, hint)
+      work_package.derived_progress_hints[field] = hint
     end
   end
 end
