@@ -68,7 +68,7 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     call = ::MeetingAgendaItems::CreateService
       .new(user: current_user)
       .call(

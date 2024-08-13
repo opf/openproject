@@ -44,10 +44,10 @@ RSpec.describe "Structured meetings CRUD",
   let(:meeting) { create(:structured_meeting, project:, author: current_user) }
   let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
 
-  context "it shows an info toast when updated from a different page" do
+  describe "meeting update flash" do
     before do
       # Disable the polling so we can trigger it manually
-      allow_any_instance_of(Meetings::HeaderComponent)
+      allow_any_instance_of(Meetings::HeaderComponent) # rubocop:disable RSpec/AnyInstance
         .to receive(:check_for_updates_interval)
               .and_return(0)
     end

@@ -113,7 +113,7 @@ class Meeting < ApplicationRecord
   ##
   # Cache key for detecting changes to be shown to the user
   def changed_hash
-    sql = <<~SQL
+    sql = <<~SQL.squish
       SELECT MAX(meeting_agenda_items.updated_at), MAX(meeting_sections.updated_at), MAX(meetings.lock_version) FROM meetings
       LEFT JOIN meeting_agenda_items ON meeting_agenda_items.meeting_id = meetings.id
       LEFT JOIN meeting_sections ON meeting_sections.meeting_id = meetings.id
