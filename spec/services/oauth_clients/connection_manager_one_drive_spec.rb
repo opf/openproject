@@ -61,12 +61,9 @@ RSpec.describe OAuthClients::ConnectionManager, :oauth_connection_helpers, :webm
     end
 
     it "fills in the origin_user_id" do
-      expect { subject.code_to_token(code) }.to change(OAuthClientToken, :count).by(1)
+      expect { subject.code_to_token(code) }.to change(OAuthClientToken, :count).by(1).and(change(RemoteIdentity, :count).by(1))
 
-      last_token = OAuthClientToken
-                     .where(access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...")
-                     .last
-
+      last_token = RemoteIdentity.find_by!(user:, oauth_client: storage.oauth_client)
       expect(last_token.origin_user_id).to eq("87d349ed-44d7-43e1-9a83-5f2406dee5bd")
     end
 

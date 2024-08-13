@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -32,6 +34,5 @@ FactoryBot.define do
     sequence(:refresh_token) { |n| "2345678901-#{n}" }
     oauth_client factory: :oauth_client
     user factory: :user
-    origin_user_id { "admin" }
   end
 end

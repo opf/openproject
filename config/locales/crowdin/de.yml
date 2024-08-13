@@ -385,6 +385,9 @@ de:
       will_revoke_access_to_all: "Mit dieser Aktion wird der Zugriff auf alle diese Arbeitspakete entfernt."
   my:
     access_token:
+      create_dialog:
+        header: Das %{type}-Token wurde generiert
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Bitte geben Sie einen Namen für den API-Token an"
         token_name_in_use: "Dieser API-Token-Name ist bereits in Verwendung, bitte wählen Sie einen anderen"
@@ -1152,6 +1155,9 @@ de:
         one: "Rolle"
         other: "Rollen"
       status: "Arbeitspaket-Status"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Typ"
       user: "Benutzer"
       version: "Version"

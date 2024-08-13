@@ -14,12 +14,12 @@ You can configure **announcements in OpenProject** which will be displayed for a
 3. **Set the announcement to active**. Only then will the announcement be shown.
 4. **Save** your changes.
 
-![Sys-admin-announcement](Sys-admin-announcement-1579796618282.png)
+![Define an announcement in OpenProject administration](openproject_system_admin_guide_announcement.png)
 
 The active announcement will be displayed until the defined date to users **on the login screen**.
 
-![Sys-admin-downtime-announcement](Sys-admin-downtime-announcement.png)
+![An active announcement displayed on the OpenProject login screen](openproject_system_admin_guide_announcement_login_screen.png)
 
 Also, the active announcement will be displayed until the defined date to users **on the application start page**.
 
-![Sys-admin-announcement-start-page](Sys-admin-announcement-start-page.png)
+![An active announcement displayed on the OpenProject application start page](openproject_system_admin_guide_announcement_homepage.png)

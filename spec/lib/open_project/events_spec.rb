@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -59,7 +61,7 @@ RSpec.describe OpenProject::Events do
       end
 
       context "when payload contains automatic project_folder_mode" do
-        let(:payload) { { project_folder_mode: :automatic, storage: create(:nextcloud_storage) } }
+        let(:payload) { { project_folder_mode: "automatic", storage: create(:nextcloud_storage) } }
 
         it do
           subject
