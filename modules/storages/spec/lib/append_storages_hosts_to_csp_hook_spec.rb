@@ -56,7 +56,8 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     it "adds CSP connect_src directives" do
       trigger_application_controller_before_action_hook
 
-      expect(controller).to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host.chomp("/")])
+      expect(controller).to have_received(:append_content_security_policy_directives)
+                              .with(connect_src: [storage.host.chomp("/")])
     end
   end
 
@@ -87,7 +88,8 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
       it "does not add CSP connect_src directive" do
         trigger_application_controller_before_action_hook
 
-        expect(controller).not_to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host.chomp("/")])
+        expect(controller).not_to have_received(:append_content_security_policy_directives)
+                                    .with(connect_src: [storage.host.chomp("/")])
       end
     end
 
@@ -101,7 +103,8 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
       it "does not add CSP connect_src directive" do
         trigger_application_controller_before_action_hook
 
-        expect(controller).not_to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host.chomp("/")])
+        expect(controller).not_to have_received(:append_content_security_policy_directives)
+                                    .with(connect_src: [storage.host.chomp("/")])
       end
     end
   end
