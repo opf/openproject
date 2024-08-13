@@ -113,7 +113,7 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
       end
 
       context "with outdated group folder app" do
-        let(:group_folder_version) { Storages::SemanticVersion.parse("16.0.1") }
+        let(:group_folder_version) { Storages::SemanticVersion.parse("11.0.1") }
 
         it "returns a validation failure" do
           expect(subject.type).to eq(:error)

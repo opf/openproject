@@ -365,10 +365,10 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                该版本包含的新功能和改进： <br> <ul class="%{list_styling_class}"> <li>共享项目列表并将其公开（企业附加功能）</li> <li>将项目列表添加收藏</li> <li>OneDrive/SharePoint 存储的连接验证（企业附加功能）</li> <li>用户配置文件页面采用全新的 Primer 外观</li> <li>甘特图 PDF 导出：基于日历周的额外日期缩放</li> <li>子菜单组件搜索栏（项目列表、甘特图和和看板模块）</li> <li>可选择仅以小时为单位或以天和小时为单位显示进度报告</li> <li>从项目选择器中取消选择项目</li> </ul>
+                该版本含有各种新的功能和改进。 例如： <br> <ul class="%{list_styling_class}"> <li>个人设置中的暗色模式选项</li> <li>项目属性的独立查看和编辑权限</li> <li>改进基于状态的进度报告</li> <li>Nextcloud存储的连接验证</li> <li>项目列表的更多过滤选项</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"

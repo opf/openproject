@@ -366,10 +366,10 @@ pt-PT:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                A versão contém várias funcionalidades novas e melhorias: <br> <ul class="%{list_styling_class}"> <li>Partilhe listas de projetos e torne-as públicas (complemento Enterprise)</li> <li>Marque as listas de projetos como favoritas</li> <li>Validação de ligação para armazenamentos OneDrive/SharePoint (complemento Enterprise)</li> <li>Novo visual com Primer para a página de perfil do utilizador</li> <li>Exportação do gráfico de Gantt para PDF: formato de datas adicional com base nas semanas do calendário</li> <li>Barra de pesquisa para componente de submenu (listas de projetos e módulos Gantt e Quadros)</li> <li>Escolha entre o relatório de progresso apresentado apenas em horas ou em dias e horas</li> <li>Anule a seleção de projetos do seletor de projetos</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."

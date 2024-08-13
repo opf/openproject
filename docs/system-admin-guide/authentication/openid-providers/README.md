@@ -14,7 +14,7 @@ keywords: OpenID providers
 | [Custom OpenID Connect Providers](#custom-openid-connect-providers) | Configuration of additional OpenID Connect providers.        |
 | [Troubleshooting](#troubleshooting)                          | Common complications when using OpenID as SSO.               |
 
-To activate and configure OpenID providers in OpenProject, navigate to -> *Administration* -> *Authentication* and choose -> *OpenID providers*.
+To activate and configure OpenID providers in OpenProject, navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*.
 
 ## Add a new authentication application for oauth
 
@@ -30,7 +30,7 @@ You can configure the following options.
 4. Enter the **Secret**.
 5. Optionally, if you want to honor the system-wide self-registration setting, enable "Limit self registration".
 When checked, users will be created according to the [self-registration setting](../authentication-settings).
-6. Press the blue **create** button.
+6. Press the **create** button.
 
 ## Google Workspace
 
@@ -82,7 +82,7 @@ After pressing **CREATE** you will get a pop-up window like the following
 ### Step 3: Add Google as an OpenID Provider to OpenProject
 
 1. Login as OpenProject Administrator
-2. navigate to -> *Administration* -> *Authentication* and choose -> *OpenID providers*.
+2. Navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*.
    1. **Name** Choose Google
    2. **Display Name** (e.g. **EXAMPLE.COM SSO**)
    3. **Identifier** (**Client ID** from step 2)

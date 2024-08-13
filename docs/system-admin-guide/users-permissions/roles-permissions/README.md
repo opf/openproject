@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Roles and permissions
-  priority: 970
+  priority: 960
 description: Manage roles and permissions in OpenProject.
 keywords: manage roles, manage permissions
 ---
@@ -35,6 +35,7 @@ Following user permissions are set on files and folder in **External Storages**:
 - **Automatically managed folders: Delete files (Nextcloud)**
 - **Automatically managed folders: Share files (Nextcloud)**
 
+> [!NOTE]
 > Please note that not all file permissions are applicable to all storage providers.
 
 ## Roles

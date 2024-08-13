@@ -8,7 +8,7 @@ keywords: OAuth application settings
 # OAuth applications
 
 To configure OpenProject to act as a server to an
-OAuth client applications, please navigate to -> *Administration* -> *Authentication* -> *OAuth applications*.
+OAuth client applications, please navigate to *Administration* -> *Authentication* -> *OAuth applications*.
 
 ## Add a new authentication application for OAuth
 
