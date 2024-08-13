@@ -180,7 +180,7 @@ RSpec.describe Storages::ProjectStorage do
       let(:project_folder_mode) { "inactive" }
 
       it "opens storage" do
-        expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
+        expect(project_storage.open(user).result).to eq("#{storage.host}index.php/apps/files")
       end
     end
 
@@ -189,7 +189,7 @@ RSpec.describe Storages::ProjectStorage do
 
       context "when project_folder_id is missing" do
         it "opens storage" do
-          expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
+          expect(project_storage.open(user).result).to eq("#{storage.host}index.php/apps/files")
         end
       end
 
@@ -197,7 +197,7 @@ RSpec.describe Storages::ProjectStorage do
         let(:project_folder_id) { "123" }
 
         it "opens project_folder" do
-          expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/f/123?openfile=1")
+          expect(project_storage.open(user).result).to eq("#{storage.host}index.php/f/123?openfile=1")
         end
       end
     end
@@ -209,7 +209,7 @@ RSpec.describe Storages::ProjectStorage do
         let(:project_folder_mode) { "automatic" }
 
         it "opens storage" do
-          expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
+          expect(project_storage.open(user).result).to eq("#{storage.host}index.php/apps/files")
         end
       end
 
@@ -218,7 +218,7 @@ RSpec.describe Storages::ProjectStorage do
 
         context "when project_folder_id is missing" do
           it "opens storage" do
-            expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
+            expect(project_storage.open(user).result).to eq("#{storage.host}index.php/apps/files")
           end
         end
 
@@ -226,7 +226,7 @@ RSpec.describe Storages::ProjectStorage do
           let(:project_folder_id) { "123" }
 
           it "opens project_folder" do
-            expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/f/123?openfile=1")
+            expect(project_storage.open(user).result).to eq("#{storage.host}index.php/f/123?openfile=1")
           end
         end
       end

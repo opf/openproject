@@ -120,7 +120,8 @@ module API::V3::FileLinks
                         setter: ->(fragment:, **) {
                           break if fragment["href"].blank?
 
-                          canonical_url = fragment["href"].gsub(/\/+$/, "")
+                          # remove all trailing slashes except the last one
+                          canonical_url = "#{fragment['href'].gsub(/\/+$/, '')}/"
                           represented.storage = ::Storages::Storage.find_by(host: canonical_url)
                           represented.storage ||= ::Storages::Storage::InexistentStorage.new(host: canonical_url)
                         }
