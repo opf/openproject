@@ -26,22 +26,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, } from '@angular/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 import { CopyToClipboardService } from './copy-to-clipboard.service';
 
-export const copyToClipboardSelector = 'copy-to-clipboard';
 
 @Component({
   template: '',
-  selector: copyToClipboardSelector,
+  selector: 'opce-copy-to-clipboard',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 

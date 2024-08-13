@@ -27,9 +27,7 @@
 //++
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  Component, ElementRef, OnInit, ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import {
   HideSectionDefinition,
   HideSectionService,
@@ -37,10 +35,9 @@ import {
 import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
-export const addSectionDropdownSelector = 'add-section-dropdown';
 
 @Component({
-  selector: addSectionDropdownSelector,
+  selector: 'opce-add-section-dropdown',
   templateUrl: './add-section-dropdown.component.html',
 })
 export class AddSectionDropdownComponent extends UntilDestroyedMixin implements OnInit {

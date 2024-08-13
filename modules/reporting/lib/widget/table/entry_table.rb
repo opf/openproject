@@ -162,19 +162,19 @@ class Widget::Table::EntryTable < Widget::Table
 
           icons << link_to(icon_wrapper("icon-context icon-delete", I18n.t(:button_delete)),
                            action_for(result, action: "destroy")
-                              .reverse_merge(authenticity_token: form_authenticity_token),
+                             .reverse_merge(authenticity_token: form_authenticity_token),
                            data: { confirm: I18n.t(:text_are_you_sure) },
                            method: :delete,
                            class: "no-decoration-on-hover",
                            title: I18n.t(:button_delete))
         else
-          icons = content_tag(:"time-entry--trigger-actions-entry",
-                              "",
-                              data: { entry: result["id"] })
+          icons = angular_component_tag("opce-time-entry-trigger-actions",
+                                        data: { entry: result["id"] })
         end
       end
     end
     icons
   end
+
   # rubocop:enable Metrics/AbcSize
 end

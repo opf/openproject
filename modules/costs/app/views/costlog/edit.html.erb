@@ -38,9 +38,9 @@ See COPYRIGHT and LICENSE files for more details.
   :post :
   :put %>
 
-<remote-field-updater data-url="<%= url_for(controller: :budgets, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
+<opce-remote-field-updater data-url="<%= url_for(controller: :budgets, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
                       data-mode="json">
-</remote-field-updater>
+</opce-remote-field-updater>
 <%= labelled_tabular_form_for @cost_entry, url: url, html: { method: method } do |f| %>
   <%= error_messages_for 'cost_entry' %>
   <%= back_url_hidden_field_tag %>

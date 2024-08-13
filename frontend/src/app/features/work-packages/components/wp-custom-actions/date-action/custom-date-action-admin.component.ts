@@ -26,15 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ApplicationRef, ChangeDetectorRef, Component, ElementRef, OnInit,
-} from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, OnInit, } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-export const customDateActionAdminSelector = 'custom-date-action-admin';
 
 @Component({
-  selector: customDateActionAdminSelector,
+  selector: 'opce-custom-date-action-admin',
   templateUrl: './custom-date-action-admin.html',
 })
 export class CustomDateActionAdminComponent implements OnInit {

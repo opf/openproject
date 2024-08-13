@@ -10,18 +10,13 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export type SpotSwitchState = boolean;
 
-export const spotSwitchSelector = 'spot-switch';
-
 @Component({
-  selector: spotSwitchSelector,
+  selector: 'spot-switch',
   templateUrl: './switch.component.html',
   providers: [{
     provide: NG_VALUE_ACCESSOR,

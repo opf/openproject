@@ -25,14 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Injector, Input, OnInit, } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -41,10 +34,8 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
-export const globalSearchTitleSelector = 'global-search-title';
-
 @Component({
-  selector: 'global-search-title',
+  selector: 'opce-global-search-title',
   templateUrl: './global-search-title.component.html',
 })
 export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements OnInit {

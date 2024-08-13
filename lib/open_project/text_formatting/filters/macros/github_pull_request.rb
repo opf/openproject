@@ -26,39 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/pages/page"
+module OpenProject::TextFormatting::Filters::Macros
+  module GithubPullRequest
+    CUSTOM_ELEMENT = "opce-github-pull-request".freeze
+    HTML_CLASS = "github_pull_request".freeze
 
-module Pages
-  class CustomFields < Page
-    def path
-      "/custom_fields"
+    module_function
+
+    def identifier
+      HTML_CLASS
     end
 
-    def visit_tab(name)
-      visit!
-      within("opce-content-tabs") do
-        click_link name.to_s
-      end
+    def apply(macro, **)
+      macro.name = CUSTOM_ELEMENT
     end
 
-    def select_format(label)
-      select label, from: "custom_field_field_format"
-    end
-
-    def set_name(name)
-      find_by_id("custom_field_name").set name
-    end
-
-    def set_default_value(value)
-      fill_in "custom_field[default_value]", with: value
-    end
-
-    def set_all_projects(value)
-      find_by_id("custom_field_is_for_all").set value
-    end
-
-    def has_form_element?(name)
-      page.has_css? "label.form--label", text: name
+    def is?(macro)
+      macro["class"].include?(HTML_CLASS)
     end
   end
 end

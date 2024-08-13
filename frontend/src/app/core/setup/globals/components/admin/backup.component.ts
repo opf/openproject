@@ -26,14 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Injector,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, ViewChild, } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -44,10 +37,9 @@ import { OpenProjectBackupService } from 'core-app/core/backup/op-backup.service
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 
-export const backupSelector = 'backup';
 
 @Component({
-  selector: backupSelector,
+  selector: 'opce-backup',
   templateUrl: './backup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

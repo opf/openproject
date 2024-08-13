@@ -26,13 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -41,10 +35,9 @@ import { IStorageLoginInput } from 'core-app/shared/components/storages/storage-
 import { storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
-export const opStorageLoginButtonSelector = 'op-storage-login-button';
 
 @Component({
-  selector: opStorageLoginButtonSelector,
+  selector: 'opce-storage-login-button',
   templateUrl: 'storage-login-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -32,10 +32,9 @@ import { EnterpriseTrialModalComponent } from 'core-app/features/enterprise/ente
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 
-export const enterpriseBaseSelector = 'enterprise-base';
 
 @Component({
-  selector: enterpriseBaseSelector,
+  selector: 'enterprise-base',
   templateUrl: './enterprise-base.component.html',
   styleUrls: ['./enterprise-base.component.sass'],
 })

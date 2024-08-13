@@ -12,13 +12,14 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { CustomTextEditFieldService } from 'core-app/shared/components/grids/widgets/custom-text/custom-text-edit-field.service';
+import {
+  CustomTextEditFieldService
+} from 'core-app/shared/components/grids/widgets/custom-text/custom-text-edit-field.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { filter } from 'rxjs/operators';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 
 @Component({
   templateUrl: './custom-text.component.html',
@@ -137,11 +138,6 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
 
   private memorizeCustomText() {
     this.customText = this.sanitization.bypassSecurityTrustHtml(this.handler.htmlText);
-
-    // Allow embeddable rendered content
-    setTimeout(() => {
-      DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, this.displayContainer.nativeElement);
-    }, 100);
   }
 
   private clickedElementIsLinkWithinDisplayContainer(event:any) {

@@ -35,14 +35,19 @@ import {
   Component,
   ElementRef,
   Injector,
-  Input, NgZone,
+  Input,
+  NgZone,
   OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { WorkPackageCommentFieldHandler } from 'core-app/features/work-packages/components/work-package-comment/work-package-comment-field-handler';
-import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {
+  WorkPackageCommentFieldHandler
+} from 'core-app/features/work-packages/components/work-package-comment/work-package-comment-field-handler';
+import {
+  WorkPackagesActivityService
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
@@ -255,6 +260,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   private updateCommentText() {
-    this.postedComment = this.activity.comment.html;
+    this.postedComment = this.sanitization.bypassSecurityTrustHtml(this.activity.comment.html);
   }
 }

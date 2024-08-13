@@ -34,10 +34,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import {
-  CdkPortalOutlet,
-  ComponentPortal,
-} from '@angular/cdk/portal';
+import { CdkPortalOutlet, ComponentPortal, } from '@angular/cdk/portal';
 import { combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 
@@ -46,10 +43,9 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { ModalData, OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
 
-export const opModalOverlaySelector = 'op-modal-overlay';
 
 @Component({
-  selector: opModalOverlaySelector,
+  selector: 'opce-modal-overlay',
   templateUrl: './modal-overlay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

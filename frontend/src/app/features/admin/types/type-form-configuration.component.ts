@@ -30,11 +30,11 @@ export interface TypeGroup {
   type:TypeGroupType;
 }
 
-export const adminTypeFormConfigurationSelector = 'admin-type-form-configuration';
+
 export const emptyTypeGroup = '__empty';
 
 @Component({
-  selector: adminTypeFormConfigurationSelector,
+  selector: 'opce-admin-type-form-configuration',
   templateUrl: './type-form-configuration.html',
   providers: [
     TypeBannerService,

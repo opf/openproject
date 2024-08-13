@@ -117,7 +117,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
 
     label = label_for_field(field, label_options)
-    input = angular_component_tag("op-basic-single-date-picker",
+    input = angular_component_tag("opce-basic-single-date-picker",
                                   class: options[:class],
                                   inputs:)
     (label + container_wrap_field(input, :date_picker, options))

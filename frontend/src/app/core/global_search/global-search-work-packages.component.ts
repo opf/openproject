@@ -27,26 +27,42 @@
 //++
 
 import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Renderer2,
 } from '@angular/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import {
+  WorkPackageTableConfigurationObject
+} from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import {
+  WorkPackageViewFiltersService
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { debounceTime, distinctUntilChanged, skip } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { WorkPackageFiltersService } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
+import {
+  WorkPackageFiltersService
+} from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
+import {
+  WorkPackageIsolatedQuerySpaceDirective
+} from "core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive";
 
-export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
 @Component({
-  selector: globalSearchWorkPackagesSelector,
+  selector: 'opce-global-search-work-packages',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   template: `
     <wp-embedded-table *ngIf="!resultsHidden"
                        [queryProps]="queryProps"

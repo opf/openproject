@@ -7,7 +7,7 @@
   </label>
   <div class="form--field-container">
     <%= form.hidden_field :color_id %>
-    <%= content_tag('colors-autocompleter',
+    <%= content_tag('opce-colors-autocompleter',
                     '',
                     class: "colors-autocomplete form--select-container " + "#{container_class.present? ? container_class : '-middle'}",
                     data: { colors: options_for_colors(object),

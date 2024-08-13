@@ -34,6 +34,7 @@ class Widget::ReportingWidget < ActionView::Base
   include ActionView::Helpers::OutputSafetyHelper
   include Rails.application.routes.url_helpers
   include ApplicationHelper
+  include AngularHelper
   include ReportingHelper
   include Redmine::I18n
 

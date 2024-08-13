@@ -156,10 +156,10 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% custom_export_expanded = @custom_style.id && (@custom_style.export_logo.present? || @custom_style.export_cover.present? || @custom_style.export_cover_text_color.present?) %>
-<collapsible-section-augment initially-expanded="<%= custom_export_expanded %>"
+<opce-collapsible-section-augment initially-expanded="<%= custom_export_expanded %>"
                              section-title="<%= I18n.t(:label_custom_pdf_export_settings) %>">
-</collapsible-section-augment>
-<div class="collapsible-section-augment--body" hidden>
+</opce-collapsible-section-augment>
+<div class="opce-collapsible-section-augment--body" hidden>
 
   <%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
     <section class="form--section">

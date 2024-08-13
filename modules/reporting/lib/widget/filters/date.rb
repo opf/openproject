@@ -41,7 +41,7 @@ class Widget::Filters::Date < Widget::Filters::Base
                          class: "hidden-for-sighted"
 
       arg1 = content_tag :span, id: "#{id_prefix}arg_1" do
-        text1 = angular_component_tag "op-basic-single-date-picker",
+        text1 = angular_component_tag "opce-basic-single-date-picker",
                                       inputs: {
                                         value: filter.values.first.to_s,
                                         id: "#{id_prefix}arg_1_val",
@@ -55,7 +55,7 @@ class Widget::Filters::Date < Widget::Filters::Base
                          class: "hidden-for-sighted"
 
       arg2 = content_tag :span, id: "#{id_prefix}arg_2", class: "advanced-filters--filter-value2" do
-        text2 = angular_component_tag "op-basic-single-date-picker",
+        text2 = angular_component_tag "opce-basic-single-date-picker",
                                       inputs: {
                                         value: filter.values.second.to_s,
                                         id: "#{id_prefix}arg_2_val",
