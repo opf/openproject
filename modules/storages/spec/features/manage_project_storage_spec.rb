@@ -85,16 +85,16 @@ RSpec.describe("Activation of storages in projects",
   before do
     oauth_client_token
 
-    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}")
+    stub_request(:propfind, "#{storage.host}remote.php/dav/files/#{remote_identity.origin_user_id}")
       .to_return(status: 207, body: root_xml_response, headers: {})
-    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}/Folder1")
+    stub_request(:propfind, "#{storage.host}remote.php/dav/files/#{remote_identity.origin_user_id}/Folder1")
       .to_return(status: 207, body: folder1_xml_response, headers: {})
-    stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
+    stub_request(:get, "#{storage.host}ocs/v1.php/apps/integration_openproject/fileinfo/11")
       .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
-    stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
+    stub_request(:get, "#{storage.host}ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
     stub_request(
       :delete,
-      "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
+      "#{storage.host}remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
     ).to_return(status: 200, body: "", headers: {})
 
     storage
