@@ -102,6 +102,14 @@ RSpec.describe "API v3 projects resource with filters for the linked storages",
         let(:elements) { [project3, project2, project1] }
       end
 
+      context "if storage url is missing the trailing slash" do
+        let(:storage_url) { CGI.escape(storage1.host.chomp("/")) }
+
+        it_behaves_like "API V3 collection response", 3, 3, "Project", "Collection" do
+          let(:elements) { [project3, project2, project1] }
+        end
+      end
+
       context "if a project has the work_package_tracking module deactivated" do
         before(:all) { disable_module(project1, "work_package_tracking") }
         after(:all) { enable_module(project1, "work_package_tracking") }
