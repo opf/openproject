@@ -324,7 +324,7 @@ zh-TW:
     unpublish:
       success: "名單已被隱藏"
       failure: "清單無法隱私化： %{errors}"
-    can_be_saved: "清單已修改："
+    can_be_saved: "已修改清單："
     can_be_saved_as: "修改的內容只能儲存在新清單中："
   members:
     index:
@@ -335,7 +335,7 @@ zh-TW:
     columns:
       shared: "共享"
     filters:
-      all_shares: "所有分享的"
+      all_shares: "所有共享的"
     menu:
       all: "全部"
       invited: "已邀請"
@@ -348,12 +348,12 @@ zh-TW:
       will_remove_the_users_role: "這將從此專案中移除使用者的角色。"
       will_remove_the_groups_role: "這將從此專案中移除使用者的角色。"
       however_work_packages_shared_with_user_html:
-        other: "不過， %{shared_work_packages_link} ，也與此使用者分享。"
+        other: "不過， %{shared_work_packages_link} ，也與此使用者共享。"
       however_work_packages_shared_with_group_html:
-        other: "不過， %{shared_work_packages_link} ，也與此群組分享。"
-      remove_work_packages_shared_with_user_too: "已移除會員身份的使用者仍可存取共用工作套件。您也想移除共用嗎？"
+        other: "不過， %{shared_work_packages_link} ，也與此群組共享。"
+      remove_work_packages_shared_with_user_too: "已移除專案成員的使用者仍可存取共用工作項目。您也想移除共用嗎？"
       remove_work_packages_shared_with_group_too: "已移除成員身份的群組仍可存取共用工作套件。您也想移除共用嗎？"
-      will_not_affect_inherited_shares: "(這不會影響與其小組共用的工作套件)。"
+      will_not_affect_inherited_shares: "(這不會影響與其小組共用的工作項目)。"
       can_remove_direct_but_not_shared_roles: "您可以刪除該用戶的直接項目成員身份，但他們所在的組也是該項目的成員，因此他們將繼續通過組成為成員。"
       also_work_packages_shared_with_user_html:
         other: "此外，還與該用戶共享了 %{shared_work_packages_link}。"
@@ -381,6 +381,9 @@ zh-TW:
       will_revoke_access_to_all: "此操作將撤銷他們對所有這些系統的訪問權限。"
   my:
     access_token:
+      create_dialog:
+        header: '%{type} 權杖已生成'
+        warning: '注意: 這是您唯一可以看到此權杖的時候, 請務必立即複製它。'
       errors:
         token_name_blank: "請提供API token名稱"
         token_name_in_use: "此 API token名稱已被使用，請選擇其他名稱"
@@ -597,7 +600,7 @@ zh-TW:
       custom_action:
         actions: "操作"
       custom_field:
-        allow_non_open_versions: "允許非打開版本"
+        allow_non_open_versions: "允許非開放版本"
         default_value: "預設值"
         editable: "可編輯"
         field_format: "格式"
@@ -606,7 +609,7 @@ zh-TW:
         max_length: "最大長度"
         min_length: "最小長度"
         multi_value: "允許多選"
-        possible_values: "可能的值"
+        possible_values: "可選擇內容"
         regexp: "正規表示式"
         searchable: "搜索"
         admin_only: "僅限管理員"
@@ -1144,6 +1147,8 @@ zh-TW:
       role:
         other: "角色"
       status: "工作項目狀態"
+      token/api:
+        other: 存取權杖
       type: "類型"
       user: "使用者"
       version: "版本"
@@ -1206,7 +1211,7 @@ zh-TW:
     content: "內容"
     color: "顏色"
     created_at: "建立於"
-    custom_options: "可能的值"
+    custom_options: "可選擇內容"
     custom_values: "客製欄位"
     date: "日期"
     default_columns: "預設欄"
@@ -1826,7 +1831,7 @@ zh-TW:
   label_ascending: "昇冪"
   label_assigned_to_me_work_packages: "分配給我的工作項目"
   label_associated_revisions: "關聯的修訂"
-  label_attachment_plural: "附加檔"
+  label_attachment_plural: "附件"
   label_attribute: "属性"
   label_attribute_plural: "属性"
   label_ldap_auth_source_new: "新增LDAP 連線"
@@ -2033,7 +2038,7 @@ zh-TW:
   label_invite_user: "邀請使用者"
   label_share: "分享"
   label_share_project_list: "共用專案清單"
-  label_share_work_package: "分享工作項目"
+  label_share_work_package: "共享工作項目"
   label_show_hide: "顯示/隱藏"
   label_show_hide_n_items: "顯示/隱藏 %{count} 項目"
   label_show_all_registered_users: "顯示所有註冊使用者"
@@ -2082,7 +2087,7 @@ zh-TW:
   label_member_all_admin: "(所有角色都由管理員狀態決定)"
   label_member_plural: "成員"
   label_membership_plural: "成員資格"
-  label_membership_added: "成員加入"
+  label_membership_added: "成員已新增"
   label_membership_updated: "成員更新"
   label_menu: "選單"
   label_menu_badge:
@@ -2129,6 +2134,8 @@ zh-TW:
   label_next_week: "下一週"
   label_no_change_option: "(沒有變動)"
   label_no_data: "沒有資料可顯示"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "無上層頁面"
   label_nothing_display: "沒有可以顯示的"
   label_nobody: "沒有人"
@@ -2809,7 +2816,7 @@ zh-TW:
     member_of_group: "執行者的群組"
     name_or_identifier: "名稱或識別碼"
     only_subproject_id: "只限子專案"
-    shared_with_user: "分配給成員"
+    shared_with_user: "與使用者共享"
     shared_with_me: "與我共用"
     subproject_id: "包含子專案"
   repositories:
@@ -2975,7 +2982,7 @@ zh-TW:
   setting_consent_info: "條文"
   setting_consent_required: "是否需要使用者允許"
   setting_consent_decline_mail: "同意郵件列在通訊錄"
-  setting_cross_project_work_package_relations: "允許跨專案的工作項目關聯"
+  setting_cross_project_work_package_relations: "允許跨專案的工作項目關聯起來"
   setting_first_week_of_year: "一年的第一週從哪一天開始"
   setting_date_format: "日期"
   setting_default_language: "預設語言"
@@ -3414,7 +3421,7 @@ zh-TW:
     denied: "您沒有權限共享 %{entities}。"
     label_search: "搜尋要邀請的用戶"
     label_search_placeholder: "以帳號或電子郵件搜尋"
-    label_toggle_all: "切換到「所有分享的」"
+    label_toggle_all: "切換到「所有共享的」"
     remove: "刪除"
     share: "分享"
     text_empty_search_description: "沒有符合當前過濾條件的用戶。"

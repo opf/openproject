@@ -2235,6 +2235,8 @@ uk:
   label_next_week: "Наступний тиждень"
   label_no_change_option: "(Немає змін)"
   label_no_data: "Немає даних для відображення"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Немає початкової сторінки"
   label_nothing_display: "Нічого не відображається"
   label_nobody: "жодні"

@@ -2168,6 +2168,8 @@ es:
   label_next_week: "La próxima semana"
   label_no_change_option: "(No hay cambios)"
   label_no_data: "No hay datos disponibles"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Sin página principal"
   label_nothing_display: "Nada que mostrar"
   label_nobody: "nadie"

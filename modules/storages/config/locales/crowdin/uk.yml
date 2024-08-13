@@ -66,6 +66,7 @@ uk:
       inactive: Немає визначеної папки
       manual: Наявна папка має ручне керування
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: Крім того, якщо це сховище містить папку проєкту з автоматичним керуванням, цю папку й усі її файли буде остаточно видалено.
         confirmation_text: Підтвердьте, що ви розумієте наслідки й хочете вилучити цей проєкт із файлового сховища
@@ -121,7 +122,7 @@ uk:
             set_folders_permissions:
               permission_not_set: не вдалося встановити дозволи за шляхом %{path}.
           error: Сталася неочікувана помилка. Щоб дізнатися більше, переконайтеся, що маєте доступ до свого екземпляра Nextcloud, і перевірте журнали працівників OpenProject.
-          group_does_not_exist: "Групи «%{group}» не існує. Перевірте конфігурацію свого екземпляра Nextcloud."
+          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
           insufficient_privileges: OpenProject не має достатніх привілеїв, щоб додати користувача %{user} в групу «%{group}». Перевірте налаштування своєї групи в Nextcloud.
           not_allowed: Nextcloud блокує запит.
           unauthorized: Не вдалося синхронізувати OpenProject із Nextcloud. Перевірте своє сховище й конфігурацію Nextcloud.

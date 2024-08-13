@@ -385,6 +385,9 @@ nl:
       will_revoke_access_to_all: "Door deze actie wordt hun toegang tot alle items ingetrokken."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
@@ -1155,6 +1158,9 @@ nl:
         one: "Rol"
         other: "Rollen"
       status: "Status werkpakket"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Type"
       user: "Gebruiker"
       version: "Versie"
@@ -2162,6 +2168,8 @@ nl:
   label_next_week: "Volgende week"
   label_no_change_option: "(Niet wijzigen)"
   label_no_data: "Geen gegevens om weer te geven"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Geen bovenliggende pagina"
   label_nothing_display: "Niets om weer te geven"
   label_nobody: "niemand"

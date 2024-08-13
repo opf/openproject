@@ -66,6 +66,7 @@ da:
       inactive: No specific folder
       manual: Existing folder manually managed
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
         confirmation_text: Please, confirm you understand and want to remove this file storage from this project

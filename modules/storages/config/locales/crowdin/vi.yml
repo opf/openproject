@@ -66,6 +66,7 @@ vi:
       inactive: Không có thư mục cụ thể
       manual: Thư mục hiện có được quản lý thủ công
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: Ngoài ra, trong trường hợp này, bộ lưu trữ này có một thư mục dự án được quản lý tự động, thư mục này và các tệp trong đó sẽ bị xóa vĩnh viễn.
         confirmation_text: Vui lòng xác nhận bạn hiểu và muốn xóa bộ lưu trữ tệp này khỏi dự án này
@@ -121,7 +122,7 @@ vi:
             set_folders_permissions:
               permission_not_set: không thể thiết lập quyền trên %{path}.
           error: Đã xảy ra lỗi không mong muốn. Vui lòng đảm bảo rằng phiên bản Nextcloud của bạn có thể truy cập được và kiểm tra nhật ký công nhân OpenProject để biết thêm thông tin
-          group_does_not_exist: "%{group} không thoát. Kiểm tra cấu hình phiên bản Nextcloud của bạn."
+          group_does_not_exist: "%{group} không tồn tại. Kiểm tra cấu hình phiên bản Nextcloud của bạn."
           insufficient_privileges: OpenProject không có đủ quyền để thêm %{user} vào %{group}. Kiểm tra cài đặt nhóm của bạn trong Nextcloud.
           not_allowed: Nextcloud chặn yêu cầu.
           unauthorized: OpenProject không thể đồng bộ với Nextcloud. Vui lòng kiểm tra bộ nhớ và cấu hình Nextcloud của bạn.

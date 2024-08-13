@@ -66,6 +66,7 @@ ko:
       inactive: 특정 폴더 없음
       manual: 수동으로 관리되는 기존 폴더
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: 또한 이 경우에는 해당 저장소에 자동으로 관리되는 프로젝트 폴더가 있는 경우 이 폴더와 해당 파일이 영구적으로 삭제됩니다.
         confirmation_text: 해당 사항을 이해하며 이 프로젝트에서 이 파일 저장소를 제거할 것인지 확인해 주세요
@@ -121,7 +122,7 @@ ko:
             set_folders_permissions:
               permission_not_set: '- %{path}에 대한 권한을 설정할 수 없습니다.'
           error: 예기치 않은 오류가 발생했습니다. Nextcloud 인스턴스에 연결할 수 있는지 확인하고 OpenProject 작업자 로그에서 자세한 내용을 확인하세요
-          group_does_not_exist: "%{group}이(가) 종료되지 않습니다. Nextcloud 인스턴스 구성을 확인하세요."
+          group_does_not_exist: "%{group}이(가) 없습니다. Nextcloud 인스턴스 구성을 확인하세요."
           insufficient_privileges: OpenProject에는 %{user}을(를) %{group}에 추가할 수 있는 권한이 충분하지 않습니다. Nextcloud에서 그룹 설정을 확인하세요.
           not_allowed: Nextcloud가 요청을 차단합니다.
           unauthorized: OpenProject가 Nextcloud와 동기화할 수 없습니다. 저장소 및 Nextcloud 구성을 확인하세요.

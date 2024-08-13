@@ -2240,6 +2240,8 @@ ru:
   label_next_week: "На следующей неделе"
   label_no_change_option: "(Без изменений)"
   label_no_data: "Нет данных для отображения"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Без родительской страницы"
   label_nothing_display: "Нет данных для отображения"
   label_nobody: "никто"
