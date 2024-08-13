@@ -655,16 +655,18 @@ Redmine::MenuManager.map :work_package_split_view do |menu|
             { tab: :files },
             skip_permissions_check: true,
             badge: ->(work_package:, **) {
-              Attachment.where(container_type: "WorkPackage",
-                               container_id: work_package)
-                        .count
+              count = Storages::FileLink.where(container_type: "WorkPackage", container_id: work_package).count
+              unless work_package.hide_attachments?
+                count += work_package.attachments.count
+              end
+              count
             },
             caption: :"js.work_packages.tabs.files"
   menu.push :relations,
             { tab: :relations },
             skip_permissions_check: true,
             badge: ->(work_package:, **) {
-              Relation.visible_involved(work_package).count + WorkPackage.where(parent_id: work_package).count
+              work_package.relations.count + work_package.children.count
             },
             caption: :"js.work_packages.tabs.relations"
   menu.push :watchers,

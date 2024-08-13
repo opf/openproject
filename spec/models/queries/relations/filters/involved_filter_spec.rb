@@ -67,12 +67,6 @@ RSpec.describe Queries::Relations::Filters::InvolvedFilter do
 
         expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
-
-      it "is the same as the visible_involved scope" do
-        expected = Relation.visible_involved("1")
-
-        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
-      end
     end
 
     context 'for "!"' do

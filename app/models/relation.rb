@@ -103,14 +103,6 @@ class Relation < ApplicationRecord
   scope :follows_with_lag,
         -> { follows.where("lag > 0") }
 
-  scope :visible_involved,
-        ->(work_package) do
-          visible_sql = WorkPackage.visible(User.current).select(:id).to_sql
-          where("(from_id IN (?) AND to_id IN (#{visible_sql})) OR (to_id IN (?) AND from_id IN (#{visible_sql}))",
-                work_package,
-                work_package)
-        end
-
   validates :lag, numericality: { allow_nil: true }
 
   validates :to, uniqueness: { scope: :from }
