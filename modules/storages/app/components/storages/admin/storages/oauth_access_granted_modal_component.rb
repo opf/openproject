@@ -28,15 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-
 module Storages
   module Admin
     module Storages
-      class OAuthAccessGrantNudgeModalComponent < ApplicationComponent
+      class OAuthAccessGrantedModalComponent < ApplicationComponent
         include OpTurbo::Streamable
-
-        options dialog_id: "storages--oauth-grant-nudge-modal-component",
-                dialog_body_id: "storages--oauth-grant-nudge-modal-body-component"
 
         def initialize(storage:, **)
           @storage = find_storage(storage)
@@ -44,19 +40,18 @@ module Storages
         end
 
         def render?
-          @storage.present?
+          storage.present? && OAuthClientToken.exists?(user: User.current, oauth_client: storage.oauth_client)
         end
 
         private
 
         attr_reader :storage
 
-        def confirm_button_text
-          I18n.t("storages.oauth_grant_nudge_modal.confirm_button_label")
-        end
+        def dialog_id = "#{wrapper_key}-dialog-id"
+        def dialog_body_id = "#{wrapper_key}-dialog-body-id"
 
         def title
-          I18n.t("storages.oauth_grant_nudge_modal.title")
+          I18n.t("storages.oauth_grant_nudge_modal.access_granted_screen_reader", storage: storage.name)
         end
 
         def waiting_title
@@ -64,19 +59,13 @@ module Storages
         end
 
         def cancel_button_text
-          I18n.t("storages.oauth_grant_nudge_modal.cancel_button_label")
+          I18n.t("button_close")
         end
 
         def body_text
-          I18n.t("storages.oauth_grant_nudge_modal.body", storage: storage.name)
-        end
-
-        def confirm_button_aria_label
-          I18n.t("storages.oauth_grant_nudge_modal.confirm_button_aria_label", storage: storage.name)
-        end
-
-        def confirm_button_url
-          url_helpers.oauth_access_grant_admin_settings_storage_project_storages_path(storage)
+          success_title = I18n.t("storages.oauth_grant_nudge_modal.access_granted")
+          success_subtitle = I18n.t("storages.oauth_grant_nudge_modal.storage_ready", storage: storage.name)
+          concat(render(::Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle:, success_title:)))
         end
 
         def find_storage(storage_record_or_id)
