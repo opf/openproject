@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -274,7 +274,7 @@ group :test do
   gem "selenium-devtools"
   gem "selenium-webdriver", "~> 4.20"
 
-  gem "fuubar", "~> 2.5.0"
+  gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
 
   # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
@@ -321,6 +321,9 @@ group :development, :test do
   gem "ruby-prof", require: false
   gem "stackprof", require: false
 
+  # Output a stack trace anytime, useful when a process is stuck
+  gem "rbtrace"
+
   # REPL with debug commands
   gem "debug"
 
@@ -347,7 +350,7 @@ group :development, :test do
   gem "brakeman", "~> 6.1.0"
 
   # i18n-tasks helps find and manage missing and unused translations.
-  gem "i18n-tasks", "~> 1.0.13"
+  gem "i18n-tasks", "~> 1.0.13", require: false
 end
 
 gem "bootsnap", "~> 1.18.0", require: false
@@ -392,6 +395,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.17.0"
-gem "openproject-octicons_helper", "~>19.17.0"
-gem "openproject-primer_view_components", "~>0.40.0"
+gem "openproject-octicons", "~>19.18.0"
+gem "openproject-octicons_helper", "~>19.18.0"
+gem "openproject-primer_view_components", "~>0.42.0"

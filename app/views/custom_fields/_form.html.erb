@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -192,9 +192,9 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </div>
     <div class="form--field">
-      <%= f.check_box :visible %>
+      <%= f.check_box :admin_only %>
       <div class="form--field-instructions">
-        <p><%= t('custom_fields.instructions.visible') %></p>
+        <p><%= t('custom_fields.instructions.admin_only') %></p>
       </div>
     </div>
     <div class="form--field">
@@ -207,19 +207,19 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="form--field">
       <%= f.check_box :is_required %>
       <div class="form--field-instructions">
-        <p><%= t('custom_fields.instructions.is_required') %></p>
+        <p><%= t('custom_fields.instructions.is_required_for_project') %></p>
       </div>
     </div>
     <div class="form--field">
-      <%= f.check_box :visible %>
+      <%= f.check_box :admin_only %>
       <div class="form--field-instructions">
-        <p><%= t('custom_fields.instructions.visible') %></p>
+        <p><%= t('custom_fields.instructions.admin_only') %></p>
       </div>
     </div>
     <div class="form--field" <%= format_dependent.attributes(:searchable) %>>
       <%= f.check_box :searchable %>
       <div class="form--field-instructions">
-        <p><%= t('custom_fields.instructions.searchable') %></p>
+        <p><%= t('custom_fields.instructions.searchable_for_project') %></p>
       </div>
     </div>
   <% when "TimeEntryCustomField" %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ module Meetings
     STATE_DEFAULT = :show
     STATE_EDIT = :edit
     STATE_OPTIONS = [STATE_DEFAULT, STATE_EDIT].freeze
-    def initialize(meeting:, project: nil, state: :show)
+    def initialize(meeting:, project: nil, state: STATE_DEFAULT)
       super
 
       @meeting = meeting
@@ -45,10 +45,6 @@ module Meetings
     end
 
     private
-
-    def show_state?
-      @state == :show
-    end
 
     def delete_enabled?
       User.current.allowed_in_project?(:delete_meetings, @meeting.project)

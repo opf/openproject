@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -121,8 +121,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <div
-    style="display: none;"
-    class="form--field-container -with-children-spacing"
+    class="form--field-container -with-children-spacing d-none"
     data-project-storage-form-target="projectFolderSection"
   >
     <%= styled_button_tag class: 'button_no-margin',
@@ -138,7 +137,6 @@ See COPYRIGHT and LICENSE files for more details.
                               inputs: {
                                 input: storage_login_input(@project_storage.storage)
                               },
-                              style: 'display: inline-block',
                               data: {
                                 'project-storage-form-target': "loginButton"
                               }

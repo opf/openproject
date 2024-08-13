@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,7 @@
 #++
 
 module Storages
-  class NextcloudGroupFolderPropertiesSyncService
-    extend ActiveModel::Naming
-    extend ActiveModel::Translation
-    include TaggedLogging
-
+  class NextcloudGroupFolderPropertiesSyncService < BaseService
     using Peripherals::ServiceResultRefinements
 
     PERMISSIONS_MAP = { read_files: 1, write_files: 2, create_files: 4, delete_files: 8, share_files: 16 }.freeze
@@ -45,22 +41,19 @@ module Storages
                      "nextcloud.queries.group_users", "nextcloud.queries.file_ids", "nextcloud.authentication.userless",
                      "nextcloud.commands.add_user_to_group", "nextcloud.commands.remove_user_from_group"]
 
-    def self.i18n_scope = "services"
+    def self.i18n_key = "NextcloudSyncService"
 
     def self.call(storage)
       new(storage).call
     end
 
-    def read_attribute_for_validation(attr) = attr
-
     def initialize(storage, **)
       super(**)
       @storage = storage
-      @result = ServiceResult.success(errors: ActiveModel::Errors.new(self))
     end
 
     def call
-      with_tagged_logger([self.class, "storage-#{@storage.id}"]) do
+      with_tagged_logger([self.class.name, "storage-#{@storage.id}"]) do
         info "Starting AMPF Sync for Nextcloud Storage #{@storage.id}"
         prepare_remote_folders.on_failure { return epilogue }
         apply_permissions_to_folders
@@ -72,21 +65,6 @@ module Storages
 
     def epilogue
       info "Synchronization process for Nextcloud Storage #{@storage.id} has ended. #{@result.errors.count} errors found."
-      @result
-    end
-
-    # @param attribute [Symbol] attribute to which the error will be tied to
-    # @param storage_error [Storages::StorageError] an StorageError instance
-    # @param options [Hash<Symbol, Object>] optional extra parameters for the message generation
-    # @return [ServiceResult]
-    def add_error(attribute, storage_error, options: {})
-      case storage_error.code
-      when :error, :unauthorized
-        @result.errors.add(:base, storage_error.code, **options)
-      else
-        @result.errors.add(attribute, storage_error.code, **options)
-      end
-
       @result
     end
 
@@ -118,7 +96,7 @@ module Storages
 
     def add_remove_users_to_group(group, username)
       remote_users = remote_group_users.result_or do |error|
-        format_and_log_error(error, group:)
+        log_storage_error(error, group:)
         return add_error(:remote_group_users, error, options: { group: }).fail!
       end
 
@@ -132,7 +110,7 @@ module Storages
       users_to_add.each do |user|
         add_user_to_group.call(storage: @storage, user:).error_and do |error|
           add_error(:add_user_to_group, error, options: { user:, group: @storage.group, reason: error.log_message })
-          format_and_log_error(error, group: @storage.group, user:, reason: error.log_message)
+          log_storage_error(error, group: @storage.group, user:, reason: error.log_message)
         end
       end
     end
@@ -141,7 +119,7 @@ module Storages
       users_to_remove.each do |user|
         remove_user_from_group.call(storage: @storage, user:).error_and do |error|
           add_error(:remove_user_from_group, error, options: { user:, group: @storage.group, reason: error.log_message })
-          format_and_log_error(error, group: @storage.group, user:, reason: error.log_message)
+          log_storage_error(error, group: @storage.group, user:, reason: error.log_message)
         end
       end
     end
@@ -169,7 +147,7 @@ module Storages
       }
 
       set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
-        format_and_log_error(service_result.errors, folder:)
+        log_storage_error(service_result.errors, folder:)
         add_error(:set_folder_permission, service_result.errors, options: { folder: })
       end
     end
@@ -201,7 +179,7 @@ module Storages
                            } }
 
         set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
-          format_and_log_error(service_result.errors, folder: path, context: "hide_folder")
+          log_storage_error(service_result.errors, folder: path, context: "hide_folder")
           add_error(:hide_inactive_folders, service_result.errors, options: { path: })
         end
       end
@@ -236,7 +214,7 @@ module Storages
 
       info "#{current_path} is misnamed. Renaming to #{name}"
       rename_file.call(storage: @storage, auth_strategy:, file_id:, name:).on_failure do |service_result|
-        format_and_log_error(service_result.errors, folder_id: file_id, folder_name: name)
+        log_storage_error(service_result.errors, folder_id: file_id, folder_name: name)
 
         add_error(:rename_project_folder, service_result.errors,
                   options: { current_path:, project_folder_name: name, project_folder_id: file_id }).fail!
@@ -248,8 +226,8 @@ module Storages
       parent_location = Peripherals::ParentFolder.new("/")
 
       created_folder = create_folder.call(storage: @storage, auth_strategy:, folder_name:, parent_location:)
-                                            .on_failure do |service_result|
-        format_and_log_error(service_result.errors, folder_name:)
+                                    .on_failure do |service_result|
+        log_storage_error(service_result.errors, folder_name:)
 
         return add_error(:create_folder, service_result.errors, options: { folder_name:, parent_location: })
       end.result
@@ -264,7 +242,7 @@ module Storages
     def audit_last_project_folder(last_project_folder, project_folder_id)
       ApplicationRecord.transaction do
         success = last_project_folder.update(origin_folder_id: project_folder_id) &&
-          last_project_folder.project_storage.update(project_folder_id:)
+                  last_project_folder.project_storage.update(project_folder_id:)
 
         raise ActiveRecord::Rollback unless success
       end
@@ -286,7 +264,7 @@ module Storages
       }
 
       set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
-        format_and_log_error(service_result.errors, { folder: group_folder })
+        log_storage_error(service_result.errors, { folder: group_folder })
         add_error(:ensure_root_folder_permissions, service_result.errors, options: { group:, username: }).fail!
       end
     end
@@ -294,7 +272,7 @@ module Storages
     def remote_root_folder_map(group_folder)
       info "Retrieving already existing folders under #{group_folder}"
       file_ids.call(storage: @storage, path: group_folder).on_failure do |service_result|
-        format_and_log_error(service_result.errors, { folder: group_folder })
+        log_storage_error(service_result.errors, { folder: group_folder })
         add_error(:remote_folders, service_result.errors, options: { group_folder:, username: @storage.username }).fail!
       end
     end
@@ -320,22 +298,6 @@ module Storages
 
     def admin_client_tokens_scope
       OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
-    end
-
-    # Logging
-
-    def format_and_log_error(error, context = {})
-      payload = error.data.payload
-      data =
-        case payload
-        in { status: Integer }
-          { status: payload.status, body: payload.body.to_s }
-        else
-          payload.to_s
-        end
-
-      error_message = context.merge({ error_code: error.code, data: })
-      error error_message
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,7 +337,7 @@ tr:
           Otomatik zoom mevcut olmadığında gösterilmesi gereken ilk yakınlaştırma seviyesini seçin.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Dışarı aktar"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -615,13 +615,13 @@ tr:
       title: "Bildirimler"
       no_unread: "Okunmamış bildirim yok"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "Bahsedilen"
+        watched: "Takipçi"
+        assigned: "Atanan"
+        accountable: "Sorumlu"
+        created: "Oluşturuldu"
+        scheduled: "Zamanlandı"
+        commented: "Yorumlananlar"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Tarih uyarısı"
@@ -637,11 +637,6 @@ tr:
         upsale:
           title: "Tarih uyarısı"
           description: "Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız."
-      facets:
-        unread: "okunmamış"
-        unread_title: "Okunmayanları göster"
-        all: "Hepsi"
-        all_title: "Tümünü göster"
       center:
         label_actor_and: "ve"
         and_more_users:
@@ -658,6 +653,7 @@ tr:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Tüm etkinlik ayrıntılarını görüntülemek için bir bildirime tıklayın."
         new_notifications:
           message: "Yeni bildirimler var"
@@ -896,7 +892,7 @@ tr:
       wiki_link: "Bir Wiki sayfasına bağlantı"
       image: "Görsel"
     sharing:
-      share: "Share"
+      share: "Paylaş"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -1016,7 +1012,7 @@ tr:
         assigned_to_me: "Bana atananlar"
         recently_created: "Son oluşturulanlar"
         all_open: "Tüm açık"
-        overdue: "Overdue"
+        overdue: "Süresi geçmiş"
         summary: "Özet"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

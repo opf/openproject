@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,28 +33,19 @@ module API
         helpers ::API::V3::Relations::RelationsHelper
 
         resources :relations do
-          ##
-          # @todo Redirect to relations endpoint as soon as `list relations` API endpoint
-          #       including filters is complete.
           get do
-            query = ::Queries::Relations::RelationQuery.new(user: current_user)
+            filters = [{ involved: { operator: "=", values: [@work_package.id.to_s] } }]
+            url = api_v3_paths.path_for(:relations, filters:)
 
-            relations = query
-                        .where(:involved, "=", @work_package.id)
-                        .results
-                        .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
-
-            ::API::V3::Relations::RelationCollectionRepresenter.new(
-              relations,
-              self_link: api_v3_paths.work_package_relations(@work_package.id),
-              current_user:
-            )
+            redirect url, body: "The requested resource is deprecated and permanently moved to #{url}"
+            status 308
           end
 
           post &::API::V3::Utilities::Endpoints::Create
                   .new(model: Relation,
                        params_modifier: ->(params) do
-                         params.merge(send_notifications: (params[:notify] != "false"))
+                         params.merge(send_notifications: (params[:notify] != "false"),
+                                      from: @work_package)
                        end)
                   .mount
         end

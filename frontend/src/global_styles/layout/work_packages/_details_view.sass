@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,7 @@ body.router--work-packages-partitioned-split-view-new
   height:     55px
   width:      100%
   background: var(--bgColor-muted)
-  border:     1px solid var(--borderColor-default)
+  border-top: 1px solid var(--borderColor-muted)
   padding:    0 1rem 10px
 
   @media print
@@ -79,6 +79,9 @@ body.router--work-packages-partitioned-split-view-new
   bottom:          55px
   width:           100%
   overflow:        hidden
+
+  &_no-tabs
+    top: 0
 
   &.-create-mode
     padding: 0 5px 10px 20px

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,19 +35,21 @@ RSpec.describe API::V3::Relations::RelationPaginatedCollectionRepresenter do
 
   let(:relations) do
     build_stubbed_list(:relation, total).tap do |relations|
-      allow(relations)
-        .to receive(:limit)
-              .with(page_size)
-              .and_return(relations)
+      without_partial_double_verification do
+        allow(relations)
+          .to receive(:limit)
+                .with(page_size)
+                .and_return(relations)
 
-      allow(relations)
-        .to receive(:offset)
-              .with(page - 1)
-              .and_return(relations)
+        allow(relations)
+          .to receive(:offset)
+                .with(page - 1)
+                .and_return(relations)
 
-      allow(relations)
-        .to receive(:count)
-              .and_return(relations.length)
+        allow(relations)
+          .to receive(:count)
+                .and_return(relations.length)
+      end
     end
   end
 

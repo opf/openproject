@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -102,7 +102,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitzar"
+    button_update: "Actualitza"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -338,7 +338,7 @@ ca:
           Seleccioni el nivell inicial de zoom que s'ha de mostrar quan el zoom automàtic no estigui disponible.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Exportar"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -489,7 +489,7 @@ ca:
     label_per_page: "Per pàgina:"
     label_please_wait: "Espereu, si us plau"
     label_project: "Projecte"
-    label_project_list: "Project lists"
+    label_project_list: "Llistes de projectes"
     label_project_plural: "Projectes"
     label_visibility_settings: "Configuració de visualització"
     label_quote_comment: "Citar aquest comentari"
@@ -616,17 +616,17 @@ ca:
       title: "Notificacions"
       no_unread: "No hi ha notificacions sense llegir"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "Mencionat"
+        watched: "Observador"
+        assigned: "Assignat a"
+        accountable: "Responsable"
+        created: "Creat"
+        scheduled: "Programat"
+        commented: "Comentat"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Alerta per dates"
-        shared: "Shared"
+        shared: "Compartida"
       date_alerts:
         milestone_date: "Data de fita"
         overdue: "Vençut"
@@ -638,11 +638,6 @@ ca:
         upsale:
           title: "Alertes per dates"
           description: "Amb les alertes per dates, se't notificarà quan una data d'inici o finalització s'apropi de tal manera que no se't puguin oblidar o passar dates rellevants."
-      facets:
-        unread: "Sense llegir"
-        unread_title: "Mostrar no llegits"
-        all: "Totes"
-        all_title: "Mostrar tots"
       center:
         label_actor_and: "i"
         and_more_users:
@@ -659,6 +654,7 @@ ca:
           no_notification: "Sembla que ja estàs al dia."
           no_notification_with_current_project_filter: "Sembla que ja estàs al dia per al projecte seleccionat."
           no_notification_with_current_filter: "Sembla que ja estàs al dia pel filtre %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
         new_notifications:
           message: "No hi ha notificacions noves"
@@ -685,7 +681,7 @@ ca:
             description: "Rep una notificació cada vegada que algú em menciona a qualsevol lloc"
           assignee: "Assignat a"
           responsible: "Responsable"
-          shared: "Shared"
+          shared: "Compartida"
           watched: "Observador"
           work_package_commented: "Tots els nous comentaris"
           work_package_created: "Paquets de treball nou"
@@ -768,7 +764,7 @@ ca:
           label: "Pausa els correu electrònic recordatori temporalment"
           first_day: "Primer dia"
           last_day: "Últim dia"
-    text_are_you_sure: "N'estas segur?"
+    text_are_you_sure: "N'esteu segur?"
     text_data_lost: "Totes les dades entrades es perdran."
     text_user_wrote: "%{value} va escriure:"
     types:
@@ -897,7 +893,7 @@ ca:
       wiki_link: "Enllaça a una pàgina Wiki"
       image: "Imatge"
     sharing:
-      share: "Share"
+      share: "Compartir"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -986,7 +982,7 @@ ca:
         createdAt: "Creat el"
         description: "Descripció"
         date: "Data"
-        percentComplete: "% Complete"
+        percentComplete: "% Complet"
         percentCompleteAlternative: "Progress"
         dueDate: "Data final"
         duration: "Durada"
@@ -995,7 +991,7 @@ ca:
         percentageDone: "Percentatge fet"
         priority: "Prioritat"
         projectName: "Projecte"
-        remainingWork: "Remaining work"
+        remainingWork: "Treball restant"
         remainingWorkAlternative: "Hores restants"
         responsible: "Responsable"
         startDate: "Data d'inici"
@@ -1007,9 +1003,9 @@ ca:
         updatedAt: "Actualitzat el"
         versionName: "Versió"
         version: "Versió"
-        work: "Work"
+        work: "Treball"
         workAlternative: "Temps estimat"
-        remainingTime: "Remaining work"
+        remainingTime: "Treball restant"
       default_queries:
         manually_sorted: "New manually sorted query"
         latest_activity: "Última activitat"
@@ -1017,7 +1013,7 @@ ca:
         assigned_to_me: "Assignat a mi"
         recently_created: "Creat recentment"
         all_open: "Tots els oberts"
-        overdue: "Overdue"
+        overdue: "Vençut"
         summary: "Resum"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"

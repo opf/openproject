@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -338,7 +338,7 @@ fa:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "خروجی"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -465,7 +465,7 @@ fa:
     label_mail_notification: "اعلان های ایمیل"
     label_manage_columns: "Manage and reorder columns"
     label_me: "me"
-    label_meeting_agenda: "Agenda"
+    label_meeting_agenda: "دستور کار"
     label_meeting_minutes: "دقیقه ها"
     label_menu_collapse: "جمع کردن"
     label_menu_expand: "باز کردن"
@@ -499,7 +499,7 @@ fa:
     label_remove_column: "حذف ستون"
     label_remove_columns: "Remove selected columns"
     label_remove_row: "حذف سطر"
-    label_report: "Report"
+    label_report: "گزارش"
     label_repository_plural: "Repositories"
     label_save_as: "ذخیره به عنوان"
     label_search_columns: "Search a column"
@@ -520,7 +520,7 @@ fa:
     label_sum: "Sum"
     label_sum_for: "مبلغ برای"
     label_total_sum: "Total sum"
-    label_subject: "Subject"
+    label_subject: "موضوع"
     label_this_week: "this week"
     label_today: "Today"
     label_time_entry_plural: "زمان صرف شده"
@@ -536,7 +536,7 @@ fa:
     label_warning: "Warning"
     label_work_package: "بسته کاری"
     label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work packages"
+    label_work_package_plural: "بسته های کاری"
     label_watch: "نگاه کردن"
     label_watch_work_package: "دیدن پکیج وظیفه"
     label_watcher_added_successfully: "ناظر با موفقیت اضافه شد!"
@@ -617,12 +617,12 @@ fa:
       no_unread: "اطلاعیه خوانده نشده‌ای وجود ندارد"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        responsible: "Accountable"
-        created: "Created"
+        watched: "ناظر"
+        assigned: "نماینده"
+        accountable: "Accountable"
+        created: "ایجاد شد"
         scheduled: "Scheduled"
-        commented: "Commented"
+        commented: "دارای اظهار نظر"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -638,11 +638,6 @@ fa:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "همه"
-        all_title: "Show all"
       center:
         label_actor_and: "and"
         and_more_users:
@@ -659,6 +654,7 @@ fa:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
@@ -768,7 +764,7 @@ fa:
           label: "Temporarily pause daily email reminders"
           first_day: "First day"
           last_day: "Last day"
-    text_are_you_sure: "Are you sure?"
+    text_are_you_sure: "آیا مطمئن هستید؟"
     text_data_lost: "All entered data will be lost."
     text_user_wrote: "%{value} wrote:"
     types:
@@ -897,7 +893,7 @@ fa:
       wiki_link: "Link to a Wiki page"
       image: "Image"
     sharing:
-      share: "Share"
+      share: "به اشتراک گذاری"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -1000,7 +996,7 @@ fa:
         responsible: "مسئول"
         startDate: "Start date"
         status: "وضعیت"
-        subject: "Subject"
+        subject: "موضوع"
         subproject: "زیر پروژه"
         title: "عنوان"
         type: "نوع"

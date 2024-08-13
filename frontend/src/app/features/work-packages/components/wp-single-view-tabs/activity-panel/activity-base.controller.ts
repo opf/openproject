@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectorRef,
-  Directive,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
 import { UIRouterGlobals } from '@uirouter/core';
 import { Observable } from 'rxjs';
-import { map, distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { take } from 'rxjs/internal/operators/take';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
-import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {
+  ActivityEntryInfo,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
+import {
+  WorkPackagesActivityService,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -93,11 +93,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     this.reverse = wpActivity.isReversed;
     this.togglerText = this.text.commentsOnly;
 
-    const lastTransitionName = uiRouterGlobals.successfulTransitions.peekTail().from().name as string;
-    const comingFromNotifications = /^notifications/.test(lastTransitionName);
-    const firstRouteOnMobile = lastTransitionName === '' && this.browserDetector.isMobile;
-
-    if (comingFromNotifications || firstRouteOnMobile) {
+    if (window.location.href.includes('/notifications')) {
       this.comingFromNotifications = true;
     }
   }

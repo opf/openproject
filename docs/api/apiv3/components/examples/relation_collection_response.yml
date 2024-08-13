@@ -1,5 +1,5 @@
-# Example: Relation Collection
----
+description: |-
+  Simple response of a relation collection.
 value:
   _type: Collection
   total: 40

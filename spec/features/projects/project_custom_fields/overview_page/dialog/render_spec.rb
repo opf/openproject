@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -148,7 +148,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     let!(:visible_project_custom_field) do
       create(:project_custom_field,
              name: "Normal field",
-             visible: true,
+             admin_only: false,
              projects: [project],
              project_custom_field_section: section_with_invisible_fields)
     end
@@ -156,7 +156,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     let!(:invisible_project_custom_field) do
       create(:project_custom_field,
              name: "Admin only field",
-             visible: false,
+             admin_only: true,
              projects: [project],
              project_custom_field_section: section_with_invisible_fields)
     end
