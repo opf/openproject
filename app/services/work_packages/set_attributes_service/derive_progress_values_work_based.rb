@@ -83,7 +83,7 @@ class WorkPackages::SetAttributesService
     # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     def update_remaining_work
       return if work_unset? && percent_complete_unset?
-      return if work_was_unset? && remaining_work_set? # remaining work is kept and % complete will be set
+      return if work_was_unset? && remaining_work_set? # remaining work is kept and % complete will be unset
 
       if work_set? && remaining_work_unset? && percent_complete_unset?
         set_hint(:remaining_hours, "set to same value as work")
