@@ -201,8 +201,9 @@ FactoryBot.define do
                                      "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN"),
              refresh_token: ENV.fetch("ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN",
                                       "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN"),
-             token_type: "bearer",
-             origin_user_id: "33db2c84-275d-46af-afb0-c26eb786b194")
+             token_type: "bearer")
+      create(:remote_identity, oauth_client: storage.oauth_client, user: evaluator.oauth_client_token_user,
+                               origin_user_id: "33db2c84-275d-46af-afb0-c26eb786b194")
     end
   end
 end
