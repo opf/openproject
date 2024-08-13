@@ -185,6 +185,9 @@ RSpec.describe "Admin lists project mappings for a storage",
     describe "Linking a project to a storage with a manually managed folder" do
       context "when the user has granted OAuth access" do
         let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user: admin) }
+        let(:remote_identity) do
+          create(:remote_identity, oauth_client: storage.oauth_client, user: admin, origin_user_id: "admin")
+        end
         let(:location_picker) { Components::FilePickerDialog.new }
 
         let(:root_xml_response) { build(:webdav_data) }
@@ -207,10 +210,11 @@ RSpec.describe "Admin lists project mappings for a storage",
 
         before do
           oauth_client_token
+          remote_identity
 
-          stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}")
+          stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}")
             .to_return(status: 207, body: root_xml_response, headers: {})
-          stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
+          stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}/Folder1")
             .to_return(status: 207, body: folder1_xml_response, headers: {})
           stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
             .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
