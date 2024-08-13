@@ -8,13 +8,18 @@ RSpec.shared_context "ModelContract shared context" do # rubocop:disable RSpec/C
   def expect_contract_invalid(errors = {})
     expect(contract.validate).to be(false)
 
-    errors.each do |key, error_symbols|
-      if error_symbols.present?
-        expect(contract.errors.attribute_names)
-          .to include(key), "expected errors attributes #{contract.errors.attribute_names.inspect} to include #{key.inspect}"
+    expected_errors = errors.transform_values do |error_symbols|
+      case error_symbols
+      when Array
+        an_array_matching(error_symbols)
+      when nil
+        []
+      else
+        [error_symbols]
       end
-      expect(contract.errors.symbols_for(key)).to match_array Array(error_symbols)
     end
+    contract_errors = errors.keys.index_with { |key| contract.errors.symbols_for(key) }
+    expect(contract_errors).to match(expected_errors)
   end
 
   shared_examples "contract is valid" do
@@ -27,7 +32,7 @@ RSpec.shared_context "ModelContract shared context" do # rubocop:disable RSpec/C
     example_title = "contract is invalid"
     example_title << " with #{error_symbols.inspect}" if error_symbols.any?
 
-    it example_title, :aggregate_failures do
+    it example_title do
       expect_contract_invalid error_symbols
     end
   end
