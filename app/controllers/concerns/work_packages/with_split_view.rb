@@ -32,10 +32,31 @@ module WorkPackages
 
     included do
       helper_method :split_view_base_route
+
+      before_action :find_work_package, only: %i[split_view update_counter]
+      before_action :find_counter_menu, only: %i[update_counter]
     end
 
     def split_view_work_package_id
       params[:work_package_id].to_i
+    end
+
+    def update_counter
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.replace("wp-details-tab-#{@counter_menu.name}-counter") do
+              count = @counter_menu.badge(work_package: @work_package).to_i
+              Primer::Beta::Counter
+                .new(count:,
+                     hide_if_zero: true,
+                     id: "wp-details-tab-#{@counter_menu.name}-counter",
+                     test_selector: "wp-details-tab-component--tab-counter")
+                .render_in(view_context)
+            end
+          ]
+        end
+      end
     end
 
     def close_split_view
@@ -64,6 +85,25 @@ module WorkPackages
 
         yield(format) if format_block
       end
+    end
+
+    private
+
+    def find_work_package
+      @work_package = WorkPackage.visible.find(params[:work_package_id])
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = I18n.t(:error_work_package_id_not_found)
+      redirect_to split_view_base_route
+    end
+
+    def find_counter_menu
+      @counter_menu = Redmine::MenuManager
+        .items(:work_package_split_view, nil)
+        .root
+        .children
+        .detect { |node| node.name.to_s == params[:counter] }
+
+      render_400 if @counter_menu.nil?
     end
   end
 end

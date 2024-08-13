@@ -42,6 +42,7 @@ import {
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { TurboRequestsService } from "core-app/core/turbo/turbo-requests.service";
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -89,6 +90,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
     readonly cdRef:ChangeDetectorRef,
     readonly pathHelper:PathHelperService,
     readonly apiV3Service:ApiV3Service,
+    readonly turboRequests:TurboRequestsService,
   ) {
     super();
   }
@@ -97,6 +99,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
     this.$element = jQuery(this.elementRef.nativeElement);
     const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
     this.workPackageId = (this.workPackage.id as string) || workPackageId;
+
     this
       .apiV3Service
       .work_packages
@@ -150,6 +153,8 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
           .id(this.workPackage)
           .refresh();
 
+        this.updateCounter();
+
         this.cdRef.detectChanges();
       })
       .catch((error:any) => this.notificationService.showError(error, this.workPackage));
@@ -168,8 +173,16 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
           .work_packages
           .id(this.workPackage)
           .refresh();
+
+        this.updateCounter();
+
         this.cdRef.detectChanges();
       })
       .catch((error:any) => this.notificationService.showError(error, this.workPackage));
+  }
+
+  public updateCounter() {
+    const url = this.pathHelper.notificationsPath() + `/${this.workPackageId}/update_counter?counter=watchers`;
+    void this.turboRequests.request(url);
   }
 }

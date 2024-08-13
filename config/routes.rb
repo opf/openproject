@@ -701,21 +701,22 @@ Rails.application.routes.draw do
 
   concern :with_split_view do |options|
     get "details/:work_package_id(/:tab)",
-        on: :collection,
         action: options.fetch(:action, :split_view),
         defaults: { tab: :overview },
         as: :details,
         work_package_split_view: true
 
     get "/:work_package_id/close",
-        on: :collection,
         action: :close_split_view
+
+    get "/:work_package_id/update_counter",
+        action: :update_counter
   end
 
   resources :notifications, only: :index do
-    concerns :with_split_view, base_route: :notifications_path
-
     collection do
+      concerns :with_split_view, base_route: :notifications_path
+
       post :mark_all_read
       resource :menu, module: :notifications, only: %i[show], as: :notifications_menu
     end

@@ -10,7 +10,7 @@
           ) do |c|
             c.with_text { t("js.work_packages.tabs.#{node.name}") }
             count = node.badge(work_package:).to_i
-            c.with_counter(count:, test_selector: "wp-details-tab-component--tab-counter") if count > 0
+            c.with_counter(count:, hide_if_zero: true, id: "wp-details-tab-#{node.name}-counter", test_selector: "wp-details-tab-component--tab-counter")
           end
         end
       end
