@@ -58,6 +58,9 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   /** Placeholder text to display in the autocompleter input */
   @Input() inputPlaceholder = '';
 
+  /** Label to display below the autocompleter input */
+  @Input() inputCaption = '';
+
   /** Label to display drag&drop area */
   @Input() dragAreaLabel = '';
 
