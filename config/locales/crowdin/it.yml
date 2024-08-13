@@ -384,8 +384,8 @@ it:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: Il token %{type} è stato generato
+        warning: 'Nota: Questa è l''unica volta in cui vedrai questo token, assicurati di copiarlo subito.'
       errors:
         token_name_blank: "Indica un nome per il token API"
         token_name_in_use: "Questo nome di token API è già utilizzato, scegline uno differente"
@@ -1150,8 +1150,8 @@ it:
         other: "Ruoli"
       status: "Stato della macro-attività"
       token/api:
-        one: Access token
-        other: Access tokens
+        one: Token di accesso
+        other: Token di accesso
       type: "Tipo"
       user: "Utente"
       version: "Versione"

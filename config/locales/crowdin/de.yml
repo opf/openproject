@@ -385,7 +385,7 @@ de:
     access_token:
       create_dialog:
         header: Das %{type}-Token wurde generiert
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        warning: 'Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden.'
       errors:
         token_name_blank: "Bitte geben Sie einen Namen für den API-Token an"
         token_name_in_use: "Dieser API-Token-Name ist bereits in Verwendung, bitte wählen Sie einen anderen"
@@ -1147,7 +1147,7 @@ de:
         other: "Rollen"
       status: "Arbeitspaket-Status"
       token/api:
-        one: Access token
+        one: Zugangs-Token
         other: Access tokens
       type: "Typ"
       user: "Benutzer"
