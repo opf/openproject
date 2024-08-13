@@ -43,6 +43,14 @@ RSpec.describe Authorization::EnterpriseService do
   let(:result) { instance.call(action) }
   let(:action) { :an_action }
 
+  describe "GUARDED_ACTIONS" do
+    it "is in alphabetical order" do
+      guarded_actions = described_class::GUARDED_ACTIONS
+
+      expect(guarded_actions).to eq(guarded_actions.sort)
+    end
+  end
+
   describe "#initialize" do
     it "has the token" do
       expect(instance.token).to eql token

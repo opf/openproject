@@ -29,7 +29,7 @@
 class Authorization::EnterpriseService
   attr_accessor :token
 
-  GUARDED_ACTIONS = %i(
+  GUARDED_ACTIONS = %i[
     baseline_comparison
     board_view
     conditional_highlighting
@@ -37,20 +37,20 @@ class Authorization::EnterpriseService
     date_alerts
     define_custom_style
     edit_attribute_groups
+    gantt_pdf_export
     grid_widget_wp_graph
     ldap_groups
+    one_drive_sharepoint_file_storage
     openid_providers
     placeholder_users
+    project_list_sharing
     readonly_work_packages
     team_planner_view
     two_factor_authentication
+    virus_scanning
     work_package_query_relation_columns
     work_package_sharing
-    one_drive_sharepoint_file_storage
-    virus_scanning
-    gantt_pdf_export
-    project_list_sharing
-  ).freeze
+  ].freeze
 
   def initialize(token)
     self.token = token
