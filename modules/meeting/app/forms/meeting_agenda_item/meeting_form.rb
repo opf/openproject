@@ -45,6 +45,7 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
       MeetingAgendaItems::CreateContract
         .assignable_meetings(User.current)
         .where("meetings.start_time + (interval '1 hour' * meetings.duration) >= ?", Time.zone.now)
+        .reorder("meetings.start_time ASC")
         .includes(:project)
         .find_each do |meeting|
           select.option(
