@@ -56,10 +56,8 @@ RSpec.describe "Structured meetings CRUD",
       flash_component = ".op-toast--wrapper"
 
       ## Add agenda item
-      # Visit the meeting on window1
       show_page.visit!
 
-      # Visit meeting on window2 and do something
       first_window = current_window
       second_window = open_new_window
 
@@ -71,7 +69,7 @@ RSpec.describe "Structured meetings CRUD",
         end
       end
 
-      # Expect change in window1
+      # Expect notification in window1
       within_window(first_window) do
         show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
@@ -82,12 +80,10 @@ RSpec.describe "Structured meetings CRUD",
       # Expect no notification in window2
       within_window(second_window) do
         show_page.trigger_change_poll
-        # expect(page).to have_no_css(flash_component)
         expect(page).to have_no_text I18n.t(:notice_meeting_updated)
       end
 
       ## Edit agenda item
-      # In window1
       within_window(first_window) do
         item = MeetingAgendaItem.find_by(title: "Update toast test item")
 
@@ -96,8 +92,7 @@ RSpec.describe "Structured meetings CRUD",
           click_on "Save"
         end
 
-        # Expect no notification in window1 because we're editing in the same
-        # expect(page).to have_no_css(flash_component)
+        # Expect no notification in window1
         show_page.trigger_change_poll
         expect(page).to have_no_text I18n.t(:notice_meeting_updated)
       end
@@ -110,7 +105,7 @@ RSpec.describe "Structured meetings CRUD",
 
         click_on "Reload"
 
-        ## Add section while we're in window2
+        ## Add section
         show_page.add_section do
           fill_in "Title", with: "First section"
           click_on "Save"
@@ -119,7 +114,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.expect_section(title: "First section")
       end
 
-      # Expect change in window1
+      # Expect notification in window1
       within_window(first_window) do
         show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
@@ -134,7 +129,6 @@ RSpec.describe "Structured meetings CRUD",
       end
 
       ## Edit meeting details
-      ## In window1
       within_window(first_window) do
         find_test_selector("edit-meeting-details-button").click
         fill_in "structured_meeting_duration", with: "2.5"
@@ -152,7 +146,25 @@ RSpec.describe "Structured meetings CRUD",
       within_window(second_window) do
         show_page.trigger_change_poll
         expect(page).to have_text I18n.t(:notice_meeting_updated)
+
         click_on "Reload"
+
+        ## Close meeting
+        find_test_selector("close-meeting-button").click
+      end
+
+      # Expect notification in window1
+      within_window(first_window) do
+        show_page.trigger_change_poll
+        expect(page).to have_css(flash_component, wait: 5)
+        expect(page).to have_text I18n.t(:notice_meeting_updated)
+        click_on "Reload"
+      end
+
+      # Expect no notification in window2
+      within_window(second_window) do
+        show_page.trigger_change_poll
+        expect(page).to have_no_text I18n.t(:notice_meeting_updated)
       end
 
       second_window.close
