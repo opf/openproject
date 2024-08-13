@@ -41,6 +41,9 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import {
+  ColorsService,
+} from 'core-app/shared/components/colors/colors.service';
 
 @Component({
   templateUrl: './in-app-notification-center.component.html',
@@ -105,7 +108,7 @@ export class InAppNotificationCenterComponent implements OnInit {
   image = {
     no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
     no_selection: imagePath('notification-center/empty-state-no-selection.svg'),
-    loading: imagePath('notification-center/notification_loading.gif'),
+    loading: imagePath(`notification-center/notification_loading_${this.colorsService.colorMode()}.gif`),
   };
 
   trackNotificationGroups = (i:number, item:INotification[]):string => item
@@ -144,6 +147,7 @@ export class InAppNotificationCenterComponent implements OnInit {
     readonly state:StateService,
     readonly apiV3:ApiV3Service,
     readonly pathService:PathHelperService,
+    readonly colorsService:ColorsService,
   ) {
   }
 

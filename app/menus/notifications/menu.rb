@@ -108,7 +108,7 @@ module Notifications
     end
 
     def selected?(query_params)
-      params[:filter] == query_params[:filter] && params[:name] == query_params[:name]
+      params[:filter] == query_params[:filter] && params[:name] == query_params[:name].to_s
     end
 
     def query_path(query_params)

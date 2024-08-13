@@ -109,7 +109,10 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   end
 
   def destroy
-    @project_storage.destroy
+    Storages::ProjectStorages::DeleteService
+      .new(user: current_user, model: @project_storage)
+      .call
+
     redirect_to admin_settings_storage_project_storages_path(@storage)
   end
 
@@ -169,9 +172,9 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   def initialize_project_storage
     @project_storage = ::Storages::ProjectStorages::SetAttributesService
-        .new(user: current_user, model: ::Storages::ProjectStorage.new, contract_class: EmptyContract)
-        .call(storage: @storage)
-        .result
+                       .new(user: current_user, model: ::Storages::ProjectStorage.new, contract_class: EmptyContract)
+                       .call(storage: @storage)
+                       .result
   end
 
   def include_sub_projects?
