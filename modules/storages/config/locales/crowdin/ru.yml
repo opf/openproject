@@ -12,7 +12,7 @@ ru:
         tenant: ID каталога (арендатора)
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: не является допустимым URL-адресом.
         not_linked_to_project: не связан с проектом.
       models:
         storages/file_link:
@@ -21,6 +21,8 @@ ru:
               only_numeric_or_uuid: может быть только числовым или uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: не доступен для этого хранилища.
             project_ids:
@@ -57,6 +59,8 @@ ru:
   permission_write_files: 'Автоматически управляемые папки проекта: Запись файлов'
   project_module_storages: Файлы
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Автоматическое управление
       inactive: Нет определенной папки

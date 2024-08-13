@@ -338,7 +338,7 @@ he:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "ייצוא"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ he:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "צופה"
+        assigned: "משויך אל"
         accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        created: "נוצר"
+        scheduled: "מתוזמן"
+        commented: "תגובות"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -895,7 +895,7 @@ he:
       wiki_link: "קישור לדף Wiki"
       image: "תמונה"
     sharing:
-      share: "Share"
+      share: "שתף"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

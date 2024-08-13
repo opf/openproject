@@ -48,7 +48,7 @@ ja:
         description: "注記"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "タイトル"
     errors:
       messages:
         invalid_time_format: "有効な時間ではありません。必要なフォーマット: HH:MM"

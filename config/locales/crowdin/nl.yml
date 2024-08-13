@@ -211,10 +211,10 @@ nl:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
       is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
-      searchable: "Check to make this attribute available as a filter in project lists."
+      searchable: "Include the field values when using the global search functionality."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Sta toe dat het veld door gebruikers zelf bewerkt kan worden."
       admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
-      admin_only_for_project: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
@@ -470,7 +470,7 @@ nl:
       no_results_title_text: Er zijn momenteel geen werkpakket statussen.
       no_results_content_text: Voeg een nieuwe status toe
       headers:
-        is_default: "Default"
+        is_default: "Standaard"
         is_closed: "Gesloten"
         is_readonly: "Alleen-lezen"
         excluded_from_totals: "Uitgesloten van totalen"
@@ -686,7 +686,7 @@ nl:
         work_packages: "Werkpakketten"
       project_custom_field:
         is_required: "Required for all projects"
-        custom_field_section: Section
+        custom_field_section: Sectie
       query:
         column_names: "Kolommen"
         relations_to_type_column: "Betrekkingen %{type}"
@@ -1033,7 +1033,7 @@ nl:
             done_ratio:
               does_not_match_work_and_remaining_work: "does not match work and remaining work"
               cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              must_be_set_when_remaining_work_is_set: "Vereist wanneer Resterend werk is ingesteld."
               must_be_set_when_work_and_remaining_work_are_set: "Vereist wanneer Werk en Resterend werk zijn ingesteld."
               inclusion: "moet tussen 0 en 100 liggen."
             due_date:
@@ -1792,17 +1792,17 @@ nl:
         unknown_storage: "Onbekende opslag"
   notifications:
     reasons:
-      assigned: "Assignee"
+      assigned: "Toegewezene"
       dateAlert: "Date alert"
       mentioned: "Genoemd"
-      responsible: "Accountable"
+      responsible: "Verantwoording afleggen"
       shared: "Gedeeld"
-      watched: "Watcher"
+      watched: "Kijker"
     facets:
       unread: "Ongelezen"
-      unread_title: "Show unread"
+      unread_title: "Toon ongelezen"
       all: "Alle"
-      all_title: "Show all"
+      all_title: "Toon alle"
     menu:
       by_project: "Ongelezen door project"
       by_reason: "Reden"
@@ -2115,7 +2115,7 @@ nl:
   label_member_all_admin: "(Alle rollen vanwege de admin status)"
   label_member_plural: "Leden"
   label_membership_plural: "Memberships"
-  label_membership_added: "Member added"
+  label_membership_added: "Lid toegevoegd"
   label_membership_updated: "Lid bijgewerkt"
   label_menu: "Menu"
   label_menu_badge:
@@ -3152,7 +3152,7 @@ nl:
     project_attributes:
       heading: "Project attributes"
       label_new_attribute: "Project attribute"
-      label_new_section: "Section"
+      label_new_section: "Sectie"
       label_edit_section: "Titel bewerken"
       label_section_actions: "Section actions"
       heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
@@ -3428,7 +3428,7 @@ nl:
         status_based_help_text: "% Voltooid wordt ingesteld door de status van het werkpakket."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     permissions:
-      comment: "Comment"
+      comment: "Commentaar"
       comment_description: "Can view and comment this work package."
       edit: "Bewerken"
       edit_description: "Kan dit werkpakket bekijken, becommentariëren en bewerken."

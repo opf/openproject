@@ -12,7 +12,7 @@ hr:
         tenant: Directory (tenant) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: nije valjani URL.
         not_linked_to_project: is not linked to project.
       models:
         storages/file_link:
@@ -21,6 +21,8 @@ hr:
               only_numeric_or_uuid: can only be numeric or uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: is not available for this storage.
             project_ids:
@@ -55,8 +57,10 @@ hr:
   permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: View file links
   permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+  project_module_storages: Datoteke
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Automatically managed
       inactive: No specific folder
@@ -216,7 +220,7 @@ hr:
       label_error: Greška
       label_healthy: Healthy
       label_pending: Pending
-      label_warning: Warning
+      label_warning: Upozorenje
       project_folders:
         subtitle: Automatically managed project folders
       since: since %{datetime}

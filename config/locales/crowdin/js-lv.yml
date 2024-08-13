@@ -338,7 +338,7 @@ lv:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Eksportēt"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -617,12 +617,12 @@ lv:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "Sekotājs"
+        assigned: "Pašreizējais atbildīgais"
         accountable: "Accountable"
-        created: "Created"
+        created: "Izveidots"
         scheduled: "Scheduled"
-        commented: "Commented"
+        commented: "Komentēja"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -894,7 +894,7 @@ lv:
       wiki_link: "Saite uz Wiki lapu"
       image: "Attēls"
     sharing:
-      share: "Share"
+      share: "Koplietot"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

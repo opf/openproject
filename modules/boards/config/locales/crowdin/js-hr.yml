@@ -8,7 +8,7 @@ hr:
       label_board_type: 'Board type'
       upsale:
         teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-        upgrade: 'Upgrade now'
+        upgrade: 'Ažuriraj sada'
       lists:
         delete: 'Delete list'
       version:

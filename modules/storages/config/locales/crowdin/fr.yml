@@ -21,6 +21,8 @@ fr:
               only_numeric_or_uuid: ne peut être que numérique ou un uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: n'est pas disponible pour cet espace de stockage.
             project_ids:
@@ -57,6 +59,8 @@ fr:
   permission_write_files: 'Gestion automatique des dossiers de projet : Écrire des fichiers'
   project_module_storages: Fichiers
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Géré automatiquement
       inactive: Aucun dossier spécifique

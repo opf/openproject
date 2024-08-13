@@ -214,10 +214,10 @@ ko:
       is_required: "사용자 지정 필드를 필수로 표시합니다. 이렇게 하면 새 리소스를 생성하거나 기존 리소스를 업데이트할 때 이 필드를 반드시 입력해야 합니다."
       is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "모든 기존 프로젝트와 새 프로젝트에서 사용자 지정 필드를 사용 가능으로 표시합니다."
-      searchable: "Check to make this attribute available as a filter in project lists."
+      searchable: "글로벌 검색 기능을 사용할 때 필드 값을 포함합니다."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "사용자가 필드를 편집할 수 있도록 허용합니다."
       admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
-      admin_only_for_project: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
         작업 패키지 보기의 필터에서 사용자 지정 필드를 사용할 수 있도록 허용합니다. '모든 프로젝트용'을 선택한 경우에만 사용자 지정 필드가 글로벌 보기에 표시됩니다.
     tab:

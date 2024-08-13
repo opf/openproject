@@ -21,6 +21,8 @@ es:
               only_numeric_or_uuid: solo puede ser numérico o un UUID.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: no está disponible para este almacenamiento.
             project_ids:
@@ -57,6 +59,8 @@ es:
   permission_write_files: 'Carpetas de proyecto gestionadas automáticamente: Escribir archivos'
   project_module_storages: Archivos
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Gestionado automáticamente
       inactive: Ninguna carpeta específica

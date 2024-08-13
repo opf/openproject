@@ -21,6 +21,8 @@ nl:
               only_numeric_or_uuid: kan alleen numeriek of uuid zijn.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: is niet beschikbaar voor deze opslag.
             project_ids:
@@ -57,9 +59,11 @@ nl:
   permission_write_files: 'Automatisch beheerde projectmappen: Bestanden schrijven'
   project_module_storages: Bestanden
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Automatisch beheerd
-      inactive: No specific folder
+      inactive: Geen specifieke map
       manual: Existing folder manually managed
     remove_project:
       dialog:
@@ -125,7 +129,7 @@ nl:
         one_drive_sync_service:
           attributes:
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
+              conflict: De %{folder_name} bestaat al op %{parent_location}.
               not_found: "%{parent_location} wasn't found."
             hide_inactive_folders:
               permission_not_set: Kan machtigingen niet instellen op %{path}.
@@ -136,7 +140,7 @@ nl:
               forbidden: OpenProject heeft geen toegang tot %{current_path} om deze te hernoemen.
               not_found: "%{current_path} is niet gevonden."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: Kan machtigingen niet instellen op %{path}.
           error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
           not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
           unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
@@ -216,9 +220,9 @@ nl:
       label_error: Fout
       label_healthy: Gezond
       label_pending: Lopende
-      label_warning: Warning
+      label_warning: Waarschuwing
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Automatisch beheerde projectmappen
       since: sinds %{datetime}
       title: Gezondheidsstatus
     health_email_notifications:

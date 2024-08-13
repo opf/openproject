@@ -43,9 +43,9 @@ zh-TW:
           name: 其他
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: 專案查詢檢視器
         item_1:
-          name: Project query editor
+          name: 專案查詢編輯器
       work_package_roles:
         item_0:
           name: 工作項目編輯者
@@ -80,17 +80,17 @@ zh-TW:
       projects:
         demo-project:
           name: 示範專案
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          status_explanation: 所有任務皆依計劃進行，相關人員知道他們的任務，系統完成設定。
+          description: 此為本示範專案目標的簡短摘要。
           news:
             item_0:
               title: 歡迎來到您的示範專案
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                我們很開心您的加入。
+                在這個模組，您可以與您的團隊成員溝通專案新訊。
+              description: 實際新訊
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 類別 1 ( 將於專案設定變更 )
           queries:
             item_0:
               name: 計畫方案
@@ -115,7 +115,7 @@ zh-TW:
                 item_3:
                   name: 永不
             parent_child:
-              name: Work breakdown structure
+              name: 工作分解結構
           project-overview:
             widgets:
               item_0:
@@ -125,21 +125,21 @@ zh-TW:
                 options:
                   name: 開始
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    我們很高興您加入！我們建議您嘗試幾件事情來開始使用 OpenProject。
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    使用我們的 [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true) 探索最重要的功能。
 
-                    _Try the following steps:_
+                    _嘗試以下步驟：_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1.*邀請新會員加入您的專案*： &rightarrow; 前往專案導覽中的 [成員]({{opSetting:base_url}}/projects/demo-project/members)。
+                    2.*檢視專案中的工作*： &rightarrow; 前往專案導覽中的 [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages)。
+                    3.*建立新的工作套件*： &rightarrow; 前往 [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new)。
+                    4.*Create and update a project plan*： &rightarrow; 前往專案導覽中的 [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) 。
+                    5.*啟動進一步的模組*： &rightarrow; 前往 [專案設定 &rightarrow; 模組]({{opSetting:base_url}}/projects/demo-project/settings/modules)。
+                    6.*完成專案中的任務*： &rightarrow; 到 [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    您可在此找到我們的 [使用者指南](https://www.openproject.org/docs/user-guide/)。
+                    如果您有任何問題或需要支援，請告知我們。聯絡我們：[support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: 工作項目
@@ -150,62 +150,60 @@ zh-TW:
             item_0:
               subject: 專案開始
             item_1:
-              subject: Organize open source conference
+              subject: 舉辦開放原始碼會議
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: 設定會議日期和地點
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: 向講者發出邀請
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: 聯絡贊助夥伴
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: 製作贊助手冊和宣傳單張
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: 邀請與會者參加會議
                 item_2:
-                  subject: Setup conference website
+                  subject: 建立會議網站
             item_2:
               subject: 會議
             item_3:
-              subject: Follow-up tasks
+              subject: 後續任務
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: 將簡報上傳至網站
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: 會議支持者派對 :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    * [ ] 啤酒
+                    * [ ] 小吃
+                    * [ ] 音樂
+                    * [ ] 更多啤酒
             item_4:
-              subject: End of project
+              subject: 專案結束
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            **您可以：**
 
-            **You can:**
+            * 插入文字和圖片，也可以從其他文件複製和貼上
+            * 創建具有父頁面的頁面階層結構
+            * 將 wiki 頁面納入專案選單
+            * 使用巨集納入，例如目錄、工作包清單或甘特圖 * 在其他文字欄位納入 wiki 頁面，例如專案總覽頁 * 檢視變更連結其他文件例如：目錄、工作包清單或甘特圖
+            * 在其他文字欄位中包含 wiki 頁面，例如：專案總覽頁面
+            * 包含其他文件的連結
+            * 檢視變更歷史
+            * 以 Markdown 方式檢視
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
-
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            更多資訊：[https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum 專案
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          status_explanation: 所有任務皆依計劃進行，相關人員知道他們的任務，系統完成設定。
+          description: 此為本示範專案目標的簡短摘要。
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: 歡迎來到您的 Scrum 示範專案
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                我們很開心您的加入。
+                在這個模組，您可以與您的團隊成員溝通專案新訊。
           versions:
             item_0:
               name: Bug的待辦事項
@@ -216,55 +214,55 @@ zh-TW:
               wiki:
                 title: 衝刺1
                 content: |
-                  ### Sprint planning meeting
+                  ### Sprint 規劃會議
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _請在此記錄 Sprint 規劃會議的主題_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * 時間框定 (8 小時)
+                  * 輸入：產品 Backlog
+                  * 輸出：Sprint Backlog
 
-                  * Divided into two additional time boxes of 4 h:
+                  * 分成兩個額外的時間方塊（4 小時）：
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                      * Product Owner 向團隊提出 [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) 和優先順序，並解釋 Sprint 目標，團隊必須同意。他們一起從 Product Backlog 中排列出團隊在下一個衝刺中要處理的主題的優先順序。團隊承諾完成所討論的交付。
+                      * 團隊自主地(在沒有 Product Owner 的情況下)進行詳細計劃，並從討論的需求中分解任務，以整合出 [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-                  ### Daily Scrum meeting
+                  #### 每日 Scrum 會議
 
-                  _Please document here topics to the Daily Scrum meeting_
+                  _請在此記錄每日 Scrum 會議的主題_
 
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
+                  * 簡短的團隊每日狀態會議。
+                  * 時間框定(最多 15 分鐘)。
+                  * 站立會議，討論 [任務板](##sprint:scrum_project__version__sprint_1) 中的下列主題。
+                      * 在下一次每日 Scrum 之前，我打算做什麼？
+                      * 什麼阻礙了我的工作(障礙)？
+                  * Scrum Master 主持並記下 [Sprint Impediments](##sprint:scrum_project__version__sprint_1)。
+                  * Product Owner 可能會參與，以便隨時掌握資訊。
 
-                  ### Sprint Review meeting
+                  ### Sprint Review 會議
 
-                  _Please document here topics to the Sprint Review meeting_
+                  _請在此記錄 Sprint Review 會議的主題_
 
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                  * 時間框定 (4 小時)。
+                  * 每人最多 1 小時的準備時間。
+                  * 團隊向產品擁有者和其他有興趣的人展示這次衝刺的成果。
+                  * 重要事項：無假人、無 PowerPoint！只需展示已完成的產品功能(增量)。
+                  * 希望得到產品所有人、利害關係人及其他人士的反饋，並將其納入進一步的工作中。
+                  * 基於所展示的功能，產品負責人決定使用此增量或進一步開發。這種可能性允許早期投資報酬率。
 
 
                   ### Sprint Retrospective
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _請在此記錄 Sprint Retrospective 會議的主題_
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * 時間框定 (3 小時)。
+                  * Sprint Review 之後，將由 Scrum Master 主持。
+                  * 團隊討論 Sprint：哪些地方做得好，哪些地方需要改進，以提高下一個 Sprint 的生產力，甚至是更多的樂趣。
             item_3:
               name: 衝刺2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 類別 1 ( 將於專案設定變更 )
           queries:
             item_0:
               name: 計畫方案
@@ -297,20 +295,20 @@ zh-TW:
                 options:
                   name: 開始
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    我們很高興您加入！我們建議您嘗試幾個步驟來開始使用 OpenProject。
 
-                    _Try the following steps:_
+                    _嘗試以下步驟：_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1.*邀請新會員加入您的專案*： &rightarrow; 前往專案導覽中的【會員】({{opSetting:base_url}}/projects/your-scrum-project/members)。
+                    2.*查看您的 Product backlogs 和 Sprint backlogs*： &rightarrow; 前往專案導覽中的 [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) 。
+                    3.*檢視您的任務板*： &rightarrow; 進入 [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; 點擊 Sprint 上的向右箭頭 &rightarrow; 選擇 [Task Board](##sprint:scrum_project__version___sprint_1)。
+                    4.*Create a new work package*： &rightarrow; 進入 [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5.*Create and update a project plan*： &rightarrow; 前往專案導覽中的 [Project plan](##query:scrum_project__query__project_plan)。
+                    6.*建立 Sprint wiki*： &rightarrow; 轉到 [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)，然後在 sprint 中從右邊的下拉式功能表開啟 sprint wiki。您可以根據需要編輯 [wiki 模板]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) 。
+                    7.*啟動更多模組*： &rightarrow; 進入 [專案設定 &rightarrow; 模組]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    在這裡您可以找到我們的 [使用者指南](https://www.openproject.org/docs/user-guide/)。
+                    如果您有任何問題或需要支援，請告訴我們。聯絡我們：[support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: 工作項目
@@ -326,36 +324,36 @@ zh-TW:
               subject: 新增網站
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: 電子報登記表
                 item_1:
-                  subject: Implement product tour
+                  subject: 實施產品導覽
                 item_2:
-                  subject: New landing page
+                  subject: 新的登陸頁面
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: 為新的登陸頁面建立線框圖
             item_3:
               subject: 聯絡表格
             item_4:
-              subject: Feature carousel
+              subject: 功能旋轉盤
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: 為功能導覽製作螢幕截圖
             item_5:
-              subject: Wrong hover color
+              subject: 錯誤的懸停顏色
             item_6:
               subject: SSL 憑證
             item_7:
-              subject: Set-up Staging environment
+              subject: 建立暫存環境
             item_8:
-              subject: Choose a content management system
+              subject: 選擇內容管理系統
             item_9:
-              subject: Website navigation structure
+              subject: 網站導覽結構
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: 建立網站導覽概念。
             item_10:
-              subject: Internal link structure
+              subject: 內部連結結構
             item_11:
               subject: Develop v1.0
             item_12:
@@ -369,51 +367,51 @@ zh-TW:
             item_16:
               subject: Release v2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Sprint 規劃會議
 
-            _Please document here topics to the Sprint planning meeting_
+            _請在此記錄 Sprint 規劃會議的主題_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * 時間框定 (8 小時)
+            * 輸入：產品 Backlog
+            * 輸出：Sprint Backlog
 
-            * Divided into two additional time boxes of 4 h:
+            * 分成兩個額外的時間方塊(4 小時)：
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                * Product Owner 向團隊提出 [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) 和優先順序，並解釋 Sprint 目標，團隊必須同意。他們一起從 Product Backlog 中排列出團隊在下一個衝刺中要處理的主題的優先順序。團隊承諾完成所討論的交付。
+                * 團隊自主地(在沒有 Product Owner 的情況下）進行詳細計劃，並從討論的需求中分解任務，以整合出 [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-            ### Daily Scrum meeting
+            #### 每日 Scrum 會議
 
-            _Please document here topics to the Daily Scrum meeting_
+            _請在此記錄每日 Scrum 會議的主題_
 
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
+            * 簡短的團隊每日狀態會議。
+            * 時間框定（最多 15 分鐘)。
+            * 站立會議，討論任務板上的下列主題。
+                * 在下一次每日 Scrum 之前，我打算做什麼？
+                * 什麼阻礙了我的工作(障礙)？
+            * Scrum Master 主持並記錄 Sprint Impediments。
+            * Product Owner 可能會參與，以便隨時掌握資訊。
 
-            ### Sprint Review meeting
+            ### Sprint Review 會議
 
-            _Please document here topics to the Sprint Review meeting_
+            _請在此記錄 Sprint Review 會議的主題_
 
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+            * 時間框定 (4 小時)。
+            * 每人最多 1 小時的準備時間。
+            * 團隊向產品擁有者和其他有興趣的人展示這次衝刺的成果。
+            * 重要事項：無假人、無 PowerPoint！只需展示已完成的產品功能(增量)。
+            * 希望得到產品所有人、利害關係人及其他人士的反饋，並將其納入進一步的工作中。
+            * 基於所展示的功能，產品負責人決定使用此增量或進一步開發。這種可能性允許早期投資報酬率。
 
 
             ### Sprint Retrospective
 
-            _Please document here topics to the Sprint Retrospective meeting_
+            _請在此記錄 Sprint Retrospective 會議的主題_
 
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * 時間框定 (3 小時)。
+            * Sprint Review 之後，將由 Scrum Master 主持。
+            * 團隊討論 Sprint：哪些地方進展順利，哪些地方需要改進，以提高下一個 Sprint 的生產力，甚至獲得更多樂趣。
       statuses:
         item_0:
           name: 新增
@@ -474,18 +472,18 @@ zh-TW:
       welcome:
         title: 歡迎使用OpenProject
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject 是領先的開放原始碼專案管理軟體。它支援傳統、敏捷以及混合式專案管理，並讓您完全控制您的資料。
 
-          Core features and use cases:
+          核心功能和用例：
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * 專案組合管理](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * 專案規劃與排程](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * 任務管理與問題追蹤](https://www.openproject.org/collaboration-software-features/task-management/)
           * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * 需求管理與發行規劃](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [時間與成本追蹤、預算](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [團隊協作與文件](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          歡迎來到專案管理的未來。
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          給管理員：您可以更改此歡迎文字 [在此]({{opSetting:base_url}}/admin/settings/general)。

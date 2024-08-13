@@ -21,6 +21,8 @@ ka:
               only_numeric_or_uuid: can only be numeric or uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: is not available for this storage.
             project_ids:
@@ -55,8 +57,10 @@ ka:
   permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: View file links
   permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+  project_module_storages: ფაილები
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Automatically managed
       inactive: No specific folder
@@ -216,7 +220,7 @@ ka:
       label_error: შეცდომა
       label_healthy: ჯანმრთელი
       label_pending: დარჩენილია
-      label_warning: Warning
+      label_warning: გაფრთხილება
       project_folders:
         subtitle: Automatically managed project folders
       since: since %{datetime}

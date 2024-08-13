@@ -21,6 +21,8 @@ de:
               only_numeric_or_uuid: kann nur numerisch oder uuid sein.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Bitte wählen Sie einen Ordner.
             project_folder_mode:
               mode_unavailable: ist für diesen Speicher nicht verfügbar.
             project_ids:
@@ -57,16 +59,18 @@ de:
   permission_write_files: 'Automatisch verwaltete Projektordner: Dateien schreiben'
   project_module_storages: Dateien
   project_storages:
+    edit_project_folder:
+      label: Projektordner bearbeiten
     project_folder_mode:
       automatic: Automatisch verwaltet
       inactive: Kein spezifischer Ordner
       manual: Vorhandener Ordner manuell verwaltet
     remove_project:
       dialog:
-        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
-        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
+        automatically_managed_appendix: Falls dieser Speicher einen automatisch verwalteten Projektordner enthält, werden dieser und seine Dateien für immer gelöscht.
+        confirmation_text: Bitte bestätigen Sie die Entfernung des Dateispeichers aus diesem Projekt
         heading: Projekt von %{storage_type} entfernen
-        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
+        text: Diese Aktion ist unumkehrbar und entfernt alle Verknüpfungen von Arbeitspaketen dieses Projekts zu Dateien und Ordnern dieses Speichers.
       label: Projekt entfernen
   services:
     attributes:
@@ -119,7 +123,7 @@ de:
           error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
           group_does_not_exist: "%{group} does not exit. Check your Nextcloud instance configuration."
           insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
-          not_allowed: Nextcloud block the request.
+          not_allowed: Nextcloud blockiert die Anfrage.
           unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
           user_does_not_exist: "%{user} existiert nicht in Nextcloud."
         one_drive_sync_service:
@@ -136,7 +140,7 @@ de:
               forbidden: OpenProject does not have access to %{current_path} in order to rename it.
               not_found: "%{current_path} wurde nicht gefunden."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: konnte keine Berechtigungen auf %{path} setzen.
           error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
           not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
           unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
@@ -172,10 +176,10 @@ de:
     dependencies:
       nextcloud:
         group_folders_app: Group folders
-        integration_app: Integration OpenProject
+        integration_app: OpenProject Integration
     enabled_in_projects:
-      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
-      setup_incomplete_header: Storage setup incomplete
+      setup_incomplete_description: Dieser Speicher ist nicht vollständig eingerichtet. Bitte schließen Sie die Einrichtung ab, bevor Sie ihn in mehreren Projekten aktivieren.
+      setup_incomplete_header: Einrichtung des Speichers unvollständig
     error_invalid_provider_type: Bitte wählen Sie einen gültigen Dateispeicheranbieter aus.
     file_storage_view:
       access_management:

@@ -28,7 +28,7 @@
 
 import { Injectable, Injector } from '@angular/core';
 import { debounceTime, defaultIfEmpty, distinctUntilChanged, map, mapTo, switchMap, take, tap } from 'rxjs/operators';
-import { forkJoin, from, Observable, of, Subject } from 'rxjs';
+import { forkJoin, from, Observable, Subject } from 'rxjs';
 import { ID, Query } from '@datorama/akita';
 import { StateService } from '@uirouter/angular';
 
@@ -60,7 +60,7 @@ import { DeviceService } from 'core-app/core/browser/device.service';
 import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { FrameElement } from '@hotwired/turbo';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { UrlParamsService } from 'core-app/core/url-params/url-params.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { TurboRequestsService } from "core-app/core/turbo/turbo-requests.service";
 
 export interface INotificationPageQueryParameters {
@@ -180,7 +180,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   public selectedNotification:INotification;
 
-  stateChanged$ = of(this.urlParams.pathMatching(/\/details\/(\d+)/));
+  selectedWorkPackage$ = this.urlParams.pathMatching$(/\/details\/(\d+)/);
 
   constructor(
     readonly I18n:I18nService,
@@ -198,11 +198,9 @@ export class IanCenterService extends UntilDestroyedMixin {
     super();
     this.reload.subscribe();
 
-    if (this.stateChanged$) {
-      this.stateChanged$.subscribe(() => {
-        this.updateSelectedNotification();
-      });
-    }
+    this.selectedWorkPackage$.subscribe(() => {
+      this.updateSelectedNotification();
+    });
   }
 
   setFilters(filters:INotificationPageQueryParameters):void {

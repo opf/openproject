@@ -25,19 +25,19 @@ zh-TW:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "Pull 請求"
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git 代碼段
+          description: 將 Git 代碼段複製到剪貼板
         git_actions:
           branch_name: 分支名稱
           commit_message: 提交訊息
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          cmd: 以空白提交建立分支
+          title: Git 快速代碼段
           copy_success: '✅ 已複製!'
           copy_error: '❌ 複製失敗！'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: '尚未鏈接任何拉取請求。請使用拉取請求描述中的代碼 <code>OP#%{wp_id}</code> 鏈接現有拉取請求，或者創建新的拉取請求。'
       github_actions: 操作
       pull_requests:
         message: "由 %{github_user_link} 創作的 %{repository_link} 的拉取請求 #%{pr_number} %{pr_link} 已被%{pr_state}。"

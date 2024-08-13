@@ -21,6 +21,8 @@ ko:
               only_numeric_or_uuid: '- 숫자 또는 uuid만 가능합니다.'
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: '- 이 저장소에 사용할 수 없습니다.'
             project_ids:
@@ -57,6 +59,8 @@ ko:
   permission_write_files: '자동으로 관리되는 프로젝트 폴더: 파일 쓰기'
   project_module_storages: 파일
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: 자동으로 관리됨
       inactive: 특정 폴더 없음

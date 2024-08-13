@@ -21,6 +21,8 @@ zh-CN:
               only_numeric_or_uuid: 只能是数字或 uuid。
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: 选择一个文件夹
             project_folder_mode:
               mode_unavailable: 对于此存储不可用。
             project_ids:
@@ -57,6 +59,8 @@ zh-CN:
   permission_write_files: '自动管理项目文件夹：写入文件'
   project_module_storages: 文件
   project_storages:
+    edit_project_folder:
+      label: 编辑项目文件夹
     project_folder_mode:
       automatic: 自动托管
       inactive: 没有指定文件夹

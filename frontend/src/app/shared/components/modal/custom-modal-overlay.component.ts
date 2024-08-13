@@ -1,6 +1,6 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,35 +31,21 @@ import {
   Component,
 } from '@angular/core';
 
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IanCenterService } from '../state/ian-center.service';
-import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { ModalData } from 'core-app/shared/components/modal/modal.service';
+import { OpModalOverlayComponent } from 'core-app/shared/components/modal/modal-overlay.component';
+import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
+
+export const opCustomModalOverlaySelector = 'op-custom-modal-overlay';
 
 @Component({
-  templateUrl: './empty-state.component.html',
+  selector: opCustomModalOverlaySelector,
+  templateUrl: './modal-overlay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./empty-state.component.sass'],
-  selector: 'op-empty-state',
 })
-export class EmptyStateComponent {
-  image = {
-    no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
-    no_selection: imagePath('notification-center/empty-state-no-selection.svg'),
-    loading: imagePath('notification-center/notification_loading.gif'),
-  };
+export class OpCustomModalOverlayComponent extends OpModalOverlayComponent {
+  protected isDefaultTarget(modalData:ModalData | null):boolean {
+    if (modalData === null) return true;
 
-  text = {
-    no_notification: this.I18n.t('js.notifications.center.empty_state.no_notification'),
-    no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
-  };
-
-  hasNotifications$ = this.storeService.hasNotifications$;
-
-  loading$ = this.storeService.query.selectLoading();
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly storeService:IanCenterService,
-  ) {
+    return modalData.target === PortalOutletTarget.Custom;
   }
 }

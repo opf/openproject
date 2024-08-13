@@ -49,7 +49,7 @@ ka:
         description: "შენიშვნები"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "სათაური"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
