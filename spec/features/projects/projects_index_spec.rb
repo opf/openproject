@@ -70,7 +70,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
     end
 
-    context "for project members", with_ee: %i[custom_fields_in_projects_list] do
+    context "for project members" do
       shared_let(:user) do
         create(:user,
                member_with_roles: { development_project => developer },
@@ -131,7 +131,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
     end
 
-    context "for work package members", with_ee: %i[custom_fields_in_projects_list] do
+    context "for work package members" do
       shared_let(:work_package) { create(:work_package, project: development_project) }
       shared_let(:user) do
         create(:user,
@@ -282,7 +282,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  describe "project attributes visibility restrictions", with_ee: %i[custom_fields_in_projects_list] do
+  describe "project attributes visibility restrictions" do
     let(:user) do
       create(:user,
              member_with_roles: {
@@ -329,18 +329,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  context "without valid Enterprise token" do
-    specify "CF columns and filters are not visible" do
-      load_and_open_filters admin
-
-      # CF's columns are not present:
-      expect(page).to have_no_text(custom_field.name.upcase)
-      # CF's filters are not present:
-      expect(page).to have_no_select("add_filter_select", with_options: [custom_field.name])
-    end
-  end
-
-  context "with valid Enterprise token", with_ee: %i[custom_fields_in_projects_list] do
+  context "with valid Enterprise token" do
     shared_let(:long_text_custom_field) { create(:text_project_custom_field) }
     specify "CF columns and filters are not visible by default" do
       load_and_open_filters admin
@@ -720,7 +709,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
     end
 
-    describe "other filter types", with_ee: %i[custom_fields_in_projects_list] do
+    describe "other filter types" do
       context "for admins" do
         shared_let(:list_custom_field) { create(:list_project_custom_field) }
         shared_let(:date_custom_field) { create(:date_project_custom_field) }
@@ -1107,7 +1096,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  describe "order", with_ee: %i[custom_fields_in_projects_list] do
+  describe "order" do
     shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
@@ -1303,8 +1292,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  describe "column selection",
-           with_ee: %i[custom_fields_in_projects_list], with_settings: { enabled_projects_columns: %w[name created_at] } do
+  describe "column selection", with_settings: { enabled_projects_columns: %w[name created_at] } do
     # Will still receive the :view_project permission
     shared_let(:user) do
       create(:user, member_with_permissions: { project => %i(view_project_attributes),
@@ -1372,7 +1360,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  context "with a multi-value custom field", with_ee: %i[custom_fields_in_projects_list] do
+  context "with a multi-value custom field" do
     let!(:list_custom_field) do
       create(:list_project_custom_field, multi_value: true).tap do |cf|
         project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
