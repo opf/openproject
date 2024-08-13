@@ -72,10 +72,10 @@ class WorkPackages::SetAttributesService
       return if percent_complete == 100 # would be Infinity if computed when % complete is 100%
 
       if remaining_work_unset?
-        set_hint(:done_ratio, "unset because remaining work is unset")
+        set_hint(:work, "unset because remaining work is unset")
         self.work = nil
       else
-        set_hint(:done_ratio, "derived from % complete and remaining work")
+        set_hint(:work, "derived from % complete and remaining work")
         self.work = work_from_percent_complete_and_remaining_work
       end
     end
