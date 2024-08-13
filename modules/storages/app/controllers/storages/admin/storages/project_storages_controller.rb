@@ -119,7 +119,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     end
 
     result.on_failure do |failure|
-      error = failure.errors.map(&:message).join("; ")
+      error = failure.errors.map(&:message).to_sentence
       flash[:primer_banner] = { message: t("project_storages.remove_project.deletion_failure_flash", error:), scheme: :danger }
     end
     # rubocop:enable Rails/ActionControllerFlashBeforeRender
