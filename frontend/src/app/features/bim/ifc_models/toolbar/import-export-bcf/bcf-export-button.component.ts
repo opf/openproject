@@ -116,19 +116,6 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
   }
 
   private handleError(error:HttpErrorResponse) {
-    // There was an error but the status code is actually a 200.
-    // If that is the case the response's content-type probably does not match
-    // the expected type (json).
-    // Currently this happens e.g. when exporting Atom which actually is not an export
-    // but rather a feed to follow.
-    if (error.status === 200 && error.url) {
-      window.open(error.url);
-    } else {
-      this.showError(error);
-    }
-  }
-
-  private showError(error:HttpErrorResponse) {
     this.toastService.addError(error.message || this.I18n.t('js.error.internal'));
   }
 }
