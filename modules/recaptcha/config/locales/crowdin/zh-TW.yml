@@ -2,7 +2,7 @@
 zh-TW:
   plugin_openproject_recaptcha:
     name: "OpenProject ReCaptcha"
-    description: "This module provides recaptcha checks during login."
+    description: "該模塊在登錄過程中提供reCAPTCHA確認。"
   recaptcha:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: '請稍候......'
