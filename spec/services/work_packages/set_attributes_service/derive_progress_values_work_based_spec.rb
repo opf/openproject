@@ -191,6 +191,14 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       include_examples "update progress values", description: "work is updated accordingly"
     end
 
+    context "when remaining work is changed and % complete is changed to 100%" do
+      let(:set_attributes) { { remaining_hours: 12.0, done_ratio: 100 } }
+      let(:expected_kept_attributes) { %w[estimated_hours] }
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), and work is kept"
+    end
+
     context "when work and remaining work are both changed to negative values" do
       let(:set_attributes) { { estimated_hours: -10, remaining_hours: -5 } }
       let(:expected_kept_attributes) { %w[done_ratio] }
@@ -584,6 +592,51 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
       include_examples "update progress values",
                        description: "work and remaining work are kept unset"
+    end
+  end
+
+  context "given a work package with work and remaining work unset, and % complete being set to 100%" do
+    before do
+      work_package.estimated_hours = nil
+      work_package.remaining_hours = nil
+      work_package.done_ratio = 100
+      work_package.clear_changes_information
+    end
+
+    context "when work is set" do
+      let(:set_attributes) { { estimated_hours: 10.0 } }
+      let(:expected_derived_attributes) { { remaining_hours: 0.0 } }
+      let(:expected_kept_attributes) { %w[done_ratio] }
+
+      include_examples "update progress values", description: "% complete is kept and remaining work is set to 0h"
+    end
+
+    context "when work is set to a string" do
+      let(:set_attributes) { { estimated_hours: "I am a string" } }
+      let(:expected_derived_attributes) { { estimated_hours: 0.0, remaining_hours: 0.0 } }
+
+      it "keeps the original string value in the _before_type_cast method " \
+         "so that validation can detect it is invalid" do
+        work_package.attributes = set_attributes
+        instance.call
+
+        expect(work_package.estimated_hours_before_type_cast).to eq("I am a string")
+      end
+    end
+
+    context "when work and remaining work are set" do
+      let(:set_attributes) { { estimated_hours: 10.0, remaining_hours: 5.0 } }
+      let(:expected_derived_attributes) { { done_ratio: 50 } }
+
+      include_examples "update progress values", description: "% complete is updated accordingly"
+    end
+
+    context "when remaining work is set to 0h" do
+      let(:set_attributes) { { remaining_hours: 0.0 } }
+      let(:expected_kept_attributes) { %w[estimated_hours done_ratio] }
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), and % complete is kept"
     end
   end
 

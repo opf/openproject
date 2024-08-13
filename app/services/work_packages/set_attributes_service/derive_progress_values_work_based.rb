@@ -68,6 +68,7 @@ class WorkPackages::SetAttributesService
     def update_work
       return if work_set_and_no_user_inputs_provided_for_both_remaining_work_and_percent_complete?
       return if remaining_work_unset? && percent_complete_unset?
+      return if percent_complete == 100 # would be Infinity if computed when % complete is 100%
 
       self.work = work_from_percent_complete_and_remaining_work
     end

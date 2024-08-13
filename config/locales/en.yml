@@ -1154,6 +1154,10 @@ en:
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be set to 0h when Work is set and % Complete is 100%.
+              must_be_unset_when_work_is_unset_and_percent_complete_is_100p: >-
+                must be unset when Work is unset and % Complete is 100%.
               format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:

@@ -80,6 +80,7 @@ module WorkPackages
     attribute :remaining_hours do
       validate_remaining_work_is_lower_than_work
       if OpenProject::FeatureDecisions.percent_complete_edition_active?
+        validate_remaining_work_is_zero_or_unset_when_percent_complete_is_100p
         validate_remaining_work_is_set_when_work_and_percent_complete_are_set
       else
         # to be removed in 15.0 with :percent_complete_edition feature flag removal
@@ -362,12 +363,24 @@ module WorkPackages
     end
 
     def validate_work_is_set_when_remaining_work_and_percent_complete_are_set
-      if remaining_work_set_and_valid? && percent_complete_set_and_valid? && work_unset?
+      if remaining_work_set_and_valid? && percent_complete_set_and_valid? && work_unset? && percent_complete != 100
         errors.add(:estimated_hours, :must_be_set_when_remaining_work_and_percent_complete_are_set)
       end
     end
 
+    def validate_remaining_work_is_zero_or_unset_when_percent_complete_is_100p
+      return unless percent_complete == 100
+
+      if work_set_and_valid? && remaining_work != 0
+        errors.add(:remaining_hours, :must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p)
+      elsif work_unset? && remaining_work_set?
+        errors.add(:remaining_hours, :must_be_unset_when_work_is_unset_and_percent_complete_is_100p)
+      end
+    end
+
     def validate_remaining_work_is_set_when_work_and_percent_complete_are_set
+      return if percent_complete == 100
+
       if work_set_and_valid? && percent_complete_set_and_valid? && remaining_work_unset?
         errors.add(:remaining_hours, :must_be_set_when_work_and_percent_complete_are_set)
       end
@@ -379,20 +392,15 @@ module WorkPackages
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
     def validate_percent_complete_matches_work_and_remaining_work
-      return if WorkPackage.status_based_mode? || percent_complete_unset? || work == 0
+      return if WorkPackage.status_based_mode? || percent_complete_unset? || work == 0 || percent_complete == 100
       return if invalid_work_or_remaining_work_values? # avoid too many error messages at the same time
       return unless work_set? && remaining_work_set?
 
-      work_done = work - remaining_work
-      expected_percent_complete = (100 * work_done.to_f / work).round
-
-      if percent_complete != expected_percent_complete
+      if percent_complete != percent_complete_derived_from_work_and_remaining_work
         errors.add(:done_ratio, :does_not_match_work_and_remaining_work)
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     def validate_percent_complete_is_unset_when_work_is_zero
       return if WorkPackage.status_based_mode?
@@ -441,6 +449,10 @@ module WorkPackages
     end
 
     def remaining_work_exceeds_work?
+      # if % complete is 100%, then remaining work should be 0h or unset, so no
+      # need to display an error for remaining work exceeding work
+      return false if percent_complete == 100
+
       work_set_and_valid? && remaining_work_set_and_valid? && remaining_work > work
     end
 
@@ -458,6 +470,11 @@ module WorkPackages
 
     def percent_complete_unset?
       percent_complete.nil?
+    end
+
+    def percent_complete_derived_from_work_and_remaining_work
+      work_done = work - remaining_work
+      (100 * work_done.to_f / work).round
     end
 
     def validate_no_reopen_on_closed_version
