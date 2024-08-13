@@ -269,6 +269,7 @@ module Pages
       def open_filters
         retry_block do
           toggle_filters_section
+          expect(page).to have_css(".op-filters-form.-expanded")
           page.find_field("Add filter", visible: true)
         end
       end

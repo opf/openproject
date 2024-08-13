@@ -307,6 +307,8 @@ RSpec.describe "Persisted lists on projects index page",
 
       projects_page.filter_by_membership("yes")
 
+      wait_for_network_idle
+
       projects_page.expect_projects_not_listed(public_project)
       projects_page.expect_projects_listed(project, development_project)
 
