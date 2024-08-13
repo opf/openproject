@@ -71,7 +71,13 @@ class WorkPackages::SetAttributesService
       return if remaining_work_unset? && percent_complete_unset?
       return if percent_complete == 100 # would be Infinity if computed when % complete is 100%
 
-      self.work = work_from_percent_complete_and_remaining_work
+      if remaining_work_unset?
+        work_package.derived_progress_hints[:done_ratio] = "unset because remaining work is unset"
+        self.work = nil
+      else
+        work_package.derived_progress_hints[:done_ratio] = "derived from % complete and remaining work"
+        self.work = work_from_percent_complete_and_remaining_work
+      end
     end
 
     # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
@@ -80,13 +86,24 @@ class WorkPackages::SetAttributesService
       return if work_was_unset? && remaining_work_set? # remaining work is kept and % complete will be set
 
       if work_set? && remaining_work_unset? && percent_complete_unset?
+        work_package.derived_progress_hints[:remaining_hours] = "set to same value as work"
         self.remaining_work = work
       elsif work_changed? && work_set? && remaining_work_set? && !percent_complete_changed?
         delta = work - work_was
+        if delta.positive?
+          work_package.derived_progress_hints[:remaining_hours] = "increased by same amout as work"
+        elsif delta.negative?
+          work_package.derived_progress_hints[:remaining_hours] = "decreased by same amout as work"
+        end
         self.remaining_work = (remaining_work + delta).clamp(0.0, work)
-      elsif work_unset? || percent_complete_unset?
+      elsif work_unset?
+        work_package.derived_progress_hints[:remaining_hours] = "unset because work is unset and % complete is set"
+        self.remaining_work = nil
+      elsif percent_complete_unset?
+        work_package.derived_progress_hints[:remaining_hours] = "unset because % complete is unset and work is set"
         self.remaining_work = nil
       else
+        work_package.derived_progress_hints[:remaining_hours] = "derived from work and % complete"
         self.remaining_work = remaining_work_from_percent_complete_and_work
       end
     end
@@ -95,12 +112,19 @@ class WorkPackages::SetAttributesService
     def update_percent_complete
       return if work_unset?
 
-      self.percent_complete = percent_complete_from_work_and_remaining_work
+      if work.zero?
+        work_package.derived_progress_hints[:done_ratio] = "derived from work and remaining work"
+        self.percent_complete = nil
+      elsif remaining_work_unset?
+        work_package.derived_progress_hints[:done_ratio] = "unset because remaining work is unset"
+        self.percent_complete = nil
+      else
+        work_package.derived_progress_hints[:done_ratio] = "derived from work and remaining work"
+        self.percent_complete = percent_complete_from_work_and_remaining_work
+      end
     end
 
     def percent_complete_from_work_and_remaining_work
-      return nil if work.zero? || remaining_work_unset?
-
       completed_work = work - remaining_work
       completion_ratio = completed_work.to_f / work
 
@@ -108,8 +132,6 @@ class WorkPackages::SetAttributesService
     end
 
     def work_from_percent_complete_and_remaining_work
-      return if remaining_work_unset?
-
       remaining_percent_complete = 1.0 - ((percent_complete || 0) / 100.0)
       remaining_work / remaining_percent_complete
     end
