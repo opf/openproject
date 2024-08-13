@@ -1,22 +1,14 @@
 <%= flex_layout do |container| %>
   <%= container.with_row do |_columns| %>
-    <% helpers.angular_component_tag "opce-draggable-autocompleter",
-                                     inputs: {
-                                       options: work_packages_columns_options,
-                                       selected: selected_columns,
-                                       protected: protected_work_packages_columns_options,
-                                       name: 'columns',
-                                       id: 'columns-select-export-xls',
-                                       inputLabel: I18n.t(:"queries.configure_view.columns.input_label"),
-                                       inputPlaceholder: I18n.t(:"queries.configure_view.columns.input_placeholder"),
-                                       dragAreaName: 'columns-select-export-xls',
-                                       dragAreaLabel: I18n.t(:"queries.configure_view.columns.drag_area_label"),
-                                       appendToComponent: true
-                                     } %>
+    <%= render WorkPackages::Exports::ColumnSelectionComponent.new(
+      query,
+      "columns-select-export-xls",
+      I18n.t("export.dialog.columns.input_caption_table")
+    ) %>
   <% end %>
   <%= container.with_row do |_xls_include_relations| %>
     <hr class="mt-2 mb-4"/>
-    <%= render(Primer::Alpha::CheckBox.new(name: 'show_relations',
+    <%= render(Primer::Alpha::CheckBox.new(name: "show_relations",
                                            value: "true",
                                            unchecked_value: "false",
                                            label: I18n.t("export.dialog.xls.include_relations.label"),

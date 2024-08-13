@@ -3,7 +3,6 @@
     "application-target": "dynamic",
     controller: "work-packages--export--pdf--settings"
   }) do |container| %>
-
   <%= container.with_row do %>
     <%= render(Primer::Alpha::RadioButtonGroup.new(
       mb: 3,
@@ -28,71 +27,14 @@
     end %>
     <hr class="mt-4 mb-4"/>
   <% end %>
-
-  <% container.with_row(
-    classes: %w[table report].include?(current_pdf_export_type) ? nil : "d-none",
-    data: {
-      table: true,
-      report: true,
-      "work-packages--export--pdf--settings-target": "fields"
-    }) do |_columns|
-    helpers.angular_component_tag "opce-draggable-autocompleter",
-                                  inputs: {
-                                    options: work_packages_columns_options,
-                                    selected: selected_columns,
-                                    protected: protected_work_packages_columns_options,
-                                    name: 'columns',
-                                    id: 'columns-select-export-pdf',
-                                    inputLabel: I18n.t(:"queries.configure_view.columns.input_label"),
-                                    inputPlaceholder: I18n.t(:"queries.configure_view.columns.input_placeholder"),
-                                    dragAreaName: 'columns-select-export-pdf',
-                                    dragAreaLabel: I18n.t(:"queries.configure_view.columns.drag_area_label"),
-                                    appendToComponent: true
-                                  }
-  end %>
-
-  <%= container.with_row(
-    classes: current_pdf_export_type == "report" ? nil : "d-none",
-    data: {
-      report: true,
-      "work-packages--export--pdf--settings-target": "fields"
-    }) do |_pdf_report_images| %>
-    <hr class="mt-2 mb-4"/>
-    <%= render(Primer::Alpha::CheckBox.new(name: 'show_images',
-                                           checked: true,
-                                           value: "true",
-                                           unchecked_value: "false",
-                                           label: I18n.t("export.dialog.pdf.include_images.label"),
-                                           caption: I18n.t("export.dialog.pdf.include_images.caption"),
-                                           disabled: current_pdf_export_type != "report",
-                                           visually_hide_label: false)) %>
-  <% end %>
-  <% if gantt_chart_allowed? %>
-    <%= container.with_row(classes: current_pdf_export_type == "gantt" ? nil : "d-none",
-                           data: {
-                             gantt: true,
-                             "work-packages--export--pdf--settings-target": "fields"
-                           }) do |_pdf_gantt_paper_size| %>
-
-      <% flex_layout do |flex| %>
-        <% gantt_selects.each_with_index do |entry, index| %>
-          <% flex.with_row(mt: index == 0 ? 0 : 3) do %>
-            <%= render(Primer::Alpha::Select.new(
-              name: entry[:name],
-              label: entry[:label],
-              caption: entry[:caption],
-              size: :medium,
-              input_width: :small,
-              disabled: current_pdf_export_type != "gantt",
-              value: entry[:options].find { |e| e[:default] }[:value])
-                ) do |component|
-              entry[:options].each do |entry|
-                component.option(label: entry[:label], value: entry[:value])
-              end
-            end %>
-          <% end %>
-        <% end %>
-      <% end %>
+  <% pdf_export_types.reject { |entry| entry[:disabled] }.each do |entry| %>
+    <%= container.with_row(
+      classes: current_pdf_export_type == entry[:value] ? nil : "d-none",
+      data: {
+        "pdf-export-type": entry[:value],
+        "work-packages--export--pdf--settings-target": "fields"
+      }) do |_pdf_export_type| %>
+      <%= render(entry[:component].new(query)) %>
     <% end %>
   <% end %>
 <% end %>

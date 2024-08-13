@@ -13,9 +13,17 @@ export default class PDFExportSettingsController extends Controller {
     });
   }
 
+  connect() {
+    this.fieldsTargets.forEach((element:HTMLElement) => {
+      if (element.classList.contains('d-none')) {
+        this.silenceFormFields(element, true);
+      }
+    });
+  }
+
   typeChanged({ params: { name } }:{ params:{ name:string } }) {
     this.fieldsTargets.forEach((element:HTMLElement) => {
-      if (element.getAttribute(`data-${name}`) === 'true') {
+      if (element.getAttribute(`data-pdf-export-type`) === name) {
         element.classList.remove('d-none');
         this.silenceFormFields(element, false);
       } else {

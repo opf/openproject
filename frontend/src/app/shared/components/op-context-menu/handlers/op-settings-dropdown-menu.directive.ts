@@ -334,7 +334,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-export',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowWorkPackageAction($event, 'representations')) {
-            // old angular export form: this.opModalService.show(WpTableExportModalComponent, this.injector);
             const query = this.querySpace.query.value;
             if (query) {
               const href = this.buildExportDialogHref(query);

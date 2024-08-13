@@ -1760,6 +1760,9 @@ en:
             label: "PDF"
           xls:
             label: "XLS"
+      columns:
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text field will be displayed at the end of the attributes list."
+        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
       pdf:
         export_type:
           label: "PDF export type"

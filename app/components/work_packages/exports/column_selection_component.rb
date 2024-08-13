@@ -30,17 +30,27 @@
 
 module WorkPackages
   module Exports
-    class BaseExportSettingsComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+    class ColumnSelectionComponent < ApplicationComponent
       include WorkPackagesHelper
 
-      attr_reader :query
+      attr_reader :query, :id, :caption
 
-      def initialize(query)
-        super
+      def initialize(query, id, caption)
+        super()
 
         @query = query
+        @id = id
+        @caption = caption
+      end
+
+      def available_columns
+        work_packages_columns_options
+      end
+
+      def selected_columns
+        query
+          .columns
+          .map { |s| { id: s.name, name: s.caption } }
       end
     end
   end

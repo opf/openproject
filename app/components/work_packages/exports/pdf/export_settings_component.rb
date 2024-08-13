@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,74 +44,17 @@ module WorkPackages
           [
             { value: "table",
               label: I18n.t("export.dialog.pdf.export_type.options.table.label"),
-              caption: I18n.t("export.dialog.pdf.export_type.options.table.caption") },
+              caption: I18n.t("export.dialog.pdf.export_type.options.table.caption"),
+              component: WorkPackages::Exports::PDF::Table::ExportSettingsComponent },
             { value: "report",
               label: I18n.t("export.dialog.pdf.export_type.options.report.label"),
-              caption: I18n.t("export.dialog.pdf.export_type.options.report.caption") },
+              caption: I18n.t("export.dialog.pdf.export_type.options.report.caption"),
+              component: WorkPackages::Exports::PDF::Report::ExportSettingsComponent },
             { value: "gantt",
               label: I18n.t("export.dialog.pdf.export_type.options.gantt.label"),
               caption: I18n.t("export.dialog.pdf.export_type.options.gantt.caption"),
-              disabled: !gantt_chart_allowed? }
-          ]
-        end
-
-        def selected_columns
-          query
-            .columns
-            .map { |s| { id: s.name, name: s.caption } }
-        end
-
-        def gantt_selects
-          [
-            {
-              name: "gantt_mode",
-              label: I18n.t("export.dialog.pdf.gantt_zoom_levels.label"),
-              caption: I18n.t("export.dialog.pdf.gantt_zoom_levels.caption"),
-              options: gantt_zoom_levels
-            },
-            {
-              name: "gantt_width",
-              label: I18n.t("export.dialog.pdf.column_width.label"),
-              options: gantt_column_widths
-            },
-            {
-              name: "paper_size",
-              label: I18n.t("export.dialog.pdf.paper_size.label"),
-              caption: I18n.t("export.dialog.pdf.paper_size.caption"),
-              options: pdf_paper_sizes
-            }
-          ]
-        end
-
-        def gantt_zoom_levels
-          [
-            { label: t("export.dialog.pdf.gantt_zoom_levels.options.days"), value: "day", default: true },
-            { label: t("export.dialog.pdf.gantt_zoom_levels.options.weeks"), value: "week" },
-            { label: t("export.dialog.pdf.gantt_zoom_levels.options.months"), value: "month" },
-            { label: t("export.dialog.pdf.gantt_zoom_levels.options.quarters"), value: "quarter" }
-          ]
-        end
-
-        def gantt_column_widths
-          [
-            { label: t("export.dialog.pdf.column_width.options.narrow"), value: "narrow" },
-            { label: t("export.dialog.pdf.column_width.options.medium"), value: "medium", default: true },
-            { label: t("export.dialog.pdf.column_width.options.wide"), value: "wide" },
-            { label: t("export.dialog.pdf.column_width.options.very_wide"), value: "very_wide" }
-          ]
-        end
-
-        def pdf_paper_sizes
-          [
-            { label: "A4", value: "A4", default: true },
-            { label: "A3", value: "A3" },
-            { label: "A2", value: "A2" },
-            { label: "A1", value: "A1" },
-            { label: "A0", value: "A0" },
-            { label: "Executive", value: "EXECUTIVE" },
-            { label: "Folio", value: "FOLIO" },
-            { label: "Letter", value: "LETTER" },
-            { label: "Tabloid", value: "TABLOID" }
+              disabled: !gantt_chart_allowed?,
+              component: WorkPackages::Exports::PDF::Gantt::ExportSettingsComponent }
           ]
         end
       end

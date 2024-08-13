@@ -30,17 +30,10 @@
 
 module WorkPackages
   module Exports
-    class BaseExportSettingsComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-      include WorkPackagesHelper
-
-      attr_reader :query
-
-      def initialize(query)
-        super
-
-        @query = query
+    module PDF
+      module Report
+        class ExportSettingsComponent < BaseExportSettingsComponent
+        end
       end
     end
   end

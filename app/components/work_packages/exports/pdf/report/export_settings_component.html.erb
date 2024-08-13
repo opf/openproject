@@ -1,0 +1,19 @@
+<%= flex_layout do |container| %>
+  <% container.with_row do |_columns| %>
+    <%= render WorkPackages::Exports::ColumnSelectionComponent.new(
+      query,
+      "columns-select-export-pdf-report",
+      I18n.t("export.dialog.columns.input_caption_report")
+    ) %>
+  <% end %>
+  <%= container.with_row do |_pdf_report_images| %>
+    <hr class="mt-2 mb-4"/>
+    <%= render(Primer::Alpha::CheckBox.new(name: 'show_images',
+                                           checked: true,
+                                           value: "true",
+                                           unchecked_value: "false",
+                                           label: I18n.t("export.dialog.pdf.include_images.label"),
+                                           caption: I18n.t("export.dialog.pdf.include_images.caption"),
+                                           visually_hide_label: false)) %>
+  <% end %>
+<% end %>
