@@ -30,29 +30,30 @@ require "spec_helper"
 
 RSpec.describe WorkPackage::Exports::CSV, "integration" do
   before do
-    login_as current_user
+    login_as user
   end
 
   let(:project) { create(:project) }
   let(:type_a) { create(:type, name: "Type A") }
   let(:type_b) { create(:type, name: "Type B") }
-  let(:wp1) { create(:work_package, project:, done_ratio: 25, subject: "WP1", type: type_a) }
-  let(:wp2) { create(:work_package, project:, done_ratio: 0, subject: "WP2", type: type_a) }
-  let(:wp3) { create(:work_package, project:, done_ratio: 0, subject: "WP3", type: type_b) }
-  let(:wp4) { create(:work_package, project:, done_ratio: 0, subject: "WP4", type: type_a) }
-  let(:current_user) do
+  let(:wp1) { create(:work_package, project:, done_ratio: 25, subject: "WP1", type: type_a, id: 1) }
+  let(:wp2) { create(:work_package, project:, done_ratio: 0, subject: "WP2", type: type_a, id: 2) }
+  let(:wp3) { create(:work_package, project:, done_ratio: 0, subject: "WP3", type: type_b, id: 3) }
+  let(:wp4) { create(:work_package, project:, done_ratio: 0, subject: "WP4", type: type_a, id: 4) }
+  let(:user) do
     create(:user,
            member_with_permissions: { project => %i(view_work_packages) })
   end
   let(:instance) do
     described_class.new(query)
   end
+  let(:work_packages) do
+    [wp1, wp2, wp3, wp4]
+  end
 
-  context "when the query is not grouped" do
+  context "when the query is default" do
     let(:query) do
-      Query.new_default.tap do |query|
-        query.column_names = %i(type subject assigned_to updated_at estimated_hours)
-      end
+      create(:query, project:, user:, column_names: %i(type subject assigned_to updated_at estimated_hours))
     end
 
     ##
@@ -66,7 +67,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
         :work_package,
         subject: "Ruby encodes ß as '\\xDF' in ISO-8859-1.",
         description: "\u2022 requires unicode.",
-        assigned_to: current_user,
+        assigned_to: user,
         derived_estimated_hours: 15.0,
         type: type_a,
         project:
@@ -82,7 +83,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       expect(data.last).to include(work_package.type.name)
       expect(data.last).to include(work_package.subject)
       expect(data.last).to include(work_package.description)
-      expect(data.last).to include(current_user.name)
+      expect(data.last).to include(user.name)
       expect(data.last).to include(work_package.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
       expect(data.last).to include("· Σ 15h")
     end
@@ -90,42 +91,32 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
 
   context "when the query is grouped" do
     let(:query) do
-      Query.new_default.tap do |query|
-        query.show_hierarchies = false
-        query.group_by = "type"
-        query.sort_criteria = [["subject", "asc"]]
-        query.column_names = %i(type subject)
-      end
+      create(:query, project:, user:, column_names: %i(type subject id),
+                     group_by: "type",
+                     show_hierarchies: false, sort_criteria: [%w[type asc], %w[id asc]])
     end
 
     it "performs a successful grouped export" do
-      wp1
-      wp2
-      wp3
-      wp4
-
+      type_a.update_column(:position, 1)
+      type_b.update_column(:position, 2)
+      work_packages
       data = CSV.parse instance.export!.content
 
       expect(data.size).to eq(5)
-      # grouped by type
-      expect(data.pluck(1)).to eq %w[Subject WP3 WP1 WP2 WP4]
+      expect(data.pluck(0)).to eq ["Type", "Type A", "Type A", "Type A", "Type B"]
     end
   end
 
   context "when the query is filtered" do
     let(:query) do
-      Query.new_default.tap do |query|
-        query.column_names = %i(subject done_ratio)
+      create(:query, project:, user:, column_names: %i(subject done_ratio))
+        .tap do |query|
         query.add_filter "done_ratio", "=", [25]
       end
     end
 
     it "performs a successful grouped export" do
-      wp1
-      wp2
-      wp3
-      wp4
-
+      work_packages
       data = CSV.parse instance.export!.content
 
       expect(data.size).to eq(2)
@@ -135,22 +126,27 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
 
   context "when the query is manually ordered" do
     let(:query) do
-      Query.new_default.tap do |query|
-        query.column_names = %i(subject done_ratio)
-        query.sort_criteria = [[:manual_sorting, "asc"]]
-        query.name = "Manual sorting"
-        query.user_id = current_user.id
-      end
+      create(
+        :query, project:, user:,
+                column_names: %i(subject done_ratio),
+                sort_criteria: [[:manual_sorting, "asc"]]
+      )
     end
 
     before do
+      OrderedWorkPackage.delete_all
       OrderedWorkPackage.create(query:, work_package: wp4, position: 0)
       OrderedWorkPackage.create(query:, work_package: wp2, position: 1)
       OrderedWorkPackage.create(query:, work_package: wp1, position: 2)
       OrderedWorkPackage.create(query:, work_package: wp3, position: 3)
     end
 
+    after do
+      OrderedWorkPackage.delete_all
+    end
+
     it "performs a successful manually ordered export" do
+      work_packages
       data = CSV.parse instance.export!.content
 
       expect(data.size).to eq(5)
