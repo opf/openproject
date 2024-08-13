@@ -45,25 +45,33 @@ module Storages
             def update? = permission_ids.any? && user_ids.any?
           end
 
-          def self.call(storage:, auth_strategy:, path:, permissions:)
-            new(storage).call(auth_strategy:, path:, permissions:)
+          def self.call(storage:, auth_strategy:, input_data:)
+            new(storage).call(auth_strategy:, input_data:)
           end
 
           def initialize(storage)
             @storage = storage
           end
 
-          def call(auth_strategy:, path:, permissions:)
+          # rubocop:disable Metrics/AbcSize
+          def call(auth_strategy:, input_data:)
             with_tagged_logger do
-              Authentication[auth_strategy].call(storage: @storage) do |http|
-                item_exists?(http, path).on_failure { return _1 }
+              info "Validating input data"
+              validate_input_data(input_data).on_failure { return _1 }
 
-                current_permissions = get_current_permissions(http, path).on_failure { return _1 }.result
+              Authentication[auth_strategy].call(storage: @storage) do |http|
+                item = input_data.file_id
+                item_exists?(http, item).on_failure { return _1 }
+
+                current_permissions = get_current_permissions(http, item).on_failure { return _1 }.result
                 info "Read and write permissions found: #{current_permissions}"
 
-                permissions.each_pair do |role, user_ids|
+                role_to_user_map(input_data).each_pair do |role, user_ids|
                   apply_permission_changes(
-                    PermissionUpdateData.new(role:, user_ids:, permission_ids: current_permissions[role], drive_item_id: path),
+                    PermissionUpdateData.new(role:,
+                                             user_ids:,
+                                             permission_ids: current_permissions[role],
+                                             drive_item_id: item),
                     http
                   )
                 end
@@ -73,7 +81,28 @@ module Storages
             end
           end
 
+          # rubocop:enable Metrics/AbcSize
+
           private
+
+          def validate_input_data(input_data)
+            if input_data.is_a?(Inputs::SetPermissions) && input_data.valid?
+              ServiceResult.success
+            else
+              ServiceResult.failure(result: :error,
+                                    errors: StorageError.new(code: :error,
+                                                             data: StorageErrorData.new(source: self.class),
+                                                             log_message: "Invalid input data: #{input_data.inspect}"))
+            end
+          end
+
+          def role_to_user_map(input_data)
+            input_data.permissions
+                      .each_with_object({ read: [], write: [] }) do |(user_id, permissions), map|
+              map[:read] << user_id if permissions[:read_files]
+              map[:write] << user_id if permissions[:write_files]
+            end
+          end
 
           def item_exists?(http, item_id)
             info "Checking if folder #{item_id} exists"

@@ -32,6 +32,8 @@ module Storages
   module Peripherals
     module StorageInteraction
       module Nextcloud
+        # TODO: refactor to be consistent with OneDrive::SetPermissionsCommand interface
+        # And streamline test cases.
         class SetPermissionsCommand
           include TaggedLogging
           using ServiceResultRefinements
