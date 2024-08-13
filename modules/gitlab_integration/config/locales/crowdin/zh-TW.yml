@@ -27,43 +27,43 @@ zh-TW:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "必須是一個帶值的雜湊陣列：color、title"
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "必須是一個帶值的雜湊陣列：color、title"
   project_module_gitlab: "GitLab"
   permission_show_gitlab_content: "顯示 GitLab內容"
   gitlab_integration:
     merge_request_opened_comment: >
-      **MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR 已開啟：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}).。
     merge_request_closed_comment: >
-      **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR 已關閉：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 關閉。
     merge_request_merged_comment: >
-      **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR 已合併：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 合併。
     merge_request_reopened_comment: >
-      **MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR 已重新開啟：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 重新開啟。
     note_commit_referenced_comment: >
-      **Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}
+      **在commit中引用：** [%{gitlab_user}](%{gitlab_user_url}) 引用了此WP於Commit Note [%{repository}](%{repository_url}) 在 [%{commit_id}](%{commit_url}) 上: %{commit_note}
     note_mr_referenced_comment: >
-      **Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}
+      **在MR 引用：** [%{gitlab_user}](%{gitlab_user_url}) 在合併請求%{mr_number} [%{mr_title}](%{mr_url}) 中引用了此WP在 [%{repository}](%{repository_url}) 上: %{mr_note}
     note_mr_commented_comment: >
-      **Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}
+      ** 在 MR 中評論：** [%{gitlab_user}](%{gitlab_user_url}) 在合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 對 [%{repository}](%{repository_url}) 評論了此 WP： %{mr_note}
     note_issue_referenced_comment: >
-      **Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
+      ** 在 Issue 中引用：** [%{gitlab_user}](%{gitlab_user_url}) 引用了此 WP，於 Issue %{issue_number} [%{issue_title}](%{issue_url}) 在 [%{repository}](%{repository_url}) 上： %{issue_note}
     note_issue_commented_comment: >
-      **Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
+      ** 在 Issue 中註解：** [%{gitlab_user}](%{gitlab_user_url}) 註解此 WP於 Issue %{issue_number} [%{issue_title}](%{issue_url}) 在 [%{repository}](%{repository_url}) 上 ： %{issue_note}
     note_snippet_referenced_comment: >
-      **Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}
+      ** 在 Snippet 中被引用：** [%{gitlab_user}](%{gitlab_user_url}) 引用了此 WP於 Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) 在 [%{repository}](%{repository_url}) 上： %{snippet_note}
     issue_opened_referenced_comment: >
-      **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      ** 問題已開啟：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 開啟。
     issue_closed_referenced_comment: >
-      **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      ** 問題關閉：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) 為 [%{repository}](%{repository_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 關閉。
     issue_reopened_referenced_comment: >
-      **Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      ** 問題重新開啟：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) 為 [%{repository}](%{repository_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新開啟。
     push_single_commit_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      ** 在 MR 中推送：** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}: %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      ** 推送在 %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      ** 在 MR 中推送：** [%{gitlab_user}](%{gitlab_user_url}) 推送了多個提交 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}: %{commit_note}
