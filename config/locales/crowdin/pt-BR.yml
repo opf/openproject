@@ -387,6 +387,9 @@ pt-BR:
       will_revoke_access_to_all: "Essa ação irá revogar o acesso a todos os pacotes de trabalho."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Forneça um nome para o token de API."
         token_name_in_use: "Este nome de token de API já está em uso, escolha outro."
@@ -1156,6 +1159,9 @@ pt-BR:
         one: "Papel"
         other: "Papéis"
       status: "Situação do pacote de trabalho"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Tipo"
       user: "Usuário"
       version: "Versão"

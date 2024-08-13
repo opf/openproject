@@ -289,7 +289,7 @@ module Storages
     end
 
     def client_tokens_scope
-      OAuthClientToken.where(oauth_client: @storage.oauth_client)
+      RemoteIdentity.where(oauth_client: @storage.oauth_client)
     end
 
     def auth_strategy
@@ -297,7 +297,7 @@ module Storages
     end
 
     def admin_client_tokens_scope
-      OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
+      RemoteIdentity.where(oauth_client: @storage.oauth_client, user: User.admin.active)
     end
   end
 end

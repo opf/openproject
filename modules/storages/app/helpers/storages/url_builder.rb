@@ -39,7 +39,7 @@ module Storages
       end
 
       def path(*path_fragments)
-        URI.join(URI("https://drop.me"), *split_and_escape(path_fragments)).path
+        URI.join(URI("https://drop.me/"), *split_and_escape(path_fragments)).path
       end
 
       private
@@ -58,13 +58,22 @@ module Storages
                              .each { |f| ensure_unescaped_fragments(f) }
                              .map { |f| CGI.escapeURIComponent(f) }
 
+        return [] if single_fragments.empty?
+
         single_fragments[..-2]
           .map { |f| "#{f}/" }
           .push(single_fragments.last)
       end
 
       def ensure_unescaped_fragments(fragment)
-        raise ArgumentError, "URL-escaped character found: #{fragment}" if CGI.unescape(fragment) != fragment
+        raise ArgumentError, "URL-escaped character found: #{fragment}" if improved_unescape(fragment) != fragment
+      end
+
+      def improved_unescape(fragment)
+        # If the fragment contains a '+' character, it will be replaced with its URL-encoded equivalent '%2B' before
+        # decoding. This is because '+' is the only reserved character, that will get replaced by CGI.unescape
+        # (with a whitespace ' ').
+        CGI.unescape(fragment.gsub("+", "%2B"))
       end
     end
   end

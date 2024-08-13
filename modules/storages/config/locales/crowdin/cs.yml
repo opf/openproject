@@ -121,7 +121,7 @@ cs:
             set_folders_permissions:
               permission_not_set: could not set permissions on %{path}.
           error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
-          group_does_not_exist: "%{group} does not exit. Check your Nextcloud instance configuration."
+          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
           insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
           not_allowed: Nextcloud block the request.
           unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.

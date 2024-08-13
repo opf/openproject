@@ -32,178 +32,215 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery, :vcr, :webmock do
-  using Storages::Peripherals::ServiceResultRefinements
-
   let(:user) { create(:user) }
   let(:storage) do
-    create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
+    create(:nextcloud_storage_with_local_connection,
+           :as_not_automatically_managed,
+           oauth_client_token_user: user,
+           origin_user_id: "m.jade@death.star")
   end
-  let(:folder) { Storages::Peripherals::ParentFolder.new("/") }
   let(:auth_strategy) do
     Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
-  describe "#call" do
-    it "responds with correct parameters" do
-      expect(described_class).to respond_to(:call)
+  it_behaves_like "files_query: basic query setup"
 
-      method = described_class.method(:call)
-      expect(method.parameters).to contain_exactly(%i[keyreq storage],
-                                                   %i[keyreq auth_strategy],
-                                                   %i[keyreq folder])
+  it_behaves_like "files_query: validating input data"
+
+  context "with parent folder being root", vcr: "nextcloud/files_query_root" do
+    let(:folder) { Storages::Peripherals::ParentFolder.new("/") }
+    let(:files_result) do
+      # FIXME: nextcloud files query currently does not correctly returns modifier and creation date.
+      Storages::StorageFiles.new(
+        [
+          Storages::StorageFile.new(id: "555",
+                                    name: "Folder",
+                                    size: 232167,
+                                    mime_type: "application/x-op-directory",
+                                    created_at: nil,
+                                    last_modified_at: Time.zone.parse("2024-08-09T11:53:42Z"),
+                                    created_by_name: "Mara Jade",
+                                    last_modified_by_name: nil,
+                                    location: "/Folder",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "561",
+                                    name: "Folder with spaces",
+                                    size: 890,
+                                    mime_type: "application/x-op-directory",
+                                    created_at: nil,
+                                    last_modified_at: Time.zone.parse("2024-08-09T11:52:09Z"),
+                                    created_by_name: "Mara Jade",
+                                    last_modified_by_name: nil,
+                                    location: "/Folder%20with%20spaces",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "562",
+                                    name: "Ümlæûts",
+                                    size: 19720,
+                                    mime_type: "application/x-op-directory",
+                                    created_at: nil,
+                                    last_modified_at: Time.zone.parse("2024-08-09T11:51:48Z"),
+                                    created_by_name: "Mara Jade",
+                                    last_modified_by_name: nil,
+                                    location: "/%c3%9cml%c3%a6%c3%bbts",
+                                    permissions: %i[readable writeable])
+        ],
+        Storages::StorageFile.new(id: "385",
+                                  name: "Root",
+                                  size: 252777,
+                                  mime_type: "application/x-op-directory",
+                                  created_at: nil,
+                                  last_modified_at: Time.zone.parse("2024-08-09T11:53:42Z"),
+                                  created_by_name: "Mara Jade",
+                                  last_modified_by_name: nil,
+                                  location: "/",
+                                  permissions: %i[readable writeable]),
+        []
+      )
     end
 
-    context "with outbound requests successful" do
-      context "with parent folder being root", vcr: "nextcloud/files_query_root" do
-        # rubocop:disable RSpec/ExampleLength
-        it "returns a StorageFiles object for root" do
-          storage_files = described_class.call(storage:, auth_strategy:, folder:).result
+    it_behaves_like "files_query: successful files response"
+  end
 
-          expect(storage_files).to be_a(Storages::StorageFiles)
-          expect(storage_files.ancestors).to be_empty
-          expect(storage_files.parent.name).to eq("Root")
-
-          expect(storage_files.files.size).to eq(4)
-          expect(storage_files.files.map(&:to_h))
-            .to eq([
-                     {
-                       id: "172",
-                       name: "Folder",
-                       size: 982713473,
-                       created_at: nil,
-                       created_by_name: "admin",
-                       last_modified_at: "2023-11-29T15:31:30Z",
-                       last_modified_by_name: nil,
-                       location: "/Folder",
-                       mime_type: "application/x-op-directory",
-                       permissions: %i[readable writeable]
-                     }, {
-                       id: "173",
-                       name: "Folder with spaces",
-                       size: 74,
-                       created_at: nil,
-                       created_by_name: "admin",
-                       last_modified_at: "2023-11-29T15:42:21Z",
-                       last_modified_by_name: nil,
-                       location: "/Folder%20with%20spaces",
-                       mime_type: "application/x-op-directory",
-                       permissions: %i[readable writeable]
-                     }, {
-                       id: "211",
-                       name: "Practical_guide_to_BAGGM_Digital.pdf",
-                       size: 154592937,
-                       created_at: nil,
-                       created_by_name: "admin",
-                       last_modified_at: "2022-08-09T06:53:12Z",
-                       last_modified_by_name: nil,
-                       location: "/Practical_guide_to_BAGGM_Digital.pdf",
-                       mime_type: "application/pdf",
-                       permissions: %i[readable writeable]
-                     }, {
-                       id: "178",
-                       name: "Readme.md",
-                       size: 31,
-                       created_at: nil,
-                       created_by_name: "admin",
-                       last_modified_at: "2023-11-29T15:29:16Z",
-                       last_modified_by_name: nil,
-                       location: "/Readme.md",
-                       mime_type: "text/markdown",
-                       permissions: %i[readable writeable]
-                     }
-                   ])
-        end
-        # rubocop:enable RSpec/ExampleLength
-      end
-
-      context "with a given parent folder", vcr: "nextcloud/files_query_parent_folder" do
-        let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder with spaces/New Requests") }
-
-        subject do
-          described_class.call(storage:, auth_strategy:, folder:).result
-        end
-
-        # rubocop:disable RSpec/ExampleLength
-        it "returns the files content" do
-          expect(subject.files.size).to eq(2)
-          expect(subject.files.map(&:to_h))
-            .to eq([
-                     {
-                       id: "181",
-                       name: "request_001.md",
-                       size: 48,
-                       created_at: nil,
-                       created_by_name: "admin",
-                       last_modified_at: "2023-11-29T15:35:25Z",
-                       last_modified_by_name: nil,
-                       location: "/Folder%20with%20spaces/New%20Requests/request_001.md",
-                       mime_type: "text/markdown",
-                       permissions: %i[readable writeable]
-                     }, {
-                       id: "182",
-                       name: "request_002.md",
-                       size: 26,
-                       created_at: nil,
-                       created_by_name: "admin",
-                       last_modified_at: "2023-11-29T15:35:34Z",
-                       last_modified_by_name: nil,
-                       location: "/Folder%20with%20spaces/New%20Requests/request_002.md",
-                       mime_type: "text/markdown",
-                       permissions: %i[readable writeable]
-                     }
-                   ])
-        end
-        # rubocop:enable RSpec/ExampleLength
-
-        it "returns ancestors with a forged id" do
-          expect(subject.ancestors.map { |a| { id: a.id, name: a.name, location: a.location } })
-            .to eq([
-                     {
-                       id: "8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1",
-                       name: "Root",
-                       location: "/"
-                     }, {
-                       id: "c8776f1f6dd36c023c6615d39f01a71d68dd1707b232115b7a4f58bc6da94e2e",
-                       name: "Folder with spaces",
-                       location: "/Folder%20with%20spaces"
-                     }
-                   ])
-        end
-
-        it "returns the parent itself" do
-          expect(subject.parent.id).to eq("180")
-          expect(subject.parent.name).to eq("New Requests")
-          expect(subject.parent.location).to eq("/Folder%20with%20spaces/New%20Requests")
-        end
-      end
-
-      context "with parent folder being empty", vcr: "nextcloud/files_query_empty_folder" do
-        let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder/empty") }
-
-        it "returns an empty StorageFiles object with parent and ancestors" do
-          storage_files = described_class.call(storage:, auth_strategy:, folder:).result
-
-          expect(storage_files).to be_a(Storages::StorageFiles)
-          expect(storage_files.files).to be_empty
-          expect(storage_files.parent.id).to eq("174")
-          expect(storage_files.ancestors.map(&:name)).to eq(%w[Root Folder])
-        end
-      end
+  context "with a given parent folder", vcr: "nextcloud/files_query_parent_folder" do
+    let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder/Nested Folder") }
+    let(:files_result) do
+      Storages::StorageFiles.new(
+        [
+          Storages::StorageFile.new(id: "603",
+                                    name: "giphy.gif",
+                                    size: 184726,
+                                    mime_type: "image/gif",
+                                    created_at: nil,
+                                    last_modified_at: Time.zone.parse("2024-08-09T11:53:24Z"),
+                                    created_by_name: "Mara Jade",
+                                    last_modified_by_name: nil,
+                                    location: "/Folder/Nested%20Folder/giphy.gif",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "604",
+                                    name: "release_meme.jpg",
+                                    size: 46264,
+                                    mime_type: "image/jpeg",
+                                    created_at: nil,
+                                    last_modified_at: Time.zone.parse("2024-08-09T11:53:30Z"),
+                                    created_by_name: "Mara Jade",
+                                    last_modified_by_name: nil,
+                                    location: "/Folder/Nested%20Folder/release_meme.jpg",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "602",
+                                    name: "todo.txt",
+                                    size: 55,
+                                    mime_type: "text/plain",
+                                    created_at: nil,
+                                    last_modified_at: Time.zone.parse("2024-08-09T11:53:35Z"),
+                                    created_by_name: "Mara Jade",
+                                    last_modified_by_name: nil,
+                                    location: "/Folder/Nested%20Folder/todo.txt",
+                                    permissions: %i[readable writeable])
+        ],
+        Storages::StorageFile.new(id: "601",
+                                  name: "Nested Folder",
+                                  size: 231045,
+                                  mime_type: "application/x-op-directory",
+                                  created_at: nil,
+                                  last_modified_at: Time.zone.parse("2024-08-09T11:53:42Z"),
+                                  created_by_name: "Mara Jade",
+                                  last_modified_by_name: nil,
+                                  location: "/Folder/Nested%20Folder",
+                                  permissions: %i[readable writeable]),
+        [
+          Storages::StorageFile.new(id: "8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1",
+                                    name: "Root",
+                                    location: "/"),
+          Storages::StorageFile.new(id: "0da2f1cf70005eaeb08333802726c2928503d975e4a70cbdd1a28313cded20ae",
+                                    name: "Folder",
+                                    location: "/Folder")
+        ]
+      )
     end
 
-    context "with not existent parent folder", vcr: "nextcloud/files_query_invalid_parent" do
-      let(:folder) { Storages::Peripherals::ParentFolder.new("/I/just/made/that/up") }
+    it_behaves_like "files_query: successful files response"
+  end
 
-      it "must return not found" do
-        result = described_class.call(storage:, auth_strategy:, folder:)
-        expect(result).to be_failure
-        expect(result.error_source).to be(described_class)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:not_found) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
+  context "with parent folder being empty", vcr: "nextcloud/files_query_empty_folder" do
+    let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder with spaces/very empty folder") }
+    let(:files_result) do
+      Storages::StorageFiles.new(
+        [],
+        Storages::StorageFile.new(id: "571",
+                                  name: "very empty folder",
+                                  size: 0,
+                                  mime_type: "application/x-op-directory",
+                                  created_at: nil,
+                                  last_modified_at: Time.zone.parse("2024-08-09T11:52:04Z"),
+                                  created_by_name: "Mara Jade",
+                                  last_modified_by_name: nil,
+                                  location: "/Folder%20with%20spaces/very%20empty%20folder",
+                                  permissions: %i[readable writeable]),
+        [
+          Storages::StorageFile.new(id: "8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1",
+                                    name: "Root",
+                                    location: "/"),
+          Storages::StorageFile.new(id: "c8776f1f6dd36c023c6615d39f01a71d68dd1707b232115b7a4f58bc6da94e2e",
+                                    name: "Folder with spaces",
+                                    location: "/Folder%20with%20spaces")
+        ]
+      )
     end
+
+    it_behaves_like "files_query: successful files response"
+  end
+
+  context "with a path full of umlauts", vcr: "nextcloud/files_query_umlauts" do
+    let(:folder) { Storages::Peripherals::ParentFolder.new("/Ümlæûts") }
+    let(:files_result) do
+      Storages::StorageFiles.new(
+        [
+          Storages::StorageFile.new(id: "564",
+                                    name: "Anrüchiges deutsches Dokument.docx",
+                                    size: 19720,
+                                    mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                    created_at: nil,
+                                    last_modified_at: Time.zone.parse("2024-08-09T11:51:40Z"),
+                                    created_by_name: "Mara Jade",
+                                    last_modified_by_name: nil,
+                                    location: "/%c3%9cml%c3%a6%c3%bbts/Anr%c3%bcchiges%20deutsches%20Dokument.docx",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "563",
+                                    name: "data",
+                                    size: 0,
+                                    mime_type: "application/x-op-directory",
+                                    created_at: nil,
+                                    last_modified_at: Time.zone.parse("2024-08-09T11:51:30Z"),
+                                    created_by_name: "Mara Jade",
+                                    last_modified_by_name: nil,
+                                    location: "/%c3%9cml%c3%a6%c3%bbts/data",
+                                    permissions: %i[readable writeable])
+        ],
+        Storages::StorageFile.new(id: "562",
+                                  name: "Ümlæûts",
+                                  size: 19720,
+                                  mime_type: "application/x-op-directory",
+                                  created_at: nil,
+                                  last_modified_at: Time.zone.parse("2024-08-09T11:51:48Z"),
+                                  created_by_name: "Mara Jade",
+                                  last_modified_by_name: nil,
+                                  location: "/%c3%9cml%c3%a6%c3%bbts",
+                                  permissions: %i[readable writeable]),
+        [
+          Storages::StorageFile.new(id: "8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1",
+                                    name: "Root",
+                                    location: "/")
+        ]
+      )
+    end
+
+    it_behaves_like "files_query: successful files response"
+  end
+
+  context "with not existent parent folder", vcr: "nextcloud/files_query_invalid_parent" do
+    let(:folder) { Storages::Peripherals::ParentFolder.new("/I/just/made/that/up") }
+    let(:error_source) { described_class }
+
+    it_behaves_like "files_query: not found"
   end
 end

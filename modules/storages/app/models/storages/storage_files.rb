@@ -29,13 +29,5 @@
 #++
 
 module Storages
-  class StorageFiles
-    attr_reader :files, :parent, :ancestors
-
-    def initialize(files, parent, ancestors)
-      @files = files.freeze
-      @parent = parent.freeze
-      @ancestors = ancestors.freeze
-    end
-  end
+  StorageFiles = Data.define(:files, :parent, :ancestors)
 end
