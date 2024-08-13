@@ -15,6 +15,10 @@
                                value: entry[:value],
                                checked: current_pdf_export_type == entry[:value],
                                disabled: entry[:disabled] ? true : nil,
+                               label_arguments: entry[:disabled] ? {
+                                 class: "radio-button-label-enterprise-addons-icon",
+                                 title: I18n.t(:label_enterprise_edition)
+                               } : nil,
                                data: {
                                  "work-packages--export--pdf--settings-name-param": entry[:value],
                                  action: "work-packages--export--pdf--settings#typeChanged"
