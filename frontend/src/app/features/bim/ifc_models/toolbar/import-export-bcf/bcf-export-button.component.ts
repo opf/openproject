@@ -38,7 +38,9 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { StateService } from '@uirouter/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 @Component({
   template: `
@@ -68,7 +70,9 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
     readonly querySpace:IsolatedQuerySpace,
     readonly queryUrlParamsHelper:UrlParamsHelperService,
     readonly opModalService:OpModalService,
+    readonly httpClient:HttpClient,
     readonly injector:Injector,
+    readonly toastService:ToastService,
     readonly state:StateService) {
     super();
   }
@@ -92,7 +96,38 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
   }
 
   public showDelayedExport(event:any) {
-    this.opModalService.show(WpTableExportModalComponent, this.injector, { link: this.exportLink });
+    this.requestExport(this.exportLink);
+
     event.preventDefault();
+  }
+
+  private requestExport(url:string):void {
+    this
+      .httpClient
+      .get(url, { observe: 'body', responseType: 'json' })
+      .subscribe(
+        (json:{ job_id:string }) => this.showJobModal(json.job_id),
+        (error) => this.handleError(error),
+      );
+  }
+  private showJobModal(jobId:string) {
+    this.opModalService.show(JobStatusModalComponent, this.injector, { jobId });
+  }
+
+  private handleError(error:HttpErrorResponse) {
+    // There was an error but the status code is actually a 200.
+    // If that is the case the response's content-type probably does not match
+    // the expected type (json).
+    // Currently this happens e.g. when exporting Atom which actually is not an export
+    // but rather a feed to follow.
+    if (error.status === 200 && error.url) {
+      window.open(error.url);
+    } else {
+      this.showError(error);
+    }
+  }
+
+  private showError(error:HttpErrorResponse) {
+    this.toastService.addError(error.message || this.I18n.t('js.error.internal'));
   }
 }
