@@ -17,7 +17,7 @@
         flex.with_row(flex: 1) do
           helpers.angular_component_tag "opce-wp-split-view",
                                         inputs: {
-                                          work_package_id: params[:work_package_id],
+                                          work_package_id: params[:work_package_id] || @work_package.id,
                                           activeTab: @tab
                                         }
         end

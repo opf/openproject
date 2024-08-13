@@ -1,6 +1,6 @@
 <%=
   flex_layout(classes: "op-work-package-details-tab-component") do |flex|
-    flex.with_column(flex: 1, classes: "op-work-package-details-tab-component--tabs") do
+    flex.with_column(flex: 1, classes: "op-work-package-details-tab-component--tabs", test_selector: "wp-details-tab-component--tabs") do
       render(Primer::Alpha::UnderlineNav.new(align: :left, label: "Tabs", classes: "op-primer-adjustment--UnderlineNav_spaciousLeft")) do |component|
         menu_items.each do |node|
           component.with_tab(selected: @tab == node.name,
