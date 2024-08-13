@@ -91,7 +91,6 @@ RSpec.describe "history",
 
     # Create meeting
     show_page.visit!
-    show_page.trigger_dropdown_menu_item "History"
 
     history_page.open_history_modal
 
