@@ -93,7 +93,7 @@ FactoryBot.define do
     sequence(:host) { |n| "https://host#{n}.example.com/" }
 
     trait :as_automatically_managed do
-      automatically_managed { true }
+      automatic_management_enabled { true }
       username { "OpenProject" }
       password { "Password123" }
     end
