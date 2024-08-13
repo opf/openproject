@@ -1,6 +1,7 @@
 <%=
   turbo_stream.dialog do
     render(Primer::Alpha::Dialog.new(title: t(:label_history),
+                                     size: :xlarge,
                                      id: 'meeting-history-dialog')) do |d|
       d.with_header(variant: :large)
       d.with_body do
