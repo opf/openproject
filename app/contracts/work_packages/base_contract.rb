@@ -382,7 +382,7 @@ module WorkPackages
     # rubocop:disable Metrics/AbcSize
     def validate_percent_complete_matches_work_and_remaining_work
       return if WorkPackage.status_based_mode? || percent_complete_unset? || work == 0
-      return if remaining_work_exceeds_work? # avoid too many error messages at the same time
+      return if invalid_work_or_remaining_work_values? # avoid too many error messages at the same time
       return unless work_set? && remaining_work_set?
 
       work_done = work - remaining_work
@@ -434,8 +434,14 @@ module WorkPackages
       remaining_work.nil?
     end
 
+    def invalid_work_or_remaining_work_values?
+      (work_set? && work.negative?) ||
+        (remaining_work_set? && remaining_work.negative?) ||
+      remaining_work_exceeds_work?
+    end
+
     def remaining_work_exceeds_work?
-      work_set? && remaining_work_set? && remaining_work > work
+      work_set_and_valid? && remaining_work_set_and_valid? && remaining_work > work
     end
 
     def percent_complete

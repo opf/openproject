@@ -500,13 +500,43 @@ RSpec.describe WorkPackages::BaseContract,
                                                done_ratio: nil
       end
 
-      context "when unset while remaining work is set and work is set to an invalid value" do
+      context "when set while work is set and remaining work is set to a negative value" do
+        let(:estimated_hours) { 4 }
+        let(:remaining_hours) { -3 }
+        let(:done_ratio) { 50 }
+
+        include_examples "contract is invalid", estimated_hours: nil,
+                                                remaining_hours: :greater_than_or_equal_to,
+                                                done_ratio: nil
+      end
+
+      context "when unset while remaining work is set and work is set to a negative value" do
         let(:estimated_hours) { -4 }
         let(:remaining_hours) { 3 }
         let(:done_ratio) { nil }
 
-        it_behaves_like "contract is invalid", estimated_hours: %i[cant_be_inferior_to_remaining_work greater_than_or_equal_to],
+        it_behaves_like "contract is invalid", estimated_hours: :greater_than_or_equal_to,
                                                remaining_hours: nil,
+                                               done_ratio: nil
+      end
+
+      context "when set while remaining work is set and work is set to a negative value" do
+        let(:estimated_hours) { -4 }
+        let(:remaining_hours) { 3 }
+        let(:done_ratio) { 50 }
+
+        it_behaves_like "contract is invalid", estimated_hours: :greater_than_or_equal_to,
+                                               remaining_hours: nil,
+                                               done_ratio: nil
+      end
+
+      context "when set while work and remaining work are both set to a negative values (and work > remaining work)" do
+        let(:estimated_hours) { -4 }
+        let(:remaining_hours) { -12 }
+        let(:done_ratio) { 50 }
+
+        it_behaves_like "contract is invalid", estimated_hours: :greater_than_or_equal_to,
+                                               remaining_hours: :greater_than_or_equal_to,
                                                done_ratio: nil
       end
     end
