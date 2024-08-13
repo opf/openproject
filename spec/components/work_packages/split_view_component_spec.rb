@@ -3,13 +3,27 @@
 require "rails_helper"
 
 RSpec.describe WorkPackages::SplitViewComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  include OpenProject::StaticRouting::UrlHelpers
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  let(:project)      { create(:project) }
+  let(:work_package) { create(:work_package, project:) }
+
+  subject do
+    with_request_url("/notifications/details/:work_package_id") do
+      render_inline(described_class.new(id: work_package.id, base_route: notifications_path))
+    end
+  end
+
+  before do
+    allow(WorkPackage).to receive(:visible).and_return(WorkPackage.where(id: work_package.id))
+  end
+
+  it "renders successfully" do
+    subject
+
+    expect(page).to have_text("Overview")
+    expect(page).to have_test_selector("wp-details-tab-component--tabs")
+    expect(page).to have_test_selector("wp-details-tab-component--close")
+    expect(page).to have_test_selector("wp-details-tab-component--full-screen")
+  end
 end

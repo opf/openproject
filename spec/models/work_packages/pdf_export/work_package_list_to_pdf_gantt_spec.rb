@@ -155,7 +155,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     if work_package.start_date == work_package.due_date
       format_date(work_package.start_date)
     else
-      "#{format_date(work_package.start_date)} - #{format_date(work_package.due_date)}"
+      formatted_start_date = format_date(work_package.start_date) || "no start date"
+      formatted_due_date = format_date(work_package.due_date) || "no start date"
+      "#{formatted_start_date} - #{formatted_due_date}"
     end
   end
 

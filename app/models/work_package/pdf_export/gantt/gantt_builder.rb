@@ -743,14 +743,15 @@ module WorkPackage::PDFExport::Gantt
 
     def work_package_info_line_date(work_package)
       if work_package.start_date == work_package.due_date
-        format_pdf_date(work_package.start_date)
+        format_pdf_date(work_package, :start_date)
       else
-        "#{format_pdf_date(work_package.start_date)} - #{format_pdf_date(work_package.due_date)}"
+        "#{format_pdf_date(work_package, :start_date)} - #{format_pdf_date(work_package, :due_date)}"
       end
     end
 
-    def format_pdf_date(date)
-      date.nil? ? "" : format_date(date)
+    def format_pdf_date(work_package, date_field)
+      date = work_package.send(date_field)
+      date.nil? ? I18n.t("label_no_#{date_field}") : format_date(date)
     end
 
     # Builds the shape for the given work package
