@@ -1796,8 +1796,8 @@ en:
           caption: "Depending on the chart size more than one page might be exported."
 
       xls:
-        show_relations:
-          label: "Show relations"
+        include_relations:
+          label: "Include relations"
           caption: "This option will create a duplicate of each work package for every relation this has with another work package."
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."

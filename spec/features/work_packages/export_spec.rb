@@ -158,14 +158,14 @@ RSpec.describe "work package export" do
 
     context "with relations" do
       it "exports a xls" do
-        check I18n.t("export.dialog.xls.show_relations.label")
+        check I18n.t("export.dialog.xls.include_relations.label")
         export!
       end
     end
 
     context "without relations" do
       it "exports a xls" do
-        uncheck I18n.t("export.dialog.xls.show_relations.label")
+        uncheck I18n.t("export.dialog.xls.include_relations.label")
         export!
       end
     end

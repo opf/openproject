@@ -22,11 +22,10 @@
                                caption: entry[:caption])
       end
     end %>
-    <hr/>
+    <hr class="mt-4 mb-4"/>
   <% end %>
 
   <% container.with_row(
-    mt: 2,
     classes: %w[table report].include?(current_pdf_export_type) ? nil : "d-none",
     data: {
       table: true,
@@ -54,7 +53,7 @@
       report: true,
       "work-packages--export--pdf--settings-target": "fields"
     }) do |_pdf_report_images| %>
-    <hr/>
+    <hr class="mt-2 mb-4"/>
     <%= render(Primer::Alpha::CheckBox.new(name: 'show_images',
                                            checked: true,
                                            value: "true",
@@ -71,19 +70,24 @@
                              "work-packages--export--pdf--settings-target": "fields"
                            }) do |_pdf_gantt_paper_size| %>
 
-      <% gantt_selects.each do |entry| %>
-        <%= render(Primer::Alpha::Select.new(
-          name: entry[:name],
-          label: entry[:label],
-          caption: entry[:caption],
-          size: :medium,
-          disabled: current_pdf_export_type != "gantt",
-          value: entry[:options].find { |e| e[:default] }[:value])
-            ) do |component|
-          entry[:options].each do |entry|
-            component.option(label: entry[:label], value: entry[:value])
-          end
-        end %>
+      <% flex_layout do |flex| %>
+        <% gantt_selects.each_with_index do |entry, index| %>
+          <% flex.with_row(mt: index == 0 ? 0 : 3) do %>
+            <%= render(Primer::Alpha::Select.new(
+              name: entry[:name],
+              label: entry[:label],
+              caption: entry[:caption],
+              size: :medium,
+              input_width: :small,
+              disabled: current_pdf_export_type != "gantt",
+              value: entry[:options].find { |e| e[:default] }[:value])
+                ) do |component|
+              entry[:options].each do |entry|
+                component.option(label: entry[:label], value: entry[:value])
+              end
+            end %>
+          <% end %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
