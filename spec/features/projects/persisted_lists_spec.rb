@@ -307,10 +307,8 @@ RSpec.describe "Persisted lists on projects index page",
 
       projects_page.filter_by_membership("yes")
 
-      wait_for_reload # chnaging filters is still done via page reload
-
-      projects_page.expect_projects_listed(project, development_project)
       projects_page.expect_projects_not_listed(public_project)
+      projects_page.expect_projects_listed(project, development_project)
 
       projects_page.set_columns("Name")
       projects_page.expect_columns("Name")

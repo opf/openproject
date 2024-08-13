@@ -761,8 +761,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    "today")
           wait_for_reload
 
-          expect(page).to have_text(project_created_on_today.name)
           expect(page).to have_no_text(project_created_on_this_week.name)
+          expect(page).to have_text(project_created_on_today.name)
           expect(page).to have_no_text(project_created_on_fixed_date.name)
 
           # created on 'this week' shows projects that were created within the last seven days
@@ -773,9 +773,9 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    "this week")
           wait_for_reload
 
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
           expect(page).to have_text(project_created_on_today.name)
           expect(page).to have_text(project_created_on_this_week.name)
-          expect(page).to have_no_text(project_created_on_fixed_date.name)
 
           # created on 'on' shows projects that were created within the last seven days
           projects_page.remove_filter("created_at")
@@ -898,12 +898,12 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    ["2011-11-11"])
           wait_for_reload
 
-          expect(page).to have_text(project_created_on_today.name)
           expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
 
           # Disabling a CF in the project should remove the project from results
 
-          project_created_on_today.project_custom_field_project_mappings.destroy_al
+          project_created_on_today.project_custom_field_project_mappings.destroy_all
           wait_for_reload
 
           expect(page).to have_no_text(project_created_on_today.name, wait: 1)
