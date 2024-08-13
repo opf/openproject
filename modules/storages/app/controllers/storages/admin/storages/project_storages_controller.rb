@@ -70,8 +70,8 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
                storageId: @storage.id }.to_json,
       expires: 1.hour
     }
-    session[:oauth_callback_flash_modal] = oauth_access_grant_nudge_modal(authorized: true)
-    redirect_to(storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
+    session[:oauth_callback_flash_modal] = oauth_access_granted_modal_params
+    redirect_to(@storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
   end
 
   def create # rubocop:disable Metrics/AbcSize
@@ -226,13 +226,10 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     false
   end
 
-  def oauth_access_grant_nudge_modal(authorized: false)
+  def oauth_access_granted_modal_params
     {
-      type: "Storages::Admin::Storages::OAuthAccessGrantNudgeModalComponent",
-      parameters: {
-        storage: @storage.id,
-        authorized:
-      }
+      type: "Storages::Admin::Storages::OAuthAccessGrantedModalComponent",
+      parameters: { storage: @storage.id }
     }
   end
 end

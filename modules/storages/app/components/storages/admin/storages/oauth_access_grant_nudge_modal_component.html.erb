@@ -19,14 +19,12 @@
         aria: { live: :assertive },
         data: {
           'storages--oauth-access-grant-nudge-modal-target': 'header'
-        },
-        visually_hide_title: authorized
+        }
       )
 
       dialog.with_body(
         id: dialog_body_id,
-        test_selector: 'oauth-access-grant-nudge-modal-body',
-        aria: { hidden: authorized }
+        test_selector: 'oauth-access-grant-nudge-modal-body'
       ) do
         concat(
           render(
@@ -63,31 +61,29 @@
           ) { cancel_button_text }
         )
 
-        unless authorized
-          concat(
-            primer_form_with(
-              model: @project_storage,
-              url: confirm_button_url,
-              method: :get,
-              data: {
-                'storages--oauth-access-grant-nudge-modal-target': 'requestAccessForm'
-              }
-            ) do |_form|
-              render(
-                Primer::Beta::Button.new(
-                  scheme: :primary,
-                  size: :medium,
-                  type: :submit,
-                  aria: { label: confirm_button_aria_label },
-                  data: {
-                    'storages--oauth-access-grant-nudge-modal-target': 'requestAccessButton',
-                    action: 'click->storages--oauth-access-grant-nudge-modal#requestAccess'
-                  }
-                )
-              ) { confirm_button_text }
-            end
-          )
-        end
+        concat(
+          primer_form_with(
+            model:,
+            url: confirm_button_url,
+            method: :get,
+            data: {
+              'storages--oauth-access-grant-nudge-modal-target': 'requestAccessForm'
+            }
+          ) do |_form|
+            render(
+              Primer::Beta::Button.new(
+                scheme: :primary,
+                size: :medium,
+                type: :submit,
+                aria: { label: confirm_button_aria_label },
+                data: {
+                  'storages--oauth-access-grant-nudge-modal-target': 'requestAccessButton',
+                  action: 'storages--oauth-access-grant-nudge-modal#requestAccess'
+                }
+              )
+            ) { confirm_button_text }
+          end
+        )
       end
     end
   end
