@@ -358,9 +358,11 @@ RSpec.describe "Admin lists project mappings for a storage",
 
         page.within("dialog") do
           expect(page).to have_button("Remove", disabled: true)
-          check "Please, confirm you understand and want to remove this file storage from this project"
-          wait_for(page).to have_button("Remove", disabled: false) # ensure button is clickable
-          click_on "Remove"
+          Retryable.repeat_until_success do
+            check "Please, confirm you understand and want to remove this file storage from this project"
+            expect(page).to have_button("Remove", disabled: false) # ensure button is clickable
+            click_on "Remove"
+          end
         end
 
         expect(page).to have_text("Successful deletion.")
