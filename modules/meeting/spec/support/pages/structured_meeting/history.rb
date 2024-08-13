@@ -33,7 +33,9 @@ module Pages::StructuredMeeting
       @meeting = meeting
     end
 
-    def expect_modal_open
+    def open_history_modal
+      click_link_or_button "op-meetings-header-action-trigger"
+      click_link_or_button "History"
       # dynamically wait for the modal to be loaded
       # otherwise running into timing issues with `item = history_page.first_item`
       expect(page).to have_css(".op-activity-list--item")
