@@ -52,14 +52,14 @@ This will display the "New attribute" form with these options:
 
 - **Format options:** Depending on the type you choose, you might have additional options, such as minimum and maximum width, default value or regular expressions for validation.
 
-- **Required**: Checking this makes this project attribute a required field in projects where it is enabled, i.e. it cannot be left empty.
+- **Required for all projects**: Checking this makes this project attribute required for all projects. It cannot be deactivated at a project level.
 
-- **Visible**: Checking this field makes the attribute visible to non-admins.
+- **Admin-only**: If you enable this, the project attribute will only be visible to administrators. All other users will not see it, even if it is activated in a project.
 
   > [!TIP]
   > This is enabled by default. Only disable this if you want this field to be invisible to non-admin users.
 
-- **Searchable**: Checking this makes this project attribute (and its value) available to the search engine and filters.
+- **Searchable**: Checking this makes this project attribute (and its value) available as a filter in project lists.
 
 ## Modify project attributes
 
