@@ -31,11 +31,17 @@ module Filter
   # rubocop:disable OpenProject/AddPreviewForViewComponent
   class FilterButtonComponent < ApplicationComponent
     # rubocop:enable OpenProject/AddPreviewForViewComponent
+    include OpTurbo::Streamable
+
     options :query
     options :disabled
 
     def filters_count
       @filters_count ||= query.filters.count
+    end
+
+    def wrapper_key
+      "filter-button"
     end
   end
 end
