@@ -228,7 +228,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   def oauth_access_granted_modal_params
     {
-      type: "Storages::Admin::Storages::OAuthAccessGrantedModalComponent",
+      type: Storages::Admin::Storages::OAuthAccessGrantedModalComponent.name,
       parameters: { storage: @storage.id }
     }
   end

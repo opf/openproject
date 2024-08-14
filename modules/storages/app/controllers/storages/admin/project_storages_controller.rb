@@ -85,7 +85,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
                  storageId: @project_storage.storage_id }.to_json,
         expires: 1.hour
       }
-      session[:oauth_callback_flash_modal] = oauth_access_grant_nudge_modal(authorized: true)
+      session[:oauth_callback_flash_modal] = storage_oauth_access_granted_modal(storage:)
       redirect_to(storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
     end
   end
@@ -171,17 +171,21 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   def redirect_to_project_storages_path_with_nudge_modal
     redirect_to(
       external_file_storages_project_settings_project_storages_path,
-      flash: { modal: oauth_access_grant_nudge_modal }
+      flash: { modal: oauth_access_grant_nudge_modal(project_storage: @project_storage) }
     )
   end
 
-  def oauth_access_grant_nudge_modal(authorized: false)
+  def oauth_access_grant_nudge_modal(project_storage:)
     {
-      type: "Storages::Admin::OAuthAccessGrantNudgeModalComponent",
-      parameters: {
-        project_storage: @project_storage.id,
-        authorized:
-      }
+      type: Storages::ProjectStorages::OAuthAccessGrantNudgeModalComponent.name,
+      parameters: { project_storage: project_storage.id }
+    }
+  end
+
+  def storage_oauth_access_granted_modal(storage:)
+    {
+      type: Storages::Admin::Storages::OAuthAccessGrantedModalComponent.name,
+      parameters: { storage: storage.id }
     }
   end
 end

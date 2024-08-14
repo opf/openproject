@@ -4,7 +4,11 @@
       Primer::Alpha::Dialog.new(
         id: dialog_id,
         title:,
-        test_selector: 'oauth-access-granted-modal'
+        data: {
+          "application-target": "dynamic",
+          controller: "auto-show-dialog",
+        },
+        test_selector: "oauth-access-granted-modal"
       )
     ) do |dialog|
       dialog.with_header(
@@ -16,7 +20,7 @@
 
       dialog.with_body(
         id: dialog_body_id,
-        test_selector: 'oauth-access-granted-modal-body',
+        test_selector: "oauth-access-granted-modal-body",
         aria: { hidden: true }
       ) do
         render(Primer::Beta::Text.new) { body_text }
@@ -27,7 +31,7 @@
           Primer::Beta::Button.new(
             scheme: :default,
             size: :medium,
-            data: { 'close-dialog-id': dialog_id }
+            data: { "close-dialog-id": dialog_id }
           )
         ) { cancel_button_text }
       end
