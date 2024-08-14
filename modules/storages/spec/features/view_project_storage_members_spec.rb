@@ -33,10 +33,13 @@ require_module_spec_helper
 
 RSpec.describe "Project storage members connection status view" do
   let(:user) { create(:user) }
+  let(:group) { create(:group, members: [group_user]) }
+  let(:placeholder_user) { create(:placeholder_user) }
   let(:admin_user) { create(:admin) }
   let(:connected_user) { create(:user) }
   let(:connected_no_permissions_user) { create(:user) }
   let(:disconnected_user) { create(:user) }
+  let(:group_user) { create(:user) }
 
   let!(:storage) { create_nextcloud_storage_with_oauth_application }
   let!(:project) { create_project_with_storage_and_members }
@@ -76,10 +79,15 @@ RSpec.describe "Project storage members connection status view" do
         [admin_user, "Connected"],
         [connected_user, "Connected"],
         [connected_no_permissions_user, "User role has no storages permissions"],
-        [disconnected_user, "Not connected. The user should login to the storage via the following link."]
+        [disconnected_user, "Not connected. The user should login to the storage via the following link."],
+        [group_user, "Not connected. The user should login to the storage via the following link."]
       ].each do |(principal, status)|
         expect(page).to have_css("#member-#{principal.id} .name", text: principal.name)
         expect(page).to have_css("#member-#{principal.id} .status", text: status)
+      end
+
+      [placeholder_user, group].each do |principal|
+        expect(page).to have_no_css("#member-#{principal.id} .name", text: principal.name)
       end
     end
   end
@@ -113,7 +121,9 @@ RSpec.describe "Project storage members connection status view" do
                       admin_user => role_cannot_read_files,
                       connected_user => role_can_read_files,
                       connected_no_permissions_user => role_cannot_read_files,
-                      disconnected_user => role_can_read_files },
+                      disconnected_user => role_can_read_files,
+                      placeholder_user => role_can_read_files,
+                      group => role_can_read_files },
            enabled_module_names: %i[storages])
   end
 
