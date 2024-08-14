@@ -545,7 +545,7 @@ zh-TW:
     label_unwatch_work_package: "取消追蹤"
     label_uploaded_by: "上傳者"
     label_default_queries: "預設"
-    label_starred_queries: "最愛"
+    label_starred_queries: "收藏"
     label_global_queries: "公開"
     label_custom_queries: "私人"
     label_columns: "欄"

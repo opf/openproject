@@ -102,6 +102,10 @@ OpenProject can be installed either [on-premises](#on-premises) (available for b
 
 Community edition is defined as the main and free-of-charge edition of OpenProject software. It is installed [on-premises](#on-premises) and therefore self-managed. Benefit from a wide range of features and data sovereignty in a free and open source project management software. The Community edition is actively maintained and is continuously being further developed. [Read more about OpenProject Community edition](https://www.openproject.org/community-edition/).
 
+### Connection validation
+
+The connection validation in OpenProject is available for the storage integrations with [Nextcloud](#nextcloud-integration) and [OneDrive/SharePoint](#onedrivesharepoint-integration). It is a manually triggered test to check the connection between OpenProject and the respective storage. [Read more about health status checks for OpenProject's external file storages](../system-admin-guide/files/external-file-storages/health-status/).
+
 ### Custom action
 
 A custom action in OpenProject is defined as customizable buttons which trigger a certain action upon work packages. Custom actions are included in the [Enterprise](#enterprise-add-on) edition of OpenProject and part of automated *workflows*. Custom actions support you to easily update several work package attributes at once – with a single click.
@@ -128,6 +132,10 @@ In OpenProject, a custom field is defined as an additional field which can be ad
 A custom query in OpenProject consists of saved [filters](#filters), sort criteria, and [groupings](#group) in the [work package table](#work-package-table). Custom queries can be either set to public (visible by any user who is allowed to see the project and the work package table) or to private (visible only to the person creating the query). For example, filter all work packages assigned to yourself and save this view as "assigned to me", to quickly navigate to those work packages.
 
 ## D
+
+### Dark mode
+
+The dark mode for OpenProject is a personal setting to display the application in a dark theme. Other available modes are the regular light mode and the (light) [high contrast mode](#high-contrast-mode). [Read in our documentation how to enable dark mode](../getting-started/my-account/#select-the-dark-mode).
 
 ### Dashboard
 

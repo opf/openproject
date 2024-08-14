@@ -67,9 +67,9 @@ RSpec.describe "Managing file links in work package", :js, :webmock do
       ->(_) { ServiceResult.success }
     )
 
-    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}")
+    stub_request(:propfind, "#{storage.host}remote.php/dav/files/#{remote_identity.origin_user_id}")
       .to_return(status: 207, body: root_xml_response, headers: {})
-    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}/Folder1")
+    stub_request(:propfind, "#{storage.host}remote.php/dav/files/#{remote_identity.origin_user_id}/Folder1")
       .to_return(status: 207, body: folder1_xml_response, headers: {})
 
     oauth_client_token
