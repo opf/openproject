@@ -33,7 +33,7 @@ export function listenToSettingChanges() {
     const settingName = id.replace('lang-for-', '');
     const newLang = self.val();
     const textArea = jQuery(`#settings-${settingName}`);
-    const editor = textArea.siblings('ckeditor-augmented-textarea').data('editor');
+    const editor = textArea.siblings('opce-ckeditor-augmented-textarea').data('editor');
 
     return {
       id, settingName, newLang, textArea, editor,

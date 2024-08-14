@@ -202,7 +202,7 @@ module ApplicationHelper
     else
       datetime = time.acts_like?(:time) ? time.xmlschema : time.iso8601
       content_tag(:time, text, datetime:,
-                  title: format_time(time), class: "timestamp")
+                               title: format_time(time), class: "timestamp")
     end
   end
 
@@ -260,11 +260,12 @@ module ApplicationHelper
   end
 
   def lang_options_for_select(blank = true)
-    auto = if blank && (valid_languages - all_languages) == (all_languages - valid_languages)
-      [["(auto)", ""]]
-    else
-      []
-    end
+    auto =
+      if blank && (valid_languages - all_languages) == (all_languages - valid_languages)
+        [["(auto)", ""]]
+      else
+        []
+      end
 
     mapped_languages = valid_languages.map { |lang| translate_language(lang) }
 
