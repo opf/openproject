@@ -29,60 +29,66 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :component do # rubocop:disable RSpec/SpecFilePathFormat
-  let(:project_storage) { build_stubbed(:project_storage) }
+RSpec.describe Storages::Admin::Storages::OAuthAccessGrantedModalComponent, type: :component do # rubocop:disable RSpec/SpecFilePathFormat
+  context "with storage and oauth client token" do
+    let(:oauth_client) { build_stubbed(:oauth_client) }
+    let(:storage) { build_stubbed(:nextcloud_storage, oauth_client:) }
 
-  before do
-    render_inline(oauth_access_grant_nudge_modal_component)
-  end
-
-  context "with access pending authorization" do
-    let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage:) }
-
-    it "renders the nudge modal" do
-      expect(page).to have_css('[role="alert"]', text: "One more step...", aria: { live: :assertive })
-      expect(page).to have_test_selector(
-        "oauth-access-grant-nudge-modal-body",
-        text: "To get access to the project folder you need to login to #{project_storage.storage.name}.",
-        aria: { hidden: false }
-      )
-
-      expect(page).to have_button("I will do it later")
-      expect(page).to have_button("Login", aria: { label: "Login to #{project_storage.storage.name}" })
-    end
-  end
-
-  context "with access authorized" do
-    let(:oauth_access_grant_nudge_modal_component) do
-      described_class.new(project_storage:, authorized: true)
+    before do
+      allow(OAuthClientToken).to receive(:exists?).and_return(true)
     end
 
     it "renders a success modal" do
+      render_inline(described_class.new(storage:))
+
       expect(page).to have_css(
         "h1.sr-only",
-        text: "Access granted. You are now ready to use #{project_storage.storage.name}"
+        text: "Access granted. You are now ready to use #{storage.name}"
       )
 
       expect(page).to have_test_selector(
-        "oauth-access-grant-nudge-modal-body",
+        "oauth-access-granted-modal-body",
         text: "Access granted",
         aria: { hidden: true }
       )
       expect(page).to have_test_selector(
-        "oauth-access-grant-nudge-modal-body",
-        text: "You are now ready to use #{project_storage.storage.name}",
+        "oauth-access-granted-modal-body",
+        text: "You are now ready to use #{storage.name}",
         aria: { hidden: true }
       )
 
       expect(page).to have_button("Close")
+
+      aggregate_failures "checks that the current user has an oauth token" do
+        expect(OAuthClientToken).to have_received(:exists?)
+          .with(user: User.current, oauth_client: storage.oauth_client)
+      end
     end
   end
 
-  context "with no project storage" do
-    let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage: nil) }
+  context "with no storage" do
+    it "does not render" do
+      render_inline(described_class.new(storage: nil))
+
+      expect(page.text).to be_empty
+    end
+  end
+
+  context "with storage but no oauth client token" do
+    before do
+      allow(OAuthClientToken).to receive(:exists?).and_call_original
+    end
 
     it "does not render" do
+      storage = build_stubbed(:nextcloud_storage)
+      render_inline(described_class.new(storage:))
+
       expect(page.text).to be_empty
+
+      aggregate_failures "checks that the current user has an oauth token" do
+        expect(OAuthClientToken).to have_received(:exists?)
+          .with(user: User.current, oauth_client: storage.oauth_client)
+      end
     end
   end
 end
