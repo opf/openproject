@@ -52,6 +52,8 @@ import { MainMenuToggleService } from 'core-app/core/main-menu/main-menu-toggle.
 export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() elementClass:string;
 
+  @Input() elementId:string;
+
   @Input() resizeEvent:string;
 
   @Input() localStorageKey:string;
@@ -67,7 +69,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   private resizer:HTMLElement;
 
   // Min-width this element is allowed to have
-  private elementMinWidth = 530;
+  private elementMinWidth = 600;
 
   public moving = false;
 
@@ -84,9 +86,13 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     // Get element
     // We use this more complicated approach of taking the last element of the class as it allows
     // to still work in case an element is duplicated by Angular.
-    const elements = document.getElementsByClassName(this.elementClass);
-    this.resizingElement = <HTMLElement>elements[elements.length - 1];
-
+    const elementById = document.getElementById(this.elementId);
+    if (elementById && elementById.children) {
+      this.resizingElement = elementById;
+    } else {
+      const elements = document.getElementsByClassName(this.elementClass);
+      this.resizingElement = <HTMLElement>elements[elements.length - 1];
+    }
     if (!this.resizingElement) {
       return;
     }
