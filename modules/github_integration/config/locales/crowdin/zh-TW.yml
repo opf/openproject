@@ -36,5 +36,5 @@ zh-TW:
   text_deploy_target_type_info: >
     到目前為止，我們只支援 OpenProject 本身。
   text_deploy_target_api_key_info: >
-    一個 OpenProject [API key](docs_url) 歸屬於有全局反省權限的使用者。
+    一個 OpenProject [API key](docs_url) 屬於有全面內部權限的使用者。
   text_pull_request_deployed_to: "%{pr_link} 部署到 %{deploy_target_link}"

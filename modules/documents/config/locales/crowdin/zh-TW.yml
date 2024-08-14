@@ -22,7 +22,7 @@
 zh-TW:
   plugin_openproject_documents:
     name: "OpenProject 文件"
-    description: "一個允許在 OpenProject 專案中建立文件的插件。"
+    description: "一個允許在 OpenProject 專案中建立文件的外掛。"
   activerecord:
     models:
       document: "文件"

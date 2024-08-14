@@ -346,7 +346,7 @@ zh-TW:
     delete_member_dialog:
       title: "移除成員"
       will_remove_the_users_role: "這將從此專案中移除使用者的角色。"
-      will_remove_the_groups_role: "這將從此專案中移除使用者的角色。"
+      will_remove_the_groups_role: "這將從此專案中移除群組角色。"
       however_work_packages_shared_with_user_html:
         other: "不過， %{shared_work_packages_link} ，也與此使用者共享。"
       however_work_packages_shared_with_group_html:
@@ -1900,7 +1900,7 @@ zh-TW:
   label_comment_plural: "留言"
   label_commits_per_author: "每個作者的Commit"
   label_commits_per_month: "每個月的Commits"
-  label_confirmation: "確認密碼"
+  label_confirmation: "確認"
   label_contains: "包含"
   label_content: "內容"
   label_color_plural: "顏色"
@@ -3277,7 +3277,7 @@ zh-TW:
     views:
       project: >
         %{plural} 始終與項目關聯。您只能在此處選擇已激活 %{plural} 模塊的項目。創建了 %{singular} 後，您可以將其他項目的工作包添加到其中。
-      public: "發布此檢視圖，允許其他使用者存取您的視圖。 具有「管理公用檢視圖」權限的使用者可以修改或刪除公用查詢。 這不會影響該檢視圖中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。"
+      public: "發布此版面，允許其他使用者存取您的版面。 具有「管理公開版面」權限的使用者可以修改或刪除公開查詢。 這不會影響該版面中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。"
       favoured: "將此視圖標記為收藏項，並添加到左側的已保存視圖邊欄中。"
   time:
     am: "am"
@@ -3399,7 +3399,7 @@ zh-TW:
         migration_warning_text: "在「Work-based」進度計算模式下，完成百分比無法手動設置，並且與「Work」相關聯。目前手動輸入數值已保留，無法編輯。 請務必輸入「Work」才能進行。"
     permissions:
       comment: "留言"
-      comment_description: "可以查看與留言此工作項目"
+      comment_description: "可查看此工作項目與留言"
       edit: "編輯"
       edit_description: "可以查看，留言與編輯此工作項目"
       view: "檢視"
