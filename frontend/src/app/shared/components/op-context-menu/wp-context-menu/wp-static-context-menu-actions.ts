@@ -35,6 +35,7 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
   {
     key: 'generate-pdf',
     link: 'generate_pdf',
+    icon: "icon-export-pdf-with-descriptions",
   },
   {
     key: 'export-atom',
