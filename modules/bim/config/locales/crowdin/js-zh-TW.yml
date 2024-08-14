@@ -25,5 +25,5 @@ zh-TW:
         split: '檢視器和表格'
         split_cards: '檢視器和卡片'
     revit:
-      revit_add_in: "Revit 插件"
-      revit_add_in_settings: "Revit 插件設定"
+      revit_add_in: "Revit 外掛"
+      revit_add_in_settings: "Revit 外掛設定"

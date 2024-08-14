@@ -66,6 +66,7 @@ pt-PT:
       inactive: Nenhuma pasta específica
       manual: Pasta existente gerida manualmente
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: Além disso, no caso de este armazenamento ter uma pasta de projeto gerida automaticamente, esta e os seus ficheiros serão eliminados para sempre.
         confirmation_text: Confirme que compreende e pretende remover este armazenamento de ficheiros deste projeto

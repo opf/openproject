@@ -68,7 +68,7 @@ zh-TW:
   label_filter: "篩選條件"
   label_filter_add: "新增篩選條件"
   label_filter_plural: "篩選條件"
-  label_group_by: "分類"
+  label_group_by: "分組依據"
   label_group_by_add: "新增分組依據屬性"
   label_inactive: "«不活動»"
   label_no: "否"

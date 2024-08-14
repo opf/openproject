@@ -631,7 +631,7 @@ zh-TW:
                     * 所有物件都應具有指派的任務所需的資訊。如果沒有，則需要對模型進行資料豐富
                     * ...
                 item_1:
-                  subject: 建物興建中
+                  subject: 示範系統建立中
                   description: |-
                     ＃＃ 目標
 
@@ -663,7 +663,7 @@ zh-TW:
                 * ...
             item_14:
               subject: 資產管理
-              description: 享受您的建築:)
+              description: 享受您的建立一切:)
         demo-bcf-management-project:
           name: "(範例) BCF 管理"
           status_explanation: 所有任務皆依計劃進行，相關人員知道他們的任務，系統完成設定。

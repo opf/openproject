@@ -394,6 +394,9 @@ ro:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
@@ -1170,6 +1173,10 @@ ro:
         few: "Roluri"
         other: "Roluri"
       status: "Stare pachet de lucru"
+      token/api:
+        one: Access token
+        few: Access tokens
+        other: Access tokens
       type: "Tip"
       user: "Utilizator"
       version: "Versiune"
@@ -2199,6 +2206,8 @@ ro:
   label_next_week: "Săptămâna viitoare"
   label_no_change_option: "(Fără modificări)"
   label_no_data: "Nu există date de afișat"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Pagină părinte:"
   label_nothing_display: "Nimic de afișat"
   label_nobody: "nimeni"

@@ -412,6 +412,9 @@ ar:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
@@ -1206,6 +1209,13 @@ ar:
         many: "دور"
         other: "دور"
       status: "حالة مجموعة العمل"
+      token/api:
+        zero: Access tokens
+        one: Access token
+        two: Access tokens
+        few: Access tokens
+        many: Access tokens
+        other: Access tokens
       type: "النّوع"
       user: "المستخدم"
       version: "الإصدار"
@@ -2301,6 +2311,8 @@ ar:
   label_next_week: "الأسبوع القادم"
   label_no_change_option: "(بدون تغيير)"
   label_no_data: "لا يوجد بيانات لعرضها"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "No parent page"
   label_nothing_display: "لا يوجد شيء لعرضه"
   label_nobody: "لا أحد"

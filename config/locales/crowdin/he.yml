@@ -400,6 +400,9 @@ he:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
@@ -1182,6 +1185,11 @@ he:
         many: "תפקידים"
         other: "תפקידים"
       status: "מצב חבילת העבודה"
+      token/api:
+        one: Access token
+        two: Access tokens
+        many: Access tokens
+        other: Access tokens
       type: "סוג"
       user: "משתמש"
       version: "גירסה"
@@ -2233,6 +2241,8 @@ he:
   label_next_week: "שבוע הבא"
   label_no_change_option: "(ללא שינוי)"
   label_no_data: "אין נתונים להצגה"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nothing to display"
   label_nobody: "nobody"

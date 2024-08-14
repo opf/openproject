@@ -2241,6 +2241,8 @@ cs:
   label_next_week: "Příští týden"
   label_no_change_option: "(Beze změny)"
   label_no_data: "Žádná data k zobrazení"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Žádná nadřazená stránka"
   label_nothing_display: "Nic k zobrazení"
   label_nobody: "nikdo"

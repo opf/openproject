@@ -388,6 +388,9 @@ bg:
       will_revoke_access_to_all: "Това действие ще отнеме достъпа им до всички тях."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Моля, посочете име на API токен"
         token_name_in_use: "Този API токен вече се използва, моля изберете друго."
@@ -1158,6 +1161,9 @@ bg:
         one: "Роля"
         other: "Роли"
       status: "Статус на работен пакет"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Тип"
       user: "Потребител"
       version: "Версия"
@@ -2165,6 +2171,8 @@ bg:
   label_next_week: "Следващата седмица"
   label_no_change_option: "(Без промяна)"
   label_no_data: "Няма данни за показване"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Няма родителска страница"
   label_nothing_display: "Нищо за показване"
   label_nobody: "nobody"

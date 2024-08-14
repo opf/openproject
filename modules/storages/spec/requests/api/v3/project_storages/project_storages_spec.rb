@@ -138,10 +138,20 @@ RSpec.describe "API v3 project storages resource", :webmock, content_type: :json
         let(:path) { api_v3_paths.path_for(:project_storages, filters:) }
 
         describe "gets all project storages of the filtered project" do
-          let(:storage_url) { CGI.escape(storage3.host) }
+          context "if the exact storage url is provided" do
+            let(:storage_url) { CGI.escape(storage3.host) }
 
-          it_behaves_like "API V3 collection response", 2, 2, "ProjectStorage", "Collection" do
-            let(:elements) { [project_storage23, project_storage13] }
+            it_behaves_like "API V3 collection response", 2, 2, "ProjectStorage", "Collection" do
+              let(:elements) { [project_storage23, project_storage13] }
+            end
+          end
+
+          context "if the trailing slash of the storage url is not provided" do
+            let(:storage_url) { CGI.escape(storage3.host.chomp("/")) }
+
+            it_behaves_like "API V3 collection response", 2, 2, "ProjectStorage", "Collection" do
+              let(:elements) { [project_storage23, project_storage13] }
+            end
           end
         end
 
