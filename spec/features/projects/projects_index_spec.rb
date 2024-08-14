@@ -906,7 +906,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           project_created_on_today.project_custom_field_project_mappings.destroy_all
           wait_for_reload
 
-          expect(page).to have_no_text(project_created_on_today.name, wait: 1)
+          expect(page).to have_no_text(project_created_on_today.name)
           expect(page).to have_no_text(project_created_on_fixed_date.name)
         end
 
