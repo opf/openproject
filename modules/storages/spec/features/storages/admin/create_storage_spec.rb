@@ -179,7 +179,7 @@ RSpec.describe "Admin Create a new file storage",
           click_on("Done, complete setup")
         end
 
-        expect(page).to have_current_path(admin_settings_storages_path)
+        expect(page).to have_current_path(edit_admin_settings_storage_path(Storages::Storage.last))
         expect(page).to have_test_selector(
           "primer-banner-message-component",
           text: "Storage connected successfully! Remember to activate the module and the specific " \
@@ -316,7 +316,7 @@ RSpec.describe "Admin Create a new file storage",
           click_on "Done, complete setup"
         end
 
-        expect(page).to have_current_path(admin_settings_storages_path)
+        expect(page).to have_current_path(edit_admin_settings_storage_path(Storages::Storage.last))
         wait_for(page).to have_test_selector(
           "primer-banner-message-component",
           text: "Storage connected successfully! Remember to activate the module and the specific " \

@@ -33,6 +33,7 @@ module Storages
     module StorageInteraction
       module OneDrive
         class CreateFolderCommand
+          include TaggedLogging
           using ServiceResultRefinements
 
           def self.call(storage:, auth_strategy:, folder_name:, parent_location:)
@@ -44,8 +45,11 @@ module Storages
           end
 
           def call(auth_strategy:, folder_name:, parent_location:)
-            Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
-              handle_response http.post(uri_for(parent_location), body: payload(folder_name))
+            with_tagged_logger do
+              info "Creating folder #{folder_name} under #{parent_location} using #{auth_strategy.key}"
+              Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
+                handle_response http.post(url_for(parent_location), body: payload(folder_name))
+              end
             end
           end
 
@@ -55,29 +59,34 @@ module Storages
             Util.json_content_type
           end
 
-          def uri_for(parent_location)
-            return "#{base_uri}/root/children" if parent_location.root?
-
-            "#{base_uri}/items/#{parent_location}/children"
+          def url_for(parent_location)
+            if parent_location.root?
+              UrlBuilder.url(Util.drive_base_uri(@storage), "/root/children")
+            else
+              UrlBuilder.url(Util.drive_base_uri(@storage), "/items", parent_location.path, "/children")
+            end
           end
 
           def handle_response(response)
+            source = self.class
+
             case response
             in { status: 200..299 }
-              ServiceResult.success(result: Util.storage_file_from_json(MultiJson.load(response.body, symbolize_keys: true)),
-                                    message: "Folder was successfully created.")
+              info "Folder successfully created."
+              ServiceResult.success(result:
+                                      Util.storage_file_from_json(MultiJson.load(response.body, symbolize_keys: true)))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: Util.storage_error(code: :not_found, response:, source: self.class))
+                                    errors: Util.storage_error(code: :not_found, response:, source:))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: Util.storage_error(code: :unauthorized, response:, source: self.class))
+                                    errors: Util.storage_error(code: :unauthorized, response:, source:))
             in { status: 409 }
               ServiceResult.failure(result: :already_exists,
-                                    errors: Util.storage_error(code: :conflict, response:, source: self.class))
+                                    errors: Util.storage_error(code: :conflict, response:, source:))
             else
               ServiceResult.failure(result: :error,
-                                    errors: Util.storage_error(code: :error, response:, source: self.class))
+                                    errors: Util.storage_error(code: :error, response:, source:))
             end
           end
 
@@ -88,8 +97,6 @@ module Storages
               "@microsoft.graph.conflictBehavior" => "fail"
             }.to_json
           end
-
-          def base_uri = "#{@storage.uri}v1.0/drives/#{@storage.drive_id}"
         end
       end
     end

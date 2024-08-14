@@ -31,6 +31,7 @@
 module Storages::Admin
   class OAuthClientInfoComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
     include StorageViewInformation
 
     attr_reader :storage
@@ -40,6 +41,8 @@ module Storages::Admin
       super(oauth_client, **)
       @storage = storage
     end
+
+    def self.wrapper_key = :storage_oauth_client_section
 
     def edit_icon_button_options
       label = I18n.t("storages.buttons.replace_oauth_client",

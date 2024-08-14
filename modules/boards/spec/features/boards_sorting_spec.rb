@@ -36,7 +36,7 @@ RSpec.describe "Work Package boards sorting spec", :js, with_ee: %i[board_view] 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let!(:status) { create(:default_status) }
   let(:version) { @version ||= create(:version, project:) }
-  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
+  let(:query_menu) { Components::Submenu.new }
 
   before do
     project
@@ -51,7 +51,7 @@ RSpec.describe "Work Package boards sorting spec", :js, with_ee: %i[board_view] 
 
     board_page.back_to_index
     board_index.expect_boards_listed "My Basic Board"
-    query_menu.expect_menu_entry "My Basic Board"
+    query_menu.expect_item "My Basic Board"
 
     board_page = board_index.create_board title: "My Action Board",
                                           action: "Version",
@@ -59,7 +59,7 @@ RSpec.describe "Work Package boards sorting spec", :js, with_ee: %i[board_view] 
     board_page.back_to_index
     board_index.expect_boards_listed "My Action Board",
                                      "My Basic Board"
-    query_menu.expect_menu_entry "My Action Board"
+    query_menu.expect_item "My Action Board"
 
     board_page = board_index.create_board title: "My Status Board",
                                           action: "Status"
@@ -68,6 +68,6 @@ RSpec.describe "Work Package boards sorting spec", :js, with_ee: %i[board_view] 
     board_index.expect_boards_listed "My Status Board",
                                      "My Action Board",
                                      "My Basic Board"
-    query_menu.expect_menu_entry "My Status Board"
+    query_menu.expect_item "My Status Board"
   end
 end

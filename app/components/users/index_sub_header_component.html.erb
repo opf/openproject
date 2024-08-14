@@ -1,0 +1,16 @@
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t(:label_user_new) },
+                                 title: I18n.t(:label_user_new),
+                                 tag: :a,
+                                 href: new_user_path) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t('activerecord.models.user')
+    end
+
+    subheader.with_bottom_pane_component do
+      render Users::UserFilterComponent.new(@params, groups: @groups, status: @status)
+    end
+  end
+%>

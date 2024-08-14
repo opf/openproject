@@ -49,7 +49,7 @@ module Storages
             end
 
             Authentication[auth_strategy].call(storage: @storage) do |http|
-              handle_errors http.get(Util.join_uri_path(@storage.uri, uri_path_for(file_link.origin_id)))
+              handle_errors http.get(url_for(file_link.origin_id))
             end
           end
 
@@ -78,8 +78,8 @@ module Storages
             end
           end
 
-          def uri_path_for(file_id)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}/content"
+          def url_for(file_id)
+            UrlBuilder.url(Util.drive_base_uri(@storage), "items", file_id, "content")
           end
         end
       end

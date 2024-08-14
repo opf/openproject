@@ -5,12 +5,10 @@
     end
 
     component.with_row(scheme: :default) do
-      render(OpTurbo::FrameComponent.new(id: :storage_general_info_section)) do
-        if storage.new_record?
-          render(Storages::Admin::Forms::GeneralInfoFormComponent.new(storage))
-        else
-          render(Storages::Admin::GeneralInfoComponent.new(storage))
-        end
+      if storage.new_record?
+        render(Storages::Admin::Forms::GeneralInfoFormComponent.new(storage))
+      else
+        render(Storages::Admin::GeneralInfoComponent.new(storage))
       end
     end
 
@@ -24,19 +22,15 @@
       end
 
       component.with_row(scheme: :default) do
-        render(OpTurbo::FrameComponent.new(id: :storage_openproject_oauth_section)) do
-          if storage.new_record? || openproject_oauth_application_section_closed?
-            render(Storages::Admin::OAuthApplicationInfoComponent.new(oauth_application:, storage:))
-          else
-            render(Storages::Admin::OAuthApplicationInfoCopyComponent.new(oauth_application:, storage:))
-          end
+        if storage.new_record? || openproject_oauth_application_section_closed?
+          render(Storages::Admin::OAuthApplicationInfoComponent.new(oauth_application:, storage:))
+        else
+          render(Storages::Admin::OAuthApplicationInfoCopyComponent.new(oauth_application:, storage:))
         end
       end
 
       component.with_row(scheme: :default) do
-        render(OpTurbo::FrameComponent.new(id: :storage_oauth_client_section)) do
-          render(Storages::Admin::OAuthClientInfoComponent.new(oauth_client: storage.oauth_client, storage:))
-        end
+        render(Storages::Admin::OAuthClientInfoComponent.new(oauth_client: storage.oauth_client, storage:))
       end
 
       component.with_row(scheme: :neutral, color: :muted) do
@@ -48,12 +42,10 @@
       end
 
       component.with_row(scheme: :default) do
-        render(OpTurbo::FrameComponent.new(id: :automatically_managed_project_folders_section)) do
-          if automatically_managed_project_folders_section_closed?
-            render(Storages::Admin::AutomaticallyManagedProjectFoldersInfoComponent.new(storage))
-          else
-            render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(storage))
-          end
+        if automatically_managed_project_folders_section_closed?
+          render(Storages::Admin::AutomaticallyManagedProjectFoldersInfoComponent.new(storage))
+        else
+          render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(storage))
         end
       end
     end
@@ -68,9 +60,7 @@
       end
 
       component.with_row(scheme: :default) do
-        render(OpTurbo::FrameComponent.new(id: :access_management_section)) do
-          render(Storages::Admin::AccessManagementComponent.new(storage))
-        end
+        render(Storages::Admin::AccessManagementComponent.new(storage))
       end
 
       component.with_row(scheme: :neutral, color: :muted) do
@@ -82,15 +72,11 @@
       end
 
       component.with_row(scheme: :default) do
-        render(OpTurbo::FrameComponent.new(id: :storage_oauth_client_section)) do
-          render(Storages::Admin::OAuthClientInfoComponent.new(oauth_client: storage.oauth_client, storage:))
-        end
+        render(Storages::Admin::OAuthClientInfoComponent.new(oauth_client: storage.oauth_client, storage:))
       end
 
       component.with_row(scheme: :default) do
-        render(OpTurbo::FrameComponent.new(id: :storage_redirect_uri_section)) do
-          render(Storages::Admin::RedirectUriComponent.new(oauth_client: storage.oauth_client, storage:))
-        end
+        render(Storages::Admin::RedirectUriComponent.new(oauth_client: storage.oauth_client, storage:))
       end
     end
   end

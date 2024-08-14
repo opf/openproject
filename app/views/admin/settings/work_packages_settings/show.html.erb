@@ -27,9 +27,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_work_package_tracking) -%>
+<% html_title t(:label_administration), t(:label_work_packages_settings) -%>
 
-<%= toolbar title: t(:label_work_package_tracking) %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t(:label_work_packages_settings) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
+                             t(:label_work_packages_settings)])
+  end
+%>
+
+
 
 <%= styled_form_tag({ action: :update }, method: :patch) do %>
   <section class="form--section"

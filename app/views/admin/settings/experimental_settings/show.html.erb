@@ -26,7 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:label_experimental) %>
+<% html_title t(:label_administration), t(:label_experimental) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_experimental) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_general_path, text: t(:label_system_settings) },
+                             t(:label_experimental)])
+  end
+%>
 
 <%= styled_form_tag(admin_settings_update_experimental_path, method: :patch) do %>
   <section class="form--section">

@@ -56,7 +56,7 @@ RSpec.shared_examples_for "acts_as_attachable included" do
       end
     end
 
-    context "for attachments that are unattached, created by the current_user, " +
+    context "for attachments that are unattached, created by the current_user, " \
             "added to attachments_claimed and the user having the permission" do
       it "is valid" do
         model_instance.attachments_claimed = [attachment1, attachment2]
@@ -66,7 +66,7 @@ RSpec.shared_examples_for "acts_as_attachable included" do
       end
     end
 
-    context "for attachments that are unattached, created by the current_user, " +
+    context "for attachments that are unattached, created by the current_user, " \
             "added to attachments_claimed and the user not having the permission" do
       let(:current_user) { user_without_permission }
 
@@ -82,7 +82,7 @@ RSpec.shared_examples_for "acts_as_attachable included" do
       end
     end
 
-    context "for attachments that are unattached, created by the current_user, " +
+    context "for attachments that are unattached, created by the current_user, " \
     "added to attachments_claimed and the user not having the permission, but skipping permission checks" do
       let(:current_user) { user_without_permission }
 
@@ -95,7 +95,7 @@ RSpec.shared_examples_for "acts_as_attachable included" do
       end
     end
 
-    context "for attachments that are attached, created by the current_user, " +
+    context "for attachments that are attached, created by the current_user, " \
             "added to attachments_claimed and the user having the permission" do
       let(:attachment1) { create(:attachment, author: current_user) }
       let(:attachment2) { create(:attachment, author: current_user) }
@@ -111,7 +111,7 @@ RSpec.shared_examples_for "acts_as_attachable included" do
       end
     end
 
-    context "for attachments that are unattached, not created by the current_user, " +
+    context "for attachments that are unattached, not created by the current_user, " \
             "added to attachments_claimed and the user having the permission" do
       let(:attachment1) { create(:attachment, container: nil, author: other_user) }
       let(:attachment2) { create(:attachment, container: nil, author: other_user) }

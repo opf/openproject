@@ -90,10 +90,10 @@ RSpec.describe "Gantt charts menu",
       loading_indicator_saveguard
 
       # Show global queries only
-      expect(page).to have_css(".op-sidemenu--item-action", text: global_starred_query)
-      expect(page).to have_css(".op-sidemenu--item-action", text: global_public_query)
-      expect(page).to have_css(".op-sidemenu--item-action", text: global_private_query)
-      expect(page).to have_no_css(".op-sidemenu--item-action", text: private_project_query)
+      expect(page).to have_css(".op-submenu--item-action", text: global_starred_query)
+      expect(page).to have_css(".op-submenu--item-action", text: global_public_query)
+      expect(page).to have_css(".op-submenu--item-action", text: global_private_query)
+      expect(page).to have_no_css(".op-submenu--item-action", text: private_project_query)
     end
   end
 
@@ -103,10 +103,10 @@ RSpec.describe "Gantt charts menu",
       loading_indicator_saveguard
 
       # Show project queries only
-      expect(page).to have_no_css(".op-sidemenu--item-action", text: global_starred_query)
-      expect(page).to have_no_css(".op-sidemenu--item-action", text: global_public_query)
-      expect(page).to have_no_css(".op-sidemenu--item-action", text: global_private_query)
-      expect(page).to have_css(".op-sidemenu--item-action", text: private_project_query)
+      expect(page).to have_no_css(".op-submenu--item-action", text: global_starred_query)
+      expect(page).to have_no_css(".op-submenu--item-action", text: global_public_query)
+      expect(page).to have_no_css(".op-submenu--item-action", text: global_private_query)
+      expect(page).to have_css(".op-submenu--item-action", text: private_project_query)
     end
   end
 end

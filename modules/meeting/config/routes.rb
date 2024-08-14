@@ -60,6 +60,7 @@ Rails.application.routes.draw do
       get :cancel_edit
       get :download_ics
       put :update_title
+      get :details_dialog
       put :update_details
       get :participants_dialog
       put :update_participants

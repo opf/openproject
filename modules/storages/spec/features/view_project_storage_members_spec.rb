@@ -44,9 +44,9 @@ RSpec.describe "Project storage members connection status view" do
   let(:oauth_client) { create(:oauth_client, integration: storage) }
 
   before do
-    create_oauth_client_tokens_for_users(oauth_client:,
-                                         users: [connected_user, admin_user,
-                                                 connected_no_permissions_user])
+    create_remote_identities_for_users(oauth_client:,
+                                       users: [connected_user, admin_user,
+                                               connected_no_permissions_user])
   end
 
   it "cannot be accessed without being logged in" do
@@ -122,9 +122,9 @@ RSpec.describe "Project storage members connection status view" do
     create(:nextcloud_storage, :as_automatically_managed, oauth_application:)
   end
 
-  def create_oauth_client_tokens_for_users(oauth_client:, users:)
+  def create_remote_identities_for_users(oauth_client:, users:)
     users.each do |user|
-      create(:oauth_client_token, oauth_client:, user:)
+      create(:remote_identity, oauth_client:, user:, origin_user_id: "origin-user-id-#{user.id}")
     end
   end
 end

@@ -51,7 +51,7 @@ he:
         description: "הערות"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "כותרת"
     errors:
       messages:
         invalid_time_format: "תבנית הזמן אינה תקינה. התבנית הנדרשת היא: HH:MM"
@@ -124,7 +124,7 @@ he:
       agenda_text: "Copy the agenda of the old meeting"
     email:
       send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Open meeting"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"

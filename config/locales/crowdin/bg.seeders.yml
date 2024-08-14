@@ -77,81 +77,6 @@ bg:
           name: Висок
         item_3:
           name: Незабавно
-      statuses:
-        item_0:
-          name: Нов
-        item_1:
-          name: В процес на специфициране
-        item_2:
-          name: Определен
-        item_3:
-          name: Потвърден
-        item_4:
-          name: Да бъде планирано
-        item_5:
-          name: Планиран
-        item_6:
-          name: В изпълнение
-        item_7:
-          name: Разработен
-        item_8:
-          name: В процес на тестване
-        item_9:
-          name: Тестван
-        item_10:
-          name: Неуспешен тест
-        item_11:
-          name: Затворен
-        item_12:
-          name: Задържан
-        item_13:
-          name: Отхвърлен
-      time_entry_activities:
-        item_0:
-          name: Управление
-        item_1:
-          name: Спецификации
-        item_2:
-          name: Разработване
-        item_3:
-          name: Тестване
-        item_4:
-          name: Поддръжка
-        item_5:
-          name: Други
-      types:
-        item_0:
-          name: Задачата
-        item_1:
-          name: Етап
-        item_2:
-          name: Фаза
-        item_3:
-          name: Функция
-        item_4:
-          name: Със сериозно значение
-        item_5:
-          name: Потребителска история
-        item_6:
-          name: Грешка
-      welcome:
-        title: Welcome to OpenProject!
-        text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-          Core features and use cases:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Welcome to the future of project management.
-
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo project
@@ -489,3 +414,78 @@ bg:
             * Time boxed (3 h).
             * After Sprint Review, will be moderated by Scrum Master.
             * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+      statuses:
+        item_0:
+          name: Нов
+        item_1:
+          name: В процес на специфициране
+        item_2:
+          name: Определен
+        item_3:
+          name: Потвърден
+        item_4:
+          name: Да бъде планирано
+        item_5:
+          name: Планиран
+        item_6:
+          name: В изпълнение
+        item_7:
+          name: Разработен
+        item_8:
+          name: В процес на тестване
+        item_9:
+          name: Тестван
+        item_10:
+          name: Неуспешен тест
+        item_11:
+          name: Затворен
+        item_12:
+          name: Задържан
+        item_13:
+          name: Отхвърлен
+      time_entry_activities:
+        item_0:
+          name: Управление
+        item_1:
+          name: Спецификации
+        item_2:
+          name: Разработване
+        item_3:
+          name: Тестване
+        item_4:
+          name: Поддръжка
+        item_5:
+          name: Други
+      types:
+        item_0:
+          name: Задачата
+        item_1:
+          name: Етап
+        item_2:
+          name: Фаза
+        item_3:
+          name: Функция
+        item_4:
+          name: Със сериозно значение
+        item_5:
+          name: Потребителска история
+        item_6:
+          name: Грешка
+      welcome:
+        title: Welcome to OpenProject!
+        text: |
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+          Core features and use cases:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Welcome to the future of project management.
+
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

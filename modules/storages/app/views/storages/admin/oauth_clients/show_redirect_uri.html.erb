@@ -27,6 +27,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(OpTurbo::FrameComponent.new(id: :storage_redirect_uri_section)) do %>
-  <%= render(Storages::Admin::Forms::RedirectUriFormComponent.new(oauth_client: @storage.oauth_client, storage: @storage, is_complete: true)) %>
-<% end %>
+<%= render(Storages::Admin::Forms::RedirectUriFormComponent.new(oauth_client: @storage.oauth_client, storage: @storage, is_complete: true)) %>

@@ -105,8 +105,8 @@ module Pages
         end
 
         def activate!
-          within ".toolbar-items" do
-            click_button "Activate"
+          within ".PageHeader-actions" do
+            click_on "Activate"
           end
         end
       end

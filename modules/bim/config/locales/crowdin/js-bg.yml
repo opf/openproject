@@ -3,7 +3,7 @@ bg:
   js:
     bcf:
       label_bcf: 'BCF'
-      import: 'Import'
+      import: 'Импортиране'
       import_bcf_xml_file: 'Импортиране на BCF XML файл (BCF версия 2.1)'
       export: 'Експортиране'
       export_bcf_xml_file: 'Експортиране на BCF XML файл (BCF версия 2.1)'

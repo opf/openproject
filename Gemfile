@@ -209,6 +209,7 @@ gem "mini_magick", "~> 4.13.0", require: false
 gem "validate_url"
 
 # Storages support code
+gem "dry-auto_inject"
 gem "dry-container"
 gem "dry-monads"
 
@@ -216,7 +217,7 @@ gem "dry-monads"
 gem "store_attribute", "~> 1.0"
 
 # Appsignal integration
-gem "appsignal", "~> 3.8.1", require: false
+gem "appsignal", "~> 3.10.0", require: false
 
 gem "view_component"
 # Lookbook
@@ -227,6 +228,7 @@ gem "factory_bot", "~> 6.4.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.4.0", require: false
 
+gem "turbo_power", "~> 0.6.2"
 gem "turbo-rails", "~> 2.0.0"
 
 gem "httpx"
@@ -331,6 +333,7 @@ group :development, :test do
   gem "rubocop", require: false
   gem "rubocop-capybara", require: false
   gem "rubocop-factory_bot", require: false
+  gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
@@ -389,6 +392,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.14.1"
-gem "openproject-octicons_helper", "~>19.14.1"
-gem "openproject-primer_view_components", "~>0.35.2"
+gem "openproject-octicons", "~>19.17.0"
+gem "openproject-octicons_helper", "~>19.17.0"
+gem "openproject-primer_view_components", "~>0.40.0"

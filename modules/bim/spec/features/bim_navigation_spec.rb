@@ -141,8 +141,8 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
         card_view.expect_work_package_not_listed work_package
       end
 
-      it 'after going to the full view with a selected tab,
-        the same tab should be opened in full screen view and after going back to details view(see #33747)' do
+      it "after going to the full view with a selected tab, " \
+         "the same tab should be opened in full screen view and after going back to details view(see #33747)" do
         card_view.open_split_view_by_info_icon(work_package)
 
         details_view.ensure_page_loaded

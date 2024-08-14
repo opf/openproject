@@ -33,7 +33,6 @@ require "uri/http"
 
 module OAuthClients
   class ConnectionManager
-    # Nextcloud API endpoint to check if Bearer token is valid
     TOKEN_IS_FRESH_DURATION = 10.seconds.freeze
 
     def initialize(user:, configuration:)
@@ -60,7 +59,6 @@ module OAuthClients
     end
 
     # rubocop:disable Metrics/AbcSize
-
     # The bearer/access token has expired or is due for renew for other reasons.
     # Talk to OAuth2 Authorization Server to exchange the renew_token for a new bearer token.
     def refresh_token
@@ -104,28 +102,18 @@ module OAuthClients
         update_oauth_client_token(oauth_client_token, service_result.result)
       else
         rack_access_token = service_result.result
-        oauth_client_token =
-          OAuthClientToken.create(
-            user: @user,
-            oauth_client: @oauth_client,
-            origin_user_id: @config.extract_origin_user_id(rack_access_token), # ID of user at OAuth2 Authorization Server
-            access_token: rack_access_token.access_token,
-            token_type: rack_access_token.token_type, # :bearer
-            refresh_token: rack_access_token.refresh_token,
-            expires_in: rack_access_token.raw_attributes[:expires_in],
-            scope: rack_access_token.scope
-          )
-        return ServiceResult.failure(errors: oauth_client_token.errors) unless oauth_client_token.valid?
+        OAuthClientToken.transaction do
+          oauth_client_token = create_client_token(rack_access_token)
 
-        OpenProject::Notifications.send(
-          OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED,
-          integration_type: @oauth_client.integration_type
-        )
+          oauth_client_token.save!
+          RemoteIdentities::CreateService.call(user: @user, oauth_config: @config, oauth_token: rack_access_token)
+                                         .on_failure { raise ActiveRecord::Rollback }
+        end
+
+        ServiceResult.new(success: oauth_client_token.errors.empty?, result: oauth_client_token,
+                          errors: oauth_client_token.errors)
       end
-
-      ServiceResult.success(result: oauth_client_token)
     end
-
     # rubocop:enable Metrics/AbcSize
 
     # @returns ServiceResult with result to be :error or any type of object with data
@@ -147,6 +135,20 @@ module OAuthClients
     end
 
     private
+
+    # @param rack_access_token [Rack::OAuth2::Token] - rack token to be used as a base
+    # @return [OAuthClientToken]
+    def create_client_token(rack_access_token)
+      OAuthClientToken.new(
+        user: @user,
+        oauth_client: @oauth_client,
+        access_token: rack_access_token.access_token,
+        token_type: rack_access_token.token_type, # :bearer
+        refresh_token: rack_access_token.refresh_token,
+        expires_in: rack_access_token.raw_attributes[:expires_in],
+        scope: rack_access_token.scope
+      )
+    end
 
     # Check if a OAuthClientToken already exists and return nil otherwise.
     # Don't handle the case of an expired token.

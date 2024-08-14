@@ -4,6 +4,6 @@ module HighlightingHelper
   end
 
   def highlight_css_updated_at
-    ApplicationRecord.most_recently_changed Status, IssuePriority, Type
+    ApplicationRecord.most_recently_changed Status, IssuePriority, Type, UserPreference
   end
 end

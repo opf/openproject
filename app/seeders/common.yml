@@ -297,6 +297,7 @@ project_roles:
       - :view_calendar
       - :comment_news
       - :view_wiki_pages
+      - :view_project_attributes
   - reference: :default_role_anonymous
     t_name: Anonymous
     position: 1
@@ -304,6 +305,7 @@ project_roles:
     permissions:
       - :view_work_packages
       - :view_wiki_pages
+      - :view_project_attributes
   - reference: :default_role_member
     t_name: Member
     position: 3
@@ -358,6 +360,7 @@ project_roles:
       - :view_shared_work_packages
       - :copy_work_packages
       - :add_work_package_attachments
+      - :view_project_attributes
   - reference: :default_role_reader
     t_name: Reader
     position: 4
@@ -381,6 +384,7 @@ project_roles:
       - :view_commit_author_statistics
       - :view_team_planner
       - :view_shared_work_packages
+      - :view_project_attributes
   - reference: :default_role_project_admin
     t_name: Project admin
     position: 5

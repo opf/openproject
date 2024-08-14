@@ -32,6 +32,7 @@ RSpec.describe Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter do
   let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
   it_behaves_like "basic query filter" do
+    let(:model) { WorkPackage }
     let(:class_key) { :bcf_issue_associated }
     let(:type) { :list }
 

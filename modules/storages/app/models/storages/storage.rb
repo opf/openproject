@@ -118,11 +118,7 @@ module Storages
 
     def health_notifications_should_be_sent?
       # it is a fallback for already created storages without health_notifications_enabled configured.
-      if health_notifications_enabled.nil?
-        automatic_management_enabled?
-      else
-        health_notifications_enabled
-      end
+      (health_notifications_enabled.nil? && automatic_management_enabled?) || health_notifications_enabled?
     end
 
     def automatically_managed?
@@ -148,6 +144,10 @@ module Storages
     end
 
     alias automatic_management_enabled automatically_managed
+
+    def available_project_folder_modes
+      raise Errors::SubclassResponsibility
+    end
 
     def configured?
       configuration_checks.values.all?

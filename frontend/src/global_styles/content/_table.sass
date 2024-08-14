@@ -144,7 +144,7 @@ table.generic-table
 
   tbody
     tr:not(.-no-highlighting)
-      border-bottom: 1px solid var(--table-border-color)
+      border-bottom: 1px solid var(--borderColor-default)
 
     @media screen
       td:not(.-no-ellipsis)
@@ -266,7 +266,7 @@ thead.-sticky th
   line-height:  var(--generic-table--header-height)
   height:  var(--generic-table--header-height)
   z-index:      1
-  border-bottom: 1px solid var(--table-border-color)
+  border-bottom: 1px solid var(--borderColor-default)
 
   &:hover,
   &.hover
@@ -287,7 +287,7 @@ thead.-sticky th
 .generic-table--empty-header
   height:        var(--generic-table--header-height)
   line-height:   var(--generic-table--header-height)
-  border-bottom: 1px solid var(--table-border-color)
+  border-bottom: 1px solid var(--borderColor-default)
   z-index:       1
 
   // In case the table header contains invisible content for screen readers

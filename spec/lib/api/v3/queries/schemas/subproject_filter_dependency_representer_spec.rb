@@ -50,7 +50,10 @@ RSpec.describe API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter 
         let(:path) { "values" }
         let(:type) { "[]Project" }
         let(:filters_params) do
-          [ancestor: { operator: "=", values: [project.id.to_s] }]
+          [
+            ancestor: { operator: "=", values: [project.id.to_s] },
+            active: { operator: "=", values: ["t"] }
+          ]
         end
         let(:href) do
           "#{api_v3_paths.projects}?filters=#{CGI.escape(JSON.dump(filters_params))}&pageSize=-1"

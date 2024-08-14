@@ -60,7 +60,7 @@ RSpec.describe "Notifications sent on shared work packages",
   end
 
   let(:center) { Pages::Notifications::Center.new }
-  let(:side_menu) { Components::Notifications::Sidemenu.new }
+  let(:side_menu) { Components::Submenu.new }
 
   describe "notification for being mentioned" do
     before do

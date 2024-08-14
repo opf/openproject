@@ -32,6 +32,10 @@ RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
   let!(:cf_text) { FactoryBot.create(:text_project_custom_field) }
   let!(:cf_int) { FactoryBot.create(:integer_project_custom_field) }
 
+  before do
+    allow(User).to receive(:current).and_return build_stubbed(:admin)
+  end
+
   it "does not allow to sort by the text field" do
     cf = described_class.new("cf_#{cf_text.id}")
     expect(cf).not_to be_available

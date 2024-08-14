@@ -28,19 +28,28 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), t("label_type_plural") %>
-<%= toolbar title: t(:label_work_package_types) do %>
-  <li class="toolbar-item">
-    <%= link_to new_type_path,
-        { class: 'button -primary',
-          aria: { label: t(:label_type_new) },
-          title: t(:label_type_new)} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text">
-        <%= t('activerecord.attributes.work_package.type') %>
-      </button>
-    <% end %>
-  </li>
-<% end %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t(:label_type_plural) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
+                             t(:label_type_plural)])
+  end
+%>
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t(:label_type_new) },
+                                 title: I18n.t(:label_type_new),
+                                 test_selector: "op-admin-types--button-new",
+                                 tag: :a,
+                                 href: new_type_path) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t('activerecord.attributes.work_package.type')
+    end
+  end
+%>
 
 <% if @types.any? %>
   <div class="generic-table--container">

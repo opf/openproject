@@ -31,9 +31,11 @@ You can configure general system settings in OpenProject. Under System settings 
 
 11. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/home/). It is displayed to administrators only.
 
-    *Note: if enabled, this will display a badge with your installation status in the* [Information](https://qa.openproject-edge.com/admin/info) *administration panel, and on the home page. It is displayed to administrators only.*
+> [!NOTE]
+> If enabled, this will display a badge with your installation status in the [Information](https://qa.openproject-edge.com/admin/info) administration panel, and on the home page. It is displayed to administrators only.
+> The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit [the configuration documentation](../../../system-admin-guide/information/#security-badge).
 
-    *The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit* [the configuration documentation](../../../system-admin-guide/information/#security-badge)*.*![The general system settings](general-settings-01.png)
+![General system settings in OpenProject administration](openproject_system_admin_guide_general_settings.png)
 
 ## Welcome block text
 
@@ -47,4 +49,4 @@ Create a welcome text block to display the most important information to users o
 
 4. Do not forget to **save** your changes.
 
-   ![image-20211209162118090](image-20211209162118090.png)
+   ![Welcome block text settings in OpenProject administration](openproject_system_admin_guide_general_settings_welcome_message.png)

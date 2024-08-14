@@ -195,7 +195,7 @@ module Components
 
       if wait_for_changes_to_be_applied
         sleep 0.75 # input debounce
-        wait_for_network_idle if using_cuprite?
+        wait_for_network_idle
       end
     end
   end

@@ -51,7 +51,8 @@ module Storages
             private
 
             def make_file_request(drive_item_id, http, select_url_query)
-              handle_response http.get("#{@storage.uri}#{uri_path_for(drive_item_id)}#{select_url_query}")
+              url = UrlBuilder.url(Util.drive_base_uri(@storage), uri_path_for(drive_item_id))
+              handle_response http.get("#{url}#{select_url_query}")
             end
 
             def handle_response(response)
@@ -75,9 +76,9 @@ module Storages
 
             def uri_path_for(file_id)
               if file_id == "/"
-                "v1.0/drives/#{@storage.drive_id}/root"
+                "/root"
               else
-                "v1.0/drives/#{@storage.drive_id}/items/#{file_id}"
+                "/items/#{file_id}"
               end
             end
           end

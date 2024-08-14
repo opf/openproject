@@ -299,11 +299,6 @@ ja:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: 現在、有効な種類はありません。
         form:
@@ -383,14 +378,17 @@ ja:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
       new_access_token_dialog_title: "Create new API token"
       new_access_token_dialog_show_button_text: "API token"
       new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text_field_label: "名称"
+      new_access_token_dialog_submit_button_text: "作成"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "アクセストークンをリセットできませんでした: %{error}"
@@ -466,12 +464,12 @@ ja:
       no_results_title_text: 現在、ワークパッケージのステータスはありません。
       no_results_content_text: 新しいステータスを追加
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
+        is_default: "既定の項目"
+        is_closed: "終了"
+        is_readonly: "読み取り専用"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -519,9 +517,9 @@ ja:
       no_common_statuses_exists: "選択されたすべてのワークパッケージに利用できるステータスはありません。 それらの状態は変更できません。"
       unsupported_for_multiple_projects: "複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -589,17 +587,6 @@ ja:
       attribute_help_text:
         attribute_name: "属性"
         help_text: "ヘルプ テキスト"
-      ldap_auth_source:
-        account: "アカウント"
-        attr_firstname: "名前"
-        attr_lastname: "苗字"
-        attr_login: "ユーザー名属性"
-        attr_mail: "メール"
-        base_dn: "ベースDN"
-        host: "ホスト"
-        onthefly: "ユーザーの自動作成"
-        port: "ポート番号"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "リポジトリ"
       color:
@@ -624,6 +611,14 @@ ja:
         visible: "表示"
       custom_value:
         value: "値"
+      doorkeeper/application:
+        uid: "クライアントID"
+        secret: "秘密鍵"
+        owner: "所有者"
+        redirect_uri: "リダイレクトURI"
+        client_credentials_user_id: "クライアント資格情報ユーザーID"
+        scopes: "範囲"
+        confidential: "機密"
       enterprise_token:
         starts_at: "有効期間開始"
         subscriber: "購入者"
@@ -634,20 +629,25 @@ ja:
         row_count: "行数"
         column_count: "列数"
         widgets: "ウィジェット"
-      oauth_client:
-        client: "クライアントID"
-      relation:
-        lag: "Lag"
-        from: "ワーク パッケージ"
-        to: "関係するワークパッケージ"
-      status:
-        is_closed: "作業が完了"
-        is_readonly: "読み取り専用のワークパッケージ"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "注記"
+      ldap_auth_source:
+        account: "アカウント"
+        attr_firstname: "名前"
+        attr_lastname: "苗字"
+        attr_login: "ユーザー名属性"
+        attr_mail: "メール"
+        base_dn: "ベースDN"
+        host: "ホスト"
+        onthefly: "ユーザーの自動作成"
+        port: "ポート番号"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "ロール"
+      oauth_client:
+        client: "クライアントID"
+      planning_element_type_color:
+        hexcode: 16進コード
       project:
         active_value:
           true: "unarchived"
@@ -677,6 +677,8 @@ ja:
         types: "ワークパッケージのタイプ"
         versions: "バージョン"
         work_packages: "ワークパッケージ"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "列"
         relations_to_type_column: "%{type} との関連"
@@ -684,10 +686,19 @@ ja:
         group_by: "グループ化"
         filters: "フィルタ"
         timeline_labels: "タイムラインのラベル"
+      relation:
+        lag: "Lag"
+        from: "ワーク パッケージ"
+        to: "関係するワークパッケージ"
       repository:
         url: "URL"
       role:
         permissions: "権限"
+      status:
+        is_closed: "作業が完了"
+        is_readonly: "読み取り専用のワークパッケージ"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "活動"
         hours: " 時間"
@@ -730,10 +741,6 @@ ja:
       wiki_page:
         parent_title: "親ページ"
         redirect_existing_links: "既存のリンクをリダイレクトする"
-      planning_element_type_color:
-        hexcode: 16進コード
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "挿入の始まり"
         begin_deletion: "削除の始まり"
@@ -768,14 +775,6 @@ ja:
         type: "タイプ"
         version: "バージョン"
         watcher: "ウォッチャー"
-      "doorkeeper/application":
-        uid: "クライアントID"
-        secret: "秘密鍵"
-        owner: "所有者"
-        redirect_uri: "リダイレクトURI"
-        client_credentials_user_id: "クライアント資格情報ユーザーID"
-        scopes: "範囲"
-        confidential: "機密"
     errors:
       messages:
         accepted: "は受諾しなければなりません。"
@@ -988,6 +987,11 @@ ja:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "デフォルトとしてマークされている状態では有効にできません。"
         time_entry:
           attributes:
             hours:
@@ -1101,8 +1105,6 @@ ja:
         version:
           undeletable_archived_projects: "ワークパッケージが添付されているため、バージョンを削除できません。"
           undeletable_work_packages_attached: "ワークパッケージが添付されているため、バージョンを削除できません。"
-        status:
-          readonly_default_exlusive: "デフォルトとしてマークされている状態では有効にできません。"
         token/api:
           attributes:
             token_name:
@@ -1134,6 +1136,8 @@ ja:
       role:
         other: "ロール"
       status: "ステータス名"
+      token/api:
+        other: Access tokens
       type: "タイプ"
       user: "ユーザ"
       version: "バージョン"
@@ -1747,6 +1751,17 @@ ja:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "担当者"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "責任者"
+      shared: "Shared"
+      watched: "ウォッチャー"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1766,6 +1781,7 @@ ja:
   label_add_another_file: "別のファイルを追加"
   label_add_columns: "選択した列を追加"
   label_add_note: "注記を追加"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "関係するワークパッケージを追加"
   label_add_subtask: "子タスクを追加"
   label_added: "追加"
@@ -1806,6 +1822,7 @@ ja:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "認証"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "利用可能なフォーラム"
@@ -1992,6 +2009,7 @@ ja:
   label_inactive: "非アクティブ"
   label_incoming_emails: "受信メール"
   label_includes: "インクルード"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "索引（日付順）"
   label_index_by_title: "索引（名前順）"
   label_information: "情報"
@@ -2043,7 +2061,7 @@ ja:
   label_custom_touch_icon: "カスタムのタッチアイコン"
   label_logout: "ログアウト"
   label_main_menu: "サイドメニュー"
-  label_manage: "Manage"
+  label_manage: "管理"
   label_manage_groups: "グループを管理"
   label_managed_repositories_vendor: "管理された %{vendor} リポジトリ"
   label_max_size: "最大サイズ"
@@ -2052,8 +2070,8 @@ ja:
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_plural: "メンバー"
   label_membership_plural: "Memberships"
-  lable_membership_added: "メンバーが追加されました"
-  lable_membership_updated: "メンバーが更新されました"
+  label_membership_added: "メンバーが追加されました"
+  label_membership_updated: "メンバーが更新されました"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2154,6 +2172,7 @@ ja:
   label_product_version: "製品バージョ​​ン"
   label_profile: "プロファイル"
   label_percent_complete: "% Complete"
+  label_project: "プロジェクト"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2162,6 +2181,7 @@ ja:
   label_project_latest: "最新のプロジェクト"
   label_project_default_type: "空の種類を許可する"
   label_project_hierarchy: "プロジェクトの階層構造"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "新規プロジェクト"
   label_project_plural: "プロジェクト"
   label_project_list_plural: "Project lists"
@@ -2222,6 +2242,7 @@ ja:
   label_role_search: "新しいメンバーに役割を割り当てる"
   label_scm: "バージョン管理システム"
   label_search: "検索"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "テスト電子メールを送信"
   label_session: "セッション"
@@ -2334,6 +2355,7 @@ ja:
   label_work_package_new: "新しいワークパッケージ"
   label_work_package_edit: "ワークパッケージ %{name} を編集"
   label_work_package_plural: "ワークパッケージ"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "ステータス名"
   label_work_package_status_new: "新規ステータス"
   label_work_package_status_plural: "ステータスの種類"
@@ -2341,6 +2363,7 @@ ja:
   label_work_package_tracking: "ワークパッケージの追跡"
   label_work_package_view_all: "全てのワークパッケージを表示"
   label_workflow: "ワークフロー"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "ワークフロー"
   label_workflow_summary: "サマリ"
   label_working_days_and_hours: "Working days and hours"
@@ -2673,6 +2696,7 @@ ja:
   permission_edit_own_messages: "自分の投稿したメッセージの編集"
   permission_edit_own_time_entries: "自分が記入した作業時間の編集"
   permission_edit_project: "プロジェクトの編集"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "レポートの編集"
   permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "タイムラインの編集"
@@ -2723,6 +2747,7 @@ ja:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
@@ -3269,7 +3294,7 @@ ja:
         drag_area_label: "Manage and reorder columns"
       sort_by:
         automatic:
-          heading: "Automatic"
+          heading: "自動"
           description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "追加リソース"
@@ -3356,11 +3381,11 @@ ja:
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     permissions:
-      comment: "Comment"
+      comment: "コメント"
       comment_description: "Can view and comment this work package."
-      edit: "Edit"
+      edit: "編集"
       edit_description: "Can view, comment and edit this work package."
-      view: "View"
+      view: "表示"
       view_description: "Can view this work package."
   sharing:
     count:
@@ -3372,20 +3397,20 @@ ja:
       not_project_member: "Not project member"
       project_group: "Project group"
       not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
-      role: "Role"
-      type: "Type"
+      user: "ユーザ"
+      group: "グループ"
+      role: "ロール"
+      type: "タイプ"
     denied: "You don't have permissions to share %{entities}."
     label_search: "Search for users to invite"
     label_search_placeholder: "Search by user or email address"
     label_toggle_all: "Toggle all shares"
-    remove: "Remove"
-    share: "Share"
+    remove: "削除"
+    share: "共有"
     text_empty_search_description: "There are no users with the current filter criteria."
     text_empty_search_header: "We couldn't find any matching results."
     text_empty_state_description: "The %{entity} has not been shared with anyone yet."
-    text_empty_state_header: "Not shared"
+    text_empty_state_header: "共有しない"
     text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
     text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
     warning_user_limit_reached: >
@@ -3423,9 +3448,9 @@ ja:
           header: "Not shared: Private"
           description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
-        view: "View"
+        view: "表示"
         view_description: "Can view this project list."
-        edit: "Edit"
+        edit: "編集"
         edit_description: "Can view, share and edit this project list."
       upsale:
         message: "Sharing project lists with individual users is an enterprise add-on."

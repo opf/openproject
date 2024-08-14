@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,24 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class FileIdsQuery
-    def initialize(storage)
-      @query = ::Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQueryLegacy.new(storage)
-    end
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class FileIdsQuery
+          include TaggedLogging
+          def self.call(storage:, path:)
+            new(storage).call(path:)
+          end
 
-    def self.call(storage:, path:)
-      new(storage).call(path:)
-    end
+          def initialize(storage)
+            @query = Internal::PropfindQueryLegacy.new(storage)
+          end
 
-    def call(path:)
-      query_params = {
-        depth: "1",
-        path:,
-        props: %w[oc:fileid]
-      }
-
-      @query.call(**query_params)
+          def call(path:)
+            query_params = { depth: "1", path:, props: %w[oc:fileid] }
+            with_tagged_logger do
+              info "Requesting File Ids on path: #{path} and args: #{query_params.inspect}"
+              @query.call(**query_params)
+            end
+          end
+        end
+      end
     end
   end
 end

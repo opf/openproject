@@ -37,7 +37,7 @@ module Components
 
       def toggle
         page.find_by_id("projects-menu").click
-        wait_for_network_idle(timeout: 10) if using_cuprite?
+        wait_for_network_idle(timeout: 10)
       end
 
       # Ensures modal registers as #open? before proceeding

@@ -45,7 +45,7 @@ module Settings
         private
 
         def title
-          I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.add_projects")
+          I18n.t(:label_add_projects)
         end
       end
     end

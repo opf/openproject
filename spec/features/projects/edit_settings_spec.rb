@@ -31,7 +31,7 @@ require "spec_helper"
 RSpec.describe "Projects", "editing settings", :js, :with_cuprite do
   let(:name_field) { FormFields::InputFormField.new :name }
   let(:parent_field) { FormFields::SelectFormField.new :parent }
-  let(:permissions) { %i(edit_project) }
+  let(:permissions) { %i(edit_project view_project_attributes edit_project_attributes) }
 
   current_user do
     create(:user, member_with_permissions: { project => permissions })
@@ -221,6 +221,37 @@ RSpec.describe "Projects", "editing settings", :js, :with_cuprite do
 
       expect(page).to have_text "Optional Foo"
       expect(page).to have_no_text "Optional Bar"
+    end
+  end
+
+  describe "permissions" do
+    context "with edit_project permission only" do
+      let!(:custom_field) { create(:string_project_custom_field, projects: [project]) }
+      let(:foo_field) { FormFields::InputFormField.new custom_field }
+      let(:role) { Role.first }
+
+      it "does not show custom fields" do
+        role.update(permissions: permissions - %i(edit_project_attributes))
+
+        visit project_settings_general_path(project)
+        expect(page).to have_no_content(custom_field.name)
+      end
+
+      it "does not allow saving custom fields" do
+        visit project_settings_general_path(project.id)
+
+        expect(page).to have_content(custom_field.name)
+
+        # Remove edit_project_attributes after loading the form
+        role.update(permissions: permissions - %i(edit_project_attributes))
+        current_user.reload
+
+        foo_field.set_value "1234"
+
+        click_on "Save"
+        expect(page)
+          .to have_text "#{custom_field.name} was attempted to be written but is not writable."
+      end
     end
   end
 end

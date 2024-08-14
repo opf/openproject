@@ -1,21 +1,21 @@
 vi:
   plugin_openproject_webhooks:
     name: "OpenProject Webhooks"
-    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
+    description: "Cung cấp API plug-in để hỗ trợ các webhook của OpenProject cho tích hợp bên thứ ba tốt hơn."
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'Payload URL'
+        url: 'URL Payload'
         secret: 'Chữ ký bí mật'
         events: 'Sự kiện'
-        projects: 'Các dự án đã bật'
+        projects: 'Dự án được kích hoạt'
       webhooks/log:
         event_name: 'Tên sự kiện'
-        url: 'Payload URL'
+        url: 'URL Payload'
         response_code: 'Thông điệp phản hồi'
         response_body: 'Phản hồi'
     models:
-      webhooks/outgoing_webhook: "Outgoing webhook"
+      webhooks/outgoing_webhook: "Webhook ra"
   webhooks:
     singular: Webhook
     plural: Webhooks
@@ -23,44 +23,44 @@ vi:
       time_entry:
         name: "Thời gian nhập"
     outgoing:
-      no_results_table: No webhooks have been defined yet.
-      label_add_new: Add new webhook
-      label_edit: Edit webhook
-      label_event_resources: Event resources
+      no_results_table: Chưa có webhook nào được định nghĩa.
+      label_add_new: Thêm webhook mới
+      label_edit: Chỉnh sửa webhook
+      label_event_resources: Tài nguyên sự kiện
       events:
         created: "Đã tạo"
-        updated: "Updated"
+        updated: "Đã cập nhật"
       explanation:
         text: >
-          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
-        link: configured aggregation period
+          Khi xảy ra một sự kiện như tạo gói công việc hoặc cập nhật dự án, OpenProject sẽ gửi một yêu cầu POST đến các điểm cuối web đã cấu hình. Thông thường, sự kiện được gửi sau khi %{link} đã trôi qua.
+        link: khoảng thời gian tổng hợp đã cấu hình
       status:
-        enabled: 'Webhook is enabled'
-        disabled: 'Webhook is disabled'
-        enabled_text: 'The webhook will emit payloads for the defined events below.'
-        disabled_text: 'Click the edit button to activate the webhook.'
+        enabled: 'Webhook đã được kích hoạt'
+        disabled: 'Webhook đã bị vô hiệu hóa'
+        enabled_text: 'Webhook sẽ phát ra dữ liệu cho các sự kiện đã định nghĩa dưới đây.'
+        disabled_text: 'Nhấp vào nút chỉnh sửa để kích hoạt webhook.'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
-        title: 'Recent deliveries'
-        time: 'Delivery time'
+        no_results_table: Không có lần gửi nào được thực hiện cho webhook này trong những ngày qua.
+        title: 'Các lần gửi gần đây'
+        time: 'Thời gian gửi'
       form:
         introduction: >
-          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
-        apiv3_doc_url: For more information, visit the API documentation
+          Gửi một yêu cầu POST đến URL payload bên dưới cho bất kỳ sự kiện nào trong dự án mà bạn đã đăng ký. Payload sẽ tương ứng với đại diện APIv3 của đối tượng đang được sửa đổi.
+        apiv3_doc_url: Để biết thêm thông tin, vui lòng truy cập tài liệu API
         description:
-          placeholder: 'Optional description for the webhook.'
+          placeholder: 'Mô tả tùy chọn cho webhook.'
         enabled:
           description: >
-            When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
+            Khi được chọn, webhook sẽ kích hoạt cho các sự kiện đã chọn. Bỏ chọn để vô hiệu hóa webhook.
         events:
-          title: 'Enabled events'
+          title: 'Các sự kiện được kích hoạt'
         project_ids:
-          title: 'Các dự án đã bật'
-          description: 'Select for which projects this webhook should be executed for.'
-          all: 'Tất cả các dự án'
-          selected: 'Selected projects only'
+          title: 'Các dự án được kích hoạt'
+          description: 'Chọn dự án mà webhook này sẽ được thực thi.'
+          all: 'Tất cả dự án'
+          selected: 'Chỉ các dự án đã chọn'
         selected_project_ids:
-          title: 'Selected projects'
+          title: 'Các dự án đã chọn'
         secret:
           description: >
-            If set, this secret value is used by OpenProject to sign the webhook payload.
+            Nếu được đặt, giá trị bí mật này sẽ được OpenProject sử dụng để ký dữ liệu webhook.

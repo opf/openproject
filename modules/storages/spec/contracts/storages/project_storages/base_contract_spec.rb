@@ -36,53 +36,86 @@ require "contracts/shared/model_contract_shared_context"
 RSpec.describe Storages::ProjectStorages::BaseContract do
   include_context "ModelContract shared context"
 
-  let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
-  let(:storage) { build_stubbed(:nextcloud_storage) }
-  let(:project_storage) { build(:project_storage, storage:) }
+  RSpec.shared_examples_for "a ProjectStorage BaseContract" do
+    context "if the project folder mode is `inactive`" do
+      before do
+        project_storage.project_folder_mode = "inactive"
+      end
 
-  context "if the project folder mode is `inactive`" do
-    before do
-      project_storage.project_folder_mode = "inactive"
+      it_behaves_like "contract is valid"
     end
 
-    it_behaves_like "contract is valid"
+    context "if the project folder mode is `automatic`" do
+      before do
+        project_storage.project_folder_mode = "automatic"
+        project_storage.storage.automatic_management_enabled = true
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when the project folder mode is `automatic` but the storage is not automatically managed" do
+      before do
+        project_storage.project_folder_mode = "automatic"
+        project_storage.storage.automatic_management_enabled = false
+      end
+
+      it_behaves_like "contract is invalid", project_folder_mode: :mode_unavailable
+    end
+
+    context "if the project folder mode is `manual`" do
+      before do
+        project_storage.project_folder_mode = "manual"
+      end
+
+      context "with no project_folder_id" do
+        it_behaves_like "contract is invalid", project_folder_id: :blank
+      end
+
+      context "with project_folder_id" do
+        before do
+          project_storage.project_folder_id = "Project#1"
+        end
+
+        it_behaves_like "contract is valid"
+      end
+    end
+
+    include_examples "contract reuses the model errors"
   end
 
-  context "if the project folder mode is `automatic`" do
-    before do
-      project_storage.project_folder_mode = "automatic"
-      project_storage.storage.automatic_management_enabled = true
-    end
+  describe "For a nextcloud storage" do
+    let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
+    let(:storage) { build_stubbed(:nextcloud_storage) }
+    let(:project_storage) { build(:project_storage, storage:) }
 
-    it_behaves_like "contract is valid"
-  end
+    it_behaves_like "a ProjectStorage BaseContract"
 
-  context "when the project folder mode is `automatic` but the storage is not automatically managed" do
-    before do
-      project_storage.project_folder_mode = "automatic"
-      project_storage.storage.automatic_management_enabled = false
-    end
-
-    it_behaves_like "contract is invalid", project_folder_mode: :mode_unavailable
-  end
-
-  context "if the project folder mode is `manual`" do
-    before do
-      project_storage.project_folder_mode = "manual"
-    end
-
-    context "with no project_folder_id" do
-      it_behaves_like "contract is invalid", project_folder_id: :blank
-    end
-
-    context "with project_folder_id" do
+    context "when the project folder mode is `manual` but the storage is automatically managed" do
       before do
         project_storage.project_folder_id = "Project#1"
+        project_storage.project_folder_mode = "manual"
+        project_storage.storage.automatic_management_enabled = true
       end
 
       it_behaves_like "contract is valid"
     end
   end
 
-  include_examples "contract reuses the model errors"
+  describe "For a one drive storage" do
+    let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
+    let(:storage) { build_stubbed(:one_drive_storage) }
+    let(:project_storage) { build(:project_storage, storage:) }
+
+    it_behaves_like "a ProjectStorage BaseContract"
+
+    context "when the project folder mode is `manual` but the storage is automatically managed" do
+      before do
+        project_storage.project_folder_mode = "manual"
+        project_storage.storage.automatic_management_enabled = true
+      end
+
+      it_behaves_like "contract is invalid", project_folder_mode: :mode_unavailable
+    end
+  end
 end

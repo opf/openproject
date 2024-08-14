@@ -82,13 +82,13 @@ module Pages
     end
 
     def open_users_tab!
-      within(".content--tabs") do
+      within(".PageHeader-tabNav") do
         click_on "Users"
       end
     end
 
     def open_projects_tab!
-      within(".content--tabs") do
+      within(".PageHeader-tabNav") do
         click_on "Projects"
       end
     end

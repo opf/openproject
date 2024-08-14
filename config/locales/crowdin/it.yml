@@ -298,11 +298,6 @@ it:
         is_required_blank_slate:
           heading: Richiesto in tutti i progetti
           description: Questo attributo di progetto è attivato in tutti i progetti, poiché l'opzione "Richiesto in tutti i progetti" è selezionata. Non può essere disattivato per i singoli progetti.
-        new_project_mapping_form:
-          add_projects: Aggiungi progetti
-          include_sub_projects: Includi sottoprogetti
-        project_mappings:
-          header: Abilitato nei progetti
       types:
         no_results_title_text: Al momento non sono disponibili tipi.
         form:
@@ -388,6 +383,9 @@ it:
       will_revoke_access_to_all: "Quest'azione revocherà l'accesso a tutti loro."
   my:
     access_token:
+      create_dialog:
+        header: Il token %{type} è stato generato
+        warning: 'Nota: Questa è l''unica volta in cui vedrai questo token, assicurati di copiarlo subito.'
       errors:
         token_name_blank: "Indica un nome per il token API"
         token_name_in_use: "Questo nome di token API è già utilizzato, scegline uno differente"
@@ -478,7 +476,7 @@ it:
         is_readonly: "Sola lettura"
         excluded_from_totals: "Escluso dai totali"
   themes:
-    dark: "Scuro (sperimentale)"
+    dark: "Scura (Beta)"
     light: "Chiaro"
     light_high_contrast: "Chiaro ad alto contrasto"
   types:
@@ -527,9 +525,9 @@ it:
       no_common_statuses_exists: "Nessuno stato disponibile per tutte le macro-attività selezionate. Non è possibile cambiare lo stato."
       unsupported_for_multiple_projects: "Il comando sposta/copia multiplo non è supportato per macroattività da più progetti"
       current_type_not_available_in_target_project: >
-        Il tipo attuale di macro-attività non è abilitato nel progetto di destinazione. Abilita il tipo nel progetto di destinazione se desideri che rimanga invariato. In caso contrario, il tipo di macro-attività verrà riassegnato automaticamente, con conseguente potenziale perdita di dati.
+        Il tipo attuale di macro-attività non è abilitato nel progetto di destinazione. Abilita il tipo nel progetto di destinazione se desideri che rimanga invariato. In caso contrario, seleziona dall'elenco un tipo disponibile nel progetto di destinazione.
       bulk_current_type_not_available_in_target_project: >
-        I tipi attuali di macro-attività non sono abilitati nel progetto di destinazione. Abilita i tipi nel progetto di destinazione se desideri che rimangano invariati. In caso contrario, i tipi di macro-attività verranno riassegnati automaticamente, con conseguente potenziale perdita di dati.
+        I tipi attuali di macro-attività non sono abilitati nel progetto di destinazione. Abilita i tipi nel progetto di destinazione se desideri che rimangano invariati. In caso contrario, seleziona dall'elenco un tipo disponibile nel progetto di destinazione.
     sharing:
       missing_workflow_warning:
         title: "Flusso di lavoro mancante per la condivisione di macro-attività"
@@ -597,17 +595,6 @@ it:
       attribute_help_text:
         attribute_name: "Attributo"
         help_text: "Testo guida"
-      ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Attributo nome"
-        attr_lastname: "Attributo cognome"
-        attr_login: "Attributo nome utente"
-        attr_mail: "Attributo email"
-        base_dn: "Nome Dominio (DN) base"
-        host: "Host"
-        onthefly: "Creazione automatica degli utenti"
-        port: "Porta"
-        tls_certificate_string: "Certificato SSL del server LDAP"
       changeset:
         repository: "Archivio"
       color:
@@ -632,6 +619,14 @@ it:
         visible: "Visibile"
       custom_value:
         value: "Valore"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Chiave segreta del client"
+        owner: "Proprietario"
+        redirect_uri: "Reindirizzamento URI"
+        client_credentials_user_id: "ID utente delle credenziali client"
+        scopes: "Ambiti"
+        confidential: "Confidenziale"
       enterprise_token:
         starts_at: "Valido dal"
         subscriber: "Iscritto"
@@ -642,20 +637,25 @@ it:
         row_count: "Numero di righe"
         column_count: "Numero di colonne"
         widgets: "Widget"
-      oauth_client:
-        client: "ID Client"
-      relation:
-        lag: "Ritardo"
-        from: "Macro-attività"
-        to: "Macro-attività correlata"
-      status:
-        is_closed: "Macro-attività chiusa"
-        is_readonly: "Pacchetto di lavoro di sola lettura"
-        excluded_from_totals: "Escludi dal calcolo dei totali nella gerarchia"
       journal:
         notes: "Note"
+      ldap_auth_source:
+        account: "Account"
+        attr_firstname: "Attributo nome"
+        attr_lastname: "Attributo cognome"
+        attr_login: "Attributo nome utente"
+        attr_mail: "Attributo email"
+        base_dn: "Nome Dominio (DN) base"
+        host: "Host"
+        onthefly: "Creazione automatica degli utenti"
+        port: "Porta"
+        tls_certificate_string: "Certificato SSL del server LDAP"
       member:
         roles: "Ruoli"
+      oauth_client:
+        client: "ID Client"
+      planning_element_type_color:
+        hexcode: Codice esadecimale
       project:
         active_value:
           true: "Rimosso dall'archivio"
@@ -685,6 +685,8 @@ it:
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
+      project_custom_field:
+        custom_field_section: Sezione
       query:
         column_names: "Colonne"
         relations_to_type_column: "Relazioni con %{type}"
@@ -692,10 +694,19 @@ it:
         group_by: "Raggruppa i risultati per"
         filters: "Filtri"
         timeline_labels: "Etichette di sequenza temporale"
+      relation:
+        lag: "Ritardo"
+        from: "Macro-attività"
+        to: "Macro-attività correlata"
       repository:
         url: "URL"
       role:
         permissions: "Permessi"
+      status:
+        is_closed: "Macro-attività chiusa"
+        is_readonly: "Pacchetto di lavoro di sola lettura"
+        excluded_from_totals: "Escludi dal calcolo dei totali nella gerarchia"
+        default_done_ratio: "% completamento"
       time_entry:
         activity: "Attività"
         hours: "Ore"
@@ -738,10 +749,6 @@ it:
       wiki_page:
         parent_title: "Pagina padre"
         redirect_existing_links: "Reindirizza i collegamenti esistenti"
-      planning_element_type_color:
-        hexcode: Codice esadecimale
-      project_custom_field:
-        custom_field_section: Sezione
       work_package:
         begin_insertion: "Inizio inserimento"
         begin_deletion: "Inizio cancellazione"
@@ -776,14 +783,6 @@ it:
         type: "Tipo"
         version: "Versione"
         watcher: "Osservatore"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Chiave segreta del client"
-        owner: "Proprietario"
-        redirect_uri: "Reindirizzamento URI"
-        client_credentials_user_id: "ID utente delle credenziali client"
-        scopes: "Ambiti"
-        confidential: "Confidenziale"
     errors:
       messages:
         accepted: "deve essere accettato."
@@ -996,6 +995,11 @@ it:
               hours_per_day_are_missing: "Deve essere definito il numero di ore al giorno."
               durations_are_not_positive_numbers: "Le durate devono essere numeri positivi."
               hours_per_day_is_out_of_bounds: "Le ore al giorno non possono essere più di 24."
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "deve essere compresa tra 0 e 100."
+          readonly_default_exlusive: "non può essere attivato per gli stati che sono contrassegnati come predefiniti."
         time_entry:
           attributes:
             hours:
@@ -1110,8 +1114,6 @@ it:
         version:
           undeletable_archived_projects: "Questa versione non può essere eliminata perché vi sono macro-attività collegate a essa."
           undeletable_work_packages_attached: "Questa versione non può essere eliminata perché vi sono macro-attività collegate a essa."
-        status:
-          readonly_default_exlusive: "non può essere attivato per gli stati che sono contrassegnati come predefiniti."
         token/api:
           attributes:
             token_name:
@@ -1147,6 +1149,9 @@ it:
         one: "Ruolo"
         other: "Ruoli"
       status: "Stato della macro-attività"
+      token/api:
+        one: Token di accesso
+        other: Token di accesso
       type: "Tipo"
       user: "Utente"
       version: "Versione"
@@ -1782,6 +1787,17 @@ it:
         failed: "Si è verificato un errore e non è stato possibile rimuovere il token. Riprova più tardi."
         unknown_storage: "Archivio sconosciuto"
   notifications:
+    reasons:
+      assigned: "Assegnatario"
+      dateAlert: "Avviso data"
+      mentioned: "Menzionato"
+      responsible: "Responsabile"
+      shared: "Condiviso"
+      watched: "Osservatore"
+    menu:
+      by_project: "Non letto per progetto"
+      by_reason: "Motivo"
+      inbox: "Posta in arrivo"
     send_notifications: "Invia notifiche per questa azione"
     work_packages:
       subject:
@@ -1801,6 +1817,7 @@ it:
   label_add_another_file: "Aggiungi un altro file"
   label_add_columns: "Aggiungi colonne selezionate"
   label_add_note: "Aggiungi nota"
+  label_add_projects: "Aggiungi progetti"
   label_add_related_work_packages: "Aggiungi macro-attività correlate"
   label_add_subtask: "Aggiungi sotto-attività"
   label_added: "aggiunto"
@@ -1841,6 +1858,7 @@ it:
   label_ldap_auth_source_plural: "Connessioni LDAP"
   label_attribute_expand_text: "Testo completo per \"%{attribute}\""
   label_authentication: "Autenticazione"
+  label_authentication_settings: "Impostazioni di autenticazione"
   label_available_global_roles: "Ruoli globali disponibili"
   label_available_project_attributes: "Attributi del progetto disponibili"
   label_available_project_forums: "Forum disponibili"
@@ -2027,6 +2045,7 @@ it:
   label_inactive: "Inattivo"
   label_incoming_emails: "Email in arrivo"
   label_includes: "include"
+  label_include_sub_projects: Includi sottoprogetti
   label_index_by_date: "Indicizza per data"
   label_index_by_title: "Indicizza per titolo"
   label_information: "Informazioni"
@@ -2087,8 +2106,8 @@ it:
   label_member_all_admin: "(Tutti i ruoli a causa dello stato di admin)"
   label_member_plural: "Membri"
   label_membership_plural: "Iscrizioni"
-  lable_membership_added: "Membro aggiunto"
-  lable_membership_updated: "Membro aggiornato"
+  label_membership_added: "Membro aggiunto"
+  label_membership_updated: "Membro aggiornato"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2189,6 +2208,7 @@ it:
   label_product_version: "Versione del prodotto"
   label_profile: "Profilo"
   label_percent_complete: "% completamento"
+  label_project: "Progetto"
   label_project_activity: "Attività del progetto"
   label_project_attribute_plural: "Attributi del progetto"
   label_project_attribute_manage_link: "Gestisci gli attributi del progetto"
@@ -2197,6 +2217,7 @@ it:
   label_project_latest: "Ultimi progetti"
   label_project_default_type: "Permetti tipi vuoti"
   label_project_hierarchy: "Gerarchia del progetto"
+  label_project_mappings: "Abilitato nei progetti"
   label_project_new: "Nuovo progetto"
   label_project_plural: "Progetti"
   label_project_list_plural: "Elenchi progetto"
@@ -2257,6 +2278,7 @@ it:
   label_role_search: "Assegna ruolo ai nuovi membri"
   label_scm: "SCM"
   label_search: "Cerca"
+  label_search_by_name: "Cerca per nome"
   label_send_information: "Invia nuove credenziali all'utente"
   label_send_test_email: "Invia un email di prova"
   label_session: "Sessione"
@@ -2369,6 +2391,7 @@ it:
   label_work_package_new: "Nuova macro-attività"
   label_work_package_edit: "Modifica la macro-attività %{name}"
   label_work_package_plural: "Macro-attività"
+  label_work_packages_settings: "Impostazioni macro-attività"
   label_work_package_status: "Stato della macro-attività"
   label_work_package_status_new: "Nuovo stato"
   label_work_package_status_plural: "Stati della macro-attività"
@@ -2376,6 +2399,7 @@ it:
   label_work_package_tracking: "Monitoraggio macro-attività"
   label_work_package_view_all: "Vedi tutte le macro-attività"
   label_workflow: "Flusso di lavoro"
+  label_workflow_copy: "Copia flusso di lavoro"
   label_workflow_plural: "Flussi di lavoro"
   label_workflow_summary: "Sommario"
   label_working_days_and_hours: "Giorni lavorativi e ore"
@@ -2710,6 +2734,7 @@ it:
   permission_edit_own_messages: "Modificare i propri messaggi"
   permission_edit_own_time_entries: "Modificare i propri registri di orario effettuato"
   permission_edit_project: "Modificare un progetto"
+  permission_edit_project_attributes: "Modifica gli attributi del progetto"
   permission_edit_reportings: "Modificare prospetti"
   permission_edit_time_entries: "Modificare i registri temporali per altri utenti"
   permission_edit_timelines: "Modificare cronologie"
@@ -2760,12 +2785,13 @@ it:
   permission_work_package_assigned: "Diventa assegnatario/responsabile"
   permission_work_package_assigned_explanation: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
   permission_view_project_activity: "Visualizza attività del progetto"
+  permission_view_project_attributes: "Mostra gli attributi del progetto"
   permission_save_bcf_queries: "Salva query BCF"
   permission_manage_public_bcf_queries: "Gestisci query BCF pubbliche"
   permission_edit_attribute_help_texts: "Modifica i testi guida dell'attributo"
   permission_manage_public_project_queries: "Gestisci elenchi di progetti pubblici"
-  permission_view_project_query: "Visualizza query del progetto"
-  permission_edit_project_query: "Modifica query del progetto"
+  permission_view_project_query: "Visualizza elenco di progetti"
+  permission_edit_project_query: "Modifica elenco di progetti"
   placeholders:
     default: "-"
   project:

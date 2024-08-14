@@ -44,7 +44,7 @@ module Storages
           def call(auth_strategy:, location:)
             Authentication[auth_strategy].call(storage: @storage) do |http|
               handle_response http.delete(
-                Util.join_uri_path(@storage.uri, "/v1.0/drives/#{@storage.drive_id}/items/#{location}")
+                UrlBuilder.url(Util.drive_base_uri(@storage), "items", location)
               )
             end
           end

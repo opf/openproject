@@ -26,10 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: @plugin.name %>
-<div id="settings">
-  <%= styled_form_tag({controller: '/admin/settings', action: 'update_plugin' }) do %>
-    <%= render partial: @partial, locals: {settings: @settings}%>
-    <%= styled_submit_tag t(:button_apply), class: '-primary' %>
-  <% end %>
-</div>
+
+
+<% html_title t(:label_administration), @plugin.name %>
+
+<%= render partial: @partial, locals: {settings: @settings}%>

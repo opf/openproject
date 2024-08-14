@@ -100,9 +100,8 @@ RSpec.describe "Structured meetings CRUD",
 
     show_page.expect_agenda_item title: "My agenda item"
     item = MeetingAgendaItem.find_by(title: "My agenda item")
-    show_page.cancel_add_form(item)
 
-    # can update
+    # Can update
     show_page.edit_agenda_item(item) do
       fill_in "Title", with: "Updated title"
       click_on "Save"
@@ -119,9 +118,11 @@ RSpec.describe "Structured meetings CRUD",
     show_page.expect_agenda_item title: "Updated title"
     show_page.expect_agenda_item title: "First"
 
-    show_page.in_agenda_form do
+    # Does not add empty form after save
+    show_page.expect_no_add_form
+
+    show_page.add_agenda_item do
       fill_in "Title", with: "Second"
-      click_on "Save"
     end
 
     show_page.expect_agenda_item title: "Updated title"
@@ -147,7 +148,6 @@ RSpec.describe "Structured meetings CRUD",
     # Can remove
     show_page.remove_agenda_item first
     show_page.assert_agenda_order! "Updated title", "Second"
-    show_page.cancel_add_form(second)
 
     # Can link work packages
     show_page.add_agenda_item(type: WorkPackage) do
@@ -175,7 +175,6 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.select_action(item, I18n.t(:label_sort_lowest))
-    show_page.cancel_add_form(item)
 
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
@@ -260,8 +259,6 @@ RSpec.describe "Structured meetings CRUD",
     show_page.expect_agenda_item title: "My agenda item"
     item = MeetingAgendaItem.find_by!(title: "My agenda item")
 
-    show_page.cancel_add_form(item)
-
     show_page.edit_agenda_item(item) do
       # Side effect: update the item
       item.update!(title: "Updated title")
@@ -284,8 +281,6 @@ RSpec.describe "Structured meetings CRUD",
 
     show_page.expect_agenda_item title: "My agenda item"
     item = MeetingAgendaItem.find_by!(title: "My agenda item")
-
-    show_page.cancel_add_form(item)
 
     click_on("op-meetings-header-action-trigger")
     click_on "Copy"

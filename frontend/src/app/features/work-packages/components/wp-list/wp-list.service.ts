@@ -327,7 +327,7 @@ export class WorkPackagesListService {
 
   public async createOrSave(query:QueryResource):Promise<unknown> {
     if (!isPersistedResource(query)) {
-      return this.create(query, 'New manually sorted query');
+      return this.create(query, this.I18n.t('js.work_packages.default_queries.manually_sorted'));
     }
     return this.save(query);
   }

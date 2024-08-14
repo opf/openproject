@@ -365,10 +365,10 @@ pt-BR:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                A nova versão inclui diversos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Compartilhar listas de projetos e torná-las públicas (complemento Enterprise)</li> <li>Marcar listas de projetos como favoritas</li> <li>Validação de conexão para armazenamentos OneDrive/SharePoint (complemento Enterprise)</li> <li>Novo visual com Primer na página de perfil do usuário</li> <li>Exportação de gráficos de Gantt em PDF: Zoom de data adicional com base nas semanas do calendário</li> <li>Barra de pesquisa no submenu (listas de projetos e módulos Gantt e Painéis)</li> <li>Escolher entre relatórios de progresso exibidos apenas em horas ou em dias e horas</li> <li>Desmarcar projetos no seletor de projetos</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -615,17 +615,17 @@ pt-BR:
       title: "Notificações"
       no_unread: "Nenhuma notificação não lida"
       reasons:
-        mentioned: "mencionado"
-        watched: "observador"
-        assigned: " cessionário"
-        responsible: "responsável"
-        created: "criado"
-        scheduled: "planejado"
-        commented: "comentado"
-        processed: "processado"
-        prioritized: "priorizado"
+        mentioned: "Mencionado"
+        watched: "Observador"
+        assigned: "Cessionário"
+        accountable: "Responsável"
+        created: "Criado"
+        scheduled: "Planejado"
+        commented: "Comentado"
+        processed: "Processado"
+        prioritized: "Priorizado"
         dateAlert: "Alerta de data"
-        shared: "compartilhado"
+        shared: "Compartilhado"
       date_alerts:
         milestone_date: "Data de marco"
         overdue: "Atrasado"
@@ -662,15 +662,6 @@ pt-BR:
         new_notifications:
           message: "Há novas notificações."
           link_text: "Clique aqui para carregá-las."
-      menu:
-        accountable: "Responsável"
-        by_project: "Não lido por projeto"
-        by_reason: "Motivo"
-        inbox: "Caixa de entrada"
-        mentioned: "Mencionado"
-        watched: "Observador"
-        date_alert: "Alerta de data"
-        shared: "Compartilhado"
       settings:
         change_notification_settings: 'Você pode modificar suas <a target="_blank" href="%{url}">configurações de notificação</a> para se certificar de nunca perder nenhuma atualização importante.'
         title: "Configurações de notificação"
@@ -1019,11 +1010,13 @@ pt-BR:
         workAlternative: "Tempo estimado"
         remainingTime: "Trabalho restante"
       default_queries:
+        manually_sorted: "Nova consulta classificada manualmente"
         latest_activity: "Última atividade"
         created_by_me: "Criado por mim"
         assigned_to_me: "Atribuído a mim"
         recently_created: "Criado recentemente"
         all_open: "Todos abertos"
+        overdue: "Atrasado"
         summary: "Sumário"
         shared_with_users: "Compartilhado com usuários"
         shared_with_me: "Compartilhados comigo"

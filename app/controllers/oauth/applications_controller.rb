@@ -86,16 +86,10 @@ module OAuth
 
     protected
 
-    def default_breadcrumb
-      if action_name == "index"
-        t("oauth.application.plural")
-      else
-        ActionController::Base.helpers.link_to(t("oauth.application.plural"), oauth_applications_path)
-      end
-    end
+    def default_breadcrumb; end
 
     def show_local_breadcrumb
-      current_user.admin?
+      false
     end
 
     private

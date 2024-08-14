@@ -77,81 +77,6 @@ ja:
           name: 高め
         item_3:
           name: 急ぎ
-      statuses:
-        item_0:
-          name: 新しく作成
-        item_1:
-          name: 仕様で
-        item_2:
-          name: 指定済み
-        item_3:
-          name: 確認済み
-        item_4:
-          name: 未スケジュール
-        item_5:
-          name: スケジュール済
-        item_6:
-          name: 進行中
-        item_7:
-          name: 開発済み
-        item_8:
-          name: テスト中
-        item_9:
-          name: テスト済み
-        item_10:
-          name: テスト失敗
-        item_11:
-          name: 終了
-        item_12:
-          name: 保留中
-        item_13:
-          name: 却下
-      time_entry_activities:
-        item_0:
-          name: 管理
-        item_1:
-          name: 仕様
-        item_2:
-          name: 開発作業
-        item_3:
-          name: テスト中
-        item_4:
-          name: サポート
-        item_5:
-          name: その他
-      types:
-        item_0:
-          name: タスク
-        item_1:
-          name: マイルストーン
-        item_2:
-          name: 工程
-        item_3:
-          name: 機能
-        item_4:
-          name: エピック
-        item_5:
-          name: ユーザストーリー
-        item_6:
-          name: 不具合
-      welcome:
-        title: Welcome to OpenProject!
-        text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-          Core features and use cases:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Welcome to the future of project management.
-
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo project
@@ -489,3 +414,78 @@ ja:
             * Time boxed (3 h).
             * After Sprint Review, will be moderated by Scrum Master.
             * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+      statuses:
+        item_0:
+          name: 新しく作成
+        item_1:
+          name: 仕様で
+        item_2:
+          name: 指定済み
+        item_3:
+          name: 確認済み
+        item_4:
+          name: 未スケジュール
+        item_5:
+          name: スケジュール済
+        item_6:
+          name: 進行中
+        item_7:
+          name: 開発済み
+        item_8:
+          name: テスト中
+        item_9:
+          name: テスト済み
+        item_10:
+          name: テスト失敗
+        item_11:
+          name: 終了
+        item_12:
+          name: 保留中
+        item_13:
+          name: 却下
+      time_entry_activities:
+        item_0:
+          name: 管理
+        item_1:
+          name: 仕様
+        item_2:
+          name: 開発作業
+        item_3:
+          name: テスト中
+        item_4:
+          name: サポート
+        item_5:
+          name: その他
+      types:
+        item_0:
+          name: タスク
+        item_1:
+          name: マイルストーン
+        item_2:
+          name: 工程
+        item_3:
+          name: 機能
+        item_4:
+          name: エピック
+        item_5:
+          name: ユーザストーリー
+        item_6:
+          name: 不具合
+      welcome:
+        title: Welcome to OpenProject!
+        text: |
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+          Core features and use cases:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Welcome to the future of project management.
+
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

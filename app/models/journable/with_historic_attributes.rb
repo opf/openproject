@@ -242,7 +242,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     # of the association name (`custom_fields` in this instance), to map the association fields. That
     # will result in a changes hash containing { "custom_fields_1" => ... }. This makes sense in the case
     # of journal changes, because the formatted fields have the convention for plural lookup for journals
-    # defined in the `register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)`.
+    # defined in the `register_journal_formatted_fields(/custom_fields_\d+/, formatter_key: :custom_field)`.
     # In this case the diff is part of the WorkPackageAtTimestampRepresenter where the `representable_map`
     # contains the singular names (`custom_field_1`), hence we need to map the diffs to match that format.
     # As a food for thought, I think it would be more handy to use the singular naming everywhere.

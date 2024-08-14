@@ -299,11 +299,6 @@ pt-PT:
         is_required_blank_slate:
           heading: Necessário em todos os projetos
           description: Este atributo de projeto é ativado em todos os projetos, uma vez que a opção "Necessário em todos os projetos" está assinalada. Não pode ser desativado para projetos individuais.
-        new_project_mapping_form:
-          add_projects: Adicionar projetos
-          include_sub_projects: Incluir subprojetos
-        project_mappings:
-          header: Ativado nos projetos
       types:
         no_results_title_text: Atualmente, não existem tipos disponíveis.
         form:
@@ -389,6 +384,9 @@ pt-PT:
       will_revoke_access_to_all: "Esta ação irá revogar o seu acesso a todos eles."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Forneça um nome de token da API"
         token_name_in_use: "Este nome de token de API já está a ser utilizado, selecione um diferente"
@@ -479,7 +477,7 @@ pt-PT:
         is_readonly: "Só de leitura"
         excluded_from_totals: "Excluído dos totais"
   themes:
-    dark: "Escuro (experimental)"
+    dark: "Escuro (Beta)"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -528,9 +526,9 @@ pt-PT:
       no_common_statuses_exists: "Não há nenhum status disponível para todos os pacotes de trabalho selecionados. O seu status não pode ser alterado."
       unsupported_for_multiple_projects: "Mover/copiar em massa não é suportado por pacotes de trabalho de vários projetos"
       current_type_not_available_in_target_project: >
-        O tipo atual do pacote de trabalho não está ativado no projeto de destino. Ative o tipo no projeto de destino se pretender que se mantenham inalterados. Caso contrário, o tipo do pacote de trabalho será automaticamente reatribuído, levando a uma potencial perda de dados.
+        O tipo atual do pacote de trabalho não está ativado no projeto de destino. Ative o tipo no projeto de destino se pretender que se mantenham inalterados. Caso contrário, selecione um tipo disponível no projeto de destino a partir da lista.
       bulk_current_type_not_available_in_target_project: >
-        Os tipos atuais dos pacotes de trabalho não estão ativados no projeto de destino. Ative os tipos no projeto de destino se pretender que se mantenham inalterados. Caso contrário, os tipos dos pacotes de trabalho serão automaticamente reatribuídos, levando a uma potencial perda de dados.
+        Os tipos atuais dos pacotes de trabalho não estão ativados no projeto de destino. Ative os tipos no projeto de destino se pretender que se mantenham inalterados. Caso contrário, selecione um tipo disponível no projeto de destino a partir da lista.
     sharing:
       missing_workflow_warning:
         title: "Falta um fluxo de trabalho para a partilha de pacotes de trabalho"
@@ -598,17 +596,6 @@ pt-PT:
       attribute_help_text:
         attribute_name: "Atributo"
         help_text: "Texto de ajuda"
-      ldap_auth_source:
-        account: "Conta"
-        attr_firstname: "Atributo Nome próprio"
-        attr_lastname: "Atributo Sobrenome"
-        attr_login: "Atributo Utilizador"
-        attr_mail: "Atributo E-mail"
-        base_dn: "Base DN"
-        host: "Anfitrião"
-        onthefly: "Criação automática de utilizador"
-        port: "Porta"
-        tls_certificate_string: "Certificado SSL do servidor LDAP"
       changeset:
         repository: "Repositório"
       color:
@@ -633,6 +620,14 @@ pt-PT:
         visible: "Visível"
       custom_value:
         value: "Valor"
+      doorkeeper/application:
+        uid: "ID de cliente"
+        secret: "Segredo do cliente"
+        owner: "Proprietário"
+        redirect_uri: "Redirecionar URI"
+        client_credentials_user_id: "ID de utilizador de Credenciais do Cliente"
+        scopes: "Âmbitos"
+        confidential: "Confidencial"
       enterprise_token:
         starts_at: "Válido desde"
         subscriber: "Assinante"
@@ -643,20 +638,25 @@ pt-PT:
         row_count: "Número de linhas"
         column_count: "Número de colunas"
         widgets: "Widgets"
-      oauth_client:
-        client: "ID de cliente"
-      relation:
-        lag: "Atraso"
-        from: "Pacote de trabalho"
-        to: "Tarefas Relacionadas"
-      status:
-        is_closed: "Tarefa fechada"
-        is_readonly: "Pacote de trabalho só de leitura"
-        excluded_from_totals: "Excluir do cálculo dos totais na hierarquia"
       journal:
         notes: "Notas"
+      ldap_auth_source:
+        account: "Conta"
+        attr_firstname: "Atributo Nome próprio"
+        attr_lastname: "Atributo Sobrenome"
+        attr_login: "Atributo Utilizador"
+        attr_mail: "Atributo E-mail"
+        base_dn: "Base DN"
+        host: "Anfitrião"
+        onthefly: "Criação automática de utilizador"
+        port: "Porta"
+        tls_certificate_string: "Certificado SSL do servidor LDAP"
       member:
         roles: "Papel"
+      oauth_client:
+        client: "ID de cliente"
+      planning_element_type_color:
+        hexcode: Código hex
       project:
         active_value:
           true: "desarquivado"
@@ -686,6 +686,8 @@ pt-PT:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Tarefas"
+      project_custom_field:
+        custom_field_section: Secção
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -693,10 +695,19 @@ pt-PT:
         group_by: "Agrupar resultados por"
         filters: "Filtros"
         timeline_labels: "Etiquetas de cronograma"
+      relation:
+        lag: "Atraso"
+        from: "Pacote de trabalho"
+        to: "Tarefas Relacionadas"
       repository:
         url: "URL"
       role:
         permissions: "Permissões"
+      status:
+        is_closed: "Tarefa fechada"
+        is_readonly: "Pacote de trabalho só de leitura"
+        excluded_from_totals: "Excluir do cálculo dos totais na hierarquia"
+        default_done_ratio: "% concluído"
       time_entry:
         activity: "Atividade"
         hours: "Horas"
@@ -739,10 +750,6 @@ pt-PT:
       wiki_page:
         parent_title: "Página pai"
         redirect_existing_links: "Redirecionar links existentes"
-      planning_element_type_color:
-        hexcode: Código hex
-      project_custom_field:
-        custom_field_section: Secção
       work_package:
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
@@ -777,14 +784,6 @@ pt-PT:
         type: "Tipo"
         version: "Versão"
         watcher: "Monitor"
-      "doorkeeper/application":
-        uid: "ID de cliente"
-        secret: "Segredo do cliente"
-        owner: "Proprietário"
-        redirect_uri: "Redirecionar URI"
-        client_credentials_user_id: "ID de utilizador de Credenciais do Cliente"
-        scopes: "Âmbitos"
-        confidential: "Confidencial"
     errors:
       messages:
         accepted: "deve ser aceite."
@@ -997,6 +996,11 @@ pt-PT:
               hours_per_day_are_missing: "O número de horas por dia tem de ser definido."
               durations_are_not_positive_numbers: "As durações têm de ser números positivos."
               hours_per_day_is_out_of_bounds: "O número de horas por dia não pode ser superior a 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "tem de estar entre 0 e 100."
+          readonly_default_exlusive: "não pode ser ativado para os status que estão marcados como padrão."
         time_entry:
           attributes:
             hours:
@@ -1111,8 +1115,6 @@ pt-PT:
         version:
           undeletable_archived_projects: "A versão não pode ser eliminada, porque tem pacotes de trabalho anexados a ela."
           undeletable_work_packages_attached: "A versão não pode ser apagada pois tem pacotes de trabalho anexados a ela."
-        status:
-          readonly_default_exlusive: "não pode ser ativado para os status que estão marcados como padrão."
         token/api:
           attributes:
             token_name:
@@ -1148,6 +1150,9 @@ pt-PT:
         one: "Função"
         other: "Papel"
       status: "Estado da tarefa"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Tipo"
       user: "Utilizador"
       version: "Versão"
@@ -1783,6 +1788,17 @@ pt-PT:
         failed: "Ocorreu um erro e não foi possível remover o token. Tente novamente mais tarde."
         unknown_storage: "Armazenamento desconhecido"
   notifications:
+    reasons:
+      assigned: "Pessoa atribuída"
+      dateAlert: "Alerta de data"
+      mentioned: "Mencionado"
+      responsible: "Responsável"
+      shared: "Partilhado"
+      watched: "Observador"
+    menu:
+      by_project: "Não lido por projeto"
+      by_reason: "Motivo"
+      inbox: "Caixa de entrada"
     send_notifications: "Enviar notificações para esta ação"
     work_packages:
       subject:
@@ -1802,6 +1818,7 @@ pt-PT:
   label_add_another_file: "Adicione outro ficheiro"
   label_add_columns: "Adicionar colunas selecionadas"
   label_add_note: "Adicionar uma nota"
+  label_add_projects: "Adicionar projetos"
   label_add_related_work_packages: "Adicionar tarefas relacionada"
   label_add_subtask: "Adicionar subtarefa"
   label_added: "adicionado"
@@ -1842,6 +1859,7 @@ pt-PT:
   label_ldap_auth_source_plural: "Ligações LDAP"
   label_attribute_expand_text: "O texto completo para \"%{attribute}\""
   label_authentication: "Autenticação"
+  label_authentication_settings: "Definições da autenticação"
   label_available_global_roles: "Papéis globais disponíveis"
   label_available_project_attributes: "Atributos do projeto disponíveis"
   label_available_project_forums: "Fóruns disponíveis"
@@ -2028,6 +2046,7 @@ pt-PT:
   label_inactive: "Inativo"
   label_incoming_emails: "E-mails recebidos"
   label_includes: "inclui"
+  label_include_sub_projects: Incluir subprojetos
   label_index_by_date: "Índice por data"
   label_index_by_title: "Índice por título"
   label_information: "Informação"
@@ -2088,8 +2107,8 @@ pt-PT:
   label_member_all_admin: "(Todas as funções devidas ao status do administrador)"
   label_member_plural: "Membros"
   label_membership_plural: "Associações"
-  lable_membership_added: "Membro adicionado"
-  lable_membership_updated: "Membro atualizado"
+  label_membership_added: "Membro adicionado"
+  label_membership_updated: "Membro atualizado"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2190,6 +2209,7 @@ pt-PT:
   label_product_version: "Versão do produto"
   label_profile: "Perfil"
   label_percent_complete: "% de conclusão"
+  label_project: "Projeto"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
   label_project_attribute_manage_link: "Gerir atributos do projeto"
@@ -2198,6 +2218,7 @@ pt-PT:
   label_project_latest: "Últimos projetos"
   label_project_default_type: "Permitir tipo vazio"
   label_project_hierarchy: "Hierarquia do projeto"
+  label_project_mappings: "Ativado nos projetos"
   label_project_new: "Novo Projecto"
   label_project_plural: "Projetos"
   label_project_list_plural: "Listas do projeto"
@@ -2258,6 +2279,7 @@ pt-PT:
   label_role_search: "Atribuir função aos novos membros"
   label_scm: "SCM"
   label_search: "Pesquisar"
+  label_search_by_name: "Pesquisar por nome"
   label_send_information: "Enviar novas credenciais para o utilizador"
   label_send_test_email: "Enviar um e-mail de teste"
   label_session: "Sessão"
@@ -2370,6 +2392,7 @@ pt-PT:
   label_work_package_new: "Nova tarefa"
   label_work_package_edit: "Editar pacote de trabalho %{name}"
   label_work_package_plural: "Tarefas"
+  label_work_packages_settings: "Definições dos pacotes de trabalho"
   label_work_package_status: "Estado da tarefa"
   label_work_package_status_new: "Novo estado"
   label_work_package_status_plural: "Estado da tarefa"
@@ -2377,6 +2400,7 @@ pt-PT:
   label_work_package_tracking: "Controle de pacote de trabalho"
   label_work_package_view_all: "Ver todas as tarefas"
   label_workflow: "Fluxo de trabalho"
+  label_workflow_copy: "Copiar fluxo de trabalho"
   label_workflow_plural: "Fluxos de Trabalho"
   label_workflow_summary: "Resumo"
   label_working_days_and_hours: "Dias e horas de trabalho"
@@ -2710,6 +2734,7 @@ pt-PT:
   permission_edit_own_messages: "Editar as próprias mensagens"
   permission_edit_own_time_entries: "Editar registos pessoais de horas"
   permission_edit_project: "Editar projeto"
+  permission_edit_project_attributes: "Editar atributos do projeto"
   permission_edit_reportings: "Editar comunicações"
   permission_edit_time_entries: "Editar registos de tempo para outros utilizadores"
   permission_edit_timelines: "Editar cronogramas"
@@ -2760,6 +2785,7 @@ pt-PT:
   permission_work_package_assigned: "Torne-se responsável"
   permission_work_package_assigned_explanation: "Os pacotes de trabalho podem ser atribuídos a utilizadores e grupos com deste papel nos respetivos projetos"
   permission_view_project_activity: "Ver atividade do projeto"
+  permission_view_project_attributes: "Ver atributos do projeto"
   permission_save_bcf_queries: "Guardar consultas BCF"
   permission_manage_public_bcf_queries: "Gerir consultas BCF públicas"
   permission_edit_attribute_help_texts: "Editar textos de ajuda de atributos"

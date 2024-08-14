@@ -301,6 +301,7 @@ Rails.application.routes.draw do
       collection do
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
+        get "menu" => "work_packages/menus#show"
       end
 
       # states managed by client-side routing on work_package#index
@@ -531,6 +532,8 @@ Rails.application.routes.draw do
   end
 
   namespace :work_packages do
+    get "menu" => "menus#show"
+
     match "auto_complete" => "auto_completes#index", via: %i[get post]
     resource :bulk, controller: "bulk", only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and
@@ -696,7 +699,12 @@ Rails.application.routes.draw do
 
   root to: "account#login"
 
+  namespace :notifications do
+    resource :menu, only: %i[show]
+  end
   scope :notifications do
+    get "/share_upsale" => "angular#notifications_layout", as: "notifications_share_upsale"
+    get "/date_alerts" => "angular#notifications_layout", as: "notifications_date_alert_upsale"
     get "(/*state)", to: "angular#notifications_layout", as: :notifications_center
   end
 

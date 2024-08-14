@@ -471,6 +471,13 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
           expect(subject.body)
             .to match(mock_file.read)
         end
+
+        it "responds with not found if file has been deleted" do
+          File.delete attachment.file.path
+
+          get path
+          expect(subject.status).to eq 404
+        end
       end
 
       context "for a local text file" do

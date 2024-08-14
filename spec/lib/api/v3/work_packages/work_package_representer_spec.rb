@@ -1087,7 +1087,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:link) { "logTime" }
           let(:permission) { %i(log_time log_own_time) }
           let(:href) { api_v3_paths.time_entries }
-          let(:title) { "Log time on #{work_package.subject}" }
+          let(:title) { "Log time on work package '#{work_package.subject}'" }
         end
       end
 
@@ -1096,7 +1096,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:link) { "move" }
           let(:href) { work_package_path(work_package, "move/new") }
           let(:permission) { :move_work_packages }
-          let(:title) { "Move #{work_package.subject}" }
+          let(:title) { "Move work package '#{work_package.subject}'" }
         end
       end
 
@@ -1105,7 +1105,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:link) { "copy" }
           let(:href) { work_package_path(work_package, "copy") }
           let(:permission) { :add_work_packages }
-          let(:title) { "Copy #{work_package.subject}" }
+          let(:title) { "Copy work package '#{work_package.subject}'" }
         end
       end
 

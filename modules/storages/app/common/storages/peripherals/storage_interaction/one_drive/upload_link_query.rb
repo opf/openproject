@@ -45,12 +45,8 @@ module Storages
             return upload_data_failure if invalid?(upload_data:)
 
             Authentication[auth_strategy].call(storage: @storage) do |http|
-              response = http.post(
-                Util.join_uri_path(@storage.uri, uri_path_for(upload_data.folder_id, upload_data.file_name)),
-                json: payload(upload_data.file_name)
-              )
-
-              handle_response(response)
+              handle_response http.post(url(upload_data.folder_id, upload_data.file_name),
+                                        json: payload(upload_data.file_name))
             end
           end
 
@@ -71,6 +67,7 @@ module Storages
             { item: { "@microsoft.graph.conflictBehavior" => "rename", name: filename } }
           end
 
+          # rubocop:disable Metrics/AbcSize
           def handle_response(response)
             case response
             in { status: 200..299 }
@@ -91,8 +88,13 @@ module Storages
             end
           end
 
-          def uri_path_for(folder, filename)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{folder}:/#{URI.encode_uri_component(filename)}:/createUploadSession"
+          # rubocop:enable Metrics/AbcSize
+
+          def url(folder, filename)
+            base = UrlBuilder.url(Util.drive_base_uri(@storage), "/items/", folder)
+            file_path = UrlBuilder.path(filename)
+
+            "#{base}:#{file_path}:/createUploadSession"
           end
         end
       end

@@ -37,7 +37,7 @@ RSpec.describe Projects::UpdateService, "integration", type: :model do
            permissions:)
   end
   let(:permissions) do
-    %i(edit_project)
+    %i(edit_project view_project_attributes edit_project_attributes)
   end
 
   let!(:project) do

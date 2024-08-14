@@ -89,17 +89,10 @@ class AdminController < ApplicationController
     @storage_information = OpenProject::Storage.mount_information
   end
 
-  def default_breadcrumb
-    case params[:action]
-    when "plugins"
-      t(:label_plugins)
-    when "info"
-      t(:label_information)
-    end
-  end
+  def default_breadcrumb; end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   private

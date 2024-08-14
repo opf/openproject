@@ -50,7 +50,7 @@ module WarningBarHelper
   end
 
   def setting_hostname_mismatched?
-    Setting.host_name.gsub(/:\d+$/, "") != request.host
+    String(Setting.host_name).gsub(/:\d+$/, "") != request.host
   end
 
   def no_workflow_for_wp_edit_role?

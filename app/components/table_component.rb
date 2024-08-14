@@ -80,7 +80,7 @@ class TableComponent < ApplicationComponent
     rescue NameError
       raise(
         NameError,
-        "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
+        "#{mod}::RowComponent required by #{name} not defined. " +
         "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
       )
     end

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Backup
-  priority: 790
+  priority: 200
 description: Backing up OpenProject.
 keywords: system backup
 ---

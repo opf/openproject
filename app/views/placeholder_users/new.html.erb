@@ -28,9 +28,9 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), t("label_placeholder_user_new") %>
-<% local_assigns[:additional_breadcrumb] = t(:label_placeholder_user_new) %>
-<%= render partial: 'toolbar', locals: { new_user: true,
-                                         :@placeholder_user => @placeholder_user } %>
+
+<%= render PlaceholderUsers::EditPageHeaderComponent.new(placeholder_user: @placeholder_user) %>
+
 <%= labelled_tabular_form_for @placeholder_user,
                               url: { action: "create" },
                               html: { class: nil, autocomplete: 'off' },

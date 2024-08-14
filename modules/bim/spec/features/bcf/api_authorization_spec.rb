@@ -49,7 +49,7 @@ RSpec.describe "authorization for BCF api", :js, with_config: { edition: "bim" }
     expect(page).to have_css(".generic-table--empty-row", text: "There is currently nothing to display")
 
     # Create application
-    find(".button", text: "Add").click
+    page.find_test_selector("op-admin-oauth--button-new", text: "OAuth application").click
     fill_in "application_name", with: "My API application"
     # Limit to bcf access
     check scope

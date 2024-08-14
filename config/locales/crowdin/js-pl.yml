@@ -366,10 +366,10 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Udostępnianie list projektów i upublicznianie ich (dodatek Enterprise)</li> <li>Oznaczanie list projektów jako ulubionych</li> <li>Weryfikacja połączenia dla magazynów OneDrive/SharePoint (dodatek Enterprise)</li> <li>Nowy wygląd z Primer dla strony profilu użytkownika</li> <li>Eksport wykresu Gantta w formacie PDF: dodatkowe powiększenie daty na podstawie tygodni kalendarzowych</li> <li>Pasek wyszukiwania do składnika podmenu (listy projektów oraz moduły Wykres Gantta i Tablice)</li> <li>Możliwość wyboru między raportowaniem postępu wyświetlanym tylko w godzinach albo w dniach i godzinach</li> <li>Usunięcie wyboru projektów z selektora projektów</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -616,17 +616,17 @@ pl:
       title: "Powiadomienia"
       no_unread: "Brak nieprzeczytanych powiadomień"
       reasons:
-        mentioned: "wzmianka"
-        watched: "obserwator"
-        assigned: "przypisana osoba"
-        responsible: "osoba odpowiedzialna"
-        created: "utworzono"
-        scheduled: "zaplanowano"
-        commented: "skomentowano"
-        processed: "przetworzono"
-        prioritized: "priorytetowo"
+        mentioned: "Wzmianka"
+        watched: "Obserwator"
+        assigned: "Przypisana osoba"
+        accountable: "Osoba odpowiedzialna"
+        created: "Utworzono"
+        scheduled: "Zaplanowany"
+        commented: "Skomentował"
+        processed: "Przetworzono"
+        prioritized: "Ma priorytet"
         dateAlert: "Alert dotyczący daty"
-        shared: "udostępniono"
+        shared: "Udostępniono"
       date_alerts:
         milestone_date: "Data  kamienia milowego"
         overdue: "Przekroczony termin"
@@ -665,15 +665,6 @@ pl:
         new_notifications:
           message: "Masz nowe powiadomienia."
           link_text: "Kliknij tutaj, aby je załadować."
-      menu:
-        accountable: "Osoba odpowiedzialna"
-        by_project: "Nieprzeczytane wg projektu"
-        by_reason: "Przyczyna"
-        inbox: "Inbox"
-        mentioned: "Wzmianka"
-        watched: "Obserwator"
-        date_alert: "Data ostrzeżenia"
-        shared: "Udostępniono"
       settings:
         change_notification_settings: 'Możesz zmodyfikować <a target="_blank" href="%{url}">ustawienia powiadomień</a>, aby upewnić się, że nigdy nie przegapisz ważnej aktualizacji.'
         title: "Ustawienia powiadomień"
@@ -1022,11 +1013,13 @@ pl:
         workAlternative: "Szacowany czas"
         remainingTime: "Pozostała praca"
       default_queries:
+        manually_sorted: "Nowe ręcznie sortowane zapytanie"
         latest_activity: "Ostatnia aktywność"
         created_by_me: "Utworzone przeze mnie"
         assigned_to_me: "Przypisane do mnie"
         recently_created: "Utworzone niedawno"
         all_open: "Wszystkie otwarte"
+        overdue: "Przekroczony termin"
         summary: "Podsumowanie"
         shared_with_users: "Udostępnione użytkownikom"
         shared_with_me: "Udostępnione dla mnie"

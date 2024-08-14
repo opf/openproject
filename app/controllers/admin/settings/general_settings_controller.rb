@@ -34,9 +34,5 @@ module Admin::Settings
       super
       @guessed_host = request.host_with_port.dup
     end
-
-    def default_breadcrumb
-      t(:label_general)
-    end
   end
 end

@@ -5,7 +5,7 @@ zh-TW:
       remove: '移除部件'
       configure: '設定部件'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        text: "某些組件，如工作包圖組件，只在企業版提供。"
         link: '企業版。'
       widgets:
         missing_permission: "您沒有必要的權限來檢視此部件。"

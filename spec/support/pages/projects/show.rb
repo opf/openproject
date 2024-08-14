@@ -55,6 +55,11 @@ module Pages
         visit path
       end
 
+      def expect_no_visible_sidebar
+        expect_angular_frontend_initialized
+        expect(page).to have_no_css(".op-grid-page--grid-container")
+      end
+
       def within_async_loaded_sidebar(&)
         within "#project-custom-fields-sidebar" do
           expect(page).to have_css("[data-test-selector='project-custom-fields-sidebar-async-content']")

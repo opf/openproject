@@ -27,14 +27,28 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_github_integration) %>
-<%= toolbar title: t(:label_deploy_target_plural) do %>
-  <li class="toolbar-item">
-    <a href="<%= new_deploy_target_path %>" aria-label="<%= t(:button_add_deploy_target) %>" title="<%= t(:button_add_deploy_target) %>" class="button -primary">
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t(:label_deploy_target) %></span>
-    </a>
-  </li>
-<% end %>
+<% html_title t(:label_administration), t(:label_github_integration), t(:label_deploy_target_plural) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_deploy_target_plural) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: deploy_targets_path, text: t(:label_github_integration) },
+                             t(:label_deploy_target_plural)])
+  end
+%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t(:button_add_deploy_target) },
+                                 title: I18n.t(:button_add_deploy_target),
+                                 tag: :a,
+                                 href: new_deploy_target_path) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t(:label_deploy_target)
+    end
+  end
+%>
 
 <%= render DeployTargets::TableComponent.new(rows: @deploy_targets, current_user: ) %>

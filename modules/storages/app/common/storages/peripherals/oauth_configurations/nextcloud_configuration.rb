@@ -38,7 +38,7 @@ module Storages
 
         # rubocop:disable Lint/MissingSuper
         def initialize(storage)
-          @uri = storage.uri
+          @storage = storage
 
           raise(ArgumentError, "Storage must have configured OAuth client credentials") if storage.oauth_client.blank?
 
@@ -55,7 +55,7 @@ module Storages
           StorageInteraction::AuthenticationStrategies::OAuthConfiguration.new(
             client_id: @oauth_client.client_id,
             client_secret: @oauth_client.client_secret,
-            issuer: URI(Util.join_uri_path(@uri, "/index.php/apps/oauth2/api/v1")).normalize,
+            issuer: URI(UrlBuilder.url(@storage.uri, "/index.php/apps/oauth2/api/v1")).normalize,
             scope: []
           )
         end
@@ -65,15 +65,17 @@ module Storages
         end
 
         def basic_rack_oauth_client
+          uri = @storage.uri
+
           Rack::OAuth2::Client.new(
             identifier: @oauth_client.client_id,
             secret: @oauth_client.client_secret,
             redirect_uri: @oauth_client.redirect_uri,
-            scheme: @uri.scheme,
-            host: @uri.host,
-            port: @uri.port,
-            authorization_endpoint: Util.join_uri_path(@uri.path, "/index.php/apps/oauth2/authorize"),
-            token_endpoint: Util.join_uri_path(@uri.path, "/index.php/apps/oauth2/api/v1/token")
+            scheme: uri.scheme,
+            host: uri.host,
+            port: uri.port,
+            authorization_endpoint: UrlBuilder.path(uri.path, "/index.php/apps/oauth2/authorize"),
+            token_endpoint: UrlBuilder.path(uri.path, "/index.php/apps/oauth2/api/v1/token")
           )
         end
       end

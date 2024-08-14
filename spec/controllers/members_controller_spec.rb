@@ -102,8 +102,7 @@ RSpec.describe MembersController do
 
     before { login_as(user) }
 
-    describe "WHEN the user is authorized
-              WHEN a project is provided" do
+    describe "WHEN the user is authorized WHEN a project is provided" do
       before do
         role.add_permission! :manage_members
         member

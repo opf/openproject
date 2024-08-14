@@ -26,7 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:label_api_access_key_type) %>
+<% html_title t(:label_administration), t(:label_api_access_key_type) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_api_access_key_type) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_api_path, text: t("menus.admin.api_and_webhooks") },
+                             t(:label_api_access_key_type)])
+  end
+%>
 
 <%= styled_form_tag(admin_settings_api_path, method: :patch) do %>
   <section class="form--section">

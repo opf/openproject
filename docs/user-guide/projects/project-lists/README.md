@@ -157,7 +157,7 @@ By selecting *Overall activity* you can open a view in which all the latest glob
 
 ## Favorite project lists
 
-You can mark project lists as favourites, both shared and private, but not the static ones. To mark a project list as favorite click the star icon in the top right corner. 
+You can mark project lists as favorites, both shared and private, but not the static ones. To mark a project list as favorite click the star icon in the top right corner. 
 
 ![Mark project list as favorite in OpenProject](star-project-list.png)
 
@@ -169,7 +169,7 @@ You can remove the star by clicking on the star icon again.
 
 ## Share project lists 
 
-You can share project lists in OpenProject, except the static project lists, e.g. *Active projects* or project lists under *Project status* section in the lefthand menu. Project lists can either be shared with everyone within your instance or with specific users or groups.
+You can share project lists in OpenProject, except the static project lists, e.g. *Active projects* or project lists under *Project status* section in the left-hand menu. Project lists can either be shared with everyone within your instance or with specific users or groups.
 
 ### Share with everyone at OpenProject
 
@@ -178,7 +178,7 @@ You can share a project list with everyone within your OpenProject instance. Thi
 To do that click the **Share** icon and turn on the **Share with everyone at your instance** switch.
 
 ![Share a project list with everyone in OpenProject](project-lists-share-with-everyone-button.png)
-The project list will move from *My project lists* section to *Shared project lists* section in the lefthand menu.
+The project list will move from *My project lists* section to *Shared project lists* section in the left-hand menu.
 
 ![Public project lists in OpenProject](project-lists-share-with-everyone-list.png)
 

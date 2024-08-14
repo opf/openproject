@@ -301,11 +301,6 @@ ar:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mappings:
-          header: Enabled in projects
       types:
         no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
         form:
@@ -415,14 +410,17 @@ ar:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
       new_access_token_dialog_title: "Create new API token"
       new_access_token_dialog_show_button_text: "API token"
       new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text_field_label: "الاسم"
+      new_access_token_dialog_submit_button_text: "إنشاء"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -500,12 +498,12 @@ ar:
       no_results_title_text: لا يوجد حالياً حالات لحزمة العمل.
       no_results_content_text: إضافة حالة جديدة
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
+        is_default: "الافتراضي"
+        is_closed: "مغلق"
+        is_readonly: "للقراءة فقط"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -558,9 +556,9 @@ ar:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "حجم النقل أو النسخ غير مدعوم من أجل حزم العمل المكونة من عدة مشاريع"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -628,17 +626,6 @@ ar:
       attribute_help_text:
         attribute_name: "الواصفة"
         help_text: "Help text"
-      ldap_auth_source:
-        account: "الحساب"
-        attr_firstname: "سمة الاسم الأول"
-        attr_lastname: "سمة الاسم الأخير"
-        attr_login: "Username attribute"
-        attr_mail: "سمة البريد الإلكتروني"
-        base_dn: "قاعدة DN"
-        host: "المضيف"
-        onthefly: "Automatic user creation"
-        port: "منفذ"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "مستودع البيانات"
       color:
@@ -663,6 +650,14 @@ ar:
         visible: "مرئي"
       custom_value:
         value: "القيمة"
+      doorkeeper/application:
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
       enterprise_token:
         starts_at: "Valid since"
         subscriber: "Subscriber"
@@ -673,20 +668,25 @@ ar:
         row_count: "عدد الصفوف"
         column_count: "عدد الأعمدة"
         widgets: "الودجات"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        lag: "Lag"
-        from: "مجموعة العمل"
-        to: "مجموعة عمل ذات صلة"
-      status:
-        is_closed: "أغلقت مجموعة العمل"
-        is_readonly: "Work package read-only"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "ملاحظات"
+      ldap_auth_source:
+        account: "الحساب"
+        attr_firstname: "سمة الاسم الأول"
+        attr_lastname: "سمة الاسم الأخير"
+        attr_login: "Username attribute"
+        attr_mail: "سمة البريد الإلكتروني"
+        base_dn: "قاعدة DN"
+        host: "المضيف"
+        onthefly: "Automatic user creation"
+        port: "منفذ"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "دور"
+      oauth_client:
+        client: "Client ID"
+      planning_element_type_color:
+        hexcode: رمز Hex
       project:
         active_value:
           true: "unarchived"
@@ -716,6 +716,8 @@ ar:
         types: "الأنواع"
         versions: "الإصدارات"
         work_packages: "مجموعات العمل"
+      project_custom_field:
+        custom_field_section: Section
       query:
         column_names: "الأعمدة"
         relations_to_type_column: "Relations to %{type}"
@@ -723,10 +725,19 @@ ar:
         group_by: "نتائج المجموعة حسب"
         filters: "عوامل التصفية"
         timeline_labels: "Timeline labels"
+      relation:
+        lag: "Lag"
+        from: "مجموعة العمل"
+        to: "مجموعة عمل ذات صلة"
       repository:
         url: "الرابط"
       role:
         permissions: "السماحيات"
+      status:
+        is_closed: "أغلقت مجموعة العمل"
+        is_readonly: "Work package read-only"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "النشاط"
         hours: "الساعات"
@@ -769,10 +780,6 @@ ar:
       wiki_page:
         parent_title: "الصفحة الأصل"
         redirect_existing_links: "إعادة توجيه الروابط القائمة"
-      planning_element_type_color:
-        hexcode: رمز Hex
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "البدء بالإدراج"
         begin_deletion: "البدء بالحذف"
@@ -807,14 +814,6 @@ ar:
         type: "النّوع"
         version: "الإصدار"
         watcher: "المشاهد"
-      "doorkeeper/application":
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
     errors:
       messages:
         accepted: "يجب أن تقبل."
@@ -1027,6 +1026,11 @@ ar:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         time_entry:
           attributes:
             hours:
@@ -1145,8 +1149,6 @@ ar:
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
-        status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
         token/api:
           attributes:
             token_name:
@@ -1198,6 +1200,13 @@ ar:
         many: "دور"
         other: "دور"
       status: "حالة مجموعة العمل"
+      token/api:
+        zero: Access tokens
+        one: Access token
+        two: Access tokens
+        few: Access tokens
+        many: Access tokens
+        other: Access tokens
       type: "النّوع"
       user: "المستخدم"
       version: "الإصدار"
@@ -1921,6 +1930,17 @@ ar:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "المُسند إليه"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Accountable"
+      shared: "Shared"
+      watched: "المشاهد"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1940,6 +1960,7 @@ ar:
   label_add_another_file: "اضف ملف آخر"
   label_add_columns: "اضف الأعمدة المحددة"
   label_add_note: "إضف ملاحظة"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "اضف حزم العمل ذات الصلة"
   label_add_subtask: "اضف مهمة فرعية"
   label_added: "تمت الإضافة"
@@ -1954,7 +1975,7 @@ ar:
   label_all: "الكل"
   label_all_time: "كل الوقت"
   label_all_words: "كافة الكلمات"
-  label_all_open_wps: "All open"
+  label_all_open_wps: "كل المفتوح"
   label_always_visible: "معروض دائمًا"
   label_announcement: "إعلان"
   label_angular: "AngularJS"
@@ -1980,6 +2001,7 @@ ar:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "المصادقة"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
@@ -2166,6 +2188,7 @@ ar:
   label_inactive: "Inactive"
   label_incoming_emails: "رسائل البريد الالكتروني الواردة"
   label_includes: "مشمولة"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "فهرسة حسب التاريخ"
   label_index_by_title: "فهرسة حسب العنوان"
   label_information: "معلومات"
@@ -2226,8 +2249,8 @@ ar:
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "أعضاء"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Member added"
-  lable_membership_updated: "Member updated"
+  label_membership_added: "Member added"
+  label_membership_updated: "Member updated"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
@@ -2328,6 +2351,7 @@ ar:
   label_product_version: "إصدار المنتج"
   label_profile: "الصفحة الشخصية"
   label_percent_complete: "% Complete"
+  label_project: "مشروع"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2336,6 +2360,7 @@ ar:
   label_project_latest: "أحدث المشاريع"
   label_project_default_type: "السماح بالنوع فارغ"
   label_project_hierarchy: "التسلسل الهرمي للمشروع"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "مشروع جديد"
   label_project_plural: "المشاريع"
   label_project_list_plural: "Project lists"
@@ -2396,6 +2421,7 @@ ar:
   label_role_search: "تعيين دور للأعضاء الجدد"
   label_scm: "اختصاراً لِ:\"Supply Chain Management\" إدارة سلسة الإمداد"
   label_search: "البحث"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "إرسال رسالة اختبار"
   label_session: "الجلسة"
@@ -2508,6 +2534,7 @@ ar:
   label_work_package_new: "مجموعة عمل جديدة"
   label_work_package_edit: "تعديل مجموعة العمل %{name}"
   label_work_package_plural: "مجموعات العمل"
+  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "حالة مجموعة العمل"
   label_work_package_status_new: "حالة جديدة"
   label_work_package_status_plural: "حالات مجموعة العمل"
@@ -2515,6 +2542,7 @@ ar:
   label_work_package_tracking: "تتبع مجموعة العمل"
   label_work_package_view_all: "عرض جميع مجموعات العمل"
   label_workflow: "سير العمل"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "تدفقات العمل"
   label_workflow_summary: "مُلخّص"
   label_working_days_and_hours: "Working days and hours"
@@ -2857,6 +2885,7 @@ ar:
   permission_edit_own_messages: "تحرير الرسائل الخاصة"
   permission_edit_own_time_entries: "تحرير سجلات الوقت الخاصة"
   permission_edit_project: "تحرير المشروع"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "تحرير التقرير"
   permission_edit_time_entries: "تحرير سجلات الوقت للمستخدمين الآخرين"
   permission_edit_timelines: "تحرير الجداول الزمنية"
@@ -2907,6 +2936,7 @@ ar:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
@@ -3544,11 +3574,11 @@ ar:
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     permissions:
-      comment: "Comment"
+      comment: "تعليق"
       comment_description: "Can view and comment this work package."
-      edit: "Edit"
+      edit: "تعديل"
       edit_description: "Can view, comment and edit this work package."
-      view: "View"
+      view: "عرض"
       view_description: "Can view this work package."
   sharing:
     count:
@@ -3560,20 +3590,20 @@ ar:
       not_project_member: "Not project member"
       project_group: "Project group"
       not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
-      role: "Role"
-      type: "Type"
+      user: "المستخدم"
+      group: "مجموعة"
+      role: "الدور"
+      type: "النّوع"
     denied: "You don't have permissions to share %{entities}."
     label_search: "Search for users to invite"
     label_search_placeholder: "Search by user or email address"
     label_toggle_all: "Toggle all shares"
-    remove: "Remove"
-    share: "Share"
-    text_empty_search_description: "There are no users with the current filter criteria."
-    text_empty_search_header: "We couldn't find any matching results."
+    remove: "إزالة"
+    share: "شارك"
+    text_empty_search_description: "لا يوجد مستخدمون بالمعايير الحالية للتصفية."
+    text_empty_search_header: "لم نتمكن من العثور على أي نتائج مطابقة."
     text_empty_state_description: "The %{entity} has not been shared with anyone yet."
-    text_empty_state_header: "Not shared"
+    text_empty_state_header: "غير مشترك"
     text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
     text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
     warning_user_limit_reached: >
@@ -3581,7 +3611,7 @@ ar:
     warning_user_limit_reached_admin: >
       Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
     warning_no_selected_user: "Please select users to share this %{entity} with"
-    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    warning_locked_user: "المستخدم %{user} مقفل ولا يمكن مشاركته"
     user_details:
       locked: "Locked user"
       invited: "Invite sent. "
@@ -3611,9 +3641,9 @@ ar:
           header: "Not shared: Private"
           description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
-        view: "View"
+        view: "عرض"
         view_description: "Can view this project list."
-        edit: "Edit"
+        edit: "تعديل"
         edit_description: "Can view, share and edit this project list."
       upsale:
         message: "Sharing project lists with individual users is an enterprise add-on."

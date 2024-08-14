@@ -43,7 +43,7 @@ module Storages
 
           def call(auth_strategy:)
             Authentication[auth_strategy].call(storage: @storage) do |http|
-              handle_response http.get(Util.join_uri_path(@storage.uri, "/v1.0/me"))
+              handle_response http.get(UrlBuilder.url(@storage.uri, "/v1.0/me"))
             end
           end
 

@@ -108,11 +108,14 @@ class JournalsController < ApplicationController
   end
 
   def valid_field_for_diffing?
-    %w[description status_explanation].include?(field_param) || agenda_item_notes?
-  end
-
-  def agenda_item_notes?
-    field_param.match?(/\Aagenda_items_\d+_notes\z/)
+    case field_param
+    when "description",
+         "status_explanation",
+         /\Aagenda_items_\d+_notes\z/
+      true
+    when /\Acustom_fields_(?<id>\d+)\z/
+      ::CustomField.exists?(id: Regexp.last_match[:id], field_format: "text")
+    end
   end
 
   def journals_index_title

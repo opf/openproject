@@ -86,7 +86,7 @@ module Pages
 
     def open_board(board)
       page.find("td.name a", text: board.name).click
-      wait_for_reload if using_cuprite?
+      wait_for_reload
       ::Pages::Board.new board
     end
   end

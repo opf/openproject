@@ -45,7 +45,8 @@ module Storages
             validate_input_data(file_id:, name:).on_failure { |failure| return failure }
 
             Authentication[auth_strategy].call(storage: @storage, http_options: Util.json_content_type) do |http|
-              handle_response http.patch(uri_path(file_id), body: { name: }.to_json)
+              handle_response http.patch(UrlBuilder.url(Util.drive_base_uri(@storage), "items", file_id),
+                                         body: { name: }.to_json)
             end
           end
 
@@ -60,10 +61,6 @@ module Storages
             else
               ServiceResult.success
             end
-          end
-
-          def uri_path(source)
-            "#{@storage.uri}v1.0/drives/#{@storage.drive_id}/items/#{source}"
           end
 
           # rubocop:disable Metrics/AbcSize

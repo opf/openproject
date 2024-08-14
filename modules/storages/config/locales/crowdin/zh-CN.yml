@@ -12,6 +12,7 @@ zh-CN:
         tenant: 目录 (租户) ID
     errors:
       messages:
+        invalid_host_url: 不是有效的 URL。
         not_linked_to_project: 未链接到项目。
       models:
         storages/file_link:
@@ -22,6 +23,8 @@ zh-CN:
           attributes:
             project_folder_mode:
               mode_unavailable: 对于此存储不可用。
+            project_ids:
+              blank: 请选择一个项目。
         storages/storage:
           attributes:
             host:
@@ -53,11 +56,91 @@ zh-CN:
   permission_view_file_links: 查看文件链接
   permission_write_files: '自动管理项目文件夹：写入文件'
   project_module_storages: 文件
+  project_storages:
+    project_folder_mode:
+      automatic: 自动托管
+      inactive: 没有指定文件夹
+      manual: 手动管理现有文件夹
+    remove_project:
+      dialog:
+        automatically_managed_appendix: 而且，在这种情况下，这个存储有一个自动托管的项目文件夹，它和它的文件将被永久删除。
+        confirmation_text: 请确认您已理解并要从此项目中删除此文件存储
+        heading: 从 %{storage_type}中删除项目
+        text: 此操作不可逆，将从此项目的工作包中删除所有链接到该存储的文件和文件夹。
+      label: 删除项目
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: '添加用户到组'
+        create_folder: '托管项目文件夹创建：'
+        ensure_root_folder_permissions: '设置基础文件夹权限：'
+        hide_inactive_folders: '隐藏非活动文件夹步骤：'
+        remote_folders: '读取组文件夹的内容：'
+        remove_user_from_group: '从组中移除用户'
+        rename_project_folder: '重命名托管项目文件夹：'
+      one_drive_sync_service:
+        create_folder: '托管项目文件夹创建：'
+        ensure_root_folder_permissions: '设置基础文件夹权限：'
+        hide_inactive_folders: '隐藏非活动文件夹步骤：'
+        remote_folders: '读取组文件夹的内容：'
+        rename_project_folder: '重命名托管项目文件夹：'
+    errors:
+      models:
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: '由于以下原因，无法将用户 %{user} 添加到 %{group} 组： %{reason}'
+              failed_to_add: '由于以下原因，无法将用户 %{user} 添加到 %{group} 组： %{reason}'
+            create_folder:
+              conflict: '%{folder_name} 已经存在于 %{parent_location} 上。'
+              not_found: "未找到 %{parent_location} 。"
+            ensure_root_folder_permissions:
+              not_found: "未找到 %{group_folder} 。请检查您的 Nextcloud 组文件夹设置。"
+              permission_not_set: 无法设置 %{group_folder} 上的权限。
+            hide_inactive_folders:
+              permission_not_set: 无法设置 %{path} 上的权限。
+            remote_folders:
+              not_allowed: '%{username} 无法访问 %{group_folder} 。请检查 Nextcloud 上的文件夹权限。'
+              not_found: "未找到 %{group_folder} 。请检查您的 Nextcloud 设置。"
+            remove_user_from_group:
+              conflict: '由于以下原因，无法从 %{group} 组中删除用户 %{user} ： %{reason}'
+              failed_to_remove: '由于以下原因，无法从 %{group} 组中删除用户 %{user} ： %{reason}'
+            rename_project_folder:
+              forbidden: OpenProject 用户无法访问 %{current_path} 文件夹。
+              not_found: "%{current_path} 没有找到。"
+            set_folders_permissions:
+              permission_not_set: 无法设置 %{path} 上的权限。
+          error: 发生了意外错误。请确保您的 Nextcloud 实例可访问，并检查 OpenProject 工作日志以获取更多信息。
+          group_does_not_exist: "%{group} 不存在。检查您的 Nextcloud 实例配置。"
+          insufficient_privileges: OpenProject 没有足够的权限将 %{user} 添加到 %{group}。请检查 Nextcloud 中的组设置。
+          not_allowed: Nextcloud 阻止了该请求。
+          unauthorized: OpenProject 无法与 Nextcloud 同步。请检查您的存储设备和 Nextcloud  配置。
+          user_does_not_exist: "在 Nextcloud 中不存在 %{user}  。"
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: '%{folder_name} 已经存在于 %{parent_location} 上。'
+              not_found: "未找到 %{parent_location} 。"
+            hide_inactive_folders:
+              permission_not_set: 无法设置 %{path} 上的权限。
+            remote_folders:
+              request_error: OpenProject 无法访问您的驱动器 %{drive_id}。请检查您的存储配置是否正确。
+            rename_project_folder:
+              conflict: OpenProject 无法将文件夹 %{current_path} 重命名为 %{project_folder_name} ，因为已存在同名文件夹
+              forbidden: OpenProject 用户无法访问 %{current_path} 文件夹。
+              not_found: "%{current_path} 没有找到。"
+            set_folders_permissions:
+              permission_not_set: 无法设置 %{path} 上的权限。
+          error: 发生了意外错误。请确保您的 Nextcloud 实例可访问，并检查 OpenProject 工作日志以获取更多信息。
+          not_allowed: OpenProject 未被允许访问您的 OneDrive 驱动器。请检查 Azure 应用程序上设置的权限。
+          unauthorized: OpenProject 无法与 Nextcloud 同步。请检查您的存储设备和 Nextcloud  配置。
+          user_does_not_exist: "在 Nextcloud 中不存在 %{user}  。"
   storages:
     buttons:
       complete_without_setup: 没有它就完成
       done_complete_setup: 完成，完成设置
       done_continue: 完成, 继续
+      open_storage: 打开文件存储
       replace_oauth_application: 替换 OpenProject OAuth
       replace_oauth_client: 替换 %{provider_type} OAuth
       save_and_continue: 保存并继续
@@ -80,6 +163,10 @@ zh-CN:
       storage_delete_result_1: 删除所有使用此存储的项目的所有存储设置。
       storage_delete_result_2: 从所有项目的工作包中删除所有链接到该存储的文件和文件夹。
       storage_delete_result_3: 如果此存储具有自动托管的项目文件夹，这些文件夹及其包含的文件将被永久删除。
+    dependencies:
+      nextcloud:
+        group_folders_app: 组文件夹
+        integration_app: 集成 OpenProject
     error_invalid_provider_type: 请选择一个有效的存储源。
     file_storage_view:
       access_management:
@@ -104,9 +191,13 @@ zh-CN:
       checked: 上次检查于 %{datetime}
       connection_validation:
         action: 重新检查连接
+        app_version_mismatch: 不受支持的集成 OpenProject 应用程序版本。请更新您的 Nextcloud 服务器。
         client_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
         client_secret_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
         drive_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
+        group_folder_version_mismatch: 不受支持的组文件夹版本。请更新您的 Nextcloud 服务器。
+        host_not_found: 在配置的主机 URL 中找不到 Nextcloud 服务器。请检查配置。
+        missing_dependencies: '文件存储缺少一个必需的依赖项。请添加以下依赖项： %{dependency}.'
         not_configured: 无法验证连接。请先完成配置。
         placeholder: 检查您与服务器的连接。
         subtitle: 连接验证
@@ -130,10 +221,10 @@ zh-CN:
       unsubscribe: 取消订阅
     help_texts:
       project_folder: 项目文件夹是此项目上传文件的默认文件夹。用户仍然可以上传文件到其他位置。
+      project_folder_bulk: 项目文件夹是所选项目上传文件的默认文件夹。 您可以在每个项目设置中单独修改此操作。用户仍然可以将文件上传到其他位置。
     instructions:
       all_available_storages_already_added: 所有可用存储均已添加到项目。
       automatic_folder: 这将自动为此项目创建一个根文件夹，并管理每个项目成员的访问权限。
-      copy_from: 复制此值自
       empty_project_folder_validation: 选择一个文件夹是必须的。
       existing_manual_folder: 您可以指定现有的文件夹作为此项目的根文件夹。 但权限未自动托管，管理员需要手动确保相关用户能够访问。 选定的文件夹可以被多个项目使用。
       host: 请添加存储的主机地址，包括 https://。不应超过 255 个字符。

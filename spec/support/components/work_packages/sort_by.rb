@@ -44,7 +44,7 @@ module Components
           click_button text
         end
 
-        wait_for_network_idle if using_cuprite?
+        wait_for_network_idle
       end
 
       def update_criteria(first, second = nil, third = nil)

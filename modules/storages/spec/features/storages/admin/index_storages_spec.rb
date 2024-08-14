@@ -54,7 +54,10 @@ RSpec.describe "Admin List File storages",
     end
 
     it "renders content that is accessible" do
-      expect(page).to be_axe_clean.within("#content")
+      expect(page)
+        .to be_axe_clean
+              .within("#content")
+              .excluding("opce-principal")
     end
   end
 

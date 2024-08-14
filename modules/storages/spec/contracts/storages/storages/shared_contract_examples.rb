@@ -116,13 +116,13 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
       context "as host is not a URL" do
         let(:storage_host) { "---invalid-url---" }
 
-        include_examples "contract is invalid", host: I18n.t("activerecord.errors.messages.invalid_url")
+        include_examples "contract is invalid", host: :invalid_host_url
       end
 
       context "as host is an empty string" do
         let(:storage_host) { "" }
 
-        include_examples "contract is invalid", host: I18n.t("activerecord.errors.messages.invalid_url")
+        include_examples "contract is invalid", host: :invalid_host_url
       end
 
       context "as host is longer than 255" do

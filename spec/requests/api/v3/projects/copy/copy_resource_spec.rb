@@ -55,7 +55,10 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
 
   shared_let(:current_user) do
     create(:user,
-           member_with_permissions: { source_project => %i[copy_projects view_project view_work_packages] })
+           member_with_permissions: { source_project => %i[copy_projects
+                                                           view_project
+                                                           view_work_packages
+                                                           view_project_attributes] })
   end
 
   let(:path) { api_v3_paths.project_copy(source_project.id) }

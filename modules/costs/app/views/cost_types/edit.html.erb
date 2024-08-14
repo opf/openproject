@@ -29,14 +29,21 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if(@cost_type.id) %>
   <% html_title  t(:label_cost_type_specific, id: @cost_type.id, name: @cost_type.name) %>
-  <% local_assigns[:additional_breadcrumb] = @cost_type.name %>
+  <% title = @cost_type.name %>
 <% else %>
   <% html_title t(:label_administration), t(:label_cost_type_plural) %>
-  <% local_assigns[:additional_breadcrumb] = t(:label_new) + ' ' + I18n.t('activerecord.models.cost_type.one') %>
+  <% title = t(:label_new) + ' ' + I18n.t('activerecord.models.cost_type.one') %>
 <% end %>
 
-
-<%= toolbar title: CostType.model_name.human %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { title }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: url_for({ controller: "/admin/settings", action: "show_plugin", id: :costs }), text: t(:project_module_costs) },
+                             { href: cost_types_path, text: t(:label_cost_type_plural) },
+                             title])
+  end
+%>
 
 <costs-subform item-count="<%= @cost_type.rates.length %>">
 <%= labelled_tabular_form_for @cost_type do |f| %>

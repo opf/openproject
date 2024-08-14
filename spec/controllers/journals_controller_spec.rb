@@ -59,14 +59,13 @@ RSpec.describe JournalsController do
         it { expect(response).to have_http_status(:ok) }
 
         it "presents the diff correctly" do
-          expect(response.body.strip).to eq(
-            "<div class=\"text-diff\">" \
-            "\n  " \
-            "<label class=\"hidden-for-sighted\">Begin of the insertion</label><ins class=\"diffmod\">description</ins>" \
-            "<label class=\"hidden-for-sighted\">End of the insertion</label>" \
-            "\n" \
-            "</div>"
-          )
+          expect(response.body.strip).to be_html_eql <<-HTML
+            <div class="text-diff">
+              <label class="hidden-for-sighted">Begin of the insertion</label>
+              <ins class="diffmod">description</ins>
+              <label class="hidden-for-sighted">End of the insertion</label>
+            </div>
+          HTML
         end
       end
 
@@ -77,6 +76,74 @@ RSpec.describe JournalsController do
 
         it { expect(response).to have_http_status(:forbidden) }
       end
+    end
+
+    context "for work package text custom field" do
+      shared_let(:type) { project.types.first }
+
+      shared_let(:custom_field) do
+        create(:text_wp_custom_field).tap do |custom_field|
+          project.work_package_custom_fields << custom_field
+          type.custom_fields << custom_field
+        end
+      end
+
+      shared_let(:work_package) do
+        create(:work_package, type:,
+                              author: user,
+                              project:)
+      end
+      let(:params) { { id: work_package.last_journal.id.to_s, field: "custom_fields_#{custom_field.id}", format: "js" } }
+
+      before do
+        work_package.update custom_field_values: { custom_field.id => "foo" }
+      end
+
+      describe "with a user having :view_work_package permission" do
+        it { expect(response).to have_http_status(:ok) }
+
+        it "presents the diff correctly" do
+          expect(response.body.strip).to be_html_eql <<-HTML
+            <div class="text-diff">
+              <label class="hidden-for-sighted">Begin of the insertion</label>
+              <ins class="diffmod">foo</ins>
+              <label class="hidden-for-sighted">End of the insertion</label>
+            </div>
+          HTML
+        end
+      end
+
+      describe "with a user not having the :view_work_package permission" do
+        before do
+          RolePermission.delete_all
+        end
+
+        it { expect(response).to have_http_status(:forbidden) }
+      end
+    end
+
+    context "for work package string custom field" do
+      shared_let(:type) { project.types.first }
+
+      shared_let(:custom_field) do
+        create(:wp_custom_field).tap do |custom_field|
+          project.work_package_custom_fields << custom_field
+          type.custom_fields << custom_field
+        end
+      end
+
+      shared_let(:work_package) do
+        create(:work_package, type:,
+                              author: user,
+                              project:)
+      end
+      let(:params) { { id: work_package.last_journal.id.to_s, field: "custom_fields_#{custom_field.id}", format: "js" } }
+
+      before do
+        work_package.update custom_field_values: { custom_field.id => "foo" }
+      end
+
+      it { expect(response).to have_http_status(:not_found) }
     end
 
     context "for project description" do
@@ -90,14 +157,13 @@ RSpec.describe JournalsController do
         it { expect(response).to have_http_status(:ok) }
 
         it "presents the diff correctly" do
-          expect(response.body.strip).to eq(
-            "<div class=\"text-diff\">" \
-            "\n  " \
-            "<label class=\"hidden-for-sighted\">Begin of the insertion</label><ins class=\"diffmod\">description</ins>" \
-            "<label class=\"hidden-for-sighted\">End of the insertion</label>" \
-            "\n" \
-            "</div>"
-          )
+          expect(response.body.strip).to be_html_eql <<-HTML
+            <div class="text-diff">
+              <label class="hidden-for-sighted">Begin of the insertion</label>
+              <ins class="diffmod">description</ins>
+              <label class="hidden-for-sighted">End of the insertion</label>
+            </div>
+          HTML
         end
       end
 

@@ -48,7 +48,7 @@ ja:
         description: "注記"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "タイトル"
     errors:
       messages:
         invalid_time_format: "有効な時間ではありません。必要なフォーマット: HH:MM"
@@ -121,7 +121,7 @@ ja:
       agenda_text: "Copy the agenda of the old meeting"
     email:
       send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Open meeting"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"

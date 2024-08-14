@@ -34,13 +34,15 @@ module OpenProject::GitlabIntegration
     class PushHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
-      def process(payload_params)
+      def process(payload_params) # rubocop:disable Metrics/AbcSize
         @payload = wrap_payload(payload_params)
         return nil unless payload.object_kind == "push"
 
         payload.commits.each do |commit|
           user = User.find_by_id(payload.open_project_user_id)
-          text = commit["title"] + " - " + commit["message"]
+          text = [commit["title"], commit["message"]]
+            .select(&:present?)
+            .join(" - ")
           work_packages = find_mentioned_work_packages(text, user)
           notes = generate_notes(commit, payload)
           comment_on_referenced_work_packages(work_packages, user, notes)
@@ -53,9 +55,10 @@ module OpenProject::GitlabIntegration
 
       def generate_notes(commit, payload)
         commit_id = commit["id"]
-        I18n.t("gitlab_integration.push_single_commit_comment",
+        I18n.t("gitlab_integration.push_single_commit_comment_with_ref",
+               reference: payload.ref,
                commit_number: commit_id[0, 8],
-               commit_note: commit["message"],
+               commit_note: commit["message"].presence || commit["title"],
                commit_url: commit["url"],
                commit_timestamp: commit["timestamp"],
                repository: payload.repository.name,

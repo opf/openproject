@@ -29,17 +29,25 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t(:label_color_plural) %>
 
-<%= toolbar title: t(:label_color_plural) do %>
-  <li class="toolbar-item">
-    <%= link_to new_color_path,
-          { class: 'button -primary',
-            aria: {label: t('.label_new_color')},
-            title: t('.label_new_color')} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t('activerecord.attributes.type.color') %></span>
-    <% end %>
-  </li>
-<% end %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_color_plural) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             t(:label_color_plural)])
+  end
+%>
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t("colors.index.label_new_color") },
+                                 title: I18n.t("colors.index.label_new_color"),
+                                 tag: :a,
+                                 href: new_color_path) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t("activerecord.attributes.type.color")
+    end
+  end
+%>
 
 <% if @colors.any? %>
   <div class="color--preview-patch-field">

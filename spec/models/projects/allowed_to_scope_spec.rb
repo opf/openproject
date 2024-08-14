@@ -89,8 +89,8 @@ RSpec.describe Project, "allowed to" do
       user.save!
     end
 
-    context 'with the user being member
-             with the role having the permission' do
+    context "with the user being member " \
+            "with the role having the permission" do
       before do
         non_member_role.save!
         member.save!
@@ -99,9 +99,9 @@ RSpec.describe Project, "allowed to" do
       it_behaves_like "includes the project"
     end
 
-    context 'with the user being member
-             with the role having the permission
-             without the project being active' do
+    context "with the user being member " \
+            "with the role having the permission " \
+            "without the project being active" do
       let(:project_status) { false }
 
       before do
@@ -111,8 +111,8 @@ RSpec.describe Project, "allowed to" do
       it_behaves_like "is empty"
     end
 
-    context 'with the user being member
-             without the role having the permission' do
+    context "with the user being member " \
+            "without the role having the permission" do
       let(:permissions) { [] }
 
       before do
@@ -122,14 +122,14 @@ RSpec.describe Project, "allowed to" do
       it_behaves_like "is empty"
     end
 
-    context 'without the user being member
-             with the role having the permission' do
+    context "without the user being member " \
+            "with the role having the permission" do
       it_behaves_like "is empty"
     end
 
-    context 'with the user being member
-             with the role having the permission
-             without the associated module being active' do
+    context "with the user being member " \
+            "with the role having the permission " \
+            "without the associated module being active" do
       before do
         member.save!
         project.enabled_modules = []
@@ -138,8 +138,8 @@ RSpec.describe Project, "allowed to" do
       it_behaves_like "is empty"
     end
 
-    context 'with the user being member
-             with the permission being public' do
+    context "with the user being member " \
+            "with the permission being public" do
       before do
         member.save!
       end
@@ -149,9 +149,9 @@ RSpec.describe Project, "allowed to" do
       end
     end
 
-    context 'with the user being member
-             with the permission being public
-             without the associated module being active' do
+    context "with the user being member " \
+            "with the permission being public " \
+            "without the associated module being active" do
       before do
         member.save!
         project.enabled_modules = []
@@ -162,9 +162,9 @@ RSpec.describe Project, "allowed to" do
       end
     end
 
-    context 'with the user being member
-             with the permission being public and not module bound
-             with no module being active' do
+    context "with the user being member " \
+            "with the permission being public and not module bound " \
+            "with no module being active" do
       before do
         member.save!
         project.enabled_modules = []
@@ -175,10 +175,10 @@ RSpec.describe Project, "allowed to" do
       end
     end
 
-    context 'with the user being member
-             without the permission being module bound
-             with the role having the permission
-             with no module active' do
+    context "with the user being member " \
+            "without the permission being module bound " \
+            "with the role having the permission " \
+            "with no module active" do
       let(:permissions) { [non_module_action] }
 
       before do
@@ -190,10 +190,10 @@ RSpec.describe Project, "allowed to" do
       end
     end
 
-    context 'with the user being member
-             without the permission being module bound
-             without the role having the permission
-             with no module active' do
+    context "with the user being member " \
+            "without the permission being module bound " \
+            "without the role having the permission " \
+            "with no module active" do
       let(:permissions) { [] }
 
       before do
@@ -224,8 +224,8 @@ RSpec.describe Project, "allowed to" do
       it_behaves_like "is empty"
     end
 
-    context 'without the project being active
-             with the permission being public' do
+    context "without the project being active " \
+            "with the permission being public" do
       let(:project_status) { false }
 
       it "is empty" do
@@ -319,8 +319,8 @@ RSpec.describe Project, "allowed to" do
         end
       end
 
-      context 'with the anonymous role having the permission
-               without the project being active' do
+      context "with the anonymous role having the permission " \
+              "without the project being active" do
         let(:project_status) { false }
 
         it "is empty" do
@@ -342,8 +342,8 @@ RSpec.describe Project, "allowed to" do
         end
       end
 
-      context 'with the permission being public
-               with the associated module not being active' do
+      context "with the permission being public " \
+              "with the associated module not being active" do
         before do
           project.enabled_modules = []
         end
@@ -353,8 +353,8 @@ RSpec.describe Project, "allowed to" do
         end
       end
 
-      context 'with the permission being public and not module bound
-               with no module being active' do
+      context "with the permission being public and not module bound " \
+              "with no module being active" do
         before do
           project.enabled_modules = []
         end
@@ -373,8 +373,8 @@ RSpec.describe Project, "allowed to" do
         member.save!
       end
 
-      context 'with the role not having the permission
-               with non member having the permission' do
+      context "with the role not having the permission " \
+              "with non member having the permission" do
         let(:permissions) { [] }
         let(:non_member_permissions) { [action] }
 
@@ -393,15 +393,15 @@ RSpec.describe Project, "allowed to" do
         it_behaves_like "includes the project"
       end
 
-      context 'with the non member role having the permission
-               without the project being active' do
+      context "with the non member role having the permission " \
+              "without the project being active" do
         let(:project_status) { false }
 
         it_behaves_like "is empty"
       end
 
-      context 'with the permission being public and not module bound
-               without the project being active' do
+      context "with the permission being public and not module bound " \
+              "without the project being active" do
         let(:project_status) { false }
 
         it "is empty" do
@@ -421,8 +421,8 @@ RSpec.describe Project, "allowed to" do
         end
       end
 
-      context 'with the permission being public
-               with the module not being active' do
+      context "with the permission being public " \
+              "with the module not being active" do
         before do
           project.enabled_modules = []
         end
@@ -432,8 +432,8 @@ RSpec.describe Project, "allowed to" do
         end
       end
 
-      context 'with the permission being public and not module bound
-               with no module active' do
+      context "with the permission being public and not module bound " \
+              "with no module active" do
         before do
           project.enabled_modules = []
         end

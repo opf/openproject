@@ -157,7 +157,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
       GoodJob.perform_inline
 
       Storages::FileLink.where(container: target_work_packages).find_each do |file_link|
-        expect(file_link.origin_id).to eq(target_deep_file_ids["/#{target.managed_project_folder_path}#{file_link.name}"].id)
+        expect(file_link.origin_id).to eq(target_deep_file_ids["#{target.managed_project_folder_path}#{file_link.name}"].id)
       end
     end
 

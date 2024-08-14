@@ -43,7 +43,7 @@ module Meetings
     end
 
     def set_participants(participants_attributes)
-      model.participants.clear
+      model.participants.clear if model.new_record?
       model.participants_attributes = participants_attributes
     end
   end

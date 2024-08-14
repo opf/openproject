@@ -182,9 +182,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     // This is e.g. employed to set the text from outside to reuse the same editor for different languages.
     jQuery(this.element).data('editor', editor);
 
-    if (this.readOnly) {
-      editor.enableReadOnlyMode('wrapped-text-area-disabled');
-    }
+    this.setupMarkingReadonlyWhenTextareaIsDisabled(editor);
 
     if (this.halResource?.attachments) {
       this.setupAttachmentAddedCallback(editor);
@@ -240,6 +238,24 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
         this.attachments = _.clone(resource.attachments.elements);
       });
+  }
+
+  private setupMarkingReadonlyWhenTextareaIsDisabled(editor:ICKEditorInstance) {
+    const observer = new MutationObserver((_mutations) => {
+      if (this.readOnly !== this.wrappedTextArea.disabled) {
+        this.readOnly = this.wrappedTextArea.disabled;
+        if (this.readOnly) {
+          editor.enableReadOnlyMode('wrapped-text-area-disabled');
+        } else {
+          editor.disableReadOnlyMode('wrapped-text-area-disabled');
+        }
+      }
+    });
+    observer.observe(this.wrappedTextArea, { attributes: true });
+
+    if (this.readOnly) {
+      editor.enableReadOnlyMode('wrapped-text-area-disabled');
+    }
   }
 
   private setLabel() {

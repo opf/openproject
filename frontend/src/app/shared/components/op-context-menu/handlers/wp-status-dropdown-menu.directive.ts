@@ -29,18 +29,27 @@
 import { StateService } from '@uirouter/core';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { Directive, ElementRef, Input } from '@angular/core';
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import {
+  OpContextMenuTrigger
+} from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  HalResourceEditingService
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import {
+  Highlighting
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  WorkPackageNotificationService
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { HalError } from "core-app/features/hal/services/hal-error";
 
 @Directive({
   selector: '[wpStatusDropdown]',
@@ -91,6 +100,9 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
         .save(change)
         .then(() => {
           this.workPackageNotificationService.showSave(this.workPackage);
+        })
+        .catch((e:unknown) => {
+          this.workPackageNotificationService.showError((e as HalError).resource, change.projectedResource);
         });
     }
   }

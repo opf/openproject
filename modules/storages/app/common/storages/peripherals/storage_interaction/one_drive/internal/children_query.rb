@@ -38,24 +38,23 @@ module Storages
 
             def initialize(storage)
               @storage = storage
-              @uri = storage.uri
             end
 
             def call(http:, folder:, fields: [])
-              select_url_query = if fields.empty?
-                                   ""
-                                 else
-                                   "?$select=#{fields.join(',')}"
-                                 end
+              query = if fields.empty?
+                        ""
+                      else
+                        "?$select=#{fields.join(',')}"
+                      end
 
-              make_children_request(folder, http, select_url_query)
+              make_children_request(folder, http, query)
             end
 
             private
 
-            def make_children_request(folder, http, select_url_query)
-              response = http.get(Util.join_uri_path(@uri, uri_path_for(folder) + select_url_query))
-              handle_responses(response)
+            def make_children_request(folder, http, query)
+              url = UrlBuilder.url(Util.drive_base_uri(@storage), uri_path_for(folder))
+              handle_responses(http.get(url + query))
             end
 
             def handle_responses(response)
@@ -78,9 +77,9 @@ module Storages
             end
 
             def uri_path_for(folder)
-              return "/v1.0/drives/#{@storage.drive_id}/root/children" if folder.root?
+              return "/root/children" if folder.root?
 
-              "/v1.0/drives/#{@storage.drive_id}/items/#{folder.path}/children"
+              "/items/#{folder.path}/children"
             end
           end
         end

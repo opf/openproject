@@ -29,7 +29,7 @@
 # ++
 #
 
-class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Projects::Filters::Base
   def self.key
     :available_project_attributes
   end

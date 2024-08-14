@@ -337,12 +337,9 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       context "with only non default types" do
         let(:target_types) { [other_type] }
 
-        it "uses the first type" do
+        it "is unsuccessful" do
           expect(subject)
-            .to be_success
-
-          expect(subject.result.type)
-            .to eql other_type
+            .to be_failure
         end
       end
 

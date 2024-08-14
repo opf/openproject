@@ -70,7 +70,7 @@ module Admin
     end
 
     def show_local_breadcrumb
-      true
+      false
     end
 
     def default_breadcrumb

@@ -117,7 +117,7 @@ class EditField
 
   def openSelectField
     autocomplete_selector.click
-    wait_for_network_idle if using_cuprite?
+    wait_for_network_idle
   end
 
   def set_select_field_value(value)
@@ -252,7 +252,7 @@ class EditField
     # an attribute, which may cause an input not to open properly.
     retry_block do
       activate_edition
-      wait_for_network_idle if using_cuprite?
+      wait_for_network_idle
       set_value value
 
       # select fields are saved on change

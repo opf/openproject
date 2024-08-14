@@ -365,10 +365,10 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                Выпуск содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Делитесь списками проектов и делайте их общедоступными</li> <li>Пометьте списки проектов как избранные</li> <li>Проверка соединений для хранилищ OneDrive/SharePoint</li> <li>Новый внешний вид страницы профиля пользователя с использованием Primer</li> <li>Экспорт диаграммы Ганта в PDF: Дополнительное масштабирование даты на основе календарных недель</li> <li>Панель поиска в компоненте подменю (списки проектов и модули Gantt и Boards)</li> <li>Выбор между отчетом о проделанной работе, отображаемым только в часах или в днях и часах</li> <li>Возможность снять выделение проектов в селекторе проектов</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -615,17 +615,17 @@ ru:
       title: "Уведомления"
       no_unread: "Нет непрочитанных уведомлений"
       reasons:
-        mentioned: "упомянутый"
-        watched: "наблюдатель"
-        assigned: "назначенный"
-        responsible: "ответственный"
-        created: "создано"
-        scheduled: "запланировано"
-        commented: "прокомментировано"
-        processed: "обработано"
-        prioritized: "приоритизировано"
+        mentioned: "Упомянутый"
+        watched: "Наблюдатель"
+        assigned: "Назначенный"
+        accountable: "Ответственный"
+        created: "Создано"
+        scheduled: "Запланировано"
+        commented: "Прокомментировано"
+        processed: "Обрабатывается"
+        prioritized: "Приоритетный"
         dateAlert: "Дата оповещения"
-        shared: "поделился"
+        shared: "Общий доступ"
       date_alerts:
         milestone_date: "Дата вехи"
         overdue: "Просрочено"
@@ -664,15 +664,6 @@ ru:
         new_notifications:
           message: "Есть новые уведомления."
           link_text: "Нажмите здесь, чтобы загрузить их."
-      menu:
-        accountable: "Ответственный"
-        by_project: "Непрочитано по проекту"
-        by_reason: "Причина"
-        inbox: "Входящие"
-        mentioned: "Упомянутые"
-        watched: "Наблюдатель"
-        date_alert: "Дата оповещения"
-        shared: "Общий доступ"
       settings:
         change_notification_settings: 'Измените <a target="_blank" href="%{url}">настройки уведомлений</a> , чтобы не пропустить важное обновление.'
         title: "Настройки уведомлений"
@@ -1021,11 +1012,13 @@ ru:
         workAlternative: "Приблизительное время"
         remainingTime: "Оставшиеся часы"
       default_queries:
+        manually_sorted: "Новый запрос с ручной сортировкой"
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"
         assigned_to_me: "Предназначено для меня"
         recently_created: "Недавно созданное"
         all_open: "Все открытые"
+        overdue: "Просрочено"
         summary: "Сводка"
         shared_with_users: "Доступно пользователям"
         shared_with_me: "В общем доступе с"
@@ -1119,7 +1112,7 @@ ru:
       time_relative:
         days: "дней"
         weeks: "недели"
-        months: "months"
+        months: "месяцев"
     toolbar:
       settings:
         configure_view: "Настроить вид"

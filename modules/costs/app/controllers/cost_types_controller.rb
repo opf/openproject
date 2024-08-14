@@ -152,15 +152,7 @@ class CostTypesController < ApplicationController
     render_404
   end
 
-  def default_breadcrumb
-    if action_name == "index"
-      CostType.model_name.human(count: 2)
-    else
-      ActionController::Base.helpers.link_to(CostType.model_name.human(count: 2), cost_types_path)
-    end
-  end
-
   def show_local_breadcrumb
-    true
+    false
   end
 end

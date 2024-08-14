@@ -69,13 +69,29 @@ RSpec.describe Projects::Exports::CSV, "integration" do
         parsed
       end
 
-      context "without admin permission" do
-        it "renders all visible globally available project custom fields in the header" do
+      context "without view_project_attributes permission" do
+        let(:permissions) { %i(view_projects) }
+
+        it "does not render project custom fields in the header" do
+          expect(parsed.size).to eq 2
+
+          expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public"]
+        end
+
+        it "does not render the custom field values in the rows if enabled for a project" do
+          expect(rows.first)
+            .to eq [project.id.to_s, project.identifier, project.name,
+                    project.description, "Off track", "false"]
+        end
+      end
+
+      context "with view_project_attributes permission" do
+        it "renders available project custom fields in the header if enabled in any project" do
           expect(parsed.size).to eq 2
 
           cf_names = global_project_custom_fields.map(&:name)
 
-          expect(cf_names).to include(not_used_string_cf.name)
+          expect(cf_names).not_to include(not_used_string_cf.name)
           expect(cf_names).not_to include(hidden_cf.name)
 
           expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public", *cf_names]

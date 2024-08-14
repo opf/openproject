@@ -45,16 +45,11 @@ RSpec.describe TabsHelper do
       label: :label_avatar }
   end
 
-  describe "render_extensible_tabs" do
+  describe "tabs_for_key" do
     let(:current_user) { build(:user) }
     let(:user) { build(:user, id: 2) }
 
     before do
-      allow_any_instance_of(TabsHelper)
-        .to receive(:render_tabs)
-        .with([expected_tab])
-        .and_return [expected_tab]
-
       allow(OpenProject::Ui::ExtensibleTabs)
         .to receive(:enabled_tabs)
         .with(:user, a_hash_including(user:, current_user:))
@@ -62,7 +57,7 @@ RSpec.describe TabsHelper do
     end
 
     it "returns an evaluated path" do
-      tabs = render_extensible_tabs(:user, user:)
+      tabs = tabs_for_key(:user, user:)
       expect(response).to have_http_status :ok
       expect(tabs).to eq([expected_tab])
     end

@@ -36,7 +36,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:route) { "projects/#{project.identifier}/project_storages/#{project_storage.id}/open" }
   let(:expected_redirect_url) do
-    "#{last_request.scheme}://#{last_request.host}#{expected_redirect_path}"
+    "#{Setting.protocol}://#{Setting.host_name}#{expected_redirect_path}"
   end
 
   shared_let(:project) { create(:project) }
@@ -101,7 +101,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
 
                   expect(last_response).to have_http_status(:found)
                   expect(last_response.headers["Location"]).to eq (
-                    "http://example.org/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?destination_url=http%3A%2F%2Fexample.org%2Fprojects%2F#{project.identifier}%2Fproject_storages%2F#{project_storage.id}%2Fopen&storage_id=#{storage.id}"
+                    "http://#{Setting.host_name}/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?destination_url=http%3A%2F%2F#{CGI.escape(Setting.host_name)}%2Fprojects%2F#{project.identifier}%2Fproject_storages%2F#{project_storage.id}%2Fopen&storage_id=#{storage.id}"
                   )
                 end
               end
@@ -111,7 +111,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
                   get route, {}, { "HTTP_ACCEPT" => "text/html" }
 
                   expect(last_response).to have_http_status(:found)
-                  expect(last_response.headers["Location"]).to eq ("http://example.org/projects/#{project.identifier}")
+                  expect(last_response.headers["Location"]).to eq ("http://#{Setting.host_name}/projects/#{project.identifier}")
                   expect(last_request.session["flash"]["flashes"])
                     .to eq({
                              "modal" => {
@@ -142,7 +142,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
               get route, {}, { "HTTP_ACCEPT" => "text/html" }
 
               expect(last_response).to have_http_status(:found)
-              expect(last_response.headers["Location"]).to eq ("http://example.org/projects/#{project.identifier}")
+              expect(last_response.headers["Location"]).to eq ("http://#{Setting.host_name}/projects/#{project.identifier}")
               expect(last_request.session["flash"]["flashes"])
                 .to eq({
                          "modal" => {

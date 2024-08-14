@@ -26,15 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 // ++    Ng1FieldControlsWrapper,
 
+import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+  HalResourceEditingService
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { IGithubPullRequest, IGithubUserResource } from '../state/github-pull-request.model';
 import { GithubPullRequestResourceService } from '../state/github-pull-request.service';
@@ -61,7 +56,7 @@ export class PullRequestMacroComponent implements OnInit {
 
   pullRequest$:Observable<IGithubPullRequest>;
 
-  displayText$:Observable<string>;
+  displayText$:Observable<string|null>;
 
   constructor(
     readonly elementRef:ElementRef,
@@ -84,8 +79,13 @@ export class PullRequestMacroComponent implements OnInit {
       );
   }
 
-  private buildText(pr:IGithubPullRequest):string {
+  private buildText(pr:IGithubPullRequest):string|null {
     const actor = this.deriveActor(pr) as IGithubUserResource;
+    if (!actor) {
+      return null;
+    }
+
+
     const actorLink = this.htmlLink(actor.htmlUrl, actor.login);
     const repositoryLink = this.htmlLink(pr.repositoryHtmlUrl, pr.repository);
     const prLink = this.htmlLink(pr.htmlUrl, pr.title);

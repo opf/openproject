@@ -122,7 +122,7 @@ tr:
       agenda_text: "Eski toplantının gündemini kopyalayın"
     email:
       send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Açık toplantı"
       invited:
         summary: "%{actor} size toplantı için bir davetiye gönderdi %{title}"

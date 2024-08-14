@@ -96,7 +96,7 @@ module API
 
           {
             href: api_v3_paths.time_entries,
-            title: "Log time on #{represented.subject}"
+            title: "Log time on work package '#{represented.subject}'"
           }
         end
 
@@ -107,7 +107,7 @@ module API
           {
             href: new_work_package_move_path(represented),
             type: "text/html",
-            title: "Move #{represented.subject}"
+            title: "Move work package '#{represented.subject}'"
           }
         end
 
@@ -117,7 +117,8 @@ module API
 
           {
             href: work_package_path(represented, "copy"),
-            title: "Copy #{represented.subject}"
+            type: "text/html",
+            title: "Copy work package '#{represented.subject}'"
           }
         end
 

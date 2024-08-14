@@ -44,7 +44,7 @@ RSpec.describe "Work package query summary item", :js do
   end
 
   it "allows users to visit the summary page" do
-    find(".op-sidemenu--item-action", text: "Summary", wait: 10).click
+    find(".op-submenu--item-action", text: "Summary", wait: 10).click
     expect(page).to have_css("h2", text: "Summary")
     expect(page).to have_css("td", text: work_package.type.name)
   end

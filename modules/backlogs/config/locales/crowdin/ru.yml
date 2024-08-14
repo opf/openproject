@@ -69,7 +69,7 @@ ru:
     show_burndown_chart: "Диаграмма выгорания задач"
     story: "История"
     story_points: "Исторические точки"
-    story_points_ideal: "Точки истории (идеал)"
+    story_points_ideal: "Исторические точки (идеал)"
     task: "Задача"
     task_color: "Цвет задачи"
     unassigned: "Нераспределенные"

@@ -178,7 +178,7 @@ RSpec.describe "API v3 storages resource", :webmock, content_type: :json do
         end
 
         it_behaves_like "constraint violation" do
-          let(:message) { "Host is not a valid URL" }
+          let(:message) { "Host is not a valid URL." }
         end
       end
     end

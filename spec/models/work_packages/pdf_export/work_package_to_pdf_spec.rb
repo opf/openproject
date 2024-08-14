@@ -83,7 +83,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:user) do
     create(:user,
-           member_with_permissions: { project => %w[view_work_packages export_work_packages] })
+           member_with_permissions: { project => %w[view_work_packages export_work_packages view_project_attributes] })
   end
   let(:another_user) do
     create(:user, firstname: "Secret User")

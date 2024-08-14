@@ -27,17 +27,29 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title t(:label_administration), t("label_role_plural") %>
-<%= toolbar title: Role.model_name.human(count: 2) do %>
-  <li class="toolbar-item">
-    <%= link_to({ action: 'new'},
-          { class: 'button -primary',
-            aria: {label: t(:label_role_new)},
-            title: t(:label_role_new)}) do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= Role.model_name.human %></span>
-    <% end %>
-  </li>
-<% end %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { Role.model_name.human(count: 2) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+                             t(:label_role_and_permissions)])
+  end
+%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t(:label_role_new) },
+                                 title: I18n.t(:label_role_new),
+                                 tag: :a,
+                                 test_selector: "roles--create-button",
+                                 href: new_role_path) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      Role.model_name.human
+    end
+  end
+%>
 
 <div class="generic-table--container">
   <div class="generic-table--results-container">

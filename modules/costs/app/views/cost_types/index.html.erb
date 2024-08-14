@@ -28,48 +28,59 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), t(:label_cost_type_plural) %>
-<%= toolbar title: CostType.model_name.human(count: 2) do %>
-  <li class="toolbar-item">
-    <a href="<%= new_cost_type_path %>" aria-label="<%= t(:button_add_cost_type) %>" title="<%= t(:button_add_cost_type) %>" class="button -primary">
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= CostType.model_name.human %></span>
-    </a>
-  </li>
-<% end %>
 
-<%= styled_form_tag(cost_types_path, { method: :get, id: 'query_form' }) do %>
-  <fieldset id="filters" class="simple-filters--container">
-    <legend><%= t(:label_filter_plural) %></legend>
-    <ul class="simple-filters--filters">
-      <li class="simple-filters--filter">
-        <%= styled_label_tag :fixed_date, t(:'attributes.fixed_date'), class: 'simple-filters--filter-name' %>
-        <div class='simple-filters--filter-value'>
-          <%= angular_component_tag 'op-basic-single-date-picker',
-                                    inputs: {
-                                      value: @fixed_date,
-                                      id: :start_date,
-                                      name: :fixed_date
-                                    }
-          %>
-        </div>
-      </li>
-      <li class="simple-filters--filter">
-        <%= styled_label_tag :include_deleted, t(:caption_show_locked), class: 'simple-filters--filter-name -small' %>
-        <div class="simple-filters--filter-value">
-          <%= styled_check_box_tag :include_deleted, "1", @include_deleted, autocomplete: "off" %>
-        </div>
-      </li>
-      <li class="simple-filters--controls">
-        <%= submit_tag t(:button_apply), class: 'button -primary -small' %>
-        <%= link_to t(:button_clear), cost_types_path, class: 'button -small -with-icon icon-undo' %>
-      </li>
-    </ul>
-  </fieldset>
-<% end %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { I18n.t(:label_cost_type_plural) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: url_for({ controller: "/admin/settings", action: "show_plugin", id: :costs }), text: t(:project_module_costs) },
+                             I18n.t(:label_cost_type_plural)])
+  end
+%>
 
-<div id="cost_type_flash_notice_outer" style="display:none">
-<div class="flash notice" id="cost_type_flash_notice"><%= t(:notice_successful_update) %></div>
-</div>
+<%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
+  <% subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t(:button_add_cost_type) },
+                                 title: I18n.t(:button_add_cost_type),
+                                 tag: :a,
+                                 href: new_cost_type_path) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      CostType.model_name.human
+    end %>
+
+   <% subheader.with_bottom_pane_component do %>
+    <%= styled_form_tag(cost_types_path, { method: :get, id: 'query_form' }) do %>
+      <fieldset id="filters" class="simple-filters--container">
+        <legend><%= t(:label_filter_plural) %></legend>
+        <ul class="simple-filters--filters">
+          <li class="simple-filters--filter">
+            <%= styled_label_tag :fixed_date, t(:'attributes.fixed_date'), class: 'simple-filters--filter-name' %>
+            <div class='simple-filters--filter-value'>
+              <%= angular_component_tag 'op-basic-single-date-picker',
+                                        inputs: {
+                                          value: @fixed_date,
+                                          id: :start_date,
+                                          name: :fixed_date
+                                        }
+              %>
+            </div>
+          </li>
+          <li class="simple-filters--filter">
+            <%= styled_label_tag :include_deleted, t(:caption_show_locked), class: 'simple-filters--filter-name -small' %>
+            <div class="simple-filters--filter-value">
+              <%= styled_check_box_tag :include_deleted, "1", @include_deleted, autocomplete: "off" %>
+            </div>
+          </li>
+          <li class="simple-filters--controls">
+            <%= submit_tag t(:button_apply), class: 'button -primary -small' %>
+            <%= link_to t(:button_clear), cost_types_path, class: 'button -small -with-icon icon-undo' %>
+          </li>
+        </ul>
+      </fieldset>
+    <% end %>
+   <% end %>
+ <% end %>
+
 <%= render partial: 'list' %>
 
 <% if @include_deleted %>

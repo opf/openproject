@@ -35,7 +35,24 @@ There are several possible errors that can occur during the connection test. The
 
 ### Connection validation for Nextcloud
 
-The connection validation test is currently only available for OneDrive/SharePoint integrations.
+Same as OneDrive/SharePoint, every file storage for Nextcloud has the ability to run a connection test. This test is
+triggered manually by clicking on **Recheck connection** in the sidebar on the right side of the file storage's details
+view. This check is available after the file storage is fully configured.
+
+![Recheck connection for Nextcloud in OpenProject administration](openproject_file_storages_recheck_connection_nextcloud.png)
+
+There are several possible errors that can occur during the connection test. The following table lists the error codes
+with a description of the possible reasons and suggested solutions.
+
+| Error code               | Error description                                                                          | Possible reasons                                                                                                                            | Next steps and solutions                                                                                                                                                           |
+|--------------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ERR_HOST_NOT_FOUND       | No Nextcloud server was found at the configured host URL.                                  | There might be a typo or the URL has changed.                                                                                               | Please check the configuration.                                                                                                                                                    |
+| ERR_MISSING_DEPENDENCIES | A required dependency is missing on the file storage.                                      | Either the Integration OpenProject app or the Group Folders app is not enabled in Nextcloud.                                                | Please add the following dependency: %{dependency}.                                                                                                                                |
+| ERR_UNEXPECTED_VERSION   | The Integration OpenProject app version or the Group Folders app version is not supported. | Either the Integration OpenProject app or the Group Folders app is outdated or was not updated to the officially minimal supported version. | Please update your apps to the latest version. It might be necessary to update your Nextcloud server to the latest version in order to be able to install the latest app versions. |
+| ERR_UNKNOWN              | An unknown error occurred.                                                                 | There can be multiple reasons and the error source was not foreseen.                                                                        | Errors of this kind are logged to the server logs. Look for a log entry starting with `Connection validation failed with unknown error:`                                           |
+
+The officially minimal supported app versions are listed in
+the [system admin guide](../../../../system-admin-guide/integrations/nextcloud/#required-system-versions).
 
 ## Health checks for automatically managed project folders
 

@@ -27,7 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= toolbar title: t(:label_calendar_subscriptions) %>
+<% html_title t(:label_administration), t(:label_calendar_subscriptions) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_calendar_subscriptions) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_working_days_and_hours_path, text: t(:label_calendars_and_dates) },
+                             t(:label_calendar_subscriptions)])
+  end
+%>
 
 <%= styled_form_tag(
       admin_settings_icalendar_path,

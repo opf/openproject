@@ -57,6 +57,10 @@ RSpec.shared_examples_for "project contract" do
 
     allow(Project)
       .to receive(:allowed_to)
+      .and_call_original
+
+    allow(Project)
+      .to receive(:allowed_to)
       .with(current_user, :add_subprojects)
       .and_return assignable_parents_scope
 

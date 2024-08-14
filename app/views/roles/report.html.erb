@@ -26,8 +26,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= breadcrumb_toolbar t(:label_permissions_report) %>
-<% local_assigns[:additional_breadcrumb] = t(:label_permissions_report) %>
+
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { I18n.t(:label_permissions_report) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+                             t(:label_permissions_report)])
+  end
+%>
+
 <% html_title t(:label_administration), t(:label_permissions_report) %>
 
 <% (@calls || []).select(&:failure?).each do |call| %>

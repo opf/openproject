@@ -29,19 +29,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
 
+<% tabs = types_tabs %>
 
-<% local_assigns[:additional_breadcrumb] = @type.name %>
-
-<div class="grid-content">
-  <%= breadcrumb_toolbar @type.name %>
-</div>
+<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: tabs) %>
 
 <%= form_for @type,
              url: update_type_tab_path(id: @type.id, tab: @tab),
              builder: TabularFormBuilder,
              lang: current_language do |f| %>
 
-  <%= render_tabs types_tabs, f %>
+  <%= render_tabs tabs, f, with_tab_nav: false %>
 <% end %>
 
 <%= error_messages_for 'type' %>

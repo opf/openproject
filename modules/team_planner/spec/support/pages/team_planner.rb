@@ -348,7 +348,7 @@ module Pages
     end
 
     def expect_no_menu_item(name)
-      expect(page).to have_no_css(".op-sidemenu--item-title", text: name)
+      expect(page).to have_no_css(".op-submenu--item-title", text: name)
     end
 
     def y_distance(from:, to:)

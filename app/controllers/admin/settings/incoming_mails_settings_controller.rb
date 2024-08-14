@@ -31,13 +31,5 @@ module Admin::Settings
     current_menu_item [:show] do
       :incoming_mails
     end
-
-    def default_breadcrumb
-      t(:label_incoming_emails)
-    end
-
-    def show_local_breadcrumb
-      true
-    end
   end
 end

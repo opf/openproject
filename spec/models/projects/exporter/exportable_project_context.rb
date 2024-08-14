@@ -81,9 +81,11 @@ RSpec.shared_context "with an instance of the described exporter" do
     login_as current_user
   end
 
+  let(:permissions) { %i(view_projects view_project_attributes) }
+
   let(:current_user) do
     create(:user,
-           member_with_permissions: { project => %i(view_projects) })
+           member_with_permissions: { project => permissions })
   end
   let(:query_columns) { %w[name description project_status public] }
   let(:query) do

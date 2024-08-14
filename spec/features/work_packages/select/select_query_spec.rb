@@ -106,7 +106,7 @@ RSpec.describe "Query selection" do
     it "updates the page upon query switching", :js do
       wp_page.expect_title query.name, editable: false
 
-      find(".op-sidemenu--item-action", text: query2.name).click
+      find(".op-submenu--item-action", text: query2.name).click
     end
   end
 end

@@ -63,5 +63,7 @@ ms:
       **Isu Dibuka Semula:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
       **Ditolak masuk PP** [%{gitlab_user}] (%{gitlab_user_url}) ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **Ditolak masuk %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) ditolak ke [%{commit_number}](%{commit_url}) ke [%{repository}](%{repository_url}) di %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **Ditolak masuk PG** [%{gitlab_user}] (%{gitlab_user_url}) beberapa komit telah ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}

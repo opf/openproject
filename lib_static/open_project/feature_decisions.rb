@@ -32,9 +32,9 @@ module OpenProject
   #
   # New feature flags can automatically be added by calling
   #
-  #   Rails.application.initializer 'set flag' do
-  #     OpenProject::FeatureDecisions.add :the_name_of_the_flag
-  #   end
+  #   OpenProject::FeatureDecisions.add :the_name_of_the_flag
+  #
+  # See config/initializers/feature_decisions.rb.
   #
   # This will set up:
   # * the method `.the_name_of_the_flag_active?` for querying the state
@@ -54,6 +54,8 @@ module OpenProject
   #   context 'some description', with_flag: { the_name_of_the_flag: true } do
   #     ...
   #   end
+  #
+  # There is an interface to toggle flags on a running instance at path /admin/settings/experimental.
   #
   module FeatureDecisions
     module_function

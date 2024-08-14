@@ -46,7 +46,7 @@ module ProjectCustomFields
       private
 
       def allowed_to_edit?
-        User.current.allowed_in_project?(:edit_project, @project)
+        User.current.allowed_in_project?(:edit_project_attributes, @project)
       end
 
       def eager_load_project_custom_field_values

@@ -109,6 +109,18 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member
 
+      map.permission :view_project_attributes,
+                     {},
+                     permissible_on: :project,
+                     dependencies: :view_project
+
+      map.permission :edit_project_attributes,
+                     {},
+                     permissible_on: :project,
+                     require: :member,
+                     dependencies: :view_project_attributes,
+                     contract_actions: { projects: %i[update] }
+
       map.permission :select_project_custom_fields,
                      {
                        "projects/settings/project_custom_fields": %i[show toggle enable_all_of_section disable_all_of_section]
@@ -204,7 +216,8 @@ Rails.application.reloader.to_prepare do
                        journals: %i[index],
                        work_packages: %i[show index],
                        work_packages_api: [:get],
-                       "work_packages/reports": %i[report report_details]
+                       "work_packages/reports": %i[report report_details],
+                       "work_packages/menus": %i[show]
                      },
                      permissible_on: %i[work_package project],
                      contract_actions: { work_packages: %i[read] }
