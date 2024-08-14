@@ -131,7 +131,7 @@ zh-TW:
               not_found: "%{current_path} 沒有找到。"
             set_folders_permissions:
               permission_not_set: 無法在 %{path} 上設定權限。
-          error: 發生意外錯誤。請確保您的 Nextcloud 實例可以連線，並檢查 OpenProject Worker 日誌以取得更多資訊。
+          error: 發生意外錯誤。請確保您的 Nextcloud 可以連線，並檢查 OpenProject 日誌以取得更多資訊。
           not_allowed: OpenProject 不允許存取您的 OneDrive 磁碟機。請檢查 Azure 應用程式上設定的權限。
           unauthorized: OpenProject 無法與 OneDrive 同步。請檢查您的儲存空間和 Azure 應用程式設定。
           user_does_not_exist: "%{user} 在 Nextcloud 中不存在。"
@@ -161,7 +161,7 @@ zh-TW:
       project_storage_delete_result_2: 如果此儲存空間具有自動管理的專案資料夾，則該資料夾及其檔案將永久刪除。
       storage: '您確定要從此項目中刪除 %{file_storage} 嗎？ 若要確認此操作，請在下面的欄位中輸入儲存名稱，這將：'
       storage_delete_result_1: 刪除使用此儲存的所有項目的所有儲存設定。
-      storage_delete_result_2: 刪除從此項目的工作包到該儲存的檔案和資料夾的所有連結。
+      storage_delete_result_2: 刪除從此專案的工作項目與該儲存的檔案和資料夾的所有連結。
       storage_delete_result_3: 如果此儲存空間具有自動管理的專案資料夾，則該資料夾及其檔案將永久刪除。
     dependencies:
       nextcloud:
@@ -194,7 +194,7 @@ zh-TW:
         app_version_mismatch: 不支援整合 OpenProject 應用程式版本。請更新您的 Nextcloud 伺服器。
         client_id_wrong: 設定的 OAuth 2 客戶端 ID 無效。請檢查設定。
         client_secret_wrong: 設定的 OAuth 2 用戶端密鑰無效。請檢查設定。
-        drive_id_wrong: 找不到設定的磁碟機 id。請檢查設定。
+        drive_id_wrong: 找不到設定的儲存空間id。請檢查設定。
         group_folder_version_mismatch: 不支援群組資料夾版本。請更新您的 Nextcloud 伺服器。
         host_not_found: 在設定的主機網址未找到 Nextcloud 伺服器。請檢查設定。
         missing_dependencies: '檔案儲存中缺少所需的相依性。請新增下列相依性： %{dependency}。'
@@ -202,7 +202,7 @@ zh-TW:
         placeholder: 根據伺服器檢查您的連線。
         subtitle: 連線驗證
         tenant_id_wrong: 設定的目錄 (租戶) id 無效。請檢查設定。
-        unexpected_content: 在硬碟機中發現意外內容。
+        unexpected_content: 在儲存空間中發現預期之外內容。
         unknown_error: 連線無法驗證。發生未知錯誤。請檢查伺服器日誌以瞭解進一步資訊。
       label_error: 錯誤
       label_healthy: 健康的

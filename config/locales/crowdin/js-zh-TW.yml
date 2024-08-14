@@ -257,7 +257,7 @@ zh-TW:
           link_quote: "獲取報價"
           more_info: "更多資訊"
           text: >
-            OpenProject企業版是在社區版的基礎上構建的。它包括企業版插件和專業支持，主要面向使用OpenProject管理業務關鍵項目的具有10個以上用戶的組織。
+            OpenProject企業版是在社區版的基礎上構建的。它包括企業版外掛和專業支持，主要對象為使用OpenProject管理業務關鍵項目的具有10個以上用戶的組織。
           unlimited: "無限"
           you_contribute: "開發者也需要支付他們的賬單。 通過升級到企業版，您將支持這個開放源碼社區的努力，並有助於其發展、維護和不斷改進。"
       working_days:
@@ -545,7 +545,7 @@ zh-TW:
     label_unwatch_work_package: "取消追蹤"
     label_uploaded_by: "上傳者"
     label_default_queries: "預設"
-    label_starred_queries: "最愛"
+    label_starred_queries: "收藏"
     label_global_queries: "公開"
     label_custom_queries: "私人"
     label_columns: "欄"
@@ -586,7 +586,7 @@ zh-TW:
         wiki: "在 <b>wiki</b> 中, 您可以與您的團隊一起記錄和分享知識。"
         backlogs:
           overview: " 在<b>backlogs</b> 檢視中，管理您的工作。"
-          sprints: "在 <b>積壓工作</b> 視圖中管理您的工作。 <br> 在右邊, 你有產品積壓或錯誤積壓, 在左邊, 你將有各自的衝刺。在這裡, 您可以創建 <b>史詩、使用者故事和錯誤</b>, 通過拖動 ' n ' drop 進行優先排序, 並將它們添加到衝刺中。"
+          sprints: "在待辦工作版面中管理您的工作。 在右邊, 你有專案待辦或錯誤紀錄, 在左邊, 你將有各自的衝刺。在這裡, 您可以創建 <b>史詩、使用者故事和錯誤</b>, 通過拖曳進行優先排序, 並將它們添加到衝刺中。"
           task_board_arrow: "要查看您的<b>任務面板</b>，請打開衝刺（sprint）下拉選單…"
           task_board_select: "…並選擇<b>任務面板</b>條目。"
           task_board: "任務面板可以將<b>此衝刺 （sprint） 的進度</b>可視化。點擊用戶故事旁邊的加號 (+) 圖標可添加新任務或障礙。<br>狀態可以通過拖放更新。"
@@ -795,7 +795,7 @@ zh-TW:
       tracking_time: "跟蹤時間"
       button_stop: "停止當前計時器"
     two_factor_authentication:
-      label_two_factor_authentication: "雙重身分驗證"
+      label_two_factor_authentication: "兩階段驗證"
     watchers:
       label_loading: 正在載入監看者...
       label_error_loading: 載入監看者時發生錯誤
