@@ -1027,7 +1027,7 @@ GEM
       nokogiri (>= 1.13.10)
       rexml
     ruby2_keywords (0.0.5)
-    rubytree (2.0.3)
+    rubytree (2.1.0)
       json (~> 2.0, > 2.3.1)
     rubyzip (2.3.2)
     safety_net_attestation (0.4.0)
@@ -1340,7 +1340,7 @@ DEPENDENCIES
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar (~> 1.13.0)
-  rubytree (~> 2.0.0)
+  rubytree (~> 2.1.0)
   sanitize (~> 6.1.0)
   secure_headers (~> 6.5.0)
   selenium-devtools
