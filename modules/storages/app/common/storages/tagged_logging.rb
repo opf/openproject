@@ -32,7 +32,7 @@ module Storages
   module TaggedLogging
     delegate :info, :error, to: :logger
 
-    # @param tag [String, Array<String>] the tag or list of tags to annotate the logs with
+    # @param tag [Class, String, Array<Class, String>] the tag or list of tags to annotate the logs with
     # @yield [Logger]
     def with_tagged_logger(tag = self.class, &)
       logger.tagged(*tag, &)

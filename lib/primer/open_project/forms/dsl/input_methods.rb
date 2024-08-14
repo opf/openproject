@@ -20,6 +20,10 @@ module Primer
           def rich_text_area(**)
             add_input RichTextAreaInput.new(builder: @builder, form: @form, **)
           end
+
+          def storage_manual_project_folder_selection(**)
+            add_input StorageManualProjectFolderSelectionInput.new(builder: @builder, form: @form, **)
+          end
         end
       end
     end

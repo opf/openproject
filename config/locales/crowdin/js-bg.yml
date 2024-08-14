@@ -73,7 +73,7 @@ bg:
     button_continue: "Продължаване"
     button_copy: "Копиране"
     button_copy_to_clipboard: "Копирай в буфер"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Копиране на връзката в клипборда"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "допълнителни полета"
     button_delete: "Изтрий"
@@ -134,7 +134,7 @@ bg:
       errors:
         could_not_load: "Данните за показване на графиката не можаха да се заредят. Може да липсват необходимите разрешения."
     description_available_columns: "Достъпни колони"
-    description_current_position: "You are here: "
+    description_current_position: "Вие сте тук:"
     description_select_work_package: "Избери работен пакет #%{id}"
     description_subwork_package: "Подработен пакет #%{id}"
     editor:
@@ -193,13 +193,13 @@ bg:
     admin:
       type_form:
         custom_field: "Потребителски полета"
-        inactive: "Inactive"
+        inactive: "Неактивен"
         drag_to_activate: "Drag fields from here to activate them"
         add_group: "Add attribute group"
         add_table: "Add table of related work packages"
         edit_query: "Редактирай заявка"
         new_group: "Нова група"
-        reset_to_defaults: "Reset to defaults"
+        reset_to_defaults: "Възстановяване по подразбиране"
       enterprise:
         text_reprieve_days_left: "%{days} days until end of grace period"
         text_expired: "expired"
@@ -250,7 +250,7 @@ bg:
             professional_support: "Професионална поддръжка"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Актуализирайте сега"
           button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
@@ -309,7 +309,7 @@ bg:
           two: "Втори критерий за подреждане"
           three: "Трети критерий за подреждане"
     gantt_chart:
-      label: "Gantt chart"
+      label: "Диаграма на Гант"
       quarter_label: "Q%{quarter_number}"
       labels:
         title: "Label configuration"
@@ -338,7 +338,7 @@ bg:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Експортиране"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -366,10 +366,10 @@ bg:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -404,7 +404,7 @@ bg:
     label_between: "между"
     label_board: "Board"
     label_board_locked: "Заключен"
-    label_board_plural: "Boards"
+    label_board_plural: "Табла"
     label_board_sticky: "Лепкава"
     label_change: "Промени"
     label_create: "Създаване"
@@ -455,7 +455,7 @@ bg:
     label_incoming_emails: "Входящи имейли"
     label_information_plural: "Информация"
     label_invalid: "Invalid"
-    label_import: "Import"
+    label_import: "Импортиране"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Последно актуализиран на"
     label_learn_more_link: "Научете повече"
@@ -483,7 +483,7 @@ bg:
     label_on: "на"
     label_open_menu: "Open menu"
     label_open_context_menu: "Open context menu"
-    label_open_work_packages: "open"
+    label_open_work_packages: "отворен"
     label_password: "Парола"
     label_previous: "Предишен"
     label_per_page: "За страница:"
@@ -517,7 +517,7 @@ bg:
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Публичен"
-    label_sum: "Sum"
+    label_sum: "Сума"
     label_sum_for: "Сума за"
     label_total_sum: "Обща сума"
     label_subject: "Заглавие"
@@ -547,7 +547,7 @@ bg:
     label_unwatch_work_package: "Ненаблюдаван работен пакет"
     label_uploaded_by: "Качено от"
     label_default_queries: "По подразбиране"
-    label_starred_queries: "Favorite"
+    label_starred_queries: "Любим"
     label_global_queries: "Публичен"
     label_custom_queries: "Private"
     label_columns: "Колони"
@@ -617,12 +617,12 @@ bg:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "Наблюдател"
+        assigned: "Изпълнител"
         accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        created: "Създадено"
+        scheduled: "Планиран"
+        commented: "Коментирани"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -893,7 +893,7 @@ bg:
       wiki_link: "Линк към уики страница"
       image: "Изображение"
     sharing:
-      share: "Share"
+      share: "Споделяне"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -982,16 +982,16 @@ bg:
         createdAt: "Създаден на"
         description: "Описание"
         date: "Дата"
-        percentComplete: "% Complete"
+        percentComplete: "% Завършено"
         percentCompleteAlternative: "Progress"
-        dueDate: "Finish date"
+        dueDate: "Крайна дата"
         duration: "Продължителност"
         spentTime: "Отработено време"
         category: "Категория"
         percentageDone: "Процент завършена задача"
         priority: "Приоритет"
         projectName: "Проект"
-        remainingWork: "Remaining work"
+        remainingWork: "Оставаща работа"
         remainingWorkAlternative: "Оставащи часове"
         responsible: "Отговорен"
         startDate: "Начална дата"
@@ -1003,9 +1003,9 @@ bg:
         updatedAt: "Актуализиран на"
         versionName: "Версия"
         version: "Версия"
-        work: "Work"
+        work: "Работа"
         workAlternative: "Очаквано време"
-        remainingTime: "Remaining work"
+        remainingTime: "Оставаща работа"
       default_queries:
         manually_sorted: "New manually sorted query"
         latest_activity: "Latest activity"

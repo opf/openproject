@@ -68,7 +68,11 @@ VCR.configure do |config|
     end
   end
 
-  config.default_cassette_options = { record: ENV.fetch("VCR_RECORD_MODE", :once).to_sym, drop_unused_requests: true }
+  config.default_cassette_options = {
+    record: ENV.fetch("VCR_RECORD_MODE", :once).to_sym,
+    allow_playback_repeats: true,
+    drop_unused_requests: true
+  }
 end
 
 VCR.turn_off!

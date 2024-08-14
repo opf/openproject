@@ -24,7 +24,7 @@ zh-TW:
   plugin_openproject_meeting:
     name: "OpenProject 會議"
     description: >-
-      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+      此模組為 OpenProject 增加支援專案會議的功能。可以排定會議，從同一專案中選擇受邀者參加會議。可建立議程並傳送給受邀者。會議結束後，可選擇出席者，並根據議程建立會議記錄。最後，會議記錄可以傳送給所有出席者和受邀者。
   activerecord:
     attributes:
       meeting:
@@ -121,7 +121,7 @@ zh-TW:
       agenda_text: "複製舊會議之議程"
     email:
       send_emails: "發送電子郵件"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_invitation_emails: "為所有參與者寄出邀請電子郵件。"
       open_meeting_link: "打開會議連結"
       invited:
         summary: "%{actor} 已經向您發送了一個 %{title} 會議邀請"
@@ -140,9 +140,9 @@ zh-TW:
       structured_text_copy: "目前複製會議不會複製相關會議的議程項目，只會複製會議的詳細信息。"
     copied: "從會議紀錄 #%{id} 中複製"
   meeting_section:
-    untitled_title: "Untitled section"
-    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
-    placeholder_title: "New section"
+    untitled_title: "無標題章節"
+    delete_confirmation: "刪除該章節也會刪除其所有的議程項目。您確定要這麼做？"
+    placeholder_title: "新增章節"
     empty_text: "將項目拖曳至此處或建立新項目"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。

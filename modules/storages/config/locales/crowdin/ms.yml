@@ -21,6 +21,8 @@ ms:
               only_numeric_or_uuid: hanya boleh menjadi dalam format angka atau uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: tidak tersedia untuk storan ini.
             project_ids:
@@ -57,11 +59,14 @@ ms:
   permission_write_files: 'Folder projek yang dikendalikan secara automatik: Tulis fail'
   project_module_storages: Fail-fail
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Dikendalikan secara automatik
       inactive: Tiada folder khusus
       manual: Folder yang tersedia dikendalikan secara manual
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: Dalam kes ini juga, storan ini mempunyai folder projek yang diuruskan secara automatik, dan fail yang termasuk akan dipadam selamanya.
         confirmation_text: Sila sahkan bahawa anda faham dan ingin memadam storan fail ini daripada projek ini
@@ -83,14 +88,20 @@ ms:
         ensure_root_folder_permissions: 'Set Base Folder Permissions:'
         hide_inactive_folders: 'Hide Inactive Folders Step:'
         remote_folders: 'Read contents of the group folder:'
-        rename_project_folder: 'Rename managed project Folder:'
+        rename_project_folder: 'Namakan semula Folder projek yang telah diuruskan:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
               conflict: 'Pengguna %{user} tidak boleh ditambah ke kumpulan %{group} atas sebab: %{reason}'
-              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              failed_to_add: 'Pengguna %{user} tidak boleh ditambah ke kumpulan %{group} atas sebab: %{reason}'
             create_folder:
               conflict: The %{folder_name} already exists on %{parent_location}.
               not_found: "%{parent_location} wasn't found."
@@ -111,7 +122,7 @@ ms:
             set_folders_permissions:
               permission_not_set: could not set permissions on %{path}.
           error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
-          group_does_not_exist: "%{group} does not exit. Check your Nextcloud instance configuration."
+          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
           insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
           not_allowed: Nextcloud block the request.
           unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
@@ -140,6 +151,7 @@ ms:
       complete_without_setup: Lengkap tanpanya
       done_complete_setup: Selesai, penyediaan lengkap
       done_continue: Selesai, teruskan
+      open_storage: Open file storage
       replace_oauth_application: Ganti OpenProject OAuth
       replace_oauth_client: Ganti %{provider_type} OAuth
       save_and_continue: Simpan dan teruskan
@@ -209,9 +221,9 @@ ms:
       label_error: Ralat
       label_healthy: Sihat
       label_pending: Dalam proses
-      label_warning: Warning
+      label_warning: Amaran
       project_folders:
-        subtitle: Automatically managed project folders
+        subtitle: Folder projek yang dikendalikan secara automatik
       since: sejak %{datetime}
       title: Status kesihatan
     health_email_notifications:

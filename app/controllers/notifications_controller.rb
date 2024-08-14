@@ -82,7 +82,7 @@ class NotificationsController < ApplicationController
     case params[:filter]
     when "project"
       id = params[:name].to_i
-      query.where(:project, "=", [id])
+      query.where(:project_id, "=", [id])
     when "reason"
       query.where(:reason, "=", [params[:name]])
     end

@@ -219,7 +219,7 @@ class UsersController < ApplicationController
   end
 
   def deletion_info
-    render action: "deletion_info", layout: my_or_admin_layout
+    render action: "deletion_info", layout: my_or_admin_layout, locals: { layout: my_or_admin_layout }
   end
 
   private

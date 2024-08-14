@@ -49,7 +49,7 @@ RSpec.describe "Appendix of default CSP for external file storage hosts" do
         get "/"
 
         csp = parse_csp(last_response.headers["Content-Security-Policy"])
-        expect(csp["connect-src"]).to include(storage.host)
+        expect(csp["connect-src"]).to include(storage.host.chomp("/"))
       end
     end
 
@@ -58,7 +58,7 @@ RSpec.describe "Appendix of default CSP for external file storage hosts" do
         get "/"
 
         csp = parse_csp(last_response.headers["Content-Security-Policy"])
-        expect(csp["connect-src"]).not_to include(storage.host)
+        expect(csp["connect-src"]).not_to include(storage.host.chomp("/"))
       end
     end
   end

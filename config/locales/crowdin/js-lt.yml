@@ -366,10 +366,10 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
@@ -616,17 +616,17 @@ lt:
       title: "Pranešimai"
       no_unread: "Nėra neperskaitytų pranešimų"
       reasons:
-        mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        mentioned: "Paminėtas"
+        watched: "Stebėtojas"
+        assigned: "Paskirtas"
+        accountable: "Atsakingas"
+        created: "Sukurta"
+        scheduled: "Suplanuota"
+        commented: "Komentavo"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Datos įspėjimas"
-        shared: "Shared"
+        shared: "Bendrinta"
       date_alerts:
         milestone_date: "Gairės data"
         overdue: "Vėluojama"
@@ -895,10 +895,10 @@ lt:
       wiki_link: "Nuoroda į Wiki puslapį"
       image: "Paveikslėlis"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Dalintis"
+      selected_count: "%{count} pažymėta"
       selection:
-        mixed: "Mixed"
+        mixed: "Mišrus"
     work_packages:
       bulk_actions:
         move: "Masinis projekto pakeitimas"
@@ -1015,7 +1015,7 @@ lt:
         assigned_to_me: "Priskirti man"
         recently_created: "Neseniai sukurti"
         all_open: "Visi atviri"
-        overdue: "Overdue"
+        overdue: "Vėluojama"
         summary: "Santrauka"
         shared_with_users: "Bendrinamas su naudotojais"
         shared_with_me: "Bendrinama su manimi"

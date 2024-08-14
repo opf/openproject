@@ -139,6 +139,14 @@ RSpec.describe "API v3 work packages resource with filters for the linkable to s
         let(:elements) { [work_package1, work_package2, work_package3, work_package4] }
       end
 
+      context "if storage url is missing the trailing slash" do
+        let(:storage_url) { CGI.escape(storage.host.chomp("/")) }
+
+        it_behaves_like "API V3 collection response", 4, 4, "WorkPackage", "WorkPackageCollection" do
+          let(:elements) { [work_package1, work_package2, work_package3, work_package4] }
+        end
+      end
+
       context "if user has no sufficient permissions in one project" do
         let(:role2) { create(:project_role, permissions: %i(view_work_packages view_file_links)) }
 

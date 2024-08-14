@@ -34,8 +34,6 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
     serialize :top
     serialize :left
     serialize :right
-
-    belongs_to :project
   end
   # rubocop:enable Rails/ApplicationRecord
 
@@ -84,7 +82,7 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
   end
 
   def create_grid(entry)
-    grid = Grids::Overview.new project: entry.project, column_count: 2, created_at: entry.created_on
+    grid = Grids::Overview.new project_id: entry.project_id, column_count: 2, created_at: entry.created_on
 
     %i[top left right].each do |area|
       entry.send(area).each do |widget|
@@ -99,9 +97,12 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
   end
 
   def move_attachments(entry, grid)
-    Attachment
-      .where(container_type: "MyProjectsOverview", container_id: entry.id)
-      .update_all(container_type: "Grids::Grid", container_id: grid.id)
+    execute <<~SQL.squish
+      UPDATE attachments
+      SET container_type = 'Grids::Grid', container_id = #{grid.id}
+      WHERE container_type = 'MyProjectsOverview'
+      AND container_id = #{entry.id}
+    SQL
   end
 
   def build_widget(grid, widget_config, position)
@@ -232,7 +233,7 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
     query = new_default_query name: "_",
                               is_public: true,
                               hidden: true,
-                              project: grid.project,
+                              project_id: grid.project_id,
                               user: query_user(grid)
 
     query.add_filter(filter_name(identifier), "=", [::Queries::Filters::MeValue::KEY])
@@ -247,9 +248,7 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
 
   def migratable_entries
     MyPageEntry
-      .includes(:project)
-      .references(:projects)
-      .where.not(projects: { id: nil })
+      .where("project_id IN (SELECT id from projects)")
   end
 
   def filter_name(identifier)

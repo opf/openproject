@@ -113,26 +113,10 @@ class MyController < ApplicationController
   end
 
   # Configure user's in app notifications
-  def notifications
-    render html: "",
-           layout: "angular/angular",
-           locals: {
-             menu_name: :my_menu,
-             component: "opce-notification-settings",
-             page_title: [I18n.t(:label_my_account), I18n.t("js.notifications.settings.title")]
-           }
-  end
+  def notifications; end
 
   # Configure user's mail reminders
-  def reminders
-    render html: "",
-           layout: "angular/angular",
-           locals: {
-             menu_name: :my_menu,
-             component: "opce-reminder-settings",
-             page_title: [I18n.t(:label_my_account), I18n.t("js.reminders.settings.title")]
-           }
-  end
+  def reminders; end
 
   # Create a new feeds key
   def generate_rss_key
@@ -164,18 +148,12 @@ class MyController < ApplicationController
     result = APITokens::CreateService.new(user: current_user).call(token_name: params[:token_api][:token_name])
 
     result.on_success do |r|
-      flash[:primer_banner] = {
-        scheme: :success,
-        message: join_flash_messages(
-          [
-            t("my.access_token.notice_reset_token", type: "API"),
-            Primer::Beta::Text.new(font_weight: :bold).render_in(view_context) { r.result.plain_value },
-            t("my.access_token.token_value_warning")
-          ]
-        )
-      }
+      update_via_turbo_stream(
+        component: My::AccessToken::APITokensSectionComponent.new(api_tokens: @user.api_tokens)
+      )
 
-      redirect_to action: "access_token"
+      dialog = My::AccessToken::AccessTokenCreatedDialogComponent.new(token_value: r.result.plain_value)
+      modify_via_turbo_stream(component: dialog, action: :dialog, status: :ok)
     end
 
     result.on_failure do |r|
@@ -183,9 +161,9 @@ class MyController < ApplicationController
         component: My::AccessToken::NewAccessTokenFormComponent.new(token: r.result),
         status: :bad_request
       )
-
-      respond_with_turbo_streams
     end
+
+    respond_with_turbo_streams
   end
 
   # rubocop:enable Metrics/AbcSize

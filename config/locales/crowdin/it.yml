@@ -209,10 +209,12 @@ it:
     reorder_confirmation: "Attenzione: l'ordine corrente dei valori disponibili sarà perso. Continuare?"
     instructions:
       is_required: "Contrassegna il campo personalizzato come obbligatorio. Ciò renderà obbligatorio compilare il campo durante la creazione di nuove risorse o l'aggiornamento di risorse esistenti."
+      is_required_for_project: "Spunta la casella per abilitare questo attributo e renderlo necessario in tutti i progetti. Non può essere disattivato per i singoli progetti."
       is_for_all: "Contrassegna il campo personalizzato come disponibile in tutti i progetti esistenti e nuovi."
       searchable: "Includi i valori dei campi quando si utilizza la funzionalità di ricerca globale."
+      searchable_for_project: "Spunta la casella per rendere questo attributo disponibile come filtro negli elenchi dei progetti."
       editable: "Consenti che il campo sia modificabile dagli utenti stessi."
-      visible: "Rendi il campo visibile a tutti gli utenti (non amministratori) nella panoramica del progetto e visualizzato nel widget dei dettagli del progetto nella Panoramica del progetto."
+      admin_only: "Spunta la casella per rendere questo attributo visibile solo agli amministratori. Gli utenti senza diritti di amministratore non saranno in grado di visualizzarlo o modificarlo."
       is_filter: >
         Consenti l'utilizzo del campo personalizzato in un filtro nelle visualizzazioni delle macro-attività. Tieni presente che solo con l'opzione "Per tutti i progetti" selezionata, il campo personalizzato verrà visualizzato nelle visualizzazioni globali.
     tab:
@@ -383,6 +385,9 @@ it:
       will_revoke_access_to_all: "Quest'azione revocherà l'accesso a tutti loro."
   my:
     access_token:
+      create_dialog:
+        header: Il token %{type} è stato generato
+        warning: 'Nota: Questa è l''unica volta in cui vedrai questo token, assicurati di copiarlo subito.'
       errors:
         token_name_blank: "Indica un nome per il token API"
         token_name_in_use: "Questo nome di token API è già utilizzato, scegline uno differente"
@@ -473,7 +478,7 @@ it:
         is_readonly: "Sola lettura"
         excluded_from_totals: "Escluso dai totali"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Scura (Beta)"
     light: "Chiaro"
     light_high_contrast: "Chiaro ad alto contrasto"
   types:
@@ -522,9 +527,9 @@ it:
       no_common_statuses_exists: "Nessuno stato disponibile per tutte le macro-attività selezionate. Non è possibile cambiare lo stato."
       unsupported_for_multiple_projects: "Il comando sposta/copia multiplo non è supportato per macroattività da più progetti"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Il tipo attuale di macro-attività non è abilitato nel progetto di destinazione. Abilita il tipo nel progetto di destinazione se desideri che rimanga invariato. In caso contrario, seleziona dall'elenco un tipo disponibile nel progetto di destinazione.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        I tipi attuali di macro-attività non sono abilitati nel progetto di destinazione. Abilita i tipi nel progetto di destinazione se desideri che rimangano invariati. In caso contrario, seleziona dall'elenco un tipo disponibile nel progetto di destinazione.
     sharing:
       missing_workflow_warning:
         title: "Flusso di lavoro mancante per la condivisione di macro-attività"
@@ -613,7 +618,7 @@ it:
         possible_values: "Valori possibili"
         regexp: "Espressione regolare"
         searchable: "Ricercabile"
-        visible: "Visibile"
+        admin_only: "Solo amministratore"
       custom_value:
         value: "Valore"
       doorkeeper/application:
@@ -683,6 +688,7 @@ it:
         versions: "Versioni"
         work_packages: "Macro-attività"
       project_custom_field:
+        is_required: "Richiesto per tutti i progetti"
         custom_field_section: Sezione
       query:
         column_names: "Colonne"
@@ -703,7 +709,7 @@ it:
         is_closed: "Macro-attività chiusa"
         is_readonly: "Pacchetto di lavoro di sola lettura"
         excluded_from_totals: "Escludi dal calcolo dei totali nella gerarchia"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% completamento"
       time_entry:
         activity: "Attività"
         hours: "Ore"
@@ -995,7 +1001,7 @@ it:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "deve essere compresa tra 0 e 100."
           readonly_default_exlusive: "non può essere attivato per gli stati che sono contrassegnati come predefiniti."
         time_entry:
           attributes:
@@ -1028,11 +1034,11 @@ it:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "does not match work and remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
-              inclusion: "must be between 0 and 100."
+              does_not_match_work_and_remaining_work: "non corrisponde al lavoro e al lavoro residuo"
+              cannot_be_set_when_work_is_zero: "non può essere impostata quando il lavoro è zero"
+              must_be_set_when_remaining_work_is_set: "Obbligatorio quando si imposta Lavoro residuo."
+              must_be_set_when_work_and_remaining_work_are_set: "Obbligatorio quando si impostano Lavoro e Lavoro residuo."
+              inclusion: "deve essere compresa tra 0 e 100."
             due_date:
               not_start_date: "non è sulla data di inizio, nonostante sia obbligatorio per i traguardi."
               cannot_be_null: "non può essere impostato a nulla poiché la data d'inizio e la durata sono note."
@@ -1062,13 +1068,13 @@ it:
             estimated_hours:
               not_a_number: "non è una durata valida."
               cant_be_inferior_to_remaining_work: "Non può essere inferiore al Lavoro residuo."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Richiesto quando sono impostate le opzioni Lavoro residuo e % completamento."
               format: "%{message}"
             remaining_hours:
               not_a_number: "non è una durata valida."
               cant_exceed_work: "Non può essere superiore a Lavoro."
               must_be_set_when_work_is_set: "Obbligatorio quando è impostato Lavoro."
-              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
+              must_be_set_when_work_and_percent_complete_are_set: "Richiesto quando sono impostate le opzioni Lavoro e % completamento."
               format: "%{message}"
           readonly_status: "La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati."
         type:
@@ -1152,6 +1158,9 @@ it:
         one: "Ruolo"
         other: "Ruoli"
       status: "Stato della macro-attività"
+      token/api:
+        one: Token di accesso
+        other: Token di accesso
       type: "Tipo"
       user: "Utente"
       version: "Versione"
@@ -1590,7 +1599,7 @@ it:
   error_pdf_failed_to_export: "L'esportazione del PDF non può essere salvata: %{error}"
   error_token_authenticity: "Impossibile verificare il token di richiesta. Forse hai provato a inviare i dati da più browser o schede? Chiudi tutte le schede e riprova."
   error_work_package_not_found_in_project: "La macro-attività non è stata trovata o non appartiene a questo progetto"
-  error_work_package_id_not_found: "The work package was not found."
+  error_work_package_id_not_found: "Impossibile trovare la macro-attività."
   error_must_be_project_member: "deve essere membro del progetto"
   error_migrations_are_pending: "L'installazione di OpenProject ha migrazioni di database in sospeso. Probabilmente non hai effettuato le migrazioni durante l'ultimo aggiornamento. Controlla la documentazione sull'aggiornamento per aggiornare correttamente l'installazione."
   error_migrations_visit_upgrade_guides: "Visita la nostra documentazione sull'aggiornamento"
@@ -1796,10 +1805,10 @@ it:
       shared: "Condiviso"
       watched: "Osservatore"
     facets:
-      unread: "Unread"
-      unread_title: "Show unread"
-      all: "All"
-      all_title: "Show all"
+      unread: "Non letta"
+      unread_title: "Mostra non lette"
+      all: "Tutte"
+      all_title: "Mostra tutto"
     menu:
       by_project: "Non letto per progetto"
       by_reason: "Motivo"
@@ -1864,7 +1873,7 @@ it:
   label_ldap_auth_source_plural: "Connessioni LDAP"
   label_attribute_expand_text: "Testo completo per \"%{attribute}\""
   label_authentication: "Autenticazione"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Impostazioni di autenticazione"
   label_available_global_roles: "Ruoli globali disponibili"
   label_available_project_attributes: "Attributi del progetto disponibili"
   label_available_project_forums: "Forum disponibili"
@@ -2051,7 +2060,7 @@ it:
   label_inactive: "Inattivo"
   label_incoming_emails: "Email in arrivo"
   label_includes: "include"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Includi sottoprogetti
   label_index_by_date: "Indicizza per data"
   label_index_by_title: "Indicizza per titolo"
   label_information: "Informazioni"
@@ -2159,6 +2168,8 @@ it:
   label_next_week: "Prossima settimana"
   label_no_change_option: "(Nessuna modifica)"
   label_no_data: "Nessun dato da visualizzare"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Nessuna pagina genitore"
   label_nothing_display: "Niente da visualizzare"
   label_nobody: "nessuno"
@@ -2284,7 +2295,7 @@ it:
   label_role_search: "Assegna ruolo ai nuovi membri"
   label_scm: "SCM"
   label_search: "Cerca"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Cerca per nome"
   label_send_information: "Invia nuove credenziali all'utente"
   label_send_test_email: "Invia un email di prova"
   label_session: "Sessione"
@@ -2397,7 +2408,7 @@ it:
   label_work_package_new: "Nuova macro-attività"
   label_work_package_edit: "Modifica la macro-attività %{name}"
   label_work_package_plural: "Macro-attività"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "Impostazioni macro-attività"
   label_work_package_status: "Stato della macro-attività"
   label_work_package_status_new: "Nuovo stato"
   label_work_package_status_plural: "Stati della macro-attività"
@@ -2405,7 +2416,7 @@ it:
   label_work_package_tracking: "Monitoraggio macro-attività"
   label_work_package_view_all: "Vedi tutte le macro-attività"
   label_workflow: "Flusso di lavoro"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Copia flusso di lavoro"
   label_workflow_plural: "Flussi di lavoro"
   label_workflow_summary: "Sommario"
   label_working_days_and_hours: "Giorni lavorativi e ore"
@@ -2740,7 +2751,7 @@ it:
   permission_edit_own_messages: "Modificare i propri messaggi"
   permission_edit_own_time_entries: "Modificare i propri registri di orario effettuato"
   permission_edit_project: "Modificare un progetto"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "Modifica gli attributi del progetto"
   permission_edit_reportings: "Modificare prospetti"
   permission_edit_time_entries: "Modificare i registri temporali per altri utenti"
   permission_edit_timelines: "Modificare cronologie"
@@ -2791,7 +2802,7 @@ it:
   permission_work_package_assigned: "Diventa assegnatario/responsabile"
   permission_work_package_assigned_explanation: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
   permission_view_project_activity: "Visualizza attività del progetto"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "Mostra gli attributi del progetto"
   permission_save_bcf_queries: "Salva query BCF"
   permission_manage_public_bcf_queries: "Gestisci query BCF pubbliche"
   permission_edit_attribute_help_texts: "Modifica i testi guida dell'attributo"

@@ -49,7 +49,7 @@ si:
         description: "සටහන්"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "මාතෘකාව"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"

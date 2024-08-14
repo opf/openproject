@@ -34,7 +34,7 @@ vi:
         item_0:
           name: Nhiệm vụ
         item_1:
-          name: Milestone
+          name: Cột mốc
         item_2:
           name: Giai đoạn
         item_3:
@@ -55,680 +55,680 @@ vi:
               group_name: Cấp dưới
       groups:
         item_0:
-          name: Architects
+          name: Các kiến trúc sư
         item_1:
-          name: BIM Coordinators
+          name: Điều phối viên BIM
         item_2:
-          name: BIM Managers
+          name: Quản lý BIM
         item_3:
-          name: BIM Modellers
+          name: Mô hình hóa BIM
         item_4:
-          name: Lead BIM Coordinators
+          name: Điều phối viên BIM hàng đầu
         item_5:
-          name: MEP Engineers
+          name: Kỹ sư MEP
         item_6:
-          name: Planners
+          name: Người lập kế hoạch
         item_7:
-          name: Structural Engineers
+          name: Kỹ sư kết cấu
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Chào mừng đến với phiên bản BIM của OpenProject!
         text: |
-          Checkout the demo projects to get started with some examples.
+          Xem qua các dự án mẫu để bắt đầu với một số ví dụ.
 
-          * [(Demo) Construction project]({{opSetting:base_url}}/projects/demo-construction-project): Planning, BIM process, BCF management, and constructing, all at a glance.
-              * [(Demo) Planning & constructing]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Classical planning and construction management.
-              * [(Demo) Bim project]({{opSetting:base_url}}/projects/demo-bim-project): BIM process and coordination.
-                  * [(Demo) BCF management]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF management.
+          * [(Demo) Dự án xây dựng]({{opSetting:base_url}}/projects/demo-construction-project): Lập kế hoạch, quy trình BIM, quản lý BCF và xây dựng, tất cả trong một cái nhìn.
+              * [(Demo) Lập kế hoạch & xây dựng]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Lập kế hoạch và quản lý xây dựng theo cách truyền thống.
+              * [(Demo) Dự án BIM]({{opSetting:base_url}}/projects/demo-bim-project): Quy trình và điều phối BIM.
+                  * [(Demo) Quản lý BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project): Quản lý BCF.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          Bạn cũng có thể tạo một [dự án mới]({{opSetting:base_url}}/projects/new) trống.
 
-          Never stop collaborating. With open source and open mind.
+          Đừng ngừng hợp tác. Với mã nguồn mở và tư duy mở.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Bạn có thể thay đổi văn bản chào mừng này [tại đây]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          name: "(Demo) Dự án xây dựng"
+          status_explanation: Tất cả các nhiệm vụ và các dự án con đều theo lịch trình. Những người tham gia đã biết nhiệm vụ của họ. Hệ thống đã được thiết lập hoàn toàn.
+          description: Đây là một tóm tắt ngắn gọn về các mục tiêu của dự án xây dựng mẫu này.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Chào mừng đến với dự án mẫu của bạn
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Chúng tôi rất vui vì bạn đã tham gia.
+                Trong module này, bạn có thể truyền đạt tin tức dự án đến các thành viên trong nhóm của bạn.
+              description: Tin tức hiện tại
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Danh mục 1 (cần thay đổi trong Cài đặt Dự án)
           queries:
             item_0:
-              name: Project plan
+              name: Kế hoạch dự án
             item_1:
-              name: Milestones
+              name: Các cột mốc
             item_2:
-              name: Tasks
+              name: Nhiệm vụ
             item_3:
-              name: Team planner
+              name: Lịch trình nhóm
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Quy trình kéo và thả đơn giản
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Chào mừng
               item_1:
                 options:
                   name: Bắt đầu
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Chúng tôi rất vui vì bạn đã tham gia! Chúng tôi đề xuất bạn thử một số bước để bắt đầu với OpenProject.
 
-                    But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+                    Nhưng trước khi bạn bắt đầu ngay lập tức, bạn nên biết rằng dự án mẫu này được chia thành hai dự án khác nhau:
 
-                    1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
-                    2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+                    1.  [Dự án xây dựng]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Tại đây bạn sẽ tìm thấy các vai trò truyền thống, một số quy trình và gói công việc cho dự án xây dựng của bạn.
+                    2.  [Tạo mô hình BIM]({{opSetting:base_url}}/projects/demo-bim-project): Dự án này cũng cung cấp các vai trò, quy trình và gói công việc nhưng đặc biệt trong ngữ cảnh BIM.
 
-                    _Try the following steps:_
+                    _Hãy thử các bước sau:_
 
-                    1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
-                    2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
-                    6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    1.  _Mời các thành viên mới vào dự án của bạn_: → Truy cập [Thành viên]({{opSetting:base_url}}/projects/demo-construction-project/members) trong điều hướng dự án.
+                    2.  _Xem công việc trong các dự án của bạn_: → Truy cập [Gói công việc]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) trong điều hướng dự án.
+                    3.  _Tạo một gói công việc mới_: → Truy cập [Gói công việc → Tạo mới]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Tạo và cập nhật biểu đồ Gantt_: → Truy cập [Biểu đồ Gantt]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) trong điều hướng dự án.
+                    5.  _Kích hoạt các module khác_: → Truy cập [Cài đặt dự án → Các module]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
+                    6.  _Xem qua chế độ xem ô để có cái nhìn tổng quan về các vấn đề BCF của bạn:_ → Truy cập [Gói công việc]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    7.  _Làm việc theo phương pháp Agile? Xem qua các bảng hoàn toàn mới của chúng tôi:_ → Truy cập [Bảng]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Tại đây bạn sẽ tìm thấy [Hướng dẫn người dùng](https://www.openproject.org/docs/user-guide/).
+                    Vui lòng cho chúng tôi biết nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ. Liên hệ với chúng tôi: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Thành viên
               item_5:
                 options:
-                  name: Work Packages
+                  name: Gói công việc
               item_6:
                 options:
-                  name: Milestones
+                  name: Các cột mốc
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          name: "(Demo) Lập kế hoạch & xây dựng"
+          status_explanation: Tất cả các nhiệm vụ đang theo đúng tiến độ. Những người tham gia đều biết nhiệm vụ của mình. Hệ thống đã được thiết lập hoàn chỉnh.
+          description: Đây là một tóm tắt ngắn gọn về các mục tiêu của dự án lập kế hoạch và xây dựng demo này.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Chào mừng đến với dự án demo của bạn
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Chúng tôi rất vui khi bạn tham gia.
+                Trong mô-đun này, bạn có thể thông báo tin tức dự án cho các thành viên trong nhóm của mình.
+              description: Tin tức thực tế
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Danh mục 1 (cần thay đổi trong cài đặt dự án)
           queries:
             item_0:
-              name: Project plan
+              name: Kế hoạch dự án
             item_1:
-              name: Milestones
+              name: Cột mốc
             item_2:
-              name: Tasks
+              name: Nhiệm vụ
             item_3:
-              name: Team planner
+              name: Kế hoạch nhóm
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Chào mừng
               item_1:
                 options:
                   name: Bắt đầu
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Chúng tôi rất vui khi bạn tham gia! Chúng tôi gợi ý bạn thử một số bước để bắt đầu trong OpenProject.
 
-                    Here you will find the classical roles, some workflows and work packages for your construction project.
+                    Ở đây, bạn sẽ tìm thấy các vai trò cổ điển, một số quy trình làm việc và các gói công việc cho dự án xây dựng của bạn.
 
-                    _Try the following steps:_
+                    _Hãy thử các bước sau:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
-                    2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Mời các thành viên mới vào dự án của bạn:_ → Đi đến [Thành viên]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) trong điều hướng dự án.
+                    2.  _Xem công việc trong các dự án của bạn:_ → Đi đến [Gói công việc]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) trong điều hướng dự án.
+                    3.  _Tạo một gói công việc mới:_ → Đi đến [Gói công việc → Tạo mới]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Tạo và cập nhật biểu đồ Gantt:_ → Đi đến [Biểu đồ Gantt]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) trong điều hướng dự án.
+                    5.  _Kích hoạt các mô-đun thêm:_ → Đi đến [Cài đặt dự án → Mô-đun]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    6.  _Làm việc theo phương pháp agile? Tạo bảng mới:_ → Đi đến [Bảng]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Bạn sẽ tìm thấy [Hướng dẫn người dùng](https://www.openproject.org/docs/user-guide/) của chúng tôi ở đây.
+                    Vui lòng cho chúng tôi biết nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ. Liên hệ với chúng tôi: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Thành viên
               item_5:
                 options:
-                  name: Work Packages
+                  name: Gói công việc
               item_6:
                 options:
-                  name: Milestones
+                  name: Cột mốc
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Khởi động dự án xây dựng
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                Khởi động dự án đánh dấu sự bắt đầu của dự án trong công ty của bạn. Mọi người tham gia vào dự án này nên được mời đến buổi khởi động để nhận thông tin ban đầu.
 
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Bước tiếp theo có thể là kiểm tra lịch trình và điều chỉnh các cuộc hẹn, bằng cách xem [Biểu đồ Gantt]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Basic evaluation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Đánh giá cơ bản
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Thu thập thông tin dự án đầu tiên
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    *   Xác định các nhiệm vụ dựa trên nhu cầu của khách hàng
+                    *   Định nghĩa khung thời gian và ước lượng chi phí
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    *   Xác định nhu cầu của khách hàng bằng cách tổ chức một buổi workshop với khách hàng
+                    *   Mỗi nhu cầu sẽ đại diện cho một nhiệm vụ với các gói công việc tương ứng
+                    *   Đưa ra ước lượng chi phí và khung thời gian
                 item_1:
-                  subject: Summarize the results
+                  subject: Tóm tắt kết quả
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Tạo một cái nhìn tổng quan hữu ích về các kết quả
+                    *   Kiểm tra những gì đã được thực hiện và tóm tắt các kết quả
+                    *   Thông báo tất cả các kết quả liên quan với khách hàng
+                    *   Xác định các điều kiện cơ bản của dự án
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Mỗi chủ đề sẽ có cái nhìn tổng quan riêng, sẽ được sử dụng như một danh mục kết quả
+                    *   Cái nhìn tổng quan này thông báo cho tất cả các bên liên quan về các quyết định đã được đưa ra
                     *   ...
                 item_2:
-                  subject: End of basic evaluation
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Kết thúc đánh giá cơ bản
+                  description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_2:
-              subject: Preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Lập kế hoạch sơ bộ
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
               children:
                 item_0:
-                  subject: Developing first draft
+                  subject: Phát triển bản nháp đầu tiên
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Tạo một cái nhìn tổng quan hữu ích về các kết quả
+                    *   Kiểm tra những gì đã được thực hiện và tóm tắt các kết quả
+                    *   Thông báo tất cả các kết quả liên quan với khách hàng
+                    *   Xác định các điều kiện cơ bản của dự án
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Mỗi chủ đề sẽ có cái nhìn tổng quan riêng, sẽ được sử dụng như một danh mục kết quả
+                    *   Cái nhìn tổng quan này thông báo cho tất cả các bên liên quan về các quyết định đã được đưa ra
                     *   ...
                 item_1:
-                  subject: Summarize results
+                  subject: Tóm tắt kết quả
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Tạo một cái nhìn tổng quan hữu ích về các kết quả
+                    *   Kiểm tra những gì đã được thực hiện và tóm tắt các kết quả
+                    *   Thông báo tất cả các kết quả liên quan với khách hàng
+                    *   Xác định các điều kiện cơ bản của dự án
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Mỗi chủ đề sẽ có cái nhìn tổng quan riêng, sẽ được sử dụng như một danh mục kết quả
+                    *   Cái nhìn tổng quan này thông báo cho tất cả các bên liên quan về các quyết định đã được đưa ra
                     *   ...
             item_3:
-              subject: Passing of preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Kết thúc lập kế hoạch sơ bộ
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_4:
-              subject: Design planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Lập kế hoạch thiết kế
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
               children:
                 item_0:
-                  subject: Finishing design
+                  subject: Hoàn thành thiết kế
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Design is done
-                    *   All parties are happy with the results of the design planning phase
+                    *   Thiết kế hoàn thành
+                    *   Tất cả các bên đều hài lòng với kết quả của giai đoạn lập kế hoạch thiết kế
 
-                    ## Description
+                    ## Mô tả
 
-                    *   The design of the project will be finished
-                    *   All parties agree on the design
-                    *   The owner is happy with the results
+                    *   Thiết kế của dự án sẽ được hoàn thành
+                    *   Tất cả các bên đồng ý với thiết kế
+                    *   Chủ sở hữu hài lòng với kết quả
                     *   ...
                 item_1:
-                  subject: Design freeze
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Đóng băng thiết kế
+                  description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_5:
-              subject: Construction phase
+              subject: Giai đoạn xây dựng
               children:
                 item_0:
-                  subject: Start constructing
+                  subject: Bắt đầu xây dựng
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Ground breaking ceremony
-                    *   Setting up the construction site
+                    *   Lễ khởi công
+                    *   Thiết lập công trường xây dựng
                     *   ...
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Preparing the site for the project
-                    *   Get the team together
+                    *   Chuẩn bị khu vực cho dự án
+                    *   Tập hợp đội ngũ
                     *   ...
                 item_1:
-                  subject: Foundation
+                  subject: Đặt nền móng
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Laying of the foundation stone
+                    *   Đặt viên đá nền móng
                     *   ...
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Setting up the concrete mixer
-                    *   Setting up the supply chain for the concrete
+                    *   Thiết lập máy trộn bê tông
+                    *   Thiết lập chuỗi cung ứng bê tông
                     *   ...
                 item_2:
-                  subject: Building construction
+                  subject: Xây dựng công trình
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Topping out ceremony
-                    *   Walls and ceilings are done
+                    *   Lễ cất nóc
+                    *   Tường và trần hoàn thành
                     *   ...
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Creating all structural levels of the building
-                    *   Installing doors and windows
-                    *   Finishing the roof structure
+                    *   Tạo tất cả các cấp cấu trúc của tòa nhà
+                    *   Lắp đặt cửa và cửa sổ
+                    *   Hoàn thiện cấu trúc mái
                     *   ...
                 item_3:
-                  subject: Finishing the facade
+                  subject: Hoàn thiện mặt tiền
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Facade is done
-                    *   Whole building is waterproof
+                    *   Mặt tiền hoàn thành
+                    *   Toàn bộ tòa nhà đã chống thấm
                     *   ...
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Install all elements for the facade
-                    *   Finish the roof
+                    *   Lắp đặt tất cả các yếu tố của mặt tiền
+                    *   Hoàn thiện mái nhà
                     *   ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: Lắp đặt hệ thống dịch vụ tòa nhà
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   All building service systems are ready to be used
+                    *   Tất cả các hệ thống dịch vụ tòa nhà đã sẵn sàng để sử dụng
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Installing the heating system
-                    *   Installing the climate system
-                    *   Electrical installation
+                    *   Lắp đặt hệ thống sưởi
+                    *   Lắp đặt hệ thống điều hòa không khí
+                    *   Lắp đặt điện
                     *   ...
                 item_5:
-                  subject: Final touches
+                  subject: Hoàn thiện
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Handover of the keys
-                    *   The customer is happy with his building
+                    *   Bàn giao chìa khóa
+                    *   Khách hàng hài lòng với tòa nhà của mình
                     *   ...
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Finishing the installation of the building service systems
-                    *   Finishing the interior construction
-                    *   Finishing the facade
+                    *   Hoàn tất lắp đặt hệ thống dịch vụ tòa nhà
+                    *   Hoàn thiện xây dựng nội thất
+                    *   Hoàn thiện mặt tiền
                     *   ...
                 item_6:
-                  subject: House warming party
+                  subject: Tiệc khai trương
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Have a blast!
+                    *   Có một bữa tiệc vui vẻ!
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Invite the construction team
-                    *   Invite your friends
-                    *   Bring some drinks, snacks and your smile
+                    *   Mời đội ngũ xây dựng
+                    *   Mời bạn bè của bạn
+                    *   Mang theo một số đồ uống, món ăn nhẹ và nụ cười của bạn
         demo-bim-project:
-          name: "(Demo) BIM project"
-          status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BIM project.
+          name: "(Demo) Dự án BIM"
+          status_explanation: Tất cả các nhiệm vụ và tiểu dự án đang theo đúng tiến độ. Những người tham gia biết nhiệm vụ của họ. Hệ thống đã được thiết lập hoàn toàn.
+          description: Đây là tóm tắt ngắn gọn về mục tiêu của dự án BIM demo này.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Chào mừng đến với dự án demo của bạn
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Chúng tôi rất vui vì bạn đã tham gia.
+                Trong mô-đun này, bạn có thể truyền đạt tin tức dự án đến các thành viên trong nhóm của bạn.
+              description: Tin tức hiện tại
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Danh mục 1 (cần thay đổi trong Cài đặt Dự án)
           queries:
             item_0:
-              name: Project plan
+              name: Kế hoạch dự án
             item_1:
-              name: Milestones
+              name: Cột mốc
             item_2:
-              name: Tasks
+              name: Nhiệm vụ
             item_3:
-              name: Team planner
+              name: Kế hoạch nhóm
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Chào mừng
               item_1:
                 options:
                   name: Bắt đầu
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Chúng tôi rất vui vì bạn đã tham gia! Chúng tôi gợi ý bạn thử một vài điều để bắt đầu trong OpenProject.
 
-                    This demo project offers roles, workflows and work packages that are specialized for BIM.
+                    Dự án demo này cung cấp các vai trò, quy trình và gói công việc chuyên biệt cho BIM.
 
-                    _Try the following steps:_
+                    _Hãy thử các bước sau:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    1.  _Mời các thành viên mới vào dự án của bạn:_ → Đi đến [Thành viên]({{opSetting:base_url}}/projects/demo-bim-project/members) trong điều hướng dự án.
+                    2.  _Tải lên và xem các mô hình 3D ở định dạng IFC:_ → Đi đến [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) trong điều hướng dự án.
+                    3.  _Tạo và quản lý các vấn đề BCF liên kết trực tiếp trong mô hình IFC:_ → Đi đến [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Tạo.
+                    4.  _Xem công việc trong các dự án của bạn:_ → Đi đến [Gói công việc]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) trong điều hướng dự án.
+                    5.  _Tạo một gói công việc mới:_ → Đi đến [Gói công việc → Tạo]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    6.  _Tạo và cập nhật biểu đồ Gantt:_ → Đi đến [Biểu đồ Gantt]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) trong điều hướng dự án.
+                    7.  _Kích hoạt các mô-đun bổ sung:_ → Đi đến [Cài đặt dự án → Mô-đun]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
+                    8.  _Xem chế độ xem ô để có cái nhìn tổng quan về các vấn đề BCF của bạn:_ → Đi đến [Gói công việc]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    9.  _Làm việc theo phương pháp Agile? Tạo một bảng mới:_ → Đi đến [Bảng]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Tại đây bạn sẽ tìm thấy [Hướng dẫn sử dụng](https://www.openproject.org/docs/user-guide/).
+                    Xin hãy cho chúng tôi biết nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ. Liên hệ với chúng tôi: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Thành viên
               item_5:
                 options:
-                  name: Work Packages
+                  name: Gói công việc
               item_6:
                 options:
-                  name: Milestones
+                  name: Cột mốc
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: Khởi động dự án tạo mô hình BIM
               description: |-
-                The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
+                Khởi động dự án khởi động bắt đầu dự án trong công ty của bạn. Toàn bộ nhóm dự án nên được mời đến Khởi động để nhận thông tin sơ bộ.
 
-                The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Bước tiếp theo có thể là kiểm tra lịch trình và điều chỉnh các cuộc hẹn, bằng cách xem [Biểu đồ Gantt]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Project preparation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Chuẩn bị dự án
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Thu thập dữ liệu và thông tin cụ thể của dự án cho mô hình BIM
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Identify the information strategy for the customer (e.g. by using plain language questions)
-                    *   If provided, analyze the customer information requirements for the BIM model
-                    *   Define an information delivery strategy according to the customers needs
+                    *   Xác định chiến lược thông tin cho khách hàng (ví dụ: bằng cách sử dụng các câu hỏi bằng ngôn ngữ đơn giản)
+                    *   Nếu có, phân tích yêu cầu thông tin của khách hàng cho mô hình BIM
+                    *   Xác định chiến lược cung cấp thông tin phù hợp với nhu cầu của khách hàng
 
-                    ## Description
+                    ## Mô tả
 
-                    *   Analyzing the customers needs and goals for using the BIM methodology
-                    *   Results of this tasks should be:
-                    *   The requirements for the project
-                    *   A strategy for the delivery phase
+                    *   Phân tích nhu cầu và mục tiêu của khách hàng khi sử dụng phương pháp BIM
+                    *   Kết quả của nhiệm vụ này nên là:
+                    *   Các yêu cầu cho dự án
+                    *   Một chiến lược cho giai đoạn cung cấp
                     *   ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: Tạo kế hoạch thực hiện BIM
                   description: |-
-                    # Goal
+                    # Mục tiêu
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    *   Một kế hoạch thực hiện BIM sẽ được xác định theo các yêu cầu trao đổi (ERS)
+                    *   Tất cả các thành viên trong nhóm và các đối tác có một kế hoạch về cách đạt được từng mục tiêu của dự án
 
-                    # Description
+                    # Mô tả
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
+                    *   Tùy thuộc vào các trường hợp sử dụng đã xác định, các Hướng dẫn Cung cấp Thông tin cá nhân sẽ được xác định
+                    *   Để xử lý các giao diện công nghệ, một phần mềm sẽ được xác định và phân tích, và xác minh
                     *   ...
                 item_2:
-                  subject: Completion of the BIM execution plan
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Hoàn thành kế hoạch thực hiện BIM
+                  description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_2:
-              subject: End of preparation phase
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Kết thúc giai đoạn chuẩn bị
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_3:
-              subject: Creating initial BIM model
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Tạo mô hình BIM ban đầu
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Mô hình hóa mô hình BIM ban đầu
                   description: |-
-                    # Goal
+                    # Mục tiêu
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    *   Mô hình hóa mô hình BIM ban đầu
+                    *   Tạo một mô hình BIM cho toàn bộ nhóm dự án
 
-                    # Description
+                    # Mô tả
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
+                    *   Theo dữ liệu đã thu thập từ khách hàng, mô hình ban đầu sẽ được mô hình hóa
+                    *   Mô hình sẽ được mô hình hóa theo Ma trận LOD và chứa các thông tin cần thiết
                     *   ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Kiểm tra nội bộ mô hình ban đầu và sửa đổi
                   description: |-
-                    # Goal
+                    # Mục tiêu
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   Gửi mô hình BIM theo các tiêu chuẩn đã xác định
 
-                    # Description
+                    # Mô tả
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
+                    *   Mô hình sẽ được kiểm tra theo các tiêu chuẩn đã xác định (quy ước, LOD, ...) và sửa đổi
                     *   ...
                 item_2:
-                  subject: Submitting initial BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Gửi mô hình BIM ban đầu
+                  description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_4:
-              subject: Modelling, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Mô hình hóa, chu kỳ đầu tiên
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
               children:
                 item_0:
-                  subject: Referencing external BIM models
+                  subject: Tham chiếu các mô hình BIM bên ngoài
                   description: |-
-                    # Goal
+                    # Mục tiêu
 
-                    *   Having a foundation for developing the internal model/ offering answers
-                    *   Using the external model to develop the internal model
+                    *   Có cơ sở để phát triển mô hình nội bộ / cung cấp câu trả lời
+                    *   Sử dụng mô hình bên ngoài để phát triển mô hình nội bộ
 
-                    # Description
+                    # Mô tả
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+                    *   Mô hình bên ngoài sẽ được tham chiếu trên nền tảng BIM, do đó được sử dụng để mô hình hóa mô hình nội bộ
                     *   ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: Mô hình hóa mô hình BIM
                   description: |-
-                    # Goal
+                    # Mục tiêu
 
-                    *   Creating a BIM model for the project
-                    *   Creating a BIM model for the whole project team
+                    *   Tạo một mô hình BIM cho dự án
+                    *   Tạo một mô hình BIM cho toàn bộ nhóm dự án
 
-                    # Description
+                    # Mô tả
 
-                    *   The model will be created according to the BIM execution plan
+                    *   Mô hình sẽ được tạo ra theo kế hoạch thực hiện BIM
                     *   ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: Chu kỳ đầu tiên, kiểm tra mô hình nội bộ và sửa đổi
                   description: |-
-                    # Goal
+                    # Mục tiêu
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   Nộp mô hình BIM theo các tiêu chuẩn đã xác định
 
-                    # Description
+                    # Mô tả
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
+                    *   Mô hình sẽ được kiểm tra theo các tiêu chuẩn đã xác định (quy ước, LOD, ...) và sửa đổi.
                     *   ...
                 item_3:
-                  subject: Submitting BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Nộp mô hình BIM
+                  description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_5:
-              subject: Coordination, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Phối hợp, chu kỳ đầu tiên
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
               children:
                 item_0:
-                  subject: Coordinate the different BIM models
+                  subject: Phối hợp các mô hình BIM khác nhau
                   description: |-
-                    # Goal
+                    # Mục tiêu
 
-                    *   Assemble the different BIM models of the whole project team
-                    *   Coordinate the identified issues
+                    *   Tập hợp các mô hình BIM của toàn bộ nhóm dự án
+                    *   Phối hợp các vấn đề được xác định
 
-                    # Description
+                    # Mô tả
 
-                    *   The different BIM models will be assembled and checked
-                    *   The identified model specific issues will be communicated via BCF files
+                    *   Các mô hình BIM khác nhau sẽ được tập hợp và kiểm tra
+                    *   Các vấn đề cụ thể của mô hình được xác định sẽ được truyền đạt qua các tệp BCF
                     *   ...
                 item_1:
-                  subject: Issue management, first cycle
+                  subject: Quản lý vấn đề, chu kỳ đầu tiên
                 item_2:
-                  subject: Finishing coordination, first cycle
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Hoàn thành phối hợp, chu kỳ đầu tiên
+                  description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_6:
-              subject: Modelling & coordinating, second cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Mô hình hóa & phối hợp, chu kỳ thứ hai
+              description: "## Mục tiêu\r\n\r\n*   ...\r\n\r\n## Mô tả\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Mô hình hóa & phối hợp, ... chu kỳ
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Mô hình hóa & phối hợp, (n-th trừ 1) chu kỳ
+              description: "## Mục tiêu\r\n\r\n*   ...\r\n\r\n## Mô tả\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Mô hình hóa & phối hợp chu kỳ n-th
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Hoàn thành mô hình hóa & phối hợp, chu kỳ n-th
+              description: Kiểu này về mặt phân cấp là kiểu cha của kiểu &quot;Clash&quot; và &quot;Request&quot;, do đó thể hiện một lưu ý chung.
             item_11:
-              subject: Use model for construction phase
+              subject: Sử dụng mô hình cho giai đoạn xây dựng
               children:
                 item_0:
-                  subject: Handover model for construction crew
+                  subject: Bàn giao mô hình cho đội xây dựng
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
+                    *   Mọi người đều biết mô hình và nhiệm vụ của họ
+                    *   Mọi người đều nhận được tất cả thông tin liên quan, dựa trên mô hình
                     *   ...
 
-                    ## Description
+                    ## Mô tả
 
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
+                    *   Khởi động tại công trường bao gồm giới thiệu mô hình
+                    *   Tất cả các đối tượng nên có thông tin cần thiết cho các nhiệm vụ được phân công. Nếu không, cần làm giàu dữ liệu của mô hình
                     *   ...
                 item_1:
-                  subject: Construct the building
+                  subject: Xây dựng tòa nhà
                   description: |-
-                    ## Goal
+                    ## Mục tiêu
 
-                    *   New issues realized on construction site will be handled model based
-                    *   Issues will be documented by using the BCF files and the BIM model
+                    *   Các vấn đề mới phát hiện trên công trường sẽ được xử lý dựa trên mô hình
+                    *   Các vấn đề sẽ được tài liệu hóa bằng cách sử dụng các tệp BCF và mô hình BIM
 
-                    ## Description
+                    ## Mô tả
 
-                    *   New issues will be documented using BCF files as sticky notes for the model
-                    *   The BCF files will be used to assign, track and correct issues
+                    *   Các vấn đề mới sẽ được tài liệu hóa bằng các tệp BCF như ghi chú dán cho mô hình
+                    *   Các tệp BCF sẽ được sử dụng để phân công, theo dõi và sửa chữa các vấn đề
                     *   ...
                 item_2:
-                  subject: Finish construction
+                  subject: Hoàn thành xây dựng
             item_12:
-              subject: Issue management, construction phase
+              subject: Quản lý vấn đề, giai đoạn xây dựng
             item_13:
-              subject: Handover for Facility Management
+              subject: Bàn giao cho Quản lý Cơ sở
               description: |-
-                ## Goal
+                ## Mục tiêu
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
+                *   Mô hình BIM sẽ được sử dụng cho Quản lý Cơ sở
+                *   Mô hình cung cấp tất cả thông tin liên quan cho việc đưa vào sử dụng và vận hành tòa nhà
                 *   ...
 
-                ## Description
+                ## Mô tả
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
+                *   Mô hình chứa thông tin liên quan cho quản lý cơ sở
+                *   Mô hình có thể được sử dụng cho hệ thống vận hành của tòa nhà
                 *   ...
             item_14:
-              subject: Asset Management
-              description: Enjoy your building :)
+              subject: Quản lý tài sản
+              description: Tận hưởng tòa nhà của bạn :)
         demo-bcf-management-project:
-          name: "(Demo) BCF management"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BCF management project.
+          name: "(Demo) Quản lý BCF"
+          status_explanation: Tất cả các nhiệm vụ đang theo đúng tiến độ. Những người liên quan biết nhiệm vụ của họ. Hệ thống đã được thiết lập hoàn chỉnh.
+          description: Đây là một tóm tắt ngắn gọn về các mục tiêu của dự án quản lý BCF demo này.
           ifc_models:
             item_0:
-              name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
+              name: Bệnh viện - Kiến trúc (cc-by-sa-3.0 Autodesk Inc.)
             item_1:
-              name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
+              name: Bệnh viện - Kết cấu (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: Bệnh viện - Cơ điện (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Danh mục 1 (cần thay đổi trong cài đặt Dự án)
           queries:
             item_0:
               name: Các vấn đề
             item_1:
-              name: Clashes
+              name: Va chạm
             item_2:
-              name: Requests
+              name: Yêu cầu
             item_3:
-              name: Remarks
+              name: Ghi chú
             item_4:
-              name: Project plan
+              name: Kế hoạch dự án
             item_5:
-              name: Milestones
+              name: Các mốc thời gian
             item_6:
-              name: Tasks
+              name: Nhiệm vụ
             item_7:
-              name: Team planner
+              name: Lịch trình nhóm
           boards:
             bcf:
-              name: BCF issues
+              name: Các vấn đề BCF
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Chào mừng
               item_1:
                 options:
                   name: Bắt đầu
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Chúng tôi rất vui mừng khi bạn tham gia! Chúng tôi khuyên bạn nên thử một số bước để bắt đầu với OpenProject.
 
-                    This demo project shows BCF management functionalities.
+                    Dự án demo này cho thấy các chức năng quản lý BCF.
 
-                    _Try the following steps:_
+                    _Thử các bước sau:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the BCF files in your project:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
-                    5.  _Load your BCF files:_ → Go to [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _You love the agile approach? Create a board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    1.  _Mời các thành viên mới tham gia dự án của bạn:_ → Truy cập [Thành viên]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) trong điều hướng dự án.
+                    2.  _Tải lên và xem các mô hình 3D ở định dạng IFC:_ → Truy cập [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) trong điều hướng dự án.
+                    3.  _Tạo và quản lý các vấn đề BCF liên kết trực tiếp trong mô hình IFC:_ → Truy cập [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Tạo.
+                    4.  _Xem các tệp BCF trong dự án của bạn:_ → Truy cập [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) trong điều hướng dự án.
+                    5.  _Tải các tệp BCF của bạn:_ → Truy cập [BCF → Nhập.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
+                    6.  _Tạo và cập nhật biểu đồ Gantt:_ → Truy cập [Biểu đồ Gantt]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) trong điều hướng dự án.
+                    7.  _Kích hoạt các mô-đun khác:_ → Truy cập [Cài đặt dự án → Mô-đun.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
+                    8.  _Bạn yêu thích cách tiếp cận linh hoạt? Tạo bảng:_ → Truy cập [Các bảng]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Tại đây bạn sẽ tìm thấy [Hướng dẫn người dùng](https://www.openproject.org/docs/user-guide/).
+                    Xin vui lòng cho chúng tôi biết nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ. Liên hệ với chúng tôi: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Thành viên
               item_5:
                 options:
-                  name: Work Packages
+                  name: Nhiệm vụ

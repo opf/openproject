@@ -37,7 +37,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
     create(:text_project_custom_field)
   end
   let(:invisible_custom_field) do
-    create(:text_project_custom_field, visible: false)
+    create(:text_project_custom_field, admin_only: true)
   end
   let(:custom_value) do
     CustomValue.create(custom_field:,

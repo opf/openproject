@@ -7,6 +7,7 @@ import { ID } from '@datorama/akita';
 export interface ISnippet {
   id:string;
   name:string;
+  textToDisplay:() => string;
   textToCopy:() => string
 }
 

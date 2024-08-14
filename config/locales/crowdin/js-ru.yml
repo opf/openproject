@@ -365,10 +365,10 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                Выпуск содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Делитесь списками проектов и делайте их общедоступными</li> <li>Пометьте списки проектов как избранные</li> <li>Проверка соединений для хранилищ OneDrive/SharePoint</li> <li>Новый внешний вид страницы профиля пользователя с использованием Primer</li> <li>Экспорт диаграммы Ганта в PDF: Дополнительное масштабирование даты на основе календарных недель</li> <li>Панель поиска в компоненте подменю (списки проектов и модули Gantt и Boards)</li> <li>Выбор между отчетом о проделанной работе, отображаемым только в часах или в днях и часах</li> <li>Возможность снять выделение проектов в селекторе проектов</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -618,7 +618,7 @@ ru:
         mentioned: "Упомянутый"
         watched: "Наблюдатель"
         assigned: "Назначенный"
-        accountable: "Accountable"
+        accountable: "Ответственный"
         created: "Создано"
         scheduled: "Запланировано"
         commented: "Прокомментировано"

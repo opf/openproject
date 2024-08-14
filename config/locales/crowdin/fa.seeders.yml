@@ -93,7 +93,7 @@ fa:
             item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
           queries:
             item_0:
-              name: Project plan
+              name: 'برنامه پروژه:'
             item_1:
               name: Milestones
             item_2:
@@ -142,7 +142,7 @@ fa:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: بسته های کاری
               item_6:
                 options:
                   name: Milestones
@@ -267,7 +267,7 @@ fa:
             item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
           queries:
             item_0:
-              name: Project plan
+              name: 'برنامه پروژه:'
             item_1:
               name: Product backlog
             item_2:
@@ -313,10 +313,10 @@ fa:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: بسته های کاری
               item_6:
                 options:
-                  name: Project plan
+                  name: 'برنامه پروژه:'
           work_packages:
             item_0:
               subject: New login screen

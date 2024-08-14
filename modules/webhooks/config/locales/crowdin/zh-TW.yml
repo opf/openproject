@@ -26,41 +26,41 @@ zh-TW:
       no_results_table: 尚未定義任何webhooks 。
       label_add_new: 新增 Webhook
       label_edit: 編輯 Webhook
-      label_event_resources: Event resources
+      label_event_resources: 活動資源
       events:
         created: "已建立"
         updated: "已更新"
       explanation:
         text: >
           當建立或更新工作項目的"事件"發生時，OpenProject 將會傳送 POST 請求。 通常，事件是在 %{link} 過之後發送.。
-        link: configured aggregation period
+        link: 設定的聚合週期
       status:
         enabled: 'Webhook 已啟用'
         disabled: 'Webhook 已停用'
-        enabled_text: 'The webhook will emit payloads for the defined events below.'
+        enabled_text: 'Webhook 會針對下列定義的事件發出有效負載。'
         disabled_text: '點擊編輯按鈕以啟用 Webhook。'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
+        no_results_table: 在過去的幾天中，此 Webhook 未進行任何交付。
         title: '最近推送記錄'
-        time: 'Delivery time'
+        time: '配送時間'
       form:
         introduction: >
-          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
-        apiv3_doc_url: For more information, visit the API documentation
+          針對您訂閱的專案中的任何事件，傳送 POST 請求至下方的 payload URL。Payload 將對應於被修改物件的 APIv3 表示。
+        apiv3_doc_url: 如需詳細資訊，請造訪 API 文件
         description:
-          placeholder: 'Optional description for the webhook.'
+          placeholder: 'Webhook的額外描述'
         enabled:
           description: >
-            When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
+            勾選時，webhook 會在選取的事件中觸發。取消勾選可停用。
         events:
           title: '已啟用的事件'
         project_ids:
           title: '已啟用的專案'
-          description: 'Select for which projects this webhook should be executed for.'
+          description: '選擇此 webhook 應該針對哪些專案執行。'
           all: '所有專案'
           selected: '只限已選取的專案'
         selected_project_ids:
           title: '已選取的專案'
         secret:
           description: >
-            If set, this secret value is used by OpenProject to sign the webhook payload.
+            如果設定，OpenProject 會使用此秘密值來簽署 webhook 有效負載。

@@ -84,7 +84,7 @@ RSpec.describe Projects::CreateService, type: :model do
         create(:list_project_custom_field, project_custom_field_section: section)
       end
       let!(:hidden_custom_field) do
-        create(:text_project_custom_field, project_custom_field_section: section, visible: false)
+        create(:text_project_custom_field, project_custom_field_section: section, admin_only: true)
       end
       let(:project) { subject.result }
       let(:project_attributes) { {} }

@@ -338,7 +338,7 @@ fa:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "خروجی"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -366,10 +366,10 @@ fa:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -465,7 +465,7 @@ fa:
     label_mail_notification: "اعلان های ایمیل"
     label_manage_columns: "Manage and reorder columns"
     label_me: "me"
-    label_meeting_agenda: "Agenda"
+    label_meeting_agenda: "دستور کار"
     label_meeting_minutes: "دقیقه ها"
     label_menu_collapse: "جمع کردن"
     label_menu_expand: "باز کردن"
@@ -499,7 +499,7 @@ fa:
     label_remove_column: "حذف ستون"
     label_remove_columns: "Remove selected columns"
     label_remove_row: "حذف سطر"
-    label_report: "Report"
+    label_report: "گزارش"
     label_repository_plural: "Repositories"
     label_save_as: "ذخیره به عنوان"
     label_search_columns: "Search a column"
@@ -520,7 +520,7 @@ fa:
     label_sum: "Sum"
     label_sum_for: "مبلغ برای"
     label_total_sum: "Total sum"
-    label_subject: "Subject"
+    label_subject: "موضوع"
     label_this_week: "this week"
     label_today: "Today"
     label_time_entry_plural: "زمان صرف شده"
@@ -536,7 +536,7 @@ fa:
     label_warning: "Warning"
     label_work_package: "بسته کاری"
     label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work packages"
+    label_work_package_plural: "بسته های کاری"
     label_watch: "نگاه کردن"
     label_watch_work_package: "دیدن پکیج وظیفه"
     label_watcher_added_successfully: "ناظر با موفقیت اضافه شد!"
@@ -617,12 +617,12 @@ fa:
       no_unread: "اطلاعیه خوانده نشده‌ای وجود ندارد"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "ناظر"
+        assigned: "نماینده"
         accountable: "Accountable"
-        created: "Created"
+        created: "ایجاد شد"
         scheduled: "Scheduled"
-        commented: "Commented"
+        commented: "دارای اظهار نظر"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -893,7 +893,7 @@ fa:
       wiki_link: "Link to a Wiki page"
       image: "Image"
     sharing:
-      share: "Share"
+      share: "به اشتراک گذاری"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -996,7 +996,7 @@ fa:
         responsible: "مسئول"
         startDate: "Start date"
         status: "وضعیت"
-        subject: "Subject"
+        subject: "موضوع"
         subproject: "زیر پروژه"
         title: "عنوان"
         type: "نوع"

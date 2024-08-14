@@ -385,7 +385,7 @@ module API
             custom_fields = if current_user.admin?
                               represented.available_custom_fields
                             else
-                              represented.available_custom_fields.select(&:visible?)
+                              represented.available_custom_fields.reject(&:admin_only?)
                             end
 
             custom_field_class(custom_fields)

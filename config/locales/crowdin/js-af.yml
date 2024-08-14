@@ -65,7 +65,7 @@ af:
     button_back: "Terug"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Kanselleer"
-    button_close: "Close"
+    button_close: "Maak toe"
     button_change_project: "Change project"
     button_check_all: "Kontroleer almal"
     button_configure-form: "Configure form"
@@ -338,7 +338,7 @@ af:
           Select the initial zoom level that should be shown when autozoom is not available.
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "Uitvoer"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -366,10 +366,10 @@ af:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -395,7 +395,7 @@ af:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "dae gelede"
     label_all: "alle"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Almal"
     label_all_work_packages: "all work packages"
     label_and: "and"
     label_ascending: "Stygende"
@@ -435,7 +435,7 @@ af:
     label_expanded: "expanded"
     label_expand_all: "Vou almal uit"
     label_expand_project_menu: "Expand project menu"
-    label_export: "Export"
+    label_export: "Uitvoer"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_favorites: "Favorites"
     label_filename: "Lêer"
@@ -455,7 +455,7 @@ af:
     label_incoming_emails: "Inkomende e-pos"
     label_information_plural: "Inligting"
     label_invalid: "Invalid"
-    label_import: "Import"
+    label_import: "Invoer"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"
     label_learn_more_link: "Learn more"
@@ -524,7 +524,7 @@ af:
     label_this_week: "vandeesweek"
     label_today: "Today"
     label_time_entry_plural: "Tyd gespandeer"
-    label_up: "Up"
+    label_up: "Op"
     label_user_plural: "Users"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
@@ -617,12 +617,12 @@ af:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "Dophouer"
+        assigned: "Gedelegeerde"
         accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        created: "Geskep"
+        scheduled: "Geskeduleer"
+        commented: "Kommentaar gelewer"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -804,7 +804,7 @@ af:
       typeahead_placeholder: Search for possible watchers
     relation_labels:
       parent: "Ouer"
-      children: "Children"
+      children: "Kinders"
       relates: "Related To"
       duplicates: "Duplicates"
       duplicated: "Duplicated by"
@@ -820,7 +820,7 @@ af:
     relations_hierarchy:
       parent_headline: "Ouer"
       hierarchy_headline: "Hierarchy"
-      children_headline: "Children"
+      children_headline: "Kinders"
     relation_buttons:
       set_parent: "Set parent"
       change_parent: "Change parent"
@@ -991,7 +991,7 @@ af:
         percentageDone: "Percentage done"
         priority: "Prioriteit"
         projectName: "Projek"
-        remainingWork: "Remaining work"
+        remainingWork: "Oorblywende werk"
         remainingWorkAlternative: "Remaining hours"
         responsible: "Verantwoordelik"
         startDate: "Begindatum"
@@ -1005,7 +1005,7 @@ af:
         version: "Weergawe"
         work: "Work"
         workAlternative: "Geraamde tyd"
-        remainingTime: "Remaining work"
+        remainingTime: "Oorblywende werk"
       default_queries:
         manually_sorted: "New manually sorted query"
         latest_activity: "Latest activity"
@@ -1120,7 +1120,7 @@ af:
         hide_sums: "Hide sums"
         save: "Stoor"
         save_as: "Save as"
-        export: "Export"
+        export: "Uitvoer"
         visibility_settings: "Visibility settings"
         share_calendar: "Subscribe to calendar"
         page_settings: "Rename view"

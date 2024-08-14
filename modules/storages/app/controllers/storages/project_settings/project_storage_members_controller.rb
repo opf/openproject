@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -40,9 +42,9 @@ class Storages::ProjectSettings::ProjectStorageMembersController < Projects::Set
 
   def index
     @memberships = Member
-      .of_project(@project)
-      .includes(:principal, :oauth_client_tokens, roles: :role_permissions)
-      .paginate(page: page_param, per_page: per_page_param)
+                   .of_project(@project)
+                   .includes(principal: :remote_identities, roles: :role_permissions)
+                   .paginate(page: page_param, per_page: per_page_param)
 
     render "/storages/project_settings/project_storage_members/index"
   end

@@ -212,10 +212,12 @@ sr:
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     instructions:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
       searchable: "Include the field values when using the global search functionality."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
@@ -392,6 +394,9 @@ sr:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
@@ -478,7 +483,7 @@ sr:
       no_results_content_text: Add a new status
       headers:
         is_default: "Default"
-        is_closed: "Closed"
+        is_closed: "Zatvoreno"
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
   themes:
@@ -623,7 +628,7 @@ sr:
         possible_values: "Possible values"
         regexp: "Regular expression"
         searchable: "Searchable"
-        visible: "Visible"
+        admin_only: "Admin-only"
       custom_value:
         value: "Value"
       doorkeeper/application:
@@ -693,6 +698,7 @@ sr:
         versions: "Versions"
         work_packages: "Work Packages"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Section
       query:
         column_names: "Columns"
@@ -1167,6 +1173,10 @@ sr:
         few: "Roles"
         other: "Roles"
       status: "Work package status"
+      token/api:
+        one: Access token
+        few: Access tokens
+        other: Access tokens
       type: "Type"
       user: "User"
       version: "Verzija"
@@ -1826,7 +1836,7 @@ sr:
         unknown_storage: "Unknown storage"
   notifications:
     reasons:
-      assigned: "Assignee"
+      assigned: "Zadužen"
       dateAlert: "Date alert"
       mentioned: "Mentioned"
       responsible: "Accountable"
@@ -2196,6 +2206,8 @@ sr:
   label_next_week: "Next week"
   label_no_change_option: "(No change)"
   label_no_data: "No data to display"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nothing to display"
   label_nobody: "nobody"

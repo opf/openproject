@@ -42,7 +42,7 @@ class CustomValue < ApplicationRecord
            to: :strategy
 
   delegate :editable?,
-           :visible?,
+           :admin_only?,
            :required?,
            :max_length,
            :min_length,
