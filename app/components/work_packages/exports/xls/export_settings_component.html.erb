@@ -15,4 +15,13 @@
                                            caption: I18n.t("export.dialog.xls.include_relations.caption"),
                                            visually_hide_label: false)) %>
   <% end %>
+  <%= container.with_row do |_xls_include_description| %>
+    <hr class="mt-4 mb-4"/>
+    <%= render(Primer::Alpha::CheckBox.new(name: "show_descriptions",
+                                           value: "true",
+                                           unchecked_value: "false",
+                                           label: I18n.t("export.dialog.xls.include_descriptions.label"),
+                                           caption: I18n.t("export.dialog.xls.include_descriptions.caption"),
+                                           visually_hide_label: false)) %>
+  <% end %>
 <% end %>

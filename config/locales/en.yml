@@ -1802,6 +1802,9 @@ en:
         include_relations:
           label: "Include relations"
           caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+        include_descriptions:
+          label: "Include descriptions"
+          caption: "This option will add a description column in raw format."
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     failed: "The export has failed: %{message}"

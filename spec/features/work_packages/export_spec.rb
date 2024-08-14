@@ -150,13 +150,14 @@ RSpec.describe "work package export" do
   context "with XLS export", :js do
     let(:export_type) { I18n.t("export.dialog.format.options.xls.label") }
     let(:expected_mime_type) { :xls }
-    let(:expected_params) { default_params }
 
     before do
       open_export_dialog!
     end
 
     context "with relations" do
+      let(:expected_params) { default_params.merge({ show_relations: "true" }) }
+
       it "exports a xls" do
         check I18n.t("export.dialog.xls.include_relations.label")
         export!
@@ -164,14 +165,34 @@ RSpec.describe "work package export" do
     end
 
     context "without relations" do
+      let(:expected_params) { default_params.merge({ show_relations: "false" }) }
+
       it "exports a xls" do
         uncheck I18n.t("export.dialog.xls.include_relations.label")
         export!
       end
     end
+
+    context "with descriptions" do
+      let(:expected_params) { default_params.merge({ show_descriptions: "true" }) }
+
+      it "exports a xls" do
+        check I18n.t("export.dialog.xls.include_descriptions.label")
+        export!
+      end
+    end
+
+    context "without descriptions" do
+      let(:expected_params) { default_params.merge({ show_descriptions: "false" }) }
+
+      it "exports a xls" do
+        uncheck I18n.t("export.dialog.xls.include_descriptions.label")
+        export!
+      end
+    end
   end
 
-  context "PDF export", :js do
+  context "with PDF export", :js do
     let(:expected_mime_type) { :pdf }
 
     before do

@@ -38,7 +38,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
   end
 
   context "with relations" do
-    let(:options) { { show_relations: true } }
+    let(:options) { { show_relations: "true" } }
 
     let(:parent) { create(:work_package, project:, subject: "Parent") }
     let(:child_1) do
@@ -239,7 +239,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
   end
 
   context "with descriptions" do
-    let(:options) { { show_descriptions: true } }
+    let(:options) { { show_descriptions: "true" } }
 
     let(:work_package) do
       create(:work_package,

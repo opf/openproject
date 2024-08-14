@@ -12,11 +12,11 @@ module XlsExport::WorkPackage::Exporter
     end
 
     def with_descriptions
-      options[:show_descriptions]
+      options[:show_descriptions] == "true"
     end
 
     def with_relations
-      options[:show_relations]
+      options[:show_relations] == "true"
     end
 
     def enable!(singleton_module)
