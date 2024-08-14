@@ -737,7 +737,7 @@ GEM
     minitest (5.25.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
-    mustermann (3.0.0)
+    mustermann (3.0.2)
       ruby2_keywords (~> 0.0.1)
     mustermann-grape (1.1.0)
       mustermann (>= 1.0.0)
