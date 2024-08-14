@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
@@ -52,8 +52,6 @@ import { MainMenuToggleService } from 'core-app/core/main-menu/main-menu-toggle.
 export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() elementClass:string;
 
-  @Input() elementId:string;
-
   @Input() resizeEvent:string;
 
   @Input() localStorageKey:string;
@@ -75,10 +73,12 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   public resizerClass = 'work-packages--resizer icon-resizer-vertical-lines';
 
-  constructor(readonly toggleService:MainMenuToggleService,
+  constructor(
+    readonly toggleService:MainMenuToggleService,
     private elementRef:ElementRef,
     readonly $transitions:TransitionService,
-    readonly browserDetector:BrowserDetector) {
+    readonly browserDetector:BrowserDetector,
+  ) {
     super();
   }
 
@@ -86,9 +86,11 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     // Get element
     // We use this more complicated approach of taking the last element of the class as it allows
     // to still work in case an element is duplicated by Angular.
-    const elementById = document.getElementById(this.elementId);
-    if (elementById && elementById.children) {
-      this.resizingElement = elementById;
+    const contentBodyRight = document.querySelector('#content-bodyRight') as HTMLElement;
+    if (contentBodyRight && contentBodyRight.children.length>0) {
+      this.resizingElement = contentBodyRight;
+      // set the resizeStyle to width since parent element is a grid
+      this.resizeStyle = 'width';
     } else {
       const elements = document.getElementsByClassName(this.elementClass);
       this.resizingElement = <HTMLElement>elements[elements.length - 1];
