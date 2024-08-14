@@ -834,8 +834,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    "today")
           wait_for_reload
 
-          expect(page).to have_text(project_created_on_today.name)
           expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
 
           # CF List
           projects_page.remove_filter("latest_activity_at")
@@ -846,8 +846,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    [list_custom_field.possible_values[2].value])
           wait_for_reload
 
-          expect(page).to have_text(project_created_on_today.name)
           expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
 
           # switching to multiselect keeps the current selection
           cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
@@ -904,6 +904,9 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           # Disabling a CF in the project should remove the project from results
 
           project_created_on_today.project_custom_field_project_mappings.destroy_all
+
+          # refresh the page
+          page.driver.refresh
           wait_for_reload
 
           expect(page).to have_no_text(project_created_on_today.name)
