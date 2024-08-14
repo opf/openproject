@@ -82,7 +82,7 @@ module Storages
 
     def apply_permissions_to_folders
       info "Setting permissions to project folders"
-      remote_admins = admin_client_tokens_scope.pluck(:origin_user_id)
+      remote_admins = admin_remote_identities_scope.pluck(:origin_user_id)
 
       active_project_storages_scope.where.not(project_folder_id: nil).find_each do |project_storage|
         set_folders_permissions(remote_admins, project_storage)
@@ -100,7 +100,7 @@ module Storages
         return add_error(:remote_group_users, error, options: { group: }).fail!
       end
 
-      local_users = client_tokens_scope.order(:id).pluck(:origin_user_id)
+      local_users = remote_identities_scope.order(:id).pluck(:origin_user_id)
 
       remove_users_from_remote_group(remote_users - local_users - [username])
       add_users_to_remote_group(local_users - remote_users - [username])
@@ -130,10 +130,10 @@ module Storages
         [username, ALL_PERMISSIONS]
       end.unshift([@storage.username, ALL_PERMISSIONS])
 
-      users_permissions = project_tokens(project_storage).each_with_object({}) do |token, hash|
-        permissions = token.user.all_permissions_for(project_storage.project)
+      users_permissions = project_remote_identities(project_storage).each_with_object({}) do |identity, hash|
+        permissions = identity.user.all_permissions_for(project_storage.project)
 
-        hash[token.origin_user_id] = PERMISSIONS_MAP.values_at(*(PERMISSIONS_KEYS & permissions)).sum
+        hash[identity.origin_user_id] = PERMISSIONS_MAP.values_at(*(PERMISSIONS_KEYS & permissions)).sum
       end
 
       folder = project_storage.managed_project_folder_path
@@ -146,20 +146,20 @@ module Storages
         }
       }
 
-      set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
+      set_permissions.call(storage: @storage, auth_strategy:, **command_params).on_failure do |service_result|
         log_storage_error(service_result.errors, folder:)
         add_error(:set_folder_permission, service_result.errors, options: { folder: })
       end
     end
     # rubocop:enable Metrics/AbcSize
 
-    def project_tokens(project_storage)
-      project_tokens = client_tokens_scope.where.not(id: admin_client_tokens_scope).order(:id)
+    def project_remote_identities(project_storage)
+      remote_identities = remote_identities_scope.where.not(id: admin_remote_identities_scope).order(:id)
 
       if project_storage.project.public? && ProjectRole.non_member.permissions.intersect?(PERMISSIONS_KEYS)
-        project_tokens
+        remote_identities
       else
-        project_tokens.where(user: project_storage.project.users)
+        remote_identities.where(user: project_storage.project.users)
       end
     end
 
@@ -178,7 +178,7 @@ module Storages
                              groups: { "#{@storage.group}": NO_PERMISSIONS }
                            } }
 
-        set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
+        set_permissions.call(storage: @storage, auth_strategy:, **command_params).on_failure do |service_result|
           log_storage_error(service_result.errors, folder: path, context: "hide_folder")
           add_error(:hide_inactive_folders, service_result.errors, options: { path: })
         end
@@ -263,7 +263,7 @@ module Storages
         }
       }
 
-      set_permissions.call(storage: @storage, **command_params).on_failure do |service_result|
+      set_permissions.call(storage: @storage, auth_strategy:, **command_params).on_failure do |service_result|
         log_storage_error(service_result.errors, { folder: group_folder })
         add_error(:ensure_root_folder_permissions, service_result.errors, options: { group:, username: }).fail!
       end
@@ -288,16 +288,16 @@ module Storages
       @storage.project_storages.active.automatic
     end
 
-    def client_tokens_scope
-      OAuthClientToken.where(oauth_client: @storage.oauth_client)
+    def remote_identities_scope
+      RemoteIdentity.includes(:user).where(oauth_client: @storage.oauth_client)
     end
 
     def auth_strategy
       @auth_strategy ||= userless.call
     end
 
-    def admin_client_tokens_scope
-      OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
+    def admin_remote_identities_scope
+      RemoteIdentity.includes(:user).where(oauth_client: @storage.oauth_client, user: User.admin.active)
     end
   end
 end

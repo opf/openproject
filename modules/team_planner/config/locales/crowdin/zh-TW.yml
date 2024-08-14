@@ -2,7 +2,7 @@
 zh-TW:
   plugin_openproject_team_planner:
     name: "OpenProject團隊計畫"
-    description: "Provides team planner views."
+    description: "提供團隊規劃器視圖。"
   permission_view_team_planner: "查看團隊計劃"
   permission_manage_team_planner: "管理團隊規劃"
   project_module_team_planner_view: "團隊規劃"

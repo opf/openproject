@@ -388,6 +388,9 @@
       will_revoke_access_to_all: "Denne handlingen vil fjerne deres tilgang til alle."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Vennligst oppgi navn på API-token"
         token_name_in_use: "Dette API-token-navnet er allerede i bruk, velg et annet"
@@ -1157,6 +1160,9 @@
         one: "Rolle"
         other: "Rolle"
       status: "Status for arbeidspakke"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Type"
       user: "Bruker"
       version: "Versjon"
@@ -2164,6 +2170,8 @@
   label_next_week: "Neste uke"
   label_no_change_option: "(Ingen endring)"
   label_no_data: "Ingen data å vise"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Ingen overordnet side"
   label_nothing_display: "Ingenting å vise"
   label_nobody: "ingen"

@@ -384,6 +384,9 @@ vi:
       will_revoke_access_to_all: "Hành động này sẽ thu hồi quyền truy cập của họ vào tất cả các gói công việc."
   my:
     access_token:
+      create_dialog:
+        header: Token %{type} đã được tạo
+        warning: Lưu ý rằng đây là lần duy nhất bạn thấy được token này, chắc chắn phải sao chép nó ngay.
       errors:
         token_name_blank: "Vui lòng cung cấp tên API token"
         token_name_in_use: "Tên API token này đã được sử dụng, vui lòng chọn tên khác"
@@ -1148,6 +1151,8 @@ vi:
       role:
         other: "Vai trò"
       status: "Tình trạng work package"
+      token/api:
+        other: Token truy cập
       type: "Loại"
       user: "Người dùng"
       version: "Phiên bản"
@@ -2133,6 +2138,8 @@ vi:
   label_next_week: "Tuần tới"
   label_no_change_option: "(không đổi)"
   label_no_data: "Không có dữ liệu để hiển thị"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Không có trang quan hệ"
   label_nothing_display: "Không có gì để hiển thị"
   label_nobody: "không ai"

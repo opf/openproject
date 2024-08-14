@@ -385,6 +385,9 @@ de:
       will_revoke_access_to_all: "Mit dieser Aktion wird der Zugriff auf alle diese Arbeitspakete entfernt."
   my:
     access_token:
+      create_dialog:
+        header: Das %{type}-Token wurde generiert
+        warning: 'Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden.'
       errors:
         token_name_blank: "Bitte geben Sie einen Namen für den API-Token an"
         token_name_in_use: "Dieser API-Token-Name ist bereits in Verwendung, bitte wählen Sie einen anderen"
@@ -1152,6 +1155,9 @@ de:
         one: "Rolle"
         other: "Rollen"
       status: "Arbeitspaket-Status"
+      token/api:
+        one: Zugangs-Token
+        other: Access tokens
       type: "Typ"
       user: "Benutzer"
       version: "Version"
@@ -2159,6 +2165,8 @@ de:
   label_next_week: "Woche vor"
   label_no_change_option: "(Keine Änderung)"
   label_no_data: "Es sind keine Daten vorhanden"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Keine übergeordnete Seite"
   label_nothing_display: "Nichts anzuzeigen"
   label_nobody: "Niemand"

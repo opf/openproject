@@ -2,12 +2,12 @@
 zh-TW:
   plugin_openproject_bim:
     name: "OpenProject BIM 和 BCF 功能"
-    description: "該 OpenProject 插件引入了 BIM 和 BCF 功能。"
+    description: "該 OpenProject 外掛引入了 BIM 和 BCF 功能。"
   bim:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: '匯入 BIM Collaboration Format (BCF) 主題失敗'
+    label_imported_failed: '無法匯入 BCF 主題'
     label_imported_successfully: ' '
     issues: "問題集"
     recommended: '推薦'
@@ -96,7 +96,7 @@ zh-TW:
           invalid_clipping_planes: "剪裁平面是無效的"
           invalid_components: "元件是無效的"
           invalid_lines: "線是無效的"
-          invalid_orthogonal_camera: "orthogonal_相機無效。"
+          invalid_orthogonal_camera: "正射投影（平行投影）相機無效。"
           invalid_perspective_camera: "透視相機無效。"
           mismatching_guid: "json_viewpoint 中的 guid 與模型的 guid 不符。"
           no_json: "不是一個良好建構的 json。"

@@ -388,6 +388,9 @@ mn:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
@@ -1158,6 +1161,9 @@ mn:
         one: "Role"
         other: "Roles"
       status: "Work package status"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Type"
       user: "User"
       version: "Version"
@@ -2165,6 +2171,8 @@ mn:
   label_next_week: "Next week"
   label_no_change_option: "(No change)"
   label_no_data: "No data to display"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nothing to display"
   label_nobody: "nobody"

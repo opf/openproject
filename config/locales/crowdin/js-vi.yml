@@ -366,10 +366,10 @@ vi:
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                Phiên bản này chứa nhiều tính năng mới và cải tiến: <br> <ul class="%{list_styling_class}"> <li>Chia sẻ danh sách dự án và làm cho chúng công khai (phần mở rộng Enterprise)</li> <li>Đánh dấu danh sách dự án là yêu thích</li> <li>Xác thực kết nối cho lưu trữ OneDrive/SharePoint (phần mở rộng Enterprise)</li> <li>Giao diện mới với Primer cho trang hồ sơ người dùng</li> <li>Xuất biểu đồ Gantt dưới dạng PDF: Phóng to ngày thêm dựa trên tuần lịch</li> <li>Thanh tìm kiếm cho thành phần menu con (danh sách dự án và các mô-đun Gantt và Boards)</li> <li>Chọn giữa việc báo cáo tiến độ hiển thị chỉ bằng giờ hoặc cả ngày và giờ</li> <li>Bỏ chọn dự án từ trình chọn dự án</li> </ul>
+                Bản phát hành bao gồm nhiều tính năng và cải tiến mới, chẳng hạn như: <br> <ul class="%{list_styling_class}"> <li>Tùy chọn chế độ tối trong cài đặt cá nhân</li> <li>Quyền riêng biệt để xem và chỉnh sửa trên các thuộc tính của dự án</li> <li>Cải thiện báo cáo tiến độ dựa trên trạng thái</li> <li>Xác thực kết nối cho kho lưu trữ Nextcloud</li> <li>Nhiều tùy chọn bộ lọc hơn cho danh sách dự án</li> </ul>
     ical_sharing_modal:
       title: "Đăng ký lịch"
       inital_setup_error_message: "Đã xảy ra lỗi khi lấy dữ liệu."

@@ -738,6 +738,9 @@ Rails.application.routes.draw do
   end
 
   if OpenProject::Configuration.lookbook_enabled?
+    # Dummy route for the split screen controller
+    get :close_split_view, controller: "homescreen"
+
     mount Lookbook::Engine, at: "/lookbook"
   end
 

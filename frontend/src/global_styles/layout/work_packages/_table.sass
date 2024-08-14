@@ -71,7 +71,10 @@ body[class*="router--"]
   div.row-hovered
     // Use important to override the background styles from __hl classes
     // That also have to be important (cf. 30863)
-    background: var(--bgColor-muted) !important
+    background: var(--bgColor-neutral-muted) !important
+
+    &.-checked
+      background-color: hsl(from var(--selection-bgColor) h calc(s - 30) l) !important
 
 // Left part of the split view
 // == flex container for (table|timeline)

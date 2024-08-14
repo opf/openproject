@@ -30,21 +30,21 @@ zh-TW:
       tab_header_mr:
         title: "合併請求"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: 建立 MR
+          description: 建立合併請求
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: 複製 git 片段到剪貼簿
         git_actions:
           branch_name: 分支名稱
           commit_message: 提交訊息
-          cmd: Create branch with empty commit
+          cmd: 以空白提交建立分支
           title: Quick snippets for Git
           copy_success: '✅ 已複製!'
           copy_error: '❌ 複製失敗！'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: '目前尚未連結任何問題。在問題標題/描述中使用代碼<code>OP#%{wp_id}</code>(或<code>PP#%{wp_id}</code>用作私人連結) 連結現有問題，或建立新問題。'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
-      gitlab_pipelines: Pipelines
+        empty: '目前尚未連結任何問題。在問題標題/描述中使用代碼<code>OP#%{wp_id}</code>(或<code>PP#%{wp_id}</code>用作私人連結) 連結現有問題，或建立新問題。'
+      gitlab_pipelines: 流水線
       updated_on: 更新於

@@ -385,6 +385,9 @@ it:
       will_revoke_access_to_all: "Quest'azione revocherà l'accesso a tutti loro."
   my:
     access_token:
+      create_dialog:
+        header: Il token %{type} è stato generato
+        warning: 'Nota: Questa è l''unica volta in cui vedrai questo token, assicurati di copiarlo subito.'
       errors:
         token_name_blank: "Indica un nome per il token API"
         token_name_in_use: "Questo nome di token API è già utilizzato, scegline uno differente"
@@ -1155,6 +1158,9 @@ it:
         one: "Ruolo"
         other: "Ruoli"
       status: "Stato della macro-attività"
+      token/api:
+        one: Token di accesso
+        other: Token di accesso
       type: "Tipo"
       user: "Utente"
       version: "Versione"
@@ -2162,6 +2168,8 @@ it:
   label_next_week: "Prossima settimana"
   label_no_change_option: "(Nessuna modifica)"
   label_no_data: "Nessun dato da visualizzare"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Nessuna pagina genitore"
   label_nothing_display: "Niente da visualizzare"
   label_nobody: "nessuno"

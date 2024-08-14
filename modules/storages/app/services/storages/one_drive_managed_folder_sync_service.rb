@@ -68,9 +68,9 @@ module Storages
     def apply_permission_to_folders
       info "Setting permissions to project folders"
       active_project_storages_scope.includes(:project).where.not(project_folder_id: nil).find_each do |project_storage|
-        permissions = { read: [], write: admin_client_tokens_scope.pluck(:origin_user_id) }
-        project_tokens(project_storage).each do |token|
-          add_user_to_permission_list(permissions, token, project_storage.project)
+        permissions = { read: [], write: admin_remote_identities_scope.pluck(:origin_user_id) }
+        project_remote_identities(project_storage).each do |identity|
+          add_user_to_permission_list(permissions, identity, project_storage.project)
         end
 
         info "Setting permissions for #{project_storage.managed_project_folder_name}"
@@ -79,7 +79,7 @@ module Storages
     end
 
     def set_folder_permissions(folder_id, permissions)
-      set_permissions.call(storage: @storage, path: folder_id, permissions:, auth_strategy:)
+      set_permissions.call(storage: @storage, auth_strategy:, path: folder_id, permissions:)
     end
 
     def ensure_folders_exist(folder_map)
@@ -104,7 +104,7 @@ module Storages
         info "Hiding folder with ID #{item_id} as it does not belong to any active project"
 
         # FIXME: Set permissions wont ever fail.
-        set_permissions.call(storage: @storage, path: item_id, permissions:, auth_strategy:)
+        set_permissions.call(storage: @storage, auth_strategy:, path: item_id, permissions:)
                        .on_failure do |service_result|
           log_storage_error(service_result.errors, item_id:, context: "hide_folder")
           add_error(:hide_inactive_folders, service_result.errors, options: { path: folder_map[item_id] })
@@ -116,13 +116,13 @@ module Storages
       folder_map.keys - active_project_storages_scope.pluck(:project_folder_id).compact
     end
 
-    def add_user_to_permission_list(permissions, token, project)
-      op_user_permissions = token.user.all_permissions_for(project)
+    def add_user_to_permission_list(permissions, identity, project)
+      op_user_permissions = identity.user.all_permissions_for(project)
 
       if op_user_permissions.member?(:write_files)
-        permissions[:write] << token.origin_user_id
+        permissions[:write] << identity.origin_user_id
       elsif op_user_permissions.member?(:read_files)
-        permissions[:read] << token.origin_user_id
+        permissions[:read] << identity.origin_user_id
       end
     end
 
@@ -189,13 +189,13 @@ module Storages
       folders
     end
 
-    def project_tokens(project_storage)
-      project_tokens = client_tokens_scope.where.not(id: admin_client_tokens_scope).order(:id)
+    def project_remote_identities(project_storage)
+      project_remote_identities = client_remote_identities_scope.where.not(id: admin_remote_identities_scope).order(:id)
 
       if project_storage.project.public? && ProjectRole.non_member.permissions.intersect?(OP_PERMISSIONS)
-        project_tokens
+        project_remote_identities
       else
-        project_tokens.where(user: project_storage.project.users)
+        project_remote_identities.where(user: project_storage.project.users)
       end
     end
 
@@ -203,11 +203,16 @@ module Storages
       @storage.project_storages.active.automatic
     end
 
-    def client_tokens_scope = OAuthClientToken.where(oauth_client: @storage.oauth_client)
+    def client_remote_identities_scope
+      RemoteIdentity.includes(:user).where(oauth_client: @storage.oauth_client)
+    end
 
-    def admin_client_tokens_scope = OAuthClientToken.where(oauth_client: @storage.oauth_client, user: User.admin.active)
+    def admin_remote_identities_scope
+      RemoteIdentity.includes(:user).where(oauth_client: @storage.oauth_client, user: User.admin.active)
+    end
 
     def root_folder = Peripherals::ParentFolder.new("/")
+
     def auth_strategy = userless.call
 
     # @param attribute [Symbol] attribute to which the error will be tied to

@@ -386,6 +386,9 @@ pt-PT:
       will_revoke_access_to_all: "Esta ação irá revogar o seu acesso a todos eles."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Forneça um nome de token da API"
         token_name_in_use: "Este nome de token de API já está a ser utilizado, selecione um diferente"
@@ -1156,6 +1159,9 @@ pt-PT:
         one: "Função"
         other: "Papel"
       status: "Estado da tarefa"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Tipo"
       user: "Utilizador"
       version: "Versão"
@@ -2163,6 +2169,8 @@ pt-PT:
   label_next_week: "Próxima semana"
   label_no_change_option: "(Sem mudança)"
   label_no_data: "Sem dados para apresentar"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Sem página pai"
   label_nothing_display: "Nada para exibir"
   label_nobody: "ninguém"

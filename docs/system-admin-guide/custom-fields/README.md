@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Custom fields
-  priority: 970
+  priority: 960
 description: Manage custom fields in OpenProject.
 keywords: manage custom fields
 ---
@@ -15,7 +15,7 @@ Custom fields enable to configure your OpenProject exactly to your needs, i.e. t
 
 ## Add a new custom field
 
-To **create a new custom field** navigate to -> *Administration* -> *Custom fields* and select the section for which you will create a new custom field, e.g. for work packages.
+To **create a new custom field** navigate to *Administration* -> *Custom fields* and select the section for which you will create a new custom field, e.g. for work packages.
 
 You will see the list of all the custom fields that have been created so far, divided by the section on the different tabs for which they were created.
 
@@ -43,7 +43,9 @@ Depending on the module, for which the new custom field is being  created, sligh
 
 ## Assign a custom field to a work package type and project
 
-> **Note**: Custom fields need to be activated per work package type and per project. Work package custom fields are only visible when two conditions are met:
+> [!IMPORTANT]
+>
+> Custom fields need to be activated per work package type and per project. Work package custom fields are only visible when two conditions are met:
 >
 > 1. Custom field has been added to the work package type (form configuration).
 > 2. Custom field is activated for the project.

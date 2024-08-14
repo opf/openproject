@@ -1,0 +1,9 @@
+dependencies:
+  integration_app:
+    name: OpenProject Integration
+    url: https://apps.nextcloud.com/apps/integration_openproject
+    min_version: 2.6.3
+  group_folders_app:
+    name: Group folders
+    url: https://apps.nextcloud.com/apps/groupfolders
+    min_version: 14.0.9

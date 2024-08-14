@@ -388,6 +388,9 @@ fr:
       will_revoke_access_to_all: "Cette action aura pour effet de révoquer l'accès de ces personnes à l'ensemble de ces éléments."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Veuillez fournir un nom de jeton d'API"
         token_name_in_use: "Ce nom de jeton d'API est déjà utilisé, veuillez en choisir un autre"
@@ -1157,6 +1160,9 @@ fr:
         one: "Rôle"
         other: "Rôles"
       status: "Statut du lot de travaux"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Type"
       user: "Utilisateur"
       version: "Version"
@@ -2164,6 +2170,8 @@ fr:
   label_next_week: "Semaine suivante"
   label_no_change_option: "(Aucun changement)"
   label_no_data: "Aucune donnée à afficher"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Aucune page parente"
   label_nothing_display: "Rien à afficher"
   label_nobody: "personne"

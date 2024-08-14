@@ -109,7 +109,21 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   end
 
   def destroy
-    @project_storage.destroy
+    result = Storages::ProjectStorages::DeleteService
+      .new(user: current_user, model: @project_storage)
+      .call
+
+    # rubocop:disable Rails/ActionControllerFlashBeforeRender
+    result.on_success do
+      flash[:primer_banner] = { message: I18n.t(:notice_successful_delete) }
+    end
+
+    result.on_failure do |failure|
+      error = failure.errors.map(&:message).to_sentence
+      flash[:primer_banner] = { message: t("project_storages.remove_project.deletion_failure_flash", error:), scheme: :danger }
+    end
+    # rubocop:enable Rails/ActionControllerFlashBeforeRender
+
     redirect_to admin_settings_storage_project_storages_path(@storage)
   end
 
@@ -169,9 +183,9 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   def initialize_project_storage
     @project_storage = ::Storages::ProjectStorages::SetAttributesService
-        .new(user: current_user, model: ::Storages::ProjectStorage.new, contract_class: EmptyContract)
-        .call(storage: @storage)
-        .result
+                       .new(user: current_user, model: ::Storages::ProjectStorage.new, contract_class: EmptyContract)
+                       .call(storage: @storage)
+                       .result
   end
 
   def include_sub_projects?

@@ -400,6 +400,9 @@ sk:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
@@ -1182,6 +1185,11 @@ sk:
         many: "Rolí"
         other: "Rolí"
       status: "Stav pracovného balíčka"
+      token/api:
+        one: Access token
+        few: Access tokens
+        many: Access tokens
+        other: Access tokens
       type: "Typ"
       user: "Užívateľ(ka)"
       version: "Verzia"
@@ -2233,6 +2241,8 @@ sk:
   label_next_week: "Budúci týždeň"
   label_no_change_option: "(Bez zmeny)"
   label_no_data: "Žiadne dáta na zobrazenie"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Žiadna nadradená stránka"
   label_nothing_display: "Nič na zobrazenie"
   label_nobody: "nikto"

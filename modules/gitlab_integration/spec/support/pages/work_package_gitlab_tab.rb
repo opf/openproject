@@ -50,6 +50,10 @@ module Pages
       find(".git-actions-menu .copy-button:not([disabled])", match: :first)
     end
 
+    def git_actions_copy_commit_message_button
+      all(".git-actions-menu .copy-button:not([disabled])")[1]
+    end
+
     def paste_clipboard_content
       meta_key = osx? ? :command : :control
       page.send_keys(meta_key, "v")

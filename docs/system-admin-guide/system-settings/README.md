@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: System settings
-  priority: 930
+  priority: 920
 description: System settings in OpenProject.
 keywords: system settings
 ---
@@ -11,7 +11,7 @@ System settings allow you to configure a number of options concerning your OpenP
 
 To modify these settings, navigate to **Administration → System settings**.
 
-![Administration system settings](system-settings.png)
+![System settings in OpenProject adminisration](openproject_system_guide_system_settings.png)
 
 ## Overview
 

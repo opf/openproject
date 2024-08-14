@@ -395,6 +395,9 @@ uk:
       will_revoke_access_to_all: "Доступ учасника буде відкликано до всіх пакетів робіт."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Укажіть ім’я маркера API"
         token_name_in_use: "Це ім’я маркера API уже використовується; виберіть інше"
@@ -1176,6 +1179,11 @@ uk:
         many: "Роль"
         other: "Роль"
       status: "Стан робочого пакета"
+      token/api:
+        one: Access token
+        few: Access tokens
+        many: Access tokens
+        other: Access tokens
       type: "Тип"
       user: "Користувач"
       version: "Версія"
@@ -2227,6 +2235,8 @@ uk:
   label_next_week: "Наступний тиждень"
   label_no_change_option: "(Немає змін)"
   label_no_data: "Немає даних для відображення"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Немає початкової сторінки"
   label_nothing_display: "Нічого не відображається"
   label_nobody: "жодні"

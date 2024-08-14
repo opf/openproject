@@ -33,6 +33,7 @@ import { HalResourceClass } from 'core-app/modules/hal/resources/hal-resource';
 export interface ISnippet {
   id:string;
   name:string;
+  textToDisplay:()=>string;
   textToCopy:()=>string
 }
 

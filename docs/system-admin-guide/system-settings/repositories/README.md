@@ -7,7 +7,8 @@ keywords: repository settings
 ---
 # Repositories settings
 
-> **Important note:** Managed GIT and SVN repositories in OpenProject are currently only supported in package-based installations. They are not supported in docker-based installations.
+> [!IMPORTANT]
+> Managed GIT and SVN repositories in OpenProject are currently only supported in package-based installations. They are not supported in docker-based installations.
 
 To adapt repositories settings, go to System settings on the tab **Repositories** you can configure the following options.
 
@@ -22,7 +23,7 @@ To adapt repositories settings, go to System settings on the tab **Repositories*
 9. Define the **maximum number of files displayed in the repository browser**.
 10. **Enable caching for authentication request of version control software**. This option allows saving the authentication so that a user doesn’t have to authenticate every time a repository is accessed (for  example during commits).
 
-    ![image-20211209174118702](image-20211209174118702.png)
+    ![Repositories settings in OpenProject administration settings](openproject_system_admin_guide_repositories_settings.png)
 
 ## Checkout instructions for Subversion and GIT
 
@@ -32,7 +33,7 @@ Show checkout instructions for Subversion and GIT.
 2. **Checkout base URL**. Define the base URL to be used for repositories of new projects.
 3. **Checkout instruction text**. Used to specify an (optional) instruction text for repositories (can be further specified in project settings).
 
-![Sys-admin-system-settings-repositories-checkout-instructions](Sys-admin-system-settings-repositories-checkout-instructions.png)
+![Checkout instructions in repositories settings in OpenProject administration settings](openproject_system_admin_guide_repositories_checkout_instructions.png)
 
 ## Reference and fix work packages in commit messages
 
@@ -42,7 +43,6 @@ Show checkout instructions for Subversion and GIT.
 4. Define which **percentage of done is applied** to a work package if a fixing word is used in a commit message for that work package.
 5. **Enable time logging**. Activating this option enables [logging time to a work package](../../../user-guide/time-and-costs/time-tracking) via commit message.
 6. Define **activity for logged time**. This activity is used for time logging via a commit.
-
-![Sys-admin-system-settings-repositories-fixing-commit-messages](Sys-admin-system-settings-repositories-fixing-commit-messages.png)
-
 7. Do not forger to **Save** all your changes.
+
+![Reference and fix work packages in commit messages for OpenProject repositories in admin settings](openproject_system_admin_guide_repositories_commit_messages.png)
