@@ -17,8 +17,8 @@
         <% autocomplete_filter = additional_options.key?(:autocomplete_options) %>
 
         <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"
-            filter-name="<%= filter.name %>"
-            filter-type="<%= filter.type %>"
+            data-filter-name="<%= filter.name %>"
+            data-filter-type="<%= filter.type %>"
             data-filter--filters-form-target="filter">
           <label class='advanced-filters--filter-name' for="<%= filter.name %>">
             <%= filter.human_name %>

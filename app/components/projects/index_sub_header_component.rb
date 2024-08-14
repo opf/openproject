@@ -45,5 +45,19 @@ module Projects
     def self.wrapper_key
       "projects-index-sub-header"
     end
+
+    def filter_input_value
+      @query.find_active_filter(:name_and_identifier)&.values&.first
+    end
+
+    def filter_input_data_attributes
+      {
+        "filter-name": "name_and_identifier",
+        "filter-type": "string",
+        "filter-operator": "~",
+        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue",
+        action: "input->filter--filters-form#sendForm:prevent"
+      }
+    end
   end
 end

@@ -296,6 +296,9 @@ en:
       open_as_gantt: "Open as Gantt view"
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+      search:
+        label: Project name filter
+        placeholder: Search by project name
     lists:
       active: "Active projects"
       my: "My projects"

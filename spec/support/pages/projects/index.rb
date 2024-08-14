@@ -136,7 +136,7 @@ module Pages
       end
 
       def expect_filter_set(filter_name)
-        expect(page).to have_css("li[filter-name='#{filter_name}']:not(.hidden)", visible: :hidden)
+        expect(page).to have_css("li[data-filter-name='#{filter_name}']:not(.hidden)", visible: :hidden)
       end
 
       def expect_filter_count(count)
@@ -205,7 +205,7 @@ module Pages
 
       def set_filter(name, human_name, human_operator = nil, values = [])
         select human_name, from: "add_filter_select"
-        selected_filter = page.find("li[filter-name='#{name}']")
+        selected_filter = page.find("li[data-filter-name='#{name}']")
 
         select(human_operator, from: "operator") unless boolean_filter?(name)
 
@@ -227,7 +227,7 @@ module Pages
       end
 
       def remove_filter(name)
-        page.find("li[filter-name='#{name}'] .filter_rem").click
+        page.find("li[data-filter-name='#{name}'] .filter_rem").click
       end
 
       def set_toggle_filter(values)
@@ -260,12 +260,12 @@ module Pages
       end
 
       def set_custom_field_filter(selected_filter, human_operator, values)
-        if selected_filter[:"filter-type"] == "list_optional"
+        if selected_filter[:"data-filter-type"] == "list_optional"
           if values.size == 1
             value_select = find('.single-select select[name="value"]')
             value_select.select values.first
           end
-        elsif selected_filter[:"filter-type"] == "date"
+        elsif selected_filter[:"data-filter-type"] == "date"
           if human_operator == "on"
             fill_in "value", with: values.first
           end

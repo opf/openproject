@@ -132,7 +132,7 @@ module Queries::BaseQuery
   end
 
   def find_active_filter(name)
-    filters.index_by(&:name)[name]
+    filters.detect { |f| f.name == name }
   end
 
   def find_available_filter(name)

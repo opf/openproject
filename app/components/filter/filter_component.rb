@@ -52,6 +52,10 @@ module Filter
     def allowed_filters
       query
         .available_filters
+        .reject do |filter|
+          # Skip the name filter as we have it present as a permanent filter with a text input.
+          filter.is_a?(Queries::Projects::Filters::NameAndIdentifierFilter)
+        end
     end
 
     protected

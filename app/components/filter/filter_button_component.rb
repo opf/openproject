@@ -37,7 +37,10 @@ module Filter
     options :disabled
 
     def filters_count
-      @filters_count ||= query.filters.count
+      @filters_count ||= query.filters.count do |filter|
+        # Skip the name filter as we have it present as a permanent filter with a text input.
+        !filter.is_a?(Queries::Projects::Filters::NameAndIdentifierFilter)
+      end
     end
 
     def wrapper_key
