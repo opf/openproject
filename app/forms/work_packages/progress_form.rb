@@ -144,7 +144,8 @@ class WorkPackages::ProgressForm < ApplicationForm
     text_field_options = {
       name:,
       value: field_value(name),
-      label:
+      label:,
+      validation_message: validation_message(name)
     }
     text_field_options.reverse_merge!(default_field_options(name))
 
@@ -177,6 +178,12 @@ class WorkPackages::ProgressForm < ApplicationForm
     else
       DurationConverter.output(@work_package.public_send(name))
     end
+  end
+
+  def validation_message(name)
+    # it's ok to take the first error only, that's how primer_view_component does it anyway.
+    message = @work_package.errors.messages_for(name).first
+    message&.upcase_first
   end
 
   def as_percent(value)
