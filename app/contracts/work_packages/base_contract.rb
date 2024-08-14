@@ -393,9 +393,7 @@ module WorkPackages
     end
 
     def validate_percent_complete_matches_work_and_remaining_work
-      return if WorkPackage.status_based_mode? || percent_complete_unset? || work == 0 || percent_complete == 100
-      return if invalid_work_or_remaining_work_values? # avoid too many error messages at the same time
-      return unless work_set? && remaining_work_set?
+      return if percent_complete_derivation_unapplicable?
 
       if percent_complete != percent_complete_derived_from_work_and_remaining_work
         errors.add(:done_ratio, :does_not_match_work_and_remaining_work)
@@ -470,6 +468,13 @@ module WorkPackages
 
     def percent_complete_unset?
       percent_complete.nil?
+    end
+
+    def percent_complete_derivation_unapplicable?
+      WorkPackage.status_based_mode? || # only applicable in work-based mode
+        work_unset? || remaining_work_unset? || percent_complete_unset? || # only applicable if all 3 values are set
+        work == 0 || percent_complete == 100 || # only applicable if not in special cases leading to divisions by zero
+        invalid_work_or_remaining_work_values? # only applicable if work and remaining work values are valid
     end
 
     def percent_complete_derived_from_work_and_remaining_work
