@@ -137,24 +137,25 @@ See COPYRIGHT and LICENSE files for more details.
             <%= content_for :content_header %>
           </div>
         <% end %>
-
-        <div id="content-body">
-          <% if show_decoration %>
-            <div id="breadcrumb" class="<%= show_breadcrumb ? ' -show' : '' %>">
-              <%= you_are_here_info %>
-              <div id="full_breadcrumbs">
-                <%= full_breadcrumbs %>
+        <div style="display: flex">
+          <div id="content-body" style="flex: 2">
+            <% if show_decoration %>
+              <div id="breadcrumb" class="<%= show_breadcrumb ? ' -show' : '' %>">
+                <%= you_are_here_info %>
+                <div id="full_breadcrumbs">
+                  <%= full_breadcrumbs %>
+                </div>
+                <%= call_hook :view_layouts_base_breadcrumb %>
               </div>
-              <%= call_hook :view_layouts_base_breadcrumb %>
-            </div>
-          <% end %>
-          <%= content_for :content_body %>
-          <% unless local_assigns[:no_layout_yield] %>
-            <%= yield %>
-          <% end %>
-        </div>
-        <div id="content-bodyRight">
-          <%= content_for :content_body_right %>
+            <% end %>
+            <%= content_for :content_body %>
+            <% unless local_assigns[:no_layout_yield] %>
+              <%= yield %>
+            <% end %>
+          </div>
+          <div id="content-bodyRight">
+            <%= content_for :content_body_right %>
+          </div>
         </div>
       <% end %>
     </main>
