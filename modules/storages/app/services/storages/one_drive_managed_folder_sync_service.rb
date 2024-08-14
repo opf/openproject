@@ -65,21 +65,30 @@ module Storages
 
     private
 
+    # rubocop:disable Metrics/AbcSize
     def apply_permission_to_folders
       info "Setting permissions to project folders"
       active_project_storages_scope.includes(:project).where.not(project_folder_id: nil).find_each do |project_storage|
-        permissions = { read: [], write: admin_remote_identities_scope.pluck(:origin_user_id) }
+        permissions = {}
+        admin_remote_identities_scope.pluck(:origin_user_id).each do |user_id|
+          permissions[user_id.to_sym] = { write_files: true }
+        end
+
         project_remote_identities(project_storage).each do |identity|
           add_user_to_permission_list(permissions, identity, project_storage.project)
         end
 
-        info "Setting permissions for #{project_storage.managed_project_folder_name}"
+        info "Setting permissions for #{project_storage.managed_project_folder_name}: #{permissions}"
         set_folder_permissions(project_storage.project_folder_id, permissions)
       end
     end
 
+    # rubocop:enable Metrics/AbcSize
+
     def set_folder_permissions(folder_id, permissions)
-      set_permissions.call(storage: @storage, auth_strategy:, path: folder_id, permissions:)
+      set_permissions.call(storage: @storage,
+                           auth_strategy:,
+                           input_data: set_permissions_input_data(folder_id, permissions))
     end
 
     def ensure_folders_exist(folder_map)
@@ -98,13 +107,14 @@ module Storages
 
     def hide_inactive_folders(folder_map)
       info "Hiding folders related to inactive projects"
-      permissions = { write: [], read: [] }
 
       inactive_folder_ids(folder_map).each do |item_id|
         info "Hiding folder with ID #{item_id} as it does not belong to any active project"
 
         # FIXME: Set permissions wont ever fail.
-        set_permissions.call(storage: @storage, auth_strategy:, path: item_id, permissions:)
+        set_permissions.call(storage: @storage,
+                             auth_strategy:,
+                             input_data: set_permissions_input_data(item_id, {}))
                        .on_failure do |service_result|
           log_storage_error(service_result.errors, item_id:, context: "hide_folder")
           add_error(:hide_inactive_folders, service_result.errors, options: { path: folder_map[item_id] })
@@ -118,12 +128,8 @@ module Storages
 
     def add_user_to_permission_list(permissions, identity, project)
       op_user_permissions = identity.user.all_permissions_for(project)
-
-      if op_user_permissions.member?(:write_files)
-        permissions[:write] << identity.origin_user_id
-      elsif op_user_permissions.member?(:read_files)
-        permissions[:read] << identity.origin_user_id
-      end
+      permissions[identity.origin_user_id.to_sym] = { read_files: op_user_permissions.member?(:read_files),
+                                                      write_files: op_user_permissions.member?(:write_files) }
     end
 
     def rename_project_folder(current_folder_name, project_storage)
@@ -157,8 +163,9 @@ module Storages
 
     def audit_last_project_folder(last_project_folder, project_folder_id)
       ApplicationRecord.transaction do
-        success = last_project_folder.update(origin_folder_id: project_folder_id) &&
-                  last_project_folder.project_storage.update(project_folder_id:)
+        success =
+          last_project_folder.update(origin_folder_id: project_folder_id) &&
+            last_project_folder.project_storage.update(project_folder_id:)
 
         raise ActiveRecord::Rollback unless success
       end
@@ -214,6 +221,10 @@ module Storages
     def root_folder = Peripherals::ParentFolder.new("/")
 
     def auth_strategy = userless.call
+
+    def set_permissions_input_data(file_id, permissions)
+      Peripherals::StorageInteraction::Inputs::SetPermissions.new(file_id:, permissions:)
+    end
 
     # @param attribute [Symbol] attribute to which the error will be tied to
     # @param storage_error [Storages::StorageError] an StorageError instance
