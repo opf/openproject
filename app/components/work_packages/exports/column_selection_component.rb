@@ -47,6 +47,10 @@ module WorkPackages
         work_packages_columns_options
       end
 
+      def protected_options
+        []
+      end
+
       def selected_columns
         query
           .columns
