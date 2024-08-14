@@ -804,7 +804,7 @@ GEM
     parallel (1.26.2)
     parallel_tests (4.7.1)
       parallel
-    parser (3.3.4.0)
+    parser (3.3.4.2)
       ast (~> 2.4.1)
       racc
     pdf-core (0.9.0)
