@@ -1096,7 +1096,7 @@ GEM
     thread_safe (0.3.6)
     timecop (0.9.10)
     timeout (0.4.1)
-    tpm-key_attestation (0.12.0)
+    tpm-key_attestation (0.12.1)
       bindata (~> 2.4)
       openssl (> 2.0)
       openssl-signature_algorithm (~> 1.0)
